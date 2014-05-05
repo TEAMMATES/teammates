@@ -51,7 +51,7 @@ Here are some documents important for TEAMMATES developers:
   
    
   * **Technical reports** about TEAMMATES : In-depth descriptions about various aspects of the project
-	  * [An Analysis of Question Types](https://docs.google.com/document/d/1SH8VkaUH_kv3bT3c8AKiPDJS2Y-XhzZvNb4umavmfCE/pub?embedded=true) - by Low Weilin 
-	  * [Measuring Scalability and Performance](https://docs.google.com/document/pub?id=1C7fn11fKsgGUx0AT_nH9ZQBi3G7o5zpYqwIIAC40CxU&embedded=true) - by James Dam Tuan Long 
-	  * [Improving Scalability and Performance](https://docs.google.com/document/pub?id=1v_RYw_Hu1-TExVi0A7d3kxX0CTgFaUtfV1_qYXBhwWs&embedded=true) - by James Dam Tuan Long
-	  * [Entity Search Facility](https://docs.google.com/document/pub?id=1Ns7NJzHFlwMQaN3LzOdSLb80SaRhN2-2OzrDgwDMIRg&embedded=true) - by Wang Sha
+      * [An Analysis of Question Types](https://docs.google.com/document/d/1SH8VkaUH_kv3bT3c8AKiPDJS2Y-XhzZvNb4umavmfCE/pub?embedded=true) - by Low Weilin 
+      * [Measuring Scalability and Performance](https://docs.google.com/document/pub?id=1C7fn11fKsgGUx0AT_nH9ZQBi3G7o5zpYqwIIAC40CxU&embedded=true) - by James Dam Tuan Long 
+      * [Improving Scalability and Performance](https://docs.google.com/document/pub?id=1v_RYw_Hu1-TExVi0A7d3kxX0CTgFaUtfV1_qYXBhwWs&embedded=true) - by James Dam Tuan Long
+      * [Entity Search Facility](https://docs.google.com/document/pub?id=1Ns7NJzHFlwMQaN3LzOdSLb80SaRhN2-2OzrDgwDMIRg&embedded=true) - by Wang Sha

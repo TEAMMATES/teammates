@@ -1,15 +1,15 @@
 
 #addform {
-	width: 500px; 
-	height: 190px;
-	margin: 0 auto;
+    width: 500px; 
+    height: 190px;
+    margin: 0 auto;
 }
 
 .addinput {
-	width: 450px;
+    width: 450px;
 }
 
 .dataTable td{
-	line-height: 1.5;
+    line-height: 1.5;
 }
 

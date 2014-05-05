@@ -2,7 +2,7 @@
  * This function will be called when the instructorCourseEdit page is loaded.
  */
 function readyCourseEditPage() {
-	$("#formAddInstructor").hide();
+    $("#formAddInstructor").hide();
 }
 
 /**
@@ -12,13 +12,13 @@ function readyCourseEditPage() {
  */
 function enableEditInstructor(instructorNum, totalInstructors) {
 
-	for (var i=1; i<=totalInstructors; i++) {
-		if (i == instructorNum) {
-			enableFormEditInstructor(i);
-		} else {
-			disableFormEditInstructor(i);
-		}
-	}
+    for (var i=1; i<=totalInstructors; i++) {
+        if (i == instructorNum) {
+            enableFormEditInstructor(i);
+        } else {
+            disableFormEditInstructor(i);
+        }
+    }
 }
 
 /**
@@ -27,9 +27,9 @@ function enableEditInstructor(instructorNum, totalInstructors) {
  * @param number
  */
 function enableFormEditInstructor(number) {
-	$("#instructorTable"+number).find(":input").not(".immutable").prop("disabled", false);
-	$("#instrEditLink"+number).hide();
-	$("#btnSaveInstructor"+number).show();
+    $("#instructorTable"+number).find(":input").not(".immutable").prop("disabled", false);
+    $("#instrEditLink"+number).hide();
+    $("#btnSaveInstructor"+number).show();
 }
 
 /**
@@ -38,18 +38,18 @@ function enableFormEditInstructor(number) {
  * @param number
  */
 function disableFormEditInstructor(number) {
-	$("#instructorTable"+number).find(":input").not(".immutable").prop("disabled", true);
-	$("#instrEditLink"+number).show();
-	$("#btnSaveInstructor"+number).hide();
+    $("#instructorTable"+number).find(":input").not(".immutable").prop("disabled", true);
+    $("#instrEditLink"+number).show();
+    $("#btnSaveInstructor"+number).hide();
 }
 
 /**
  * Show the form for adding new instructor. Hide the btnShowNewInstructorForm.
  */
 function showNewInstructorForm() {
-	$("#formAddInstructor").show();
-	$("#btnShowNewInstructorForm").hide();
-	$('#frameBody').animate({scrollTop: $('#frameBody')[0].scrollHeight}, 1000);
+    $("#formAddInstructor").show();
+    $("#btnShowNewInstructorForm").hide();
+    $('#frameBody').animate({scrollTop: $('#frameBody')[0].scrollHeight}, 1000);
 }
 
 /**
@@ -59,7 +59,7 @@ function showNewInstructorForm() {
  * @param email
  */
 function toggleSendRegistrationKey(courseID, email) {
-	return confirm("Do you wish to re-send the invitation email to this instructor now?");
+    return confirm("Do you wish to re-send the invitation email to this instructor now?");
 }
 
 /**
@@ -70,11 +70,11 @@ function toggleSendRegistrationKey(courseID, email) {
  * @returns
  */
 function toggleDeleteInstructorConfirmation(courseID, instructorName, isDeleteOwnself) {
-	if (isDeleteOwnself) {
-		return confirm("Are you sure you want to delete your instructor role from the course " + courseID + "? " +
-		"You will not be able to access the course anymore.");
-	} else {
-		return confirm("Are you sure you want to delete the instructor " + instructorName + " from " + courseID + "? " +
-			"He/she will not be able to access the course anymore.");
-	}
+    if (isDeleteOwnself) {
+        return confirm("Are you sure you want to delete your instructor role from the course " + courseID + "? " +
+        "You will not be able to access the course anymore.");
+    } else {
+        return confirm("Are you sure you want to delete the instructor " + instructorName + " from " + courseID + "? " +
+            "He/she will not be able to access the course anymore.");
+    }
 }

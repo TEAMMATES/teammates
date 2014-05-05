@@ -1,794 +1,794 @@
 {
-	"accounts":{
-		"IFSubmitUiT.instr":{
-			"googleId":"IFSubmitUiT.instr",
-			"name":"Teammates Test",
-			"isInstructor":true,
-			"email":"IFSubmitUiT.instr@gmail.com",
-			"institute":"National University of Singapore"
-		},
-		"IFSubmitUiT.instr2":{
-			"googleId":"IFSubmitUiT.instr2",
-			"name":"Teammates Test2",
-			"isInstructor":true,
-			"email":"IFSubmitUiT.instr2@gmail.com",
-			"institute":"National University of Singapore"
-		},
-		"IFSubmitUiT.instr3":{
-			"googleId":"IFSubmitUiT.instr3",
-			"name":"Teammates Test3",
-			"isInstructor":true,
-			"email":"IFSubmitUiT.instr3@gmail.com",
-			"institute":"National University of Singapore"
-		},
-		"IFSubmitUiT.instr4":{
-			"googleId":"IFSubmitUiT.instr4",
-			"name":"Teammates Test4",
-			"isInstructor":true,
-			"email":"IFSubmitUiT.instr4@gmail.com",
-			"institute":"National University of Singapore"
-		},
-		"IFSubmitUiT.instr5":{
-			"googleId":"IFSubmitUiT.instr5",
-			"name":"Teammates Test5",
-			"isInstructor":true,
-			"email":"IFSubmitUiT.instr5@gmail.com",
-			"institute":"National University of Singapore"
-		},
-		"IFSubmitUiT.charlie.d":{
-			"googleId":"IFSubmitUiT.charlie.d",
-			"name":"Charlie D.",
-			"isInstructor":false,
-			"email":"IFSubmitUiT.charlie.d@gmail.com",
-			"institute":"National University of Singapore"
-		},
-		"IFSubmitUiT.danny.e":{
-			"googleId":"IFSubmitUiT.danny.e",
-			"name":"Danny E.",
-			"isInstructor":false,
-			"email":"IFSubmitUiT.danny.e@gmail.com",
-			"institute":"National University of Singapore"
-		},
-		"IFSubmitUiT.emily.f":{
-			"googleId":"IFSubmitUiT.emily.f",
-			"name":"Emily F.",
-			"isInstructor":false,
-			"email":"IFSubmitUiT.emily.f@gmail.com",
-			"institute":"National University of Singapore"
-		}
-	},
-	"courses":{
-		"IFSubmitUiT.CS2104":{
-			"id":"IFSubmitUiT.CS2104",
-			"name":"Programming Language Concepts",
-			"isArchived": false
-		}
-	},
-	"instructors":{
-		"IFSubmitUiT.instr":{
-			"googleId":"IFSubmitUiT.instr",
-			"courseId":"IFSubmitUiT.CS2104",
-			"name":"Teammates Test",
-			"email":"IFSubmitUiT.instr@gmail.com"
-		},
-		"IFSubmitUiT.instr2":{
-			"googleId":"IFSubmitUiT.instr2",
-			"courseId":"IFSubmitUiT.CS2104",
-			"name":"Teammates Test2",
-			"email":"IFSubmitUiT.instr2@gmail.com"
-		},
-		"IFSubmitUiT.instr3":{
-			"googleId":"IFSubmitUiT.instr3",
-			"courseId":"IFSubmitUiT.CS2104",
-			"name":"Teammates Test3",
-			"email":"IFSubmitUiT.instr3@gmail.com"
-		},
-		"IFSubmitUiT.instr4":{
-			"googleId":"IFSubmitUiT.instr4",
-			"courseId":"IFSubmitUiT.CS2104",
-			"name":"Teammates Test4",
-			"email":"IFSubmitUiT.instr4@gmail.com"
-		},
-		"IFSubmitUiT.instr5":{
-			"googleId":"IFSubmitUiT.instr5",
-			"courseId":"IFSubmitUiT.CS2104",
-			"name":"Teammates Test5",
-			"email":"IFSubmitUiT.instr5@gmail.com"
-		}
-	},
-	"students":{
-		"Alice":{
-			"googleId":"IFSubmitUiT.alice.b",
-			"email":"IFSubmitUiT.alice.b@gmail.com",
-			"course":"IFSubmitUiT.CS2104",
-			"name":"Alice Betsy",
-			"comments":"This student's name is Alice Betsy",
-			"team":"Team 1"
-		},
-		"Benny":{
-			"googleId":"IFSubmitUiT.benny.c",
-			"email":"IFSubmitUiT.benny.c@gmail.com",
-			"course":"IFSubmitUiT.CS2104",
-			"name":"Benny Charles",
-			"comments":"This student's name is Benny Charles",
-			"team":"Team 1"
-		},
-		"ExtraGuy":{
-			"googleId":"extra.guy",
-			"email":"extra.guy@gmail.com",
-			"course":"IFSubmitUiT.CS2104",
-			"name":"Extra guy",
-			"comments":"This student will move to a new team after evaluation created",
-			"team":"Team 2"
-		},
-		"DropOut":{
-			"googleId":"drop.out",
-			"email":"drop.out@gmail.com",
-			"course":"IFSubmitUiT.CS2104",
-			"name":"Drop out",
-			"comments":"This student will drop out after evaluation created",
-			"team":"Team 2"
-		},
-		"Charlie":{
-			"googleId":"IFSubmitUiT.charlie.d",
-			"email":"IFSubmitUiT.charlie.d@gmail.com",
-			"course":"IFSubmitUiT.CS2104",
-			"name":"Charlie Davis",
-			"comments":"This student's name is Charlie Davis",
-			"team":"Team 2"
-		},
-		"Danny":{
-			"googleId":"IFSubmitUiT.danny.e",
-			"email":"IFSubmitUiT.danny.e@gmail.com",
-			"course":"IFSubmitUiT.CS2104",
-			"name":"Danny Engrid",
-			"comments":"This student's name is Danny Engrid",
-			"team":"Team 2"
-		},
-		"Emily":{
-			"googleId":"IFSubmitUiT.emily.f",
-			"email":"IFSubmitUiT.emily.f@gmail.com",
-			"course":"IFSubmitUiT.CS2104",
-			"name":"Emily",
-			"comments":"This student's name is Emily",
-			"team":"Team 3"
-		}
-	},
-	"feedbackSessions":{
-		"Open Session":{
-			"feedbackSessionName":"First Session",
-			"courseId":"IFSubmitUiT.CS2104",
-			"creatorEmail":"IFSubmitUiT.instr@gmail.com",
-			"instructions":{
-				"value":"Instructions for first session"
-			},
-			"createdTime":"2012-04-01 11:59 PM UTC",
-			"startTime":"2012-04-01 11:59 PM UTC",
-			"endTime":"2016-04-30 11:59 PM UTC",
-			"sessionVisibleFromTime":"2012-04-01 11:59 PM UTC",
-			"resultsVisibleFromTime":"2016-05-01 11:59 PM UTC",
-			"timeZone":8.0,
-			"gracePeriod":10,
-			"feedbackSessionType":"STANDARD",
-			"sentOpenEmail":true,
-			"sentPublishedEmail":false
-		},
-		"Closed Session":{
-			"feedbackSessionName":"Second Session",
-			"courseId":"IFSubmitUiT.CS2104",
-			"creatorEmail":"IFSubmitUiT.instr@gmail.com",
-			"instructions":{
-				"value":"Please please fill in the second feedback session"
-			},
-			"createdTime":"2012-04-01 11:59 PM UTC",
-			"startTime":"2012-04-02 11:59 PM UTC",
-			"endTime":"2012-04-30 11:59 PM UTC",
-			"sessionVisibleFromTime":"2012-04-01 11:59 PM UTC",
-			"resultsVisibleFromTime":"2016-05-01 11:59 PM UTC",
-			"timeZone":8.0,
-			"gracePeriod":20,
-			"feedbackSessionType":"STANDARD",
-			"sentOpenEmail":false,
-			"sentPublishedEmail":false
-		},
-		"Empty Session":{
-			"feedbackSessionName":"Third Session",
-			"courseId":"IFSubmitUiT.CS2104",
-			"creatorEmail":"IFSubmitUiT.instr@gmail.com",
-			"instructions":{
-				"value":"Please please fill in the last feedback session"
-			},
-			"createdTime":"2012-04-01 11:59 PM UTC",
-			"startTime":"2012-04-02 11:59 PM UTC",
-			"endTime":"2016-04-30 11:59 PM UTC",
-			"sessionVisibleFromTime":"2012-04-01 11:59 PM UTC",
-			"resultsVisibleFromTime":"2012-05-01 11:59 PM UTC",
-			"timeZone":8.0,
-			"gracePeriod":20,
-			"feedbackSessionType":"STANDARD",
-			"sentOpenEmail":true,
-			"sentPublishedEmail":true
-		},
-		"Private Session":{
-			"feedbackSessionName":"Private Session",
-			"courseId":"IFSubmitUiT.CS2104",
-			"creatorEmail":"IFSubmitUiT.instr@gmail.com",
-			"instructions":{
-				"value":"Please please fill in the following questions."
-			},
-			"createdTime":"2012-03-20 11:59 PM UTC",
-			"startTime":"2012-04-01 11:59 PM UTC",
-			"endTime":null,
-			"sessionVisibleFromTime":"1970-11-27 00:00 AM UTC",
-			"resultsVisibleFromTime":"1970-11-27 00:00 AM UTC",
-			"timeZone":8,
-			"gracePeriod":0,
-			"feedbackSessionType":"PRIVATE",
-			"sentOpenEmail":true,
-			"sentPublishedEmail":false
-		},
-		"Awaiting Session":{
-			"feedbackSessionName":"Fourth Session",
-			"courseId":"IFSubmitUiT.CS2104",
-			"creatorEmail":"IFSubmitUiT.instr@gmail.com",
-			"instructions":{
-				"value":"Please please fill in the second feedback session"
-			},
-			"createdTime":"2012-04-01 11:59 PM UTC",
-			"startTime":"2035-04-02 11:59 PM UTC",
-			"endTime":"2035-04-30 11:59 PM UTC",
-			"sessionVisibleFromTime":"2012-04-01 11:59 PM UTC",
-			"resultsVisibleFromTime":"2016-05-01 11:59 PM UTC",
-			"timeZone":8.0,
-			"gracePeriod":20,
-			"feedbackSessionType":"STANDARD",
-			"sentOpenEmail":false,
-			"sentPublishedEmail":false
-		}
-	},
-	"feedbackQuestions":{
-		"qn1InSession1":{
-			"feedbackSessionName":"First Session",
-			"courseId":"IFSubmitUiT.CS2104",
-			"creatorEmail":"IFSubmitUiT.instr@gmail.com",
-			"questionMetaData":{
-				"value":"What is the best selling point of your product?"
-			},
-			"questionNumber":"1",
-			"questionType":"TEXT",
-			"giverType":"INSTRUCTORS",
-			"recipientType":"SELF",
-			"numberOfEntitiesToGiveFeedbackTo":1,
-			"showResponsesTo":[
-				"RECEIVER",
-				"INSTRUCTORS"
-			],
-			"showGiverNameTo":[
-				"INSTRUCTORS"
-			],
-			"showRecipientNameTo":[
-				"INSTRUCTORS"
-			]
-		},
-		"qn2InSession1":{
-			"feedbackSessionName":"First Session",
-			"courseId":"IFSubmitUiT.CS2104",
-			"creatorEmail":"IFSubmitUiT.instr@gmail.com",
-			"questionMetaData":{
-				"value":"Rate 3 students' products"
-			},
-			"questionNumber":"2",
-			"questionType":"TEXT",
-			"giverType":"INSTRUCTORS",
-			"recipientType":"STUDENTS",
-			"numberOfEntitiesToGiveFeedbackTo":3,
-			"showResponsesTo":[
-				"INSTRUCTORS",
-				"RECEIVER"
-			],
-			"showGiverNameTo":[
-				"INSTRUCTORS"
-			],
-			"showRecipientNameTo":[
-				"INSTRUCTORS",
-				"RECEIVER"
-			]
-		},
-		"qn3InSession1":{
-			"feedbackSessionName":"First Session",
-			"courseId":"IFSubmitUiT.CS2104",
-			"creatorEmail":"IFSubmitUiT.instr@gmail.com",
-			"questionMetaData":{
-				"value":"Comments about the class"
-			},
-			"questionNumber":"3",
-			"questionType":"TEXT",
-			"giverType":"INSTRUCTORS",
-			"recipientType":"NONE",
-			"numberOfEntitiesToGiveFeedbackTo":-100,
-			"showResponsesTo":[
-				"INSTRUCTORS"
-			],
-			"showGiverNameTo":[
-				
-			],
-			"showRecipientNameTo":[
-				"INSTRUCTORS"
-			]
-		},
-		"qn4InSession1":{
-			"feedbackSessionName":"First Session",
-			"courseId":"IFSubmitUiT.CS2104",
-			"creatorEmail":"IFSubmitUiT.instr@gmail.com",
-			"questionMetaData":{
-				"value":"This question should be hidden."
-			},
-			"questionNumber":"4",
-			"questionType":"TEXT",
-			"giverType":"TEAMS",
-			"recipientType":"TEAMS",
-			"numberOfEntitiesToGiveFeedbackTo":3,
-			"showResponsesTo":[
-				"RECEIVER"
-			],
-			"showGiverNameTo":[
-				"RECEIVER"
-			],
-			"showRecipientNameTo":[
-				"RECEIVER"
-			]
-		},
-		"qn5InSession1":{
-			"feedbackSessionName":"First Session",
-			"courseId":"IFSubmitUiT.CS2104",
-			"creatorEmail":"IFSubmitUiT.instr@gmail.com",
-			"questionMetaData":{
-				"value":"This question should be hidden."
-			},
-			"questionNumber":"5",
-			"questionType":"TEXT",
-			"giverType":"STUDENTS",
-			"recipientType":"OWN_TEAM_MEMBERS",
-			"numberOfEntitiesToGiveFeedbackTo":-100,
-			"showResponsesTo":[
-				"RECEIVER"
-			],
-			"showGiverNameTo":[
-				"RECEIVER"
-			],
-			"showRecipientNameTo":[
-				"RECEIVER"
-			]
-		},
-		"qn6InSession1":{
-			"feedbackSessionName":"First Session",
-			"courseId":"IFSubmitUiT.CS2104",
-			"creatorEmail":"IFSubmitUiT.instr@gmail.com",
-			"questionMetaData":{
-				"value":"Give feedback to other instructors."
-			},
-			"questionNumber":"6",
-			"questionType":"TEXT",
-			"giverType":"INSTRUCTORS",
-			"recipientType":"INSTRUCTORS",
-			"numberOfEntitiesToGiveFeedbackTo":-100,
-			"showResponsesTo":[
-				"RECEIVER"
-			],
-			"showGiverNameTo":[
-				"RECEIVER"
-			],
-			"showRecipientNameTo":[
-				"RECEIVER"
-			]
-		},
-		"qn7InSession1":{
-			"feedbackSessionName":"First Session",
-			"courseId":"IFSubmitUiT.CS2104",
-			"creatorEmail":"IFSubmitUiT.instr@gmail.com",
-			"questionMetaData":{
-				"value":"{\"questionType\":\"MCQ\",\"questionText\":\"What is the best selling point of your product?\",\"numOfMcqChoices\":2,\"mcqChoices\":[\"UI\",\"Algo\"],\"otherEnabled\":false}"
-			},
-			"questionNumber":"7",
-			"questionType":"MCQ",
-			"giverType":"INSTRUCTORS",
-			"recipientType":"SELF",
-			"numberOfEntitiesToGiveFeedbackTo":1,
-			"showResponsesTo":[
-				"RECEIVER",
-				"INSTRUCTORS"
-			],
-			"showGiverNameTo":[
-				"INSTRUCTORS"
-			],
-			"showRecipientNameTo":[
-				"INSTRUCTORS"
-			]
-		},
-		"qn8InSession1":{
-			"feedbackSessionName":"First Session",
-			"courseId":"IFSubmitUiT.CS2104",
-			"creatorEmail":"IFSubmitUiT.instr@gmail.com",
-			"questionMetaData":{
-				"value":"{\"questionType\":\"MCQ\",\"questionText\":\"What do you think is the other instructors' best feature?\",\"numOfMcqChoices\":2,\"mcqChoices\":[\"UI\",\"Algo\"],\"otherEnabled\":false}"
-			},
-			"questionNumber":"8",
-			"questionType":"MCQ",
-			"giverType":"INSTRUCTORS",
-			"recipientType":"INSTRUCTORS",
-			"numberOfEntitiesToGiveFeedbackTo":3,
-			"showResponsesTo":[
-				"RECEIVER"
-			],
-			"showGiverNameTo":[
-				"RECEIVER"
-			],
-			"showRecipientNameTo":[
-				"RECEIVER"
-			]
-		},
-		"qn9InSession1":{
-			"feedbackSessionName":"First Session",
-			"courseId":"IFSubmitUiT.CS2104",
-			"creatorEmail":"IFSubmitUiT.instr@gmail.com",
-			"questionMetaData":{
-				"value":"{\"questionType\":\"MSQ\",\"questionText\":\"What is the best selling point of your product?\",\"numOfMsqChoices\":3,\"msqChoices\":[\"UI\",\"Algo\",\"Design\"],\"otherEnabled\":false}"
-			},
-			"questionNumber":"9",
-			"questionType":"MSQ",
-			"giverType":"INSTRUCTORS",
-			"recipientType":"SELF",
-			"numberOfEntitiesToGiveFeedbackTo":1,
-			"showResponsesTo":[
-				"RECEIVER",
-				"INSTRUCTORS"
-			],
-			"showGiverNameTo":[
-				"INSTRUCTORS"
-			],
-			"showRecipientNameTo":[
-				"INSTRUCTORS"
-			]
-		},
-		"qn10InSession1":{
-			"feedbackSessionName":"First Session",
-			"courseId":"IFSubmitUiT.CS2104",
-			"creatorEmail":"IFSubmitUiT.instr@gmail.com",
-			"questionMetaData":{
-				"value":"{\"questionType\":\"MSQ\",\"questionText\":\"What do you think is the other instructors' best feature?\",\"numOfMsqChoices\":3,\"msqChoices\":[\"UI\",\"Algo\",\"Design\"],\"otherEnabled\":false}"
-			},
-			"questionNumber":"10",
-			"questionType":"MSQ",
-			"giverType":"INSTRUCTORS",
-			"recipientType":"INSTRUCTORS",
-			"numberOfEntitiesToGiveFeedbackTo":3,
-			"showResponsesTo":[
-				"RECEIVER"
-			],
-			"showGiverNameTo":[
-				"RECEIVER"
-			],
-			"showRecipientNameTo":[
-				"RECEIVER"
-			]
-		},
-		"qn11InSession1":{
-			"feedbackSessionName":"First Session",
-			"courseId":"IFSubmitUiT.CS2104",
-			"creatorEmail":"IFSubmitUiT.instr@gmail.com",
-			"questionMetaData":{
-				"value":"{\"questionType\":\"MCQ\",\"questionText\":\"Who is the best student?\",\"numOfMcqChoices\":0,\"mcqChoices\":[],\"otherEnabled\":false,\"generateOptionsFor\":\"STUDENTS\"}"
-			},
-			"questionNumber":"11",
-			"questionType":"MCQ",
-			"giverType":"INSTRUCTORS",
-			"recipientType":"SELF",
-			"numberOfEntitiesToGiveFeedbackTo":1,
-			"showResponsesTo":[
-				"RECEIVER",
-				"INSTRUCTORS"
-			],
-			"showGiverNameTo":[
-				"INSTRUCTORS"
-			],
-			"showRecipientNameTo":[
-				"INSTRUCTORS"
-			]
-		},
-		"qn12InSession1":{
-			"feedbackSessionName":"First Session",
-			"courseId":"IFSubmitUiT.CS2104",
-			"creatorEmail":"IFSubmitUiT.instr@gmail.com",
-			"questionMetaData":{
-				"value":"{\"questionType\":\"MSQ\",\"questionText\":\"Who are the best students?\",\"numOfMsqChoices\":0,\"msqChoices\":[],\"otherEnabled\":false,\"generateOptionsFor\":\"STUDENTS\"}"
-			},
-			"questionNumber":"12",
-			"questionType":"MSQ",
-			"giverType":"INSTRUCTORS",
-			"recipientType":"SELF",
-			"numberOfEntitiesToGiveFeedbackTo":1,
-			"showResponsesTo":[
-				"RECEIVER",
-				"INSTRUCTORS"
-			],
-			"showGiverNameTo":[
-				"INSTRUCTORS"
-			],
-			"showRecipientNameTo":[
-				"INSTRUCTORS"
-			]
-		},
-		"qn13InSession1":{
-			"feedbackSessionName":"First Session",
-			"courseId":"IFSubmitUiT.CS2104",
-			"creatorEmail":"IFSubmitUiT.instr@gmail.com",
-			"questionMetaData":{
-				"value":"{\"questionType\":\"MCQ\",\"questionText\":\"Which is the best team?\",\"numOfMcqChoices\":0,\"mcqChoices\":[],\"otherEnabled\":false,\"generateOptionsFor\":\"TEAMS\"}"
-			},
-			"questionNumber":"13",
-			"questionType":"MCQ",
-			"giverType":"INSTRUCTORS",
-			"recipientType":"SELF",
-			"numberOfEntitiesToGiveFeedbackTo":1,
-			"showResponsesTo":[
-				"RECEIVER",
-				"INSTRUCTORS"
-			],
-			"showGiverNameTo":[
-				"INSTRUCTORS"
-			],
-			"showRecipientNameTo":[
-				"INSTRUCTORS"
-			]
-		},
-		"qn14InSession1":{
-			"feedbackSessionName":"First Session",
-			"courseId":"IFSubmitUiT.CS2104",
-			"creatorEmail":"IFSubmitUiT.instr@gmail.com",
-			"questionMetaData":{
-				"value":"{\"questionType\":\"MSQ\",\"questionText\":\"Who are the best teams?\",\"numOfMsqChoices\":0,\"msqChoices\":[],\"otherEnabled\":false,\"generateOptionsFor\":\"TEAMS\"}"
-			},
-			"questionNumber":"14",
-			"questionType":"MSQ",
-			"giverType":"INSTRUCTORS",
-			"recipientType":"SELF",
-			"numberOfEntitiesToGiveFeedbackTo":1,
-			"showResponsesTo":[
-				"RECEIVER",
-				"INSTRUCTORS"
-			],
-			"showGiverNameTo":[
-				"INSTRUCTORS"
-			],
-			"showRecipientNameTo":[
-				"INSTRUCTORS"
-			]
-		},
-		"qn15InSession1":{
-			"feedbackSessionName":"First Session",
-			"courseId":"IFSubmitUiT.CS2104",
-			"creatorEmail":"IFSubmitUiT.instr@gmail.com",
-			"questionMetaData":{
-				"value":"{\"questionType\":\"NUMSCALE\",\"questionText\":\"Rate your product\",\"minScale\":1,\"maxScale\":5,\"step\":0.5}"
-			},
-			"questionNumber":"15",
-			"questionType":"NUMSCALE",
-			"giverType":"INSTRUCTORS",
-			"recipientType":"SELF",
-			"numberOfEntitiesToGiveFeedbackTo":1,
-			"showResponsesTo":[
-				"RECEIVER",
-				"INSTRUCTORS"
-			],
-			"showGiverNameTo":[
-				"INSTRUCTORS"
-			],
-			"showRecipientNameTo":[
-				"INSTRUCTORS"
-			]
-		},
-		"qn16InSession1":{
-			"feedbackSessionName":"First Session",
-			"courseId":"IFSubmitUiT.CS2104",
-			"creatorEmail":"IFSubmitUiT.instr@gmail.com",
-			"questionMetaData":{
-				"value":"{\"questionType\":\"NUMSCALE\",\"questionText\":\"Rate others' product\",\"minScale\":1,\"maxScale\":5,\"step\":0.5}"
-			},
-			"questionNumber":"16",
-			"questionType":"NUMSCALE",
-			"giverType":"INSTRUCTORS",
-			"recipientType":"INSTRUCTORS",
-			"numberOfEntitiesToGiveFeedbackTo":3,
-			"showResponsesTo":[
-				"RECEIVER"
-			],
-			"showGiverNameTo":[
-				"RECEIVER"
-			],
-			"showRecipientNameTo":[
-				"RECEIVER"
-			]
-		},
+    "accounts":{
+        "IFSubmitUiT.instr":{
+            "googleId":"IFSubmitUiT.instr",
+            "name":"Teammates Test",
+            "isInstructor":true,
+            "email":"IFSubmitUiT.instr@gmail.com",
+            "institute":"National University of Singapore"
+        },
+        "IFSubmitUiT.instr2":{
+            "googleId":"IFSubmitUiT.instr2",
+            "name":"Teammates Test2",
+            "isInstructor":true,
+            "email":"IFSubmitUiT.instr2@gmail.com",
+            "institute":"National University of Singapore"
+        },
+        "IFSubmitUiT.instr3":{
+            "googleId":"IFSubmitUiT.instr3",
+            "name":"Teammates Test3",
+            "isInstructor":true,
+            "email":"IFSubmitUiT.instr3@gmail.com",
+            "institute":"National University of Singapore"
+        },
+        "IFSubmitUiT.instr4":{
+            "googleId":"IFSubmitUiT.instr4",
+            "name":"Teammates Test4",
+            "isInstructor":true,
+            "email":"IFSubmitUiT.instr4@gmail.com",
+            "institute":"National University of Singapore"
+        },
+        "IFSubmitUiT.instr5":{
+            "googleId":"IFSubmitUiT.instr5",
+            "name":"Teammates Test5",
+            "isInstructor":true,
+            "email":"IFSubmitUiT.instr5@gmail.com",
+            "institute":"National University of Singapore"
+        },
+        "IFSubmitUiT.charlie.d":{
+            "googleId":"IFSubmitUiT.charlie.d",
+            "name":"Charlie D.",
+            "isInstructor":false,
+            "email":"IFSubmitUiT.charlie.d@gmail.com",
+            "institute":"National University of Singapore"
+        },
+        "IFSubmitUiT.danny.e":{
+            "googleId":"IFSubmitUiT.danny.e",
+            "name":"Danny E.",
+            "isInstructor":false,
+            "email":"IFSubmitUiT.danny.e@gmail.com",
+            "institute":"National University of Singapore"
+        },
+        "IFSubmitUiT.emily.f":{
+            "googleId":"IFSubmitUiT.emily.f",
+            "name":"Emily F.",
+            "isInstructor":false,
+            "email":"IFSubmitUiT.emily.f@gmail.com",
+            "institute":"National University of Singapore"
+        }
+    },
+    "courses":{
+        "IFSubmitUiT.CS2104":{
+            "id":"IFSubmitUiT.CS2104",
+            "name":"Programming Language Concepts",
+            "isArchived": false
+        }
+    },
+    "instructors":{
+        "IFSubmitUiT.instr":{
+            "googleId":"IFSubmitUiT.instr",
+            "courseId":"IFSubmitUiT.CS2104",
+            "name":"Teammates Test",
+            "email":"IFSubmitUiT.instr@gmail.com"
+        },
+        "IFSubmitUiT.instr2":{
+            "googleId":"IFSubmitUiT.instr2",
+            "courseId":"IFSubmitUiT.CS2104",
+            "name":"Teammates Test2",
+            "email":"IFSubmitUiT.instr2@gmail.com"
+        },
+        "IFSubmitUiT.instr3":{
+            "googleId":"IFSubmitUiT.instr3",
+            "courseId":"IFSubmitUiT.CS2104",
+            "name":"Teammates Test3",
+            "email":"IFSubmitUiT.instr3@gmail.com"
+        },
+        "IFSubmitUiT.instr4":{
+            "googleId":"IFSubmitUiT.instr4",
+            "courseId":"IFSubmitUiT.CS2104",
+            "name":"Teammates Test4",
+            "email":"IFSubmitUiT.instr4@gmail.com"
+        },
+        "IFSubmitUiT.instr5":{
+            "googleId":"IFSubmitUiT.instr5",
+            "courseId":"IFSubmitUiT.CS2104",
+            "name":"Teammates Test5",
+            "email":"IFSubmitUiT.instr5@gmail.com"
+        }
+    },
+    "students":{
+        "Alice":{
+            "googleId":"IFSubmitUiT.alice.b",
+            "email":"IFSubmitUiT.alice.b@gmail.com",
+            "course":"IFSubmitUiT.CS2104",
+            "name":"Alice Betsy",
+            "comments":"This student's name is Alice Betsy",
+            "team":"Team 1"
+        },
+        "Benny":{
+            "googleId":"IFSubmitUiT.benny.c",
+            "email":"IFSubmitUiT.benny.c@gmail.com",
+            "course":"IFSubmitUiT.CS2104",
+            "name":"Benny Charles",
+            "comments":"This student's name is Benny Charles",
+            "team":"Team 1"
+        },
+        "ExtraGuy":{
+            "googleId":"extra.guy",
+            "email":"extra.guy@gmail.com",
+            "course":"IFSubmitUiT.CS2104",
+            "name":"Extra guy",
+            "comments":"This student will move to a new team after evaluation created",
+            "team":"Team 2"
+        },
+        "DropOut":{
+            "googleId":"drop.out",
+            "email":"drop.out@gmail.com",
+            "course":"IFSubmitUiT.CS2104",
+            "name":"Drop out",
+            "comments":"This student will drop out after evaluation created",
+            "team":"Team 2"
+        },
+        "Charlie":{
+            "googleId":"IFSubmitUiT.charlie.d",
+            "email":"IFSubmitUiT.charlie.d@gmail.com",
+            "course":"IFSubmitUiT.CS2104",
+            "name":"Charlie Davis",
+            "comments":"This student's name is Charlie Davis",
+            "team":"Team 2"
+        },
+        "Danny":{
+            "googleId":"IFSubmitUiT.danny.e",
+            "email":"IFSubmitUiT.danny.e@gmail.com",
+            "course":"IFSubmitUiT.CS2104",
+            "name":"Danny Engrid",
+            "comments":"This student's name is Danny Engrid",
+            "team":"Team 2"
+        },
+        "Emily":{
+            "googleId":"IFSubmitUiT.emily.f",
+            "email":"IFSubmitUiT.emily.f@gmail.com",
+            "course":"IFSubmitUiT.CS2104",
+            "name":"Emily",
+            "comments":"This student's name is Emily",
+            "team":"Team 3"
+        }
+    },
+    "feedbackSessions":{
+        "Open Session":{
+            "feedbackSessionName":"First Session",
+            "courseId":"IFSubmitUiT.CS2104",
+            "creatorEmail":"IFSubmitUiT.instr@gmail.com",
+            "instructions":{
+                "value":"Instructions for first session"
+            },
+            "createdTime":"2012-04-01 11:59 PM UTC",
+            "startTime":"2012-04-01 11:59 PM UTC",
+            "endTime":"2016-04-30 11:59 PM UTC",
+            "sessionVisibleFromTime":"2012-04-01 11:59 PM UTC",
+            "resultsVisibleFromTime":"2016-05-01 11:59 PM UTC",
+            "timeZone":8.0,
+            "gracePeriod":10,
+            "feedbackSessionType":"STANDARD",
+            "sentOpenEmail":true,
+            "sentPublishedEmail":false
+        },
+        "Closed Session":{
+            "feedbackSessionName":"Second Session",
+            "courseId":"IFSubmitUiT.CS2104",
+            "creatorEmail":"IFSubmitUiT.instr@gmail.com",
+            "instructions":{
+                "value":"Please please fill in the second feedback session"
+            },
+            "createdTime":"2012-04-01 11:59 PM UTC",
+            "startTime":"2012-04-02 11:59 PM UTC",
+            "endTime":"2012-04-30 11:59 PM UTC",
+            "sessionVisibleFromTime":"2012-04-01 11:59 PM UTC",
+            "resultsVisibleFromTime":"2016-05-01 11:59 PM UTC",
+            "timeZone":8.0,
+            "gracePeriod":20,
+            "feedbackSessionType":"STANDARD",
+            "sentOpenEmail":false,
+            "sentPublishedEmail":false
+        },
+        "Empty Session":{
+            "feedbackSessionName":"Third Session",
+            "courseId":"IFSubmitUiT.CS2104",
+            "creatorEmail":"IFSubmitUiT.instr@gmail.com",
+            "instructions":{
+                "value":"Please please fill in the last feedback session"
+            },
+            "createdTime":"2012-04-01 11:59 PM UTC",
+            "startTime":"2012-04-02 11:59 PM UTC",
+            "endTime":"2016-04-30 11:59 PM UTC",
+            "sessionVisibleFromTime":"2012-04-01 11:59 PM UTC",
+            "resultsVisibleFromTime":"2012-05-01 11:59 PM UTC",
+            "timeZone":8.0,
+            "gracePeriod":20,
+            "feedbackSessionType":"STANDARD",
+            "sentOpenEmail":true,
+            "sentPublishedEmail":true
+        },
+        "Private Session":{
+            "feedbackSessionName":"Private Session",
+            "courseId":"IFSubmitUiT.CS2104",
+            "creatorEmail":"IFSubmitUiT.instr@gmail.com",
+            "instructions":{
+                "value":"Please please fill in the following questions."
+            },
+            "createdTime":"2012-03-20 11:59 PM UTC",
+            "startTime":"2012-04-01 11:59 PM UTC",
+            "endTime":null,
+            "sessionVisibleFromTime":"1970-11-27 00:00 AM UTC",
+            "resultsVisibleFromTime":"1970-11-27 00:00 AM UTC",
+            "timeZone":8,
+            "gracePeriod":0,
+            "feedbackSessionType":"PRIVATE",
+            "sentOpenEmail":true,
+            "sentPublishedEmail":false
+        },
+        "Awaiting Session":{
+            "feedbackSessionName":"Fourth Session",
+            "courseId":"IFSubmitUiT.CS2104",
+            "creatorEmail":"IFSubmitUiT.instr@gmail.com",
+            "instructions":{
+                "value":"Please please fill in the second feedback session"
+            },
+            "createdTime":"2012-04-01 11:59 PM UTC",
+            "startTime":"2035-04-02 11:59 PM UTC",
+            "endTime":"2035-04-30 11:59 PM UTC",
+            "sessionVisibleFromTime":"2012-04-01 11:59 PM UTC",
+            "resultsVisibleFromTime":"2016-05-01 11:59 PM UTC",
+            "timeZone":8.0,
+            "gracePeriod":20,
+            "feedbackSessionType":"STANDARD",
+            "sentOpenEmail":false,
+            "sentPublishedEmail":false
+        }
+    },
+    "feedbackQuestions":{
+        "qn1InSession1":{
+            "feedbackSessionName":"First Session",
+            "courseId":"IFSubmitUiT.CS2104",
+            "creatorEmail":"IFSubmitUiT.instr@gmail.com",
+            "questionMetaData":{
+                "value":"What is the best selling point of your product?"
+            },
+            "questionNumber":"1",
+            "questionType":"TEXT",
+            "giverType":"INSTRUCTORS",
+            "recipientType":"SELF",
+            "numberOfEntitiesToGiveFeedbackTo":1,
+            "showResponsesTo":[
+                "RECEIVER",
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo":[
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "INSTRUCTORS"
+            ]
+        },
+        "qn2InSession1":{
+            "feedbackSessionName":"First Session",
+            "courseId":"IFSubmitUiT.CS2104",
+            "creatorEmail":"IFSubmitUiT.instr@gmail.com",
+            "questionMetaData":{
+                "value":"Rate 3 students' products"
+            },
+            "questionNumber":"2",
+            "questionType":"TEXT",
+            "giverType":"INSTRUCTORS",
+            "recipientType":"STUDENTS",
+            "numberOfEntitiesToGiveFeedbackTo":3,
+            "showResponsesTo":[
+                "INSTRUCTORS",
+                "RECEIVER"
+            ],
+            "showGiverNameTo":[
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "INSTRUCTORS",
+                "RECEIVER"
+            ]
+        },
+        "qn3InSession1":{
+            "feedbackSessionName":"First Session",
+            "courseId":"IFSubmitUiT.CS2104",
+            "creatorEmail":"IFSubmitUiT.instr@gmail.com",
+            "questionMetaData":{
+                "value":"Comments about the class"
+            },
+            "questionNumber":"3",
+            "questionType":"TEXT",
+            "giverType":"INSTRUCTORS",
+            "recipientType":"NONE",
+            "numberOfEntitiesToGiveFeedbackTo":-100,
+            "showResponsesTo":[
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo":[
+                
+            ],
+            "showRecipientNameTo":[
+                "INSTRUCTORS"
+            ]
+        },
+        "qn4InSession1":{
+            "feedbackSessionName":"First Session",
+            "courseId":"IFSubmitUiT.CS2104",
+            "creatorEmail":"IFSubmitUiT.instr@gmail.com",
+            "questionMetaData":{
+                "value":"This question should be hidden."
+            },
+            "questionNumber":"4",
+            "questionType":"TEXT",
+            "giverType":"TEAMS",
+            "recipientType":"TEAMS",
+            "numberOfEntitiesToGiveFeedbackTo":3,
+            "showResponsesTo":[
+                "RECEIVER"
+            ],
+            "showGiverNameTo":[
+                "RECEIVER"
+            ],
+            "showRecipientNameTo":[
+                "RECEIVER"
+            ]
+        },
+        "qn5InSession1":{
+            "feedbackSessionName":"First Session",
+            "courseId":"IFSubmitUiT.CS2104",
+            "creatorEmail":"IFSubmitUiT.instr@gmail.com",
+            "questionMetaData":{
+                "value":"This question should be hidden."
+            },
+            "questionNumber":"5",
+            "questionType":"TEXT",
+            "giverType":"STUDENTS",
+            "recipientType":"OWN_TEAM_MEMBERS",
+            "numberOfEntitiesToGiveFeedbackTo":-100,
+            "showResponsesTo":[
+                "RECEIVER"
+            ],
+            "showGiverNameTo":[
+                "RECEIVER"
+            ],
+            "showRecipientNameTo":[
+                "RECEIVER"
+            ]
+        },
+        "qn6InSession1":{
+            "feedbackSessionName":"First Session",
+            "courseId":"IFSubmitUiT.CS2104",
+            "creatorEmail":"IFSubmitUiT.instr@gmail.com",
+            "questionMetaData":{
+                "value":"Give feedback to other instructors."
+            },
+            "questionNumber":"6",
+            "questionType":"TEXT",
+            "giverType":"INSTRUCTORS",
+            "recipientType":"INSTRUCTORS",
+            "numberOfEntitiesToGiveFeedbackTo":-100,
+            "showResponsesTo":[
+                "RECEIVER"
+            ],
+            "showGiverNameTo":[
+                "RECEIVER"
+            ],
+            "showRecipientNameTo":[
+                "RECEIVER"
+            ]
+        },
+        "qn7InSession1":{
+            "feedbackSessionName":"First Session",
+            "courseId":"IFSubmitUiT.CS2104",
+            "creatorEmail":"IFSubmitUiT.instr@gmail.com",
+            "questionMetaData":{
+                "value":"{\"questionType\":\"MCQ\",\"questionText\":\"What is the best selling point of your product?\",\"numOfMcqChoices\":2,\"mcqChoices\":[\"UI\",\"Algo\"],\"otherEnabled\":false}"
+            },
+            "questionNumber":"7",
+            "questionType":"MCQ",
+            "giverType":"INSTRUCTORS",
+            "recipientType":"SELF",
+            "numberOfEntitiesToGiveFeedbackTo":1,
+            "showResponsesTo":[
+                "RECEIVER",
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo":[
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "INSTRUCTORS"
+            ]
+        },
+        "qn8InSession1":{
+            "feedbackSessionName":"First Session",
+            "courseId":"IFSubmitUiT.CS2104",
+            "creatorEmail":"IFSubmitUiT.instr@gmail.com",
+            "questionMetaData":{
+                "value":"{\"questionType\":\"MCQ\",\"questionText\":\"What do you think is the other instructors' best feature?\",\"numOfMcqChoices\":2,\"mcqChoices\":[\"UI\",\"Algo\"],\"otherEnabled\":false}"
+            },
+            "questionNumber":"8",
+            "questionType":"MCQ",
+            "giverType":"INSTRUCTORS",
+            "recipientType":"INSTRUCTORS",
+            "numberOfEntitiesToGiveFeedbackTo":3,
+            "showResponsesTo":[
+                "RECEIVER"
+            ],
+            "showGiverNameTo":[
+                "RECEIVER"
+            ],
+            "showRecipientNameTo":[
+                "RECEIVER"
+            ]
+        },
+        "qn9InSession1":{
+            "feedbackSessionName":"First Session",
+            "courseId":"IFSubmitUiT.CS2104",
+            "creatorEmail":"IFSubmitUiT.instr@gmail.com",
+            "questionMetaData":{
+                "value":"{\"questionType\":\"MSQ\",\"questionText\":\"What is the best selling point of your product?\",\"numOfMsqChoices\":3,\"msqChoices\":[\"UI\",\"Algo\",\"Design\"],\"otherEnabled\":false}"
+            },
+            "questionNumber":"9",
+            "questionType":"MSQ",
+            "giverType":"INSTRUCTORS",
+            "recipientType":"SELF",
+            "numberOfEntitiesToGiveFeedbackTo":1,
+            "showResponsesTo":[
+                "RECEIVER",
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo":[
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "INSTRUCTORS"
+            ]
+        },
+        "qn10InSession1":{
+            "feedbackSessionName":"First Session",
+            "courseId":"IFSubmitUiT.CS2104",
+            "creatorEmail":"IFSubmitUiT.instr@gmail.com",
+            "questionMetaData":{
+                "value":"{\"questionType\":\"MSQ\",\"questionText\":\"What do you think is the other instructors' best feature?\",\"numOfMsqChoices\":3,\"msqChoices\":[\"UI\",\"Algo\",\"Design\"],\"otherEnabled\":false}"
+            },
+            "questionNumber":"10",
+            "questionType":"MSQ",
+            "giverType":"INSTRUCTORS",
+            "recipientType":"INSTRUCTORS",
+            "numberOfEntitiesToGiveFeedbackTo":3,
+            "showResponsesTo":[
+                "RECEIVER"
+            ],
+            "showGiverNameTo":[
+                "RECEIVER"
+            ],
+            "showRecipientNameTo":[
+                "RECEIVER"
+            ]
+        },
+        "qn11InSession1":{
+            "feedbackSessionName":"First Session",
+            "courseId":"IFSubmitUiT.CS2104",
+            "creatorEmail":"IFSubmitUiT.instr@gmail.com",
+            "questionMetaData":{
+                "value":"{\"questionType\":\"MCQ\",\"questionText\":\"Who is the best student?\",\"numOfMcqChoices\":0,\"mcqChoices\":[],\"otherEnabled\":false,\"generateOptionsFor\":\"STUDENTS\"}"
+            },
+            "questionNumber":"11",
+            "questionType":"MCQ",
+            "giverType":"INSTRUCTORS",
+            "recipientType":"SELF",
+            "numberOfEntitiesToGiveFeedbackTo":1,
+            "showResponsesTo":[
+                "RECEIVER",
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo":[
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "INSTRUCTORS"
+            ]
+        },
+        "qn12InSession1":{
+            "feedbackSessionName":"First Session",
+            "courseId":"IFSubmitUiT.CS2104",
+            "creatorEmail":"IFSubmitUiT.instr@gmail.com",
+            "questionMetaData":{
+                "value":"{\"questionType\":\"MSQ\",\"questionText\":\"Who are the best students?\",\"numOfMsqChoices\":0,\"msqChoices\":[],\"otherEnabled\":false,\"generateOptionsFor\":\"STUDENTS\"}"
+            },
+            "questionNumber":"12",
+            "questionType":"MSQ",
+            "giverType":"INSTRUCTORS",
+            "recipientType":"SELF",
+            "numberOfEntitiesToGiveFeedbackTo":1,
+            "showResponsesTo":[
+                "RECEIVER",
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo":[
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "INSTRUCTORS"
+            ]
+        },
+        "qn13InSession1":{
+            "feedbackSessionName":"First Session",
+            "courseId":"IFSubmitUiT.CS2104",
+            "creatorEmail":"IFSubmitUiT.instr@gmail.com",
+            "questionMetaData":{
+                "value":"{\"questionType\":\"MCQ\",\"questionText\":\"Which is the best team?\",\"numOfMcqChoices\":0,\"mcqChoices\":[],\"otherEnabled\":false,\"generateOptionsFor\":\"TEAMS\"}"
+            },
+            "questionNumber":"13",
+            "questionType":"MCQ",
+            "giverType":"INSTRUCTORS",
+            "recipientType":"SELF",
+            "numberOfEntitiesToGiveFeedbackTo":1,
+            "showResponsesTo":[
+                "RECEIVER",
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo":[
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "INSTRUCTORS"
+            ]
+        },
+        "qn14InSession1":{
+            "feedbackSessionName":"First Session",
+            "courseId":"IFSubmitUiT.CS2104",
+            "creatorEmail":"IFSubmitUiT.instr@gmail.com",
+            "questionMetaData":{
+                "value":"{\"questionType\":\"MSQ\",\"questionText\":\"Who are the best teams?\",\"numOfMsqChoices\":0,\"msqChoices\":[],\"otherEnabled\":false,\"generateOptionsFor\":\"TEAMS\"}"
+            },
+            "questionNumber":"14",
+            "questionType":"MSQ",
+            "giverType":"INSTRUCTORS",
+            "recipientType":"SELF",
+            "numberOfEntitiesToGiveFeedbackTo":1,
+            "showResponsesTo":[
+                "RECEIVER",
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo":[
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "INSTRUCTORS"
+            ]
+        },
+        "qn15InSession1":{
+            "feedbackSessionName":"First Session",
+            "courseId":"IFSubmitUiT.CS2104",
+            "creatorEmail":"IFSubmitUiT.instr@gmail.com",
+            "questionMetaData":{
+                "value":"{\"questionType\":\"NUMSCALE\",\"questionText\":\"Rate your product\",\"minScale\":1,\"maxScale\":5,\"step\":0.5}"
+            },
+            "questionNumber":"15",
+            "questionType":"NUMSCALE",
+            "giverType":"INSTRUCTORS",
+            "recipientType":"SELF",
+            "numberOfEntitiesToGiveFeedbackTo":1,
+            "showResponsesTo":[
+                "RECEIVER",
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo":[
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "INSTRUCTORS"
+            ]
+        },
+        "qn16InSession1":{
+            "feedbackSessionName":"First Session",
+            "courseId":"IFSubmitUiT.CS2104",
+            "creatorEmail":"IFSubmitUiT.instr@gmail.com",
+            "questionMetaData":{
+                "value":"{\"questionType\":\"NUMSCALE\",\"questionText\":\"Rate others' product\",\"minScale\":1,\"maxScale\":5,\"step\":0.5}"
+            },
+            "questionNumber":"16",
+            "questionType":"NUMSCALE",
+            "giverType":"INSTRUCTORS",
+            "recipientType":"INSTRUCTORS",
+            "numberOfEntitiesToGiveFeedbackTo":3,
+            "showResponsesTo":[
+                "RECEIVER"
+            ],
+            "showGiverNameTo":[
+                "RECEIVER"
+            ],
+            "showRecipientNameTo":[
+                "RECEIVER"
+            ]
+        },
 
-		"qn17InSession1":{
-			"feedbackSessionName":"First Session",
-			"courseId":"IFSubmitUiT.CS2104",
-			"creatorEmail":"IFSubmitUiT.instr@gmail.com",
-			"questionMetaData":{
-				"value":"{\"questionType\":\"MCQ\",\"questionText\":\"Who is the best instructor?\",\"numOfMcqChoices\":0,\"mcqChoices\":[],\"otherEnabled\":false,\"generateOptionsFor\":\"INSTRUCTORS\"}"
-			},
-			"questionNumber":"17",
-			"questionType":"MCQ",
-			"giverType":"INSTRUCTORS",
-			"recipientType":"SELF",
-			"numberOfEntitiesToGiveFeedbackTo":1,
-			"showResponsesTo":[
-				"RECEIVER",
-				"INSTRUCTORS"
-			],
-			"showGiverNameTo":[
-				"INSTRUCTORS"
-			],
-			"showRecipientNameTo":[
-				"INSTRUCTORS"
-			]
-		},
-		"qn18InSession1":{
-			"feedbackSessionName":"First Session",
-			"courseId":"IFSubmitUiT.CS2104",
-			"creatorEmail":"IFSubmitUiT.instr@gmail.com",
-			"questionMetaData":{
-				"value":"{\"questionType\":\"MSQ\",\"questionText\":\"Who do you recommend as tutors?\",\"numOfMsqChoices\":0,\"msqChoices\":[],\"otherEnabled\":false,\"generateOptionsFor\":\"INSTRUCTORS\"}"
-			},
-			"questionNumber":"18",
-			"questionType":"MSQ",
-			"giverType":"INSTRUCTORS",
-			"recipientType":"SELF",
-			"numberOfEntitiesToGiveFeedbackTo":1,
-			"showResponsesTo":[
-				"RECEIVER",
-				"INSTRUCTORS"
-			],
-			"showGiverNameTo":[
-				"INSTRUCTORS"
-			],
-			"showRecipientNameTo":[
-				"INSTRUCTORS"
-			]
-		},
+        "qn17InSession1":{
+            "feedbackSessionName":"First Session",
+            "courseId":"IFSubmitUiT.CS2104",
+            "creatorEmail":"IFSubmitUiT.instr@gmail.com",
+            "questionMetaData":{
+                "value":"{\"questionType\":\"MCQ\",\"questionText\":\"Who is the best instructor?\",\"numOfMcqChoices\":0,\"mcqChoices\":[],\"otherEnabled\":false,\"generateOptionsFor\":\"INSTRUCTORS\"}"
+            },
+            "questionNumber":"17",
+            "questionType":"MCQ",
+            "giverType":"INSTRUCTORS",
+            "recipientType":"SELF",
+            "numberOfEntitiesToGiveFeedbackTo":1,
+            "showResponsesTo":[
+                "RECEIVER",
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo":[
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "INSTRUCTORS"
+            ]
+        },
+        "qn18InSession1":{
+            "feedbackSessionName":"First Session",
+            "courseId":"IFSubmitUiT.CS2104",
+            "creatorEmail":"IFSubmitUiT.instr@gmail.com",
+            "questionMetaData":{
+                "value":"{\"questionType\":\"MSQ\",\"questionText\":\"Who do you recommend as tutors?\",\"numOfMsqChoices\":0,\"msqChoices\":[],\"otherEnabled\":false,\"generateOptionsFor\":\"INSTRUCTORS\"}"
+            },
+            "questionNumber":"18",
+            "questionType":"MSQ",
+            "giverType":"INSTRUCTORS",
+            "recipientType":"SELF",
+            "numberOfEntitiesToGiveFeedbackTo":1,
+            "showResponsesTo":[
+                "RECEIVER",
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo":[
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "INSTRUCTORS"
+            ]
+        },
 
-		
-		"qn1InSession2":{
-			"feedbackSessionName":"Second Session",
-			"courseId":"IFSubmitUiT.CS2104",
-			"creatorEmail":"IFSubmitUiT.instr@gmail.com",
-			"questionMetaData":{
-				"value":"Give feedback to your instructors"
-			},
-			"questionNumber":"1",
-			"questionType":"TEXT",
-			"giverType":"INSTRUCTORS",
-			"recipientType":"INSTRUCTORS",
-			"numberOfEntitiesToGiveFeedbackTo":-100,
-			"showResponsesTo":[
-				"RECEIVER"
-			],
-			"showGiverNameTo":[
-				"RECEIVER"
-			],
-			"showRecipientNameTo":[
-				"RECEIVER"
-			]
-		},
-		"qn2InSession2":{
-			"feedbackSessionName":"Second Session",
-			"courseId":"IFSubmitUiT.CS2104",
-			"creatorEmail":"IFSubmitUiT.instr@gmail.com",
-			"questionMetaData":{
-				"value":"{\"questionText\":\"What do you like best about our product?\", \"questionType\":\"MCQ\", \"numOfMcqChoices\" : 2, \"mcqChoices\" : [\"It's good\", \"It's perfect\"],\"otherEnabled\" : false}"
-			},
-			"questionNumber":"2",
-			"questionType":"MCQ",
-			"giverType":"INSTRUCTORS",
-			"recipientType":"INSTRUCTORS",
-			"numberOfEntitiesToGiveFeedbackTo":-100,
-			"showResponsesTo":[
-				"RECEIVER"
-			],
-			"showGiverNameTo":[
-				"RECEIVER"
-			],
-			"showRecipientNameTo":[
-				"RECEIVER"
-			]
-		},
-		"qn3InSession2":{
-			"feedbackSessionName":"Second Session",
-			"courseId":"IFSubmitUiT.CS2104",
-			"creatorEmail":"IFSubmitUiT.instr@gmail.com",
-			"questionMetaData":{
-				"value":"{\"questionText\":\"What do you like best about our product?\", \"questionType\":\"MSQ\", \"numOfMsqChoices\" : 2, \"msqChoices\" : [\"It's good\", \"It's perfect\"],\"otherEnabled\" : false}"
-			},
-			"questionNumber":"3",
-			"questionType":"MSQ",
-			"giverType":"INSTRUCTORS",
-			"recipientType":"INSTRUCTORS",
-			"numberOfEntitiesToGiveFeedbackTo":-100,
-			"showResponsesTo":[
-				"RECEIVER"
-			],
-			"showGiverNameTo":[
-				"RECEIVER"
-			],
-			"showRecipientNameTo":[
-				"RECEIVER"
-			]
-		},
-		"qn4InSession2":{
-			"feedbackSessionName":"Second Session",
-			"courseId":"IFSubmitUiT.CS2104",
-			"creatorEmail":"IFSubmitUiT.instr@gmail.com",
-			"questionMetaData":{
-				"value":"{\"questionText\":\"Rate our product.\", \"questionType\":\"NUMSCALE\", \"minScale\" : 1, \"maxScale\" : 5,\"step\" : 0.5}"
-			},
-			"questionNumber":"4",
-			"questionType":"NUMSCALE",
-			"giverType":"INSTRUCTORS",
-			"recipientType":"INSTRUCTORS",
-			"numberOfEntitiesToGiveFeedbackTo":-100,
-			"showResponsesTo":[
-				"RECEIVER"
-			],
-			"showGiverNameTo":[
-				"RECEIVER"
-			],
-			"showRecipientNameTo":[
-				"RECEIVER"
-			]
-		},
-		"qn1InSession4":{
-			"feedbackSessionName":"Private Session",
-			"courseId":"IFSubmitUiT.CS2104",
-			"creatorEmail":"IFSubmitUiT.instr@gmail.com",
-			"questionMetaData":{
-				"value":"Give feedback to your instructors"
-			},
-			"questionNumber":"1",
-			"questionType":"TEXT",
-			"giverType":"SELF",
-			"recipientType":"SELF",
-			"numberOfEntitiesToGiveFeedbackTo":-100,
-			"showResponsesTo":[
-				"RECEIVER"
-			],
-			"showGiverNameTo":[
-				"RECEIVER"
-			],
-			"showRecipientNameTo":[
-				"RECEIVER"
-			]
-		},
-		"qn1InSession5":{
-			"feedbackSessionName":"Fourth Session",
-			"courseId":"IFSubmitUiT.CS2104",
-			"creatorEmail":"IFSubmitUiT.instr@gmail.com",
-			"questionMetaData":{
-				"value":"Give feedback to your instructors"
-			},
-			"questionNumber":"1",
-			"questionType":"TEXT",
-			"giverType":"INSTRUCTORS",
-			"recipientType":"INSTRUCTORS",
-			"numberOfEntitiesToGiveFeedbackTo":-100,
-			"showResponsesTo":[
-				"RECEIVER"
-			],
-			"showGiverNameTo":[
-				"RECEIVER"
-			],
-			"showRecipientNameTo":[
-				"RECEIVER"
-			]
-		}
-	}
+        
+        "qn1InSession2":{
+            "feedbackSessionName":"Second Session",
+            "courseId":"IFSubmitUiT.CS2104",
+            "creatorEmail":"IFSubmitUiT.instr@gmail.com",
+            "questionMetaData":{
+                "value":"Give feedback to your instructors"
+            },
+            "questionNumber":"1",
+            "questionType":"TEXT",
+            "giverType":"INSTRUCTORS",
+            "recipientType":"INSTRUCTORS",
+            "numberOfEntitiesToGiveFeedbackTo":-100,
+            "showResponsesTo":[
+                "RECEIVER"
+            ],
+            "showGiverNameTo":[
+                "RECEIVER"
+            ],
+            "showRecipientNameTo":[
+                "RECEIVER"
+            ]
+        },
+        "qn2InSession2":{
+            "feedbackSessionName":"Second Session",
+            "courseId":"IFSubmitUiT.CS2104",
+            "creatorEmail":"IFSubmitUiT.instr@gmail.com",
+            "questionMetaData":{
+                "value":"{\"questionText\":\"What do you like best about our product?\", \"questionType\":\"MCQ\", \"numOfMcqChoices\" : 2, \"mcqChoices\" : [\"It's good\", \"It's perfect\"],\"otherEnabled\" : false}"
+            },
+            "questionNumber":"2",
+            "questionType":"MCQ",
+            "giverType":"INSTRUCTORS",
+            "recipientType":"INSTRUCTORS",
+            "numberOfEntitiesToGiveFeedbackTo":-100,
+            "showResponsesTo":[
+                "RECEIVER"
+            ],
+            "showGiverNameTo":[
+                "RECEIVER"
+            ],
+            "showRecipientNameTo":[
+                "RECEIVER"
+            ]
+        },
+        "qn3InSession2":{
+            "feedbackSessionName":"Second Session",
+            "courseId":"IFSubmitUiT.CS2104",
+            "creatorEmail":"IFSubmitUiT.instr@gmail.com",
+            "questionMetaData":{
+                "value":"{\"questionText\":\"What do you like best about our product?\", \"questionType\":\"MSQ\", \"numOfMsqChoices\" : 2, \"msqChoices\" : [\"It's good\", \"It's perfect\"],\"otherEnabled\" : false}"
+            },
+            "questionNumber":"3",
+            "questionType":"MSQ",
+            "giverType":"INSTRUCTORS",
+            "recipientType":"INSTRUCTORS",
+            "numberOfEntitiesToGiveFeedbackTo":-100,
+            "showResponsesTo":[
+                "RECEIVER"
+            ],
+            "showGiverNameTo":[
+                "RECEIVER"
+            ],
+            "showRecipientNameTo":[
+                "RECEIVER"
+            ]
+        },
+        "qn4InSession2":{
+            "feedbackSessionName":"Second Session",
+            "courseId":"IFSubmitUiT.CS2104",
+            "creatorEmail":"IFSubmitUiT.instr@gmail.com",
+            "questionMetaData":{
+                "value":"{\"questionText\":\"Rate our product.\", \"questionType\":\"NUMSCALE\", \"minScale\" : 1, \"maxScale\" : 5,\"step\" : 0.5}"
+            },
+            "questionNumber":"4",
+            "questionType":"NUMSCALE",
+            "giverType":"INSTRUCTORS",
+            "recipientType":"INSTRUCTORS",
+            "numberOfEntitiesToGiveFeedbackTo":-100,
+            "showResponsesTo":[
+                "RECEIVER"
+            ],
+            "showGiverNameTo":[
+                "RECEIVER"
+            ],
+            "showRecipientNameTo":[
+                "RECEIVER"
+            ]
+        },
+        "qn1InSession4":{
+            "feedbackSessionName":"Private Session",
+            "courseId":"IFSubmitUiT.CS2104",
+            "creatorEmail":"IFSubmitUiT.instr@gmail.com",
+            "questionMetaData":{
+                "value":"Give feedback to your instructors"
+            },
+            "questionNumber":"1",
+            "questionType":"TEXT",
+            "giverType":"SELF",
+            "recipientType":"SELF",
+            "numberOfEntitiesToGiveFeedbackTo":-100,
+            "showResponsesTo":[
+                "RECEIVER"
+            ],
+            "showGiverNameTo":[
+                "RECEIVER"
+            ],
+            "showRecipientNameTo":[
+                "RECEIVER"
+            ]
+        },
+        "qn1InSession5":{
+            "feedbackSessionName":"Fourth Session",
+            "courseId":"IFSubmitUiT.CS2104",
+            "creatorEmail":"IFSubmitUiT.instr@gmail.com",
+            "questionMetaData":{
+                "value":"Give feedback to your instructors"
+            },
+            "questionNumber":"1",
+            "questionType":"TEXT",
+            "giverType":"INSTRUCTORS",
+            "recipientType":"INSTRUCTORS",
+            "numberOfEntitiesToGiveFeedbackTo":-100,
+            "showResponsesTo":[
+                "RECEIVER"
+            ],
+            "showGiverNameTo":[
+                "RECEIVER"
+            ],
+            "showRecipientNameTo":[
+                "RECEIVER"
+            ]
+        }
+    }
 }

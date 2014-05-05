@@ -141,11 +141,11 @@ Important: When a version is specified, please install that version instead of t
    address, but remember to check the `log in as administrator` check box. 
 3. Enter credentials for an instructor. e.g.,
 
-	> Google id: `teammates.instructor` <br>
-	  Name: `John Dorian` <br>
-	  Email: `teammates.instructor@university.edu` <br>
-	  Institute: `National University of Singapore` 
-	  
+    > Google id: `teammates.instructor` <br>
+      Name: `John Dorian` <br>
+      Email: `teammates.instructor@university.edu` <br>
+      Institute: `National University of Singapore` 
+      
 ##Running the test suite
 
 Before running the test suite, we need to change the time zone of the dev server to `UTC`, 

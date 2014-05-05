@@ -8,8 +8,8 @@
 //Initial load-up
 //-----------------------------------------------------------------------------
 window.onload = function() {
-	initializetooltip();
-	initializenavbar();
+    initializetooltip();
+    initializenavbar();
 };
 
 // DynamicDrive JS mouse-hover

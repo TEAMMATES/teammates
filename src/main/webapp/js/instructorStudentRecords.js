@@ -8,25 +8,25 @@ var DISPLAY_COMMENT_BLANK = "Please enter a valid comment. The comment can't be 
  * of comment box if the request parameter asks for it
  */
 function readyStudentRecordsPage(){
-	
-	initializenavbar();
-	
-	//Bind form submission to check for blank comment field
-	$('form.form_comment').submit(function(){
-		return checkComment(this);		
-	});
-	
-	//Adjust size of each text area, except the new comment area
-	$('textarea').each(function(){
-		if(!$(this).attr("placeholder")){
-			textAreaAdjust(this);
-		}
-	});
+    
+    initializenavbar();
+    
+    //Bind form submission to check for blank comment field
+    $('form.form_comment').submit(function(){
+        return checkComment(this);		
+    });
+    
+    //Adjust size of each text area, except the new comment area
+    $('textarea').each(function(){
+        if(!$(this).attr("placeholder")){
+            textAreaAdjust(this);
+        }
+    });
 
-	//Open the comment box if so desired by the request
-	if (showCommentBox == "yes"){
-		$("#button_add_comment").click();
-	}
+    //Open the comment box if so desired by the request
+    if (showCommentBox == "yes"){
+        $("#button_add_comment").click();
+    }
 }
 
 /**
@@ -34,8 +34,8 @@ function readyStudentRecordsPage(){
  * Currently done this way because the link is placed on a different column
  */
 function submitCommentForm(commentIdx){
-	$('#form_commentedit-'+commentIdx).submit();
-	return false;
+    $('#form_commentedit-'+commentIdx).submit();
+    return false;
 }
 
 /**
@@ -43,11 +43,11 @@ function submitCommentForm(commentIdx){
  * Blanks are not allowed.
  */
 function checkComment(form){
-	var formTextField = $(form).find('[name='+COMMENT_TEXT+']').val();
-	if (isBlank(formTextField)) {
-		setStatusMessage(DISPLAY_COMMENT_BLANK,true);
-		return false;
-	}
+    var formTextField = $(form).find('[name='+COMMENT_TEXT+']').val();
+    if (isBlank(formTextField)) {
+        setStatusMessage(DISPLAY_COMMENT_BLANK,true);
+        return false;
+    }
 }
 
 function isBlank(str) {
@@ -58,9 +58,9 @@ function isBlank(str) {
  * Show the comment box, focus comment text area and hide "Add Comment link"
  */
 function showAddCommentBox(){
-	$('#comment_box').show();
-	$('#commentText').focus();
-	$('#comment_link').hide();
+    $('#comment_box').show();
+    $('#commentText').focus();
+    $('#comment_link').hide();
 }
 
 /**
@@ -68,29 +68,29 @@ function showAddCommentBox(){
  * disables the others
  */
 function enableEdit(commentIdx, maxComments){
-	var i = 0;
-	while (i < maxComments) {
-		if (commentIdx == i) {
-			enableComment(i);
-		} else {
-			disableComment(i);
-		}
-		i++;
-	}
-	
-	return false;
+    var i = 0;
+    while (i < maxComments) {
+        if (commentIdx == i) {
+            enableComment(i);
+        } else {
+            disableComment(i);
+        }
+        i++;
+    }
+    
+    return false;
 }
 
 function enableComment(commentIdx){
-	$("textarea[id='commentText"+commentIdx+"']").removeAttr("disabled", "disabled");
-	$('#'+'commentsave-'+commentIdx).show();
-	$('#'+'commentedit-'+commentIdx).hide();
+    $("textarea[id='commentText"+commentIdx+"']").removeAttr("disabled", "disabled");
+    $('#'+'commentsave-'+commentIdx).show();
+    $('#'+'commentedit-'+commentIdx).hide();
 }
 
 function disableComment(commentIdx){
-	$("textarea[id='commentText"+commentIdx+"']").attr("disabled", "disabled");
-	$('#'+'commentsave-'+commentIdx).hide();
-	$('#'+'commentedit-'+commentIdx).show();
+    $("textarea[id='commentText"+commentIdx+"']").attr("disabled", "disabled");
+    $('#'+'commentsave-'+commentIdx).hide();
+    $('#'+'commentedit-'+commentIdx).show();
 }
 
 function textAreaAdjust(o) {
@@ -104,10 +104,10 @@ function textAreaAdjust(o) {
  * @returns
  */
 function deleteComment(commentIdx){
-	if (confirm("Are you sure you want to delete this comment?")){
-		document.getElementById(COMMENT_EDITTYPE+'-'+commentIdx).value="delete";
-		return submitCommentForm(commentIdx);
-	} else {
-		return false;
-	}
+    if (confirm("Are you sure you want to delete this comment?")){
+        document.getElementById(COMMENT_EDITTYPE+'-'+commentIdx).value="delete";
+        return submitCommentForm(commentIdx);
+    } else {
+        return false;
+    }
 }

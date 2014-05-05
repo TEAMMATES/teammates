@@ -1,32 +1,32 @@
 #searchTable input[type="text"]{
-	width: 400px;
+    width: 400px;
 }
 
 #displayArchivedCourses_check {
-	margin-left: 5px;
+    margin-left: 5px;
 }
 
 .courseTitle {
-	float: left;
-	width: 58%;
+    float: left;
+    width: 58%;
 }
 
 .enrollLink {
-	float: right;
-	width: 38%;
+    float: right;
+    width: 38%;
     margin-top: 20px;
 }
 
 .dataTable td+td a { 
-	margin: 0px 8px;
+    margin: 0px 8px;
 }
 
 .backgroundBlock{
-	margin-top: 15px;
-	margin-bottom: 30px;
-	padding-top: 5px;
+    margin-top: 15px;
+    margin-bottom: 30px;
+    padding-top: 5px;
 }
 
 .backgroundBlock:last-child {
-	margin-bottom: 0px;
+    margin-bottom: 0px;
 }

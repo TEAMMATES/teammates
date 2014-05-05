@@ -5,23 +5,23 @@ var FEEDBACK_RESPONSE_RECIPIENT = "responserecipient";
 // On body load event
 $(document).ready(function () {
 
-	// Bind submission event
-	$('form[name="form_submit_response"]').submit(function() {
-		reenableFieldsForSubmission();
-	});
-	
-	// Format recipient dropdown lists
-	formatRecipientLists();
-	
-	// Replace hidden dropdowns with text
-	$('select.participantSelect:hidden').each(function (){
-		$(this).after('<span> '+$(this).find('option:selected').html()+'</span>');
-	});
-	
-	// Enable tooltips
-	document.onmousemove = positiontip;
-	
-	disallowNonNumericEntries($('input[type=number]'), true, true);
+    // Bind submission event
+    $('form[name="form_submit_response"]').submit(function() {
+        reenableFieldsForSubmission();
+    });
+    
+    // Format recipient dropdown lists
+    formatRecipientLists();
+    
+    // Replace hidden dropdowns with text
+    $('select.participantSelect:hidden').each(function (){
+        $(this).after('<span> '+$(this).find('option:selected').html()+'</span>');
+    });
+    
+    // Enable tooltips
+    document.onmousemove = positiontip;
+    
+    disallowNonNumericEntries($('input[type=number]'), true, true);
 });
 
 /**
@@ -31,62 +31,62 @@ $(document).ready(function () {
  * cannot be selected.
  */
 function formatRecipientLists(){
-	$('select.participantSelect').each(function(){
-		if (!$(this).hasClass(".newResponse")) {
-			// Remove options from existing responses
-			var questionNumber = 
-				$(this).attr('name').split('-')[1];
-			var selectedOption = $(this).find('option:selected').val();
-			
-			if (selectedOption != "") {
-				$("select[name|="+FEEDBACK_RESPONSE_RECIPIENT+"-"+questionNumber+"]").not(this).
-					find("option[value='"+selectedOption+"']").hide();
-			}
-		}
-		// Save initial data.
-		$(this).data('previouslySelected',$(this).val());
-	}).change(function() {
-		var questionNumber = $(this).attr('name').split('-')[1];
-    	var lastSelectedOption = $(this).data('previouslySelected');
-		var curSelectedOption = $(this).find('option:selected').val();
+    $('select.participantSelect').each(function(){
+        if (!$(this).hasClass(".newResponse")) {
+            // Remove options from existing responses
+            var questionNumber = 
+                $(this).attr('name').split('-')[1];
+            var selectedOption = $(this).find('option:selected').val();
+            
+            if (selectedOption != "") {
+                $("select[name|="+FEEDBACK_RESPONSE_RECIPIENT+"-"+questionNumber+"]").not(this).
+                    find("option[value='"+selectedOption+"']").hide();
+            }
+        }
+        // Save initial data.
+        $(this).data('previouslySelected',$(this).val());
+    }).change(function() {
+        var questionNumber = $(this).attr('name').split('-')[1];
+        var lastSelectedOption = $(this).data('previouslySelected');
+        var curSelectedOption = $(this).find('option:selected').val();
 
-    	if(lastSelectedOption != "") {
-			$("select[name|="+FEEDBACK_RESPONSE_RECIPIENT+"-"+questionNumber+"]").not(this).
-			find("option[value='"+lastSelectedOption+"']").show();
-    	}
-		if (curSelectedOption != "") {
-			$("select[name|="+FEEDBACK_RESPONSE_RECIPIENT+"-"+questionNumber+"]").not(this).
-				find("option[value='"+curSelectedOption+"']").hide();
-		}
-		// Save new data
-		$(this).data('previouslySelected',$(this).val());
-	});
-	
-	// Auto-select first valid option.
-	$('select.participantSelect.newResponse').each(function(){
-		var firstUnhidden = "";
-		$(this).children().reverse().each(function(){
-		    if (this.style.display != 'none' && $(this).val() != "") {
-			    firstUnhidden = this;
-		    }
-		});
-		$(this).val($(firstUnhidden).val()).change();
-	});
+        if(lastSelectedOption != "") {
+            $("select[name|="+FEEDBACK_RESPONSE_RECIPIENT+"-"+questionNumber+"]").not(this).
+            find("option[value='"+lastSelectedOption+"']").show();
+        }
+        if (curSelectedOption != "") {
+            $("select[name|="+FEEDBACK_RESPONSE_RECIPIENT+"-"+questionNumber+"]").not(this).
+                find("option[value='"+curSelectedOption+"']").hide();
+        }
+        // Save new data
+        $(this).data('previouslySelected',$(this).val());
+    });
+    
+    // Auto-select first valid option.
+    $('select.participantSelect.newResponse').each(function(){
+        var firstUnhidden = "";
+        $(this).children().reverse().each(function(){
+            if (this.style.display != 'none' && $(this).val() != "") {
+                firstUnhidden = this;
+            }
+        });
+        $(this).val($(firstUnhidden).val()).change();
+    });
 }
 
 function reenableFieldsForSubmission() {
-	$(':disabled').prop('disabled',false);
+    $(':disabled').prop('disabled',false);
 }
 
 function validateNumScaleAnswer(qnIdx, responseIdx) {
-	var answerBox = $("[name=responsetext-"+qnIdx+"-"+responseIdx+"]");
-	var min = parseInt(answerBox.attr("min"));
-	var max = parseInt(answerBox.attr("max"));
-	var answer = parseInt(answerBox.val());
-	
-	if (answer < min) {
-		answerBox.val(answerBox.attr("min"));
-	} else if (answer > max) {
-		answerBox.val(answerBox.attr("max"));
-	}
+    var answerBox = $("[name=responsetext-"+qnIdx+"-"+responseIdx+"]");
+    var min = parseInt(answerBox.attr("min"));
+    var max = parseInt(answerBox.attr("max"));
+    var answer = parseInt(answerBox.val());
+    
+    if (answer < min) {
+        answerBox.val(answerBox.attr("min"));
+    } else if (answer > max) {
+        answerBox.val(answerBox.attr("max"));
+    }
 }

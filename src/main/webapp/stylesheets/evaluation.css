@@ -91,9 +91,9 @@ tfoot td {
 
 /* header form - for all tables on top of the page*/
 .headerform {
-	border:none;
-	width: 960px;
-	  -moz-border-radius:    10px;
+    border:none;
+    width: 960px;
+      -moz-border-radius:    10px;
   -webkit-border-radius: 10px;
   border-radius:         10px;
 }
@@ -104,22 +104,22 @@ tfoot td {
 }
 
 .headerform tr {
-	border:none;
+    border:none;
 }
 
 /* for creating new course */
 .addform {
-	alignment-adjust:central; 
-	width:500px; 
-	height: 190px;
-	border:none;
-/* 	background: #4E80BB; */
+    alignment-adjust:central; 
+    width:500px; 
+    height: 190px;
+    border:none;
+/*     background: #4E80BB; */
 }
 .addform tr {
-	border:none;
+    border:none;
 }
 .addinput  {
-	color: black;
+    color: black;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 13px;
     font-weight: normal;
@@ -128,7 +128,7 @@ tfoot td {
     margin-right: 15px;
 }
 #btnAddCourse {
-	margin-left: 200px;
+    margin-left: 200px;
 }
 
 /* for display detail: 
@@ -136,18 +136,18 @@ tfoot td {
  * 2) instructor view student detail
  */
 .detailform {
-	width: 500px
+    width: 500px
 }
 .detailform td:nth-of-type(odd) {
-	background-color: #4E80BB;
-	color:#FFF;
-	font-weight:bold;
-	width: 30%;
-	text-align: right;
+    background-color: #4E80BB;
+    color:#FFF;
+    font-weight:bold;
+    width: 30%;
+    text-align: right;
 }
 .detailform td:nth-of-type(even) {
-	background-color: #eaeff5;
-	width: 70%;
+    background-color: #eaeff5;
+    width: 70%;
 }
 
 
@@ -157,15 +157,15 @@ tfoot td {
 }
 
 #dataform td{
-	border:1px dotted gray;
+    border:1px dotted gray;
 }
 
 #dataform tr:nth-of-type(odd) {
-	background-color: #eaeff5;
+    background-color: #eaeff5;
 }
 
 #dataform tr:nth-of-type(even) {
-	background-color: #d0d8e8;
+    background-color: #d0d8e8;
 }
 
 #dataform tr:hover { 
@@ -215,149 +215,149 @@ tfoot td {
 }
 
 .result_table td{
-	border:1px dotted gray;
+    border:1px dotted gray;
 }
 
 .result_header, .result_header td{
-	background-color: #036;
-	color: white;
-	font-weight:bold;
+    background-color: #036;
+    color: white;
+    font-weight:bold;
 }
 
 .result_subheader {
-	background-color: #d0d8e8;
+    background-color: #d0d8e8;
 }
 .result_subheader td{
-	color: #4E80BB;
-	font-weight: bold;
+    color: #4E80BB;
+    font-weight: bold;
 }
 
 .result_addOrJoinCourse {
-	color: #FFFFFF;
-	font-family: Arial, Helvetica, sans-serif;
-	margin: 0 auto;
-	text-align: right;
+    color: #FFFFFF;
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0 auto;
+    text-align: right;
 }
 
 .result_addOrJoinCourse a:link {
-	color: #FFFFFF;
-	font-size: 13px;
-	padding-left: 15px;
-	text-decoration: underline;
+    color: #FFFFFF;
+    font-size: 13px;
+    padding-left: 15px;
+    text-decoration: underline;
 }
 
 .result_addOrJoinCourse a:visited {
-	color: #FFFFFF;
+    color: #FFFFFF;
 }
 
 .result_addOrJoinCourse a:link:hover {
-	color: #FFFFFF;
-	text-decoration: underline;
+    color: #FFFFFF;
+    text-decoration: underline;
 }
 
 .result_homeTitle {
-	float: left;
-	width: 60%;
+    float: left;
+    width: 60%;
 }
 
 .result_homeTitle h2 {
-	color: #FFFFFF;
-	font-family: Arial, Helvetica, sans-serif;
-	margin: 0 auto;
-	padding: 15px 0;
-	text-align: left;
+    color: #FFFFFF;
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0 auto;
+    padding: 15px 0;
+    text-align: left;
 }
 
 .result_homeLinks {
-	float: left;
-	margin: 0 auto;
-	padding: 20px 0;
-	text-align: center;
-	width: 40%;
+    float: left;
+    margin: 0 auto;
+    padding: 20px 0;
+    text-align: center;
+    width: 40%;
 }
 
 .result_homeLinks a:link {
-	color: #FFFFFF;
-	font-size: 13px;
-	margin-left: 15px;
-	text-decoration: underline;
+    color: #FFFFFF;
+    font-size: 13px;
+    margin-left: 15px;
+    text-decoration: underline;
 }
 
 .result_homeLinks a:visited {
-	color: #FFFFFF;
+    color: #FFFFFF;
 }
 
 .result_homeLinks a:link:hover {
-	color: #FFFFFF;
-	text-decoration: underline;
+    color: #FFFFFF;
+    text-decoration: underline;
 }
 
 
 /* STUDENT: results header form */
 .result_studentform{
-	width:100%;
+    width:100%;
 }
 .result_studentform tr{
-	border: 1px dotted #CCC;
+    border: 1px dotted #CCC;
 }
 
 .result_studentform td {
-	background-color: #eaeff5;
+    background-color: #eaeff5;
 }
 
 .result_studentform td:first-child {
-	background-color: #4E80BB;
-	color:#FFF;
-	font-weight:bold;
+    background-color: #4E80BB;
+    color:#FFF;
+    font-weight:bold;
 }
 
 /* Evaluation info table for Instructor */
 .evaluation_info{
-	width:50%;
-	text-align: center;
+    width:50%;
+    text-align: center;
 }
 
 .evaluation_info tr{
-	border: 1px dotted #CCC;
+    border: 1px dotted #CCC;
 }
 
 .evaluation_info td {
-	background-color: #eaeff5;
+    background-color: #eaeff5;
 }
 
 .evaluation_info td:first-child {
-	background-color: #4E80BB;
-	color:#FFF;
-	font-weight:bold;
-	width: 30%;
+    background-color: #4E80BB;
+    color:#FFF;
+    font-weight:bold;
+    width: 30%;
 }
 
 /* Table Elements */
 .fontcolor {
-	color: #036;
-	font-size:10px;
+    color: #036;
+    font-size:10px;
 }
 .color_positive { 
-	color: #060;
-	font-weight:bold;
-	
+    color: #060;
+    font-weight:bold;
+    
 }
 .color_negative { 
-	color:#F00;
-	font-weight:bold;
+    color:#F00;
+    font-weight:bold;
 }
 .color_neutral{
-	color:black;
-	font-weight:bold;
+    color:black;
+    font-weight:bold;
 }
 .color_gray {
-	color: gray;
-	font-size: 9;
+    color: gray;
+    font-size: 9;
 }
 .attribute{
-	text-align:right;
-	vertical-align: middle;
-	font-weight:bold;
+    text-align:right;
+    vertical-align: middle;
+    font-weight:bold;
 }
 
 /*-------- Other Element --------*/
@@ -418,11 +418,11 @@ p.splinfo3 {
 }
 
 .negDiff {
-	color: #F00;
+    color: #F00;
 }
 
 .posDiff {
-	color: #063;
+    color: #063;
 }
 
 .lhs {
@@ -503,7 +503,7 @@ a:link:hover {
 }
 
 .sort {
-	text-decoration:underline;
+    text-decoration:underline;
 }
 
 .button {
@@ -546,7 +546,7 @@ a:link:hover {
 
 
 .infoform {
-	border:1px dotted gray;
+    border:1px dotted gray;
 }
 
 .color_disabled{ color:#F00; text-decoration:none; }

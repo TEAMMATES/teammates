@@ -8,55 +8,55 @@
 }
 
 .enrollStudentTable {
-	margin-right: 70px;
+    margin-right: 70px;
 }
 
 .invalidLine {
-	font-style: italic;
+    font-style: italic;
 }
 
 .problemDetail {
-	text-align: left;
+    text-align: left;
 }
 
 .instructionImg {
-	margin-top: 20px;
-	margin-left: 80px;
-	margin-bottom: 20px;
+    margin-top: 20px;
+    margin-left: 80px;
+    margin-bottom: 20px;
 }
 
 .enrollLines {
-	font-family: Consolas;
+    font-family: Consolas;
 }
 
 .moreInfo {
-	margin-top: 30px;
-	padding-bottom: 30px;
+    margin-top: 30px;
+    padding-bottom: 30px;
 }
 
 .moreInfoPointTitle {
-	display: block;
-	font-weight: bold;
-	margin: 10px 0px;
+    display: block;
+    font-weight: bold;
+    margin: 10px 0px;
 }
 
 .moreInfoPointDetails {
-	margin-left: 50px;
+    margin-left: 50px;
 }
 
 .moreInfoColumnInfo,
 .moreInfoMassEditInfo {
-	list-style: circle;
+    list-style: circle;
 }
 
 .moreInfoEmailDetails {
-	list-style: disc;
-	margin-left: -20px;
+    list-style: disc;
+    margin-left: -20px;
 }
 
 #moreInfoEnrollWOSpreadSheetEg {
-	display: inline-block;
-	border: thin solid grey;
-	padding: 20px 40px;
-	pointer: default;
+    display: inline-block;
+    border: thin solid grey;
+    padding: 20px 40px;
+    pointer: default;
 }

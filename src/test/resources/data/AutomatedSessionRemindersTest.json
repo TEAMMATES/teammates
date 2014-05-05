@@ -117,18 +117,18 @@
    },
     "feedbackQuestions" : {
   	 "question": {
-		"feedbackSessionName" : "AutSessRem Closing Session",
-		"courseId" : "AutSessRem.course",
-		"creatorEmail" : "{$support.email}",
-		"questionMetaData" : {"value" : "This question is so that closing reminders will be sent to students as it is unanswered."},
-		"questionNumber" : "1",
-		"questionType" : "TEXT",
-		"giverType" : "STUDENTS",
-		"recipientType" : "SELF",
-		"numberOfEntitiesToGiveFeedbackTo" : -100,
-		"showResponsesTo" : [ "INSTRUCTORS" ],
-		"showGiverNameTo" : [ "INSTRUCTORS" ],
-		"showRecipientNameTo" : [ "INSTRUCTORS" ]
+        "feedbackSessionName" : "AutSessRem Closing Session",
+        "courseId" : "AutSessRem.course",
+        "creatorEmail" : "{$support.email}",
+        "questionMetaData" : {"value" : "This question is so that closing reminders will be sent to students as it is unanswered."},
+        "questionNumber" : "1",
+        "questionType" : "TEXT",
+        "giverType" : "STUDENTS",
+        "recipientType" : "SELF",
+        "numberOfEntitiesToGiveFeedbackTo" : -100,
+        "showResponsesTo" : [ "INSTRUCTORS" ],
+        "showGiverNameTo" : [ "INSTRUCTORS" ],
+        "showRecipientNameTo" : [ "INSTRUCTORS" ]
     }
    }
 }
