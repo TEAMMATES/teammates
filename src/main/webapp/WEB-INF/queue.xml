@@ -17,7 +17,7 @@
 <queue>  
   <name>submission-queue</name>  
   <!-- Configuration allows for submission creation for 
-  	   1 evaluation to be queued when the bucket is not full -->
+         1 evaluation to be queued when the bucket is not full -->
   <rate>1/s</rate>
   <bucket-size>5</bucket-size>
   <retry-parameters>
@@ -27,7 +27,7 @@
 <queue>  
   <name>eval-submission-adjust-queue</name>  
   <!-- Configuration allows for submission adjustment for 
-  	   5 evaluations to be queued when the bucket is not full
+         5 evaluations to be queued when the bucket is not full
   -->
   <rate>5/s</rate>
   <bucket-size>5</bucket-size> 
@@ -38,7 +38,7 @@
 <queue>  
   <name>feedback-submission-adjust-queue</name>  
   <!-- Configuration allows for submission adjustment for 
-  	   5 feedback sessions to be queued when the bucket is not full
+         5 feedback sessions to be queued when the bucket is not full
   -->
   <rate>5/s</rate>
   <bucket-size>5</bucket-size>
@@ -53,7 +53,7 @@
 <queue>  
   <name>evaluation-publish-email-queue</name>  
   <!-- Configuration allows for 5 evaluation published emails to be queued
-	   when the bucket is not full
+       when the bucket is not full
   -->
   <rate>5/s</rate>
   <bucket-size>5</bucket-size> 
@@ -64,7 +64,7 @@
 <queue>  
   <name>evaluation-remind-email-queue</name>  
   <!-- Configuration allows for 5 evaluation reminder emails to be queued
-	   when the bucket is not full
+       when the bucket is not full
   -->
   <rate>5/s</rate>
   <bucket-size>5</bucket-size> 
@@ -75,7 +75,7 @@
 <queue>  
   <name>send-email-queue</name>  
   <!-- Configuration allows for 20 emails to be queued
-	   when the bucket is not full
+       when the bucket is not full
   -->
   <rate>10/s</rate>
   <bucket-size>20</bucket-size> 
