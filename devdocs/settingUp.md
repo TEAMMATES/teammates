@@ -32,7 +32,10 @@ Important: When a version is specified, please install that version instead of t
    JDK (not a JRE) is selected. One of the items in the [Troubleshooting help]
    (https://docs.google.com/document/d/1_p7WOGryOStPfTGA_ZifE1kVlskb1zfd3HZwc4lE4QQ/pub?embedded=true)
     explains how to do this.
-    * Tab behavior: In TEAMMATES, we use spaces in place of tabs. `Window → Preferences → General → Editors → Text Editors → Insert spaces for tabs`
+    * Tab behavior: In TEAMMATES, we use spaces in place of tabs. `Window → Preferences → General → Editors → Text Editors → Insert spaces for tabs` <br>
+    Similarly, configure `Web → CSS Files → Editor`, 
+    `Web → HTML Files → Editor`, and `XML Files → Editor`
+    to indent using 4 spaces instead of tabs.
 2. Create main config files {These are not under revision control because their 
    content vary from developer to developer}.
    * `src/main/resources/build.properties`<br>
