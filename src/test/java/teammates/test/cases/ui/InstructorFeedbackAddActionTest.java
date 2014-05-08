@@ -49,6 +49,9 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         InstructorAttributes instructor1ofCourse1 =
                 dataBundle.instructors.get("instructor1OfCourse1");
         
+        InstructorAttributes instructor3ofCourse1 =
+                dataBundle.instructors.get("instructor3OfCourse1");
+        
         ______TS("Not enough parameters");
         
         gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
@@ -90,14 +93,20 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         
         ______TS("Error: try to add the same session again");
         
+        gaeSimulation.loginAsInstructor(instructor3ofCourse1.googleId);
+        
+        params = 
+                createParamsCombinationForFeedbackSession(
+                        instructor3ofCourse1.courseId, "ifaat tca fs", 0);
         a = getAction(params);
         ShowPageResult pr = (ShowPageResult) a.executeAndPostProcess();
         assertEquals(
-                Const.ViewURIs.INSTRUCTOR_FEEDBACKS+"?message=A+feedback+session+by+this+name+already+exists+under+this+course&error=true&user=idOfInstructor1OfCourse1", 
+                Const.ViewURIs.INSTRUCTOR_FEEDBACKS+"?message=A+feedback+session+by+this+name+already+exists+under+this+course%3Cbr%3EYou+have+not+created+any+sessions+yet.+Use+the+form+above+to+create+a+session.&error=true&user=idOfInstructor3", 
                 pr.getDestinationWithParams());
         assertEquals(true, pr.isError);
-        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EXISTS, pr.getStatusMessage());
+        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EXISTS+ "<br>" + Const.StatusMessages.FEEDBACK_SESSION_EMPTY, pr.getStatusMessage());
         
+        gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
 
         ______TS("Add course with trailing space");
         
