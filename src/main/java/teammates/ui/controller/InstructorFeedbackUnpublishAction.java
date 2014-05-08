@@ -39,7 +39,7 @@ public class InstructorFeedbackUnpublishAction extends InstructorFeedbacksPageAc
                     + "]</span> unpublished.";
         } else {
             isError = true;
-            statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_UNPUBLISH_FAILED);
+            statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_UNPUBLISHED_ALREADY);
             statusToAdmin = "Evaluation <span class=\"bold\">("
                     + feedbackSessionName + ")</span> " +
                     "for Course <span class=\"bold\">[" + courseId

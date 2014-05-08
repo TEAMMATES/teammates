@@ -19,6 +19,8 @@ import teammates.ui.controller.InstructorFeedbackUnpublishAction;
 import teammates.ui.controller.RedirectResult;
 
 public class InstructorFeedbackUnpublishActionTest extends BaseActionTest {
+    private static final boolean PUBLISHED = true;
+    private static final boolean UNPUBLISHED = false;
     DataBundle dataBundle;
         
     @BeforeClass
@@ -78,20 +80,50 @@ public class InstructorFeedbackUnpublishActionTest extends BaseActionTest {
         assertEquals(expectedDestination, result.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_UNPUBLISHED, result.getStatusMessage());
         assertFalse(result.isError);
+        
+        ______TS("Unpublished Case: ensure Unpublishing an unpublished session can be handled");
+        
+        makeFeedbackSessionUnpublished(session);
+        
+        unpublishAction = getAction(unpublishParams);
+        result = (RedirectResult) unpublishAction.executeAndPostProcess();
+        
+        expectedDestination = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE + 
+                "?message=The+feedback+session+has+already+been+unpublished." + 
+                "&error=true" + 
+                "&user=idOfInstructor1OfCourse1";
+        assertEquals(expectedDestination, result.getDestinationWithParams());
+        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_UNPUBLISHED_ALREADY, result.getStatusMessage());
+        assertTrue(result.isError);
+        
+        makeFeedbackSessionPublished(session);
     }
-
-    private void makeFeedbackSessionPublished(FeedbackSessionAttributes session) throws Exception {
+    
+    private void modifyFeedbackSessionPublishState(FeedbackSessionAttributes session, boolean isPublished) throws Exception {
         // startTime < endTime <= resultsVisibleFromTime
         Date startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
         Date endTime = TimeHelper.getDateOffsetToCurrentTime(-1);
-        Date resultsVisibleFromTime = TimeHelper.getDateOffsetToCurrentTime(-1);
+        Date resultsVisibleFromTimeForPublishedSession = TimeHelper.getDateOffsetToCurrentTime(-1);
         
         session.startTime = startTime;
         session.endTime = endTime;
-        session.resultsVisibleFromTime = resultsVisibleFromTime;
+        if(isPublished){
+            session.resultsVisibleFromTime = resultsVisibleFromTimeForPublishedSession;
+            assertTrue(session.isPublished());
+        } else {
+            session.resultsVisibleFromTime = Const.TIME_REPRESENTS_LATER;
+            assertFalse(session.isPublished());
+        }
         session.sentPublishedEmail = true;
-        assertTrue(session.isPublished());
         new FeedbackSessionsDb().updateFeedbackSession(session);
+    }
+
+    private void makeFeedbackSessionPublished(FeedbackSessionAttributes session) throws Exception {
+        modifyFeedbackSessionPublishState(session, PUBLISHED);
+    }
+    
+    private void makeFeedbackSessionUnpublished(FeedbackSessionAttributes session) throws Exception {
+        modifyFeedbackSessionPublishState(session, UNPUBLISHED);
     }
     
     private InstructorFeedbackUnpublishAction getAction(String[] params){

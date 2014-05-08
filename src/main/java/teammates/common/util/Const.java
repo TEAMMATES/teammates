@@ -631,7 +631,7 @@ public class Const {
         public static final String FEEDBACK_SESSION_DELETED = "The feedback session has been deleted.";
         public static final String FEEDBACK_SESSION_PUBLISHED = "The feedback session has been published.";
         public static final String FEEDBACK_SESSION_UNPUBLISHED = "The feedback session has been unpublished.";
-        public static final String FEEDBACK_SESSION_UNPUBLISH_FAILED = "The feedback session has already been unpublished.";
+        public static final String FEEDBACK_SESSION_UNPUBLISHED_ALREADY = "The feedback session has already been unpublished.";
         public static final String FEEDBACK_SESSION_REMINDERSSENT = "Reminder e-mails have been sent out to those students and instructors.";
         public static final String FEEDBACK_SESSION_EXISTS = "A feedback session by this name already exists under this course";        
         public static final String FEEDBACK_SESSION_EMPTY = "You have not created any sessions yet. Use the form above to create a session.";
