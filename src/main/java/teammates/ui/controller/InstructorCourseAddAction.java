@@ -17,12 +17,10 @@ import teammates.logic.api.GateKeeper;
  * Action: adding a course for an instructor
  */
 public class InstructorCourseAddAction extends Action {
-    /* The new data after executing the action in the 'Courses' page */
     private InstructorCoursesPageData data;
 
     @Override
     public ActionResult execute() throws EntityDoesNotExistException {
-        /* Check if course ID or name is empty */
         String newCourseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull(newCourseId);
         String newCourseName = getRequestParamValue(Const.ParamsNames.COURSE_NAME);

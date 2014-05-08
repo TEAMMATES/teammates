@@ -69,9 +69,6 @@ public class CoursesLogic {
         return instance;
     }
 
-    /**
-     * Creates a Course object
-     */
     public void createCourse(String courseId, String courseName) 
             throws InvalidParametersException, EntityAlreadyExistsException {
         
@@ -114,29 +111,20 @@ public class CoursesLogic {
     }
 
     /**
-     * Returns the attributes of a course from its corresponding ID
+     * Returns the basic attributes of a course from its corresponding ID
      */
     public CourseAttributes getCourse(String courseId) {
         return coursesDb.getCourse(courseId);
     }
 
-    /**
-     * Checks if the course with given ID exists
-     */
     public boolean isCoursePresent(String courseId) {
         return coursesDb.getCourse(courseId) != null;
     }
     
-    /**
-     * Checks if the course with given ID is a sample course
-     */
     public boolean isSampleCourse(String courseId) {
         return StringHelper.isMatching(courseId, FieldValidator.REGEX_SAMPLE_COURSE_ID);
     }
     
-    /**
-     * Verifies process if the course with given ID exists
-     */
     public void verifyCourseIsPresent(String courseId) throws EntityDoesNotExistException{
         if (!isCoursePresent(courseId)){
             throw new EntityDoesNotExistException("Course does not exist: "+courseId);
@@ -288,22 +276,20 @@ public class CoursesLogic {
         return teamNameList.size();
     }
 
-    /**
-     * Returns the number of students enrolled in this course from its given ID
-     */
     public int getTotalEnrolledInCourse(String courseId) throws EntityDoesNotExistException {
         return studentsLogic.getStudentsForCourse(courseId).size();
     }
 
-    /**
-     * Returns the number of unregistered students in this course from its given ID
-     */
     public int getTotalUnregisteredInCourse(String courseID) {
         return studentsLogic.getUnregisteredStudentsForCourse(courseID).size();
     }
 
     /**
      * Returns the summary for a course from its given ID
+     * A summary contains:
+     * + Basic attributes of the course
+     * + Infos about teams in the course
+     * + Statistic of the course
      */
     public CourseDetailsBundle getCourseSummary(String courseId)
             throws EntityDoesNotExistException {
@@ -338,9 +324,6 @@ public class CoursesLogic {
         return cdd;
     }
     
-    /**
-     * Returns the list of courses for a student from his Google ID
-     */
     public List<CourseAttributes> getCoursesForStudentAccount(String googleId) throws EntityDoesNotExistException {
         
         List<StudentAttributes> studentDataList = studentsLogic.getStudentsForGoogleId(googleId);
@@ -366,7 +349,7 @@ public class CoursesLogic {
     }
     
     /**
-     * Returns the list of course summaries for an instructor from his Google ID
+     * Returns the list of course summaries taught by an instructor from his Google ID
      */
     public HashMap<String, CourseDetailsBundle> getCourseSummariesForInstructor(String googleId) {
         
@@ -389,7 +372,7 @@ public class CoursesLogic {
     }
 
     /**
-     * Returns the list of details of courses for an instructor from his Google ID
+     * Returns the list of details of courses taught by an instructor from his Google ID
      */ 
     public HashMap<String, CourseDetailsBundle> getCoursesDetailsForInstructor(
             String instructorId) throws EntityDoesNotExistException {
@@ -414,7 +397,7 @@ public class CoursesLogic {
     }
     
     /**
-     * Returns the list of course summaries without statistic for an instructor from his Google ID
+     * Returns the list of course summaries without statistic taught by an instructor from his Google ID
      */
     public HashMap<String, CourseSummaryBundle> getCoursesSummaryWithoutStatsForInstructor(
             String instructorId) throws EntityDoesNotExistException {
@@ -439,7 +422,7 @@ public class CoursesLogic {
     }
     
     /**
-     * Returns the list of archived courses for an instructor from his Google ID
+     * Returns the list of archived courses taught by an instructor from his Google ID
      */
     public List<CourseAttributes> getArchivedCoursesForInstructor(String googleId) throws EntityDoesNotExistException {
         
@@ -461,9 +444,6 @@ public class CoursesLogic {
         return courseList;
     }
     
-    /**
-     * Set the archive status for a course with given corresponding ID
-     */
     public void setArchiveStatusOfCourse(String courseId, boolean archiveStatus)
             throws InvalidParametersException, EntityDoesNotExistException {
         
