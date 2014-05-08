@@ -57,7 +57,7 @@ public class InstructorAttributes extends EntityAttributes {
         }
         
         this.googleId = Sanitizer.sanitizeGoogleId(parts[0]);
-        Assumption.assertTrue(new FieldValidator().getInvalidityInfo(FieldType.GOOGLE_ID, googleId).isEmpty());
+        Assumption.assertIsEmpty(new FieldValidator().getInvalidityInfo(FieldType.GOOGLE_ID, googleId));
 
         this.courseId = courseId;
         this.name = parts[1].trim();

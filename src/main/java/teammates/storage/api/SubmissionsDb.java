@@ -208,7 +208,7 @@ public class SubmissionsDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, originalEmail);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, newEmail);
-        Assumption.assertTrue(new FieldValidator().getInvalidityInfo(FieldType.EMAIL, newEmail).isEmpty());
+        Assumption.assertEmpty(new FieldValidator().getInvalidityInfo(FieldType.EMAIL, newEmail));
     
         List<Submission> submissionsFromStudent = 
                 getSubmissionEntitiesForCourseFromStudent(courseId, originalEmail);

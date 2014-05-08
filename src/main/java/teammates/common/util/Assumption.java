@@ -342,4 +342,20 @@ public class Assumption {
                     parameterName));
         }
     }
+    
+    static public void assertNotEmpty(String str) {
+        assertFalse(str.isEmpty());
+    }
+    
+    static public void assertNotEmpty(String message, String str) {
+        assertFalse(message, str.isEmpty());
+    }
+    
+    static public void assertIsEmpty(String str) {
+        assertTrue(str.isEmpty());
+    }
+    
+    static public void assertIsEmpty(String message, String str) {
+        assertTrue(message, str.isEmpty());
+    }
 }
