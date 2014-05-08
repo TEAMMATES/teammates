@@ -74,6 +74,7 @@ public class InstructorFeedbackQuestionAddAction extends Action {
         String feedbackQuestionNumber = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMBER);
         Assumption.assertNotNull("Null question number", feedbackQuestionNumber);
         newQuestion.questionNumber = Integer.parseInt(feedbackQuestionNumber);
+        Assumption.assertTrue("Invalid question number", newQuestion.questionNumber >= 1);
         
         String numberOfEntityTypes = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE);
         Assumption.assertNotNull("Null number of entity types", numberOfEntityTypes);

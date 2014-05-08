@@ -14,6 +14,7 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.ui.controller.Action;
 import teammates.ui.controller.InstructorFeedbackQuestionAddAction;
 import teammates.ui.controller.RedirectResult;
 
@@ -309,10 +310,68 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         verifyAssumptionFailure();
         
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
-        String[] params = {    Const.ParamsNames.COURSE_ID, fs.courseId,
+        String[] params = { Const.ParamsNames.COURSE_ID, fs.courseId,
                             Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName};
         verifyAssumptionFailure(params);
 
+        ______TS("Empty questionText");
+        
+        params = createParamsForTypicalFeedbackQuestion(fs.courseId, fs.feedbackSessionName);
+        params[13] = ""; //change questionText to empty string
+        verifyAssumptionFailure(params);
+        
+        ______TS("Invalid questionNumber");
+        
+        params = createParamsForTypicalFeedbackQuestion(fs.courseId, fs.feedbackSessionName);
+        params[9] = "0"; //change questionNumber to invalid number
+        verifyAssumptionFailure(params);
+        
+        params = createParamsForTypicalFeedbackQuestion(fs.courseId, fs.feedbackSessionName);
+        params[9] = "-1"; //change questionNumber to invalid number
+        verifyAssumptionFailure(params);
+        
+        params = createParamsForTypicalFeedbackQuestion(fs.courseId, fs.feedbackSessionName);
+        params[9] = "ABC"; //change questionNumber to invalid number
+        try {
+            Action c = gaeSimulation.getActionObject(uri, params);
+            c.executeAndPostProcess();
+            signalFailureToDetectException();
+        } catch (NumberFormatException e) {
+            ignoreExpectedException();
+        }
+        
+        ______TS("Non-existent Enumeration");
+
+        params = createParamsForTypicalFeedbackQuestion(instructor1ofCourse1.courseId,  fs.feedbackSessionName);
+        params[5] = "NON_EXISTENT_ENUMERATION"; // Change giverType to a non existent enumeration.
+        try {
+            Action c = gaeSimulation.getActionObject(uri, params);
+            c.executeAndPostProcess();
+            signalFailureToDetectException();
+        } catch (IllegalArgumentException e) {
+            ignoreExpectedException();
+        }
+        
+        params = createParamsForTypicalFeedbackQuestion(instructor1ofCourse1.courseId,  fs.feedbackSessionName);
+        params[7] = "NON_EXISTENT_ENUMERATION"; // Change recipientType to a non existent enumeration.
+        try {
+            Action c = gaeSimulation.getActionObject(uri, params);
+            c.executeAndPostProcess();
+            signalFailureToDetectException();
+        } catch (IllegalArgumentException e) {
+            ignoreExpectedException();
+        }
+        
+        params = createParamsForTypicalFeedbackQuestion(instructor1ofCourse1.courseId,  fs.feedbackSessionName);
+        params[11] = "NON_EXISTENT_ENUMERATION"; // Change questionType to a non existent enumeration.
+        try {
+            Action c = gaeSimulation.getActionObject(uri, params);
+            c.executeAndPostProcess();
+            signalFailureToDetectException();
+        } catch (IllegalArgumentException e) {
+            ignoreExpectedException();
+        }
+        
         ______TS("Typical case");
 
         params = createParamsForTypicalFeedbackQuestion(fs.courseId, fs.feedbackSessionName);
