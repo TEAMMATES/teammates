@@ -90,7 +90,7 @@ public class AccountsLogic {
         CourseAttributes cd = new CoursesLogic().getCourse(courseId);
         List<InstructorAttributes> instructorList = InstructorsLogic.inst().getInstructorsForCourse(cd.id);
         
-        Assumption.assertNotEmpty("Course has no instructors: " + cd.id, instructorList);
+        Assumption.assertTrue("Course has no instructors: " + cd.id, !instructorList.isEmpty());
         // Retrieve institute field from one of the instructors of the course
         String institute = "";
         for (int i=0; i<instructorList.size(); i++) {
