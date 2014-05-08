@@ -4,6 +4,8 @@ import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertEquals;
 
+import java.util.Date;
+
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -79,9 +81,14 @@ public class InstructorFeedbackUnpublishActionTest extends BaseActionTest {
     }
 
     private void makeFeedbackSessionPublished(FeedbackSessionAttributes session) throws Exception {
-        session.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
-        session.endTime = TimeHelper.getDateOffsetToCurrentTime(-1);
-        session.resultsVisibleFromTime = TimeHelper.getDateOffsetToCurrentTime(-1);
+        // startTime < endTime <= resultsVisibleFromTime
+        Date startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
+        Date endTime = TimeHelper.getDateOffsetToCurrentTime(-1);
+        Date resultsVisibleFromTime = TimeHelper.getDateOffsetToCurrentTime(-1);
+        
+        session.startTime = startTime;
+        session.endTime = endTime;
+        session.resultsVisibleFromTime = resultsVisibleFromTime;
         session.sentPublishedEmail = true;
         assertTrue(session.isPublished());
         new FeedbackSessionsDb().updateFeedbackSession(session);
