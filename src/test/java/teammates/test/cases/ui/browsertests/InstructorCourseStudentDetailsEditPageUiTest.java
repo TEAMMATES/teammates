@@ -75,16 +75,21 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
         ______TS("input validation");
         
         editPage.submitUnsuccessfully(null, "", null, null)
-            .verifyStatus("Please fill in all the relevant fields.");
+            .verifyStatus(Const.StatusMessages.FIELDS_EMPTY);
         
-        editPage.submitUnsuccessfully("invalidstudentnamewithmorethan40characters", "New teamname", null, null)
-            .verifyStatus("Name should only consist of alphanumerics or hyphens, apostrophes, fullstops, commas, slashes, round brackets\nand not more than 40 characters.");
+        String invalidStudentName = "invalidstudentnamewithmorethan40characters";
+        String newTeamName = "New teamname";
+        editPage.submitUnsuccessfully(invalidStudentName, newTeamName, null, null)
+            .verifyStatus(Const.StatusMessages.COURSE_STUDENTNAME_INVALID);
         
-        editPage.submitUnsuccessfully("New guy", "invalidteamnamewithmorethan60characterslooooooooooooooooooong", null, null)
-            .verifyStatus("Team name should contain less than 60 characters.");
+        String newStudentName = "New guy";
+        String invalidTeamName = "invalidteamnamewithmorethan60characterslooooooooooooooooooong";
+        editPage.submitUnsuccessfully(newStudentName, invalidTeamName, null, null)
+            .verifyStatus(Const.StatusMessages.COURSE_TEAMNAME_INVALID);
         
-        editPage.submitUnsuccessfully("New guy", "new team", "invalidemail", null)
-            .verifyStatus("The e-mail address is invalid.");
+        String invalidEmail = "invalidemail";
+        editPage.submitUnsuccessfully(newStudentName, newTeamName, invalidEmail, null)
+            .verifyStatus(Const.StatusMessages.COURSE_EMAIL_INVALID);
     }
 
 
