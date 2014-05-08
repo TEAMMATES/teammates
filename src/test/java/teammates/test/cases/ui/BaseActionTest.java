@@ -1,6 +1,7 @@
 package teammates.test.cases.ui;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import teammates.common.datatransfer.DataBundle;
@@ -72,6 +73,43 @@ public class BaseActionTest extends BaseComponentTestCase {
                 Const.ParamsNames.EVALUATION_GRACEPERIOD, "0",
                 Const.ParamsNames.EVALUATION_INSTRUCTIONS, "ins"
         };
+    }
+    
+    protected String[] createParamsCombinationForFeedbackSession(String courseId, String fsName, int order) {
+        String[] typicalCase = createParamsForTypicalFeedbackSession(courseId, fsName);
+        if (order == 0) return typicalCase;
+        
+        int indexOfSessionVisibleDate = 1 + Arrays.asList(typicalCase).indexOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE);
+        int indexOfSessionVisibleTime = 1 + Arrays.asList(typicalCase).indexOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME);
+        int indexOfSessionVisibleButtonValue = 1 + Arrays.asList(typicalCase).indexOf(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);
+        
+        int indexOfSessionPublishDate = 1 + Arrays.asList(typicalCase).indexOf(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE);
+        int indexOfSessionPublishTime = 1 + Arrays.asList(typicalCase).indexOf(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME);
+        int indexOfResultsVisibleButtonValue = 1 + Arrays.asList(typicalCase).indexOf(Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON);
+        
+        switch(order) {
+            case 1:
+                typicalCase[indexOfSessionVisibleButtonValue] = "atopen";
+                typicalCase[indexOfSessionVisibleDate] = "";
+                typicalCase[indexOfSessionVisibleTime] = "0";
+                
+                typicalCase[indexOfResultsVisibleButtonValue] = "custom";
+                typicalCase[indexOfSessionPublishDate] = "08/05/2014";
+                typicalCase[indexOfSessionPublishTime] = "2";
+                break;
+            case 2:
+                typicalCase[indexOfSessionVisibleButtonValue] = "never";
+                typicalCase[indexOfSessionVisibleDate] = "";
+                typicalCase[indexOfSessionVisibleTime] = "0";
+                
+                typicalCase[indexOfResultsVisibleButtonValue] = "never";
+                break;
+            case 3:
+                typicalCase[indexOfResultsVisibleButtonValue] = "later";
+                break;
+        }
+        
+        return typicalCase;
     }
     
     protected String[] createParamsForTypicalFeedbackSession(String courseId, String fsName) {

@@ -59,8 +59,8 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         ______TS("Typical case");
         
         String[] params =
-                createParamsForTypicalFeedbackSession(
-                        instructor1ofCourse1.courseId, "ifaat tca fs");
+                createParamsCombinationForFeedbackSession(
+                        instructor1ofCourse1.courseId, "ifaat tca fs", 0);
         
         InstructorFeedbackAddAction a = getAction(params);
         RedirectResult rr = (RedirectResult) a.executeAndPostProcess();
@@ -102,8 +102,8 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         ______TS("Add course with trailing space");
         
         params =
-                createParamsForTypicalFeedbackSession(
-                        instructor1ofCourse1.courseId, "Course with trailing space ");
+                createParamsCombinationForFeedbackSession(
+                        instructor1ofCourse1.courseId, "Course with trailing space ", 1);
         
         a = getAction(params);
         rr = (RedirectResult) a.executeAndPostProcess();
@@ -126,15 +126,15 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                 " for Course <span class=\"bold\">[idOfTypicalCourse1]</span> created." +
                 "<br><span class=\"bold\">From:</span> Wed Feb 01 00:00:00 UTC 2012" +
                 "<span class=\"bold\"> to</span> Thu Jan 01 00:00:00 UTC 2015<br>" +
-                "<span class=\"bold\">Session visible from:</span> Sun Jan 01 00:00:00 UTC 2012<br>" +
-                "<span class=\"bold\">Results visible from:</span> Mon Jun 22 00:00:00 UTC 1970<br>" +
+                "<span class=\"bold\">Session visible from:</span> Thu Dec 31 00:00:00 UTC 1970<br>" +
+                "<span class=\"bold\">Results visible from:</span> Thu May 08 02:00:00 UTC 2014<br>" +
                 "<br><span class=\"bold\">Instructions:</span> <Text: instructions>|||/page/instructorFeedbackAdd";
         assertEquals(expectedLogMessage, a.getLogMessage());
         
         ______TS("imezone with minute offset");
         
-        params = createParamsForTypicalFeedbackSession(
-                        instructor1ofCourse1.courseId, "Course with minute offset timezone");
+        params = createParamsCombinationForFeedbackSession(
+                        instructor1ofCourse1.courseId, "Course with minute offset timezone", 2);
         params[25] = "5.5";
         
         a = getAction(params);
@@ -158,8 +158,8 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                 " for Course <span class=\"bold\">[idOfTypicalCourse1]</span> created." +
                 "<br><span class=\"bold\">From:</span> Wed Feb 01 00:00:00 UTC 2012" +
                 "<span class=\"bold\"> to</span> Thu Jan 01 00:00:00 UTC 2015<br>" +
-                "<span class=\"bold\">Session visible from:</span> Sun Jan 01 00:00:00 UTC 2012<br>" +
-                "<span class=\"bold\">Results visible from:</span> Mon Jun 22 00:00:00 UTC 1970<br>" +
+                "<span class=\"bold\">Session visible from:</span> Fri Nov 27 00:00:00 UTC 1970<br>" +
+                "<span class=\"bold\">Results visible from:</span> Fri Nov 27 00:00:00 UTC 1970<br>" +
                 "<br><span class=\"bold\">Instructions:</span> <Text: instructions>|||/page/instructorFeedbackAdd";
         assertEquals(expectedLogMessage, a.getLogMessage());
         
@@ -167,8 +167,8 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         
         gaeSimulation.loginAsAdmin("admin.user");
 
-        params = createParamsForTypicalFeedbackSession(
-                        instructor1ofCourse1.courseId, "masquerade session");
+        params = createParamsCombinationForFeedbackSession(
+                        instructor1ofCourse1.courseId, "masquerade session", 3);
         params = addUserIdToParams(instructor1ofCourse1.googleId, params);
         
         a = getAction(params);
@@ -193,7 +193,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                 "<br><span class=\"bold\">From:</span> Wed Feb 01 00:00:00 UTC 2012" +
                 "<span class=\"bold\"> to</span> Thu Jan 01 00:00:00 UTC 2015<br>" +
                 "<span class=\"bold\">Session visible from:</span> Sun Jan 01 00:00:00 UTC 2012<br>" +
-                "<span class=\"bold\">Results visible from:</span> Mon Jun 22 00:00:00 UTC 1970<br>" +
+                "<span class=\"bold\">Results visible from:</span> Thu Jan 01 00:00:00 UTC 1970<br>" +
                 "<br><span class=\"bold\">Instructions:</span> <Text: instructions>|||/page/instructorFeedbackAdd";
         assertEquals(expectedLogMessage, a.getLogMessage());
     }
