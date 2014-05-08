@@ -13,11 +13,12 @@ public class InstructorFeedbackUnpublishAction extends InstructorFeedbacksPageAc
         
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        boolean isCreatorOnly = true;
         
         new GateKeeper().verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, account.googleId),
                 logic.getFeedbackSession(feedbackSessionName, courseId),
-                true);
+                isCreatorOnly);
         
         try {
             logic.unpublishFeedbackSession(feedbackSessionName, courseId);
