@@ -117,7 +117,7 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         ______TS("Typical case, successful edit and save student detail with spaces to be trimmed");
         
         String newStudentEmailToBeTrimmed = "  newemail@gmail.com   ";  // after trim, this is equal to newStudentEmail
-        String newStudentTeamToBeTrimmed = "  new team editing   ";
+        String newStudentTeamToBeTrimmed = "  New team   ";
         String newStudentCommentsToBeTrimmed = "  this is new comment after editing   ";
         
         String[] submissionParamsToBeTrimmed = new String[]{
