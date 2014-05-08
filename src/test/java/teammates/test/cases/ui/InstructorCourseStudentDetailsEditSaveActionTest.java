@@ -59,9 +59,6 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         String newStudentEmail = "newemail@gmail.com";
         String newStudentTeam = "new team editing";
         String newStudentComments = "this is new comment after editing";
-        String newStudentEmailToBeTrimmed = "  newtrimmail@gmail.com   ";
-        String newStudentTeamToBeTrimmed = "  new team editing   ";
-        String newStudentCommentsToBeTrimmed = "  this is new comment after editing   ";
         gaeSimulation.loginAsInstructor(instructorId);
         
         ______TS("Invalid parameters");
@@ -117,39 +114,42 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         assertEquals(expectedLogMessage, a.getLogMessage());
         
         
-//        ______TS("Typical case, successful edit and save student detail with spaces to be trimmed");
-//        
-//        String[] submissionParamsToBeTrimmed = new String[]{
-//                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
-//                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email,
-//                Const.ParamsNames.STUDENT_NAME, student1InCourse1.name,
-//                Const.ParamsNames.NEW_STUDENT_EMAIL, newStudentEmailToBeTrimmed,
-//                Const.ParamsNames.COMMENTS, newStudentCommentsToBeTrimmed,
-//                Const.ParamsNames.TEAM_NAME, newStudentTeamToBeTrimmed
-//        };
-//
-//        
-//        InstructorCourseStudentDetailsEditSaveAction aToBeTrimmed = getAction(submissionParamsToBeTrimmed);
-//        RedirectResult rToBeTrimmed = getRedirectResult(aToBeTrimmed);
-//        
-//        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE +
-//                "?message=" + "The+student+has+been+edited+successfully&" +
-//                "error=" + "false&user=idOfInstructor1OfCourse1&" +
-//                "courseid=" + "idOfTypicalCourse1",
-//                rToBeTrimmed.getDestinationWithParams());
-//        
-//        assertEquals(false, rToBeTrimmed.isError);
-//        assertEquals(Const.StatusMessages.STUDENT_EDITED, rToBeTrimmed.getStatusMessage());
-//        
-//        String expectedLogMessageToBeTrimmed = "TEAMMATESLOG|||instructorCourseStudentDetailsEditSave|||instructorCourseStudentDetailsEditSave" +
-//                "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com|||" +
-//                "Student <span class=\"bold\">" + student1InCourse1.email + 
-//                "'s</span> details in Course <span class=\"bold\">[idOfTypicalCourse1]</span> edited.<br>"+ 
-//                "New Email: " + newStudentEmailToBeTrimmed.trim() + 
-//                "<br>New Team: " + newStudentTeamToBeTrimmed.trim() + 
-//                "<br>Comments: " + newStudentCommentsToBeTrimmed.trim() + 
-//                "|||/page/instructorCourseStudentDetailsEditSave";
-//        assertEquals(expectedLogMessageToBeTrimmed, aToBeTrimmed.getLogMessage());
+        ______TS("Typical case, successful edit and save student detail with spaces to be trimmed");
+        
+        String newStudentEmailToBeTrimmed = "  newemail@gmail.com   ";  // after trim, this is equal to newStudentEmail
+        String newStudentTeamToBeTrimmed = "  new team editing   ";
+        String newStudentCommentsToBeTrimmed = "  this is new comment after editing   ";
+        
+        String[] submissionParamsToBeTrimmed = new String[]{
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.STUDENT_EMAIL, newStudentEmail,
+                Const.ParamsNames.STUDENT_NAME, student1InCourse1.name,
+                Const.ParamsNames.NEW_STUDENT_EMAIL, newStudentEmailToBeTrimmed,
+                Const.ParamsNames.COMMENTS, newStudentCommentsToBeTrimmed,
+                Const.ParamsNames.TEAM_NAME, newStudentTeamToBeTrimmed
+        };
+       
+        InstructorCourseStudentDetailsEditSaveAction aToBeTrimmed = getAction(submissionParamsToBeTrimmed);
+        RedirectResult rToBeTrimmed = getRedirectResult(aToBeTrimmed);
+        
+        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE +
+                "?message=" + "The+student+has+been+edited+successfully&" +
+                "error=" + "false&user=idOfInstructor1OfCourse1&" +
+                "courseid=" + "idOfTypicalCourse1",
+                rToBeTrimmed.getDestinationWithParams());
+        
+        assertEquals(false, rToBeTrimmed.isError);
+        assertEquals(Const.StatusMessages.STUDENT_EDITED, rToBeTrimmed.getStatusMessage());
+        
+        String expectedLogMessageToBeTrimmed = "TEAMMATESLOG|||instructorCourseStudentDetailsEditSave|||instructorCourseStudentDetailsEditSave" +
+                "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com|||" +
+                "Student <span class=\"bold\">" + newStudentEmail + 
+                "'s</span> details in Course <span class=\"bold\">[idOfTypicalCourse1]</span> edited.<br>"+ 
+                "New Email: " + newStudentEmailToBeTrimmed.trim() + 
+                "<br>New Team: " + newStudentTeamToBeTrimmed.trim() + 
+                "<br>Comments: " + newStudentCommentsToBeTrimmed.trim() + 
+                "|||/page/instructorCourseStudentDetailsEditSave";
+        assertEquals(expectedLogMessageToBeTrimmed, aToBeTrimmed.getLogMessage());
         
         
         ______TS("Error case, invalid email parameter");
