@@ -1467,7 +1467,7 @@ public class Logic {
      * * All parameters are non-null.
      */
     public void createFeedbackQuestion(FeedbackQuestionAttributes feedbackQuestion)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws InvalidParametersException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackQuestion);
 
