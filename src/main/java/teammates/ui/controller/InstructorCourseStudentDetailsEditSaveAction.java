@@ -33,6 +33,18 @@ public class InstructorCourseStudentDetailsEditSaveAction extends InstructorCour
         data.student.comments = getRequestParamValue(Const.ParamsNames.COMMENTS);    
         
         //TODO: Student's data should be sanitized first (e.g. trimmed for whitespace) before passing to logic
+        if (data.student.name != null) {
+            data.student.name = data.student.name.trim();
+        }
+        if (data.student.email != null) {
+            data.student.email = data.student.email.trim();
+        }
+        if (data.student.team != null) {
+            data.student.team = data.student.team.trim();
+        }
+        if (data.student.comments != null) {
+            data.student.comments = data.student.comments.trim();
+        }
         
         try {
             logic.updateStudent(studentEmail, data.student);
