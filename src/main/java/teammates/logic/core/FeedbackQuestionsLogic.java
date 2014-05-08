@@ -50,7 +50,7 @@ public class FeedbackQuestionsLogic {
     }
     
     public void createFeedbackQuestion(FeedbackQuestionAttributes fqa)
-            throws InvalidParametersException, EntityAlreadyExistsException {
+            throws InvalidParametersException {
         
         String feedbackSessionName = fqa.feedbackSessionName;
         String courseId = fqa.courseId;
