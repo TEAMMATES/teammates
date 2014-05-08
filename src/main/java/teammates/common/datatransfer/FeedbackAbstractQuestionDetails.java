@@ -48,6 +48,7 @@ public abstract class FeedbackAbstractQuestionDetails {
     public static FeedbackAbstractQuestionDetails createQuestionDetails(Map<String, String[]> requestParameters, FeedbackQuestionType questionType) {
         String questionText = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_TEXT);
         Assumption.assertNotNull("Null question text", questionText);
+        Assumption.assertFalse("Empty question text", questionText.isEmpty());
         
         FeedbackAbstractQuestionDetails questionDetails = null;
         
