@@ -13,51 +13,52 @@ import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.GateKeeper;
 
+/**
+ * Action: adding a course for an instructor
+ */
 public class InstructorCourseAddAction extends Action {
-
+    /* The new data after executing the action in the 'Courses' page */
     private InstructorCoursesPageData data;
 
     @Override
     public ActionResult execute() throws EntityDoesNotExistException {
-
+        /* Check if course ID or name is empty */
         String newCourseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull(newCourseId);
         String newCourseName = getRequestParamValue(Const.ParamsNames.COURSE_NAME);
         Assumption.assertNotNull(newCourseName);
 
+        /* Check if user has the right to execute the action */
         new GateKeeper().verifyInstructorPrivileges(account);
 
+        /* Create a new course in the database */
         data = new InstructorCoursesPageData(account);
-
         data.newCourse = new CourseAttributes(newCourseId, newCourseName);
         createCourse(data.newCourse);
 
-        if (isError) {
+        /* Prepare data for the refreshed page after executing the adding action */
+        data.allCourses = new ArrayList<CourseDetailsBundle>(
+                logic.getCourseSummariesForInstructor(data.account.googleId)
+                        .values());
+        data.archivedCourses = extractArchivedCourses(data.allCourses);
+        CourseDetailsBundle.sortDetailedCoursesByCourseId(data.allCourses);
+        if (isError) { // there is error in adding the course
             data.courseIdToShow = data.newCourse.id;
             data.courseNameToShow = data.newCourse.name;
-            data.allCourses = new ArrayList<CourseDetailsBundle>(
-                    logic.getCourseSummariesForInstructor(data.account.googleId).values());
-            data.archivedCourses = extractArchivedCourses(data.allCourses);
-            CourseDetailsBundle.sortDetailedCoursesByCourseId(data.allCourses);
-            
             statusToAdmin = StringHelper.toString(statusToUser, "<br>");
-            
-            return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSES, data);
         } else {
             data.courseIdToShow = "";
             data.courseNameToShow = "";
-            data.allCourses = new ArrayList<CourseDetailsBundle>(
-                    logic.getCourseSummariesForInstructor(data.account.googleId).values());
-            data.archivedCourses = extractArchivedCourses(data.allCourses);
-            CourseDetailsBundle.sortDetailedCoursesByCourseId(data.allCourses);
-            
             statusToAdmin = "Course added : " + data.newCourse.id;
             statusToAdmin += "<br>Total courses: " + data.allCourses.size();
-            
-            return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSES, data);
         }
+
+        return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSES, data);
     }
 
+    /**
+     * Create the course with given basic attributes
+     */
     private void createCourse(CourseAttributes course) {
 
         try {
@@ -65,33 +66,37 @@ public class InstructorCourseAddAction extends Action {
                     course.name);
             String statusMessage = Const.StatusMessages.COURSE_ADDED.replace("${courseEnrollLink}",
                     data.getInstructorCourseEnrollLink(course.id))
-                    .replace("${courseEditLink}", data.getInstructorCourseEditLink(course.id));
+                    .replace("${courseEditLink}",
+                    data.getInstructorCourseEditLink(course.id));
             statusToUser.add(statusMessage);
             isError = false;
 
         } catch (EntityAlreadyExistsException e) {
             setStatusForException(e, Const.StatusMessages.COURSE_EXISTS);
-
         } catch (InvalidParametersException e) {
-            setStatusForException(e);
+            setStatusForException(e, Const.StatusMessages.COURSE_INVALID_ID);
         }
 
         if (isError) {
             return;
         }
     }
-    
-    private List<CourseAttributes> extractArchivedCourses(List<CourseDetailsBundle> courseBundles) {
+
+    /**
+     * Extract the archived courses from a given list of details of courses
+     */
+    private List<CourseAttributes> extractArchivedCourses(
+            List<CourseDetailsBundle> courseBundles) {
         ArrayList<CourseAttributes> archivedCourses = new ArrayList<CourseAttributes>();
-        
+
         for (CourseDetailsBundle courseBundle : courseBundles) {
             CourseAttributes course = courseBundle.course;
-            
+
             if (course.isArchived) {
                 archivedCourses.add(course);
             }
         }
-        
+
         return archivedCourses;
     }
 

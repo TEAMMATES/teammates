@@ -69,6 +69,9 @@ public class CoursesLogic {
         return instance;
     }
 
+    /**
+     * Creates a Course object
+     */
     public void createCourse(String courseId, String courseName) 
             throws InvalidParametersException, EntityAlreadyExistsException {
         
@@ -110,24 +113,40 @@ public class CoursesLogic {
         }
     }
 
+    /**
+     * Returns the attributes of a course from its corresponding ID
+     */
     public CourseAttributes getCourse(String courseId) {
         return coursesDb.getCourse(courseId);
     }
 
+    /**
+     * Checks if the course with given ID exists
+     */
     public boolean isCoursePresent(String courseId) {
         return coursesDb.getCourse(courseId) != null;
     }
     
+    /**
+     * Checks if the course with given ID is a sample course
+     */
     public boolean isSampleCourse(String courseId) {
         return StringHelper.isMatching(courseId, FieldValidator.REGEX_SAMPLE_COURSE_ID);
     }
     
+    /**
+     * Verifies process if the course with given ID exists
+     */
     public void verifyCourseIsPresent(String courseId) throws EntityDoesNotExistException{
         if (!isCoursePresent(courseId)){
             throw new EntityDoesNotExistException("Course does not exist: "+courseId);
         }
     }
 
+    /**
+     * Returns the details of a course from its given corresponding ID
+     * It is different from a course summary by including the list of evaluations
+     */
     public CourseDetailsBundle getCourseDetails(String courseId) 
             throws EntityDoesNotExistException {
         CourseDetailsBundle courseSummary = getCourseSummary(courseId);
@@ -142,6 +161,9 @@ public class CoursesLogic {
         return courseSummary;
     }
 
+    /**
+     * Returns the list of details of courses for a student from his given Google ID
+     */
     public List<CourseDetailsBundle> getCourseDetailsListForStudent(
             String googleId) throws EntityDoesNotExistException {
         
@@ -247,6 +269,9 @@ public class CoursesLogic {
         return teams;
     }
 
+    /**
+     * Returns the number of teams for a course from its given corresponding ID
+     */
     public int getNumberOfTeams(String courseID) throws EntityDoesNotExistException {
 
         List<StudentAttributes> studentDataList = 
@@ -263,14 +288,23 @@ public class CoursesLogic {
         return teamNameList.size();
     }
 
+    /**
+     * Returns the number of students enrolled in this course from its given ID
+     */
     public int getTotalEnrolledInCourse(String courseId) throws EntityDoesNotExistException {
         return studentsLogic.getStudentsForCourse(courseId).size();
     }
 
+    /**
+     * Returns the number of unregistered students in this course from its given ID
+     */
     public int getTotalUnregisteredInCourse(String courseID) {
         return studentsLogic.getUnregisteredStudentsForCourse(courseID).size();
     }
 
+    /**
+     * Returns the summary for a course from its given ID
+     */
     public CourseDetailsBundle getCourseSummary(String courseId)
             throws EntityDoesNotExistException {
         CourseAttributes cd = coursesDb.getCourse(courseId);
@@ -288,6 +322,9 @@ public class CoursesLogic {
         return cdd;
     }
     
+    /** 
+     * Returns the summary for a course without the statistics from its given ID
+     */
     public CourseSummaryBundle getCourseSummaryWithoutStats(String courseId)
             throws EntityDoesNotExistException {
         CourseAttributes cd = coursesDb.getCourse(courseId);
@@ -301,6 +338,9 @@ public class CoursesLogic {
         return cdd;
     }
     
+    /**
+     * Returns the list of courses for a student from his Google ID
+     */
     public List<CourseAttributes> getCoursesForStudentAccount(String googleId) throws EntityDoesNotExistException {
         
         List<StudentAttributes> studentDataList = studentsLogic.getStudentsForGoogleId(googleId);
@@ -325,6 +365,9 @@ public class CoursesLogic {
         return courseList;
     }
     
+    /**
+     * Returns the list of course summaries for an instructor from his Google ID
+     */
     public HashMap<String, CourseDetailsBundle> getCourseSummariesForInstructor(String googleId) {
         
         List<InstructorAttributes> instructorAttributesList = instructorsLogic.getInstructorsForGoogleId(googleId);
@@ -345,6 +388,9 @@ public class CoursesLogic {
         return courseSummaryList;
     }
 
+    /**
+     * Returns the list of details of courses for an instructor from his Google ID
+     */ 
     public HashMap<String, CourseDetailsBundle> getCoursesDetailsForInstructor(
             String instructorId) throws EntityDoesNotExistException {
         
@@ -367,6 +413,9 @@ public class CoursesLogic {
         return courseList;
     }
     
+    /**
+     * Returns the list of course summaries without statistic for an instructor from his Google ID
+     */
     public HashMap<String, CourseSummaryBundle> getCoursesSummaryWithoutStatsForInstructor(
             String instructorId) throws EntityDoesNotExistException {
         
@@ -389,6 +438,9 @@ public class CoursesLogic {
         return courseList;
     }
     
+    /**
+     * Returns the list of archived courses for an instructor from his Google ID
+     */
     public List<CourseAttributes> getArchivedCoursesForInstructor(String googleId) throws EntityDoesNotExistException {
         
         List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForGoogleId(googleId);
@@ -409,6 +461,9 @@ public class CoursesLogic {
         return courseList;
     }
     
+    /**
+     * Set the archive status for a course with given corresponding ID
+     */
     public void setArchiveStatusOfCourse(String courseId, boolean archiveStatus)
             throws InvalidParametersException, EntityDoesNotExistException {
         
@@ -422,6 +477,10 @@ public class CoursesLogic {
         }
     }
 
+    /**
+     * Delete a course from its given corresponding ID
+     * This will also cascade the data in other databases which are related to this course
+     */ 
     public void deleteCourseCascade(String courseId) {
         evaluationsLogic.deleteEvaluationsForCourse(courseId);
         studentsLogic.deleteStudentsForCourse(courseId);

@@ -14,7 +14,9 @@ import teammates.ui.controller.Action;
 import teammates.ui.controller.InstructorCoursesPageData;
 import teammates.ui.controller.ShowPageResult;
 
-
+/**
+ * Test case for adding a course for an instructor
+ */
 public class InstructorCourseAddActionTest extends BaseActionTest {
 
     DataBundle dataBundle;
@@ -50,31 +52,52 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
         String adminUserId = "admin.user";
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         
-        ______TS("Not enough parameters");
-        
         gaeSimulation.loginAsInstructor(instructorId);
-        
+
+        ______TS("Not enough parameters");
         verifyAssumptionFailure();
         verifyAssumptionFailure(
                 Const.ParamsNames.COURSE_NAME, "ticac tac name");
         
-        ______TS("Typical case, 1 existing course");
+        ______TS("Error: Invalid parameter for Course ID");
         
         Action a = getAction(
-                Const.ParamsNames.COURSE_ID, "ticac.tpa1.id",
+                Const.ParamsNames.COURSE_ID, "ticac,tpa1,id",
                 Const.ParamsNames.COURSE_NAME, "ticac tpa1 name");
         ShowPageResult r = (ShowPageResult) a.executeAndPostProcess();
         
+        assertEquals(
+                Const.ViewURIs.INSTRUCTOR_COURSES+"?message=Please+use+only+alphabets%2C+numbers%2C+dots%2C+hyphens%2C+underscores+and+dollar+signs+in+course+ID.&error=true&user=idOfInstructor1OfCourse1", 
+                r.getDestinationWithParams());
+        assertEquals(true, r.isError);
+        assertEquals(Const.StatusMessages.COURSE_INVALID_ID, r.getStatusMessage());
+        
         InstructorCoursesPageData pageData = (InstructorCoursesPageData)r.data;
+        assertEquals(1, pageData.allCourses.size());
+
+        String expectedLogMessage = "TEAMMATESLOG|||instructorCourseAdd|||instructorCourseAdd"
+                + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com"
+                + "|||Please use only alphabets, numbers, dots, hyphens, underscores and dollar signs in course ID."
+                + "|||/page/instructorCourseAdd";
+        assertEquals(expectedLogMessage, a.getLogMessage());
+
+        ______TS("Typical case, 1 existing course");
+        
+        a = getAction(
+                Const.ParamsNames.COURSE_ID, "ticac.tpa1.id",
+                Const.ParamsNames.COURSE_NAME, "ticac tpa1 name");
+        r = (ShowPageResult) a.executeAndPostProcess();
+        
+        pageData = (InstructorCoursesPageData)r.data;
         assertEquals(2, pageData.allCourses.size());
         
-        String expectedLogMessage = "TEAMMATESLOG|||instructorCourseAdd" +
-                "|||instructorCourseAdd|||true|||Instructor|||Instructor 1 of Course 1" +
-                "|||idOfInstructor1OfCourse1|||instr1@course1.com" +
-                "|||Course added : ticac.tpa1.id<br>Total courses: 2|||/page/instructorCourseAdd";
+        expectedLogMessage = "TEAMMATESLOG|||instructorCourseAdd" 
+                + "|||instructorCourseAdd|||true|||Instructor|||Instructor 1 of Course 1" 
+                + "|||idOfInstructor1OfCourse1|||instr1@course1.com" 
+                + "|||Course added : ticac.tpa1.id<br>Total courses: 2|||/page/instructorCourseAdd";
         assertEquals(expectedLogMessage, a.getLogMessage());
         
-        ______TS("Error: try to add the same course again");
+        ______TS("Error: Try to add the same course again");
         
         a = getAction(
                 Const.ParamsNames.COURSE_ID, "ticac.tpa1.id",
@@ -96,7 +119,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
                 + "|||/page/instructorCourseAdd";
         assertEquals(expectedLogMessage, a.getLogMessage());
         
-          ______TS("Masquerade mode, 0 courses");
+        ______TS("Masquerade mode, 0 courses");
         
         CoursesLogic.inst().deleteCourseCascade(instructor1ofCourse1.courseId);
         CoursesLogic.inst().deleteCourseCascade("ticac.tpa1.id");
@@ -120,10 +143,10 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
         pageData = (InstructorCoursesPageData)r.data;
         assertEquals(1, pageData.allCourses.size());
         
-        expectedLogMessage = "TEAMMATESLOG|||instructorCourseAdd|||instructorCourseAdd" +
-                "|||true|||Instructor(M)|||Instructor 1 of Course 1" +
-                "|||idOfInstructor1OfCourse1|||instr1@course1.com|||Course added : ticac.tpa2.id<br>Total courses: 1" +
-                "|||/page/instructorCourseAdd";
+        expectedLogMessage = "TEAMMATESLOG|||instructorCourseAdd|||instructorCourseAdd" 
+                + "|||true|||Instructor(M)|||Instructor 1 of Course 1" 
+                + "|||idOfInstructor1OfCourse1|||instr1@course1.com|||Course added : ticac.tpa2.id<br>Total courses: 1" 
+                + "|||/page/instructorCourseAdd";
         assertEquals(expectedLogMessage, a.getLogMessage());
     }
     
