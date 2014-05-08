@@ -57,7 +57,7 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         
         String instructorId = instructor1OfCourse1.googleId;
         String newStudentEmail = "newemail@gmail.com";
-        String newStudentTeam = "new team editing";
+        String newStudentTeam = "new student's team";
         String newStudentComments = "this is new comment after editing";
         gaeSimulation.loginAsInstructor(instructorId);
         
