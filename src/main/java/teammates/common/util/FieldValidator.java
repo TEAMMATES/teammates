@@ -136,7 +136,7 @@ public class FieldValidator {
     /*
      * =======================================================================
      * Field: Course Team Name
-     * Allowed: <= 40
+     * Allowed: <= 60
      */
     public static final int COURSE_TEAMNAME_MAX_LENGTH = 60;
 

@@ -1,7 +1,6 @@
 package teammates.test.cases.ui.browsertests;
 
 import static org.testng.AssertJUnit.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -11,6 +10,8 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.Url;
+import teammates.common.util.StringHelper;
+import teammates.common.util.FieldValidator;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
@@ -77,13 +78,13 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
         editPage.submitUnsuccessfully(null, "", null, null)
             .verifyStatus(Const.StatusMessages.FIELDS_EMPTY);
         
-        String invalidStudentName = "invalidstudentnamewithmorethan40characters";
+        String invalidStudentName = StringHelper.generateStringOfLength(FieldValidator.COURSE_STUDENTNAME_MAX_LENGTH + 1);
         String newTeamName = "New teamname";
         editPage.submitUnsuccessfully(invalidStudentName, newTeamName, null, null)
             .verifyStatus(Const.StatusMessages.COURSE_STUDENTNAME_INVALID);
         
         String newStudentName = "New guy";
-        String invalidTeamName = "invalidteamnamewithmorethan60characterslooooooooooooooooooong";
+        String invalidTeamName = StringHelper.generateStringOfLength(FieldValidator.COURSE_TEAMNAME_MAX_LENGTH);
         editPage.submitUnsuccessfully(newStudentName, invalidTeamName, null, null)
             .verifyStatus(Const.StatusMessages.COURSE_TEAMNAME_INVALID);
         
