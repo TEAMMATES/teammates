@@ -29,6 +29,9 @@ public class InstructorStudentRecordsPageAction extends Action {
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL); 
         Assumption.assertNotNull(studentEmail);
         
+        // student should be enrolled in this course
+        Assumption.assertNotNull(logic.getStudentForEmail(courseId, studentEmail));
+        
         String showCommentBox = getRequestParamValue(Const.ParamsNames.STUDENT_RECORDS_SHOW_COMMENT_BOX);
         
         new GateKeeper().verifyAccessible(
