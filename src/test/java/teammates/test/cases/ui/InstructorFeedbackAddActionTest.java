@@ -162,7 +162,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                 "<span class=\"bold\"> to</span> Thu Jan 01 00:00:00 UTC 2015<br>" +
                 "<span class=\"bold\">Session visible from:</span> Fri Nov 27 00:00:00 UTC 1970<br>" +
                 "<span class=\"bold\">Results visible from:</span> Fri Nov 27 00:00:00 UTC 1970<br>" +
-                "<br><span class=\"bold\">Instructions:</span> <Text: instructions>|||/page/instructorFeedbackAdd";
+                "<br><span class=\"bold\">Instructions:</span> <Text: <script<script>>test</script</script>>>|||/page/instructorFeedbackAdd";
         assertEquals(expectedLogMessage, a.getLogMessage());
         
         ______TS("Masquerade mode");
@@ -196,7 +196,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                 "<span class=\"bold\"> to</span> Thu Jan 01 00:00:00 UTC 2015<br>" +
                 "<span class=\"bold\">Session visible from:</span> Sun Jan 01 00:00:00 UTC 2012<br>" +
                 "<span class=\"bold\">Results visible from:</span> Thu Jan 01 00:00:00 UTC 1970<br>" +
-                "<br><span class=\"bold\">Instructions:</span> <Text: instructions>|||/page/instructorFeedbackAdd";
+                "<br><span class=\"bold\">Instructions:</span> <Text: >|||/page/instructorFeedbackAdd";
         assertEquals(expectedLogMessage, a.getLogMessage());
     }
     

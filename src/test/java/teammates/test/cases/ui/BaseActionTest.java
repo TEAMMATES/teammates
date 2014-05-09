@@ -77,15 +77,18 @@ public class BaseActionTest extends BaseComponentTestCase {
     
     protected String[] createParamsCombinationForFeedbackSession(String courseId, String fsName, int order) {
         String[] typicalCase = createParamsForTypicalFeedbackSession(courseId, fsName);
+        List<String> paramList = Arrays.asList(typicalCase); 
         if (order == 0) return typicalCase;
         
-        int indexOfSessionVisibleDate = 1 + Arrays.asList(typicalCase).indexOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE);
-        int indexOfSessionVisibleTime = 1 + Arrays.asList(typicalCase).indexOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME);
-        int indexOfSessionVisibleButtonValue = 1 + Arrays.asList(typicalCase).indexOf(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);
+        int indexOfSessionVisibleDate = 1 + paramList.indexOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE);
+        int indexOfSessionVisibleTime = 1 + paramList.indexOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME);
+        int indexOfSessionVisibleButtonValue = 1 + paramList.indexOf(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);
         
-        int indexOfSessionPublishDate = 1 + Arrays.asList(typicalCase).indexOf(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE);
-        int indexOfSessionPublishTime = 1 + Arrays.asList(typicalCase).indexOf(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME);
-        int indexOfResultsVisibleButtonValue = 1 + Arrays.asList(typicalCase).indexOf(Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON);
+        int indexOfSessionPublishDate = 1 + paramList.indexOf(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE);
+        int indexOfSessionPublishTime = 1 + paramList.indexOf(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME);
+        int indexOfResultsVisibleButtonValue = 1 + paramList.indexOf(Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON);
+        
+        int indexOfSessionInstructionsValue = 1 + paramList.indexOf(Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS);
         
         switch(order) {
             case 1:
@@ -103,9 +106,12 @@ public class BaseActionTest extends BaseComponentTestCase {
                 typicalCase[indexOfSessionVisibleTime] = "0";
                 
                 typicalCase[indexOfResultsVisibleButtonValue] = "never";
+                
+                typicalCase[indexOfSessionInstructionsValue] = "<script<script>>test</script</script>>";
                 break;
             case 3:
                 typicalCase[indexOfResultsVisibleButtonValue] = "later";
+                typicalCase[indexOfSessionInstructionsValue] = "";
                 break;
         }
         
