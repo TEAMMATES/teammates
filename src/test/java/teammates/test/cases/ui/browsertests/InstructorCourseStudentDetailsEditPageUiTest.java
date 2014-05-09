@@ -84,7 +84,7 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
             .verifyStatus(Const.StatusMessages.COURSE_STUDENTNAME_INVALID);
         
         String newStudentName = "New guy";
-        String invalidTeamName = StringHelper.generateStringOfLength(FieldValidator.COURSE_TEAMNAME_MAX_LENGTH);
+        String invalidTeamName = StringHelper.generateStringOfLength(FieldValidator.COURSE_TEAMNAME_MAX_LENGTH + 1);
         editPage.submitUnsuccessfully(newStudentName, invalidTeamName, null, null)
             .verifyStatus(Const.StatusMessages.COURSE_TEAMNAME_INVALID);
         
