@@ -324,6 +324,26 @@ public class CoursesLogic {
         }
         return courseList;
     }
+
+    public List<CourseAttributes> getCoursesForInstructor(String googleId) throws EntityDoesNotExistException {
+
+        List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForGoogleId(googleId);
+
+        ArrayList<CourseAttributes> courseList = new ArrayList<CourseAttributes>();
+
+        for (InstructorAttributes instructor : instructorList) {
+            CourseAttributes course = coursesDb.getCourse(instructor.courseId);
+            
+            if (course == null) {
+                log.warning("Course was deleted but the Instructor still exists: " + Const.EOL 
+                        + instructor.toString());
+            } else {
+                courseList.add(course);
+            }
+        }
+        
+        return courseList;
+    }
     
     public HashMap<String, CourseDetailsBundle> getCourseSummariesForInstructor(String googleId) {
         

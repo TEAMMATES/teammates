@@ -2,19 +2,19 @@ package teammates.test.cases.ui;
 
 import static org.testng.AssertJUnit.assertEquals;
 
+import java.util.List;
+
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
 import teammates.ui.controller.InstructorCourseDeleteAction;
-import teammates.ui.controller.InstructorCoursesPageAction;
-import teammates.ui.controller.InstructorCoursesPageData;
 import teammates.ui.controller.RedirectResult;
-import teammates.ui.controller.ShowPageResult;
 
 public class InstructorCourseDeleteActionTest extends BaseActionTest {
 
@@ -87,14 +87,9 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
         assertEquals(false, r.isError);
         assertEquals("The course idOfTypicalCourse1 has been deleted.", r.getStatusMessage());
         
-        /*
-        InstructorCoursesPageData pageData = (InstructorCoursesPageData)r.data;
-        assertEquals(instructorId, pageData.account.googleId);
-        assertEquals(1, pageData.allCourses.size());
-        assertEquals("icdct.tpa.id1", pageData.allCourses.get(0).course.id);
-        assertEquals("", pageData.courseIdToShow);
-        assertEquals("", pageData.courseNameToShow);
-        */
+        List<CourseAttributes> courseList = CoursesLogic.inst().getCoursesForInstructor(instructorId);
+        assertEquals(1, courseList.size());
+        assertEquals("icdct.tpa.id1", courseList.get(0).id);
 
         String expectedLogMessage = "TEAMMATESLOG|||instructorCourseDelete" +
                 "|||instructorCourseDelete|||true|||Instructor|||Instructor 1 of Course 1" +
@@ -106,24 +101,20 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
         
         gaeSimulation.loginAsAdmin("admin.user");
         submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, "icdct.tpa.id1"
+                Const.ParamsNames.COURSE_ID, "icdct.tpa.id1",
+                Const.ParamsNames.NEXT_URL, Const.ActionURIs.INSTRUCTOR_COURSES_PAGE
         };
         a = getAction(addUserIdToParams(instructorId, submissionParams));
         r = getRedirectResult(a);
         
         assertEquals(
-                Const.ActionURIs.INSTRUCTOR_HOME_PAGE+"?message=The+course+icdct.tpa.id1+has+been+deleted.&error=false&user=idOfInstructor1OfCourse1", 
+                Const.ActionURIs.INSTRUCTOR_COURSES_PAGE+"?message=The+course+icdct.tpa.id1+has+been+deleted.&error=false&user=idOfInstructor1OfCourse1", 
                 r.getDestinationWithParams());
         assertEquals(false, r.isError);
         assertEquals("The course icdct.tpa.id1 has been deleted.", r.getStatusMessage());
         
-        /*
-        pageData = (InstructorCoursesPageData) r.data;
-        assertEquals(instructorId, pageData.account.googleId);
-        assertEquals(0, pageData.allCourses.size());
-        assertEquals("", pageData.courseIdToShow);
-        assertEquals("", pageData.courseNameToShow);
-        */
+        courseList = CoursesLogic.inst().getCoursesForInstructor(instructorId);
+        assertEquals(0, courseList.size());
         
         expectedLogMessage = "TEAMMATESLOG|||instructorCourseDelete|||instructorCourseDelete" +
                 "|||true|||Instructor(M)|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1" +

@@ -26,6 +26,7 @@ public class InstructorCourseDeleteAction extends InstructorCoursesPageAction {
                 logic.getInstructorForGoogleId(idOfCourseToDelete, account.googleId), 
                 logic.getCourse(idOfCourseToDelete));
 
+        /* Delete the course and setup status to be shown to user and admin */
         logic.deleteCourse(idOfCourseToDelete);
         String statusMessage = String.format(Const.StatusMessages.COURSE_DELETED, idOfCourseToDelete);
         statusToUser.add(statusMessage);
@@ -39,11 +40,11 @@ public class InstructorCourseDeleteAction extends InstructorCoursesPageAction {
     }
 
     /**
-     * Checks if the action is executed in homepage or 'Courses' pages basing on its redirection
+     * Checks if the action is executed in homepage or 'Courses' pages based on its redirection
      */
     private boolean isRedirectedToHomePage() {
         String nextUrl = getRequestParamValue(Const.ParamsNames.NEXT_URL);
-        boolean isHomePageUrl = nextUrl != null && nextUrl.equals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
+        boolean isHomePageUrl = (nextUrl != null && nextUrl.equals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE));
         
         return isHomePageUrl;
     }
