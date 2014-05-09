@@ -54,9 +54,6 @@ public class InstructorCourseAddAction extends Action {
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSES, data);
     }
 
-    /**
-     * Create the course with given basic attributes
-     */
     private void createCourse(CourseAttributes course) {
 
         try {
@@ -64,8 +61,7 @@ public class InstructorCourseAddAction extends Action {
                     course.name);
             String statusMessage = Const.StatusMessages.COURSE_ADDED.replace("${courseEnrollLink}",
                     data.getInstructorCourseEnrollLink(course.id))
-                    .replace("${courseEditLink}",
-                    data.getInstructorCourseEditLink(course.id));
+                    .replace("${courseEditLink}",data.getInstructorCourseEditLink(course.id));
             statusToUser.add(statusMessage);
             isError = false;
 
@@ -80,9 +76,6 @@ public class InstructorCourseAddAction extends Action {
         }
     }
 
-    /**
-     * Extract the archived courses from a given list of details of courses
-     */
     private List<CourseAttributes> extractArchivedCourses(
             List<CourseDetailsBundle> courseBundles) {
         ArrayList<CourseAttributes> archivedCourses = new ArrayList<CourseAttributes>();
