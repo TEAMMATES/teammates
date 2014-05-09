@@ -35,6 +35,6 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
     }
     
-    // test the content of file is in logicTest:testGetCourseStudentListAsCsv
-    // fileName is not tested
+    // Testing of the content of file is done in logicTest.testGetCourseStudentListAsCsv
+    // FileName is not tested -- trivial test
 }
