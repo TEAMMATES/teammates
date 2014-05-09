@@ -48,8 +48,8 @@ public class InstructorStudentCommentEditAction extends Action {
                         comment.courseId + "]</span><br>" +
                         "<span class=\"bold\">Comment:</span> " + comment.commentText;
             }
-        } catch (InvalidParametersException e) {  // this can be triggered theoretically. but exception will only be thrown if giver/receive email or
-                                                  // course ID is/are not valid--but that case will trigger other exception first instead of this
+        } catch (InvalidParametersException e) {
+            // TODO: add a test to cover this path
             statusToUser.add(e.getMessage());
             statusToAdmin = e.getMessage();
             isError = true;

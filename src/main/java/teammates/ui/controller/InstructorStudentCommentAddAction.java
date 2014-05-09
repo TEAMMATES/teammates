@@ -43,8 +43,8 @@ public class InstructorStudentCommentAddAction extends Action {
                     "<span class=\"bold\">Comment:</span> " + comment.commentText;
         } catch (EntityAlreadyExistsException e) {  // this exception should not be thrown normally unless GAE creates duplicate commentId
             Assumption.fail("Creating a duplicate comment should not be possible as comments should have different timestamp\n");
-        } catch (InvalidParametersException e) {  // this can be triggered theoretically. but exception will only be thrown if giver/receive email or
-                                                  // course ID is/are not valid--but that case will trigger other exception first instead of this
+        } catch (InvalidParametersException e) {
+            // TODO: add a test to cover this branch
             statusToUser.add(e.getMessage());
             statusToAdmin = e.getMessage();
             isError = true;
