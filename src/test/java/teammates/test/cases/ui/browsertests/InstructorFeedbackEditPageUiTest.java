@@ -266,7 +266,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
     private void testInputValidationForMcqQuestion() {
 
         //TODO implement this
-
+        //TODO: validate that Mcq can only be saved/added with at least one option defined.
     }
 
     private void testCustomizeMcqOptions() {
@@ -391,6 +391,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
     private void testInputValidationForMsqQuestion() {
 
         //TODO implement this
+        //TODO: validate that Msq can only be saved/added with at least one option defined.
 
     }
 
@@ -514,7 +515,16 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
     }
 
     private void testInputValidationForNumScaleQuestion() {
-        //TODO implement this
+        //TODO: Validate that NumScale can only be added/saved when min/max step parameters are correct.
+        
+        //Tests javascript that automatically makes max = min+1 when max is < min.
+        feedbackEditPage.fillQuestionBox("NumScale qn");
+        assertEquals("[Based on the above settings, acceptable responses are: 1, 1.5, 2, ..., 4, 4.5, 5]",
+                feedbackEditPage.getNumScalePossibleValuesString(-1));
+        feedbackEditPage.fillMinNumScaleBox(6, -1);
+        assertEquals(feedbackEditPage.getMaxNumScaleBox(-1),"7");
+        feedbackEditPage.fillMaxNumScaleBox(5, -1);
+        assertEquals(feedbackEditPage.getMaxNumScaleBox(-1),"7");
     }
 
     private void testCustomizeNumScaleOptions() {
