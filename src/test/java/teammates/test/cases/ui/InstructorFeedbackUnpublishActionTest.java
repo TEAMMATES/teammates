@@ -66,7 +66,7 @@ public class InstructorFeedbackUnpublishActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName
         };
         
-        ______TS("Typical Case: ensure Unpublish Action can be executed");
+        ______TS("Typical successful case: session unpublishable");
         
         makeFeedbackSessionPublished(session);
         
@@ -81,7 +81,7 @@ public class InstructorFeedbackUnpublishActionTest extends BaseActionTest {
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_UNPUBLISHED, result.getStatusMessage());
         assertFalse(result.isError);
         
-        ______TS("Unpublished Case: ensure Unpublishing an unpublished session can be handled");
+        ______TS("Unsuccessful case: trying to unpublish a session not currently published");
         
         makeFeedbackSessionUnpublished(session);
         
