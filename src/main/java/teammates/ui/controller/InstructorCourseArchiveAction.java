@@ -54,5 +54,4 @@ public class InstructorCourseArchiveAction extends Action {
         
         return isHomePageUrl;
     }
-
 }
