@@ -29,9 +29,6 @@ public class InstructorStudentRecordsPageAction extends Action {
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL); 
         Assumption.assertNotNull(studentEmail);
         
-        // student should be enrolled in this course
-        Assumption.assertNotNull(logic.getStudentForEmail(courseId, studentEmail));
-        
         String showCommentBox = getRequestParamValue(Const.ParamsNames.STUDENT_RECORDS_SHOW_COMMENT_BOX);
         
         new GateKeeper().verifyAccessible(
@@ -44,6 +41,7 @@ public class InstructorStudentRecordsPageAction extends Action {
         try {
             data.courseId = courseId;
             data.student = logic.getStudentForEmail(courseId, studentEmail);
+            Assumption.assertNotNull(data.student);
             data.showCommentBox = showCommentBox;
             data.comments = logic.getCommentsForGiverAndReceiver(courseId, instructor.email, studentEmail);
             List<EvaluationAttributes> evals = logic.getEvaluationsListForInstructor(account.googleId);
