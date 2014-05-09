@@ -30,7 +30,6 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
     @BeforeMethod
     public void caseSetUp() throws Exception {
         dataBundle = getTypicalDataBundle();
-
         restoreTypicalDataInDatastore();
     }
     
@@ -41,25 +40,16 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
                 dataBundle.instructors.get("instructor1OfCourse1").googleId, 
                 "icdat.owncourse", "New course");
         
+        /* Recreate the entity for masquerade mode testing */
+        CoursesLogic.inst().createCourseAndInstructor(
+                dataBundle.instructors.get("instructor1OfCourse1").googleId, 
+                "icdat.owncourse", "New course");  
+
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, "icdat.owncourse"
         };
-        
-        verifyUnaccessibleWithoutLogin(submissionParams);
-        verifyUnaccessibleForUnregisteredUsers(submissionParams);
-        verifyUnaccessibleForStudents(submissionParams);
-        verifyUnaccessibleForInstructorsOfOtherCourses(submissionParams);
-        verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
-        
-        //recreate the entity
-        CoursesLogic.inst().createCourseAndInstructor(
-                dataBundle.instructors.get("instructor1OfCourse1").googleId, 
-                "icdat.owncourse", "New course");
-        verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
-        
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
     }
-
-
     
     @Test
     public void testExecuteAndPostProcess() throws Exception{
@@ -72,14 +62,13 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, instructor1ofCourse1.courseId
         };
-        
+        gaeSimulation.loginAsInstructor(instructorId);
         
         ______TS("Typical case, 2 courses");
         CoursesLogic.inst().createCourseAndInstructor(instructorId, "icdct.tpa.id1", "New course");
         assertEquals(true, CoursesLogic.inst().isCoursePresent("icdct.tpa.id1"));
-        gaeSimulation.loginAsInstructor(instructorId);
-        InstructorCoursesPageAction a = getAction(submissionParams);
-        ShowPageResult r = (ShowPageResult)a.executeAndPostProcess();
+        InstructorCourseDeleteAction a = getAction(submissionParams);
+        RedirectResult r = getRedirectResult(a);
         
         assertEquals(
                 Const.ViewURIs.INSTRUCTOR_COURSES+"?message=The+course+idOfTypicalCourse1+has+been+deleted.&error=false&user=idOfInstructor1OfCourse1", 
