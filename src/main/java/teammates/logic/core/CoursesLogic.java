@@ -415,10 +415,9 @@ public class CoursesLogic {
         CourseAttributes courseToUpdate = getCourse(courseId);
         if (courseToUpdate != null) {
             courseToUpdate.isArchived = archiveStatus;
-            
             coursesDb.updateCourse(courseToUpdate);
         } else {
-            throw new EntityDoesNotExistException("Course " + courseId + " doesn't exist.");
+            throw new EntityDoesNotExistException("Course does not exist: "+courseId);
         }
     }
 

@@ -56,7 +56,7 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
         verifyAssumptionFailure(Const.ParamsNames.COURSE_ID, courseId);
         verifyAssumptionFailure(Const.ParamsNames.COURSE_ARCHIVE_STATUS, "true");
         
-        ______TS("Typical case: archive a course, redirect to home page");
+        ______TS("Typical case: archive a course, redirect to homepage");
         
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
@@ -65,20 +65,20 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
         };
         
         InstructorCourseArchiveAction archiveAction = getAction(submissionParams);
-        RedirectResult result = getRedirectResult(archiveAction);
+        RedirectResult redirectResult = getRedirectResult(archiveAction);
         
         assertEquals(
                 Const.ActionURIs.INSTRUCTOR_HOME_PAGE+"?message=The+course+idOfTypicalCourse1+has+been+archived.+It+will+not+appear+in+the+home+page+any+more."
                 +"+You+can+access+archived+courses+from+the+%27Courses%27+tab.%3Cbr%3EGo+there+to+undo+the+archiving+and+bring+the+course+back+to+the+home+page."
                 +"&error=false&user=idOfInstructor1OfCourse1", 
-                result.getDestinationWithParams());
-        assertEquals(false, result.isError);
-        assertEquals(String.format(Const.StatusMessages.COURSE_ARCHIVED_FROM_HOMEPAGE, courseId), result.getStatusMessage());
+                redirectResult.getDestinationWithParams());
+        assertEquals(false, redirectResult.isError);
+        assertEquals(String.format(Const.StatusMessages.COURSE_ARCHIVED_FROM_HOMEPAGE, courseId), redirectResult.getStatusMessage());
         
         String expectedLogSegment = "Course archived: " + courseId;
         AssertHelper.assertContains(expectedLogSegment, archiveAction.getLogMessage());
 
-        ______TS("Rare case: archive an already archived course");
+        ______TS("Rare case: archive an already archived course, redirect to homepage");
         
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
@@ -87,15 +87,15 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
         };
         
         archiveAction = getAction(submissionParams);
-        result = getRedirectResult(archiveAction);
+        redirectResult = getRedirectResult(archiveAction);
         
         assertEquals(
                 Const.ActionURIs.INSTRUCTOR_HOME_PAGE+"?message=The+course+idOfTypicalCourse1+has+been+archived.+It+will+not+appear+in+the+home+page+any+more."
                 +"+You+can+access+archived+courses+from+the+%27Courses%27+tab.%3Cbr%3EGo+there+to+undo+the+archiving+and+bring+the+course+back+to+the+home+page."
                 +"&error=false&user=idOfInstructor1OfCourse1", 
-                result.getDestinationWithParams());
-        assertEquals(false, result.isError);
-        assertEquals(String.format(Const.StatusMessages.COURSE_ARCHIVED_FROM_HOMEPAGE, courseId), result.getStatusMessage());
+                redirectResult.getDestinationWithParams());
+        assertEquals(false, redirectResult.isError);
+        assertEquals(String.format(Const.StatusMessages.COURSE_ARCHIVED_FROM_HOMEPAGE, courseId), redirectResult.getStatusMessage());
         
         expectedLogSegment = "Course archived: " + courseId;
         AssertHelper.assertContains(expectedLogSegment, archiveAction.getLogMessage());
@@ -108,19 +108,19 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
                 Const.ParamsNames.NEXT_URL, Const.ActionURIs.INSTRUCTOR_COURSES_PAGE
         };
         
-        archiveAction = getAction(submissionParams);
-        result = getRedirectResult(archiveAction);
+        InstructorCourseArchiveAction unarchiveAction = getAction(submissionParams);
+        redirectResult = getRedirectResult(unarchiveAction);
         
         assertEquals(
                 Const.ActionURIs.INSTRUCTOR_COURSES_PAGE+"?message=The+course+idOfTypicalCourse1+has+been+unarchived.&error=false&user=idOfInstructor1OfCourse1", 
-                result.getDestinationWithParams());
-        assertEquals(false, result.isError);
-        assertEquals(String.format(Const.StatusMessages.COURSE_UNARCHIVED, courseId), result.getStatusMessage());
+                redirectResult.getDestinationWithParams());
+        assertEquals(false, redirectResult.isError);
+        assertEquals(String.format(Const.StatusMessages.COURSE_UNARCHIVED, courseId), redirectResult.getStatusMessage());
         
         expectedLogSegment = "Course unarchived: " + courseId;
-        AssertHelper.assertContains(expectedLogSegment, archiveAction.getLogMessage());
+        AssertHelper.assertContains(expectedLogSegment, unarchiveAction.getLogMessage());
         
-        ______TS("Rare case: unarchive an active course");
+        ______TS("Rare case: unarchive an active course, redirect to Courses page");
         
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
@@ -128,17 +128,17 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
                 Const.ParamsNames.NEXT_URL, Const.ActionURIs.INSTRUCTOR_COURSES_PAGE
         };
         
-        archiveAction = getAction(submissionParams);
-        result = getRedirectResult(archiveAction);
+        unarchiveAction = getAction(submissionParams);
+        redirectResult = getRedirectResult(unarchiveAction);
         
         assertEquals(
                 Const.ActionURIs.INSTRUCTOR_COURSES_PAGE+"?message=The+course+idOfTypicalCourse1+has+been+unarchived.&error=false&user=idOfInstructor1OfCourse1", 
-                result.getDestinationWithParams());
-        assertEquals(false, result.isError);
-        assertEquals(String.format(Const.StatusMessages.COURSE_UNARCHIVED, courseId), result.getStatusMessage());
+                redirectResult.getDestinationWithParams());
+        assertEquals(false, redirectResult.isError);
+        assertEquals(String.format(Const.StatusMessages.COURSE_UNARCHIVED, courseId), redirectResult.getStatusMessage());
         
         expectedLogSegment = "Course unarchived: " + courseId;
-        AssertHelper.assertContains(expectedLogSegment, archiveAction.getLogMessage());
+        AssertHelper.assertContains(expectedLogSegment, unarchiveAction.getLogMessage());
         
         ______TS("Masquerade mode: archive course, redirect to Courses page");
         
@@ -149,13 +149,13 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
                 Const.ParamsNames.NEXT_URL, Const.ActionURIs.INSTRUCTOR_COURSES_PAGE
         };
         archiveAction = getAction(addUserIdToParams(instructorId, submissionParams));
-        result = getRedirectResult(archiveAction);
+        redirectResult = getRedirectResult(archiveAction);
         
         assertEquals(
                 Const.ActionURIs.INSTRUCTOR_COURSES_PAGE+"?message=The+course+idOfTypicalCourse1+has+been+archived.+It+will+not+appear+in+the+home+page+any+more.&error=false&user=idOfInstructor1OfCourse1", 
-                result.getDestinationWithParams());
-        assertEquals(false, result.isError);
-        assertEquals(String.format(Const.StatusMessages.COURSE_ARCHIVED, courseId), result.getStatusMessage());
+                redirectResult.getDestinationWithParams());
+        assertEquals(false, redirectResult.isError);
+        assertEquals(String.format(Const.StatusMessages.COURSE_ARCHIVED, courseId), redirectResult.getStatusMessage());
         
         expectedLogSegment = "Course archived: " + courseId;
         AssertHelper.assertContains(expectedLogSegment, archiveAction.getLogMessage());
