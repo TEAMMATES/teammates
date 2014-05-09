@@ -1,7 +1,7 @@
 package teammates.test.cases.ui;
 
 import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.fail;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -10,7 +10,10 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.logic.api.Logic;
 import teammates.ui.controller.InstructorStudentRecordsPageAction;
 import teammates.ui.controller.InstructorStudentRecordsPageData;
 import teammates.ui.controller.ShowPageResult;
@@ -64,9 +67,18 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
         
         verifyAssumptionFailure(invalidParams);
         
-        //null studentemail
+        //null student email
         invalidParams = new String[]{
                 Const.ParamsNames.COURSE_ID, instructor.courseId
+        };
+        
+        verifyAssumptionFailure(invalidParams);
+        
+        // student not in course
+        String studentEmailOfStudent1InCourse2 = dataBundle.students.get("student1InCourse2").email;
+        invalidParams = new String[] {
+                Const.ParamsNames.COURSE_ID, instructor.courseId,
+                Const.ParamsNames.STUDENT_EMAIL, studentEmailOfStudent1InCourse2
         };
         
         verifyAssumptionFailure(invalidParams);
@@ -103,21 +115,33 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
                 "|||/page/instructorStudentRecordsPage";
         assertEquals(expectedLogMessage, a.getLogMessage());
         
-        // the following is to trigger the condition when # of session is 0
-        // and since the typicalDataBundle does not provide such case
-        // creating it here is required--also introduces dependency on another action
-//        String instructor4Id = dataBundle.instructors.get("instructor4").googleId;
-//        gaeSimulation.loginAsInstructor(instructor4Id);
-//        String courseIdWithNoSession = "idOfCourseNoEvals";
-//        
-//        String[] submissionParamsWithNoSession = new String[] {
-//                Const.ParamsNames.COURSE_ID, courseIdWithNoSession,
-//                Const.ParamsNames.STUDENT_EMAIL, "ha@ha.com"
-//        };
-//
-//        InstructorStudentRecordsPageAction aWithNoSession = getAction(submissionParamsWithNoSession);
-//        ShowPageResult rWithNoSession = getShowPageResult(aWithNoSession);
-//        assertEquals("No records were found for this student", rWithNoSession.getStatusMessage());
+        
+        ______TS("Typical case, student records view: no records");
+        
+        String instructor4Id = dataBundle.instructors.get("instructor4").googleId;
+        gaeSimulation.loginAsInstructor(instructor4Id);  // re-login as another instructor for new test
+        String courseIdWithNoSession = "idOfCourseNoEvals";
+        try {
+            createStudentInTypicalDataBundleForCourseWithNoSession();
+        } catch(Exception e) {
+            fail("Unexpected exception during test");
+        }
+        
+        String[] submissionParamsWithNoSession = new String[] {
+                Const.ParamsNames.COURSE_ID, courseIdWithNoSession,
+                Const.ParamsNames.STUDENT_EMAIL, "emailTemp@gmail.com"
+        };
+
+        InstructorStudentRecordsPageAction aWithNoSession = getAction(submissionParamsWithNoSession);
+        ShowPageResult rWithNoSession = getShowPageResult(aWithNoSession);
+        assertEquals("No records were found for this student", rWithNoSession.getStatusMessage());
+    }
+    
+    private void createStudentInTypicalDataBundleForCourseWithNoSession() throws EntityAlreadyExistsException, 
+    InvalidParametersException {
+        Logic logic = new Logic();
+        StudentAttributes student = new StudentAttributes("team", "nameOfStudent", "emailTemp@gmail.com", "No comment", "idOfCourseNoEvals");
+        logic.createStudent(student);
     }
     
     private InstructorStudentRecordsPageAction getAction(String... params) throws Exception {
