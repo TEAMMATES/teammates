@@ -16,6 +16,8 @@ import teammates.ui.controller.ShowPageResult;
 
 /**
  * Test case for adding a course for an instructor
+ * This test case will not fully cover the path in checking archived courses.
+ * This will be tested in UI testing
  */
 public class InstructorCourseAddActionTest extends BaseActionTest {
 
@@ -50,7 +52,6 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
         String instructorId = instructor1OfCourse1.googleId;
         
         String adminUserId = "admin.user";
-        InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         
         gaeSimulation.loginAsInstructor(instructorId);
 
@@ -121,7 +122,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
         
         ______TS("Masquerade mode, 0 courses");
         
-        CoursesLogic.inst().deleteCourseCascade(instructor1ofCourse1.courseId);
+        CoursesLogic.inst().deleteCourseCascade(instructor1OfCourse1.courseId);
         CoursesLogic.inst().deleteCourseCascade("ticac.tpa1.id");
         gaeSimulation.loginAsAdmin(adminUserId);
         addAction = getAction(
