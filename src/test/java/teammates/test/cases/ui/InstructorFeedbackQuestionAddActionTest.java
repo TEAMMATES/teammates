@@ -317,21 +317,22 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         ______TS("Empty questionText");
         
         params = createParamsForTypicalFeedbackQuestion(fs.courseId, fs.feedbackSessionName);
-        params[13] = ""; //change questionText to empty string
+        //params[13] = ""; //change questionText to empty string
+        modifyParamValue(params, Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "");
         verifyAssumptionFailure(params);
         
         ______TS("Invalid questionNumber");
         
         params = createParamsForTypicalFeedbackQuestion(fs.courseId, fs.feedbackSessionName);
-        params[9] = "0"; //change questionNumber to invalid number
+        modifyParamValue(params, Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "0");//change questionNumber to invalid number
         verifyAssumptionFailure(params);
         
         params = createParamsForTypicalFeedbackQuestion(fs.courseId, fs.feedbackSessionName);
-        params[9] = "-1"; //change questionNumber to invalid number
+        modifyParamValue(params, Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "-1");//change questionNumber to invalid number
         verifyAssumptionFailure(params);
         
         params = createParamsForTypicalFeedbackQuestion(fs.courseId, fs.feedbackSessionName);
-        params[9] = "ABC"; //change questionNumber to invalid number
+        modifyParamValue(params, Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "ABC");//change questionNumber to invalid number
         try {
             Action c = gaeSimulation.getActionObject(uri, params);
             c.executeAndPostProcess();
@@ -343,7 +344,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         ______TS("Non-existent Enumeration");
 
         params = createParamsForTypicalFeedbackQuestion(instructor1ofCourse1.courseId,  fs.feedbackSessionName);
-        params[5] = "NON_EXISTENT_ENUMERATION"; // Change giverType to a non existent enumeration.
+        modifyParamValue(params, Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, "NON_EXISTENT_ENUMERATION");
         try {
             Action c = gaeSimulation.getActionObject(uri, params);
             c.executeAndPostProcess();
@@ -353,7 +354,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         }
         
         params = createParamsForTypicalFeedbackQuestion(instructor1ofCourse1.courseId,  fs.feedbackSessionName);
-        params[7] = "NON_EXISTENT_ENUMERATION"; // Change recipientType to a non existent enumeration.
+        modifyParamValue(params, Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, "NON_EXISTENT_ENUMERATION");
         try {
             Action c = gaeSimulation.getActionObject(uri, params);
             c.executeAndPostProcess();
@@ -363,7 +364,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         }
         
         params = createParamsForTypicalFeedbackQuestion(instructor1ofCourse1.courseId,  fs.feedbackSessionName);
-        params[11] = "NON_EXISTENT_ENUMERATION"; // Change questionType to a non existent enumeration.
+        modifyParamValue(params, Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "NON_EXISTENT_ENUMERATION");
         try {
             Action c = gaeSimulation.getActionObject(uri, params);
             c.executeAndPostProcess();
@@ -375,7 +376,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         ______TS("Typical case");
 
         params = createParamsForTypicalFeedbackQuestion(fs.courseId, fs.feedbackSessionName);
-        params[15] = "max"; //change number of feedback to give to unlimited
+        modifyParamValue(params, Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "max");//change number of feedback to give to unlimited
         InstructorFeedbackQuestionAddAction action = getAction(params);
         RedirectResult result = (RedirectResult) action.executeAndPostProcess();
         
@@ -427,6 +428,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
 
         params = createParamsForTypicalFeedbackQuestion(fs.courseId, fs.feedbackSessionName);
         params[7] = "TEAMS"; //change recipientType to TEAMS
+        
         action = getAction(params);
         result = (RedirectResult) action.executeAndPostProcess();
         
