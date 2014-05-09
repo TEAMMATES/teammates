@@ -25,25 +25,23 @@ public class InstructorFeedbackUnpublishAction extends InstructorFeedbacksPageAc
                 session,
                 isCreatorOnly);
         
-        if(session.isPublished()){
-            try {
-                logic.unpublishFeedbackSession(feedbackSessionName, courseId);
-            } catch (InvalidParametersException e) {
-                Assumption.fail("InvalidParametersException not expected at this point");
-            }
+        try {
+            logic.unpublishFeedbackSession(feedbackSessionName, courseId);
+        } catch (InvalidParametersException e) {
+            isError = true;
+            statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_NOT_UNPUBLISHABLE);
+            statusToAdmin = "Evaluation <span class=\"bold\">("
+                    + feedbackSessionName + ")</span> " +
+                    "for Course <span class=\"bold\">[" + courseId
+                    + "]</span> unpublished for more than one time.";
+        }
 
+        if(!isError){
             statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_UNPUBLISHED);
             statusToAdmin = "Evaluation <span class=\"bold\">("
                     + feedbackSessionName + ")</span> " +
                     "for Course <span class=\"bold\">[" + courseId
                     + "]</span> unpublished.";
-        } else {
-            isError = true;
-            statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_UNPUBLISHED_ALREADY);
-            statusToAdmin = "Evaluation <span class=\"bold\">("
-                    + feedbackSessionName + ")</span> " +
-                    "for Course <span class=\"bold\">[" + courseId
-                    + "]</span> unpublished for more than one time.";
         }
         
         return createRedirectResult(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);

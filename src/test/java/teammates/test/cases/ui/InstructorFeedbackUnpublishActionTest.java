@@ -89,11 +89,12 @@ public class InstructorFeedbackUnpublishActionTest extends BaseActionTest {
         result = (RedirectResult) unpublishAction.executeAndPostProcess();
         
         expectedDestination = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE + 
-                "?message=The+feedback+session+has+already+been+unpublished." + 
+                "?message=The+feedback+session+cannot+be+unpublished." +
+                "+Probably+it+has+already+been+unpublished%2C+or+it%27s+a+private+session." + 
                 "&error=true" + 
                 "&user=idOfInstructor1OfCourse1";
         assertEquals(expectedDestination, result.getDestinationWithParams());
-        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_UNPUBLISHED_ALREADY, result.getStatusMessage());
+        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_NOT_UNPUBLISHABLE, result.getStatusMessage());
         assertTrue(result.isError);
         
         makeFeedbackSessionPublished(session);
