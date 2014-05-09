@@ -883,17 +883,8 @@ public class FeedbackSessionsLogic {
         
         List<FeedbackSessionAttributes> fsInCourse =
                 fsDb.getFeedbackSessionsForCourse(courseId);
-        
-        List<FeedbackSessionAttributes> fsInCourseCreatedByInstructor =
-                new ArrayList<FeedbackSessionAttributes>();
-        
-        for (FeedbackSessionAttributes fsa : fsInCourse) {
-            if (fsa.isPrivateSession() && !fsa.isCreator(instructorEmail) == false) {
-                fsInCourseCreatedByInstructor.add(fsa);
-            }
-        }
 
-        return fsInCourseCreatedByInstructor;
+        return fsInCourse;
     }
 
     private FeedbackSessionResponseStatus getFeedbackSessionResponseStatus(

@@ -73,9 +73,8 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
             data.courses = loadCoursesList(account.googleId);
             data.existingEvalSessions = loadEvaluationsList(account.googleId);
             data.existingFeedbackSessions = loadFeedbackSessionsList(account.googleId);
-            if (data.existingFeedbackSessions.size() == 0) {
-                statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_EMPTY);
-            }
+            
+            Assumption.assertTrue(data.existingFeedbackSessions.size() != 0);
             
             EvaluationAttributes.sortEvaluationsByDeadlineDescending(data.existingEvalSessions);
             FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(data.existingFeedbackSessions);
