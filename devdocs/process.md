@@ -17,6 +17,8 @@ Role: Dev
 {If you need any help regarding the workflow, please post in the 
 [teammates-contributors Google group](https://groups.google.com/forum/?fromgroups#!forum/teammates-contributors) .}
 
+This workflow is an adaptation of the [GitHub flow](https://guides.github.com/introduction/flow/index.html).
+
 1. Select an issue to handle. Get it assigned to you. 
    Contributors can request for an issue to be assigned to you by posting a comment under the issue in concern.
 
