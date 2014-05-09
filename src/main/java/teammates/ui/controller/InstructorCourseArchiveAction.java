@@ -15,13 +15,12 @@ public class InstructorCourseArchiveAction extends Action {
         Assumption.assertNotNull(setArchiveStatus);
         boolean setArchive = Boolean.parseBoolean(setArchiveStatus);
         
-        /* Check if the user has the right to execute this action */
         new GateKeeper().verifyAccessible(
                 logic.getInstructorForGoogleId(idOfCourseToArchive, account.googleId),
                 logic.getCourse(idOfCourseToArchive));
         
         try {
-        /* Set the archive status and status shown to user and admin */
+            // Set the archive status and status shown to user and admin 
             logic.setArchiveStatusOfCourse(idOfCourseToArchive, setArchive);
             if (setArchive) {
                 if (isRedirectedToHomePage()) {
@@ -46,11 +45,11 @@ public class InstructorCourseArchiveAction extends Action {
     }
     
     /**
-     * Checks if the action is executed in homepage or 'Courses' pages basing on its redirection
+     * Checks if the action is executed in homepage or 'Courses' pages based on its redirection
      */
     private boolean isRedirectedToHomePage() {
         String nextUrl = getRequestParamValue(Const.ParamsNames.NEXT_URL);
-        boolean isHomePageUrl = nextUrl != null && nextUrl.equals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
+        boolean isHomePageUrl = (nextUrl != null && nextUrl.equals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE));
         
         return isHomePageUrl;
     }
