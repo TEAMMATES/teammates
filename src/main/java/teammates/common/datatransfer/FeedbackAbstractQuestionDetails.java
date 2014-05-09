@@ -18,6 +18,8 @@ public abstract class FeedbackAbstractQuestionDetails {
     public FeedbackQuestionType questionType;
     public String questionText;
 
+    //TODO: Add abstract function to check validity of question details.
+    
     protected FeedbackAbstractQuestionDetails(FeedbackQuestionType questionType){
         this.questionType = questionType;
     }
