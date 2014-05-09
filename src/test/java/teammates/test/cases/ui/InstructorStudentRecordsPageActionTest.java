@@ -84,7 +84,7 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
         verifyAssumptionFailure(invalidParams);
         
 
-        ______TS("Typical case, student records view");
+        ______TS("Typical case: student has some records");
         
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor.courseId,
@@ -116,7 +116,7 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
         assertEquals(expectedLogMessage, a.getLogMessage());
         
         
-        ______TS("Typical case, student records view: no records");
+        ______TS("Typical case: student has no records");
         
         String instructor4Id = dataBundle.instructors.get("instructor4").googleId;
         gaeSimulation.loginAsInstructor(instructor4Id);  // re-login as another instructor for new test
