@@ -72,6 +72,7 @@
             <class name="teammates.test.cases.ui.FeedbackSessionStatsPageActionTest" />
             <class name="teammates.test.cases.ui.InstructorCoursesPageActionTest" />
             <class name="teammates.test.cases.ui.InstructorCourseAddActionTest" />
+            <class name="teammates.test.cases.ui.InstructorCourseArchiveActionTest" />
             <class name="teammates.test.cases.ui.InstructorCourseDeleteActionTest" />
             <class name="teammates.test.cases.ui.InstructorCourseDetailsPageActionTest" />
             <class name="teammates.test.cases.ui.InstructorCourseEditPageActionTest" />
