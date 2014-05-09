@@ -213,10 +213,10 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId()
         };
         
-        invalidQnNumParams[9] = "-1"; //change questionNumber to invalid number
+        modifyParamValue(invalidQnNumParams, Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "-1");//change questionNumber to invalid number
         verifyAssumptionFailure(invalidQnNumParams);
         
-        invalidQnNumParams[9] = "ABC"; //change questionNumber to invalid number
+        modifyParamValue(invalidQnNumParams, Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "ABC");//change questionNumber to invalid number
         try {
             a = getAction(invalidQnNumParams);
             r = (RedirectResult) a.executeAndPostProcess();

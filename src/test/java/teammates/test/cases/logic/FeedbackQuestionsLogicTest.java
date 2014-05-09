@@ -404,10 +404,6 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         actualQuestions = fqLogic.getFeedbackQuestionsForInstructor(allQuestions, true);
         
         assertEquals(actualQuestions, expectedQuestions);
-        
-        //TODO add a test data where there are a mix of STUDENTS and INSTRUCTORS
-        //questions (not SELF) and test if getQuestionForInstructors return only the
-        //INSTRUCTORS questions
     }
     
     @Test
