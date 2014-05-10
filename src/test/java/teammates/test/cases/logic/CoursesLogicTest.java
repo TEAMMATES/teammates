@@ -189,6 +189,25 @@ public class CoursesLogicTest extends BaseComponentTestCase {
     }
     
     @Test
+    public void testGetCoursesForInstructor() throws Exception {
+        restoreTypicalDataInDatastore();
+
+        ______TS("success: instructor with present courses");
+        String instructorId = getTypicalDataBundle().accounts.get("instructor3").googleId;
+
+        List<CourseAttributes> courses = coursesLogic.getCoursesForInstructor(instructorId);
+
+        assertEquals(2, courses.size());
+
+        ______TS("fail: instructor without any courses");
+        instructorId = getTypicalDataBundle().accounts.get("instructorWithoutCourses").googleId;
+
+        courses = coursesLogic.getCoursesForInstructor(instructorId);
+
+        assertEquals(0, courses.size());
+    }
+
+    @Test
     public void testIsSampleCourse() {
         
         ______TS("failure: not a sample course");
