@@ -3,6 +3,8 @@ package teammates.test.cases.ui;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.testng.AssertJUnit.assertTrue;
+
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -145,7 +147,8 @@ public class BaseActionTest extends BaseComponentTestCase {
             Action c = gaeSimulation.getActionObject(uri, parameters);
             c.executeAndPostProcess();
             signalFailureToDetectException();
-        } catch (AssertionError e) {
+        } catch (Throwable e) {
+            assertTrue(e instanceof AssertionError);
             ignoreExpectedException();
         }
     }
