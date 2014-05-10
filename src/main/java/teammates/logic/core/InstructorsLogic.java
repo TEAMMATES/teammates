@@ -122,7 +122,7 @@ public class InstructorsLogic {
             return true;
         } else if (instructorList.size() == 1 &&
                 coursesLogic.isSampleCourse(instructorList.get(0).courseId)){
-                return true;
+            return true;
         } else {
             return false;
         }

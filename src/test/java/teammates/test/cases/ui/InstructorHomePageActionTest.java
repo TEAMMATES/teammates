@@ -183,7 +183,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
 
     @Test
     public void testIsNewInstructor() {
-        //TODO: to be implemented
+        // is not this tested in the code above--the instructorWithoutCourses case?
     }
     
     private InstructorHomePageAction getAction(String... params) throws Exception{
