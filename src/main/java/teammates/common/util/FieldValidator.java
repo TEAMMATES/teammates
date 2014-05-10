@@ -118,7 +118,27 @@ public class FieldValidator {
             "\"%s\" is not acceptable to TEAMMATES as a Course ID because it %s. "+
                     "A Course ID can contain letters, numbers, fullstops, hyphens, underscores, and dollar signs. " +
                     "It cannot be longer than "+COURSE_ID_MAX_LENGTH+" characters. " +
-                    "It cannot be empty or contain spaces.";    
+                    "It cannot be empty or contain spaces.";  
+    /*
+     * =======================================================================
+     * Field Course Instructor Name
+     * Allowed: <= 40
+     */
+    public static final int COURSE_INSTRUCTORNAME_MAX_LENGTH = 40;
+    
+    /*
+     * =======================================================================
+     * Field: Course Student Name
+     * Allowed: <= 40
+     */
+    public static final int COURSE_STUDENTNAME_MAX_LENGTH = 40;
+    
+    /*
+     * =======================================================================
+     * Field: Course Team Name
+     * Allowed: <= 60
+     */
+    public static final int COURSE_TEAMNAME_MAX_LENGTH = 60;
 
     /*
      * =======================================================================
