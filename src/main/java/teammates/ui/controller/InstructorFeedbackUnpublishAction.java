@@ -32,7 +32,7 @@ public class InstructorFeedbackUnpublishAction extends InstructorFeedbacksPageAc
                     "for Course <span class=\"bold\">[" + courseId
                     + "]</span> unpublished.";
         } catch (InvalidParametersException e) {
-            setStatusForException(e, Const.StatusMessages.FEEDBACK_SESSION_NOT_UNPUBLISHABLE);
+            setStatusForException(e);
         }
         
         return createRedirectResult(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
