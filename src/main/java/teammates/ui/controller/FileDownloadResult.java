@@ -42,5 +42,13 @@ public class FileDownloadResult extends ActionResult {
         PrintWriter writer = resp.getWriter();
         writer.append(fileContent);
     }
+    
+    public String getFileName() {
+        return this.fileName;
+    }
+    
+    public String getFileContent() {
+        return this.fileContent;
+    }
 
 }
