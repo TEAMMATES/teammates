@@ -1,5 +1,7 @@
 package teammates.ui.controller;
 
+import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
@@ -13,21 +15,28 @@ public class InstructorFeedbackUnpublishAction extends InstructorFeedbacksPageAc
         
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, feedbackSessionName);
+        
+        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
+        FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
+        boolean isCreatorOnly = true;
         
         new GateKeeper().verifyAccessible(
-                logic.getInstructorForGoogleId(courseId, account.googleId),
-                logic.getFeedbackSession(feedbackSessionName, courseId),
-                true);
+                instructor,
+                session,
+                isCreatorOnly);
         
         try {
             logic.unpublishFeedbackSession(feedbackSessionName, courseId);
+            statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_UNPUBLISHED);
+            statusToAdmin = "Feedback Session <span class=\"bold\">("
+                    + feedbackSessionName + ")</span> " +
+                    "for Course <span class=\"bold\">[" + courseId
+                    + "]</span> unpublished.";
         } catch (InvalidParametersException e) {
-            Assumption.fail("InvalidParametersException not expected at this point");
+            setStatusForException(e);
         }
-        
-        statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_UNPUBLISHED);
-        statusToAdmin = "Evaluation <span class=\"bold\">(" + feedbackSessionName + ")</span> " +
-                "for Course <span class=\"bold\">[" + courseId + "]</span> unpublished.";
         
         return createRedirectResult(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
     }
