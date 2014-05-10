@@ -92,25 +92,25 @@ public class BaseActionTest extends BaseComponentTestCase {
         
         switch(order) {
             case 1:
-                typicalCase[indexOfSessionVisibleButtonValue] = "atopen";
+                typicalCase[indexOfSessionVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN;
                 typicalCase[indexOfSessionVisibleDate] = "";
                 typicalCase[indexOfSessionVisibleTime] = "0";
                 
-                typicalCase[indexOfResultsVisibleButtonValue] = "custom";
+                typicalCase[indexOfResultsVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM;
                 typicalCase[indexOfSessionPublishDate] = "08/05/2014";
                 typicalCase[indexOfSessionPublishTime] = "2";
                 break;
             case 2:
-                typicalCase[indexOfSessionVisibleButtonValue] = "never";
+                typicalCase[indexOfSessionVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_NEVER;
                 typicalCase[indexOfSessionVisibleDate] = "";
                 typicalCase[indexOfSessionVisibleTime] = "0";
                 
-                typicalCase[indexOfResultsVisibleButtonValue] = "never";
+                typicalCase[indexOfResultsVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_NEVER;
                 
                 typicalCase[indexOfSessionInstructionsValue] = "<script<script>>test</script</script>>";
                 break;
             case 3:
-                typicalCase[indexOfResultsVisibleButtonValue] = "later";
+                typicalCase[indexOfResultsVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER;
                 typicalCase[indexOfSessionInstructionsValue] = "";
                 break;
         }
@@ -127,10 +127,10 @@ public class BaseActionTest extends BaseComponentTestCase {
                 Const.ParamsNames.FEEDBACK_SESSION_STARTTIME, "0",
                 Const.ParamsNames.FEEDBACK_SESSION_ENDDATE, "01/01/2015",
                 Const.ParamsNames.FEEDBACK_SESSION_ENDTIME, "0",
-                Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON, "custom",
+                Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON, Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM,
                 Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE, "01/01/2012",
                 Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME, "0",
-                Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON, "atvisible",
+                Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON, Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_ATVISIBLE,
                 Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, "",
                 Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME, "0",                
                 Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE, "8",

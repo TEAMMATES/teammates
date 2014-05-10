@@ -767,6 +767,15 @@ public class Const {
     public static final String STUDENT_EVALUATION_STATUS_PUBLISHED = "Published";
     public static final String STUDENT_EVALUATION_STATUS_ERROR = "Error";
 
+    public static final String INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM = "custom";
+    public static final String INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN = "atopen";
+    public static final String INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_NEVER = "never";
+    
+    public static final String INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM = "custom";
+    public static final String INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_ATVISIBLE = "atvisible";
+    public static final String INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER = "later";
+    public static final String INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_NEVER = "never";
+    
     public static final String STUDENT_COURSE_STATUS_YET_TO_JOIN = "Yet to join";
     public static final String STUDENT_COURSE_STATUS_JOINED = "Joined";
     
