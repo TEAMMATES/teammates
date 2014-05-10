@@ -575,8 +575,9 @@ public class Const {
         public static final String COURSE_EXISTS = "A course by the same ID already exists in the system, possibly created by another user. Please choose a different course ID";
         public static final String COURSE_EDITED = "The course has been edited.";
         public static final String COURSE_ARCHIVED = "The course %s has been archived. It will not appear in the home page any more.";
-        public static final String COURSE_ARCHIVED_FROM_HOMEPAGE = COURSE_ARCHIVED + " You can access archived courses from the 'Courses' tab.<br>Click here to undo the archiving and bring the course back to the home page.";
-        public static final String COURSE_UNARCHIVED = "The course %s is no longer archived.";
+        //TODO: Let undo process to be in the Course page for now. Should implement to be able to undo the archiving from the home page later.
+        public static final String COURSE_ARCHIVED_FROM_HOMEPAGE = COURSE_ARCHIVED + " You can access archived courses from the 'Courses' tab.<br>Go there to undo the archiving and bring the course back to the home page.";
+        public static final String COURSE_UNARCHIVED = "The course %s has been unarchived.";
         public static final String COURSE_DELETED = "The course %s has been deleted.";
         public static final String COURSE_EMPTY = "You have not created any courses yet. Use the form above to create a course.";
         public static final String COURSE_EMPTY_IN_EVALUATION = "You have not created any courses yet. Go <a href=\""
@@ -674,11 +675,16 @@ public class Const {
         public static final String COURSE_INPUT_FIELDS_MISSING = "There are missing fields.";
         public static final String COURSE_GOOGLEID_INVALID = "GoogleID should only consist of alphanumerics, fullstops, dashes or underscores.";
         public static final String COURSE_EMAIL_INVALID = "The e-mail address is invalid.";
-        public static final String COURSE_INSTRUCTORNAME_INVALID = "Name should only consist of alphanumerics or hyphens, apostrophes, fullstops, commas, slashes, round brackets\nand not more than 40 characters.";
+        public static final String COURSE_INSTRUCTORNAME_INVALID = "Name should only consist of alphanumerics or hyphens, apostrophes, fullstops, "
+                + "commas, slashes, round brackets\nand not more than " + FieldValidator.COURSE_INSTRUCTORNAME_MAX_LENGTH + " characters.";
         public static final String COURSE_COURSE_ID_EMPTY = "Course ID cannot be empty.";
         public static final String COURSE_COURSE_NAME_EMPTY = "Course name cannot be empty";
         public static final String COURSE_INSTRUCTOR_LIST_EMPTY = "Instructor list cannot be empty";
         public static final String COURSE_INVALID_ID = "Please use only alphabets, numbers, dots, hyphens, underscores and dollar signs in course ID.";
+        public static final String COURSE_STUDENTNAME_INVALID = "Name should only consist of alphanumerics or hyphens, apostrophes, fullstops, "
+                + "commas, slashes, round brackets\nand not more than " + FieldValidator.COURSE_STUDENTNAME_MAX_LENGTH + " characters.";
+        public static final String COURSE_TEAMNAME_INVALID = "Team name should contain less than " + FieldValidator.COURSE_TEAMNAME_MAX_LENGTH
+                + " characters.";
         
         public static final String EVALUATION_NAMEINVALID = "Please use only alphabets, numbers and whitespace in evaluation name.";
         public static final String EVALUATION_NAME_LENGTHINVALID = "Evaluation name should not exceed 38 characters.";
