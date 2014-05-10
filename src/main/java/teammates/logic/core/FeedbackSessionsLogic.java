@@ -490,12 +490,12 @@ public class FeedbackSessionsLogic {
             throw new EntityDoesNotExistException("Trying to unpublish a non-existant session.");
         }
         
-        if(sessionToUnpublish.isPrivateSession() == true) {
+        if(sessionToUnpublish.isPrivateSession()) {
             throw new InvalidParametersException(
                     "Private session can't be unpublished.");
         }
         
-        if (sessionToUnpublish.isPublished() == false) {
+        if (!sessionToUnpublish.isPublished()) {
             throw new InvalidParametersException(
                     "Session is already unpublished.");
         }
