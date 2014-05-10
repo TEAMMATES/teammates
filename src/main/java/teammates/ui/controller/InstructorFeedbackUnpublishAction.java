@@ -4,6 +4,7 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
 
@@ -14,6 +15,8 @@ public class InstructorFeedbackUnpublishAction extends InstructorFeedbacksPageAc
         
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        Assumption.assertNotNull(courseId);
+        Assumption.assertNotNull(feedbackSessionName);
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
