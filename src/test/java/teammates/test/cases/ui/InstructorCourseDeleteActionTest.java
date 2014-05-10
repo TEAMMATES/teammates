@@ -44,7 +44,7 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
                 Const.ParamsNames.COURSE_ID, "icdat.owncourse"
         };
 
-        /** Test access for users 
+        /*  Test access for users 
          *  This should be separated from testing for admin as we need to recreate the course after being removed         
          */
         verifyUnaccessibleWithoutLogin(submissionParams);

@@ -180,7 +180,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         assertEquals(1, archivedCourses.size());
         assertEquals(true, archivedCourses.get(0).isArchived);
     
-        ______TS("fail: instructor without archive courses");
+        ______TS("boundary: instructor without archive courses");
         instructorId = getTypicalDataBundle().instructors.get("instructor1OfCourse1").googleId;
         
         archivedCourses = coursesLogic.getArchivedCoursesForInstructor(instructorId);
@@ -199,7 +199,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
         assertEquals(2, courses.size());
 
-        ______TS("fail: instructor without any courses");
+        ______TS("boundary: instructor without any courses");
         instructorId = getTypicalDataBundle().accounts.get("instructorWithoutCourses").googleId;
 
         courses = coursesLogic.getCoursesForInstructor(instructorId);
