@@ -41,9 +41,10 @@ public class InstructorStudentCommentAddAction extends Action {
                     comment.receiverEmail + ")</span> for Course <span class=\"bold\">[" +
                     comment.courseId + "]</span><br>" +
                     "<span class=\"bold\">Comment:</span> " + comment.commentText;
-        } catch (EntityAlreadyExistsException e) {
+        } catch (EntityAlreadyExistsException e) {  // this exception should not be thrown normally unless GAE creates duplicate commentId
             Assumption.fail("Creating a duplicate comment should not be possible as comments should have different timestamp\n");
         } catch (InvalidParametersException e) {
+            // TODO: add a test to cover this branch
             statusToUser.add(e.getMessage());
             statusToAdmin = e.getMessage();
             isError = true;
