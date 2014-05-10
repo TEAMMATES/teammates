@@ -61,16 +61,22 @@ public class InstructorFeedbackUnpublishActionTest extends BaseActionTest {
     public void testExecuteAndPostProcess() throws Exception{
         gaeSimulation.loginAsInstructor(dataBundle.instructors.get("instructor1OfCourse1").googleId);
         FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session2InCourse1");
-        String[] unpublishParams = {
+        String[] paramsNormal = {
                 Const.ParamsNames.COURSE_ID, session.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName
+        };
+        String[] paramsWithNullCourseId = {
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName
+        };
+        String[] paramsWithNullFeedbackSessionName = {
+                Const.ParamsNames.COURSE_ID, session.courseId
         };
         
         ______TS("Typical successful case: session unpublishable");
         
         makeFeedbackSessionPublished(session);
         
-        InstructorFeedbackUnpublishAction unpublishAction = getAction(unpublishParams);
+        InstructorFeedbackUnpublishAction unpublishAction = getAction(paramsNormal);
         RedirectResult result = (RedirectResult) unpublishAction.executeAndPostProcess();
         
         String expectedDestination = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE + 
@@ -81,11 +87,35 @@ public class InstructorFeedbackUnpublishActionTest extends BaseActionTest {
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_UNPUBLISHED, result.getStatusMessage());
         assertFalse(result.isError);
         
-        ______TS("Unsuccessful case: trying to unpublish a session not currently published");
+        ______TS("Unsuccessful case 1: params with null course id");
+        
+        String errorMessage = "";
+        unpublishAction = getAction(paramsWithNullCourseId);
+        try{
+            unpublishAction.executeAndPostProcess();
+        } catch (Throwable e){
+            assertTrue(e instanceof AssertionError);
+            errorMessage = e.getMessage();
+        }
+        assertEquals(Const.StatusCodes.NULL_PARAMETER, errorMessage);
+        
+        ______TS("Unsuccessful case 2: params with null feedback session name");
+        
+        errorMessage = "";
+        unpublishAction = getAction(paramsWithNullFeedbackSessionName);
+        try{
+            unpublishAction.executeAndPostProcess();
+        } catch (Throwable e){
+            assertTrue(e instanceof AssertionError);
+            errorMessage = e.getMessage();
+        }
+        assertEquals(Const.StatusCodes.NULL_PARAMETER, errorMessage);
+        
+        ______TS("Unsuccessful case 3: trying to unpublish a session not currently published");
         
         makeFeedbackSessionUnpublished(session);
         
-        unpublishAction = getAction(unpublishParams);
+        unpublishAction = getAction(paramsNormal);
         result = (RedirectResult) unpublishAction.executeAndPostProcess();
         
         expectedDestination = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE + 
