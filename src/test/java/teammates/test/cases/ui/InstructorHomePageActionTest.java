@@ -152,11 +152,6 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         }
         
     }
-
-    @Test
-    public void testIsNewInstructor() {
-        // is not this tested in the code above--the instructorWithoutCourses case?
-    }
     
     private InstructorHomePageAction getAction(String... params) throws Exception{
             return (InstructorHomePageAction) (gaeSimulation.getActionObject(uri, params));
