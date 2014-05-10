@@ -49,6 +49,7 @@ public class InstructorStudentCommentEditAction extends Action {
                         "<span class=\"bold\">Comment:</span> " + comment.commentText;
             }
         } catch (InvalidParametersException e) {
+            // TODO: add a test to cover this path
             statusToUser.add(e.getMessage());
             statusToAdmin = e.getMessage();
             isError = true;
