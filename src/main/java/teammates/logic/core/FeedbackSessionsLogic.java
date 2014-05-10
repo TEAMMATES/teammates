@@ -458,7 +458,7 @@ public class FeedbackSessionsLogic {
             throw new EntityDoesNotExistException("Trying to publish a non-existant session.");
         }
         
-        if(sessionToPublish.isPrivateSession() == true) {
+        if(sessionToPublish.isPrivateSession()) {
             throw new InvalidParametersException(
                     "Private session can't be published.");
         }

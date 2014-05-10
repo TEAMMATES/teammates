@@ -61,8 +61,7 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
    * You may commit as many times as you wish while you are fixing the code. 
        * Push your commits frequently. If you have push privileges, 
          push to the committer repo. If not, push to your fork.
-       * Try to keep the branch reasonably clean, but don't fuss too much about it. 
-         The branch will be deleted after merging.
+       * Try to keep the branch reasonably clean (e.g. use meaningful commit messages). 
    * Sync with the committer repo frequently: While you were fixing the issue, others 
    might have pushed new code to the committer repo. In that case, update your 
    repo with any new changes from committer repo and merge those updates 
@@ -94,9 +93,10 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
    
    * Create a pull request. For the pull request name, copy paste the relevant
      issue name.<br>
-     e.g. ` Incorrect error message when adding an existing instructor #1760`  
-   
-   * Go to the corresponding issue and change the status to `s.PendingReview`
+     e.g. ` Incorrect error message when adding an existing instructor #1760`<br>
+     In the comment, mention the issue number. Doing so will create an 
+     automatic reference from the issue to the pull request.<br>
+     e.g. ` For #1760`  
    
    
 
