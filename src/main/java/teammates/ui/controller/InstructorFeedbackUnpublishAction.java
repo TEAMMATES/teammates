@@ -27,14 +27,14 @@ public class InstructorFeedbackUnpublishAction extends InstructorFeedbacksPageAc
         try {
             logic.unpublishFeedbackSession(feedbackSessionName, courseId);
             statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_UNPUBLISHED);
-            statusToAdmin = "Session <span class=\"bold\">("
+            statusToAdmin = "Feedback Session <span class=\"bold\">("
                     + feedbackSessionName + ")</span> " +
                     "for Course <span class=\"bold\">[" + courseId
                     + "]</span> unpublished.";
         } catch (InvalidParametersException e) {
             isError = true;
             statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_NOT_UNPUBLISHABLE);
-            statusToAdmin = "Session <span class=\"bold\">("
+            statusToAdmin = "Feedback Session <span class=\"bold\">("
                     + feedbackSessionName + ")</span> " +
                     "for Course <span class=\"bold\">[" + courseId
                     + "]</span> unpublished unsuccessfully due to invalid params.";
