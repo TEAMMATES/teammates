@@ -14,6 +14,7 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.ui.controller.Action;
 import teammates.ui.controller.InstructorFeedbackQuestionAddAction;
 import teammates.ui.controller.RedirectResult;
 
@@ -309,14 +310,73 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         verifyAssumptionFailure();
         
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
-        String[] params = {    Const.ParamsNames.COURSE_ID, fs.courseId,
+        String[] params = { Const.ParamsNames.COURSE_ID, fs.courseId,
                             Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName};
         verifyAssumptionFailure(params);
 
+        ______TS("Empty questionText");
+        
+        params = createParamsForTypicalFeedbackQuestion(fs.courseId, fs.feedbackSessionName);
+        //params[13] = ""; //change questionText to empty string
+        modifyParamValue(params, Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "");
+        verifyAssumptionFailure(params);
+        
+        ______TS("Invalid questionNumber");
+        
+        params = createParamsForTypicalFeedbackQuestion(fs.courseId, fs.feedbackSessionName);
+        modifyParamValue(params, Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "0");//change questionNumber to invalid number
+        verifyAssumptionFailure(params);
+        
+        params = createParamsForTypicalFeedbackQuestion(fs.courseId, fs.feedbackSessionName);
+        modifyParamValue(params, Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "-1");//change questionNumber to invalid number
+        verifyAssumptionFailure(params);
+        
+        params = createParamsForTypicalFeedbackQuestion(fs.courseId, fs.feedbackSessionName);
+        modifyParamValue(params, Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "ABC");//change questionNumber to invalid number
+        try {
+            Action c = gaeSimulation.getActionObject(uri, params);
+            c.executeAndPostProcess();
+            signalFailureToDetectException();
+        } catch (NumberFormatException e) {
+            ignoreExpectedException();
+        }
+        
+        ______TS("Non-existent Enumeration");
+
+        params = createParamsForTypicalFeedbackQuestion(instructor1ofCourse1.courseId,  fs.feedbackSessionName);
+        modifyParamValue(params, Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, "NON_EXISTENT_ENUMERATION");
+        try {
+            Action c = gaeSimulation.getActionObject(uri, params);
+            c.executeAndPostProcess();
+            signalFailureToDetectException();
+        } catch (IllegalArgumentException e) {
+            ignoreExpectedException();
+        }
+        
+        params = createParamsForTypicalFeedbackQuestion(instructor1ofCourse1.courseId,  fs.feedbackSessionName);
+        modifyParamValue(params, Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, "NON_EXISTENT_ENUMERATION");
+        try {
+            Action c = gaeSimulation.getActionObject(uri, params);
+            c.executeAndPostProcess();
+            signalFailureToDetectException();
+        } catch (IllegalArgumentException e) {
+            ignoreExpectedException();
+        }
+        
+        params = createParamsForTypicalFeedbackQuestion(instructor1ofCourse1.courseId,  fs.feedbackSessionName);
+        modifyParamValue(params, Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "NON_EXISTENT_ENUMERATION");
+        try {
+            Action c = gaeSimulation.getActionObject(uri, params);
+            c.executeAndPostProcess();
+            signalFailureToDetectException();
+        } catch (IllegalArgumentException e) {
+            ignoreExpectedException();
+        }
+        
         ______TS("Typical case");
 
         params = createParamsForTypicalFeedbackQuestion(fs.courseId, fs.feedbackSessionName);
-        params[15] = "max"; //change number of feedback to give to unlimited
+        modifyParamValue(params, Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "max");//change number of feedback to give to unlimited
         InstructorFeedbackQuestionAddAction action = getAction(params);
         RedirectResult result = (RedirectResult) action.executeAndPostProcess();
         
@@ -368,6 +428,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
 
         params = createParamsForTypicalFeedbackQuestion(fs.courseId, fs.feedbackSessionName);
         params[7] = "TEAMS"; //change recipientType to TEAMS
+        
         action = getAction(params);
         result = (RedirectResult) action.executeAndPostProcess();
         

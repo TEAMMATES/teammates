@@ -458,7 +458,7 @@ public class FeedbackSessionsLogic {
             throw new EntityDoesNotExistException("Trying to publish a non-existant session.");
         }
         
-        if(sessionToPublish.isPrivateSession() == true) {
+        if(sessionToPublish.isPrivateSession()) {
             throw new InvalidParametersException(
                     "Private session can't be published.");
         }
@@ -487,17 +487,17 @@ public class FeedbackSessionsLogic {
                 getFeedbackSession(feedbackSessionName, courseId);
 
         if(sessionToUnpublish == null) {
-            throw new EntityDoesNotExistException("Trying to publish a non-existant session.");
+            throw new EntityDoesNotExistException("Trying to unpublish a non-existant session.");
         }
         
-        if(sessionToUnpublish.isPrivateSession() == true) {
+        if(sessionToUnpublish.isPrivateSession()) {
             throw new InvalidParametersException(
-                    "Private session can't be published.");
+                    "Private session can't be unpublished.");
         }
         
-        if (sessionToUnpublish.isPublished() == false) {
+        if (!sessionToUnpublish.isPublished()) {
             throw new InvalidParametersException(
-                    "Session is not currently published.");
+                    "Session is already unpublished.");
         }
 
         sessionToUnpublish.resultsVisibleFromTime = Const.TIME_REPRESENTS_LATER;

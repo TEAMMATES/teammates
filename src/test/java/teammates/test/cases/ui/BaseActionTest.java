@@ -11,6 +11,7 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
@@ -156,6 +157,27 @@ public class BaseActionTest extends BaseComponentTestCase {
                 Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.RECEIVER.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit"
         };
+    }
+    
+    /**
+     * Modifies the value of a key in a parameter list.
+     * Assumes Key is present. Use for testing.
+     * @param params An array of Strings in the form {key1, value1, key2, value2,....} 
+     * @param key Key to modify
+     * @param value Value to set
+     */
+    protected void modifyParamValue(String[] params, String key, String value){
+        for(int i=0 ; i<params.length ; i+=2){
+            if(params[i] == key){
+                if(i+1 >= params.length){
+                    Assumption.fail("Cannot find parameter to modify.");
+                } else {
+                    params[i+1] = value;
+                    return;
+                }
+            }
+        }
+        Assumption.fail("Cannot find parameter to modify.");
     }
     
     /**

@@ -1138,7 +1138,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
             signalFailureToDetectException(
                     "Did not catch exception signalling that session is not published.");
         } catch (InvalidParametersException e) {
-            assertEquals("Session is not currently published.", e.getMessage());
+            assertEquals("Session is already unpublished.", e.getMessage());
         }
         
         ______TS("failure: private session");
@@ -1162,7 +1162,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
                     "Did not catch exception signalling that private session should " +
                     "not be published");
         } catch (InvalidParametersException e) {
-            assertEquals("Private session can't be published.", e.getMessage());
+            assertEquals("Private session can't be unpublished.", e.getMessage());
         }
                 
         ______TS("failure: session does not exist");
@@ -1184,7 +1184,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
             signalFailureToDetectException(
                     "Did not catch exception signalling that session does not exist.");
         } catch (EntityDoesNotExistException e) {
-            assertEquals("Trying to publish a non-existant session.", e.getMessage());
+            assertEquals("Trying to unpublish a non-existant session.", e.getMessage());
         }
     }
     
