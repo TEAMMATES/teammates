@@ -127,7 +127,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         
         ______TS("content: new instructor");
         //TODO: to be implemented
-        
+        // what needs to be done here? to make sure there is hint msg to new instructor and a sample course?
     }
     
     public void testHelpLink() throws Exception{
@@ -140,11 +140,63 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
     }
     
     public void testCourseLinks(){
-        //TODO: check Enroll, View, Edit, Add Evaluation links
+        String instructorId = testData.accounts.get("account").googleId;
+        String course1IdOfInstructor = testData.courses.get("CHomeUiT.CS1101").id;
+        
+        ______TS("course links: enroll");
+        
+        WebElement enrollLink = homePage.getEnrollLinkOfCourseWithCourseNumber(0);
+        enrollLink.click();
+        String expectedEnrollLinkText = TestProperties.inst().TEAMMATES_URL + 
+                Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE + 
+                "?" + Const.ParamsNames.COURSE_ID + "=" + course1IdOfInstructor + 
+                "&" + Const.ParamsNames.USER_ID + "=" + instructorId;
+        assertEquals(expectedEnrollLinkText, browser.driver.getCurrentUrl());
+        testLogin();  //restore the page to instructorHomeLink
+        
+        
+        ______TS("course links: view");
+        
+        WebElement viewLink = homePage.getViewLinkOfCourseWithCourseNumber(0);
+        viewLink.click();
+        String expectedViewLinkText = TestProperties.inst().TEAMMATES_URL + 
+                Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE + 
+                "?" + Const.ParamsNames.COURSE_ID + "=" + course1IdOfInstructor + 
+                "&" + Const.ParamsNames.USER_ID + "=" + instructorId;
+        assertEquals(expectedViewLinkText, browser.driver.getCurrentUrl());
+        testLogin();  //restore the page to instructorHomeLink
+        
+        
+        ______TS("course links: Edit");
+        
+        WebElement editLink = homePage.getEditLinkOfCourseWithCourseNumber(0);
+        editLink.click();
+        String expectedEditLinkText = TestProperties.inst().TEAMMATES_URL + 
+                Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE + 
+                "?" + Const.ParamsNames.COURSE_ID + "=" + course1IdOfInstructor + 
+                "&" +  Const.ParamsNames.USER_ID + "=" + instructorId;
+        assertEquals(expectedEditLinkText, browser.driver.getCurrentUrl());
+        testLogin();  //restore the page to instructorHomeLink
+        
+        
+        ______TS("course links: Add Session");
+        
+        WebElement addSessionLink = homePage.getAddSessionLinkOfCourseWithCourseNumber(0);
+        addSessionLink.click();
+        String expectedAddSessionLinkText = TestProperties.inst().TEAMMATES_URL + 
+                Const.ActionURIs.INSTRUCTOR_EVALS_PAGE + 
+                "?" + Const.ParamsNames.USER_ID + "=" + instructorId +
+                "&" + Const.ParamsNames.COURSE_ID + "=" + course1IdOfInstructor;
+        assertEquals(expectedAddSessionLinkText, browser.driver.getCurrentUrl());
+        testLogin();  //restore the page to instructorHomeLink
+        
+        
+        // the above code has two issues: 1. the way to restore to homePage is not right
     }
     
     public void testEvaluationLinks(){
         //TODO: check View results, Edit, Preview links
+        // where is preview link?
     }
     
     public void testRemindAction(){

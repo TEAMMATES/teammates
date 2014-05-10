@@ -64,12 +64,40 @@ public class InstructorHomePage extends AppPage {
         waitForPageToLoad();
     }
     
-    public InstructorStudentListPage searchForStudent(String studentName){
+    public InstructorStudentListPage searchForStudent(String studentName) {
         searchBox.clear();
         searchBox.sendKeys(studentName);
         searchButton.click();
         waitForPageToLoad();
         return changePageType(InstructorStudentListPage.class);
+    }
+    
+    public WebElement getEnrollLinkOfCourseWithCourseNumber(int courseNumber) {
+        WebElement courseDiv = browser.driver.findElement(By.id("course" + courseNumber));
+        WebElement enrollLink = courseDiv.findElement(By.linkText("Enroll"));
+        
+        return enrollLink;
+    }
+    
+    public WebElement getViewLinkOfCourseWithCourseNumber(int courseNumber) {
+        WebElement courseDiv = browser.driver.findElement(By.id("course" + courseNumber));
+        WebElement viewLink = courseDiv.findElement(By.linkText("View"));
+        
+        return viewLink;
+    }
+    
+    public WebElement getEditLinkOfCourseWithCourseNumber(int courseNumber) {
+        WebElement courseDiv = browser.driver.findElement(By.id("course" + courseNumber));
+        WebElement editLink = courseDiv.findElement(By.linkText("Edit"));
+        
+        return editLink;
+    }
+    
+    public WebElement getAddSessionLinkOfCourseWithCourseNumber(int courseNumber) {
+        WebElement courseDiv = browser.driver.findElement(By.id("course" + courseNumber));
+        WebElement addSessionLink = courseDiv.findElement(By.linkText("Add Session"));
+        
+        return addSessionLink;
     }
     
     public WebElement getViewResponseLink(String courseId, String evalName) {
