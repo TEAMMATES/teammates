@@ -333,7 +333,12 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
                 null, null,
                 newSession.instructions,
                 newSession.gracePeriod );
-        assertEquals("Please use only alphabets, numbers and whitespace in feedback session name.", 
+        assertEquals(String.format(
+                        FieldValidator.INVALID_NAME_ERROR_MESSAGE,
+                        "bad name %%",
+                        FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
+                        FieldValidator.REASON_CONTAINS_INVALID_CHAR,
+                        FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME),
                     feedbackPage.getStatus());
 
     }

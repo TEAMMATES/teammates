@@ -321,7 +321,7 @@
                     <tr>
                         <td colspan="2" class="centeralign"><input id="button_submit"
                             type="submit" class="button"
-                            onclick="return checkAddFeedbackSession(this.form);"
+                            
                             value="Create Feedback Session" tabindex="14"></td>
                     </tr>
                 </table>

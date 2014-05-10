@@ -349,7 +349,16 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         
         List<FeedbackSessionAttributes> actualSessions = null;
         
-        ______TS("Student viewing: 2 visible, 1 awaiting, 1 no questions");
+        ______TS("non-existent course");
+        
+        try {
+            fsLogic.getFeedbackSessionsForUserInCourse("NonExistentCourseId", "randomUserId");
+            signalFailureToDetectException("Did not detect that course does not exist.");
+        } catch (EntityDoesNotExistException edne) {
+            assertEquals("Trying to get feedback sessions for a course that does not exist.", edne.getMessage());
+        }
+        
+       ______TS("Student viewing: 2 visible, 1 awaiting, 1 no questions");
         
         // 2 valid sessions in course 1, 0 in course 2.
         
@@ -487,6 +496,18 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         } catch (EntityDoesNotExistException e) {
             assertEquals("Trying to get a feedback session that does not exist.", e.getMessage());
         }
+        
+        ______TS("failure: non-existent student");
+        
+        try {
+            fsLogic.getFeedbackSessionQuestionsForStudent(
+                    "Second feedback session", "idOfTypicalCourse1", "randomUserId");
+            signalFailureToDetectException("Did not detect that student does not exist.");
+        } catch (EntityDoesNotExistException edne) {
+            assertEquals("Trying to get a feedback session for student that does not exist.", edne.getMessage());
+        }
+        
+        
         
     }
     
