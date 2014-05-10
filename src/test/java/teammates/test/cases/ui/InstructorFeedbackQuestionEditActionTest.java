@@ -19,7 +19,9 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.storage.api.FeedbackResponsesDb;
@@ -225,6 +227,32 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
             ignoreExpectedException();
         }
         
+        ______TS("Invalid parameters");
+        
+        String[] invalidParams = {
+                Const.ParamsNames.COURSE_ID, fs.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.TEAMS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, FeedbackParticipantType.OWN_TEAM_MEMBERS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "TEXT",
+                Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "question",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "max",
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.RECEIVER.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, "",
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.RECEIVER.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId()
+        };
+        
+        a = getAction(invalidParams);
+        r = (RedirectResult) a.executeAndPostProcess();
+        
+        assertEquals(String.format(FieldValidator.PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE,
+                                   FeedbackParticipantType.TEAMS.toDisplayRecipientName(),
+                                   FeedbackParticipantType.OWN_TEAM_MEMBERS.toDisplayGiverName()),
+                     r.getStatusMessage());
+        
         ______TS("Delete Feedback");
         
         String[] deleteParams = {
@@ -249,6 +277,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                 r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED, r.getStatusMessage());
         assertFalse(r.isError);
+        
     }
     
     @Test
