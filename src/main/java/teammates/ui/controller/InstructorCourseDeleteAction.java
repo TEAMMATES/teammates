@@ -1,13 +1,8 @@
 package teammates.ui.controller;
 
-import java.util.ArrayList;
-import java.util.logging.Logger;
-
-import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Utils;
 import teammates.logic.api.GateKeeper;
 
 /**
