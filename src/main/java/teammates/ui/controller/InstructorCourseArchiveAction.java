@@ -11,27 +11,25 @@ public class InstructorCourseArchiveAction extends Action {
 
         String idOfCourseToArchive = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull(idOfCourseToArchive);
-        boolean setArchive = getRequestParamAsBoolean(Const.ParamsNames.COURSE_ARCHIVE_STATUS);
-        Assumption.assertNotNull(setArchive);
+        String setArchiveStatus = getRequestParamValue(Const.ParamsNames.COURSE_ARCHIVE_STATUS);
+        Assumption.assertNotNull(setArchiveStatus);
+        boolean setArchive = Boolean.parseBoolean(setArchiveStatus);
         
         new GateKeeper().verifyAccessible(
                 logic.getInstructorForGoogleId(idOfCourseToArchive, account.googleId),
                 logic.getCourse(idOfCourseToArchive));
         
         try {
+            // Set the archive status and status shown to user and admin 
+            logic.setArchiveStatusOfCourse(idOfCourseToArchive, setArchive);
             if (setArchive) {
-                logic.setArchiveStatusOfCourse(idOfCourseToArchive, true);
-                
-                if (isRedirectToHomePage()) {
+                if (isRedirectedToHomePage()) {
                     statusToUser.add(String.format(Const.StatusMessages.COURSE_ARCHIVED_FROM_HOMEPAGE, idOfCourseToArchive));
                 } else {
                     statusToUser.add(String.format(Const.StatusMessages.COURSE_ARCHIVED, idOfCourseToArchive));
                 }
-                
                 statusToAdmin = "Course archived: " + idOfCourseToArchive;
-            } else {
-                logic.setArchiveStatusOfCourse(idOfCourseToArchive, false);
-                
+            } else {  
                 statusToUser.add(String.format(Const.StatusMessages.COURSE_UNARCHIVED, idOfCourseToArchive));
                 statusToAdmin = "Course unarchived: " + idOfCourseToArchive;
             }
@@ -39,21 +37,20 @@ public class InstructorCourseArchiveAction extends Action {
             setStatusForException(e);
         }
 
-        if (isRedirectToHomePage()) {
+        if (isRedirectedToHomePage()) {
             return createRedirectResult(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
         } else {
             return createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE);
         }
     }
     
-    private boolean isRedirectToHomePage() {
+    /**
+     * Checks if the action is executed in homepage or 'Courses' pages based on its redirection
+     */
+    private boolean isRedirectedToHomePage() {
         String nextUrl = getRequestParamValue(Const.ParamsNames.NEXT_URL);
+        boolean isHomePageUrl = (nextUrl != null && nextUrl.equals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE));
         
-        if (nextUrl != null && nextUrl.equals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE)) {
-            return true;
-        } else {
-            return false;
-        }
+        return isHomePageUrl;
     }
-
 }

@@ -232,7 +232,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
             coursesLogic.setArchiveStatusOfCourse(course.id, true);
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
-            AssertHelper.assertContains("course doesn't exist", e.getMessage());
+            AssertHelper.assertContains("Course does not exist: CLogicT.new-course", e.getMessage());
         }
         
     }
