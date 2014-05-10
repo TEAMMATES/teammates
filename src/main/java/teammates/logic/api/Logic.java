@@ -643,8 +643,6 @@ public class Logic {
             throws InvalidParametersException, EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        coursesLogic.verifyCourseIsPresent(courseId);
-        
         coursesLogic.setArchiveStatusOfCourse(courseId, archiveStatus);
     }
     
@@ -1467,7 +1465,7 @@ public class Logic {
      * * All parameters are non-null.
      */
     public void createFeedbackQuestion(FeedbackQuestionAttributes feedbackQuestion)
-            throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
+            throws InvalidParametersException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackQuestion);
 
