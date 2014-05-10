@@ -32,12 +32,7 @@ public class InstructorFeedbackUnpublishAction extends InstructorFeedbacksPageAc
                     "for Course <span class=\"bold\">[" + courseId
                     + "]</span> unpublished.";
         } catch (InvalidParametersException e) {
-            isError = true;
-            statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_NOT_UNPUBLISHABLE);
-            statusToAdmin = "Feedback Session <span class=\"bold\">("
-                    + feedbackSessionName + ")</span> " +
-                    "for Course <span class=\"bold\">[" + courseId
-                    + "]</span> unpublished unsuccessfully due to invalid params.";
+            setStatusForException(e, Const.StatusMessages.FEEDBACK_SESSION_NOT_UNPUBLISHABLE);
         }
         
         return createRedirectResult(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
