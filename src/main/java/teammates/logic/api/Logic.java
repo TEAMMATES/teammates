@@ -643,8 +643,6 @@ public class Logic {
             throws InvalidParametersException, EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        coursesLogic.verifyCourseIsPresent(courseId);
-        
         coursesLogic.setArchiveStatusOfCourse(courseId, archiveStatus);
     }
     

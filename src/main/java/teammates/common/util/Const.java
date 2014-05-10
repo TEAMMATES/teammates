@@ -575,8 +575,9 @@ public class Const {
         public static final String COURSE_EXISTS = "A course by the same ID already exists in the system, possibly created by another user. Please choose a different course ID";
         public static final String COURSE_EDITED = "The course has been edited.";
         public static final String COURSE_ARCHIVED = "The course %s has been archived. It will not appear in the home page any more.";
-        public static final String COURSE_ARCHIVED_FROM_HOMEPAGE = COURSE_ARCHIVED + " You can access archived courses from the 'Courses' tab.<br>Click here to undo the archiving and bring the course back to the home page.";
-        public static final String COURSE_UNARCHIVED = "The course %s is no longer archived.";
+        //TODO: Let undo process to be in the Course page for now. Should implement to be able to undo the archiving from the home page later.
+        public static final String COURSE_ARCHIVED_FROM_HOMEPAGE = COURSE_ARCHIVED + " You can access archived courses from the 'Courses' tab.<br>Go there to undo the archiving and bring the course back to the home page.";
+        public static final String COURSE_UNARCHIVED = "The course %s has been unarchived.";
         public static final String COURSE_DELETED = "The course %s has been deleted.";
         public static final String COURSE_EMPTY = "You have not created any courses yet. Use the form above to create a course.";
         public static final String COURSE_EMPTY_IN_EVALUATION = "You have not created any courses yet. Go <a href=\""
