@@ -31,12 +31,11 @@ public class InstructorStudentRecordsPageAction extends Action {
         
         String showCommentBox = getRequestParamValue(Const.ParamsNames.STUDENT_RECORDS_SHOW_COMMENT_BOX);
         
-        new GateKeeper().verifyAccessible(
-                logic.getInstructorForGoogleId(courseId, account.googleId),
-                logic.getCourse(courseId));
+        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
+        
+        new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId));
         
         data = new InstructorStudentRecordsPageData(account);
-        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         
         try {
             data.courseId = courseId;
@@ -90,6 +89,7 @@ public class InstructorStudentRecordsPageAction extends Action {
             return createShowPageResult(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS, data);
             
         } catch (InvalidParametersException e) {
+            // TODO: write test to trigger this path
             setStatusForException(e); 
             return createShowPageResult(Const.ViewURIs.STATUS_MESSAGE, data);
         }
