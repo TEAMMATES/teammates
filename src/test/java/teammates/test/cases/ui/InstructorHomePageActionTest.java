@@ -10,13 +10,8 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.EvaluationAttributes;
-import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.util.Const;
-import teammates.common.util.TimeHelper;
-import teammates.logic.core.EvaluationsLogic;
 import teammates.logic.api.Logic;
-import teammates.test.cases.common.EvaluationAttributesTest;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorHomePageAction;
 import teammates.ui.controller.InstructorHomePageData;
@@ -79,29 +74,6 @@ public class InstructorHomePageActionTest extends BaseActionTest {
                 Const.ParamsNames.COURSE_SORTING_CRITERIA, Const.SORT_BY_COURSE_ID
         };
         gaeSimulation.loginAsAdmin("admin.user");
-        
-        // what is this block of code doing here?
-        //create a CLOSED evaluation
-        EvaluationAttributes eval = EvaluationAttributesTest.generateValidEvaluationAttributesObject();
-        String IdOfCourse2 = dataBundle.courses.get("typicalCourse2").id;
-        eval.courseId = IdOfCourse2;
-        eval.name = "Closed eval";
-        eval.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
-        eval.endTime = TimeHelper.getDateOffsetToCurrentTime(-1);
-        eval.setDerivedAttributes();
-        assertEquals(EvalStatus.CLOSED, eval.getStatus());
-        EvaluationsLogic evaluationsLogic = new EvaluationsLogic();
-        evaluationsLogic.createEvaluationCascade(eval);
-        
-        // what is this block of code doing here?
-        //create a PUBLISHED evaluation
-        eval.name = "published eval";
-        eval.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
-        eval.endTime = TimeHelper.getDateOffsetToCurrentTime(-1);
-        eval.published = true;
-        eval.setDerivedAttributes();
-        assertEquals(EvalStatus.PUBLISHED, eval.getStatus());
-        evaluationsLogic.createEvaluationCascade(eval);
         
         //access page in masquerade mode
         String instructorWithMultipleCourses = dataBundle.accounts.get("instructor3").googleId;
