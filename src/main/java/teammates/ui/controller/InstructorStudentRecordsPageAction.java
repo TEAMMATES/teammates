@@ -74,6 +74,8 @@ public class InstructorStudentRecordsPageAction extends Action {
                 } else if(session instanceof FeedbackSessionAttributes){
                     data.results.add(logic.getFeedbackSessionResultsForInstructor(
                                     session.getSessionName(), courseId,instructor.email));
+                } else {
+                    Assumption.fail("Unknown session type");
                 }
             }
             
