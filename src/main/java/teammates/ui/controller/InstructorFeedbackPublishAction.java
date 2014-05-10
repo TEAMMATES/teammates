@@ -15,8 +15,8 @@ public class InstructorFeedbackPublishAction extends InstructorFeedbacksPageActi
         
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(feedbackSessionName);
+        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, feedbackSessionName);
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
