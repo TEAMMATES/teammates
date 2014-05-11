@@ -56,32 +56,35 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
                     "<span class=\"bold\">From:</span> " + fs.startTime + "<span class=\"bold\"> to</span> " + fs.endTime + "<br>" +
                     "<span class=\"bold\">Session visible from:</span> " + fs.sessionVisibleFromTime + "<br>" +
                     "<span class=\"bold\">Results visible from:</span> " + fs.resultsVisibleFromTime + "<br><br>" +
-                    "<span class=\"bold\">Instructions:</span> " + fs.instructions;            
+                    "<span class=\"bold\">Instructions:</span> " + fs.instructions;
+            
+            //TODO: add a condition to include the status due to inconsistency problem of database 
+            //      (similar to the one below)
+            return createRedirectResult(new PageData(account).getInstructorFeedbackSessionEditLink(fs.courseId,fs.feedbackSessionName));
+            
         } catch (EntityAlreadyExistsException e) {
             statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_EXISTS);
             statusToAdmin = e.getMessage();
             isError = true;
             
         } catch (InvalidParametersException e) {
+            // updates isError attribute
             setStatusForException(e);
         } 
         
-        if (!isError) {
-            // Go to the edit page if successful
-            return createRedirectResult(new PageData(account).getInstructorFeedbackSessionEditLink(fs.courseId,fs.feedbackSessionName));
-        } else {
-            data.courses = loadCoursesList(account.googleId);
-            data.existingEvalSessions = loadEvaluationsList(account.googleId);
-            data.existingFeedbackSessions = loadFeedbackSessionsList(account.googleId);
-            if (data.existingFeedbackSessions.size() == 0) {
-                statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_EMPTY);
-            }
-            
-            EvaluationAttributes.sortEvaluationsByDeadlineDescending(data.existingEvalSessions);
-            FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(data.existingFeedbackSessions);
-            
-            return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACKS, data);
+        // if isError == true,
+        data.courses = loadCoursesList(account.googleId);
+        data.existingEvalSessions = loadEvaluationsList(account.googleId);
+        data.existingFeedbackSessions = loadFeedbackSessionsList(account.googleId);
+        
+        if (data.existingFeedbackSessions.size() == 0) {
+            statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_ADD_DB_INCONSISTENCY);
         }
+    
+        EvaluationAttributes.sortEvaluationsByDeadlineDescending(data.existingEvalSessions);
+        FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(data.existingFeedbackSessions);
+        
+        return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACKS, data);
     }
     
     private FeedbackSessionAttributes extractFeedbackSessionData() {
@@ -114,33 +117,33 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
         
         String type = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON);
         switch (type) {
-        case "custom":
+        case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM:
             newSession.resultsVisibleFromTime = TimeHelper.combineDateTime(
                     getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE),
                     getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME));
             break;
-        case "atvisible":
+        case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_ATVISIBLE:
             newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_FOLLOW_VISIBLE;
             break;
-        case "later":
+        case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER:
             newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_LATER;
             break;
-        case "never":
+        case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_NEVER:
             newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_NEVER;
             break;
         }
         
         type = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);
         switch (type) {
-        case "custom": //TODO Magic strings. Use enums to prevent potentila bugs caused by typos.
+        case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM: //TODO Magic strings. Use enums to prevent potentila bugs caused by typos.
             newSession.sessionVisibleFromTime = TimeHelper.combineDateTime(
                     getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE),
                     getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME));
             break;
-        case "atopen":
+        case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN:
             newSession.sessionVisibleFromTime = Const.TIME_REPRESENTS_FOLLOW_OPENING;
             break;
-        case "never":
+        case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_NEVER:
             newSession.sessionVisibleFromTime = Const.TIME_REPRESENTS_NEVER;
             // overwrite if private
             newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_NEVER;

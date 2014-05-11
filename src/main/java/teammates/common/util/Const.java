@@ -628,6 +628,7 @@ public class Const {
                 + "</div>";
         
         public static final String FEEDBACK_SESSION_ADDED = "The feedback session has been added. Click the \"Add New Question\" button below to begin adding questions for the feedback session.";
+        public static final String FEEDBACK_SESSION_ADD_DB_INCONSISTENCY = "If you do not see existing feedback sessions in the list below, please refresh the page after a few moments";
         public static final String FEEDBACK_SESSION_EDITED = "The feedback session has been updated.";
         public static final String FEEDBACK_SESSION_DELETED = "The feedback session has been deleted.";
         public static final String FEEDBACK_SESSION_PUBLISHED = "The feedback session has been published.";
@@ -773,6 +774,15 @@ public class Const {
     public static final String STUDENT_EVALUATION_STATUS_PUBLISHED = "Published";
     public static final String STUDENT_EVALUATION_STATUS_ERROR = "Error";
 
+    public static final String INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM = "custom";
+    public static final String INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN = "atopen";
+    public static final String INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_NEVER = "never";
+    
+    public static final String INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM = "custom";
+    public static final String INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_ATVISIBLE = "atvisible";
+    public static final String INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER = "later";
+    public static final String INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_NEVER = "never";
+    
     public static final String STUDENT_COURSE_STATUS_YET_TO_JOIN = "Yet to join";
     public static final String STUDENT_COURSE_STATUS_JOINED = "Joined";
     
