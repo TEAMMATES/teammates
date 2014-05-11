@@ -2,19 +2,19 @@ package teammates.test.cases.ui;
 
 import static org.testng.AssertJUnit.assertEquals;
 
+import java.util.List;
+
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
 import teammates.ui.controller.InstructorCourseDeleteAction;
-import teammates.ui.controller.InstructorCoursesPageAction;
-import teammates.ui.controller.InstructorCoursesPageData;
 import teammates.ui.controller.RedirectResult;
-import teammates.ui.controller.ShowPageResult;
 
 public class InstructorCourseDeleteActionTest extends BaseActionTest {
 
@@ -30,7 +30,6 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
     @BeforeMethod
     public void caseSetUp() throws Exception {
         dataBundle = getTypicalDataBundle();
-
         restoreTypicalDataInDatastore();
     }
     
@@ -44,108 +43,83 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, "icdat.owncourse"
         };
-        
+
+        /*  Test access for users 
+         *  This should be separated from testing for admin as we need to recreate the course after being removed         
+         */
         verifyUnaccessibleWithoutLogin(submissionParams);
         verifyUnaccessibleForUnregisteredUsers(submissionParams);
         verifyUnaccessibleForStudents(submissionParams);
         verifyUnaccessibleForInstructorsOfOtherCourses(submissionParams);
         verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
-        
-        //recreate the entity
+
+        /* Test access for admin in masquerade mode */
         CoursesLogic.inst().createCourseAndInstructor(
                 dataBundle.instructors.get("instructor1OfCourse1").googleId, 
                 "icdat.owncourse", "New course");
         verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
-        
     }
-
-
     
     @Test
     public void testExecuteAndPostProcess() throws Exception{
-        
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor1OfCourse1.googleId;
+
+        gaeSimulation.loginAsInstructor(instructorId);
         
-        InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
-        
+        ______TS("Not enough parameters");
+        verifyAssumptionFailure();
+
+        ______TS("Typical case, 2 courses, redirect to homepage");
+        CoursesLogic.inst().createCourseAndInstructor(instructorId, "icdct.tpa.id1", "New course");
         String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, instructor1ofCourse1.courseId
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.NEXT_URL, Const.ActionURIs.INSTRUCTOR_HOME_PAGE
         };
         
-        
-        ______TS("Typical case, 2 courses");
-        CoursesLogic.inst().createCourseAndInstructor(instructorId, "icdct.tpa.id1", "New course");
         assertEquals(true, CoursesLogic.inst().isCoursePresent("icdct.tpa.id1"));
-        gaeSimulation.loginAsInstructor(instructorId);
-        InstructorCoursesPageAction a = getAction(submissionParams);
-        ShowPageResult r = (ShowPageResult)a.executeAndPostProcess();
+        InstructorCourseDeleteAction deleteAction = getAction(submissionParams);
+        RedirectResult redirectResult = getRedirectResult(deleteAction);
         
         assertEquals(
-                Const.ViewURIs.INSTRUCTOR_COURSES+"?message=The+course+idOfTypicalCourse1+has+been+deleted.&error=false&user=idOfInstructor1OfCourse1", 
-                r.getDestinationWithParams());
-        assertEquals(false, r.isError);
-        assertEquals("The course idOfTypicalCourse1 has been deleted.", r.getStatusMessage());
+                Const.ActionURIs.INSTRUCTOR_HOME_PAGE+"?message=The+course+idOfTypicalCourse1+has+been+deleted.&error=false&user=idOfInstructor1OfCourse1", 
+                redirectResult.getDestinationWithParams());
+        assertEquals(false, redirectResult.isError);
+        assertEquals("The course idOfTypicalCourse1 has been deleted.", redirectResult.getStatusMessage());
         
-        InstructorCoursesPageData pageData = (InstructorCoursesPageData)r.data;
-        assertEquals(instructorId, pageData.account.googleId);
-        assertEquals(1, pageData.allCourses.size());
-        assertEquals("icdct.tpa.id1", pageData.allCourses.get(0).course.id);
-        assertEquals("", pageData.courseIdToShow);
-        assertEquals("", pageData.courseNameToShow);
-        
+        List<CourseAttributes> courseList = CoursesLogic.inst().getCoursesForInstructor(instructorId);
+        assertEquals(1, courseList.size());
+        assertEquals("icdct.tpa.id1", courseList.get(0).id);
+
         String expectedLogMessage = "TEAMMATESLOG|||instructorCourseDelete" +
                 "|||instructorCourseDelete|||true|||Instructor|||Instructor 1 of Course 1" +
                 "|||idOfInstructor1OfCourse1|||instr1@course1.com" +
                 "|||Course deleted: idOfTypicalCourse1|||/page/instructorCourseDelete";
-        assertEquals(expectedLogMessage, a.getLogMessage());
+        assertEquals(expectedLogMessage, deleteAction.getLogMessage());
         
-        ______TS("Masquerade mode, delete last course");
+        ______TS("Masquerade mode, delete last course, redirect to Courses page");
         
         gaeSimulation.loginAsAdmin("admin.user");
         submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, "icdct.tpa.id1"
+                Const.ParamsNames.COURSE_ID, "icdct.tpa.id1",
+                Const.ParamsNames.NEXT_URL, Const.ActionURIs.INSTRUCTOR_COURSES_PAGE
         };
-        a = getAction(addUserIdToParams(instructorId, submissionParams));
-        r = (ShowPageResult) a.executeAndPostProcess();
+        deleteAction = getAction(addUserIdToParams(instructorId, submissionParams));
+        redirectResult = getRedirectResult(deleteAction);
         
         assertEquals(
-                Const.ViewURIs.INSTRUCTOR_COURSES+"?message=The+course+icdct.tpa.id1+has+been+deleted.&error=false&user=idOfInstructor1OfCourse1", 
-                r.getDestinationWithParams());
-        assertEquals(false, r.isError);
-        assertEquals("The course icdct.tpa.id1 has been deleted.", r.getStatusMessage());
+                Const.ActionURIs.INSTRUCTOR_COURSES_PAGE+"?message=The+course+icdct.tpa.id1+has+been+deleted.&error=false&user=idOfInstructor1OfCourse1", 
+                redirectResult.getDestinationWithParams());
+        assertEquals(false, redirectResult.isError);
+        assertEquals("The course icdct.tpa.id1 has been deleted.", redirectResult.getStatusMessage());
         
-        pageData = (InstructorCoursesPageData) r.data;
-        assertEquals(instructorId, pageData.account.googleId);
-        assertEquals(0, pageData.allCourses.size());
-        assertEquals("", pageData.courseIdToShow);
-        assertEquals("", pageData.courseNameToShow);
+        courseList = CoursesLogic.inst().getCoursesForInstructor(instructorId);
+        assertEquals(0, courseList.size());
         
         expectedLogMessage = "TEAMMATESLOG|||instructorCourseDelete|||instructorCourseDelete" +
                 "|||true|||Instructor(M)|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1" +
                 "|||instr1@course1.com|||Course deleted: icdct.tpa.id1|||/page/instructorCourseDelete";
-        assertEquals(expectedLogMessage, a.getLogMessage());
-        
-        ______TS("Still masquerade mode, create course and redirect after delete");
-        
-        CoursesLogic.inst().createCourseAndInstructor(instructorId, "icdct.tpa.id2", "New course2");
-        assertEquals(true, CoursesLogic.inst().isCoursePresent("icdct.tpa.id2"));
-        submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, "icdct.tpa.id2",
-                Const.ParamsNames.NEXT_URL, Const.ActionURIs.INSTRUCTOR_HOME_PAGE
-        };
-        a = getAction(addUserIdToParams(instructorId, submissionParams));
-        RedirectResult rr = (RedirectResult) a.executeAndPostProcess();
-        assertEquals(false, CoursesLogic.inst().isCoursePresent("icdct.tpa.id2"));
-        
-        assertEquals(
-                Const.ActionURIs.INSTRUCTOR_HOME_PAGE+"?message=The+course+icdct.tpa.id2+has+been+deleted.&error=false&user=idOfInstructor1OfCourse1", 
-                rr.getDestinationWithParams());
-        
-        expectedLogMessage = "TEAMMATESLOG|||instructorCourseDelete|||instructorCourseDelete" +
-                "|||true|||Instructor(M)|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1" +
-                "|||instr1@course1.com|||Course deleted: icdct.tpa.id2|||/page/instructorCourseDelete";
-        assertEquals(expectedLogMessage, a.getLogMessage());
+        assertEquals(expectedLogMessage, deleteAction.getLogMessage());
     }
     
     
