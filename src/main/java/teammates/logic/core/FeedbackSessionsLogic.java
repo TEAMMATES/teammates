@@ -94,7 +94,7 @@ public class FeedbackSessionsLogic {
         }
         
         List<FeedbackSessionAttributes> sessions = 
-                fsDb.getFeedbackSessionsForCourse(courseId);
+                getFeedbackSessionsForCourse(courseId);
         List<FeedbackSessionAttributes> viewableSessions = new ArrayList<FeedbackSessionAttributes>();
         for (FeedbackSessionAttributes session : sessions) {
             if (isFeedbackSessionViewableTo(session, userEmail)) {
