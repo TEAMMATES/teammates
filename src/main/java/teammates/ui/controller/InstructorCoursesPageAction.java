@@ -52,7 +52,7 @@ public class InstructorCoursesPageAction extends Action {
         
         /* Explanation: We must set this variable. It is the text that will 
          * represent this particular execution of this action in the
-         * 'adming activity log' page.*/
+         * 'admin activity log' page.*/
         statusToAdmin = "instructorCourse Page Load<br>" 
                 + "Total courses: " + data.allCourses.size();
         

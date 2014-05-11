@@ -41,8 +41,6 @@ public class InstructorFeedbackQuestionAddAction extends Action {
                     feedbackQuestion.courseId + "]</span> created.<br>" +
                     "<span class=\"bold\">" + feedbackQuestion.getQuestionDetails().getQuestionTypeDisplayName() + 
                     ":</span> " + feedbackQuestion.getQuestionDetails().questionText;
-        } catch (EntityAlreadyExistsException e) {
-            Assumption.fail("Creating a duplicate question should not be possible as GAE generates a new questionId every time\n");
         } catch (InvalidParametersException e) {
             statusToUser.add(e.getMessage());
             statusToAdmin = e.getMessage();
@@ -74,6 +72,7 @@ public class InstructorFeedbackQuestionAddAction extends Action {
         String feedbackQuestionNumber = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMBER);
         Assumption.assertNotNull("Null question number", feedbackQuestionNumber);
         newQuestion.questionNumber = Integer.parseInt(feedbackQuestionNumber);
+        Assumption.assertTrue("Invalid question number", newQuestion.questionNumber >= 1);
         
         String numberOfEntityTypes = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE);
         Assumption.assertNotNull("Null number of entity types", numberOfEntityTypes);

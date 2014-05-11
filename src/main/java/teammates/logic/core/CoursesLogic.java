@@ -287,7 +287,7 @@ public class CoursesLogic {
         cdd.stats.unregisteredTotal = getTotalUnregisteredInCourse(cd.id);
         return cdd;
     }
-    
+
     public CourseSummaryBundle getCourseSummaryWithoutStats(String courseId)
             throws EntityDoesNotExistException {
         CourseAttributes cd = coursesDb.getCourse(courseId);
@@ -324,6 +324,26 @@ public class CoursesLogic {
         }
         return courseList;
     }
+
+    public List<CourseAttributes> getCoursesForInstructor(String googleId) throws EntityDoesNotExistException {
+
+        List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForGoogleId(googleId);
+
+        ArrayList<CourseAttributes> courseList = new ArrayList<CourseAttributes>();
+
+        for (InstructorAttributes instructor : instructorList) {
+            CourseAttributes course = coursesDb.getCourse(instructor.courseId);
+            
+            if (course == null) {
+                log.warning("Course was deleted but the Instructor still exists: " + Const.EOL 
+                        + instructor.toString());
+            } else {
+                courseList.add(course);
+            }
+        }
+        
+        return courseList;
+    }
     
     public HashMap<String, CourseDetailsBundle> getCourseSummariesForInstructor(String googleId) {
         
@@ -344,7 +364,7 @@ public class CoursesLogic {
         
         return courseSummaryList;
     }
-
+ 
     public HashMap<String, CourseDetailsBundle> getCoursesDetailsForInstructor(
             String instructorId) throws EntityDoesNotExistException {
         
@@ -415,13 +435,16 @@ public class CoursesLogic {
         CourseAttributes courseToUpdate = getCourse(courseId);
         if (courseToUpdate != null) {
             courseToUpdate.isArchived = archiveStatus;
-            
             coursesDb.updateCourse(courseToUpdate);
         } else {
-            throw new EntityDoesNotExistException("Course " + courseId + " doesn't exist.");
+            throw new EntityDoesNotExistException("Course does not exist: "+courseId);
         }
     }
 
+    /**
+     * Delete a course from its given corresponding ID
+     * This will also cascade the data in other databases which are related to this course
+     */ 
     public void deleteCourseCascade(String courseId) {
         evaluationsLogic.deleteEvaluationsForCourse(courseId);
         studentsLogic.deleteStudentsForCourse(courseId);
