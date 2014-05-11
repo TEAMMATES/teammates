@@ -9,6 +9,9 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.Url;
 
+/**
+ * PageData: data used for the "Course Details" page
+ */
 public class InstructorCourseDetailsPageData extends PageData {
     
     public InstructorCourseDetailsPageData(AccountAttributes account) {

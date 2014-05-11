@@ -1,18 +1,16 @@
 package teammates.ui.controller;
 
-import java.util.logging.Logger;
-
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Utils;
 import teammates.logic.api.GateKeeper;
 
+/**
+ * Action: showing the details page for a course of an instructor
+ */
 public class InstructorCourseDetailsPageAction extends Action {
-    protected static final Logger log = Utils.getLogger();
-    
-    
+
     @Override
     public ActionResult execute() throws EntityDoesNotExistException{
         
@@ -23,6 +21,7 @@ public class InstructorCourseDetailsPageAction extends Action {
                 logic.getInstructorForGoogleId(courseId, account.googleId),
                 logic.getCourse(courseId));
         
+        /* Setup page data for the "Course Details" page */
         InstructorCourseDetailsPageData data = new InstructorCourseDetailsPageData(account);
 
         data.courseDetails = logic.getCourseDetails(courseId);
@@ -34,9 +33,7 @@ public class InstructorCourseDetailsPageAction extends Action {
         statusToAdmin = "instructorCourseDetails Page Load<br>" 
                 + "Viewing Course Details for Course <span class=\"bold\">[" + courseId + "]</span>";
         
-        return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_DETAILS, data);
-        
+        ShowPageResult response = createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_DETAILS, data);   
+        return response;
     }
-
-
 }
