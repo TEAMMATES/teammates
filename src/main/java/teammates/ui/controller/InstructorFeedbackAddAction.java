@@ -56,31 +56,31 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
                     "<span class=\"bold\">From:</span> " + fs.startTime + "<span class=\"bold\"> to</span> " + fs.endTime + "<br>" +
                     "<span class=\"bold\">Session visible from:</span> " + fs.sessionVisibleFromTime + "<br>" +
                     "<span class=\"bold\">Results visible from:</span> " + fs.resultsVisibleFromTime + "<br><br>" +
-                    "<span class=\"bold\">Instructions:</span> " + fs.instructions;            
+                    "<span class=\"bold\">Instructions:</span> " + fs.instructions;
+            return createRedirectResult(new PageData(account).getInstructorFeedbackSessionEditLink(fs.courseId,fs.feedbackSessionName));
+            
         } catch (EntityAlreadyExistsException e) {
             statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_EXISTS);
             statusToAdmin = e.getMessage();
             isError = true;
             
         } catch (InvalidParametersException e) {
+            // updates isError attribute
             setStatusForException(e);
         } 
         
-        if (!isError) {
-            // Go to the edit page if successful
-            return createRedirectResult(new PageData(account).getInstructorFeedbackSessionEditLink(fs.courseId,fs.feedbackSessionName));
-        } else {
-            data.courses = loadCoursesList(account.googleId);
-            data.existingEvalSessions = loadEvaluationsList(account.googleId);
-            data.existingFeedbackSessions = loadFeedbackSessionsList(account.googleId);
-            
-            Assumption.assertTrue(data.existingFeedbackSessions.size() != 0);
-            
-            EvaluationAttributes.sortEvaluationsByDeadlineDescending(data.existingEvalSessions);
-            FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(data.existingFeedbackSessions);
-            
-            return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACKS, data);
+        data.courses = loadCoursesList(account.googleId);
+        data.existingEvalSessions = loadEvaluationsList(account.googleId);
+        data.existingFeedbackSessions = loadFeedbackSessionsList(account.googleId);
+        
+        if (data.existingFeedbackSessions.size() == 0) {
+            statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_ADD_DB_INCONSISTENCY);
         }
+    
+        EvaluationAttributes.sortEvaluationsByDeadlineDescending(data.existingEvalSessions);
+        FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(data.existingFeedbackSessions);
+        
+        return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACKS, data);
     }
     
     private FeedbackSessionAttributes extractFeedbackSessionData() {
