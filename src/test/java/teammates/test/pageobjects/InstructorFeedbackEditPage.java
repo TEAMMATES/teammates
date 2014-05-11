@@ -146,6 +146,12 @@ public class InstructorFeedbackEditPage extends AppPage {
         fillTextBox(maxScaleBox, Integer.toString(maxScale));
     }
     
+    public String getMaxNumScaleBox(int qnNumber) {
+        String idSuffix = qnNumber > 0 ? "-" + qnNumber : "";
+        WebElement maxScaleBox = browser.driver.findElement(By.id("maxScaleBox" + idSuffix));
+        return maxScaleBox.getAttribute("value");
+    }
+    
     public void fillStepNumScaleBox(double step, int qnNumber) {
         String idSuffix = qnNumber > 0 ? "-" + qnNumber : "";
         WebElement stepBox = browser.driver.findElement(By.id("stepBox" + idSuffix));
