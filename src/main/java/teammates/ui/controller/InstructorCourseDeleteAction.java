@@ -1,19 +1,15 @@
 package teammates.ui.controller;
 
-import java.util.ArrayList;
-import java.util.logging.Logger;
-
-import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Utils;
 import teammates.logic.api.GateKeeper;
 
+/**
+ * Action: Delete a course for an instructor
+ */
 public class InstructorCourseDeleteAction extends InstructorCoursesPageAction {
-    
-    protected static Logger log = Utils.getLogger();
-    
+        
     @Override
     public ActionResult execute()
             throws EntityDoesNotExistException {
@@ -25,26 +21,26 @@ public class InstructorCourseDeleteAction extends InstructorCoursesPageAction {
                 logic.getInstructorForGoogleId(idOfCourseToDelete, account.googleId), 
                 logic.getCourse(idOfCourseToDelete));
 
+        /* Delete the course and setup status to be shown to user and admin */
         logic.deleteCourse(idOfCourseToDelete);
         String statusMessage = String.format(Const.StatusMessages.COURSE_DELETED, idOfCourseToDelete);
         statusToUser.add(statusMessage);
         statusToAdmin = "Course deleted: " + idOfCourseToDelete;
 
-        //TODO: Change to RedirectResult as mentioned in DevMan? This can avoid having to prepare page data
-        InstructorCoursesPageData data = new InstructorCoursesPageData(account);
-        data.newCourse = null;
-        data.courseIdToShow = "";
-        data.courseNameToShow = "";
-
-        data.allCourses = new ArrayList<CourseDetailsBundle>(
-                logic.getCourseSummariesForInstructor(data.account.googleId).values());
-        data.archivedCourses = logic.getArchivedCoursesForInstructor(data.account.googleId);
-        CourseDetailsBundle.sortDetailedCoursesByCourseId(data.allCourses);
-
-        ShowPageResult svr = createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSES, data);
-        return svr;
-
+        if(isRedirectedToHomePage()){
+            return createRedirectResult(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
+        } else {
+            return createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE);
+        }
     }
 
-
+    /**
+     * Checks if the action is executed in homepage or 'Courses' pages based on its redirection
+     */
+    private boolean isRedirectedToHomePage() {
+        String nextUrl = getRequestParamValue(Const.ParamsNames.NEXT_URL);
+        boolean isHomePageUrl = (nextUrl != null && nextUrl.equals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE));
+        
+        return isHomePageUrl;
+    }
 }
