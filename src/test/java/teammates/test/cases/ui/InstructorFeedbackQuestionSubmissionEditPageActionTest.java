@@ -131,6 +131,60 @@ public class InstructorFeedbackQuestionSubmissionEditPageActionTest extends
                 r.getStatusMessage());
         
         //TODO: test closed session, open and private session, closed and private session.
+        ______TS("Closed session");
+        
+        instructorAccount = dataBundle.accounts.get("instructor1OfCourse1");
+        instructor = dataBundle.instructors.get("instructor1OfCourse1");
+        fs = dataBundle.feedbackSessions.get("closedSession");
+        
+        gaeSimulation.loginAsInstructor(instructor.googleId);
+        
+        q = fqDb.getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 1);
+        
+        submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, fs.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, q.getId()
+        };
+        
+        a = getAction(submissionParams);
+        r = (ShowPageResult) a.executeAndPostProcess();
+        
+        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT, r.destination);
+        assertFalse(r.isError);
+        assertEquals(
+                "You are currently submitting as <span class=\"bold\">"
+                        + instructorAccount.name + " (" + instructorAccount.googleId + ")</span>. "
+                        + "Not you? Please <a href=/logout.jsp>logout</a> and try again.",
+                r.getStatusMessage());
+        
+        ______TS("Private session");
+        
+        instructorAccount = dataBundle.accounts.get("instructor1OfCourse2");
+        instructor = dataBundle.instructors.get("instructor1OfCourse2");
+        fs = dataBundle.feedbackSessions.get("session1InCourse2");
+        
+        gaeSimulation.loginAsInstructor(instructor.googleId);
+        
+        q = fqDb.getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 1);
+        
+        submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, fs.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, q.getId()
+        };
+        
+        a = getAction(submissionParams);
+        r = (ShowPageResult) a.executeAndPostProcess();
+        
+        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT, r.destination);
+        assertFalse(r.isError);
+        assertEquals(
+                "You are currently submitting as <span class=\"bold\">"
+                        + instructorAccount.name + " (" + instructorAccount.googleId + ")</span>. "
+                        + "Not you? Please <a href=/logout.jsp>logout</a> and try again.",
+                r.getStatusMessage());
+        
     }
     
     private InstructorFeedbackQuestionSubmissionEditPageAction getAction(String... params) throws Exception{
