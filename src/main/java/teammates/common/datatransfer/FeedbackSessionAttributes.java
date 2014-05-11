@@ -72,7 +72,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
             String courseId, String creatorId, Text instructions,
             Date createdTime, Date startTime, Date endTime,
             Date sessionVisibleFromTime, Date resultsVisibleFromTime,
-            int timeZone, int gracePeriod, FeedbackSessionType feedbackSessionType,
+            double timeZone, int gracePeriod, FeedbackSessionType feedbackSessionType,
             boolean sentOpenEmail, boolean sentPublishedEmail,
             boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled) {
         this.feedbackSessionName = Sanitizer.sanitizeTitle(feedbackSessionName);
