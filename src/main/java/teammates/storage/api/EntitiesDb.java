@@ -95,12 +95,15 @@ public abstract class EntitiesDb {
 
         // Wait for the operation to persist
         int elapsedTime = 0;
-        Object objectCheck = getEntity(entityToAdd);
-        while ((objectCheck == null)
+        Object entityCheck = getEntity(entityToAdd);
+        while ((entityCheck == null)
                 && (elapsedTime < Config.PERSISTENCE_CHECK_DURATION)) {
             ThreadHelper.waitBriefly();
-            objectCheck = getEntity(entityToAdd);
-            elapsedTime += ThreadHelper.WAIT_DURATION;
+            entityCheck = getEntity(entityToAdd);
+            //check before incrementing to avoid boundary case problem
+            if (entityCheck == null) {
+                elapsedTime += ThreadHelper.WAIT_DURATION;
+            }
         }
         if (elapsedTime == Config.PERSISTENCE_CHECK_DURATION) {
             log.severe("Operation did not persist in time: create"
@@ -135,7 +138,10 @@ public abstract class EntitiesDb {
                 && (elapsedTime < Config.PERSISTENCE_CHECK_DURATION)) {
             ThreadHelper.waitBriefly();
             entityCheck = getEntity(entityToDelete);
-            elapsedTime += ThreadHelper.WAIT_DURATION;
+            //check before incrementing to avoid boundary case problem
+            if (entityCheck == null) {
+                elapsedTime += ThreadHelper.WAIT_DURATION;
+            }
         }
         if (elapsedTime == Config.PERSISTENCE_CHECK_DURATION) {
             log.severe("Operation did not persist in time: delete"
