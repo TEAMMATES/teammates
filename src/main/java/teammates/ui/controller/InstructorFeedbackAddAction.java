@@ -57,6 +57,9 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
                     "<span class=\"bold\">Session visible from:</span> " + fs.sessionVisibleFromTime + "<br>" +
                     "<span class=\"bold\">Results visible from:</span> " + fs.resultsVisibleFromTime + "<br><br>" +
                     "<span class=\"bold\">Instructions:</span> " + fs.instructions;
+            
+            //TODO: add a condition to include the status due to inconsistency problem of database 
+            //      (similar to the one below)
             return createRedirectResult(new PageData(account).getInstructorFeedbackSessionEditLink(fs.courseId,fs.feedbackSessionName));
             
         } catch (EntityAlreadyExistsException e) {
@@ -69,6 +72,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
             setStatusForException(e);
         } 
         
+        // if isError == true,
         data.courses = loadCoursesList(account.googleId);
         data.existingEvalSessions = loadEvaluationsList(account.googleId);
         data.existingFeedbackSessions = loadFeedbackSessionsList(account.googleId);

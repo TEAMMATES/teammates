@@ -82,7 +82,6 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
     
     @Test
     public void testValidate() {
-        // TODO: follow test sequence similar to evalTest
         
         ______TS("null parameter error messages");
 
