@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.InstructorsLogic;
@@ -48,60 +48,62 @@ public class InstructorCourseEditPageActionTest extends BaseActionTest {
     
     @Test
     public void testExecuteAndPostProcess() throws Exception{
-        
-        ______TS("Typical case: open the course edit page");
-        
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor1OfCourse1.googleId;
+        String courseId = instructor1OfCourse1.courseId;
+        
         gaeSimulation.loginAsInstructor(instructorId);
         
-        String courseId = instructor1OfCourse1.courseId;
+        ______TS("Not enough parameters");
+        verifyAssumptionFailure();
+
+        ______TS("Typical case: open the course edit page");
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, courseId
         };
         
-        InstructorCourseEditPageAction action = getAction(submissionParams);
-        ShowPageResult result = getShowPageResult(action);
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_EDIT, result.destination);
-        assertEquals(false, result.isError);
-        assertEquals("", result.getStatusMessage());
+        InstructorCourseEditPageAction editAction = getAction(submissionParams);
+        ShowPageResult pageResult = getShowPageResult(editAction);
+        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_EDIT+"?error=false&user=idOfInstructor1OfCourse1", pageResult.getDestinationWithParams());
+        assertEquals(false, pageResult.isError);
+        assertEquals("", pageResult.getStatusMessage());
         
-        InstructorCourseEditPageData data = (InstructorCourseEditPageData) result.data;
+        InstructorCourseEditPageData data = (InstructorCourseEditPageData) pageResult.data;
         assertEquals(CoursesLogic.inst().getCourse(courseId).toString(), data.course.toString());
         verifySameInstructorList(InstructorsLogic.inst().getInstructorsForCourse(courseId), data.instructorList);
         
         String expectedLogSegment = "instructorCourseEdit Page Load<br>"
                 + "Editing information for Course <span class=\"bold\">["
                 + courseId + "]</span>";
-        AssertHelper.assertContains(expectedLogSegment, action.getLogMessage());
+        AssertHelper.assertContains(expectedLogSegment, editAction.getLogMessage());
         
         ______TS("Masquerade mode");
         
         InstructorAttributes instructor = dataBundle.instructors.get("instructor4");
         instructorId = instructor.googleId;
-        
+        courseId = instructor.courseId;
+
         gaeSimulation.loginAsAdmin("admin.user");
         
-        courseId = instructor.courseId;
         submissionParams = new String[]{
                 Const.ParamsNames.USER_ID, instructorId,
                 Const.ParamsNames.COURSE_ID, courseId
         };
         
-        action = getAction(submissionParams);
-        result = getShowPageResult(action);
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_EDIT, result.destination);
-        assertEquals(false, result.isError);
-        assertEquals("", result.getStatusMessage());
+        editAction = getAction(submissionParams);
+        pageResult = getShowPageResult(editAction);
+        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_EDIT+"?error=false&user=idOfInstructor4", pageResult.getDestinationWithParams());
+        assertEquals(false, pageResult.isError);
+        assertEquals("", pageResult.getStatusMessage());
         
-        data = (InstructorCourseEditPageData) result.data;
+        data = (InstructorCourseEditPageData) pageResult.data;
         assertEquals(CoursesLogic.inst().getCourse(courseId).toString(), data.course.toString());
         verifySameInstructorList(InstructorsLogic.inst().getInstructorsForCourse(courseId), data.instructorList);
         
         expectedLogSegment = "instructorCourseEdit Page Load<br>"
                 + "Editing information for Course <span class=\"bold\">["
                 + courseId + "]</span>";
-        AssertHelper.assertContains(expectedLogSegment, action.getLogMessage());
+        AssertHelper.assertContains(expectedLogSegment, editAction.getLogMessage());
         
         ______TS("Failure case: edit a non-existing course");
         
@@ -113,11 +115,11 @@ public class InstructorCourseEditPageActionTest extends BaseActionTest {
         };
             
         try {
-            action = getAction(submissionParams);
-            result = getShowPageResult(action);
+            editAction = getAction(submissionParams);
+            pageResult = getShowPageResult(editAction);
             signalFailureToDetectException();
-        } catch (EntityDoesNotExistException e) {
-            assertEquals("Course "+courseId+" does not exist", e.getMessage());
+        } catch (UnauthorizedAccessException e) {
+            assertEquals("Trying to access system using a non-existent instructor entity", e.getMessage());
         }
 
     }
