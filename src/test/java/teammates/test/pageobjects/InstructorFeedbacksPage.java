@@ -12,6 +12,7 @@ import org.testng.Assert;
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 
 public class InstructorFeedbacksPage extends AppPage {
@@ -159,7 +160,7 @@ public class InstructorFeedbacksPage extends AppPage {
         sendPublishedEmailCheckbox.click();
     }
     
-    public void addFeedbackSession(
+    public void addFeedbackSessionWithTimeZone(
             String feedbackSessionName,
             String courseId,
             Date startTime,
@@ -167,10 +168,13 @@ public class InstructorFeedbacksPage extends AppPage {
             Date visibleTime,
             Date publishTime,
             Text instructions,
-            int gracePeriod) {
+            int gracePeriod,
+            double timeZone) {
         
         fillTextBox(fsNameTextBox, feedbackSessionName);
-    
+        
+        selectDropdownByVisibleValue(timezoneDropDown, StringHelper.toUtcFormat(timeZone));
+        
         selectDropdownByVisibleValue(courseIdDropdown, courseId);
         
         // Select start date/time
@@ -217,6 +221,24 @@ public class InstructorFeedbacksPage extends AppPage {
         }
     
         clickSubmitButton();
+        
+    }
+    
+    public void addFeedbackSession(
+            String feedbackSessionName,
+            String courseId,
+            Date startTime,
+            Date endTime,
+            Date visibleTime,
+            Date publishTime,
+            Text instructions,
+            int gracePeriod) {
+        
+        addFeedbackSessionWithTimeZone(feedbackSessionName, courseId, 
+                startTime, endTime, 
+                visibleTime, publishTime, 
+                instructions, gracePeriod, 
+                8.0);
     }
 
     public WebElement getViewResponseLink(String courseId, String sessionName) {

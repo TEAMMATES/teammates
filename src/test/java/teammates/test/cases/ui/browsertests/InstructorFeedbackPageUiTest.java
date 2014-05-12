@@ -183,7 +183,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         assertEquals(newSession.toString(), savedSession.toString());
         
-        ______TS("success case 3: custom session visible time, publish follows visible");
+        ______TS("success case 3: custom session visible time, publish follows visible, timezone -4.5");
 
         feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithSessions").googleId);
         
@@ -198,18 +198,19 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_FOLLOW_VISIBLE;
         newSession.feedbackSessionType = FeedbackSessionType.STANDARD; 
         newSession.gracePeriod = 0;
+        newSession.timeZone = -4.5;
         
-        feedbackPage.addFeedbackSession(
+        feedbackPage.addFeedbackSessionWithTimeZone(
                 newSession.feedbackSessionName, newSession.courseId,
                 newSession.startTime, newSession.endTime,
                 newSession.sessionVisibleFromTime, null,
                 newSession.instructions,
-                newSession.gracePeriod );
+                newSession.gracePeriod, newSession.timeZone );
         
         savedSession = BackDoor.getFeedbackSession(newSession.courseId, newSession.feedbackSessionName);
         assertEquals(newSession.toString(), savedSession.toString());
         
-        ______TS("success case 4: custom session visible time, responses always hidden");
+        ______TS("success case 4: custom session visible time, responses always hidden, timezone 5.75");
         
         feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithSessions").googleId);
         
@@ -223,16 +224,20 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_NEVER;
         newSession.gracePeriod = 30;
         newSession.instructions = new Text("cannot \r\n see responses<script>test</script>");
+        newSession.timeZone = 5.75; 
         
-        feedbackPage.addFeedbackSession(
+        feedbackPage.addFeedbackSessionWithTimeZone(
                 newSession.feedbackSessionName, newSession.courseId,
                 newSession.startTime, newSession.endTime,
                 newSession.sessionVisibleFromTime, null,
                 newSession.instructions,
-                newSession.gracePeriod );
+                newSession.gracePeriod, newSession.timeZone);
         
         savedSession = BackDoor.getFeedbackSession(newSession.courseId, newSession.feedbackSessionName);
         assertEquals(newSession.toString(), savedSession.toString());
+        
+        //reset timezone value
+        newSession.timeZone = 8;
         
         ______TS("success case 5: visible when open, custom publish time");
         
@@ -267,7 +272,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.toggleSendOpenEmailCheckbox();
         feedbackPage.toggleSendClosingEmailCheckbox();
         
-        newSession.feedbackSessionName = "don't send emails";
+        newSession.feedbackSessionName = "dont send emails";
         newSession.createdTime = Const.TIME_REPRESENTS_NEVER;
         newSession.sessionVisibleFromTime = Const.TIME_REPRESENTS_FOLLOW_OPENING;
         newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_LATER;
@@ -329,11 +334,11 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
                 newSession.instructions,
                 newSession.gracePeriod );
         assertEquals(String.format(
-                    FieldValidator.INVALID_NAME_ERROR_MESSAGE,
-                    "bad name %%",
-                    FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
-                    FieldValidator.REASON_CONTAINS_INVALID_CHAR,
-                    FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME), 
+                        FieldValidator.INVALID_NAME_ERROR_MESSAGE,
+                        "bad name %%",
+                        FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
+                        FieldValidator.REASON_CONTAINS_INVALID_CHAR,
+                        FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME),
                     feedbackPage.getStatus());
 
     }

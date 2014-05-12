@@ -343,7 +343,7 @@ public abstract class AppPage {
      */
     public void selectDropdownByVisibleValue(WebElement element, String value) {
         Select select = new Select(element);
-        element.sendKeys(value);
+        select.selectByVisibleText(value);
         String selectedVisibleValue = select.getFirstSelectedOption().getText();
         assertEquals(value, selectedVisibleValue);
         element.sendKeys(Keys.RETURN);
