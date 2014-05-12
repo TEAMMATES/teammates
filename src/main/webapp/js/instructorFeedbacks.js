@@ -96,7 +96,7 @@ function checkAddFeedbackSession(form){
     var instructions = form.instructions.value;
     
     if (fsname == "" || courseID == "" || timezone == "" || startdate ==""
-        || starttime == "" ||instructions == "" || gracePeriod == "" || publishtime == "") {
+        || starttime == "" ||instructions == null || gracePeriod == "" || publishtime == "") {
         setStatusMessage(DISPLAY_FIELDS_EMPTY, true);
         return false;
     }else if (!isFeedbackSessionNameValid(fsname)) {
