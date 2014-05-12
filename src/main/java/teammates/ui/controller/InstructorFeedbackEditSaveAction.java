@@ -47,8 +47,9 @@ public class InstructorFeedbackEditSaveAction extends Action {
     }
 
     private FeedbackSessionAttributes extractFeedbackSessionData() {
-        //TODO assert parameters are not null then update test
         //TODO make this method stateless
+        
+        // null checks for parameters not done as null values do not affect data integrity
         
         FeedbackSessionAttributes newSession = new FeedbackSessionAttributes();
         newSession.courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
