@@ -64,9 +64,6 @@ public abstract class FeedbackQuestionSubmissionEditSaveAction extends Action {
         }
         
         data.isSessionOpenForSubmission = isSessionOpenForSpecificUser(fs);
-        if (!data.isSessionOpenForSubmission) {
-            statusToUser.add(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN);
-        }
         
         return createSpecificShowPageResult();
     }
