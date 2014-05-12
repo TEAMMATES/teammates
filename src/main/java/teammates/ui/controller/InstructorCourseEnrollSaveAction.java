@@ -83,9 +83,6 @@ public class InstructorCourseEnrollSaveAction extends Action {
         int nextIdx = 0;
         int id = 0;
         for (StudentAttributes student : students) {
-            if(student.team == null){
-                student.team = "";
-            }
             while (student.updateStatus.numericRepresentation > id) {
                 lists[id++] = students.subList(prevIdx, nextIdx);
                 StudentAttributes.sortByNameAndThenByEmail(lists[id - 1]);

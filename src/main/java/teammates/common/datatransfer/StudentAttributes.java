@@ -132,8 +132,8 @@ public class StudentAttributes extends EntityAttributes {
     public List<String> getInvalidityInfo() {
         
         //id is allowed to be null when the student is not registered
-        Assumption.assertTrue(team!=null);
-        Assumption.assertTrue(comments!=null);
+        Assumption.assertTrue(team != null);
+        Assumption.assertTrue(comments != null);
         
         FieldValidator validator = new FieldValidator();
         List<String> errors = new ArrayList<String>();
@@ -167,14 +167,7 @@ public class StudentAttributes extends EntityAttributes {
             public int compare(StudentAttributes s1, StudentAttributes s2) {
                 String t1 = s1.team;
                 String t2 = s2.team;
-                if ((t1 == null) && (t2 == null)) {
-                    return 0;
-                } else if (t1 == null) {
-                    return 1;
-                } else if (t2 == null) {
-                    return -1;
-                }
-                
+            
                 //If the team name is the same, reorder by student name
                 if(t1.compareTo(t2) == 0){
                     return s1.name.compareTo(s2.name);
