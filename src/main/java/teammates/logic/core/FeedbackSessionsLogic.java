@@ -32,6 +32,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.NotImplementedException;
 import teammates.common.exception.UnauthorizedAccessException;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Const.SystemParams;
 import teammates.common.util.Sanitizer;
@@ -404,6 +405,8 @@ public class FeedbackSessionsLogic {
         
     public void updateFeedbackSession(FeedbackSessionAttributes newSession)
             throws InvalidParametersException, EntityDoesNotExistException {
+        
+        Assumption.assertNotNull(newSession);
 
         FeedbackSessionAttributes oldSession =
                 fsDb.getFeedbackSession(newSession.courseId,
