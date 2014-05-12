@@ -67,9 +67,8 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         assertFalse(result.isError);
         
         String expectedFileName = session.courseId + "_" + session.feedbackSessionName;
-        String expectedFileContent = getExpectedFileContentForSession1InCourse1();
         assertEquals(expectedFileName, result.getFileName());
-        assertEquals(expectedFileContent, result.getFileContent());
+        verifyFileContentForSession1InCourse1(result.getFileContent(), session);
         
         ______TS("Unsuccessful case 1: params with null course id");
         
@@ -80,22 +79,43 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         verifyAssumptionFailure(paramsWithNullFeedbackSessionName);
     }
     
-    private String getExpectedFileContentForSession1InCourse1(){
-        return  "Course,\"idOfTypicalCourse1\"\n" +
-                "Session Name,\"First feedback session\"\n\n\n" +
-                "Question 1,\"What is the best selling point of your product?\"\n\n" +
-                "Team,Giver,Recipient's Team,Recipient,Feedback\n" + 
-                "\"Team 1.1\",\"student1 In Course1\",\"Team 1.1\",\"student1 In Course1\",\"Student 1 self feedback.\"\n" +
-                "\"Team 1.1\",\"student2 In Course1\",\"Team 1.1\",\"student2 In Course1\",\"I'm cool'\"\n\n\n" +
-                "Question 2,\"Rate 1 other student's product\"\n\n" +
-                "Team,Giver,Recipient's Team,Recipient,Feedback\n" +
-                "\"Team 1.1\",\"student2 In Course1\",\"Team 1.1\",\"student1 In Course1\",\"Response from student 2 to student 1.\"\n" +
-                "\"Team 1.1\",\"student1 In Course1\",\"Team 1.1\",\"student2 In Course1\",\"Response from student 1 to student 2.\"\n" +
-                "\"Team 1.1\",\"student3 In Course1\",\"Team 1.1\",\"student2 In Course1\",\"Response from student 3 \"\"to\"\" student 2.\r\n" +
-                "Multiline test.\"\n\n\n" +
-                "Question 3,\"My comments on the class\"\n\n" +
-                "Team,Giver,Recipient's Team,Recipient,Feedback\n" +
-                "\"Instructors\",\"Instructor1 Course1\",\"\",\"-\",\"Good work, keep it up!\"\n\n\n";
+    private void verifyFileContentForSession1InCourse1(String fileContent, FeedbackSessionAttributes session) {
+        /* This is what fileContent should look like:
+        ==================================
+        Course,idOfTypicalCourse1
+        Session Name,First feedback session
+        
+        
+        Question 1,"What is the best selling point of your product?"
+        
+        Team,Giver,Recipient's Team,Recipient,Feedback
+        "Team 1.1","student1 In Course1","Team 1.1","student1 In Course1","Student 1 self feedback."
+        "Team 1.1","student2 In Course1","Team 1.1","student2 In Course1","I'm cool'"
+        ...
+        ==================================
+        full testing of file content is 
+        in FeedbackSessionsLogicTest.testGetFeedbackSessionResultsSummaryAsCsv()
+        */
+        
+        String[] exportLines = fileContent.split(Const.EOL);
+        assertEquals("Course,\"" + session.courseId + "\"", 
+                exportLines[0]);
+        assertEquals("Session Name,\"" + session.feedbackSessionName + "\"", 
+                exportLines[1]);
+        assertEquals("", 
+                exportLines[2]);
+        assertEquals("", 
+                exportLines[3]);
+        assertEquals("Question 1,\"What is the best selling point of your product?\"",
+                exportLines[4]);
+        assertEquals("",
+                exportLines[5]);
+        assertEquals("Team,Giver,Recipient's Team,Recipient,Feedback",
+                exportLines[6]);
+        assertEquals("\"Team 1.1\",\"student1 In Course1\",\"Team 1.1\",\"student1 In Course1\",\"Student 1 self feedback.\"",
+                exportLines[7]);
+        assertEquals("\"Team 1.1\",\"student2 In Course1\",\"Team 1.1\",\"student2 In Course1\",\"I'm cool'\"",
+                exportLines[8]);
     }
     
     private InstructorFeedbackResultsDownloadAction getAction(String[] params){
