@@ -7,6 +7,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorCourseEnrollPageAction;
@@ -41,31 +42,56 @@ public class InstructorCourseEnrollPageActionTest extends BaseActionTest {
     
     @Test
     public void testExecuteAndPostProcess() throws Exception{
-        
-        ______TS("Typical case: open the enroll page");
-        
-        String instructorId = dataBundle.instructors.get("instructor1OfCourse1").googleId;
+        InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
+        String instructorId = instructor.googleId;
+        String courseId = instructor.courseId;
+
         gaeSimulation.loginAsInstructor(instructorId);
         
-        String courseId = dataBundle.instructors.get("instructor1OfCourse1").courseId;
+        ______TS("Not enough parameters");
+        verifyAssumptionFailure();
+
+        ______TS("Typical case: open the enroll page");
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, courseId
         };
-        InstructorCourseEnrollPageAction action = getAction(submissionParams);
+        InstructorCourseEnrollPageAction enrollPageAction = getAction(submissionParams);
         
-        ShowPageResult result = getShowPageResult(action);
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, result.destination);
-        assertEquals(false, result.isError);
-        assertEquals("", result.getStatusMessage());
+        ShowPageResult pageResult = getShowPageResult(enrollPageAction);
+        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL + "?error=false&user=idOfInstructor1OfCourse1", pageResult.getDestinationWithParams());
+        assertEquals(false, pageResult.isError);
+        assertEquals("", pageResult.getStatusMessage());
         
-        InstructorCourseEnrollPageData data = (InstructorCourseEnrollPageData) result.data;
-        assertEquals(courseId, data.courseId);
-        assertEquals("", data.enrollStudents);
+        InstructorCourseEnrollPageData pageData = (InstructorCourseEnrollPageData) pageResult.data;
+        assertEquals(courseId, pageData.courseId);
+        assertEquals("", pageData.enrollStudents);
         
         String expectedLogSegment = "instructorCourseEnroll Page Load<br>"
                 + "Enrollment for Course <span class=\"bold\">[" + courseId + "]</span>"; 
-        AssertHelper.assertContains(expectedLogSegment, action.getLogMessage());
+        AssertHelper.assertContains(expectedLogSegment, enrollPageAction.getLogMessage());
+
+        ______TS("Masquerade mode");
+        instructor = dataBundle.instructors.get("instructor4");
+        instructorId = instructor.googleId;
+        courseId = instructor.courseId;
+
+        gaeSimulation.loginAsAdmin("admin.user");
+        submissionParams = new String[]{
+            Const.ParamsNames.COURSE_ID, courseId
+        };
+        enrollPageAction = getAction(addUserIdToParams(instructorId, submissionParams));
+        pageResult = getShowPageResult(enrollPageAction);
+        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL + "?error=false&user=idOfInstructor4", pageResult.getDestinationWithParams());
+        assertEquals(false, pageResult.isError);
+        assertEquals("", pageResult.getStatusMessage());
         
+        pageData = (InstructorCourseEnrollPageData) pageResult.data;
+        assertEquals(courseId, pageData.courseId);
+        assertEquals("", pageData.enrollStudents);
+        
+        expectedLogSegment = "instructorCourseEnroll Page Load<br>"
+                + "Enrollment for Course <span class=\"bold\">[" + courseId + "]</span>"; 
+        AssertHelper.assertContains(expectedLogSegment, enrollPageAction.getLogMessage());
     }
 
     private InstructorCourseEnrollPageAction getAction(String... params) throws Exception {
