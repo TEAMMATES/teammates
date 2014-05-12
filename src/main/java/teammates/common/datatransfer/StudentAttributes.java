@@ -69,13 +69,8 @@ public class StudentAttributes extends EntityAttributes {
     
     public StudentAttributes(String id, String email, String name, String comments,
             String courseId, String team) {
-        this();
+        this(team, name, email, comments, courseId);
         this.googleId = Sanitizer.sanitizeGoogleId(id);
-        this.email = Sanitizer.sanitizeEmail(email);
-        this.course = Sanitizer.sanitizeTitle(courseId);
-        this.name = Sanitizer.sanitizeName(name);
-        this.comments = Sanitizer.sanitizeTextField(comments);
-        this.team = Sanitizer.sanitizeTitle(team);
     }
 
     public StudentAttributes() {
@@ -144,7 +139,7 @@ public class StudentAttributes extends EntityAttributes {
         List<String> errors = new ArrayList<String>();
         String error;
         
-        if (googleId != null && !googleId.isEmpty()) {
+        if (isRegistered()) {
             error = validator.getInvalidityInfo(FieldType.GOOGLE_ID, googleId);
             if (!error.isEmpty()) {    errors.add(error);}
         }
