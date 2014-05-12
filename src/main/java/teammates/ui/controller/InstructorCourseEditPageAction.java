@@ -1,19 +1,17 @@
 package teammates.ui.controller;
 
-import java.util.logging.Logger;
-
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Utils;
 import teammates.logic.api.GateKeeper;
 
+/**
+ * Action: showing the 'Edit' page for a course of an instructor
+ */
 public class InstructorCourseEditPageAction extends Action {
-    protected static final Logger log = Utils.getLogger();
-    
-
+ 
     @Override
     public ActionResult execute() throws EntityDoesNotExistException { 
                 
@@ -22,13 +20,10 @@ public class InstructorCourseEditPageAction extends Action {
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         CourseAttributes courseToEdit = logic.getCourse(courseId);
-        
-        if (courseToEdit == null) {
-            throw new EntityDoesNotExistException("Course "+courseId+" does not exist");
-        } 
-        
+         
         new GateKeeper().verifyAccessible(instructor, courseToEdit);
         
+        /* Setup page data for 'Edit' page of a course for an instructor */
         InstructorCourseEditPageData data = new InstructorCourseEditPageData(account);
         data.course = courseToEdit;
         data.instructorList = logic.getInstructorsForCourse(courseId);
@@ -37,8 +32,7 @@ public class InstructorCourseEditPageAction extends Action {
                 + "Editing information for Course <span class=\"bold\">["
                 + courseId + "]</span>";
         
-        return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_EDIT, data);
-        
+        ShowPageResult response = createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_EDIT, data);
+        return response;
     }
-
 }
