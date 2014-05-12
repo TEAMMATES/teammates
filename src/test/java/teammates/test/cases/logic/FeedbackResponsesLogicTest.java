@@ -27,7 +27,6 @@ import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
-import teammates.ui.controller.Action;
 
 public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
     
