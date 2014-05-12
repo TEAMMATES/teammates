@@ -27,6 +27,7 @@ src/main/webapp/WEB-INF/classes/teammates
 
 .launches/TM - Start dev server.launch
 test-output/*
+testrunner/*
 src/test/current testng.xml
 src/main/webapp/WEB-INF/classes/*.js
 *.exe
