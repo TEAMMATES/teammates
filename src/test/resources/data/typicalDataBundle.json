@@ -428,6 +428,24 @@
             "sentOpenEmail":true,
             "sentPublishedEmail":false
         },
+        "closedSession":{
+            "feedbackSessionName":"Closed Session",
+            "courseId":"idOfTypicalCourse1",
+            "creatorEmail":"instructor1@course1.com",
+            "instructions":{
+                "value":"Please please fill in the following questions."
+            },
+            "createdTime":"2013-03-20 11:59 PM UTC",
+            "startTime":"2013-06-01 11:59 PM UTC",
+            "endTime":"2016-04-28 11:59 PM UTC",
+            "sessionVisibleFromTime":"2013-03-20 11:59 PM UTC",
+            "resultsVisibleFromTime":"2016-04-29 11:59 PM UTC",
+            "timeZone":2.0,
+            "gracePeriod":5,
+            "feedbackSessionType":"STANDARD",
+            "sentOpenEmail":true,
+            "sentPublishedEmail":false
+        },
         "empty.session":{
             "feedbackSessionName":"Empty session",
             "courseId":"idOfTypicalCourse1",
@@ -673,6 +691,29 @@
             "giverType":"TEAMS",
             "recipientType":"TEAMS",
             "numberOfEntitiesToGiveFeedbackTo":2,
+            "showResponsesTo":[
+                "RECEIVER"
+            ],
+            "showGiverNameTo":[
+                "RECEIVER"
+            ],
+            "showRecipientNameTo":[
+                "RECEIVER"
+            ]
+            
+        },
+        "closed.session.feedback":{
+            "feedbackSessionName":"Closed Session",
+            "courseId":"idOfTypicalCourse1",
+            "creatorEmail":"instructor1@course1.com",
+            "questionMetaData":{
+                "value":"Give feedback to yourself."
+            },
+            "questionNumber":"1",
+            "questionType":"TEXT",
+            "giverType":"INSTRUCTORS",
+            "recipientType":"SELF",
+            "numberOfEntitiesToGiveFeedbackTo":1,
             "showResponsesTo":[
                 "RECEIVER"
             ],

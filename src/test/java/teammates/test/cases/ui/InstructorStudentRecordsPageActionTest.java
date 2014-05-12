@@ -104,14 +104,14 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
         assertEquals(instructorId, pageData.account.googleId);
         assertEquals(instructor.courseId, pageData.courseId);
         assertEquals(1, pageData.comments.size());
-        assertEquals(7, pageData.sessions.size());
+        assertEquals(8, pageData.sessions.size());
 
         String expectedLogMessage = "TEAMMATESLOG|||instructorStudentRecordsPage|||instructorStudentRecordsPage"+
                 "|||true|||Instructor|||Instructor 3 of Course 1 and 2|||idOfInstructor3"+
                 "|||instr3@course1n2.com|||instructorStudentRecords Page Load<br>" +
                 "Viewing <span class=\"bold\">" + student.email + "'s</span> records " +
                 "for Course <span class=\"bold\">[" + instructor.courseId + "]</span><br>" +
-                "Number of sessions: 7" +
+                "Number of sessions: 8" +
                 "|||/page/instructorStudentRecordsPage";
         assertEquals(expectedLogMessage, a.getLogMessage());
         
