@@ -21,6 +21,7 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
         printTestClassHeader();
     }
     
+    @SuppressWarnings("unused")
     @Test
     public void testConstructor() throws Exception {
         String headerRow = null;
