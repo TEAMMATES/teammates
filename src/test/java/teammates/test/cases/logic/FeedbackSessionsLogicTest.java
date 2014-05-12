@@ -391,12 +391,13 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
                 dataBundle.feedbackSessions.get("session2InCourse1").toString() + Const.EOL +
                 dataBundle.feedbackSessions.get("empty.session").toString() + Const.EOL + 
                 dataBundle.feedbackSessions.get("awaiting.session").toString() + Const.EOL +
+                dataBundle.feedbackSessions.get("closedSession").toString() + Const.EOL +
                 dataBundle.feedbackSessions.get("gracePeriodSession").toString() + Const.EOL;
         
         for (FeedbackSessionAttributes session : actualSessions) {
             AssertHelper.assertContains(session.toString(), expected);
         }
-        assertTrue(actualSessions.size() == 5);
+        assertTrue(actualSessions.size() == 6);
         
         // We should only have one session here as session 2 is private and this instructor is not the creator.
         actualSessions = fsLogic.getFeedbackSessionsForUserInCourse("idOfTypicalCourse2", "instructor2@course2.com");
