@@ -25,13 +25,7 @@ public class InstructorFeedbackEditPageAction extends Action {
         new GateKeeper().verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, account.googleId), 
                 data.session,
-                true);        
-        
-        if (data.session == null) {
-            throw new EntityDoesNotExistException("Feedback session: " +
-                    feedbackSessionName + "does not exist in course: "
-                    + courseId + ".");
-        }
+                true);
         
         data.questions = logic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
         for(FeedbackQuestionAttributes question : data.questions) {            
@@ -47,7 +41,7 @@ public class InstructorFeedbackEditPageAction extends Action {
         
         statusToAdmin = "instructorFeedbackEdit Page Load<br>"
                 + "Editing information for Feedback Session <span class=\"bold\">["
-                + feedbackSessionName + "]</span>" + "in Course: <span class=\"bold\">" + courseId + "]</span>";
+                + feedbackSessionName + "]</span>" + "in Course: <span class=\"bold\">[" + courseId + "]</span>";
         
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_EDIT, data);
     }

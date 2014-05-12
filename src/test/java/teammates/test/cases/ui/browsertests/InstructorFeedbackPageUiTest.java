@@ -2,6 +2,7 @@ package teammates.test.cases.ui.browsertests;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
+import static org.testng.AssertJUnit.assertNull;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -116,7 +117,15 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     public void testEditLink(){
         ______TS("creator: clickable");
         
+        assertNull(feedbackPage.getEditLink("CFeedbackUiT.CS2104", "Private Session")
+                .getAttribute("onclick"));
+        
         ______TS("other instructor in course: not clickable");
+        
+        assertEquals(
+                feedbackPage.getEditLink("CFeedbackUiT.CS2104", "First Session")
+                            .getAttribute("onclick"), 
+                "return false");
     }
     
     public void testSubmitLink(){
