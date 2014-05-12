@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.InstructorsLogic;
@@ -118,8 +118,8 @@ public class InstructorCourseEditPageActionTest extends BaseActionTest {
             editAction = getAction(submissionParams);
             pageResult = getShowPageResult(editAction);
             signalFailureToDetectException();
-        } catch (EntityDoesNotExistException e) {
-            assertEquals("Course "+courseId+" does not exist", e.getMessage());
+        } catch (UnauthorizedAccessException e) {
+            assertEquals("Trying to access system using a non-existent instructor entity", e.getMessage());
         }
 
     }
