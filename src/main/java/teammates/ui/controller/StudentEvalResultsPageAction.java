@@ -28,7 +28,7 @@ public class StudentEvalResultsPageAction extends Action {
         
         data = new StudentEvalResultsPageData(account);
         
-        if(notYetJoinedCourse(courseId, account.googleId)){
+        if(!isJoinedCourse(courseId, account.googleId)){
             return createPleaseJoinCourseResponse(courseId);
         }
         

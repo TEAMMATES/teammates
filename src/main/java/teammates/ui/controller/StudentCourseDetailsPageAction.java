@@ -21,7 +21,7 @@ public class StudentCourseDetailsPageAction extends Action {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull(courseId);
         
-        if(notYetJoinedCourse(courseId, account.googleId)){
+        if(!isJoinedCourse(courseId, account.googleId)){
             return createPleaseJoinCourseResponse(courseId);
         }
 

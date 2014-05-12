@@ -17,7 +17,7 @@ public class StudentFeedbackResultsPageAction extends Action {
             return createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
         }
         
-        if(notYetJoinedCourse(courseId, account.googleId)){
+        if(!isJoinedCourse(courseId, account.googleId)){
             return createPleaseJoinCourseResponse(courseId);
         }
         
