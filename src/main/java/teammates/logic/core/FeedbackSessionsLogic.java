@@ -406,7 +406,7 @@ public class FeedbackSessionsLogic {
     public void updateFeedbackSession(FeedbackSessionAttributes newSession)
             throws InvalidParametersException, EntityDoesNotExistException {
         
-        Assumption.assertNotNull(newSession);
+        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, newSession);
 
         FeedbackSessionAttributes oldSession =
                 fsDb.getFeedbackSession(newSession.courseId,
