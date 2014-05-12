@@ -14,15 +14,20 @@ import com.google.appengine.api.datastore.Text;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
+import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.StudentsLogic;
+import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
+import teammates.ui.controller.Action;
 
 public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
     
@@ -198,6 +203,26 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
                 studentToUpdate.course, "new@email.com").size(), 2);
         assertEquals(frLogic.getFeedbackResponsesFromGiverForCourse(
                 studentToUpdate.course, "new@email.com").size(), 3);
+    }
+    
+    @Test
+    public void testGetViewableResponsesForQuestion() throws Exception {
+        ______TS("GetViewableResponsesForQuestion invalid role");
+        
+        restoreTypicalDataInDatastore();
+        
+        InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
+        FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
+        FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
+        FeedbackQuestionAttributes fq = fqDb.getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 3);
+        
+        try {
+            frLogic.getViewableFeedbackResponsesForQuestion(fq, instructor.email, UserType.Role.ADMIN);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            ignoreExpectedException();
+        }
+        
     }
     
     @Test
