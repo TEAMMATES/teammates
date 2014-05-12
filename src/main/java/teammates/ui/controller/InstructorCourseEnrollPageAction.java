@@ -7,9 +7,10 @@ import teammates.common.util.Const;
 import teammates.common.util.Utils;
 import teammates.logic.api.GateKeeper;
 
+/**
+ * Action: showing page to enroll students into a course for an instructor
+ */
 public class InstructorCourseEnrollPageAction extends Action {
-    protected static final Logger log = Utils.getLogger();
-    
     
     @Override
     public ActionResult execute() {
@@ -20,14 +21,14 @@ public class InstructorCourseEnrollPageAction extends Action {
                 logic.getInstructorForGoogleId(courseId, account.googleId),
                 logic.getCourse(courseId));
         
-        InstructorCourseEnrollPageData data = new InstructorCourseEnrollPageData(account);
-        data.courseId = courseId;
+        /* Setup page data for 'Enroll' page of a course */
+        InstructorCourseEnrollPageData pageData = new InstructorCourseEnrollPageData(account);
+        pageData.courseId = courseId;
         
         statusToAdmin = "instructorCourseEnroll Page Load<br>"
                 + "Enrollment for Course <span class=\"bold\">[" + courseId + "]</span>"; 
         
-        return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, data);
+        ShowPageResult response = createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, pageData);
+        return response;
     }
-
-
 }
