@@ -23,7 +23,7 @@ public class InstructorCourseEnrollSaveAction extends Action {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull(courseId);
         String studentsInfo = getRequestParamValue(Const.ParamsNames.STUDENTS_ENROLLMENT_INFO);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.STUDENTS_ENROLLMENT_INFO, studentsInfo);
+        Assumption.assertNotNull(studentsInfo);
         
         new GateKeeper().verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, account.googleId), 
@@ -78,18 +78,11 @@ public class InstructorCourseEnrollSaveAction extends Action {
     @SuppressWarnings("unchecked")
     private List<StudentAttributes>[] separateStudents(List<StudentAttributes> students) {
     
-        List<StudentAttributes>[] lists = new List[6];
-        if (students == null) {
-            return lists;
-        }
+        List<StudentAttributes>[] lists = new List[StudentAttributes.UpdateStatus.STATUS_COUNT];
         int prevIdx = 0;
         int nextIdx = 0;
         int id = 0;
         for (StudentAttributes student : students) {
-            if (student.comments == null)
-                student.comments = "";
-            if (student.team == null)
-                student.team = "";
             while (student.updateStatus.numericRepresentation > id) {
                 lists[id++] = students.subList(prevIdx, nextIdx);
                 StudentAttributes.sortByNameAndThenByEmail(lists[id - 1]);
@@ -97,7 +90,7 @@ public class InstructorCourseEnrollSaveAction extends Action {
             }
             nextIdx++;
         }
-        while (id < 6) {
+        while (id < StudentAttributes.UpdateStatus.STATUS_COUNT) {
             lists[id++] = students.subList(prevIdx, nextIdx);
             StudentAttributes.sortByNameAndThenByEmail(lists[id - 1]);
             prevIdx = nextIdx;

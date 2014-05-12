@@ -26,7 +26,8 @@ public class StudentAttributes extends EntityAttributes {
         NOT_IN_ENROLL_LIST(4), 
         UNKNOWN(5);
         // @formatter:on
-
+        
+        public static final int STATUS_COUNT = 6;
         public final int numericRepresentation;
 
         private UpdateStatus(int numericRepresentation) {

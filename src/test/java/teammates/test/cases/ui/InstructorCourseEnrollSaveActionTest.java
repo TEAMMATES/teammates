@@ -12,7 +12,6 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentAttributesFactory;
-import teammates.common.exception.NullPostParameterException;
 import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
 import teammates.test.driver.AssertHelper;
@@ -55,14 +54,19 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         String enrollString = "";
         String[] submissionParams = new String[]{};
         
-        ______TS("Typical case: add and edit students for non-empty course, without header row");
-        
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor1OfCourse1.googleId;
-        gaeSimulation.loginAsInstructor(instructorId);
-        
         String courseId = instructor1OfCourse1.courseId;
         
+        gaeSimulation.loginAsInstructor(instructorId);
+
+        ______TS("Failure case: not enough parameters");
+        verifyAssumptionFailure();
+        verifyAssumptionFailure(Const.ParamsNames.COURSE_ID, courseId);
+        verifyAssumptionFailure(Const.ParamsNames.STUDENTS_ENROLLMENT_INFO,"Team Test\tName\tEmail\tComments");
+
+
+        ______TS("Typical case: add and edit students for non-empty course, without header row");        
         // A new student
         enrollString = "Team 1\tJean Wong\tjean@email.com\tExchange student";
         // A student to be modified
@@ -74,32 +78,33 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.STUDENTS_ENROLLMENT_INFO, enrollString
         };
-        InstructorCourseEnrollSaveAction action = getAction(submissionParams);
+        InstructorCourseEnrollSaveAction enrollAction = getAction(submissionParams);
         
-        ShowPageResult result = getShowPageResult(action);
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL_RESULT, result.destination);
-        assertEquals(false, result.isError);
-        assertEquals("", result.getStatusMessage());
+        ShowPageResult pageResult = getShowPageResult(enrollAction);
+        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL_RESULT + "?error=false&user=idOfInstructor1OfCourse1", 
+                     pageResult.getDestinationWithParams());
+        assertEquals(false, pageResult.isError);
+        assertEquals("", pageResult.getStatusMessage());
         
-        InstructorCourseEnrollResultPageData data = (InstructorCourseEnrollResultPageData) result.data;
-        assertEquals(courseId, data.courseId);
+        InstructorCourseEnrollResultPageData pageData = (InstructorCourseEnrollResultPageData) pageResult.data;
+        assertEquals(courseId, pageData.courseId);
         
         StudentAttributes newStudent = new StudentAttributes("jean", "jean@email.com", "Jean Wong", "Exchange student", courseId, "Team 1");
         newStudent.updateStatus = StudentAttributes.UpdateStatus.NEW;
-        verifyStudentEnrollmentStatus(newStudent, data.students);
+        verifyStudentEnrollmentStatus(newStudent, pageData.students);
         
         StudentAttributes modifiedStudent = dataBundle.students.get("student1InCourse1");
         modifiedStudent.comments = "New comment added";
         modifiedStudent.updateStatus = StudentAttributes.UpdateStatus.MODIFIED;
-        verifyStudentEnrollmentStatus(modifiedStudent, data.students);
+        verifyStudentEnrollmentStatus(modifiedStudent, pageData.students);
         
         StudentAttributes unmodifiedStudent = dataBundle.students.get("student2InCourse1");
         unmodifiedStudent.updateStatus = StudentAttributes.UpdateStatus.UNMODIFIED;
-        verifyStudentEnrollmentStatus(unmodifiedStudent, data.students);
+        verifyStudentEnrollmentStatus(unmodifiedStudent, pageData.students);
         
         String expectedLogSegment = "Students Enrolled in Course <span class=\"bold\">[" 
                 + courseId + "]:</span><br>" + enrollString.replace("\n", "<br>"); 
-        AssertHelper.assertContains(expectedLogSegment, action.getLogMessage());
+        AssertHelper.assertContains(expectedLogSegment, enrollAction.getLogMessage());
         
         ______TS("Masquerade mode, enrollment into empty course, with header row");
         
@@ -122,27 +127,28 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.STUDENTS_ENROLLMENT_INFO, enrollString
         };
-        action = getAction(submissionParams);
+        enrollAction = getAction(submissionParams);
         
-        result = getShowPageResult(action);
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL_RESULT, result.destination);
-        assertEquals(false, result.isError);
-        assertEquals("", result.getStatusMessage());
+        pageResult = getShowPageResult(enrollAction);
+        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL_RESULT + "?error=false&user=idOfInstructor1OfCourse1",
+                     pageResult.getDestinationWithParams());
+        assertEquals(false, pageResult.isError);
+        assertEquals("", pageResult.getStatusMessage());
         
-        data = (InstructorCourseEnrollResultPageData) result.data;
-        assertEquals(courseId, data.courseId);
+        pageData = (InstructorCourseEnrollResultPageData) pageResult.data;
+        assertEquals(courseId, pageData.courseId);
 
         StudentAttributes student1 = new StudentAttributes("jean", "jean@email.com", "Jean Wong", "Exchange student", courseId, "Team 1");
         student1.updateStatus = StudentAttributes.UpdateStatus.NEW;
-        verifyStudentEnrollmentStatus(student1, data.students);
+        verifyStudentEnrollmentStatus(student1, pageData.students);
         
         StudentAttributes student2 = new StudentAttributes("james", "james@email.com", "James Tan", "", courseId, "Team 2");
         student2.updateStatus = StudentAttributes.UpdateStatus.NEW;
-        verifyStudentEnrollmentStatus(student2, data.students);
+        verifyStudentEnrollmentStatus(student2, pageData.students);
         
         expectedLogSegment = "Students Enrolled in Course <span class=\"bold\">[" 
                 + courseId + "]:</span><br>" + enrollString.replace("\n", "<br>"); 
-        AssertHelper.assertContains(expectedLogSegment, action.getLogMessage());
+        AssertHelper.assertContains(expectedLogSegment, enrollAction.getLogMessage());
         
         ______TS("Failure case: enrollment failed due to invalid lines");
         
@@ -156,11 +162,11 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.STUDENTS_ENROLLMENT_INFO, enrollString
         };
-        action = getAction(submissionParams);
+        enrollAction = getAction(submissionParams);
         
-        result = getShowPageResult(action);
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, result.destination);
-        assertEquals(true, result.isError);
+        pageResult = getShowPageResult(enrollAction);
+        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, pageResult.destination);
+        assertEquals(true, pageResult.isError);
         String expectedStatusMessage = "<p><span class=\"bold\">Problem in line : <span class=\"invalidLine\">"
                             + studentWithoutEnoughParam + "</span></span><br><span class=\"problemDetail\">&bull; "
                             + StudentAttributesFactory.ERROR_ENROLL_LINE_TOOFEWPARTS + "</span></p>" +
@@ -168,14 +174,14 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
                             + studentWithInvalidEmail + "</span></span><br><span class=\"problemDetail\">&bull; "
                             + "\"invalid.email.com\" is not acceptable to TEAMMATES as an email because it is not in the correct format. An email address contains some text followed by one '@' sign followed by some more text. It cannot be longer than 45 characters. It cannot be empty and it cannot have spaces."
                             + "</span></p>";
-        assertEquals(expectedStatusMessage, result.getStatusMessage());
+        assertEquals(expectedStatusMessage, pageResult.getStatusMessage());
         
-        InstructorCourseEnrollPageData enrollPageData = (InstructorCourseEnrollPageData) result.data;
+        InstructorCourseEnrollPageData enrollPageData = (InstructorCourseEnrollPageData) pageResult.data;
         assertEquals(courseId, enrollPageData.courseId);
         assertEquals(enrollString, enrollPageData.enrollStudents);
         
         expectedLogSegment = expectedStatusMessage + "<br>Enrollment string entered by user:<br>" + (enrollString).replace("\n", "<br>");
-        AssertHelper.assertContains(expectedLogSegment, action.getLogMessage());
+        AssertHelper.assertContains(expectedLogSegment, enrollAction.getLogMessage());
         
         ______TS("Failure case: empty input");
 
@@ -185,36 +191,20 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.STUDENTS_ENROLLMENT_INFO, enrollString
         };
-        action = getAction(submissionParams);
+        enrollAction = getAction(submissionParams);
         
-        result = getShowPageResult(action);
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, result.destination);
-        assertEquals(true, result.isError);
-        assertEquals(Const.StatusMessages.ENROLL_LINE_EMPTY, result.getStatusMessage());
+        pageResult = getShowPageResult(enrollAction);
+        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL +"?message=Please+input+at+least+one+student+detail."
+                    + "&error=true&user=idOfInstructor1OfCourse1", pageResult.getDestinationWithParams());
+        assertEquals(true, pageResult.isError);
+        assertEquals(Const.StatusMessages.ENROLL_LINE_EMPTY, pageResult.getStatusMessage());
         
-        enrollPageData = (InstructorCourseEnrollPageData) result.data;
+        enrollPageData = (InstructorCourseEnrollPageData) pageResult.data;
         assertEquals(courseId, enrollPageData.courseId);
         assertEquals(enrollString, enrollPageData.enrollStudents);
         
-        AssertHelper.assertContains(Const.StatusMessages.ENROLL_LINE_EMPTY, action.getLogMessage());
-        
-        
-        ______TS("Failure case: null student enroll info post parameter");
-
-        submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, courseId,
-        };
-        
-        try {
-            action = getAction(submissionParams);
-            result = getShowPageResult(action);
-            signalFailureToDetectException("Did not detect that student enrollment info is null.");
-        } catch (NullPostParameterException e) {
-            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, 
-                            Const.ParamsNames.STUDENTS_ENROLLMENT_INFO), e.getMessage());
+        AssertHelper.assertContains(Const.StatusMessages.ENROLL_LINE_EMPTY, enrollAction.getLogMessage());
             
-        }
-        
         CoursesLogic.inst().deleteCourseCascade("new-course");
     }
     
