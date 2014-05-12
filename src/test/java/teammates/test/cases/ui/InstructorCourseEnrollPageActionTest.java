@@ -55,20 +55,20 @@ public class InstructorCourseEnrollPageActionTest extends BaseActionTest {
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, courseId
         };
-        InstructorCourseEnrollPageAction action = getAction(submissionParams);
+        InstructorCourseEnrollPageAction enrollPageAction = getAction(submissionParams);
         
-        ShowPageResult result = getShowPageResult(action);
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL + "?error=false&user=idOfInstructor1OfCourse1", result.getDestinationWithParams());
-        assertEquals(false, result.isError);
-        assertEquals("", result.getStatusMessage());
+        ShowPageResult pageResult = getShowPageResult(enrollPageAction);
+        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL + "?error=false&user=idOfInstructor1OfCourse1", pageResult.getDestinationWithParams());
+        assertEquals(false, pageResult.isError);
+        assertEquals("", pageResult.getStatusMessage());
         
-        InstructorCourseEnrollPageData data = (InstructorCourseEnrollPageData) result.data;
-        assertEquals(courseId, data.courseId);
-        assertEquals("", data.enrollStudents);
+        InstructorCourseEnrollPageData pageData = (InstructorCourseEnrollPageData) pageResult.data;
+        assertEquals(courseId, pageData.courseId);
+        assertEquals("", pageData.enrollStudents);
         
         String expectedLogSegment = "instructorCourseEnroll Page Load<br>"
                 + "Enrollment for Course <span class=\"bold\">[" + courseId + "]</span>"; 
-        AssertHelper.assertContains(expectedLogSegment, action.getLogMessage());
+        AssertHelper.assertContains(expectedLogSegment, enrollPageAction.getLogMessage());
 
         ______TS("Masquerade mode");
         instructor = dataBundle.instructors.get("instructor4");
@@ -79,19 +79,19 @@ public class InstructorCourseEnrollPageActionTest extends BaseActionTest {
         submissionParams = new String[]{
             Const.ParamsNames.COURSE_ID, courseId
         };
-        action = getAction(addUserIdToParams(instructorId, submissionParams));
-        result = getShowPageResult(action);
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL + "?error=false&user=idOfInstructor4", result.getDestinationWithParams());
-        assertEquals(false, result.isError);
-        assertEquals("", result.getStatusMessage());
+        enrollPageAction = getAction(addUserIdToParams(instructorId, submissionParams));
+        pageResult = getShowPageResult(enrollPageAction);
+        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL + "?error=false&user=idOfInstructor4", pageResult.getDestinationWithParams());
+        assertEquals(false, pageResult.isError);
+        assertEquals("", pageResult.getStatusMessage());
         
-        data = (InstructorCourseEnrollPageData) result.data;
-        assertEquals(courseId, data.courseId);
-        assertEquals("", data.enrollStudents);
+        pageData = (InstructorCourseEnrollPageData) pageResult.data;
+        assertEquals(courseId, pageData.courseId);
+        assertEquals("", pageData.enrollStudents);
         
         expectedLogSegment = "instructorCourseEnroll Page Load<br>"
                 + "Enrollment for Course <span class=\"bold\">[" + courseId + "]</span>"; 
-        AssertHelper.assertContains(expectedLogSegment, action.getLogMessage());
+        AssertHelper.assertContains(expectedLogSegment, enrollPageAction.getLogMessage());
     }
 
     private InstructorCourseEnrollPageAction getAction(String... params) throws Exception {
