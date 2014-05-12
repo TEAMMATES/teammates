@@ -130,7 +130,6 @@ public class InstructorFeedbackQuestionSubmissionEditPageActionTest extends
                         + "Not you? Please <a href=/logout.jsp>logout</a> and try again.",
                 r.getStatusMessage());
         
-        //TODO: test closed session, open and private session, closed and private session.
         ______TS("Closed session");
         
         instructorAccount = dataBundle.accounts.get("instructor1OfCourse1");
