@@ -116,7 +116,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
                         + "&error=true",
                 rr.getDestinationWithParams());
         
-        ______TS("success 2: Timzone with offset, dont show session, custom show results");
+        ______TS("success 2: Timzone with offset, 'never' show session, 'custom' show results");
         
         params = createParamsForTypicalFeedbackSession(
                         instructor1ofCourse1.courseId, session.feedbackSessionName);
@@ -189,13 +189,15 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
                 + "Instructions:</span> <Text: instructions>|||/page/instructorFeedbackEditSave";
         assertEquals(expectedLogMessage, a.getLogMessage());
         
-        ______TS("success 4: Masquerade mode, never release results");
+        ______TS("success 4: Masquerade mode, never release results, invalid timezone and graceperiod");
         
         gaeSimulation.loginAsAdmin("admin.user");
 
         params = createParamsForTypicalFeedbackSession(
                 instructor1ofCourse1.courseId, session.feedbackSessionName);
         params[19] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_NEVER;
+        params[25] = " ";
+        params[27] = "12dsf";
         
         params = addUserIdToParams(instructor1ofCourse1.googleId, params);
         
