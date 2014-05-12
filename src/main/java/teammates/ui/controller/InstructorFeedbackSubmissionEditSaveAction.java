@@ -2,6 +2,7 @@ package teammates.ui.controller;
 
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
@@ -9,10 +10,13 @@ import teammates.logic.api.GateKeeper;
 public class InstructorFeedbackSubmissionEditSaveAction extends FeedbackSubmissionEditSaveAction {
     @Override
     protected void verifyAccesibleForSpecificUser() {
+        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
+        FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
+        boolean isCreatorOnly = true;
         new GateKeeper().verifyAccessible(
-                logic.getInstructorForGoogleId(courseId, account.googleId),
-                logic.getFeedbackSession(feedbackSessionName, courseId),
-                false);
+                instructor,
+                session,
+                !isCreatorOnly);
     }
 
     @Override
@@ -29,8 +33,7 @@ public class InstructorFeedbackSubmissionEditSaveAction extends FeedbackSubmissi
 
     @Override
     protected void setStatusToAdmin() {
-        statusToAdmin = "Show instructor feedback submission edit&save page<br>"
-                +
+        statusToAdmin = "Show instructor feedback submission edit&save page<br>" +
                 "Session Name: " + feedbackSessionName + "<br>" +
                 "Course ID: " + courseId;
     }
