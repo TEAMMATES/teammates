@@ -27,6 +27,8 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
     protected ActionResult execute() throws EntityDoesNotExistException {
         courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        Assumption.assertNotNull(courseId);
+        Assumption.assertNotNull(feedbackSessionName);
         
         verifyAccesibleForSpecificUser();
         
