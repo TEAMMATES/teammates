@@ -21,7 +21,7 @@ public class StudentEvalSubmissionEditPageAction extends Action {
         String evalName = getRequestParamValue(Const.ParamsNames.EVALUATION_NAME);
         Assumption.assertNotNull(evalName);
         
-        if(notYetJoinedCourse(courseId, account.googleId)){
+        if(!isJoinedCourse(courseId, account.googleId)){
             return createPleaseJoinCourseResponse(courseId);
         }
         //No need to call GateKeeper because of the above redirect
