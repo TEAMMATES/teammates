@@ -73,36 +73,39 @@ public class InstructorFeedbackEditSaveAction extends Action {
 
         String type = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON);
         switch (type) {
-        case "custom":
+        case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM:
             newSession.resultsVisibleFromTime = TimeHelper.combineDateTime(
                     getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE),
                     getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME));
             break;
-        case "atvisible":
+        case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_ATVISIBLE:
             newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_FOLLOW_VISIBLE;
             break;
-        case "later":
+        case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER:
             newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_LATER;
             break;
-        case "never":
+        case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_NEVER:
             newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_NEVER;
             break;
         }
         
+        // handle session visible after results visible to avoid having a 
+        // results visible date when session is private (session not visible)
         type = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);
         switch (type) {
-        case "custom": //Magic strings. Use enums to prevent potentila bugs caused by typos.
+        case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM:
             newSession.sessionVisibleFromTime = TimeHelper.combineDateTime(
                     getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE),
                     getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME));
             break;
-        case "atopen":
+        case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN:
             newSession.sessionVisibleFromTime = Const.TIME_REPRESENTS_FOLLOW_OPENING;
             break;
-        case "never":
+        case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_NEVER:
             newSession.sessionVisibleFromTime = Const.TIME_REPRESENTS_NEVER;
             // overwrite if private
             newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_NEVER;
+            newSession.endTime = null;
             newSession.feedbackSessionType = FeedbackSessionType.PRIVATE;
             break;
         }
