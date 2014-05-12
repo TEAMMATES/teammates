@@ -436,8 +436,8 @@
                 "value":"Please please fill in the following questions."
             },
             "createdTime":"2013-03-20 11:59 PM UTC",
-            "startTime":"2013-06-01 11:59 PM UTC",
-            "endTime":"2016-04-28 11:59 PM UTC",
+            "startTime":"2013-06-01 11:58 PM UTC",
+            "endTime":"2013-06-01 11:59 PM UTC",
             "sessionVisibleFromTime":"2013-03-20 11:59 PM UTC",
             "resultsVisibleFromTime":"2016-04-29 11:59 PM UTC",
             "timeZone":2.0,
@@ -702,6 +702,29 @@
             ]
             
         },
+        "graceperiod.session.feedback2":{
+            "feedbackSessionName":"Grace Period Session",
+            "courseId":"idOfTypicalCourse1",
+            "creatorEmail":"instructor1@course1.com",
+            "questionMetaData":{
+                "value":"Give feedback to yourself."
+            },
+            "questionNumber":"2",
+            "questionType":"TEXT",
+            "giverType":"INSTRUCTORS",
+            "recipientType":"SELF",
+            "numberOfEntitiesToGiveFeedbackTo":1,
+            "showResponsesTo":[
+                "RECEIVER"
+            ],
+            "showGiverNameTo":[
+                "RECEIVER"
+            ],
+            "showRecipientNameTo":[
+                "RECEIVER"
+            ]
+            
+        },
         "closed.session.feedback":{
             "feedbackSessionName":"Closed Session",
             "courseId":"idOfTypicalCourse1",
@@ -916,6 +939,30 @@
             }
             
         },
+        "response1Q2GracePeriodFeedback":{
+            "feedbackSessionName":"Grace Period Session",
+            "courseId":"idOfTypicalCourse1",
+            "feedbackQuestionId":"2",
+            "feedbackQuestionType":"TEXT",
+            "giverEmail":"instructor1@course1.com",
+            "recipientEmail":"instructor1@course1.com",
+            "responseMetaData":{
+                "value":"Response from instructor to self."
+            }
+            
+        },
+        "response1Q1ClosedPeriodFeedback":{
+            "feedbackSessionName":"Closed Session",
+            "courseId":"idOfTypicalCourse1",
+            "feedbackQuestionId":"1",
+            "feedbackQuestionType":"TEXT",
+            "giverEmail":"instructor1@course1.com",
+            "recipientEmail":"instructor1@course1.com",
+            "responseMetaData":{
+                "value":"Response from Inst1 to self."
+            }
+            
+        },
         "response1ForQ2S2C1":{
             "feedbackSessionName":"Second feedback session",
             "courseId":"idOfTypicalCourse1",
@@ -949,6 +996,18 @@
             "recipientEmail":"Team 2.1",
             "responseMetaData":{
                 "value":"Response from instr to Team 2.1"
+            }
+            
+        },
+        "response1ForQ1S1C2":{
+            "feedbackSessionName":"Private feedback session",
+            "courseId":"idOfTypicalCourse2",
+            "feedbackQuestionId":"1",
+            "feedbackQuestionType":"TEXT",
+            "giverEmail":"instructor1@course2.com",
+            "recipientEmail":"student1InCourse2@gmail.com",
+            "responseMetaData":{
+                "value":"Response from instr1InC2 to student1InC2."
             }
             
         }

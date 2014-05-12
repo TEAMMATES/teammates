@@ -161,6 +161,101 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,    r.getStatusMessage());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), instructor.email, fr.recipientEmail));
+    
+        //TODO: cover cases for private session, grace period session
+        ______TS("grace period session edit answer");
+        
+        instructor = dataBundle.instructors.get("instructor1OfCourse1");
+        fs = dataBundle.feedbackSessions.get("gracePeriodSession");
+        
+        fq = fqDb.getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 2);
+        
+        fr = frDb.getFeedbackResponse(fq.getId(), instructor.email, instructor.email);
+        assertNotNull(fr);
+        
+        gaeSimulation.loginAsInstructor(instructor.googleId);
+        
+        assertNotNull(frDb.getFeedbackResponse(fq.getId(), instructor.email, fr.recipientEmail));
+        
+        submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, fs.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL, "1",
+                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT+"-1-0", fr.recipientEmail,
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, fq.questionType.toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT+"-1-0", "Qn Answer",
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID+"-1-0", fr.getId()
+        };
+        
+        a = getAction(submissionParams);
+        r = (ShowPageResult) a.executeAndPostProcess();
+        
+        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT, r.destination);
+        assertFalse(r.isError);
+        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,    r.getStatusMessage());
+        assertNotNull(frDb.getFeedbackResponse(fq.getId(), instructor.email, fr.recipientEmail));
+        
+        ______TS("closed session edit answer");
+        
+        instructor = dataBundle.instructors.get("instructor1OfCourse1");
+        fs = dataBundle.feedbackSessions.get("closedSession");
+        
+        fq = fqDb.getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 1);
+        
+        fr = frDb.getFeedbackResponse(fq.getId(), instructor.email, instructor.email);
+        assertNotNull(fr);
+        
+        gaeSimulation.loginAsInstructor(instructor.googleId);
+        
+        assertNotNull(frDb.getFeedbackResponse(fq.getId(), instructor.email, fr.recipientEmail));
+        
+        submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, fs.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL, "1",
+                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT+"-1-0", fr.recipientEmail,
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, fq.questionType.toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT+"-1-0", "Qn Answer",
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID+"-1-0", fr.getId()
+        };
+        
+        verifyCannotAccess(submissionParams);
+        
+        ______TS("private session edit answer");
+        
+        instructor = dataBundle.instructors.get("instructor1OfCourse2");
+        fs = dataBundle.feedbackSessions.get("session1InCourse2");
+        
+        fq = fqDb.getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 1);
+        
+        fr = frDb.getFeedbackResponse(fq.getId(), instructor.email, "student1InCourse2@gmail.com");
+        assertNotNull(fr);
+        
+        gaeSimulation.loginAsInstructor(instructor.googleId);
+        
+        assertNotNull(frDb.getFeedbackResponse(fq.getId(), instructor.email, fr.recipientEmail));
+        
+        submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, fs.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL, "1",
+                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT+"-1-0", fr.recipientEmail,
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, fq.questionType.toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT+"-1-0", "Qn Answer",
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID+"-1-0", fr.getId()
+        };
+        
+        a = getAction(submissionParams);
+        r = (ShowPageResult) a.executeAndPostProcess();
+        
+        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT, r.destination);
+        assertFalse(r.isError);
+        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,    r.getStatusMessage());
+        assertNotNull(frDb.getFeedbackResponse(fq.getId(), instructor.email, fr.recipientEmail));
+       
     }
     
     private InstructorFeedbackQuestionSubmissionEditSaveAction getAction(String... params) throws Exception{
