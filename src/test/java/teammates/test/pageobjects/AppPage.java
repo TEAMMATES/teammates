@@ -343,7 +343,7 @@ public abstract class AppPage {
      */
     public void selectDropdownByVisibleValue(WebElement element, String value) {
         Select select = new Select(element);
-        element.sendKeys(value);
+        select.selectByVisibleText(value);
         String selectedVisibleValue = select.getFirstSelectedOption().getText();
         assertEquals(value, selectedVisibleValue);
         element.sendKeys(Keys.RETURN);
@@ -575,7 +575,7 @@ public abstract class AppPage {
      * 
      * Compute the expected hash of a file from http://onlinemd5.com/ (SHA-1)
      */
-    public void verifyDownloadableFile(String url,String expectedHash) throws Exception {
+    public void verifyDownloadableFile(String url, String expectedHash) throws Exception {
         
         if (!url.startsWith("http") ){
             url = HOMEPAGE + url;
@@ -605,10 +605,10 @@ public abstract class AppPage {
         response.getEntity().getContent().close();
  
         String downloadedFileAbsolutePath = downloadedFile.getAbsolutePath();
-        assertEquals(new File(downloadedFileAbsolutePath).exists(), true);
+        assertEquals(true, new File(downloadedFileAbsolutePath).exists());
         
         String actualHash = DigestUtils.shaHex(new FileInputStream(downloadedFile));
-        assertEquals(actualHash,expectedHash.toLowerCase());
+        assertEquals(expectedHash.toLowerCase(), actualHash);
     }
     
     public void verifyFieldValue (String fieldId, String expectedValue) {

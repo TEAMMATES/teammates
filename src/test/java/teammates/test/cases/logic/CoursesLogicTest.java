@@ -180,7 +180,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         assertEquals(1, archivedCourses.size());
         assertEquals(true, archivedCourses.get(0).isArchived);
     
-        ______TS("fail: instructor without archive courses");
+        ______TS("boundary: instructor without archive courses");
         instructorId = getTypicalDataBundle().instructors.get("instructor1OfCourse1").googleId;
         
         archivedCourses = coursesLogic.getArchivedCoursesForInstructor(instructorId);
@@ -188,6 +188,25 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         assertEquals(0, archivedCourses.size());
     }
     
+    @Test
+    public void testGetCoursesForInstructor() throws Exception {
+        restoreTypicalDataInDatastore();
+
+        ______TS("success: instructor with present courses");
+        String instructorId = getTypicalDataBundle().accounts.get("instructor3").googleId;
+
+        List<CourseAttributes> courses = coursesLogic.getCoursesForInstructor(instructorId);
+
+        assertEquals(2, courses.size());
+
+        ______TS("boundary: instructor without any courses");
+        instructorId = getTypicalDataBundle().accounts.get("instructorWithoutCourses").googleId;
+
+        courses = coursesLogic.getCoursesForInstructor(instructorId);
+
+        assertEquals(0, courses.size());
+    }
+
     @Test
     public void testIsSampleCourse() {
         

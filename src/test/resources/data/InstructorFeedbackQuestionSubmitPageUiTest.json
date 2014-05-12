@@ -93,6 +93,24 @@
             "sentOpenEmail":true,
             "sentPublishedEmail":false
         },
+        "Grace Period Session":{
+            "feedbackSessionName":"Grace Period Session",
+            "courseId":"IFQSubmitUiT.CS2104",
+            "creatorEmail":"IFQSubmitUiT.instr@gmail.com",
+            "instructions":{
+                "value":"Please please fill in the following questions."
+            },
+            "createdTime":"2012-04-01 11:59 PM UTC",
+            "startTime":"2012-04-01 11:59 PM UTC",
+            "endTime":"2012-04-02 11:59 PM UTC",
+            "sessionVisibleFromTime":"2012-04-01 11:59 PM UTC",
+            "resultsVisibleFromTime":"2016-05-01 11:59 PM UTC",
+            "timeZone":8.0,
+            "gracePeriod":1440000,
+            "feedbackSessionType":"STANDARD",
+            "sentOpenEmail":true,
+            "sentPublishedEmail":false
+        },
         "Closed Session":{
             "feedbackSessionName":"Closed Session",
             "courseId":"IFQSubmitUiT.CS2104",
@@ -237,6 +255,29 @@
             "showRecipientNameTo":[
                 "RECEIVER"
             ]
+        },
+        "graceperiod.session.feedback":{
+            "feedbackSessionName":"Grace Period Session",
+            "courseId":"IFQSubmitUiT.CS2104",
+            "creatorEmail":"IFQSubmitUiT.instr@gmail.com",
+            "questionMetaData":{
+                "value":"Give feedback to yourself."
+            },
+            "questionNumber":"1",
+            "questionType":"TEXT",
+            "giverType":"INSTRUCTORS",
+            "recipientType":"SELF",
+            "numberOfEntitiesToGiveFeedbackTo":1,
+            "showResponsesTo":[
+                "RECEIVER"
+            ],
+            "showGiverNameTo":[
+                "RECEIVER"
+            ],
+            "showRecipientNameTo":[
+                "RECEIVER"
+            ]
+            
         }
     }
 }

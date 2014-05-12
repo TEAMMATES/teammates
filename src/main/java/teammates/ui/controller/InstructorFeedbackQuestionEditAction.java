@@ -33,6 +33,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
                 true);
 
         String editType = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE);
+        Assumption.assertNotNull("Null editType", editType);
         
         FeedbackQuestionAttributes updatedQuestion = extractFeedbackQuestionData(requestParameters);
         
@@ -56,6 +57,8 @@ public class InstructorFeedbackQuestionEditAction extends Action {
                 statusToAdmin = "Feedback Question "+ updatedQuestion.questionNumber +" for session:<span class=\"bold\">(" +
                         updatedQuestion.feedbackSessionName + ")</span> for Course <span class=\"bold\">[" +
                         updatedQuestion.courseId + "]</span> deleted.<br>";
+            } else {
+                Assumption.fail("Invalid editType");
             }
         } catch (InvalidParametersException e) {
             setStatusForException(e);
@@ -80,6 +83,16 @@ public class InstructorFeedbackQuestionEditAction extends Action {
         //and check all possibilities in the tests
         //should only be null when deleting. might be good to separate the delete action from this class
         
+        //When editing, usually the following fields are not null. If they are null somehow(edit from browser),
+        //Then the field will not update and take on its old value.
+        //When deleting, the following fields are null.
+        //numofrecipients
+        //questiontext
+        //numofrecipientstype
+        //recipienttype
+        //receiverLeaderCheckbox
+        //givertype
+        
         //Can be null
         String giverType = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE);
         if(giverType != null) {
@@ -95,6 +108,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
         String questionNumber = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMBER);
         Assumption.assertNotNull("Null question number", questionNumber);
         newQuestion.questionNumber = Integer.parseInt(questionNumber);
+        Assumption.assertTrue("Invalid question number", newQuestion.questionNumber >= 0);//0 for no change in question number.
         
         // Can be null
         String nEntityTypes = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE);
@@ -124,8 +138,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
             FeedbackAbstractQuestionDetails questionDetails = 
                     FeedbackAbstractQuestionDetails.createQuestionDetails(requestParameters, newQuestion.questionType);
             newQuestion.setQuestionDetails(questionDetails);
-        }
-                
+        }      
         return newQuestion;
     }
     

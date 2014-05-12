@@ -349,7 +349,16 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         
         List<FeedbackSessionAttributes> actualSessions = null;
         
-        ______TS("Student viewing: 2 visible, 1 awaiting, 1 no questions");
+        ______TS("non-existent course");
+        
+        try {
+            fsLogic.getFeedbackSessionsForUserInCourse("NonExistentCourseId", "randomUserId");
+            signalFailureToDetectException("Did not detect that course does not exist.");
+        } catch (EntityDoesNotExistException edne) {
+            assertEquals("Trying to get feedback sessions for a course that does not exist.", edne.getMessage());
+        }
+        
+       ______TS("Student viewing: 2 visible, 1 awaiting, 1 no questions");
         
         // 2 valid sessions in course 1, 0 in course 2.
         
@@ -382,12 +391,13 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
                 dataBundle.feedbackSessions.get("session2InCourse1").toString() + Const.EOL +
                 dataBundle.feedbackSessions.get("empty.session").toString() + Const.EOL + 
                 dataBundle.feedbackSessions.get("awaiting.session").toString() + Const.EOL +
+                dataBundle.feedbackSessions.get("closedSession").toString() + Const.EOL +
                 dataBundle.feedbackSessions.get("gracePeriodSession").toString() + Const.EOL;
         
         for (FeedbackSessionAttributes session : actualSessions) {
             AssertHelper.assertContains(session.toString(), expected);
         }
-        assertTrue(actualSessions.size() == 5);
+        assertTrue(actualSessions.size() == 6);
         
         // We should only have one session here as session 2 is private and this instructor is not the creator.
         actualSessions = fsLogic.getFeedbackSessionsForUserInCourse("idOfTypicalCourse2", "instructor2@course2.com");
@@ -487,6 +497,18 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         } catch (EntityDoesNotExistException e) {
             assertEquals("Trying to get a feedback session that does not exist.", e.getMessage());
         }
+        
+        ______TS("failure: non-existent student");
+        
+        try {
+            fsLogic.getFeedbackSessionQuestionsForStudent(
+                    "Second feedback session", "idOfTypicalCourse1", "randomUserId");
+            signalFailureToDetectException("Did not detect that student does not exist.");
+        } catch (EntityDoesNotExistException edne) {
+            assertEquals("Trying to get a feedback session for student that does not exist.", edne.getMessage());
+        }
+        
+        
         
     }
     

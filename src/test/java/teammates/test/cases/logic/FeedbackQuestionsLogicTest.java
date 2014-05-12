@@ -18,7 +18,10 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
+import teammates.common.util.StringHelper;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
@@ -330,6 +333,19 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
             assertEquals(e.getMessage(), "Trying to update a feedback question that does not exist.");
         }
         
+        ______TS("failure: invalid parameters");
+        
+        questionToUpdate = getQuestionFromDatastore("qn3InSession1InCourse1");
+        questionToUpdate.giverType = FeedbackParticipantType.TEAMS;
+        questionToUpdate.recipientType = FeedbackParticipantType.OWN_TEAM_MEMBERS;
+        try {
+            fqLogic.updateFeedbackQuestion(questionToUpdate);
+            signalFailureToDetectException("Expected InvalidParametersException not caught.");
+        } catch (InvalidParametersException e){
+            assertEquals(e.getMessage(), String.format(FieldValidator.PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE,
+                                                       questionToUpdate.recipientType.toDisplayRecipientName(),
+                                                       questionToUpdate.giverType.toDisplayGiverName()));
+        }
     }
 
     @Test
@@ -404,10 +420,6 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         actualQuestions = fqLogic.getFeedbackQuestionsForInstructor(allQuestions, true);
         
         assertEquals(actualQuestions, expectedQuestions);
-        
-        //TODO add a test data where there are a mix of STUDENTS and INSTRUCTORS
-        //questions (not SELF) and test if getQuestionForInstructors return only the
-        //INSTRUCTORS questions
     }
     
     @Test

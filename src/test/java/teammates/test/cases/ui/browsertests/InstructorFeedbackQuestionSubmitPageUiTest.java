@@ -54,8 +54,9 @@ public class InstructorFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
         
         ______TS("Grace period session");
         
-        //TODO implement this
-        //Session should look like closed session
+        fq = BackDoor.getFeedbackQuestion("IFQSubmitUiT.CS2104", "Grace Period Session", 1);
+        submitPage = loginToInstructorFeedbackQuestionSubmitPage("IFQSubmitUiT.instr", "Grace Period Session", fq.getId());
+        submitPage.verifyHtml("/instructorFeedbackQuestionSubmitPageGracePeriod.html");
         
         ______TS("Closed) session");
         

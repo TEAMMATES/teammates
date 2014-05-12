@@ -161,7 +161,7 @@
                             onmouseout="hideddrivetip()"><input type="radio"
                             name="<%=Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>"
                             id="<%=Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>_custom"
-                            value="custom"
+                            value="<%=Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM %>"
                             <%if(data.newFeedbackSession!=null &&
                                 !TimeHelper.isSpecialTime(data.newFeedbackSession.sessionVisibleFromTime))
                                     out.print("checked=\"checked\"");%>
@@ -193,7 +193,8 @@
                             onmouseout="hideddrivetip()">
                             <input type="radio"
                             name="<%=Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>"
-                            id="<%=Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>_atopen" value="atopen"
+                            id="<%=Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>_atopen" 
+                            value="<%=Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN %>"
                             <%if(data.newFeedbackSession==null || Const.TIME_REPRESENTS_FOLLOW_OPENING.equals(data.newFeedbackSession.sessionVisibleFromTime))
                                     out.print("checked=\"checked\"");%>>
                              Submissions opening time</td>
@@ -214,7 +215,7 @@
                             onmouseout="hideddrivetip()"><input type="radio"
                             name="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>"
                             id="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_custom"
-                            value="custom"
+                            value="<%=Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM%>"
                             <%if(data.newFeedbackSession!=null &&
                                 !TimeHelper.isSpecialTime(data.newFeedbackSession.resultsVisibleFromTime))
                                     out.print("checked=\"checked\"");%>>
@@ -247,13 +248,15 @@
                         <td onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_RESULTSVISIBLEATVISIBLE%>')"
                             onmouseout="hideddrivetip()">
                             <input type="radio" name="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>"
-                            id="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_atvisible" value="atvisible"
+                            id="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_atvisible" 
+                            value="<%=Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_ATVISIBLE %>"
                             <%if(data.newFeedbackSession!=null && Const.TIME_REPRESENTS_FOLLOW_VISIBLE.equals(data.newFeedbackSession.resultsVisibleFromTime))
                                     out.print("checked=\"checked\"");%>>
                              Immediately</td>
                         <td onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_RESULTSVISIBLELATER%>')"
                             onmouseout="hideddrivetip()"><input type="radio" name="resultsVisibleFromButton"
-                            id="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_later" value="later"
+                            id="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_later" 
+                            value="<%=Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER %>"
                             <%if(data.newFeedbackSession==null ||
                             Const.TIME_REPRESENTS_LATER.equals(data.newFeedbackSession.resultsVisibleFromTime) ||
                             Const.TIME_REPRESENTS_NOW.equals(data.newFeedbackSession.resultsVisibleFromTime))
@@ -262,7 +265,8 @@
                         <td onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_RESULTSVISIBLENEVER%>')"
                             onmouseout="hideddrivetip()"><input type="radio"
                             name="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>"
-                            id="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_never" value="never"
+                            id="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_never" 
+                            value="<%=Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_NEVER %>"
                             <%if(data.newFeedbackSession!=null && Const.TIME_REPRESENTS_NEVER.equals(data.newFeedbackSession.resultsVisibleFromTime))
                                     out.print("checked=\"checked\"");%>>
                              Never</td>
@@ -321,7 +325,7 @@
                     <tr>
                         <td colspan="2" class="centeralign"><input id="button_submit"
                             type="submit" class="button"
-                            onclick="return checkAddFeedbackSession(this.form);"
+                            
                             value="Create Feedback Session" tabindex="14"></td>
                     </tr>
                 </table>
