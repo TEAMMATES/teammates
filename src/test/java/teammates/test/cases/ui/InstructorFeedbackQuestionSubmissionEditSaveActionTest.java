@@ -162,7 +162,6 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,    r.getStatusMessage());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), instructor.email, fr.recipientEmail));
     
-        //TODO: cover cases for private session, grace period session
         ______TS("grace period session edit answer");
         
         instructor = dataBundle.instructors.get("instructor1OfCourse1");
