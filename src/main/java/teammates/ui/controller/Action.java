@@ -213,9 +213,8 @@ public abstract class Action {
                 pageData);
     }
     
-    //TODO Negative boolean method can be confusing. Change to positive (i.e. isJoinedCourse)
-    protected boolean notYetJoinedCourse(String courseId, String googleId) {
-        return logic.getStudentForGoogleId(courseId, account.googleId) == null;
+    protected boolean isJoinedCourse(String courseId, String googleId) {
+        return logic.getStudentForGoogleId(courseId, account.googleId) != null;
     }
 
     /**
@@ -243,7 +242,7 @@ public abstract class Action {
     }
 
     protected ActionResult createPleaseJoinCourseResponse(String courseId) {
-        String errorMessage = "You are not registered in the course "+Sanitizer.sanitizeForHtml(courseId);
+        String errorMessage = "You are not registered in the course " + Sanitizer.sanitizeForHtml(courseId);
         statusToUser.add(errorMessage);
         isError = true;
         statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + errorMessage; 
