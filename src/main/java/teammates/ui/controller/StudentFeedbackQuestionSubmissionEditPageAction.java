@@ -10,7 +10,7 @@ public class StudentFeedbackQuestionSubmissionEditPageAction extends
         FeedbackQuestionSubmissionEditPageAction {
     @Override
     protected boolean isSpecificUserJoinedCourse() {
-        return !notYetJoinedCourse(courseId, account.googleId);
+        return isJoinedCourse(courseId, account.googleId);
     }
     
     @Override

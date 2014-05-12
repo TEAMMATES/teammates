@@ -142,6 +142,24 @@ it works with the test suite.
   You will need to manually kill these processes after the tests are done. 
   On Windows, you can do this using the Task Manager or `tskill` DOS command. 
 
+###Running the test suite outside Eclipse
+Typically, we run the test suite within Eclipse. But core developers may prefer
+to run it outside Eclipse so that they can continue to use Eclipse while the
+test suite is running. Given below is the procedure. New developers can omit 
+this section.
+
+**On Windows:**
+* Build the project in Eclipse (`Project -> Clean`).
+* Start the dev server in Eclipse.
+* Open a DOS window in the project folder and run the `runtests.bat` 
+  in the following manner.<br>
+  `runtests.bat  appengine_SDK_location  project_folder_location` <br>
+  e.g. `runtests.bat  C:\appengine-java-sdk-1.9.4  C:\teammates`<br>
+  This will run the full test suite once and retry the failed tests several times.
+* The final result can be viewed by opening `[project folder]/testrunner/test-output/index.html`.
+
+**On OS-X:**
+TBD
 ##Deploying to staging server
 `Staging server` is the server instance you set up on Google App Engine for hosting the app for testing purposes.
 
