@@ -9,7 +9,7 @@ import teammates.common.util.Sanitizer;
 import teammates.logic.api.GateKeeper;
 
 /**
- * Action: add another intrusctor for an existent course of an instructor
+ * Action: add another instructor for an existent course of an instructor
  */
 public class InstructorCourseInstructorAddAction extends Action {
 
