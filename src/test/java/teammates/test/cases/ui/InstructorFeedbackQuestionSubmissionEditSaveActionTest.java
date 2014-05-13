@@ -388,7 +388,11 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID+"-1-0", fr.getId()
         };
         
-        verifyCannotAccess(submissionParams);
+        a = getAction(submissionParams);
+        r = (ShowPageResult) a.executeAndPostProcess();
+        
+        assertEquals(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN,
+                r.getStatusMessage());
         
         ______TS("private session edit answer");
         
