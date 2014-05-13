@@ -71,6 +71,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
     @BeforeMethod
     public void methodSetUp() throws Exception {
         dataBundle = getTypicalDataBundle();
+        //TODO: add restoreTypicalDataInDatastore() here and remove it from the rest of the file
     }
     
     @SuppressWarnings("serial")
@@ -1077,8 +1078,43 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
     }
 
     @Test
-    public void testUpdateFeedbackSession() {
-        //TODO implement this
+    public void testUpdateFeedbackSession() throws Exception {
+        restoreTypicalDataInDatastore();
+        
+        FeedbackSessionAttributes fsa = null;
+        
+        ______TS("failure 1: null object");
+        try {
+            fsLogic.updateFeedbackSession(fsa);
+            signalFailureToDetectException();
+        } catch (AssertionError ae) {
+            AssertHelper.assertContains(Const.StatusCodes.NULL_PARAMETER, ae.getMessage());
+        }
+        
+        ______TS("failure 2: non-existent session name");
+        fsa = new FeedbackSessionAttributes();
+        fsa.feedbackSessionName = "asdf_randomName1423";
+        fsa.courseId = "idOfTypicalCourse1";
+        
+        try {
+            fsLogic.updateFeedbackSession(fsa);
+            signalFailureToDetectException();
+        } catch (EntityDoesNotExistException edne) {
+            assertEquals("Trying to update a feedback session that does not exist.", edne.getMessage());
+        }
+        
+        ______TS("success 1: all changeable values sent are null");
+        fsa = dataBundle.feedbackSessions.get("session1InCourse1");
+        fsa.instructions = null;
+        fsa.startTime = null;
+        fsa.endTime = null;
+        fsa.feedbackSessionType = null;
+        fsa.sessionVisibleFromTime = null;
+        fsa.resultsVisibleFromTime = null;
+        
+        fsLogic.updateFeedbackSession(fsa);
+        
+        assertEquals(fsa.toString(), fsLogic.getFeedbackSession(fsa.feedbackSessionName, fsa.courseId).toString());
     }
     
     @Test
