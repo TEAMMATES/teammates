@@ -15,14 +15,14 @@ public class InstructorFeedbackPreviewAsStudentAction extends Action {
         String previewStudentEmail = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
 
         Assumption.assertNotNull(String.format(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, 
-                Const.ParamsNames.COURSE_ID), 
-           courseId);
+                                               Const.ParamsNames.COURSE_ID), 
+                                 courseId);
         Assumption.assertNotNull(String.format(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, 
-                        Const.ParamsNames.FEEDBACK_SESSION_NAME),
-                   feedbackSessionName);
+                                               Const.ParamsNames.FEEDBACK_SESSION_NAME),
+                                 feedbackSessionName);
         Assumption.assertNotNull(String.format(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, 
-                        Const.ParamsNames.PREVIEWAS),
-                   previewStudentEmail);
+                                               Const.ParamsNames.PREVIEWAS),
+                                 previewStudentEmail);
 
         new GateKeeper().verifyAccessible(
             logic.getInstructorForGoogleId(courseId, account.googleId),
