@@ -39,7 +39,8 @@ public abstract class FeedbackQuestionSubmissionEditSaveAction extends Action {
         
         FeedbackSessionAttributes fs = logic.getFeedbackSession(feedbackSessionName, courseId);
         if (isSessionOpenForSpecificUser(fs) == false) {
-            throw new UnauthorizedAccessException("This feedback session is not currently open for submission.");
+            isError = true;
+            statusToUser.add(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN);
         }
         
         String userEmailForCourse = getUserEmailForCourse();
@@ -53,8 +54,9 @@ public abstract class FeedbackQuestionSubmissionEditSaveAction extends Action {
             FeedbackAbstractQuestionDetails questionDetails  = data.bundle.question.getQuestionDetails();
             FeedbackResponseAttributes response = extractFeedbackResponseData(requestParameters, 1, responseIndx, questionDetails);
             response.giverEmail = userEmailForCourse;
-            
-            saveResponse(response);
+            if(isSessionOpenForSpecificUser(fs) == true){
+                saveResponse(response);
+            }
         }
         
         getPageData(userEmailForCourse);
@@ -64,9 +66,6 @@ public abstract class FeedbackQuestionSubmissionEditSaveAction extends Action {
         }
         
         data.isSessionOpenForSubmission = isSessionOpenForSpecificUser(fs);
-        if (!data.isSessionOpenForSubmission) {
-            statusToUser.add(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN);
-        }
         
         return createSpecificShowPageResult();
     }
