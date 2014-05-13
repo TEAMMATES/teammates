@@ -40,7 +40,8 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         setStatusToAdmin();
         
         if (!isSessionOpenForSpecificUser(data.bundle.feedbackSession)) {
-            throw new UnauthorizedAccessException("This feedback session is not currently open for submission.");
+            isError = true;
+            statusToUser.add(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN);
         }
         
         int numOfQuestionsToGet = data.bundle.questionResponseBundle.size();
@@ -61,7 +62,9 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                                 responseIndx, 
                                 questionDetails);
                 response.giverEmail = userEmailForCourse;
-                saveResponse(response);
+                if(isSessionOpenForSpecificUser(data.bundle.feedbackSession) == true){
+                    saveResponse(response);
+                }
             }
         }
         
