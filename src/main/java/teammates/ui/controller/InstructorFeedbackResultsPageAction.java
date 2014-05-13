@@ -3,6 +3,7 @@ package teammates.ui.controller;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
 
@@ -13,13 +14,12 @@ public class InstructorFeedbackResultsPageAction extends Action {
         
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        Assumption.assertNotNull(courseId);
+        Assumption.assertNotNull(feedbackSessionName);
         
         statusToAdmin = "Show instructor feedback result page<br>" +
                 "Session Name: " + feedbackSessionName + "<br>" + 
                 "Course ID: " + courseId;
-        if(courseId == null || feedbackSessionName == null) {
-            return createRedirectResult(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
-        }
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);

@@ -66,33 +66,23 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient"
         };
+        String[] paramsWithSortTypeUndefined = {
+                Const.ParamsNames.COURSE_ID, session.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "undefined"
+        };
         
-        ______TS("Success Case 1: no params");
+        ______TS("Unsuccessful Case 1: no params");
         
-        InstructorFeedbackResultsPageAction action = getAction(new String[]{});
-        ActionResult result = action.executeAndPostProcess();
-        
-        assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE +
-                "?error=false&user=idOfInstructor1OfCourse1", 
-                result.getDestinationWithParams());
-        assertEquals("", result.getStatusMessage());
-        assertFalse(result.isError);
-        
-        action = getAction(new String[]{
-                Const.ParamsNames.COURSE_ID, session.courseId
+        this.verifyAssumptionFailure();
+        this.verifyAssumptionFailure(new String[]{
+            Const.ParamsNames.COURSE_ID, session.courseId
         });
-        result = action.executeAndPostProcess();
         
-        assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE +
-                "?error=false&user=idOfInstructor1OfCourse1", 
-                result.getDestinationWithParams());
-        assertEquals("", result.getStatusMessage());
-        assertFalse(result.isError);
+        ______TS("Successful Case 1: no sortType param");
         
-        ______TS("Success Case 2: no sortType param");
-        
-        action = getAction(paramsWithoutSortType);
-        result = action.executeAndPostProcess();
+        InstructorFeedbackResultsPageAction action = getAction(paramsWithoutSortType);
+        ActionResult result = action.executeAndPostProcess();
         
         assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT +
                 "?error=false&user=idOfInstructor1OfCourse1",
@@ -100,7 +90,7 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
         assertEquals("", result.getStatusMessage());
         assertFalse(result.isError);
         
-        ______TS("Success Case 3: sortType table");
+        ______TS("Successful Case 2: sortType table");
         
         action = getAction(paramsWithSortTypeTable);
         result = action.executeAndPostProcess();
@@ -111,7 +101,7 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
         assertEquals("", result.getStatusMessage());
         assertFalse(result.isError);
         
-        ______TS("Success Case 4: sortType giver");
+        ______TS("Successful Case 3: sortType giver");
         
         action = getAction(paramsWithSortTypeGiver);
         result = action.executeAndPostProcess();
@@ -122,9 +112,20 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
         assertEquals("", result.getStatusMessage());
         assertFalse(result.isError);
         
-        ______TS("Success Case 5: sortType recipient");
+        ______TS("Successful Case 4: sortType recipient");
         
         action = getAction(paramsWithSortTypeRecipient);
+        result = action.executeAndPostProcess();
+        
+        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT +
+                "?error=false&user=idOfInstructor1OfCourse1",
+                result.getDestinationWithParams());
+        assertEquals("", result.getStatusMessage());
+        assertFalse(result.isError);
+        
+        ______TS("Successful Case 5: sortType undefined");
+        
+        action = getAction(paramsWithSortTypeUndefined);
         result = action.executeAndPostProcess();
         
         assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT +
