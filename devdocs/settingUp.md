@@ -157,6 +157,9 @@ this section.
   e.g. `runtests.bat  C:\appengine-java-sdk-1.9.4  C:\teammates`<br>
   This will run the full test suite once and retry the failed tests several times.
 * The final result can be viewed by opening `[project folder]/testrunner/test-output/index.html`.
+* To run only certain `<test>` segments of the `testng.xml`, add the `-testnames`
+  option followed by the names of the `<test>` segments you want to run.<br>e.g.
+  `runtests.bat  C:\appengine-java-sdk-1.9.4  C:\teammates -testnames component-tests,sequential-ui-tests,parallel-ui-tests`
 
 **On OS-X:**
 TBD

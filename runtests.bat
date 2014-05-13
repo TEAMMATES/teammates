@@ -4,13 +4,18 @@ rem ##########################################
 
 mkdir testrunner
 cd  testrunner
-xcopy /E /Y %2\src .\src\
+
+rem ### creat a file to hold xcopy exclusions
+echo .java > exclude.txt
+echo \lib\ >> exclude.txt
+
+rem ### copy files from the original folder 
+xcopy /E /Y  %2\src .\src\ /EXCLUDE:.\exclude.txt
 xcopy /E /Y ..\target\test-classes\teammates .\teammates\
-move /Y .\src\test\resources\data .\data
-move /Y .\src\test\resources\pages .\pages
 copy /Y .\src\test\resources\test.properties .
 copy /Y .\src\test\testng.xml .
 
+rem ### construct the classpath
 @echo off
 set tempcp=.
 set tempcp=%tempcp%;%1\lib\shared\appengine-local-runtime-shared.jar
@@ -34,7 +39,6 @@ set tempcp=%tempcp%;%1\lib\opt\user\datanucleus\v1\geronimo-jpa_3.0_spec-1.1.1.j
 set tempcp=%tempcp%;%1\lib\opt\user\datanucleus\v1\geronimo-jta_1.1_spec-1.1.1.jar
 set tempcp=%tempcp%;%1\lib\opt\user\datanucleus\v1\jdo2-api-2.3-eb.jar
 set tempcp=%tempcp%;%1\lib\appengine-tools-api.jar
-
 set tempcp=%tempcp%;%2\src\main\webapp\WEB-INF\classes
 set tempcp=%tempcp%;%2\src\test\resources\lib\javamail\mail.jar
 set tempcp=%tempcp%;%2\src\main\webapp\WEB-INF\lib\gson-2.2.2.jar
@@ -47,13 +51,15 @@ set tempcp=%tempcp%;%2\src\test\resources\lib\appengine\appengine-api-labs.jar
 set tempcp=%tempcp%;%2\src\test\resources\lib\selenium\selenium-server-standalone-2.41.0.jar
 set tempcp=%tempcp%;%2\src\test\resources\lib\httpunit\httpunit.jar
 set tempcp=%tempcp%;%2\src\test\resources\lib\testng\testng.jar
-
 @echo on
 
-java -cp "%tempcp%" -Duser.timezone=UTC -Dfile.encoding=UTF8 org.testng.TestNG .\testng.xml
-java -cp "%tempcp%" -Duser.timezone=UTC -Dfile.encoding=UTF8 org.testng.TestNG .\test-output\testng-failed.xml
-java -cp "%tempcp%" -Duser.timezone=UTC -Dfile.encoding=UTF8 org.testng.TestNG .\test-output\testng-failed.xml
-java -cp "%tempcp%" -Duser.timezone=UTC -Dfile.encoding=UTF8 org.testng.TestNG .\test-output\testng-failed.xml
-java -cp "%tempcp%" -Duser.timezone=UTC -Dfile.encoding=UTF8 org.testng.TestNG .\test-output\testng-failed.xml
+rem ### run test suite once and retry failed ones five times
+set vmparams=-Duser.timezone=UTC -Dfile.encoding=UTF8
+java -cp "%tempcp%" %vmparams% org.testng.TestNG %3 %4 .\testng.xml
+java -cp "%tempcp%" %vmparams% org.testng.TestNG .\test-output\testng-failed.xml
+java -cp "%tempcp%" %vmparams% org.testng.TestNG .\test-output\testng-failed.xml
+java -cp "%tempcp%" %vmparams% org.testng.TestNG .\test-output\testng-failed.xml
+java -cp "%tempcp%" %vmparams% org.testng.TestNG .\test-output\testng-failed.xml
+java -cp "%tempcp%" %vmparams% org.testng.TestNG .\test-output\testng-failed.xml
 
 cd ..

@@ -29,16 +29,18 @@ public class TimeHelper {
      * @param date
      *            The date in format dd/MM/yyyy
      * @param time
-     *            The time in format HHMM
+     *            The time as number of hours
      */
-    public static Date combineDateTime(String inputDate, String inputTime) {
-        if (inputDate == null || inputTime == null) {
+    public static Date combineDateTime(String inputDate, String inputTimeHours) {
+        if (inputDate == null || inputTimeHours == null) {
             return null;
         }
 
         int inputTimeInt = 0;
-        if (inputTime != null) {
-            inputTimeInt = Integer.parseInt(inputTime) * 100;
+        try {
+            inputTimeInt = Integer.parseInt(inputTimeHours) * 100;
+        } catch (NumberFormatException nfe) {
+            return null;
         }
         return convertToDate(inputDate, inputTimeInt);
     }
@@ -216,6 +218,7 @@ public class TimeHelper {
     
     private static Date convertToDate(String date, int time) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
     
         Date newDate = new Date();
