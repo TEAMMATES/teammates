@@ -108,10 +108,19 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         
         assertNull(fsDb.getFeedbackSession("non-course", "Non-existant feedback session"));
         
-        ______TS("null params");
+        ______TS("null fsName");
         
         try {
             fsDb.getFeedbackSession("idOfTypicalCourse1", null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
+        }
+        
+        ______TS("null courseId");
+        
+        try {
+            fsDb.getFeedbackSession(null, "First feedback session");
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
