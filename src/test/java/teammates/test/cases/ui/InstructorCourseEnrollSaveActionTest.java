@@ -60,12 +60,6 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         
         gaeSimulation.loginAsInstructor(instructorId);
 
-        ______TS("Failure case: not enough parameters");
-        verifyAssumptionFailure();
-        verifyAssumptionFailure(Const.ParamsNames.COURSE_ID, courseId);
-        verifyAssumptionFailure(Const.ParamsNames.STUDENTS_ENROLLMENT_INFO,"Team Test\tName\tEmail\tComments");
-
-
         ______TS("Typical case: add and edit students for non-empty course, without header row");        
         // A new student
         enrollString = "Team 1\tJean Wong\tjean@email.com\tExchange student";
