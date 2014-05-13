@@ -8,6 +8,9 @@ import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
 import teammates.logic.api.GateKeeper;
 
+/**
+ * Action: add another intrusctor for an existent course of an instructor
+ */
 public class InstructorCourseInstructorAddAction extends Action {
 
     @Override
@@ -27,6 +30,7 @@ public class InstructorCourseInstructorAddAction extends Action {
         instructorName = Sanitizer.sanitizeName(instructorName);
         instructorEmail = Sanitizer.sanitizeEmail(instructorEmail);
         
+        /* Process adding the instructor and setup status to be shown to user and admin */
         try {
             logic.addInstructor(courseId, instructorName, instructorEmail);
             logic.sendRegistrationInviteToInstructor(courseId, instructorEmail);
@@ -41,9 +45,9 @@ public class InstructorCourseInstructorAddAction extends Action {
             setStatusForException(e);
         }
         
-        RedirectResult result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE);
-        result.addResponseParam(Const.ParamsNames.COURSE_ID, courseId);
-        return result;
+        RedirectResult redirectResult = createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE);
+        redirectResult.addResponseParam(Const.ParamsNames.COURSE_ID, courseId);
+        return redirectResult;
     }
 
 }
