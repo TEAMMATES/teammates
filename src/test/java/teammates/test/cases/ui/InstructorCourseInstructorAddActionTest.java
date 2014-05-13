@@ -52,18 +52,8 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor1OfCourse1.googleId;
         String courseId = instructor1OfCourse1.courseId;
-        
         String adminUserId = "admin.user";
-        
-        ______TS("Not enough parameters");
-        
-        gaeSimulation.loginAsInstructor(instructorId);
-        
-        verifyAssumptionFailure();
-        verifyAssumptionFailure(
-                Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.INSTRUCTOR_ID, "ICIAAT.instructorId");
-        
+         
         ______TS("Typical case: add an instructor successfully");
         
         gaeSimulation.loginAsInstructor(instructorId);
@@ -76,13 +66,13 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
                 Const.ParamsNames.INSTRUCTOR_NAME, newInstructorName,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, newInstructorEmail};
         
-        Action action = getAction(submissionParams);
-        RedirectResult result = (RedirectResult) action.executeAndPostProcess();
+        Action addAction = getAction(submissionParams);
+        RedirectResult redirectResult = (RedirectResult) addAction.executeAndPostProcess();
         
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, result.destination);
-        assertEquals(false, result.isError);
+        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, redirectResult.destination);
+        assertEquals(false, redirectResult.isError);
         assertEquals(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_ADDED,
-                    newInstructorName, newInstructorEmail), result.getStatusMessage());
+                    newInstructorName, newInstructorEmail), redirectResult.getStatusMessage());
         
         assertEquals(true, instructorsLogic.isInstructorEmailOfCourse(newInstructorEmail, courseId));
         
@@ -92,37 +82,63 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
         
         String expectedLogSegment = "New instructor (<span class=\"bold\"> " + newInstructorEmail + "</span>)"
                 + " for Course <span class=\"bold\">[" + courseId + "]</span> created.<br>";
-        AssertHelper.assertContains(expectedLogSegment, action.getLogMessage());
+        AssertHelper.assertContains(expectedLogSegment, addAction.getLogMessage());
         
         ______TS("Error: try to add an existing instructor");
         
-        action = getAction(submissionParams);
-        result = (RedirectResult) action.executeAndPostProcess();
+        addAction = getAction(submissionParams);
+        redirectResult = (RedirectResult) addAction.executeAndPostProcess();
         
         AssertHelper.assertContains(
                 Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE+"?message=An+instructor+with+the+same+email+address+already+exists+in+the+course.", 
-                result.getDestinationWithParams());
-        assertEquals(true, result.isError);
-        assertEquals(Const.StatusMessages.COURSE_INSTRUCTOR_EXISTS, result.getStatusMessage());
+                redirectResult.getDestinationWithParams());
+        assertEquals(true, redirectResult.isError);
+        assertEquals(Const.StatusMessages.COURSE_INSTRUCTOR_EXISTS, redirectResult.getStatusMessage());
 
         expectedLogSegment = "TEAMMATESLOG|||instructorCourseInstructorAdd|||instructorCourseInstructorAdd"
                 + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1"
                 + "|||instr1@course1.com|||Servlet Action Failure : Trying to create a Instructor that exists: ICIAAT.newInstructor@email.com, idOfTypicalCourse1"
                 + "|||/page/instructorCourseInstructorAdd";
-        assertEquals(expectedLogSegment, action.getLogMessage());
+        assertEquals(expectedLogSegment, addAction.getLogMessage());
         
-        ______TS("Masquerade mode:");
+        ______TS("Error: try to add an instructor with invalid email");
+        String newInvalidInstructorEmail = "ICIAAT.newInvalidInstructor.email.com";
+        submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.INSTRUCTOR_NAME, newInstructorName,
+                Const.ParamsNames.INSTRUCTOR_EMAIL, newInvalidInstructorEmail};
+        
+        addAction = getAction(submissionParams);
+        redirectResult = (RedirectResult) addAction.executeAndPostProcess();
+        
+        AssertHelper.assertContains(
+                Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE+"?message=%22ICIAAT.newInvalidInstructor.email.com%22+is+not+acceptable+to+TEAMMATES+as+an+email+because+it+is+not+in+the+correct+format.", 
+                redirectResult.getDestinationWithParams());
+        assertEquals(true, redirectResult.isError);
+        assertEquals(String.format(Const.StatusMessages.INVALID_EMAIL,newInvalidInstructorEmail), redirectResult.getStatusMessage());
+            
+        expectedLogSegment = "TEAMMATESLOG|||instructorCourseInstructorAdd|||instructorCourseInstructorAdd"
+               + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com"
+               + "|||Servlet Action Failure : " + String.format(Const.StatusMessages.INVALID_EMAIL,newInvalidInstructorEmail) 
+               + "|||/page/instructorCourseInstructorAdd";
+        assertEquals(expectedLogSegment, addAction.getLogMessage());
+        
+        ______TS("Masquerade mode: add an instructor");
         
         instructorsLogic.deleteInstructor(courseId, newInstructorEmail);
 
         gaeSimulation.loginAsAdmin(adminUserId);
-        action = getAction(addUserIdToParams(instructorId, submissionParams));
-        result = (RedirectResult) action.executeAndPostProcess();
+        submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.INSTRUCTOR_NAME, newInstructorName,
+                Const.ParamsNames.INSTRUCTOR_EMAIL, newInstructorEmail};
+        addAction = getAction(addUserIdToParams(instructorId, submissionParams));
+        redirectResult = (RedirectResult) addAction.executeAndPostProcess();
         
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, result.destination);
-        assertEquals(false, result.isError);
+        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, redirectResult.destination);
+        assertEquals(false, redirectResult.isError);
         assertEquals(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_ADDED,
-                newInstructorName, newInstructorEmail), result.getStatusMessage());
+                newInstructorName, newInstructorEmail), redirectResult.getStatusMessage());
         
         assertEquals(true, instructorsLogic.isInstructorEmailOfCourse(newInstructorEmail, courseId));
         
@@ -132,7 +148,7 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
         
         expectedLogSegment = "New instructor (<span class=\"bold\"> " + newInstructorEmail + "</span>)"
                 + " for Course <span class=\"bold\">[" + courseId + "]</span> created.<br>";
-        AssertHelper.assertContains(expectedLogSegment, action.getLogMessage());
+        AssertHelper.assertContains(expectedLogSegment, addAction.getLogMessage());
     }
     
     private InstructorCourseInstructorAddAction getAction(String... parameters) throws Exception {
