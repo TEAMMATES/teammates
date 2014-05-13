@@ -517,14 +517,13 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         assertFalse(fs.isInGracePeriod());
                 
         String submissionFailMessage = new String();
-        try{
-            a = getAction(submissionParams);
-            r = a.executeAndPostProcess();
-        }
-        catch(UnauthorizedAccessException e){
-            submissionFailMessage = e.getMessage();
-        }
-        assertEquals("This feedback session is not currently open for submission.", submissionFailMessage);
+        
+        a = getAction(submissionParams);
+        r = a.executeAndPostProcess();
+        
+        assertEquals(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN,
+                r.getStatusMessage());
+        
     }
     
     private InstructorFeedbackSubmissionEditSaveAction getAction(String... params) throws Exception{
