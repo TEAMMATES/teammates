@@ -54,7 +54,7 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
 
         gaeSimulation.loginAsInstructor(loginInstructorId);
         
-        ______TS("Typical case: Delete other instructor successfully");
+        ______TS("Typical case: Delete other instructor successfully, redirect back to edit page");
         
         InstructorAttributes instructorToDelete = dataBundle.instructors.get("instructor2OfCourse1");
         String instructorEmailToDelete = instructorToDelete.email;
@@ -134,6 +134,4 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
     private Action getAction(String... params) throws Exception{
             return gaeSimulation.getActionObject(uri, params);
     }
-    
-
 }

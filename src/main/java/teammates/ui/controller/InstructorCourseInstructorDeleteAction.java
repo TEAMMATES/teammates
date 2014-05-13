@@ -30,7 +30,7 @@ public class InstructorCourseInstructorDeleteAction extends Action {
             
             statusToUser.add(Const.StatusMessages.COURSE_INSTRUCTOR_DELETED);
             statusToAdmin = "Instructor <span class=\"bold\"> " + instructorEmail + "</span>"
-                    + " in Course <span class=\"bold\">[" + courseId + "]</span> deleted.<br>";
+                + " in Course <span class=\"bold\">[" + courseId + "]</span> deleted.<br>";
         } else {
             isError = true;
             statusToUser.add(Const.StatusMessages.COURSE_INSTRUCTOR_DELETE_NOT_ALLOWED);
