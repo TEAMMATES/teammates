@@ -584,7 +584,15 @@ public class Const {
                 + ActionURIs.INSTRUCTOR_COURSES_PAGE + "${user}\">here</a> to create one.";
         public static final String COURSE_REMINDER_SENT_TO = "An email has been sent to ";
         public static final String COURSE_REMINDERS_SENT = "Emails have been sent to unregistered students.";
-    
+        
+        public static final String COURSE_ENROLL_STUDENTS_ERROR = "There are errors on %d student(s):";
+        public static final String COURSE_ENROLL_STUDENTS_ADDED = "There are %d student(s) added:";
+        public static final String COURSE_ENROLL_STUDENTS_MODIFIED = "There are %d student(s) modified:";
+        public static final String COURSE_ENROLL_STUDENTS_UNMODIFIED = "There are %d student(s) unmodified:";
+        public static final String COURSE_ENROLL_STUDENTS_NOT_IN_LIST = "There are %d other student(s) previously in the course:";
+        public static final String COURSE_ENROLL_STUDENTS_UNKNOWN = "There are %d student(s) for which the enrollment status is unknown:";
+
+
         public static final String COURSE_INSTRUCTOR_ADDED = "The instructor %s has been added successfully."
                 + "An email containing how to 'join' this course will be sent to %s in a few minutes.";
         public static final String COURSE_INSTRUCTOR_EXISTS = "An instructor with the same email address already exists in the course.";
