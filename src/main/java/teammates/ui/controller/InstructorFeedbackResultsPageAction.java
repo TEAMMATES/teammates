@@ -38,12 +38,18 @@ public class InstructorFeedbackResultsPageAction extends Action {
         }
         
         data.sortType = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE);
-        if (data.sortType != null && data.sortType.equals("table")){
+        if (data.sortType == null) {
+            // default: sort by recipients
+            return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT, data);
+        }
+        if (data.sortType.equals("table")){
             return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_TABLE, data);
-        } else if (data.sortType != null && data.sortType.equals("giver")) {
+        } else if (data.sortType.equals("recipient")) {
+            return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT, data);
+        } else if (data.sortType.equals("giver")) {
             return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER, data);
         } else {
-            // data.sortType == null OR data.sortType.equals("recipient"): sort by recipients
+            // default: sort by recipients
             return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT, data);
         }
     }
