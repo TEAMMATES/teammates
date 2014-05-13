@@ -49,19 +49,12 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
         
         InstructorAttributes loginInstructor = dataBundle.instructors.get("instructor1OfCourse1");
         String loginInstructorId = loginInstructor.googleId;
-
         String courseId = loginInstructor.courseId;    
         String adminUserId = "admin.user";
 
         gaeSimulation.loginAsInstructor(loginInstructorId);
         
-        ______TS("Not enough parameters");
-
-        verifyAssumptionFailure();
-        verifyAssumptionFailure(
-                Const.ParamsNames.COURSE_ID, courseId);
-        
-        ______TS("Typical case: delete instructor successfully");
+        ______TS("Typical case: Delete other instructor successfully");
         
         InstructorAttributes instructorToDelete = dataBundle.instructors.get("instructor2OfCourse1");
         String instructorEmailToDelete = instructorToDelete.email;
@@ -71,18 +64,19 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
                 Const.ParamsNames.INSTRUCTOR_EMAIL, instructorEmailToDelete
         };
         
-        Action action = getAction(submissionParams);
-        RedirectResult result = (RedirectResult) action.executeAndPostProcess();
+        Action deleteAction = getAction(submissionParams);
+        RedirectResult redirectResult = (RedirectResult) deleteAction.executeAndPostProcess();
         
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, result.destination);
-        assertEquals(false, result.isError);
-        assertEquals(Const.StatusMessages.COURSE_INSTRUCTOR_DELETED, result.getStatusMessage());
+        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE + "?message=The+instructor+has+been+deleted+from+the+course.&error=false&user=idOfInstructor1OfCourse1&courseid=idOfTypicalCourse1",
+                        redirectResult.getDestinationWithParams());
+        assertEquals(false, redirectResult.isError);
+        assertEquals(Const.StatusMessages.COURSE_INSTRUCTOR_DELETED, redirectResult.getStatusMessage());
 
         assertEquals(false, instructorsLogic.isInstructorEmailOfCourse(instructorEmailToDelete, courseId));
         
         String expectedLogSegment = "Instructor <span class=\"bold\"> " + instructorEmailToDelete + "</span>"
                 + " in Course <span class=\"bold\">[" + courseId + "]</span> deleted.<br>";
-        AssertHelper.assertContains(expectedLogSegment, action.getLogMessage());
+        AssertHelper.assertContains(expectedLogSegment, deleteAction.getLogMessage());
 
         ______TS("Success: delete own instructor role from course, redirect back to courses page");
         
@@ -93,18 +87,19 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
                 Const.ParamsNames.INSTRUCTOR_EMAIL, instructorEmailToDelete
         };
         
-        action = getAction(submissionParams);
-        result = (RedirectResult) action.executeAndPostProcess();
+        deleteAction = getAction(submissionParams);
+        redirectResult = (RedirectResult) deleteAction.executeAndPostProcess();
         
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE, result.destination);
-        assertEquals(false, result.isError);
-        assertEquals(Const.StatusMessages.COURSE_INSTRUCTOR_DELETED, result.getStatusMessage());
+        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE + "?message=The+instructor+has+been+deleted+from+the+course.&error=false&user=idOfInstructor1OfCourse1", 
+                        redirectResult.getDestinationWithParams());
+        assertEquals(false, redirectResult.isError);
+        assertEquals(Const.StatusMessages.COURSE_INSTRUCTOR_DELETED, redirectResult.getStatusMessage());
 
         assertEquals(false, instructorsLogic.isInstructorOfCourse(loginInstructor.googleId, courseId));
         
         expectedLogSegment = "Instructor <span class=\"bold\"> " + instructorEmailToDelete + "</span>"
                 + " in Course <span class=\"bold\">[" + courseId + "]</span> deleted.<br>";
-        AssertHelper.assertContains(expectedLogSegment, action.getLogMessage());
+        AssertHelper.assertContains(expectedLogSegment, deleteAction.getLogMessage());
         
         ______TS("Masquerade mode: delete instructor failed due to last instructor in course");
 
@@ -119,19 +114,21 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
                 Const.ParamsNames.INSTRUCTOR_EMAIL, instructorEmailToDelete
         };
         
-        action = getAction(addUserIdToParams(instructorToDelete.googleId, submissionParams));
-        result = (RedirectResult) action.executeAndPostProcess();
+        deleteAction = getAction(addUserIdToParams(instructorToDelete.googleId, submissionParams));
+        redirectResult = (RedirectResult) deleteAction.executeAndPostProcess();
         
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, result.destination);
-        assertEquals(true, result.isError);
-        assertEquals(Const.StatusMessages.COURSE_INSTRUCTOR_DELETE_NOT_ALLOWED, result.getStatusMessage());
+        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE + "?message=The+instructor+you+are+trying+to+delete+is+the+last+instructor+in+the+course."
+                     + "+Deleting+the+last+instructor+from+the+course+is+not+allowed.&error=true&user=idOfInstructor4&courseid=idOfCourseNoEvals"
+                     ,redirectResult.getDestinationWithParams());
+        assertEquals(true, redirectResult.isError);
+        assertEquals(Const.StatusMessages.COURSE_INSTRUCTOR_DELETE_NOT_ALLOWED, redirectResult.getStatusMessage());
 
         assertEquals(true, instructorsLogic.isInstructorOfCourse(instructorToDelete.googleId, courseId));
         
         expectedLogSegment = "Instructor <span class=\"bold\"> " + instructorEmailToDelete + "</span>"
                 + " in Course <span class=\"bold\">[" + courseId + "]</span> could not be deleted "
                 + "as there is only one instructor left.<br>";
-        AssertHelper.assertContains(expectedLogSegment, action.getLogMessage());
+        AssertHelper.assertContains(expectedLogSegment, deleteAction.getLogMessage());
     }
     
     private Action getAction(String... params) throws Exception{

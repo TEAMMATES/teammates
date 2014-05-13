@@ -5,6 +5,9 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
 
+/**
+ * Action: deleting an instructor for a course by another instructor
+ */
 public class InstructorCourseInstructorDeleteAction extends Action {
 
     @Override
@@ -21,7 +24,7 @@ public class InstructorCourseInstructorDeleteAction extends Action {
 
         int numberOfInstructorsForCourse = logic.getInstructorsForCourse(courseId).size();
         
-        // Only delete if it is not the last instructor in course
+        /* Process deleting an instructor and setup status to be shown to user and admin */
         if (numberOfInstructorsForCourse != 1) {
             logic.deleteInstructor(courseId, instructorEmail);
             
@@ -36,6 +39,7 @@ public class InstructorCourseInstructorDeleteAction extends Action {
                     + "as there is only one instructor left.<br>";
         }
         
+        /* Create redirection. It will redirect back to 'Courses' page if the instructor deletes himself */
         RedirectResult result = null;
         if (logic.isInstructorOfCourse(account.googleId, courseId)) {
             result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE);
