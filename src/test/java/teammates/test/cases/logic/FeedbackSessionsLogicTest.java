@@ -1,7 +1,9 @@
 package teammates.test.cases.logic;
 
 import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
+import static org.testng.AssertJUnit.assertNotNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -1232,7 +1234,9 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         
         restoreTypicalDataInDatastore();
         DataBundle dataBundle = getTypicalDataBundle();
-
+        
+        ______TS("typical success case");
+        
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
 
         List<MimeMessage> emailsSent = 
@@ -1245,10 +1249,10 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
             
             if(fsLogic.isFeedbackSessionCompletedByStudent(fs.feedbackSessionName, fs.courseId, s.email)) {
                 String errorMessage = "Email sent to " + s.email + " when he already completed the session.";
-                assertTrue(errorMessage, emailToStudent == null);
+                assertNull(errorMessage, emailToStudent);
             } else {
                 String errorMessage = "No email sent to " + s.email + " when he hasn't completed the session.";
-                assertTrue(errorMessage, emailToStudent != null);
+                assertNotNull(errorMessage, emailToStudent);
                 AssertHelper.assertContains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER,
                         emailToStudent.getSubject());
                 AssertHelper.assertContains(fs.feedbackSessionName, emailToStudent.getSubject());
@@ -1284,6 +1288,19 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
             }
             
             
+        }
+        
+        ______TS("failure: non-existent Feedback session");
+        
+        String nonExistentFSName = "non-ExIsTENT FsnaMe123";
+        
+        try {
+            fsLogic.sendReminderForFeedbackSession(fs.courseId, nonExistentFSName);
+            signalFailureToDetectException();
+        } catch (EntityDoesNotExistException edne) {
+            assertEquals("Trying to remind non-existent feedback session " 
+                            + fs.courseId + "/" + nonExistentFSName,
+                         edne.getMessage());
         }
         
     }
