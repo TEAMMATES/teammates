@@ -46,15 +46,17 @@ public class InstructorFeedbackPreviewAsInstructorActionTest extends
     
     @Test
     public void testExecuteAndPostProcess() throws Exception{
-        String idOfInstr1OfCourse1 = "idOfInstructor1OfCourse1";
+        InstructorAttributes instructor1 = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor2 = dataBundle.instructors.get("instructor2OfCourse1");
+        String idOfInstructor1 = instructor1.googleId;
         
-        gaeSimulation.loginAsInstructor(idOfInstr1OfCourse1);
+        gaeSimulation.loginAsInstructor(idOfInstructor1);
         
         ______TS("typical success case");
         
         String feedbackSessionName = "First feedback session";
         String courseId = "idOfTypicalCourse1";
-        String previewAsEmail = "instructor2@course1.com";
+        String previewAsEmail = instructor2.email;
         
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
@@ -67,14 +69,15 @@ public class InstructorFeedbackPreviewAsInstructorActionTest extends
         
         assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT 
                 + "?error=false"
-                + "&user="+ idOfInstr1OfCourse1
+                + "&user="+ idOfInstructor1
                 ,showPageResult.getDestinationWithParams());
         
         assertEquals("TEAMMATESLOG|||instructorFeedbackPreviewAsInstructor|||instructorFeedbackPreviewAsInstructor"
-                + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com|||"
-                + "Preview feedback session as instructor (instructor2@course1.com)<br>"
-                + "Session Name: First feedback session<br>Course ID: idOfTypicalCourse1|||"
-                + "/page/instructorFeedbackPreviewAsInstructor"
+                + "|||true|||Instructor|||Instructor 1 of Course 1" 
+                + "|||" + idOfInstructor1 + "|||instr1@course1.com|||"
+                + "Preview feedback session as instructor (" + instructor2.email + ")<br>"
+                + "Session Name: First feedback session<br>Course ID: " + instructor1.courseId
+                + "|||/page/instructorFeedbackPreviewAsInstructor"
                 , paia.getLogMessage());
         
         ______TS("failure: non-existent previewas email");
