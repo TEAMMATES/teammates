@@ -333,7 +333,7 @@ public class BackDoorLogic extends Logic {
     **/
     @Override
     public void createFeedbackResponseComment(FeedbackResponseCommentAttributes responseComment) 
-            throws InvalidParametersException, EntityAlreadyExistsException {
+            throws InvalidParametersException {
         
         try {
             int qnNumber = Integer.parseInt(responseComment.feedbackQuestionId);
