@@ -2,7 +2,6 @@ package teammates.ui.controller;
 
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
 
@@ -13,9 +12,8 @@ public class InstructorFeedbackPreviewAsInstructorAction extends Action {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         String previewInstructorEmail = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
-        if (courseId == null || feedbackSessionName == null    || previewInstructorEmail == null) {
-            Assumption.fail();
-        }
+
+        // No null checks done as null values are handled at logic level and do not pose any threats.
 
         // Verify access level
         new GateKeeper().verifyAccessible(
@@ -25,10 +23,19 @@ public class InstructorFeedbackPreviewAsInstructorAction extends Action {
 
         InstructorAttributes previewInstructor = logic.getInstructorForEmail(courseId, previewInstructorEmail);
         
+        if (previewInstructor == null) {
+            throw new EntityDoesNotExistException("Instructor Email "
+                    + previewInstructorEmail + " does not exist in " + courseId
+                    + ".");
+        }
+        
         FeedbackSubmissionEditPageData data = new FeedbackSubmissionEditPageData(account);
         
         data.bundle = logic.getFeedbackSessionQuestionsBundleForInstructor(
                 feedbackSessionName, courseId, previewInstructor.email);
+        
+        // the following condition is not tested as typically the GateKeeper above handles
+        // the case and it wont happen
         if (data.bundle == null) {
             throw new EntityDoesNotExistException("Feedback session "
                     + feedbackSessionName + " does not exist in " + courseId
