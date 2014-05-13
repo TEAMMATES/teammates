@@ -108,10 +108,19 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         
         assertNull(fsDb.getFeedbackSession("non-course", "Non-existant feedback session"));
         
-        ______TS("null params");
+        ______TS("null fsName");
         
         try {
             fsDb.getFeedbackSession("idOfTypicalCourse1", null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
+        }
+        
+        ______TS("null courseId");
+        
+        try {
+            fsDb.getFeedbackSession(null, "First feedback session");
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
@@ -134,12 +143,13 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
                 dataBundle.feedbackSessions.get("session2InCourse1").toString() + Const.EOL +
                 dataBundle.feedbackSessions.get("empty.session").toString() + Const.EOL +                
                 dataBundle.feedbackSessions.get("awaiting.session").toString() + Const.EOL +
+                dataBundle.feedbackSessions.get("closedSession").toString() + Const.EOL +
                 dataBundle.feedbackSessions.get("gracePeriodSession").toString() + Const.EOL;
         
         for (FeedbackSessionAttributes session : sessions) {
             AssertHelper.assertContains(session.toString(), expected);
         }
-        Assert.assertTrue(sessions.size() == 5);
+        Assert.assertTrue(sessions.size() == 6);
         
         ______TS("null params");
         

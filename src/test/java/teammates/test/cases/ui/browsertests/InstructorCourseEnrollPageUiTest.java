@@ -60,8 +60,14 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
     private void testSampleLink() throws Exception {
         
         ______TS("link for the sample spreadsheet");
+        String expectedShaHexForWindows = "515BED94E8F664E870BC7A9BC2F0BBBAEF0D6756";
+        String expectedShaHexForUnix = "b51ddfb3d3a5dd0c5f5bb2944f6bb2c2efb117a8";
         
-        enrollPage.verifyDownloadableFile(enrollPage.getSpreadsheetLink(),"515BED94E8F664E870BC7A9BC2F0BBBAEF0D6756");
+        try{
+            enrollPage.verifyDownloadableFile(enrollPage.getSpreadsheetLink(), expectedShaHexForWindows);
+        } catch (AssertionError e){
+            enrollPage.verifyDownloadableFile(enrollPage.getSpreadsheetLink(), expectedShaHexForUnix);
+        }
     }
 
     private void testEnrollAction() throws Exception {

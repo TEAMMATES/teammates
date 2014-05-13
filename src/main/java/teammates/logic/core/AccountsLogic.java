@@ -94,12 +94,17 @@ public class AccountsLogic {
         // Retrieve institute field from one of the instructors of the course
         String institute = "";
         for (int i=0; i<instructorList.size(); i++) {
-            AccountAttributes instructorAcc = accountsDb.getAccount(instructorList.get(i).googleId);
+            String instructorGoogleId = instructorList.get(i).googleId;
+            if(instructorGoogleId==null){
+                continue;
+            }
+            AccountAttributes instructorAcc = accountsDb.getAccount(instructorGoogleId);
             if (instructorAcc != null) {
                 institute = instructorAcc.institute;
                 break;
             }
         }
+        Assumption.assertNotEmpty("No institute found for the course", institute);
         return institute;
     }
 

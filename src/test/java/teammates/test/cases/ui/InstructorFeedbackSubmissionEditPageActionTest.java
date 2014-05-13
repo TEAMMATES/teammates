@@ -45,15 +45,22 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
     @Test
     public void testExecuteAndPostProcess() throws Exception{
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
+        FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
         gaeSimulation.loginAsInstructor(instructor.googleId);
         
         ______TS("not enough parameters");
         
-        verifyAssumptionFailure();
+        String[] paramsWithoutCourseId = new String[]{
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName
+        };
+        String[] paramsWithoutFeedbackSessionName = new String[]{
+                Const.ParamsNames.COURSE_ID, session.courseId
+        };
+        
+        verifyAssumptionFailure(paramsWithoutCourseId);
+        verifyAssumptionFailure(paramsWithoutFeedbackSessionName);
         
         ______TS("typical success case");
-        
-        FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
         
         String[] params = new String[]{
                 Const.ParamsNames.COURSE_ID, session.courseId,

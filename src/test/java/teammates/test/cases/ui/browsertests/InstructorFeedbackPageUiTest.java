@@ -2,6 +2,7 @@ package teammates.test.cases.ui.browsertests;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
+import static org.testng.AssertJUnit.assertNull;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -116,7 +117,15 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     public void testEditLink(){
         ______TS("creator: clickable");
         
+        assertNull(feedbackPage.getEditLink("CFeedbackUiT.CS2104", "Private Session")
+                .getAttribute("onclick"));
+        
         ______TS("other instructor in course: not clickable");
+        
+        assertEquals(
+                feedbackPage.getEditLink("CFeedbackUiT.CS2104", "First Session")
+                            .getAttribute("onclick"), 
+                "return false");
     }
     
     public void testSubmitLink(){
@@ -125,7 +134,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 
     public void testAddAction() throws Exception{
         
-        ______TS("success case 1: defaults: visible when open, manual publish");
+        ______TS("success case: defaults: visible when open, manual publish");
         
         feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithSessions").googleId);
 
@@ -145,7 +154,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.verifyHtml("/instructorFeedbackAddSuccess.html");
 
 
-        ______TS("failure case 1: session exists already");
+        ______TS("failure case: session exists already");
         
         feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithSessions").googleId);
         
@@ -157,7 +166,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
                 newSession.gracePeriod );
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EXISTS, feedbackPage.getStatus());
         
-        ______TS("success case 2: private session");
+        ______TS("success case: private session");
 
         feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithSessions").googleId);
         feedbackPage.clickNeverVisibleTimeButton();
@@ -183,7 +192,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         assertEquals(newSession.toString(), savedSession.toString());
         
-        ______TS("success case 3: custom session visible time, publish follows visible, timezone -4.5");
+        ______TS("success case: custom session visible time, publish follows visible, timezone -4.5");
 
         feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithSessions").googleId);
         
@@ -210,7 +219,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         savedSession = BackDoor.getFeedbackSession(newSession.courseId, newSession.feedbackSessionName);
         assertEquals(newSession.toString(), savedSession.toString());
         
-        ______TS("success case 4: custom session visible time, responses always hidden, timezone 5.75");
+        ______TS("success case: custom session visible time, responses always hidden, timezone 5.75");
         
         feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithSessions").googleId);
         
@@ -239,7 +248,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         //reset timezone value
         newSession.timeZone = 8;
         
-        ______TS("success case 5: visible when open, custom publish time");
+        ______TS("success case: visible when open, custom publish time");
         
         feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithSessions").googleId);
         
@@ -264,7 +273,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         savedSession = BackDoor.getFeedbackSession(newSession.courseId, newSession.feedbackSessionName);
         assertEquals(newSession.toString(), savedSession.toString());
         
-        ______TS("success case 6: disable sending open and closing reminder emails");
+        ______TS("success case: disable sending open and closing reminder emails");
         
         feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithSessions").googleId);
         
@@ -293,7 +302,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         // remove session so it won't interfere with following tests
         BackDoor.deleteFeedbackSession(newSession.feedbackSessionName, newSession.courseId);
         
-        ______TS("failure case 2: invalid input: publish time before visible (visible follows open)");
+        ______TS("failure case: invalid input: publish time before visible (visible follows open)");
         
         feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithSessions").googleId);
         
@@ -322,7 +331,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
                     feedbackPage.getStatus());
 
         
-        ______TS("failure case 3: invalid input (session name)");
+        ______TS("failure case: invalid input (session name)");
         
         feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithSessions").googleId);
         newSession.feedbackSessionName = "bad name %%";

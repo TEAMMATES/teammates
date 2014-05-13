@@ -71,6 +71,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
     @BeforeMethod
     public void methodSetUp() throws Exception {
         dataBundle = getTypicalDataBundle();
+        //TODO: add restoreTypicalDataInDatastore() here and remove it from the rest of the file
     }
     
     @SuppressWarnings("serial")
@@ -391,12 +392,13 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
                 dataBundle.feedbackSessions.get("session2InCourse1").toString() + Const.EOL +
                 dataBundle.feedbackSessions.get("empty.session").toString() + Const.EOL + 
                 dataBundle.feedbackSessions.get("awaiting.session").toString() + Const.EOL +
+                dataBundle.feedbackSessions.get("closedSession").toString() + Const.EOL +
                 dataBundle.feedbackSessions.get("gracePeriodSession").toString() + Const.EOL;
         
         for (FeedbackSessionAttributes session : actualSessions) {
             AssertHelper.assertContains(session.toString(), expected);
         }
-        assertTrue(actualSessions.size() == 5);
+        assertTrue(actualSessions.size() == 6);
         
         // We should only have one session here as session 2 is private and this instructor is not the creator.
         actualSessions = fsLogic.getFeedbackSessionsForUserInCourse("idOfTypicalCourse2", "instructor2@course2.com");
@@ -1076,8 +1078,43 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
     }
 
     @Test
-    public void testUpdateFeedbackSession() {
-        //TODO implement this
+    public void testUpdateFeedbackSession() throws Exception {
+        restoreTypicalDataInDatastore();
+        
+        FeedbackSessionAttributes fsa = null;
+        
+        ______TS("failure 1: null object");
+        try {
+            fsLogic.updateFeedbackSession(fsa);
+            signalFailureToDetectException();
+        } catch (AssertionError ae) {
+            AssertHelper.assertContains(Const.StatusCodes.NULL_PARAMETER, ae.getMessage());
+        }
+        
+        ______TS("failure 2: non-existent session name");
+        fsa = new FeedbackSessionAttributes();
+        fsa.feedbackSessionName = "asdf_randomName1423";
+        fsa.courseId = "idOfTypicalCourse1";
+        
+        try {
+            fsLogic.updateFeedbackSession(fsa);
+            signalFailureToDetectException();
+        } catch (EntityDoesNotExistException edne) {
+            assertEquals("Trying to update a feedback session that does not exist.", edne.getMessage());
+        }
+        
+        ______TS("success 1: all changeable values sent are null");
+        fsa = dataBundle.feedbackSessions.get("session1InCourse1");
+        fsa.instructions = null;
+        fsa.startTime = null;
+        fsa.endTime = null;
+        fsa.feedbackSessionType = null;
+        fsa.sessionVisibleFromTime = null;
+        fsa.resultsVisibleFromTime = null;
+        
+        fsLogic.updateFeedbackSession(fsa);
+        
+        assertEquals(fsa.toString(), fsLogic.getFeedbackSession(fsa.feedbackSessionName, fsa.courseId).toString());
     }
     
     @Test
