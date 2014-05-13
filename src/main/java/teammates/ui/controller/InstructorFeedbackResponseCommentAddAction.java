@@ -3,11 +3,13 @@ package teammates.ui.controller;
 import java.util.Date;
 
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.logic.api.GateKeeper;
@@ -24,11 +26,13 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         Assumption.assertNotNull("null feedback session name", feedbackSessionName);
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
+        FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
+        boolean isCreatorOnly = true;
         
         new GateKeeper().verifyAccessible(
                 instructor, 
-                logic.getFeedbackSession(feedbackSessionName, courseId),
-                false);
+                session,
+                !isCreatorOnly);
         
         InstructorFeedbackResponseCommentAjaxPageData data = 
                 new InstructorFeedbackResponseCommentAjaxPageData(account);
@@ -45,16 +49,12 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         String feedbackResponseId = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID);
         Assumption.assertNotNull("null feedback response id", feedbackResponseId);
         
-        FeedbackResponseCommentAttributes frc = new FeedbackResponseCommentAttributes(courseId,
+        FeedbackResponseCommentAttributes feedbackResponseComment = new FeedbackResponseCommentAttributes(courseId,
             feedbackSessionName, feedbackQuestionId, instructor.email, feedbackResponseId, new Date(),
             new Text(commentText));
         
         try {
-            logic.createFeedbackResponseComment(frc);
-        } catch (EntityAlreadyExistsException e) {
-            setStatusForException(e);
-            data.errorMessage = e.getMessage();
-            data.isError = true;
+            logic.createFeedbackResponseComment(feedbackResponseComment);
         } catch (InvalidParametersException e) {
             setStatusForException(e);
             data.errorMessage = e.getMessage();
@@ -63,16 +63,36 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         
         if (!data.isError) {
             statusToAdmin += "InstructorFeedbackResponseCommentAddAction:<br>"
-                    + "Adding comment to response: " + frc.feedbackResponseId + "<br>"
-                    + "in course/feedback session: " + frc.courseId + "/" + frc.feedbackSessionName + "<br>"
-                    + "by: " + frc.giverEmail + " at " + frc.createdAt + "<br>"
-                    + "comment text: " + frc.commentText.getValue();
+                    + "Adding comment to response: " + feedbackResponseComment.feedbackResponseId + "<br>"
+                    + "in course/feedback session: " + feedbackResponseComment.courseId + "/" 
+                    + feedbackResponseComment.feedbackSessionName + "<br>"
+                    + "by: " + feedbackResponseComment.giverEmail + " at " + feedbackResponseComment.createdAt + "<br>"
+                    + "comment text: " + feedbackResponseComment.commentText.getValue();
         }
 
-        data.comment = logic.getFeedbackResponseComment(frc.feedbackResponseId, frc.giverEmail, frc.createdAt);
-        while (data.comment == null) {
+        // Wait for the operation to persist
+        int elapsedTime = 0;
+        data.comment = logic.getFeedbackResponseComment(
+                feedbackResponseComment.feedbackResponseId, 
+                feedbackResponseComment.giverEmail, 
+                feedbackResponseComment.createdAt);
+        while ((data.comment == null) &&
+                (elapsedTime < Config.PERSISTENCE_CHECK_DURATION)) {
             ThreadHelper.waitBriefly();
-            data.comment = logic.getFeedbackResponseComment(frc.feedbackResponseId, frc.giverEmail, frc.createdAt);
+            data.comment = logic.getFeedbackResponseComment(
+                    feedbackResponseComment.feedbackResponseId, 
+                    feedbackResponseComment.giverEmail, 
+                    feedbackResponseComment.createdAt);
+            //check before incrementing to avoid boundary case problem
+            if (data.comment == null) {
+                elapsedTime += ThreadHelper.WAIT_DURATION;
+            }
+        }
+        if (elapsedTime == Config.PERSISTENCE_CHECK_DURATION) {
+            log.severe("Operation did not persist in time: getFeedbackResponseComment "
+                    + feedbackResponseComment.feedbackResponseId + ", "
+                    + feedbackResponseComment.giverEmail + ", "
+                    + feedbackResponseComment.createdAt);
         }
         
         return createAjaxResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT, data);
