@@ -1089,8 +1089,6 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
             signalFailureToDetectException();
         } catch (AssertionError ae) {
             AssertHelper.assertContains(Const.StatusCodes.NULL_PARAMETER, ae.getMessage());
-        } catch (Exception e) {
-            signalDetectionOfWrongException("Expected AssertionError");
         }
         
         ______TS("failure 2: non-existent session name");
@@ -1103,8 +1101,6 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException edne) {
             assertEquals("Trying to update a feedback session that does not exist.", edne.getMessage());
-        } catch (Exception e) {
-            signalDetectionOfWrongException("Expected EntityDoesNotExistException");
         }
         
         ______TS("success 1: all changeable values sent are null");
@@ -1116,11 +1112,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         fsa.sessionVisibleFromTime = null;
         fsa.resultsVisibleFromTime = null;
         
-        try {
-            fsLogic.updateFeedbackSession(fsa);            
-        } catch (Exception e) {
-            signalDetectionOfWrongException("No Exceptions Expected");
-        }
+        fsLogic.updateFeedbackSession(fsa);
         
         assertEquals(fsa.toString(), fsLogic.getFeedbackSession(fsa.feedbackSessionName, fsa.courseId).toString());
     }

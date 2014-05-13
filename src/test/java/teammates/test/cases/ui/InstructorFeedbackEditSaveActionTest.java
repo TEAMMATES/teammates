@@ -61,7 +61,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
         //verifyAssumptionFailure(Const.ParamsNames.COURSE_ID, instructor1ofCourse1.courseId,
         //                        Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName);
         
-        ______TS("success 1: Typical case");
+        ______TS("success: Typical case");
         
         String[] params =
                 createParamsForTypicalFeedbackSession(
@@ -93,7 +93,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
                 + "Instructions:</span> <Text: instructions>|||/page/instructorFeedbackEditSave";
         assertEquals(expectedLogMessage, a.getLogMessage());
         
-        ______TS("failure 1: invalid parameters");
+        ______TS("failure: invalid parameters");
         
         params[15] = "01/03/2012";
         
@@ -116,7 +116,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
                         + "&error=true",
                 rr.getDestinationWithParams());
         
-        ______TS("success 2: Timzone with offset, 'never' show session, 'custom' show results");
+        ______TS("success: Timzone with offset, 'never' show session, 'custom' show results");
         
         params = createParamsForTypicalFeedbackSession(
                         instructor1ofCourse1.courseId, session.feedbackSessionName);
@@ -152,7 +152,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
                 + "Instructions:</span> <Text: instructions>|||/page/instructorFeedbackEditSave";
         assertEquals(expectedLogMessage, a.getLogMessage());
         
-        ______TS("success 3: atopen session visible time, custom results visible time, null timezone, null grace period");
+        ______TS("success: atopen session visible time, custom results visible time, null timezone, null grace period");
         
         params = createParamsCombinationForFeedbackSession(
                 instructor1ofCourse1.courseId, session.feedbackSessionName, 1);
@@ -189,7 +189,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
                 + "Instructions:</span> <Text: instructions>|||/page/instructorFeedbackEditSave";
         assertEquals(expectedLogMessage, a.getLogMessage());
         
-        ______TS("success 4: Masquerade mode, never release results, invalid timezone and graceperiod");
+        ______TS("success: Masquerade mode, never release results, invalid timezone and graceperiod");
         
         gaeSimulation.loginAsAdmin("admin.user");
 
