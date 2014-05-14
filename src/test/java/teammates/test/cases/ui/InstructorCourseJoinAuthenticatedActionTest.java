@@ -98,7 +98,7 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
                             + "<br/>Key : " + instructor.key;
         AssertHelper.assertContains(expectedLogSegment, joinAction.getLogMessage());
         
-        ______TS("Failure: Instructor object belongs to another account");
+        ______TS("Failure: the current key has been registered by another account");
         
         InstructorAttributes instructor2 = dataBundle.instructors.get("instructor2OfCourse1");
         instructor2 = instrDb.getInstructorForGoogleId(instructor2.courseId, instructor2.googleId);
@@ -164,6 +164,40 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
                             + "<br/>Key : " + newInstructor.key;
         AssertHelper.assertContains(expectedLogSegment, joinAction.getLogMessage());
 
+        ______TS("Failure case: the current unused key is not for this account ");
+        
+        String currentLoginId = instructor.googleId;
+        instructor = new InstructorAttributes("ICJAAT2.instr", instructor.courseId, "New Instructor 2", "ICJAAT2.instr@email.com");
+        InstructorsLogic.inst().addInstructor(instructor.courseId, instructor.name, instructor.email);
+        
+        newInstructorAccount = new AccountAttributes(
+                instructor.googleId, instructor.name, false,
+                instructor.email, "NUS");
+        AccountsLogic.inst().createAccount(newInstructorAccount);
+        
+        newInstructor = instrDb.getInstructorForEmail(instructor.courseId, instructor.email);
+            
+        submissionParams = new String[] {
+                Const.ParamsNames.REGKEY, StringHelper.encrypt(newInstructor.key)
+        };
+        
+        joinAction = getAction(submissionParams);
+        redirectResult = (RedirectResult) joinAction.executeAndPostProcess();
+
+        assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE
+                + "?message=The+Google+ID+ICJAAT.instr+belongs+to+an"
+                + "+existing+user+in+the+course.Please+login+again+using+a+different"
+                + "+Google+account%2C+and+try+to+join+the+course+again.&persistencecourse"
+                + "=idOfTypicalCourse1&error=true&user=ICJAAT.instr",
+                redirectResult.getDestinationWithParams());
+        assertTrue(redirectResult.isError);
+        assertEquals(String.format(Const.StatusMessages.JOIN_COURSE_GOOGLE_ID_BELONGS_TO_DIFFERENT_USER, currentLoginId), 
+            redirectResult.getStatusMessage());
+
+        expectedLogSegment = "Servlet Action Failure : " + String.format(Const.StatusMessages.JOIN_COURSE_GOOGLE_ID_BELONGS_TO_DIFFERENT_USER, currentLoginId)
+                            + "<br/><br/>Action Instructor Joins Course<br/>Google ID: "
+                            + currentLoginId + "<br/>Key : " + newInstructor.key;
+        AssertHelper.assertContains(expectedLogSegment, joinAction.getLogMessage());
     }
     
     private InstructorCourseJoinAuthenticatedAction getAction(String... params) throws Exception {
