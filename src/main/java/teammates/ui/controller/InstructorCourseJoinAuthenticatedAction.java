@@ -37,8 +37,7 @@ public class InstructorCourseJoinAuthenticatedAction extends Action {
         final String joinedCourseMsg = "Action Instructor Joins Course"
                 + "<br/>Google ID: " + account.googleId
                 + "<br/>Key : " + StringHelper.decrypt(key);
-        boolean hasPreviousAdminStatus = statusToAdmin != null && !statusToAdmin.trim().isEmpty();
-        if(hasPreviousAdminStatus) {
+        if(statusToAdmin != null) {
             statusToAdmin += "<br/><br/>" + joinedCourseMsg;
         } else {
             statusToAdmin = joinedCourseMsg;
