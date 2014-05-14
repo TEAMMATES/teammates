@@ -1228,6 +1228,54 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
     }
     
     @Test
+    public void testIsFeedbackSessionCompletedByInstructor() throws Exception {
+        
+        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
+        InstructorAttributes instructor = dataBundle.instructors.get("instructor2OfCourse1");
+        
+        ______TS("failure: non-existent feedback session for instructor");
+        
+        try {
+            fsLogic.isFeedbackSessionCompletedByInstructor(fs.courseId, "nonExistentFSName","random.instructor@email");
+            signalFailureToDetectException();
+        } catch (EntityDoesNotExistException edne) {
+            assertEquals("Trying to check a feedback session that does not exist.",
+                         edne.getMessage());
+        }
+        
+        ______TS("success: empty session");
+        
+        fs = dataBundle.feedbackSessions.get("empty.session");
+        
+        assertTrue(fsLogic.isFeedbackSessionCompletedByInstructor(fs.feedbackSessionName, fs.courseId, instructor.email));
+        
+    }
+    
+    @Test
+    public void testIsFeedbackSessionCompletedByStudent() throws Exception {
+        
+        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
+        StudentAttributes student = dataBundle.students.get("student2InCourse1");
+        
+        ______TS("failure: non-existent feedback session for student");
+        
+        try {
+            fsLogic.isFeedbackSessionCompletedByStudent(fs.courseId, "nonExistentFSName","random.student@email");
+            signalFailureToDetectException();
+        } catch (EntityDoesNotExistException edne) {
+            assertEquals("Trying to check a feedback session that does not exist.",
+                         edne.getMessage());
+        }
+        
+        ______TS("success: empty session");
+        
+        fs = dataBundle.feedbackSessions.get("empty.session");
+        
+        assertTrue(fsLogic.isFeedbackSessionCompletedByInstructor(fs.feedbackSessionName, fs.courseId, student.email));
+        
+    }
+    
+    @Test
     public void testSendReminderForFeedbackSession() throws Exception {
         // private method. no need to check for authentication.
         Logic logic = new Logic();
