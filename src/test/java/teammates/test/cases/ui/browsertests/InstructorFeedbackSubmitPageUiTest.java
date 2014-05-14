@@ -65,8 +65,8 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         
         ______TS("Grace period session");
         
-        //TODO implement this
-        //Session should look like closed session
+        submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Grace Period Session");
+        submitPage.verifyHtml("/instructorFeedbackSubmitPageGracePeriod.html");
         
         ______TS("Closed session");
         
