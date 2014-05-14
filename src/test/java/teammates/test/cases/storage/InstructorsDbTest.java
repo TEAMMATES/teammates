@@ -16,10 +16,12 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
+import teammates.storage.api.EntitiesDb;
 import teammates.storage.api.InstructorsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.cases.logic.LogicTest;
@@ -249,6 +251,19 @@ public class InstructorsDbTest extends BaseComponentTestCase {
             AssertHelper.assertContains(
                         String.format(PERSON_NAME_ERROR_MESSAGE, instructorToEdit.name, REASON_EMPTY) + Const.EOL 
                         + String.format(EMAIL_ERROR_MESSAGE, instructorToEdit.email, REASON_INCORRECT_FORMAT),
+                        e.getMessage());
+        }
+
+         ______TS("failure: non-existent entity");
+        instructorToEdit.googleId = "idOfInstructor4";
+        instructorToEdit.name = "New Name 2";
+        instructorToEdit.email = "InstrDbT.new-email2@email.com";
+        try {
+            instructorsDb.updateInstructorByGoogleId(instructorToEdit);
+            signalFailureToDetectException();
+        } catch (EntityDoesNotExistException e) {
+            AssertHelper.assertContains(
+                        EntitiesDb.ERROR_UPDATE_NON_EXISTENT_ACCOUNT,
                         e.getMessage());
         }
         
