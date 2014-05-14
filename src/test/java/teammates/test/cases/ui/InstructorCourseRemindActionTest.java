@@ -104,6 +104,8 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
                                                                            "unregistered2@email.com", "", courseId);
         StudentsLogic.inst().createStudentCascade(unregisteredStudent1);
         StudentsLogic.inst().createStudentCascade(unregisteredStudent2);
+        
+        /* Reassign the attributes to retrieve their keys */
         unregisteredStudent1 = StudentsLogic.inst().getStudentForEmail(courseId, unregisteredStudent1.email);
         unregisteredStudent2 = StudentsLogic.inst().getStudentForEmail(courseId, unregisteredStudent2.email);
         
