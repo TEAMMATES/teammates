@@ -288,6 +288,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertTrue(submitPage.isNamedElementVisible(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
         assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
 
+        //TODO: test that the recipient selection is also disabled after it is implemented.
     }
     
     private void testMcqSubmitAction(){
@@ -299,7 +300,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertTrue(submitPage.isNamedElementVisible(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
         assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
 
-        
+        //TODO: test that the recipient selection is also disabled after it is implemented.
     }
     
     private void testMsqSubmitAction(){
@@ -310,7 +311,8 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         int responseNumber = 0;
         assertTrue(submitPage.isNamedElementVisible(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
         assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
-
+        
+        //TODO: test that the recipient selection is also disabled after it is implemented.
     }
     
     private void testNumScaleSubmitAction(){
@@ -322,6 +324,8 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertTrue(submitPage.isNamedElementVisible(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
         assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
 
+        //TODO: test that the recipient selection is also disabled after it is implemented.
+        
         //Test input entered are valid numbers for the question.
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
         qnNumber = 14;
