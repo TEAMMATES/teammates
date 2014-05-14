@@ -5,7 +5,6 @@ import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertFalse;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -51,6 +50,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         testSubmitAction();
         testModifyData();
         // No links to test
+        testQuestionTypesSubmitAction();
     }
     
     private void testContent() {
@@ -259,6 +259,91 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
         submitPage.verifyHtml("/instructorFeedbackSubmitPageFullyFilled.html");
+    }
+    
+    /**
+     *  Tests the behavior of different question types.
+     *  Test response validation on client side as well, if any.
+     */
+    private void testQuestionTypesSubmitAction(){
+        ______TS("test submit actions for different question types.");
+        
+        testEssaySubmitAction();
+        testMcqSubmitAction();
+        testMsqSubmitAction();
+        testNumScaleSubmitAction();
+        
+    }
+    
+    private void testEssaySubmitAction(){
+        ______TS("test submit actions for essay question.");
+        
+        //Nothing much to test for input validation.
+        //Test fields are disabled when session is closed.
+        submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Closed Session");
+        
+        //Test input disabled
+        int qnNumber = 1;
+        int responseNumber = 0;
+        assertTrue(submitPage.isNamedElementVisible(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
+        assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
+
+    }
+    
+    private void testMcqSubmitAction(){
+        ______TS("test submit actions for mcq.");
+        
+        //Test input disabled
+        int qnNumber = 2;
+        int responseNumber = 0;
+        assertTrue(submitPage.isNamedElementVisible(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
+        assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
+
+        
+    }
+    
+    private void testMsqSubmitAction(){
+        ______TS("test submit actions for msq.");
+        
+        //Test input disabled
+        int qnNumber = 3;
+        int responseNumber = 0;
+        assertTrue(submitPage.isNamedElementVisible(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
+        assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
+
+    }
+    
+    private void testNumScaleSubmitAction(){
+        ______TS("test submit actions for numscale questions.");
+        
+        //Test input disabled
+        int qnNumber = 4;
+        int responseNumber = 0;
+        assertTrue(submitPage.isNamedElementVisible(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
+        assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
+
+        //Test input entered are valid numbers for the question.
+        submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
+        qnNumber = 14;
+        responseNumber = 0;
+        
+        submitPage.fillResponseTextBox(14, 0, "2.5");
+        assertEquals("2.5",submitPage.getResponseTextBoxValue(14, 0));
+        
+        submitPage.fillResponseTextBox(14, 0, "ABCD");
+        assertEquals("",submitPage.getResponseTextBoxValue(14, 0));
+        
+        submitPage.fillResponseTextBox(14, 0, "0");
+        assertEquals("1",submitPage.getResponseTextBoxValue(14, 0));
+        
+        submitPage.fillResponseTextBox(14, 0, "-1");
+        assertEquals("1",submitPage.getResponseTextBoxValue(14, 0));
+        
+        submitPage.fillResponseTextBox(14, 0, "6");
+        assertEquals("5",submitPage.getResponseTextBoxValue(14, 0));
+        
+        //TODO: test for stronger validation. (step is not properly validated now)
+        
     }
     
     private void testModifyData() throws EnrollException{
