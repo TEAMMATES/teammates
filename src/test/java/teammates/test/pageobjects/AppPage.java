@@ -403,7 +403,7 @@ public abstract class AppPage {
     }
     
     /**
-     * @return True if there is a corresponding element for the given id.
+     * @return True if there is a corresponding element for the given id or name.
      */
     public boolean isElementPresent(String elementId) {
         try{
@@ -422,9 +422,25 @@ public abstract class AppPage {
         }
     }
     
+    public boolean isNamedElementVisible(String elementName) {
+        try{
+            return browser.driver.findElement(By.name(elementName)).isDisplayed();
+        } catch (NoSuchElementException e) {
+            return false;
+        }
+    }
+    
     public boolean isElementEnabled(String elementId) {
         try{
             return browser.driver.findElement(By.id(elementId)).isEnabled();
+        } catch (NoSuchElementException e) {
+            return false;
+        }
+    }
+    
+    public boolean isNamedElementEnabled(String elementName) {
+        try{
+            return browser.driver.findElement(By.name(elementName)).isEnabled();
         } catch (NoSuchElementException e) {
             return false;
         }
