@@ -568,7 +568,9 @@ public class Const {
                 + "<br/>3. You joined this course just a few seconds ago and your data may be still in the process of propagating through our servers. "
                 + "In that case, please click on the <a href=" + ActionURIs.STUDENT_HOME_PAGE + ">Home</a> link above in a few minutes. "
                 + "</div>";
-        
+        public static final String INVALID_EMAIL = "\"%s\" is not acceptable to TEAMMATES as an email because it is not in the correct format."
+                + " An email address contains some text followed by one '@' sign followed by some more text. It cannot be longer than 45 characters. It cannot be empty and it cannot have spaces.";
+
         public static final String COURSE_ADDED = "The course has been added.. Click <a href=\"${courseEnrollLink}\">here</a> to add students to the course "
                 + "or click <a href=\"${courseEditLink}\">here</a> to add other instructors.<br>"
                 + "If you don't see the course in the list below, please refresh the page after a few moments.";
@@ -584,7 +586,15 @@ public class Const {
                 + ActionURIs.INSTRUCTOR_COURSES_PAGE + "${user}\">here</a> to create one.";
         public static final String COURSE_REMINDER_SENT_TO = "An email has been sent to ";
         public static final String COURSE_REMINDERS_SENT = "Emails have been sent to unregistered students.";
-    
+        
+        public static final String COURSE_ENROLL_STUDENTS_ERROR = "There are errors on %d student(s):";
+        public static final String COURSE_ENROLL_STUDENTS_ADDED = "There are %d student(s) added:";
+        public static final String COURSE_ENROLL_STUDENTS_MODIFIED = "There are %d student(s) modified:";
+        public static final String COURSE_ENROLL_STUDENTS_UNMODIFIED = "There are %d student(s) unmodified:";
+        public static final String COURSE_ENROLL_STUDENTS_NOT_IN_LIST = "There are %d other student(s) previously in the course:";
+        public static final String COURSE_ENROLL_STUDENTS_UNKNOWN = "There are %d student(s) for which the enrollment status is unknown:";
+
+
         public static final String COURSE_INSTRUCTOR_ADDED = "The instructor %s has been added successfully."
                 + "An email containing how to 'join' this course will be sent to %s in a few minutes.";
         public static final String COURSE_INSTRUCTOR_EXISTS = "An instructor with the same email address already exists in the course.";

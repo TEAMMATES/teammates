@@ -21,6 +21,7 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
         printTestClassHeader();
     }
     
+    @SuppressWarnings("unused")
     @Test
     public void testConstructor() throws Exception {
         String headerRow = null;
@@ -45,7 +46,23 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
         
         // remaining cases have been implicitly tested in testMakeStudent()
     }
-
+    
+    @Test
+    public void testHasHeader() throws EnrollException {
+        String headerRow = null;
+        StudentAttributesFactory saf = null;
+        
+        ______TS("Typical case: Has header");
+        headerRow = "name \t email \t team \t comments";
+        saf = new StudentAttributesFactory(headerRow);
+        assertEquals(true, saf.hasHeader());
+        
+        ______TS("Typical case: No header");
+        headerRow = "team1 \t test@email.com";
+        saf = new StudentAttributesFactory(headerRow);
+        assertEquals(false, saf.hasHeader());
+    }
+    
     @Test
     public void testMakeStudent() throws EnrollException {
         StudentAttributesFactory saf = new StudentAttributesFactory();
@@ -83,6 +100,14 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
         assertEquals(studentCreated.email, "SAFT@email.com");
         assertEquals(studentCreated.comments, "some comment...");
         
+        line = "team 2|SAFT.name2|SAFT2@email.com";
+        
+        studentCreated = saf.makeStudent(line, courseId);
+        assertEquals(studentCreated.team, "team 2");
+        assertEquals(studentCreated.name, "SAFT.name2");
+        assertEquals(studentCreated.email, "SAFT2@email.com");
+        assertEquals(studentCreated.comments, "");
+        
         ______TS("success: different column order without comment");
         saf = new StudentAttributesFactory("Name|emails|teams");
         line = "SAFT.name|SAFT@email.com|team 1";
@@ -92,7 +117,7 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
         assertEquals(studentCreated.name, "SAFT.name");
         assertEquals(studentCreated.email, "SAFT@email.com");
         assertEquals(studentCreated.comments, "");
-        
+          
         ______TS("success: different column order, contains empty columns");
         saf = new StudentAttributesFactory("email \t name \t    \t team");
         line = "SAFT@email.com \t SAFT.name \t      \t team 1";
@@ -112,6 +137,14 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
         assertEquals(studentCreated.name, "SAFT.name");
         assertEquals(studentCreated.email, "SAFT@email.com");
         assertEquals(studentCreated.comments, "comment");
+        
+        line = "team 2|SAFT.name2|SAFT2@email.com";
+        
+        studentCreated = saf.makeStudent(line, courseId);
+        assertEquals(studentCreated.team, "team 2");
+        assertEquals(studentCreated.name, "SAFT.name2");
+        assertEquals(studentCreated.email, "SAFT2@email.com");
+        assertEquals(studentCreated.comments, "");
     }
     
     @Test

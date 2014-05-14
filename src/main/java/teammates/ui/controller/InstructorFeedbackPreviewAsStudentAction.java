@@ -2,6 +2,7 @@ package teammates.ui.controller;
 
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
 
@@ -13,7 +14,15 @@ public class InstructorFeedbackPreviewAsStudentAction extends Action {
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         String previewStudentEmail = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
 
-        // No null checks done as null values are handled at logic level and do not pose any threats.
+        Assumption.assertNotNull(String.format(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, 
+                                               Const.ParamsNames.COURSE_ID), 
+                                 courseId);
+        Assumption.assertNotNull(String.format(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, 
+                                               Const.ParamsNames.FEEDBACK_SESSION_NAME),
+                                 feedbackSessionName);
+        Assumption.assertNotNull(String.format(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, 
+                                               Const.ParamsNames.PREVIEWAS),
+                                 previewStudentEmail);
 
         new GateKeeper().verifyAccessible(
             logic.getInstructorForGoogleId(courseId, account.googleId),

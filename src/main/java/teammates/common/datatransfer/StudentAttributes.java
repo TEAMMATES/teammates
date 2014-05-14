@@ -26,7 +26,8 @@ public class StudentAttributes extends EntityAttributes {
         NOT_IN_ENROLL_LIST(4), 
         UNKNOWN(5);
         // @formatter:on
-
+        
+        public static final int STATUS_COUNT = 6;
         public final int numericRepresentation;
 
         private UpdateStatus(int numericRepresentation) {
@@ -68,13 +69,8 @@ public class StudentAttributes extends EntityAttributes {
     
     public StudentAttributes(String id, String email, String name, String comments,
             String courseId, String team) {
-        this();
+        this(team, name, email, comments, courseId);
         this.googleId = Sanitizer.sanitizeGoogleId(id);
-        this.email = Sanitizer.sanitizeEmail(email);
-        this.course = Sanitizer.sanitizeTitle(courseId);
-        this.name = Sanitizer.sanitizeName(name);
-        this.comments = Sanitizer.sanitizeTextField(comments);
-        this.team = Sanitizer.sanitizeTitle(team);
     }
 
     public StudentAttributes() {
@@ -136,14 +132,14 @@ public class StudentAttributes extends EntityAttributes {
     public List<String> getInvalidityInfo() {
         
         //id is allowed to be null when the student is not registered
-        Assumption.assertTrue(team!=null);
-        Assumption.assertTrue(comments!=null);
+        Assumption.assertTrue(team != null);
+        Assumption.assertTrue(comments != null);
         
         FieldValidator validator = new FieldValidator();
         List<String> errors = new ArrayList<String>();
         String error;
         
-        if (googleId != null && !googleId.isEmpty()) {
+        if (isRegistered()) {
             error = validator.getInvalidityInfo(FieldType.GOOGLE_ID, googleId);
             if (!error.isEmpty()) {    errors.add(error);}
         }
@@ -171,14 +167,7 @@ public class StudentAttributes extends EntityAttributes {
             public int compare(StudentAttributes s1, StudentAttributes s2) {
                 String t1 = s1.team;
                 String t2 = s2.team;
-                if ((t1 == null) && (t2 == null)) {
-                    return 0;
-                } else if (t1 == null) {
-                    return 1;
-                } else if (t2 == null) {
-                    return -1;
-                }
-                
+            
                 //If the team name is the same, reorder by student name
                 if(t1.compareTo(t2) == 0){
                     return s1.name.compareTo(s2.name);

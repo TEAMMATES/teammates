@@ -97,7 +97,7 @@ public class StudentAttributesFactory {
         String paramEmail = columns[emailColumnIndex];
         
         String paramComment;
-        if ((hasComment && columns.length > commentColumnIndex) || (!isHeaderSpecified && columns.length == 4)) {
+        if ((hasComment && columns.length > commentColumnIndex) || (!isHeaderSpecified && columns.length == MAX_FIELD_COUNT)) {
             paramComment = columns[commentColumnIndex];
         } else {
             paramComment = "";
