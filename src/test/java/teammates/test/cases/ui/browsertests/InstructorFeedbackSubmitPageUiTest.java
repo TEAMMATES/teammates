@@ -250,9 +250,6 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
     }
     
     private void testModifyData() throws EnrollException{
-        
-        //TODO: This should be tested at Logic level instead?
-        
         ______TS("modify data");
         
         // Next, we edit some student data to cover editing of students
