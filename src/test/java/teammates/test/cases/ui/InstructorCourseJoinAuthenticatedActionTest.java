@@ -51,11 +51,7 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
         instructor = instrDb.getInstructorForEmail(instructor.courseId, instructor.email);
         
         gaeSimulation.loginAsInstructor(instructor.googleId);
-        
-        ______TS("not enough parameters");
-        
-        verifyAssumptionFailure();
-        
+            
         ______TS("invalid key");
         
         String[] submissionParams = new String[] {
