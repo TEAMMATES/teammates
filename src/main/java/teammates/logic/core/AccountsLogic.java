@@ -152,9 +152,9 @@ public class AccountsLogic {
         instructor.googleId = googleId;
         try {
             InstructorsLogic.inst().updateInstructorByEmail(instructor.email, instructor);
-        } catch (InvalidParametersException e) {
+        } catch (InvalidParametersException | EntityDoesNotExistException e) {
             throw new JoinCourseException(e.getMessage());
-        } 
+        }
         
         AccountAttributes account = accountsDb.getAccount(googleId);
         if(account == null) {
