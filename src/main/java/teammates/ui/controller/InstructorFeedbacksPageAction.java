@@ -67,7 +67,6 @@ public class InstructorFeedbacksPageAction extends Action {
             throws EntityDoesNotExistException {
         List<EvaluationAttributes> evaluations =
                 logic.getEvaluationsListForInstructor(userId);
-        EvaluationAttributes.sortEvaluationsByDeadline(evaluations);
 
         return evaluations;
     }

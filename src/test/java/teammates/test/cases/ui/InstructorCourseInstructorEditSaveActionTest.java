@@ -52,43 +52,40 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
     public void testExecuteAndPostProcess() throws Exception {
         InstructorAttributes instructorToEdit = dataBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructorToEdit.googleId;
-        
         String courseId = instructorToEdit.courseId;    
+        
         String adminUserId = "admin.user";
         
         gaeSimulation.loginAsInstructor(instructorId);
         
-        ______TS("Not enough parameters");
-
-        verifyAssumptionFailure();
-        verifyAssumptionFailure(
-                Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.INSTRUCTOR_ID, instructorId);
-        
         ______TS("Typical case: edit instructor successfully");
         
+        String newInstructorName = "newName";
         String newInstructorEmail = "newEmail@email.com";
         
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.INSTRUCTOR_ID, instructorId,
-                Const.ParamsNames.INSTRUCTOR_NAME, instructorToEdit.name,
+                Const.ParamsNames.INSTRUCTOR_NAME, newInstructorName,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, newInstructorEmail
         };
-        Action action = getAction(submissionParams);
-        RedirectResult result = (RedirectResult) action.executeAndPostProcess();
+        Action saveAction = getAction(submissionParams);
+        RedirectResult redirectResult = (RedirectResult) saveAction.executeAndPostProcess();
         
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, result.destination);
-        assertEquals(false, result.isError);
-        assertEquals(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, result.getStatusMessage());
+        AssertHelper.assertContains(
+                    Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE + "?message=The+changes+to+the+instructor+has+been+updated.",
+                    redirectResult.getDestinationWithParams());
+        assertEquals(false, redirectResult.isError);
+        assertEquals(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, redirectResult.getStatusMessage());
         
         InstructorAttributes editedInstructor = instructorsLogic.getInstructorForGoogleId(courseId, instructorId);
+        assertEquals(newInstructorName, editedInstructor.name);
         assertEquals(newInstructorEmail, editedInstructor.email);
         
-        String expectedLogSegment = "Instructor <span class=\"bold\"> " + instructorToEdit.name + "</span>"
+        String expectedLogSegment = "Instructor <span class=\"bold\"> " + newInstructorName + "</span>"
                 + " for Course <span class=\"bold\">[" + courseId + "]</span> edited.<br>"
-                + "New Name: " + instructorToEdit.name + "<br>New Email: " + newInstructorEmail;
-        AssertHelper.assertContains(expectedLogSegment, action.getLogMessage());
+                + "New Name: " + newInstructorName + "<br>New Email: " + newInstructorEmail;
+        AssertHelper.assertContains(expectedLogSegment, saveAction.getLogMessage());
         
         ______TS("Failure case: edit failed due to invalid parameters");
         
@@ -101,48 +98,53 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
                 Const.ParamsNames.INSTRUCTOR_EMAIL, invalidEmail
         };
         
-        action = getAction(submissionParams);
-        result = (RedirectResult) action.executeAndPostProcess();
+        saveAction = getAction(submissionParams);
+        redirectResult = (RedirectResult) saveAction.executeAndPostProcess();
         
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, result.destination);
-        assertEquals(true, result.isError);
+        AssertHelper.assertContains(
+                Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE + "?message=%22wrongEmail.com%22+is+not+acceptable+to+TEAMMATES+as+an+email+because+it+is+not+in+the+correct+format.+An+email+address+contains+some+text+followed+by+one+%27%40%27+sign+followed+by+some+more+text.+It+cannot+be+longer+than+45+characters.+It+cannot+be+empty+and+it+cannot+have+spaces.",
+                redirectResult.getDestinationWithParams());
+        assertEquals(true, redirectResult.isError);
         String expectedErrorMessage = (new FieldValidator()).getInvalidityInfo(FieldType.EMAIL, invalidEmail);
-        assertEquals(expectedErrorMessage, result.getStatusMessage());
+        assertEquals(expectedErrorMessage, redirectResult.getStatusMessage());
         
-        AssertHelper.assertContains(expectedErrorMessage, action.getLogMessage());
+        AssertHelper.assertContains(expectedErrorMessage, saveAction.getLogMessage());
         
         ______TS("Masquerade mode: edit instructor successfully");
         
         gaeSimulation.loginAsAdmin(adminUserId);
         
-        newInstructorEmail = "newEmail@email.com";
+        newInstructorName = "newName2";
+        newInstructorEmail = "newEmail2@email.com";
         
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.INSTRUCTOR_ID, instructorId,
-                Const.ParamsNames.INSTRUCTOR_NAME, instructorToEdit.name,
+                Const.ParamsNames.INSTRUCTOR_NAME, newInstructorName,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, newInstructorEmail
         };
         
-        action = getAction(addUserIdToParams(instructorId, submissionParams));
-        result = (RedirectResult) action.executeAndPostProcess();
+        saveAction = getAction(addUserIdToParams(instructorId, submissionParams));
+        redirectResult = (RedirectResult) saveAction.executeAndPostProcess();
         
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, result.destination);
-        assertEquals(false, result.isError);
-        assertEquals(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, result.getStatusMessage());
+        AssertHelper.assertContains(
+                Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE + "?message=The+changes+to+the+instructor+has+been+updated.",
+                redirectResult.getDestinationWithParams());
+        assertEquals(false, redirectResult.isError);
+        assertEquals(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, redirectResult.getStatusMessage());
         
         editedInstructor = instructorsLogic.getInstructorForGoogleId(courseId, instructorId);
         assertEquals(newInstructorEmail, editedInstructor.email);
+        assertEquals(newInstructorName, editedInstructor.name);
         
-        expectedLogSegment = "Instructor <span class=\"bold\"> " + instructorToEdit.name + "</span>"
+        expectedLogSegment = "Instructor <span class=\"bold\"> " + newInstructorName + "</span>"
                 + " for Course <span class=\"bold\">[" + courseId + "]</span> edited.<br>"
-                + "New Name: " + instructorToEdit.name + "<br>New Email: " + newInstructorEmail;
-        AssertHelper.assertContains(expectedLogSegment, action.getLogMessage());
+                + "New Name: " + newInstructorName + "<br>New Email: " + newInstructorEmail;
+        AssertHelper.assertContains(expectedLogSegment, saveAction.getLogMessage());
         
     }
     
     private Action getAction(String... parameters) throws Exception {
         return gaeSimulation.getActionObject(uri, parameters);
     }
-
 }

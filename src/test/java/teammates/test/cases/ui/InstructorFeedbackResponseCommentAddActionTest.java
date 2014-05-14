@@ -52,62 +52,67 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
     
     @Test
     public void testExcecuteAndPostProcess() throws Exception {
-        FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
-        FeedbackResponsesDb frDb = new FeedbackResponsesDb();
+        FeedbackQuestionsDb feedbackQuestionsDb = new FeedbackQuestionsDb();
+        FeedbackResponsesDb feedbackResponsesDb = new FeedbackResponsesDb();
 
-        FeedbackSessionAttributes fs = dataBundle.feedbackSessions
+        FeedbackSessionAttributes session = dataBundle.feedbackSessions
                 .get("session1InCourse1");
-        FeedbackQuestionAttributes fq = fqDb.getFeedbackQuestion(
-                fs.feedbackSessionName, fs.courseId, 1);
-        FeedbackResponseAttributes fr = frDb.getFeedbackResponse(fq.getId(),
-                "student1InCourse1@gmail.com", "student1InCourse1@gmail.com");
+        
+        int questionNumber = 1;
+        FeedbackQuestionAttributes question = feedbackQuestionsDb.getFeedbackQuestion(
+                session.feedbackSessionName, session.courseId, questionNumber);
+        
+        String giverEmail = "student1InCourse1@gmail.com";
+        String receiverEmail = "student1InCourse1@gmail.com";
+        FeedbackResponseAttributes response = feedbackResponsesDb.getFeedbackResponse(question.getId(),
+                giverEmail, receiverEmail);
         
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
         gaeSimulation.loginAsInstructor(instructor.googleId);
         
-        ______TS("not enough parameters");
+        ______TS("Unsuccessful case: not enough parameters");
         
         verifyAssumptionFailure();
         
         String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, session.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Comment to first response"
         };
         
         verifyAssumptionFailure(submissionParams);
         
-        ______TS("typical case");
+        ______TS("typical successful case");
         
         submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, session.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Comment to first response",
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, fr.getId(),
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient"
         };
         
-        InstructorFeedbackResponseCommentAddAction a = getAction(submissionParams);
-        AjaxResult r = (AjaxResult) a.executeAndPostProcess();
+        InstructorFeedbackResponseCommentAddAction action = getAction(submissionParams);
+        AjaxResult result = (AjaxResult) action.executeAndPostProcess();
         InstructorFeedbackResponseCommentAjaxPageData data = 
-                (InstructorFeedbackResponseCommentAjaxPageData) r.data;
+                (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         
-        ______TS("empty comment text");
+        ______TS("Unsuccessful case: empty comment text");
         
         submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, session.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "",
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, fr.getId(),
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient"
         };
         
-        a = getAction(submissionParams);
-        r = (AjaxResult) a.executeAndPostProcess();
-        data = (InstructorFeedbackResponseCommentAjaxPageData) r.data;
+        action = getAction(submissionParams);
+        result = (AjaxResult) action.executeAndPostProcess();
+        data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         assertTrue(data.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY, data.errorMessage);
     }

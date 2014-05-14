@@ -5,6 +5,7 @@ import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
+import static org.testng.AssertJUnit.assertFalse;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -46,6 +47,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
     @Test
     public void testAll() throws Exception {
         testContent();
+        testClosedSessionSubmitAction();
         testSubmitAction();
         testModifyData();
         // No links to test
@@ -65,8 +67,8 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         
         ______TS("Grace period session");
         
-        //TODO implement this
-        //Session should look like closed session
+        submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Grace Period Session");
+        submitPage.verifyHtml("/instructorFeedbackSubmitPageGracePeriod.html");
         
         ______TS("Closed session");
         
@@ -83,6 +85,16 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Private Session");
         submitPage.verifyHtml("/instructorFeedbackSubmitPagePrivate.html");
     
+    }
+    
+    private void testClosedSessionSubmitAction(){
+        
+        ______TS("test submitting for closed session");
+    
+        submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Closed Session");
+       
+        assertFalse(submitPage.isElementEnabled("response_submit_button"));
+        
     }
     
     private void testSubmitAction(){
@@ -250,9 +262,6 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
     }
     
     private void testModifyData() throws EnrollException{
-        
-        //TODO: This should be tested at Logic level instead?
-        
         ______TS("modify data");
         
         // Next, we edit some student data to cover editing of students
