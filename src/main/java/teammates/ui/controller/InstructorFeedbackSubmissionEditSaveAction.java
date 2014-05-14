@@ -12,11 +12,11 @@ public class InstructorFeedbackSubmissionEditSaveAction extends FeedbackSubmissi
     protected void verifyAccesibleForSpecificUser() {
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
-        boolean isCreatorOnly = true;
+        boolean creatorOnly = false;
         new GateKeeper().verifyAccessible(
                 instructor,
                 session,
-                !isCreatorOnly);
+                creatorOnly);
     }
 
     @Override

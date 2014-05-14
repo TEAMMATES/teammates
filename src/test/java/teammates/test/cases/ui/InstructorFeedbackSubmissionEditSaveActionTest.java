@@ -515,8 +515,6 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         
         assertFalse(fs.isOpened());
         assertFalse(fs.isInGracePeriod());
-                
-        String submissionFailMessage = new String();
         
         a = getAction(submissionParams);
         r = a.executeAndPostProcess();
