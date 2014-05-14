@@ -46,9 +46,11 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
     @Test
     public void testAll() throws Exception {
         testContent();
+        testClosedSessionSubmitAction();
         testSubmitAction();
         testModifyData();
         // No links to test
+        testQuestionTypesSubmitAction();
     }
     
     private void testContent() {
@@ -65,8 +67,8 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         
         ______TS("Grace period session");
         
-        //TODO implement this
-        //Session should look like closed session
+        submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Grace Period Session");
+        submitPage.verifyHtml("/instructorFeedbackSubmitPageGracePeriod.html");
         
         ______TS("Closed session");
         
@@ -83,6 +85,16 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Private Session");
         submitPage.verifyHtml("/instructorFeedbackSubmitPagePrivate.html");
     
+    }
+    
+    private void testClosedSessionSubmitAction(){
+        
+        ______TS("test submitting for closed session");
+    
+        submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Closed Session");
+       
+        assertFalse(submitPage.isElementEnabled("response_submit_button"));
+        
     }
     
     private void testSubmitAction(){
@@ -249,10 +261,96 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.verifyHtml("/instructorFeedbackSubmitPageFullyFilled.html");
     }
     
+    /**
+     *  Tests the behavior of different question types.
+     *  Test response validation on client side as well, if any.
+     */
+    private void testQuestionTypesSubmitAction(){
+        ______TS("test submit actions for different question types.");
+        
+        testEssaySubmitAction();
+        testMcqSubmitAction();
+        testMsqSubmitAction();
+        testNumScaleSubmitAction();
+        
+    }
+    
+    private void testEssaySubmitAction(){
+        ______TS("test submit actions for essay question.");
+        
+        //Nothing much to test for input validation.
+        //Test fields are disabled when session is closed.
+        submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Closed Session");
+        
+        //Test input disabled
+        int qnNumber = 1;
+        int responseNumber = 0;
+        assertTrue(submitPage.isNamedElementVisible(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
+        assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
+
+        //TODO: test that the recipient selection is also disabled after it is implemented.
+    }
+    
+    private void testMcqSubmitAction(){
+        ______TS("test submit actions for mcq.");
+        
+        //Test input disabled
+        int qnNumber = 2;
+        int responseNumber = 0;
+        assertTrue(submitPage.isNamedElementVisible(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
+        assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
+
+        //TODO: test that the recipient selection is also disabled after it is implemented.
+    }
+    
+    private void testMsqSubmitAction(){
+        ______TS("test submit actions for msq.");
+        
+        //Test input disabled
+        int qnNumber = 3;
+        int responseNumber = 0;
+        assertTrue(submitPage.isNamedElementVisible(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
+        assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
+        
+        //TODO: test that the recipient selection is also disabled after it is implemented.
+    }
+    
+    private void testNumScaleSubmitAction(){
+        ______TS("test submit actions for numscale questions.");
+        
+        //Test input disabled
+        int qnNumber = 4;
+        int responseNumber = 0;
+        assertTrue(submitPage.isNamedElementVisible(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
+        assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
+
+        //TODO: test that the recipient selection is also disabled after it is implemented.
+        
+        //Test input entered are valid numbers for the question.
+        submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
+        qnNumber = 14;
+        responseNumber = 0;
+        
+        submitPage.fillResponseTextBox(14, 0, "2.5");
+        assertEquals("2.5",submitPage.getResponseTextBoxValue(14, 0));
+        
+        submitPage.fillResponseTextBox(14, 0, "ABCD");
+        assertEquals("",submitPage.getResponseTextBoxValue(14, 0));
+        
+        submitPage.fillResponseTextBox(14, 0, "0");
+        assertEquals("1",submitPage.getResponseTextBoxValue(14, 0));
+        
+        submitPage.fillResponseTextBox(14, 0, "-1");
+        assertEquals("1",submitPage.getResponseTextBoxValue(14, 0));
+        
+        submitPage.fillResponseTextBox(14, 0, "6");
+        assertEquals("5",submitPage.getResponseTextBoxValue(14, 0));
+        
+        //TODO: test for stronger validation. (step is not properly validated now)
+        
+    }
+    
     private void testModifyData() throws EnrollException{
-        
-        //TODO: This should be tested at Logic level instead?
-        
         ______TS("modify data");
         
         // Next, we edit some student data to cover editing of students
