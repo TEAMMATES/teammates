@@ -177,9 +177,10 @@ public class InstructorsLogic {
      * @param email
      * @param instructor InstructorAttributes object containing the details to be updated
      * @throws InvalidParametersException
+     * @throws EntityDoesNotExistException 
      */
     public void updateInstructorByEmail(String email, InstructorAttributes instructor) 
-            throws InvalidParametersException {
+            throws InvalidParametersException, EntityDoesNotExistException {
         
         InstructorAttributes instructorToUpdate = getInstructorForEmail(instructor.courseId, email);
         instructorToUpdate.googleId = instructor.googleId;
