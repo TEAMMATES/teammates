@@ -91,6 +91,32 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
                 r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
+        
+        ______TS("closed session case");
+        
+        gaeSimulation.loginAsInstructor(instructor.googleId);
+       
+        session = dataBundle.feedbackSessions.get("closedSession");
+        
+        params = new String[]{
+                Const.ParamsNames.COURSE_ID, session.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName,
+                Const.ParamsNames.USER_ID, instructor.googleId
+        };
+        
+        a = getAction(params);
+        r = (ShowPageResult) a.executeAndPostProcess();
+        
+        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT
+                + "?"
+                + "message="
+                + Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN.replaceAll(" ", "+")
+                + "&error=false"
+                + "&" + Const.ParamsNames.USER_ID + "=" + instructor.googleId,
+                r.getDestinationWithParams());
+        assertFalse(r.isError);
+        assertEquals(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN, r.getStatusMessage());
+        
     }
     
     private InstructorFeedbackSubmissionEditPageAction getAction(String... params) throws Exception{
