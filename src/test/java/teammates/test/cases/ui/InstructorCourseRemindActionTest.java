@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.StudentsLogic;
@@ -49,7 +50,7 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor1OfCourse1.googleId;
         String courseId = instructor1OfCourse1.courseId;
-       // String adminUserId = "admin.user";
+        String adminUserId = "admin.user";
 
         ______TS("Typical case: Send email to remind an instructor to register for the course");
         gaeSimulation.loginAsInstructor(instructorId);
@@ -95,8 +96,8 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
                 + student1InCourse1.email + ")" + "</span>.<br/>";
         AssertHelper.assertContains(expectedLogSegment, remindAction.getLogMessage());
 
-        ______TS("Typical case: Send emails to all unregistered student to remind registering for the course");
-        
+        ______TS("Masquerade mode: Send emails to all unregistered student to remind registering for the course");
+        gaeSimulation.loginAsAdmin(adminUserId);
         StudentAttributes unregisteredStudent1 = new StudentAttributes("Team Unregistered", "Unregistered student 1",
                                                                            "unregistered1@email.com", "", courseId);
         StudentAttributes unregisteredStudent2 = new StudentAttributes("Team Unregistered", "Unregistered student 2",
@@ -109,7 +110,7 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
         submissionParams = new String[]{
             Const.ParamsNames.COURSE_ID, courseId
         };
-        remindAction = getAction(submissionParams);
+        remindAction = getAction(addUserIdToParams(instructorId, submissionParams));
         redirectResult = (RedirectResult) remindAction.executeAndPostProcess();
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE, redirectResult.destination);
         assertEquals(false, redirectResult.isError);
@@ -128,6 +129,22 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
         
         StudentsLogic.inst().deleteStudentCascade(courseId, unregisteredStudent1.email);
         StudentsLogic.inst().deleteStudentCascade(courseId, unregisteredStudent2.email);
+
+        ______TS("Failure case: Invalid email parameter");
+
+        String invalidEmail = "invalidEmail.com";
+        submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.INSTRUCTOR_EMAIL, invalidEmail
+        };
+        
+        try { 
+            remindAction = getAction(addUserIdToParams(instructorId, submissionParams));
+            redirectResult = (RedirectResult) remindAction.executeAndPostProcess();
+        } catch(EntityDoesNotExistException e){
+            assertEquals("Instructor ["+ invalidEmail + "] does not exist in course [" + courseId + "]", e.getMessage());    
+        }
+        
     }
 
      private InstructorCourseRemindAction getAction(String... parameters) throws Exception {
