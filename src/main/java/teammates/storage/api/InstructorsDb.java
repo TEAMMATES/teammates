@@ -166,7 +166,7 @@ public class InstructorsDb extends EntitiesDb{
     
 
     /**
-     * Updates the instructor. Cannot modify Course ID or email.
+     * Updates the instructor. Cannot modify Course ID or google id.
      * Updates only name and email.<br>
      * Does not follow the 'keep existing' policy <br> 
      * @throws InvalidParametersException 
@@ -178,6 +178,7 @@ public class InstructorsDb extends EntitiesDb{
         if (!instructorAttributesToUpdate.isValid()) {
             throw new InvalidParametersException(instructorAttributesToUpdate.getInvalidityInfo());
         }
+        instructorAttributesToUpdate.sanitizeForSaving();
         
         Instructor instructorToUpdate = getInstructorEntityForGoogleId(
                 instructorAttributesToUpdate.courseId, 
@@ -203,22 +204,22 @@ public class InstructorsDb extends EntitiesDb{
      * Does not follow the 'keep existing' policy <br> 
      * @throws InvalidParametersException 
      */
-    public void updateInstructorByEmail(InstructorAttributes instructorAttributesToUpdate) throws InvalidParametersException {
+    public void updateInstructorByEmail(InstructorAttributes instructorAttributesToUpdate) throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, instructorAttributesToUpdate);
-        
-        //TODO: Sanitize values and update tests accordingly
         
         if (!instructorAttributesToUpdate.isValid()) {
             throw new InvalidParametersException(instructorAttributesToUpdate.getInvalidityInfo());
         }
+        instructorAttributesToUpdate.sanitizeForSaving();
         
         Instructor instructorToUpdate = getInstructorEntityForEmail(
                 instructorAttributesToUpdate.courseId, 
                 instructorAttributesToUpdate.email);
         
-        //TODO: this should be an exception instead?
-        Assumption.assertNotNull(ERROR_UPDATE_NON_EXISTENT_ACCOUNT + instructorAttributesToUpdate.email
-                + ThreadHelper.getCurrentThreadStack(), instructorToUpdate);
+        if(instructorToUpdate == null){
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_ACCOUNT + instructorAttributesToUpdate.email
+                        + ThreadHelper.getCurrentThreadStack());
+        }
         
         instructorToUpdate.setGoogleId(instructorAttributesToUpdate.googleId);
         instructorToUpdate.setName(instructorAttributesToUpdate.name);
