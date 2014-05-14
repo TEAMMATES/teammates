@@ -5,6 +5,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Sanitizer;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorCourseInstructorEditSaveAction extends Action {
@@ -13,6 +14,7 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
     protected ActionResult execute() throws EntityDoesNotExistException {
 
         //TODO: Allow editing of the instructors whom hasn't join the course yet
+        // Need to change the corresponding UI with extra parameters in the request to have this feature
         
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull(courseId);
@@ -27,9 +29,10 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
                 logic.getInstructorForGoogleId(courseId, account.googleId),
                 logic.getCourse(courseId));
 
+        /* Process saving editing changes and setup status to be shown to user and admin */
         InstructorAttributes instructorToEdit = logic.getInstructorForGoogleId(courseId, instructorId);
-        instructorToEdit.name = instructorName;
-        instructorToEdit.email = instructorEmail;
+        instructorToEdit.name = Sanitizer.sanitizeName(instructorName);
+        instructorToEdit.email = Sanitizer.sanitizeEmail(instructorEmail);
         
         try {
             logic.updateInstructorByGoogleId(instructorId, instructorToEdit);
@@ -42,9 +45,9 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
             setStatusForException(e);
         }
         
+        /* Create redirection to 'Edit' page with corresponding course id */
         RedirectResult result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE);
         result.addResponseParam(Const.ParamsNames.COURSE_ID, courseId);
         return result;
     }
-
 }
