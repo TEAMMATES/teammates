@@ -26,10 +26,7 @@ public abstract class FeedbackSubmissionEditPageAction extends Action {
         
         String userEmailForCourse = getUserEmailForCourse();
         data = new FeedbackSubmissionEditPageData(account);
-        data.bundle = getDataBundle(userEmailForCourse);        
-        if(data.bundle == null) {
-            throw new EntityDoesNotExistException("Feedback session " + feedbackSessionName + " does not exist in "+courseId+".");
-        }
+        data.bundle = getDataBundle(userEmailForCourse);
         
         data.isSessionOpenForSubmission = isSessionOpenForSpecificUser(data.bundle.feedbackSession);
         
