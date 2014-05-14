@@ -1,6 +1,7 @@
 package teammates.ui.controller;
 
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -19,11 +20,13 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
         Assumption.assertNotNull("null feedback session name", feedbackSessionName);
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
+        FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
+        boolean isCreatorOnly = true;
         
         new GateKeeper().verifyAccessible(
                 instructor, 
-                logic.getFeedbackSession(feedbackSessionName, courseId),
-                false);
+                session,
+                !isCreatorOnly);
         
         InstructorFeedbackResponseCommentAjaxPageData data = 
                 new InstructorFeedbackResponseCommentAjaxPageData(account);
@@ -39,13 +42,13 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
             return createAjaxResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT, data);
         }
         
-        FeedbackResponseCommentAttributes frc = new FeedbackResponseCommentAttributes(
+        FeedbackResponseCommentAttributes feedbackResponseComment = new FeedbackResponseCommentAttributes(
                 courseId, feedbackSessionName, null, instructor.email, null, null,
                 new Text(commentText));
-        frc.setId(Long.parseLong(feedbackResponseCommentId));
+        feedbackResponseComment.setId(Long.parseLong(feedbackResponseCommentId));
         
         try {
-            logic.updateFeedbackResponseComment(frc);
+            logic.updateFeedbackResponseComment(feedbackResponseComment);
         } catch (InvalidParametersException e) {
             setStatusForException(e);
             data.errorMessage = e.getMessage();
@@ -54,13 +57,13 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
         
         if (!data.isError) {
             statusToAdmin += "InstructorFeedbackResponseCommentEditAction:<br>"
-                    + "Editing feedback response comment: " + frc.getId() + "<br>"
-                    + "in course/feedback session: " + frc.courseId + "/" + frc.feedbackSessionName + "<br>"
-                    + "by: " + frc.giverEmail + "<br>"
-                    + "comment text: " + frc.commentText.getValue();
+                    + "Editing feedback response comment: " + feedbackResponseComment.getId() + "<br>"
+                    + "in course/feedback session: " + feedbackResponseComment.courseId + "/" + feedbackResponseComment.feedbackSessionName + "<br>"
+                    + "by: " + feedbackResponseComment.giverEmail + "<br>"
+                    + "comment text: " + feedbackResponseComment.commentText.getValue();
         }
         
-        data.comment = frc;
+        data.comment = feedbackResponseComment;
 
         return createAjaxResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT, data);
     }
