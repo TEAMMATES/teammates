@@ -4,7 +4,6 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.StringHelper;
 import teammates.common.util.Url;
 import teammates.logic.api.GateKeeper;
 
@@ -19,7 +18,7 @@ import teammates.logic.api.GateKeeper;
  */
 public class InstructorCourseJoinAction extends Action {
     
-    private InstructorCourseJoinConfirmationPageData data;
+    private InstructorCourseJoinConfirmationPageData pageData;
     
     @Override
     public ActionResult execute() throws EntityDoesNotExistException {
@@ -29,6 +28,7 @@ public class InstructorCourseJoinAction extends Action {
 
         new GateKeeper().verifyLoggedInUserPrivileges();
         
+        /* Process confirmation for instructor if needed and setup status to be shown to admin */
         statusToAdmin = "Action Instructor Clicked Join Link"
                 + "<br/>Google ID: " + account.googleId
                 + "<br/>Key: " + key;
@@ -43,9 +43,9 @@ public class InstructorCourseJoinAction extends Action {
             return createRedirectResult(redirectUrl);
         } 
         
-        data = new InstructorCourseJoinConfirmationPageData(account);
-        data.regkey = key;
+        pageData = new InstructorCourseJoinConfirmationPageData(account);
+        pageData.regkey = key;
         
-        return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_JOIN_CONFIRMATION, data);
+        return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_JOIN_CONFIRMATION, pageData);
     }
 }
