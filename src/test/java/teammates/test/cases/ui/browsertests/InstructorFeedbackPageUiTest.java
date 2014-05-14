@@ -4,6 +4,8 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
 
+import java.util.Collection;
+
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -30,6 +32,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     private static Browser browser;
     private static InstructorFeedbacksPage feedbackPage;
     private static DataBundle testData;
+    private static String idOfInstructorWithSessions;
     /** This contains data for the new feedback session to be created during testing */
     private static FeedbackSessionAttributes newSession;
     
@@ -38,6 +41,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorFeedbackPageUiTest.json");
         restoreTestDataOnServer(testData);
+        idOfInstructorWithSessions = testData.accounts.get("instructorWithSessions").googleId;
         
         newSession = new FeedbackSessionAttributes();
         newSession.courseId = "CFeedbackUiT.CS1101";
@@ -73,9 +77,10 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         testUnpublishAction();
         
         //testing response rate links due to page source problems encountered after testContent()
-        testViewResultsLink();
-        testEditLink();
-        testSubmitLink();
+        testLinks();
+        //testViewResultsLink();
+        //testEditLink();
+        //testSubmitLink();
 
     }
 
@@ -91,52 +96,72 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithoutSessions").googleId);
         feedbackPage.verifyHtml("/instructorFeedbackEmptySession.html");
 
-        ______TS("sort by name");
+        ______TS("typical case, sort by name");
         
-        feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithSessions").googleId);
+        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
+        
+        feedbackPage.verifyHtml("/instructorFeedbackAllSessionTypes.html");
 
         feedbackPage.sortByName()
-            .verifyTablePattern(1,"{*}First Eval{*}First Session{*}Manual Session{*}Private Session");
+            .verifyTablePattern(1,"{*}Awaiting Session{*}First Eval{*}First Session{*}Manual Session{*}Open Session{*}Private Session");
         feedbackPage.sortByName()
-            .verifyTablePattern(1,"{*}Private Session{*}Manual Session{*}First Session{*}First Eval");
+            .verifyTablePattern(1,"{*}Private Session{*}Open Session{*}Manual Session{*}First Session{*}First Eval{*}Awaiting Session");
         
         ______TS("sort by course id");
         
         feedbackPage.sortById()
-            .verifyTablePattern(0,"{*}CFeedbackUiT.CS1101{*}CFeedbackUiT.CS1101{*}CFeedbackUiT.CS2104{*}CFeedbackUiT.CS2104");
+            .verifyTablePattern(0,"{*}CFeedbackUiT.CS1101{*}CFeedbackUiT.CS1101{*}CFeedbackUiT.CS1101"
+                    + "{*}CFeedbackUiT.CS2104{*}CFeedbackUiT.CS2104{*}CFeedbackUiT.CS2104");
         feedbackPage.sortById()
-            .verifyTablePattern(0,"{*}CFeedbackUiT.CS2104{*}CFeedbackUiT.CS2104{*}CFeedbackUiT.CS1101{*}CFeedbackUiT.CS1101");
+            .verifyTablePattern(0,"{*}CFeedbackUiT.CS2104{*}CFeedbackUiT.CS2104{*}CFeedbackUiT.CS2104"
+                    + "{*}CFeedbackUiT.CS1101{*}CFeedbackUiT.CS1101{*}CFeedbackUiT.CS1101");
     
     }
 
-    //TODO: implement these
-    public void testViewResultsLink(){
-        ______TS("link always clickable");        
+    public void testLinks() {
+        ______TS("clickable: view results always, edit link when creator and submit when not awaiting");
+        
+        Collection<FeedbackSessionAttributes> fsac = testData.feedbackSessions.values();
+        
+        for (FeedbackSessionAttributes fsa : fsac) {
+            testSubmitLink (fsa);
+            testViewResultsLink (fsa);
+            testEditLink (fsa);
+        }
+        
     }
     
-    public void testEditLink(){
-        ______TS("creator: clickable");
-        
-        assertNull(feedbackPage.getEditLink("CFeedbackUiT.CS2104", "Private Session")
-                .getAttribute("onclick"));
-        
-        ______TS("other instructor in course: not clickable");
-        
-        assertEquals(
-                feedbackPage.getEditLink("CFeedbackUiT.CS2104", "First Session")
-                            .getAttribute("onclick"), 
-                "return false");
+    public void testSubmitLink (FeedbackSessionAttributes fsa) {
+        if (fsa.feedbackSessionName != "Awaiting Session") {
+            assertNull(feedbackPage.getSubmitLink(fsa.courseId, fsa.feedbackSessionName).getAttribute("onclick"));
+        } else {
+            assertEquals(
+                    feedbackPage.getSubmitLink(fsa.courseId, fsa.feedbackSessionName)
+                                .getAttribute("onclick"), 
+                    "return false");
+        }
     }
     
-    public void testSubmitLink(){
-        ______TS("link always clickable");
+    public void testEditLink (FeedbackSessionAttributes fsa) {
+        if (fsa.creatorEmail == testData.accounts.get("instructorWithSessions").email) {
+            assertNull(feedbackPage.getEditLink(fsa.courseId, fsa.feedbackSessionName).getAttribute("onclick"));
+        } else {
+            assertEquals(
+                    feedbackPage.getEditLink(fsa.courseId, fsa.feedbackSessionName)
+                                .getAttribute("onclick"), 
+                    "return false");
+        }
+    }
+    
+    public void testViewResultsLink (FeedbackSessionAttributes fsa) {
+        assertNull(feedbackPage.getViewResultsLink(fsa.courseId, fsa.feedbackSessionName).getAttribute("onclick"));
     }
 
     public void testAddAction() throws Exception{
         
         ______TS("success case: defaults: visible when open, manual publish");
         
-        feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithSessions").googleId);
+        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
 
         feedbackPage.clickManualPublishTimeButton();
         
@@ -156,7 +181,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 
         ______TS("failure case: session exists already");
         
-        feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithSessions").googleId);
+        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         
         feedbackPage.addFeedbackSession(
                 newSession.feedbackSessionName, newSession.courseId,
@@ -168,7 +193,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         ______TS("success case: private session");
 
-        feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithSessions").googleId);
+        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         feedbackPage.clickNeverVisibleTimeButton();
         
         newSession.feedbackSessionName = "Private Session";
@@ -194,7 +219,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         ______TS("success case: custom session visible time, publish follows visible, timezone -4.5");
 
-        feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithSessions").googleId);
+        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         
         feedbackPage.clickCustomVisibleTimeButton();
         feedbackPage.clickDefaultPublishTimeButton();
@@ -221,7 +246,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         ______TS("success case: custom session visible time, responses always hidden, timezone 5.75");
         
-        feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithSessions").googleId);
+        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         
         feedbackPage.clickCustomVisibleTimeButton();
         feedbackPage.clickNeverPublishTimeButton();
@@ -250,7 +275,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         ______TS("success case: visible when open, custom publish time");
         
-        feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithSessions").googleId);
+        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         
         feedbackPage.clickDefaultVisibleTimeButton();
         feedbackPage.clickCustomPublishTimeButton();
@@ -275,7 +300,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         ______TS("success case: disable sending open and closing reminder emails");
         
-        feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithSessions").googleId);
+        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         
         feedbackPage.clickManualPublishTimeButton();
         feedbackPage.toggleSendOpenEmailCheckbox();
@@ -304,7 +329,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         ______TS("failure case: invalid input: publish time before visible (visible follows open)");
         
-        feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithSessions").googleId);
+        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         
         feedbackPage.clickDefaultVisibleTimeButton();
         feedbackPage.clickCustomPublishTimeButton();
@@ -333,7 +358,8 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         ______TS("failure case: invalid input (session name)");
         
-        feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithSessions").googleId);
+        //feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
+        
         newSession.feedbackSessionName = "bad name %%";
         newSession.endTime = Const.TIME_REPRESENTS_LATER;
         feedbackPage.addFeedbackSession(
@@ -358,7 +384,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         String sessionName = "New Session";
         
         // refresh page
-        feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithSessions").googleId);
+        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         feedbackPage.clickAndCancel (feedbackPage.getDeleteLink(courseId, sessionName));
         assertNotNull ("session should not have been deleted", BackDoor.getFeedbackSession(courseId, sessionName));
     
@@ -369,7 +395,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     
     public void testPublishAction(){        
         // refresh page
-        feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithSessions").googleId);
+        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         
         String courseId = testData.feedbackSessions.get("publishedSession").courseId;
         String sessionName = testData.feedbackSessions.get("publishedSession").feedbackSessionName;
@@ -402,7 +428,6 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     
     public void testUnpublishAction(){
         // refresh page
-        feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithSessions").googleId);
         
         ______TS("PUBLISHED: unpublish link unclickable for other instructor");
         
@@ -414,12 +439,16 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         ______TS("PRIVATE: unpublish link unclickable");
         
+        feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithSessions2").googleId);
+        
         courseId = testData.feedbackSessions.get("privateSession").courseId;
         sessionName = testData.feedbackSessions.get("privateSession").feedbackSessionName;
         feedbackPage.verifyPublishLinkHidden(courseId, sessionName);
         feedbackPage.verifyUnpublishLinkHidden(courseId, sessionName);
         
         ______TS("MANUAL: unpublish link clickable");
+        
+        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         
         courseId = testData.feedbackSessions.get("manualSession").courseId;
         sessionName = testData.feedbackSessions.get("manualSession").feedbackSessionName;
