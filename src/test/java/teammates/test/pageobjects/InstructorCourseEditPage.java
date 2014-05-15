@@ -21,6 +21,9 @@ public class InstructorCourseEditPage extends AppPage {
     @FindBy(id = "instrDeleteLink1")
     private WebElement deleteInstructorLink;
     
+    @FindBy(id = "instrRemindLink2")
+    private WebElement inviteInstructorLink;
+
     @FindBy(id = "instructorid1")
     private WebElement editInstructorIdTextBox;
     
@@ -121,6 +124,11 @@ public class InstructorCourseEditPage extends AppPage {
     
     public void clickAddInstructorButton() {
         addInstructorButton.click();
+        waitForPageToLoad();
+    }
+
+    public void clickInviteInstructorLink() {
+        inviteInstructorLink.click();
         waitForPageToLoad();
     }
     

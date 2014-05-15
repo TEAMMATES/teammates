@@ -51,7 +51,8 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         testEditInstructorLink();
         
         testInputValidation();
-
+        
+        testInviteInstructorAction();
         testAddInstructorAction();
         testEditInstructorAction();
         testDeleteInstructorAction();
@@ -88,7 +89,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         
         ______TS("Checking max-length enforcement by the text boxes");
         String maxLengthInstructorName = StringHelper.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH);
-        String longInstructorName = StringHelper.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH + 5);
+        String longInstructorName = StringHelper.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH + 1);
         
         // Add instructor
         assertEquals(maxLengthInstructorName, courseEditPage.fillInstructorName(maxLengthInstructorName));
@@ -107,6 +108,15 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         // Edit instructor
         assertEquals(maxLengthEmail, courseEditPage.editInstructorEmail(maxLengthEmail));
         assertEquals(longEmail.substring(0, FieldValidator.EMAIL_MAX_LENGTH), courseEditPage.editInstructorEmail(longEmail));
+    }
+
+    private void testInviteInstructorAction() {
+
+        ______TS("success: invite an uregistered instructor");
+
+        courseEditPage = getCourseEditPage();
+        courseEditPage.clickInviteInstructorLink();
+        courseEditPage.verifyStatus(Const.StatusMessages.COURSE_REMINDER_SENT_TO + "InsCrsEdit.newInstr@gmail.com");
     }
 
     private void testAddInstructorAction() {
@@ -138,6 +148,12 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         courseEditPage = getCourseEditPage();
         courseEditPage.addNewInstructor("Teammates Instructor", invalidEmail);
         courseEditPage.verifyStatus((new FieldValidator()).getInvalidityInfo(FieldType.EMAIL, invalidEmail));
+
+        String invalidName = "";
+
+        courseEditPage = getCourseEditPage();
+        courseEditPage.addNewInstructor(invalidName, "teammates@email.com");
+        courseEditPage.verifyStatus((new FieldValidator()).getInvalidityInfo(FieldType.PERSON_NAME, invalidName));
     }
 
     private void testEditInstructorAction() {
@@ -154,6 +170,12 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         courseEditPage = getCourseEditPage();
         courseEditPage.editInstructor(instructorId, "New name", invalidEmail);
         courseEditPage.verifyStatus((new FieldValidator()).getInvalidityInfo(FieldType.EMAIL, invalidEmail));
+        
+        String invalidName = "";
+        
+        courseEditPage = getCourseEditPage();
+        courseEditPage.editInstructor(instructorId, invalidName, "teammates@email.com");
+        courseEditPage.verifyStatus((new FieldValidator()).getInvalidityInfo(FieldType.PERSON_NAME, invalidName));
     }
     
     private void testDeleteInstructorAction() {
