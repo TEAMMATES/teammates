@@ -226,27 +226,22 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
          * created in a previous test run).
          */
         BackDoor.deleteCourse(validCourse.id); //delete if it exists
-        coursesPage.addCourse(validCourse.id, validCourse.name)
-            .verifyStatus("The course has been added.. Click here to add students to the course or click here to add other instructors."
-                        + "\nIf you don't see the course in the list below, please refresh the page after a few moments.");
+        coursesPage.addCourse(validCourse.id, validCourse.name);
 
         coursesPage.verifyHtml("/instructorCourseAddSuccessful.html");
 
         ______TS("add action fail: duplicate course ID");
         coursesPage = loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
         
-        coursesPage.addCourse(validCourse.id, "different course name")
-            .verifyStatus("A course by the same ID already exists in the system,"
-                        + " possibly created by another user. Please choose a different course ID");
+        coursesPage.addCourse(validCourse.id, "different course name");
+
         coursesPage.verifyHtml("/instructorCourseAddDupIdFailed.html");
         
         ______TS("add action fail: invalid course ID");
         coursesPage = loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
         String invalidID = "Invalid ID";
         
-        coursesPage.addCourse(invalidID, "random course name")
-            .verifyStatus("Please use only alphabets, numbers, dots, hyphens, underscores " 
-                        + "and dollar signs in course ID.");
+        coursesPage.addCourse(invalidID, "random course name");
 
         coursesPage.verifyHtml("/instructorCourseAddInvalidIdFailed.html");
 
@@ -255,8 +250,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         String validID = "Valid.ID";
         String missingCourseName = "";
 
-        coursesPage.addCourse(validID, missingCourseName)
-            .verifyStatus("Course name cannot be empty");
+        coursesPage.addCourse(validID, missingCourseName);
 
         coursesPage.verifyHtml("/instructorCourseAddMissingParamsFailed.html");
     }
@@ -311,7 +305,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
             BackDoor.deleteCourse(anotherCourseId);
 
             coursesPage.archiveCourse(anotherCourseId);
-            coursesPage.verifyHtml("/instructorCourseArchiveFailed.html");
+            coursesPage.verifyContains("You are not authorized to view this page.");
 
             ______TS("unarchive action failed");
             // only possible if someone else delete the course while the user is viewing the page
@@ -322,8 +316,8 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
             BackDoor.deleteCourse(courseId);
 
             coursesPage.unarchiveCourse(courseId);
-            coursesPage.verifyHtml("/instructorCourseArchiveFailed.html");
-
+            coursesPage.verifyContains("You are not authorized to view this page.");
+            
     }
     
     @AfterClass
