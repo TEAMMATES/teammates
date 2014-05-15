@@ -14,6 +14,7 @@ import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AppPage;
@@ -291,17 +292,29 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         
         ______TS("archive course action");
         
-        String courseId = testData.courses.get("CHomeUiT.CS1101").id;
+        String courseIdForCS1101 = testData.courses.get("CHomeUiT.CS1101").id;
         
-        homePage.clickArchiveCourseLink(courseId);
+        homePage.clickArchiveCourseLink(courseIdForCS1101);
         
-        assertTrue(BackDoor.getCourse(courseId).isArchived);
-        homePage.verifyHtmlAjax("/instructorHomeCourseArchiveSuccessful.html");
+        assertTrue(BackDoor.getCourse(courseIdForCS1101).isArchived);
+//        homePage.verifyHtmlAjax("/instructorHomeCourseArchiveSuccessful.html");
         
         ______TS("archive action failed");
-        // only possible if someone else delete the course while the user is viewing the page
-        // TODO: find out how to detect such an extreme case
         
+        String courseIdForCS2104 = testData.courses.get("CHomeUiT.CS2104").id;
+        
+        //delete the course, then submit archive request to it
+        Url urlToArchive = homePage.getArchiveCourseLink(courseIdForCS2104);
+        homePage.clickAndConfirm(homePage.getDeleteCourseLink(courseIdForCS2104));
+        browser.driver.get(urlToArchive.toString());
+        assertTrue(browser.driver.getCurrentUrl().endsWith(Const.ViewURIs.UNAUTHORIZED));
+        
+        //restore
+        testData = loadDataBundle("/InstructorHomePageUiTest.json");
+        restoreTestDataOnServer(testData);
+        loginAsCommonInstructor();
+        homePage.clickArchiveCourseLink(courseIdForCS1101);
+        homePage.clickHomeTab();
     }
 
     public void testDeleteCourseAction() throws Exception{

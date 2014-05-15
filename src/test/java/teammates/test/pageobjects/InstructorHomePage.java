@@ -5,6 +5,8 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import teammates.common.util.Url;
+
 
 
 public class InstructorHomePage extends AppPage {
@@ -165,10 +167,9 @@ public class InstructorHomePage extends AppPage {
         return this;
     }
     
-    public InstructorHomePage getArchiveCourseLink(String courseId){
-        getLinkInRow("t_course_archive", getCourseRowId(courseId)).click();
-        waitForPageToLoad();
-        return this;
+    public Url getArchiveCourseLink(String courseId){
+        String url = getLinkInRow("t_course_archive", getCourseRowId(courseId)).getAttribute("href");
+        return new Url(url);
     }
     
     private WebElement getLinkInRow(String elementClassNamePrefix, int rowId){
