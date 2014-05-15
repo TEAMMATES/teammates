@@ -17,6 +17,7 @@ import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorCourseDetailsPage;
+import teammates.test.pageobjects.InstructorCourseEditPage;
 import teammates.test.pageobjects.InstructorCourseEnrollPage;
 import teammates.test.pageobjects.InstructorCoursesPage;
 
@@ -162,6 +163,13 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
                 .verifyIsCorrectPage(courseId);
         
         coursesPage = enrollPage.goToPreviousPage(InstructorCoursesPage.class);
+
+        ______TS("edit link");
+
+        InstructorCourseEditPage editPage = coursesPage.loadEditLink(courseId)
+                .verifyIsCorrectPage(courseId);
+
+        coursesPage = editPage.goToPreviousPage(InstructorCoursesPage.class);
         
     }
 
@@ -228,15 +236,29 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         coursesPage = loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
         
         coursesPage.addCourse(validCourse.id, "different course name")
-            .verifyHtml("/instructorCourseAddDupIdFailed.html");
+            .verifyStatus("A course by the same ID already exists in the system,"
+                        + " possibly created by another user. Please choose a different course ID");
+        coursesPage.verifyHtml("/instructorCourseAddDupIdFailed.html");
         
-        ______TS("add action input sanitizatin");
+        ______TS("add action fail: invalid course ID");
+        coursesPage = loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
+        String invalidID = "Invalid ID";
         
-        /* Explanation: Here, we check for things such as trimming of input
-         * values done on the client-side. This should be rare since sanitizing
-         * is mostly done on the server-side.
-         */
-        
+        coursesPage.addCourse(invalidID, "random course name")
+            .verifyStatus("Please use only alphabets, numbers, dots, hyphens, underscores " 
+                        + "and dollar signs in course ID.");
+
+        coursesPage.verifyHtml("/instructorCourseAddInvalidIdFailed.html");
+
+        ______TS("add action fail: missing parameters");
+        coursesPage = loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
+        String validID = "Valid.ID";
+        String missingCourseName = "";
+
+        coursesPage.addCourse(validID, missingCourseName)
+            .verifyStatus("Course name cannot be empty");
+
+        coursesPage.verifyHtml("/instructorCourseAddMissingParamsFailed.html");
     }
 
 
@@ -266,6 +288,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
             
             ______TS("archive action success");
             String courseId = "CCAddUiTest.CS1101";
+
             coursesPage.archiveCourse(courseId);
             coursesPage.verifyHtml("/instructorCourseArchiveSuccessful.html");
 
@@ -274,14 +297,32 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
             
             coursesPage.unarchiveCourse(courseId);
             coursesPage.verifyHtml("/instructorCourseUnarchiveSuccessful.html");
+
+            // TODO: Handling for the failure of archive and unarchive is still not good
+            // Need more improvement
             
             ______TS("archive action failed");
             // only possible if someone else delete the course while the user is viewing the page
-            // TODO: find out how to detect such an extreme case
             
+            String anotherCourseId = "CCAddUiTest.CS2104";
+
+            coursesPage = loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
+            
+            BackDoor.deleteCourse(anotherCourseId);
+
+            coursesPage.archiveCourse(anotherCourseId);
+            coursesPage.verifyHtml("/instructorCourseArchiveFailed.html");
+
             ______TS("unarchive action failed");
             // only possible if someone else delete the course while the user is viewing the page
-            // TODO: figure out how to detect such an extreme case
+            
+            coursesPage = loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
+            coursesPage.archiveCourse(courseId);
+ 
+            BackDoor.deleteCourse(courseId);
+
+            coursesPage.unarchiveCourse(courseId);
+            coursesPage.verifyHtml("/instructorCourseArchiveFailed.html");
 
     }
     
