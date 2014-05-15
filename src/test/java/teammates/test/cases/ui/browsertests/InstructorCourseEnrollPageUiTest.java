@@ -8,6 +8,8 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
+import teammates.common.util.StringHelper;
 import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
@@ -90,7 +92,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
         InstructorCourseEnrollResultPage resultsPage = enrollPage.enroll(enrollString);
         resultsPage.verifyHtml("/instructorCourseEnrollPageResult.html");
         
-        // Check 'edit' link
+        // Check 'Edit' link
         enrollPage = resultsPage.clickEditLink();
         enrollPage.verifyContains("Enroll Students for CCEnrollUiT.CS2104");
         // TODO: At times, this assertion doesn't work for remoter server + Firefox testing,
@@ -128,6 +130,19 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
         resultsPage = enrollPage.enroll(enrollString);
         resultsPage.verifyHtml("/instructorCourseEnrollPageResultForEmptyCourse.html");
 
+        // Check 'Edit' link
+        enrollPage = resultsPage.clickEditLink();
+        enrollPage.verifyContains("Enroll Students for CCEnrollUiT.CS2104");
+        assertEquals(enrollString, enrollPage.getEnrollText());
+        
+        // Ensure students were actually enrolled
+        courseId = testData.courses.get("CCEnrollUiT.CS2104").id;
+        coursesPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
+            .withUserId(testData.instructors.get("CCEnrollUiT.teammates.test").googleId)
+            .withCourseId(courseId);
+        detailsPage = loginAdminToPage(browser, coursesPageUrl, InstructorCoursesDetailsPage.class);
+        assertEquals(3, detailsPage.getStudentCountForCourse("CCEnrollUiT.CS2104"));
+
         ______TS("enroll action: fail to enroll as there is no input");
 
         enrollUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE)
@@ -141,6 +156,21 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
         enrollPage.enrollUnsuccessfully(enrollString);
         enrollPage.verifyStatus("Please input at least one student detail.");
         
+        ______TS("enroll action: fail to enroll as there is an invalid line");
+
+        // A new student with no email input
+        enrollString = "Team 3 | Frank Hughe\n";
+        // A new student with invalid email input
+        enrollString += "Team 1 | Black Jack | bjack.gmail.com | This student email is invalid\n";
+        // A new student with invalid team name
+        enrollString += StringHelper.generateStringOfLength(FieldValidator.TEAM_NAME_MAX_LENGTH + 1)
+                        + " | Robert Downey | rob@email.com | This student team name is too long\n";
+        // A new student with invalid name
+        enrollString += "Team 2 | " + StringHelper.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH + 1)
+                        + " | longname@email.com | This student name is too long\n";
+                        
+        enrollPage.enrollUnsuccessfully(enrollString);
+        enrollPage.verifyHtml("/instructorCourseEnrollError.html");
     }
 
     @AfterClass
