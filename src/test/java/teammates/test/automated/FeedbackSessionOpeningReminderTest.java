@@ -27,7 +27,7 @@ import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.Emails.EmailType;
 import teammates.test.cases.BaseComponentUsingTaskQueueTestCase;
 import teammates.test.cases.BaseTaskQueueCallback;
-import teammates.test.cases.logic.LogicTest;
+import teammates.test.util.TestHelper;
 
 public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQueueTestCase {
 
@@ -96,7 +96,7 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
         fsLogic.updateFeedbackSession(session1);
         session1.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
         fsLogic.updateFeedbackSession(session1);
-        LogicTest.verifyPresentInDatastore(session1);
+        TestHelper.verifyPresentInDatastore(session1);
         
         // Modify session to set emails as unsent but still open
         // by closing and opening the session. Also disable sending
@@ -109,7 +109,7 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
         fsLogic.updateFeedbackSession(session2);
         session2.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
         fsLogic.updateFeedbackSession(session2);
-        LogicTest.verifyPresentInDatastore(session2);
+        TestHelper.verifyPresentInDatastore(session2);
         
         fsLogic.scheduleFeedbackSessionOpeningEmails();
         FeedbackSessionOpeningCallback.verifyTaskCount(1);
