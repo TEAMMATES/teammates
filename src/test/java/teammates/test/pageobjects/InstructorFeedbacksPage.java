@@ -148,6 +148,11 @@ public class InstructorFeedbacksPage extends AppPage {
         defaultResultsVisibleTimeButton.click();
     }
     
+    public void clickViewResponseLink(String courseId, String sessionName) {
+        getViewResponseLink(courseId,sessionName).click();
+        browser.selenium.waitForPageToLoad("15000");
+    }
+    
     public void toggleSendOpenEmailCheckbox() {
         sendOpenEmailCheckbox.click();
     }
@@ -244,6 +249,11 @@ public class InstructorFeedbacksPage extends AppPage {
     public WebElement getViewResponseLink(String courseId, String sessionName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
         return browser.driver.findElement(By.xpath("//tbody/tr["+(int)(sessionRowId+2)+"]/td[contains(@class,'t_session_response')]/a"));
+    }
+    
+    public String getResponseValue(String courseId, String sessionName) {
+        int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
+        return browser.driver.findElement(By.xpath("//tbody/tr["+(int)(sessionRowId+2)+"]/td[contains(@class,'t_session_response')]")).getText();
     }
     
     public WebElement getViewResultsLink(String courseId, String sessionName) {
