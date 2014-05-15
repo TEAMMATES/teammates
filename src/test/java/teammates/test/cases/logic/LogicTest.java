@@ -2932,6 +2932,18 @@ public class LogicTest extends BaseComponentTestCase {
         assertEquals(false,
                 logic.getEvaluation(eval1.courseId, eval1.name).published);
 
+        
+        ______TS("Trying to publish an already published evaluation");
+        
+        //Publish evaluation once
+        logic.publishEvaluation(eval1.courseId, eval1.name);
+        assertEquals(true,logic.getEvaluation(eval1.courseId, eval1.name).published);
+        
+        //Publish the same evaluation again
+        logic.publishEvaluation(eval1.courseId, eval1.name);
+        assertEquals(true,logic.getEvaluation(eval1.courseId, eval1.name).published);
+
+        
         ______TS("not ready for publishing");
 
         // make the evaluation OPEN
