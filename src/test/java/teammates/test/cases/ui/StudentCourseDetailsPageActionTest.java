@@ -42,27 +42,9 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
         
         verifyAccessibleForStudentsOfTheSameCourse(submissionParams);
         
-        verifyAccessibleForStudentsOfDifferentCourse(submissionParams);
+        verifyUnaccessibleForStudentsOfOtherCourses(submissionParams);
         
     }
-    
-    
-  
-    protected void verifyAccessibleForStudentsOfDifferentCourse(String[] submissionParams) throws Exception{
-        
-        ______TS("students not of the same course cannot access");
-        
-        
-        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
-        StudentAttributes student1InCourse2 = dataBundle.students.get("student1InCourse2");
-        
-        gaeSimulation.loginAsStudent(student1InCourse2.googleId);
-        verifyCanAccess(submissionParams);
-        verifyCannotMasquerade(addUserIdToParams(instructor1OfCourse1.googleId,submissionParams));
-        
-        
-    }
-
     
     
     @Test
@@ -74,9 +56,9 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
         String originalTeam = student1InCourse2.team;
         student1InCourse2.team = "TeamWithSingleMember";
         studentsLogic.updateStudentCascade(student1InCourse2.email, student1InCourse2);
-        ______TS("Student1 In Course2 team status now set to TeamWithSingleMember");
-
         
+        //Student1 In Course2 team status now set to TeamWithSingleMember");
+
         String iDOfCourseOfStudent = student1InCourse2.course;
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, iDOfCourseOfStudent
@@ -92,7 +74,7 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
         
         studentsLogic.updateStudentCascade(student1InCourse2.email, student1InCourse2);
 
-        ______TS("Student1 In Course2 team status now now reset to the original status");
+        //"Student1 In Course2 team status now now reset to the original status");
     }
     
 }
