@@ -37,6 +37,20 @@ public class InstructorFeedbackResultsPage extends AppPage {
         return getPageSource().contains("<h1>Feedback Results - Instructor</h1>");
     }
     
+    public String getCourseId() {
+        return browser.driver.findElement(By.name("courseid")).getAttribute("value");
+    }
+    
+    public String getFeedbackSessionName() {
+        return browser.driver.findElement(By.name("fsname")).getAttribute("value");
+    }
+    
+    public boolean isCorrectPage (String courseId, String feedbackSessionName) {
+        boolean isCorrectCourseId = this.getCourseId().equals(courseId);
+        boolean isCorrectFeedbackSessionName = this.getFeedbackSessionName().equals(feedbackSessionName);
+        return isCorrectCourseId && isCorrectFeedbackSessionName && containsExpectedPageContents();
+    }
+    
     public void displayByGiver() {
         WebElement button = browser.driver.findElement(By.xpath("//span[@class='label bold' and contains(text(),'Sort by giver')]"));
         button.click();

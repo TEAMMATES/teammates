@@ -1,10 +1,9 @@
 package teammates.test.cases.ui.browsertests;
 
 import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
-
-import java.util.Collection;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -22,7 +21,11 @@ import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
+import teammates.test.pageobjects.FeedbackSubmitPage;
+import teammates.test.pageobjects.InstructorFeedbackEditPage;
+import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 import teammates.test.pageobjects.InstructorFeedbacksPage;
+import teammates.ui.controller.InstructorEvalResultsPageData;
 
 /**
  * Covers the 'Feedback Session' page for instructors. 
@@ -77,10 +80,9 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         testUnpublishAction();
         
         //testing response rate links due to page source problems encountered after testContent()
-        testLinks();
-        //testViewResultsLink();
-        //testEditLink();
-        //testSubmitLink();
+        testViewResultsLink();
+        testEditLink();
+        testSubmitLink();
 
     }
 
@@ -118,43 +120,78 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     
     }
 
-    public void testLinks() {
-        ______TS("clickable: view results always, edit link when creator and submit when not awaiting");
+    public void testViewResultsLink() {
+        InstructorFeedbackResultsPage feedbackResultsPage;
+        FeedbackSessionAttributes fsa;
         
-        Collection<FeedbackSessionAttributes> fsac = testData.feedbackSessions.values();
+        ______TS("view results clickable not creator, open session");
         
-        for (FeedbackSessionAttributes fsa : fsac) {
-            testSubmitLink (fsa);
-            testViewResultsLink (fsa);
-            testEditLink (fsa);
-        }
-        
-    }
-    
-    public void testSubmitLink (FeedbackSessionAttributes fsa) {
-        if (fsa.feedbackSessionName != "Awaiting Session") {
-            assertNull(feedbackPage.getSubmitLink(fsa.courseId, fsa.feedbackSessionName).getAttribute("onclick"));
-        } else {
-            assertEquals(
-                    feedbackPage.getSubmitLink(fsa.courseId, fsa.feedbackSessionName)
-                                .getAttribute("onclick"), 
-                    "return false");
-        }
-    }
-    
-    public void testEditLink (FeedbackSessionAttributes fsa) {
-        if (fsa.creatorEmail == testData.accounts.get("instructorWithSessions").email) {
-            assertNull(feedbackPage.getEditLink(fsa.courseId, fsa.feedbackSessionName).getAttribute("onclick"));
-        } else {
-            assertEquals(
-                    feedbackPage.getEditLink(fsa.courseId, fsa.feedbackSessionName)
-                                .getAttribute("onclick"), 
-                    "return false");
-        }
-    }
-    
-    public void testViewResultsLink (FeedbackSessionAttributes fsa) {
+        fsa = testData.feedbackSessions.get("openSession");
         assertNull(feedbackPage.getViewResultsLink(fsa.courseId, fsa.feedbackSessionName).getAttribute("onclick"));
+        
+        feedbackResultsPage = feedbackPage.loadViewResultsLink(fsa.courseId, fsa.feedbackSessionName);
+        assertTrue(feedbackResultsPage.isCorrectPage(fsa.courseId, fsa.feedbackSessionName));
+        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
+        
+        ______TS("view results clickable creator, closed session");
+        
+        fsa = testData.feedbackSessions.get("manualSession");
+        assertNull(feedbackPage.getViewResultsLink(fsa.courseId, fsa.feedbackSessionName).getAttribute("onclick"));
+        
+        feedbackResultsPage = feedbackPage.loadViewResultsLink(fsa.courseId, fsa.feedbackSessionName);
+        assertTrue(feedbackResultsPage.isCorrectPage(fsa.courseId, fsa.feedbackSessionName));
+        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
+    }
+    
+    public void testEditLink() {
+        InstructorFeedbackEditPage feedbackResultsPage;
+        FeedbackSessionAttributes fsa;
+        
+        ______TS("edit link clickable when creator");
+        
+        fsa = testData.feedbackSessions.get("privateSession");
+        assertNull(feedbackPage.getEditLink(fsa.courseId, fsa.feedbackSessionName).getAttribute("onclick"));
+        
+        feedbackResultsPage = feedbackPage.loadEditLink(fsa.courseId, fsa.feedbackSessionName);
+        assertTrue(feedbackResultsPage.isCorrectPage(fsa.courseId, fsa.feedbackSessionName));
+        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
+
+        ______TS("edit link not clickable when not creator");
+        
+        fsa = testData.feedbackSessions.get("publishedSession");
+        assertEquals("return false", 
+                feedbackPage.getEditLink(fsa.courseId, fsa.feedbackSessionName)
+                .getAttribute("onclick"));
+    }
+    
+    public void testSubmitLink () {
+        
+        FeedbackSubmitPage feedbackResultsPage;
+        FeedbackSessionAttributes fsa;
+        
+        ______TS("submit link clickable when visible");
+        
+        fsa = testData.feedbackSessions.get("awaitingSession");
+        assertNull(feedbackPage.getSubmitLink(fsa.courseId, fsa.feedbackSessionName).getAttribute("onclick"));
+        
+        feedbackResultsPage = feedbackPage.loadSubmitLink(fsa.courseId, fsa.feedbackSessionName);
+        assertTrue(feedbackResultsPage.isCorrectPage(fsa.courseId, fsa.feedbackSessionName));
+        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
+        
+        ______TS("submit link clickable when private (never visible)");
+        
+        fsa = testData.feedbackSessions.get("privateSession");
+        assertNull(feedbackPage.getSubmitLink(fsa.courseId, fsa.feedbackSessionName).getAttribute("onclick"));
+        
+        feedbackResultsPage = feedbackPage.loadSubmitLink(fsa.courseId, fsa.feedbackSessionName);
+        assertTrue(feedbackResultsPage.isCorrectPage(fsa.courseId, fsa.feedbackSessionName));
+        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
+        
+        ______TS("submit link not clickable when not visible and is not private");
+        
+        assertEquals(feedbackPage.getSubmitLink("CFeedbackUiT.CS1101", "Allow Early Viewing Session")
+                        .getAttribute("onclick"), 
+                    "return false");
     }
 
     public void testAddAction() throws Exception{

@@ -296,6 +296,27 @@ public class InstructorFeedbacksPage extends AppPage {
         }
     }
     
+    public InstructorFeedbackResultsPage loadViewResultsLink (String courseId, String fsName) {
+        int sessionRowId = getFeedbackSessionRowId(courseId, fsName);
+        String className = "t_session_view";
+        return goToLinkInRow(By.xpath("//tbody/tr["+(int)(sessionRowId+2)+"]//a[contains(@class,'"+className+"')]")
+                            ,InstructorFeedbackResultsPage.class);
+    }
+    
+    public FeedbackSubmitPage loadSubmitLink (String courseId, String fsName) {
+        int sessionRowId = getFeedbackSessionRowId(courseId, fsName);
+        String className = "t_session_submit";
+        return goToLinkInRow(By.xpath("//tbody/tr["+(int)(sessionRowId+2)+"]//a[contains(@class,'"+className+"')]")
+                            ,FeedbackSubmitPage.class);
+    }
+    
+    public InstructorFeedbackEditPage loadEditLink (String courseId, String fsName) {
+        int sessionRowId = getFeedbackSessionRowId(courseId, fsName);
+        String className = "t_session_edit";
+        return goToLinkInRow(By.xpath("//tbody/tr["+(int)(sessionRowId+2)+"]//a[contains(@class,'"+className+"')]")
+                            ,InstructorFeedbackEditPage.class);
+    }
+    
     public String getPageUrl() {
         return browser.driver.getCurrentUrl();
     }
@@ -328,6 +349,11 @@ public class InstructorFeedbacksPage extends AppPage {
         return browser.selenium.getTable("class=dataTable." + (rowId + 1) + ".1");
     }
 
+    private <T extends AppPage>T goToLinkInRow(By locator, Class<T> destinationPageType) {
+        browser.driver.findElement(locator).click();
+        waitForPageToLoad();
+        return changePageType(destinationPageType);
+    }
     
 
 }

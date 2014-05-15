@@ -196,7 +196,7 @@
       "sentOpenEmail" : true,
       "sentPublishedEmail" : false
     },
-    "Awaiting Session": {
+    "awaitingSession": {
       "feedbackSessionName" : "Awaiting Session",
       "courseId" : "CFeedbackUiT.CS2104",
       "creatorEmail" : "teammates.test2@gmail.com",
