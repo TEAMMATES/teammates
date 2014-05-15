@@ -379,7 +379,11 @@ public class EvaluationsLogic {
         }
     
         EvaluationAttributes evaluation = getEvaluation(courseId, evaluationName);
-        if (evaluation.getStatus() != EvalStatus.CLOSED) {
+        
+        if (evaluation.getStatus() == EvalStatus.PUBLISHED) {
+            return;
+            
+        } else if (evaluation.getStatus() != EvalStatus.CLOSED) {
             throw new InvalidParametersException(
                     Const.StatusCodes.PUBLISHED_BEFORE_CLOSING,
                     "Cannot publish an evaluation unless it is CLOSED");
