@@ -23,6 +23,9 @@ import teammates.test.pageobjects.HomePage;
 import teammates.test.pageobjects.InstructorCourseDetailsPage;
 import teammates.test.pageobjects.InstructorCourseEditPage;
 import teammates.test.pageobjects.InstructorCourseEnrollPage;
+import teammates.test.pageobjects.InstructorEvalEditPage;
+import teammates.test.pageobjects.InstructorEvalPreview;
+import teammates.test.pageobjects.InstructorEvalResultsPage;
 import teammates.test.pageobjects.InstructorEvalsPage;
 import teammates.test.pageobjects.InstructorHelpPage;
 import teammates.test.pageobjects.InstructorHomePage;
@@ -156,28 +159,34 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         ______TS("link: course view");
         InstructorCourseDetailsPage detailsPage = homePage.clickCourseViewLink();
         detailsPage.verifyContains("Course Details");
-        detailsPage.verifyContains("CHomeUiT.CS1101");
-        detailsPage.verifyContains("Programming Methodology");
         homePage.goToPreviousPage(InstructorHomePage.class);
         
         ______TS("link: course edit");
         InstructorCourseEditPage editPage = homePage.clickCourseEditLink();
         editPage.verifyContains("Edit Course Details");
-        editPage.verifyContains("CHomeUiT.CS1101");
-        editPage.verifyContains("Programming Methodology");
         homePage.goToPreviousPage(InstructorHomePage.class);
         
         ______TS("link: course add evaluation");
         InstructorEvalsPage evalsPage =  homePage.clickCourseAddEvaluationLink();
         evalsPage.verifyContains("Add New Evaluation Session");
-        evalsPage.verifyContains("Third Eval");
-        evalsPage.verifyContains("Fourth Eval");
-        evalsPage.verifyContains("Fifth Eval");
         homePage.goToPreviousPage(InstructorHomePage.class);
     }
     
     public void testEvaluationLinks(){
-        //TODO: check View results, Edit, Preview links
+        ______TS("link: evaluation view results");
+        InstructorEvalResultsPage evalResultsPage = homePage.clickSessionViewResultsLink();
+        evalResultsPage.verifyContains("Evaluation Results");
+        homePage.goToPreviousPage(InstructorHomePage.class);
+        
+        ______TS("link: evaluation edit");
+        InstructorEvalEditPage evalEditPage = homePage.clickSessionEditLink();
+        evalEditPage.verifyContains("Edit Evaluation");
+        homePage.goToPreviousPage(InstructorHomePage.class);
+        
+        ______TS("link: evaluation preview");
+        InstructorEvalPreview evalPreviewPage = homePage.clickSessionPreviewLink();
+        evalPreviewPage.verifyContains("Previewing Evaluation as");
+        evalPreviewPage.closeCurrentWindowAndSwitchToParentWindow();
     }
     
     public void testRemindAction(){

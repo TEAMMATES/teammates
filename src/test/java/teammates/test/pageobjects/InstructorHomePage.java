@@ -36,6 +36,15 @@ public class InstructorHomePage extends AppPage {
     @FindBy(className = "t_course_add_eval0")
     private WebElement courseAddEvaluationLink;
     
+    @FindBy(className = "t_session_view0")
+    private WebElement sessionViewResultsLink;
+    
+    @FindBy(className = "t_session_edit0")
+    private WebElement sessionEditLink;
+    
+    @FindBy(className = "t_session_preview0")
+    private WebElement sessionPreviewLink;
+    
     public InstructorHomePage(Browser browser){
         super(browser);
     }
@@ -93,6 +102,25 @@ public class InstructorHomePage extends AppPage {
         courseAddEvaluationLink.click();
         waitForPageToLoad();
         return changePageType(InstructorEvalsPage.class);
+    }
+    
+    public InstructorEvalResultsPage clickSessionViewResultsLink() {
+        sessionViewResultsLink.click();
+        waitForPageToLoad();
+        return changePageType(InstructorEvalResultsPage.class);
+    }
+    
+    public InstructorEvalEditPage clickSessionEditLink() {
+        sessionEditLink.click();
+        waitForPageToLoad();
+        return changePageType(InstructorEvalEditPage.class);
+    }
+    
+    public InstructorEvalPreview clickSessionPreviewLink() {
+        sessionPreviewLink.click();
+        waitForPageToLoad();
+        switchToNewWindow();
+        return changePageType(InstructorEvalPreview.class);
     }
     
     public void clickHomeTab() {
