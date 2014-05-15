@@ -6,6 +6,20 @@
             "isInstructor":true,
             "email":"{$test.instructor}@gmail.com",
             "institute":"National University of Singapore"
+        },
+        "newInstructorWithSampleCourse":{
+            "googleId":"newIns.withSample",
+            "name":"Teammates Test New Instructor With Sample",
+            "isInstructor":true,
+            "email":"newIns.withSample@gmail.com",
+            "institute":"National University of Singapore"
+        },
+        "newInstructorWithoutSampleCourse":{
+            "googleId":"newIns.withoutSample",
+            "name":"Teammates Test New Instructor Without Sample",
+            "isInstructor":true,
+            "email":"newIns.withoutSample@gmail.com",
+            "institute":"National University of Singapore"
         }
     },
     "courses":{
@@ -17,6 +31,11 @@
         "CHomeUiT.CS1101":{
             "id":"CHomeUiT.CS1101",
             "name":"Programming Methodology",
+            "isArchived":false
+        },
+        "CHomeUiT.Sample":{
+            "id":"newIns.wit-demo",
+            "name":"Sample Course 101",
             "isArchived":false
         }
     },
@@ -32,6 +51,12 @@
             "courseId":"CHomeUiT.CS1101",
             "name":"Teammates Test",
             "email":"{$test.instructor}@gmail.com"
+        },
+        "CHomeUiT.instr.Sample":{
+            "googleId":"newIns.withSample",
+            "courseId":"newIns.wit-demo",
+            "name":"Teammates Test New Instructor With Sample",
+            "email":"newIns.withSample@gmail.com"
         }
     },
     "students":{
