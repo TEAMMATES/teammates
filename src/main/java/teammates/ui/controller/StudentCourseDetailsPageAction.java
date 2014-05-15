@@ -35,6 +35,7 @@ public class StudentCourseDetailsPageAction extends Action {
         data.instructors = logic.getInstructorsForCourse(courseId);
 
         data.student = logic.getStudentForGoogleId(courseId, account.googleId);
+        
         data.team = getTeam(logic.getTeamsForCourse(courseId), data.student);
 
         statusToAdmin = "studentCourseDetails Page Load<br>" +
@@ -51,12 +52,14 @@ public class StudentCourseDetailsPageAction extends Action {
         if(student.team == null || student.team.trim().isEmpty()){
             return null;
         }
-        for(TeamDetailsBundle team: teams){
-            if(team.name.equals(student.team)){
-                return team;
+        else{
+            for(TeamDetailsBundle team: teams){
+                if(team.name.equals(student.team)){
+                    return team;
+                }
             }
+            return null;
         }
-        return null;
     }
     
 
