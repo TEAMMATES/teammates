@@ -107,13 +107,15 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         ______TS("login");
         
         loginAsCommonInstructor();
+        assertTrue(browser.driver.getCurrentUrl().endsWith(Const.ActionURIs.INSTRUCTOR_HOME_PAGE));
     }
     
     public void testContent(){
         
         ______TS("content: no courses");
         
-        //this case is implicitly tested when testing for 'delete course' action
+        //this case is implicitly tested when testing for 'delete course' action and
+        //new instructor without sample course
             
         ______TS("content: multiple courses");
         
