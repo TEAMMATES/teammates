@@ -72,7 +72,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         testPublishAction();
         testUnpublishAction();
         
-        //testing response rate links due to page source problems encountered after testContent()
+        testResponseRateLink();
         testViewResultsLink();
         testEditLink();
         testSubmitLink();
@@ -107,6 +107,24 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.sortById()
             .verifyTablePattern(0,"{*}CFeedbackUiT.CS2104{*}CFeedbackUiT.CS2104{*}CFeedbackUiT.CS1101{*}CFeedbackUiT.CS1101");
     
+    }
+    
+    public void testResponseRateLink(){
+        ______TS("test response rate link clickable");
+        
+        feedbackPage.clickViewResponseLink("CFeedbackUiT.CS2104", "Private Session");
+        assertEquals("0 / 0", feedbackPage.getResponseValue("CFeedbackUiT.CS2104","Private Session"));
+        
+        feedbackPage.clickViewResponseLink("CFeedbackUiT.CS2104", "First Session");
+        assertEquals("0 / 0", feedbackPage.getResponseValue("CFeedbackUiT.CS2104","First Session"));
+        
+        feedbackPage.clickViewResponseLink("CFeedbackUiT.CS1101", "Manual Session");
+        assertEquals("0 / 0", feedbackPage.getResponseValue("CFeedbackUiT.CS1101","Manual Session"));
+        
+        ______TS("test response rate");
+        //Already displayed
+        assertEquals("0 / 2", feedbackPage.getResponseValue("CFeedbackUiT.CS1101","First Eval"));
+        
     }
 
     //TODO: implement these

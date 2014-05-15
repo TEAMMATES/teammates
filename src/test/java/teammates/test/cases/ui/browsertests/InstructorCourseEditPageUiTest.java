@@ -10,6 +10,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.StringHelper;
 import teammates.common.util.Url;
 import teammates.common.util.FieldValidator.FieldType;
 import teammates.test.driver.BackDoor;
@@ -49,6 +50,9 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         testNewInstructorLink();
         testEditInstructorLink();
         
+        testInputValidation();
+        
+        testInviteInstructorAction();
         testAddInstructorAction();
         testEditInstructorAction();
         testDeleteInstructorAction();
@@ -61,7 +65,6 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         
         courseEditPage = getCourseEditPage();
         courseEditPage.verifyHtml("/instructorCourseEdit.html" );
-        
     }
     
     private void testEditInstructorLink() {
@@ -76,6 +79,44 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         
         ______TS("add new instructor link");
         assertEquals(true, courseEditPage.clickShowNewInstructorFormButton());
+    }
+
+    private void testInputValidation() {
+        courseEditPage = getCourseEditPage();
+        
+        courseEditPage.clickEditInstructorLink();
+        courseEditPage.clickShowNewInstructorFormButton();
+        
+        ______TS("Checking max-length enforcement by the text boxes");
+        String maxLengthInstructorName = StringHelper.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH);
+        String longInstructorName = StringHelper.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH + 1);
+        
+        // Add instructor
+        assertEquals(maxLengthInstructorName, courseEditPage.fillInstructorName(maxLengthInstructorName));
+        assertEquals(longInstructorName.substring(0, FieldValidator.PERSON_NAME_MAX_LENGTH), courseEditPage.fillInstructorName(longInstructorName));
+        // Edit instructor
+        assertEquals(maxLengthInstructorName, courseEditPage.fillInstructorName(maxLengthInstructorName));
+        assertEquals(longInstructorName.substring(0, FieldValidator.PERSON_NAME_MAX_LENGTH), courseEditPage.fillInstructorName(longInstructorName));
+        
+
+        String maxLengthEmail = StringHelper.generateStringOfLength(FieldValidator.EMAIL_MAX_LENGTH);
+        String longEmail = StringHelper.generateStringOfLength(FieldValidator.EMAIL_MAX_LENGTH + 1);
+        
+        // Add instructor
+        assertEquals(maxLengthEmail, courseEditPage.fillInstructorEmail(maxLengthEmail));
+        assertEquals(longEmail.substring(0, FieldValidator.EMAIL_MAX_LENGTH), courseEditPage.fillInstructorEmail(longEmail));
+        // Edit instructor
+        assertEquals(maxLengthEmail, courseEditPage.editInstructorEmail(maxLengthEmail));
+        assertEquals(longEmail.substring(0, FieldValidator.EMAIL_MAX_LENGTH), courseEditPage.editInstructorEmail(longEmail));
+    }
+
+    private void testInviteInstructorAction() {
+
+        ______TS("success: invite an uregistered instructor");
+
+        courseEditPage = getCourseEditPage();
+        courseEditPage.clickInviteInstructorLink();
+        courseEditPage.verifyStatus(Const.StatusMessages.COURSE_REMINDER_SENT_TO + "InsCrsEdit.newInstr@gmail.com");
     }
 
     private void testAddInstructorAction() {
@@ -107,6 +148,12 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         courseEditPage = getCourseEditPage();
         courseEditPage.addNewInstructor("Teammates Instructor", invalidEmail);
         courseEditPage.verifyStatus((new FieldValidator()).getInvalidityInfo(FieldType.EMAIL, invalidEmail));
+
+        String invalidName = "";
+
+        courseEditPage = getCourseEditPage();
+        courseEditPage.addNewInstructor(invalidName, "teammates@email.com");
+        courseEditPage.verifyStatus((new FieldValidator()).getInvalidityInfo(FieldType.PERSON_NAME, invalidName));
     }
 
     private void testEditInstructorAction() {
@@ -123,6 +170,12 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         courseEditPage = getCourseEditPage();
         courseEditPage.editInstructor(instructorId, "New name", invalidEmail);
         courseEditPage.verifyStatus((new FieldValidator()).getInvalidityInfo(FieldType.EMAIL, invalidEmail));
+        
+        String invalidName = "";
+        
+        courseEditPage = getCourseEditPage();
+        courseEditPage.editInstructor(instructorId, invalidName, "teammates@email.com");
+        courseEditPage.verifyStatus((new FieldValidator()).getInvalidityInfo(FieldType.PERSON_NAME, invalidName));
     }
     
     private void testDeleteInstructorAction() {

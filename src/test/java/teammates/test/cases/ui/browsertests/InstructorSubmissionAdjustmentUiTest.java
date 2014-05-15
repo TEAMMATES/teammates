@@ -18,11 +18,11 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
-import teammates.test.cases.logic.LogicTest;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorCourseEnrollPage;
+import teammates.test.util.TestHelper;
 
 /**
  * Covers Ui aspect of submission adjustment for evaluations and feedbacks
@@ -73,7 +73,7 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
         //Wait briefly to allow task queue to successfully execute tasks
         ThreadHelper.waitFor(2000);
         
-        LogicTest.verifySubmissionsExistForCurrentTeamStructureInEvaluation(evaluationName, 
+        TestHelper.verifySubmissionsExistForCurrentTeamStructureInEvaluation(evaluationName, 
                 BackDoor.getAllStudentsForCourse(newStudent.course), 
                 BackDoor.getAllSubmissions(newStudent.course));
         
@@ -101,7 +101,7 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
         enrollString = student.toEnrollmentString();
         enrollPage.enroll(enrollString);
         
-        LogicTest.verifySubmissionsExistForCurrentTeamStructureInEvaluation(evaluationName, 
+        TestHelper.verifySubmissionsExistForCurrentTeamStructureInEvaluation(evaluationName, 
                 BackDoor.getAllStudentsForCourse(student.course), 
                 BackDoor.getAllSubmissions(student.course));
         
