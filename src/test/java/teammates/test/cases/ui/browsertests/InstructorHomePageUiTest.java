@@ -106,12 +106,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         
         ______TS("login");
         
-        AppPage.logout(browser);
-        homePage = HomePage.getNewInstance(browser)
-                .clickInstructorLogin()
-                .loginAsInstructor(
-                        TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, 
-                        TestProperties.inst().TEST_INSTRUCTOR_PASSWORD);
+        loginAsCommonInstructor();
     }
     
     public void testContent(){
@@ -125,9 +120,16 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         //already logged in
         homePage.verifyHtmlAjax("/InstructorHomeHTML.html");
         
-        ______TS("content: new instructor");
-        //TODO: to be implemented
+        ______TS("content: new instructor, with status message HINT_FOR_NEW_INSTRUCTOR");
         
+        loginAsInstructor(testData.accounts.get("newInstructorWithSampleCourse").email);
+        homePage.verifyHtml("/InstructorHomeNewInstructorWithSampleCourse.html");
+        
+        loginAsInstructor(testData.accounts.get("newInstructorWithoutSampleCourse").email);
+        homePage.verifyHtml("/InstructorHomeNewInstructorWithoutSampleCourse.html");
+        
+        //restore login account
+        loginAsCommonInstructor();
     }
     
     public void testHelpLink() throws Exception{
@@ -298,7 +300,20 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.clickSortByDateButton();
         homePage.verifyHtmlAjax("/InstructorHomeHTMLSortByDate.html");
     }
-
+    
+    private void loginAsCommonInstructor(){
+        String commonInstructor = TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT;
+        loginAsInstructor(commonInstructor);
+    }
+    
+    private void loginAsInstructor(String instructorEmail){
+        AppPage.logout(browser);
+        homePage = HomePage.getNewInstance(browser)
+                .clickInstructorLogin()
+                .loginAsInstructor(
+                        instructorEmail, 
+                        TestProperties.inst().TEST_INSTRUCTOR_PASSWORD);
+    }
 
     @AfterClass
     public static void classTearDown() throws Exception {
