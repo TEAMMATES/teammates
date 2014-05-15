@@ -12,7 +12,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.storage.api.CoursesDb;
 import teammates.test.cases.BaseComponentTestCase;
-import teammates.test.cases.logic.LogicTest;
+import teammates.test.cases.logic.LogicTestHelper;
 import teammates.test.driver.AssertHelper;
 
 public class EntitiesDbTest extends BaseComponentTestCase {
@@ -33,7 +33,7 @@ public class EntitiesDbTest extends BaseComponentTestCase {
         c.id = "Computing101-fresh";
         c.name = "Basic Computing";
         coursesDb.createEntity(c);
-        LogicTest.verifyPresentInDatastore(c);
+        LogicTestHelper.verifyPresentInDatastore(c);
         
         ______TS("fails: entity already exists");
         try {

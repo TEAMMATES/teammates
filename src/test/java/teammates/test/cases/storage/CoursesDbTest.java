@@ -16,7 +16,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.storage.api.CoursesDb;
 import teammates.test.cases.BaseComponentTestCase;
-import teammates.test.cases.logic.LogicTest;
+import teammates.test.cases.logic.LogicTestHelper;
 
 public class CoursesDbTest extends BaseComponentTestCase {
 
@@ -42,7 +42,7 @@ public class CoursesDbTest extends BaseComponentTestCase {
         c.id = "CDbT.tCC.newCourse";
         c.name = "Basic Computing";
         coursesDb.createEntity(c);
-        LogicTest.verifyPresentInDatastore(c);
+        LogicTestHelper.verifyPresentInDatastore(c);
         
         
     }

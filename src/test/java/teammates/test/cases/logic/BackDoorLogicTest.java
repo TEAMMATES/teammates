@@ -99,7 +99,7 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
         ______TS("typical case");
         SubmissionAttributes expected = dataBundle.submissions
                 .get("submissionFromS1C1ToS1C1");
-        LogicTest.verifyPresentInDatastore(expected);
+        LogicTestHelper.verifyPresentInDatastore(expected);
 
         ______TS("null parameters");
         // no need to check for null as this is a private method
@@ -108,46 +108,46 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
 
         assertEquals(
                 null,
-                LogicTest.invokeGetSubmission("non-existent", expected.evaluation,
+                LogicTestHelper.invokeGetSubmission("non-existent", expected.evaluation,
                         expected.reviewer, expected.reviewee));
         assertEquals(
                 null,
-                LogicTest.invokeGetSubmission(expected.course, "non-existent",
+                LogicTestHelper.invokeGetSubmission(expected.course, "non-existent",
                         expected.reviewer, expected.reviewee));
         assertEquals(
                 null,
-                LogicTest.invokeGetSubmission(expected.course, expected.evaluation,
+                LogicTestHelper.invokeGetSubmission(expected.course, expected.evaluation,
                         "non-existent", expected.reviewee));
         assertEquals(
                 null,
-                LogicTest.invokeGetSubmission(expected.course, expected.evaluation,
+                LogicTestHelper.invokeGetSubmission(expected.course, expected.evaluation,
                         expected.reviewer, "non-existent"));
     }
     
     private void verifyPresentInDatastore(DataBundle data) throws Exception {
         HashMap<String, InstructorAttributes> instructors = data.instructors;
         for (InstructorAttributes expectedInstructor : instructors.values()) {
-            LogicTest.verifyPresentInDatastore(expectedInstructor);
+            LogicTestHelper.verifyPresentInDatastore(expectedInstructor);
         }
     
         HashMap<String, CourseAttributes> courses = data.courses;
         for (CourseAttributes expectedCourse : courses.values()) {
-            LogicTest.verifyPresentInDatastore(expectedCourse);
+            LogicTestHelper.verifyPresentInDatastore(expectedCourse);
         }
     
         HashMap<String, StudentAttributes> students = data.students;
         for (StudentAttributes expectedStudent : students.values()) {
-            LogicTest.verifyPresentInDatastore(expectedStudent);
+            LogicTestHelper.verifyPresentInDatastore(expectedStudent);
         }
     
         HashMap<String, EvaluationAttributes> evaluations = data.evaluations;
         for (EvaluationAttributes expectedEvaluation : evaluations.values()) {
-            LogicTest.verifyPresentInDatastore(expectedEvaluation);
+            LogicTestHelper.verifyPresentInDatastore(expectedEvaluation);
         }
     
         HashMap<String, SubmissionAttributes> submissions = data.submissions;
         for (SubmissionAttributes expectedSubmission : submissions.values()) {
-            LogicTest.verifyPresentInDatastore(expectedSubmission);
+            LogicTestHelper.verifyPresentInDatastore(expectedSubmission);
         }
     }
 

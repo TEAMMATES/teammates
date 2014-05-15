@@ -177,7 +177,7 @@ public class SubmissionsAdjustmentTest extends
 
         StudentAttributes updatedStudent = studentsLogic
                 .getStudentForEmail(course1.id, updatedAttributes.email);
-        LogicTest.verifyPresentInDatastore(updatedStudent);
+        LogicTestHelper.verifyPresentInDatastore(updatedStudent);
 
         //Verify no tasks sent to task queue 
         SubmissionsAdjustmentTaskQueueCallback.verifyTaskCount(0);
@@ -264,7 +264,7 @@ public class SubmissionsAdjustmentTest extends
         
         EvaluationSubmissionAdjustmentAction newSubmissionAdjustmentAction = new EvaluationSubmissionAdjustmentAction(paramMap);
         assertTrue(newSubmissionAdjustmentAction.execute());
-        LogicTest.verifySubmissionsExistForCurrentTeamStructureInEvaluation(evaluationName, 
+        LogicTestHelper.verifySubmissionsExistForCurrentTeamStructureInEvaluation(evaluationName, 
                 studentsLogic.getStudentsForCourse(newStudent.course), 
                 submissionsLogic.getSubmissionsForCourse(newStudent.course));
         
@@ -309,7 +309,7 @@ public class SubmissionsAdjustmentTest extends
         
         EvaluationSubmissionAdjustmentAction submissionAdjustmentAction = new EvaluationSubmissionAdjustmentAction(paramMap);
         assertTrue(submissionAdjustmentAction.execute());
-        LogicTest.verifySubmissionsExistForCurrentTeamStructureInEvaluation(evaluationName, 
+        LogicTestHelper.verifySubmissionsExistForCurrentTeamStructureInEvaluation(evaluationName, 
                 studentsLogic.getStudentsForCourse(student.course), 
                 submissionsLogic.getSubmissionsForCourse(student.course));
         

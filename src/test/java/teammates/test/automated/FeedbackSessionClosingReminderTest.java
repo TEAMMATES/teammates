@@ -27,7 +27,7 @@ import teammates.logic.core.Emails.EmailType;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.test.cases.BaseComponentUsingTaskQueueTestCase;
 import teammates.test.cases.BaseTaskQueueCallback;
-import teammates.test.cases.logic.LogicTest;
+import teammates.test.cases.logic.LogicTestHelper;
 
 public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQueueTestCase {
 
@@ -98,7 +98,7 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
         session1.startTime = TimeHelper.getDateOffsetToCurrentTime(-1);
         session1.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
         fsLogic.updateFeedbackSession(session1);
-        LogicTest.verifyPresentInDatastore(session1);
+        LogicTestHelper.verifyPresentInDatastore(session1);
         
         // Reuse an existing session to create a new one that is
         // closing in 24 hours.
@@ -109,7 +109,7 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
         session2.startTime = TimeHelper.getDateOffsetToCurrentTime(-1);
         session2.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
         fsLogic.updateFeedbackSession(session2);
-        LogicTest.verifyPresentInDatastore(session2);
+        LogicTestHelper.verifyPresentInDatastore(session2);
         
         // Reuse an existing session to create a new one that is
         // closing in 24 hours and closing reminder disabled.
@@ -121,7 +121,7 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
         session3.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
         session3.isClosingEmailEnabled = false;
         fsLogic.updateFeedbackSession(session3);
-        LogicTest.verifyPresentInDatastore(session3);
+        LogicTestHelper.verifyPresentInDatastore(session3);
         
         fsLogic.scheduleFeedbackSessionClosingEmails();
 
@@ -164,7 +164,7 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
         session2.startTime = TimeHelper.getDateOffsetToCurrentTime(-1);
         session2.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
         fsLogic.updateFeedbackSession(session2);
-        LogicTest.verifyPresentInDatastore(session2);
+        LogicTestHelper.verifyPresentInDatastore(session2);
         
         // Reuse an existing session to create a new one that is
         // closing in 24 hours and closing reminder disabled.
@@ -176,7 +176,7 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
         session3.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
         session3.isClosingEmailEnabled = false;
         fsLogic.updateFeedbackSession(session3);
-        LogicTest.verifyPresentInDatastore(session3);
+        LogicTestHelper.verifyPresentInDatastore(session3);
         
         paramMap = createParamMapForAction(session2);
         fsClosingAction = new FeedbackSessionClosingMailAction(paramMap);
