@@ -94,7 +94,7 @@
                     <select class="participantSelect middlealign" 
                         name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"
                         <%=(numOfResponseBoxes == maxResponsesPossible) ? "style=\"display:none\"" : ""%>
-                        <%=data.bundle.feedbackSession.isOpened() ? "" : "disabled=\"disabled\""%>>
+                        <%=data.isSessionOpenForSubmission ? "" : "disabled=\"disabled\""%>>
                     <%
                         for(String opt: data.getRecipientOptions(existingResponse.recipientEmail)){
                             out.println(opt);
@@ -120,7 +120,7 @@
                     <select class="participantSelect middlealign newResponse" 
                         name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"
                         <%=(numOfResponseBoxes == maxResponsesPossible) ? "style=\"display:none\"" : ""%>
-                        <%=data.bundle.feedbackSession.isOpened() ? "" : "disabled=\"disabled\""%>>
+                        <%=data.isSessionOpenForSubmission ? "" : "disabled=\"disabled\""%>>
                     <%
                         for(String opt: data.getRecipientOptions(null)) {
                                                                     out.println(opt);
