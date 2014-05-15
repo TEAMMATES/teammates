@@ -5,6 +5,8 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import teammates.common.util.Url;
+
 
 
 public class InstructorHomePage extends AppPage {
@@ -59,6 +61,49 @@ public class InstructorHomePage extends AppPage {
         waitForPageToLoad();
     }
     
+    public InstructorCourseEnrollPage clickCourseErollLink(String courseId) {
+        getLinkInRow("t_course_enroll", getCourseRowId(courseId)).click();
+        waitForPageToLoad();
+        return changePageType(InstructorCourseEnrollPage.class);
+    }
+    
+    public InstructorCourseDetailsPage clickCourseViewLink(String courseId) {
+        getLinkInRow("t_course_view", getCourseRowId(courseId)).click();
+        waitForPageToLoad();
+        return changePageType(InstructorCourseDetailsPage.class);
+    }
+    
+    public InstructorCourseEditPage clickCourseEditLink(String courseId) {
+        getLinkInRow("t_course_edit", getCourseRowId(courseId)).click();
+        waitForPageToLoad();
+        return changePageType(InstructorCourseEditPage.class);
+    }
+    
+    public InstructorEvalsPage clickCourseAddEvaluationLink(String courseId) {
+        getLinkInRow("t_course_add_eval", getCourseRowId(courseId)).click();
+        waitForPageToLoad();
+        return changePageType(InstructorEvalsPage.class);
+    }
+    
+    public InstructorEvalResultsPage clickSessionViewResultsLink(String courseId, String evalName) {
+        getViewResultsLink(courseId, evalName).click();
+        waitForPageToLoad();
+        return changePageType(InstructorEvalResultsPage.class);
+    }
+    
+    public InstructorEvalEditPage clickSessionEditLink(String courseId, String evalName) {
+        getEditLink(courseId, evalName).click();
+        waitForPageToLoad();
+        return changePageType(InstructorEvalEditPage.class);
+    }
+    
+    public InstructorEvalPreview clickSessionPreviewLink(String courseId, String evalName) {
+        getPreviewLink(courseId, evalName).click();
+        waitForPageToLoad();
+        switchToNewWindow();
+        return changePageType(InstructorEvalPreview.class);
+    }
+    
     public void clickHomeTab() {
         instructorHomeTab.click();
         waitForPageToLoad();
@@ -84,6 +129,18 @@ public class InstructorHomePage extends AppPage {
         js.executeScript("arguments[0].href=arguments[1]", element, newValue );
     }
 
+    public WebElement getViewResultsLink(String courseId, String evalName) {
+        return getLinkInRow("t_session_view", getEvaluationRowId(courseId, evalName));
+    }
+    
+    public WebElement getEditLink(String courseId, String evalName) {
+        return getLinkInRow("t_session_edit", getEvaluationRowId(courseId, evalName));
+    }
+    
+    public WebElement getPreviewLink(String courseId, String evalName) {
+        return getLinkInRow("t_session_preview", getEvaluationRowId(courseId, evalName));
+    }
+    
     public WebElement getRemindLink(String courseId, String evalName) {
         return getLinkInRow("t_session_remind", getEvaluationRowId(courseId, evalName));
     }
@@ -108,6 +165,11 @@ public class InstructorHomePage extends AppPage {
         getLinkInRow("t_course_archive", getCourseRowId(courseId)).click();
         waitForPageToLoad();
         return this;
+    }
+    
+    public Url getArchiveCourseLink(String courseId){
+        String url = getLinkInRow("t_course_archive", getCourseRowId(courseId)).getAttribute("href");
+        return new Url(url);
     }
     
     private WebElement getLinkInRow(String elementClassNamePrefix, int rowId){
