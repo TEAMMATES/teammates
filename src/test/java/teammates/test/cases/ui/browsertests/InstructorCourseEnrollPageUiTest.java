@@ -90,14 +90,14 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
         InstructorCourseEnrollResultPage resultsPage = enrollPage.enroll(enrollString);
         resultsPage.verifyHtml("/instructorCourseEnrollPageResult.html");
         
-        //check 'edit' link
+        // Check 'edit' link
         enrollPage = resultsPage.clickEditLink();
         enrollPage.verifyContains("Enroll Students for CCEnrollUiT.CS2104");
-        //TODO: At times, this assertion doesn't work for remoter server + Firefox testing,
-        //  but works for Chrome.
+        // TODO: At times, this assertion doesn't work for remoter server + Firefox testing,
+        // but works for Chrome.
         assertEquals(enrollString, enrollPage.getEnrollText());
         
-        //ensure students were actually enrolled
+        // Ensure students were actually enrolled
         String courseId = testData.courses.get("CCEnrollUiT.CS2104").id;
         Url coursesPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
             .withUserId(testData.instructors.get("CCEnrollUiT.teammates.test").googleId)
@@ -107,7 +107,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
         
         ______TS("enroll action: empty course, enroll lines with header containing empty columns");
         
-        //make the course empty
+        // Make the course empty
         BackDoor.deleteCourse(courseId);
         BackDoor.createCourse(testData.courses.get("CCEnrollUiT.CS2104"));
         BackDoor.createInstructor(testData.instructors.get("CCEnrollUiT.teammates.test"));
@@ -125,8 +125,22 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
         // A new student with name containing accented characters
         enrollString += "|José Gómez | jose.gomez.tmns@gmail.com || Team 3 | This student name contains accented characters\n";
                 
-        enrollPage.enroll(enrollString)
-            .verifyHtml("/instructorCourseEnrollPageResultForEmptyCourse.html");
+        resultsPage = enrollPage.enroll(enrollString);
+        resultsPage.verifyHtml("/instructorCourseEnrollPageResultForEmptyCourse.html");
+
+        ______TS("enroll action: fail to enroll as there is no input");
+
+        enrollUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE)
+            .withUserId(testData.instructors.get("CCEnrollUiT.teammates.test").googleId)
+            .withCourseId(testData.courses.get("CCEnrollUiT.CS2104").id);
+        
+        enrollPage = loginAdminToPage(browser, enrollUrl, InstructorCourseEnrollPage.class);
+        
+        enrollString = "";
+
+        enrollPage.enrollUnsuccessfully(enrollString);
+        enrollPage.verifyStatus("Please input at least one student detail.");
+        
     }
 
     @AfterClass
