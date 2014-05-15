@@ -1,10 +1,9 @@
-
    <html>
       <head>
          <link href="/favicon.png"  rel="shortcut icon" />
                   <meta content="text/html; charset=UTF-8"  http-equiv="Content-Type" />
                   <title>
-            TEAMMATES - Submit Feedback Question
+            TEAMMATES - Submit Feedback
          </title>
          <link href="/stylesheets/common.css"  media="screen"  rel="stylesheet"  type="text/css" />
                   <link href="/stylesheets/common-print.css"  media="print"  rel="stylesheet"  type="text/css" />
@@ -25,19 +24,67 @@
          </script>
       </head>
       <body>
-         <div id="frameBody"  style="top:0px;" >
+         <div id="frameTop" >
+            <div id="frameTopWrapper" >
+               <div id="logo" >
+                  <a href="/index.html" >
+                     <img alt="TEAMMATES"  height="47px"  src="/images/teammateslogo.jpg"  width="150px" />
+                                       </a>
+               </div>
+               <div id="contentLinks" >
+                  <ul id="navbar" >
+                     <li>
+                        <a class="nav home"  data-link="instructorHome"  href="/page/instructorHomePage?user=IFSubmitUiT.instr" >
+                           Home
+                        </a>
+                     </li>
+                     <li>
+                        <a class="nav courses"  data-link="instructorCourse"  href="/page/instructorCoursesPage?user=IFSubmitUiT.instr" >
+                           Courses
+                        </a>
+                     </li>
+                     <li>
+                        <a class="nav evaluations"  data-link="instructorEval"  href="/page/instructorEvalsPage?user=IFSubmitUiT.instr" >
+                           Sessions
+                        </a>
+                     </li>
+                     <li>
+                        <a class="nav students"  data-link="instructorStudent"  href="/page/instructorStudentListPage?user=IFSubmitUiT.instr" >
+                           Students
+                        </a>
+                     </li>
+                     <li>
+                        <a class="nav help"  href="/instructorHelp.html"  target="_blank" >
+                           Help
+                        </a>
+                     </li>
+                     <li>
+                        <a class="nav logout"  href="/logout.jsp" >
+                           Logout
+                        </a>
+                        <b>
+                           (IFSubmitUiT.instr)
+                        </b>
+                     </li>
+                  </ul>
+               </div>
+               <div style="clear: both;" >
+               </div>
+            </div>
+         </div>
+         <div id="frameBody" >
             <div id="frameBodyWrapper" >
                <div id="topOfPage" >
                </div>
                <div id="headerOperation" >
                   <h1>
-                     Submit Feedback Question
+                     Submit Feedback
                   </h1>
                </div>
-               <form action="/page/instructorFeedbackQuestionSubmissionEditSave"  method="post"  name="form_submit_response" >
+               <form action="/page/instructorFeedbackSubmissionEditSave"  method="post"  name="form_submit_response" >
                   <input name="fsname"  type="hidden"  value="Grace Period Session" />
-                                    <input name="courseid"  type="hidden"  value="IFQSubmitUiT.CS2104" />
-                                    <input name="user"  type="hidden"  value="IFQSubmitUiT.instr" />
+                                    <input name="courseid"  type="hidden"  value="IFSubmitUiT.CS2104" />
+                                    <input name="user"  type="hidden"  value="IFSubmitUiT.instr" />
                                     <table class="inputTable" >
                      <tbody>
                         <tr>
@@ -45,7 +92,7 @@
                               Course:
                            </td>
                            <td colspan="2" >
-                              IFQSubmitUiT.CS2104
+                              IFSubmitUiT.CS2104
                            </td>
                         </tr>
                         <tr>
@@ -82,25 +129,15 @@
                   </table>
                   <br/>
                                     <div id="statusMessage"  style="display: block;" >
-                     You are currently submitting as
-                     <span class="bold" >
-                        Teammates Test (IFQSubmitUiT.instr)
-                     </span>
-                     . Not you? Please
-                     <a href="/logout.jsp" >
-                        logout
-                     </a>
-                     and try again.
-                     <br/>
-                                          You can view the questions and any submitted responses for this feedback session but cannot submit new responses as the session is not currently open for submission.
+                     You can view the questions and any submitted responses for this feedback session but cannot submit new responses as the session is not currently open for submission.
                   </div>
                   <script type="text/javascript" >
                      document.getElementById( 'statusMessage' ).scrollIntoView();
                   </script>
                   <br/>
-                                    <input name="questiontype"  type="hidden"  value="TEXT" />
-                                    <input name="questionid"  type="hidden"  value="{*}" />
-                                    <input name="questionresponsetotal"  type="hidden"  value="1" />
+                                    <input name="questiontype-1"  type="hidden"  value="TEXT" />
+                                    <input name="questionid-1"  type="hidden"  value="{*}" />
+                                    <input name="questionresponsetotal-1"  type="hidden"  value="1" />
                                     <table class="inputTable responseTable" >
                      <tbody>
                         <tr style="border-bottom: 3px dotted white;" >
@@ -130,14 +167,14 @@
                            </td>
                         </tr>
                         <tr>
-                           <td class="middlealign nowrap" style="display:none">
+                           <td class="middlealign nowrap"  style="display:none" >
                               <span class="label bold" >
                                  To:
                               </span>
                               <select class="participantSelect middlealign newResponse"  disabled="disabled"  name="responserecipient-1-0"  style="display:none" >
                                  <option selected="selected"  value="" >
                                  </option>
-                                 <option value="IFQSubmitUiT.instr@gmail.com" >
+                                 <option value="IFSubmitUiT.instr@gmail.com" >
                                     Myself
                                  </option>
                               </select>
@@ -160,6 +197,31 @@
                   <br/>
                                     <br/>
                                  </form>
+            </div>
+         </div>
+         <div id="frameBottom" >
+            <div id="contentFooter" >
+               <span class="floatleft" >
+                  [
+                  <span class="color_white" >
+                     TEAMMATES
+                  </span>
+                  V{$version}]
+               </span>
+               [for
+               <span class="color_white" >
+                  National University of Singapore
+               </span>
+               ]
+               <span class="floatright" >
+                  [Send
+                  <span class="color_white" >
+                     <a href="../contact.html"  target="_blank" >
+                        Feedback
+                     </a>
+                  </span>
+                  ]
+               </span>
             </div>
          </div>
       </body>

@@ -16,10 +16,12 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
+import teammates.storage.api.EntitiesDb;
 import teammates.storage.api.InstructorsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.cases.logic.LogicTest;
@@ -112,7 +114,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
     public void testGetInstructorForGoogleId() throws InvalidParametersException {
         InstructorAttributes i = createNewInstructor();
         
-        ______TS("successe: get an instructor");
+        ______TS("success: get an instructor");
         
         InstructorAttributes retrieved = instructorsDb.getInstructorForGoogleId(i.courseId, i.googleId);
         assertNotNull(retrieved);
@@ -251,6 +253,19 @@ public class InstructorsDbTest extends BaseComponentTestCase {
                         + String.format(EMAIL_ERROR_MESSAGE, instructorToEdit.email, REASON_INCORRECT_FORMAT),
                         e.getMessage());
         }
+
+         ______TS("failure: non-existent entity");
+        instructorToEdit.googleId = "idOfInstructor4";
+        instructorToEdit.name = "New Name 2";
+        instructorToEdit.email = "InstrDbT.new-email2@email.com";
+        try {
+            instructorsDb.updateInstructorByGoogleId(instructorToEdit);
+            signalFailureToDetectException();
+        } catch (EntityDoesNotExistException e) {
+            AssertHelper.assertContains(
+                        EntitiesDb.ERROR_UPDATE_NON_EXISTENT_ACCOUNT,
+                        e.getMessage());
+        }
         
         ______TS("failure: null parameters");
         try {
@@ -290,6 +305,19 @@ public class InstructorsDbTest extends BaseComponentTestCase {
                             + Const.EOL
                             + String.format(PERSON_NAME_ERROR_MESSAGE, instructorToEdit.name, REASON_EMPTY),
                     e.getMessage());
+        }
+
+        ______TS("failure: non-existent entity");
+        instructorToEdit.googleId = "idOfInstructor4";
+        instructorToEdit.name = "New Name 2";
+        instructorToEdit.email = "InstrDbT.new-email2@email.com";
+        try {
+            instructorsDb.updateInstructorByGoogleId(instructorToEdit);
+            signalFailureToDetectException();
+        } catch (EntityDoesNotExistException e) {
+            AssertHelper.assertContains(
+                        EntitiesDb.ERROR_UPDATE_NON_EXISTENT_ACCOUNT,
+                        e.getMessage());
         }
 
         ______TS("failure: null parameters");
