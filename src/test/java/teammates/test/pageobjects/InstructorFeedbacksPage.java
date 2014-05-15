@@ -296,6 +296,14 @@ public class InstructorFeedbacksPage extends AppPage {
         }
     }
     
+    public boolean verifyHidden (By locator) {
+        return !browser.driver.findElement(locator).isDisplayed();
+    }
+    
+    public boolean verifyInstructionsTextAreaIsHidden () {
+        return !browser.driver.findElement(By.xpath("(//table[@id='instructionsTable']//tr)[1]")).isDisplayed();        
+    }
+    
     public InstructorFeedbackResultsPage loadViewResultsLink (String courseId, String fsName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, fsName);
         String className = "t_session_view";
