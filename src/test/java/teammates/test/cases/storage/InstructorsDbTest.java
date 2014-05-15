@@ -24,8 +24,8 @@ import teammates.common.util.StringHelper;
 import teammates.storage.api.EntitiesDb;
 import teammates.storage.api.InstructorsDb;
 import teammates.test.cases.BaseComponentTestCase;
-import teammates.test.cases.logic.LogicTestHelper;
 import teammates.test.driver.AssertHelper;
+import teammates.test.util.TestHelper;
 
 public class InstructorsDbTest extends BaseComponentTestCase {
     
@@ -52,7 +52,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         instructorsDb.deleteEntity(i);
         instructorsDb.createEntity(i);
         
-        LogicTestHelper.verifyPresentInDatastore(i);
+        TestHelper.verifyPresentInDatastore(i);
         
         ______TS("failure: instructor already exists");
 

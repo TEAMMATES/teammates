@@ -19,6 +19,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.logic.api.Logic;
 import teammates.logic.core.SubmissionsLogic;
 import teammates.test.cases.BaseComponentTestCase;
+import teammates.test.util.TestHelper;
 
 public class SubmissionsLogicTest extends BaseComponentTestCase{
     
@@ -78,7 +79,7 @@ public class SubmissionsLogicTest extends BaseComponentTestCase{
         // Check if the returned submissions match the current team structure
         List<StudentAttributes> students = logic
                 .getStudentsForCourse(evaluation.courseId);
-        LogicTestHelper.verifySubmissionsExistForCurrentTeamStructureInEvaluation(
+        TestHelper.verifySubmissionsExistForCurrentTeamStructureInEvaluation(
                 evaluation.name, students, new ArrayList<SubmissionAttributes>(
                         submissions.values()));
 
@@ -121,9 +122,9 @@ public class SubmissionsLogicTest extends BaseComponentTestCase{
         SubmissionAttributes sub1 = dataBundle.submissions
                 .get("submissionFromS1C1ToS2C1");
 
-        LogicTestHelper.alterSubmission(sub1);
+        TestHelper.alterSubmission(sub1);
         submissionsLogic.updateSubmission(sub1);
-        LogicTestHelper.verifyPresentInDatastore(sub1);
+        TestHelper.verifyPresentInDatastore(sub1);
 
         ______TS("null parameter");
         

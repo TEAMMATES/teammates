@@ -19,6 +19,7 @@ import teammates.logic.core.InstructorsLogic;
 import teammates.storage.api.InstructorsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
+import teammates.test.util.TestHelper;
 
 public class InstructorsLogicTest extends BaseComponentTestCase{
 
@@ -44,7 +45,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         
         instructorsLogic.addInstructor(instr.courseId, instr.name, instr.email);
         
-        LogicTestHelper.verifyPresentInDatastore(instr);
+        TestHelper.verifyPresentInDatastore(instr);
         
         ______TS("failure: instructor already exists");
         
@@ -393,7 +394,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         
         instructorsLogic.deleteInstructor(courseId, email);
         
-        LogicTestHelper.verifyAbsentInDatastore(instructorDeleted);
+        TestHelper.verifyAbsentInDatastore(instructorDeleted);
     }
 
     @Test

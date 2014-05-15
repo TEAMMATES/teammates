@@ -19,6 +19,7 @@ import teammates.storage.api.CoursesDb;
 import teammates.storage.api.InstructorsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
+import teammates.test.util.TestHelper;
 
 public class CoursesLogicTest extends BaseComponentTestCase {
 
@@ -52,7 +53,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         c.id = "Computing101-fresh";
         c.name = "Basic Computing";
         coursesLogic.createCourse(c.id, c.name);
-        LogicTestHelper.verifyPresentInDatastore(c);
+        TestHelper.verifyPresentInDatastore(c);
         
     }
     
@@ -87,8 +88,8 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         } catch (AssertionError e) {
             AssertHelper.assertContains("for a non-existent instructor", e.getMessage());
         }
-        LogicTestHelper.verifyAbsentInDatastore(c);
-        LogicTestHelper.verifyAbsentInDatastore(i);
+        TestHelper.verifyAbsentInDatastore(c);
+        TestHelper.verifyAbsentInDatastore(i);
         
         
         ______TS("fails: account doesn't have instructor privileges");
@@ -106,8 +107,8 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         } catch (AssertionError e) {
             AssertHelper.assertContains("doesn't have instructor privileges", e.getMessage());
         }
-        LogicTestHelper.verifyAbsentInDatastore(c);
-        LogicTestHelper.verifyAbsentInDatastore(i);
+        TestHelper.verifyAbsentInDatastore(c);
+        TestHelper.verifyAbsentInDatastore(i);
         
         ______TS("fails: error during course creation");
         
@@ -122,8 +123,8 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains("not acceptable to TEAMMATES as a Course ID", e.getMessage());
         }
-        LogicTestHelper.verifyAbsentInDatastore(c);
-        LogicTestHelper.verifyAbsentInDatastore(i);
+        TestHelper.verifyAbsentInDatastore(c);
+        TestHelper.verifyAbsentInDatastore(i);
         
         ______TS("fails: error during instructor creation");
         
@@ -136,7 +137,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         } catch (AssertionError e) {
             AssertHelper.assertContains("Unexpected exception while trying to create instructor for a new course", e.getMessage());
         }
-        LogicTestHelper.verifyAbsentInDatastore(c);
+        TestHelper.verifyAbsentInDatastore(c);
         
         ______TS("success: typical case");
 
@@ -144,8 +145,8 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         instructorsDb.deleteInstructor(i.courseId, i.email);
         
         coursesLogic.createCourseAndInstructor(i.googleId, c.id, c.name);
-        LogicTestHelper.verifyPresentInDatastore(c);
-        LogicTestHelper.verifyPresentInDatastore(i);
+        TestHelper.verifyPresentInDatastore(c);
+        TestHelper.verifyPresentInDatastore(i);
         
     }
     

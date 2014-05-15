@@ -50,6 +50,7 @@ import teammates.test.automated.FeedbackSessionPublishedReminderTest.FeedbackSes
 import teammates.test.cases.BaseComponentUsingTaskQueueTestCase;
 import teammates.test.cases.BaseTaskQueueCallback;
 import teammates.test.driver.AssertHelper;
+import teammates.test.util.TestHelper;
 
 import com.google.appengine.api.datastore.Text;
 import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
@@ -220,7 +221,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         
         FeedbackSessionAttributes fs = getNewFeedbackSession();
         fsLogic.createFeedbackSession(fs);
-        LogicTestHelper.verifyPresentInDatastore(fs);
+        TestHelper.verifyPresentInDatastore(fs);
 
         ______TS("test delete");
         // Create a question under the session to test for cascading during delete.
@@ -241,8 +242,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         fqLogic.createFeedbackQuestion(fq);
         
         fsLogic.deleteFeedbackSessionCascade(fs.feedbackSessionName, fs.courseId);
-        LogicTestHelper.verifyAbsentInDatastore(fs);
-        LogicTestHelper.verifyAbsentInDatastore(fq);
+        TestHelper.verifyAbsentInDatastore(fs);
+        TestHelper.verifyAbsentInDatastore(fq);
     }
     
     @Test
@@ -1293,7 +1294,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 
         List<StudentAttributes> studentList = logic.getStudentsForCourse(fs.courseId);
         for (StudentAttributes s : studentList) {
-            MimeMessage emailToStudent = LogicTestHelper.getEmailToStudent(s, emailsSent);
+            MimeMessage emailToStudent = TestHelper.getEmailToStudent(s, emailsSent);
             
             if(fsLogic.isFeedbackSessionCompletedByStudent(fs.feedbackSessionName, fs.courseId, s.email)) {
                 String errorMessage = "Email sent to " + s.email + " when he already completed the session.";
@@ -1310,7 +1311,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(fs.courseId);
         String notificationHeader = "The email below has been sent to students of course: " + fs.courseId;
         for (InstructorAttributes i : instructorList) {
-            List<MimeMessage> emailsToInstructor = LogicTestHelper.getEmailsToInstructor(i, emailsSent);
+            List<MimeMessage> emailsToInstructor = TestHelper.getEmailsToInstructor(i, emailsSent);
             
             if(fsLogic.isFeedbackSessionCompletedByInstructor(fs.feedbackSessionName, fs.courseId, i.email)) {
                 // Only send notification (no reminder) if instructor already completed the session

@@ -37,6 +37,7 @@ import teammates.logic.core.TeamEvalResult;
 import teammates.storage.api.EvaluationsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
+import teammates.test.util.TestHelper;
 
 public class EvaluationsLogicTest extends BaseComponentTestCase{
     
@@ -266,7 +267,7 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         
         for (StudentAttributes s : studentList) {
             String errorMessage = "No email sent to " + s.email;
-            MimeMessage emailToStudent = LogicTestHelper.getEmailToStudent(s, emailsSent);
+            MimeMessage emailToStudent = TestHelper.getEmailToStudent(s, emailsSent);
             assertTrue(errorMessage, emailToStudent != null);
             AssertHelper.assertContains(Emails.SUBJECT_PREFIX_STUDENT_EVALUATION_PUBLISHED,
                     emailToStudent.getSubject());
@@ -292,7 +293,7 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         eval.timeZone = 0;
         evaluationsLogic.updateEvaluation(eval);
 
-        LogicTestHelper.verifyPresentInDatastore(eval);
+        TestHelper.verifyPresentInDatastore(eval);
         
         ______TS("typicla case: derived attributes ignored");
         
@@ -305,7 +306,7 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         eval.published = !eval.published;
         eval.activated = !eval.activated;
 
-        LogicTestHelper.verifyPresentInDatastore(eval);
+        TestHelper.verifyPresentInDatastore(eval);
         
         ______TS("state change PUBLISHED --> OPEN ");
         
@@ -320,7 +321,7 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         eval.activated = true;
         assertEquals(EvalStatus.PUBLISHED, eval.getStatus());
         evaluationsDb.updateEvaluation(eval); //We use *Db object here because we want to persist derived attributes
-        LogicTestHelper.verifyPresentInDatastore(eval);
+        TestHelper.verifyPresentInDatastore(eval);
         
         //then, make it OPEN
         eval.endTime = TimeHelper.getMsOffsetToCurrentTimeInUserTimeZone(-milliSecondsPerMinute*(eval.gracePeriod-1), 0);
@@ -328,7 +329,7 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         
         //check if derived attributes are set correctly
         eval.published = false;
-        LogicTestHelper.verifyPresentInDatastore(eval);
+        TestHelper.verifyPresentInDatastore(eval);
         assertEquals(EvalStatus.OPEN, eval.getStatus());
         
         //Other state changes are tested at lower levels

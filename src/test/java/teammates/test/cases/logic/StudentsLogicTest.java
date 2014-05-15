@@ -33,6 +33,7 @@ import teammates.storage.entity.Student;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.cases.storage.EvaluationsDbTest;
 import teammates.test.driver.AssertHelper;
+import teammates.test.util.TestHelper;
 
 import com.google.appengine.api.datastore.KeyFactory;
 
@@ -86,22 +87,22 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         // add a new student and verify it is added and treated as a new student
         StudentEnrollDetails enrollmentResult = invokeEnrollStudent(student1);
         assertEquals(1, studentsLogic.getStudentsForCourse(instructorCourse).size());
-        LogicTestHelper.verifyEnrollmentDetailsForStudent(student1, null, enrollmentResult,
+        TestHelper.verifyEnrollmentDetailsForStudent(student1, null, enrollmentResult,
                 StudentAttributes.UpdateStatus.NEW);
-        LogicTestHelper.verifyPresentInDatastore(student1);
+        TestHelper.verifyPresentInDatastore(student1);
 
         ______TS("add existing student");
 
         // Verify it was not added
         enrollmentResult = invokeEnrollStudent(student1);
-        LogicTestHelper.verifyEnrollmentDetailsForStudent(student1, null, enrollmentResult,
+        TestHelper.verifyEnrollmentDetailsForStudent(student1, null, enrollmentResult,
                 StudentAttributes.UpdateStatus.UNMODIFIED);
         assertEquals(1, studentsLogic.getStudentsForCourse(instructorCourse).size());
 
         ______TS("add student into non-empty course");
         StudentAttributes student2 = new StudentAttributes("t1", "n2", "e2@g", "c", instructorCourse);
         enrollmentResult = invokeEnrollStudent(student2);
-        LogicTestHelper.verifyEnrollmentDetailsForStudent(student2, null, enrollmentResult,
+        TestHelper.verifyEnrollmentDetailsForStudent(student2, null, enrollmentResult,
                 StudentAttributes.UpdateStatus.NEW);
         
         //add some more students to the same course (we add more than one 
@@ -131,8 +132,8 @@ public class StudentsLogicTest extends BaseComponentTestCase{
                 .getStudentsForCourse(instructorCourse);
         
         enrollmentResult = invokeEnrollStudent(student2);
-        LogicTestHelper.verifyPresentInDatastore(student2);
-        LogicTestHelper.verifyEnrollmentDetailsForStudent(student2, oldTeam, enrollmentResult,
+        TestHelper.verifyPresentInDatastore(student2);
+        TestHelper.verifyEnrollmentDetailsForStudent(student2, oldTeam, enrollmentResult,
                 StudentAttributes.UpdateStatus.MODIFIED);
         
         //verify that submissions have not been adjusted
@@ -149,7 +150,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         }
         
         //also, verify that the datastore still has the old team structure
-        LogicTestHelper.verifySubmissionsExistForCurrentTeamStructureInEvaluation(e.name,
+        TestHelper.verifySubmissionsExistForCurrentTeamStructureInEvaluation(e.name,
                 studentDetailsBeforeModification, submissionsLogic.getSubmissionsForCourse(instructorCourse));
 
         ______TS("error during enrollment");
@@ -170,7 +171,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         dataBundle = getTypicalDataBundle();
 
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        LogicTestHelper.verifyPresentInDatastore(student1InCourse1);
+        TestHelper.verifyPresentInDatastore(student1InCourse1);
         String originalEmail = student1InCourse1.email;
         student1InCourse1.name = student1InCourse1.name + "x";
         student1InCourse1.googleId = student1InCourse1.googleId + "x";
@@ -183,7 +184,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
 
         // verify student details changed correctly
         studentsLogic.updateStudentCascade(originalEmail, student1InCourse1);
-        LogicTestHelper.verifyPresentInDatastore(student1InCourse1);
+        TestHelper.verifyPresentInDatastore(student1InCourse1);
 
         // take a snapshot of submissions after the edit
         List<SubmissionAttributes> submissionsAfterEdit = submissionsLogic.getSubmissionsForCourse(student1InCourse1.course);
@@ -196,7 +197,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
                 submissionsAfterEdit.size()); 
         
         // verify new submissions were created to match new team structure
-        LogicTestHelper.verifySubmissionsExistForCurrentTeamStructureInAllExistingEvaluations(submissionsAfterEdit,
+        TestHelper.verifySubmissionsExistForCurrentTeamStructureInAllExistingEvaluations(submissionsAfterEdit,
                 student1InCourse1.course);
 
         ______TS("check for KeepExistingPolicy : change email only");
@@ -211,14 +212,14 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         copyOfStudent1.email = newEmail;
 
         studentsLogic.updateStudentCascade(originalEmail, copyOfStudent1);
-        LogicTestHelper.verifyPresentInDatastore(student1InCourse1);
+        TestHelper.verifyPresentInDatastore(student1InCourse1);
 
         ______TS("check for KeepExistingPolicy : change nothing");    
         
         originalEmail = student1InCourse1.email;
         copyOfStudent1.email = null;
         studentsLogic.updateStudentCascade(originalEmail, copyOfStudent1);
-        LogicTestHelper.verifyPresentInDatastore(copyOfStudent1);
+        TestHelper.verifyPresentInDatastore(copyOfStudent1);
         
         ______TS("non-existent student");
         

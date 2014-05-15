@@ -65,6 +65,7 @@ import teammates.logic.core.SubmissionsLogic;
 import teammates.storage.api.CoursesDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
+import teammates.test.util.TestHelper;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -237,9 +238,9 @@ public class LogicTest extends BaseComponentTestCase {
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
         InstructorAttributes instructor2 = dataBundle.instructors.get("instructor2OfCourse1");
         logic.deleteCourse(cd.id);
-        LogicTestHelper.verifyAbsentInDatastore(cd);
-        LogicTestHelper.verifyAbsentInDatastore(instructor);
-        LogicTestHelper.verifyAbsentInDatastore(instructor2);
+        TestHelper.verifyAbsentInDatastore(cd);
+        TestHelper.verifyAbsentInDatastore(instructor);
+        TestHelper.verifyAbsentInDatastore(instructor2);
         
         // Create fresh
         logic.createCourseAndInstructor(instructor.googleId, cd.id, cd.name);
@@ -260,17 +261,17 @@ public class LogicTest extends BaseComponentTestCase {
         AccountAttributes creator = dataBundle.accounts.get("instructor1OfCourse1");
         instructor.name = creator.name;
         instructor.email = creator.email; 
-        LogicTestHelper.verifyPresentInDatastore(cd);
-        LogicTestHelper.verifyPresentInDatastore(instructor);
-        LogicTestHelper.verifyPresentInDatastore(instructor2);
+        TestHelper.verifyPresentInDatastore(cd);
+        TestHelper.verifyPresentInDatastore(instructor);
+        TestHelper.verifyPresentInDatastore(instructor2);
         
         // Delete fresh
         logic.deleteCourse(cd.id);
         // read deleted course
-        LogicTestHelper.verifyAbsentInDatastore(cd);
+        TestHelper.verifyAbsentInDatastore(cd);
         // check for cascade delete
-        LogicTestHelper.verifyAbsentInDatastore(instructor);
-        LogicTestHelper.verifyAbsentInDatastore(instructor2);
+        TestHelper.verifyAbsentInDatastore(instructor);
+        TestHelper.verifyAbsentInDatastore(instructor2);
         
         // Delete non-existent (fails silently)
         logic.deleteCourse(cd.id);
@@ -324,7 +325,7 @@ public class LogicTest extends BaseComponentTestCase {
         
         logic.addInstructor(instr.courseId, instr.name, instr.email);
         
-        LogicTestHelper.verifyPresentInDatastore(instr);
+        TestHelper.verifyPresentInDatastore(instr);
         
         ______TS("failure: instructor already exists");
         
@@ -623,7 +624,7 @@ public class LogicTest extends BaseComponentTestCase {
     
         MimeMessage email = logic.sendRegistrationInviteToInstructor(instructor.courseId, instructor.email);
     
-        LogicTestHelper.verifyJoinInviteToInstructor(instructor, email);
+        TestHelper.verifyJoinInviteToInstructor(instructor, email);
     
         ______TS("send to non-existing instructor");
     
@@ -684,7 +685,7 @@ public class LogicTest extends BaseComponentTestCase {
         
         logic.deleteInstructor(courseId, email);
         
-        LogicTestHelper.verifyAbsentInDatastore(instructorDeleted);
+        TestHelper.verifyAbsentInDatastore(instructorDeleted);
         
     }
 
@@ -809,11 +810,11 @@ public class LogicTest extends BaseComponentTestCase {
         InstructorAttributes instructor1 = dataBundle.instructors.get("instructor1OfCourse1");
 
         // ensure that the instructor exists in datastore
-        LogicTestHelper.verifyPresentInDatastore(instructor1);
+        TestHelper.verifyPresentInDatastore(instructor1);
         
         logic.deleteInstructor(instructor1.courseId, instructor1.email);
         
-        LogicTestHelper.verifyAbsentInDatastore(instructor1);
+        TestHelper.verifyAbsentInDatastore(instructor1);
         
         ______TS("non-existent");
         
@@ -863,12 +864,12 @@ public class LogicTest extends BaseComponentTestCase {
         // Delete to avoid clashes with existing data
         logic.deleteCourse(instructor.courseId);
 
-        LogicTestHelper.verifyAbsentInDatastore(course);
-        LogicTestHelper.verifyAbsentInDatastore(instructor);
+        TestHelper.verifyAbsentInDatastore(course);
+        TestHelper.verifyAbsentInDatastore(instructor);
 
         logic.createCourseAndInstructor(instructor.googleId , course.id, course.name);
-        LogicTestHelper.verifyPresentInDatastore(course);
-        LogicTestHelper.verifyPresentInDatastore(instructor);
+        TestHelper.verifyPresentInDatastore(course);
+        TestHelper.verifyPresentInDatastore(instructor);
 
         ______TS("null parameters");
         
@@ -947,7 +948,7 @@ public class LogicTest extends BaseComponentTestCase {
 
         ______TS("non-existent");
 
-        LogicTestHelper.verifyEntityDoesNotExistException(methodName, paramTypes,
+        TestHelper.verifyEntityDoesNotExistException(methodName, paramTypes,
                 new Object[] { "non-existent" });
 
         ______TS("null parameter");
@@ -1006,7 +1007,7 @@ public class LogicTest extends BaseComponentTestCase {
     
         ______TS("non-existent student");
     
-        LogicTestHelper.verifyEntityDoesNotExistException(methodName, paramTypes,
+        TestHelper.verifyEntityDoesNotExistException(methodName, paramTypes,
                 new Object[] { "non-existent" });
     
         ______TS("null parameter");
@@ -1064,7 +1065,7 @@ public class LogicTest extends BaseComponentTestCase {
     
         ______TS("non-existent instructor");
     
-        LogicTestHelper.verifyEntityDoesNotExistException(
+        TestHelper.verifyEntityDoesNotExistException(
                 methodName, paramTypes, new Object[] {"non-existent-course"});
     
     }
@@ -1098,10 +1099,10 @@ public class LogicTest extends BaseComponentTestCase {
         int numberOfEvalsInCourse1 = course1Evals.size();
         assertEquals(course1EvalDetails, 2, numberOfEvalsInCourse1);
         assertEquals(course1Id, course1Evals.get(0).evaluation.courseId);
-        LogicTestHelper.verifyEvaluationInfoExistsInList(
+        TestHelper.verifyEvaluationInfoExistsInList(
                 dataBundle.evaluations.get("evaluation1InCourse1"),
                 course1Evals);
-        LogicTestHelper.verifyEvaluationInfoExistsInList(
+        TestHelper.verifyEvaluationInfoExistsInList(
                 dataBundle.evaluations.get("evaluation2InCourse1"),
                 course1Evals);
     
@@ -1110,7 +1111,7 @@ public class LogicTest extends BaseComponentTestCase {
         ArrayList<EvaluationDetailsBundle> course2Evals = courseListForInstructor
                 .get("idOfTypicalCourse2").evaluations;
         assertEquals(1, course2Evals.size());
-        LogicTestHelper.verifyEvaluationInfoExistsInList(
+        TestHelper.verifyEvaluationInfoExistsInList(
                 dataBundle.evaluations.get("evaluation1InCourse2"),
                 course2Evals);
     
@@ -1150,7 +1151,7 @@ public class LogicTest extends BaseComponentTestCase {
     
         
         
-        LogicTestHelper.verifyEntityDoesNotExistException(methodName, paramTypes, new Object[] {
+        TestHelper.verifyEntityDoesNotExistException(methodName, paramTypes, new Object[] {
                 "non-existent"});
         
     }
@@ -1223,11 +1224,11 @@ public class LogicTest extends BaseComponentTestCase {
     
         // verify details of evaluation 1 in course 1
         EvaluationAttributes actualEval1InCourse1 = actualCourse1.evaluations.get(1).evaluation;
-        LogicTestHelper.verifySameEvaluationData(expectedEval1InCourse1, actualEval1InCourse1);
+        TestHelper.verifySameEvaluationData(expectedEval1InCourse1, actualEval1InCourse1);
     
         // verify some details of evaluation 2 in course 1
         EvaluationAttributes actualEval2InCourse1 = actualCourse1.evaluations.get(0).evaluation;
-        LogicTestHelper.verifySameEvaluationData(expectedEval2InCourse1, actualEval2InCourse1);
+        TestHelper.verifySameEvaluationData(expectedEval2InCourse1, actualEval2InCourse1);
     
         // for course 2, verify no evaluations returned (because the evaluation
         // in this course is still AWAITING.
@@ -1249,7 +1250,7 @@ public class LogicTest extends BaseComponentTestCase {
     
         ______TS("non-existent student");
     
-        LogicTestHelper.verifyEntityDoesNotExistException(methodName, paramTypes,
+        TestHelper.verifyEntityDoesNotExistException(methodName, paramTypes,
                 new Object[] { "non-existent" });
     
         ______TS("null parameter");
@@ -1343,16 +1344,16 @@ public class LogicTest extends BaseComponentTestCase {
         // ensure there are entities in the datastore under this course
         assertTrue(logic.getStudentsForCourse(course1OfInstructor.id).size() != 0);
         
-        LogicTestHelper.verifyPresentInDatastore(course1OfInstructor);
-        LogicTestHelper.verifyPresentInDatastore(studentInCourse);
-        LogicTestHelper.verifyPresentInDatastore(dataBundle.evaluations.get("evaluation1InCourse1"));
-        LogicTestHelper.verifyPresentInDatastore(dataBundle.evaluations.get("evaluation2InCourse1"));
-        LogicTestHelper.verifyPresentInDatastore(dataBundle.instructors.get("instructor1OfCourse1"));
-        LogicTestHelper.verifyPresentInDatastore(dataBundle.instructors.get("instructor3OfCourse1"));
-        LogicTestHelper.verifyPresentInDatastore(dataBundle.students.get("student1InCourse1"));
-        LogicTestHelper.verifyPresentInDatastore(dataBundle.students.get("student5InCourse1"));
-        LogicTestHelper.verifyPresentInDatastore(dataBundle.feedbackSessions.get("session1InCourse1"));
-        LogicTestHelper.verifyPresentInDatastore(dataBundle.feedbackSessions.get("session2InCourse1"));
+        TestHelper.verifyPresentInDatastore(course1OfInstructor);
+        TestHelper.verifyPresentInDatastore(studentInCourse);
+        TestHelper.verifyPresentInDatastore(dataBundle.evaluations.get("evaluation1InCourse1"));
+        TestHelper.verifyPresentInDatastore(dataBundle.evaluations.get("evaluation2InCourse1"));
+        TestHelper.verifyPresentInDatastore(dataBundle.instructors.get("instructor1OfCourse1"));
+        TestHelper.verifyPresentInDatastore(dataBundle.instructors.get("instructor3OfCourse1"));
+        TestHelper.verifyPresentInDatastore(dataBundle.students.get("student1InCourse1"));
+        TestHelper.verifyPresentInDatastore(dataBundle.students.get("student5InCourse1"));
+        TestHelper.verifyPresentInDatastore(dataBundle.feedbackSessions.get("session1InCourse1"));
+        TestHelper.verifyPresentInDatastore(dataBundle.feedbackSessions.get("session2InCourse1"));
         assertEquals(course1OfInstructor.id, studentInCourse.course);
         
 
@@ -1360,21 +1361,21 @@ public class LogicTest extends BaseComponentTestCase {
     
         
         // ensure the course and related entities are deleted
-        LogicTestHelper.verifyAbsentInDatastore(course1OfInstructor);
-        LogicTestHelper.verifyAbsentInDatastore(studentInCourse);
-        LogicTestHelper.verifyAbsentInDatastore(dataBundle.evaluations.get("evaluation1InCourse1"));
-        LogicTestHelper.verifyAbsentInDatastore(dataBundle.evaluations.get("evaluation2InCourse1"));
-        LogicTestHelper.verifyAbsentInDatastore(dataBundle.instructors.get("instructor1OfCourse1"));
-        LogicTestHelper.verifyAbsentInDatastore(dataBundle.instructors.get("instructor3OfCourse1"));
-        LogicTestHelper.verifyAbsentInDatastore(dataBundle.students.get("student1InCourse1"));
-        LogicTestHelper.verifyAbsentInDatastore(dataBundle.students.get("student5InCourse1"));
-        LogicTestHelper.verifyAbsentInDatastore(dataBundle.feedbackSessions.get("session1InCourse1"));
-        LogicTestHelper.verifyAbsentInDatastore(dataBundle.feedbackSessions.get("session2InCourse1"));
+        TestHelper.verifyAbsentInDatastore(course1OfInstructor);
+        TestHelper.verifyAbsentInDatastore(studentInCourse);
+        TestHelper.verifyAbsentInDatastore(dataBundle.evaluations.get("evaluation1InCourse1"));
+        TestHelper.verifyAbsentInDatastore(dataBundle.evaluations.get("evaluation2InCourse1"));
+        TestHelper.verifyAbsentInDatastore(dataBundle.instructors.get("instructor1OfCourse1"));
+        TestHelper.verifyAbsentInDatastore(dataBundle.instructors.get("instructor3OfCourse1"));
+        TestHelper.verifyAbsentInDatastore(dataBundle.students.get("student1InCourse1"));
+        TestHelper.verifyAbsentInDatastore(dataBundle.students.get("student5InCourse1"));
+        TestHelper.verifyAbsentInDatastore(dataBundle.feedbackSessions.get("session1InCourse1"));
+        TestHelper.verifyAbsentInDatastore(dataBundle.feedbackSessions.get("session2InCourse1"));
 
         ArrayList<SubmissionAttributes> submissionsOfCourse = new ArrayList<SubmissionAttributes>(dataBundle.submissions.values());
         for (SubmissionAttributes s : submissionsOfCourse) {
             if (s.course.equals(course1OfInstructor.id)) {
-                LogicTestHelper.verifyAbsentInDatastore(s);
+                TestHelper.verifyAbsentInDatastore(s);
             }
         }
     
@@ -1412,12 +1413,12 @@ public class LogicTest extends BaseComponentTestCase {
         //reuse existing student to create a new student
         StudentAttributes newStudent = dataBundle.students.get("student1InCourse1");
         newStudent.email = "new@student.com";
-        LogicTestHelper.verifyAbsentInDatastore(newStudent);
+        TestHelper.verifyAbsentInDatastore(newStudent);
         
         List<SubmissionAttributes> submissionsBeforeAdding = submissionsLogic.getSubmissionsForCourse(newStudent.course);
         
         logic.createStudent(newStudent);
-        LogicTestHelper.verifyPresentInDatastore(newStudent);
+        TestHelper.verifyPresentInDatastore(newStudent);
         
         List<SubmissionAttributes> submissionsAfterAdding = submissionsLogic.getSubmissionsForCourse(newStudent.course);
         
@@ -1688,7 +1689,7 @@ public class LogicTest extends BaseComponentTestCase {
 
         ______TS("non-existent course");
         
-        LogicTestHelper.verifyEntityDoesNotExistException(methodName, paramTypes,
+        TestHelper.verifyEntityDoesNotExistException(methodName, paramTypes,
                 new Object[] { "non-existent" });
     }
 
@@ -1731,11 +1732,11 @@ public class LogicTest extends BaseComponentTestCase {
         student1InCourse1.email = student1InCourse1.email + "x";
         student1InCourse1.team = "Team 1.2";
         logic.updateStudent(originalEmail, student1InCourse1);        
-        LogicTestHelper.verifyPresentInDatastore(student1InCourse1);
+        TestHelper.verifyPresentInDatastore(student1InCourse1);
         
         // check for cascade
         List<SubmissionAttributes> submissionsAfterEdit = submissionsLogic.getSubmissionsForCourse(student1InCourse1.course);        
-        LogicTestHelper.verifySubmissionsExistForCurrentTeamStructureInAllExistingEvaluations(submissionsAfterEdit,
+        TestHelper.verifySubmissionsExistForCurrentTeamStructureInAllExistingEvaluations(submissionsAfterEdit,
                 student1InCourse1.course);
         
         ______TS("null parameters");
@@ -1811,7 +1812,7 @@ public class LogicTest extends BaseComponentTestCase {
         
         // Check that an account with the student's google ID was created
         studentAccount = logic.getAccount(googleId);
-        LogicTestHelper.verifyPresentInDatastore(studentAccount); 
+        TestHelper.verifyPresentInDatastore(studentAccount); 
         AccountAttributes accountOfInstructorOfCourse = dataBundle.accounts.get("instructor1OfCourse1");
         assertEquals(accountOfInstructorOfCourse.institute, studentAccount.institute);// Test that student account was appended with the correct Institute
                 
@@ -1861,11 +1862,11 @@ public class LogicTest extends BaseComponentTestCase {
         StudentAttributesFactory saf = new StudentAttributesFactory();
         assertEquals(5, enrollResults.size());
         assertEquals(5, logic.getStudentsForCourse(courseId).size());
-        LogicTestHelper.verifyEnrollmentResultForStudent(saf.makeStudent(line0, courseId),
+        TestHelper.verifyEnrollmentResultForStudent(saf.makeStudent(line0, courseId),
                 enrollResults.get(0), StudentAttributes.UpdateStatus.NEW);
-        LogicTestHelper.verifyEnrollmentResultForStudent(saf.makeStudent(line1, courseId),
+        TestHelper.verifyEnrollmentResultForStudent(saf.makeStudent(line1, courseId),
                 enrollResults.get(1), StudentAttributes.UpdateStatus.NEW);
-        LogicTestHelper.verifyEnrollmentResultForStudent(saf.makeStudent(line4, courseId),
+        TestHelper.verifyEnrollmentResultForStudent(saf.makeStudent(line4, courseId),
                 enrollResults.get(4), StudentAttributes.UpdateStatus.NEW);
         
         CourseDetailsBundle cd = logic.getCourseDetails(courseId);
@@ -1879,13 +1880,13 @@ public class LogicTest extends BaseComponentTestCase {
         enrollResults = logic.enrollStudents(lines, courseId);
         assertEquals(6, enrollResults.size());
         assertEquals(6, logic.getStudentsForCourse(courseId).size());
-        LogicTestHelper.verifyEnrollmentResultForStudent(saf.makeStudent(line0, courseId),
+        TestHelper.verifyEnrollmentResultForStudent(saf.makeStudent(line0, courseId),
                 enrollResults.get(0), StudentAttributes.UpdateStatus.UNMODIFIED);
-        LogicTestHelper.verifyEnrollmentResultForStudent(saf.makeStudent(line0_1, courseId),
+        TestHelper.verifyEnrollmentResultForStudent(saf.makeStudent(line0_1, courseId),
                 enrollResults.get(1), StudentAttributes.UpdateStatus.MODIFIED);
-        LogicTestHelper.verifyEnrollmentResultForStudent(saf.makeStudent(line1, courseId),
+        TestHelper.verifyEnrollmentResultForStudent(saf.makeStudent(line1, courseId),
                 enrollResults.get(2), StudentAttributes.UpdateStatus.UNMODIFIED);
-        LogicTestHelper.verifyEnrollmentResultForStudent(saf.makeStudent(line5, courseId),
+        TestHelper.verifyEnrollmentResultForStudent(saf.makeStudent(line5, courseId),
                 enrollResults.get(3), StudentAttributes.UpdateStatus.NEW);
         assertEquals(StudentAttributes.UpdateStatus.NOT_IN_ENROLL_LIST,
                 enrollResults.get(4).updateStatus);
@@ -1980,8 +1981,8 @@ public class LogicTest extends BaseComponentTestCase {
         logic.updateStudent(student2InCourse1.email, student2InCourse1);
         emailsSent = logic.sendRegistrationInviteForCourse(course1.id);
         assertEquals(2, emailsSent.size());
-        LogicTestHelper.verifyJoinInviteToStudent(student2InCourse1, emailsSent.get(0));
-        LogicTestHelper.verifyJoinInviteToStudent(student1InCourse1, emailsSent.get(1));
+        TestHelper.verifyJoinInviteToStudent(student2InCourse1, emailsSent.get(0));
+        TestHelper.verifyJoinInviteToStudent(student1InCourse1, emailsSent.get(1));
     
         ______TS("null parameters");
     
@@ -2008,7 +2009,7 @@ public class LogicTest extends BaseComponentTestCase {
         MimeMessage email = logic.sendRegistrationInviteToStudent(
                 student1.course, student1.email);
     
-        LogicTestHelper.verifyJoinInviteToStudent(student1, email);
+        TestHelper.verifyJoinInviteToStudent(student1, email);
     
         ______TS("send to non-existing student");
     
@@ -2018,7 +2019,7 @@ public class LogicTest extends BaseComponentTestCase {
         Class<?>[] paramTypes = new Class<?>[] { String.class, String.class };
     
     
-        LogicTestHelper.verifyEntityDoesNotExistException(methodName, paramTypes, new Object[] {
+        TestHelper.verifyEntityDoesNotExistException(methodName, paramTypes, new Object[] {
                 student1.course, "non@existent" });
     
         ______TS("null parameters");
@@ -2073,7 +2074,7 @@ public class LogicTest extends BaseComponentTestCase {
         for (StudentAttributes s : studentList) {
             if(!s.name.equals("student1 In Course1")){
                 String errorMessage = "No email sent to " + s.email;
-                assertTrue(errorMessage, LogicTestHelper.getEmailToStudent(s, emailsSent) != null);
+                assertTrue(errorMessage, TestHelper.getEmailToStudent(s, emailsSent) != null);
             }
         }
     
@@ -2107,7 +2108,7 @@ public class LogicTest extends BaseComponentTestCase {
             if (s.team.equals("Team 1.1") && !s.name.equals("student1 In Course1")) {
                 String errorMessage = "No email sent to " + s.email;
                 assertTrue(errorMessage,
-                        LogicTestHelper.getEmailToStudent(s, emailsSent) != null);
+                        TestHelper.getEmailToStudent(s, emailsSent) != null);
             }
         }
     
@@ -2143,35 +2144,35 @@ public class LogicTest extends BaseComponentTestCase {
         // this is the student to be deleted
         StudentAttributes student2InCourse1 = dataBundle.students
                 .get("student2InCourse1");
-        LogicTestHelper.verifyPresentInDatastore(student2InCourse1);
+        TestHelper.verifyPresentInDatastore(student2InCourse1);
 
         // ensure student-to-be-deleted has some submissions
         SubmissionAttributes submissionFromS1C1ToS2C1 = dataBundle.submissions
                 .get("submissionFromS1C1ToS2C1");
-        LogicTestHelper.verifyPresentInDatastore(submissionFromS1C1ToS2C1);
+        TestHelper.verifyPresentInDatastore(submissionFromS1C1ToS2C1);
 
         SubmissionAttributes submissionFromS2C1ToS1C1 = dataBundle.submissions
                 .get("submissionFromS2C1ToS1C1");
-        LogicTestHelper.verifyPresentInDatastore(submissionFromS2C1ToS1C1);
+        TestHelper.verifyPresentInDatastore(submissionFromS2C1ToS1C1);
 
         SubmissionAttributes submissionFromS1C1ToS1C1 = dataBundle.submissions
                 .get("submissionFromS1C1ToS1C1");
-        LogicTestHelper.verifyPresentInDatastore(submissionFromS1C1ToS1C1);
+        TestHelper.verifyPresentInDatastore(submissionFromS1C1ToS1C1);
 
         logic.deleteStudent(student2InCourse1.course, student2InCourse1.email);
-        LogicTestHelper.verifyAbsentInDatastore(student2InCourse1);
+        TestHelper.verifyAbsentInDatastore(student2InCourse1);
 
         // verify that other students in the course are intact
         StudentAttributes student1InCourse1 = dataBundle.students
                 .get("student1InCourse1");
-        LogicTestHelper.verifyPresentInDatastore(student1InCourse1);
+        TestHelper.verifyPresentInDatastore(student1InCourse1);
 
         // verify that submissions are deleted
-        LogicTestHelper.verifyAbsentInDatastore(submissionFromS1C1ToS2C1);
-        LogicTestHelper.verifyAbsentInDatastore(submissionFromS2C1ToS1C1);
+        TestHelper.verifyAbsentInDatastore(submissionFromS1C1ToS2C1);
+        TestHelper.verifyAbsentInDatastore(submissionFromS2C1ToS1C1);
 
         // verify other student's submissions are intact
-        LogicTestHelper.verifyPresentInDatastore(submissionFromS1C1ToS1C1);
+        TestHelper.verifyPresentInDatastore(submissionFromS1C1ToS1C1);
 
         ______TS("delete non-existent student");
 
@@ -2211,11 +2212,11 @@ public class LogicTest extends BaseComponentTestCase {
         restoreTypicalDataInDatastore();
 
         evaluation = dataBundle.evaluations.get("evaluation1InCourse1");
-        LogicTestHelper.verifyPresentInDatastore(evaluation);
+        TestHelper.verifyPresentInDatastore(evaluation);
         logic.deleteEvaluation(evaluation.courseId, evaluation.name);
-        LogicTestHelper.verifyAbsentInDatastore(evaluation);
+        TestHelper.verifyAbsentInDatastore(evaluation);
         logic.createEvaluation(evaluation);
-        LogicTestHelper.verifyPresentInDatastore(evaluation);
+        TestHelper.verifyPresentInDatastore(evaluation);
 
         ______TS("Duplicate evaluation name");
 
@@ -2265,7 +2266,7 @@ public class LogicTest extends BaseComponentTestCase {
                 .get("evaluation1InCourse1");
         EvaluationAttributes actual = logic.getEvaluation(expected.courseId,
                 expected.name);
-        LogicTestHelper.verifySameEvaluationData(expected, actual);
+        TestHelper.verifySameEvaluationData(expected, actual);
 
         ______TS("null parameters");
 
@@ -2367,7 +2368,7 @@ public class LogicTest extends BaseComponentTestCase {
     
         
         
-        LogicTestHelper.verifyEntityDoesNotExistException(methodName, paramTypes,
+        TestHelper.verifyEntityDoesNotExistException(methodName, paramTypes,
                 new Object[] { "non-existent" });
     }
 
@@ -2393,7 +2394,7 @@ public class LogicTest extends BaseComponentTestCase {
                 .get("evaluation1InCourse1");
     
         // @formatter:off
-        LogicTestHelper.setPointsForSubmissions(new int[][] { 
+        TestHelper.setPointsForSubmissions(new int[][] { 
                 { 100, 100, 100, 100 },
                 { 110, 110, NSU, 110 }, 
                 { NSB, NSB, NSB, NSB },
@@ -2531,17 +2532,17 @@ public class LogicTest extends BaseComponentTestCase {
     
         ______TS("non-existent course");
     
-        LogicTestHelper.verifyEntityDoesNotExistException(methodName, paramTypes, new Object[] {
+        TestHelper.verifyEntityDoesNotExistException(methodName, paramTypes, new Object[] {
                 course.id, "non existent evaluation" });
     
-        LogicTestHelper.verifyEntityDoesNotExistException(methodName, paramTypes, new Object[] {
+        TestHelper.verifyEntityDoesNotExistException(methodName, paramTypes, new Object[] {
                 "non-existent-course", "any name" });
     
         ______TS("data used in UI tests");
     
         // @formatter:off
     
-        LogicTestHelper.createNewEvaluationWithSubmissions("courseForTestingER", "Eval 1",
+        TestHelper.createNewEvaluationWithSubmissions("courseForTestingER", "Eval 1",
                 new int[][] { 
                 { 110, 100, 110 }, 
                 {  90, 110, NSU },
@@ -2596,7 +2597,7 @@ public class LogicTest extends BaseComponentTestCase {
         
         ______TS("Non-existent Course/Eval");
         
-        LogicTestHelper.verifyEntityDoesNotExistException(methodName, paramTypes,
+        TestHelper.verifyEntityDoesNotExistException(methodName, paramTypes,
                 new Object[] { "non.existent", "Non Existent" });
         
         ______TS("Null parameters");
@@ -2694,7 +2695,7 @@ public class LogicTest extends BaseComponentTestCase {
         
     
         // @formatter:off
-        LogicTestHelper.setPointsForSubmissions(new int[][] 
+        TestHelper.setPointsForSubmissions(new int[][] 
                 { { 100, 100, 100, 100 },
                   { 110, 110, NSU, 110 }, 
                   { NSB, NSB, NSB, NSB },
@@ -2780,12 +2781,12 @@ public class LogicTest extends BaseComponentTestCase {
     
         ______TS("non-existent course");
     
-        LogicTestHelper.verifyEntityDoesNotExistException(methodName, paramTypes, new Object[] {
+        TestHelper.verifyEntityDoesNotExistException(methodName, paramTypes, new Object[] {
                 "non-existent-course", evaluation.name, student1email });
     
         ______TS("non-existent evaluation");
     
-        LogicTestHelper.verifyEntityDoesNotExistException(methodName, paramTypes, new Object[] {
+        TestHelper.verifyEntityDoesNotExistException(methodName, paramTypes, new Object[] {
                 course.id, "non existent eval", student1email });
     
         ______TS("non-existent student");
@@ -2832,9 +2833,9 @@ public class LogicTest extends BaseComponentTestCase {
         eval.startTime = TimeHelper.getDateOffsetToCurrentTime(-1);
         eval.endTime = TimeHelper.getDateOffsetToCurrentTime(2);
         //we don't modify derived attributes here because they cannot be updated this way.
-        LogicTestHelper.invokeEditEvaluation(eval);
+        TestHelper.invokeEditEvaluation(eval);
 
-        LogicTestHelper.verifyPresentInDatastore(eval);
+        TestHelper.verifyPresentInDatastore(eval);
 
         ______TS("null parameters");
 
@@ -2859,7 +2860,7 @@ public class LogicTest extends BaseComponentTestCase {
         eval.startTime = TimeHelper.getDateOffsetToCurrentTime(1);
         eval.endTime = TimeHelper.getDateOffsetToCurrentTime(0);
         try {
-            LogicTestHelper.invokeEditEvaluation(eval);
+            TestHelper.invokeEditEvaluation(eval);
             Assert.fail();
         } catch (InvalidParametersException e) {
             String errorMessage = String.format(TIME_FRAME_ERROR_MESSAGE,
@@ -2945,7 +2946,7 @@ public class LogicTest extends BaseComponentTestCase {
         ______TS("non-existent");
 
         for (int i = 0; i < params.length; i++) {
-            LogicTestHelper.verifyEntityDoesNotExistException(methodNames[i], paramTypes,
+            TestHelper.verifyEntityDoesNotExistException(methodNames[i], paramTypes,
                     new Object[] { "non-existent", "non-existent" });
         }
         ______TS("null parameters");
@@ -2980,19 +2981,19 @@ public class LogicTest extends BaseComponentTestCase {
     
         EvaluationAttributes eval = dataBundle.evaluations
                 .get("evaluation1InCourse1");
-        LogicTestHelper.verifyPresentInDatastore(eval);
+        TestHelper.verifyPresentInDatastore(eval);
         // verify there are submissions under this evaluation
         SubmissionAttributes submission = dataBundle.submissions
                 .get("submissionFromS1C1ToS1C1");
-        LogicTestHelper.verifyPresentInDatastore(submission);
+        TestHelper.verifyPresentInDatastore(submission);
     
         logic.deleteEvaluation(eval.courseId, eval.name);
-        LogicTestHelper.verifyAbsentInDatastore(eval);
+        TestHelper.verifyAbsentInDatastore(eval);
         // verify submissions are deleted too
         ArrayList<SubmissionAttributes> submissionsOfEvaluation = new ArrayList<SubmissionAttributes>(dataBundle.submissions.values());
         for (SubmissionAttributes s : submissionsOfEvaluation) {
             if (s.evaluation.equals(eval.name)) {
-                LogicTestHelper.verifyAbsentInDatastore(s);
+                TestHelper.verifyAbsentInDatastore(s);
             }
         }
     
@@ -3164,25 +3165,25 @@ public class LogicTest extends BaseComponentTestCase {
                 .get("submissionFromS2C1ToS1C1");
 
         // checking editing of one of the submissions
-        LogicTestHelper.alterSubmission(sub1);
+        TestHelper.alterSubmission(sub1);
 
         submissionContainer.add(sub1);
         logic.updateSubmissions(submissionContainer);
 
-        LogicTestHelper.verifyPresentInDatastore(sub1);
-        LogicTestHelper.verifyPresentInDatastore(sub2);
+        TestHelper.verifyPresentInDatastore(sub1);
+        TestHelper.verifyPresentInDatastore(sub2);
 
         // check editing both submissions
-        LogicTestHelper.alterSubmission(sub1);
-        LogicTestHelper.alterSubmission(sub2);
+        TestHelper.alterSubmission(sub1);
+        TestHelper.alterSubmission(sub2);
 
         submissionContainer = new ArrayList<SubmissionAttributes>();
         submissionContainer.add(sub1);
         submissionContainer.add(sub2);
         logic.updateSubmissions(submissionContainer);
 
-        LogicTestHelper.verifyPresentInDatastore(sub1);
-        LogicTestHelper.verifyPresentInDatastore(sub2);
+        TestHelper.verifyPresentInDatastore(sub1);
+        TestHelper.verifyPresentInDatastore(sub2);
 
         ______TS("non-existent evaluation");
 

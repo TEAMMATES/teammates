@@ -1,4 +1,4 @@
-package teammates.test.cases.logic;
+package teammates.test.util;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
@@ -48,7 +48,7 @@ import teammates.test.driver.AssertHelper;
 import com.google.appengine.api.datastore.Text;
 import com.google.gson.Gson;
 
-public class LogicTestHelper extends BaseComponentTestCase{
+public class TestHelper extends BaseComponentTestCase{
     
     private static final Logic logic = new Logic();
     protected static SubmissionsLogic submissionsLogic = SubmissionsLogic.inst();

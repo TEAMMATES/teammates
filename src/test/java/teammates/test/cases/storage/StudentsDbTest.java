@@ -20,8 +20,8 @@ import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.storage.api.StudentsDb;
 import teammates.test.cases.BaseComponentTestCase;
-import teammates.test.cases.logic.LogicTestHelper;
 import teammates.test.driver.AssertHelper;
+import teammates.test.util.TestHelper;
 
 public class StudentsDbTest extends BaseComponentTestCase {
     
@@ -55,12 +55,12 @@ public class StudentsDbTest extends BaseComponentTestCase {
                             REASON_INCORRECT_FORMAT),
                     e.getMessage());
         }
-        LogicTestHelper.verifyAbsentInDatastore(s);
+        TestHelper.verifyAbsentInDatastore(s);
 
         ______TS("success : valid params");
         s.course = "valid-course";
         studentsDb.createEntity(s);
-        LogicTestHelper.verifyPresentInDatastore(s);
+        TestHelper.verifyPresentInDatastore(s);
         StudentAttributes retrievedStudent = studentsDb.getStudentForGoogleId(s.course, s.googleId);
         assertEquals(true, retrievedStudent.isEnrollInfoSameAs(s));
         assertEquals(null, studentsDb.getStudentForGoogleId(s.course + "not existing", s.googleId));
