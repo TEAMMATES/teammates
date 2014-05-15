@@ -44,7 +44,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         
         instructorsLogic.addInstructor(instr.courseId, instr.name, instr.email);
         
-        LogicTest.verifyPresentInDatastore(instr);
+        LogicTestHelper.verifyPresentInDatastore(instr);
         
         ______TS("failure: instructor already exists");
         
@@ -393,7 +393,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         
         instructorsLogic.deleteInstructor(courseId, email);
         
-        LogicTest.verifyAbsentInDatastore(instructorDeleted);
+        LogicTestHelper.verifyAbsentInDatastore(instructorDeleted);
     }
 
     @Test

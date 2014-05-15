@@ -78,7 +78,7 @@ public class SubmissionsLogicTest extends BaseComponentTestCase{
         // Check if the returned submissions match the current team structure
         List<StudentAttributes> students = logic
                 .getStudentsForCourse(evaluation.courseId);
-        LogicTest.verifySubmissionsExistForCurrentTeamStructureInEvaluation(
+        LogicTestHelper.verifySubmissionsExistForCurrentTeamStructureInEvaluation(
                 evaluation.name, students, new ArrayList<SubmissionAttributes>(
                         submissions.values()));
 
@@ -121,9 +121,9 @@ public class SubmissionsLogicTest extends BaseComponentTestCase{
         SubmissionAttributes sub1 = dataBundle.submissions
                 .get("submissionFromS1C1ToS2C1");
 
-        LogicTest.alterSubmission(sub1);
+        LogicTestHelper.alterSubmission(sub1);
         submissionsLogic.updateSubmission(sub1);
-        LogicTest.verifyPresentInDatastore(sub1);
+        LogicTestHelper.verifyPresentInDatastore(sub1);
 
         ______TS("null parameter");
         

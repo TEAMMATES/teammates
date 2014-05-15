@@ -266,7 +266,7 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         
         for (StudentAttributes s : studentList) {
             String errorMessage = "No email sent to " + s.email;
-            MimeMessage emailToStudent = LogicTest.getEmailToStudent(s, emailsSent);
+            MimeMessage emailToStudent = LogicTestHelper.getEmailToStudent(s, emailsSent);
             assertTrue(errorMessage, emailToStudent != null);
             AssertHelper.assertContains(Emails.SUBJECT_PREFIX_STUDENT_EVALUATION_PUBLISHED,
                     emailToStudent.getSubject());
@@ -292,7 +292,7 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         eval.timeZone = 0;
         evaluationsLogic.updateEvaluation(eval);
 
-        LogicTest.verifyPresentInDatastore(eval);
+        LogicTestHelper.verifyPresentInDatastore(eval);
         
         ______TS("typicla case: derived attributes ignored");
         
@@ -305,7 +305,7 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         eval.published = !eval.published;
         eval.activated = !eval.activated;
 
-        LogicTest.verifyPresentInDatastore(eval);
+        LogicTestHelper.verifyPresentInDatastore(eval);
         
         ______TS("state change PUBLISHED --> OPEN ");
         
@@ -320,7 +320,7 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         eval.activated = true;
         assertEquals(EvalStatus.PUBLISHED, eval.getStatus());
         evaluationsDb.updateEvaluation(eval); //We use *Db object here because we want to persist derived attributes
-        LogicTest.verifyPresentInDatastore(eval);
+        LogicTestHelper.verifyPresentInDatastore(eval);
         
         //then, make it OPEN
         eval.endTime = TimeHelper.getMsOffsetToCurrentTimeInUserTimeZone(-milliSecondsPerMinute*(eval.gracePeriod-1), 0);
@@ -328,7 +328,7 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         
         //check if derived attributes are set correctly
         eval.published = false;
-        LogicTest.verifyPresentInDatastore(eval);
+        LogicTestHelper.verifyPresentInDatastore(eval);
         assertEquals(EvalStatus.OPEN, eval.getStatus());
         
         //Other state changes are tested at lower levels

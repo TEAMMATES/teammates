@@ -103,7 +103,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         c.commentText = new Text("New Comment from instructor2 to student3 in course 1");
         
         commentsLogic.createComment(c);
-        LogicTest.verifyPresentInDatastore(c);
+        LogicTestHelper.verifyPresentInDatastore(c);
         
         //delete afterwards
         commentsLogic.deleteComment(c);
@@ -225,7 +225,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         c.commentText = new Text("Edited comment from Instructor 3 Course 1 to Student 2 Course 1");
 
         commentsLogic.updateComment(c);
-        LogicTest.verifyPresentInDatastore(c);
+        LogicTestHelper.verifyPresentInDatastore(c);
         
         List<CommentAttributes> actual = commentsLogic.getCommentsForGiverAndReceiver(c.courseId, c.giverEmail, c.receiverEmail);
         assertEquals(1, actual.size());
@@ -246,11 +246,11 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         
         commentsLogic.deleteComment(c);
         c.courseId = existingComment1.courseId;
-        LogicTest.verifyPresentInDatastore(c);
+        LogicTestHelper.verifyPresentInDatastore(c);
         
         ______TS("typical success case");
         
         commentsLogic.deleteComment(c);
-        LogicTest.verifyAbsentInDatastore(c);
+        LogicTestHelper.verifyAbsentInDatastore(c);
     }
 }
