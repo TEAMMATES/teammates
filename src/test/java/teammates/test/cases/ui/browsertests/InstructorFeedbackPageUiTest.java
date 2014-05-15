@@ -66,13 +66,12 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     @Test
     public void allTests() throws Exception{
         testContent();
-        testResponseRateLink();//TODO: remove
+        
         testAddAction();
         testDeleteAction();
         testPublishAction();
         testUnpublishAction();
         
-        //testing response rate links due to page source problems encountered after testContent()
         testResponseRateLink();
         testViewResultsLink();
         testEditLink();
