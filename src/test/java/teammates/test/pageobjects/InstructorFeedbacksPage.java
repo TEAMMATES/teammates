@@ -182,13 +182,11 @@ public class InstructorFeedbacksPage extends AppPage {
         
         selectDropdownByVisibleValue(courseIdDropdown, courseId);
         
-        // fill in time values
-        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
-        
-        fillTimeValueIfNotNull(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, startTime, startTimeDropdown, js);
-        fillTimeValueIfNotNull(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE, endTime, endTimeDropdown, js);
-        fillTimeValueIfNotNull(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE, visibleTime, visibleTimeDropdown, js);
-        fillTimeValueIfNotNull(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, publishTime, publishTimeDropdown, js);
+        // fill in time values        
+        fillStartTime(startTime);
+        fillEndTime(endTime);
+        fillVisibleTime(visibleTime);
+        fillPublishTime(publishTime);
         
         // Fill in instructions
         if (instructions != null) {
@@ -202,6 +200,26 @@ public class InstructorFeedbacksPage extends AppPage {
     
         clickSubmitButton();
         
+    }
+    
+    public void fillStartTime (Date startTime) {
+        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
+        fillTimeValueIfNotNull(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, startTime, startTimeDropdown, js);
+    }
+    
+    public void fillEndTime (Date endTime) {
+        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
+        fillTimeValueIfNotNull(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE, endTime, endTimeDropdown, js);
+    }
+    
+    public void fillVisibleTime (Date visibleTime) {
+        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
+        fillTimeValueIfNotNull(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE, visibleTime, visibleTimeDropdown, js);
+    }
+    
+    public void fillPublishTime (Date publishTime) {
+        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
+        fillTimeValueIfNotNull(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, publishTime, publishTimeDropdown, js);
     }
     
     public void fillTimeValueIfNotNull(String timeId, Date timeValue, WebElement timeDropdown, JavascriptExecutor js) {
