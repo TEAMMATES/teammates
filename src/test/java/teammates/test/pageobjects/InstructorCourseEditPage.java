@@ -21,6 +21,9 @@ public class InstructorCourseEditPage extends AppPage {
     @FindBy(id = "instrDeleteLink1")
     private WebElement deleteInstructorLink;
     
+    @FindBy(id = "instrRemindLink2")
+    private WebElement inviteInstructorLink;
+
     @FindBy(id = "instructorid1")
     private WebElement editInstructorIdTextBox;
     
@@ -74,20 +77,24 @@ public class InstructorCourseEditPage extends AppPage {
         waitForPageToLoad();
     }
     
-    public void editInstructorName(String value) {
+    public String editInstructorName(String value) {
         fillTextBox(editInstructorNameTextBox, value);
+        return getTextBoxValue(editInstructorNameTextBox);
     }
     
-    public void editInstructorEmail(String value) {
+    public String editInstructorEmail(String value) {
         fillTextBox(editInstructorEmailTextBox, value);
+        return getTextBoxValue(editInstructorEmailTextBox);
     }
     
-    public void fillInstructorName(String value) {
+    public String fillInstructorName(String value) {
         fillTextBox(instructorNameTextBox, value);
+        return getTextBoxValue(instructorNameTextBox);
     }
     
-    public void fillInstructorEmail(String value) {
+    public String fillInstructorEmail(String value) {
         fillTextBox(instructorEmailTextBox, value);
+        return getTextBoxValue(instructorEmailTextBox);
     }
     
     public boolean clickEditInstructorLink() {
@@ -117,6 +124,11 @@ public class InstructorCourseEditPage extends AppPage {
     
     public void clickAddInstructorButton() {
         addInstructorButton.click();
+        waitForPageToLoad();
+    }
+
+    public void clickInviteInstructorLink() {
+        inviteInstructorLink.click();
         waitForPageToLoad();
     }
     
