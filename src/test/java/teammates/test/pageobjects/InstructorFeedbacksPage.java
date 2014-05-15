@@ -30,13 +30,13 @@ public class InstructorFeedbacksPage extends AppPage {
     private WebElement endTimeDropdown;
     
     @FindBy (id = "visibletime")
-    private WebElement visibleTimeDropDown;
+    private WebElement visibleTimeDropdown;
     
     @FindBy (id = "publishtime")
-    private WebElement publishTimeDropDown;
+    private WebElement publishTimeDropdown;
     
     @FindBy (id = "timezone")
-    private WebElement timezoneDropDown;
+    private WebElement timezoneDropdown;
     
     @FindBy(id = "graceperiod")
     private WebElement gracePeriodDropdown;
@@ -178,42 +178,17 @@ public class InstructorFeedbacksPage extends AppPage {
         
         fillTextBox(fsNameTextBox, feedbackSessionName);
         
-        selectDropdownByVisibleValue(timezoneDropDown, StringHelper.toUtcFormat(timeZone));
+        selectDropdownByVisibleValue(timezoneDropdown, StringHelper.toUtcFormat(timeZone));
         
         selectDropdownByVisibleValue(courseIdDropdown, courseId);
         
-        // Select start date/time
+        // fill in time values
         JavascriptExecutor js = (JavascriptExecutor) browser.driver;
-        if (startTime != null) {
-            js.executeScript("$('#" + Const.ParamsNames.FEEDBACK_SESSION_STARTDATE
-                    + "')[0].value='" + TimeHelper.formatDate(startTime) + "';");
-            selectDropdownByVisibleValue(startTimeDropdown,
-                    TimeHelper.convertToDisplayValueInTimeDropDown(startTime));
-        }
-    
-        // Select deadline date/time
-        if (endTime != null) {
-            js.executeScript("$('#" + Const.ParamsNames.FEEDBACK_SESSION_ENDDATE
-                    + "')[0].value='" + TimeHelper.formatDate(endTime) + "';");
-            selectDropdownByVisibleValue(endTimeDropdown,
-                    TimeHelper.convertToDisplayValueInTimeDropDown(endTime));
-        }
         
-        // Select custom visible date/time
-        if (visibleTime != null) {
-            js.executeScript("$('#" + Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE
-                    + "')[0].value='" + TimeHelper.formatDate(visibleTime) + "';");
-            selectDropdownByVisibleValue(visibleTimeDropDown,
-                    TimeHelper.convertToDisplayValueInTimeDropDown(visibleTime));
-        }
-    
-        // Select custom publish date/time
-        if (publishTime != null) {
-            js.executeScript("$('#" + Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE
-                    + "')[0].value='" + TimeHelper.formatDate(publishTime) + "';");
-            selectDropdownByVisibleValue(publishTimeDropDown,
-                TimeHelper.convertToDisplayValueInTimeDropDown(publishTime));
-        }    
+        fillTimeValueIfNotNull(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, startTime, startTimeDropdown, js);
+        fillTimeValueIfNotNull(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE, endTime, endTimeDropdown, js);
+        fillTimeValueIfNotNull(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE, visibleTime, visibleTimeDropdown, js);
+        fillTimeValueIfNotNull(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, publishTime, publishTimeDropdown, js);
         
         // Fill in instructions
         if (instructions != null) {
@@ -227,6 +202,15 @@ public class InstructorFeedbacksPage extends AppPage {
     
         clickSubmitButton();
         
+    }
+    
+    public void fillTimeValueIfNotNull(String timeId, Date timeValue, WebElement timeDropdown, JavascriptExecutor js) {
+        if (timeValue != null) {
+            js.executeScript("$('#" + timeId
+                    + "')[0].value='" + TimeHelper.formatDate(timeValue) + "';");
+            selectDropdownByVisibleValue(timeDropdown,
+                    TimeHelper.convertToDisplayValueInTimeDropDown(timeValue));
+        }
     }
     
     public void addFeedbackSession(
