@@ -151,40 +151,47 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
     }
     
     public void testCourseLinks(){
+        
+        String courseId = testData.courses.get("CHomeUiT.CS1101").id;
+        
         ______TS("link: course enroll");
-        InstructorCourseEnrollPage enrollPage = homePage.clickCourseErollLink();
+        InstructorCourseEnrollPage enrollPage = homePage.clickCourseErollLink(courseId);
         enrollPage.verifyContains("Enroll Students for CHomeUiT.CS1101");
         homePage.goToPreviousPage(InstructorHomePage.class);
         
         ______TS("link: course view");
-        InstructorCourseDetailsPage detailsPage = homePage.clickCourseViewLink();
+        InstructorCourseDetailsPage detailsPage = homePage.clickCourseViewLink(courseId);
         detailsPage.verifyContains("Course Details");
         homePage.goToPreviousPage(InstructorHomePage.class);
         
         ______TS("link: course edit");
-        InstructorCourseEditPage editPage = homePage.clickCourseEditLink();
+        InstructorCourseEditPage editPage = homePage.clickCourseEditLink(courseId);
         editPage.verifyContains("Edit Course Details");
         homePage.goToPreviousPage(InstructorHomePage.class);
         
         ______TS("link: course add evaluation");
-        InstructorEvalsPage evalsPage =  homePage.clickCourseAddEvaluationLink();
+        InstructorEvalsPage evalsPage =  homePage.clickCourseAddEvaluationLink(courseId);
         evalsPage.verifyContains("Add New Evaluation Session");
         homePage.goToPreviousPage(InstructorHomePage.class);
     }
     
     public void testEvaluationLinks(){
+        
+        String courseId = testData.courses.get("CHomeUiT.CS1101").id;
+        String evaluation = testData.evaluations.get("Fourth Eval").name;
+        
         ______TS("link: evaluation view results");
-        InstructorEvalResultsPage evalResultsPage = homePage.clickSessionViewResultsLink();
+        InstructorEvalResultsPage evalResultsPage = homePage.clickSessionViewResultsLink(courseId, evaluation);
         evalResultsPage.verifyContains("Evaluation Results");
         homePage.goToPreviousPage(InstructorHomePage.class);
         
         ______TS("link: evaluation edit");
-        InstructorEvalEditPage evalEditPage = homePage.clickSessionEditLink();
+        InstructorEvalEditPage evalEditPage = homePage.clickSessionEditLink(courseId, evaluation);
         evalEditPage.verifyContains("Edit Evaluation");
         homePage.goToPreviousPage(InstructorHomePage.class);
         
         ______TS("link: evaluation preview");
-        InstructorEvalPreview evalPreviewPage = homePage.clickSessionPreviewLink();
+        InstructorEvalPreview evalPreviewPage = homePage.clickSessionPreviewLink(courseId, evaluation);
         evalPreviewPage.verifyContains("Previewing Evaluation as");
         evalPreviewPage.closeCurrentWindowAndSwitchToParentWindow();
     }

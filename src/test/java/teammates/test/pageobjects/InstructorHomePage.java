@@ -24,27 +24,6 @@ public class InstructorHomePage extends AppPage {
     @FindBy(id = "sortbydate")
     private WebElement sortByDateButton;
     
-    @FindBy(className = "t_course_enroll0")
-    private WebElement courseEnrollLink;
-    
-    @FindBy(className = "t_course_view0")
-    private WebElement courseViewLink;
-    
-    @FindBy(className = "t_course_edit0")
-    private WebElement courseEditLink;
-    
-    @FindBy(className = "t_course_add_eval0")
-    private WebElement courseAddEvaluationLink;
-    
-    @FindBy(className = "t_session_view0")
-    private WebElement sessionViewResultsLink;
-    
-    @FindBy(className = "t_session_edit0")
-    private WebElement sessionEditLink;
-    
-    @FindBy(className = "t_session_preview0")
-    private WebElement sessionPreviewLink;
-    
     public InstructorHomePage(Browser browser){
         super(browser);
     }
@@ -80,44 +59,44 @@ public class InstructorHomePage extends AppPage {
         waitForPageToLoad();
     }
     
-    public InstructorCourseEnrollPage clickCourseErollLink() {
-        courseEnrollLink.click();
+    public InstructorCourseEnrollPage clickCourseErollLink(String courseId) {
+        getLinkInRow("t_course_enroll", getCourseRowId(courseId)).click();
         waitForPageToLoad();
         return changePageType(InstructorCourseEnrollPage.class);
     }
     
-    public InstructorCourseDetailsPage clickCourseViewLink() {
-        courseViewLink.click();
+    public InstructorCourseDetailsPage clickCourseViewLink(String courseId) {
+        getLinkInRow("t_course_view", getCourseRowId(courseId)).click();
         waitForPageToLoad();
         return changePageType(InstructorCourseDetailsPage.class);
     }
     
-    public InstructorCourseEditPage clickCourseEditLink() {
-        courseEditLink.click();
+    public InstructorCourseEditPage clickCourseEditLink(String courseId) {
+        getLinkInRow("t_course_edit", getCourseRowId(courseId)).click();
         waitForPageToLoad();
         return changePageType(InstructorCourseEditPage.class);
     }
     
-    public InstructorEvalsPage clickCourseAddEvaluationLink() {
-        courseAddEvaluationLink.click();
+    public InstructorEvalsPage clickCourseAddEvaluationLink(String courseId) {
+        getLinkInRow("t_course_add_eval", getCourseRowId(courseId)).click();
         waitForPageToLoad();
         return changePageType(InstructorEvalsPage.class);
     }
     
-    public InstructorEvalResultsPage clickSessionViewResultsLink() {
-        sessionViewResultsLink.click();
+    public InstructorEvalResultsPage clickSessionViewResultsLink(String courseId, String evalName) {
+        getViewResultsLink(courseId, evalName).click();
         waitForPageToLoad();
         return changePageType(InstructorEvalResultsPage.class);
     }
     
-    public InstructorEvalEditPage clickSessionEditLink() {
-        sessionEditLink.click();
+    public InstructorEvalEditPage clickSessionEditLink(String courseId, String evalName) {
+        getEditLink(courseId, evalName).click();
         waitForPageToLoad();
         return changePageType(InstructorEvalEditPage.class);
     }
     
-    public InstructorEvalPreview clickSessionPreviewLink() {
-        sessionPreviewLink.click();
+    public InstructorEvalPreview clickSessionPreviewLink(String courseId, String evalName) {
+        getPreviewLink(courseId, evalName).click();
         waitForPageToLoad();
         switchToNewWindow();
         return changePageType(InstructorEvalPreview.class);
@@ -148,6 +127,18 @@ public class InstructorHomePage extends AppPage {
         js.executeScript("arguments[0].href=arguments[1]", element, newValue );
     }
 
+    public WebElement getViewResultsLink(String courseId, String evalName) {
+        return getLinkInRow("t_session_view", getEvaluationRowId(courseId, evalName));
+    }
+    
+    public WebElement getEditLink(String courseId, String evalName) {
+        return getLinkInRow("t_session_edit", getEvaluationRowId(courseId, evalName));
+    }
+    
+    public WebElement getPreviewLink(String courseId, String evalName) {
+        return getLinkInRow("t_session_preview", getEvaluationRowId(courseId, evalName));
+    }
+    
     public WebElement getRemindLink(String courseId, String evalName) {
         return getLinkInRow("t_session_remind", getEvaluationRowId(courseId, evalName));
     }
@@ -169,6 +160,12 @@ public class InstructorHomePage extends AppPage {
     }
     
     public InstructorHomePage clickArchiveCourseLink(String courseId){
+        getLinkInRow("t_course_archive", getCourseRowId(courseId)).click();
+        waitForPageToLoad();
+        return this;
+    }
+    
+    public InstructorHomePage getArchiveCourseLink(String courseId){
         getLinkInRow("t_course_archive", getCourseRowId(courseId)).click();
         waitForPageToLoad();
         return this;
