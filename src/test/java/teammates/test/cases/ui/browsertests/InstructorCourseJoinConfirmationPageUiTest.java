@@ -41,7 +41,7 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
     @Test
     public void testJoinConfirmation() throws Exception {
         
-        ______TS("click join link then cancel");
+        ______TS("Click join link then cancel");
         
         String joinActionUrl = TestProperties.inst().TEAMMATES_URL
                 + Const.ActionURIs.INSTRUCTOR_COURSE_JOIN;
@@ -52,24 +52,24 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         
         browser.driver.get(joinLink);
         confirmationPage =
-                createCorretLoginPageType(browser.driver.getPageSource())
+                createCorrectLoginPageType(browser.driver.getPageSource())
                         .loginAsJoiningInstructor(
                                 TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT,
                                 TestProperties.inst().TEST_INSTRUCTOR_PASSWORD);
         confirmationPage.clickCancelButton();
         
-        ______TS("click join link then confirm: fail: invalid key");
+        ______TS("Click join link then confirm: fail: invalid key");
         
         browser.driver.get(joinLink);
         confirmationPage =
-                createCorretLoginPageType(browser.driver.getPageSource())
+                createCorrectLoginPageType(browser.driver.getPageSource())
                         .loginAsJoiningInstructor(
                                 TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT,
                                 TestProperties.inst().TEST_INSTRUCTOR_PASSWORD);
         InstructorHomePage instructorHome = confirmationPage.clickConfirmButton();
         instructorHome.verifyHtml("/instructorHomeInvalidKey.html");
         
-        ______TS("click join link then confirm: success: valid key");
+        ______TS("Click join link then confirm: success: valid key");
 
         String courseId = testData.courses.get("ICJConfirmationUiT.CS1101").id;
         String instructorEmail = testData.instructors
@@ -85,7 +85,7 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         instructorHome = confirmationPage.clickConfirmButton();
         instructorHome.verifyHtml("/InstructorHomeJoined.html");
         
-        ______TS("already joined, no confirmation page");
+        ______TS("Already joined, no confirmation page");
                 
         browser.driver.get(joinLink);
         instructorHome = createNewPage(browser, InstructorHomePage.class);
@@ -97,7 +97,7 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         BrowserPool.release(browser);
     }
     
-    private LoginPage createCorretLoginPageType(String pageSource) {
+    private LoginPage createCorrectLoginPageType(String pageSource) {
         if (DevServerLoginPage.containsExpectedPageContents(pageSource)) {
             return (LoginPage) createNewPage(browser, DevServerLoginPage.class);
         } else if (GoogleLoginPage.containsExpectedPageContents(pageSource)) {
