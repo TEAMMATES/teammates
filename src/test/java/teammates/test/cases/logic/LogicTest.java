@@ -211,38 +211,6 @@ public class LogicTest extends BaseComponentTestCase {
         gaeSimulation.logoutUser();
         assertEquals(null, logic.getCurrentUser());
     }
-    
-    @SuppressWarnings("unused")
-    private void ____ACCOUNT_level_methods____________________________________() {
-    }
-    
-    @SuppressWarnings("deprecation")
-    @Test
-    public void testGetInstructorAccounts() throws Exception{
-        
-        restoreTypicalDataInDatastore();
-
-        ______TS("success case");
-        
-        List<AccountAttributes> instructorAccounts = logic.getInstructorAccounts();
-        int size = instructorAccounts.size();
-        
-        logic.createAccount("test.account", "Test Account", true, "test@account.com", "Foo University");
-        instructorAccounts = logic.getInstructorAccounts();
-        assertEquals(instructorAccounts.size(), size + 1);
-        
-        logic.deleteAccount("test.account");
-        instructorAccounts = logic.getInstructorAccounts();
-        assertEquals(instructorAccounts.size(), size);
-    }
-    
-    //TODO: add unit tests for other ACCOUNT-level methods
-    /*
-        createAccount(String, String, boolean, String, String)
-        getAccount(String)
-        updateAccount(AccountAttributes)
-        deleteAccount(String)
-     */
 
     @SuppressWarnings("unused")
     private void ____INSTRUCTOR_level_methods____________________________________() {

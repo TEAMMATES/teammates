@@ -4,7 +4,7 @@ import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.assertFalse;
 import static org.testng.AssertJUnit.assertEquals;
 
-import java.util.logging.Logger;
+import java.util.List;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -20,7 +20,6 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
-import teammates.common.util.Utils;
 import teammates.logic.api.Logic;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.InstructorsLogic;
@@ -41,6 +40,25 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         turnLoggingUp(AccountsLogic.class);
     }
 
+    @SuppressWarnings("deprecation")
+    @Test
+    public void testGetInstructorAccounts() throws Exception{
+        
+        restoreTypicalDataInDatastore();
+
+        ______TS("success case");
+        
+        List<AccountAttributes> instructorAccounts = logic.getInstructorAccounts();
+        int size = instructorAccounts.size();
+        
+        logic.createAccount("test.account", "Test Account", true, "test@account.com", "Foo University");
+        instructorAccounts = logic.getInstructorAccounts();
+        assertEquals(instructorAccounts.size(), size + 1);
+        
+        logic.deleteAccount("test.account");
+        instructorAccounts = logic.getInstructorAccounts();
+        assertEquals(instructorAccounts.size(), size);
+    }
 
     @Test
     public void testCreateAccount() throws Exception {
