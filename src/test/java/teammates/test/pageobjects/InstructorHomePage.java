@@ -24,6 +24,18 @@ public class InstructorHomePage extends AppPage {
     @FindBy(id = "sortbydate")
     private WebElement sortByDateButton;
     
+    @FindBy(className = "t_course_enroll0")
+    private WebElement courseEnrollLink;
+    
+    @FindBy(className = "t_course_view0")
+    private WebElement courseViewLink;
+    
+    @FindBy(className = "t_course_edit0")
+    private WebElement courseEditLink;
+    
+    @FindBy(className = "t_course_add_eval0")
+    private WebElement courseAddEvaluationLink;
+    
     public InstructorHomePage(Browser browser){
         super(browser);
     }
@@ -57,6 +69,30 @@ public class InstructorHomePage extends AppPage {
     public void clickSortByDateButton() {
         sortByDateButton.click();
         waitForPageToLoad();
+    }
+    
+    public InstructorCourseEnrollPage clickCourseErollLink() {
+        courseEnrollLink.click();
+        waitForPageToLoad();
+        return changePageType(InstructorCourseEnrollPage.class);
+    }
+    
+    public InstructorCourseDetailsPage clickCourseViewLink() {
+        courseViewLink.click();
+        waitForPageToLoad();
+        return changePageType(InstructorCourseDetailsPage.class);
+    }
+    
+    public InstructorCourseEditPage clickCourseEditLink() {
+        courseEditLink.click();
+        waitForPageToLoad();
+        return changePageType(InstructorCourseEditPage.class);
+    }
+    
+    public InstructorEvalsPage clickCourseAddEvaluationLink() {
+        courseAddEvaluationLink.click();
+        waitForPageToLoad();
+        return changePageType(InstructorEvalsPage.class);
     }
     
     public void clickHomeTab() {
