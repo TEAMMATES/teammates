@@ -1,5 +1,7 @@
 package teammates.test.pageobjects;
 
+import static org.testng.AssertJUnit.assertEquals;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -52,6 +54,15 @@ public class InstructorCourseEditPage extends AppPage {
     @Override
     protected boolean containsExpectedPageContents() {
         return getPageSource().contains("<h1>Edit Course Details</h1>");
+    }
+
+    public String getCourseId() {
+        return browser.driver.findElement(By.id("courseid")).getAttribute("value");
+    }
+
+    public InstructorCourseEditPage verifyIsCorrectPage(String courseId) {
+        assertEquals(courseId, this.getCourseId());
+        return this;
     }
     
     public void addNewInstructor(String name, String email) {
