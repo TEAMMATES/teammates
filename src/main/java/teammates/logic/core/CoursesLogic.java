@@ -342,7 +342,7 @@ public class CoursesLogic {
         return courseList;
     }
     
-    public HashMap<String, CourseDetailsBundle> getCourseSummariesForInstructor(String googleId) {
+    public HashMap<String, CourseDetailsBundle> getCourseSummariesForInstructor(String googleId) throws EntityDoesNotExistException {
         
         List<InstructorAttributes> instructorAttributesList = instructorsLogic.getInstructorsForGoogleId(googleId);
         
@@ -367,7 +367,7 @@ public class CoursesLogic {
         return courseSummaryList;
     }
  
-    public HashMap<String, CourseDetailsBundle> getCoursesDetailsForInstructor(
+    public HashMap<String, CourseDetailsBundle> getCoursesDetailsListForInstructor(
             String instructorId) throws EntityDoesNotExistException {
         
         HashMap<String, CourseDetailsBundle> courseList = 
@@ -475,7 +475,7 @@ public class CoursesLogic {
         return courseSummaryList;
     }
     
-    public String getCourseStudentListAsCsv(String courseId, String googleId) {
+    public String getCourseStudentListAsCsv(String courseId, String googleId) throws EntityDoesNotExistException {
         HashMap<String, CourseDetailsBundle> courses = getCourseSummariesForInstructor(googleId);
         CourseDetailsBundle course = courses.get(courseId);
         

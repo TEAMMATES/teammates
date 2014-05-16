@@ -1,8 +1,11 @@
 package teammates.test.cases.logic;
 
+import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNull;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.testng.annotations.BeforeClass;
@@ -14,14 +17,22 @@ import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.CourseSummaryBundle;
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.EvaluationAttributes;
+import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
+import teammates.common.datatransfer.EvaluationDetailsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
+import teammates.common.util.Const;
+import teammates.common.util.TimeHelper;
+import teammates.common.util.Utils;
+import teammates.logic.backdoor.BackDoorLogic;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
+import teammates.logic.core.InstructorsLogic;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.api.InstructorsDb;
@@ -688,26 +699,19 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
         ______TS("student having multiple evaluations in multiple courses");
     
-        restoreTypicalDataInDatastore();
-    
-        
-    
-        // Let's call this course 1. It has 2 evaluations.
         CourseAttributes expectedCourse1 = dataBundle.courses.get("typicalCourse1");
-    
+        CourseAttributes expectedCourse2 = dataBundle.courses.get("typicalCourse2");
+
         EvaluationAttributes expectedEval1InCourse1 = dataBundle.evaluations
                 .get("evaluation1InCourse1");
         EvaluationAttributes expectedEval2InCourse1 = dataBundle.evaluations
                 .get("evaluation2InCourse1");
-    
-        // Let's call this course 2. I has only 1 evaluation.
-        CourseAttributes expectedCourse2 = dataBundle.courses.get("typicalCourse2");
-    
+
         EvaluationAttributes expectedEval1InCourse2 = dataBundle.evaluations
                 .get("evaluation1InCourse2");
     
         // This student is in both course 1 and 2
-        StudentAttributes studentInTwoCourses = dataBundle.students
+        StudentAttributes studentInBothCourses = dataBundle.students
                 .get("student2InCourse1");
     
         // Make sure all evaluations in course1 are visible (i.e., not AWAITING)
@@ -731,27 +735,27 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         backDoorLogic.updateEvaluation(expectedEval1InCourse2);
     
         // Get course details for student
-        List<CourseDetailsBundle> courseList = logic
-                .getCourseDetailsListForStudent(studentInTwoCourses.googleId);
+        List<CourseDetailsBundle> courseList = coursesLogic
+                .getCourseDetailsListForStudent(studentInBothCourses.googleId);
     
-        // verify number of courses received
+        // Verify number of courses received
         assertEquals(2, courseList.size());
     
-        // verify details of course 1 (note: index of course 1 is not 0)
+        // Verify details of course 1 (note: index of course 1 is not 0)
         CourseDetailsBundle actualCourse1 = courseList.get(1);
         assertEquals(expectedCourse1.id, actualCourse1.course.id);
         assertEquals(expectedCourse1.name, actualCourse1.course.name);
         assertEquals(2, actualCourse1.evaluations.size());
     
-        // verify details of evaluation 1 in course 1
+        // Verify details of evaluation 1 in course 1
         EvaluationAttributes actualEval1InCourse1 = actualCourse1.evaluations.get(1).evaluation;
         TestHelper.verifySameEvaluationData(expectedEval1InCourse1, actualEval1InCourse1);
     
-        // verify some details of evaluation 2 in course 1
+        // Verify some details of evaluation 2 in course 1
         EvaluationAttributes actualEval2InCourse1 = actualCourse1.evaluations.get(0).evaluation;
         TestHelper.verifySameEvaluationData(expectedEval2InCourse1, actualEval2InCourse1);
     
-        // for course 2, verify no evaluations returned (because the evaluation
+        // For course 2, verify no evaluations returned (because the evaluation
         // in this course is still AWAITING.
         CourseDetailsBundle actualCourse2 = courseList.get(0);
         assertEquals(expectedCourse2.id, actualCourse2.course.id);
@@ -762,41 +766,206 @@ public class CoursesLogicTest extends BaseComponentTestCase {
     
         StudentAttributes studentWithNoEvaluations = dataBundle.students
                 .get("student1InCourse2");
-        courseList = logic
+        courseList = coursesLogic
                 .getCourseDetailsListForStudent(studentWithNoEvaluations.googleId);
         assertEquals(1, courseList.size());
         assertEquals(0, courseList.get(0).evaluations.size());
     
-        // student with 0 courses not applicable
+        // student with no courses is not applicable
     
         ______TS("non-existent student");
     
-        TestHelper.verifyEntityDoesNotExistException(methodName, paramTypes,
-                new Object[] { "non-existent" });
-    
+        try {
+            coursesLogic.getCourseDetailsListForStudent("non-existent-student");
+        } catch (EntityDoesNotExistException e) {
+            AssertHelper.assertContains("does not exist",
+                                         e.getMessage());
+        }
+       
         ______TS("null parameter");
     
         try {
-            logic.getCourseDetailsListForStudent(null);
-            Assert.fail();
-        } catch (AssertionError a) {
-            assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+            coursesLogic.getCourseDetailsListForStudent(null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            assertEquals("Supplied parameter was null\n", e.getMessage());
         }
     }
 
     @Test
     public void testGetCourseSummariesForInstructor() throws Exception {
 
+        ______TS("Instructor with 2 courses");
+    
+        InstructorAttributes instructor = dataBundle.instructors.get("instructor3OfCourse1");
+        HashMap<String, CourseDetailsBundle> courseList = coursesLogic.getCourseSummariesForInstructor(instructor.googleId);
+        assertEquals(2, courseList.size());
+        for (CourseDetailsBundle cdd : courseList.values()) {
+            // check if course belongs to this instructor
+            assertTrue(InstructorsLogic.inst().isInstructorOfCourse(instructor.googleId, cdd.course.id));
+        }
+    
+        ______TS("Instructor with 0 courses");
+        courseList = coursesLogic.getCourseSummariesForInstructor("instructorWithoutCourses");
+        assertEquals(0, courseList.size());
+   
+        ______TS("Non-existent instructor");
+    
+        try {
+            coursesLogic.getCourseSummariesForInstructor("non-existent-student");
+        } catch (EntityDoesNotExistException e) {
+            AssertHelper.assertContains("does not exist",
+                                         e.getMessage());
+        }
+       
+        ______TS("Null parameter");
+    
+        try {
+            coursesLogic.getCourseSummariesForInstructor(null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            assertEquals("Supplied parameter was null\n", e.getMessage());
+        }
+       
     }
 
     @Test
-    public void testGetCourseDetailsForInstructor() throws Exception {
+    public void testGetCourseDetailsListForInstructor() throws Exception {
+
+        ______TS("Typical case");
+    
+        HashMap<String, CourseDetailsBundle> courseListForInstructor = coursesLogic
+                .getCoursesDetailsListForInstructor("idOfInstructor3");
+        assertEquals(2, courseListForInstructor.size());
+        String course1Id = "idOfTypicalCourse1";
+    
+        // course with 2 evaluations
+        ArrayList<EvaluationDetailsBundle> course1Evals = courseListForInstructor
+                .get(course1Id).evaluations;
+        String course1EvalDetails = "";
+        for (EvaluationDetailsBundle ed : course1Evals) {
+            course1EvalDetails = course1EvalDetails
+                    + Utils.getTeammatesGson().toJson(ed) + Const.EOL;
+        }
+        int numberOfEvalsInCourse1 = course1Evals.size();
+        assertEquals(course1EvalDetails, 2, numberOfEvalsInCourse1);
+        assertEquals(course1Id, course1Evals.get(0).evaluation.courseId);
+        TestHelper.verifyEvaluationInfoExistsInList(
+                dataBundle.evaluations.get("evaluation1InCourse1"),
+                course1Evals);
+        TestHelper.verifyEvaluationInfoExistsInList(
+                dataBundle.evaluations.get("evaluation2InCourse1"),
+                course1Evals);
+    
+        // course with 1 evaluation
+        assertEquals(course1Id, course1Evals.get(1).evaluation.courseId);
+        ArrayList<EvaluationDetailsBundle> course2Evals = courseListForInstructor
+                .get("idOfTypicalCourse2").evaluations;
+        assertEquals(1, course2Evals.size());
+        TestHelper.verifyEvaluationInfoExistsInList(
+                dataBundle.evaluations.get("evaluation1InCourse2"),
+                course2Evals);
+    
+        ______TS("Instructor has a course with 0 evaluations");
+
+        courseListForInstructor = coursesLogic
+                .getCoursesDetailsListForInstructor("idOfInstructor4");
+        assertEquals(1, courseListForInstructor.size());
+        assertEquals(0,
+                courseListForInstructor.get("idOfCourseNoEvals").evaluations
+                        .size());
+    
+        ______TS("Instructor with 0 courses");
+        courseListForInstructor = coursesLogic.getCoursesDetailsListForInstructor("instructorWithoutCourses");
+        assertEquals(0, courseListForInstructor.size());
+   
+        ______TS("Non-existent instructor");
+    
+        try {
+            coursesLogic.getCoursesDetailsListForInstructor("non-existent-student");
+        } catch (EntityDoesNotExistException e) {
+            AssertHelper.assertContains("does not exist",
+                                         e.getMessage());
+        }
+       
+        ______TS("Null parameter");
+    
+        try {
+            coursesLogic.getCoursesDetailsListForInstructor(null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            assertEquals("Supplied parameter was null\n", e.getMessage());
+        }
 
     }
 
     @Test
     public void testGetCoursesSummaryWithoutStatsForInstructor() throws Exception {
 
+         ______TS("Typical case");
+
+        HashMap<String, CourseSummaryBundle> courseListForInstructor = coursesLogic
+                .getCoursesSummaryWithoutStatsForInstructor("idOfInstructor3");
+        assertEquals(2, courseListForInstructor.size());
+        String course1Id = "idOfTypicalCourse1";
+    
+        // course with 2 evaluations
+        ArrayList<EvaluationAttributes> course1Evals = courseListForInstructor
+                .get(course1Id).evaluations;
+        String course1EvalsAttributes = "";
+        for (EvaluationAttributes evalAttr : course1Evals) {
+            course1EvalsAttributes = course1EvalsAttributes
+                    + Utils.getTeammatesGson().toJson(evalAttr) + Const.EOL;
+        }
+        int numberOfEvalsInCourse1 = course1Evals.size();
+        assertEquals(course1EvalsAttributes, 2, numberOfEvalsInCourse1);
+        assertEquals(course1Id, course1Evals.get(0).courseId);
+        TestHelper.verifyEvaluationInfoExistsInAttributeList(
+                dataBundle.evaluations.get("evaluation1InCourse1"),
+                course1Evals);
+        TestHelper.verifyEvaluationInfoExistsInAttributeList(
+                dataBundle.evaluations.get("evaluation2InCourse1"),
+                course1Evals);
+    
+        // course with 1 evaluation
+        assertEquals(course1Id, course1Evals.get(1).courseId);
+        ArrayList<EvaluationAttributes> course2Evals = courseListForInstructor
+                .get("idOfTypicalCourse2").evaluations;
+        assertEquals(1, course2Evals.size());
+        TestHelper.verifyEvaluationInfoExistsInAttributeList(
+                dataBundle.evaluations.get("evaluation1InCourse2"),
+                course2Evals);
+    
+        ______TS("Instructor has a course with 0 evaluations");
+
+        courseListForInstructor = coursesLogic
+                .getCoursesSummaryWithoutStatsForInstructor("idOfInstructor4");
+        assertEquals(1, courseListForInstructor.size());
+        assertEquals(0,
+                courseListForInstructor.get("idOfCourseNoEvals").evaluations
+                        .size());
+    
+        ______TS("Instructor with 0 courses");
+        courseListForInstructor = coursesLogic.getCoursesSummaryWithoutStatsForInstructor("instructorWithoutCourses");
+        assertEquals(0, courseListForInstructor.size());
+   
+        ______TS("Non-existent instructor");
+    
+        try {
+            coursesLogic.getCoursesSummaryWithoutStatsForInstructor("non-existent-student");
+        } catch (EntityDoesNotExistException e) {
+            AssertHelper.assertContains("does not exist",
+                                         e.getMessage());
+        }
+       
+        ______TS("Null parameter");
+    
+        try {
+            coursesLogic.getCoursesSummaryWithoutStatsForInstructor(null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            assertEquals("Supplied parameter was null\n", e.getMessage());
+        }
     }
 
     @Test

@@ -577,7 +577,7 @@ public class Logic {
         
         instructorsLogic.verifyInstructorExists(instructorId);
         
-        return coursesLogic.getCoursesDetailsForInstructor(instructorId);
+        return coursesLogic.getCoursesDetailsListForInstructor(instructorId);
     
     }
     
@@ -1043,7 +1043,8 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null. <br>
      */
-    public String getCourseStudentListAsCsv(String courseId, String googleId) {
+    public String getCourseStudentListAsCsv(String courseId, String googleId)
+            throws EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
