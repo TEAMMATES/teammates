@@ -7,6 +7,13 @@
   	  "email": "teammates.test1@gmail.com",
   	  "institute": "National University of Singapore"
   	},
+  	"instructorWithSessions2": {
+      "googleId": "CFeedbackUiT.instructor2",
+      "name": "Teammates Test2",
+      "isInstructor": true,
+      "email": "teammates.test2@gmail.com",
+      "institute": "National University of Singapore"
+    },
   	"instructorWithoutCourses": {
   	  "googleId": "CFeedbackUiT.nocourses",
   	  "name": "instructor Without Courses",
@@ -59,6 +66,18 @@
       "courseId": "CFeedbackUiT.CS1101",
       "name": "Teammates Test",
       "email": "teammates.test1@gmail.com"
+    },
+    "teammates.test.instructor2": {
+      "googleId": "CFeedbackUiT.instructor2",
+      "courseId": "CFeedbackUiT.CS2104",
+      "name": "Teammates Test2",
+      "email": "teammates.test2@gmail.com"
+    },
+    "teammates.test.instructor2.for.different.course": {
+      "googleId": "CFeedbackUiT.instructor2",
+      "courseId": "CFeedbackUiT.CS1101",
+      "name": "Teammates Test2",
+      "email": "teammates.test2@gmail.com"
     }
   },
   
@@ -159,6 +178,38 @@
       "gracePeriod": 10,
       "feedbackSessionType" : "STANDARD",
       "sentOpenEmail" : true,
+      "sentPublishedEmail" : false
+    },
+    "openSession": {
+      "feedbackSessionName" : "Open Session",
+      "courseId" : "CFeedbackUiT.CS1101",
+      "creatorEmail" : "teammates.test2@gmail.com",
+      "instructions": {"value" : "Please please fill in the fourth feedback session"},
+      "createdTime" : "2012-04-01 11:59 PM UTC",
+      "startTime" : "2012-04-02 11:59 PM UTC",
+      "endTime" : "2017-04-29 11:59 PM UTC",
+      "sessionVisibleFromTime" : "2012-04-01 11:59 PM UTC",
+      "resultsVisibleFromTime" : "1970-01-01 00:00 AM UTC",
+      "timeZone" : 2.0,
+      "gracePeriod": 10,
+      "feedbackSessionType" : "STANDARD",
+      "sentOpenEmail" : true,
+      "sentPublishedEmail" : false
+    },
+    "awaitingSession": {
+      "feedbackSessionName" : "Awaiting Session",
+      "courseId" : "CFeedbackUiT.CS2104",
+      "creatorEmail" : "teammates.test2@gmail.com",
+      "instructions": {"value" : "Instructions for first session"},
+      "createdTime" : "2014-04-01 11:59 PM UTC",
+      "startTime" : "2017-04-01 11:59 PM UTC",
+      "endTime" : "2017-04-30 11:59 PM UTC",
+      "sessionVisibleFromTime" : "2014-04-01 11:59 PM UTC",
+      "resultsVisibleFromTime" : "2017-05-01 11:59 PM UTC",
+      "timeZone" : 2.0,
+      "gracePeriod": 10,
+      "feedbackSessionType" : "STANDARD",
+      "sentOpenEmail" : false,
       "sentPublishedEmail" : false
     }
   }
