@@ -326,8 +326,8 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         assertEquals(false, courseSummary.course.isArchived);
 
         assertEquals(2, courseSummary.stats.teamsTotal);
-        assertEquals(6, courseSummary.stats.studentsTotal);
-        assertEquals(1, courseSummary.stats.unregisteredTotal);
+        assertEquals(5, courseSummary.stats.studentsTotal);
+        assertEquals(0, courseSummary.stats.unregisteredTotal);
         
         assertEquals(0, courseSummary.evaluations.size());
 
@@ -430,8 +430,8 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         assertEquals(false, courseDetails.course.isArchived);
 
         assertEquals(2, courseDetails.stats.teamsTotal);
-        assertEquals(6, courseDetails.stats.studentsTotal);
-        assertEquals(1, courseDetails.stats.unregisteredTotal);
+        assertEquals(5, courseDetails.stats.studentsTotal);
+        assertEquals(0, courseDetails.stats.unregisteredTotal);
         
         assertEquals(2, courseDetails.evaluations.size());
         assertEquals("evaluation2 In Course1", courseDetails.evaluations.get(0).evaluation.name);
@@ -563,7 +563,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         CourseAttributes course = dataBundle.courses.get("typicalCourse1");
         int enrolledNum = coursesLogic.getTotalEnrolledInCourse(course.id);
         
-        assertEquals(6, enrolledNum); 
+        assertEquals(5, enrolledNum); 
 
         ______TS("course without students");
 
@@ -598,7 +598,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
     public void testGetTotalUnregisteredInCourse() throws Exception {
         ______TS("typical case");
 
-        CourseAttributes course = dataBundle.courses.get("typicalCourse1");
+        CourseAttributes course = dataBundle.courses.get("unregisteredCourse");
         int unregisteredNum = coursesLogic.getTotalUnregisteredInCourse(course.id);
         
         assertEquals(1, unregisteredNum); 
@@ -686,6 +686,102 @@ public class CoursesLogicTest extends BaseComponentTestCase {
      @Test
     public void testGetCourseDetailsListForStudent() throws Exception {
 
+        ______TS("student having multiple evaluations in multiple courses");
+    
+        restoreTypicalDataInDatastore();
+    
+        
+    
+        // Let's call this course 1. It has 2 evaluations.
+        CourseAttributes expectedCourse1 = dataBundle.courses.get("typicalCourse1");
+    
+        EvaluationAttributes expectedEval1InCourse1 = dataBundle.evaluations
+                .get("evaluation1InCourse1");
+        EvaluationAttributes expectedEval2InCourse1 = dataBundle.evaluations
+                .get("evaluation2InCourse1");
+    
+        // Let's call this course 2. I has only 1 evaluation.
+        CourseAttributes expectedCourse2 = dataBundle.courses.get("typicalCourse2");
+    
+        EvaluationAttributes expectedEval1InCourse2 = dataBundle.evaluations
+                .get("evaluation1InCourse2");
+    
+        // This student is in both course 1 and 2
+        StudentAttributes studentInTwoCourses = dataBundle.students
+                .get("student2InCourse1");
+    
+        // Make sure all evaluations in course1 are visible (i.e., not AWAITING)
+        expectedEval1InCourse1.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
+        expectedEval1InCourse1.endTime = TimeHelper.getDateOffsetToCurrentTime(-1);
+        expectedEval1InCourse1.published = false;
+        assertEquals(EvalStatus.CLOSED, expectedEval1InCourse1.getStatus());
+        BackDoorLogic backDoorLogic = new BackDoorLogic();
+        backDoorLogic.updateEvaluation(expectedEval1InCourse1);
+    
+        expectedEval2InCourse1.startTime = TimeHelper.getDateOffsetToCurrentTime(-1);
+        expectedEval2InCourse1.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
+        assertEquals(EvalStatus.OPEN, expectedEval2InCourse1.getStatus());
+        backDoorLogic.updateEvaluation(expectedEval2InCourse1);
+    
+        // Make sure all evaluations in course2 are still AWAITING
+        expectedEval1InCourse2.startTime = TimeHelper.getDateOffsetToCurrentTime(1);
+        expectedEval1InCourse2.endTime = TimeHelper.getDateOffsetToCurrentTime(2);
+        expectedEval1InCourse2.activated = false;
+        assertEquals(EvalStatus.AWAITING, expectedEval1InCourse2.getStatus());
+        backDoorLogic.updateEvaluation(expectedEval1InCourse2);
+    
+        // Get course details for student
+        List<CourseDetailsBundle> courseList = logic
+                .getCourseDetailsListForStudent(studentInTwoCourses.googleId);
+    
+        // verify number of courses received
+        assertEquals(2, courseList.size());
+    
+        // verify details of course 1 (note: index of course 1 is not 0)
+        CourseDetailsBundle actualCourse1 = courseList.get(1);
+        assertEquals(expectedCourse1.id, actualCourse1.course.id);
+        assertEquals(expectedCourse1.name, actualCourse1.course.name);
+        assertEquals(2, actualCourse1.evaluations.size());
+    
+        // verify details of evaluation 1 in course 1
+        EvaluationAttributes actualEval1InCourse1 = actualCourse1.evaluations.get(1).evaluation;
+        TestHelper.verifySameEvaluationData(expectedEval1InCourse1, actualEval1InCourse1);
+    
+        // verify some details of evaluation 2 in course 1
+        EvaluationAttributes actualEval2InCourse1 = actualCourse1.evaluations.get(0).evaluation;
+        TestHelper.verifySameEvaluationData(expectedEval2InCourse1, actualEval2InCourse1);
+    
+        // for course 2, verify no evaluations returned (because the evaluation
+        // in this course is still AWAITING.
+        CourseDetailsBundle actualCourse2 = courseList.get(0);
+        assertEquals(expectedCourse2.id, actualCourse2.course.id);
+        assertEquals(expectedCourse2.name, actualCourse2.course.name);
+        assertEquals(0, actualCourse2.evaluations.size());
+    
+        ______TS("student in a course with no evaluations");
+    
+        StudentAttributes studentWithNoEvaluations = dataBundle.students
+                .get("student1InCourse2");
+        courseList = logic
+                .getCourseDetailsListForStudent(studentWithNoEvaluations.googleId);
+        assertEquals(1, courseList.size());
+        assertEquals(0, courseList.get(0).evaluations.size());
+    
+        // student with 0 courses not applicable
+    
+        ______TS("non-existent student");
+    
+        TestHelper.verifyEntityDoesNotExistException(methodName, paramTypes,
+                new Object[] { "non-existent" });
+    
+        ______TS("null parameter");
+    
+        try {
+            logic.getCourseDetailsListForStudent(null);
+            Assert.fail();
+        } catch (AssertionError a) {
+            assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+        }
     }
 
     @Test
