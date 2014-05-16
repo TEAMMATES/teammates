@@ -538,22 +538,14 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testIsQuestionAnswered() {
+    public void testIsQuestionAnswered() throws Exception {
         FeedbackQuestionAttributes question;
         ______TS("test question is answered by user");
         
         question = getQuestionFromDatastore("qn1InSession1InCourse1");
-        try {
-            assertTrue(fqLogic.isQuestionAnsweredByUser(question, "student1InCourse1@gmail.com"));
-        } catch (EntityDoesNotExistException e) {
-            signalDetectionOfWrongException(e.getMessage());
-        }
+        assertTrue(fqLogic.isQuestionAnsweredByUser(question, "student1InCourse1@gmail.com"));
+        assertFalse(fqLogic.isQuestionAnsweredByUser(question, "studentWithNoResponses@gmail.com"));
         
-        try {
-            assertFalse(fqLogic.isQuestionAnsweredByUser(question, "studentWithNoResponses@gmail.com"));
-        } catch (EntityDoesNotExistException e) {
-            signalDetectionOfWrongException(e.getMessage());
-        }
         
         List<FeedbackResponseAttributes> responses = new ArrayList<FeedbackResponseAttributes>();
         assertFalse(fqLogic.isQuestionAnsweredByUser(question, "student1InCourse1@gmail.com", responses));
@@ -562,24 +554,14 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         assertTrue(fqLogic.isQuestionAnsweredByUser(question, "student2InCourse1@gmail.com", responses));
         
         ______TS("test question is fully answered by user");
-        try {
-            assertTrue(fqLogic.isQuestionFullyAnsweredByUser(question, "student1InCourse1@gmail.com"));
-        } catch (EntityDoesNotExistException e) {
-            signalDetectionOfWrongException(e.getMessage());
-        }
         
-        try {
-            assertFalse(fqLogic.isQuestionFullyAnsweredByUser(question, "studentWithNoResponses@gmail.com"));
-        } catch (EntityDoesNotExistException e) {
-            signalDetectionOfWrongException(e.getMessage());
-        }
+        assertTrue(fqLogic.isQuestionFullyAnsweredByUser(question, "student1InCourse1@gmail.com"));
         
+        assertFalse(fqLogic.isQuestionFullyAnsweredByUser(question, "studentWithNoResponses@gmail.com"));
+       
         ______TS("test question is fully answered by team");
-        try {
-            assertFalse(fqLogic.isQuestionFullyAnsweredByTeam(question, "Team 1.1"));
-        } catch (EntityDoesNotExistException e) {
-            signalDetectionOfWrongException(e.getMessage());
-        }
+        
+        assertFalse(fqLogic.isQuestionFullyAnsweredByTeam(question, "Team 1.1"));
         
     }  
     
