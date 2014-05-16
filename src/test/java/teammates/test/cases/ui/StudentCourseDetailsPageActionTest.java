@@ -93,7 +93,7 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
         } catch (Exception e) {
             ignoreExpectedException();
         }
-        ;
+        
     }
 
     @Test
