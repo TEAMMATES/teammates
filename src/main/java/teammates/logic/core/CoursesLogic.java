@@ -217,12 +217,8 @@ public class CoursesLogic {
     
             StudentAttributes s = students.get(i);
     
-            // if loner 
-            if (s.team.equals("")) {
-                //TODO:Return loner details as well when we decide to support loners in future.
-            } 
             // first student of first team
-            else if (team == null) {
+            if (team == null) {
                 team = new TeamDetailsBundle();
                 team.name = s.team;
                 team.students.add(s);
@@ -268,7 +264,7 @@ public class CoursesLogic {
         return studentsLogic.getStudentsForCourse(courseId).size();
     }
 
-    public int getTotalUnregisteredInCourse(String courseID) {
+    public int getTotalUnregisteredInCourse(String courseID) throws EntityDoesNotExistException {
         return studentsLogic.getUnregisteredStudentsForCourse(courseID).size();
     }
 

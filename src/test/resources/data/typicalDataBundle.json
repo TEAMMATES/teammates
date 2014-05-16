@@ -212,6 +212,15 @@
             "comments":"",
             "course":"idOfTypicalCourse1"
         },
+        "student6InCourse1":{
+            "email":"student6InCourse1@gmail.com",
+            "name":"student6 In Course1",
+            "googleId":null,
+            "team":"Team 1.2",
+            "comments":"",
+            "course":"idOfTypicalCourse1",
+            "key":"regKeyForStuNotYetJoinCourse"
+        },
         "student1InCourse2":{
             "email":"student1InCourse2@gmail.com",
             "name":"student1 In Course2",
