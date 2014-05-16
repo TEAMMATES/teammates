@@ -113,7 +113,7 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
         // parameters missing.
         verifyAssumptionFailure(new String[] {});
 
-        ______TS("Typical case, Test case for student1 in course1 from TypicalData");
+        ______TS("Typical case, student in the same course ");
         String studentId = student1InCourse1.googleId;
         gaeSimulation.loginAsStudent(student1InCourse1.googleId);
         StudentCourseDetailsPageAction a = getAction(submissionParams);
