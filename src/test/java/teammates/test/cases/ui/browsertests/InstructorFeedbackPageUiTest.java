@@ -104,6 +104,8 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     
     public void testSessionViewableTable() {
         
+        ______TS("all 4 datetime elements enabled when custom is selected");
+        
         feedbackPage.clickCustomPublishTimeButton();
         feedbackPage.clickCustomVisibleTimeButton();
         
@@ -111,6 +113,8 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.verifyEnabled(By.id("visibletime"));
         feedbackPage.verifyEnabled(By.id("publishdate"));
         feedbackPage.verifyEnabled(By.id("publishtime"));
+        
+        ______TS("all 4 datetime elements disabled when custom is deselected");
         
         feedbackPage.clickDefaultPublishTimeButton();
         feedbackPage.clickDefaultVisibleTimeButton();
@@ -238,12 +242,6 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.clickViewResponseLink("CFeedbackUiT.CS2104", "Private Session");
         assertEquals("0 / 0", feedbackPage.getResponseValue("CFeedbackUiT.CS2104","Private Session"));
         
-        feedbackPage.clickViewResponseLink("CFeedbackUiT.CS2104", "First Session");
-        assertEquals("0 / 0", feedbackPage.getResponseValue("CFeedbackUiT.CS2104","First Session"));
-        
-        feedbackPage.clickViewResponseLink("CFeedbackUiT.CS1101", "Manual Session");
-        assertEquals("0 / 0", feedbackPage.getResponseValue("CFeedbackUiT.CS1101","Manual Session"));
-        
         ______TS("test response rate");
         //Already displayed
         assertEquals("0 / 2", feedbackPage.getResponseValue("CFeedbackUiT.CS1101","First Eval"));
@@ -325,6 +323,8 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     }
 
     public void testAddAction() throws Exception{
+        
+        // TODO: possibly remove some of the test cases below in the future
         
         ______TS("success case: defaults: visible when open, manual publish");
         
