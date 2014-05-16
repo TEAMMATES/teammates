@@ -67,7 +67,8 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
                                 TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT,
                                 TestProperties.inst().TEST_INSTRUCTOR_PASSWORD);
         InstructorHomePage instructorHome = confirmationPage.clickConfirmButton();
-        instructorHome.verifyHtml("/instructorHomeInvalidKey.html");
+        instructorHome.verifyContains("You have used an invalid join link: /page/instructorCourseJoin?regkey="
+                                        + invalidEncryptedKey);
         
         ______TS("Click join link then confirm: success: valid key");
 
