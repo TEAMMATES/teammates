@@ -1,7 +1,10 @@
 package teammates.test.cases.logic;
 
 import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.assertFalse;
 import static org.testng.AssertJUnit.assertEquals;
+
+import java.util.List;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -11,6 +14,7 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.JoinCourseException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -37,6 +41,25 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         turnLoggingUp(AccountsLogic.class);
     }
 
+    @SuppressWarnings("deprecation")
+    @Test
+    public void testGetInstructorAccounts() throws Exception{
+        
+        restoreTypicalDataInDatastore();
+
+        ______TS("success case");
+        
+        List<AccountAttributes> instructorAccounts = logic.getInstructorAccounts();
+        int size = instructorAccounts.size();
+        
+        logic.createAccount("test.account", "Test Account", true, "test@account.com", "Foo University");
+        instructorAccounts = logic.getInstructorAccounts();
+        assertEquals(instructorAccounts.size(), size + 1);
+        
+        logic.deleteAccount("test.account");
+        instructorAccounts = logic.getInstructorAccounts();
+        assertEquals(instructorAccounts.size(), size);
+    }
 
     @Test
     public void testCreateAccount() throws Exception {
@@ -47,12 +70,86 @@ public class AccountsLogicTest extends BaseComponentTestCase {
                 true, "test@email", "dev");
         accountsLogic.createAccount(accountToCreate);
         TestHelper.verifyPresentInDatastore(accountToCreate);
+        
+        ______TS("invalid parameters exception case");
+
+        accountToCreate = new AccountAttributes("", "name",
+                true, "test@email", "dev");
+        try{
+            accountsLogic.createAccount(accountToCreate);
+            signalFailureToDetectException();
+        } catch (InvalidParametersException e){
+            ignoreExpectedException();
+        }
+        
+    }
+    
+    @Test
+    public void testAccountFunctions() throws Exception {
+        restoreTypicalDataInDatastore();
+        
+        ______TS("test isAccountPresent");
+
+        assertTrue(accountsLogic.isAccountPresent("idOfInstructor1OfCourse1"));
+        assertTrue(accountsLogic.isAccountPresent("student1InCourse1"));
+        
+        assertFalse(accountsLogic.isAccountPresent("id-does-not-exist"));
+        
+        ______TS("test isAccountAnInstructor");
+
+        assertTrue(accountsLogic.isAccountAnInstructor("idOfInstructor1OfCourse1"));
+     
+        assertFalse(accountsLogic.isAccountAnInstructor("student1InCourse1"));
+        assertFalse(accountsLogic.isAccountAnInstructor("id-does-not-exist"));
+        
+        ______TS("test getInstructorAccounts");
+        
+        assertEquals(9, accountsLogic.getInstructorAccounts().size());
+        
+        ______TS("test updateAccount");
+        
+        AccountAttributes account = new AccountAttributes("idOfInstructor1OfCourse1", "name",
+                true, "test2@email", "dev");
+        accountsLogic.updateAccount(account);
+        TestHelper.verifyPresentInDatastore(account);
+        
+        account = new AccountAttributes("id-does-not-exist", "name",
+                true, "test2@email", "dev");
+        try {
+            accountsLogic.updateAccount(account);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            ignoreExpectedException();
+        }
+        
+        ______TS("test downgradeInstructorToStudentCascade");
+        
+        accountsLogic.downgradeInstructorToStudentCascade("idOfInstructor2OfCourse1");
+        assertFalse(accountsLogic.isAccountAnInstructor("idOfInstructor2OfCourse1"));
+        
+        accountsLogic.downgradeInstructorToStudentCascade("student1InCourse1");
+        assertFalse(accountsLogic.isAccountAnInstructor("student1InCourse1"));
+        
+        accountsLogic.downgradeInstructorToStudentCascade("id-does-not-exist");
+        assertFalse(accountsLogic.isAccountPresent("id-does-not-exist"));
+        
+        ______TS("test makeAccountInstructor");
+        
+        accountsLogic.makeAccountInstructor("student2InCourse1");
+        assertTrue(accountsLogic.isAccountAnInstructor("student2InCourse1"));
+        
+        accountsLogic.makeAccountInstructor("id-does-not-exist");
+        assertFalse(accountsLogic.isAccountPresent("id-does-not-exist"));
+        
+        
     }
 
     @Test
     public void testJoinCourseForStudent() throws Exception {
+        restoreTypicalDataInDatastore();
+        
         String correctStudentId = "correctStudentId";
-        String courseId = "courseId";
+        String courseId = "idOfTypicalCourse1";
         String originalEmail = "original@email.com";
 
         // Create correct student with original@email.com
@@ -61,7 +158,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         logic.createStudent(studentData);
         studentData = StudentsLogic.inst().getStudentForEmail(courseId,
                 originalEmail);
-
+        
         TestHelper.verifyPresentInDatastore(studentData);
 
         ______TS("failure: wrong key");
@@ -143,7 +240,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
 
         ______TS("success: with encryption and new account to be created");
 
-        logic.deleteStudent(courseId, originalEmail);
+        logic.deleteAccount(correctStudentId);
         
         originalEmail = "email2@gmail.com";
         studentData = new StudentAttributes(null, originalEmail, "name", "",
@@ -165,7 +262,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         accountData.name = "name";
         accountData.isInstructor = false;
         TestHelper.verifyPresentInDatastore(accountData);
-
+        
         ______TS("success: join course as student does not revoke instructor status");
 
         // promote account to instructor
@@ -306,4 +403,5 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         turnLoggingDown(AccountsLogic.class);
     }
     
+    //TODO: add missing test cases
 }
