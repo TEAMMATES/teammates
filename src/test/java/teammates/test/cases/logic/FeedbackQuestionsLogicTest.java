@@ -17,8 +17,11 @@ import com.google.appengine.api.datastore.Text;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.FeedbackQuestionBundle;
+import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.logic.core.AccountsLogic;
@@ -163,6 +166,27 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
     
     @Test
     public void testAddQuestion() throws Exception{
+        
+        ______TS("Add question for feedback session that does not exist");
+        FeedbackQuestionAttributes question = getQuestionFromDatastore("qn1InSession1InCourse1");
+        question.feedbackSessionName = "Inexistent Feedback Session";
+        question.setId(null);
+        try {
+            fqLogic.createFeedbackQuestion(question);
+        } catch(AssertionError e){
+            assertEquals(e.getMessage(), "Session disappeared.");
+        }
+        
+        ______TS("Add question for course that does not exist");
+        question = getQuestionFromDatastore("qn1InSession1InCourse1");
+        question.courseId = "Inexistent course id";
+        question.setId(null);
+        try {
+            fqLogic.createFeedbackQuestion(question);
+        } catch(AssertionError e){
+            assertEquals(e.getMessage(), "Session disappeared.");
+        }
+        
         ______TS("Add questions sequentially");
         List<FeedbackQuestionAttributes> expectedList = new ArrayList<FeedbackQuestionAttributes>();
         FeedbackQuestionAttributes q1 = getQuestionFromDatastore("qn1InSession1InCourse1");
@@ -346,6 +370,16 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
                                                        questionToUpdate.giverType.toDisplayGiverName()));
         }
     }
+    
+    @Test
+    public void testDeleteQuestion() throws Exception {
+        //Success case already tested in update
+        ______TS("question already does not exist, silently fail");
+        
+        fqLogic.deleteFeedbackQuestionCascade("inexistent-question-id");
+        //No error should be thrown.
+        
+    }
 
     @Test
     public void testGetFeedbackQuestionsForInstructor() throws Exception{
@@ -476,7 +510,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testgetFeedbackQuestionsForTeam() throws Exception{
+    public void testGetFeedbackQuestionsForTeam() throws Exception{
         List<FeedbackQuestionAttributes> expectedQuestions, actualQuestions;
         
         expectedQuestions = new ArrayList<FeedbackQuestionAttributes>();
@@ -485,6 +519,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
                 fqLogic.getFeedbackQuestionsForTeam("Second feedback session", "idOfTypicalCourse1", "");
         
         assertEquals(actualQuestions, expectedQuestions);
+        
     }
     
     @Test
@@ -500,6 +535,170 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         
         questionWithoutResponse = getQuestionFromDatastore("qn2InSession2InCourse2");
         assertFalse(fqLogic.isQuestionHasResponses(questionWithoutResponse.getId()));
+    }
+    
+    @Test
+    public void testIsQuestionAnswered() {
+        FeedbackQuestionAttributes question;
+        ______TS("test question is answered by user");
+        
+        question = getQuestionFromDatastore("qn1InSession1InCourse1");
+        try {
+            assertTrue(fqLogic.isQuestionAnsweredByUser(question, "student1InCourse1@gmail.com"));
+        } catch (EntityDoesNotExistException e) {
+            signalDetectionOfWrongException(e.getMessage());
+        }
+        
+        try {
+            assertFalse(fqLogic.isQuestionAnsweredByUser(question, "studentWithNoResponses@gmail.com"));
+        } catch (EntityDoesNotExistException e) {
+            signalDetectionOfWrongException(e.getMessage());
+        }
+        
+        List<FeedbackResponseAttributes> responses = new ArrayList<FeedbackResponseAttributes>();
+        assertFalse(fqLogic.isQuestionAnsweredByUser(question, "student1InCourse1@gmail.com", responses));
+        
+        responses = frLogic.getFeedbackResponsesForQuestion(question.getId());
+        assertTrue(fqLogic.isQuestionAnsweredByUser(question, "student2InCourse1@gmail.com", responses));
+        
+        ______TS("test question is fully answered by user");
+        try {
+            assertTrue(fqLogic.isQuestionFullyAnsweredByUser(question, "student1InCourse1@gmail.com"));
+        } catch (EntityDoesNotExistException e) {
+            signalDetectionOfWrongException(e.getMessage());
+        }
+        
+        try {
+            assertFalse(fqLogic.isQuestionFullyAnsweredByUser(question, "studentWithNoResponses@gmail.com"));
+        } catch (EntityDoesNotExistException e) {
+            signalDetectionOfWrongException(e.getMessage());
+        }
+        
+        ______TS("test question is fully answered by team");
+        try {
+            assertFalse(fqLogic.isQuestionFullyAnsweredByTeam(question, "Team 1.1"));
+        } catch (EntityDoesNotExistException e) {
+            signalDetectionOfWrongException(e.getMessage());
+        }
+        
+    }  
+    
+    @Test
+    public void testGetFeedbackQuestionBundle() {
+        ______TS("testGetFeedbackQuestionBundleForInstructor");
+        
+        ______TS("typical success case");
+        
+        FeedbackQuestionBundle fqBundle = null;
+        FeedbackQuestionAttributes fqa = getQuestionFromDatastore("qn3InSession1InCourse1");
+        
+        try {
+            fqBundle = fqLogic.getFeedbackQuestionBundleForInstructor(
+                        "First feedback session", "idOfTypicalCourse1",
+                        fqa.getId(), "instructor1@course1.com");
+        } catch (EntityDoesNotExistException e) {
+            signalDetectionOfWrongException("Unexpected EntityDoesNotExistExcpetion: " + e.getMessage());
+        }
+        
+        assertEquals(fqBundle.feedbackSession.courseId,"idOfTypicalCourse1");
+        assertEquals(fqBundle.feedbackSession.feedbackSessionName,"First feedback session");
+        assertEquals(fqBundle.question.questionNumber, 3);
+        assertEquals(fqBundle.recipientList.size(), 1);
+        assertEquals(fqBundle.responseList.size(), 1);
+        
+        ______TS("inexistent feedback session case");
+        
+        try {
+            fqBundle = fqLogic.getFeedbackQuestionBundleForInstructor(
+                        "Inexistent feedback session", "idOfTypicalCourse1",
+                        fqa.getId(), "instructor1@course1.com");
+            signalFailureToDetectException();
+        } catch (EntityDoesNotExistException e) {
+            assertEquals(e.getMessage(),"Trying to get a feedback session that does not exist.");
+        }
+        
+        ______TS("inexistent feedback question case");
+        
+        try {
+            fqBundle = fqLogic.getFeedbackQuestionBundleForInstructor(
+                        "First feedback session", "idOfTypicalCourse1",
+                        "inexistent fq id", "instructor1@course1.com");
+            signalFailureToDetectException();
+        } catch (EntityDoesNotExistException e) {
+            assertEquals(e.getMessage(),"Trying to get a feedback question that does not exist.");
+        }
+        
+        ______TS("question not meant for user case");
+        
+        fqa = getQuestionFromDatastore("qn1InSession1InCourse1");
+        
+        try {
+            fqBundle = fqLogic.getFeedbackQuestionBundleForInstructor(
+                        "First feedback session", "idOfTypicalCourse1",
+                        fqa.getId(), "instructor1@course1.com");
+            signalFailureToDetectException();
+        } catch(EntityDoesNotExistException e){
+            signalDetectionOfWrongException("Unexpected EntityDoesNotExistExcpetion: " + e.getMessage());
+        } catch (UnauthorizedAccessException e) {
+            assertEquals(e.getMessage(),"Trying to access a question not meant for the user.");
+        }
+        
+        ______TS("testGetFeedbackQuestionBundleForStudent");
+        
+        ______TS("typical success case");
+        
+        fqa = getQuestionFromDatastore("qn1InSession1InCourse1");
+        
+        try {
+            fqBundle = fqLogic.getFeedbackQuestionBundleForStudent(
+                        "First feedback session", "idOfTypicalCourse1",
+                        fqa.getId(), "student1InCourse1@gmail.com");
+        } catch (EntityDoesNotExistException e) {
+            signalDetectionOfWrongException("Unexpected EntityDoesNotExistExcpetion: " + e.getMessage());
+        }
+        
+        assertEquals(fqBundle.feedbackSession.courseId,"idOfTypicalCourse1");
+        assertEquals(fqBundle.feedbackSession.feedbackSessionName,"First feedback session");
+        assertEquals(fqBundle.question.questionNumber, 1);
+        assertEquals(fqBundle.recipientList.size(), 1);
+        assertEquals(fqBundle.responseList.size(), 1);
+        
+        ______TS("inexistent feedback session case");
+        
+        try {
+            fqBundle = fqLogic.getFeedbackQuestionBundleForStudent(
+                        "Inexistent feedback session", "idOfTypicalCourse1",
+                        fqa.getId(), "student1InCourse1@gmail.com");
+            signalFailureToDetectException();
+        } catch (EntityDoesNotExistException e) {
+            assertEquals(e.getMessage(),"Trying to get a feedback session that does not exist.");
+        }
+        
+        ______TS("inexistent feedback question case");
+        
+        try {
+            fqBundle = fqLogic.getFeedbackQuestionBundleForStudent(
+                        "First feedback session", "idOfTypicalCourse1",
+                        "inexistent fq id", "student1InCourse1@gmail.com");
+            signalFailureToDetectException();
+        } catch (EntityDoesNotExistException e) {
+            assertEquals(e.getMessage(),"Trying to get a feedback question that does not exist.");
+        }
+        
+        ______TS("question not meant for user case");
+        
+        fqa = getQuestionFromDatastore("qn3InSession1InCourse1");
+        
+        try {
+            fqBundle = fqLogic.getFeedbackQuestionBundleForStudent(
+                        "First feedback session", "idOfTypicalCourse1",
+                        fqa.getId(), "student1InCourse1@gmail.com");
+            signalFailureToDetectException();
+        } catch(EntityDoesNotExistException e){
+            signalDetectionOfWrongException("Unexpected EntityDoesNotExistExcpetion: " + e.getMessage());
+        } catch (UnauthorizedAccessException e) {
+            assertEquals(e.getMessage(),"Trying to access a question not meant for the user.");
+        }
     }
         
     private FeedbackQuestionAttributes getQuestionFromDatastore(String questionKey) {
