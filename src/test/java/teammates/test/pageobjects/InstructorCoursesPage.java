@@ -126,6 +126,13 @@ public class InstructorCoursesPage extends AppPage {
                 InstructorCourseDetailsPage.class);
     }
 
+    public InstructorCourseEditPage loadEditLink(String courseId) {
+        int courseRowNumber = getRowNumberOfCourse(courseId);
+        return goToLinkInRow(
+                By.className("t_course_edit" + courseRowNumber),
+                InstructorCourseEditPage.class);
+    }
+
     private int getCourseCount() {
         return browser.driver.findElements(By.className("courses_row")).size();
     }
