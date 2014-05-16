@@ -16,6 +16,20 @@ public class FeedbackSubmitPage extends AppPage {
         return getPageSource().contains("<h1>Submit Feedback</h1>");
     }
     
+    public String getCourseId() {
+        return browser.driver.findElement(By.name("courseid")).getAttribute("value");
+    }
+    
+    public String getFeedbackSessionName() {
+        return browser.driver.findElement(By.name("fsname")).getAttribute("value");
+    }
+    
+    public boolean isCorrectPage (String courseId, String feedbackSessionName) {
+        boolean isCorrectCourseId = this.getCourseId().equals(courseId);
+        boolean isCorrectFeedbackSessionName = this.getFeedbackSessionName().equals(feedbackSessionName);
+        return isCorrectCourseId && isCorrectFeedbackSessionName && containsExpectedPageContents();
+    }
+    
     public void selectRecipient(int qnNumber, int responseNumber, String recipientName) {
         browser.selenium.select("name=" + Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + 
                 "-" + qnNumber + "-" + responseNumber, "label=" + recipientName);
