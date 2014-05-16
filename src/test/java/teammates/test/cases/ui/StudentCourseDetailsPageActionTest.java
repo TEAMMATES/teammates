@@ -135,7 +135,7 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
         List<StudentAttributes> expectedStudentsList = StudentsLogic.inst().getStudentsForTeam(student1InCourse1.team, student1InCourse1.course);
         List<StudentAttributes> actualStudentsList = pageData.team.students;
 
-        assertTrue(doListsHaveSameContentsIgnoreOrder(expectedStudentsList,actualStudentsList));
+        assertTrue(isSameContentIgnoreOrder(expectedStudentsList,actualStudentsList));
 
         // assertEquals(StudentsLogic.inst().getStudentsForTeam(student1InCourse1.team,
         // student1InCourse1),pageData.);
@@ -143,7 +143,7 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
         List<InstructorAttributes> expectedInstructorsList = InstructorsLogic.inst().getInstructorsForCourse(student1InCourse1.course);
         List<InstructorAttributes> actualInstructorsList = pageData.instructors;
         
-        assertTrue(doListsHaveSameContentsIgnoreOrder(expectedInstructorsList,actualInstructorsList));
+        assertTrue(isSameContentIgnoreOrder(expectedInstructorsList,actualInstructorsList));
 
         String expectedLogMessage = "TEAMMATESLOG|||studentCourseDetailsPage|||studentCourseDetailsPage|||true"
                 + "|||Student|||Student 1 in course 1|||student1InCourse1|||sudent1inCourse1@gmail.com"
@@ -161,19 +161,21 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
     
     @SuppressWarnings("rawtypes")
     
-    private boolean doListsHaveSameContentsIgnoreOrder(List a,List b){
+    private boolean isSameContentIgnoreOrder(List a, List b) {
 
         String expectedListAsString = Joiner.on("\t").join(a);
         String actualListAsString = Joiner.on("\t").join(b);
 
-        List<String> expectedStringTypeList = new ArrayList<String>(Arrays.asList(expectedListAsString.split("\t")));
-        List<String> actualStringTypeList = new ArrayList<String>(Arrays.asList(actualListAsString.split("\t")));
+        List<String> expectedStringTypeList = new ArrayList<String>(
+                Arrays.asList(expectedListAsString.split("\t")));
+        List<String> actualStringTypeList = new ArrayList<String>(
+                Arrays.asList(actualListAsString.split("\t")));
 
         Collections.sort(expectedStringTypeList);
         Collections.sort(actualStringTypeList);
 
         return expectedStringTypeList.equals(actualStringTypeList);
-        
+
     }
 
 }
