@@ -81,7 +81,6 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     
     @Test
     public void allTests() throws Exception{
-        testDatePickerScripts();
         testContent();
         
         testAddAction();
@@ -93,11 +92,37 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         testViewResultsLink();
         testEditLink();
         testSubmitLink();
+        
+        testJScripts();
+    }
+    
+    public void testJScripts() throws ParseException{
+        feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithoutCourses").googleId);
+        testSessionViewableTable();
+        testDatePickerScripts();
+    }
+    
+    public void testSessionViewableTable() {
+        
+        feedbackPage.clickCustomPublishTimeButton();
+        feedbackPage.clickCustomVisibleTimeButton();
+        
+        feedbackPage.verifyEnabled(By.id("visibledate"));
+        feedbackPage.verifyEnabled(By.id("visibletime"));
+        feedbackPage.verifyEnabled(By.id("publishdate"));
+        feedbackPage.verifyEnabled(By.id("publishtime"));
+        
+        feedbackPage.clickDefaultPublishTimeButton();
+        feedbackPage.clickDefaultVisibleTimeButton();
+        
+        feedbackPage.verifyDisabled(By.id("visibledate"));
+        feedbackPage.verifyDisabled(By.id("visibletime"));
+        feedbackPage.verifyDisabled(By.id("publishdate"));
+        feedbackPage.verifyDisabled(By.id("publishtime"));
     }
     
     public void testDatePickerScripts() throws ParseException {
         
-        feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithoutCourses").googleId);
         feedbackPage.clickCustomVisibleTimeButton();
         feedbackPage.clickCustomPublishTimeButton();
         

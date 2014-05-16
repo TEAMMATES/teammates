@@ -387,6 +387,14 @@ public class InstructorFeedbacksPage extends AppPage {
         return !browser.driver.findElement(locator).isDisplayed();
     }
     
+    public boolean verifyEnabled (By locator) {
+        return browser.driver.findElement(locator).isEnabled();
+    }
+    
+    public boolean verifyDisabled (By locator) {
+        return !browser.driver.findElement(locator).isEnabled();
+    }
+    
     public boolean verifyInstructionsTextAreaIsHidden () {
         return !browser.driver.findElement(By.xpath("(//table[@id='instructionsTable']//tr)[1]")).isDisplayed();        
     }
