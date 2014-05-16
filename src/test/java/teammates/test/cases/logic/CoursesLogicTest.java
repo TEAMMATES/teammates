@@ -13,6 +13,7 @@ import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Assumption;
 import teammates.logic.core.CoursesLogic;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.api.CoursesDb;
@@ -22,12 +23,7 @@ import teammates.test.driver.AssertHelper;
 import teammates.test.util.TestHelper;
 
 public class CoursesLogicTest extends BaseComponentTestCase {
-
-    //TODO: add missing test cases
-
-    //TODO: test getCourseSummaryWithoutStats 
-    //TODO: test getCoursesSummaryWithoutStatsForInstructor
-    
+ 
     private CoursesLogic coursesLogic = new CoursesLogic();
     private CoursesDb coursesDb = new CoursesDb();
     private AccountsDb accountsDb = new AccountsDb();
@@ -126,7 +122,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         TestHelper.verifyAbsentInDatastore(c);
         TestHelper.verifyAbsentInDatastore(i);
         
-        ______TS("fails: error during instructor creation");
+        ______TS("fails: error during instructor creation due to duplicate instructor");
         
         c.id = "fresh-course-tccai";
         instructorsDb.createEntity(i); //create a duplicate instructor
@@ -138,8 +134,22 @@ public class CoursesLogicTest extends BaseComponentTestCase {
             AssertHelper.assertContains("Unexpected exception while trying to create instructor for a new course", e.getMessage());
         }
         TestHelper.verifyAbsentInDatastore(c);
-        
+
+        ______TS("fails: error during instructor creation due to invalid parameters");
+
+        i.email = "ins.for.iccai.gmail.com";
+
+        try {
+            coursesLogic.createCourseAndInstructor(i.googleId, c.id, c.name);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains("Unexpected exception while trying to create instructor for a new course", e.getMessage());
+        }
+        TestHelper.verifyAbsentInDatastore(c);
+       
         ______TS("success: typical case");
+
+         i.email = "ins.for.iccai@gmail.com";
 
         //remove the duplicate instructor object from the datastore.
         instructorsDb.deleteInstructor(i.courseId, i.email);
@@ -166,7 +176,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
         assertEquals(c.id, coursesLogic.getCourse(c.id).id);
         assertEquals(c.name, coursesLogic.getCourse(c.id).name);
-
     }
     
     @Test
@@ -211,20 +220,58 @@ public class CoursesLogicTest extends BaseComponentTestCase {
     @Test
     public void testIsSampleCourse() {
         
-        ______TS("failure: not a sample course");
+        ______TS("typical case: not a sample course");
         CourseAttributes c = new CourseAttributes();
         c.id = "course.id";
         
         assertEquals(false, coursesLogic.isSampleCourse(c.id));
         
-        ______TS("success: is a sample course");
+        ______TS("typical case: is a sample course");
         c.id = c.id.concat("-demo3");
         assertEquals(true, coursesLogic.isSampleCourse(c.id));
         
-        ______TS("success: is a sample course with '-demo' in the middle of its id");
+        ______TS("typical case: is a sample course with '-demo' in the middle of its id");
         c.id = c.id.concat("-demo33");
         assertEquals(true, coursesLogic.isSampleCourse(c.id));
         
+    }
+
+    @Test
+    public void testIsCoursePresent() {
+
+        ______TS("typical case: not an existent course");
+        CourseAttributes c = new CourseAttributes();
+        c.id = "non-existent-course";
+
+        assertEquals(false, coursesLogic.isCoursePresent(c.id));
+
+        ______TS("typical case: an existent course");
+        c.id = "idOfTypicalCourse1";
+
+        assertEquals(true, coursesLogic.isCoursePresent(c.id));
+    }
+
+    @Test
+    public void testVerifyCourseIsPresent() {
+
+        ______TS("typical case: verify an inexistent course");
+        CourseAttributes c = new CourseAttributes();
+        c.id = "non-existent-course";
+
+        try{
+            coursesLogic.verifyCourseIsPresent(c.id);
+        } catch (EntityDoesNotExistException e) {
+            AssertHelper.assertContains("Course does not exist: ", e.getMessage());
+        }
+
+        ______TS("typical case: verify an existent course");
+        c.id = "idOfTypicalCourse1";
+
+        try {
+            coursesLogic.verifyCourseIsPresent(c.id);
+        } catch (EntityDoesNotExistException e) {
+            Assumption.fail("This is not expected");
+        }
     }
     
     @Test
@@ -254,7 +301,72 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         } catch (EntityDoesNotExistException e) {
             AssertHelper.assertContains("Course does not exist: CLogicT.new-course", e.getMessage());
         }
-        
     }
+
+    @Test
+    public void testGetCourseDetails() throws Exception {
+
+    }
+
+    @Test
+    public void testGetCourseDetailsListForStudent() throws Exception {
+
+    }
+
+    @Test
+    public void testGetTeamsForCourse() throws Exception {
+
+    }
+
+    @Test 
+    public void testGetNumberOfTeams() throws Exception {
+
+    }
+
+    @Test
+    public void testGetTotalEnrolledInCourse() throws Exception {
+
+    }
+
+    @Test
+    public void testGetTotalUnregisteredInCourse() throws Exception {
+
+    }
+
+    @Test
+    public void testGetCourseSummary() throws Exception {
+
+    }
+
+    @Test
+    public void testGetCourseSummaryWithoutStats() throws Exception {
+
+    }
+
+    @Test
+    public void testGetCoursesForStudentAccount() throws Exception {
+
+    }
+
+    @Test
+    public void testGetCourseSummariesForInstructor() throws Exception {
+
+    }
+
+    @Test
+    public void testGetCourseDetailsForInstructor() throws Exception {
+
+    }
+
+    @Test
+    public void testGetCoursesSummaryWithoutStatsForInstructor() throws Exception {
+
+    }
+
+    @Test
+    public void testGetCourseStudentListAsCsv() throws Exception {
+
+    }
+
             
 }

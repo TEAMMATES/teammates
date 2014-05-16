@@ -92,6 +92,7 @@ public class CoursesLogic {
         
         createCourse(courseId, courseName);
         
+        /* Create the initial instructor for the course */
         InstructorAttributes instructor = new InstructorAttributes();
         instructor.googleId = instructorGoogleId;
         instructor.courseId = courseId;
@@ -100,7 +101,7 @@ public class CoursesLogic {
         
         try {
             instructorsLogic.createInstructor(instructor);
-        } catch (Exception e) {
+        } catch (EntityAlreadyExistsException | InvalidParametersException e) {
             //roll back the transaction
             coursesDb.deleteCourse(courseId);
             String errorMessage = "Unexpected exception while trying to create instructor for a new course "+ EOL 
