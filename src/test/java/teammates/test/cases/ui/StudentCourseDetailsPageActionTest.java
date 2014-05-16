@@ -14,6 +14,7 @@ import org.testng.annotations.Test;
 import com.google.appengine.labs.repackaged.com.google.common.base.Joiner;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.logic.core.StudentsLogic;
@@ -90,6 +91,7 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
 
             String classNameOfRedirectResult = RedirectResult.class.getName();
             assertEquals(classNameOfRedirectResult, result.getClass().getName());
+            
         } catch (Exception e) {
             ignoreExpectedException();
         }
@@ -119,9 +121,7 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
         StudentCourseDetailsPageAction a = getAction(submissionParams);
         ShowPageResult r = getShowPageResult(a);
 
-        assertEquals(Const.ViewURIs.STUDENT_COURSE_DETAILS
-                + "?error=false&user=student1InCourse1",
-                r.getDestinationWithParams());
+        assertEquals(Const.ViewURIs.STUDENT_COURSE_DETAILS+ "?error=false&user=student1InCourse1" , r.getDestinationWithParams());
         assertEquals(false, r.isError);
         assertEquals("", r.getStatusMessage());
 
@@ -129,39 +129,21 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
 
         assertEquals(student1InCourse1.course, pageData.courseDetails.course.id);
         assertEquals(studentId, pageData.account.googleId);
-        assertEquals(student1InCourse1.getIdentificationString(),
-                pageData.student.getIdentificationString());
+        assertEquals(student1InCourse1.getIdentificationString(),pageData.student.getIdentificationString());
         assertEquals(student1InCourse1.team, pageData.team.name);
 
-        List<StudentAttributes> expectedStudentList = StudentsLogic.inst()
-                .getStudentsForTeam(student1InCourse1.team,
-                        student1InCourse1.course);
-        List<StudentAttributes> actualStudentList = pageData.team.students;
+        List<StudentAttributes> expectedStudentsList = StudentsLogic.inst().getStudentsForTeam(student1InCourse1.team, student1InCourse1.course);
+        List<StudentAttributes> actualStudentsList = pageData.team.students;
 
-        String expectedJoinedStudentList = Joiner.on("\t").join(
-                expectedStudentList);
-        String actualJoinedStudentList = Joiner.on("\t")
-                .join(actualStudentList);
-
-        List<String> expectedStudentStringTypeList = new ArrayList<String>(
-                Arrays.asList(expectedJoinedStudentList.split("\t")));
-        List<String> actualStudentStringTypeList = new ArrayList<String>(
-                Arrays.asList(actualJoinedStudentList.split("\t")));
-
-        Collections.sort(expectedStudentStringTypeList);
-        Collections.sort(actualStudentStringTypeList);
-
-        assertEquals(expectedStudentStringTypeList, actualStudentStringTypeList);
+        assertTrue(doListsHaveSameContentsIgnoreOrder(expectedStudentsList,actualStudentsList));
 
         // assertEquals(StudentsLogic.inst().getStudentsForTeam(student1InCourse1.team,
         // student1InCourse1),pageData.);
-        // above comparison method failed, so use the one below
-        String expectedJoinedInstructorsList = Joiner.on("\t").join(
-                InstructorsLogic.inst().getInstructorsForCourse(
-                        student1InCourse1.course));
-        String ActualJoinedInstructorsList = Joiner.on("\t").join(
-                pageData.instructors.toArray());
-        assertEquals(expectedJoinedInstructorsList, ActualJoinedInstructorsList);
+        // above comparison method failed, so use the one below 
+        List<InstructorAttributes> expectedInstructorsList = InstructorsLogic.inst().getInstructorsForCourse(student1InCourse1.course);
+        List<InstructorAttributes> actualInstructorsList = pageData.instructors;
+        
+        assertTrue(doListsHaveSameContentsIgnoreOrder(expectedInstructorsList,actualInstructorsList));
 
         String expectedLogMessage = "TEAMMATESLOG|||studentCourseDetailsPage|||studentCourseDetailsPage|||true"
                 + "|||Student|||Student 1 in course 1|||student1InCourse1|||sudent1inCourse1@gmail.com"
@@ -172,9 +154,26 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
 
     }
 
-    private StudentCourseDetailsPageAction getAction(String... params)throws Exception {
-        
+    private StudentCourseDetailsPageAction getAction(String... params)throws Exception {   
         return (StudentCourseDetailsPageAction) (gaeSimulation.getActionObject(uri, params));
+    }
+    
+    
+    @SuppressWarnings("rawtypes")
+    
+    private boolean doListsHaveSameContentsIgnoreOrder(List a,List b){
+
+        String expectedListAsString = Joiner.on("\t").join(a);
+        String actualListAsString = Joiner.on("\t").join(b);
+
+        List<String> expectedStringTypeList = new ArrayList<String>(Arrays.asList(expectedListAsString.split("\t")));
+        List<String> actualStringTypeList = new ArrayList<String>(Arrays.asList(actualListAsString.split("\t")));
+
+        Collections.sort(expectedStringTypeList);
+        Collections.sort(actualStringTypeList);
+
+        return expectedStringTypeList.equals(actualStringTypeList);
+        
     }
 
 }
