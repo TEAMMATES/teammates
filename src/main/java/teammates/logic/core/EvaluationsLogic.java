@@ -413,7 +413,7 @@ public class EvaluationsLogic {
     }
     
     public void unpublishEvaluation(String courseId, String evaluationName) 
-            throws EntityDoesNotExistException, InvalidParametersException {
+            throws EntityDoesNotExistException {
         
         if (!isEvaluationExists(courseId, evaluationName)) {
             throw new EntityDoesNotExistException(
@@ -422,9 +422,7 @@ public class EvaluationsLogic {
         
         EvaluationAttributes evaluation = getEvaluation(courseId, evaluationName);
         if (evaluation.getStatus() != EvalStatus.PUBLISHED) {
-            throw new InvalidParametersException(
-                    Const.StatusCodes.UNPUBLISHED_BEFORE_PUBLISHING,
-                    "Cannot unpublish an evaluation unless it is PUBLISHED");
+           return;
         }
     
         setEvaluationPublishedStatus(courseId, evaluationName, false);
