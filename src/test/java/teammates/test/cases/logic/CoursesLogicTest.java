@@ -812,7 +812,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         ______TS("Non-existent instructor");
     
         try {
-            coursesLogic.getCourseSummariesForInstructor("non-existent-student");
+            coursesLogic.getCourseSummariesForInstructor("non-existent-instructor");
         } catch (EntityDoesNotExistException e) {
             AssertHelper.assertContains("does not exist",
                                          e.getMessage());
@@ -882,7 +882,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         ______TS("Non-existent instructor");
     
         try {
-            coursesLogic.getCoursesDetailsListForInstructor("non-existent-student");
+            coursesLogic.getCoursesDetailsListForInstructor("non-existent-instructor");
         } catch (EntityDoesNotExistException e) {
             AssertHelper.assertContains("does not exist",
                                          e.getMessage());
@@ -952,7 +952,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         ______TS("Non-existent instructor");
     
         try {
-            coursesLogic.getCoursesSummaryWithoutStatsForInstructor("non-existent-student");
+            coursesLogic.getCoursesSummaryWithoutStatsForInstructor("non-existent-instructor");
         } catch (EntityDoesNotExistException e) {
             AssertHelper.assertContains("does not exist",
                                          e.getMessage());
@@ -971,5 +971,49 @@ public class CoursesLogicTest extends BaseComponentTestCase {
     @Test
     public void testGetCourseStudentListAsCsv() throws Exception {
 
+        ______TS("Typical case");
+        
+        InstructorAttributes instructor1OfCourse1 = getTypicalDataBundle().instructors.get("instructor1OfCourse1");
+        
+        String instructorId = instructor1OfCourse1.googleId;
+        String courseId = instructor1OfCourse1.courseId;
+
+        String csvString = coursesLogic.getCourseStudentListAsCsv(courseId, instructorId);
+        String expectedCsvString = "Course ID,\"idOfTypicalCourse1\"" + Const.EOL  
+                                 + "Course Name,\"Typical Course 1 with 2 Evals\"" + Const.EOL  
+                                 + Const.EOL + Const.EOL 
+                                 + "Team,Student Name,Status,Email" + Const.EOL
+                                 + "\"Team 1.1\",\"student1 In Course1\",\"Joined\",\"student1InCourse1@gmail.com\"" + Const.EOL
+                                 + "\"Team 1.1\",\"student2 In Course1\",\"Joined\",\"student2InCourse1@gmail.com\"" + Const.EOL
+                                 + "\"Team 1.1\",\"student3 In Course1\",\"Joined\",\"student3InCourse1@gmail.com\"" + Const.EOL
+                                 + "\"Team 1.1\",\"student4 In Course1\",\"Joined\",\"student4InCourse1@gmail.com\"" + Const.EOL
+        assertEquals(expectedCsvString, csvString);
+
+        ______TS("Failure case: non existent instructor");
+        
+        try {
+            coursesLogic.getCourseStudentListAsCsv(courseId, "non-existent-instructor");
+        } catch (EntityDoesNotExistException e) {
+            AssertHelper.assertContains("does not exist",
+                                         e.getMessage());
+        }
+
+        ______TS("Failure case: non existent course in the list of courses of the instructor");
+
+        try {
+            coursesLogic.getCourseStudentListAsCsv("non-existent-course", instructorId);
+        } catch (EntityDoesNotExistException e) {
+            AssertHelper.assertContains("does not exist",
+                                         e.getMessage());
+        }
+
+        ______TS("Failure case: null parameter");
+
+        try {
+            coursesLogic.getCourseStudentListAsCsv(courseId, null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            assertEquals("Supplied parameter was null\n", e.getMessage());
+        }
     }
 }

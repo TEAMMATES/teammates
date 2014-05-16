@@ -476,9 +476,14 @@ public class CoursesLogic {
     }
     
     public String getCourseStudentListAsCsv(String courseId, String googleId) throws EntityDoesNotExistException {
+
         HashMap<String, CourseDetailsBundle> courses = getCourseSummariesForInstructor(googleId);
         CourseDetailsBundle course = courses.get(courseId);
         
+        if(course == null){
+            throw new EntityDoesNotExistException("The required course does not exist in the list of instructor's courses");
+        }
+
         String export = "";
         export += "Course ID" + "," + Sanitizer.sanitizeForCsv(courseId) + Const.EOL + 
                 "Course Name" + "," + Sanitizer.sanitizeForCsv(course.course.name) + Const.EOL + 
