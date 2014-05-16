@@ -1,7 +1,12 @@
 package teammates.test.pageobjects;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -233,33 +238,72 @@ public class InstructorFeedbacksPage extends AppPage {
         }
     }
     
-    public void selectDateInDatePicker (String day) {
-        WebElement dateWidget = browser.driver.findElement(By.id("ui-datepicker-div"));  
-        List<WebElement> rows=dateWidget.findElements(By.tagName("tr"));  
-        List<WebElement> columns=dateWidget.findElements(By.tagName("td"));  
+    public void fillTimeValueForDatePickerTest (String timeId, Calendar newValue) throws ParseException {
+        
+        browser.driver.findElement(By.id(timeId)).click();
+        browser.driver.manage().timeouts().implicitlyWait(200, TimeUnit.MILLISECONDS); 
+        
+        Calendar currentValue = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd yyyy");
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));        
+        
+        String currentDateString = getValueOfDate(timeId);
+        int numberOfMonthsToMove = 0;
+        
+        if (currentDateString != null) {
+            currentValue.setTime(sdf.parse(currentDateString));
+        } else {
+            currentValue.setTime(new Date());
+        }
+        
+        numberOfMonthsToMove = 12*(newValue.get(Calendar.YEAR) - currentValue.get(Calendar.YEAR));
+        numberOfMonthsToMove += newValue.get(Calendar.MONTH) - currentValue.get(Calendar.MONTH);
+        
+        changeMonthInDatePickerBy(numberOfMonthsToMove);
+        selectDayInDatePicker(newValue.get(Calendar.DATE));
+        
+    }
+    
+    public void changeMonthInDatePickerBy(int numberOfMonths) {
+        if (numberOfMonths > 0) {
+            for (int i = 0 ; i < numberOfMonths ; i ++) {
+                browser.driver.findElement(By.id("ui-datepicker-div")).findElement(By.className("ui-datepicker-next")).click();
+            }
+        } else {
+            for (int i = 0 ; i > numberOfMonths ; i --) {
+                browser.driver.findElement(By.id("ui-datepicker-div")).findElement(By.className("ui-datepicker-prev")).click();
+            }
+        }
+    }
+    
+    public void selectDayInDatePicker (int day) {
+        WebElement dateWidget = browser.driver.findElement(By.id("ui-datepicker-div"));    
+        List<WebElement> columns = dateWidget.findElements(By.tagName("td"));  
           
         for (WebElement cell: columns){
-             if (cell.getText().equals(day)) {  
-             cell.findElement(By.linkText(day)).click();  
+             if (cell.getText().equals(day+"")) {  
+             cell.click();  
              break;  
              }  
         }  
     }
     
-    public String getValueOfStartDate() {
-        return browser.driver.findElement(By.id("startdate")).getAttribute("value");
+    public String getValueOfDate (String timeId) {
+        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
+        return (String) js.executeScript("return $('#"+timeId+"').datepicker('getDate') == null ? "
+                +"null : $('#"+timeId+"').datepicker('getDate').toDateString();");
     }
     
-    public String getValueOfEndDate() {
-        return browser.driver.findElement(By.id("enddate")).getAttribute("value");
+    public String getMinDateOf (String timeId) {
+        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
+        return (String) js.executeScript("return $('#"+timeId+"').datepicker('option', 'minDate') == null ? "
+                +"null : $('#"+timeId+"').datepicker('option', 'minDate').toDateString();");
     }
     
-    public String getValueOfVisibleDate() {
-        return browser.driver.findElement(By.id("visibledate")).getAttribute("value");
-    }
-    
-    public String getValueOfPublishDate() {
-        return browser.driver.findElement(By.id("publishdate")).getAttribute("value");
+    public String getMaxDateOf (String timeId) {
+        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
+        return (String) js.executeScript("return $('#"+timeId+"').datepicker('option', 'maxDate') == null ? "
+                +"null : $('#"+timeId+"').datepicker('option', 'maxDate').toDateString();");
     }
     
     public void addFeedbackSession(
