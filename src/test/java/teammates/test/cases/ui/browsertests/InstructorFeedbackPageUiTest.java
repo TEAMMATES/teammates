@@ -5,8 +5,11 @@ import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 
 import org.openqa.selenium.By;
 import org.testng.annotations.AfterClass;
@@ -77,6 +80,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     
     @Test
     public void allTests() throws Exception{
+        testDatePickerScripts();
         testContent();
         
         testAddAction();
@@ -88,6 +92,41 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         testViewResultsLink();
         testEditLink();
         testSubmitLink();
+    }
+    
+    public void testDatePickerScripts() {
+        
+        feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithoutCourses").googleId);
+        feedbackPage.clickCustomVisibleTimeButton();
+        feedbackPage.clickCustomPublishTimeButton();
+        
+        // setup various dates 
+        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
+        cal.set(2014, 4, 16, 0, 0, 0);
+        feedbackPage.fillStartTime(cal.getTime());
+        feedbackPage.fillVisibleTime(cal.getTime());
+        feedbackPage.fillPublishTime(cal.getTime());
+        feedbackPage.fillEndTime(cal.getTime());
+        
+        ______TS("changing start time affects end time");
+        cal.add(Calendar.DATE, 1);
+        feedbackPage.fillStartTime(cal.getTime());
+        
+        // end date should have moved
+        ______TS(formatter.format(cal.getTime()));
+        assertEquals(formatter.format(cal.getTime()), feedbackPage.getValueOfEndDate());
+        
+        ______TS("changing start time affects visible time and publish time range");
+        
+        cal.add(Calendar.DATE, -5);
+        feedbackPage.fillStartTime(cal.getTime());
+        
+        assertEquals(formatter.format(cal.getTime()), feedbackPage.getValueOfVisibleDate());
+        
+        
+        
     }
 
     public void testContent() throws Exception{

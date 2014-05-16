@@ -1,12 +1,14 @@
 package teammates.test.pageobjects;
 
 import java.util.Date;
+import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 
 import com.google.appengine.api.datastore.Text;
@@ -229,6 +231,35 @@ public class InstructorFeedbacksPage extends AppPage {
             selectDropdownByVisibleValue(timeDropdown,
                     TimeHelper.convertToDisplayValueInTimeDropDown(timeValue));
         }
+    }
+    
+    public void selectDateInDatePicker (String day) {
+        WebElement dateWidget = browser.driver.findElement(By.id("ui-datepicker-div"));  
+        List<WebElement> rows=dateWidget.findElements(By.tagName("tr"));  
+        List<WebElement> columns=dateWidget.findElements(By.tagName("td"));  
+          
+        for (WebElement cell: columns){
+             if (cell.getText().equals(day)) {  
+             cell.findElement(By.linkText(day)).click();  
+             break;  
+             }  
+        }  
+    }
+    
+    public String getValueOfStartDate() {
+        return browser.driver.findElement(By.id("startdate")).getAttribute("value");
+    }
+    
+    public String getValueOfEndDate() {
+        return browser.driver.findElement(By.id("enddate")).getAttribute("value");
+    }
+    
+    public String getValueOfVisibleDate() {
+        return browser.driver.findElement(By.id("visibledate")).getAttribute("value");
+    }
+    
+    public String getValueOfPublishDate() {
+        return browser.driver.findElement(By.id("publishdate")).getAttribute("value");
     }
     
     public void addFeedbackSession(
