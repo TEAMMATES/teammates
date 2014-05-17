@@ -173,6 +173,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         question.setId(null);
         try {
             fqLogic.createFeedbackQuestion(question);
+            signalFailureToDetectException();
         } catch(AssertionError e){
             assertEquals(e.getMessage(), "Session disappeared.");
         }
@@ -183,6 +184,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         question.setId(null);
         try {
             fqLogic.createFeedbackQuestion(question);
+            signalFailureToDetectException();
         } catch(AssertionError e){
             assertEquals(e.getMessage(), "Session disappeared.");
         }
@@ -351,7 +353,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         
         try {
             fqLogic.updateFeedbackQuestion(questionToUpdate);
-             signalFailureToDetectException("Expected EntityDoesNotExistException not caught.");
+            signalFailureToDetectException("Expected EntityDoesNotExistException not caught.");
         } catch (EntityDoesNotExistException e){
             assertEquals(e.getMessage(), "Trying to update a feedback question that does not exist.");
         }
@@ -618,9 +620,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
                         "First feedback session", "idOfTypicalCourse1",
                         fqa.getId(), "instructor1@course1.com");
             signalFailureToDetectException();
-        } catch(EntityDoesNotExistException e){
-            signalDetectionOfWrongException("Unexpected EntityDoesNotExistExcpetion: " + e.getMessage());
-        } catch (UnauthorizedAccessException e) {
+       } catch (UnauthorizedAccessException e) {
             assertEquals(e.getMessage(),"Trying to access a question not meant for the user.");
         }
     }
@@ -671,8 +671,6 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
                         "First feedback session", "idOfTypicalCourse1",
                         fqa.getId(), "student1InCourse1@gmail.com");
             signalFailureToDetectException();
-        } catch(EntityDoesNotExistException e){
-            signalDetectionOfWrongException("Unexpected EntityDoesNotExistExcpetion: " + e.getMessage());
         } catch (UnauthorizedAccessException e) {
             assertEquals(e.getMessage(),"Trying to access a question not meant for the user.");
         }
