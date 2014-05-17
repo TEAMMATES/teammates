@@ -1139,7 +1139,7 @@ public class Logic {
      *             if the evaluation is not ready to be unpublished.
      */
     public void unpublishEvaluation(String courseId, String evaluationName)
-            throws EntityDoesNotExistException, InvalidParametersException {
+            throws EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluationName);
