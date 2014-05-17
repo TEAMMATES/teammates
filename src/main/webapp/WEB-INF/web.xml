@@ -127,7 +127,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
     
     <servlet>
         <servlet-name>SubmissionWorkerServlet</servlet-name>
-        <servlet-class>teammates.logic.core.SubmissionWorkerServlet</servlet-class>
+        <servlet-class>teammates.logic.automated.SubmissionWorkerServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>SubmissionWorkerServlet</servlet-name>
@@ -136,7 +136,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
     
     <servlet>
         <servlet-name>EvaluationSubmissionAdjustmentWorkerServlet</servlet-name>
-        <servlet-class>teammates.logic.core.EvaluationSubmissionAdjustmentWorkerServlet</servlet-class>
+        <servlet-class>teammates.logic.automated.EvaluationSubmissionAdjustmentWorkerServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>EvaluationSubmissionAdjustmentWorkerServlet</servlet-name>
@@ -145,7 +145,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
     
     <servlet>
         <servlet-name>FeedbackSubmissionAdjustmentWorkerServlet</servlet-name>
-        <servlet-class>teammates.logic.core.FeedbackSubmissionAdjustmentWorkerServlet</servlet-class>
+        <servlet-class>teammates.logic.automated.FeedbackSubmissionAdjustmentWorkerServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>FeedbackSubmissionAdjustmentWorkerServlet</servlet-name>
@@ -172,7 +172,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
     
     <servlet>
         <servlet-name>EvaluationPublishEmailWorkerServlet</servlet-name>
-        <servlet-class>teammates.logic.core.EvaluationPublishEmailWorkerServlet</servlet-class>
+        <servlet-class>teammates.logic.automated.EvaluationPublishEmailWorkerServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>EvaluationPublishEmailWorkerServlet</servlet-name>
@@ -181,7 +181,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
     
     <servlet>
         <servlet-name>EvaluationRemindEmailWorkerServlet</servlet-name>
-        <servlet-class>teammates.logic.core.EvaluationRemindEmailWorkerServlet</servlet-class>
+        <servlet-class>teammates.logic.automated.EvaluationRemindEmailWorkerServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>EvaluationRemindEmailWorkerServlet</servlet-name>
