@@ -122,7 +122,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         TestHelper.verifyAbsentInDatastore(c);
         TestHelper.verifyAbsentInDatastore(i);
         
-        
         ______TS("fails: account doesn't have instructor privileges");
         
         AccountAttributes a = new AccountAttributes();
@@ -262,6 +261,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
     public void testGetCoursesForInstructor() throws Exception {
 
         ______TS("success: instructor with present courses");
+        
         String instructorId = getTypicalDataBundle().accounts.get("instructor3").googleId;
 
         List<CourseAttributes> courses = coursesLogic.getCoursesForInstructor(instructorId);
@@ -269,6 +269,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         assertEquals(2, courses.size());
 
         ______TS("boundary: instructor without any courses");
+        
         instructorId = getTypicalDataBundle().accounts.get("instructorWithoutCourses").googleId;
 
         courses = coursesLogic.getCoursesForInstructor(instructorId);
@@ -289,16 +290,19 @@ public class CoursesLogicTest extends BaseComponentTestCase {
     public void testIsSampleCourse() {
         
         ______TS("typical case: not a sample course");
+        
         CourseAttributes c = new CourseAttributes();
         c.id = "course.id";
         
         assertEquals(false, coursesLogic.isSampleCourse(c.id));
         
         ______TS("typical case: is a sample course");
+        
         c.id = c.id.concat("-demo3");
         assertEquals(true, coursesLogic.isSampleCourse(c.id));
         
         ______TS("typical case: is a sample course with '-demo' in the middle of its id");
+        
         c.id = c.id.concat("-demo33");
         assertEquals(true, coursesLogic.isSampleCourse(c.id));
         
@@ -316,12 +320,14 @@ public class CoursesLogicTest extends BaseComponentTestCase {
     public void testIsCoursePresent() {
 
         ______TS("typical case: not an existent course");
+        
         CourseAttributes c = new CourseAttributes();
         c.id = "non-existent-course";
 
         assertEquals(false, coursesLogic.isCoursePresent(c.id));
 
         ______TS("typical case: an existent course");
+        
         c.id = "idOfTypicalCourse1";
 
         assertEquals(true, coursesLogic.isCoursePresent(c.id));
@@ -340,6 +346,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
     public void testVerifyCourseIsPresent() {
 
         ______TS("typical case: verify an inexistent course");
+       
         CourseAttributes c = new CourseAttributes();
         c.id = "non-existent-course";
 
@@ -350,6 +357,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         }
 
         ______TS("typical case: verify an existent course");
+       
         c.id = "idOfTypicalCourse1";
 
         try {
@@ -375,18 +383,21 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         coursesDb.createEntity(course);
         
         ______TS("success: archive a course");
+        
         coursesLogic.setArchiveStatusOfCourse(course.id, true);
         
         CourseAttributes courseRetrieved = coursesLogic.getCourse(course.id);
         assertEquals(true, courseRetrieved.isArchived);
         
         ______TS("success: unarchive a course");
+        
         coursesLogic.setArchiveStatusOfCourse(course.id, false);
         
         courseRetrieved = coursesLogic.getCourse(course.id);
         assertEquals(false, courseRetrieved.isArchived);
         
         ______TS("fail: course doesn't exist");
+        
         coursesDb.deleteCourse(course.id);
         
         try {
@@ -451,7 +462,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
             AssertHelper.assertContains("The course does not exist:", e.getMessage());
         }
         
-
         ______TS("null parameter");
 
         try {
@@ -464,7 +474,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
     @Test
     public void testGetCourseSummaryWithoutStats() throws Exception {
-
 
         ______TS("typical case");
 
@@ -498,7 +507,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
             AssertHelper.assertContains("The course does not exist:", e.getMessage());
         }
         
-
         ______TS("null parameter");
 
         try {
@@ -557,7 +565,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
             AssertHelper.assertContains("The course does not exist:", e.getMessage());
         }
         
-
         ______TS("null parameter");
 
         try {
@@ -570,6 +577,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
     @Test
     public void testGetTeamsForCourse() throws Exception {
+       
         ______TS("typical case");
 
         CourseAttributes course = dataBundle.courses.get("typicalCourse1");
@@ -598,7 +606,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
             AssertHelper.assertContains("does not exist", e.getMessage());
         }
         
-
         ______TS("null parameter");
 
         try {
@@ -611,6 +618,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
     @Test 
     public void testGetNumberOfTeams() throws Exception {
+        
         ______TS("typical case");
 
         CourseAttributes course = dataBundle.courses.get("typicalCourse1");
@@ -636,7 +644,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
             AssertHelper.assertContains("does not exist", e.getMessage());
         }
         
-
         ______TS("null parameter");
 
         try {
@@ -649,6 +656,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
     @Test
     public void testGetTotalEnrolledInCourse() throws Exception {
+        
         ______TS("typical case");
 
         CourseAttributes course = dataBundle.courses.get("typicalCourse1");
@@ -674,7 +682,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
             AssertHelper.assertContains("does not exist", e.getMessage());
         }
         
-
         ______TS("null parameter");
 
         try {
@@ -687,6 +694,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
     @Test
     public void testGetTotalUnregisteredInCourse() throws Exception {
+
         ______TS("typical case");
 
         CourseAttributes course = dataBundle.courses.get("unregisteredCourse");
@@ -956,6 +964,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
                         .size());
     
         ______TS("Instructor with 0 courses");
+        
         courseListForInstructor = coursesLogic.getCoursesDetailsListForInstructor("instructorWithoutCourses");
         assertEquals(0, courseListForInstructor.size());
    
@@ -981,7 +990,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
     @Test
     public void testGetCoursesSummaryWithoutStatsForInstructor() throws Exception {
 
-         ______TS("Typical case");
+        ______TS("Typical case");
 
         HashMap<String, CourseSummaryBundle> courseListForInstructor = coursesLogic
                 .getCoursesSummaryWithoutStatsForInstructor("idOfInstructor3");
@@ -1025,6 +1034,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
                         .size());
     
         ______TS("Instructor with 0 courses");
+        
         courseListForInstructor = coursesLogic.getCoursesSummaryWithoutStatsForInstructor("instructorWithoutCourses");
         assertEquals(0, courseListForInstructor.size());
    
@@ -1121,7 +1131,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         CourseAttributes course1OfInstructor = dataBundle.courses.get("typicalCourse1");
         StudentAttributes studentInCourse = dataBundle.students.get("student1InCourse1");
         
-        // ensure there are entities in the datastore under this course
+        // Ensure there are entities in the datastore under this course
         assertTrue(StudentsLogic.inst().getStudentsForCourse(course1OfInstructor.id).size() != 0);
         
         TestHelper.verifyPresentInDatastore(course1OfInstructor);
@@ -1136,11 +1146,9 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         TestHelper.verifyPresentInDatastore(dataBundle.feedbackSessions.get("session2InCourse1"));
         assertEquals(course1OfInstructor.id, studentInCourse.course);
         
-
         coursesLogic.deleteCourseCascade(course1OfInstructor.id);
     
-        
-        // ensure the course and related entities are deleted
+        // Ensure the course and related entities are deleted
         TestHelper.verifyAbsentInDatastore(course1OfInstructor);
         TestHelper.verifyAbsentInDatastore(studentInCourse);
         TestHelper.verifyAbsentInDatastore(dataBundle.evaluations.get("evaluation1InCourse1"));
