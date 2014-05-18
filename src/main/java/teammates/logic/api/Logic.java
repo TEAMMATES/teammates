@@ -674,7 +674,6 @@ public class Logic {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, student);
 
-        //TODO: push the cascade logic to studentLogic.createStudent
         studentsLogic.createStudentCascade(student);
 
     }
@@ -1098,6 +1097,7 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, start);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, end);
     
+        //TODO: push the code below to a lower level class?
         if (!evaluationsLogic.isEvaluationExists(courseId, evaluationName)) {
             throw new EntityDoesNotExistException("Trying to edit non-existent evaluation " + courseId + "/" + evaluationName);
         }
@@ -1140,7 +1140,7 @@ public class Logic {
      *             if the evaluation is not ready to be unpublished.
      */
     public void unpublishEvaluation(String courseId, String evaluationName)
-            throws EntityDoesNotExistException, InvalidParametersException {
+            throws EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluationName);
@@ -1562,7 +1562,6 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    //TODO: test this method in LogicTest
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForStudent(
             String feedbackSessionName, String courseId, String userEmail)
                     throws UnauthorizedAccessException, EntityDoesNotExistException {
@@ -1579,7 +1578,6 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    //TODO: test this method in LogicTest
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructor(
             String feedbackSessionName, String courseId, String userEmail)
                     throws UnauthorizedAccessException, EntityDoesNotExistException {

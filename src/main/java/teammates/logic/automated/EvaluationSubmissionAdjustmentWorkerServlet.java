@@ -1,16 +1,14 @@
-package teammates.logic.core;
+package teammates.logic.automated;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import teammates.logic.automated.WorkerServlet;
-
 @SuppressWarnings("serial")
-public class FeedbackSubmissionAdjustmentWorkerServlet extends WorkerServlet {
+public class EvaluationSubmissionAdjustmentWorkerServlet extends WorkerServlet  {
     
     public void doGet(HttpServletRequest req, HttpServletResponse resp) {
         
-        FeedbackSubmissionAdjustmentAction adjustmentAction = new FeedbackSubmissionAdjustmentAction(req);
+        EvaluationSubmissionAdjustmentAction adjustmentAction = new EvaluationSubmissionAdjustmentAction(req);
         boolean isExecuteSuccessful = adjustmentAction.execute();
         if (!isExecuteSuccessful) {
             //Retry task if failed

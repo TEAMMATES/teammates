@@ -88,6 +88,7 @@ public class AccountsLogic {
     
     public String getCourseInstitute(String courseId) {
         CourseAttributes cd = new CoursesLogic().getCourse(courseId);
+        Assumption.assertNotNull("Trying to getCourseInstitute for inexistent course with id " + courseId, cd);
         List<InstructorAttributes> instructorList = InstructorsLogic.inst().getInstructorsForCourse(cd.id);
         
         Assumption.assertTrue("Course has no instructors: " + cd.id, !instructorList.isEmpty());
@@ -112,8 +113,7 @@ public class AccountsLogic {
         accountsDb.updateAccount(account);
     }
     
-    //TODO: Change to void return type?
-    public StudentAttributes joinCourseForStudent(String registrationKey, String googleId) 
+    public void joinCourseForStudent(String registrationKey, String googleId) 
             throws JoinCourseException {
         
         verifyStudentJoinCourseRequest(registrationKey, googleId);
@@ -137,12 +137,9 @@ public class AccountsLogic {
                 throw new JoinCourseException(e.getLocalizedMessage());
             }
         }
-        
-        return student;
     }
     
-    //TODO: Change to void return type?
-    public InstructorAttributes joinCourseForInstructor(String encryptedKey, String googleId)
+    public void joinCourseForInstructor(String encryptedKey, String googleId)
             throws JoinCourseException {
         
         verifyInstructorJoinCourseRequest(encryptedKey, googleId);
@@ -166,9 +163,6 @@ public class AccountsLogic {
         } else {
             makeAccountInstructor(googleId);
         }
-        
-        return instructor;
-        
     }
     
     private void verifyInstructorJoinCourseRequest(String encryptedKey, String googleId)
