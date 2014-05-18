@@ -53,11 +53,8 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
                 Const.ParamsNames.COURSE_ID, iDOfCourseOfStudent
         };
 
-        ______TS("Student of same course can access");
         verifyAccessibleForStudentsOfTheSameCourse(submissionParams);
-        ______TS("Admin can access to Masquerade as student");
         verifyAccessibleForAdminToMasqueradeAsStudent(submissionParams);
-        ______TS("Unaccessible without login");
         verifyUnaccessibleWithoutLogin(submissionParams);
 
         iDOfCourseOfStudent = dataBundle.students.get("student2InCourse1").course;
@@ -65,9 +62,7 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
                 Const.ParamsNames.COURSE_ID, iDOfCourseOfStudent
         };
 
-        ______TS("Student of different course can not access");
         verifyUnaccessibleForStudentsOfOtherCourses(submissionParams);
-        ______TS("UnregisteredUsers cannot access");
         verifyUnaccessibleForUnregisteredUsers(submissionParams);
     }
 
@@ -116,14 +111,14 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
         // parameters missing.
         verifyAssumptionFailure(new String[] {});
 
-        ______TS("Typical case, student in the same course ");
+        ______TS("Typical case, student in the same course");
         String studentId = student1InCourse1.googleId;
         gaeSimulation.loginAsStudent(student1InCourse1.googleId);
         StudentCourseDetailsPageAction a = getAction(submissionParams);
         ShowPageResult r = getShowPageResult(a);
 
         assertEquals(Const.ViewURIs.STUDENT_COURSE_DETAILS+ "?error=false&user=student1InCourse1" , r.getDestinationWithParams());
-        assertEquals(false, r.isError);
+        assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
 
         StudentCourseDetailsPageData pageData = (StudentCourseDetailsPageData) r.data;
@@ -135,10 +130,8 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
 
         List<StudentAttributes> expectedStudentsList = StudentsLogic.inst().getStudentsForTeam(student1InCourse1.team, student1InCourse1.course);
         List<StudentAttributes> actualStudentsList = pageData.team.students;
-        
-        TestHelper helper = new TestHelper();
-        
-        assertTrue(helper.isSameContentIgnoreOrder(expectedStudentsList,actualStudentsList));
+          
+        assertTrue(TestHelper.isSameContentIgnoreOrder(expectedStudentsList,actualStudentsList));
 
         // assertEquals(StudentsLogic.inst().getStudentsForTeam(student1InCourse1.team,
         // student1InCourse1),pageData.);
@@ -146,7 +139,7 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
         List<InstructorAttributes> expectedInstructorsList = InstructorsLogic.inst().getInstructorsForCourse(student1InCourse1.course);
         List<InstructorAttributes> actualInstructorsList = pageData.instructors;
         
-        assertTrue(helper.isSameContentIgnoreOrder(expectedInstructorsList,actualInstructorsList));
+        assertTrue(TestHelper.isSameContentIgnoreOrder(expectedInstructorsList,actualInstructorsList));
 
         String expectedLogMessage = "TEAMMATESLOG|||studentCourseDetailsPage|||studentCourseDetailsPage|||true"
                 + "|||Student|||Student 1 in course 1|||student1InCourse1|||sudent1inCourse1@gmail.com"

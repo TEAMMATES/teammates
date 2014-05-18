@@ -476,7 +476,7 @@ public class TestHelper extends BaseComponentTestCase{
     
     @SuppressWarnings("rawtypes")
     
-    public boolean isSameContentIgnoreOrder(List a, List b) {
+    public static boolean isSameContentIgnoreOrder(List a, List b) {
 
         String expectedListAsString = Joiner.on("\t").join(a);
         String actualListAsString = Joiner.on("\t").join(b);
