@@ -252,6 +252,15 @@
             "comments":"",
             "course":"idOfUnregisteredCourse",
             "key":"regKeyForStuNotYetJoinCourse"
+        },
+        "student2InUnregisteredCourse":{
+            "email":"student2InUnregisteredCourse@gmail.com",
+            "name":"student2 In unregisteredCourse",
+            "googleId":"",
+            "team":"Team 2",
+            "comments":"",
+            "course":"idOfUnregisteredCourse",
+            "key":"regKey2ForStuNotYetJoinCourse"
         }
     },
     "evaluations":{

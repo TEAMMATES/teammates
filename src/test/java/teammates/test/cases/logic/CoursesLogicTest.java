@@ -22,6 +22,7 @@ import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.datatransfer.EvaluationDetailsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -33,6 +34,7 @@ import teammates.logic.backdoor.BackDoorLogic;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.InstructorsLogic;
+import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.api.InstructorsDb;
@@ -75,7 +77,15 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         c.name = "Basic Computing";
         coursesLogic.createCourse(c.id, c.name);
         TestHelper.verifyPresentInDatastore(c);
-        
+
+        ______TS("Null parameter");
+    
+        try {
+            coursesLogic.createCourse(null, c.name);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            assertEquals("Non-null value expected", e.getMessage());
+        }
     }
     
     @Test
@@ -183,6 +193,14 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         TestHelper.verifyPresentInDatastore(c);
         TestHelper.verifyPresentInDatastore(i);
         
+        ______TS("Null parameter");
+    
+        try {
+            coursesLogic.createCourseAndInstructor(null, c.id, c.name);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            assertEquals("Supplied parameter was null\n", e.getMessage());
+        }
     }
     
     @Test
@@ -201,6 +219,15 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
         assertEquals(c.id, coursesLogic.getCourse(c.id).id);
         assertEquals(c.name, coursesLogic.getCourse(c.id).name);
+
+        ______TS("Null parameter");
+    
+        try {
+            coursesLogic.getCourse(null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            assertEquals("Supplied parameter was null\n", e.getMessage());
+        }
     }
     
     @Test
@@ -220,6 +247,15 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         archivedCourses = coursesLogic.getArchivedCoursesForInstructor(instructorId);
         
         assertEquals(0, archivedCourses.size());
+
+        ______TS("Null parameter");
+    
+        try {
+            coursesLogic.getArchivedCoursesForInstructor(null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            assertEquals("Supplied parameter was null\n", e.getMessage());
+        }
     }
     
     @Test
@@ -238,6 +274,15 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         courses = coursesLogic.getCoursesForInstructor(instructorId);
 
         assertEquals(0, courses.size());
+
+        ______TS("Null parameter");
+    
+        try {
+            coursesLogic.getCoursesForInstructor(null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            assertEquals("Supplied parameter was null\n", e.getMessage());
+        }
     }
 
     @Test
@@ -257,6 +302,14 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         c.id = c.id.concat("-demo33");
         assertEquals(true, coursesLogic.isSampleCourse(c.id));
         
+         ______TS("Null parameter");
+    
+        try {
+            coursesLogic.isSampleCourse(null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            assertEquals("Course ID is null", e.getMessage());
+        }
     }
 
     @Test
@@ -272,6 +325,15 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         c.id = "idOfTypicalCourse1";
 
         assertEquals(true, coursesLogic.isCoursePresent(c.id));
+
+        ______TS("Null parameter");
+    
+        try {
+            coursesLogic.isCoursePresent(null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            assertEquals("Supplied parameter was null\n", e.getMessage());
+        }
     }
 
     @Test
@@ -294,6 +356,15 @@ public class CoursesLogicTest extends BaseComponentTestCase {
             coursesLogic.verifyCourseIsPresent(c.id);
         } catch (EntityDoesNotExistException e) {
             Assumption.fail("This is not expected");
+        }
+
+        ______TS("Null parameter");
+    
+        try {
+            coursesLogic.verifyCourseIsPresent(null);
+            signalFailureToDetectException();
+        } catch (AssertionError | EntityDoesNotExistException e) {
+            assertEquals("Supplied parameter was null\n", e.getMessage());
         }
     }
     
@@ -322,6 +393,15 @@ public class CoursesLogicTest extends BaseComponentTestCase {
             coursesLogic.setArchiveStatusOfCourse(course.id, true);
         } catch (EntityDoesNotExistException e) {
             AssertHelper.assertContains("Course does not exist: CLogicT.new-course", e.getMessage());
+        }
+
+        ______TS("Null parameter");
+    
+        try {
+            coursesLogic.setArchiveStatusOfCourse(null, true);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            assertEquals("Supplied parameter was null\n", e.getMessage());
         }
     }
 
@@ -612,7 +692,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         CourseAttributes course = dataBundle.courses.get("unregisteredCourse");
         int unregisteredNum = coursesLogic.getTotalUnregisteredInCourse(course.id);
         
-        assertEquals(1, unregisteredNum); 
+        assertEquals(2, unregisteredNum); 
 
         ______TS("course without students");
 
@@ -896,7 +976,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         } catch (AssertionError e) {
             assertEquals("Supplied parameter was null\n", e.getMessage());
         }
-
     }
 
     @Test
@@ -987,6 +1066,23 @@ public class CoursesLogicTest extends BaseComponentTestCase {
                                  + "\"Team 1.1\",\"student2 In Course1\",\"Joined\",\"student2InCourse1@gmail.com\"" + Const.EOL
                                  + "\"Team 1.1\",\"student3 In Course1\",\"Joined\",\"student3InCourse1@gmail.com\"" + Const.EOL
                                  + "\"Team 1.1\",\"student4 In Course1\",\"Joined\",\"student4InCourse1@gmail.com\"" + Const.EOL
+                                 + "\"Team 1.2\",\"student5 In Course1\",\"Joined\",\"student5InCourse1@gmail.com\"" + Const.EOL;
+        assertEquals(expectedCsvString, csvString);
+
+        ______TS("Typical case: course with unregistered student");
+
+        InstructorAttributes instructor5 = getTypicalDataBundle().instructors.get("instructor5");
+        
+        instructorId = instructor5.googleId;
+        courseId = instructor5.courseId;
+
+        csvString = coursesLogic.getCourseStudentListAsCsv(courseId, instructorId);
+        expectedCsvString = "Course ID,\"idOfUnregisteredCourse\"" + Const.EOL  
+                                 + "Course Name,\"Unregistered Course\"" + Const.EOL  
+                                 + Const.EOL + Const.EOL 
+                                 + "Team,Student Name,Status,Email" + Const.EOL
+                                 + "\"Team 1\",\"student1 In unregisteredCourse\",\"Yet to join\",\"student1InUnregisteredCourse@gmail.com\"" + Const.EOL
+                                 + "\"Team 2\",\"student2 In unregisteredCourse\",\"Yet to join\",\"student2InUnregisteredCourse@gmail.com\"" + Const.EOL;
         assertEquals(expectedCsvString, csvString);
 
         ______TS("Failure case: non existent instructor");
@@ -1011,6 +1107,67 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
         try {
             coursesLogic.getCourseStudentListAsCsv(courseId, null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            assertEquals("Supplied parameter was null\n", e.getMessage());
+        }
+    }
+
+    @Test
+    public void testDeleteCourse() throws Exception {
+    
+        ______TS("typical case");
+    
+        CourseAttributes course1OfInstructor = dataBundle.courses.get("typicalCourse1");
+        StudentAttributes studentInCourse = dataBundle.students.get("student1InCourse1");
+        
+        // ensure there are entities in the datastore under this course
+        assertTrue(StudentsLogic.inst().getStudentsForCourse(course1OfInstructor.id).size() != 0);
+        
+        TestHelper.verifyPresentInDatastore(course1OfInstructor);
+        TestHelper.verifyPresentInDatastore(studentInCourse);
+        TestHelper.verifyPresentInDatastore(dataBundle.evaluations.get("evaluation1InCourse1"));
+        TestHelper.verifyPresentInDatastore(dataBundle.evaluations.get("evaluation2InCourse1"));
+        TestHelper.verifyPresentInDatastore(dataBundle.instructors.get("instructor1OfCourse1"));
+        TestHelper.verifyPresentInDatastore(dataBundle.instructors.get("instructor3OfCourse1"));
+        TestHelper.verifyPresentInDatastore(dataBundle.students.get("student1InCourse1"));
+        TestHelper.verifyPresentInDatastore(dataBundle.students.get("student5InCourse1"));
+        TestHelper.verifyPresentInDatastore(dataBundle.feedbackSessions.get("session1InCourse1"));
+        TestHelper.verifyPresentInDatastore(dataBundle.feedbackSessions.get("session2InCourse1"));
+        assertEquals(course1OfInstructor.id, studentInCourse.course);
+        
+
+        coursesLogic.deleteCourseCascade(course1OfInstructor.id);
+    
+        
+        // ensure the course and related entities are deleted
+        TestHelper.verifyAbsentInDatastore(course1OfInstructor);
+        TestHelper.verifyAbsentInDatastore(studentInCourse);
+        TestHelper.verifyAbsentInDatastore(dataBundle.evaluations.get("evaluation1InCourse1"));
+        TestHelper.verifyAbsentInDatastore(dataBundle.evaluations.get("evaluation2InCourse1"));
+        TestHelper.verifyAbsentInDatastore(dataBundle.instructors.get("instructor1OfCourse1"));
+        TestHelper.verifyAbsentInDatastore(dataBundle.instructors.get("instructor3OfCourse1"));
+        TestHelper.verifyAbsentInDatastore(dataBundle.students.get("student1InCourse1"));
+        TestHelper.verifyAbsentInDatastore(dataBundle.students.get("student5InCourse1"));
+        TestHelper.verifyAbsentInDatastore(dataBundle.feedbackSessions.get("session1InCourse1"));
+        TestHelper.verifyAbsentInDatastore(dataBundle.feedbackSessions.get("session2InCourse1"));
+
+        ArrayList<SubmissionAttributes> submissionsOfCourse = new ArrayList<SubmissionAttributes>(dataBundle.submissions.values());
+        for (SubmissionAttributes s : submissionsOfCourse) {
+            if (s.course.equals(course1OfInstructor.id)) {
+                TestHelper.verifyAbsentInDatastore(s);
+            }
+        }
+    
+        ______TS("non-existent");
+    
+        // try to delete again. Should fail silently.
+        coursesLogic.deleteCourseCascade(course1OfInstructor.id);
+    
+        ______TS("null parameter");
+    
+        try {
+            coursesLogic.deleteCourseCascade(null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             assertEquals("Supplied parameter was null\n", e.getMessage());

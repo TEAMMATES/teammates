@@ -120,9 +120,12 @@ public class CoursesLogic {
     }
     
     public boolean isSampleCourse(String courseId) {
+        if(courseId == null){
+            Assumption.fail("Course ID is null");
+        }
         return StringHelper.isMatching(courseId, FieldValidator.REGEX_SAMPLE_COURSE_ID);
     }
-    
+
     public void verifyCourseIsPresent(String courseId) throws EntityDoesNotExistException{
         if (!isCoursePresent(courseId)){
             throw new EntityDoesNotExistException("Course does not exist: "+courseId);
