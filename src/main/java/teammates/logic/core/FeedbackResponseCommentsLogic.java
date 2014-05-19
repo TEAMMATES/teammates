@@ -32,24 +32,24 @@ public class FeedbackResponseCommentsLogic {
     }
 
     public void createFeedbackResponseComment(
-            FeedbackResponseCommentAttributes frca)
+            FeedbackResponseCommentAttributes frComment)
             throws InvalidParametersException, EntityDoesNotExistException {
-        Assumption.assertTrue(isCoursePresent(frca.courseId));
-        Assumption.assertTrue(isInstructorOfCourse(frca.courseId, frca.giverEmail));
-        Assumption.assertTrue(isFeedbackSessionOfCourse(frca.courseId, frca.feedbackSessionName));
-        Assumption.assertTrue(isFeedbackQuestionOfSession(frca.feedbackSessionName, frca.feedbackQuestionId));
-        Assumption.assertTrue(isFeedbackResponseOfQuestion(frca.feedbackQuestionId, frca.feedbackResponseId));
+        Assumption.assertTrue(isCoursePresent(frComment.courseId));
+        Assumption.assertTrue(isInstructorOfCourse(frComment.courseId, frComment.giverEmail));
+        Assumption.assertTrue(isFeedbackSessionOfCourse(frComment.courseId, frComment.feedbackSessionName));
+        Assumption.assertTrue(isFeedbackQuestionOfSession(frComment.feedbackSessionName, frComment.feedbackQuestionId));
+        Assumption.assertTrue(isFeedbackResponseOfQuestion(frComment.feedbackQuestionId, frComment.feedbackResponseId));
         
         try{
-            frcDb.createEntity(frca);
+            frcDb.createEntity(frComment);
         } catch (EntityAlreadyExistsException e) {
             try{
                 FeedbackResponseCommentAttributes existingComment = new FeedbackResponseCommentAttributes();
                 
-                existingComment = frcDb.getFeedbackResponseComment(frca.feedbackResponseId, frca.giverEmail, frca.createdAt);
-                frca.setId(existingComment.getId());
+                existingComment = frcDb.getFeedbackResponseComment(frComment.feedbackResponseId, frComment.giverEmail, frComment.createdAt);
+                frComment.setId(existingComment.getId());
                 
-                frcDb.updateFeedbackResponseComment(frca);            
+                frcDb.updateFeedbackResponseComment(frComment);            
             } catch(Exception EntityDoesNotExistException){
                 Assumption.fail();
             }
