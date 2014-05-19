@@ -2,10 +2,13 @@ package teammates.test.cases.logic;
 
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.Assert.fail;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.mail.internet.MimeMessage;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -25,6 +28,7 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
+import teammates.logic.core.Emails;
 import teammates.logic.core.EvaluationsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.logic.core.SubmissionsLogic;
@@ -241,6 +245,49 @@ public class StudentsLogicTest extends BaseComponentTestCase{
             AssertHelper.assertContains(FieldValidator.REASON_INCORRECT_FORMAT,
                     e.getMessage());
         }
+    }
+    
+    @Test
+    public void testSendRegistrationInviteToStudent() throws Exception {
+        
+        ______TS("typical case: send invite to one student");
+        
+        restoreTypicalDataInDatastore();
+        dataBundle = getTypicalDataBundle();
+
+        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
+        String studentEmail = student1InCourse1.email;
+        String courseId = student1InCourse1.course;
+        MimeMessage msgToStudent = studentsLogic.sendRegistrationInviteToStudent(courseId, studentEmail);
+        Emails emailMgr = new Emails();
+        @SuppressWarnings("static-access")
+        String emailInfo = emailMgr.getEmailInfo(msgToStudent);
+        String expectedEmailInfo = "[Email sent]to=student1InCourse1@gmail.com|from=" + 
+                "\"TEAMMATES Admin (noreply)\" <noreply@null.appspotmail.com>|subject=TEAMMATES:" + 
+                " Invitation to join course [Typical Course 1 with 2 Evals][Course ID: idOfTypicalCourse1]";
+        assertEquals(expectedEmailInfo, emailInfo);
+        // send msg to students will not be tested anymore
+        
+        
+        ______TS("invalid course id");
+        
+        String invalidCourseId = "invalidCourseId";
+        try {
+            studentsLogic.sendRegistrationInviteToStudent(invalidCourseId, studentEmail);
+            fail("Invalid course id: should fail");
+        } catch (EntityDoesNotExistException e) {
+        }
+        
+        
+        ______TS("invalid student email");
+        
+        String invalidStudentEmail = "invalidStudentEmail";
+        try {
+            studentsLogic.sendRegistrationInviteToStudent(courseId, invalidStudentEmail);
+            fail("Invalid student email: should fail");
+        } catch (EntityDoesNotExistException e) {
+        }
+        
     }
     
     @Test
