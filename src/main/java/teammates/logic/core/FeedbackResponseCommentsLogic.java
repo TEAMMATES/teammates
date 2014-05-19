@@ -110,7 +110,7 @@ public class FeedbackResponseCommentsLogic {
     
     private boolean isFeedbackQuestionOfSession(String feedbackSessionName, String questionId) throws EntityDoesNotExistException{
         FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(questionId);
-        if(!question.feedbackSessionName.equals(feedbackSessionName)){
+        if(question == null || !question.feedbackSessionName.equals(feedbackSessionName)){
             throw new EntityDoesNotExistException(
                     "Feedback question of id " + questionId + " is not a question for session "+ feedbackSessionName + ".");
         }
@@ -119,7 +119,7 @@ public class FeedbackResponseCommentsLogic {
     
     private boolean isFeedbackResponseOfQuestion(String questionId, String responseId) throws EntityDoesNotExistException{
         FeedbackResponseAttributes response = frLogic.getFeedbackResponse(responseId);
-        if(!response.feedbackQuestionId.equals(questionId)){
+        if(response == null || !response.feedbackQuestionId.equals(questionId)){
             throw new EntityDoesNotExistException(
                     "Feedback response of id " + responseId + " is not a response for question of id "+ questionId + ".");
         }

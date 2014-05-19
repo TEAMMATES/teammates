@@ -91,6 +91,31 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
         verifyExceptionThrownWhenCreateFrComment(frComment,
                 "User instructor1@course2.com is not a registered instructor for course idOfTypicalCourse1.");
         
+        ______TS("fail: feedback session is not a session for the course");
+        
+        frComment.courseId = "idOfTypicalCourse1";
+        frComment.giverEmail = "instructor2@course1.com";
+        frComment.feedbackSessionName = "Private feedback session";
+        
+        verifyExceptionThrownWhenCreateFrComment(frComment,
+                "Feedback session Private feedback session is not a session for course idOfTypicalCourse1.");
+        
+        ______TS("fail: feedback question is not a question for the session");
+        
+        frComment.feedbackSessionName = existingFrComment.feedbackSessionName;
+        frComment.feedbackQuestionId = "Non-exist-question-id";
+        
+        verifyExceptionThrownWhenCreateFrComment(frComment, 
+                "Feedback question of id Non-exist-question-id is not a question for session First feedback session.");
+        
+        ______TS("fail: feedback response is not a response for the question");
+
+        frComment.feedbackQuestionId = commonQuestion.getId();
+        frComment.feedbackResponseId = "Non-exist-feedbackResponse-id";
+        
+        verifyExceptionThrownWhenCreateFrComment(frComment,
+                "Feedback response of id Non-exist-feedbackResponse-id is not a response for question of id " 
+                + commonQuestion.getId() + ".");
         
         ______TS("typical successful case");
         
