@@ -171,6 +171,16 @@ public class TestHelper extends BaseComponentTestCase{
         Assert.fail("Did not find " + evaluation.name + " in the evaluation info list");
     }
 
+    public static void verifyEvaluationInfoExistsInAttributeList(EvaluationAttributes evaluation,
+            ArrayList<EvaluationAttributes> evalInfoList) {
+
+        for (EvaluationAttributes evalAttr : evalInfoList) {
+            if (evalAttr.name.equals(evaluation.name))
+                return;
+        }
+        Assert.fail("Did not find " + evaluation.name + " in the evaluation info list");
+    }
+
     public static void verifyEnrollmentDetailsForStudent(StudentAttributes expectedStudent,
             String oldTeam, StudentEnrollDetails enrollmentResult, StudentAttributes.UpdateStatus status) {
         assertEquals(expectedStudent.email, enrollmentResult.email);
