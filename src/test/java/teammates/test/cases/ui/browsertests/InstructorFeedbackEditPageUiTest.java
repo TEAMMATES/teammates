@@ -73,7 +73,10 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         testNewQuestionLink();
         testInputValidationForQuestion();
         testAddQuestionAction();
-
+        
+        testEditQuestionLink();
+        testEditQuestionAction();
+        
         testGetQuestionLink();
 
         testTwoNewEssayQuestionsWithRecipientBeingNobodySpecific();
@@ -98,11 +101,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         testAddNumScaleQuestionAction();
         testEditNumScaleQuestionAction();
         testDeleteNumScaleQuestionAction();
-
-        testEditQuestionLink();
-        testEditQuestionAction();
-        testDeleteQuestionAction();
-
+        
         testPreviewSessionAction();
 
         testDoneEditingLink();
@@ -120,7 +119,9 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
     private void testEditSessionLink(){
         ______TS("edit session link");
-        assertEquals(true, feedbackEditPage.clickEditSessionButton());
+        feedbackEditPage.clickEditSessionButton();
+        assertTrue(feedbackEditPage.verifyEditSessionBoxIsEnabled());
+        
     }
 
     private void testEditSessionAction() throws Exception{
@@ -147,19 +148,19 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
 
         feedbackEditPage = getFeedbackEditPage();
-        feedbackEditPage.verifyHtml("/instructorFeedbackEditPublished.html");
+        feedbackEditPage.isElementSelected(Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON + "_atvisible");
+        //feedbackEditPage.verifyHtml("/instructorFeedbackEditPublished.html");
         // Restore defaults
         feedbackEditPage.clickEditSessionButton();
         feedbackEditPage.clickDefaultPublishTimeButton();
         feedbackEditPage.clickSaveSessionButton();
-
     }
     
        private void testNewQuestionLink() {
 
         ______TS("new question (frame) link");
-
-        assertEquals(true, feedbackEditPage.clickNewQuestionButton());
+        feedbackEditPage.clickNewQuestionButton();
+        assertEquals(true, feedbackEditPage.verifyNewQuestionTableIsDisplayed());
     }
 
     private void testInputValidationForQuestion() {
@@ -189,10 +190,19 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());
         assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
         feedbackEditPage.verifyHtml("/instructorFeedbackQuestionAddSuccess.html");
+    }
+
+    private void testEditQuestionLink() {
+
+        ______TS("edit question link");
+
+        assertEquals(true, feedbackEditPage.clickEditQuestionButton(1));
+    }
+
+    private void testEditQuestionAction() {
 
         ______TS("edit question 1 to Team-to-Team");
 
-        feedbackEditPage.clickQuestionEditForQuestion1();
         feedbackEditPage.clickVisibilityOptionsForQuestion1();
         feedbackEditPage.selectGiverTypeForQuestion1("Teams in this course");
         feedbackEditPage.selectRecipientTypeForQuestion1("Other teams in the course");
@@ -221,13 +231,13 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.clickNewQuestionButton();
         
-        int numberOfRowsInParticipateTableForNobodySpecific = 4;
+        int rowNumberInParticipateTableForNobodySpecific = 4;
         String expectedRow1 = "Giver's Team Members";
         String expectedRow2 = "Other students";
         String expectedRow3 = "Instructors";
         
         ArrayList<String> htmlsOfRows = feedbackEditPage.allContentsOfRowsInQuestionTableNewParticipateTable();
-        assertEquals(numberOfRowsInParticipateTableForNobodySpecific, htmlsOfRows.size());
+        assertEquals(rowNumberInParticipateTableForNobodySpecific, htmlsOfRows.size());
         assertEquals(expectedRow1, htmlsOfRows.get(1));
         assertEquals(expectedRow2, htmlsOfRows.get(2));
         assertEquals(expectedRow3, htmlsOfRows.get(3));
@@ -261,22 +271,28 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         ______TS("MCQ: new question (frame) link");
 
         feedbackEditPage.selectNewQuestionType("Multiple-choice (single answer)");
-        assertEquals(true, feedbackEditPage.clickNewQuestionButton());
+        feedbackEditPage.clickNewQuestionButton();
+        assertEquals(true, feedbackEditPage.verifyNewQuestionTableIsDisplayed());
+        feedbackEditPage.verifyHtml("/instructorFeedbackMcqNewQuestion.html");
     }
 
     private void testInputValidationForMcqQuestion() {
 
-        //TODO implement this
+        ______TS("empty question text");
+
+        feedbackEditPage.clickAddQuestionButton();
+        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_TEXTINVALID, feedbackEditPage.getStatus());
+        
         //TODO: validate that Mcq can only be saved/added with at least one option defined.
     }
 
     private void testCustomizeMcqOptions() {
 
-        ______TS("MCQ: add mcq option");
-
         feedbackEditPage.fillMcqOption(0, "Choice 1");
         feedbackEditPage.fillMcqOption(1, "Choice 2");
 
+        ______TS("MCQ: add mcq option");
+        
         assertEquals(false, feedbackEditPage.isElementPresent("mcqOptionRow-2"));
         feedbackEditPage.clickAddMoreMcqOptionLink();
         assertEquals(true, feedbackEditPage.isElementPresent("mcqOptionRow-2"));
@@ -386,22 +402,28 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         ______TS("MSQ: new question (frame) link");
 
         feedbackEditPage.selectNewQuestionType("Multiple-choice (multiple answers)");
-        assertEquals(true, feedbackEditPage.clickNewQuestionButton());
+        feedbackEditPage.clickNewQuestionButton();
+        assertEquals(true, feedbackEditPage.verifyNewQuestionTableIsDisplayed());
+        // feedbackEditPage.verifyHtml("/instructorFeedbackMsqNewQuestion.html");
     }
 
     private void testInputValidationForMsqQuestion() {
 
-        //TODO implement this
+        ______TS("empty question text");
+
+        feedbackEditPage.clickAddQuestionButton();
+        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_TEXTINVALID, feedbackEditPage.getStatus());
+        
         //TODO: validate that Msq can only be saved/added with at least one option defined.
 
     }
 
     private void testCustomizeMsqOptions() {
 
-        ______TS("MSQ: add msq option");
-
         feedbackEditPage.fillMsqOption(0, "Choice 1");
         feedbackEditPage.fillMsqOption(1, "Choice 2");
+        
+        ______TS("MSQ: add msq option");
 
         assertEquals(false, feedbackEditPage.isElementPresent("msqOptionRow-2"));
         feedbackEditPage.clickAddMoreMsqOptionLink();
@@ -512,7 +534,9 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         ______TS("NUMSCALE: new question (frame) link");
 
         feedbackEditPage.selectNewQuestionType("Numerical-scale question");
-        assertEquals(true, feedbackEditPage.clickNewQuestionButton());
+        feedbackEditPage.clickNewQuestionButton();
+        assertEquals(true, feedbackEditPage.verifyNewQuestionTableIsDisplayed());
+        // feedbackEditPage.verifyHtml("/instructorFeedbackNumScaleNewQuestion.html");
     }
 
     private void testInputValidationForNumScaleQuestion() {
@@ -540,10 +564,10 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.fillStepNumScaleBox(0.3, -1);
         assertEquals("[The interval 1 - 5 is not divisible by the specified increment.]",
                 feedbackEditPage.getNumScalePossibleValuesString(-1));
-        feedbackEditPage.fillMinNumScaleBox(1, -1);
-        feedbackEditPage.fillMaxNumScaleBox(6, -1);
+        feedbackEditPage.fillMinNumScaleBox(-5, -1);
+        feedbackEditPage.fillMaxNumScaleBox(0, -1);
         feedbackEditPage.fillStepNumScaleBox(1, -1);
-        assertEquals("[Based on the above settings, acceptable responses are: 1, 2, 3, 4, 5, 6]",
+        assertEquals("[Based on the above settings, acceptable responses are: -5, -4, -3, -2, -1, 0]",
                 feedbackEditPage.getNumScalePossibleValuesString(-1));
         feedbackEditPage.fillMinNumScaleBox(0, -1);
         feedbackEditPage.fillMaxNumScaleBox(1, -1);
@@ -567,10 +591,10 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         assertEquals(true, feedbackEditPage.clickEditQuestionButton(2));
         feedbackEditPage.fillEditQuestionBox("edited numscale qn text", 2);
-        feedbackEditPage.fillMinNumScaleBox(1, 2);
-        feedbackEditPage.fillMaxNumScaleBox(5, 2);
-        feedbackEditPage.fillStepNumScaleBox(1, 2);
-        assertEquals("[Based on the above settings, acceptable responses are: 1, 2, 3, 4, 5]",
+        feedbackEditPage.fillMinNumScaleBox(-3, 2);
+        feedbackEditPage.fillMaxNumScaleBox(-2, 2);
+        feedbackEditPage.fillStepNumScaleBox(0.25, 2);
+        assertEquals("[Based on the above settings, acceptable responses are: -3, -2.75, -2.5, -2.25, -2]",
                 feedbackEditPage.getNumScalePossibleValuesString(2));
         feedbackEditPage.clickSaveExistingQuestionButton(2);
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, feedbackEditPage.getStatus());
@@ -591,50 +615,22 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));
     }
 
-    private void testEditQuestionLink() {
-
-        ______TS("edit question link");
-
-        assertEquals(true, feedbackEditPage.clickEditQuestionButton(1));
-    }
-
-    private void testEditQuestionAction() {
-
-        ______TS("edit question success");
-
-        feedbackEditPage.fillEditQuestionBox("edited qn text", 1);
-        feedbackEditPage.clickSaveExistingQuestionButton(1);
-        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, feedbackEditPage.getStatus());
-        feedbackEditPage.verifyHtml("/instructorFeedbackQuestionEditSuccess.html");
-    }
-
-    private void testDeleteQuestionAction() {
-
-        ______TS("qn delete then cancel");
-
-        feedbackEditPage.clickAndCancel(feedbackEditPage.getDeleteQuestionLink(1));
-        assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
-
-        ______TS("qn delete then accept");
-
-        feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(1));
-        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED, feedbackEditPage.getStatus());
-        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
-    }
-
     private void testPreviewSessionAction() {
 
         // add questions for previewing
-        assertEquals(true, feedbackEditPage.clickNewQuestionButton());
+        feedbackEditPage.clickNewQuestionButton();
+        assertEquals(true, feedbackEditPage.verifyNewQuestionTableIsDisplayed());
         feedbackEditPage.fillQuestionBox("question for me");
         feedbackEditPage.clickAddQuestionButton();
 
-        assertEquals(true, feedbackEditPage.clickNewQuestionButton());
+        feedbackEditPage.clickNewQuestionButton();
+        assertEquals(true, feedbackEditPage.verifyNewQuestionTableIsDisplayed());
         feedbackEditPage.fillQuestionBox("question for students");
         feedbackEditPage.selectGiverToBeStudents();
         feedbackEditPage.clickAddQuestionButton();
 
-        assertEquals(true, feedbackEditPage.clickNewQuestionButton());
+        feedbackEditPage.clickNewQuestionButton();
+        assertEquals(true, feedbackEditPage.verifyNewQuestionTableIsDisplayed());
         feedbackEditPage.fillQuestionBox("question for instructors");
         feedbackEditPage.selectGiverToBeInstructors();
         feedbackEditPage.clickAddQuestionButton();
