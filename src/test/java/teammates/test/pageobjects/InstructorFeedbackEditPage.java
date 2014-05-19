@@ -307,9 +307,25 @@ public class InstructorFeedbackEditPage extends AppPage {
         return isEditSessionEnabled;
     }
     
-    public boolean verifyNewQuestionTableIsDisplayed() {
+    public boolean verifyNewEssayQuestionFormIsDisplayed() {
         return addNewQuestionButton.isDisplayed();
     }
+    
+    public boolean verifyNewMcqQuestionFormIsDisplayed() {
+        WebElement mcqForm = browser.driver.findElement(By.id("mcqForm"));
+        return mcqForm.isDisplayed() && addNewQuestionButton.isDisplayed();
+    }
+    
+    public boolean verifyNewMsqQuestionFormIsDisplayed() {
+        WebElement mcqForm = browser.driver.findElement(By.id("msqForm"));
+        return mcqForm.isDisplayed() && addNewQuestionButton.isDisplayed();
+    }
+    
+    public boolean verifyNewNumScaleQuestionFormIsDisplayed() {
+        WebElement mcqForm = browser.driver.findElement(By.id("numScaleForm"));
+        return mcqForm.isDisplayed() && addNewQuestionButton.isDisplayed();
+    }
+    
     public void selectNewQuestionType(String questionType){
         selectDropdownByVisibleValue(browser.driver.findElement(By.id("questionTypeChoice")), questionType);
     }

@@ -161,7 +161,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         ______TS("new question (frame) link");
         feedbackEditPage.clickNewQuestionButton();
-        assertEquals(true, feedbackEditPage.verifyNewQuestionTableIsDisplayed());
+        assertTrue(feedbackEditPage.verifyNewEssayQuestionFormIsDisplayed());
     }
 
     private void testInputValidationForQuestion() {
@@ -282,8 +282,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         feedbackEditPage.selectNewQuestionType("Multiple-choice (single answer)");
         feedbackEditPage.clickNewQuestionButton();
-        assertEquals(true, feedbackEditPage.verifyNewQuestionTableIsDisplayed());
-        feedbackEditPage.verifyHtml("/instructorFeedbackMcqNewQuestion.html");
+        assertTrue(feedbackEditPage.verifyNewMcqQuestionFormIsDisplayed());
     }
 
     private void testInputValidationForMcqQuestion() {
@@ -413,7 +412,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         feedbackEditPage.selectNewQuestionType("Multiple-choice (multiple answers)");
         feedbackEditPage.clickNewQuestionButton();
-        assertEquals(true, feedbackEditPage.verifyNewQuestionTableIsDisplayed());
+        assertTrue(feedbackEditPage.verifyNewMsqQuestionFormIsDisplayed());
     }
 
     private void testInputValidationForMsqQuestion() {
@@ -544,7 +543,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         feedbackEditPage.selectNewQuestionType("Numerical-scale question");
         feedbackEditPage.clickNewQuestionButton();
-        assertEquals(true, feedbackEditPage.verifyNewQuestionTableIsDisplayed());
+        assertTrue(feedbackEditPage.verifyNewNumScaleQuestionFormIsDisplayed());
     }
 
     private void testInputValidationForNumScaleQuestion() {
@@ -627,18 +626,18 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         // add questions for previewing
         feedbackEditPage.clickNewQuestionButton();
-        assertEquals(true, feedbackEditPage.verifyNewQuestionTableIsDisplayed());
+        assertTrue(feedbackEditPage.verifyNewEssayQuestionFormIsDisplayed());
         feedbackEditPage.fillQuestionBox("question for me");
         feedbackEditPage.clickAddQuestionButton();
 
         feedbackEditPage.clickNewQuestionButton();
-        assertEquals(true, feedbackEditPage.verifyNewQuestionTableIsDisplayed());
+        assertTrue(feedbackEditPage.verifyNewEssayQuestionFormIsDisplayed());
         feedbackEditPage.fillQuestionBox("question for students");
         feedbackEditPage.selectGiverToBeStudents();
         feedbackEditPage.clickAddQuestionButton();
 
         feedbackEditPage.clickNewQuestionButton();
-        assertEquals(true, feedbackEditPage.verifyNewQuestionTableIsDisplayed());
+        assertTrue(feedbackEditPage.verifyNewEssayQuestionFormIsDisplayed());
         feedbackEditPage.fillQuestionBox("question for instructors");
         feedbackEditPage.selectGiverToBeInstructors();
         feedbackEditPage.clickAddQuestionButton();
