@@ -194,7 +194,7 @@ public class StudentsLogic {
         StudentAttributes originalStudent = getStudentForEmail(student.course, originalEmail);
         
         // prepare new student
-        student.updateWithReferenceToExistingStudentRecord(originalStudent);
+        student.updateWithExistingRecord(originalStudent);
         
         if(!student.isValid()) {
             throw new InvalidParametersException(student.getInvalidityInfo());
@@ -433,8 +433,9 @@ public class StudentsLogic {
                 updateStudentCascadeWithSubmissionAdjustmentScheduled(originalStudentAttributes.email, validStudentAttributes);
                 enrollmentDetails.updateStatus = UpdateStatus.MODIFIED;
                 
-                if(!originalStudentAttributes.team.equals(validStudentAttributes.team))
+                if(!originalStudentAttributes.team.equals(validStudentAttributes.team)) {
                     enrollmentDetails.oldTeam = originalStudentAttributes.team;
+                }
             } else {
                 createStudentCascadeWithSubmissionAdjustmentScheduled(validStudentAttributes);
                 enrollmentDetails.updateStatus = UpdateStatus.NEW;

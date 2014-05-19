@@ -188,7 +188,7 @@ public class StudentAttributes extends EntityAttributes {
         });
     }
     
-    public void updateWithReferenceToExistingStudentRecord(StudentAttributes originalStudent) {
+    public void updateWithExistingRecord(StudentAttributes originalStudent) {
         if(this.email == null){
             this.email = originalStudent.email;
         }
