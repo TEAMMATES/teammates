@@ -895,7 +895,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         assertEquals(2, courseList.size());
         for (CourseDetailsBundle cdd : courseList.values()) {
             // check if course belongs to this instructor
-            assertTrue(InstructorsLogic.inst().isInstructorOfCourse(instructor.googleId, cdd.course.id));
+            assertTrue(InstructorsLogic.inst().isGoogleIdOfInstructorOfCourse(instructor.googleId, cdd.course.id));
         }
     
         ______TS("Instructor with 0 courses");
