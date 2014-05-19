@@ -212,6 +212,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         ______TS("test visibility options of question 1");
         feedbackEditPage.clickquestionSaveForQuestion1();
         feedbackEditPage.clickVisibilityOptionsForQuestion1();
+        //TODO: use simple element checks instead of html checks after adding names to the checkboxes 
+        //      in the edit page (follow todo in instructorsFeedbackEdit.js)
         feedbackEditPage.verifyHtml("/instructorFeedbackQuestionVisibilityOptions.html");
 
         //change back
