@@ -11,10 +11,12 @@ import org.testng.annotations.Test;
 
 import com.google.appengine.api.datastore.Text;
 
+import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.FeedbackQuestionType;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.UserType;
@@ -23,8 +25,9 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.StudentsLogic;
-import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponsesDb;
+import teammates.storage.api.InstructorsDb;
+import teammates.storage.api.StudentsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 
@@ -57,6 +60,23 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         
         responseToUpdate = getResponseFromDatastore("response1ForQ2S1C1");
         responseToUpdate.responseMetaData = new Text("Updated Response");
+        
+        assertEquals(frLogic.getFeedbackResponse(
+                responseToUpdate.feedbackQuestionId, responseToUpdate.giverEmail, responseToUpdate.recipientEmail).toString(),
+                responseToUpdate.toString());
+        
+        ______TS("success: standard update with carried params - using createFeedbackResponse");
+        restoreTypicalDataInDatastore();
+        
+        responseToUpdate = getResponseFromDatastore("response1ForQ2S1C1");
+        
+        responseToUpdate.responseMetaData = new Text("Updated Response 2");
+        responseToUpdate.feedbackSessionName = "copy over";
+        
+        frLogic.createFeedbackResponse(responseToUpdate);
+        
+        responseToUpdate = getResponseFromDatastore("response1ForQ2S1C1");
+        responseToUpdate.responseMetaData = new Text("Updated Response 2");
         
         assertEquals(frLogic.getFeedbackResponse(
                 responseToUpdate.feedbackQuestionId, responseToUpdate.giverEmail, responseToUpdate.recipientEmail).toString(),
@@ -141,8 +161,6 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
     @Test
     public void testUpdateFeedbackResponsesForChangingTeam() throws Exception {
         
-        // TODO: test that non team questions are preserved.
-        
         ______TS("standard update team case");
 
         restoreTypicalDataInDatastore();
@@ -162,6 +180,13 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         assertEquals(frLogic.getFeedbackResponsesFromGiverForQuestion(
                 teamQuestion.getId(), studentToUpdate.email).size(),1);
         
+        // Add one more non-team response 
+        FeedbackResponseAttributes responseToAdd = new FeedbackResponseAttributes("First feedback session",
+                                                        "idOfTypicalCourse1", getQuestionFromDatastore("qn1InSession1InCourse1").getId(),
+                                                        FeedbackQuestionType.TEXT, studentToUpdate.email,
+                                                        studentToUpdate.email, new Text("New Response to self"));
+        frLogic.createFeedbackResponse(responseToAdd);
+        
         // All these responses should be gone after he changes teams
         
         frLogic.updateFeedbackResponsesForChangingTeam(
@@ -176,6 +201,14 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         teamQuestion = getQuestionFromDatastore("team.feedback");
         assertEquals(frLogic.getFeedbackResponsesForReceiverForQuestion(
                 teamQuestion.getId(), studentToUpdate.email).size(),0);
+        
+        // Non-team response should remain
+        
+        assertEquals(frLogic.getFeedbackResponsesFromGiverForQuestion(
+                            getQuestionFromDatastore("qn1InSession1InCourse1").getId(),
+                            studentToUpdate.email).size()
+                    , 1);
+        
     }
     
     @Test
@@ -206,21 +239,112 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
     
     @Test
     public void testGetViewableResponsesForQuestion() throws Exception {
-        ______TS("GetViewableResponsesForQuestion invalid role");
-        
         restoreTypicalDataInDatastore();
         
+        ______TS("success: GetViewableResponsesForQuestion - instructor");
+        
         InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
-        FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
-        FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
-        FeedbackQuestionAttributes fq = fqDb.getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 3);
+        FeedbackQuestionAttributes fq = getQuestionFromDatastore("qn3InSession1InCourse1"); 
+        List<FeedbackResponseAttributes> responses = frLogic.getViewableFeedbackResponsesForQuestion(fq, instructor.email, UserType.Role.INSTRUCTOR);
+        
+        assertEquals(responses.size(), 1);
+
+        ______TS("success: GetViewableResponsesForQuestion - student");
+        
+        StudentAttributes student = typicalBundle.students.get("student1InCourse1");        
+        fq = getQuestionFromDatastore("qn2InSession1InCourse1"); 
+        responses = frLogic.getViewableFeedbackResponsesForQuestion(fq, student.email, UserType.Role.STUDENT);
+        
+        assertEquals(responses.size(), 2);
+        
+        fq = getQuestionFromDatastore("qn3InSession1InCourse1"); 
+        responses = frLogic.getViewableFeedbackResponsesForQuestion(fq, student.email, UserType.Role.STUDENT);
+        
+        assertEquals(responses.size(), 1);
+        
+        fq.recipientType = FeedbackParticipantType.TEAMS;
+        fq.showResponsesTo.add(FeedbackParticipantType.RECEIVER);
+        fq.showResponsesTo.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+        fq.showResponsesTo.remove(FeedbackParticipantType.STUDENTS);
+        FeedbackResponseAttributes fr = getResponseFromDatastore("response1ForQ3S1C1");
+        fr.recipientEmail = student.email;
+        frLogic.updateFeedbackResponse(fr);
+        
+        responses = frLogic.getViewableFeedbackResponsesForQuestion(fq, student.email, UserType.Role.STUDENT);
+        
+        assertEquals(responses.size(), 1);
+        
+        
+        ______TS("failure: GetViewableResponsesForQuestion invalid role");
         
         try {
             frLogic.getViewableFeedbackResponsesForQuestion(fq, instructor.email, UserType.Role.ADMIN);
             signalFailureToDetectException();
         } catch (AssertionError e) {
-            ignoreExpectedException();
+            assertEquals(e.getMessage(), "The role of the requesting use has to be Student or Instructor");
         }
+        
+        
+        
+    }
+    
+    @Test
+    public void testIsNameVisibleTo() throws Exception {
+        restoreTypicalDataInDatastore();
+        
+        ______TS("testIsNameVisibleTo");
+        
+        InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
+        StudentAttributes student = typicalBundle.students.get("student1InCourse1");
+        StudentAttributes student2 = typicalBundle.students.get("student2InCourse1");
+        StudentAttributes student3 = typicalBundle.students.get("student5InCourse1");
+        
+        FeedbackQuestionAttributes fq = getQuestionFromDatastore("qn3InSession1InCourse1"); 
+        FeedbackResponseAttributes fr = getResponseFromDatastore("response1ForQ3S1C1"); 
+        
+        CourseRoster roster = new CourseRoster(
+                new StudentsDb().getStudentsForCourse(fq.courseId),
+                new InstructorsDb().getInstructorsForCourse(fq.courseId));
+        
+        assertTrue(frLogic.isNameVisibleTo(fq, fr, instructor.email, true, roster));
+        assertTrue(frLogic.isNameVisibleTo(fq, fr, instructor.email, false, roster));
+        assertTrue(frLogic.isNameVisibleTo(fq, fr, student.email, false, roster));
+        
+        ______TS("test if visible to own team members");
+        
+        fr.giverEmail = student.email;
+        assertTrue(frLogic.isNameVisibleTo(fq, fr, student.email, false, roster));
+        
+        ______TS("test if visible to receiver/reciever team members");
+        
+        fq.recipientType = FeedbackParticipantType.TEAMS;
+        fq.showRecipientNameTo.clear();
+        fq.showRecipientNameTo.add(FeedbackParticipantType.RECEIVER);
+        fr.recipientEmail = student.team;
+        assertTrue(frLogic.isNameVisibleTo(fq, fr, student.email, false, roster));
+        assertTrue(frLogic.isNameVisibleTo(fq, fr, student3.email, false, roster));
+        
+        fq.recipientType = FeedbackParticipantType.STUDENTS;
+        fr.recipientEmail = student.email;
+        assertTrue(frLogic.isNameVisibleTo(fq, fr, student.email, false, roster));
+        assertFalse(frLogic.isNameVisibleTo(fq, fr, student2.email, false, roster));
+        
+        fq.recipientType = FeedbackParticipantType.TEAMS;
+        fq.showRecipientNameTo.clear();
+        fq.showRecipientNameTo.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+        fr.recipientEmail = student.team;
+        assertTrue(frLogic.isNameVisibleTo(fq, fr, student.email, false, roster));
+        assertTrue(frLogic.isNameVisibleTo(fq, fr, student3.email, false, roster));
+        
+        fq.recipientType = FeedbackParticipantType.STUDENTS;
+        fr.recipientEmail = student.email;
+        assertTrue(frLogic.isNameVisibleTo(fq, fr, student.email, false, roster));
+        assertTrue(frLogic.isNameVisibleTo(fq, fr, student2.email, false, roster));
+        assertFalse(frLogic.isNameVisibleTo(fq, fr, student3.email, false, roster));
+        
+        ______TS("null question");
+        
+        assertFalse(frLogic.isNameVisibleTo(null, fr, student.email, false, roster));
         
     }
     
