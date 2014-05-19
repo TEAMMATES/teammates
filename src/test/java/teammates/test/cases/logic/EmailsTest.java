@@ -2,6 +2,7 @@ package teammates.test.cases.logic;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
+import static org.testng.AssertJUnit.assertFalse;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -24,6 +25,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.EvaluationAttributes;
+import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.TeammatesException;
@@ -33,7 +35,11 @@ import teammates.common.util.StringHelper;
 import teammates.common.util.EmailTemplates;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
+import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.Emails;
+import teammates.logic.core.FeedbackSessionsLogic;
+import teammates.logic.core.InstructorsLogic;
+import teammates.logic.core.StudentsLogic;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.cases.ui.browsertests.SystemErrorEmailReportTest;
 import teammates.test.driver.AssertHelper;
@@ -43,6 +49,7 @@ public class EmailsTest extends BaseComponentTestCase {
     
     private String from;
     private String replyTo;
+    
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
@@ -156,7 +163,7 @@ public class EmailsTest extends BaseComponentTestCase {
         emailBody = email.getContent().toString();
 
         assertTrue(emailBody.contains(encryptedKey));
-        assertTrue(!emailBody.contains(submitUrl));
+        assertFalse(emailBody.contains(submitUrl));
 
         String reportUrl = Config.APP_URL
                 + Const.ActionURIs.STUDENT_EVAL_RESULTS_PAGE;
@@ -181,7 +188,7 @@ public class EmailsTest extends BaseComponentTestCase {
 
         emailBody = email.getContent().toString();
 
-        assertTrue(!emailBody.contains(encryptedKey));
+        assertFalse(emailBody.contains(encryptedKey));
         AssertHelper.assertContainsRegex("Hello " + s.name + "{*}" + c.id + "{*}" + c.name
                 + "{*}" + e.name + "{*}" + deadline + "{*}" + submitUrl + "{*}"
                 + submitUrl, emailBody);
@@ -195,7 +202,7 @@ public class EmailsTest extends BaseComponentTestCase {
 
         emailBody = email.getContent().toString();
 
-        assertTrue(!emailBody.contains(encryptedKey));
+        assertFalse(emailBody.contains(encryptedKey));
 
         AssertHelper.assertContainsRegex("Hello " + s.name
                 + "{*}is now ready for viewing{*}" + c.id + "{*}" + c.name
@@ -211,7 +218,7 @@ public class EmailsTest extends BaseComponentTestCase {
 
         emailBody = email.getContent().toString();
 
-        assertTrue(!emailBody.contains("${joinFragment}"));
+        assertFalse(emailBody.contains("${joinFragment}"));
         
         AssertHelper.assertContainsRegex("Hello " + i.name + "{*}"
                 + "The email below has been sent to students of course: " + c.id
@@ -228,7 +235,7 @@ public class EmailsTest extends BaseComponentTestCase {
 
         emailBody = email.getContent().toString();
 
-        assertTrue(!emailBody.contains("${joinFragment}"));
+        assertFalse(emailBody.contains("${joinFragment}"));
         
         AssertHelper.assertContainsRegex("Hello " + i.name + "{*}"
                 + "The email below has been sent to students of course: " + c.id
@@ -237,6 +244,163 @@ public class EmailsTest extends BaseComponentTestCase {
                 emailBody);
 
         printEmail(email);
+    }
+    
+    @Test
+    public void testGenerateFeedbackEmailBase() throws IOException,
+            MessagingException, GeneralSecurityException {
+
+        FeedbackSessionAttributes fsa = new FeedbackSessionAttributes();
+        fsa.feedbackSessionName = "Feedback Session Name";
+        fsa.endTime = TimeHelper.getDateOffsetToCurrentTime(0);
+
+        CourseAttributes c = new CourseAttributes();
+        c.id = "course-id";
+        c.name = "Course Name";
+
+        StudentAttributes s = new StudentAttributes();
+        s.name = "Student Name";
+        s.key = "skxxxxxxxxxks";
+        s.email = "student@email.com";
+        
+        InstructorAttributes i = new InstructorAttributes();
+        i.name = "Instructor Name";
+        i.email = "instructr@email.com";
+
+        ______TS("generic template, student yet to join");
+
+        String template = EmailTemplates.USER_FEEDBACK_SESSION;
+        MimeMessage email = new Emails().generateFeedbackSessionEmailBaseForStudents(c, fsa, s,
+                template);
+
+        // check receiver
+        assertEquals(s.email, email.getAllRecipients()[0].toString());
+
+        // check sender
+        assertEquals(from, email.getFrom()[0].toString());
+        
+        //check replyTo
+        assertEquals(replyTo, email.getReplyTo()[0].toString());
+
+        // check subject
+        assertEquals(
+                "${subjectPrefix} [Course: Course Name][Feedback Session: Feedback Session Name]",
+                email.getSubject());
+
+        // check email body
+        String encryptedKey = StringHelper.encrypt(s.key);
+        String joinUrl = Config.APP_URL
+                + Const.ActionURIs.STUDENT_COURSE_JOIN;
+        joinUrl = Url.addParamToUrl(joinUrl, Const.ParamsNames.REGKEY, encryptedKey);
+
+        String submitUrl = Config.APP_URL
+                + Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE;
+        submitUrl = Url.addParamToUrl(submitUrl, Const.ParamsNames.COURSE_ID, c.id);
+        submitUrl = Url.addParamToUrl(submitUrl, Const.ParamsNames.FEEDBACK_SESSION_NAME,
+                fsa.feedbackSessionName);
+
+        String deadline = TimeHelper.formatTime(fsa.endTime);
+
+        String emailBody = email.getContent().toString();
+
+        AssertHelper.assertContainsRegex("Hello " + s.name + "{*}course <i>" + c.name
+                + "{*}" + joinUrl + "{*}" + joinUrl + "{*}"  
+                + "{*}${status}{*}" + c.id + "{*}" + c.name + "{*}"
+                + fsa.feedbackSessionName + "{*}" + deadline + "{*}" + submitUrl + "{*}"
+                + submitUrl, emailBody);
+
+        printEmail(email);
+
+        ______TS("published template, student yet to join");
+
+        template = EmailTemplates.USER_FEEDBACK_SESSION_PUBLISHED;
+        email = new Emails().generateFeedbackSessionEmailBaseForStudents(c, fsa, s, template);
+
+        emailBody = email.getContent().toString();
+
+        assertTrue(emailBody.contains(encryptedKey));
+        assertFalse(emailBody.contains(submitUrl));
+
+        String reportUrl = Config.APP_URL
+                + Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE;
+        reportUrl = Url.addParamToUrl(reportUrl, Const.ParamsNames.COURSE_ID, c.id);
+        reportUrl = Url.addParamToUrl(reportUrl, Const.ParamsNames.FEEDBACK_SESSION_NAME,
+                fsa.feedbackSessionName);
+
+        AssertHelper.assertContainsRegex("Hello " + s.name + "{*}course <i>" + c.name
+                + "{*}" + joinUrl + "{*}" + joinUrl + "{*}"  
+                + "{*}is now open for viewing{*}" + c.id + "{*}"
+                + c.name + "{*}" + fsa.feedbackSessionName + "{*}" + reportUrl + "{*}"
+                + reportUrl, emailBody);
+
+        printEmail(email);
+
+        ______TS("generic template, student joined");
+
+        s.googleId = "student1id"; // set student id to make him "joined"
+        template = EmailTemplates.USER_FEEDBACK_SESSION;
+
+        email = new Emails().generateFeedbackSessionEmailBaseForStudents(c, fsa, s, template);
+
+        emailBody = email.getContent().toString();
+
+        assertFalse(emailBody.contains(encryptedKey));
+        AssertHelper.assertContainsRegex("Hello " + s.name + "{*}" + c.id + "{*}" + c.name
+                + "{*}" + fsa.feedbackSessionName + "{*}" + deadline + "{*}" + submitUrl + "{*}"
+                + submitUrl, emailBody);
+
+        printEmail(email);
+
+        ______TS("published template, student joined");
+
+        template = EmailTemplates.USER_FEEDBACK_SESSION_PUBLISHED;
+        email = new Emails().generateFeedbackSessionEmailBaseForStudents(c, fsa, s, template);
+
+        emailBody = email.getContent().toString();
+
+        assertFalse(emailBody.contains(encryptedKey));
+
+        AssertHelper.assertContainsRegex("Hello " + s.name
+                + "{*}is now open for viewing{*}" + c.id + "{*}" + c.name
+                + "{*}" + fsa.feedbackSessionName + "{*}" + reportUrl + "{*}" + reportUrl,
+                emailBody);
+
+        printEmail(email);
+        
+        ______TS("generic template, sent to instructors");
+        
+        template = EmailTemplates.USER_FEEDBACK_SESSION;
+        email = new Emails().generateFeedbackSessionEmailBaseForInstructors(c, fsa, i, template, false);
+
+        emailBody = email.getContent().toString();
+
+        assertFalse(emailBody.contains("${joinFragment}"));
+        
+        AssertHelper.assertContainsRegex("Hello " + i.name + "{*}"
+                + "The email below has been sent to students of course: " + c.id
+                + "{*}" + c.id + "{*}" + c.name
+                + "{*}" + fsa.feedbackSessionName + "{*}" + deadline + "{*}" + submitUrl + "{*}"
+                + submitUrl, emailBody);
+
+        printEmail(email);
+        
+        ______TS("published template, sent to instructors");
+        
+        template = EmailTemplates.USER_FEEDBACK_SESSION_PUBLISHED;
+        email = new Emails().generateFeedbackSessionEmailBaseForInstructors(c, fsa, i, template, false);
+
+        emailBody = email.getContent().toString();
+
+        assertFalse(emailBody.contains("${joinFragment}"));
+        
+        AssertHelper.assertContainsRegex("Hello " + i.name + "{*}"
+                + "The email below has been sent to students of course: " + c.id
+                + "{*}is now open for viewing{*}" + c.id + "{*}" + c.name
+                + "{*}" + fsa.feedbackSessionName + "{*}" + reportUrl + "{*}" + reportUrl,
+                emailBody);
+
+        printEmail(email);
+        
     }
 
     @Test
@@ -280,7 +444,7 @@ public class EmailsTest extends BaseComponentTestCase {
         AssertHelper.assertContainsRegex("Hello " + s.name + "{*}course <i>" + c.name
                 + "{*}" + joinUrl + "{*}" + joinUrl + "{*}", emailBody);
         
-        assertTrue(!emailBody.contains("$"));
+        assertFalse(emailBody.contains("$"));
 
         printEmail(email);
     }
@@ -294,7 +458,7 @@ public class EmailsTest extends BaseComponentTestCase {
         print(email.getContent().toString());
         print(".............[End of email]................");
     }
-
+    
     @Test
     public void testGenerateEvaluationEmails() throws MessagingException,
             IOException {
@@ -339,10 +503,10 @@ public class EmailsTest extends BaseComponentTestCase {
 
         String prefix = Emails.SUBJECT_PREFIX_STUDENT_EVALUATION_OPENING;
         String status = "is now open";
-        verifyEvaluationEmail(s1, emails.get(0), prefix, status);
-        verifyEvaluationEmail(s2, emails.get(1), prefix, status);
-        verifyEvaluationEmail(i1, emails.get(2), prefix, status);
-        verifyEvaluationEmail(i2, emails.get(3), prefix, status);
+        verifyEmail(s1, emails.get(0), prefix, status);
+        verifyEmail(s2, emails.get(1), prefix, status);
+        verifyEmail(i1, emails.get(2), prefix, status);
+        verifyEmail(i2, emails.get(3), prefix, status);
         
         ______TS("evaluation reminders");
 
@@ -351,10 +515,10 @@ public class EmailsTest extends BaseComponentTestCase {
 
         prefix = Emails.SUBJECT_PREFIX_STUDENT_EVALUATION_REMINDER;
         status = "is still open for submissions";
-        verifyEvaluationEmail(s1, emails.get(0), prefix, status);
-        verifyEvaluationEmail(s2, emails.get(1), prefix, status);
-        verifyEvaluationEmail(i1, emails.get(2), prefix, status);
-        verifyEvaluationEmail(i2, emails.get(3), prefix, status);
+        verifyEmail(s1, emails.get(0), prefix, status);
+        verifyEmail(s2, emails.get(1), prefix, status);
+        verifyEmail(i1, emails.get(2), prefix, status);
+        verifyEmail(i2, emails.get(3), prefix, status);
         
         ______TS("evaluation closing alerts");
 
@@ -363,11 +527,88 @@ public class EmailsTest extends BaseComponentTestCase {
 
         prefix = Emails.SUBJECT_PREFIX_STUDENT_EVALUATION_CLOSING;
         status = "is closing soon";
-        verifyEvaluationEmail(s1, emails.get(0), prefix, status);
-        verifyEvaluationEmail(s2, emails.get(1), prefix, status);
-        verifyEvaluationEmail(i1, emails.get(2), prefix, status);
-        verifyEvaluationEmail(i2, emails.get(3), prefix, status);
+        verifyEmail(s1, emails.get(0), prefix, status);
+        verifyEmail(s2, emails.get(1), prefix, status);
+        verifyEmail(i1, emails.get(2), prefix, status);
+        verifyEmail(i2, emails.get(3), prefix, status);
 
+    }
+    
+    @Test
+    public void testGenerateFeedbackSessionEmails() throws Exception {
+
+        restoreTypicalDataInDatastore();
+        
+        List<StudentAttributes> students = new ArrayList<StudentAttributes>();
+        List<InstructorAttributes> instructors = new ArrayList<InstructorAttributes>();
+        
+        StudentsLogic studentsLogic = StudentsLogic.inst();
+        InstructorsLogic instructorsLogic = InstructorsLogic.inst();
+        CoursesLogic coursesLogic = CoursesLogic.inst();
+        FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+        
+        FeedbackSessionAttributes fsa = fsLogic.getFeedbackSession("First feedback session", "idOfTypicalCourse1");
+        
+        CourseAttributes c = coursesLogic.getCourse(fsa.courseId);
+        
+        students = studentsLogic.getStudentsForCourse(fsa.courseId);
+        instructors = instructorsLogic.getInstructorsForCourse(fsa.courseId);
+        
+        StudentAttributes s1 = new StudentAttributes();
+        s1.email = "student5InCourse1@gmail.com";
+
+        StudentAttributes s2 = new StudentAttributes();
+        s2.email = "student2InCourse1@gmail.com";
+        
+        StudentAttributes s3 = new StudentAttributes();
+        s3.email = "student3InCourse1@gmail.com";
+        
+        InstructorAttributes i1 = new InstructorAttributes();
+        i1.email = "instructor1@course1.com";
+        
+        InstructorAttributes i2 = new InstructorAttributes();
+        i2.email = "instructor2@course1.com";
+        
+        ______TS("feedback session opening emails");
+
+        List<MimeMessage> emails = new Emails()
+                .generateFeedbackSessionOpeningEmails(fsa);
+        assertEquals(8, emails.size());
+
+        String prefix = Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_OPENING;
+        String status = "is now open";
+        verifyEmail(s1, emails.get(0), prefix, status);
+        verifyEmail(s2, emails.get(1), prefix, status);
+        
+        ______TS("feedback session reminders");
+
+        emails = new Emails().generateFeedbackSessionReminderEmails(c, fsa, students, instructors, instructors);
+        assertEquals(11, emails.size());
+
+        prefix = Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER;
+        status = "is still open for submissions";
+        verifyEmail(i1, emails.get(0), prefix, status);
+        verifyEmail(i2, emails.get(1), prefix, status);
+        
+        ______TS("feedback session closing alerts");
+
+        emails = new Emails().generateFeedbackSessionClosingEmails(fsa);
+        assertEquals(6, emails.size());
+
+        prefix = Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_CLOSING;
+        status = "is closing soon";
+        verifyEmail(s1, emails.get(0), prefix, status);
+        verifyEmail(s3, emails.get(1), prefix, status);
+
+        ______TS("feedback session published alerts");
+
+        emails = new Emails().generateFeedbackSessionPublishedEmails(fsa);
+        assertEquals(8, emails.size());
+
+        prefix = Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_PUBLISHED;
+        status = "The feedback responses for the following feedback session is now open for viewing.";
+        verifyEmail(s1, emails.get(0), prefix, status);
+        verifyEmail(s2, emails.get(1), prefix, status);
     }
     
     @Test
@@ -409,25 +650,24 @@ public class EmailsTest extends BaseComponentTestCase {
                 emailBody);
     }
 
-
-    private void verifyEvaluationEmail(StudentAttributes s, MimeMessage email,
+    private void verifyEmail(StudentAttributes s, MimeMessage email,
             String prefix, String status) throws MessagingException,
             IOException {
         assertEquals(s.email, email.getAllRecipients()[0].toString());
         assertTrue(email.getSubject().contains(prefix));
         String emailBody = email.getContent().toString();
         assertTrue(emailBody.contains(status));
-        assertTrue(!emailBody.contains("$"));
+        assertFalse(emailBody.contains("$"));
     }
     
-    private void verifyEvaluationEmail(InstructorAttributes i, MimeMessage email,
+    private void verifyEmail(InstructorAttributes i, MimeMessage email,
             String prefix, String status) throws MessagingException,
             IOException {
         assertEquals(i.email, email.getAllRecipients()[0].toString());
         assertTrue(email.getSubject().contains(prefix));
         String emailBody = email.getContent().toString();
         assertTrue(emailBody.contains(status));
-        assertTrue(!emailBody.contains("$"));
+        assertFalse(emailBody.contains("$"));
     }
 
 
