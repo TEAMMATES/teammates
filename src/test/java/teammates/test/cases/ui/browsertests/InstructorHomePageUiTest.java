@@ -152,7 +152,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
                 "?" + Const.ParamsNames.COURSE_ID + "=" + course1IdOfInstructor + 
                 "&" + Const.ParamsNames.USER_ID + "=" + instructorId;
         assertEquals(expectedEnrollLinkText, browser.driver.getCurrentUrl());
-        testLogin();  //restore the page to instructorHomeLink
+        homePage = homePage.goToPreviousPage(InstructorHomePage.class);
         
         
         ______TS("course links: view");
@@ -164,7 +164,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
                 "?" + Const.ParamsNames.COURSE_ID + "=" + course1IdOfInstructor + 
                 "&" + Const.ParamsNames.USER_ID + "=" + instructorId;
         assertEquals(expectedViewLinkText, browser.driver.getCurrentUrl());
-        testLogin();  //restore the page to instructorHomeLink
+        homePage = homePage.goToPreviousPage(InstructorHomePage.class);
         
         
         ______TS("course links: Edit");
@@ -176,7 +176,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
                 "?" + Const.ParamsNames.COURSE_ID + "=" + course1IdOfInstructor + 
                 "&" +  Const.ParamsNames.USER_ID + "=" + instructorId;
         assertEquals(expectedEditLinkText, browser.driver.getCurrentUrl());
-        testLogin();  //restore the page to instructorHomeLink
+        homePage = homePage.goToPreviousPage(InstructorHomePage.class);
         
         
         ______TS("course links: Add Session");
@@ -188,10 +188,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
                 "?" + Const.ParamsNames.USER_ID + "=" + instructorId +
                 "&" + Const.ParamsNames.COURSE_ID + "=" + course1IdOfInstructor;
         assertEquals(expectedAddSessionLinkText, browser.driver.getCurrentUrl());
-        testLogin();  //restore the page to instructorHomeLink
-        
-        
-        // the above code has two issues: 1. the way to restore to homePage is not right
+        homePage = homePage.goToPreviousPage(InstructorHomePage.class);
     }
     
     public void testEvaluationLinks(){
