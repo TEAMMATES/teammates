@@ -352,6 +352,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
         try{
             coursesLogic.verifyCourseIsPresent(c.id);
+            signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
             AssertHelper.assertContains("Course does not exist: ", e.getMessage());
         }
@@ -362,6 +363,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
         try {
             coursesLogic.verifyCourseIsPresent(c.id);
+            signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
             Assumption.fail("This is not expected");
         }
@@ -402,6 +404,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         
         try {
             coursesLogic.setArchiveStatusOfCourse(course.id, true);
+            signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
             AssertHelper.assertContains("Course does not exist: CLogicT.new-course", e.getMessage());
         }
@@ -458,6 +461,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
         try {
             coursesLogic.getCourseSummary("non-existent-course");
+            signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
             AssertHelper.assertContains("The course does not exist:", e.getMessage());
         }
@@ -503,6 +507,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
         try {
             coursesLogic.getCourseSummaryWithoutStats("non-existent-course");
+            signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
             AssertHelper.assertContains("The course does not exist:", e.getMessage());
         }
@@ -561,6 +566,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
         try {
             coursesLogic.getCourseDetails("non-existent-course");
+            signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
             AssertHelper.assertContains("The course does not exist:", e.getMessage());
         }
@@ -602,6 +608,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
         try {
             coursesLogic.getTeamsForCourse("non-existent-course");
+            signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
             AssertHelper.assertContains("does not exist", e.getMessage());
         }
@@ -640,6 +647,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
         try {
             coursesLogic.getNumberOfTeams("non-existent-course");
+            signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
             AssertHelper.assertContains("does not exist", e.getMessage());
         }
@@ -678,6 +686,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
         try {
             coursesLogic.getTotalEnrolledInCourse("non-existent-course");
+            signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
             AssertHelper.assertContains("does not exist", e.getMessage());
         }
@@ -716,6 +725,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
         try {
             coursesLogic.getTotalUnregisteredInCourse("non-existent-course");
+            signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
             AssertHelper.assertContains("does not exist", e.getMessage());
         }
@@ -767,6 +777,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
     
         try {
             coursesLogic.getCoursesForStudentAccount("non-existent-student");
+            signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
             AssertHelper.assertContains("does not exist",
                                          e.getMessage());
@@ -865,6 +876,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
     
         try {
             coursesLogic.getCourseDetailsListForStudent("non-existent-student");
+            signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
             AssertHelper.assertContains("does not exist",
                                          e.getMessage());
@@ -901,6 +913,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
     
         try {
             coursesLogic.getCourseSummariesForInstructor("non-existent-instructor");
+            signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
             AssertHelper.assertContains("does not exist",
                                          e.getMessage());
@@ -972,6 +985,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
     
         try {
             coursesLogic.getCoursesDetailsListForInstructor("non-existent-instructor");
+            signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
             AssertHelper.assertContains("does not exist",
                                          e.getMessage());
@@ -1042,6 +1056,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
     
         try {
             coursesLogic.getCoursesSummaryWithoutStatsForInstructor("non-existent-instructor");
+            signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
             AssertHelper.assertContains("does not exist",
                                          e.getMessage());
@@ -1099,6 +1114,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         
         try {
             coursesLogic.getCourseStudentListAsCsv(courseId, "non-existent-instructor");
+            signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
             AssertHelper.assertContains("does not exist",
                                          e.getMessage());
@@ -1108,6 +1124,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
         try {
             coursesLogic.getCourseStudentListAsCsv("non-existent-course", instructorId);
+            signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
             AssertHelper.assertContains("does not exist",
                                          e.getMessage());
