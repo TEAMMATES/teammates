@@ -74,7 +74,7 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
         assertEquals(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_ADDED,
                     newInstructorName, newInstructorEmail), redirectResult.getStatusMessage());
         
-        assertEquals(true, instructorsLogic.isInstructorEmailOfCourse(newInstructorEmail, courseId));
+        assertEquals(true, instructorsLogic.isEmailOfInstructorOfCourse(newInstructorEmail, courseId));
         
         InstructorAttributes instructorAdded = instructorsLogic.getInstructorForEmail(courseId, newInstructorEmail);
         assertEquals(newInstructorName, instructorAdded.name);
@@ -140,7 +140,7 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
         assertEquals(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_ADDED,
                 newInstructorName, newInstructorEmail), redirectResult.getStatusMessage());
         
-        assertEquals(true, instructorsLogic.isInstructorEmailOfCourse(newInstructorEmail, courseId));
+        assertEquals(true, instructorsLogic.isEmailOfInstructorOfCourse(newInstructorEmail, courseId));
         
         instructorAdded = instructorsLogic.getInstructorForEmail(courseId, newInstructorEmail);
         assertEquals(newInstructorName, instructorAdded.name);
