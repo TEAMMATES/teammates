@@ -330,10 +330,11 @@ public class BackDoorLogic extends Logic {
     * corresponding to the created comment should be inserted in the json 
     * file in place of the actual ID.<br />
     * This method will then generate the correct ID and replace the field.
+     * @throws EntityDoesNotExistException 
     **/
     @Override
     public void createFeedbackResponseComment(FeedbackResponseCommentAttributes responseComment) 
-            throws InvalidParametersException {
+            throws InvalidParametersException, EntityDoesNotExistException {
         
         try {
             int qnNumber = Integer.parseInt(responseComment.feedbackQuestionId);

@@ -1633,9 +1633,10 @@ public class Logic {
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
+     * @throws EntityDoesNotExistException 
      */
     public void createFeedbackResponseComment(FeedbackResponseCommentAttributes feedbackResponseComment)
-            throws InvalidParametersException {
+            throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackResponseComment);
 
         feedbackResponseCommentsLogic.createFeedbackResponseComment(feedbackResponseComment);

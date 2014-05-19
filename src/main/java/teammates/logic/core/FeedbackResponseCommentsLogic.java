@@ -3,7 +3,11 @@ package teammates.logic.core;
 import java.util.Date;
 import java.util.List;
 
+import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -14,6 +18,12 @@ public class FeedbackResponseCommentsLogic {
     private static FeedbackResponseCommentsLogic instance;
 
     private static final FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
+    
+    private static final CoursesLogic coursesLogic = CoursesLogic.inst();
+    private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
+    private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+    private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
+    private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
 
     public static FeedbackResponseCommentsLogic inst() {
         if (instance == null)
@@ -23,7 +33,13 @@ public class FeedbackResponseCommentsLogic {
 
     public void createFeedbackResponseComment(
             FeedbackResponseCommentAttributes frca)
-            throws InvalidParametersException {
+            throws InvalidParametersException, EntityDoesNotExistException {
+        Assumption.assertTrue(isCoursePresent(frca.courseId));
+        Assumption.assertTrue(isInstructorOfCourse(frca.courseId, frca.giverEmail));
+        Assumption.assertTrue(isFeedbackSessionOfCourse(frca.courseId, frca.feedbackSessionName));
+        Assumption.assertTrue(isFeedbackQuestionOfSession(frca.feedbackSessionName, frca.feedbackQuestionId));
+        Assumption.assertTrue(isFeedbackResponseOfQuestion(frca.feedbackQuestionId, frca.feedbackResponseId));
+        
         try{
             frcDb.createEntity(frca);
         } catch (EntityAlreadyExistsException e) {
@@ -46,7 +62,8 @@ public class FeedbackResponseCommentsLogic {
     }
     
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentForSession(String courseId,
-            String feedbackSessionName) {
+            String feedbackSessionName) throws EntityDoesNotExistException {
+        Assumption.assertTrue(isCoursePresent(courseId));
         return frcDb.getFeedbackResponseCommentsForSession(courseId, feedbackSessionName);
     }
 
@@ -58,5 +75,49 @@ public class FeedbackResponseCommentsLogic {
     public void deleteFeedbackResponseComment(
             FeedbackResponseCommentAttributes feedbackResponseComment) {
         frcDb.deleteEntity(feedbackResponseComment);    
+    }
+    
+    private boolean isCoursePresent(String courseId) throws EntityDoesNotExistException{
+        if (coursesLogic.isCoursePresent(courseId) == false) {
+            throw new EntityDoesNotExistException(
+                    "Trying to create comments for a course that does not exist.");
+        }
+        return true;
+    }
+    
+    private boolean isInstructorOfCourse(String courseId, String email) throws EntityDoesNotExistException{
+        InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, email);
+        if(instructor == null){
+            throw new EntityDoesNotExistException(
+                    "User " + email + " is not a registered instructor for course "+ courseId + ".");
+        }
+        return true;
+    }
+    
+    private boolean isFeedbackSessionOfCourse(String courseId, String feedbackSessionName) throws EntityDoesNotExistException{
+        FeedbackSessionAttributes session = fsLogic.getFeedbackSession(feedbackSessionName, courseId);
+        if(session == null){
+            throw new EntityDoesNotExistException(
+                    "Feedback session " + feedbackSessionName + " is not a session for course "+ courseId + ".");
+        }
+        return true;
+    }
+    
+    private boolean isFeedbackQuestionOfSession(String feedbackSessionName, String questionId) throws EntityDoesNotExistException{
+        FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(questionId);
+        if(!question.feedbackSessionName.equals(feedbackSessionName)){
+            throw new EntityDoesNotExistException(
+                    "Feedback question of id " + questionId + " is not a question for session "+ feedbackSessionName + ".");
+        }
+        return true;
+    }
+    
+    private boolean isFeedbackResponseOfQuestion(String questionId, String responseId) throws EntityDoesNotExistException{
+        FeedbackResponseAttributes response = frLogic.getFeedbackResponse(responseId);
+        if(!response.feedbackQuestionId.equals(questionId)){
+            throw new EntityDoesNotExistException(
+                    "Feedback response of id " + responseId + " is not a response for question of id "+ questionId + ".");
+        }
+        return true;
     }
 }
