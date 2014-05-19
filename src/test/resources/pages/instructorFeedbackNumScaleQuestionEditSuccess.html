@@ -957,33 +957,33 @@
                            </td>
                         </tr>
                         <tr>
-                            <td colspan="4">
-                                <table>
-                                    <tbody>
-                                        <tr>
-                                               <td onmouseover="ddrivetip('Minimum acceptable response value')"
-                                                onmouseout="hideddrivetip()">Minimum value:
-                                                <input class="minScaleBox"  disabled="disabled"  id="minScaleBox-2"  name="numscalemin"  onchange="updateNumScalePossibleValues(2)"  type="number"  value="1" />
-                                            </td>
-                                               <td onmouseover="ddrivetip('Value to be increased/decreased each step')"
-                                                onmouseout="hideddrivetip()">Increment:
-                                                 <input class="stepBox"  disabled="disabled"  id="stepBox-2"  min="0.001"  name="numscalestep"  onchange="updateNumScalePossibleValues(2)"  step="0.001"  type="number"  value="1" />
-                                            </td>
-                                               <td onmouseover="ddrivetip('Maximum acceptable response value')"
-                                                onmouseout="hideddrivetip()">Maximum value:
-                                                <input class="maxScaleBox"  disabled="disabled"  id="maxScaleBox-2"  name="numscalemax"  onchange="updateNumScalePossibleValues(2)"  type="number"  value="5" />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                               <td colspan="3" >
-                                                  <span id="numScalePossibleValues-2" >
-                                                     [Based on the above settings, acceptable responses are: 1, 2, 3, 4, 5]
-                                                  </span>
-                                               </td>
-                                            </tr>
-                                    </tbody>
-                                </table>
-                            </td>
+                           <td colspan="4" >
+                              <table>
+                                 <tbody>
+                                    <tr>
+                                       <td onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Minimum acceptable response value')" >
+                                          Minimum value:
+                                          <input class="minScaleBox"  disabled="disabled"  id="minScaleBox-2"  name="numscalemin"  onchange="updateNumScalePossibleValues(2)"  type="number"  value="3" />
+                                                                                 </td>
+                                       <td onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Value to be increased/decreased each step')" >
+                                          Increment:
+                                          <input class="stepBox"  disabled="disabled"  id="stepBox-2"  min="0.001"  name="numscalestep"  onchange="updateNumScalePossibleValues(2)"  step="0.001"  type="number"  value="0.2" />
+                                                                                 </td>
+                                       <td onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Maximum acceptable response value')" >
+                                          Maximum value:
+                                          <input class="maxScaleBox"  disabled="disabled"  id="maxScaleBox-2"  name="numscalemax"  onchange="updateNumScalePossibleValues(2)"  type="number"  value="4" />
+                                                                                 </td>
+                                    </tr>
+                                    <tr>
+                                       <td colspan="3" >
+                                          <span id="numScalePossibleValues-2" >
+                                             [Based on the above settings, acceptable responses are: 3, 3.2, 3.4, 3.6, 3.8, 4]
+                                          </span>
+                                       </td>
+                                    </tr>
+                                 </tbody>
+                              </table>
+                           </td>
                         </tr>
                         <tr>
                            <td class="bold"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Who will give feedback')" >

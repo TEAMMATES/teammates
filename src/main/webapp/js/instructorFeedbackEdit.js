@@ -459,7 +459,7 @@ function updateNumScalePossibleValues(questionNumber) {
             possibleValuesString += min.toString();
             cur = min + step;
             while ((max - cur) >= -1e-9) {
-                possibleValuesString += ", " + cur.toString();
+                possibleValuesString += ", " + (Math.round(cur*1000)/1000).toString();
                 cur += step;
             }
         }
