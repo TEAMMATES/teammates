@@ -101,6 +101,10 @@ public class StudentsLogic {
     
     public String getKeyForStudent(String courseId, String email) {
     
+        // this method and the method below
+        // updateStudentCascadeWithSubmissionAdjustmentScheduled--this will throw exception but seems it will also
+        // create one more db access
+        // so we are talking about efficiency and code consistency here
         StudentAttributes studentData = getStudentForEmail(courseId, email);
     
         if (studentData == null) {
@@ -497,6 +501,7 @@ public class StudentsLogic {
     
     private List<String> getInvalidityInfoInDuplicatedEmail(String email,
             ArrayList<String> studentEmailList,String[] linesArray){
+        // simple method--no test
         List<String> info = new ArrayList<String>();
         info.add("Same email address as the student in line \"" + linesArray[studentEmailList.indexOf(email)]+ "\"");
         return info;
@@ -505,15 +510,18 @@ public class StudentsLogic {
     private boolean isStudentEmailDuplicated(String email, 
             ArrayList<String> studentEmailList){
         boolean isEmailDuplicated = studentEmailList.contains(email);
+        // what is this line? why add the email anyway? should not this be if not duplicated?
         studentEmailList.add(email);
         return isEmailDuplicated;
     }
     
     private boolean isInEnrollList(StudentAttributes student,
             ArrayList<StudentAttributes> studentInfoList) {
+        // simple method
         for (StudentAttributes studentInfo : studentInfoList) {
-            if (studentInfo.email.equalsIgnoreCase(student.email))
+            if (studentInfo.email.equalsIgnoreCase(student.email)) { // coding style
                 return true;
+            }
         }
         return false;
     }
