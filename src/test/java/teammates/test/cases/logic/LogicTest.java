@@ -60,7 +60,6 @@ import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.EvaluationsLogic;
 import teammates.logic.core.SubmissionsLogic;
-import teammates.storage.api.CoursesDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 import teammates.test.util.TestHelper;
@@ -71,8 +70,6 @@ public class LogicTest extends BaseComponentTestCase {
 
     private static final Logic logic = new Logic();
     protected static SubmissionsLogic submissionsLogic = SubmissionsLogic.inst();
-
-    private static final CoursesDb coursesDb = new CoursesDb();
 
     private static DataBundle dataBundle = getTypicalDataBundle();
 
