@@ -31,8 +31,7 @@ public class StudentEvalSubmissionEditPageAction extends Action {
         data.eval = logic.getEvaluation(courseId, evalName);
         
         if(data.eval == null) {
-            statusToUser.add("The evaluation has been deleted and is no longer accessible. "
-                    + "Please contact your instructors if you need to submit/edit an evaluation.");
+            statusToUser.add("The evaluation has been deleted and is no longer accessible.");
             
             RedirectResult response = createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
             return response;
