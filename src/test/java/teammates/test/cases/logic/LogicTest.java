@@ -2737,16 +2737,6 @@ public class LogicTest extends BaseComponentTestCase {
         }
     }
     
-    
-    @SuppressWarnings("unused")
-    private void ____MISC_methods_________________________________________() {
-    }
-    
-    @Test 
-    public void testSendEmailErrorReport(){
-        //tested elsewhere
-    }
-    
     @AfterClass
     public static void classTearDown() throws Exception {
         printTestClassFooter();
