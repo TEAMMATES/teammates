@@ -284,63 +284,6 @@ public class LogicTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testAddInstructor() throws Exception {
-        
-        ______TS("success: add an instructor");
-        
-        InstructorAttributes instr = new InstructorAttributes(
-                null, "test-course", "New Instructor", "LT.instr@email.com");
-        
-        logic.addInstructor(instr.courseId, instr.name, instr.email);
-        
-        TestHelper.verifyPresentInDatastore(instr);
-        
-        ______TS("failure: instructor already exists");
-        
-        try {
-            logic.addInstructor(instr.courseId, instr.name, instr.email);
-            signalFailureToDetectException();
-        } catch (EntityAlreadyExistsException e) {
-            AssertHelper.assertContains("Trying to create a Instructor that exists", e.getMessage());
-        }
-        
-        ______TS("failure: invalid parameter");
-        
-        instr.email = "invalidEmail.com";
-        
-        try {
-            logic.addInstructor(instr.courseId, instr.name, instr.email);
-            signalFailureToDetectException();
-        } catch (InvalidParametersException e) {
-            AssertHelper.assertContains("\""+instr.email+"\" is not acceptable to TEAMMATES as an email",
-                                e.getMessage());
-        }
-        
-        ______TS("failure: null parameters");
-        
-        try {
-            logic.addInstructor(null, instr.name, instr.email);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            assertEquals(Logic.ERROR_NULL_PARAMETER, e.getMessage());
-        }
-        
-        try {
-            logic.addInstructor(instr.courseId, null, instr.email);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            assertEquals(Logic.ERROR_NULL_PARAMETER, e.getMessage());
-        }
-        
-        try {
-            logic.addInstructor(instr.courseId, instr.name, null);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            assertEquals(Logic.ERROR_NULL_PARAMETER, e.getMessage());
-        }
-    }
-    
-    @Test
     public void testGetInstructorForGoogleId() throws Exception {
         
         ______TS("invalid case: null parameters");

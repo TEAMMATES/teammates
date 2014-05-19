@@ -91,11 +91,9 @@ public class InstructorsLogic {
     public String getKeyForInstructor(String courseId, String email)
             throws EntityDoesNotExistException {
         
-        InstructorAttributes instructor = getInstructorForEmail(courseId, email);
+        verifyIsInstructorEmailOfCourse(email, courseId);
         
-        if (instructor == null) {
-            throw new EntityDoesNotExistException("Instructor does not exist :" + email);
-        }
+        InstructorAttributes instructor = getInstructorForEmail(courseId, email);
     
         return instructor.key;
     }
@@ -174,11 +172,11 @@ public class InstructorsLogic {
      */
     public void updateInstructorByGoogleId(String googleId, InstructorAttributes instructor) 
             throws InvalidParametersException, EntityDoesNotExistException {
-        
+
+        coursesLogic.verifyCourseIsPresent(instructor.courseId);        
+        verifyIsInstructorOfCourse(googleId, instructor.courseId);
+
         InstructorAttributes instructorToUpdate = getInstructorForGoogleId(instructor.courseId, googleId);
-        if (instructorToUpdate == null) {
-            throw new EntityDoesNotExistException("Instructor does not exist :" + googleId);
-        }
         instructorToUpdate.name = instructor.name;
         instructorToUpdate.email = instructor.email;
         
@@ -195,6 +193,9 @@ public class InstructorsLogic {
     public void updateInstructorByEmail(String email, InstructorAttributes instructor) 
             throws InvalidParametersException, EntityDoesNotExistException {
         
+        coursesLogic.verifyCourseIsPresent(instructor.courseId);        
+        verifyIsInstructorEmailOfCourse(email, instructor.courseId);
+
         InstructorAttributes instructorToUpdate = getInstructorForEmail(instructor.courseId, email);
         instructorToUpdate.googleId = instructor.googleId;
         instructorToUpdate.name = instructor.name;

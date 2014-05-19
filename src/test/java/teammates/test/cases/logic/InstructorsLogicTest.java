@@ -72,7 +72,30 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
                                 e.getMessage());
         }
         
-    }
+        ______TS("failure: null parameters");
+        
+        try {
+            instructorsLogic.addInstructor(null, instr.name, instr.email);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains("Non-null value expected", e.getMessage());
+        }
+        
+        try {
+            instructorsLogic.addInstructor(instr.courseId, null, instr.email);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains("Non-null value expected", e.getMessage());
+        }
+        
+        try {
+            instructorsLogic.addInstructor(instr.courseId, instr.name, null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains("Non-null value expected", e.getMessage());
+        }
+    
+    }   
     
     @Test
     public void testGetInstructorForEmail() throws Exception {
@@ -92,6 +115,23 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         assertEquals(email, instr.email);
         assertEquals("idOfInstructor1OfCourse1", instr.googleId);
         assertEquals("Instructor1 Course1", instr.name);
+
+        ______TS("failure: null parameters");
+        
+        try {
+            instructorsLogic.getInstructorForEmail(null, email);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
+        }
+        
+        try {
+            instructorsLogic.getInstructorForEmail(courseId, null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
+        }
+        
     }
     
     @Test
@@ -112,6 +152,23 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         assertEquals(googleId, instr.googleId);
         assertEquals("instructor1@course1.com", instr.email);
         assertEquals("Instructor1 Course1", instr.name);
+
+        ______TS("failure: null parameters");
+        
+        try {
+            instructorsLogic.getInstructorForGoogleId(null, googleId);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
+        }
+        
+        try {
+            instructorsLogic.getInstructorForGoogleId(courseId, null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
+        }
+        
     }
     
     @Test
@@ -134,6 +191,14 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         assertEquals(instr.courseId, retrieved.courseId);
         assertEquals(instr.name, retrieved.name);
         assertEquals(instr.email, retrieved.email);
+        
+        ______TS("failure: null parameter");
+        try {
+            instructorsLogic.getInstructorForRegistrationKey(null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
+        }
     }
 
     @Test
@@ -161,6 +226,15 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         
         instructors = instructorsLogic.getInstructorsForCourse(courseId);
         assertEquals(0, instructors.size());
+
+        ______TS("failure: null parameters");
+
+        try {
+            instructorsLogic.getInstructorsForCourse(null);
+            signalFailureToDetectException();
+        } catch (AssertionError e){
+            AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
+        }
     }
 
     @Test
@@ -185,6 +259,15 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         
         instructors = instructorsLogic.getInstructorsForGoogleId(googleId);
         assertEquals(0, instructors.size());
+
+        ______TS("failure: null parameter");
+
+        try {
+            instructorsLogic.getInstructorsForGoogleId(null);
+            signalFailureToDetectException();
+        } catch (AssertionError e){
+            AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
+        }
     }
     
     @Test
@@ -201,14 +284,32 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         String expected = instructor.key;
         assertEquals(expected, key);
         
-        ______TS("non-existent instructor");
+        ______TS("failure: non-existent instructor");
 
         try {
             instructorsLogic.getKeyForInstructor(courseId, "non-existent@email.com");
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
-            assertEquals("Instructor does not exist :non-existent@email.com", e.getMessage());
+            assertEquals("Instructor " + "non-existent@email.com"
+                    + " does not belong to course " + courseId, e.getMessage());
         }
+
+        ______TS("failure: null parameter");
+
+        try {
+            instructorsLogic.getKeyForInstructor(courseId, null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
+        }
+
+        try {
+            instructorsLogic.getKeyForInstructor(null, email);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
+        }
+
     }
     
     @Test
@@ -230,6 +331,22 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         result = instructorsLogic.isInstructorOfCourse(instructorId, courseId);
         
         assertEquals(false, result);
+
+        ______TS("failure: null parameter");
+
+        try {
+            instructorsLogic.isInstructorOfCourse(null, courseId);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
+        }
+
+        try {
+            instructorsLogic.isInstructorOfCourse(instructorId, null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
+        }
     }
     
     @Test
@@ -251,6 +368,23 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         result = instructorsLogic.isInstructorEmailOfCourse(instructorEmail, courseId);
         
         assertEquals(false, result);
+
+        ______TS("failure: null parameter");
+
+        try {
+            instructorsLogic.isInstructorEmailOfCourse(instructorEmail, null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
+        }
+
+        try {
+            instructorsLogic.isInstructorEmailOfCourse(null, courseId);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
+        }
+
     }
 
     @Test
