@@ -2,6 +2,7 @@ package teammates.logic.core;
 
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
@@ -12,9 +13,13 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
+import teammates.common.util.Utils;
 import teammates.storage.api.FeedbackResponseCommentsDb;
 
 public class FeedbackResponseCommentsLogic {
+    @SuppressWarnings("unused") //used by test
+    private static final Logger log = Utils.getLogger();
+    
     private static FeedbackResponseCommentsLogic instance;
 
     private static final FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
@@ -80,7 +85,7 @@ public class FeedbackResponseCommentsLogic {
     private boolean isCoursePresent(String courseId) throws EntityDoesNotExistException{
         if (coursesLogic.isCoursePresent(courseId) == false) {
             throw new EntityDoesNotExistException(
-                    "Trying to create comments for a course that does not exist.");
+                    "Trying to get/create feedback response comments for a course that does not exist.");
         }
         return true;
     }
