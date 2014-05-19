@@ -979,6 +979,8 @@ public class Logic {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorId);
 
+        instructorsLogic.verifyInstructorExists(instructorId);
+
         return evaluationsLogic.getEvaluationsDetailsForInstructor(instructorId);
     }
     
@@ -993,7 +995,9 @@ public class Logic {
             throws EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorId);
-    
+        
+        instructorsLogic.verifyInstructorExists(instructorId);
+
         return evaluationsLogic.getEvaluationsListForInstructor(instructorId);
     }
 
