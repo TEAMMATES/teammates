@@ -319,8 +319,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.clickArchiveCourseLink(courseIdForCS1101);
         
         assertTrue(BackDoor.getCourse(courseIdForCS1101).isArchived);
-//        homePage.verifyHtmlAjax("/instructorHomeCourseArchiveSuccessful.html");
-        // what is this line doing here?
+        homePage.verifyHtmlAjax("/instructorHomeCourseArchiveSuccessful.html");
         
         ______TS("archive action failed");
         
