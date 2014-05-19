@@ -28,8 +28,8 @@ import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.test.cases.BaseComponentTestCase;
-import teammates.test.cases.logic.LogicTest;
 import teammates.test.driver.AssertHelper;
+import teammates.test.util.TestHelper;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -52,7 +52,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         
         FeedbackSessionAttributes fsa = getNewFeedbackSession();
         fsDb.createEntity(fsa);
-        LogicTest.verifyPresentInDatastore(fsa);
+        TestHelper.verifyPresentInDatastore(fsa);
         
         ______TS("duplicate");
         try {
@@ -65,7 +65,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         }
         
         fsDb.deleteEntity(fsa);
-        LogicTest.verifyAbsentInDatastore(fsa);
+        TestHelper.verifyAbsentInDatastore(fsa);
         
         ______TS("null params");
         
@@ -108,10 +108,19 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         
         assertNull(fsDb.getFeedbackSession("non-course", "Non-existant feedback session"));
         
-        ______TS("null params");
+        ______TS("null fsName");
         
         try {
             fsDb.getFeedbackSession("idOfTypicalCourse1", null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
+        }
+        
+        ______TS("null courseId");
+        
+        try {
+            fsDb.getFeedbackSession(null, "First feedback session");
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
@@ -134,12 +143,13 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
                 dataBundle.feedbackSessions.get("session2InCourse1").toString() + Const.EOL +
                 dataBundle.feedbackSessions.get("empty.session").toString() + Const.EOL +                
                 dataBundle.feedbackSessions.get("awaiting.session").toString() + Const.EOL +
+                dataBundle.feedbackSessions.get("closedSession").toString() + Const.EOL +
                 dataBundle.feedbackSessions.get("gracePeriodSession").toString() + Const.EOL;
         
         for (FeedbackSessionAttributes session : sessions) {
             AssertHelper.assertContains(session.toString(), expected);
         }
-        Assert.assertTrue(sessions.size() == 5);
+        Assert.assertTrue(sessions.size() == 6);
         
         ______TS("null params");
         
@@ -200,12 +210,12 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         FeedbackSessionAttributes modifiedSession = getNewFeedbackSession();
         fsDb.deleteEntity(modifiedSession);
         fsDb.createEntity(modifiedSession);
-        LogicTest.verifyPresentInDatastore(modifiedSession);
+        TestHelper.verifyPresentInDatastore(modifiedSession);
         modifiedSession.instructions = new Text("new instructions");
         modifiedSession.gracePeriod = 0;
         modifiedSession.sentOpenEmail = false;
         fsDb.updateFeedbackSession(modifiedSession);
-        LogicTest.verifyPresentInDatastore(modifiedSession);
+        TestHelper.verifyPresentInDatastore(modifiedSession);
     }
     
     private FeedbackSessionAttributes getNewFeedbackSession() {

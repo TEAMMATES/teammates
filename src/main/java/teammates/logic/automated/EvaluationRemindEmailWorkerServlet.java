@@ -1,4 +1,4 @@
-package teammates.logic.core;
+package teammates.logic.automated;
 
 import java.util.logging.Logger;
 
@@ -10,7 +10,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Utils;
 import teammates.common.util.Const.ParamsNames;
-import teammates.logic.automated.WorkerServlet;
+import teammates.logic.core.EvaluationsLogic;
 /**
  * Receives and executes tasks added to the "evaluation-remind-email-queue" Task Queue
  * Only accessible from within the application and not externally by users  

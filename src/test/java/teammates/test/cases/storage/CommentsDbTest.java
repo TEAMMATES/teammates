@@ -24,8 +24,8 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.storage.api.CommentsDb;
 import teammates.test.cases.BaseComponentTestCase;
-import teammates.test.cases.logic.LogicTest;
 import teammates.test.driver.AssertHelper;
+import teammates.test.util.TestHelper;
 
 public class CommentsDbTest extends BaseComponentTestCase {
     
@@ -58,19 +58,19 @@ public class CommentsDbTest extends BaseComponentTestCase {
                     e.getMessage());
         }
 
-        LogicTest.verifyAbsentInDatastore(c);
+        TestHelper.verifyAbsentInDatastore(c);
 
         ______TS("success : valid params");
 
         c.courseId = "course-id";
         commentsDb.createEntity(c);
-        LogicTest.verifyPresentInDatastore(c);
+        TestHelper.verifyPresentInDatastore(c);
         
         ______TS("success: another comment with different text");
         
         c.commentText = new Text("Another comment");
         commentsDb.createEntity(c);
-        LogicTest.verifyPresentInDatastore(c);
+        TestHelper.verifyPresentInDatastore(c);
         
         ______TS("null params check");
         try {
@@ -161,7 +161,7 @@ public class CommentsDbTest extends BaseComponentTestCase {
         c.createdAt = existing.createdAt;
         c.commentText = new Text("new comment");
         commentsDb.updateComment(c);
-        LogicTest.verifyPresentInDatastore(c);
+        TestHelper.verifyPresentInDatastore(c);
     }
     
     @Test
@@ -177,7 +177,7 @@ public class CommentsDbTest extends BaseComponentTestCase {
         CommentAttributes currentComment = commentsDb.getCommentsForGiver(c.courseId, c.giverEmail).get(0);
         c.setCommentId(currentComment.getCommentId());
         commentsDb.deleteEntity(currentComment);
-        LogicTest.verifyAbsentInDatastore(c);
+        TestHelper.verifyAbsentInDatastore(c);
         
         ______TS("invalid delete non-existing comment fails silently");
         commentsDb.deleteEntity(currentComment); //currentComment doesn't exist anymore

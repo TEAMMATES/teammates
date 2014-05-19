@@ -88,18 +88,24 @@ public class AccountsLogic {
     
     public String getCourseInstitute(String courseId) {
         CourseAttributes cd = new CoursesLogic().getCourse(courseId);
+        Assumption.assertNotNull("Trying to getCourseInstitute for inexistent course with id " + courseId, cd);
         List<InstructorAttributes> instructorList = InstructorsLogic.inst().getInstructorsForCourse(cd.id);
         
         Assumption.assertTrue("Course has no instructors: " + cd.id, !instructorList.isEmpty());
         // Retrieve institute field from one of the instructors of the course
         String institute = "";
         for (int i=0; i<instructorList.size(); i++) {
-            AccountAttributes instructorAcc = accountsDb.getAccount(instructorList.get(i).googleId);
+            String instructorGoogleId = instructorList.get(i).googleId;
+            if(instructorGoogleId==null){
+                continue;
+            }
+            AccountAttributes instructorAcc = accountsDb.getAccount(instructorGoogleId);
             if (instructorAcc != null) {
                 institute = instructorAcc.institute;
                 break;
             }
         }
+        Assumption.assertNotEmpty("No institute found for the course", institute);
         return institute;
     }
 
@@ -107,8 +113,7 @@ public class AccountsLogic {
         accountsDb.updateAccount(account);
     }
     
-    //TODO: Change to void return type?
-    public StudentAttributes joinCourseForStudent(String registrationKey, String googleId) 
+    public void joinCourseForStudent(String registrationKey, String googleId) 
             throws JoinCourseException {
         
         verifyStudentJoinCourseRequest(registrationKey, googleId);
@@ -132,12 +137,9 @@ public class AccountsLogic {
                 throw new JoinCourseException(e.getLocalizedMessage());
             }
         }
-        
-        return student;
     }
     
-    //TODO: Change to void return type?
-    public InstructorAttributes joinCourseForInstructor(String encryptedKey, String googleId)
+    public void joinCourseForInstructor(String encryptedKey, String googleId)
             throws JoinCourseException {
         
         verifyInstructorJoinCourseRequest(encryptedKey, googleId);
@@ -147,9 +149,9 @@ public class AccountsLogic {
         instructor.googleId = googleId;
         try {
             InstructorsLogic.inst().updateInstructorByEmail(instructor.email, instructor);
-        } catch (InvalidParametersException e) {
+        } catch (InvalidParametersException | EntityDoesNotExistException e) {
             throw new JoinCourseException(e.getMessage());
-        } 
+        }
         
         AccountAttributes account = accountsDb.getAccount(googleId);
         if(account == null) {
@@ -161,9 +163,6 @@ public class AccountsLogic {
         } else {
             makeAccountInstructor(googleId);
         }
-        
-        return instructor;
-        
     }
     
     private void verifyInstructorJoinCourseRequest(String encryptedKey, String googleId)

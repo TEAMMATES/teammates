@@ -45,15 +45,22 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
     @Test
     public void testExecuteAndPostProcess() throws Exception{
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
+        FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
         gaeSimulation.loginAsInstructor(instructor.googleId);
         
         ______TS("not enough parameters");
         
-        verifyAssumptionFailure();
+        String[] paramsWithoutCourseId = new String[]{
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName
+        };
+        String[] paramsWithoutFeedbackSessionName = new String[]{
+                Const.ParamsNames.COURSE_ID, session.courseId
+        };
+        
+        verifyAssumptionFailure(paramsWithoutCourseId);
+        verifyAssumptionFailure(paramsWithoutFeedbackSessionName);
         
         ______TS("typical success case");
-        
-        FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
         
         String[] params = new String[]{
                 Const.ParamsNames.COURSE_ID, session.courseId,
@@ -84,6 +91,32 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
                 r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
+        
+        ______TS("closed session case");
+        
+        gaeSimulation.loginAsInstructor(instructor.googleId);
+       
+        session = dataBundle.feedbackSessions.get("closedSession");
+        
+        params = new String[]{
+                Const.ParamsNames.COURSE_ID, session.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName,
+                Const.ParamsNames.USER_ID, instructor.googleId
+        };
+        
+        a = getAction(params);
+        r = (ShowPageResult) a.executeAndPostProcess();
+        
+        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT
+                + "?"
+                + "message="
+                + Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN.replaceAll(" ", "+")
+                + "&error=false"
+                + "&" + Const.ParamsNames.USER_ID + "=" + instructor.googleId,
+                r.getDestinationWithParams());
+        assertFalse(r.isError);
+        assertEquals(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN, r.getStatusMessage());
+        
     }
     
     private InstructorFeedbackSubmissionEditPageAction getAction(String... params) throws Exception{

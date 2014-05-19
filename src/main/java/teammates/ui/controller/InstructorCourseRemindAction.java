@@ -19,6 +19,9 @@ import teammates.common.util.Const;
 import teammates.common.util.Utils;
 import teammates.logic.api.GateKeeper;
 
+/**
+ * Action: remind instructor or student to register for a course by sending reminder emails
+ */
 public class InstructorCourseRemindAction extends Action {
     protected static final Logger log = Utils.getLogger();
     
@@ -35,6 +38,7 @@ public class InstructorCourseRemindAction extends Action {
                 logic.getInstructorForGoogleId(courseId, account.googleId),
                 logic.getCourse(courseId));
         
+        /* Process sending emails and setup status to be shown to user and admin */
         List<MimeMessage> emailsSent = new ArrayList<MimeMessage>();
         String redirectUrl = "";
         try {
@@ -62,6 +66,7 @@ public class InstructorCourseRemindAction extends Action {
             Assumption.fail("InvalidParametersException not expected at this point");
         }
         
+        /* Create redirection with URL based on type of sending email */
         RedirectResult response = createRedirectResult(redirectUrl);
         response.addResponseParam(Const.ParamsNames.COURSE_ID, courseId);
         
@@ -70,7 +75,7 @@ public class InstructorCourseRemindAction extends Action {
     }
     
     private String generateStatusToAdmin(List<MimeMessage> emailsSent, String courseId) {
-        String statusToAdmin = "Registration Key sent to the following students "
+        String statusToAdmin = "Registration Key sent to the following users "
                 + "in Course <span class=\"bold\">[" + courseId + "]</span>:<br/>";
         
         Iterator<Entry<String, JoinEmailData>> extractedEmailIterator = 
@@ -79,10 +84,10 @@ public class InstructorCourseRemindAction extends Action {
         while (extractedEmailIterator.hasNext()) {
             Entry<String, JoinEmailData> extractedEmail = extractedEmailIterator.next();
             
-            String studentEmail = extractedEmail.getKey();
+            String userEmail = extractedEmail.getKey();
             JoinEmailData joinEmailData = extractedEmail.getValue();
             
-            statusToAdmin += joinEmailData.studentName + "<span class=\"bold\"> (" + studentEmail + ")"
+            statusToAdmin += joinEmailData.userName + "<span class=\"bold\"> (" + userEmail + ")"
                     + "</span>.<br/>" + joinEmailData.regKey + "<br/>";
         }
         
@@ -95,9 +100,9 @@ public class InstructorCourseRemindAction extends Action {
         for (MimeMessage email : emails) {
             try {
                 String recipient = email.getAllRecipients()[0].toString();
-                String studentName = extractStudentName((String) email.getContent());
+                String userName = extractUserName((String) email.getContent());
                 String regKey = extractRegistrationKey((String) email.getContent());
-                logData.put(recipient, new JoinEmailData(studentName, regKey));
+                logData.put(recipient, new JoinEmailData(userName, regKey));
             } catch (MessagingException e) {
                 Assumption.fail("Join email corrupted");
             } catch (IOException e) {
@@ -108,7 +113,7 @@ public class InstructorCourseRemindAction extends Action {
         return logData;
     }
     
-    private String extractStudentName(String emailContent) {
+    private String extractUserName(String emailContent) {
         int startIndex = emailContent.indexOf("Hello ") + "Hello ".length();
         int endIndex = emailContent.indexOf(",");
         return emailContent.substring(startIndex, endIndex);
@@ -121,11 +126,11 @@ public class InstructorCourseRemindAction extends Action {
     }
     
     private class JoinEmailData {
-        String studentName;
+        String userName;
         String regKey;
         
-        public JoinEmailData(String studentName, String regKey) {
-            this.studentName = studentName;
+        public JoinEmailData(String userName, String regKey) {
+            this.userName = userName;
             this.regKey = regKey;
         }
     }

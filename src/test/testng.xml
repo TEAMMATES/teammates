@@ -81,6 +81,8 @@
             <class name="teammates.test.cases.ui.InstructorCourseInstructorDeleteActionTest" />
             <class name="teammates.test.cases.ui.InstructorCourseEnrollPageActionTest" />
             <class name="teammates.test.cases.ui.InstructorCourseEnrollSaveActionTest" />
+            <class name="teammates.test.cases.ui.InstructorCourseJoinAuthenticatedActionTest" />
+            <class name="teammates.test.cases.ui.InstructorCourseJoinActionTest" />
             <class name="teammates.test.cases.ui.InstructorCourseRemindActionTest" />
             <class name="teammates.test.cases.ui.InstructorCourseStudentDeleteActionTest" />
             <class name="teammates.test.cases.ui.InstructorCourseStudentDetailsPageActionTest" />
@@ -158,6 +160,7 @@
     <!-- These cover the important UI functionality. Can be run in parallel. -->
         <classes>
             <class name="teammates.test.cases.ui.browsertests.AutomatedSessionRemindersTest" />
+            <class name="teammates.test.cases.ui.browsertests.InstructorCourseJoinConfirmationPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorCourseEnrollPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorCoursesPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorCourseEditPageUiTest" />

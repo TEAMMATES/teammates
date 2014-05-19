@@ -21,7 +21,7 @@ import teammates.logic.api.Logic;
 import com.google.apphosting.api.DeadlineExceededException;
 /**
  * Receives requests from the Browser, executes the matching action and sends 
- * the result back to the Browser. The result can be page to view or a request
+ * the result back to the Browser. The result can be a page to view or instructions
  * for the Browser to send another request for a different follow up Action.   
  */
 @SuppressWarnings("serial")
@@ -48,6 +48,7 @@ public class ControllerServlet extends HttpServlet {
             log.info("Request received : " + req.getRequestURL().toString()
                     + ":" + HttpRequestHelper.printRequestParameters(req));
             log.info("User agent : " + req.getHeader("User-Agent"));
+            
             Action c = new ActionFactory().getAction(req);
             ActionResult actionResult = c.executeAndPostProcess();
             actionResult.send(req, resp);
@@ -64,12 +65,10 @@ public class ControllerServlet extends HttpServlet {
             resp.sendRedirect(Const.ViewURIs.UNAUTHORIZED);
 
         } catch (DeadlineExceededException e) {
-            //TODO: This exception is not caught because GAE kills the request soon after throwing it.
-            MimeMessage email = new Logic().emailErrorReport(
-                    req.getServletPath(), 
-                    HttpRequestHelper.printRequestParameters(req), 
-                    e);
-            log.severe(ActivityLogEntry.generateSystemErrorReportLogMessage(req, email)); 
+            /*This exception may not be caught because GAE kills 
+              the request soon after throwing it. In that case, the error 
+              message in the log will be emailed to the admin by a separate
+              cron job.*/
             resp.sendRedirect(Const.ViewURIs.DEADLINE_EXCEEDED_ERROR_PAGE);
 
         //TODO: handle invalid parameters exception

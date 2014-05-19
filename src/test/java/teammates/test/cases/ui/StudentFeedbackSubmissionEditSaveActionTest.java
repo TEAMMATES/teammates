@@ -16,7 +16,7 @@ import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.exception.UnauthorizedAccessException;
+import teammates.common.exception.NullPostParameterException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
@@ -400,6 +400,37 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                         + "&error=" + r.isError +"&user=FSQTT.student1InCourse1",
                         r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
+        
+        
+        
+        ______TS("Unsuccessful case: test empty feedback session name parameter");
+        submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, dataBundle.feedbackResponses.get("response1ForQ1S1C1").courseId
+        };
+        
+        try {
+            a = getAction(submissionParams);
+            r = (RedirectResult) a.executeAndPostProcess();
+            signalFailureToDetectException("Did not detect that parameters are null.");
+        } catch (NullPostParameterException e) {
+            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, 
+                    Const.ParamsNames.FEEDBACK_SESSION_NAME), e.getMessage());
+        }
+                
+        
+        ______TS("Unsuccessful case: test empty course id parameter");
+        submissionParams = new String[]{
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, dataBundle.feedbackResponses.get("response1ForQ1S1C1").feedbackSessionName
+        };
+        
+        try {
+            a = getAction(submissionParams);
+            r = (RedirectResult) a.executeAndPostProcess();
+            signalFailureToDetectException("Did not detect that parameters are null.");
+        } catch (NullPostParameterException e) {
+            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, 
+                    Const.ParamsNames.COURSE_ID), e.getMessage());
+        }
     }
     
     @Test
@@ -489,16 +520,12 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         
         assertFalse(fs.isOpened());
         assertFalse(fs.isInGracePeriod());
-                
-        String submissionFailMessage = new String();
-        try{
-            a = getAction(submissionParams);
-            r = a.executeAndPostProcess();
-        }
-        catch(UnauthorizedAccessException e){
-            submissionFailMessage= e.getMessage();
-        }
-        assertEquals("This feedback session is not currently open for submission.", submissionFailMessage);
+        
+        a = getAction(submissionParams);
+        r = a.executeAndPostProcess();
+        
+        assertEquals(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN,
+                r.getStatusMessage());
     }
     
     private StudentFeedbackSubmissionEditSaveAction getAction(String... params) throws Exception{

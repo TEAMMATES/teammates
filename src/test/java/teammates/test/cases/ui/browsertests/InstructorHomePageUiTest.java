@@ -14,17 +14,25 @@ import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.HomePage;
+import teammates.test.pageobjects.InstructorCourseDetailsPage;
+import teammates.test.pageobjects.InstructorCourseEditPage;
+import teammates.test.pageobjects.InstructorCourseEnrollPage;
+import teammates.test.pageobjects.InstructorEvalEditPage;
+import teammates.test.pageobjects.InstructorEvalPreview;
+import teammates.test.pageobjects.InstructorEvalResultsPage;
+import teammates.test.pageobjects.InstructorEvalsPage;
 import teammates.test.pageobjects.InstructorHelpPage;
 import teammates.test.pageobjects.InstructorHomePage;
 
 /**
- * Tests Homepage and login page for instructors. 
+ * Tests Home page and login page for instructors. 
  * SUT: {@link InstructorHomePage}.<br>
  * Uses a real account.
  * 
@@ -106,28 +114,32 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         
         ______TS("login");
         
-        AppPage.logout(browser);
-        homePage = HomePage.getNewInstance(browser)
-                .clickInstructorLogin()
-                .loginAsInstructor(
-                        TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, 
-                        TestProperties.inst().TEST_INSTRUCTOR_PASSWORD);
+        loginAsCommonInstructor();
+        assertTrue(browser.driver.getCurrentUrl().endsWith(Const.ActionURIs.INSTRUCTOR_HOME_PAGE));
     }
     
     public void testContent(){
         
         ______TS("content: no courses");
         
-        //this case is implicitly tested when testing for 'delete course' action
+        //this case is implicitly tested when testing for 'delete course' action and
+        //new instructor without sample course
             
         ______TS("content: multiple courses");
         
         //already logged in
         homePage.verifyHtmlAjax("/InstructorHomeHTML.html");
         
-        ______TS("content: new instructor");
-        //TODO: to be implemented
-        // what needs to be done here? to make sure there is hint msg to new instructor and a sample course?
+        ______TS("content: new instructor, with status message HINT_FOR_NEW_INSTRUCTOR");
+        
+        loginAsInstructor(testData.accounts.get("newInstructorWithSampleCourse").email);
+        homePage.verifyHtml("/InstructorHomeNewInstructorWithSampleCourse.html");
+        
+        loginAsInstructor(testData.accounts.get("newInstructorWithoutSampleCourse").email);
+        homePage.verifyHtml("/InstructorHomeNewInstructorWithoutSampleCourse.html");
+        
+        //restore login account
+        loginAsCommonInstructor();
     }
     
     public void testHelpLink() throws Exception{
@@ -140,60 +152,50 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
     }
     
     public void testCourseLinks(){
-        String instructorId = testData.accounts.get("account").googleId;
-        String course1IdOfInstructor = testData.courses.get("CHomeUiT.CS1101").id;
+        // I have my old way of implementing this. but if this is OK/good, I will just remove this line
+        String courseId = testData.courses.get("CHomeUiT.CS1101").id;
         
-        ______TS("course links: enroll");
+        ______TS("link: course enroll");
+        InstructorCourseEnrollPage enrollPage = homePage.clickCourseErollLink(courseId);
+        enrollPage.verifyContains("Enroll Students for CHomeUiT.CS1101");
+        homePage.goToPreviousPage(InstructorHomePage.class);
         
-        WebElement enrollLink = homePage.getEnrollLinkOfCourseWithCourseNumber(0);
-        enrollLink.click();
-        String expectedEnrollLinkText = TestProperties.inst().TEAMMATES_URL + 
-                Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE + 
-                "?" + Const.ParamsNames.COURSE_ID + "=" + course1IdOfInstructor + 
-                "&" + Const.ParamsNames.USER_ID + "=" + instructorId;
-        assertEquals(expectedEnrollLinkText, browser.driver.getCurrentUrl());
-        homePage = homePage.goToPreviousPage(InstructorHomePage.class);
+        ______TS("link: course view");
+        InstructorCourseDetailsPage detailsPage = homePage.clickCourseViewLink(courseId);
+        detailsPage.verifyContains("Course Details");
+        homePage.goToPreviousPage(InstructorHomePage.class);
         
+        ______TS("link: course edit");
+        InstructorCourseEditPage editPage = homePage.clickCourseEditLink(courseId);
+        editPage.verifyContains("Edit Course Details");
+        homePage.goToPreviousPage(InstructorHomePage.class);
         
-        ______TS("course links: view");
-        
-        WebElement viewLink = homePage.getViewLinkOfCourseWithCourseNumber(0);
-        viewLink.click();
-        String expectedViewLinkText = TestProperties.inst().TEAMMATES_URL + 
-                Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE + 
-                "?" + Const.ParamsNames.COURSE_ID + "=" + course1IdOfInstructor + 
-                "&" + Const.ParamsNames.USER_ID + "=" + instructorId;
-        assertEquals(expectedViewLinkText, browser.driver.getCurrentUrl());
-        homePage = homePage.goToPreviousPage(InstructorHomePage.class);
-        
-        
-        ______TS("course links: Edit");
-        
-        WebElement editLink = homePage.getEditLinkOfCourseWithCourseNumber(0);
-        editLink.click();
-        String expectedEditLinkText = TestProperties.inst().TEAMMATES_URL + 
-                Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE + 
-                "?" + Const.ParamsNames.COURSE_ID + "=" + course1IdOfInstructor + 
-                "&" +  Const.ParamsNames.USER_ID + "=" + instructorId;
-        assertEquals(expectedEditLinkText, browser.driver.getCurrentUrl());
-        homePage = homePage.goToPreviousPage(InstructorHomePage.class);
-        
-        
-        ______TS("course links: Add Session");
-        
-        WebElement addSessionLink = homePage.getAddSessionLinkOfCourseWithCourseNumber(0);
-        addSessionLink.click();
-        String expectedAddSessionLinkText = TestProperties.inst().TEAMMATES_URL + 
-                Const.ActionURIs.INSTRUCTOR_EVALS_PAGE + 
-                "?" + Const.ParamsNames.USER_ID + "=" + instructorId +
-                "&" + Const.ParamsNames.COURSE_ID + "=" + course1IdOfInstructor;
-        assertEquals(expectedAddSessionLinkText, browser.driver.getCurrentUrl());
-        homePage = homePage.goToPreviousPage(InstructorHomePage.class);
+        ______TS("link: course add evaluation");
+        InstructorEvalsPage evalsPage =  homePage.clickCourseAddEvaluationLink(courseId);
+        evalsPage.verifyContains("Add New Evaluation Session");
+        homePage.goToPreviousPage(InstructorHomePage.class);
     }
     
+    
     public void testEvaluationLinks(){
-        //TODO: check View results, Edit, Preview links
-        // where is preview link?
+        
+        String courseId = testData.courses.get("CHomeUiT.CS1101").id;
+        String evaluation = testData.evaluations.get("Fourth Eval").name;
+        
+        ______TS("link: evaluation view results");
+        InstructorEvalResultsPage evalResultsPage = homePage.clickSessionViewResultsLink(courseId, evaluation);
+        evalResultsPage.verifyContains("Evaluation Results");
+        homePage.goToPreviousPage(InstructorHomePage.class);
+        
+        ______TS("link: evaluation edit");
+        InstructorEvalEditPage evalEditPage = homePage.clickSessionEditLink(courseId, evaluation);
+        evalEditPage.verifyContains("Edit Evaluation");
+        homePage.goToPreviousPage(InstructorHomePage.class);
+        
+        ______TS("link: evaluation preview");
+        InstructorEvalPreview evalPreviewPage = homePage.clickSessionPreviewLink(courseId, evaluation);
+        evalPreviewPage.verifyContains("Previewing Evaluation as");
+        evalPreviewPage.closeCurrentWindowAndSwitchToParentWindow();
     }
     
     public void testRemindAction(){
@@ -291,17 +293,30 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         
         ______TS("archive course action");
         
-        String courseId = testData.courses.get("CHomeUiT.CS1101").id;
+        String courseIdForCS1101 = testData.courses.get("CHomeUiT.CS1101").id;
         
-        homePage.clickArchiveCourseLink(courseId);
+        homePage.clickArchiveCourseLink(courseIdForCS1101);
         
-        assertTrue(BackDoor.getCourse(courseId).isArchived);
-        homePage.verifyHtmlAjax("/instructorHomeCourseArchiveSuccessful.html");
+        assertTrue(BackDoor.getCourse(courseIdForCS1101).isArchived);
+//        homePage.verifyHtmlAjax("/instructorHomeCourseArchiveSuccessful.html");
+        // what is this line doing here?
         
         ______TS("archive action failed");
-        // only possible if someone else delete the course while the user is viewing the page
-        // TODO: find out how to detect such an extreme case
         
+        String courseIdForCS2104 = testData.courses.get("CHomeUiT.CS2104").id;
+        
+        //delete the course, then submit archive request to it
+        Url urlToArchive = homePage.getArchiveCourseLink(courseIdForCS2104);
+        homePage.clickAndConfirm(homePage.getDeleteCourseLink(courseIdForCS2104));
+        browser.driver.get(urlToArchive.toString());
+        assertTrue(browser.driver.getCurrentUrl().endsWith(Const.ViewURIs.UNAUTHORIZED));
+        
+        //restore
+        testData = loadDataBundle("/InstructorHomePageUiTest.json");
+        restoreTestDataOnServer(testData);
+        loginAsCommonInstructor();
+        homePage.clickArchiveCourseLink(courseIdForCS1101);
+        homePage.clickHomeTab();
     }
 
     public void testDeleteCourseAction() throws Exception{
@@ -347,7 +362,20 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.clickSortByDateButton();
         homePage.verifyHtmlAjax("/InstructorHomeHTMLSortByDate.html");
     }
-
+    
+    private void loginAsCommonInstructor(){
+        String commonInstructor = TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT;
+        loginAsInstructor(commonInstructor);
+    }
+    
+    private void loginAsInstructor(String instructorEmail){
+        AppPage.logout(browser);
+        homePage = HomePage.getNewInstance(browser)
+                .clickInstructorLogin()
+                .loginAsInstructor(
+                        instructorEmail, 
+                        TestProperties.inst().TEST_INSTRUCTOR_PASSWORD);
+    }
 
     @AfterClass
     public static void classTearDown() throws Exception {

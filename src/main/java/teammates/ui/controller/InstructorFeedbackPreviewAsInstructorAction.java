@@ -13,9 +13,16 @@ public class InstructorFeedbackPreviewAsInstructorAction extends Action {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         String previewInstructorEmail = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
-        if (courseId == null || feedbackSessionName == null    || previewInstructorEmail == null) {
-            Assumption.fail();
-        }
+
+        Assumption.assertNotNull(String.format(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, 
+                                               Const.ParamsNames.COURSE_ID), 
+                                 courseId);
+        Assumption.assertNotNull(String.format(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, 
+                                               Const.ParamsNames.FEEDBACK_SESSION_NAME),
+                                 feedbackSessionName);
+        Assumption.assertNotNull(String.format(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, 
+                                               Const.ParamsNames.PREVIEWAS),
+                                 previewInstructorEmail);
 
         // Verify access level
         new GateKeeper().verifyAccessible(
@@ -25,10 +32,19 @@ public class InstructorFeedbackPreviewAsInstructorAction extends Action {
 
         InstructorAttributes previewInstructor = logic.getInstructorForEmail(courseId, previewInstructorEmail);
         
+        if (previewInstructor == null) {
+            throw new EntityDoesNotExistException("Instructor Email "
+                    + previewInstructorEmail + " does not exist in " + courseId
+                    + ".");
+        }
+        
         FeedbackSubmissionEditPageData data = new FeedbackSubmissionEditPageData(account);
         
         data.bundle = logic.getFeedbackSessionQuestionsBundleForInstructor(
                 feedbackSessionName, courseId, previewInstructor.email);
+        
+        // the following condition is not tested as typically the GateKeeper above handles
+        // the case and it wont happen
         if (data.bundle == null) {
             throw new EntityDoesNotExistException("Feedback session "
                     + feedbackSessionName + " does not exist in " + courseId

@@ -249,8 +249,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         r = (RedirectResult) a.executeAndPostProcess();
         
         assertEquals(String.format(FieldValidator.PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE,
-                                   FeedbackParticipantType.TEAMS.toDisplayRecipientName(),
-                                   FeedbackParticipantType.OWN_TEAM_MEMBERS.toDisplayGiverName()),
+                                   FeedbackParticipantType.OWN_TEAM_MEMBERS.toDisplayRecipientName(),
+                                   FeedbackParticipantType.TEAMS.toDisplayGiverName()),
                      r.getStatusMessage());
         
         ______TS("Delete Feedback");

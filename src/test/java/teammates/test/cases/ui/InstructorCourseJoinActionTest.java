@@ -15,6 +15,7 @@ import teammates.common.util.StringHelper;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.storage.api.InstructorsDb;
+import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorCourseJoinAction;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.ShowPageResult;
@@ -48,44 +49,51 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
     public void testExecuteAndPostProcess() throws Exception{
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
         InstructorsDb instrDb = new InstructorsDb();
+        // Reassign to let "key" variable in "instructor" not to be null
         instructor = instrDb.getInstructorForGoogleId(instructor.courseId, instructor.googleId);
-        
+
         gaeSimulation.loginAsInstructor(instructor.googleId);
         
-        ______TS("not enough parameters");
-        
-        verifyAssumptionFailure();
-        
-        ______TS("invalid key");
+        ______TS("Invalid key, redirect for confirmation again");
         
         String[] submissionParams = new String[] {
                 Const.ParamsNames.REGKEY, invalidEncryptedKey
         };
         
-        InstructorCourseJoinAction a = getAction(submissionParams);
-        ShowPageResult r = (ShowPageResult) a.executeAndPostProcess();
+        InstructorCourseJoinAction confirmAction = getAction(submissionParams);
+        ShowPageResult pageResult = (ShowPageResult) confirmAction.executeAndPostProcess();
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_JOIN_CONFIRMATION
-                + "?error=false&user=" + instructor.googleId,
-                r.getDestinationWithParams());
-        assertFalse(r.isError);
+        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_JOIN_CONFIRMATION 
+                        + "?error=false&user=" + instructor.googleId, pageResult.getDestinationWithParams());
+        assertFalse(pageResult.isError);
+        assertEquals("", pageResult.getStatusMessage());
         
-        ______TS("already registered instructor");
+        String expectedLogSegment = "Action Instructor Clicked Join Link"
+                + "<br/>Google ID: " + instructor.googleId
+                + "<br/>Key: " + invalidEncryptedKey;
+        AssertHelper.assertContains(expectedLogSegment, confirmAction.getLogMessage());
+
+        ______TS("Already registered instructor, redirect straight to authentication page");
         
         submissionParams = new String[] {
                 Const.ParamsNames.REGKEY, StringHelper.encrypt(instructor.key)
         };
         
-        a = getAction(submissionParams);
-        RedirectResult rr = (RedirectResult) a.executeAndPostProcess();
+        confirmAction = getAction(submissionParams);
+        RedirectResult redirectResult = (RedirectResult) confirmAction.executeAndPostProcess();
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED
-                + "?regkey=" + StringHelper.encrypt(instructor.key)
-                + "&error=false&user=" + instructor.googleId,
-                rr.getDestinationWithParams());
-        assertFalse(r.isError);
+        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED 
+                        + "?regkey=" + StringHelper.encrypt(instructor.key)
+                        + "&error=false&user=" + instructor.googleId, redirectResult.getDestinationWithParams());
+        assertFalse(redirectResult.isError);
+        assertEquals("", redirectResult.getStatusMessage());
         
-        ______TS("typical case");
+        expectedLogSegment = "Action Instructor Clicked Join Link"
+                + "<br/>Google ID: " + instructor.googleId
+                + "<br/>Key: " + StringHelper.encrypt(instructor.key);
+        AssertHelper.assertContains(expectedLogSegment, confirmAction.getLogMessage());
+        
+        ______TS("Typical case: unregistered instructor, redirect to confirmation page");
         
         instructor = new InstructorAttributes("ICJAT.instr", instructor.courseId, "New Instructor", "ICJAT.instr@email.com");
         InstructorsLogic.inst().addInstructor(instructor.courseId, instructor.name, instructor.email);
@@ -103,13 +111,18 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
                 Const.ParamsNames.REGKEY, StringHelper.encrypt(newInstructor.key)
         };
         
-        a = getAction(submissionParams);
-        r = (ShowPageResult) a.executeAndPostProcess();
+        confirmAction = getAction(submissionParams);
+        pageResult = (ShowPageResult) confirmAction.executeAndPostProcess();
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_JOIN_CONFIRMATION
-                + "?error=false&user=ICJAT.instr",
-                r.getDestinationWithParams());
-        assertFalse(r.isError);
+        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_JOIN_CONFIRMATION + "?error=false&user=ICJAT.instr",
+                        pageResult.getDestinationWithParams());
+        assertFalse(pageResult.isError);
+        assertEquals("", pageResult.getStatusMessage());
+        
+        expectedLogSegment = "Action Instructor Clicked Join Link"
+                + "<br/>Google ID: " + instructor.googleId
+                + "<br/>Key: " + StringHelper.encrypt(newInstructor.key);
+        AssertHelper.assertContains(expectedLogSegment, confirmAction.getLogMessage());
     }
     
     private InstructorCourseJoinAction getAction(String... params) throws Exception {

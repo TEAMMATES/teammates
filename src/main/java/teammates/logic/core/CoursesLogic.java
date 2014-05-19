@@ -355,7 +355,12 @@ public class CoursesLogic {
             CourseAttributes course = coursesDb.getCourse(ia.courseId);
             
             try {
-                courseSummaryList.put(course.id, getCourseSummary(course.id));
+                if (course != null) {
+                    courseSummaryList.put(course.id, getCourseSummary(course.id));
+                } else {
+                    log.warning("Course was deleted but the Instructor still exists: "+Const.EOL 
+                            + ia.toString());
+                }
             } catch (EntityDoesNotExistException e) {
                 log.warning("Course was deleted but the Instructor still exists: "+Const.EOL 
                         + ia.toString());
