@@ -315,6 +315,8 @@ public class StudentsLogic {
 
     private void scheduleSubmissionAdjustmentForEvaluationInCourse(
             ArrayList<StudentEnrollDetails> enrollmentList, String courseId, String evalName) {
+        // it is a task queue--how to test this method--same above
+        // TODO: add test for this
         HashMap<String, String> paramMap = new HashMap<String, String>();
         
         paramMap.put(ParamsNames.COURSE_ID, courseId);
@@ -387,12 +389,12 @@ public class StudentsLogic {
 
     public void deleteStudentsForCourse(String courseId) {
         studentsDb.deleteStudentsForCourse(courseId);
-        
     }
     
     public void adjustSubmissionsForEnrollments(
             ArrayList<StudentEnrollDetails> enrollmentList,
             EvaluationAttributes eval) throws InvalidParametersException, EntityDoesNotExistException {
+        // TODO: add test for this
         
         for(StudentEnrollDetails enrollment : enrollmentList) {
             if(enrollment.updateStatus == UpdateStatus.MODIFIED &&
@@ -409,6 +411,7 @@ public class StudentsLogic {
     public void adjustFeedbackResponseForEnrollments(
             ArrayList<StudentEnrollDetails> enrollmentList,
             FeedbackResponseAttributes response) throws InvalidParametersException, EntityDoesNotExistException {
+        // TODO: add test for this
         for(StudentEnrollDetails enrollment : enrollmentList) {
             if(enrollment.updateStatus == UpdateStatus.MODIFIED &&
                     isTeamChanged(enrollment.oldTeam, enrollment.newTeam)) {

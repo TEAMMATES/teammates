@@ -2,7 +2,6 @@ package teammates.test.cases.logic;
 
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.Assert.fail;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -21,6 +20,7 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentAttributesFactory;
 import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.datatransfer.SubmissionAttributes;
+import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
@@ -266,7 +266,6 @@ public class StudentsLogicTest extends BaseComponentTestCase{
                 "\"TEAMMATES Admin (noreply)\" <noreply@null.appspotmail.com>|subject=TEAMMATES:" + 
                 " Invitation to join course [Typical Course 1 with 2 Evals][Course ID: idOfTypicalCourse1]";
         assertEquals(expectedEmailInfo, emailInfo);
-        // send msg to students will not be tested anymore
         
         
         ______TS("invalid course id");
@@ -274,7 +273,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         String invalidCourseId = "invalidCourseId";
         try {
             studentsLogic.sendRegistrationInviteToStudent(invalidCourseId, studentEmail);
-            fail("Invalid course id: should fail");
+            signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
         }
         
@@ -284,10 +283,47 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         String invalidStudentEmail = "invalidStudentEmail";
         try {
             studentsLogic.sendRegistrationInviteToStudent(courseId, invalidStudentEmail);
-            fail("Invalid student email: should fail");
+            signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
         }
         
+    }
+    
+    @Test
+    public void testSendRegistrationInvliteToCourse() throws Exception {
+
+        ______TS("typical case: send invite to one student");
+        
+        dataBundle = getTypicalDataBundle();
+        String courseId = dataBundle.courses.get("typicalCourse1").id;
+        StudentAttributes newsStudent0Info = new StudentAttributes("team", "n0", "e0@google.com", "", courseId);
+        StudentAttributes newsStudent1Info = new StudentAttributes("team", "n1", "e1@google.com", "", courseId);
+        StudentAttributes newsStudent2Info = new StudentAttributes("team", "n2", "e2@google.com", "", courseId);
+        invokeEnrollStudent(newsStudent0Info);
+        invokeEnrollStudent(newsStudent1Info);
+        invokeEnrollStudent(newsStudent2Info);
+
+        List<MimeMessage> msgsForCourse = studentsLogic.sendRegistrationInviteForCourse(courseId);
+        assertEquals(3, msgsForCourse.size());
+        Emails emailMgr = new Emails();
+        @SuppressWarnings("static-access")
+        String emailInfo0 = emailMgr.getEmailInfo(msgsForCourse.get(0));
+        String expectedEmailInfoForEmail0 = "[Email sent]to=e0@google.com|from=\"TEAMMATES Admin (noreply)\" " + 
+                "<noreply@null.appspotmail.com>|subject=TEAMMATES: Invitation to join course " + 
+                "[Typical Course 1 with 2 Evals][Course ID: idOfTypicalCourse1]";
+        assertEquals(expectedEmailInfoForEmail0, emailInfo0);
+        @SuppressWarnings("static-access")
+        String emailInfo1 = emailMgr.getEmailInfo(msgsForCourse.get(1));
+        String expectedEmailInfoForEmail1 = "[Email sent]to=e1@google.com|from=\"TEAMMATES Admin (noreply)\" " + 
+                "<noreply@null.appspotmail.com>|subject=TEAMMATES: Invitation to join course " + 
+                "[Typical Course 1 with 2 Evals][Course ID: idOfTypicalCourse1]";
+        assertEquals(expectedEmailInfoForEmail1, emailInfo1);
+        @SuppressWarnings("static-access")
+        String emailInfo2 = emailMgr.getEmailInfo(msgsForCourse.get(2));
+        String expectedEmailInfoForEmail2 = "[Email sent]to=e2@google.com|from=" + 
+                "\"TEAMMATES Admin (noreply)\" <noreply@null.appspotmail.com>|subject=TEAMMATES:" + 
+                " Invitation to join course [Typical Course 1 with 2 Evals][Course ID: idOfTypicalCourse1]";
+        assertEquals(expectedEmailInfoForEmail2, emailInfo2);
     }
     
     @Test
@@ -359,7 +395,8 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         
         ______TS("enrollLines with too few");
         String lineWithNoEmailInput = "Team 4 | StudentWithNoEmailInput";
-        String lineWithExtraParameters = "Team 4 | StudentWithExtraParameters | studentWithExtraParameters@email.com | comment | extra_parameter";
+        String lineWithExtraParameters = "Team 4 | StudentWithExtraParameters | " + 
+               " studentWithExtraParameters@email.com | comment | extra_parameter";
         
         enrollLines = lineWithNoEmailInput + Const.EOL + lineWithExtraParameters;
         
@@ -432,6 +469,48 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         
         for (int i = 0; i < invalidInfo.size(); i++) {
             assertEquals(expectedInvalidInfo.get(i), invalidInfo.get(i));
+        }
+        
+    }
+    
+    @Test
+    public void testEnrollStudents() throws Exception {
+        //TODO: finish this test
+        
+        ______TS("typical case: enroll students");
+        
+        String info = "";
+        String enrollLines = "";
+        String courseId = "CourseID";
+        coursesLogic.deleteCourseCascade(courseId);
+        coursesLogic.createCourse(courseId, "CourseName");
+        
+        
+        ______TS("invalid course id");
+        String invalidCourseId = "invalidCourseId";
+        try {
+            studentsLogic.enrollStudents(enrollLines, invalidCourseId);
+            signalFailureToDetectException();
+        } catch (EntityDoesNotExistException e) {
+        }
+        
+        
+        ______TS("empty enroll line");
+        
+        try {
+            studentsLogic.enrollStudents(enrollLines, courseId);
+            signalFailureToDetectException();
+        } catch (EnrollException e) {
+        }
+        
+        
+        ______TS("empty invalidity info in enroll line");
+        
+        enrollLines = "invalidline0\ninvalidline1\n";
+        try {
+            studentsLogic.enrollStudents(enrollLines, courseId);
+            signalFailureToDetectException();
+        } catch (EnrollException e) {
         }
         
     }
