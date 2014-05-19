@@ -19,7 +19,6 @@ import teammates.storage.api.StudentsDb;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.StudentCourseJoinAuthenticatedAction;
 
-
 public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
     DataBundle dataBundle;
 
@@ -42,7 +41,7 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
         };
 
         verifyOnlyLoggedInUsersCanAccess(submissionParams);
-        this.verifyUnaccessibleWithoutLogin(submissionParams);
+        verifyUnaccessibleWithoutLogin(submissionParams);
     }
 
     @Test
@@ -59,15 +58,14 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
         ______TS("not enough parameters");
 
         verifyAssumptionFailure();
-        
-        
+
         ______TS("invalid key");
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.REGKEY, "invalid key"
         };
 
-        StudentCourseJoinAuthenticatedAction authenticatedAction = getAction(submissionParams); 
+        StudentCourseJoinAuthenticatedAction authenticatedAction = getAction(submissionParams);
         RedirectResult redirectResult = getRedirectResult(authenticatedAction);
 
         assertEquals(Const.ActionURIs.STUDENT_HOME_PAGE
@@ -143,7 +141,7 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
         ______TS("typical case");
 
         AccountAttributes newStudentAccount = new AccountAttributes(
-                "idOfNewStudnet", "nameOfNewStudent", false,
+                "idOfNewStudent", "nameOfNewStudent", false,
                 "newStudent@gmail.com", "NUS");
         accountsDb.createAccount(newStudentAccount);
 
@@ -151,12 +149,12 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
                 student1InCourse1.team,
                 "nameOfNewStudent", "newStudent@course1.com",
                 "This is a new student", student1InCourse1.course);
-        
+
         studentsDb.createEntity(newStudentAttributes);
         newStudentAttributes = studentsDb.getStudentForEmail(
                 newStudentAttributes.course, newStudentAttributes.email);
 
-        gaeSimulation.loginUser("idOfNewStudnet");
+        gaeSimulation.loginUser("idOfNewStudent");
 
         submissionParams = new String[] {
                 Const.ParamsNames.REGKEY,
