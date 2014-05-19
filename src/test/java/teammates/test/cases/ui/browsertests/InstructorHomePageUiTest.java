@@ -152,28 +152,49 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
     }
     
     public void testCourseLinks(){
-        // I have my old way of implementing this. but if this is OK/good, I will just remove this line
         String courseId = testData.courses.get("CHomeUiT.CS1101").id;
+        String instructorId = testData.accounts.get("account").googleId;
         
         ______TS("link: course enroll");
         InstructorCourseEnrollPage enrollPage = homePage.clickCourseErollLink(courseId);
         enrollPage.verifyContains("Enroll Students for CHomeUiT.CS1101");
+        String expectedEnrollLinkText = TestProperties.inst().TEAMMATES_URL + 
+                Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE + 
+                "?" + Const.ParamsNames.COURSE_ID + "=" + courseId + 
+                "&" + Const.ParamsNames.USER_ID + "=" + instructorId;
+        assertEquals(expectedEnrollLinkText, browser.driver.getCurrentUrl());
         homePage.goToPreviousPage(InstructorHomePage.class);
         
         ______TS("link: course view");
         InstructorCourseDetailsPage detailsPage = homePage.clickCourseViewLink(courseId);
         detailsPage.verifyContains("Course Details");
+        String expectedViewLinkText = TestProperties.inst().TEAMMATES_URL + 
+                Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE + 
+                "?" + Const.ParamsNames.COURSE_ID + "=" + courseId + 
+                "&" + Const.ParamsNames.USER_ID + "=" + instructorId;
+        assertEquals(expectedViewLinkText, browser.driver.getCurrentUrl());
         homePage.goToPreviousPage(InstructorHomePage.class);
         
         ______TS("link: course edit");
         InstructorCourseEditPage editPage = homePage.clickCourseEditLink(courseId);
         editPage.verifyContains("Edit Course Details");
+        String expectedEditLinkText = TestProperties.inst().TEAMMATES_URL + 
+                Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE + 
+                "?" + Const.ParamsNames.COURSE_ID + "=" + courseId + 
+                "&" +  Const.ParamsNames.USER_ID + "=" + instructorId;
+        assertEquals(expectedEditLinkText, browser.driver.getCurrentUrl());
         homePage.goToPreviousPage(InstructorHomePage.class);
         
         ______TS("link: course add evaluation");
         InstructorEvalsPage evalsPage =  homePage.clickCourseAddEvaluationLink(courseId);
         evalsPage.verifyContains("Add New Evaluation Session");
+        String expectedAddSessionLinkText = TestProperties.inst().TEAMMATES_URL + 
+                Const.ActionURIs.INSTRUCTOR_EVALS_PAGE + 
+                "?" + Const.ParamsNames.USER_ID + "=" + instructorId +
+                "&" + Const.ParamsNames.COURSE_ID + "=" + courseId;
+        assertEquals(expectedAddSessionLinkText, browser.driver.getCurrentUrl());
         homePage.goToPreviousPage(InstructorHomePage.class);
+        
     }
     
     
