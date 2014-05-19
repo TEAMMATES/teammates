@@ -2,6 +2,8 @@ package teammates.test.cases.logic;
 
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertEquals;
+import static teammates.common.util.FieldValidator.EMAIL_ERROR_MESSAGE;
+import static teammates.common.util.FieldValidator.REASON_INCORRECT_FORMAT;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -9,11 +11,13 @@ import java.util.List;
 
 import javax.mail.internet.MimeMessage;
 
+import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.StudentAttributes;
@@ -21,11 +25,13 @@ import teammates.common.datatransfer.StudentAttributesFactory;
 import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EnrollException;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
+import teammates.logic.api.Logic;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.Emails;
@@ -42,8 +48,6 @@ import teammates.test.util.TestHelper;
 import com.google.appengine.api.datastore.KeyFactory;
 
 public class StudentsLogicTest extends BaseComponentTestCase{
-    
-    //TODO: add missing test cases. Some of the test content can be transferred from LogicTest.
     
     protected static StudentsLogic studentsLogic = StudentsLogic.inst();
     protected static SubmissionsLogic submissionsLogic = SubmissionsLogic.inst();
@@ -290,7 +294,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
     }
     
     @Test
-    public void testSendRegistrationInvliteToCourse() throws Exception {
+    public void testSendRegistrationInvliteForCourse() throws Exception {
 
         ______TS("typical case: send invite to one student");
         
@@ -515,6 +519,310 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         } catch (EnrollException e) {
         }
         
+    }
+    
+    @Test
+    public void testcreateStudentWithSubmissionAdjustment() throws Exception {
+
+        restoreTypicalDataInDatastore();
+
+        ______TS("typical case");
+
+        restoreTypicalDataInDatastore();
+        //reuse existing student to create a new student
+        StudentAttributes newStudent = dataBundle.students.get("student1InCourse1");
+        newStudent.email = "new@student.com";
+        TestHelper.verifyAbsentInDatastore(newStudent);
+        
+        List<SubmissionAttributes> submissionsBeforeAdding = submissionsLogic.getSubmissionsForCourse(newStudent.course);
+        
+        invokeEnrollStudent(newStudent);
+        TestHelper.verifyPresentInDatastore(newStudent);
+        
+        List<SubmissionAttributes> submissionsAfterAdding = submissionsLogic.getSubmissionsForCourse(newStudent.course);
+        
+        //expected increase in submissions = 2*(1+4+4)
+        //2 is the number of evaluations in the course
+        //4 is the number of existing members in the team
+        //1 is the self evaluation
+        //We simply check the increase in submissions. A deeper check is 
+        //  unnecessary because adjusting existing submissions should be 
+        //  checked elsewhere.
+        
+        assertEquals(submissionsBeforeAdding.size() + 18, submissionsAfterAdding.size());
+
+        ______TS("duplicate student");
+
+        // try to create the same student
+        try {
+            invokeEnrollStudent(newStudent);
+            Assert.fail();
+        } catch (EntityAlreadyExistsException e) {
+        }
+
+        ______TS("invalid parameter");
+
+        // Only checking that exception is thrown at logic level
+        newStudent.email = "invalid email";
+        
+        try {
+            invokeEnrollStudent(newStudent);
+            Assert.fail();
+        } catch (InvalidParametersException e) {
+            assertEquals(
+                    String.format(EMAIL_ERROR_MESSAGE, "invalid email", REASON_INCORRECT_FORMAT),
+                    e.getMessage());
+        }
+        
+        ______TS("null parameters");
+        
+        try {
+            invokeEnrollStudent(null);
+            Assert.fail();
+        } catch (AssertionError a) {
+            assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+        }
+
+        // other combination of invalid data should be tested against
+        // StudentAttributes
+
+    }
+
+    @Test
+    public void testGetStudentForEmail() throws Exception {
+        // mostly tested in testcreateStudentWithSubmissionAdjustment
+
+        restoreTypicalDataInDatastore();
+
+
+        ______TS("null parameters");
+
+        try {
+            studentsLogic.getStudentForEmail(null, "valid@email.com");
+            Assert.fail();
+        } catch (AssertionError a) {
+            assertEquals("Supplied parameter was null\n", a.getMessage());
+        }
+    }
+
+    @Test
+    public void testGetStudentsForGoogleId() throws Exception {
+    
+        restoreTypicalDataInDatastore();
+    
+        ______TS("student in one course");
+    
+        
+    
+        restoreTypicalDataInDatastore();
+        StudentAttributes studentInOneCourse = dataBundle.students
+                .get("student1InCourse1");
+        assertEquals(1, studentsLogic.getStudentsForGoogleId(studentInOneCourse.googleId).size());
+        assertEquals(studentInOneCourse.email,
+                studentsLogic.getStudentsForGoogleId(studentInOneCourse.googleId).get(0).email);
+        assertEquals(studentInOneCourse.name,
+                studentsLogic.getStudentsForGoogleId(studentInOneCourse.googleId).get(0).name);
+        assertEquals(studentInOneCourse.course,
+                studentsLogic.getStudentsForGoogleId(studentInOneCourse.googleId).get(0).course);
+    
+        ______TS("student in two courses");
+    
+        // this student is in two courses, course1 and course 2.
+    
+        // get list using student data from course 1
+        StudentAttributes studentInTwoCoursesInCourse1 = dataBundle.students
+                .get("student2InCourse1");
+        List<StudentAttributes> listReceivedUsingStudentInCourse1 = studentsLogic
+                .getStudentsForGoogleId(studentInTwoCoursesInCourse1.googleId);
+        assertEquals(2, listReceivedUsingStudentInCourse1.size());
+    
+        // get list using student data from course 2
+        StudentAttributes studentInTwoCoursesInCourse2 = dataBundle.students
+                .get("student2InCourse2");
+        List<StudentAttributes> listReceivedUsingStudentInCourse2 = studentsLogic
+                .getStudentsForGoogleId(studentInTwoCoursesInCourse2.googleId);
+        assertEquals(2, listReceivedUsingStudentInCourse2.size());
+    
+        // check the content from first list (we assume the content of the
+        // second list is similar.
+    
+        StudentAttributes firstStudentReceived = listReceivedUsingStudentInCourse1.get(0);
+        // First student received turned out to be the one from course 2
+        assertEquals(studentInTwoCoursesInCourse2.email,
+                firstStudentReceived.email);
+        assertEquals(studentInTwoCoursesInCourse2.name,
+                firstStudentReceived.name);
+        assertEquals(studentInTwoCoursesInCourse2.course,
+                firstStudentReceived.course);
+    
+        // then the second student received must be from course 1
+        StudentAttributes secondStudentReceived = listReceivedUsingStudentInCourse1
+                .get(1);
+        assertEquals(studentInTwoCoursesInCourse1.email,
+                secondStudentReceived.email);
+        assertEquals(studentInTwoCoursesInCourse1.name,
+                secondStudentReceived.name);
+        assertEquals(studentInTwoCoursesInCourse1.course,
+                secondStudentReceived.course);
+    
+        ______TS("non existent student");
+    
+        assertEquals(0, studentsLogic.getStudentsForGoogleId("non-existent").size());
+    
+        ______TS("null parameters");
+    
+        try {
+            studentsLogic.getStudentsForGoogleId(null);
+            Assert.fail();
+        } catch (AssertionError a) {
+            assertEquals("Supplied parameter was null\n", a.getMessage());
+        }
+    }
+
+    @Test
+    public void testGetStudentForGoogleId() throws Exception {
+    
+        restoreTypicalDataInDatastore();
+    
+        ______TS("student in two courses");
+    
+        restoreTypicalDataInDatastore();
+        
+        StudentAttributes studentInTwoCoursesInCourse1 = dataBundle.students
+                .get("student2InCourse1");
+    
+        String googleIdOfstudentInTwoCourses = studentInTwoCoursesInCourse1.googleId;
+        assertEquals(studentInTwoCoursesInCourse1.email,
+                studentsLogic.getStudentForGoogleId(
+                        studentInTwoCoursesInCourse1.course,
+                        googleIdOfstudentInTwoCourses).email);
+    
+        StudentAttributes studentInTwoCoursesInCourse2 = dataBundle.students
+                .get("student2InCourse2");
+        assertEquals(studentInTwoCoursesInCourse2.email,
+                studentsLogic.getStudentForGoogleId(
+                        studentInTwoCoursesInCourse2.course,
+                        googleIdOfstudentInTwoCourses).email);
+    
+        ______TS("student in zero courses");
+    
+        assertEquals(null, studentsLogic.getStudentForGoogleId("non-existent",
+                "random-google-id"));
+    
+        ______TS("null parameters");
+    
+        try {
+            studentsLogic.getStudentForGoogleId("valid.course", null);
+            Assert.fail();
+        } catch (AssertionError a) {
+            assertEquals("Supplied parameter was null\n", a.getMessage());
+        }
+    }
+
+    @Test
+    public void testGetStudentsForCourse() throws Exception {
+    
+        restoreTypicalDataInDatastore();
+        
+        ______TS("course with multiple students");
+    
+        restoreTypicalDataInDatastore();
+    
+        
+    
+        CourseAttributes course1OfInstructor1 = dataBundle.courses.get("typicalCourse1");
+        List<StudentAttributes> studentList = studentsLogic
+                .getStudentsForCourse(course1OfInstructor1.id);
+        assertEquals(5, studentList.size());
+        for (StudentAttributes s : studentList) {
+            assertEquals(course1OfInstructor1.id, s.course);
+        }
+    
+        ______TS("course with 0 students");
+    
+        CourseAttributes course2OfInstructor1 = dataBundle.courses.get("courseNoEvals");
+        studentList = studentsLogic.getStudentsForCourse(course2OfInstructor1.id);
+        assertEquals(0, studentList.size());
+    
+        ______TS("null parameter");
+    
+        try {
+            studentsLogic.getStudentsForCourse(null);
+            Assert.fail();
+        } catch (AssertionError a) {
+            assertEquals("Supplied parameter was null\n", a.getMessage());
+        }
+    
+        ______TS("non-existent course");
+    
+        studentList = studentsLogic.getStudentsForCourse("non-existent");
+        assertEquals(0, studentList.size());
+        
+    }
+
+    
+
+    @Test
+    public void testGetKeyForStudent() throws Exception {
+        // mostly tested in testJoinCourse()
+    
+        restoreTypicalDataInDatastore();
+    
+        ______TS("null parameters");
+    
+        try {
+            studentsLogic.getKeyForStudent("valid.course.id", null);
+            Assert.fail();
+        } catch (AssertionError a) {
+            assertEquals("Supplied parameter was null\n", a.getMessage());
+        }
+    
+        ______TS("non-existent student");
+        
+        StudentAttributes student = dataBundle.students.get("student1InCourse1");
+        assertEquals(null,
+                studentsLogic.getKeyForStudent(student.course, "non@existent"));
+    }
+
+    @Test
+    public void testSendRegistrationInviteForCourse() throws Exception {
+    
+        restoreTypicalDataInDatastore();
+    
+        ______TS("all students already registered");
+   
+        restoreTypicalDataInDatastore();
+        CourseAttributes course1 = dataBundle.courses.get("typicalCourse1");
+    
+        // send registration key to a class in which all are registered
+        List<MimeMessage> emailsSent = studentsLogic
+                .sendRegistrationInviteForCourse(course1.id);
+        assertEquals(0, emailsSent.size());
+    
+        ______TS("some students not registered");
+    
+        // modify two students to make them 'unregistered' and send again
+        StudentAttributes student1InCourse1 = dataBundle.students
+                .get("student1InCourse1");
+        student1InCourse1.googleId = "";
+        studentsLogic.updateStudentCascade(student1InCourse1.email, student1InCourse1);
+        StudentAttributes student2InCourse1 = dataBundle.students
+                .get("student2InCourse1");
+        student2InCourse1.googleId = "";
+        studentsLogic.updateStudentCascade(student2InCourse1.email, student2InCourse1);
+        emailsSent = studentsLogic.sendRegistrationInviteForCourse(course1.id);
+        assertEquals(2, emailsSent.size());
+        TestHelper.verifyJoinInviteToStudent(student2InCourse1, emailsSent.get(0));
+        TestHelper.verifyJoinInviteToStudent(student1InCourse1, emailsSent.get(1));
+    
+        ______TS("null parameters");
+    
+        try {
+            studentsLogic.sendRegistrationInviteForCourse(null);
+            Assert.fail();
+        } catch (AssertionError a) {
+            assertEquals("Supplied parameter was null\n", a.getMessage());
+        }
     }
 
     private static StudentEnrollDetails invokeEnrollStudent(StudentAttributes student)

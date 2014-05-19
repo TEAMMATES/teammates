@@ -191,251 +191,6 @@ public class LogicTest extends BaseComponentTestCase {
     }
 
     @Test
-    public void testcreateStudentWithSubmissionAdjustment() throws Exception {
-
-        restoreTypicalDataInDatastore();
-
-        ______TS("typical case");
-
-        // TODO: Move following to StudentsLogicTest (together with SUT -> StudentsLogic)
-        
-        
-        
-        restoreTypicalDataInDatastore();
-        //reuse existing student to create a new student
-        StudentAttributes newStudent = dataBundle.students.get("student1InCourse1");
-        newStudent.email = "new@student.com";
-        TestHelper.verifyAbsentInDatastore(newStudent);
-        
-        List<SubmissionAttributes> submissionsBeforeAdding = submissionsLogic.getSubmissionsForCourse(newStudent.course);
-        
-        logic.createStudent(newStudent);
-        TestHelper.verifyPresentInDatastore(newStudent);
-        
-        List<SubmissionAttributes> submissionsAfterAdding = submissionsLogic.getSubmissionsForCourse(newStudent.course);
-        
-        //expected increase in submissions = 2*(1+4+4)
-        //2 is the number of evaluations in the course
-        //4 is the number of existing members in the team
-        //1 is the self evaluation
-        //We simply check the increase in submissions. A deeper check is 
-        //  unnecessary because adjusting existing submissions should be 
-        //  checked elsewhere.
-        assertEquals(submissionsBeforeAdding.size()+18, submissionsAfterAdding.size());
-
-        ______TS("duplicate student");
-
-        // try to create the same student
-        try {
-            logic.createStudent(newStudent);
-            Assert.fail();
-        } catch (EntityAlreadyExistsException e) {
-        }
-
-        ______TS("invalid parameter");
-
-        // Only checking that exception is thrown at logic level
-        newStudent.email = "invalid email";
-        
-        try {
-            logic.createStudent(newStudent);
-            Assert.fail();
-        } catch (InvalidParametersException e) {
-            assertEquals(
-                    String.format(EMAIL_ERROR_MESSAGE, "invalid email", REASON_INCORRECT_FORMAT),
-                    e.getMessage());
-        }
-        
-        ______TS("null parameters");
-        
-        try {
-            logic.createStudent(null);
-            Assert.fail();
-        } catch (AssertionError a) {
-            assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
-        }
-
-        // other combination of invalid data should be tested against
-        // StudentAttributes
-
-    }
-
-    @Test
-    public void testGetStudentForEmail() throws Exception {
-        // mostly tested in testcreateStudentWithSubmissionAdjustment
-
-        restoreTypicalDataInDatastore();
-
-
-        ______TS("null parameters");
-
-        try {
-            logic.getStudentForEmail(null, "valid@email.com");
-            Assert.fail();
-        } catch (AssertionError a) {
-            assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
-        }
-    }
-
-    @Test
-    public void testGetStudentsForGoogleId() throws Exception {
-    
-        ______TS("access control");
-    
-        restoreTypicalDataInDatastore();
-    
-        ______TS("student in one course");
-    
-        
-    
-        restoreTypicalDataInDatastore();
-        StudentAttributes studentInOneCourse = dataBundle.students
-                .get("student1InCourse1");
-        assertEquals(1, logic.getStudentsForGoogleId(studentInOneCourse.googleId).size());
-        assertEquals(studentInOneCourse.email,
-                logic.getStudentsForGoogleId(studentInOneCourse.googleId).get(0).email);
-        assertEquals(studentInOneCourse.name,
-                logic.getStudentsForGoogleId(studentInOneCourse.googleId).get(0).name);
-        assertEquals(studentInOneCourse.course,
-                logic.getStudentsForGoogleId(studentInOneCourse.googleId).get(0).course);
-    
-        ______TS("student in two courses");
-    
-        // this student is in two courses, course1 and course 2.
-    
-        // get list using student data from course 1
-        StudentAttributes studentInTwoCoursesInCourse1 = dataBundle.students
-                .get("student2InCourse1");
-        List<StudentAttributes> listReceivedUsingStudentInCourse1 = logic
-                .getStudentsForGoogleId(studentInTwoCoursesInCourse1.googleId);
-        assertEquals(2, listReceivedUsingStudentInCourse1.size());
-    
-        // get list using student data from course 2
-        StudentAttributes studentInTwoCoursesInCourse2 = dataBundle.students
-                .get("student2InCourse2");
-        List<StudentAttributes> listReceivedUsingStudentInCourse2 = logic
-                .getStudentsForGoogleId(studentInTwoCoursesInCourse2.googleId);
-        assertEquals(2, listReceivedUsingStudentInCourse2.size());
-    
-        // check the content from first list (we assume the content of the
-        // second list is similar.
-    
-        StudentAttributes firstStudentReceived = listReceivedUsingStudentInCourse1
-                .get(0);
-        // First student received turned out to be the one from course 2
-        assertEquals(studentInTwoCoursesInCourse2.email,
-                firstStudentReceived.email);
-        assertEquals(studentInTwoCoursesInCourse2.name,
-                firstStudentReceived.name);
-        assertEquals(studentInTwoCoursesInCourse2.course,
-                firstStudentReceived.course);
-    
-        // then the second student received must be from course 1
-        StudentAttributes secondStudentReceived = listReceivedUsingStudentInCourse1
-                .get(1);
-        assertEquals(studentInTwoCoursesInCourse1.email,
-                secondStudentReceived.email);
-        assertEquals(studentInTwoCoursesInCourse1.name,
-                secondStudentReceived.name);
-        assertEquals(studentInTwoCoursesInCourse1.course,
-                secondStudentReceived.course);
-    
-        ______TS("non existent student");
-    
-        assertEquals(0, logic.getStudentsForGoogleId("non-existent").size());
-    
-        ______TS("null parameters");
-    
-        try {
-            logic.getStudentsForGoogleId(null);
-            Assert.fail();
-        } catch (AssertionError a) {
-            assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
-        }
-    }
-
-    @Test
-    public void testGetStudentForGoogleId() throws Exception {
-    
-        restoreTypicalDataInDatastore();
-    
-        ______TS("student in two courses");
-    
-        restoreTypicalDataInDatastore();
-        
-        StudentAttributes studentInTwoCoursesInCourse1 = dataBundle.students
-                .get("student2InCourse1");
-    
-        String googleIdOfstudentInTwoCourses = studentInTwoCoursesInCourse1.googleId;
-        assertEquals(studentInTwoCoursesInCourse1.email,
-                logic.getStudentForGoogleId(
-                        studentInTwoCoursesInCourse1.course,
-                        googleIdOfstudentInTwoCourses).email);
-    
-        StudentAttributes studentInTwoCoursesInCourse2 = dataBundle.students
-                .get("student2InCourse2");
-        assertEquals(studentInTwoCoursesInCourse2.email,
-                logic.getStudentForGoogleId(
-                        studentInTwoCoursesInCourse2.course,
-                        googleIdOfstudentInTwoCourses).email);
-    
-        ______TS("student in zero courses");
-    
-        assertEquals(null, logic.getStudentForGoogleId("non-existent",
-                "random-google-id"));
-    
-        ______TS("null parameters");
-    
-        try {
-            logic.getStudentForGoogleId("valid.course", null);
-            Assert.fail();
-        } catch (AssertionError a) {
-            assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
-        }
-    }
-
-    @Test
-    public void testGetStudentsForCourse() throws Exception {
-    
-        restoreTypicalDataInDatastore();
-        
-        ______TS("course with multiple students");
-    
-        restoreTypicalDataInDatastore();
-    
-        
-    
-        CourseAttributes course1OfInstructor1 = dataBundle.courses.get("typicalCourse1");
-        List<StudentAttributes> studentList = logic
-                .getStudentsForCourse(course1OfInstructor1.id);
-        assertEquals(5, studentList.size());
-        for (StudentAttributes s : studentList) {
-            assertEquals(course1OfInstructor1.id, s.course);
-        }
-    
-        ______TS("course with 0 students");
-    
-        CourseAttributes course2OfInstructor1 = dataBundle.courses.get("courseNoEvals");
-        studentList = logic.getStudentsForCourse(course2OfInstructor1.id);
-        assertEquals(0, studentList.size());
-    
-        ______TS("null parameter");
-    
-        try {
-            logic.getStudentsForCourse(null);
-            Assert.fail();
-        } catch (AssertionError a) {
-            assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
-        }
-    
-        ______TS("non-existent course");
-    
-        studentList = logic.getStudentsForCourse("non-existent");
-        assertEquals(0, studentList.size());
-        
-    }
-
-    @Test
     public void testGetTeamsForCourse() throws Exception {
     
         restoreTypicalDataInDatastore();
@@ -484,70 +239,7 @@ public class LogicTest extends BaseComponentTestCase {
         TestHelper.verifyEntityDoesNotExistException(methodName, paramTypes,
                 new Object[] { "non-existent" });
     }
-
-    @Test
-    public void testGetKeyForStudent() throws Exception {
-        // mostly tested in testJoinCourse()
     
-        restoreTypicalDataInDatastore();
-    
-        ______TS("null parameters");
-    
-        try {
-            logic.getKeyForStudent("valid.course.id", null);
-            Assert.fail();
-        } catch (AssertionError a) {
-            assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
-        }
-    
-        ______TS("non-existent student");
-        
-        StudentAttributes student = dataBundle.students.get("student1InCourse1");
-        assertEquals(null,
-                logic.getKeyForStudent(student.course, "non@existent"));
-    }
-
-    @Test
-    public void testupdateStudent() throws Exception {
-
-        restoreTypicalDataInDatastore();
-
-        
-
-        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        String originalEmail = student1InCourse1.email;
-                 
-        ______TS("typical success case");
-        student1InCourse1.name = student1InCourse1.name + "x";
-        student1InCourse1.googleId = student1InCourse1.googleId + "x";
-        student1InCourse1.comments = student1InCourse1.comments + "x";
-        student1InCourse1.email = student1InCourse1.email + "x";
-        student1InCourse1.team = "Team 1.2";
-        logic.updateStudent(originalEmail, student1InCourse1);        
-        TestHelper.verifyPresentInDatastore(student1InCourse1);
-        
-        // check for cascade
-        List<SubmissionAttributes> submissionsAfterEdit = submissionsLogic.getSubmissionsForCourse(student1InCourse1.course);        
-        TestHelper.verifySubmissionsExistForCurrentTeamStructureInAllExistingEvaluations(submissionsAfterEdit,
-                student1InCourse1.course);
-        
-        ______TS("null parameters");
-
-        try {
-            logic.updateStudent(null, student1InCourse1);
-            signalFailureToDetectException();
-        } catch (AssertionError a) {
-            assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
-        }        
-        try {
-            logic.updateStudent("test@email.com", null);
-            signalFailureToDetectException();
-        } catch (AssertionError a) {
-            assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
-        }
-        
-    }
-
     @Test
     public void testJoinCourseForStudent() throws Exception {
     
@@ -624,7 +316,7 @@ public class LogicTest extends BaseComponentTestCase {
             assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
         }
     }
-
+    
     @Test
     public void testEnrollStudents() throws Exception {
     
@@ -637,7 +329,7 @@ public class LogicTest extends BaseComponentTestCase {
         String instructorId = "instructorForEnrollTesting";
         String courseId = "courseForEnrollTest";
         
-        logic.createAccount("instructorForEnrollTesting", "Instructor 1", true, "instructor@email.com", "National University Of Singapore");
+        logic.createAccount(instructorId, "Instructor 1", true, "instructor@email.com", "National University Of Singapore");
         logic.createCourseAndInstructor(instructorId, courseId, "Course for Enroll Testing");
         String EOL = Const.EOL;
     
@@ -742,86 +434,44 @@ public class LogicTest extends BaseComponentTestCase {
             assertTrue(e.getMessage().contains("Same email address as the student in line \""+line_t9+"\""));    
         }
     }
-
+    
     @Test
-    public void testSendRegistrationInviteForCourse() throws Exception {
-    
+    public void testUpdateStudent() throws Exception {
+
         restoreTypicalDataInDatastore();
-    
-        ______TS("all students already registered");
-    
+
+        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
+        String originalEmail = student1InCourse1.email;
+                 
+        ______TS("typical success case");
+        student1InCourse1.name = student1InCourse1.name + "x";
+        student1InCourse1.googleId = student1InCourse1.googleId + "x";
+        student1InCourse1.comments = student1InCourse1.comments + "x";
+        student1InCourse1.email = student1InCourse1.email + "x";
+        student1InCourse1.team = "Team 1.2";
+        logic.updateStudent(originalEmail, student1InCourse1);        
+        TestHelper.verifyPresentInDatastore(student1InCourse1);
         
-    
-        restoreTypicalDataInDatastore();
-        CourseAttributes course1 = dataBundle.courses.get("typicalCourse1");
-    
-        // send registration key to a class in which all are registered
-        List<MimeMessage> emailsSent = logic
-                .sendRegistrationInviteForCourse(course1.id);
-        assertEquals(0, emailsSent.size());
-    
-        ______TS("some students not registered");
-    
-        // modify two students to make them 'unregistered' and send again
-        StudentAttributes student1InCourse1 = dataBundle.students
-                .get("student1InCourse1");
-        student1InCourse1.googleId = "";
-        logic.updateStudent(student1InCourse1.email, student1InCourse1);
-        StudentAttributes student2InCourse1 = dataBundle.students
-                .get("student2InCourse1");
-        student2InCourse1.googleId = "";
-        logic.updateStudent(student2InCourse1.email, student2InCourse1);
-        emailsSent = logic.sendRegistrationInviteForCourse(course1.id);
-        assertEquals(2, emailsSent.size());
-        TestHelper.verifyJoinInviteToStudent(student2InCourse1, emailsSent.get(0));
-        TestHelper.verifyJoinInviteToStudent(student1InCourse1, emailsSent.get(1));
-    
+        // check for cascade
+        List<SubmissionAttributes> submissionsAfterEdit = submissionsLogic.getSubmissionsForCourse(student1InCourse1.course);        
+        TestHelper.verifySubmissionsExistForCurrentTeamStructureInAllExistingEvaluations(submissionsAfterEdit,
+                student1InCourse1.course);
+        
         ______TS("null parameters");
-    
+
         try {
-            logic.sendRegistrationInviteForCourse(null);
-            Assert.fail();
+            logic.updateStudent(null, student1InCourse1);
+            signalFailureToDetectException();
+        } catch (AssertionError a) {
+            assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+        }        
+        try {
+            logic.updateStudent("test@email.com", null);
+            signalFailureToDetectException();
         } catch (AssertionError a) {
             assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
         }
-    }
-
-    @Test
-    public void testSendRegistrationInviteToStudent() throws Exception {
-    
-    
-        ______TS("send to existing student");
-    
         
-    
-        restoreTypicalDataInDatastore();
-    
-        StudentAttributes student1 = dataBundle.students.get("student1InCourse1");
-    
-        MimeMessage email = logic.sendRegistrationInviteToStudent(
-                student1.course, student1.email);
-    
-        TestHelper.verifyJoinInviteToStudent(student1, email);
-    
-        ______TS("send to non-existing student");
-    
-        restoreTypicalDataInDatastore();
-    
-        String methodName = "sendRegistrationInviteToStudent";
-        Class<?>[] paramTypes = new Class<?>[] { String.class, String.class };
-    
-    
-        TestHelper.verifyEntityDoesNotExistException(methodName, paramTypes, new Object[] {
-                student1.course, "non@existent" });
-    
-        ______TS("null parameters");
-    
-        try {
-            logic.sendRegistrationInviteToStudent(null, "valid@email.com");
-            Assert.fail();
-        } catch (AssertionError a) {
-            assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
-        }
     }
 
     @Test
