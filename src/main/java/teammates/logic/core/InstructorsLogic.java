@@ -92,7 +92,7 @@ public class InstructorsLogic {
     public String getKeyForInstructor(String courseId, String email)
             throws EntityDoesNotExistException {
         
-        verifyIsInstructorEmailOfCourse(email, courseId);
+        verifyIsEmailOfInstructorOfCourse(email, courseId);
         
         InstructorAttributes instructor = getInstructorForEmail(courseId, email);
     
@@ -114,12 +114,12 @@ public class InstructorsLogic {
     }
 
 
-    public boolean isInstructorOfCourse(String instructorId, String courseId) {
+    public boolean isGoogleIdOfInstructorOfCourse(String instructorId, String courseId) {
         
         return instructorsDb.getInstructorForGoogleId(courseId, instructorId) != null;
     }
     
-    public boolean isInstructorEmailOfCourse(String instructorEmail, String courseId) {
+    public boolean isEmailOfInstructorOfCourse(String instructorEmail, String courseId) {
        
         return instructorsDb.getInstructorForEmail(courseId, instructorEmail) != null;
     }
@@ -146,19 +146,19 @@ public class InstructorsLogic {
         }
     }
     
-    public void verifyIsInstructorOfCourse(String instructorId, String courseId)
+    public void verifyIsGoogleIdOfInstructorOfCourse(String instructorId, String courseId)
             throws EntityDoesNotExistException {
         
-        if (!isInstructorOfCourse(instructorId, courseId)) {
+        if (!isGoogleIdOfInstructorOfCourse(instructorId, courseId)) {
             throw new EntityDoesNotExistException("Instructor " + instructorId
                     + " does not belong to course " + courseId);
         }
     }
     
-    public void verifyIsInstructorEmailOfCourse(String instructorEmail, String courseId)
+    public void verifyIsEmailOfInstructorOfCourse(String instructorEmail, String courseId)
             throws EntityDoesNotExistException {
         
-        if (!isInstructorEmailOfCourse(instructorEmail, courseId)) {
+        if (!isEmailOfInstructorOfCourse(instructorEmail, courseId)) {
             throw new EntityDoesNotExistException("Instructor " + instructorEmail
                     + " does not belong to course " + courseId);
         }
@@ -177,7 +177,7 @@ public class InstructorsLogic {
         Assumption.assertNotNull("Supplied parameter was null", instructor);
 
         coursesLogic.verifyCourseIsPresent(instructor.courseId);        
-        verifyIsInstructorOfCourse(googleId, instructor.courseId);
+        verifyIsGoogleIdOfInstructorOfCourse(googleId, instructor.courseId);
 
         InstructorAttributes instructorToUpdate = getInstructorForGoogleId(instructor.courseId, googleId);
         instructorToUpdate.name = instructor.name;
@@ -199,7 +199,7 @@ public class InstructorsLogic {
         Assumption.assertNotNull("Supplied parameter was null", instructor);
 
         coursesLogic.verifyCourseIsPresent(instructor.courseId);        
-        verifyIsInstructorEmailOfCourse(email, instructor.courseId);
+        verifyIsEmailOfInstructorOfCourse(email, instructor.courseId);
 
         InstructorAttributes instructorToUpdate = getInstructorForEmail(instructor.courseId, email);
         instructorToUpdate.googleId = instructor.googleId;

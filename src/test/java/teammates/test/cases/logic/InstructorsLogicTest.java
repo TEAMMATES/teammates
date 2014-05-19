@@ -349,14 +349,14 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
     }
     
     @Test
-    public void testIsInstructorOfCourse() throws Exception {
+    public void testIsGoogleIdOfInstructorOfCourse() throws Exception {
         
         ______TS("success: is an instructor of a given course");
 
         String instructorId = "idOfInstructor1OfCourse1";
         String courseId = "idOfTypicalCourse1";
         
-        boolean result = instructorsLogic.isInstructorOfCourse(instructorId, courseId);
+        boolean result = instructorsLogic.isGoogleIdOfInstructorOfCourse(instructorId, courseId);
         
         assertEquals(true, result);
         
@@ -364,21 +364,21 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
 
         courseId = "idOfTypicalCourse2";
         
-        result = instructorsLogic.isInstructorOfCourse(instructorId, courseId);
+        result = instructorsLogic.isGoogleIdOfInstructorOfCourse(instructorId, courseId);
         
         assertEquals(false, result);
 
         ______TS("failure: null parameter");
 
         try {
-            instructorsLogic.isInstructorOfCourse(null, courseId);
+            instructorsLogic.isGoogleIdOfInstructorOfCourse(null, courseId);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
         }
 
         try {
-            instructorsLogic.isInstructorOfCourse(instructorId, null);
+            instructorsLogic.isGoogleIdOfInstructorOfCourse(instructorId, null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
@@ -386,14 +386,14 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
     }
     
     @Test
-    public void testIsInstructorEmailOfCourse() throws Exception {
+    public void testIsEmailOfInstructorOfCourse() throws Exception {
         
         ______TS("success: is an instructor of a given course");
 
         String instructorEmail = "instructor1@course1.com";
         String courseId = "idOfTypicalCourse1";
         
-        boolean result = instructorsLogic.isInstructorEmailOfCourse(instructorEmail, courseId);
+        boolean result = instructorsLogic.isEmailOfInstructorOfCourse(instructorEmail, courseId);
         
         assertEquals(true, result);
         
@@ -401,21 +401,21 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
 
         courseId = "idOfTypicalCourse2";
         
-        result = instructorsLogic.isInstructorEmailOfCourse(instructorEmail, courseId);
+        result = instructorsLogic.isEmailOfInstructorOfCourse(instructorEmail, courseId);
         
         assertEquals(false, result);
 
         ______TS("failure: null parameter");
 
         try {
-            instructorsLogic.isInstructorEmailOfCourse(instructorEmail, null);
+            instructorsLogic.isEmailOfInstructorOfCourse(instructorEmail, null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
         }
 
         try {
-            instructorsLogic.isInstructorEmailOfCourse(null, courseId);
+            instructorsLogic.isEmailOfInstructorOfCourse(null, courseId);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
@@ -453,20 +453,20 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
     }
     
     @Test
-    public void testVerifyIsInstructorOfCourse() throws Exception  {
+    public void testVerifyIsGoogleIdOfInstructorOfCourse() throws Exception  {
         
         ______TS("success: instructor belongs to course");
         
         String instructorId = "idOfInstructor1OfCourse1";
         String courseId = "idOfTypicalCourse1";
-        instructorsLogic.verifyIsInstructorOfCourse(instructorId, courseId);
+        instructorsLogic.verifyIsGoogleIdOfInstructorOfCourse(instructorId, courseId);
         
         ______TS("failure: instructor doesn't belong to course");
         
         instructorId = "nonExistingInstructorId";
         
         try {
-            instructorsLogic.verifyIsInstructorOfCourse(instructorId, courseId);
+            instructorsLogic.verifyIsGoogleIdOfInstructorOfCourse(instructorId, courseId);
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
             assertEquals("Instructor " + instructorId
@@ -476,14 +476,14 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         ______TS("failure: null parameter");
 
         try {
-            instructorsLogic.verifyIsInstructorOfCourse(null, courseId);
+            instructorsLogic.verifyIsGoogleIdOfInstructorOfCourse(null, courseId);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
         }
 
         try {
-            instructorsLogic.verifyIsInstructorOfCourse(instructorId, null);
+            instructorsLogic.verifyIsGoogleIdOfInstructorOfCourse(instructorId, null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
@@ -491,19 +491,19 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
     }
     
     @Test
-    public void testVerifyIsInstructorEmailOfCourse() throws Exception  {
+    public void testVerifyIsEmailOfInstructorOfCourse() throws Exception  {
         
         ______TS("success: instructor belongs to course");
         
         String instructorEmail = "instructor1@course1.com";
         String courseId = "idOfTypicalCourse1";
-        instructorsLogic.verifyIsInstructorEmailOfCourse(instructorEmail, courseId);
+        instructorsLogic.verifyIsEmailOfInstructorOfCourse(instructorEmail, courseId);
         
         ______TS("failure: instructor doesn't belong to course");
         instructorEmail = "nonExistingInstructor@email.com";
         
         try {
-            instructorsLogic.verifyIsInstructorEmailOfCourse(instructorEmail, courseId);
+            instructorsLogic.verifyIsEmailOfInstructorOfCourse(instructorEmail, courseId);
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
             assertEquals("Instructor " + instructorEmail
@@ -512,14 +512,14 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         ______TS("failure: null parameter");
 
         try {
-            instructorsLogic.verifyIsInstructorEmailOfCourse(null, courseId);
+            instructorsLogic.verifyIsEmailOfInstructorOfCourse(null, courseId);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
         }
 
         try {
-            instructorsLogic.verifyIsInstructorOfCourse(instructorEmail, null);
+            instructorsLogic.verifyIsGoogleIdOfInstructorOfCourse(instructorEmail, null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains("Supplied parameter was null", e.getMessage());

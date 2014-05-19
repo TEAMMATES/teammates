@@ -364,7 +364,7 @@ public class Logic {
      */
     public boolean isInstructorOfCourse(String googleId, String courseId) {
         
-        return instructorsLogic.isInstructorOfCourse(googleId, courseId);
+        return instructorsLogic.isGoogleIdOfInstructorOfCourse(googleId, courseId);
     }
     
     /**
@@ -372,7 +372,7 @@ public class Logic {
      */
     public boolean isInstructorEmailOfCourse(String email, String courseId) {
         
-        return instructorsLogic.isInstructorEmailOfCourse(email, courseId);
+        return instructorsLogic.isEmailOfInstructorOfCourse(email, courseId);
     }
     
     /**

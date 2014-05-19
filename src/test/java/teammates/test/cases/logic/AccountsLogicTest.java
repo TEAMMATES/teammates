@@ -115,6 +115,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
             signalFailureToDetectException();
         } catch (EntityAlreadyExistsException eaee) {
             // Course must be created with a creator. `instructor` here is our creator, so recreating it should give us EAEE
+            ignoreExpectedException();
         }
         // Here we create another INSTRUCTOR for testing our createInstructor() method
         String googleIdWithGmailDomain = instructor2.googleId+"@GMAIL.COM"; //to check if "@GMAIL.COM" is stripped out correctly
