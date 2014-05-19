@@ -78,6 +78,9 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         testEditQuestionLink();
         testEditQuestionAction();
         
+        // No testDeleteQuestionAction() method as this is tested separately
+        // for each of the question-types later
+        
         testGetQuestionLink();
 
         testTwoNewEssayQuestionsWithRecipientBeingNobodySpecific();
