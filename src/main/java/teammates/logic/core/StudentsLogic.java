@@ -180,31 +180,17 @@ public class StudentsLogic {
             StudentAttributes student) 
             throws EntityDoesNotExistException, InvalidParametersException {
         // Edit student uses KeepOriginal policy, where unchanged fields are set
-        // as null. Hence, we can't do isValid() here.
+        // as null. Hence, we can't do isValid() for student here.
+        // After updateWithReferenceToExistingStudentRecord method called,
+        // the student should be valid
     
+        // here is like a db access that can be avoided if we really want to optimize the code
         studentsDb.verifyStudentExists(student.course, originalEmail);
         
         StudentAttributes originalStudent = getStudentForEmail(student.course, originalEmail);
         
-        //TODO: The block of code below can be extracted to a method in StudentAttributes.
-        //      e.g., originalStudent.updateValues(student)
-        
         // prepare new student
-        if(student.email == null){
-            student.email = originalStudent.email;
-        }
-        if(student.name == null){
-            student.name = originalStudent.name;
-        }
-        if(student.googleId == null){
-            student.googleId = originalStudent.googleId;
-        }
-        if(student.team == null){
-            student.team = originalStudent.team;
-        }
-        if(student.comments == null){
-            student.comments = originalStudent.comments;
-        }
+        student.updateWithReferenceToExistingStudentRecord(originalStudent);
         
         if(!student.isValid()) {
             throw new InvalidParametersException(student.getInvalidityInfo());
@@ -463,7 +449,7 @@ public class StudentsLogic {
         return enrollmentDetails;
     }
     
-    /* All empty lines or lines with only whitespaces will be skipped.
+    /* All empty lines or lines with only white spaces will be skipped.
      * The invalidity info returned are in HTML format.
      */
     private List<String> getInvalidityInfoInEnrollLines(String lines, String courseId) throws EnrollException {
