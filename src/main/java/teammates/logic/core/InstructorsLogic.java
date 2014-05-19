@@ -10,6 +10,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Assumption;
 import teammates.common.util.Utils;
 import teammates.storage.api.InstructorsDb;
 
@@ -173,6 +174,8 @@ public class InstructorsLogic {
     public void updateInstructorByGoogleId(String googleId, InstructorAttributes instructor) 
             throws InvalidParametersException, EntityDoesNotExistException {
 
+        Assumption.assertNotNull("Supplied parameter was null", instructor);
+
         coursesLogic.verifyCourseIsPresent(instructor.courseId);        
         verifyIsInstructorOfCourse(googleId, instructor.courseId);
 
@@ -193,6 +196,8 @@ public class InstructorsLogic {
     public void updateInstructorByEmail(String email, InstructorAttributes instructor) 
             throws InvalidParametersException, EntityDoesNotExistException {
         
+        Assumption.assertNotNull("Supplied parameter was null", instructor);
+
         coursesLogic.verifyCourseIsPresent(instructor.courseId);        
         verifyIsInstructorEmailOfCourse(email, instructor.courseId);
 
