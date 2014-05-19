@@ -120,9 +120,7 @@ public class CoursesLogic {
     }
     
     public boolean isSampleCourse(String courseId) {
-        if(courseId == null){
-            Assumption.fail("Course ID is null");
-        }
+        Assumption.assertNotNull("Course ID is null", courseId);
         return StringHelper.isMatching(courseId, FieldValidator.REGEX_SAMPLE_COURSE_ID);
     }
 
