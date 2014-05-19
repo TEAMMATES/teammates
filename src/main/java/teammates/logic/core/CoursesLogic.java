@@ -92,6 +92,7 @@ public class CoursesLogic {
         
         createCourse(courseId, courseName);
         
+        /* Create the initial instructor for the course */
         InstructorAttributes instructor = new InstructorAttributes();
         instructor.googleId = instructorGoogleId;
         instructor.courseId = courseId;
@@ -100,7 +101,7 @@ public class CoursesLogic {
         
         try {
             instructorsLogic.createInstructor(instructor);
-        } catch (Exception e) {
+        } catch (EntityAlreadyExistsException | InvalidParametersException e) {
             //roll back the transaction
             coursesDb.deleteCourse(courseId);
             String errorMessage = "Unexpected exception while trying to create instructor for a new course "+ EOL 
@@ -119,9 +120,10 @@ public class CoursesLogic {
     }
     
     public boolean isSampleCourse(String courseId) {
+        Assumption.assertNotNull("Course ID is null", courseId);
         return StringHelper.isMatching(courseId, FieldValidator.REGEX_SAMPLE_COURSE_ID);
     }
-    
+
     public void verifyCourseIsPresent(String courseId) throws EntityDoesNotExistException{
         if (!isCoursePresent(courseId)){
             throw new EntityDoesNotExistException("Course does not exist: "+courseId);
@@ -216,12 +218,8 @@ public class CoursesLogic {
     
             StudentAttributes s = students.get(i);
     
-            // if loner 
-            if (s.team.equals("")) {
-                //TODO:Return loner details as well when we decide to support loners in future.
-            } 
             // first student of first team
-            else if (team == null) {
+            if (team == null) {
                 team = new TeamDetailsBundle();
                 team.name = s.team;
                 team.students.add(s);
@@ -249,6 +247,7 @@ public class CoursesLogic {
 
     public int getNumberOfTeams(String courseID) throws EntityDoesNotExistException {
 
+        verifyCourseIsPresent(courseID);
         List<StudentAttributes> studentDataList = 
                 studentsLogic.getStudentsForCourse(courseID);
 
@@ -264,11 +263,13 @@ public class CoursesLogic {
     }
 
     public int getTotalEnrolledInCourse(String courseId) throws EntityDoesNotExistException {
+        verifyCourseIsPresent(courseId);
         return studentsLogic.getStudentsForCourse(courseId).size();
     }
 
-    public int getTotalUnregisteredInCourse(String courseID) {
-        return studentsLogic.getUnregisteredStudentsForCourse(courseID).size();
+    public int getTotalUnregisteredInCourse(String courseId) throws EntityDoesNotExistException {
+        verifyCourseIsPresent(courseId);
+        return studentsLogic.getUnregisteredStudentsForCourse(courseId).size();
     }
 
     public CourseDetailsBundle getCourseSummary(String courseId)
@@ -345,10 +346,12 @@ public class CoursesLogic {
         return courseList;
     }
     
-    public HashMap<String, CourseDetailsBundle> getCourseSummariesForInstructor(String googleId) {
+    public HashMap<String, CourseDetailsBundle> getCourseSummariesForInstructor(String googleId) throws EntityDoesNotExistException {
         
+        instructorsLogic.verifyInstructorExists(googleId);
+
         List<InstructorAttributes> instructorAttributesList = instructorsLogic.getInstructorsForGoogleId(googleId);
-        
+    
         HashMap<String, CourseDetailsBundle> courseSummaryList = new HashMap<String, CourseDetailsBundle>();
         
         for (InstructorAttributes ia : instructorAttributesList) {
@@ -370,7 +373,7 @@ public class CoursesLogic {
         return courseSummaryList;
     }
  
-    public HashMap<String, CourseDetailsBundle> getCoursesDetailsForInstructor(
+    public HashMap<String, CourseDetailsBundle> getCoursesDetailsListForInstructor(
             String instructorId) throws EntityDoesNotExistException {
         
         HashMap<String, CourseDetailsBundle> courseList = 
@@ -458,7 +461,9 @@ public class CoursesLogic {
         coursesDb.deleteCourse(courseId);
     }
     
-    private HashMap<String, CourseSummaryBundle> getCourseSummaryWithoutStatsForInstructor(String googleId) {
+    private HashMap<String, CourseSummaryBundle> getCourseSummaryWithoutStatsForInstructor(String googleId) throws EntityDoesNotExistException {
+        
+        instructorsLogic.verifyInstructorExists(googleId);
         
         List<InstructorAttributes> instructorAttributesList = instructorsLogic.getInstructorsForGoogleId(googleId);
         
@@ -478,10 +483,15 @@ public class CoursesLogic {
         return courseSummaryList;
     }
     
-    public String getCourseStudentListAsCsv(String courseId, String googleId) {
+    public String getCourseStudentListAsCsv(String courseId, String googleId) throws EntityDoesNotExistException {
+
         HashMap<String, CourseDetailsBundle> courses = getCourseSummariesForInstructor(googleId);
         CourseDetailsBundle course = courses.get(courseId);
         
+        if(course == null){
+            throw new EntityDoesNotExistException("The required course does not exist in the list of instructor's courses");
+        }
+
         String export = "";
         export += "Course ID" + "," + Sanitizer.sanitizeForCsv(courseId) + Const.EOL + 
                 "Course Name" + "," + Sanitizer.sanitizeForCsv(course.course.name) + Const.EOL + 
