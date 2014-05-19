@@ -72,7 +72,7 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
         assertEquals(false, redirectResult.isError);
         assertEquals(Const.StatusMessages.COURSE_INSTRUCTOR_DELETED, redirectResult.getStatusMessage());
 
-        assertEquals(false, instructorsLogic.isInstructorEmailOfCourse(instructorEmailToDelete, courseId));
+        assertEquals(false, instructorsLogic.isEmailOfInstructorOfCourse(instructorEmailToDelete, courseId));
         
         String expectedLogSegment = "Instructor <span class=\"bold\"> " + instructorEmailToDelete + "</span>"
                 + " in Course <span class=\"bold\">[" + courseId + "]</span> deleted.<br>";
@@ -95,7 +95,7 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
         assertEquals(false, redirectResult.isError);
         assertEquals(Const.StatusMessages.COURSE_INSTRUCTOR_DELETED, redirectResult.getStatusMessage());
 
-        assertEquals(false, instructorsLogic.isInstructorOfCourse(loginInstructor.googleId, courseId));
+        assertEquals(false, instructorsLogic.isGoogleIdOfInstructorOfCourse(loginInstructor.googleId, courseId));
         
         expectedLogSegment = "Instructor <span class=\"bold\"> " + instructorEmailToDelete + "</span>"
                 + " in Course <span class=\"bold\">[" + courseId + "]</span> deleted.<br>";
@@ -123,7 +123,7 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
         assertEquals(true, redirectResult.isError);
         assertEquals(Const.StatusMessages.COURSE_INSTRUCTOR_DELETE_NOT_ALLOWED, redirectResult.getStatusMessage());
 
-        assertEquals(true, instructorsLogic.isInstructorOfCourse(instructorToDelete.googleId, courseId));
+        assertEquals(true, instructorsLogic.isGoogleIdOfInstructorOfCourse(instructorToDelete.googleId, courseId));
         
         expectedLogSegment = "Instructor <span class=\"bold\"> " + instructorEmailToDelete + "</span>"
                 + " in Course <span class=\"bold\">[" + courseId + "]</span> could not be deleted "
