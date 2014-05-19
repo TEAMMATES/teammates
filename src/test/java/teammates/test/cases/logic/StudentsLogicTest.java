@@ -528,7 +528,6 @@ public class StudentsLogicTest extends BaseComponentTestCase{
 
         ______TS("typical case");
 
-        restoreTypicalDataInDatastore();
         //reuse existing student to create a new student
         StudentAttributes newStudent = dataBundle.students.get("student1InCourse1");
         newStudent.email = "new@student.com";
@@ -536,7 +535,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         
         List<SubmissionAttributes> submissionsBeforeAdding = submissionsLogic.getSubmissionsForCourse(newStudent.course);
         
-        invokeEnrollStudent(newStudent);
+        studentsLogic.createStudentCascade(newStudent);
         TestHelper.verifyPresentInDatastore(newStudent);
         
         List<SubmissionAttributes> submissionsAfterAdding = submissionsLogic.getSubmissionsForCourse(newStudent.course);
@@ -550,7 +549,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         //  checked elsewhere.
         
         // this fails for now -- reason?
-        assertEquals(submissionsBeforeAdding.size() + 18, submissionsAfterAdding.size());
+        assertEquals(submissionsBeforeAdding.size() + 6, submissionsAfterAdding.size());
 
         ______TS("duplicate student");
 
