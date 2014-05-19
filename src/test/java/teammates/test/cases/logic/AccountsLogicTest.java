@@ -1,5 +1,6 @@
 package teammates.test.cases.logic;
 
+import static org.testng.AssertJUnit.assertNull;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.assertFalse;
 import static org.testng.AssertJUnit.assertEquals;
@@ -11,9 +12,11 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.JoinCourseException;
 import teammates.common.util.Assumption;
@@ -22,6 +25,7 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.Logic;
 import teammates.logic.core.AccountsLogic;
+import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.test.cases.BaseComponentTestCase;
@@ -32,6 +36,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
 
     private AccountsLogic accountsLogic = AccountsLogic.inst();
     private InstructorsLogic instructorsLogic = InstructorsLogic.inst();
+    private CoursesLogic coursesLogic = CoursesLogic.inst();
     private Logic logic = new Logic();
     private static DataBundle dataBundle = getTypicalDataBundle();
 
@@ -82,6 +87,93 @@ public class AccountsLogicTest extends BaseComponentTestCase {
             ignoreExpectedException();
         }
         
+    }
+
+    @Test
+    public void testCreateInstructorAccount() throws Exception {
+
+        restoreTypicalDataInDatastore();
+
+        ______TS("success case");
+
+        // Delete any existing
+        CourseAttributes cd = dataBundle.courses.get("typicalCourse1");
+        InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor2 = dataBundle.instructors.get("instructor2OfCourse1");
+        coursesLogic.deleteCourseCascade(cd.id);
+        TestHelper.verifyAbsentInDatastore(cd);
+        TestHelper.verifyAbsentInDatastore(instructor);
+        TestHelper.verifyAbsentInDatastore(instructor2);
+        
+        // Create fresh
+        coursesLogic.createCourseAndInstructor(instructor.googleId, cd.id, cd.name);
+        try {
+            AccountAttributes instrAcc = dataBundle.accounts.get("instructor1OfCourse1");
+            //the email of instructor and the email of the account are different in test data,
+            //hence to test for EntityAlreadyExistsException we need to use the email of the account
+            accountsLogic.createInstructorAccount(instructor.googleId, instructor.courseId, instructor.name, instrAcc.email, "National University of Singapore");
+            signalFailureToDetectException();
+        } catch (EntityAlreadyExistsException eaee) {
+            // Course must be created with a creator. `instructor` here is our creator, so recreating it should give us EAEE
+        }
+        // Here we create another INSTRUCTOR for testing our createInstructor() method
+        String googleIdWithGmailDomain = instructor2.googleId+"@GMAIL.COM"; //to check if "@GMAIL.COM" is stripped out correctly
+        accountsLogic.createInstructorAccount(googleIdWithGmailDomain, instructor2.courseId, instructor2.name, instructor2.email, "National University of Singapore");
+        
+        // `instructor` here is created with NAME and EMAIL field obtain from his AccountData
+        AccountAttributes creator = dataBundle.accounts.get("instructor1OfCourse1");
+        instructor.name = creator.name;
+        instructor.email = creator.email; 
+        TestHelper.verifyPresentInDatastore(cd);
+        TestHelper.verifyPresentInDatastore(instructor);
+        TestHelper.verifyPresentInDatastore(instructor2);
+        
+        // Delete fresh
+        coursesLogic.deleteCourseCascade(cd.id);
+        // read deleted course
+        TestHelper.verifyAbsentInDatastore(cd);
+        // check for cascade delete
+        TestHelper.verifyAbsentInDatastore(instructor);
+        TestHelper.verifyAbsentInDatastore(instructor2);
+        
+        // Delete non-existent (fails silently)
+        coursesLogic.deleteCourseCascade(cd.id);
+        instructorsLogic.deleteInstructor(instructor.courseId, instructor.googleId);
+        instructorsLogic.deleteInstructor(instructor2.courseId, instructor2.googleId);
+
+        ______TS("invalid parameters");
+
+        String googleId = "valid-id";
+        
+        //ensure no account exist for this instructor
+        assertNull(logic.getAccount(googleId));
+        
+        // Ensure the exception is thrown at logic level
+        try {
+            accountsLogic.createInstructorAccount(googleId, "invalid courseId", "Valid name", "valid@email.com", "National University of Singapore");
+            signalFailureToDetectException();
+        } catch (InvalidParametersException e) {
+            AssertHelper.assertContains("invalid courseId",e.getMessage());
+        }
+        
+        //ensure no account exist for this instructor because the operation above failed 
+        assertNull(logic.getAccount(googleId));
+
+        ______TS("null parameters");
+        
+        try {
+            logic.createInstructorAccount(null, "valid.courseId", "Valid Name", "valid@email.com", "National University of Singapore");
+            signalFailureToDetectException();
+        } catch (AssertionError a) {
+            assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+        }
+        
+        try {
+            logic.createInstructorAccount("valid.id", null, "Valid Name", "valid@email.com", "National University of Singapore");
+            signalFailureToDetectException();
+        } catch (AssertionError a) {
+            assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+        }
     }
     
     @Test
@@ -140,8 +232,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         
         accountsLogic.makeAccountInstructor("id-does-not-exist");
         assertFalse(accountsLogic.isAccountPresent("id-does-not-exist"));
-        
-        
+
     }
 
     @Test
