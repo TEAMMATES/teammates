@@ -29,7 +29,15 @@ public class StudentEvalSubmissionEditPageAction extends Action {
         data = new StudentEvalSubmissionEditPageData(account);
         data.student = logic.getStudentForGoogleId(courseId, account.googleId);
         data.eval = logic.getEvaluation(courseId, evalName);
-        Assumption.assertNotNull(data.eval);
+        
+        if(data.eval == null) {
+            statusToUser.add("The evaluation has been deleted and is no longer accessible. "
+                    + "Please contact your instructors if you need to submit/edit an evaluation.");
+            
+            RedirectResult response = createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
+            return response;
+        }
+   
         
         try{
             data.submissions = logic.getSubmissionsForEvaluationFromStudent(courseId, evalName, data.student.email);
