@@ -66,7 +66,7 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
                 Const.ParamsNames.REGKEY, "invalid key"
         };
         StudentCourseJoinAction joinAction = getAction(submissionParams);
-        ShowPageResult pageResult = getShowPageResult(joinAction)
+        ShowPageResult pageResult = getShowPageResult(joinAction);
 
         assertEquals(Const.ViewURIs.STUDENT_COURSE_JOIN_CONFIRMATION
                 + "?error=false&user=" + student1InCourse1.googleId,
