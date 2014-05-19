@@ -138,6 +138,20 @@ public class InstructorFeedbackEditPage extends AppPage {
         return getPageSource().contains("<h1>Edit Feedback Session</h1>");
     }
     
+    public String getCourseId() {
+        return browser.driver.findElement(By.name("courseid")).getAttribute("value");
+    }
+    
+    public String getFeedbackSessionName() {
+        return browser.driver.findElement(By.name("fsname")).getAttribute("value");
+    }
+    
+    public boolean isCorrectPage (String courseId, String feedbackSessionName) {
+        boolean isCorrectCourseId = this.getCourseId().equals(courseId);
+        boolean isCorrectFeedbackSessionName = this.getFeedbackSessionName().equals(feedbackSessionName);
+        return isCorrectCourseId && isCorrectFeedbackSessionName && containsExpectedPageContents();
+    }
+    
     public void fillInstructionsBox(String instructions) {
         fillTextBox(instructionsTextBox, instructions);
     }

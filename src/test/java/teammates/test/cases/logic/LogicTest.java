@@ -2878,6 +2878,18 @@ public class LogicTest extends BaseComponentTestCase {
         assertEquals(false,
                 logic.getEvaluation(eval1.courseId, eval1.name).published);
 
+        
+        ______TS("Trying to publish an already published evaluation");
+        
+        //Publish evaluation once
+        logic.publishEvaluation(eval1.courseId, eval1.name);
+        assertEquals(true,logic.getEvaluation(eval1.courseId, eval1.name).published);
+        
+        //Publish the same evaluation again
+        logic.publishEvaluation(eval1.courseId, eval1.name);
+        assertEquals(true,logic.getEvaluation(eval1.courseId, eval1.name).published);
+
+        
         ______TS("not ready for publishing");
 
         // make the evaluation OPEN
@@ -2897,20 +2909,28 @@ public class LogicTest extends BaseComponentTestCase {
         assertEquals(EvalStatus.OPEN,
                 logic.getEvaluation(eval1.courseId, eval1.name).getStatus());
 
-        ______TS("not ready for unpublishing");
+        
 
-        try {
-            logic.unpublishEvaluation(eval1.courseId, eval1.name);
-            Assert.fail();
-        } catch (InvalidParametersException e) {
-            AssertHelper.assertContains(Const.StatusCodes.UNPUBLISHED_BEFORE_PUBLISHING,
-                    e.errorCode);
-        }
+        ______TS("Try to unpublish an already unpublished evaluation");
 
-        // ensure evaluation stays in the same state
-        assertEquals(EvalStatus.OPEN,
-                logic.getEvaluation(eval1.courseId, eval1.name).getStatus());
-
+        //Close and publish the evaluation first
+        eval1.endTime = TimeHelper.getDateOffsetToCurrentTime(-1);
+        assertEquals(EvalStatus.CLOSED, eval1.getStatus());
+        backDoorLogic.updateEvaluation(eval1);
+        
+        logic.publishEvaluation(eval1.courseId, eval1.name);
+        assertEquals(true,logic.getEvaluation(eval1.courseId, eval1.name).published);
+        
+        //Unpublish the evaluation
+        logic.unpublishEvaluation(eval1.courseId, eval1.name);
+        assertEquals(false,logic.getEvaluation(eval1.courseId, eval1.name).published);
+        
+        //Try to unpublish it again
+        logic.unpublishEvaluation(eval1.courseId, eval1.name);
+        assertEquals(false,logic.getEvaluation(eval1.courseId, eval1.name).published);
+        
+        
+        
         ______TS("non-existent");
 
         for (int i = 0; i < params.length; i++) {

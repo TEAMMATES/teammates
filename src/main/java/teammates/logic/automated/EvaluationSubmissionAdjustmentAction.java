@@ -1,4 +1,4 @@
-package teammates.logic.core;
+package teammates.logic.automated;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,6 +11,8 @@ import teammates.common.util.Assumption;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Utils;
 import teammates.common.util.Const.ParamsNames;
+import teammates.logic.core.EvaluationsLogic;
+import teammates.logic.core.StudentsLogic;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

@@ -1,4 +1,4 @@
-package teammates.logic.core;
+package teammates.logic.automated;
 
 import java.util.logging.Logger;
 

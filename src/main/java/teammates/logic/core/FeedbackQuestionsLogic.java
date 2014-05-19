@@ -582,6 +582,8 @@ public class FeedbackQuestionsLogic {
             deleteFeedbackQuestionCascade(questionToDeleteById.feedbackSessionName,
                                         questionToDeleteById.courseId, 
                                         questionToDeleteById.questionNumber);
+        } else {
+            // Silently fail if question does not exist.
         }
         
     }
