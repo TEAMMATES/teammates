@@ -26,7 +26,6 @@ import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Utils;
@@ -343,7 +342,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
     }
 
     @Test
-    public void testVerifyCourseIsPresent() {
+    public void testVerifyCourseIsPresent() throws Exception {
 
         ______TS("typical case: verify an inexistent course");
        
@@ -360,13 +359,8 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         ______TS("typical case: verify an existent course");
        
         c.id = "idOfTypicalCourse1";
-
-        try {
-            coursesLogic.verifyCourseIsPresent(c.id);
-        } catch (EntityDoesNotExistException e) {
-            Assumption.fail("This is not expected");
-        }
-
+        coursesLogic.verifyCourseIsPresent(c.id);
+        
         ______TS("Null parameter");
     
         try {
