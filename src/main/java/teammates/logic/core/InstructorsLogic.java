@@ -31,13 +31,14 @@ public class InstructorsLogic {
     private static Logger log = Utils.getLogger();
     
     private static InstructorsLogic instance = null;
+    
     public static InstructorsLogic inst() {
-        if (instance == null)
+        if (instance == null) {
             instance = new InstructorsLogic();
+        }
         return instance;
     }
     
-
     public void addInstructor(String courseId, String name, String email) 
             throws InvalidParametersException, EntityAlreadyExistsException {
                 
@@ -63,22 +64,27 @@ public class InstructorsLogic {
     }
 
     public InstructorAttributes getInstructorForEmail(String courseId, String email) {
+        
         return instructorsDb.getInstructorForEmail(courseId, email);
     }
 
     public InstructorAttributes getInstructorForGoogleId(String courseId, String googleId) {
+        
         return instructorsDb.getInstructorForGoogleId(courseId, googleId);
     }
     
     public InstructorAttributes getInstructorForRegistrationKey(String encryptedKey) {
+        
         return instructorsDb.getInstructorForRegistrationKey(encryptedKey);
     }
 
     public List<InstructorAttributes> getInstructorsForCourse(String courseId) {
+        
         return instructorsDb.getInstructorsForCourse(courseId);
     }
 
     public List<InstructorAttributes> getInstructorsForGoogleId(String googleId) {
+        
         return instructorsDb.getInstructorsForGoogleId(googleId);
     }
     
@@ -95,6 +101,7 @@ public class InstructorsLogic {
     }
     
     public List<InstructorAttributes> getInstructorsForEmail(String email) {
+        
         return instructorsDb.getInstructorsForEmail(email);
     }
 
@@ -103,15 +110,18 @@ public class InstructorsLogic {
      */
     @Deprecated 
     public List<InstructorAttributes> getAllInstructors() {
+        
         return instructorsDb.getAllInstructors();
     }
 
 
     public boolean isInstructorOfCourse(String instructorId, String courseId) {
+        
         return instructorsDb.getInstructorForGoogleId(courseId, instructorId) != null;
     }
     
     public boolean isInstructorEmailOfCourse(String instructorEmail, String courseId) {
+       
         return instructorsDb.getInstructorForEmail(courseId, instructorEmail) != null;
     }
     
@@ -130,6 +140,7 @@ public class InstructorsLogic {
     
     public void verifyInstructorExists(String instructorId)
             throws EntityDoesNotExistException {
+        
         if (!accountsLogic.isAccountAnInstructor(instructorId)) {
             throw new EntityDoesNotExistException("Instructor does not exist :"
                     + instructorId);
@@ -138,6 +149,7 @@ public class InstructorsLogic {
     
     public void verifyIsInstructorOfCourse(String instructorId, String courseId)
             throws EntityDoesNotExistException {
+        
         if (!isInstructorOfCourse(instructorId, courseId)) {
             throw new EntityDoesNotExistException("Instructor " + instructorId
                     + " does not belong to course " + courseId);
@@ -146,6 +158,7 @@ public class InstructorsLogic {
     
     public void verifyIsInstructorEmailOfCourse(String instructorEmail, String courseId)
             throws EntityDoesNotExistException {
+        
         if (!isInstructorEmailOfCourse(instructorEmail, courseId)) {
             throw new EntityDoesNotExistException("Instructor " + instructorEmail
                     + " does not belong to course " + courseId);
@@ -217,14 +230,17 @@ public class InstructorsLogic {
     }
 
     public void deleteInstructor(String courseId, String email) {
+        
         instructorsDb.deleteInstructor(courseId, email);
     }
 
     public void deleteInstructorsForGoogleId(String googleId) {
+        
         instructorsDb.deleteInstructorsForGoogleId(googleId);
     }
 
     public void deleteInstructorsForCourse(String courseId) {
+        
         instructorsDb.deleteInstructorsForCourse(courseId);
     }
 

@@ -256,6 +256,7 @@ public class Logic {
      * @return null if not found.
      */
     public InstructorAttributes getInstructorForEmail(String courseId, String email) {
+        
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
         
@@ -354,6 +355,7 @@ public class Logic {
      * @return true if this user has instructor privileges.
      */
     public boolean isInstructor(String googleId) {
+        
         return accountsLogic.isAccountAnInstructor(googleId);
     }
 
@@ -361,6 +363,7 @@ public class Logic {
      * @return true if this user is an instructor of the course
      */
     public boolean isInstructorOfCourse(String googleId, String courseId) {
+        
         return instructorsLogic.isInstructorOfCourse(googleId, courseId);
     }
     
@@ -368,6 +371,7 @@ public class Logic {
      * @return true if this email belongs to an instructor of the course
      */
     public boolean isInstructorEmailOfCourse(String email, String courseId) {
+        
         return instructorsLogic.isInstructorEmailOfCourse(email, courseId);
     }
     
@@ -388,6 +392,7 @@ public class Logic {
      * @return true if the instructor is a new user
      */
     public boolean isNewInstructor(String googleId) {
+        
         return instructorsLogic.isNewInstructor(googleId);
     }
 
@@ -405,10 +410,7 @@ public class Logic {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, instr);
-        
-        coursesLogic.verifyCourseIsPresent(instr.courseId);
-        instructorsLogic.verifyIsInstructorOfCourse(googleId, instr.courseId);
-        
+            
         instructorsLogic.updateInstructorByGoogleId(googleId, instr);
     }
     
@@ -427,9 +429,6 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, instr);
         
-        coursesLogic.verifyCourseIsPresent(instr.courseId);
-        instructorsLogic.verifyIsInstructorEmailOfCourse(email, instr.courseId);
-        
         instructorsLogic.updateInstructorByEmail(email, instr);
     }
     
@@ -446,7 +445,6 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, encryptedKey);
     
         accountsLogic.joinCourseForInstructor(encryptedKey, googleId);
-    
     }
 
     /**

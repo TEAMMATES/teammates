@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorAttributes;
@@ -22,8 +23,6 @@ import teammates.test.driver.AssertHelper;
 import teammates.test.util.TestHelper;
 
 public class InstructorsLogicTest extends BaseComponentTestCase{
-
-    //TODO: add missing test cases. Some of the test content can be transferred from LogicTest.
     
     private static InstructorsLogic instructorsLogic = new InstructorsLogic();
     private static InstructorsDb instructorsDb = new InstructorsDb();
@@ -33,6 +32,11 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
     public static void classSetUp() throws Exception {
         printTestClassHeader();
         turnLoggingUp(InstructorsLogic.class);
+    }
+
+    @BeforeMethod
+    public void caseSetUp() throws Exception {
+        restoreTypicalDataInDatastore();
     }
     
     @Test
@@ -72,7 +76,6 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
     
     @Test
     public void testGetInstructorForEmail() throws Exception {
-        restoreTypicalDataInDatastore();
         
         ______TS("failure: instructor doesn't exist");
 
@@ -93,7 +96,6 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
     
     @Test
     public void testGetInstructorForGoogleId() throws Exception {
-        restoreTypicalDataInDatastore();
         
         ______TS("failure: instructor doesn't exist");
 
@@ -114,7 +116,6 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
     
     @Test
     public void testGetInstructorForRegistrationKey() throws Exception {
-        restoreTypicalDataInDatastore();
         
         ______TS("failure: instructor doesn't exist");
         String key = "non-existing-key";
@@ -137,7 +138,6 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
 
     @Test
     public void testGetInstructorsForCourse() throws Exception {
-        restoreTypicalDataInDatastore();
 
         ______TS("success: get all instructors for a course");
 
@@ -165,7 +165,6 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
 
     @Test
     public void testGetInstructorsForGoogleId() throws Exception {
-        restoreTypicalDataInDatastore();
         
         ______TS("success: get all instructors for a google id");
 
@@ -190,7 +189,6 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
     
     @Test
     public void testGetKeyForInstructor() throws Exception {
-        restoreTypicalDataInDatastore();
     
         ______TS("success: get encrypted key for instructor");
         
@@ -215,7 +213,6 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
     
     @Test
     public void testIsInstructorOfCourse() throws Exception {
-        restoreTypicalDataInDatastore();
         
         ______TS("success: is an instructor of a given course");
 
@@ -237,7 +234,6 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
     
     @Test
     public void testIsInstructorEmailOfCourse() throws Exception {
-        restoreTypicalDataInDatastore();
         
         ______TS("success: is an instructor of a given course");
 
@@ -259,7 +255,6 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
 
     @Test
     public void testVerifyInstructorExists() throws Exception  {
-        restoreTypicalDataInDatastore();
         
         ______TS("success: instructor does exist");
         
@@ -280,7 +275,6 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
     
     @Test
     public void testVerifyIsInstructorOfCourse() throws Exception  {
-        restoreTypicalDataInDatastore();
         
         ______TS("success: instructor belongs to course");
         
@@ -302,7 +296,6 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
     
     @Test
     public void testVerifyIsInstructorEmailOfCourse() throws Exception  {
-        restoreTypicalDataInDatastore();
         
         ______TS("success: instructor belongs to course");
         
@@ -324,7 +317,6 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
     
     @Test
     public void testIsNewInstructor() throws Exception {
-        restoreTypicalDataInDatastore();
         
         ______TS("success: instructor with only 1 sample course");
         String instructorId = "idOfInstructorWithOnlyOneSampleCourse";
@@ -342,7 +334,6 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
 
     @Test
     public void testUpdateInstructorByGoogleId() throws Exception {
-        restoreTypicalDataInDatastore();
         
         ______TS("typical case: update an instructor");
         
@@ -361,7 +352,6 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
     
     @Test
     public void testUpdateInstructorByEmail() throws Exception {
-        restoreTypicalDataInDatastore();
         
         ______TS("typical case: update an instructor");
         
@@ -383,7 +373,6 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
     
     @Test
     public void testDeleteInstructor() throws Exception {
-        restoreTypicalDataInDatastore();
         
         ______TS("typical case: delete an instructor for specific course");
         
@@ -399,7 +388,6 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
 
     @Test
     public void testDeleteInstructorsForGoogleId() throws Exception {
-        restoreTypicalDataInDatastore();
         
         ______TS("typical case: delete all instructors for a given googleId");
         
@@ -414,7 +402,6 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
 
     @Test
     public void testDeleteInstructorsForCourse() throws Exception {
-        restoreTypicalDataInDatastore();
         
         ______TS("typical case: delete all instructors of a given course");
         
