@@ -549,6 +549,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         //  unnecessary because adjusting existing submissions should be 
         //  checked elsewhere.
         
+        // this fails for now -- reason?
         assertEquals(submissionsBeforeAdding.size() + 18, submissionsAfterAdding.size());
 
         ______TS("duplicate student");
