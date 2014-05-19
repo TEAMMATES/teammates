@@ -47,4 +47,9 @@ public class StudentFeedbackSubmissionEditPageAction extends FeedbackSubmissionE
     protected ShowPageResult createSpecificShowPageResult() {
         return createShowPageResult(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT, data);
     }
+    
+    @Override
+    protected RedirectResult createSpecificRedirectResult() {
+        return createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
+    }
 }
