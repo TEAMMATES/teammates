@@ -558,9 +558,7 @@ public class Logic {
             throws EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
-    
-        instructorsLogic.verifyInstructorExists(googleId);
-    
+        
         return coursesLogic.getCoursesSummaryWithoutStatsForInstructor(googleId);
     }
 
@@ -574,11 +572,8 @@ public class Logic {
             String instructorId) throws EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorId);
-        
-        instructorsLogic.verifyInstructorExists(instructorId);
-        
-        return coursesLogic.getCoursesDetailsListForInstructor(instructorId);
-    
+
+        return coursesLogic.getCoursesDetailsListForInstructor(instructorId);    
     }
     
     /**
@@ -591,9 +586,7 @@ public class Logic {
             throws EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
-    
-        instructorsLogic.verifyInstructorExists(googleId);
-    
+        
         return coursesLogic.getCourseSummariesForInstructor(googleId);
     }
     
@@ -985,9 +978,7 @@ public class Logic {
             throws EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorId);
-    
-        instructorsLogic.verifyInstructorExists(instructorId);
-    
+
         return evaluationsLogic.getEvaluationsDetailsForInstructor(instructorId);
     }
     
@@ -1002,8 +993,6 @@ public class Logic {
             throws EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorId);
-    
-        instructorsLogic.verifyInstructorExists(instructorId);
     
         return evaluationsLogic.getEvaluationsListForInstructor(instructorId);
     }

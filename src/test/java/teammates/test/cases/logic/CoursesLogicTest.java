@@ -363,7 +363,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
         try {
             coursesLogic.verifyCourseIsPresent(c.id);
-            signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
             Assumption.fail("This is not expected");
         }

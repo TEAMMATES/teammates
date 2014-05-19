@@ -247,6 +247,7 @@ public class CoursesLogic {
 
     public int getNumberOfTeams(String courseID) throws EntityDoesNotExistException {
 
+        verifyCourseIsPresent(courseID);
         List<StudentAttributes> studentDataList = 
                 studentsLogic.getStudentsForCourse(courseID);
 
@@ -262,11 +263,13 @@ public class CoursesLogic {
     }
 
     public int getTotalEnrolledInCourse(String courseId) throws EntityDoesNotExistException {
+        verifyCourseIsPresent(courseId);
         return studentsLogic.getStudentsForCourse(courseId).size();
     }
 
-    public int getTotalUnregisteredInCourse(String courseID) throws EntityDoesNotExistException {
-        return studentsLogic.getUnregisteredStudentsForCourse(courseID).size();
+    public int getTotalUnregisteredInCourse(String courseId) throws EntityDoesNotExistException {
+        verifyCourseIsPresent(courseId);
+        return studentsLogic.getUnregisteredStudentsForCourse(courseId).size();
     }
 
     public CourseDetailsBundle getCourseSummary(String courseId)
@@ -345,8 +348,10 @@ public class CoursesLogic {
     
     public HashMap<String, CourseDetailsBundle> getCourseSummariesForInstructor(String googleId) throws EntityDoesNotExistException {
         
+        instructorsLogic.verifyInstructorExists(googleId);
+
         List<InstructorAttributes> instructorAttributesList = instructorsLogic.getInstructorsForGoogleId(googleId);
-        
+    
         HashMap<String, CourseDetailsBundle> courseSummaryList = new HashMap<String, CourseDetailsBundle>();
         
         for (InstructorAttributes ia : instructorAttributesList) {
@@ -456,7 +461,9 @@ public class CoursesLogic {
         coursesDb.deleteCourse(courseId);
     }
     
-    private HashMap<String, CourseSummaryBundle> getCourseSummaryWithoutStatsForInstructor(String googleId) {
+    private HashMap<String, CourseSummaryBundle> getCourseSummaryWithoutStatsForInstructor(String googleId) throws EntityDoesNotExistException {
+        
+        instructorsLogic.verifyInstructorExists(googleId);
         
         List<InstructorAttributes> instructorAttributesList = instructorsLogic.getInstructorsForGoogleId(googleId);
         
