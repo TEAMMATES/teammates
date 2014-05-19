@@ -558,9 +558,7 @@ public class Logic {
             throws EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
-    
-        instructorsLogic.verifyInstructorExists(googleId);
-    
+        
         return coursesLogic.getCoursesSummaryWithoutStatsForInstructor(googleId);
     }
 
@@ -574,11 +572,8 @@ public class Logic {
             String instructorId) throws EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorId);
-        
-        instructorsLogic.verifyInstructorExists(instructorId);
-        
-        return coursesLogic.getCoursesDetailsForInstructor(instructorId);
-    
+
+        return coursesLogic.getCoursesDetailsListForInstructor(instructorId);    
     }
     
     /**
@@ -591,9 +586,7 @@ public class Logic {
             throws EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
-    
-        instructorsLogic.verifyInstructorExists(googleId);
-    
+        
         return coursesLogic.getCourseSummariesForInstructor(googleId);
     }
     
@@ -985,9 +978,9 @@ public class Logic {
             throws EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorId);
-    
+
         instructorsLogic.verifyInstructorExists(instructorId);
-    
+
         return evaluationsLogic.getEvaluationsDetailsForInstructor(instructorId);
     }
     
@@ -1002,9 +995,9 @@ public class Logic {
             throws EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorId);
-    
+        
         instructorsLogic.verifyInstructorExists(instructorId);
-    
+
         return evaluationsLogic.getEvaluationsListForInstructor(instructorId);
     }
 
@@ -1042,7 +1035,8 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null. <br>
      */
-    public String getCourseStudentListAsCsv(String courseId, String googleId) {
+    public String getCourseStudentListAsCsv(String courseId, String googleId)
+            throws EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
