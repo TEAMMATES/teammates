@@ -504,7 +504,9 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         }
         
         
-        ______TS("empty invalidity info in enroll line");
+        // method testEnrollLinesChecking is doing more checking. here is just to
+        // cover this path
+        ______TS("invalidity info in enroll line");
         
         enrollLines = "invalidline0\ninvalidline1\n";
         try {
