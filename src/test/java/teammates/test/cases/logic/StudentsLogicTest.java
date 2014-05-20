@@ -30,6 +30,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
+import teammates.logic.api.Logic;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.Emails;
@@ -256,7 +257,6 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         ______TS("typical case: send invite to one student");
         
         restoreTypicalDataInDatastore();
-        dataBundle = getTypicalDataBundle();
 
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         String studentEmail = student1InCourse1.email;
@@ -297,7 +297,6 @@ public class StudentsLogicTest extends BaseComponentTestCase{
 
         ______TS("typical case: send invite to one student");
         
-        dataBundle = getTypicalDataBundle();
         String courseId = dataBundle.courses.get("typicalCourse1").id;
         StudentAttributes newsStudent0Info = new StudentAttributes("team", "n0", "e0@google.com", "", courseId);
         StudentAttributes newsStudent1Info = new StudentAttributes("team", "n1", "e1@google.com", "", courseId);
@@ -613,19 +612,16 @@ public class StudentsLogicTest extends BaseComponentTestCase{
     
         ______TS("student in one course");
     
+        StudentAttributes studentInCourse1 = dataBundle.students.get("student1InCourse1");
+        assertEquals(1, studentsLogic.getStudentsForGoogleId(studentInCourse1.googleId).size());
+        assertEquals(studentInCourse1.email, 
+                studentsLogic.getStudentsForGoogleId(studentInCourse1.googleId).get(0).email);
+        assertEquals(studentInCourse1.name,
+                studentsLogic.getStudentsForGoogleId(studentInCourse1.googleId).get(0).name);
+        assertEquals(studentInCourse1.course,
+                studentsLogic.getStudentsForGoogleId(studentInCourse1.googleId).get(0).course);
+    
         
-    
-        restoreTypicalDataInDatastore();
-        StudentAttributes studentInOneCourse = dataBundle.students
-                .get("student1InCourse1");
-        assertEquals(1, studentsLogic.getStudentsForGoogleId(studentInOneCourse.googleId).size());
-        assertEquals(studentInOneCourse.email,
-                studentsLogic.getStudentsForGoogleId(studentInOneCourse.googleId).get(0).email);
-        assertEquals(studentInOneCourse.name,
-                studentsLogic.getStudentsForGoogleId(studentInOneCourse.googleId).get(0).name);
-        assertEquals(studentInOneCourse.course,
-                studentsLogic.getStudentsForGoogleId(studentInOneCourse.googleId).get(0).course);
-    
         ______TS("student in two courses");
     
         // this student is in two courses, course1 and course 2.
@@ -781,8 +777,14 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         ______TS("non-existent student");
         
         StudentAttributes student = dataBundle.students.get("student1InCourse1");
-        assertEquals(null,
-                studentsLogic.getKeyForStudent(student.course, "non@existent"));
+        String nonExistStudentEmail = "non@existent";
+        try {
+            studentsLogic.getKeyForStudent(student.course, nonExistStudentEmail);
+            signalFailureToDetectException();
+        } catch (EntityDoesNotExistException e) {
+            String expectedErrorMsg = "Student does not exist: [" + student.course + "/" + nonExistStudentEmail + "]";
+            assertEquals(expectedErrorMsg, e.getMessage());
+        }
     }
 
     @Test
@@ -792,7 +794,6 @@ public class StudentsLogicTest extends BaseComponentTestCase{
     
         ______TS("all students already registered");
    
-        restoreTypicalDataInDatastore();
         CourseAttributes course1 = dataBundle.courses.get("typicalCourse1");
     
         // send registration key to a class in which all are registered
@@ -803,8 +804,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         ______TS("some students not registered");
     
         // modify two students to make them 'unregistered' and send again
-        StudentAttributes student1InCourse1 = dataBundle.students
-                .get("student1InCourse1");
+        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         student1InCourse1.googleId = "";
         studentsLogic.updateStudentCascade(student1InCourse1.email, student1InCourse1);
         StudentAttributes student2InCourse1 = dataBundle.students
@@ -820,6 +820,55 @@ public class StudentsLogicTest extends BaseComponentTestCase{
     
         try {
             studentsLogic.sendRegistrationInviteForCourse(null);
+            signalFailureToDetectException();
+        } catch (AssertionError a) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
+        }
+    }
+    
+    @Test
+    public void testDeleteStudent() throws Exception {
+
+        restoreTypicalDataInDatastore();
+
+        ______TS("typical delete");
+
+        // this is the student to be deleted
+        StudentAttributes student2InCourse1 = dataBundle.students.get("student2InCourse1");
+        TestHelper.verifyPresentInDatastore(student2InCourse1);
+
+        // ensure student-to-be-deleted has some submissions
+        SubmissionAttributes submissionFromS1C1ToS2C1 = dataBundle.submissions.get("submissionFromS1C1ToS2C1");
+        TestHelper.verifyPresentInDatastore(submissionFromS1C1ToS2C1);
+        SubmissionAttributes submissionFromS2C1ToS1C1 = dataBundle.submissions.get("submissionFromS2C1ToS1C1");
+        TestHelper.verifyPresentInDatastore(submissionFromS2C1ToS1C1);
+        SubmissionAttributes submissionFromS1C1ToS1C1 = dataBundle.submissions.get("submissionFromS1C1ToS1C1");
+        TestHelper.verifyPresentInDatastore(submissionFromS1C1ToS1C1);
+
+        studentsLogic.deleteStudentCascade(student2InCourse1.course, student2InCourse1.email);
+        TestHelper.verifyAbsentInDatastore(student2InCourse1);
+
+        // verify that other students in the course are intact
+        dataBundle = getTypicalDataBundle();
+        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
+        TestHelper.verifyPresentInDatastore(student1InCourse1);
+
+        // verify that submissions are deleted
+        TestHelper.verifyAbsentInDatastore(submissionFromS1C1ToS2C1);
+        TestHelper.verifyAbsentInDatastore(submissionFromS2C1ToS1C1);
+
+        // verify other student's submissions are intact
+        TestHelper.verifyPresentInDatastore(submissionFromS1C1ToS1C1);
+
+        ______TS("delete non-existent student");
+
+        // should fail silently.
+        studentsLogic.deleteStudentCascade(student2InCourse1.course, student2InCourse1.email);
+
+        ______TS("null parameters");
+
+        try {
+            studentsLogic.deleteStudentCascade(null, "valid@email.com");
             signalFailureToDetectException();
         } catch (AssertionError a) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());

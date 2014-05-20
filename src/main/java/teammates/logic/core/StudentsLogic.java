@@ -59,12 +59,13 @@ public class StudentsLogic {
     public void createStudentCascade(StudentAttributes studentData) 
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         
+        createStudentCascadeWithSubmissionAdjustmentScheduled(studentData);
+        
         if (!coursesLogic.isCoursePresent(studentData.course)) {
             throw new EntityDoesNotExistException(
                     "Course does not exist [" + studentData.course + "]");
         }
         
-        createStudentCascadeWithSubmissionAdjustmentScheduled(studentData);
         evaluationsLogic.adjustSubmissionsForNewStudent(
                 studentData.course, studentData.email, studentData.team);
     }
