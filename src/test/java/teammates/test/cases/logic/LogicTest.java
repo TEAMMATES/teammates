@@ -27,7 +27,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.DataBundle;
@@ -251,29 +250,12 @@ public class LogicTest extends BaseComponentTestCase {
     
     
         ______TS("register an unregistered student");
-              
-        // make a student 'unregistered'
-        student = dataBundle.students.get("student1InCourse1");
-        googleId = "student1InCourse1";
-        key = logic.getKeyForStudent(student.course, student.email);
-        student.googleId = "";
-        logic.updateStudent(student.email, student);
-        assertEquals("", logic.getStudentForEmail(student.course, student.email).googleId);
-        logic.deleteAccount(googleId);    // for testing account creation
-        AccountAttributes studentAccount = logic.getAccount(googleId); // this is because student accounts are not in typical data bundle
-        assertNull(studentAccount);
     
         //Test for encrypted key used
         key = StringHelper.encrypt(key);
         logic.joinCourseForStudent(key, googleId);
         assertEquals(googleId,
                 logic.getStudentForEmail(student.course, student.email).googleId);
-        
-        // Check that an account with the student's google ID was created
-        studentAccount = logic.getAccount(googleId);
-        TestHelper.verifyPresentInDatastore(studentAccount); 
-        AccountAttributes accountOfInstructorOfCourse = dataBundle.accounts.get("instructor1OfCourse1");
-        assertEquals(accountOfInstructorOfCourse.institute, studentAccount.institute);// Test that student account was appended with the correct Institute
                 
         ______TS("null parameters");
     
