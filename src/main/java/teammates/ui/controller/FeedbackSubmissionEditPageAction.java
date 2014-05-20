@@ -22,6 +22,14 @@ public abstract class FeedbackSubmissionEditPageAction extends Action {
             return createPleaseJoinCourseResponse(courseId);
         }
         
+        
+        FeedbackSessionAttributes feedbackSession = logic.getFeedbackSession(feedbackSessionName, courseId);
+        if(feedbackSession == null) {
+            statusToUser.add("The feedback session has been deleted and is no longer accessible.");
+                       
+            return createSpecificRedirectResult();
+        }
+        
         verifyAccesibleForSpecificUser();
         
         String userEmailForCourse = getUserEmailForCourse();
@@ -52,4 +60,6 @@ public abstract class FeedbackSubmissionEditPageAction extends Action {
     protected abstract void setStatusToAdmin();
     
     protected abstract ShowPageResult createSpecificShowPageResult();
+    
+    protected abstract RedirectResult createSpecificRedirectResult();
 }

@@ -21,6 +21,7 @@ import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.EvaluationDetailsBundle;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
@@ -41,6 +42,7 @@ import teammates.storage.api.CommentsDb;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.api.EvaluationsDb;
 import teammates.storage.api.FeedbackQuestionsDb;
+import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.StudentsDb;
@@ -63,6 +65,7 @@ public class TestHelper extends BaseComponentTestCase{
     private static final FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
     private static final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
     private static final CommentsDb commentsDb = new CommentsDb();
+    private static final FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
 
     private static Gson gson = Utils.getTeammatesGson();
 
@@ -247,6 +250,10 @@ public class TestHelper extends BaseComponentTestCase{
                 comment.giverEmail, comment.receiverEmail, comment.commentText, comment.createdAt));
     }
     
+    public static void verifyAbsentInDatastore(FeedbackResponseCommentAttributes frComment) {
+        assertEquals(null, frcDb.getFeedbackResponseComment(frComment.getId()));
+    }
+    
     public static void verifyPresentInDatastore(AccountAttributes expectedAccount) {
         AccountAttributes actualAccount = logic.getAccount(expectedAccount.googleId);
         // Account when created by createInstructor may take up different values in NAME and EMAIL
@@ -305,11 +312,28 @@ public class TestHelper extends BaseComponentTestCase{
         assertEquals(gson.toJson(expected), gson.toJson(actual));
     }
     
+    public static void verifyPresentInDatastore(FeedbackQuestionAttributes expected, boolean wildcardId) {
+        FeedbackQuestionAttributes actual = fqDb.getFeedbackQuestion(
+                expected.feedbackSessionName, expected.courseId, expected.questionNumber);
+        if(wildcardId){
+            actual.setId("*");
+        }
+        assertEquals(gson.toJson(expected), gson.toJson(actual));
+    }
+    
     public static void verifyPresentInDatastore(CommentAttributes expected){
         CommentAttributes actual = commentsDb.getComment(expected.courseId, expected.giverEmail, expected.receiverEmail, expected.commentText, expected.createdAt);
         assertEquals(expected.courseId, actual.courseId);
         assertEquals(expected.giverEmail, actual.giverEmail);
         assertEquals(expected.receiverEmail, actual.receiverEmail);
+        assertEquals(expected.commentText, actual.commentText);
+    }
+    
+    public static void verifyPresentInDatastore(FeedbackResponseCommentAttributes expected){
+        FeedbackResponseCommentAttributes actual = frcDb.getFeedbackResponseComment(expected.feedbackResponseId, expected.giverEmail, expected.createdAt);
+        assertEquals(expected.courseId, actual.courseId);
+        assertEquals(expected.giverEmail, actual.giverEmail);
+        assertEquals(expected.feedbackSessionName, actual.feedbackSessionName);
         assertEquals(expected.commentText, actual.commentText);
     }
     
