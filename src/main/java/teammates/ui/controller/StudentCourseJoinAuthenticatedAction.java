@@ -31,7 +31,9 @@ public class StudentCourseJoinAuthenticatedAction extends Action {
         } catch (InvalidParametersException
                 | EntityAlreadyExistsException e) {
             setStatusForException(e, Sanitizer.sanitizeForHtml(e.getMessage()));
-            logMsg = "GAE-level exception not thrown explicitly by Logic <br/>" + e.toString();
+            //logMsg = "GAE-level exception not thrown explicitly by Logic <br/>" + e.toString();
+            
+            //TODO: this branch seems to be unreachable, to be removed  
         } catch (JoinCourseException e) {
             // Does not sanitize for html to allow insertion of mailto link
             setStatusForException(e, e.getMessage());
