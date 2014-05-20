@@ -279,7 +279,6 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         
     }
     
-
     @Test
     public void testGetFeedbackResponsesForReceiverForCourse() throws Exception {
         
@@ -323,6 +322,100 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         ______TS("no responses for receiver for course");
         
         assertTrue(frDb.getFeedbackResponsesForReceiverForCourse(fqa.courseId, "student3InCourse1@gmail.com").isEmpty());    
+        
+    }
+    
+    @Test
+    public void testGetFeedbackResponsesFromGiverForQuestion() throws Exception {
+        
+        restoreTypicalDataInDatastore();
+        
+        ______TS("standard success case");  
+        
+        FeedbackQuestionAttributes fqa = 
+                fqDb.getFeedbackQuestion("First feedback session", "idOfTypicalCourse1", 1);
+        
+        List<FeedbackResponseAttributes> responses = 
+                frDb.getFeedbackResponsesFromGiverForQuestion(fqa.getId(),
+                        "student1InCourse1@gmail.com");
+        
+        assertEquals(responses.size(), 1);
+        
+        ______TS("null params");
+        
+        try {
+            frDb.getFeedbackResponsesFromGiverForQuestion(null, "student1InCourse1@gmail.com");
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
+        }
+        
+        try {
+            frDb.getFeedbackResponsesFromGiverForQuestion(fqa.getId(), null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
+        }
+        
+        ______TS("non-existent feedback question");
+        
+        assertTrue(frDb.getFeedbackResponsesFromGiverForQuestion("non-existent fq id", "student1InCourse1@gmail.com").isEmpty());
+        
+        ______TS("non-existent receiver");
+        
+        assertTrue(frDb.getFeedbackResponsesFromGiverForQuestion(fqa.getId(), "non-existentStudentInCourse1@gmail.com").isEmpty());
+        
+        ______TS("no responses from giver for question");
+        
+        fqa = fqDb.getFeedbackQuestion("First feedback session", "idOfTypicalCourse1", 4);
+        
+        assertTrue(frDb.getFeedbackResponsesFromGiverForQuestion(fqa.getId(), "student1InCourse1@gmail.com").isEmpty());    
+        
+    }
+
+    @Test
+    public void testGetFeedbackResponsesFromGiverForCourse() throws Exception {
+        
+        restoreTypicalDataInDatastore();
+        
+        ______TS("standard success case");  
+        
+        FeedbackQuestionAttributes fqa = 
+                fqDb.getFeedbackQuestion("First feedback session", "idOfTypicalCourse1", 1);
+        
+        List<FeedbackResponseAttributes> responses = 
+                frDb.getFeedbackResponsesFromGiverForCourse(fqa.courseId,
+                        "student1InCourse1@gmail.com");
+        
+        assertEquals(responses.size(), 3);
+        
+        ______TS("null params");
+        
+        try {
+            frDb.getFeedbackResponsesFromGiverForCourse(null, "student1InCourse1@gmail.com");
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
+        }
+        
+        try {
+            frDb.getFeedbackResponsesFromGiverForCourse(fqa.courseId, null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
+        }
+        
+        ______TS("non-existent feedback question");
+        
+        assertTrue(frDb.getFeedbackResponsesFromGiverForCourse("non-existent courseId", "student1InCourse1@gmail.com").isEmpty());
+        
+        ______TS("non-existent giver");
+        
+        assertTrue(frDb.getFeedbackResponsesFromGiverForCourse(fqa.courseId, "non-existentStudentInCourse1@gmail.com").isEmpty());
+        
+        ______TS("no responses from giver for course");
+        
+        assertTrue(frDb.getFeedbackResponsesFromGiverForCourse(fqa.courseId, "student5InCourse1@gmail.com").isEmpty());    
         
     }
     
