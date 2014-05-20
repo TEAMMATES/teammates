@@ -231,6 +231,54 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         
     }
     
+    @Test
+    public void testGetFeedbackResponsesForReceiverForQuestion() throws Exception {
+        
+        restoreTypicalDataInDatastore();
+        
+        ______TS("standard success case");  
+        
+        FeedbackQuestionAttributes fqa = 
+                fqDb.getFeedbackQuestion("First feedback session", "idOfTypicalCourse1", 1);
+        
+        List<FeedbackResponseAttributes> responses = 
+                frDb.getFeedbackResponsesForReceiverForQuestion(fqa.getId(),
+                        "student1InCourse1@gmail.com");
+        
+        assertEquals(responses.size(), 1);
+        
+        ______TS("null params");
+        
+        try {
+            frDb.getFeedbackResponsesForReceiverForQuestion(null, "student1InCourse1@gmail.com");
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
+        }
+        
+        try {
+            frDb.getFeedbackResponsesForReceiverForQuestion(fqa.getId(), null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
+        }
+        
+        ______TS("non-existent feedback question");
+        
+        assertTrue(frDb.getFeedbackResponsesForReceiverForQuestion("non-existent fq id", "student1InCourse1@gmail.com").isEmpty());
+        
+        ______TS("non-existent receiver");
+        
+        assertTrue(frDb.getFeedbackResponsesForReceiverForQuestion(fqa.getId(), "non-existentStudentInCourse1@gmail.com").isEmpty());
+        
+        ______TS("no responses for question for receiver");
+        
+        fqa = fqDb.getFeedbackQuestion("First feedback session", "idOfTypicalCourse1", 4);
+        
+        assertTrue(frDb.getFeedbackResponsesForReceiverForQuestion(fqa.getId(), "student1InCourse1@gmail.com").isEmpty());    
+        
+    }
+    
     private FeedbackResponseAttributes getNewFeedbackResponseAttributes() {
         FeedbackResponseAttributes fra = new FeedbackResponseAttributes();
         
