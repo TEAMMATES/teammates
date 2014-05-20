@@ -3,6 +3,7 @@ package teammates.logic.automated;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Const.ParamsNames;
@@ -23,6 +24,11 @@ public class EvaluationPublishEmailWorkerServlet extends WorkerServlet {
                 .getValueFromRequestParameterMap(req, ParamsNames.SUBMISSION_COURSE);
         Assumption.assertNotNull(courseId);
         
-        EvaluationsLogic.inst().sendEvaluationPublishedEmails(courseId, evaluationName);
+        try {
+            EvaluationsLogic.inst().sendEvaluationPublishedEmails(courseId, evaluationName);
+        } catch (EntityDoesNotExistException e) {
+            log.severe("Unexpected error while sending emails " + e.getMessage());
+        }
+      
     }
 }
