@@ -362,8 +362,8 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         enrollmentList.add(studentDetails1);
         
         FeedbackResponseAttributes feedbackResponse1InBundle = dataBundle.feedbackResponses.get("response1ForQ2S1C1");
-        FeedbackResponsesLogic frLogic = new FeedbackResponsesLogic();
-        FeedbackQuestionsLogic fqLogic = new FeedbackQuestionsLogic();
+        FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
+        FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
         FeedbackQuestionAttributes feedbackQuestionInDb = fqLogic.getFeedbackQuestion(feedbackResponse1InBundle.feedbackSessionName, 
                 feedbackResponse1InBundle.courseId, Integer.parseInt(feedbackResponse1InBundle.feedbackQuestionId));
         FeedbackResponseAttributes responseBefore = frLogic.getFeedbackResponse(feedbackQuestionInDb.getId(),
