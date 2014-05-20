@@ -32,7 +32,7 @@ import teammates.test.pageobjects.InstructorHelpPage;
 import teammates.test.pageobjects.InstructorHomePage;
 
 /**
- * Tests Homepage and login page for instructors. 
+ * Tests Home page and login page for instructors. 
  * SUT: {@link InstructorHomePage}.<br>
  * Uses a real account.
  * 
@@ -152,29 +152,51 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
     }
     
     public void testCourseLinks(){
-        
         String courseId = testData.courses.get("CHomeUiT.CS1101").id;
+        String instructorId = testData.accounts.get("account").googleId;
         
         ______TS("link: course enroll");
         InstructorCourseEnrollPage enrollPage = homePage.clickCourseErollLink(courseId);
         enrollPage.verifyContains("Enroll Students for CHomeUiT.CS1101");
+        String expectedEnrollLinkText = TestProperties.inst().TEAMMATES_URL + 
+                Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE + 
+                "?" + Const.ParamsNames.COURSE_ID + "=" + courseId + 
+                "&" + Const.ParamsNames.USER_ID + "=" + instructorId;
+        assertEquals(expectedEnrollLinkText, browser.driver.getCurrentUrl());
         homePage.goToPreviousPage(InstructorHomePage.class);
         
         ______TS("link: course view");
         InstructorCourseDetailsPage detailsPage = homePage.clickCourseViewLink(courseId);
         detailsPage.verifyContains("Course Details");
+        String expectedViewLinkText = TestProperties.inst().TEAMMATES_URL + 
+                Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE + 
+                "?" + Const.ParamsNames.COURSE_ID + "=" + courseId + 
+                "&" + Const.ParamsNames.USER_ID + "=" + instructorId;
+        assertEquals(expectedViewLinkText, browser.driver.getCurrentUrl());
         homePage.goToPreviousPage(InstructorHomePage.class);
         
         ______TS("link: course edit");
         InstructorCourseEditPage editPage = homePage.clickCourseEditLink(courseId);
         editPage.verifyContains("Edit Course Details");
+        String expectedEditLinkText = TestProperties.inst().TEAMMATES_URL + 
+                Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE + 
+                "?" + Const.ParamsNames.COURSE_ID + "=" + courseId + 
+                "&" +  Const.ParamsNames.USER_ID + "=" + instructorId;
+        assertEquals(expectedEditLinkText, browser.driver.getCurrentUrl());
         homePage.goToPreviousPage(InstructorHomePage.class);
         
         ______TS("link: course add evaluation");
         InstructorEvalsPage evalsPage =  homePage.clickCourseAddEvaluationLink(courseId);
         evalsPage.verifyContains("Add New Evaluation Session");
+        String expectedAddSessionLinkText = TestProperties.inst().TEAMMATES_URL + 
+                Const.ActionURIs.INSTRUCTOR_EVALS_PAGE + 
+                "?" + Const.ParamsNames.USER_ID + "=" + instructorId +
+                "&" + Const.ParamsNames.COURSE_ID + "=" + courseId;
+        assertEquals(expectedAddSessionLinkText, browser.driver.getCurrentUrl());
         homePage.goToPreviousPage(InstructorHomePage.class);
+        
     }
+    
     
     public void testEvaluationLinks(){
         
@@ -297,7 +319,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.clickArchiveCourseLink(courseIdForCS1101);
         
         assertTrue(BackDoor.getCourse(courseIdForCS1101).isArchived);
-//        homePage.verifyHtmlAjax("/instructorHomeCourseArchiveSuccessful.html");
+        homePage.verifyHtmlAjax("/instructorHomeCourseArchiveSuccessful.html");
         
         ______TS("archive action failed");
         
