@@ -180,6 +180,16 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
     }
     
     @Test
+    public void testDeleteFeedbackSessionsForCourse() throws Exception {
+        
+        restoreTypicalDataInDatastore();
+        
+        assertFalse(fsLogic.getFeedbackSessionsForCourse("idOfTypicalCourse1").isEmpty());
+        fsLogic.deleteFeedbackSessionsForCourse("idOfTypicalCourse1");
+        assertTrue(fsLogic.getFeedbackSessionsForCourse("idOfTypicalCourse1").isEmpty());
+    }
+    
+    @Test
     public void testGetFeedbackSessionsWhichNeedOpenMailsToBeSent() throws Exception {
         restoreTypicalDataInDatastore();
         ______TS("init : 0 open sessions");
@@ -305,8 +315,6 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         Map<String,FeedbackSessionDetailsBundle> detailsMap =
                 new HashMap<String,FeedbackSessionDetailsBundle>();
         
-        ______TS("standard success case");
-        
         List<FeedbackSessionDetailsBundle> detailsList = 
                 fsLogic.getFeedbackSessionDetailsForInstructor(dataBundle.instructors.get("instructor1OfCourse1").googleId);
         
@@ -325,10 +333,11 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
                     details);
         }
         
+        ______TS("standard session");
+        
         assertEquals(4, detailsList.size());
         AssertHelper.assertContains(expectedSessions, actualSessions);
         
-        /** Standard session **/
         FeedbackSessionStats stats =
                 detailsMap.get(dataBundle.feedbackSessions.get("standard.session").feedbackSessionName + "%" +
                                 dataBundle.feedbackSessions.get("standard.session").courseId).stats;
@@ -339,7 +348,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         assertEquals(6, stats.submittedTotal);
         
         
-        /** No recipients session **/
+        ______TS("No recipients session");
         stats = detailsMap.get(dataBundle.feedbackSessions.get("no.recipients.session").feedbackSessionName + "%" +
                                 dataBundle.feedbackSessions.get("no.recipients.session").courseId).stats;
         
@@ -348,7 +357,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         // only 1 student responded
         assertEquals(1, stats.submittedTotal);
         
-        /** No responses session **/
+        ______TS("No responses session");
         stats = detailsMap.get(dataBundle.feedbackSessions.get("no.responses.session").feedbackSessionName + "%" +
                                 dataBundle.feedbackSessions.get("no.responses.session").courseId).stats;
         
@@ -357,14 +366,14 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         // no responses
         assertEquals(0, stats.submittedTotal);
         
-        /** Private session **/
+        ______TS("private session with questions");
         stats = detailsMap.get(dataBundle.feedbackSessions.get("private.session").feedbackSessionName + "%" +
                 dataBundle.feedbackSessions.get("private.session").courseId).stats;
         assertEquals(1, stats.expectedTotal);
         // For private sessions, we mark as completed only when creator has finished all questions.
         assertEquals(0, stats.submittedTotal);
         
-        // Make session non-private
+        ______TS("change private session to non-private");
         FeedbackSessionAttributes privateSession = 
                 dataBundle.feedbackSessions.get("private.session");
         privateSession.sessionVisibleFromTime = privateSession.startTime;
@@ -386,6 +395,41 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         assertEquals(7, stats.expectedTotal);
         // 1 instructor, 1 student responded
         assertEquals(2, stats.submittedTotal);
+        
+        ______TS("private session without questions");
+        
+        expectedSessions.clear();
+        expectedSessions.add(dataBundle.feedbackSessions.get("private.session.noquestions").toString());
+        expectedSessions.add(dataBundle.feedbackSessions.get("private.session.done").toString());
+        
+        detailsList = fsLogic.getFeedbackSessionDetailsForInstructor(
+                dataBundle.instructors.get("instructor2OfCourse1").googleId);
+        
+        detailsMap.clear();
+        actualSessions = "";
+        for (FeedbackSessionDetailsBundle details : detailsList) {
+            actualSessions += details.feedbackSession.toString();
+            detailsMap.put(
+                    details.feedbackSession.feedbackSessionName + "%" +
+                    details.feedbackSession.courseId,
+                    details);
+        }
+        
+        AssertHelper.assertContains(expectedSessions, actualSessions);   
+        
+        stats = detailsMap.get(dataBundle.feedbackSessions.get("private.session.noquestions").feedbackSessionName + "%" 
+                + dataBundle.feedbackSessions.get("private.session.noquestions").courseId).stats;
+        
+        assertEquals(0, stats.expectedTotal);
+        assertEquals(0, stats.submittedTotal);
+        
+        ______TS("completed private session");
+        
+        stats = detailsMap.get(dataBundle.feedbackSessions.get("private.session.done").feedbackSessionName + "%" 
+                + dataBundle.feedbackSessions.get("private.session.done").courseId).stats;
+        
+        assertEquals(1, stats.expectedTotal);
+        assertEquals(1, stats.submittedTotal);
         
         ______TS("instructor does not exist");
             
@@ -1321,6 +1365,46 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         fs = dataBundle.feedbackSessions.get("empty.session");
         
         assertTrue(fsLogic.isFeedbackSessionCompletedByStudent(fs.feedbackSessionName, fs.courseId, student.email));
+    }
+    
+    @Test
+    public void testIsFeedbackSessionFullyCompletedByStudent() throws Exception {
+        
+        restoreTypicalDataInDatastore();
+        
+        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
+        StudentAttributes student1OfCourse1 = dataBundle.students.get("student1InCourse1");
+        StudentAttributes student3OfCourse1 = dataBundle.students.get("student3InCourse1");
+        
+        ______TS("failure: non-existent feedback session for student");
+        
+        try {
+            fsLogic.isFeedbackSessionFullyCompletedByStudent(fs.courseId, "nonExistentFSName","random.student@email");
+            signalFailureToDetectException();
+        } catch (EntityDoesNotExistException edne) {
+            assertEquals("Trying to check a feedback session that does not exist.",
+                         edne.getMessage());
+        }
+        
+        ______TS("success case: fully done by student 1");
+        assertTrue(fsLogic.isFeedbackSessionFullyCompletedByStudent(fs.feedbackSessionName, fs.courseId, student1OfCourse1.email));
+        
+        ______TS("success case: partially done by student 3");
+        assertFalse(fsLogic.isFeedbackSessionFullyCompletedByStudent(fs.feedbackSessionName, fs.courseId, student3OfCourse1.email));
+        
+        
+    }
+    
+    public void testScheduleFeedbackSessionOpeningEmails() {
+        // this method is tested in FeedbackSessionEmailTaskQueueTest.java
+    }
+    
+    public void testScheduleFeedbackSessionClosingEmails() {
+        // this method is tested in FeedbackSessionEmailTaskQueueTest.java
+    }
+    
+    public void testScheduleFeedbackSessionPublishedEmails() {
+        // this method is tested in FeedbackSessionEmailTaskQueueTest.java
     }
     
     @Test
