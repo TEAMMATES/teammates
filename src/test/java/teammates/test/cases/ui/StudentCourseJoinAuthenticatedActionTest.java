@@ -166,7 +166,7 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
 
         assertEquals(Const.ActionURIs.STUDENT_HOME_PAGE
                 + "?persistencecourse=idOfTypicalCourse1"
-                + "&error=false&user=idOfNewStudnet",
+                + "&error=false&user=idOfNewStudent",
                 redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals("", redirectResult.getStatusMessage());
