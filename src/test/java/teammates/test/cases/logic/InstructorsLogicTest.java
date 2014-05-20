@@ -5,10 +5,14 @@ import static org.testng.AssertJUnit.assertNull;
 
 import java.util.List;
 
+import javax.mail.internet.MimeMessage;
+
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -23,8 +27,8 @@ import teammates.test.util.TestHelper;
 
 public class InstructorsLogicTest extends BaseComponentTestCase{
 
-    //TODO: add missing test cases. Some of the test content can be transferred from LogicTest.
-    
+    DataBundle dataBundle;
+
     private static InstructorsLogic instructorsLogic = new InstructorsLogic();
     private static InstructorsDb instructorsDb = new InstructorsDb();
     private static CoursesLogic coursesLogic = new CoursesLogic();
@@ -33,6 +37,12 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
     public static void classSetUp() throws Exception {
         printTestClassHeader();
         turnLoggingUp(InstructorsLogic.class);
+    }
+
+    @BeforeMethod
+    public void caseSetUp() throws Exception {
+        dataBundle = getTypicalDataBundle();
+        restoreTypicalDataInDatastore();
     }
     
     @Test
@@ -68,11 +78,33 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
                                 e.getMessage());
         }
         
-    }
+        ______TS("failure: null parameters");
+        
+        try {
+            instructorsLogic.addInstructor(null, instr.name, instr.email);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains("Non-null value expected", e.getMessage());
+        }
+        
+        try {
+            instructorsLogic.addInstructor(instr.courseId, null, instr.email);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains("Non-null value expected", e.getMessage());
+        }
+        
+        try {
+            instructorsLogic.addInstructor(instr.courseId, instr.name, null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains("Non-null value expected", e.getMessage());
+        }
+    
+    }   
     
     @Test
     public void testGetInstructorForEmail() throws Exception {
-        restoreTypicalDataInDatastore();
         
         ______TS("failure: instructor doesn't exist");
 
@@ -89,11 +121,27 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         assertEquals(email, instr.email);
         assertEquals("idOfInstructor1OfCourse1", instr.googleId);
         assertEquals("Instructor1 Course1", instr.name);
+
+        ______TS("failure: null parameters");
+        
+        try {
+            instructorsLogic.getInstructorForEmail(null, email);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
+        }
+        
+        try {
+            instructorsLogic.getInstructorForEmail(courseId, null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
+        }
+        
     }
     
     @Test
     public void testGetInstructorForGoogleId() throws Exception {
-        restoreTypicalDataInDatastore();
         
         ______TS("failure: instructor doesn't exist");
 
@@ -110,11 +158,27 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         assertEquals(googleId, instr.googleId);
         assertEquals("instructor1@course1.com", instr.email);
         assertEquals("Instructor1 Course1", instr.name);
+
+        ______TS("failure: null parameters");
+        
+        try {
+            instructorsLogic.getInstructorForGoogleId(null, googleId);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
+        }
+        
+        try {
+            instructorsLogic.getInstructorForGoogleId(courseId, null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
+        }
+        
     }
     
     @Test
     public void testGetInstructorForRegistrationKey() throws Exception {
-        restoreTypicalDataInDatastore();
         
         ______TS("failure: instructor doesn't exist");
         String key = "non-existing-key";
@@ -133,11 +197,18 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         assertEquals(instr.courseId, retrieved.courseId);
         assertEquals(instr.name, retrieved.name);
         assertEquals(instr.email, retrieved.email);
+        
+        ______TS("failure: null parameter");
+        try {
+            instructorsLogic.getInstructorForRegistrationKey(null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
+        }
     }
 
     @Test
     public void testGetInstructorsForCourse() throws Exception {
-        restoreTypicalDataInDatastore();
 
         ______TS("success: get all instructors for a course");
 
@@ -161,11 +232,19 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         
         instructors = instructorsLogic.getInstructorsForCourse(courseId);
         assertEquals(0, instructors.size());
+
+        ______TS("failure: null parameters");
+
+        try {
+            instructorsLogic.getInstructorsForCourse(null);
+            signalFailureToDetectException();
+        } catch (AssertionError e){
+            AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
+        }
     }
 
     @Test
     public void testGetInstructorsForGoogleId() throws Exception {
-        restoreTypicalDataInDatastore();
         
         ______TS("success: get all instructors for a google id");
 
@@ -174,8 +253,8 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForGoogleId(googleId);
         assertEquals(2, instructors.size());
         
-        InstructorAttributes instructor1 = instructorsDb.getInstructorForGoogleId("idOfTypicalCourse1", "idOfInstructor3");
-        InstructorAttributes instructor2 = instructorsDb.getInstructorForGoogleId("idOfTypicalCourse2", "idOfInstructor3");
+        InstructorAttributes instructor1 = instructorsDb.getInstructorForGoogleId("idOfTypicalCourse1", googleId);
+        InstructorAttributes instructor2 = instructorsDb.getInstructorForGoogleId("idOfTypicalCourse2", googleId);
         
         verifySameInstructor(instructor1, instructors.get(0));
         verifySameInstructor(instructor2, instructors.get(1));
@@ -186,11 +265,49 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         
         instructors = instructorsLogic.getInstructorsForGoogleId(googleId);
         assertEquals(0, instructors.size());
+
+        ______TS("failure: null parameter");
+
+        try {
+            instructorsLogic.getInstructorsForGoogleId(null);
+            signalFailureToDetectException();
+        } catch (AssertionError e){
+            AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
+        }
+    }
+
+    @Test
+    public void testGetInstructorsForEmail() throws Exception {
+        
+        ______TS("success: get all instructors for a google id");
+
+        String email = "instructor3@course1.com";
+        
+        List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForEmail(email);
+        assertEquals(1, instructors.size());
+        
+        InstructorAttributes instructor1 = instructorsDb.getInstructorForEmail("idOfTypicalCourse1", email); 
+        verifySameInstructor(instructor1, instructors.get(0));
+        
+        ______TS("failure: non-exist email");
+        
+        email = "non-exist-email@course1.com";
+        
+        instructors = instructorsLogic.getInstructorsForEmail(email);
+        assertEquals(0, instructors.size());
+
+        ______TS("failure: null parameter");
+
+        try {
+            instructorsLogic.getInstructorsForEmail(null);
+            signalFailureToDetectException();
+        } catch (AssertionError e){
+            AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
+        }
     }
     
     @Test
     public void testGetKeyForInstructor() throws Exception {
-        restoreTypicalDataInDatastore();
     
         ______TS("success: get encrypted key for instructor");
         
@@ -203,26 +320,43 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         String expected = instructor.key;
         assertEquals(expected, key);
         
-        ______TS("non-existent instructor");
+        ______TS("failure: non-existent instructor");
 
         try {
             instructorsLogic.getKeyForInstructor(courseId, "non-existent@email.com");
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
-            assertEquals("Instructor does not exist :non-existent@email.com", e.getMessage());
+            assertEquals("Instructor " + "non-existent@email.com"
+                    + " does not belong to course " + courseId, e.getMessage());
         }
+
+        ______TS("failure: null parameter");
+
+        try {
+            instructorsLogic.getKeyForInstructor(courseId, null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
+        }
+
+        try {
+            instructorsLogic.getKeyForInstructor(null, email);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
+        }
+
     }
     
     @Test
-    public void testIsInstructorOfCourse() throws Exception {
-        restoreTypicalDataInDatastore();
+    public void testIsGoogleIdOfInstructorOfCourse() throws Exception {
         
         ______TS("success: is an instructor of a given course");
 
         String instructorId = "idOfInstructor1OfCourse1";
         String courseId = "idOfTypicalCourse1";
         
-        boolean result = instructorsLogic.isInstructorOfCourse(instructorId, courseId);
+        boolean result = instructorsLogic.isGoogleIdOfInstructorOfCourse(instructorId, courseId);
         
         assertEquals(true, result);
         
@@ -230,21 +364,36 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
 
         courseId = "idOfTypicalCourse2";
         
-        result = instructorsLogic.isInstructorOfCourse(instructorId, courseId);
+        result = instructorsLogic.isGoogleIdOfInstructorOfCourse(instructorId, courseId);
         
         assertEquals(false, result);
+
+        ______TS("failure: null parameter");
+
+        try {
+            instructorsLogic.isGoogleIdOfInstructorOfCourse(null, courseId);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
+        }
+
+        try {
+            instructorsLogic.isGoogleIdOfInstructorOfCourse(instructorId, null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
+        }
     }
     
     @Test
-    public void testIsInstructorEmailOfCourse() throws Exception {
-        restoreTypicalDataInDatastore();
+    public void testIsEmailOfInstructorOfCourse() throws Exception {
         
         ______TS("success: is an instructor of a given course");
 
         String instructorEmail = "instructor1@course1.com";
         String courseId = "idOfTypicalCourse1";
         
-        boolean result = instructorsLogic.isInstructorEmailOfCourse(instructorEmail, courseId);
+        boolean result = instructorsLogic.isEmailOfInstructorOfCourse(instructorEmail, courseId);
         
         assertEquals(true, result);
         
@@ -252,14 +401,30 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
 
         courseId = "idOfTypicalCourse2";
         
-        result = instructorsLogic.isInstructorEmailOfCourse(instructorEmail, courseId);
+        result = instructorsLogic.isEmailOfInstructorOfCourse(instructorEmail, courseId);
         
         assertEquals(false, result);
+
+        ______TS("failure: null parameter");
+
+        try {
+            instructorsLogic.isEmailOfInstructorOfCourse(instructorEmail, null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
+        }
+
+        try {
+            instructorsLogic.isEmailOfInstructorOfCourse(null, courseId);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
+        }
+
     }
 
     @Test
     public void testVerifyInstructorExists() throws Exception  {
-        restoreTypicalDataInDatastore();
         
         ______TS("success: instructor does exist");
         
@@ -276,73 +441,127 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         } catch (EntityDoesNotExistException e) {
             AssertHelper.assertContains("Instructor does not exist", e.getMessage());
         }
+
+        ______TS("failure: null parameter");
+
+        try {
+            instructorsLogic.verifyInstructorExists(null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
+        }
     }
     
     @Test
-    public void testVerifyIsInstructorOfCourse() throws Exception  {
-        restoreTypicalDataInDatastore();
+    public void testVerifyIsGoogleIdOfInstructorOfCourse() throws Exception  {
         
         ______TS("success: instructor belongs to course");
         
         String instructorId = "idOfInstructor1OfCourse1";
         String courseId = "idOfTypicalCourse1";
-        instructorsLogic.verifyIsInstructorOfCourse(instructorId, courseId);
+        instructorsLogic.verifyIsGoogleIdOfInstructorOfCourse(instructorId, courseId);
         
         ______TS("failure: instructor doesn't belong to course");
+        
         instructorId = "nonExistingInstructorId";
         
         try {
-            instructorsLogic.verifyIsInstructorOfCourse(instructorId, courseId);
+            instructorsLogic.verifyIsGoogleIdOfInstructorOfCourse(instructorId, courseId);
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
             assertEquals("Instructor " + instructorId
                     + " does not belong to course " + courseId, e.getMessage());
         }
+
+        ______TS("failure: null parameter");
+
+        try {
+            instructorsLogic.verifyIsGoogleIdOfInstructorOfCourse(null, courseId);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
+        }
+
+        try {
+            instructorsLogic.verifyIsGoogleIdOfInstructorOfCourse(instructorId, null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
+        }
     }
     
     @Test
-    public void testVerifyIsInstructorEmailOfCourse() throws Exception  {
-        restoreTypicalDataInDatastore();
+    public void testVerifyIsEmailOfInstructorOfCourse() throws Exception  {
         
         ______TS("success: instructor belongs to course");
         
         String instructorEmail = "instructor1@course1.com";
         String courseId = "idOfTypicalCourse1";
-        instructorsLogic.verifyIsInstructorEmailOfCourse(instructorEmail, courseId);
+        instructorsLogic.verifyIsEmailOfInstructorOfCourse(instructorEmail, courseId);
         
         ______TS("failure: instructor doesn't belong to course");
         instructorEmail = "nonExistingInstructor@email.com";
         
         try {
-            instructorsLogic.verifyIsInstructorEmailOfCourse(instructorEmail, courseId);
+            instructorsLogic.verifyIsEmailOfInstructorOfCourse(instructorEmail, courseId);
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
             assertEquals("Instructor " + instructorEmail
                     + " does not belong to course " + courseId, e.getMessage());
         }
+        ______TS("failure: null parameter");
+
+        try {
+            instructorsLogic.verifyIsEmailOfInstructorOfCourse(null, courseId);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
+        }
+
+        try {
+            instructorsLogic.verifyIsGoogleIdOfInstructorOfCourse(instructorEmail, null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
+        }
     }
     
     @Test
     public void testIsNewInstructor() throws Exception {
-        restoreTypicalDataInDatastore();
         
         ______TS("success: instructor with only 1 sample course");
+        
         String instructorId = "idOfInstructorWithOnlyOneSampleCourse";
         assertEquals(true, instructorsLogic.isNewInstructor(instructorId));
         
         ______TS("success: instructor without any course");
+        
         instructorId = "instructorWithoutCourses";
         assertEquals(true, instructorsLogic.isNewInstructor(instructorId));
         
+        ______TS("failure: instructor with only 1 course, but not a sample course");
+
+        instructorId = "idOfInstructor4";
+        assertEquals(false, instructorsLogic.isNewInstructor(instructorId));
+
         ______TS("failure: instructor is not new user");
+        
         instructorId = "idOfInstructor1OfCourse1";
         assertEquals(false, instructorsLogic.isNewInstructor(instructorId));
         
+        ______TS("failure: null parameter");
+
+        try {
+            instructorsLogic.isNewInstructor(null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
+        }
+
     }
 
     @Test
     public void testUpdateInstructorByGoogleId() throws Exception {
-        restoreTypicalDataInDatastore();
         
         ______TS("typical case: update an instructor");
         
@@ -357,11 +576,42 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         
         InstructorAttributes instructorUpdated = instructorsLogic.getInstructorForGoogleId(courseId, googleId);
         verifySameInstructor(instructorToBeUpdated, instructorUpdated);
+
+        ______TS("failure: instructor doesn't exist");
+        
+        instructorsLogic.deleteInstructor(courseId, instructorUpdated.email);
+        
+        try {
+            instructorsLogic.updateInstructorByGoogleId(googleId, instructorUpdated);
+            signalFailureToDetectException();
+        } catch (EntityDoesNotExistException e) {
+            assertEquals("Instructor "+googleId+" does not belong to course "+courseId, e.getMessage());
+        }
+        
+        ______TS("failure: course doesn't exist");
+
+        coursesLogic.deleteCourseCascade(courseId);
+        
+        try {
+            instructorsLogic.updateInstructorByGoogleId(googleId, instructorToBeUpdated);
+            signalFailureToDetectException();
+        } catch (EntityDoesNotExistException e) {
+            assertEquals("Course does not exist: " + courseId, e.getMessage());
+        }
+
+        ______TS("failure: null parameter");
+
+        try {
+            instructorsLogic.updateInstructorByGoogleId(googleId, null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
+        }
+        
     }
     
     @Test
     public void testUpdateInstructorByEmail() throws Exception {
-        restoreTypicalDataInDatastore();
         
         ______TS("typical case: update an instructor");
         
@@ -379,11 +629,42 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         
         InstructorAttributes instructorUpdated = instructorsLogic.getInstructorForEmail(courseId, email);
         verifySameInstructor(instructorToBeUpdated, instructorUpdated);
+
+        ______TS("failure: instructor doesn't belong to course");
+        
+        instructorsLogic.deleteInstructor(courseId, instructorToBeUpdated.email);
+        
+        try {
+            instructorsLogic.updateInstructorByEmail(email, instructorToBeUpdated);
+            signalFailureToDetectException();
+        } catch (EntityDoesNotExistException e) {
+            assertEquals("Instructor " + email + " does not belong to course " + courseId, e.getMessage());
+        }
+        
+        ______TS("failure: course doesn't exist");
+        
+        coursesLogic.deleteCourseCascade(courseId);
+        
+        try {
+            instructorsLogic.updateInstructorByEmail(email, instructorToBeUpdated);
+            signalFailureToDetectException();
+        } catch (EntityDoesNotExistException e) {
+            assertEquals("Course does not exist: " + courseId, e.getMessage());
+        }
+        
+        ______TS("failure: null parameter");
+
+        try {
+            instructorsLogic.updateInstructorByEmail(email, null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
+        }
+
     }
     
     @Test
     public void testDeleteInstructor() throws Exception {
-        restoreTypicalDataInDatastore();
         
         ______TS("typical case: delete an instructor for specific course");
         
@@ -395,11 +676,31 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         instructorsLogic.deleteInstructor(courseId, email);
         
         TestHelper.verifyAbsentInDatastore(instructorDeleted);
+
+        ______TS("typical case: delete a non-existent instructor");
+
+        instructorsLogic.deleteInstructor(courseId, "non-existent@course1.com"); 
+
+        ______TS("failure: null parameter");
+
+        try {
+            instructorsLogic.deleteInstructor(courseId, null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
+        }
+
+        try {
+            instructorsLogic.deleteInstructor(null, email);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
+        }
+
     }
 
     @Test
     public void testDeleteInstructorsForGoogleId() throws Exception {
-        restoreTypicalDataInDatastore();
         
         ______TS("typical case: delete all instructors for a given googleId");
         
@@ -410,11 +711,23 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForGoogleId(googleId);
         
         assertEquals(true, instructorList.isEmpty());
+
+        ______TS("typical case: delete an non-existent googleId");
+
+        instructorsLogic.deleteInstructorsForGoogleId("non-existent");
+
+        ______TS("failure: null parameter");
+
+        try {
+            instructorsLogic.deleteInstructorsForGoogleId(null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
+        }
     }
 
     @Test
     public void testDeleteInstructorsForCourse() throws Exception {
-        restoreTypicalDataInDatastore();
         
         ______TS("typical case: delete all instructors of a given course");
         
@@ -425,9 +738,72 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForCourse(courseId);
         
         assertEquals(true, instructorList.isEmpty());
+
+        ______TS("typical case: delete all instructors for a non-existent course");
+
+        instructorsLogic.deleteInstructorsForCourse("non-existent");
+
+        ______TS("failure case: null parameter");
+
+        try {
+            instructorsLogic.deleteInstructorsForCourse(null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
+        }
+    
     }
 
+    @Test
+    public void testSendRegistrationInviteToInstructor() throws Exception {
+       
+        ______TS("success: send invite to instructor");
+        
+        InstructorAttributes instructor = dataBundle.instructors.get("instructorNotYetJoinCourse");
     
+        MimeMessage email = instructorsLogic.sendRegistrationInviteToInstructor(instructor.courseId, instructor.email);
+    
+        TestHelper.verifyJoinInviteToInstructor(instructor, email);
+    
+        ______TS("failure: send to non-existing instructor");
+    
+        String instrEmail = "non-existing-instr@email.com";
+        
+        try {
+            instructorsLogic.sendRegistrationInviteToInstructor(instructor.courseId, instrEmail);
+            signalFailureToDetectException();
+        } catch (EntityDoesNotExistException e) {
+            AssertHelper.assertContains("Instructor [" + instrEmail + "] does not exist in course",
+                        e.getMessage());
+        }
+
+        ______TS("failure: send invitation for a non-existent course");
+
+        try {
+            instructorsLogic.sendRegistrationInviteToInstructor("non-existent-courseId", instructor.email);
+            signalFailureToDetectException();
+        } catch (EntityDoesNotExistException e) {
+            AssertHelper.assertContains("Course does not exist [non-existent-courseId]", e.getMessage());
+        }
+        
+        ______TS("failure: null parameters");
+        
+        try {
+            instructorsLogic.sendRegistrationInviteToInstructor(null, instructor.email);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
+        }
+        
+        try {
+            instructorsLogic.sendRegistrationInviteToInstructor(instructor.courseId, null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
+        }
+
+    }
+
     private void verifySameInstructor(InstructorAttributes instructor1, InstructorAttributes instructor2) {
         assertEquals(instructor1.googleId, instructor2.googleId);
         assertEquals(instructor1.courseId, instructor2.courseId);

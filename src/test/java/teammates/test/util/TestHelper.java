@@ -5,6 +5,8 @@ import static org.testng.AssertJUnit.assertTrue;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import javax.mail.MessagingException;
@@ -46,6 +48,7 @@ import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 
 import com.google.appengine.api.datastore.Text;
+import com.google.appengine.labs.repackaged.com.google.common.base.Joiner;
 import com.google.gson.Gson;
 
 public class TestHelper extends BaseComponentTestCase{
@@ -302,6 +305,15 @@ public class TestHelper extends BaseComponentTestCase{
         assertEquals(gson.toJson(expected), gson.toJson(actual));
     }
     
+    public static void verifyPresentInDatastore(FeedbackQuestionAttributes expected, boolean wildcardId) {
+        FeedbackQuestionAttributes actual = fqDb.getFeedbackQuestion(
+                expected.feedbackSessionName, expected.courseId, expected.questionNumber);
+        if(wildcardId){
+            actual.setId("*");
+        }
+        assertEquals(gson.toJson(expected), gson.toJson(actual));
+    }
+    
     public static void verifyPresentInDatastore(CommentAttributes expected){
         CommentAttributes actual = commentsDb.getComment(expected.courseId, expected.giverEmail, expected.receiverEmail, expected.commentText, expected.createdAt);
         assertEquals(expected.courseId, actual.courseId);
@@ -478,4 +490,26 @@ public class TestHelper extends BaseComponentTestCase{
         }
         logic.updateSubmissions(submissions);
     }
+    
+    //this function used to check whether two lists have same contents,ignoring order
+    
+    @SuppressWarnings("rawtypes")
+    
+    public static boolean isSameContentIgnoreOrder(List a, List b) {
+
+        String expectedListAsString = Joiner.on("\t").join(a);
+        String actualListAsString = Joiner.on("\t").join(b);
+
+        List<String> expectedStringTypeList = new ArrayList<String>(
+                Arrays.asList(expectedListAsString.split("\t")));
+        List<String> actualStringTypeList = new ArrayList<String>(
+                Arrays.asList(actualListAsString.split("\t")));
+
+        Collections.sort(expectedStringTypeList);
+        Collections.sort(actualStringTypeList);
+
+        return expectedStringTypeList.equals(actualStringTypeList);
+
+    }
+
 }
