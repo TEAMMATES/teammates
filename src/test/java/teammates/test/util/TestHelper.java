@@ -305,6 +305,15 @@ public class TestHelper extends BaseComponentTestCase{
         assertEquals(gson.toJson(expected), gson.toJson(actual));
     }
     
+    public static void verifyPresentInDatastore(FeedbackQuestionAttributes expected, boolean wildcardId) {
+        FeedbackQuestionAttributes actual = fqDb.getFeedbackQuestion(
+                expected.feedbackSessionName, expected.courseId, expected.questionNumber);
+        if(wildcardId){
+            actual.setId("*");
+        }
+        assertEquals(gson.toJson(expected), gson.toJson(actual));
+    }
+    
     public static void verifyPresentInDatastore(CommentAttributes expected){
         CommentAttributes actual = commentsDb.getComment(expected.courseId, expected.giverEmail, expected.receiverEmail, expected.commentText, expected.createdAt);
         assertEquals(expected.courseId, actual.courseId);
