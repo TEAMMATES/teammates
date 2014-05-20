@@ -33,15 +33,7 @@ public class StudentCourseJoinAuthenticatedAction extends Action {
             setStatusForException(e, Sanitizer.sanitizeForHtml(e.getMessage()));
             //logMsg = "GAE-level exception not thrown explicitly by Logic <br/>" + e.toString();
             
-            //TODO solve the belowing
-            /*inside joinCourseForStudent function:
-             *two params are checked not to be null + calling accountsLogic.joinCourseForStudent
-             *However, in side accountsLogic.joinCourseForStudent, all other exceptions will be handled by:
-             *first catched then thrown in a new JoinCourseException.
-             *The only kind of possible exception may be thrown from accountsLogic.joinCourseForStudent
-             *is JoinCourseException, so does logic.joinCourseForStudent.
-             *Need to clean up logic and accountsLogic to help remove this unreachable exception case
-             */      
+            //TODO: this branch seems to be unreachable, to be removed  
         } catch (JoinCourseException e) {
             // Does not sanitize for html to allow insertion of mailto link
             setStatusForException(e, e.getMessage());
