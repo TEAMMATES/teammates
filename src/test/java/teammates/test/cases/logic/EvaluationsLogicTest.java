@@ -1248,8 +1248,34 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         submissions = submissionsLogic.getSubmissionsForEvaluation(course.id, evaluation2.name);
         assertEquals(27, submissions.size());
 
-        //TODO: test invalid inputs
+        ______TS("Failure case: invalid parameter");
 
+        try {
+            evaluationsLogic.adjustSubmissionsForNewStudentInEvaluation(course.id,
+                "incoming.student.com", "new team", evaluation2.name);
+            signalFailureToDetectException();
+        } catch(InvalidParametersException e) {
+            AssertHelper.assertContains("Invalid email address", e.getMessage());
+        }
+
+        try {
+            evaluationsLogic.adjustSubmissionsForNewStudentInEvaluation("invalid id",
+                "incoming@student.com", "new team", evaluation2.name);
+            signalFailureToDetectException();
+        } catch(InvalidParametersException e) {
+            AssertHelper.assertContains("is not acceptable to TEAMMATES as a Course ID"
+                                        + " because it is not in the correct format", e.getMessage());
+        }
+
+        ______TS("Failure case: null parameter");
+
+        try {
+            evaluationsLogic.adjustSubmissionsForNewStudentInEvaluation(course.id,
+                null, "new team", evaluation2.name);
+            signalFailureToDetectException();
+        } catch (AssertionError e){
+            AssertHelper.assertContains("Non-null value expected", e.getMessage());
+        }
     }
     
     @Test
