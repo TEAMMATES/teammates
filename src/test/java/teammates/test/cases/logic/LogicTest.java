@@ -794,64 +794,6 @@ public class LogicTest extends BaseComponentTestCase {
             assertEquals(Logic.ERROR_NULL_PARAMETER, ae.getMessage());
         }
     }
-
-    @Test
-    public void testDeleteStudent() throws Exception {
-        
-        // this is not an evaluation test!
-        // I will remove this as it is being tested in student logic!
-
-        restoreTypicalDataInDatastore();
-
-        ______TS("typical delete");
-
-        // this is the student to be deleted
-        StudentAttributes student2InCourse1 = dataBundle.students
-                .get("student2InCourse1");
-        TestHelper.verifyPresentInDatastore(student2InCourse1);
-
-        // ensure student-to-be-deleted has some submissions
-        SubmissionAttributes submissionFromS1C1ToS2C1 = dataBundle.submissions
-                .get("submissionFromS1C1ToS2C1");
-        TestHelper.verifyPresentInDatastore(submissionFromS1C1ToS2C1);
-
-        SubmissionAttributes submissionFromS2C1ToS1C1 = dataBundle.submissions
-                .get("submissionFromS2C1ToS1C1");
-        TestHelper.verifyPresentInDatastore(submissionFromS2C1ToS1C1);
-
-        SubmissionAttributes submissionFromS1C1ToS1C1 = dataBundle.submissions
-                .get("submissionFromS1C1ToS1C1");
-        TestHelper.verifyPresentInDatastore(submissionFromS1C1ToS1C1);
-
-        logic.deleteStudent(student2InCourse1.course, student2InCourse1.email);
-        TestHelper.verifyAbsentInDatastore(student2InCourse1);
-
-        // verify that other students in the course are intact
-        StudentAttributes student1InCourse1 = dataBundle.students
-                .get("student1InCourse1");
-        TestHelper.verifyPresentInDatastore(student1InCourse1);
-
-        // verify that submissions are deleted
-        TestHelper.verifyAbsentInDatastore(submissionFromS1C1ToS2C1);
-        TestHelper.verifyAbsentInDatastore(submissionFromS2C1ToS1C1);
-
-        // verify other student's submissions are intact
-        TestHelper.verifyPresentInDatastore(submissionFromS1C1ToS1C1);
-
-        ______TS("delete non-existent student");
-
-        // should fail silently.
-        logic.deleteStudent(student2InCourse1.course, student2InCourse1.email);
-
-        ______TS("null parameters");
-
-        try {
-            logic.deleteStudent(null, "valid@email.com");
-            signalFailureToDetectException();
-        } catch (AssertionError a) {
-            assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
-        }
-    }
     
     @Test
     public void testGetCourseStudentListAsCsv() throws Exception {
