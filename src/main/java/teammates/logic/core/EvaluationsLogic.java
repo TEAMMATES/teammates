@@ -333,7 +333,7 @@ public class EvaluationsLogic {
                 return false;
             }
         }
-        
+
         return true;
     }
 
@@ -412,15 +412,20 @@ public class EvaluationsLogic {
         scheduleEvaluationPublishedEmails(courseId, evaluationName);
     }
     
-    public List<MimeMessage> sendEvaluationPublishedEmails(String courseId, String evaluationName) {
+    public List<MimeMessage> sendEvaluationPublishedEmails(String courseId,
+              String evaluationName) throws EntityDoesNotExistException {
         
+        if (!isEvaluationExists(courseId, evaluationName)) {
+            throw new EntityDoesNotExistException(
+                    "Trying to edit non-existent evaluation " + courseId + "/" + evaluationName);
+        }
+
         List<MimeMessage> emailsSent = new ArrayList<MimeMessage>();
-        
+        CourseAttributes course = coursesLogic.getCourse(courseId);
+        EvaluationAttributes eval = getEvaluation(courseId, evaluationName);
         try {
-            CourseAttributes course = CoursesLogic.inst().getCourse(courseId);
-            EvaluationAttributes eval = EvaluationsLogic.inst().getEvaluation(courseId, evaluationName);
-            List<StudentAttributes> students = StudentsLogic.inst().getStudentsForCourse(courseId);
-            List<InstructorAttributes> instructors = InstructorsLogic.inst().getInstructorsForCourse(courseId);
+            List<StudentAttributes> students = studentsLogic.getStudentsForCourse(courseId);
+            List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(courseId);
             
             Emails emailMgr = new Emails();
             emailsSent = emailMgr.generateEvaluationPublishedEmails(course, eval,
@@ -591,7 +596,6 @@ public class EvaluationsLogic {
         
     }
 
-    
     private void addSubmissionsForIncomingMember(
             String courseId, String evaluationName, String studentEmail, String newTeam) throws InvalidParametersException {
     

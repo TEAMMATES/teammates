@@ -49,7 +49,6 @@ import teammates.storage.api.EvaluationsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 import teammates.test.util.TestHelper;
-import static teammates.logic.core.TeamEvalResult.NA;
 import static teammates.logic.core.TeamEvalResult.NSB;
 import static teammates.logic.core.TeamEvalResult.NSU;
 
@@ -1209,9 +1208,9 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
     }
 
     @Test
-    public void testAddSubmissionsForIncomingMember() throws Exception {
+    public void testAdjustSubmissionsForNewStudentInEvaluation() throws Exception {
 
-        ______TS("typical case");
+        ______TS("Typical case");
         
         CourseAttributes course = dataBundle.courses.get("typicalCourse1");
         EvaluationAttributes evaluation1 = dataBundle.evaluations
@@ -1220,8 +1219,8 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
                 .get("evaluation2InCourse1");
         StudentAttributes student = dataBundle.students.get("student1InCourse1");
 
-        invokeAddSubmissionsForIncomingMember(course.id,
-                evaluation1.name, "incoming@student.com", student.team);
+        evaluationsLogic.adjustSubmissionsForNewStudentInEvaluation(course.id,
+                "incoming@student.com", student.team, evaluation1.name);
 
         // We have a 5-member team and a 1-member team.
         // Therefore, we expect (5*5)+(1*1)=26 submissions.
@@ -1229,22 +1228,22 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         assertEquals(26, submissions.size());
         
         // Check the same for the other evaluation, to detect any state leakage
-        invokeAddSubmissionsForIncomingMember(course.id,
-                evaluation2.name, "incoming@student.com", student.team);
+        evaluationsLogic.adjustSubmissionsForNewStudentInEvaluation(course.id,
+                "incoming@student.com", student.team, evaluation2.name);
         submissions = submissionsLogic.getSubmissionsForEvaluation(course.id, evaluation2.name);
         assertEquals(26, submissions.size());
         
-        ______TS("moving to new team");
+        ______TS("Moving to new team");
         
-        invokeAddSubmissionsForIncomingMember(course.id,
-                evaluation1.name, "incoming@student.com", "new team");
+        evaluationsLogic.adjustSubmissionsForNewStudentInEvaluation(course.id,
+                "incoming@student.com", "new team", evaluation1.name);
         //There should be one more submission now.
         submissions = submissionsLogic.getSubmissionsForEvaluation(course.id, evaluation1.name);
         assertEquals(27, submissions.size());
         
         // Check the same for the other evaluation
-        invokeAddSubmissionsForIncomingMember(course.id,
-                evaluation2.name, "incoming@student.com", "new team");
+        evaluationsLogic.adjustSubmissionsForNewStudentInEvaluation(course.id,
+                "incoming@student.com", "new team", evaluation2.name);
         //There should be one more submission now.
         submissions = submissionsLogic.getSubmissionsForEvaluation(course.id, evaluation2.name);
         assertEquals(27, submissions.size());
@@ -1255,15 +1254,17 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
     
     @Test
     public void testSendEvaluationPublishedEmails() throws Exception {
-       
-        EvaluationAttributes e = dataBundle.evaluations
+        
+        ______TS("Typical case");
+
+        EvaluationAttributes eval = dataBundle.evaluations
                 .get("evaluation1InCourse1");
 
         List<MimeMessage> emailsSent = evaluationsLogic.sendEvaluationPublishedEmails(
-                e.courseId, e.name);
+                eval.courseId, eval.name);
         assertEquals(8, emailsSent.size());
 
-        List<StudentAttributes> studentList = studentsLogic.getStudentsForCourse(e.courseId);
+        List<StudentAttributes> studentList = studentsLogic.getStudentsForCourse(eval.courseId);
         
         for (StudentAttributes s : studentList) {
             String errorMessage = "No email sent to " + s.email;
@@ -1271,10 +1272,155 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
             assertTrue(errorMessage, emailToStudent != null);
             AssertHelper.assertContains(Emails.SUBJECT_PREFIX_STUDENT_EVALUATION_PUBLISHED,
                     emailToStudent.getSubject());
-            AssertHelper.assertContains(e.name, emailToStudent.getSubject());
+            AssertHelper.assertContains(eval.name, emailToStudent.getSubject());
+        }
+
+        ______TS("Failure case: non-existent course / eval");
+
+        try {
+            evaluationsLogic.sendEvaluationPublishedEmails("non-existent-course", eval.name);
+            signalFailureToDetectException();
+        } catch (EntityDoesNotExistException e) {
+            AssertHelper.assertContains("Trying to edit non-existent ", e.getMessage());
+        }
+
+        try {
+            evaluationsLogic.sendEvaluationPublishedEmails(eval.courseId, "non-existent-eval");
+            signalFailureToDetectException();
+        } catch (EntityDoesNotExistException e) {
+            AssertHelper.assertContains("Trying to edit non-existent ", e.getMessage());
+        }
+
+        ______TS("Failure case: null parameter");
+
+        try {
+            evaluationsLogic.sendEvaluationPublishedEmails(null, eval.name);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
+        }
+    }
+
+    @Test
+    public void testSendReminderForEvaluation() throws Exception {
+       
+        ______TS("Typical case");
+        
+        StudentAttributes student1 = dataBundle.students.get("student1InCourse1");
+        EvaluationAttributes eval = dataBundle.evaluations.get("evaluation1InCourse1");
+
+        List<MimeMessage> emailsSent = evaluationsLogic.sendReminderForEvaluation(
+                eval.courseId, eval.name);
+        assertEquals(7, emailsSent.size());
+
+        List<StudentAttributes> studentList = studentsLogic.getStudentsForCourse(eval.courseId);
+        
+        for (StudentAttributes s : studentList) {
+            String errorMessage = "No email sent to " + s.email;
+            MimeMessage emailToStudent = TestHelper.getEmailToStudent(s, emailsSent);
+            if(s.email.equals(student1.email)){
+                assertTrue(emailToStudent == null);
+            } else {
+                assertTrue(errorMessage, emailToStudent != null);
+                AssertHelper.assertContains(Emails.SUBJECT_PREFIX_STUDENT_EVALUATION_REMINDER,
+                    emailToStudent.getSubject());
+                AssertHelper.assertContains(eval.name, emailToStudent.getSubject());
+            }
+        }
+
+        ______TS("Failure case: non-existent course / eval");
+
+        try {
+            evaluationsLogic.sendEvaluationPublishedEmails("non-existent-course", eval.name);
+            signalFailureToDetectException();
+        } catch (EntityDoesNotExistException e) {
+            AssertHelper.assertContains("Trying to edit non-existent ", e.getMessage());
+        }
+
+        try {
+            evaluationsLogic.sendEvaluationPublishedEmails(eval.courseId, "non-existent-eval");
+            signalFailureToDetectException();
+        } catch (EntityDoesNotExistException e) {
+            AssertHelper.assertContains("Trying to edit non-existent ", e.getMessage());
+        }
+
+        ______TS("Failure case: null parameter");
+
+        try {
+            evaluationsLogic.sendEvaluationPublishedEmails(null, eval.name);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
         }
     }
     
+    @Test
+    public void testSetEvaluationActivationStatus() throws Exception {
+
+        ______TS("Typical cases");
+
+        EvaluationAttributes eval1 = dataBundle.evaluations.get("evaluation1InCourse1");
+        // ensure not published yet
+        assertEquals(true,
+                evaluationsLogic.getEvaluation(eval1.courseId, eval1.name).activated);
+        
+        evaluationsLogic.setEvaluationActivationStatus(eval1.courseId, eval1.name, false);
+        assertEquals(false,
+                evaluationsLogic.getEvaluation(eval1.courseId, eval1.name).activated);
+
+        evaluationsLogic.setEvaluationActivationStatus(eval1.courseId, eval1.name, true);
+        assertEquals(true,
+                evaluationsLogic.getEvaluation(eval1.courseId, eval1.name).activated);
+        
+        ______TS("Rare case: trying to activate an already activated evaluation");
+            
+        //Activate the same evaluation again
+        evaluationsLogic.setEvaluationActivationStatus(eval1.courseId, eval1.name, true);
+        assertEquals(true,evaluationsLogic.getEvaluation(eval1.courseId, eval1.name).activated);
+
+        ______TS("Rare case: trying to deactivate an already deactivated evaluation");
+                
+        //Deactivate the evaluation
+        evaluationsLogic.setEvaluationActivationStatus(eval1.courseId, eval1.name, false);
+        assertEquals(false,evaluationsLogic.getEvaluation(eval1.courseId, eval1.name).activated);
+        
+        //Try to deactivate it again
+        evaluationsLogic.setEvaluationActivationStatus(eval1.courseId, eval1.name, false);
+        assertEquals(false,evaluationsLogic.getEvaluation(eval1.courseId, eval1.name).activated);
+    
+        ______TS("Failure: non-existent course / eval");
+
+        try {
+            evaluationsLogic.setEvaluationActivationStatus("non-existent-course", eval1.name, true);
+            signalFailureToDetectException();
+        } catch (EntityDoesNotExistException e) {
+            AssertHelper.assertContains("Trying to update non-existent ", e.getMessage());
+        }
+
+        try {
+            evaluationsLogic.setEvaluationActivationStatus(eval1.courseId, "non-existent-eval", false);
+            signalFailureToDetectException();
+        } catch (EntityDoesNotExistException e) {
+            AssertHelper.assertContains("Trying to update non-existent ", e.getMessage());
+        }
+
+        ______TS("Failure: null parameter");
+        
+        try {
+            evaluationsLogic.setEvaluationActivationStatus(null, eval1.name, true);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
+        }
+        
+        try {
+            evaluationsLogic.setEvaluationActivationStatus(eval1.courseId, null, false);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
+        }
+    }
+
     @Test
     public void testCalculateTeamResult() throws Exception {
 
@@ -1420,17 +1566,6 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         assertEquals(105, srb3.incoming.get(S2_POS).details.normalizedToInstructor);
         assertEquals(NA, srb3.incoming.get(S3_POS).details.normalizedToInstructor);
 
-    }
-    
-    private void invokeAddSubmissionsForIncomingMember(String courseId,
-            String evaluationName, String studentEmail, String newTeam)throws Exception {
-        Method privateMethod = EvaluationsLogic.class.getDeclaredMethod(
-                "addSubmissionsForIncomingMember", new Class[] { String.class,
-                        String.class, String.class, String.class });
-        privateMethod.setAccessible(true);
-        Object[] params = new Object[] {courseId,
-                 evaluationName,  studentEmail, newTeam };
-        privateMethod.invoke(EvaluationsLogic.inst(), params);
     }
     
     private static SubmissionAttributes createSubmission(int from, int to) {
