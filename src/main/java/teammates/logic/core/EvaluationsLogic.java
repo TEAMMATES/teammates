@@ -71,7 +71,7 @@ public class EvaluationsLogic {
      */
     public void createEvaluationCascade(EvaluationAttributes e) 
             throws InvalidParametersException, EntityAlreadyExistsException {
-    
+        
         evaluationsDb.createEntity(e);
         
         scheduleCreationOfSubmissions(e);
@@ -95,9 +95,12 @@ public class EvaluationsLogic {
     }
     
     public void createSubmissionsForEvaluation(EvaluationAttributes e) throws EntityDoesNotExistException, InvalidParametersException {
+        
+        verifyEvaluationExists(e.courseId, e.name);
+        
         List<StudentAttributes> studentDataList = studentsLogic
                 .getStudentsForCourse(e.courseId);
-        
+
         List<SubmissionAttributes> listOfSubmissionsToAdd = new ArrayList<SubmissionAttributes>();
     
         // This double loop creates 3 submissions for a pair of students:
@@ -118,10 +121,12 @@ public class EvaluationsLogic {
     }
 
     public EvaluationAttributes getEvaluation(String courseId, String evaluationName) {
+        
         return evaluationsDb.getEvaluation(courseId, evaluationName);
     }
 
     public List<EvaluationAttributes> getEvaluationsForCourse(String courseId) {
+        
         return evaluationsDb.getEvaluationsForCourse(courseId);
     }
 
@@ -159,6 +164,7 @@ public class EvaluationsLogic {
 
     public ArrayList<EvaluationDetailsBundle> getEvaluationsDetailsForInstructor(
             String instructorId) throws EntityDoesNotExistException {
+        
         ArrayList<EvaluationDetailsBundle> evaluationSummaryList = new ArrayList<EvaluationDetailsBundle>();
 
         List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForGoogleId(instructorId);
@@ -170,6 +176,7 @@ public class EvaluationsLogic {
     
     public ArrayList<EvaluationAttributes> getEvaluationsListForInstructor(
             String instructorId) throws EntityDoesNotExistException {
+        
         ArrayList<EvaluationAttributes> evaluationSummaryList = new ArrayList<EvaluationAttributes>();
 
         List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForGoogleId(instructorId);
@@ -180,6 +187,7 @@ public class EvaluationsLogic {
     }
     
     public ArrayList<EvaluationDetailsBundle> getEvaluationsDetailsForCourse(String courseId) throws EntityDoesNotExistException{
+        
         ArrayList<EvaluationDetailsBundle> evaluationSummaryList = new ArrayList<EvaluationDetailsBundle>();
 
         List<EvaluationAttributes> evaluationsSummaryForCourse = getEvaluationsForCourse(courseId);
@@ -195,6 +203,8 @@ public class EvaluationsLogic {
     
     public EvaluationDetailsBundle getEvaluationsDetailsForCourseAndEval(EvaluationAttributes evaluation) 
             throws EntityDoesNotExistException{
+                
+        verifyEvaluationExists(evaluation.courseId, evaluation.name);
 
         List<StudentAttributes> students = studentsLogic.getStudentsForCourse(evaluation.courseId);
 
@@ -314,15 +324,21 @@ public class EvaluationsLogic {
                 submissionsLogic.getSubmissionsForEvaluationFromStudent(
                         evaluation.courseId, evaluation.name, email);
 
+        if(submissionList.isEmpty()){
+            return false;
+        }
+
         for (SubmissionAttributes sd : submissionList) {
             if (sd.points == Const.POINTS_NOT_SUBMITTED) {
                 return false;
             }
         }
+
         return true;
     }
 
     public boolean isEvaluationExists(String courseId, String evaluationName) {
+        
         return evaluationsDb.getEvaluation(courseId, evaluationName) != null;
     }
     
@@ -346,6 +362,7 @@ public class EvaluationsLogic {
     }
     
     public void activateReadyEvaluations() {
+        
         List<EvaluationAttributes> evaluations = getReadyEvaluations();
         
         for (EvaluationAttributes ed: evaluations) {
@@ -355,6 +372,7 @@ public class EvaluationsLogic {
     }
 
     public void scheduleRemindersForClosingEvaluations() {
+        
         List<EvaluationAttributes> evaluationDataList = 
                 getEvaluationsClosingWithinTimeLimit(SystemParams.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT);
         
@@ -366,6 +384,7 @@ public class EvaluationsLogic {
     
     public void updateStudentEmailForSubmissionsInCourse(String course,
             String originalEmail, String email) {
+        
         submissionsLogic.updateStudentEmailForSubmissionsInCourse(course, originalEmail, email);
     }
 
@@ -393,14 +412,20 @@ public class EvaluationsLogic {
         scheduleEvaluationPublishedEmails(courseId, evaluationName);
     }
     
-    public List<MimeMessage> sendEvaluationPublishedEmails(String courseId, String evaluationName) {
-        List<MimeMessage> emailsSent = new ArrayList<MimeMessage>();
+    public List<MimeMessage> sendEvaluationPublishedEmails(String courseId,
+              String evaluationName) throws EntityDoesNotExistException {
         
+        if (!isEvaluationExists(courseId, evaluationName)) {
+            throw new EntityDoesNotExistException(
+                    "Trying to edit non-existent evaluation " + courseId + "/" + evaluationName);
+        }
+
+        List<MimeMessage> emailsSent = new ArrayList<MimeMessage>();
+        CourseAttributes course = coursesLogic.getCourse(courseId);
+        EvaluationAttributes eval = getEvaluation(courseId, evaluationName);
         try {
-            CourseAttributes course = CoursesLogic.inst().getCourse(courseId);
-            EvaluationAttributes eval = EvaluationsLogic.inst().getEvaluation(courseId, evaluationName);
-            List<StudentAttributes> students = StudentsLogic.inst().getStudentsForCourse(courseId);
-            List<InstructorAttributes> instructors = InstructorsLogic.inst().getInstructorsForCourse(courseId);
+            List<StudentAttributes> students = studentsLogic.getStudentsForCourse(courseId);
+            List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(courseId);
             
             Emails emailMgr = new Emails();
             emailsSent = emailMgr.generateEvaluationPublishedEmails(course, eval,
@@ -465,6 +490,7 @@ public class EvaluationsLogic {
     }
     
     public void scheduleEvaluationRemindEmails(String courseId, String evaluationName) {
+        
         HashMap<String, String> paramMap = new HashMap<String, String>();
         paramMap.put(ParamsNames.SUBMISSION_EVAL, evaluationName);
         paramMap.put(ParamsNames.SUBMISSION_COURSE, courseId);
@@ -532,7 +558,8 @@ public class EvaluationsLogic {
     public void adjustSubmissionsForNewStudentInEvaluation(String courseId,
             String studentEmail, String team, String evaluationName)
                     throws InvalidParametersException {
-            addSubmissionsForIncomingMember(courseId, evaluationName, studentEmail, team);
+        
+        addSubmissionsForIncomingMember(courseId, evaluationName, studentEmail, team);
     }
 
 
@@ -544,11 +571,13 @@ public class EvaluationsLogic {
 
     
     public void deleteEvaluationsForCourse(String courseId) {
+    
         evaluationsDb.deleteAllEvaluationsForCourse(courseId);
         submissionsLogic.deleteAllSubmissionsForCourse(courseId);
     }
     
     public void setEvaluationActivationStatus(String courseId, String evaluationName, boolean isActivated) throws EntityDoesNotExistException {
+    
         EvaluationAttributes e = evaluationsDb.getEvaluation(courseId, evaluationName);
     
         if (e == null) {
@@ -567,7 +596,6 @@ public class EvaluationsLogic {
         
     }
 
-    
     private void addSubmissionsForIncomingMember(
             String courseId, String evaluationName, String studentEmail, String newTeam) throws InvalidParametersException {
     
@@ -624,6 +652,7 @@ public class EvaluationsLogic {
     
     private EvaluationDetailsBundle getEvaluationDetails(List<StudentAttributes> students, EvaluationAttributes evaluation)
             throws EntityDoesNotExistException {
+    
         EvaluationDetailsBundle edd = new EvaluationDetailsBundle(evaluation);
         edd.stats.expectedTotal = students.size();
         HashMap<String, SubmissionAttributes> submissions = 
@@ -636,6 +665,7 @@ public class EvaluationsLogic {
      * Returns how many students have submitted at least one submission.
      */
     private int countSubmittedStudents(Collection<SubmissionAttributes> submissions) {
+    
         int count = 0;
         List<String> emailsOfSubmittedStudents = new ArrayList<String>();
         for (SubmissionAttributes s : submissions) {
@@ -680,6 +710,7 @@ public class EvaluationsLogic {
     }
     
     private void scheduleEvaluationPublishedEmails(String courseId, String evaluationName) {
+    
         HashMap<String, String> paramMap = new HashMap<String, String>();
         paramMap.put(ParamsNames.SUBMISSION_EVAL, evaluationName);
         paramMap.put(ParamsNames.SUBMISSION_COURSE, courseId);
@@ -718,6 +749,7 @@ public class EvaluationsLogic {
     }
 
     private void populateTeamResult(TeamResultBundle teamResultBundle, TeamEvalResult teamResult) {
+      
         teamResultBundle.sortByStudentNameAscending();
         int teamSize = teamResultBundle.studentResults.size();
         
@@ -813,6 +845,7 @@ public class EvaluationsLogic {
     
     private SubmissionAttributes createEmptySubmission(String reviewer,
             String reviewee) {
+       
         SubmissionAttributes s;
         s = new SubmissionAttributes();
         s.reviewer = reviewer;
