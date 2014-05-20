@@ -2,6 +2,9 @@ package teammates.test.cases.storage;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNull;
+import static org.testng.AssertJUnit.assertTrue;
+
+import java.util.List;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
@@ -146,6 +149,41 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         actual = frDb.getFeedbackResponse("non-existent id");
         
         assertNull(actual);
+        
+    }
+    
+    @Test
+    public void testGetFeedbackResponsesForQuestion() throws Exception {
+        
+        restoreTypicalDataInDatastore();
+        
+        ______TS("standard success case");  
+        
+        FeedbackQuestionAttributes fqa = 
+                fqDb.getFeedbackQuestion("First feedback session", "idOfTypicalCourse1", 1);
+        
+        List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForQuestion(fqa.getId());
+        
+        assertEquals(responses.size(), 2);
+        
+        ______TS("null params");
+        
+        try {
+            frDb.getFeedbackResponsesForQuestion(null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
+        }
+        
+        ______TS("non-existent feedback question");
+        
+        assertTrue(frDb.getFeedbackResponsesForQuestion("non-existent fq id").isEmpty());
+            
+        ______TS("no responses for question");
+        
+        fqa = fqDb.getFeedbackQuestion("First feedback session", "idOfTypicalCourse1", 4);
+        
+        assertTrue(frDb.getFeedbackResponsesForQuestion(fqa.getId()).isEmpty());    
         
     }
     
