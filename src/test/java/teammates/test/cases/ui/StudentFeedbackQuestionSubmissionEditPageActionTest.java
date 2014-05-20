@@ -2,6 +2,7 @@ package teammates.test.cases.ui;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.assertTrue;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -11,11 +12,11 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.storage.api.FeedbackQuestionsDb;
+import teammates.ui.controller.Action;
+import teammates.ui.controller.ActionResult;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.ShowPageResult;
 import teammates.ui.controller.StudentFeedbackQuestionSubmissionEditPageAction;
@@ -37,122 +38,196 @@ public class StudentFeedbackQuestionSubmissionEditPageActionTest extends
         restoreTypicalDataInDatastore();
     }
 
-    @Test
-    public void testAccessControl() throws Exception {
-        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
-        
-        FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
-        FeedbackQuestionAttributes q = fqDb.getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 1);
-        
-        String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, q.getId()
-        };
-        
-        verifyUnaccessibleWithoutLogin(submissionParams);
-        verifyUnregisteredUserRedirectedToHome(submissionParams);        
-        verifyAccessibleForStudentsOfTheSameCourse(submissionParams);
-        verifyAccessibleForAdminToMasqueradeAsStudent(submissionParams);
+    /*
+     * This parent's method is overridden to check the returned result for
+     * verification purpose because only redirect result will be returned
+     * without any exception. StudentCourseDetailsPageAction has the same
+     * issue,check with this file for detailed reason
+     */
+
+    @Override
+    protected void verifyCannotAccess(String... params) throws Exception {
+        try {
+            Action c = gaeSimulation.getActionObject(uri, params);
+
+            ActionResult result = c.executeAndPostProcess();
+
+            String classNameOfRedirectResult = RedirectResult.class.getName();
+            assertEquals(classNameOfRedirectResult, result.getClass().getName());
+
+        } catch (Exception e) {
+            ignoreExpectedException();
+        }
+
     }
 
-    private void verifyUnregisteredUserRedirectedToHome(String[] submissionParams) throws Exception {
-        String    unregUserId = "unreg.user";
-        
-        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
-        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        
-        gaeSimulation.loginUser(unregUserId);
-        StudentFeedbackQuestionSubmissionEditPageAction a = getAction(submissionParams);
-        RedirectResult r = (RedirectResult) a.executeAndPostProcess();
-        assertEquals(Const.ActionURIs.STUDENT_HOME_PAGE, r.destination);
-        assertEquals("You are not registered in the course idOfTypicalCourse1", r.getStatusMessage());
-        
-        verifyCannotMasquerade(addUserIdToParams(student1InCourse1.googleId,submissionParams));
-        verifyCannotMasquerade(addUserIdToParams(instructor1OfCourse1.googleId,submissionParams));
+    @Test
+    public void testAccessControl() throws Exception {
+
+        FeedbackSessionAttributes session1InCourse1 = dataBundle.feedbackSessions
+                .get("session1InCourse1");
+
+        FeedbackQuestionsDb feedbackQuestionsDb = new FeedbackQuestionsDb();
+        FeedbackQuestionAttributes feedbackQuestion = feedbackQuestionsDb
+                .getFeedbackQuestion(
+                        session1InCourse1.feedbackSessionName,
+                        session1InCourse1.courseId, 1);
+
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, session1InCourse1.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME,
+                session1InCourse1.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_QUESTION_ID,
+                feedbackQuestion.getId()
+        };
+
+        verifyUnaccessibleWithoutLogin(submissionParams);
+        verifyUnaccessibleForUnregisteredUsers(submissionParams);
+        verifyUnaccessibleForStudentsOfOtherCourses(submissionParams);
+        verifyAccessibleForStudentsOfTheSameCourse(submissionParams);
+        verifyAccessibleForAdminToMasqueradeAsStudent(submissionParams);
+
+        // below: trying to access questions not meant for the user
+
+        feedbackQuestion = feedbackQuestionsDb.getFeedbackQuestion(
+                session1InCourse1.feedbackSessionName,
+                session1InCourse1.courseId, 3);
+
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, session1InCourse1.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME,
+                session1InCourse1.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_QUESTION_ID,
+                feedbackQuestion.getId()
+        };
+
+        verifyCannotAccess(submissionParams);
+
     }
 
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        AccountAttributes studentAccount = dataBundle.accounts.get("student1InCourse1");
-        StudentAttributes student = dataBundle.students.get("student1InCourse1");
-        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
-        
-        FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
-        FeedbackQuestionAttributes q = fqDb.getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 1);
-        
-        gaeSimulation.loginAsStudent(student.googleId);
-        
+
+        AccountAttributes accountForStudent1InCourse1 = dataBundle.accounts
+                .get("student1InCourse1");
+        StudentAttributes student1InCourse1 = dataBundle.students
+                .get("student1InCourse1");
+        FeedbackSessionAttributes session1InCourse1 = dataBundle.feedbackSessions
+                .get("session1InCourse1");
+
+        FeedbackQuestionsDb feedbackQuestionsDb = new FeedbackQuestionsDb();
+        FeedbackQuestionAttributes feedbackQuestion = feedbackQuestionsDb
+                .getFeedbackQuestion(
+                        session1InCourse1.feedbackSessionName,
+                        session1InCourse1.courseId, 1);
+
+        gaeSimulation.loginAsStudent(student1InCourse1.googleId);
+
         ______TS("not enough parameters");
-        
+
         verifyAssumptionFailure();
-        
-        String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName
+
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, session1InCourse1.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME,
+                session1InCourse1.feedbackSessionName
         };
         verifyAssumptionFailure(submissionParams);
-        
+
+        submissionParams = new String[] {
+                Const.ParamsNames.FEEDBACK_SESSION_NAME,
+                session1InCourse1.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_QUESTION_ID,
+                feedbackQuestion.getId()
+        };
+        verifyAssumptionFailure(submissionParams);
+
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, session1InCourse1.courseId,
+                Const.ParamsNames.FEEDBACK_QUESTION_ID,
+                feedbackQuestion.getId()
+        };
+        verifyAssumptionFailure(submissionParams);
+
+        ______TS("redirect unregistered user to home ");
+
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, session1InCourse1.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME,
+                session1InCourse1.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_QUESTION_ID,
+                feedbackQuestion.getId()
+        };
+
+        String unregUserId = "unreg.user";
+        gaeSimulation.loginUser(unregUserId);
+        StudentFeedbackQuestionSubmissionEditPageAction pageAction = getAction(submissionParams);
+        RedirectResult redirectResult = getRedirectResult(pageAction);
+
+        assertTrue(redirectResult.isError);
+        assertEquals(Const.ActionURIs.STUDENT_HOME_PAGE,
+                redirectResult.destination);
+        assertEquals("You are not registered in the course idOfTypicalCourse1",
+                redirectResult.getStatusMessage());
+
+        gaeSimulation.logoutUser();
+
         ______TS("typical case");
-        
-        submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, q.getId()
-        };
-        
-        StudentFeedbackQuestionSubmissionEditPageAction a = getAction(submissionParams);
-        ShowPageResult r = (ShowPageResult) a.executeAndPostProcess();
-        
-        assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT, r.destination);
-        assertFalse(r.isError);
+
+        gaeSimulation.loginAsStudent(student1InCourse1.googleId);
+
+        pageAction = getAction(submissionParams);
+        ShowPageResult pageResult = getShowPageResult(pageAction);
+
+        assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT,
+                pageResult.destination);
+        assertFalse(pageResult.isError);
         assertEquals(
                 "You are currently submitting as <span class=\"bold\">"
-                        + studentAccount.name + " (" + studentAccount.googleId + ")</span>. "
+                        + accountForStudent1InCourse1.name
+                        + " ("
+                        + accountForStudent1InCourse1.googleId
+                        + ")</span>. "
                         + "Not you? Please <a href=/logout.jsp>logout</a> and try again.",
-                r.getStatusMessage());
-        
-        ______TS("trying to access questions not meant for the user");
-        
-        q = fqDb.getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 3);
-        submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, q.getId()
-        };
-        
-        a = getAction(submissionParams);
-        try {
-            r = (ShowPageResult) a.executeAndPostProcess();
-        } catch (UnauthorizedAccessException e) {
-            assertEquals("Trying to access a question not meant for the user." , e.getMessage());
-        }
-        
+                pageResult.getStatusMessage());
+
         ______TS("masquerade mode");
-        
+
         gaeSimulation.loginAsAdmin("admin.user");
-        
-        q = fqDb.getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 1);
-        submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, q.getId(),
-                Const.ParamsNames.USER_ID, student.googleId
+
+        feedbackQuestion = feedbackQuestionsDb.getFeedbackQuestion(
+                session1InCourse1.feedbackSessionName,
+                session1InCourse1.courseId, 1);
+
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, session1InCourse1.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME,
+                session1InCourse1.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_QUESTION_ID,
+                feedbackQuestion.getId(),
+                Const.ParamsNames.USER_ID, student1InCourse1.googleId
         };
-        
-        a = getAction(submissionParams);
-        r = (ShowPageResult) a.executeAndPostProcess();
-        
-        assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT, r.destination);
-        assertFalse(r.isError);
+
+        pageAction = getAction(submissionParams);
+        pageResult = getShowPageResult(pageAction);
+
+        assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT,
+                pageResult.destination);
+        assertFalse(pageResult.isError);
         assertEquals(
                 "You are currently submitting as <span class=\"bold\">"
-                        + studentAccount.name + " (" + studentAccount.googleId + ")</span>. "
+                        + accountForStudent1InCourse1.name
+                        + " ("
+                        + accountForStudent1InCourse1.googleId
+                        + ")</span>. "
                         + "Not you? Please <a href=/logout.jsp>logout</a> and try again.",
-                r.getStatusMessage());
+                pageResult.getStatusMessage());
+
     }
-    
-    private StudentFeedbackQuestionSubmissionEditPageAction getAction(String... params) throws Exception{
-        return (StudentFeedbackQuestionSubmissionEditPageAction) (gaeSimulation.getActionObject(uri, params));
+
+    private StudentFeedbackQuestionSubmissionEditPageAction getAction(
+            String... params) throws Exception {
+        return (StudentFeedbackQuestionSubmissionEditPageAction) (gaeSimulation
+                .getActionObject(uri, params));
     }
 }

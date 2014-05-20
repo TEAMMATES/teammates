@@ -20,8 +20,14 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "starttime")
     private WebElement startTimeDropdown;
     
+    @FindBy(id = "startdate")
+    private WebElement startDateBox;
+    
     @FindBy(id = "endtime")
     private WebElement endTimeDropdown;
+    
+    @FindBy(id = "enddate")
+    private WebElement endDateBox;
     
     @FindBy (id = "visibletime")
     private WebElement visibleTimeDropDown;
@@ -52,6 +58,21 @@ public class InstructorFeedbackEditPage extends AppPage {
     
     @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON + "_later")
     private WebElement manualResultsVisibleTimeButton;
+    
+    @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON + "_never")
+    private WebElement neverSessionVisibleTimeButton;
+    
+    @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON + "_never")
+    private WebElement neverResultsVisibleTimeButton;
+    
+    @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL + "_open")
+    private WebElement openSessionEmailReminderButton;
+    
+    @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL + "_closing")
+    private WebElement closingSessionEmailReminderButton;
+    
+    @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL + "_published")
+    private WebElement publishedSessionEmailReminderButton;
     
     @FindBy(id = "fsEditLink")
     private WebElement fsEditLink;    
@@ -218,10 +239,8 @@ public class InstructorFeedbackEditPage extends AppPage {
         return browser.driver.findElement(By.xpath("//a[@onclick='deleteQuestion(" + qnIndex + ")']"));
     }
     
-    public boolean clickEditSessionButton(){
+    public void clickEditSessionButton(){
         fsEditLink.click();
-        // Check if links toggle properly.
-        return fsSaveLink.isDisplayed();
     }
     
     public void clickSaveSessionButton(){
@@ -258,6 +277,55 @@ public class InstructorFeedbackEditPage extends AppPage {
         waitForPageToLoad();
     }
     
+    /**
+     * 
+     * @return {@code True} if all elements expected to be enabled
+     * in the edit session frame are enabled after edit link is clicked. 
+     * {@code False} if not.
+     */
+    public boolean verifyEditSessionBoxIsEnabled() {
+        boolean isEditSessionEnabled = fsSaveLink.isDisplayed() && timezoneDropDown.isEnabled();
+        isEditSessionEnabled &= neverSessionVisibleTimeButton.isEnabled();
+        isEditSessionEnabled &= defaultSessionVisibleTimeButton.isEnabled();
+        isEditSessionEnabled &= customSessionVisibleTimeButton.isEnabled();
+        
+        isEditSessionEnabled &= openSessionEmailReminderButton.isEnabled();
+        isEditSessionEnabled &= closingSessionEmailReminderButton.isEnabled();
+        isEditSessionEnabled &= publishedSessionEmailReminderButton.isEnabled();
+        
+        if (!neverSessionVisibleTimeButton.isSelected()) {
+            isEditSessionEnabled &= gracePeriodDropdown.isEnabled();
+            isEditSessionEnabled &= startDateBox.isEnabled() && startTimeDropdown.isEnabled();
+            isEditSessionEnabled &= endDateBox.isEnabled() && endTimeDropdown.isEnabled();
+            
+            isEditSessionEnabled &= defaultResultsVisibleTimeButton.isEnabled();
+            isEditSessionEnabled &= customResultsVisibleTimeButton.isEnabled();
+            isEditSessionEnabled &= manualResultsVisibleTimeButton.isEnabled();
+            isEditSessionEnabled &= neverResultsVisibleTimeButton.isEnabled();
+        }
+        
+        return isEditSessionEnabled;
+    }
+    
+    public boolean verifyNewEssayQuestionFormIsDisplayed() {
+        return addNewQuestionButton.isDisplayed();
+    }
+    
+    public boolean verifyNewMcqQuestionFormIsDisplayed() {
+        WebElement mcqForm = browser.driver.findElement(By.id("mcqForm"));
+        return mcqForm.isDisplayed() && addNewQuestionButton.isDisplayed();
+    }
+    
+    public boolean verifyNewMsqQuestionFormIsDisplayed() {
+        WebElement mcqForm = browser.driver.findElement(By.id("msqForm"));
+        return mcqForm.isDisplayed() && addNewQuestionButton.isDisplayed();
+    }
+    
+    public boolean verifyNewNumScaleQuestionFormIsDisplayed() {
+        WebElement mcqForm = browser.driver.findElement(By.id("numScaleForm"));
+        return mcqForm.isDisplayed() && addNewQuestionButton.isDisplayed();
+    }
+    
     public void selectNewQuestionType(String questionType){
         selectDropdownByVisibleValue(browser.driver.findElement(By.id("questionTypeChoice")), questionType);
     }
@@ -283,10 +351,8 @@ public class InstructorFeedbackEditPage extends AppPage {
      * @return {@code True} if the button was clicked successfully and an element in the new question
      * frame is now visible. {@code False} if not.
      */
-    public boolean clickNewQuestionButton(){
+    public void clickNewQuestionButton(){
         openNewQuestionButton.click();
-        // Just check if an element in the new question frame is visible.
-        return addNewQuestionButton.isDisplayed();
     }
     
     /**

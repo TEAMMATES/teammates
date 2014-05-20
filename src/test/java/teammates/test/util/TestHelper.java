@@ -5,6 +5,8 @@ import static org.testng.AssertJUnit.assertTrue;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import javax.mail.MessagingException;
@@ -48,6 +50,7 @@ import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 
 import com.google.appengine.api.datastore.Text;
+import com.google.appengine.labs.repackaged.com.google.common.base.Joiner;
 import com.google.gson.Gson;
 
 public class TestHelper extends BaseComponentTestCase{
@@ -166,6 +169,16 @@ public class TestHelper extends BaseComponentTestCase{
 
         for (EvaluationDetailsBundle edd : evalInfoList) {
             if (edd.evaluation.name.equals(evaluation.name))
+                return;
+        }
+        Assert.fail("Did not find " + evaluation.name + " in the evaluation info list");
+    }
+
+    public static void verifyEvaluationInfoExistsInAttributeList(EvaluationAttributes evaluation,
+            ArrayList<EvaluationAttributes> evalInfoList) {
+
+        for (EvaluationAttributes evalAttr : evalInfoList) {
+            if (evalAttr.name.equals(evaluation.name))
                 return;
         }
         Assert.fail("Did not find " + evaluation.name + " in the evaluation info list");
@@ -296,6 +309,15 @@ public class TestHelper extends BaseComponentTestCase{
     public static void verifyPresentInDatastore(FeedbackQuestionAttributes expected) {
         FeedbackQuestionAttributes actual = fqDb.getFeedbackQuestion(
                 expected.feedbackSessionName, expected.courseId, expected.questionNumber);
+        assertEquals(gson.toJson(expected), gson.toJson(actual));
+    }
+    
+    public static void verifyPresentInDatastore(FeedbackQuestionAttributes expected, boolean wildcardId) {
+        FeedbackQuestionAttributes actual = fqDb.getFeedbackQuestion(
+                expected.feedbackSessionName, expected.courseId, expected.questionNumber);
+        if(wildcardId){
+            actual.setId("*");
+        }
         assertEquals(gson.toJson(expected), gson.toJson(actual));
     }
     
@@ -483,4 +505,26 @@ public class TestHelper extends BaseComponentTestCase{
         }
         logic.updateSubmissions(submissions);
     }
+    
+    //this function used to check whether two lists have same contents,ignoring order
+    
+    @SuppressWarnings("rawtypes")
+    
+    public static boolean isSameContentIgnoreOrder(List a, List b) {
+
+        String expectedListAsString = Joiner.on("\t").join(a);
+        String actualListAsString = Joiner.on("\t").join(b);
+
+        List<String> expectedStringTypeList = new ArrayList<String>(
+                Arrays.asList(expectedListAsString.split("\t")));
+        List<String> actualStringTypeList = new ArrayList<String>(
+                Arrays.asList(actualListAsString.split("\t")));
+
+        Collections.sort(expectedStringTypeList);
+        Collections.sort(actualStringTypeList);
+
+        return expectedStringTypeList.equals(actualStringTypeList);
+
+    }
+
 }
