@@ -1391,8 +1391,6 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         
         ______TS("success case: partially done by student 3");
         assertFalse(fsLogic.isFeedbackSessionFullyCompletedByStudent(fs.feedbackSessionName, fs.courseId, student3OfCourse1.email));
-        
-        
     }
     
     public void testScheduleFeedbackSessionOpeningEmails() {
