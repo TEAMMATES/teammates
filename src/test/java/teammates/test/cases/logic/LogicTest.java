@@ -977,14 +977,6 @@ public class LogicTest extends BaseComponentTestCase {
             assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
         }
     }
-
-
-
-    @SuppressWarnings("unused")
-    private void ____EVALUATION_level_methods_______________________________() {
-
-    }
-
     
     @Test
     public void testGetCourseStudentListAsCsv() throws Exception {
