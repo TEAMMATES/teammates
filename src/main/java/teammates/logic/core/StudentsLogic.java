@@ -57,8 +57,13 @@ public class StudentsLogic {
     }
     
     public void createStudentCascade(StudentAttributes studentData) 
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        //TODO: check that course exists
+            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+        
+        if (!coursesLogic.isCoursePresent(studentData.course)) {
+            throw new EntityDoesNotExistException(
+                    "Course does not exist [" + studentData.course + "]");
+        }
+        
         createStudentCascadeWithSubmissionAdjustmentScheduled(studentData);
         evaluationsLogic.adjustSubmissionsForNewStudent(
                 studentData.course, studentData.email, studentData.team);
@@ -95,11 +100,10 @@ public class StudentsLogic {
     }
 
     public List<StudentAttributes> getUnregisteredStudentsForCourse(String courseId) {
-        
         return studentsDb.getUnregisteredStudentsForCourse(courseId);
     }
     
-    public String getKeyForStudent(String courseId, String email) {
+    public String getKeyForStudent(String courseId, String email) throws EntityDoesNotExistException {
     
         // this method and the method below
         // updateStudentCascadeWithSubmissionAdjustmentScheduled--this will throw exception but seems it will also
@@ -108,18 +112,18 @@ public class StudentsLogic {
         StudentAttributes studentData = getStudentForEmail(courseId, email);
     
         if (studentData == null) {
-            return null; //TODO: throw EntityDoesNotExistException?
+            throw new EntityDoesNotExistException("Student does not exist: [" + courseId + "/" + email + "]");
         }
     
         return studentData.key;
     }
     
-    public String getEncryptedKeyForStudent(String courseId, String email) {
+    public String getEncryptedKeyForStudent(String courseId, String email) throws EntityDoesNotExistException {
         
         StudentAttributes studentData = getStudentForEmail(courseId, email);
         
         if (studentData == null) {
-            return null; //TODO: throw EntityDoesNotExistException?
+            throw new EntityDoesNotExistException("Student does not exist: [" + courseId + "/" + email + "]");
         }
     
         return StringHelper.encrypt(studentData.key);

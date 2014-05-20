@@ -4,7 +4,6 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
 import static teammates.common.util.FieldValidator.COURSE_ID_ERROR_MESSAGE;
-import static teammates.common.util.FieldValidator.EMAIL_ERROR_MESSAGE;
 import static teammates.common.util.FieldValidator.END_TIME_FIELD_NAME;
 import static teammates.common.util.FieldValidator.EVALUATION_NAME;
 import static teammates.common.util.FieldValidator.REASON_INCORRECT_FORMAT;
@@ -110,10 +109,11 @@ public class LogicTest extends BaseComponentTestCase {
         ______TS("admin+instructor+student");
 
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
+        String course2Id = dataBundle.courses.get("typicalCourse2").id;
         gaeSimulation.loginAsAdmin(instructor.googleId);
-        // also make this user a student
+        // also make this user a student of another course
         StudentAttributes instructorAsStudent = new StudentAttributes(
-                "Team 1", "Instructor As Student", "instructorasstudent@yahoo.com", "", "some-course");
+                "Team 1", "Instructor As Student", "instructorasstudent@yahoo.com", "", course2Id);
         instructorAsStudent.googleId = instructor.googleId;
         logic.createStudent(instructorAsStudent);
 
@@ -301,14 +301,14 @@ public class LogicTest extends BaseComponentTestCase {
     
         try {
             logic.joinCourseForStudent(null, "valid.user");
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (AssertionError a) {
             assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
         }
         
         try {
             logic.joinCourseForStudent(key, null);
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (AssertionError a) {
             assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
         }
@@ -382,7 +382,7 @@ public class LogicTest extends BaseComponentTestCase {
                 + line3;
         try {
             enrollResults = logic.enrollStudents(lines, courseId);
-            Assert.fail("Did not throw exception for incorrectly formatted line");
+            signalFailureToDetectException("Did not throw exception for incorrectly formatted line");
         } catch (EnrollException e) {
             assertTrue(e.getMessage().contains(incorrectLine));
         }
@@ -392,7 +392,7 @@ public class LogicTest extends BaseComponentTestCase {
     
         try {
             logic.enrollStudents("a|b|c|d", null);
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (AssertionError a) {
             assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
         }
@@ -563,7 +563,7 @@ public class LogicTest extends BaseComponentTestCase {
     
         try {
             EvaluationsLogic.inst().sendReminderForEvaluation("valid.course.id", null);
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (AssertionError a) {
             assertEquals("Supplied parameter was null\n", a.getMessage());
         }
@@ -622,7 +622,7 @@ public class LogicTest extends BaseComponentTestCase {
 
         try {
             logic.deleteStudent(null, "valid@email.com");
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (AssertionError a) {
             assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
         }
@@ -661,7 +661,7 @@ public class LogicTest extends BaseComponentTestCase {
 
         try {
             logic.createEvaluation(evaluation);
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (EntityAlreadyExistsException e) {
             AssertHelper.assertContains(evaluation.name, e.getMessage());
         }
@@ -670,7 +670,7 @@ public class LogicTest extends BaseComponentTestCase {
 
         try {
             logic.createEvaluation(null);
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (AssertionError a) {
             assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
         }
@@ -681,7 +681,7 @@ public class LogicTest extends BaseComponentTestCase {
         evaluation.courseId = "invalid course";
         try {
             logic.createEvaluation(evaluation);
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             assertEquals(
                     String.format(COURSE_ID_ERROR_MESSAGE, evaluation.courseId, REASON_INCORRECT_FORMAT),
@@ -711,7 +711,7 @@ public class LogicTest extends BaseComponentTestCase {
 
         try {
             logic.getEvaluation("valid.course.id", null);
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (AssertionError a) {
             assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
         }
@@ -798,7 +798,7 @@ public class LogicTest extends BaseComponentTestCase {
     
         try {
             logic.getEvaluationsDetailsForInstructor(null);
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (AssertionError a) {
             assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
         }
@@ -964,7 +964,7 @@ public class LogicTest extends BaseComponentTestCase {
     
         try {
             logic.getEvaluationResult("valid.course.id", null);
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (AssertionError a) {
             assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
         }
@@ -1043,14 +1043,14 @@ public class LogicTest extends BaseComponentTestCase {
         
         try {
             logic.getEvaluationResultSummaryAsCsv(null, eval.name);
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (AssertionError ae) {
             assertEquals(Logic.ERROR_NULL_PARAMETER, ae.getMessage());
         }
         
         try {
             logic.getEvaluationResultSummaryAsCsv(eval.courseId, null);
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (AssertionError ae) {
             assertEquals(Logic.ERROR_NULL_PARAMETER, ae.getMessage());
         }
@@ -1096,14 +1096,14 @@ public class LogicTest extends BaseComponentTestCase {
         
         try {
             logic.getCourseStudentListAsCsv(null, instructorGoogleId);
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (AssertionError ae) {
             assertEquals(Logic.ERROR_NULL_PARAMETER, ae.getMessage());
         }
         
         try {
             logic.getCourseStudentListAsCsv(course.id, null);
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (AssertionError ae) {
             assertEquals(Logic.ERROR_NULL_PARAMETER, ae.getMessage());
         }
@@ -1213,7 +1213,7 @@ public class LogicTest extends BaseComponentTestCase {
     
         try {
             logic.getEvaluationResultForStudent("valid.course.id", "valid evaluation name", null);
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (AssertionError a) {
             assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
         }
@@ -1233,7 +1233,7 @@ public class LogicTest extends BaseComponentTestCase {
         try {
             logic.getEvaluationResultForStudent(course.id, evaluation.name,
                     "non-existent@email.com");
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
             AssertHelper.assertContains("non-existent@email.com", e
                     .getMessage().toLowerCase());
@@ -1287,7 +1287,7 @@ public class LogicTest extends BaseComponentTestCase {
                                     1.00,
                                     1,
                                     true);
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (AssertionError a) {
             assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
         }
@@ -1300,7 +1300,7 @@ public class LogicTest extends BaseComponentTestCase {
         eval.endTime = TimeHelper.getDateOffsetToCurrentTime(0);
         try {
             TestHelper.invokeEditEvaluation(eval);
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             String errorMessage = String.format(TIME_FRAME_ERROR_MESSAGE,
                     END_TIME_FIELD_NAME, EVALUATION_NAME, START_TIME_FIELD_NAME) ;
@@ -1370,7 +1370,7 @@ public class LogicTest extends BaseComponentTestCase {
 
         try {
             logic.publishEvaluation(eval1.courseId, eval1.name);
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(Const.StatusCodes.PUBLISHED_BEFORE_CLOSING,
                     e.errorCode);
@@ -1413,13 +1413,13 @@ public class LogicTest extends BaseComponentTestCase {
         // Same as entity does not exist
         try {
             logic.publishEvaluation(null, eval1.name);
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (AssertionError a) {
         }
         
         try {
             logic.unpublishEvaluation(eval1.courseId, null);
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (AssertionError a) {
         }
 
@@ -1460,7 +1460,7 @@ public class LogicTest extends BaseComponentTestCase {
     
         try {
             logic.deleteEvaluation("valid.course.id", null);
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (AssertionError a) {
             assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
         }
@@ -1542,7 +1542,7 @@ public class LogicTest extends BaseComponentTestCase {
         
         try {
             logic.getSubmissionsForEvaluationFromStudent("valid.course.id", "valid evaluation name", null);
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (AssertionError a) {
             assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
         }
@@ -1588,7 +1588,7 @@ public class LogicTest extends BaseComponentTestCase {
     
         try {
             logic.hasStudentSubmittedEvaluation("valid.course.id", "valid evaluation name", null);
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (AssertionError a) {
             assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
         }
@@ -1652,7 +1652,7 @@ public class LogicTest extends BaseComponentTestCase {
 
         try {
             logic.updateSubmissions(null);
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (AssertionError a) {
             assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
         }
@@ -1682,7 +1682,7 @@ public class LogicTest extends BaseComponentTestCase {
         
         try {
             logic.createComment(null);
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (AssertionError a) {
             assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
         }
@@ -1695,7 +1695,7 @@ public class LogicTest extends BaseComponentTestCase {
         
         try {
             logic.updateComment(null);
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (AssertionError a) {
             assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
         }
@@ -1707,7 +1707,7 @@ public class LogicTest extends BaseComponentTestCase {
         
         try {
             logic.deleteComment(null);
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (AssertionError a) {
             assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
         }
@@ -1719,13 +1719,13 @@ public class LogicTest extends BaseComponentTestCase {
         
         try {
             logic.getCommentsForGiver(null, "giver@mail.com");
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (AssertionError a) {
             assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
         }
         try {
             logic.getCommentsForGiver("course-id", null);
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (AssertionError a) {
             assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
         }
@@ -1737,13 +1737,13 @@ public class LogicTest extends BaseComponentTestCase {
         
         try {
             logic.getCommentsForReceiver(null, "receiver@mail.com");
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (AssertionError a) {
             assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
         }
         try {
             logic.getCommentsForReceiver("course-id", null);
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (AssertionError a) {
             assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
         }
@@ -1755,19 +1755,19 @@ public class LogicTest extends BaseComponentTestCase {
         
         try {
             logic.getCommentsForGiverAndReceiver(null, "giver@mail.com", "receiver@mail.com");
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (AssertionError a) {
             assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
         }
         try {
             logic.getCommentsForGiverAndReceiver("course-id", null, "receiver@mail.com");
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (AssertionError a) {
             assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
         }
         try {
             logic.getCommentsForGiverAndReceiver("course-id", "giver@mail.com", null);
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (AssertionError a) {
             assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
         }

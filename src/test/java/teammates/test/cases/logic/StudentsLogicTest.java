@@ -331,9 +331,11 @@ public class StudentsLogicTest extends BaseComponentTestCase{
     
     @Test
     public void testKeyGeneration() {
+        
+        ______TS("key generation");
+        
         long key = 5;
-        String longKey = KeyFactory.createKeyString(
-                Student.class.getSimpleName(), key);
+        String longKey = KeyFactory.createKeyString(Student.class.getSimpleName(), key);
         long reverseKey = KeyFactory.stringToKey(longKey).getId();
         assertEquals(key, reverseKey);
         assertEquals("Student", KeyFactory.stringToKey(longKey).getKind());
@@ -521,7 +523,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
     }
     
     @Test
-    public void testcreateStudentWithSubmissionAdjustment() throws Exception {
+    public void testCreateStudentWithSubmissionAdjustment() throws Exception {
 
         restoreTypicalDataInDatastore();
 

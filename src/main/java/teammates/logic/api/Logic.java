@@ -661,7 +661,7 @@ public class Logic {
      * * All parameters are non-null.
      */
     public void createStudent(StudentAttributes student)
-            throws EntityAlreadyExistsException, InvalidParametersException {
+            throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, student);
 
@@ -755,9 +755,9 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      * 
-     * @return null if no match found.
+     * @throws EntityDoesNotExistException 
      */
-    public String getKeyForStudent(String courseId, String email) {
+    public String getKeyForStudent(String courseId, String email) throws EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
@@ -769,9 +769,9 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      * 
-     * @return null if no match found.
+     * @throws EntityDoesNotExistException 
      */
-    public String getEncryptedKeyForStudent(String courseId, String email) {
+    public String getEncryptedKeyForStudent(String courseId, String email) throws EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
