@@ -193,9 +193,8 @@ public class LogicTest extends BaseComponentTestCase {
         String methodName = "getTeamsForCourse";
         Class<?>[] paramTypes = new Class<?>[] { String.class };
     
+        
         ______TS("typical case");
-    
-        restoreTypicalDataInDatastore();
     
         CourseAttributes course = dataBundle.courses.get("typicalCourse1");
         logic.createStudent(new StudentAttributes("t1", "s1", "s1@e", "", course.id));
@@ -213,6 +212,7 @@ public class LogicTest extends BaseComponentTestCase {
         assertEquals(1, courseAsTeams.get(1).students.size());
         assertEquals(team2Id, courseAsTeams.get(1).students.get(0).team);
     
+        
         ______TS("null parameters");
     
         try {
@@ -222,6 +222,7 @@ public class LogicTest extends BaseComponentTestCase {
             assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
         }
     
+        
         ______TS("course without teams");
     
         logic.deleteCourse("course1");
@@ -229,6 +230,7 @@ public class LogicTest extends BaseComponentTestCase {
         logic.createCourseAndInstructor("instructor1", "course1", "Course 1");
         assertEquals(0, logic.getTeamsForCourse("course1").size());
 
+        
         ______TS("non-existent course");
         
         TestHelper.verifyEntityDoesNotExistException(methodName, paramTypes,
