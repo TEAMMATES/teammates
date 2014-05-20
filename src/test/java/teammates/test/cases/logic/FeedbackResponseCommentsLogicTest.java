@@ -77,37 +77,6 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
                 + frComment.courseId + ".");
         restoreFrCommentFromDataBundle(frComment, "comment1FromT1C1ToR1Q1S1C1");
         
-        ______TS("fail: feedback question is not a question for the session");
-        
-        frComment.feedbackQuestionId = "Non-exist-question-id";
-        
-        verifyExceptionThrownFromCreateFrComment(frComment, 
-                "Feedback question of id " + frComment.feedbackQuestionId + " is not a question for session " 
-                + frComment.feedbackSessionName + ".");
-        
-        frComment.feedbackQuestionId = getQuestionIdInDataBundle("qn2InSession2InCourse2");
-        
-        verifyExceptionThrownFromCreateFrComment(frComment, 
-                "Feedback question of id " + frComment.feedbackQuestionId + " is not a question for session " 
-                + frComment.feedbackSessionName + ".");
-        restoreFrCommentFromDataBundle(frComment, "comment1FromT1C1ToR1Q1S1C1");
-        
-        ______TS("fail: feedback response is not a response for the question");
-
-        frComment.feedbackQuestionId = getQuestionIdInDataBundle("qn1InSession1InCourse1");
-        frComment.feedbackResponseId = "Non-exist-feedbackResponse-id";
-        
-        verifyExceptionThrownFromCreateFrComment(frComment,
-                "Feedback response of id " + frComment.feedbackResponseId + " is not a response for question of id " 
-                + frComment.feedbackQuestionId + ".");
-        
-        frComment.feedbackResponseId = getResponseIdInDataBundle("response1ForQ2S1C1", "qn2InSession1InCourse1");
-        
-        verifyExceptionThrownFromCreateFrComment(frComment,
-                "Feedback response of id " + frComment.feedbackResponseId + " is not a response for question of id " 
-                + frComment.feedbackQuestionId + ".");
-        restoreFrCommentFromDataBundle(frComment, "comment1FromT1C1ToR1Q1S1C1");
-        
         ______TS("typical successful case");
 
         frComment.setId(null);
