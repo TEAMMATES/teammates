@@ -688,24 +688,7 @@ public class FeedbackSessionsLogic {
                 }
             }
             break;
-
-        case TEAM:
-            details.stats.expectedTotal = coursesLogic
-                    .getNumberOfTeams(fsa.courseId);
-            List<TeamDetailsBundle> teams = coursesLogic
-                    .getTeamsForCourse(fsa.courseId);
-
-            int teamsSubmitted = 0;
-            for (TeamDetailsBundle team : teams) {
-                if (isFeedbackSessionFullyCompletedByTeam(
-                        fsa.feedbackSessionName,
-                        fsa.courseId, team.name)) {
-                    teamsSubmitted += 1;
-                }
-            }
-            details.stats.submittedTotal = teamsSubmitted;
-            break;
-
+            
         case PRIVATE:
             if (fqLogic.getFeedbackQuestionsForSession(
                     fsa.feedbackSessionName, fsa.courseId).isEmpty()) {
