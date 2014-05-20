@@ -72,7 +72,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
         frComment.giverEmail = existingFrComment.giverEmail;
         
         verifyExceptionThrownWhenCreateFrComment(frComment,
-                "Trying to get/create feedback response comments for a course that does not exist.");
+                "Trying to create feedback response comments for a course that does not exist.");
         
         
         ______TS("fail: giver is not instructor");
@@ -158,14 +158,14 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
         FeedbackResponseCommentAttributes frComment = new FeedbackResponseCommentAttributes();
         frComment.courseId = "invalid course id";
         frComment.giverEmail = "invalid giver email";
+        frComment.feedbackSessionName = existingFrComment.feedbackSessionName;
 
-        verifyExceptionThrownWhenGetFrCommentForSession(frComment, 
-                "Trying to get/create feedback response comments for a course that does not exist.");
+        verifyNullFromGetFrCommentForSession(frComment);
         
         frComment.feedbackResponseId = existingFrComment.feedbackResponseId;
         frComment.createdAt = existingFrComment.createdAt;
         
-        verifyNullReturnedWhenGetFrComment(frComment);
+        verifyNullFromGetFrComment(frComment);
         
         
         ______TS("Typical successful case");
@@ -254,17 +254,14 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
         }
     }
     
-    private void verifyExceptionThrownWhenGetFrCommentForSession(
-            FeedbackResponseCommentAttributes frComment, String expectedMessage) {
-        try{
-            frcLogic.getFeedbackResponseCommentForSession(frComment.courseId, frComment.feedbackSessionName);
-            signalFailureToDetectException();
-        } catch(EntityDoesNotExistException e){
-            assertEquals(expectedMessage, e.getMessage());
-        }
+    private void verifyNullFromGetFrCommentForSession(
+            FeedbackResponseCommentAttributes frComment) {
+        List<FeedbackResponseCommentAttributes> frCommentsGot = 
+                frcLogic.getFeedbackResponseCommentForSession(frComment.courseId, frComment.feedbackSessionName);
+        assertEquals(0, frCommentsGot.size());
     }
     
-    private void verifyNullReturnedWhenGetFrComment(
+    private void verifyNullFromGetFrComment(
             FeedbackResponseCommentAttributes frComment) {
         FeedbackResponseCommentAttributes frCommentGot = 
                 frcLogic.getFeedbackResponseComment(frComment.feedbackResponseId, frComment.giverEmail,

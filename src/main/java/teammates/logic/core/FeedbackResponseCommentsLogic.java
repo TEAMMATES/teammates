@@ -67,7 +67,7 @@ public class FeedbackResponseCommentsLogic {
     }
     
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentForSession(String courseId,
-            String feedbackSessionName) throws EntityDoesNotExistException {
+            String feedbackSessionName) {
         return frcDb.getFeedbackResponseCommentsForSession(courseId, feedbackSessionName);
     }
 
