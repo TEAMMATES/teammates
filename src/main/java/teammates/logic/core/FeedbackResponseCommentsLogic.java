@@ -4,8 +4,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -27,8 +25,6 @@ public class FeedbackResponseCommentsLogic {
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
     private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
-    private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
-    private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
 
     public static FeedbackResponseCommentsLogic inst() {
         if (instance == null)
@@ -42,8 +38,6 @@ public class FeedbackResponseCommentsLogic {
         verifyIsCoursePresent(frComment.courseId);
         verifyIsInstructorOfCourse(frComment.courseId, frComment.giverEmail);
         verifyIsFeedbackSessionOfCourse(frComment.courseId, frComment.feedbackSessionName);
-        verifyIsFeedbackQuestionOfSession(frComment.feedbackSessionName, frComment.feedbackQuestionId);
-        verifyIsFeedbackResponseOfQuestion(frComment.feedbackQuestionId, frComment.feedbackResponseId);
         
         try{
             frcDb.createEntity(frComment);
@@ -102,24 +96,6 @@ public class FeedbackResponseCommentsLogic {
             throw new EntityDoesNotExistException(
                     "Feedback session " + feedbackSessionName 
                     + " is not a session for course "+ courseId + ".");
-        }
-    }
-    
-    private void verifyIsFeedbackQuestionOfSession(String feedbackSessionName, String questionId) throws EntityDoesNotExistException{
-        FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(questionId);
-        if(question == null || !question.feedbackSessionName.equals(feedbackSessionName)){
-            throw new EntityDoesNotExistException(
-                    "Feedback question of id " + questionId 
-                    + " is not a question for session "+ feedbackSessionName + ".");
-        }
-    }
-    
-    private void verifyIsFeedbackResponseOfQuestion(String questionId, String responseId) throws EntityDoesNotExistException{
-        FeedbackResponseAttributes response = frLogic.getFeedbackResponse(responseId);
-        if(response == null || !response.feedbackQuestionId.equals(questionId)){
-            throw new EntityDoesNotExistException(
-                    "Feedback response of id " + responseId 
-                    + " is not a response for question of id "+ questionId + ".");
         }
     }
 }
