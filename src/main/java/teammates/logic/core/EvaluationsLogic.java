@@ -324,11 +324,16 @@ public class EvaluationsLogic {
                 submissionsLogic.getSubmissionsForEvaluationFromStudent(
                         evaluation.courseId, evaluation.name, email);
 
+        if(submissionList.isEmpty()){
+            return false;
+        }
+
         for (SubmissionAttributes sd : submissionList) {
             if (sd.points == Const.POINTS_NOT_SUBMITTED) {
                 return false;
             }
         }
+        
         return true;
     }
 
