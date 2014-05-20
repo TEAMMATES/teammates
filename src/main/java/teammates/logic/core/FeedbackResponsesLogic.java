@@ -54,6 +54,10 @@ public class FeedbackResponsesLogic {
         }
     }
     
+    public FeedbackResponseAttributes getFeedbackResponse(String feedbackResponseId) {
+        return frDb.getFeedbackResponse(feedbackResponseId);
+    }
+    
     public FeedbackResponseAttributes getFeedbackResponse(String feedbackQuestionId,
             String giverEmail, String recipient) {
         return frDb.getFeedbackResponse(feedbackQuestionId, giverEmail, recipient);

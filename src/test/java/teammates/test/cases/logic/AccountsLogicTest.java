@@ -28,6 +28,7 @@ import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
+import teammates.storage.api.AccountsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 import teammates.test.util.TestHelper;
@@ -404,6 +405,23 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         
         AccountAttributes accountCreated = accountsLogic.getAccount(loggedInGoogleId);
         Assumption.assertNotNull(accountCreated);
+        
+        
+        ______TS("success: instructor joined but Account object creation goes wrong");
+        
+        //Delete account to simulate Account object creation goes wrong
+        AccountsDb accountsDb = new AccountsDb();
+        accountsDb.deleteAccount(loggedInGoogleId);
+        
+        //Try to join course again, Account object should be recreated
+        accountsLogic.joinCourseForInstructor(encryptedKey, loggedInGoogleId);
+        
+        joinedInstructor = instructorsLogic.getInstructorForEmail(instructor.courseId, instructor.email);
+        assertEquals(loggedInGoogleId, joinedInstructor.googleId);
+        
+        accountCreated = accountsLogic.getAccount(loggedInGoogleId);
+        Assumption.assertNotNull(accountCreated);
+        
         
         ______TS("success: instructor joined but account already exists");
         

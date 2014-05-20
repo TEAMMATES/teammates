@@ -12,6 +12,7 @@ import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.logic.core.CommentsLogic;
@@ -43,57 +44,41 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         c.giverEmail = existingComment1.giverEmail;
         c.receiverEmail = existingComment1.receiverEmail;
         c.commentText = existingComment1.commentText;
-        
-        try{
-            commentsLogic.createComment(c);
-            signalFailureToDetectException();
-        } catch(EntityDoesNotExistException e){
-            assertEquals("Trying to create comments for a course that does not exist.", e.getMessage());
-        }
+
+        verifyExceptionThrownFromCreateFrComment(c, 
+                "Trying to create comments for a course that does not exist.");
         
         ______TS("fail: giver is not instructor");
         c.courseId = existingComment1.courseId;
         c.giverEmail = "student2InCourse1@gmail.com";
         c.commentText = new Text("Invalid comment from student to student");
         
-        try{
-            commentsLogic.createComment(c);
-            signalFailureToDetectException();
-        } catch(EntityDoesNotExistException e){
-            assertEquals("User student2InCourse1@gmail.com is not a registered instructor for course idOfTypicalCourse1.", e.getMessage());
-        }
+        verifyExceptionThrownFromCreateFrComment(c,
+                "User " + c.giverEmail + " is not a registered instructor for course " 
+                + c.courseId + ".");
         
         ______TS("fail: giver is not an instructor for the course");
         c.giverEmail = "instructor1@course2.com";
         c.commentText = new Text("Invalid Comment from instructor1Course2 to student1Course1");
-        try{
-            commentsLogic.createComment(c);
-            signalFailureToDetectException();
-        } catch(EntityDoesNotExistException e){
-            assertEquals("User instructor1@course2.com is not a registered instructor for course idOfTypicalCourse1.", e.getMessage());
-        }
+
+        verifyExceptionThrownFromCreateFrComment(c,
+                "User " + c.giverEmail + " is not a registered instructor for course " 
+                + c.courseId + ".");
         
         ______TS("fail: receiver is not student");
         c.giverEmail = existingComment1.giverEmail;
         c.receiverEmail = "instructor1@course2.com";
         c.commentText = new Text("Invalid comment from inst1c1 to inst1c2");
-        
-        try{
-            commentsLogic.createComment(c);
-            signalFailureToDetectException();
-        } catch(EntityDoesNotExistException e){
-            assertEquals("User instructor1@course2.com is not a registered student for course idOfTypicalCourse1.", e.getMessage());
-        }
+
+        verifyExceptionThrownFromCreateFrComment(c, 
+                "User " + c.receiverEmail + " is not a registered student for course " + c.courseId + ".");
         
         ______TS("fail: receiver is not a student for the course");
         c.receiverEmail = "student1InCourse2@gmail.com";
         c.commentText = new Text("Invalid Comment from instructor1Course1 to student1Course2");
-        try{
-            commentsLogic.createComment(c);
-            signalFailureToDetectException();
-        } catch(EntityDoesNotExistException e){
-            assertEquals("User student1InCourse2@gmail.com is not a registered student for course idOfTypicalCourse1.", e.getMessage());
-        }
+
+        verifyExceptionThrownFromCreateFrComment(c, 
+                "User " + c.receiverEmail + " is not a registered student for course " + c.courseId + ".");
         
         ______TS("typical case");
         
@@ -109,7 +94,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         //delete afterwards
         commentsLogic.deleteComment(c);
     }
-    
+
     @Test
     public void testGetComments() throws Exception {
         
@@ -124,36 +109,20 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         c.receiverEmail = existingComment1.receiverEmail;
         c.commentText = existingComment1.commentText;
 
-        try{
-            commentsLogic.getCommentsForGiver(c.courseId, c.giverEmail);
-            signalFailureToDetectException();
-        } catch(EntityDoesNotExistException e){
-            assertEquals("Trying to get comments for a course that does not exist.", e.getMessage());
-        }
+        verifyExceptionThrownFromGetCommentsForGiver(c,
+                "Trying to get comments for a course that does not exist.");
         
         ______TS("fail: non-existent course");
         c.courseId = "no-such-course";
         
-        try{
-            commentsLogic.getCommentsForGiver(c.courseId, c.giverEmail);
-            signalFailureToDetectException();
-        } catch(EntityDoesNotExistException e){
-            assertEquals("Trying to get comments for a course that does not exist.", e.getMessage());
-        }
+        verifyExceptionThrownFromGetCommentsForGiver(c,
+                "Trying to get comments for a course that does not exist.");
         
-        try{
-            commentsLogic.getCommentsForReceiver(c.courseId, c.receiverEmail);
-            signalFailureToDetectException();
-        } catch(EntityDoesNotExistException e){
-            assertEquals("Trying to get comments for a course that does not exist.", e.getMessage());
-        }
+        verifyExceptionThrownFromGetCommentsForReceiver(c,
+                "Trying to get comments for a course that does not exist.");
         
-        try{
-            commentsLogic.getCommentsForGiverAndReceiver(c.courseId, c.giverEmail, c.receiverEmail);
-            signalFailureToDetectException();
-        } catch(EntityDoesNotExistException e){
-            assertEquals("Trying to get comments for a course that does not exist.", e.getMessage());
-        }
+        verifyExceptionThrownFromGetCommentsForGiverAndReceiver(c,
+                "Trying to get comments for a course that does not exist.");
         
         ______TS("success: get comment for giver");
         
@@ -189,7 +158,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         assertEquals(c.receiverEmail, actual.receiverEmail);
         assertEquals(c.commentText, actual.commentText);
     }
-    
+
     @Test
     public void testUpdateComment() throws Exception{
         restoreTypicalDataInDatastore();
@@ -203,20 +172,14 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         c.createdAt = existingComment.createdAt;
         c.commentText = existingComment.commentText;
         
-        try{
-            commentsLogic.updateComment(c);
-        } catch(InvalidParametersException e){
-            AssertHelper.assertContains("not acceptable to TEAMMATES as a Course ID", e.getMessage());
-        }
+        verifyExceptionThrownFromUpdateComment(c, 
+                "not acceptable to TEAMMATES as a Course ID");
         
         ______TS("fail: non existent entity");
         c.courseId = "no-such-course";
         
-        try{
-            commentsLogic.updateComment(c);
-        } catch(EntityDoesNotExistException e){
-            AssertHelper.assertContains("Trying to update non-existent Comment", e.getMessage());
-        }
+        verifyExceptionThrownFromUpdateComment(c, 
+                "Trying to update non-existent Comment");
         
         ______TS("typical success case");
         c.courseId = existingComment.courseId;
@@ -232,6 +195,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         assertEquals(1, actual.size());
         assertEquals(c.commentText, actual.get(0).commentText);
     }
+
     @Test
     public void testDeleteComment() throws Exception{
         restoreTypicalDataInDatastore();
@@ -253,5 +217,58 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         
         commentsLogic.deleteComment(c);
         TestHelper.verifyAbsentInDatastore(c);
+    }
+    
+    private void verifyExceptionThrownFromCreateFrComment(
+            CommentAttributes comment, String message) 
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        try{
+            commentsLogic.createComment(comment);
+            signalFailureToDetectException();
+        } catch(EntityDoesNotExistException e){
+            assertEquals(message, e.getMessage());
+        }
+    }
+    
+    private void verifyExceptionThrownFromGetCommentsForGiver(
+            CommentAttributes comment, String message) {
+        try{
+            commentsLogic.getCommentsForGiver(comment.courseId, comment.giverEmail);
+            signalFailureToDetectException();
+        } catch(EntityDoesNotExistException e){
+            assertEquals(message, e.getMessage());
+        }
+    }
+    
+    private void verifyExceptionThrownFromGetCommentsForReceiver(
+            CommentAttributes comment, String message) {
+        try{
+            commentsLogic.getCommentsForReceiver(comment.courseId, comment.receiverEmail);
+            signalFailureToDetectException();
+        } catch(EntityDoesNotExistException e){
+            assertEquals(message, e.getMessage());
+        }
+    }
+    
+    private void verifyExceptionThrownFromGetCommentsForGiverAndReceiver(
+            CommentAttributes comment, String message) {
+        try{
+            commentsLogic.getCommentsForGiverAndReceiver(
+                    comment.courseId, comment.giverEmail, comment.receiverEmail);
+            signalFailureToDetectException();
+        } catch(EntityDoesNotExistException e){
+            assertEquals(message, e.getMessage());
+        }
+    }
+    
+    private void verifyExceptionThrownFromUpdateComment(CommentAttributes c, String message)
+            throws EntityDoesNotExistException {
+        try{
+            commentsLogic.updateComment(c);
+        } catch(InvalidParametersException e){
+            AssertHelper.assertContains(message, e.getMessage());
+        } catch(EntityDoesNotExistException e){
+            AssertHelper.assertContains(message, e.getMessage());
+        }
     }
 }
