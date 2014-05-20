@@ -10,6 +10,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Assumption;
 import teammates.common.util.Utils;
 import teammates.storage.api.InstructorsDb;
 
@@ -31,13 +32,14 @@ public class InstructorsLogic {
     private static Logger log = Utils.getLogger();
     
     private static InstructorsLogic instance = null;
+    
     public static InstructorsLogic inst() {
-        if (instance == null)
+        if (instance == null) {
             instance = new InstructorsLogic();
+        }
         return instance;
     }
     
-
     public void addInstructor(String courseId, String name, String email) 
             throws InvalidParametersException, EntityAlreadyExistsException {
                 
@@ -63,38 +65,42 @@ public class InstructorsLogic {
     }
 
     public InstructorAttributes getInstructorForEmail(String courseId, String email) {
+        
         return instructorsDb.getInstructorForEmail(courseId, email);
     }
 
     public InstructorAttributes getInstructorForGoogleId(String courseId, String googleId) {
+        
         return instructorsDb.getInstructorForGoogleId(courseId, googleId);
     }
     
     public InstructorAttributes getInstructorForRegistrationKey(String encryptedKey) {
+        
         return instructorsDb.getInstructorForRegistrationKey(encryptedKey);
     }
 
     public List<InstructorAttributes> getInstructorsForCourse(String courseId) {
+        
         return instructorsDb.getInstructorsForCourse(courseId);
     }
 
     public List<InstructorAttributes> getInstructorsForGoogleId(String googleId) {
+        
         return instructorsDb.getInstructorsForGoogleId(googleId);
     }
     
     public String getKeyForInstructor(String courseId, String email)
             throws EntityDoesNotExistException {
         
-        InstructorAttributes instructor = getInstructorForEmail(courseId, email);
+        verifyIsEmailOfInstructorOfCourse(email, courseId);
         
-        if (instructor == null) {
-            throw new EntityDoesNotExistException("Instructor does not exist :" + email);
-        }
+        InstructorAttributes instructor = getInstructorForEmail(courseId, email);
     
         return instructor.key;
     }
     
     public List<InstructorAttributes> getInstructorsForEmail(String email) {
+        
         return instructorsDb.getInstructorsForEmail(email);
     }
 
@@ -103,15 +109,18 @@ public class InstructorsLogic {
      */
     @Deprecated 
     public List<InstructorAttributes> getAllInstructors() {
+        
         return instructorsDb.getAllInstructors();
     }
 
 
-    public boolean isInstructorOfCourse(String instructorId, String courseId) {
+    public boolean isGoogleIdOfInstructorOfCourse(String instructorId, String courseId) {
+        
         return instructorsDb.getInstructorForGoogleId(courseId, instructorId) != null;
     }
     
-    public boolean isInstructorEmailOfCourse(String instructorEmail, String courseId) {
+    public boolean isEmailOfInstructorOfCourse(String instructorEmail, String courseId) {
+       
         return instructorsDb.getInstructorForEmail(courseId, instructorEmail) != null;
     }
     
@@ -122,7 +131,7 @@ public class InstructorsLogic {
             return true;
         } else if (instructorList.size() == 1 &&
                 coursesLogic.isSampleCourse(instructorList.get(0).courseId)){
-                return true;
+            return true;
         } else {
             return false;
         }
@@ -130,23 +139,26 @@ public class InstructorsLogic {
     
     public void verifyInstructorExists(String instructorId)
             throws EntityDoesNotExistException {
+        
         if (!accountsLogic.isAccountAnInstructor(instructorId)) {
             throw new EntityDoesNotExistException("Instructor does not exist :"
                     + instructorId);
         }
     }
     
-    public void verifyIsInstructorOfCourse(String instructorId, String courseId)
+    public void verifyIsGoogleIdOfInstructorOfCourse(String instructorId, String courseId)
             throws EntityDoesNotExistException {
-        if (!isInstructorOfCourse(instructorId, courseId)) {
+        
+        if (!isGoogleIdOfInstructorOfCourse(instructorId, courseId)) {
             throw new EntityDoesNotExistException("Instructor " + instructorId
                     + " does not belong to course " + courseId);
         }
     }
     
-    public void verifyIsInstructorEmailOfCourse(String instructorEmail, String courseId)
+    public void verifyIsEmailOfInstructorOfCourse(String instructorEmail, String courseId)
             throws EntityDoesNotExistException {
-        if (!isInstructorEmailOfCourse(instructorEmail, courseId)) {
+        
+        if (!isEmailOfInstructorOfCourse(instructorEmail, courseId)) {
             throw new EntityDoesNotExistException("Instructor " + instructorEmail
                     + " does not belong to course " + courseId);
         }
@@ -161,11 +173,13 @@ public class InstructorsLogic {
      */
     public void updateInstructorByGoogleId(String googleId, InstructorAttributes instructor) 
             throws InvalidParametersException, EntityDoesNotExistException {
-        
+
+        Assumption.assertNotNull("Supplied parameter was null", instructor);
+
+        coursesLogic.verifyCourseIsPresent(instructor.courseId);        
+        verifyIsGoogleIdOfInstructorOfCourse(googleId, instructor.courseId);
+
         InstructorAttributes instructorToUpdate = getInstructorForGoogleId(instructor.courseId, googleId);
-        if (instructorToUpdate == null) {
-            throw new EntityDoesNotExistException("Instructor does not exist :" + googleId);
-        }
         instructorToUpdate.name = instructor.name;
         instructorToUpdate.email = instructor.email;
         
@@ -182,6 +196,11 @@ public class InstructorsLogic {
     public void updateInstructorByEmail(String email, InstructorAttributes instructor) 
             throws InvalidParametersException, EntityDoesNotExistException {
         
+        Assumption.assertNotNull("Supplied parameter was null", instructor);
+
+        coursesLogic.verifyCourseIsPresent(instructor.courseId);        
+        verifyIsEmailOfInstructorOfCourse(email, instructor.courseId);
+
         InstructorAttributes instructorToUpdate = getInstructorForEmail(instructor.courseId, email);
         instructorToUpdate.googleId = instructor.googleId;
         instructorToUpdate.name = instructor.name;
@@ -217,14 +236,17 @@ public class InstructorsLogic {
     }
 
     public void deleteInstructor(String courseId, String email) {
+        
         instructorsDb.deleteInstructor(courseId, email);
     }
 
     public void deleteInstructorsForGoogleId(String googleId) {
+        
         instructorsDb.deleteInstructorsForGoogleId(googleId);
     }
 
     public void deleteInstructorsForCourse(String courseId) {
+        
         instructorsDb.deleteInstructorsForCourse(courseId);
     }
 

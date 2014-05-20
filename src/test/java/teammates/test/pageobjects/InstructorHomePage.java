@@ -109,7 +109,7 @@ public class InstructorHomePage extends AppPage {
         waitForPageToLoad();
     }
     
-    public InstructorStudentListPage searchForStudent(String studentName){
+    public InstructorStudentListPage searchForStudent(String studentName) {
         searchBox.clear();
         searchBox.sendKeys(studentName);
         searchButton.click();

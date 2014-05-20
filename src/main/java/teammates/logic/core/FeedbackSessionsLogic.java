@@ -1050,7 +1050,7 @@ public class FeedbackSessionsLogic {
         InstructorAttributes instructor = instructorsLogic.
                 getInstructorForEmail(session.courseId, userEmail);
         if (instructor != null) {
-            return instructorsLogic.isInstructorEmailOfCourse(instructor.email, session.courseId);
+            return instructorsLogic.isEmailOfInstructorOfCourse(instructor.email, session.courseId);
         }
     
         // Allow viewing if session is viewable to students
