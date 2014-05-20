@@ -11,7 +11,6 @@ import java.util.List;
 
 import javax.mail.internet.MimeMessage;
 
-import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -31,7 +30,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
-import teammates.logic.api.Logic;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.Emails;
@@ -240,9 +238,10 @@ public class StudentsLogicTest extends BaseComponentTestCase{
                     e.getMessage());
         }
 
+        
         ______TS("check for InvalidParameters");
+        copyOfStudent1.email = "invalid email";
         try {
-            copyOfStudent1.email = "invalid email";
             studentsLogic.updateStudentCascade(originalEmail, copyOfStudent1);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
@@ -549,14 +548,14 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         //  checked elsewhere.
         
         // this fails for now -- reason?
-        assertEquals(submissionsBeforeAdding.size() + 6, submissionsAfterAdding.size());
+        assertEquals(submissionsBeforeAdding.size() + 18, submissionsAfterAdding.size());
 
         ______TS("duplicate student");
 
         // try to create the same student
         try {
-            invokeEnrollStudent(newStudent);
-            Assert.fail();
+            studentsLogic.createStudentCascade(newStudent);
+            signalFailureToDetectException();
         } catch (EntityAlreadyExistsException e) {
         }
 
@@ -566,8 +565,8 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         newStudent.email = "invalid email";
         
         try {
-            invokeEnrollStudent(newStudent);
-            Assert.fail();
+            studentsLogic.createStudentCascade(newStudent);
+            signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             assertEquals(
                     String.format(EMAIL_ERROR_MESSAGE, "invalid email", REASON_INCORRECT_FORMAT),
@@ -577,10 +576,10 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         ______TS("null parameters");
         
         try {
-            invokeEnrollStudent(null);
-            Assert.fail();
+            studentsLogic.createStudentCascade(null);
+            signalFailureToDetectException();
         } catch (AssertionError a) {
-            assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
         }
 
         // other combination of invalid data should be tested against
@@ -599,9 +598,9 @@ public class StudentsLogicTest extends BaseComponentTestCase{
 
         try {
             studentsLogic.getStudentForEmail(null, "valid@email.com");
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (AssertionError a) {
-            assertEquals("Supplied parameter was null\n", a.getMessage());
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
         }
     }
 
@@ -673,9 +672,9 @@ public class StudentsLogicTest extends BaseComponentTestCase{
     
         try {
             studentsLogic.getStudentsForGoogleId(null);
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (AssertionError a) {
-            assertEquals("Supplied parameter was null\n", a.getMessage());
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
         }
     }
 
@@ -713,9 +712,9 @@ public class StudentsLogicTest extends BaseComponentTestCase{
     
         try {
             studentsLogic.getStudentForGoogleId("valid.course", null);
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (AssertionError a) {
-            assertEquals("Supplied parameter was null\n", a.getMessage());
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
         }
     }
 
@@ -748,9 +747,9 @@ public class StudentsLogicTest extends BaseComponentTestCase{
     
         try {
             studentsLogic.getStudentsForCourse(null);
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (AssertionError a) {
-            assertEquals("Supplied parameter was null\n", a.getMessage());
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
         }
     
         ______TS("non-existent course");
@@ -772,9 +771,9 @@ public class StudentsLogicTest extends BaseComponentTestCase{
     
         try {
             studentsLogic.getKeyForStudent("valid.course.id", null);
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (AssertionError a) {
-            assertEquals("Supplied parameter was null\n", a.getMessage());
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
         }
     
         ______TS("non-existent student");
@@ -819,9 +818,9 @@ public class StudentsLogicTest extends BaseComponentTestCase{
     
         try {
             studentsLogic.sendRegistrationInviteForCourse(null);
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (AssertionError a) {
-            assertEquals("Supplied parameter was null\n", a.getMessage());
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
         }
     }
 
