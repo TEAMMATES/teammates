@@ -415,7 +415,6 @@ public class StudentsLogic {
     public void adjustFeedbackResponseForEnrollments(
             ArrayList<StudentEnrollDetails> enrollmentList,
             FeedbackResponseAttributes response) throws InvalidParametersException, EntityDoesNotExistException {
-        // TODO: add test for this
         for(StudentEnrollDetails enrollment : enrollmentList) {
             if(enrollment.updateStatus == UpdateStatus.MODIFIED &&
                     isTeamChanged(enrollment.oldTeam, enrollment.newTeam)) {

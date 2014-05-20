@@ -21,6 +21,8 @@ import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
+import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentAttributesFactory;
 import teammates.common.datatransfer.StudentEnrollDetails;
@@ -36,6 +38,8 @@ import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.Emails;
 import teammates.logic.core.EvaluationsLogic;
+import teammates.logic.core.FeedbackQuestionsLogic;
+import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.logic.core.SubmissionsLogic;
 import teammates.storage.api.StudentsDb;
@@ -341,6 +345,44 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         long reverseKey = KeyFactory.stringToKey(longKey).getId();
         assertEquals(key, reverseKey);
         assertEquals("Student", KeyFactory.stringToKey(longKey).getKind());
+    }
+    
+    @Test
+    public void testAdjustFeedbackResponseForEnrollments() throws Exception {
+        
+        restoreTypicalDataInDatastore();
+        
+        ______TS("adjust feedback response");
+        
+        String course1Id = dataBundle.courses.get("typicalCourse1").id;
+        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
+//        StudentAttributes student2InCourse1 = dataBundle.students.get("student2InCourse1");
+//        StudentAttributes student3InCourse1 = dataBundle.students.get("student3InCourse1");
+        ArrayList<StudentEnrollDetails> enrollmentList = new ArrayList<StudentEnrollDetails>();
+        StudentEnrollDetails studentDetails1 = new StudentEnrollDetails(StudentAttributes.UpdateStatus.MODIFIED,
+                course1Id, student1InCourse1.email, student1InCourse1.team, student1InCourse1.team + "tmp");
+//        StudentEnrollDetails studentDetails2 = new StudentEnrollDetails(StudentAttributes.UpdateStatus.MODIFIED,
+//                course1Id, student2InCourse1.email, student2InCourse1.team, student2InCourse1.team + "tmp");
+//                StudentEnrollDetails studentDetails3 = new StudentEnrollDetails(StudentAttributes.UpdateStatus.MODIFIED,
+//                course1Id, student3InCourse1.email, student3InCourse1.team, student3InCourse1.team + "tmp");
+        enrollmentList.add(studentDetails1);
+//        enrollmentList.add(studentDetails2);
+//        enrollmentList.add(studentDetails3);
+        
+        FeedbackResponseAttributes feedbackResponse1InBundle = dataBundle.feedbackResponses.get("response1ForQ1S1C1");
+        FeedbackResponsesLogic frLogic = new FeedbackResponsesLogic();
+        FeedbackQuestionsLogic fqLogic = new FeedbackQuestionsLogic();
+        FeedbackQuestionAttributes feedbackQuestionInDb = fqLogic.getFeedbackQuestion(feedbackResponse1InBundle.feedbackSessionName, 
+                feedbackResponse1InBundle.courseId, Integer.parseInt(feedbackResponse1InBundle.feedbackQuestionId));
+        FeedbackResponseAttributes feedbackResponseBefore = frLogic.getFeedbackResponse(feedbackQuestionInDb.getId(),
+                feedbackResponse1InBundle.giverEmail, feedbackResponse1InBundle.recipientEmail);
+        
+        studentsLogic.adjustFeedbackResponseForEnrollments(enrollmentList, feedbackResponseBefore);
+        
+        FeedbackResponseAttributes responseAfter = frLogic.getFeedbackResponse(feedbackResponse1InBundle.feedbackQuestionId, 
+                feedbackResponse1InBundle.giverEmail, feedbackResponse1InBundle.recipientEmail);
+        assertEquals(null, responseAfter);
+        
     }
     
     @Test
