@@ -9,7 +9,6 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Assumption;
 import teammates.common.util.Utils;
 import teammates.storage.api.CommentsDb;
 
@@ -34,35 +33,23 @@ public class CommentsLogic {
 
     public void createComment(CommentAttributes comment)
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
-        
-        if (coursesLogic.isCoursePresent(comment.courseId) == false) {
-            throw new EntityDoesNotExistException(
-                    "Trying to create comments for a course that does not exist.");
-        }
-        Assumption.assertTrue("Giver is an instructor of an existing course", 
-                isInstructorOfCourse(comment.courseId, comment.giverEmail));
-        Assumption.assertTrue("Receiver is a student of an existing course", 
-                isStudentOfCourse(comment.courseId, comment.receiverEmail));
+        verifyIsCoursePresentForCreateComment(comment.courseId);
+        verifyIsInstructorOfCourse(comment.courseId, comment.giverEmail);
+        verifyIsStudentOfCourse(comment.courseId, comment.receiverEmail);
         
         commentsDb.createEntity(comment);
     }
 
     public List<CommentAttributes> getCommentsForGiver(String courseId, String giverEmail)
             throws EntityDoesNotExistException {
-        if (coursesLogic.isCoursePresent(courseId) == false) {
-            throw new EntityDoesNotExistException(
-                    "Trying to get comments for a course that does not exist.");
-        }
+        verifyIsCoursePresentForGetComments(courseId);
         
         return commentsDb.getCommentsForGiver(courseId, giverEmail);
     }
 
     public List<CommentAttributes> getCommentsForReceiver(String courseId, String receiverEmail)
             throws EntityDoesNotExistException {
-        if (coursesLogic.isCoursePresent(courseId) == false) {
-            throw new EntityDoesNotExistException(
-                    "Trying to get comments for a course that does not exist.");
-        }
+        verifyIsCoursePresentForGetComments(courseId);
         
         return commentsDb.getCommentsForReceiver(courseId, receiverEmail);
     }
@@ -70,11 +57,7 @@ public class CommentsLogic {
     public List<CommentAttributes> getCommentsForGiverAndReceiver(
             String courseId, String giverEmail, String receiverEmail)
             throws EntityDoesNotExistException {
-        
-        if (coursesLogic.isCoursePresent(courseId) == false) {
-            throw new EntityDoesNotExistException(
-                    "Trying to get comments for a course that does not exist.");
-        }
+        verifyIsCoursePresentForGetComments(courseId);
         
         return commentsDb.getCommentsForGiverAndReceiver(courseId, giverEmail,
                 receiverEmail);
@@ -89,21 +72,35 @@ public class CommentsLogic {
         commentsDb.deleteEntity(comment);
     }
     
-    private boolean isInstructorOfCourse(String courseId, String email) throws EntityDoesNotExistException{
+    private void verifyIsCoursePresentForCreateComment(String courseId)
+            throws EntityDoesNotExistException {
+        if (!coursesLogic.isCoursePresent(courseId)) {
+            throw new EntityDoesNotExistException(
+                    "Trying to create comments for a course that does not exist.");
+        }
+    }
+    
+    private void verifyIsCoursePresentForGetComments(String courseId)
+            throws EntityDoesNotExistException {
+        if (!coursesLogic.isCoursePresent(courseId)) {
+            throw new EntityDoesNotExistException(
+                    "Trying to get comments for a course that does not exist.");
+        }
+    }
+    
+    private void verifyIsInstructorOfCourse(String courseId, String email) throws EntityDoesNotExistException{
         InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, email);
         if(instructor == null){
             throw new EntityDoesNotExistException(
                     "User " + email + " is not a registered instructor for course "+ courseId + ".");
         }
-        return true;
     }
     
-    private boolean isStudentOfCourse(String courseId, String email) throws EntityDoesNotExistException{
+    private void verifyIsStudentOfCourse(String courseId, String email) throws EntityDoesNotExistException{
         StudentAttributes student = studentsLogic.getStudentForEmail(courseId, email);
         if(student == null){
             throw new EntityDoesNotExistException(
                     "User " + email + " is not a registered student for course "+ courseId + ".");
         }
-        return true;
     }
 }
