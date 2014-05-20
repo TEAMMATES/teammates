@@ -399,7 +399,6 @@ public class StudentsLogic {
     public void adjustSubmissionsForEnrollments(
             ArrayList<StudentEnrollDetails> enrollmentList,
             EvaluationAttributes eval) throws InvalidParametersException, EntityDoesNotExistException {
-        // TODO: add test for this
         
         for(StudentEnrollDetails enrollment : enrollmentList) {
             if(enrollment.updateStatus == UpdateStatus.MODIFIED &&

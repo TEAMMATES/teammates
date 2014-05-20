@@ -2,6 +2,7 @@ package teammates.test.cases.logic;
 
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertTrue;
 import static teammates.common.util.FieldValidator.EMAIL_ERROR_MESSAGE;
 import static teammates.common.util.FieldValidator.REASON_INCORRECT_FORMAT;
 
@@ -17,6 +18,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.StudentAttributes;
@@ -30,7 +32,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
-import teammates.logic.api.Logic;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.Emails;
@@ -278,6 +279,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
             studentsLogic.sendRegistrationInviteToStudent(invalidCourseId, studentEmail);
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
+            ignoreExpectedException();
         }
         
         
@@ -288,6 +290,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
             studentsLogic.sendRegistrationInviteToStudent(courseId, invalidStudentEmail);
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
+            ignoreExpectedException();
         }
         
     }
@@ -478,45 +481,154 @@ public class StudentsLogicTest extends BaseComponentTestCase{
     }
     
     @Test
-    public void testEnrollStudents() throws Exception {
-        //TODO: finish this test
+    public void testEnrollStudents() throws Exception {     
+                
+        String instructorId = "instructorForEnrollTesting";
+        String courseIdForEnrollTest = "courseForEnrollTest";
+        AccountAttributes accountToAdd = new AccountAttributes(instructorId, 
+                "Instructor 1", true, "instructor@email.com", "National University Of Singapore");
+        accountsLogic.createAccount(accountToAdd);
+        coursesLogic.createCourseAndInstructor(instructorId, courseIdForEnrollTest, "Course for Enroll Testing");
+        String EOL = Const.EOL;
         
-        ______TS("typical case: enroll students");
+        String line0 = "t1|n1|e1@g|c1";
+        String line1 = " t2|  n2|  e2@g|  c2";
+        String line2 = "t3|n3|e3@g|c3  ";
+        String line3 = "t4|n4|  e4@g|c4";
+        String line4 = "t5|n5|e5@g  |c5";
+        String lines = line0 + EOL + line1 + EOL + line2 + EOL
+                    + "  \t \t \t \t           " + EOL + line3 + EOL + EOL + line4
+                    + EOL + "    " + EOL + EOL;
+        List<StudentAttributes> enrollResults = studentsLogic.enrollStudents(lines, courseIdForEnrollTest);
         
-        String info = "";
+        StudentAttributesFactory saf = new StudentAttributesFactory();
+        assertEquals(5, enrollResults.size());
+        assertEquals(5, studentsLogic.getStudentsForCourse(courseIdForEnrollTest).size());
+        TestHelper.verifyEnrollmentResultForStudent(saf.makeStudent(line0, courseIdForEnrollTest), 
+                enrollResults.get(0), StudentAttributes.UpdateStatus.NEW);
+        TestHelper.verifyEnrollmentResultForStudent(saf.makeStudent(line1, courseIdForEnrollTest),
+                enrollResults.get(1), StudentAttributes.UpdateStatus.NEW);
+        TestHelper.verifyEnrollmentResultForStudent(saf.makeStudent(line4, courseIdForEnrollTest),
+                enrollResults.get(4), StudentAttributes.UpdateStatus.NEW);
+            
+        CourseDetailsBundle cd = coursesLogic.getCourseDetails(courseIdForEnrollTest);
+        assertEquals(5, cd.stats.unregisteredTotal);
+        
+        
+                ______TS("invalid course id");
+        
         String enrollLines = "";
-        String courseId = "CourseID";
-        coursesLogic.deleteCourseCascade(courseId);
-        coursesLogic.createCourse(courseId, "CourseName");
-        
-        
-        ______TS("invalid course id");
         String invalidCourseId = "invalidCourseId";
         try {
             studentsLogic.enrollStudents(enrollLines, invalidCourseId);
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
+            ignoreExpectedException();
         }
         
         
         ______TS("empty enroll line");
         
         try {
-            studentsLogic.enrollStudents(enrollLines, courseId);
+            studentsLogic.enrollStudents(enrollLines, courseIdForEnrollTest);
             signalFailureToDetectException();
         } catch (EnrollException e) {
+            ignoreExpectedException();
         }
         
         
-        // method testEnrollLinesChecking is doing more checking. here is just to
-        // cover this path
         ______TS("invalidity info in enroll line");
         
         enrollLines = "invalidline0\ninvalidline1\n";
         try {
-            studentsLogic.enrollStudents(enrollLines, courseId);
+            studentsLogic.enrollStudents(enrollLines, courseIdForEnrollTest);
             signalFailureToDetectException();
         } catch (EnrollException e) {
+            ignoreExpectedException();
+        }
+        
+        
+        ______TS("includes a mix of unmodified, modified, and new");
+        
+        String line0_1 = "t3|modified name|e3@g|c3";
+        String line5 = "t6|n6|e6@g|c6";
+        lines = line0 + EOL + line0_1 + EOL + line1 + EOL + line5;
+        enrollResults = studentsLogic.enrollStudents(lines, courseIdForEnrollTest);
+        assertEquals(6, enrollResults.size());
+        assertEquals(6, studentsLogic.getStudentsForCourse(courseIdForEnrollTest).size());
+        TestHelper.verifyEnrollmentResultForStudent(saf.makeStudent(line0, courseIdForEnrollTest),
+                enrollResults.get(0), StudentAttributes.UpdateStatus.UNMODIFIED);
+        TestHelper.verifyEnrollmentResultForStudent(saf.makeStudent(line0_1, courseIdForEnrollTest),
+                enrollResults.get(1), StudentAttributes.UpdateStatus.MODIFIED);
+        TestHelper.verifyEnrollmentResultForStudent(saf.makeStudent(line1, courseIdForEnrollTest),
+                enrollResults.get(2), StudentAttributes.UpdateStatus.UNMODIFIED);
+        TestHelper.verifyEnrollmentResultForStudent(saf.makeStudent(line5, courseIdForEnrollTest),
+                enrollResults.get(3), StudentAttributes.UpdateStatus.NEW);
+        assertEquals(StudentAttributes.UpdateStatus.NOT_IN_ENROLL_LIST,
+                enrollResults.get(4).updateStatus);
+        assertEquals(StudentAttributes.UpdateStatus.NOT_IN_ENROLL_LIST,
+                enrollResults.get(5).updateStatus);
+        
+        
+        ______TS("includes an incorrect line");
+        
+        // no changes should be done to the database
+        String incorrectLine = "incorrectly formatted line";
+        lines = "t7|n7|e7@g|c7" + EOL + incorrectLine + EOL + line2 + EOL
+                + line3;
+        try {
+            enrollResults = studentsLogic.enrollStudents(lines, courseIdForEnrollTest);
+            signalFailureToDetectException("Did not throw exception for incorrectly formatted line");
+        } catch (EnrollException e) {
+            assertTrue(e.getMessage().contains(incorrectLine));
+        }
+        assertEquals(6, studentsLogic.getStudentsForCourse(courseIdForEnrollTest).size());
+        
+        
+        ______TS("null parameters");
+        
+        try {
+            studentsLogic.enrollStudents("a|b|c|d", null);
+            signalFailureToDetectException();
+        } catch (AssertionError a) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
+        }
+        
+        ______TS("same student added, modified and unmodified");
+        
+        
+        accountToAdd = new AccountAttributes("tes.instructor", 
+                "Instructor 1", true, "instructor@email.com", "National University Of Singapore");
+        accountsLogic.createAccount(accountToAdd);
+        coursesLogic.createCourseAndInstructor("tes.instructor", "tes.course", "TES Course");
+            
+        String line = "t8|n8|e8@g|c1" ;
+        enrollResults = studentsLogic.enrollStudents(line, "tes.course");
+        assertEquals(1, enrollResults.size());
+        assertEquals(StudentAttributes.UpdateStatus.NEW,
+                enrollResults.get(0).updateStatus);
+            
+        line = "t8|n8a|e8@g|c1";
+        enrollResults = studentsLogic.enrollStudents(line, "tes.course");
+        assertEquals(1, enrollResults.size());
+        assertEquals(StudentAttributes.UpdateStatus.MODIFIED,
+                enrollResults.get(0).updateStatus);
+            
+        line = "t8|n8a|e8@g|c1";
+        enrollResults = studentsLogic.enrollStudents(line, "tes.course");
+        assertEquals(1, enrollResults.size());
+        assertEquals(StudentAttributes.UpdateStatus.UNMODIFIED,
+                enrollResults.get(0).updateStatus);
+
+        ______TS("duplicated emails");
+            
+        String line_t9 = "t9|n9|e9@g|c9";
+        String line_t10 = "t10|n10|e9@g|c10";
+        try {
+            studentsLogic.enrollStudents(line_t9 + EOL + line_t10, "tes.course");
+        } catch (EnrollException e) {
+            assertTrue(e.getMessage().contains(line_t10));
+            assertTrue(e.getMessage().contains("Same email address as the student in line \""+line_t9+"\""));    
         }
         
     }
@@ -558,6 +670,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
             studentsLogic.createStudentCascade(newStudent);
             signalFailureToDetectException();
         } catch (EntityAlreadyExistsException e) {
+            ignoreExpectedException();
         }
 
         ______TS("invalid parameter");
@@ -586,6 +699,39 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         // other combination of invalid data should be tested against
         // StudentAttributes
 
+    }
+    
+    @Test
+    public void testUpdateStudent() throws Exception {
+
+        restoreTypicalDataInDatastore();
+
+        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
+        String originalEmail = student1InCourse1.email;
+                 
+        ______TS("typical success case");
+        student1InCourse1.name = student1InCourse1.name + "x";
+        student1InCourse1.googleId = student1InCourse1.googleId + "x";
+        student1InCourse1.comments = student1InCourse1.comments + "x";
+        student1InCourse1.email = student1InCourse1.email + "x";
+        student1InCourse1.team = "Team 1.2";
+        studentsLogic.updateStudentCascade(originalEmail, student1InCourse1);        
+        TestHelper.verifyPresentInDatastore(student1InCourse1);
+        
+        // check for cascade
+        List<SubmissionAttributes> submissionsAfterEdit = submissionsLogic.getSubmissionsForCourse(student1InCourse1.course);        
+        TestHelper.verifySubmissionsExistForCurrentTeamStructureInAllExistingEvaluations(submissionsAfterEdit,
+                student1InCourse1.course);
+        
+        ______TS("null parameters");
+
+        try {
+            studentsLogic.updateStudentCascade(null, student1InCourse1);
+            signalFailureToDetectException();
+        } catch (AssertionError a) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
+        }
+        
     }
 
     @Test
@@ -756,8 +902,6 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         assertEquals(0, studentList.size());
         
     }
-
-    
 
     @Test
     public void testGetKeyForStudent() throws Exception {
