@@ -2,6 +2,7 @@ package teammates.test.util;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
+import static org.testng.AssertJUnit.assertNull;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -209,7 +210,7 @@ public class TestHelper extends BaseComponentTestCase{
 
     public static void verifyAbsentInDatastore(AccountAttributes account)
             throws Exception {
-        assertEquals(null, logic.getAccount(account.googleId));
+        assertNull(logic.getAccount(account.googleId));
     }
 
     
@@ -222,44 +223,40 @@ public class TestHelper extends BaseComponentTestCase{
     }
 
     public static void verifyAbsentInDatastore(InstructorAttributes expectedInstructor) {
-        assertEquals(null, instructorsDb.getInstructorForGoogleId(expectedInstructor.courseId, expectedInstructor.googleId));
+        assertNull(instructorsDb.getInstructorForGoogleId(expectedInstructor.courseId, expectedInstructor.googleId));
     }
 
     public static void verifyAbsentInDatastore(CourseAttributes course) {
-        assertEquals(null, coursesDb.getCourse(course.id));
+        assertNull(coursesDb.getCourse(course.id));
     }
 
     public static void verifyAbsentInDatastore(StudentAttributes student) {
-        assertEquals(null, logic.getStudentForEmail(student.course, student.email));
+        assertNull(logic.getStudentForEmail(student.course, student.email));
     }
 
     public static void verifyAbsentInDatastore(EvaluationAttributes evaluation) {
-        assertEquals(null,
-                logic.getEvaluation(evaluation.courseId, evaluation.name));
+        assertNull(logic.getEvaluation(evaluation.courseId, evaluation.name));
     }
     
     public static void verifyAbsentInDatastore(FeedbackSessionAttributes fsa) {
-        assertEquals(null,
-                fsDb.getFeedbackSession(fsa.courseId, fsa.feedbackSessionName));    
+        assertNull(fsDb.getFeedbackSession(fsa.courseId, fsa.feedbackSessionName));    
     }
     
     public static void verifyAbsentInDatastore(FeedbackQuestionAttributes fqa) {
-        assertEquals(null,
-                fqDb.getFeedbackQuestion(fqa.feedbackSessionName, fqa.courseId, fqa.questionNumber));    
+        assertNull(fqDb.getFeedbackQuestion(fqa.feedbackSessionName, fqa.courseId, fqa.questionNumber));    
     }
     
     public static void verifyAbsentInDatastore(FeedbackResponseAttributes fra) {
-        assertEquals(null,
-                frDb.getFeedbackResponse(fra.feedbackQuestionId, fra.giverEmail, fra.recipientEmail));
+        assertNull(frDb.getFeedbackResponse(fra.feedbackQuestionId, fra.giverEmail, fra.recipientEmail));
     }
     
     public static void verifyAbsentInDatastore(CommentAttributes comment) {
-        assertEquals(null, commentsDb.getComment(comment.courseId,
+        assertNull(commentsDb.getComment(comment.courseId,
                 comment.giverEmail, comment.receiverEmail, comment.commentText, comment.createdAt));
     }
     
     public static void verifyAbsentInDatastore(FeedbackResponseCommentAttributes frComment) {
-        assertEquals(null, frcDb.getFeedbackResponseComment(frComment.getId()));
+        assertNull(frcDb.getFeedbackResponseComment(frComment.getId()));
     }
     
     public static void verifyPresentInDatastore(AccountAttributes expectedAccount) {
