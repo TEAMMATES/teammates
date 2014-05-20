@@ -22,7 +22,6 @@ import java.util.TimeZone;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletException;
 
-import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -219,7 +218,7 @@ public class LogicTest extends BaseComponentTestCase {
     
         try {
             logic.getTeamsForCourse(null);
-            Assert.fail();
+            signalFailureToDetectException();
         } catch (AssertionError a) {
             assertEquals(Logic.ERROR_NULL_PARAMETER, a.getMessage());
         }
@@ -243,7 +242,6 @@ public class LogicTest extends BaseComponentTestCase {
         restoreTypicalDataInDatastore();
     
         // make a student 'unregistered'
-        
         StudentAttributes student = dataBundle.students.get("student1InCourse1");
         String googleId = "student1InCourse1";
         String key = logic.getKeyForStudent(student.course, student.email);
@@ -253,27 +251,7 @@ public class LogicTest extends BaseComponentTestCase {
     
     
         ______TS("register an unregistered student");
-    
-        restoreTypicalDataInDatastore();
-    
-        
-    
-        // make a student 'unregistered'
-        student = dataBundle.students.get("student1InCourse1");
-        googleId = "student1InCourse1";
-        key = logic.getKeyForStudent(student.course, student.email);
-        student.googleId = "";
-        logic.updateStudent(student.email, student);
-        assertEquals("", logic.getStudentForEmail(student.course, student.email).googleId);
-    
-        // TODO: remove encrpytion - should fail test
-        //Test if unencrypted key used
-        logic.joinCourseForStudent(key, googleId);
-        assertEquals(googleId,
-                logic.getStudentForEmail(student.course, student.email).googleId);
-        
-        
-        
+              
         // make a student 'unregistered'
         student = dataBundle.students.get("student1InCourse1");
         googleId = "student1InCourse1";
