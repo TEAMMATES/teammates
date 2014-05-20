@@ -306,14 +306,14 @@ public class FeedbackResponsesLogic {
         
         FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(response.feedbackQuestionId);
         
-        boolean isGiverOfResponse = response.giverEmail.equals(enrollment.email);
-        boolean isReceiverOfResponse = response.recipientEmail.equals(enrollment.email);
+        boolean isGiverSameForResponseAndEnrollment = response.giverEmail.equals(enrollment.email);
+        boolean isReceiverSameForResponseAndEnrollment = response.recipientEmail.equals(enrollment.email);
         
-        boolean shouldDeleteResponse = (isGiverOfResponse && (question.giverType == FeedbackParticipantType.TEAMS
+        boolean shouldDeleteResponse = (isGiverSameForResponseAndEnrollment && (question.giverType == FeedbackParticipantType.TEAMS
                                         || question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS)) ||
-                                        (isReceiverOfResponse && question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS);
+                                        (isReceiverSameForResponseAndEnrollment && question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS);
         
-        if(shouldDeleteResponse) {
+        if (shouldDeleteResponse) {
             frDb.deleteEntity(response);
         }
     }

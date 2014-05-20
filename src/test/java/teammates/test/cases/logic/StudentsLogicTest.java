@@ -352,34 +352,44 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         
         restoreTypicalDataInDatastore();
         
-        ______TS("adjust feedback response");
+        ______TS("adjust feedback response: no change");
         
         String course1Id = dataBundle.courses.get("typicalCourse1").id;
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-//        StudentAttributes student2InCourse1 = dataBundle.students.get("student2InCourse1");
-//        StudentAttributes student3InCourse1 = dataBundle.students.get("student3InCourse1");
         ArrayList<StudentEnrollDetails> enrollmentList = new ArrayList<StudentEnrollDetails>();
         StudentEnrollDetails studentDetails1 = new StudentEnrollDetails(StudentAttributes.UpdateStatus.MODIFIED,
                 course1Id, student1InCourse1.email, student1InCourse1.team, student1InCourse1.team + "tmp");
-//        StudentEnrollDetails studentDetails2 = new StudentEnrollDetails(StudentAttributes.UpdateStatus.MODIFIED,
-//                course1Id, student2InCourse1.email, student2InCourse1.team, student2InCourse1.team + "tmp");
-//                StudentEnrollDetails studentDetails3 = new StudentEnrollDetails(StudentAttributes.UpdateStatus.MODIFIED,
-//                course1Id, student3InCourse1.email, student3InCourse1.team, student3InCourse1.team + "tmp");
         enrollmentList.add(studentDetails1);
-//        enrollmentList.add(studentDetails2);
-//        enrollmentList.add(studentDetails3);
         
-        FeedbackResponseAttributes feedbackResponse1InBundle = dataBundle.feedbackResponses.get("response1ForQ1S1C1");
+        FeedbackResponseAttributes feedbackResponse1InBundle = dataBundle.feedbackResponses.get("response1ForQ2S1C1");
         FeedbackResponsesLogic frLogic = new FeedbackResponsesLogic();
         FeedbackQuestionsLogic fqLogic = new FeedbackQuestionsLogic();
         FeedbackQuestionAttributes feedbackQuestionInDb = fqLogic.getFeedbackQuestion(feedbackResponse1InBundle.feedbackSessionName, 
                 feedbackResponse1InBundle.courseId, Integer.parseInt(feedbackResponse1InBundle.feedbackQuestionId));
-        FeedbackResponseAttributes feedbackResponseBefore = frLogic.getFeedbackResponse(feedbackQuestionInDb.getId(),
+        FeedbackResponseAttributes responseBefore = frLogic.getFeedbackResponse(feedbackQuestionInDb.getId(),
                 feedbackResponse1InBundle.giverEmail, feedbackResponse1InBundle.recipientEmail);
         
-        studentsLogic.adjustFeedbackResponseForEnrollments(enrollmentList, feedbackResponseBefore);
+        studentsLogic.adjustFeedbackResponseForEnrollments(enrollmentList, responseBefore);
         
-        FeedbackResponseAttributes responseAfter = frLogic.getFeedbackResponse(feedbackResponse1InBundle.feedbackQuestionId, 
+        FeedbackResponseAttributes responseAfter = frLogic.getFeedbackResponse(feedbackQuestionInDb.getId(), 
+                feedbackResponse1InBundle.giverEmail, feedbackResponse1InBundle.recipientEmail);
+        assertEquals(responseBefore.getId(), responseAfter.getId());
+        
+        
+        ______TS("adjust feedback response: delete after adjustment");
+        
+        studentDetails1 = new StudentEnrollDetails(StudentAttributes.UpdateStatus.MODIFIED,
+                course1Id, student1InCourse1.email, student1InCourse1.team, student1InCourse1.team + "tmp");
+        enrollmentList.add(studentDetails1);
+        
+        feedbackQuestionInDb = fqLogic.getFeedbackQuestion(feedbackResponse1InBundle.feedbackSessionName, 
+                feedbackResponse1InBundle.courseId, Integer.parseInt(feedbackResponse1InBundle.feedbackQuestionId));
+        responseBefore = frLogic.getFeedbackResponse(feedbackQuestionInDb.getId(),
+                feedbackResponse1InBundle.giverEmail, feedbackResponse1InBundle.recipientEmail);
+        
+        studentsLogic.adjustFeedbackResponseForEnrollments(enrollmentList, responseBefore);
+        
+        responseAfter = frLogic.getFeedbackResponse(feedbackQuestionInDb.getId(), 
                 feedbackResponse1InBundle.giverEmail, feedbackResponse1InBundle.recipientEmail);
         assertEquals(null, responseAfter);
         
