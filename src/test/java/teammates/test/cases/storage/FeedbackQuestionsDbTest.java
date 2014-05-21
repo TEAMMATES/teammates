@@ -178,9 +178,9 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
             AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
         }
         
-        ______TS("non-existant session");
+        ______TS("non-existent session");
         
-        assertTrue(fqDb.getFeedbackQuestionsForSession("non-existant session", "idOfTypicalCourse1").isEmpty());
+        assertTrue(fqDb.getFeedbackQuestionsForSession("non-existent session", "idOfTypicalCourse1").isEmpty());
             
         ______TS("no questions in session");
         
