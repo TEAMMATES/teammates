@@ -1055,6 +1055,28 @@
             "commentText":{
                 "value":"Instructor 1 comment to student 1 self feedback"	
             }
+        },
+        "comment1FromT1C1ToR1Q2S1C1": {
+            "courseId":"idOfTypicalCourse1",
+            "feedbackSessionName":"First feedback session",
+            "feedbackQuestionId":"2",
+            "giverEmail":"instructor1@course1.com",
+            "feedbackResponseId":"2%student1InCourse1@gmail.com%student1InCourse1@gmail.com",
+            "createdAt":"2016-02-01 11:59 PM UTC",
+            "commentText":{
+                "value":"Instructor 1 comment to student 1 self feedback Question 2"   
+            }
+        },
+        "comment1FromT1C1ToR1Q3S1C1": {
+            "courseId":"idOfTypicalCourse1",
+            "feedbackSessionName":"First feedback session",
+            "feedbackQuestionId":"3",
+            "giverEmail":"instructor1@course1.com",
+            "feedbackResponseId":"3%student1InCourse1@gmail.com%student1InCourse1@gmail.com",
+            "createdAt":"2016-01-01 11:59 PM UTC",
+            "commentText":{
+                "value":"Instructor 1 comment to student 1 self feedback Question 3"   
+            }
         }
     },
     "comments":{
