@@ -32,21 +32,25 @@ public class InstructorFeedbackQuestionAddAction extends Action {
                 true);
         
         FeedbackQuestionAttributes feedbackQuestion = extractFeedbackQuestionData(requestParameters, instructorDetailForCourse.email);
+        List<String> questionDetailsErrors = feedbackQuestion.getQuestionDetails().validateQuestionDetails();
+        if(questionDetailsErrors.size() > 0){
+            statusToUser.addAll(questionDetailsErrors);
+        } else {
+            try {
+                logic.createFeedbackQuestion(feedbackQuestion);    
+                statusToUser.add(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
+                statusToAdmin = "Created Feedback Question for Feedback Session:<span class=\"bold\">(" +
+                        feedbackQuestion.feedbackSessionName + ")</span> for Course <span class=\"bold\">[" +
+                        feedbackQuestion.courseId + "]</span> created.<br>" +
+                        "<span class=\"bold\">" + feedbackQuestion.getQuestionDetails().getQuestionTypeDisplayName() + 
+                        ":</span> " + feedbackQuestion.getQuestionDetails().questionText;
                 
-        try {
-            logic.createFeedbackQuestion(feedbackQuestion);    
-            statusToUser.add(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
-            statusToAdmin = "Created Feedback Question for Feedback Session:<span class=\"bold\">(" +
-                    feedbackQuestion.feedbackSessionName + ")</span> for Course <span class=\"bold\">[" +
-                    feedbackQuestion.courseId + "]</span> created.<br>" +
-                    "<span class=\"bold\">" + feedbackQuestion.getQuestionDetails().getQuestionTypeDisplayName() + 
-                    ":</span> " + feedbackQuestion.getQuestionDetails().questionText;
-        } catch (InvalidParametersException e) {
-            statusToUser.add(e.getMessage());
-            statusToAdmin = e.getMessage();
-            isError = true;
+            } catch (InvalidParametersException e) {
+                statusToUser.add(e.getMessage());
+                statusToAdmin = e.getMessage();
+                isError = true;
+            }
         }
-        
         return createRedirectResult(new PageData(account).getInstructorFeedbackSessionEditLink(courseId,feedbackSessionName));
     }
 

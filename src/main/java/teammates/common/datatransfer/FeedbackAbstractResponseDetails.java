@@ -1,7 +1,6 @@
 package teammates.common.datatransfer;
 
 import java.util.Arrays;
-import java.util.Map;
 
 import teammates.common.util.Assumption;
 
