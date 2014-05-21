@@ -1,5 +1,8 @@
 package teammates.common.datatransfer;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import teammates.common.util.Const;
 import teammates.common.util.FeedbackQuestionFormTemplates;
 import teammates.common.util.Sanitizer;
@@ -61,5 +64,11 @@ public class FeedbackTextQuestionDetails extends
     @Override
     public String getCsvHeader() {
         return "Feedback";
+    }
+
+    @Override
+    public List<String> validateQuestionDetails() {
+        List<String> errors = new ArrayList<String>();
+        return errors;
     }
 }

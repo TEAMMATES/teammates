@@ -25,9 +25,9 @@ public abstract class FeedbackAbstractResponseDetails {
     public abstract String getAnswerCsv(FeedbackAbstractQuestionDetails questionDetails);
     
     public static FeedbackAbstractResponseDetails createResponseDetails(
-            Map<String, String[]> requestParameters, String[] answer,
-            FeedbackQuestionType questionType,
-            int questionIdx, int responseIdx,FeedbackAbstractQuestionDetails questionDetails) {
+            String[] answer, FeedbackQuestionType questionType,
+            FeedbackAbstractQuestionDetails questionDetails) {
+        
         FeedbackAbstractResponseDetails responseDetails = null;
         
         switch(questionType) {

@@ -1,5 +1,8 @@
 package teammates.common.datatransfer;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import teammates.common.util.Const;
 import teammates.common.util.FeedbackQuestionFormTemplates;
 import teammates.common.util.StringHelper;
@@ -156,5 +159,20 @@ public class FeedbackNumericalScaleQuestionDetails extends
         possibleValuesString += "]";
         
         return possibleValuesString;
+    }
+    
+    final String ERROR_MIN_MAX = "Minimum value must be < maximum value for "+Const.FeedbackQuestionTypeNames.NUMSCALE+".";
+    final String ERROR_STEP = "Step value must be > 0 for "+Const.FeedbackQuestionTypeNames.NUMSCALE+".";
+    
+    @Override
+    public List<String> validateQuestionDetails() {
+        List<String> errors = new ArrayList<String>();
+        if(minScale >= maxScale){
+            errors.add(ERROR_MIN_MAX);
+        }
+        if(step <= 0){
+            errors.add(ERROR_STEP);
+        }
+        return errors;
     }
 }

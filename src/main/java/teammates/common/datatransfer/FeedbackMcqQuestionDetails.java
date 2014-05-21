@@ -260,4 +260,18 @@ public class FeedbackMcqQuestionDetails extends FeedbackAbstractQuestionDetails 
     public String getCsvHeader() {
         return "Feedback";
     }
+
+    final int MIN_NUM_OF_MCQ_CHOICES = 2;
+    final String ERROR_NOT_ENOUGH_MCQ_CHOICES = "Too little choices for "+Const.FeedbackQuestionTypeNames.MCQ+". Minimum number of options is: ";
+    
+    @Override
+    public List<String> validateQuestionDetails() {
+        List<String> errors = new ArrayList<String>();
+        if(numOfMcqChoices <= MIN_NUM_OF_MCQ_CHOICES){
+            errors.add(ERROR_NOT_ENOUGH_MCQ_CHOICES + MIN_NUM_OF_MCQ_CHOICES + ".");
+        }
+        //TODO: check that mcq options do not repeat. needed?
+        
+        return errors;
+    }
 }
