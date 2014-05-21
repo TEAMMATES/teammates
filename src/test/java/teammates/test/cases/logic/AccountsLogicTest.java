@@ -437,8 +437,41 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         assertEquals(nonInstrAccount.googleId, joinedInstructor.googleId);
         instructorsLogic.verifyInstructorExists(nonInstrAccount.googleId);
         
+        
+        ______TS("success: instructor join and assigned institute when some instructors have not joined course");
+        
+        instructor = dataBundle.instructors.get("instructor4");
+        
+        instructorsLogic.addInstructor(instructor.courseId, "anInstructorWithoutGoogleId", "anInstructorWithoutGoogleId@gmail.com");  
+        
+        nonInstrAccount = dataBundle.accounts.get("student2InCourse1");
+        nonInstrAccount.email = "newInstructor@gmail.com";
+        nonInstrAccount.name = " newInstructor";
+        nonInstrAccount.googleId = "newInstructorGoogleId";
+       
+        instructorsLogic.addInstructor(instructor.courseId, nonInstrAccount.name, nonInstrAccount.email);
+        key = instructorsLogic.getKeyForInstructor(instructor.courseId, nonInstrAccount.email);
+        encryptedKey = StringHelper.encrypt(key);
+        
+        accountsLogic.joinCourseForInstructor(encryptedKey, nonInstrAccount.googleId);
+        
+        joinedInstructor = instructorsLogic.getInstructorForEmail(instructor.courseId, nonInstrAccount.email);
+        assertEquals(nonInstrAccount.googleId, joinedInstructor.googleId);
+        instructorsLogic.verifyInstructorExists(nonInstrAccount.googleId);
+        
+        AccountAttributes instructorAccount = accountsLogic.getAccount(nonInstrAccount.googleId);
+        assertEquals("National University of Singapore", instructorAccount.institute);
+        
+        
         ______TS("failure: instructor already joined");
-
+        
+        nonInstrAccount = dataBundle.accounts.get("student1InCourse1");
+        instructor = dataBundle.instructors.get("instructorNotYetJoinCourse");
+        
+        key = instructorsLogic.getKeyForInstructor(instructor.courseId, nonInstrAccount.email);
+        encryptedKey = StringHelper.encrypt(key);
+        joinedInstructor = instructorsLogic.getInstructorForEmail(instructor.courseId, nonInstrAccount.email);
+        
         try {
             accountsLogic.joinCourseForInstructor(encryptedKey, joinedInstructor.googleId);
             signalFailureToDetectException();
