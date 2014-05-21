@@ -88,9 +88,6 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
         StudentAttributes student2InCourse1 = dataBundle.students
                 .get("student2InCourse1");
         String studentId = student2InCourse1.googleId;
-        // here using Student 2 in course 1 because in
-        // verifyAccessibleForStudentsOfTheSameCourse student 1 in course 1 is
-        // used
 
         verifyUnaccessibleWithoutLogin(submissionParams);
 
