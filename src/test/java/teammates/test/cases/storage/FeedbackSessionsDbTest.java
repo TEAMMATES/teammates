@@ -3,6 +3,7 @@ package teammates.test.cases.storage;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
+import static org.testng.AssertJUnit.assertFalse;
 import static teammates.common.util.FieldValidator.END_TIME_FIELD_NAME;
 import static teammates.common.util.FieldValidator.FEEDBACK_SESSION_NAME;
 import static teammates.common.util.FieldValidator.START_TIME_FIELD_NAME;
@@ -90,9 +91,19 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testGetFeedbackSessions() throws Exception {
+    public void testAllGetFeedbackSessions() throws Exception{
+
+        restoreTypicalDataInDatastore(); 
         
-        restoreTypicalDataInDatastore();        
+        testGetFeedbackSessions();
+        testGetFeedbackSessionsForCourse();
+        testGetNonPrivateFeedbackSessions();
+        testGetFeedbackSessionsWithUnsentOpenEmail();
+        testGetFeedbackSessionsWithUnsentPublishedEmail();
+    }
+    
+    private void testGetFeedbackSessions() throws Exception {
+               
         DataBundle dataBundle = getTypicalDataBundle();
         
         ______TS("standard success case");    
@@ -128,10 +139,8 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         
     }
     
-    @Test
-    public void testGetFeedbackSessionsForCourse() throws Exception {
+    private void testGetFeedbackSessionsForCourse() throws Exception {
         
-        restoreTypicalDataInDatastore();        
         DataBundle dataBundle = getTypicalDataBundle();
         
         ______TS("standard success case");    
@@ -167,6 +176,45 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         ______TS("no sessions in course");
         
         assertTrue(fsDb.getFeedbackSessionsForCourse("idOfCourseNoEvals").isEmpty());    
+    }
+    
+    private void testGetNonPrivateFeedbackSessions() throws Exception {
+        
+        ______TS("standard success case"); 
+        
+        List<FeedbackSessionAttributes> fsaList = fsDb.getNonPrivateFeedbackSessions();
+        
+        assertEquals(7, fsaList.size());
+        for(FeedbackSessionAttributes fsa : fsaList){
+            assertFalse(fsa.isPrivateSession());
+        }
+        
+    }
+    
+    private void testGetFeedbackSessionsWithUnsentOpenEmail() throws Exception {
+        
+        ______TS("standard success case"); 
+        
+        List<FeedbackSessionAttributes> fsaList = fsDb.getFeedbackSessionsWithUnsentOpenEmail();
+        
+        assertEquals(2, fsaList.size());
+        for(FeedbackSessionAttributes fsa : fsaList){
+            assertFalse(fsa.sentOpenEmail);
+        }
+        
+    }
+    
+    private void testGetFeedbackSessionsWithUnsentPublishedEmail() throws Exception {
+        
+        ______TS("standard success case"); 
+        
+        List<FeedbackSessionAttributes> fsaList = fsDb.getFeedbackSessionsWithUnsentPublishedEmail();
+        
+        assertEquals(7, fsaList.size());
+        for(FeedbackSessionAttributes fsa : fsaList){
+            assertFalse(fsa.sentPublishedEmail);
+        }
+        
     }
     
     @Test
