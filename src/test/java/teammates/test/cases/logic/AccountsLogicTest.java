@@ -481,21 +481,20 @@ public class AccountsLogicTest extends BaseComponentTestCase {
 
     @Test
     public void testDeleteAccountCascade() throws Exception {
+        
+        restoreTypicalDataInDatastore();
 
         ______TS("typical success case");
 
-        logic.createInstructorAccount("googleId", "courseId", "name",
-                "email@com", "institute");
-        InstructorAttributes instructor = logic.getInstructorForGoogleId(
-                "courseId", "googleId");
+        String course1Id = dataBundle.courses.get("typicalCourse1").id;
+        logic.createInstructorAccount("googleId", course1Id, "name", "email@com", "institute");
+        InstructorAttributes instructor = logic.getInstructorForGoogleId(course1Id, "googleId");
         AccountAttributes account = logic.getAccount("googleId");
 
         // Make instructor account id a student too.
         StudentAttributes student = new StudentAttributes("googleId",
-                "email@com", "name", "",
-                "courseId", "team");
+                "email@com", "name", "", course1Id, "team");
         logic.createStudent(student);
-
         TestHelper.verifyPresentInDatastore(account);
         TestHelper.verifyPresentInDatastore(instructor);
         TestHelper.verifyPresentInDatastore(student);
