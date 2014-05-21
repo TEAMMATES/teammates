@@ -246,15 +246,14 @@ public class StudentFeedbackQuestionSubmissionEditSaveActionTest extends
                 pageResult.getStatusMessage());
 
         /*
-         * Attention Here: only in the last test case feedbackResponse object is
-         * updated from the Db. This is because we need the info inside it, so
-         * need to keep it not null Here is the last case, we can extracted the
-         * latest response and assign the value to this object It is safe
-         * because the response we get from the Db is not null
+         * Attention: 
+         * Be aware of these two:
+         * 1. feedbackResponse = feedbackResponsesDb.getFeedbackResponse(...)
+         *    assertEquals(feedbackResponse... , ...);
+         * 2. assertEquals( feedbackResponsesDb.getFeedbackResponse(...)...  , ... );       
          * 
-         * If additional test cases need to be added in this method, do as the
-         * above cases -- directly get the data from Db and compare, do not
-         * assign its value to this object and then compare
+         * Try to use second way to prevent turning feedbackResponse into null due to some test cases
+         * Or add another variable as a copy of the original feedbackResponse
          */
         feedbackResponse = feedbackResponsesDb.getFeedbackResponse(
                 feedbackQuestion.getId(), student1InCourse1.email,
