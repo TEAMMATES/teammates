@@ -18,6 +18,7 @@ import teammates.common.datatransfer.FeedbackQuestionType;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackTextResponseDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.storage.api.FeedbackQuestionsDb;
@@ -416,6 +417,67 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         ______TS("no responses from giver for course");
         
         assertTrue(frDb.getFeedbackResponsesFromGiverForCourse(fqa.courseId, "student5InCourse1@gmail.com").isEmpty());    
+        
+    }
+    
+    @SuppressWarnings("static-access")
+    @Test
+    public void testUpdateFeedbackResponse() throws Exception {
+
+        ______TS("null params");
+        
+        try {
+            frDb.updateFeedbackResponse(null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
+        }
+        
+        ______TS("invalid feedback response attributes");
+        
+        FeedbackResponseAttributes invalidFra = getNewFeedbackResponseAttributes();
+        frDb.deleteEntity(invalidFra);
+        frDb.createEntity(invalidFra);
+        invalidFra.setId(frDb.getFeedbackResponse("testFeedbackQuestionId", invalidFra.giverEmail, invalidFra.recipientEmail).getId());
+        invalidFra.giverEmail = "haha";
+        try {
+            frDb.updateFeedbackResponse(invalidFra);
+            signalFailureToDetectException();
+        } catch (InvalidParametersException e) {
+            AssertHelper.assertContains("Invalid answerer's email", e.getLocalizedMessage());
+        }
+        
+        ______TS("feedback response does not exist");
+        
+        FeedbackResponseAttributes nonexistantFr = getNewFeedbackResponseAttributes();
+        nonexistantFr.setId("non-existent fr id");
+        try {
+            frDb.updateFeedbackResponse(nonexistantFr);
+            signalFailureToDetectException();
+        } catch (EntityDoesNotExistException e) {
+            AssertHelper.assertContains(FeedbackResponsesDb.ERROR_UPDATE_NON_EXISTENT, e.getLocalizedMessage());
+        }
+        
+        ______TS("standard success case");
+        
+        FeedbackResponseAttributes modifiedResponse = getNewFeedbackResponseAttributes();
+        frDb.deleteEntity(modifiedResponse);
+        frDb.createEntity(modifiedResponse);
+        TestHelper.verifyPresentInDatastore(modifiedResponse, true);
+        
+        modifiedResponse = frDb.getFeedbackResponse(modifiedResponse.feedbackQuestionId, modifiedResponse.giverEmail, modifiedResponse.recipientEmail);
+        FeedbackAbstractResponseDetails frd = modifiedResponse.getResponseDetails();
+        String answer[] = {"New answer text!"};
+        frd = frd.createResponseDetails(null,
+                    answer, FeedbackQuestionType.TEXT,
+                    1, 1,
+                    null);
+        modifiedResponse.setResponseDetails(frd);
+        frDb.updateFeedbackResponse(modifiedResponse);
+        
+        TestHelper.verifyPresentInDatastore(modifiedResponse);
+        modifiedResponse = frDb.getFeedbackResponse(modifiedResponse.feedbackQuestionId, modifiedResponse.giverEmail, modifiedResponse.recipientEmail);
+        assertEquals("New answer text!", modifiedResponse.getResponseDetails().getAnswerString());
         
     }
     
