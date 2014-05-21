@@ -256,7 +256,8 @@ public class TestHelper extends BaseComponentTestCase{
     }
     
     public static void verifyAbsentInDatastore(FeedbackResponseCommentAttributes frComment) {
-        assertNull(frcDb.getFeedbackResponseComment(frComment.getId()));
+        assertNull(frcDb.getFeedbackResponseComment(frComment.feedbackResponseId, 
+                frComment.giverEmail, frComment.createdAt));
     }
     
     public static void verifyPresentInDatastore(AccountAttributes expectedAccount) {
