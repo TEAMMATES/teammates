@@ -3,6 +3,8 @@ package teammates.test.cases.storage;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
+import static org.testng.AssertJUnit.assertFalse;
+
 import static teammates.common.util.FieldValidator.END_TIME_FIELD_NAME;
 import static teammates.common.util.FieldValidator.FEEDBACK_SESSION_NAME;
 import static teammates.common.util.FieldValidator.START_TIME_FIELD_NAME;
@@ -167,6 +169,54 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         ______TS("no sessions in course");
         
         assertTrue(fsDb.getFeedbackSessionsForCourse("idOfCourseNoEvals").isEmpty());    
+    }
+    
+    @Test
+    public void testGetNonPrivateFeedbackSessions() throws Exception {
+        
+        restoreTypicalDataInDatastore();
+        
+        ______TS("standard success case"); 
+        
+        List<FeedbackSessionAttributes> fsaList = fsDb.getNonPrivateFeedbackSessions();
+        
+        assertEquals(7, fsaList.size());
+        for(FeedbackSessionAttributes fsa : fsaList){
+            assertFalse(fsa.isPrivateSession());
+        }
+        
+    }
+    
+    @Test
+    public void testGetFeedbackSessionsWithUnsentOpenEmail() throws Exception {
+        
+        restoreTypicalDataInDatastore();
+        
+        ______TS("standard success case"); 
+        
+        List<FeedbackSessionAttributes> fsaList = fsDb.getFeedbackSessionsWithUnsentOpenEmail();
+        
+        assertEquals(2, fsaList.size());
+        for(FeedbackSessionAttributes fsa : fsaList){
+            assertFalse(fsa.sentOpenEmail);
+        }
+        
+    }
+    
+    @Test
+    public void testGetFeedbackSessionsWithUnsentPublishedEmail() throws Exception {
+        
+        restoreTypicalDataInDatastore();
+        
+        ______TS("standard success case"); 
+        
+        List<FeedbackSessionAttributes> fsaList = fsDb.getFeedbackSessionsWithUnsentPublishedEmail();
+        
+        assertEquals(7, fsaList.size());
+        for(FeedbackSessionAttributes fsa : fsaList){
+            assertFalse(fsa.sentPublishedEmail);
+        }
+        
     }
     
     @Test
