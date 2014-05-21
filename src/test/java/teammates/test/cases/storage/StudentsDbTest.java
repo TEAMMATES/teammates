@@ -233,6 +233,9 @@ public class StudentsDbTest extends BaseComponentTestCase {
         } catch (AssertionError a) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
         }
+        
+        // test the case when student is not successfully deleted in first try
+        // is not likely
     }
     
     @AfterClass
