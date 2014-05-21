@@ -36,32 +36,36 @@ public class InstructorFeedbackQuestionEditAction extends Action {
         Assumption.assertNotNull("Null editType", editType);
         
         FeedbackQuestionAttributes updatedQuestion = extractFeedbackQuestionData(requestParameters);
-        
-        try {
-            if(editType.equals("edit")) {
-                if(updatedQuestion.questionNumber != 0){ //Question number was updated
-                    logic.updateFeedbackQuestionNumber(updatedQuestion);
-                    statusToUser.add(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
-                } else{
-                    logic.updateFeedbackQuestion(updatedQuestion);    
-                    statusToUser.add(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+        List<String> questionDetailsErrors = updatedQuestion.getQuestionDetails().validateQuestionDetails();
+        if(questionDetailsErrors.size() > 0){
+            statusToUser.addAll(questionDetailsErrors);
+        } else {
+            try {
+                if(editType.equals("edit")) {
+                    if(updatedQuestion.questionNumber != 0){ //Question number was updated
+                        logic.updateFeedbackQuestionNumber(updatedQuestion);
+                        statusToUser.add(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+                    } else{
+                        logic.updateFeedbackQuestion(updatedQuestion);    
+                        statusToUser.add(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+                        statusToAdmin = "Feedback Question "+ updatedQuestion.questionNumber +" for session:<span class=\"bold\">(" +
+                                updatedQuestion.feedbackSessionName + ")</span> for Course <span class=\"bold\">[" +
+                                updatedQuestion.courseId + "]</span> edited.<br>" +
+                                "<span class=\"bold\">" + updatedQuestion.getQuestionDetails().getQuestionTypeDisplayName() + ":</span> " +
+                                updatedQuestion.getQuestionDetails().questionText;
+                    }
+                } else if (editType.equals("delete")) {
+                    logic.deleteFeedbackQuestion(updatedQuestion.getId());
+                    statusToUser.add(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
                     statusToAdmin = "Feedback Question "+ updatedQuestion.questionNumber +" for session:<span class=\"bold\">(" +
                             updatedQuestion.feedbackSessionName + ")</span> for Course <span class=\"bold\">[" +
-                            updatedQuestion.courseId + "]</span> edited.<br>" +
-                            "<span class=\"bold\">" + updatedQuestion.getQuestionDetails().getQuestionTypeDisplayName() + ":</span> " +
-                            updatedQuestion.getQuestionDetails().questionText;
+                            updatedQuestion.courseId + "]</span> deleted.<br>";
+                } else {
+                    Assumption.fail("Invalid editType");
                 }
-            } else if (editType.equals("delete")) {
-                logic.deleteFeedbackQuestion(updatedQuestion.getId());
-                statusToUser.add(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
-                statusToAdmin = "Feedback Question "+ updatedQuestion.questionNumber +" for session:<span class=\"bold\">(" +
-                        updatedQuestion.feedbackSessionName + ")</span> for Course <span class=\"bold\">[" +
-                        updatedQuestion.courseId + "]</span> deleted.<br>";
-            } else {
-                Assumption.fail("Invalid editType");
+            } catch (InvalidParametersException e) {
+                setStatusForException(e);
             }
-        } catch (InvalidParametersException e) {
-            setStatusForException(e);
         }
         
         return createRedirectResult(new PageData(account).getInstructorFeedbackSessionEditLink(courseId,feedbackSessionName));

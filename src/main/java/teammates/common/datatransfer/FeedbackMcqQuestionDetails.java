@@ -267,7 +267,8 @@ public class FeedbackMcqQuestionDetails extends FeedbackAbstractQuestionDetails 
     @Override
     public List<String> validateQuestionDetails() {
         List<String> errors = new ArrayList<String>();
-        if(numOfMcqChoices <= MIN_NUM_OF_MCQ_CHOICES){
+        if(generateOptionsFor == FeedbackParticipantType.NONE &&
+                numOfMcqChoices < MIN_NUM_OF_MCQ_CHOICES){
             errors.add(ERROR_NOT_ENOUGH_MCQ_CHOICES + MIN_NUM_OF_MCQ_CHOICES + ".");
         }
         //TODO: check that mcq options do not repeat. needed?
