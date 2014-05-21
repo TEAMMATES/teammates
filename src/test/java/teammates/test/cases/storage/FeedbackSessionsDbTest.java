@@ -4,7 +4,6 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertFalse;
-
 import static teammates.common.util.FieldValidator.END_TIME_FIELD_NAME;
 import static teammates.common.util.FieldValidator.FEEDBACK_SESSION_NAME;
 import static teammates.common.util.FieldValidator.START_TIME_FIELD_NAME;
@@ -92,9 +91,19 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testGetFeedbackSessions() throws Exception {
+    public void testAllGetFeedbackSessions() throws Exception{
+
+        restoreTypicalDataInDatastore(); 
         
-        restoreTypicalDataInDatastore();        
+        testGetFeedbackSessions();
+        testGetFeedbackSessionsForCourse();
+        testGetNonPrivateFeedbackSessions();
+        testGetFeedbackSessionsWithUnsentOpenEmail();
+        testGetFeedbackSessionsWithUnsentPublishedEmail();
+    }
+    
+    private void testGetFeedbackSessions() throws Exception {
+               
         DataBundle dataBundle = getTypicalDataBundle();
         
         ______TS("standard success case");    
@@ -130,10 +139,8 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         
     }
     
-    @Test
-    public void testGetFeedbackSessionsForCourse() throws Exception {
+    private void testGetFeedbackSessionsForCourse() throws Exception {
         
-        restoreTypicalDataInDatastore();        
         DataBundle dataBundle = getTypicalDataBundle();
         
         ______TS("standard success case");    
@@ -171,10 +178,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         assertTrue(fsDb.getFeedbackSessionsForCourse("idOfCourseNoEvals").isEmpty());    
     }
     
-    @Test
-    public void testGetNonPrivateFeedbackSessions() throws Exception {
-        
-        restoreTypicalDataInDatastore();
+    private void testGetNonPrivateFeedbackSessions() throws Exception {
         
         ______TS("standard success case"); 
         
@@ -187,10 +191,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         
     }
     
-    @Test
-    public void testGetFeedbackSessionsWithUnsentOpenEmail() throws Exception {
-        
-        restoreTypicalDataInDatastore();
+    private void testGetFeedbackSessionsWithUnsentOpenEmail() throws Exception {
         
         ______TS("standard success case"); 
         
@@ -203,10 +204,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         
     }
     
-    @Test
-    public void testGetFeedbackSessionsWithUnsentPublishedEmail() throws Exception {
-        
-        restoreTypicalDataInDatastore();
+    private void testGetFeedbackSessionsWithUnsentPublishedEmail() throws Exception {
         
         ______TS("standard success case"); 
         
