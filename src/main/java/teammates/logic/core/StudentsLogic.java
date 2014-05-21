@@ -79,7 +79,7 @@ public class StudentsLogic {
         return studentsDb.getStudentForEmail(courseId, email);
     }
 
-    public StudentAttributes getStudentForGoogleId(String courseId, String googleId) {
+    public StudentAttributes getStudentForCourseIdAndGoogleId(String courseId, String googleId) {
         return studentsDb.getStudentForGoogleId(courseId, googleId);
     }
 
@@ -105,11 +105,7 @@ public class StudentsLogic {
     }
     
     public String getKeyForStudent(String courseId, String email) throws EntityDoesNotExistException {
-    
-        // this method and the method below
-        // updateStudentCascadeWithSubmissionAdjustmentScheduled--this will throw exception but seems it will also
-        // create one more db access
-        // so we are talking about efficiency and code consistency here
+        
         StudentAttributes studentData = getStudentForEmail(courseId, email);
     
         if (studentData == null) {
@@ -320,8 +316,6 @@ public class StudentsLogic {
 
     private void scheduleSubmissionAdjustmentForEvaluationInCourse(
             ArrayList<StudentEnrollDetails> enrollmentList, String courseId, String evalName) {
-        // it is a task queue--how to test this method--same above
-        // TODO: add test for this
         HashMap<String, String> paramMap = new HashMap<String, String>();
         
         paramMap.put(ParamsNames.COURSE_ID, courseId);

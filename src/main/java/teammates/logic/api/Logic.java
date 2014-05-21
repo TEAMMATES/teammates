@@ -708,7 +708,7 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
     
-        return studentsLogic.getStudentForGoogleId(courseId, googleId);
+        return studentsLogic.getStudentForCourseIdAndGoogleId(courseId, googleId);
     }
 
     /**
