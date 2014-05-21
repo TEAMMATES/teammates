@@ -170,7 +170,8 @@ public class StudentsLogic {
          *    of a student are being updated or when the new email to be updated is invalid
          */
         FieldValidator validator = new FieldValidator();
-        // second branch is unlikely to happen because previous method call will throw exception
+        //Untested case: The deletion is not persisted immediately (i.e. persistence delay) 
+        //       Reason: Difficult to reproduce a persistence delay during testing
         String finalEmail = (student.email == null || !validator
                 .getInvalidityInfo(FieldType.EMAIL, student.email).isEmpty()) ?
                 originalEmail : student.email;
