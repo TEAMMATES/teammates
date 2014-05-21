@@ -38,6 +38,7 @@ public class CoursesDb extends EntitiesDb {
      * @return Null if not found.
      */
     public CourseAttributes getCourse(String courseId) {
+        
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         
         Course c = getCourseEntity(courseId);
@@ -78,6 +79,7 @@ public class CoursesDb extends EntitiesDb {
      * @throws InvalidParametersException, EntityDoesNotExistException
      */
     public void updateCourse(CourseAttributes courseToUpdate) throws InvalidParametersException, EntityDoesNotExistException {
+        
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseToUpdate);
         
         courseToUpdate.sanitizeForSaving();
@@ -105,13 +107,13 @@ public class CoursesDb extends EntitiesDb {
      * <br> * {@code courseId} is not null.
      */
     public void deleteCourse(String courseId) {
+        
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
         CourseAttributes entityToDelete = new CourseAttributes();
         entityToDelete.id = courseId;
         
         deleteEntity(entityToDelete);
-
     }
     
     @Override

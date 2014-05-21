@@ -152,7 +152,7 @@ public class CoursesLogic {
         
         for (CourseAttributes c : courseList) {
 
-            StudentAttributes s = studentsLogic.getStudentForGoogleId(c.id, googleId);
+            StudentAttributes s = studentsLogic.getStudentForCourseIdAndGoogleId(c.id, googleId);
             
             if (s == null) {
                 //TODO Remove excessive logging after the reason why s can be null is found

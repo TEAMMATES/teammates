@@ -177,8 +177,19 @@ public class AccountsLogic {
                     "You have used an invalid join link: " + joinUrl);
         } else if (instructorRole.isRegistered()) {
             if (instructorRole.googleId.equals(googleId)) {
-                throw new JoinCourseException(Const.StatusCodes.ALREADY_JOINED,
-                        googleId + " has already joined this course");
+                AccountAttributes account = accountsDb.getAccount(googleId);
+                if(account == null) {
+                    try {
+                        createInstructorAccount(instructorRole);
+                        return;
+                    } catch (InvalidParametersException e) {
+                        throw new JoinCourseException(e.getMessage());
+                    }
+                } else {
+                    throw new JoinCourseException(Const.StatusCodes.ALREADY_JOINED,
+                            googleId + " has already joined this course");
+                }
+                
             } else {
                 throw new JoinCourseException(Const.StatusCodes.KEY_BELONGS_TO_DIFFERENT_USER,
                         String.format(Const.StatusMessages.JOIN_COURSE_KEY_BELONGS_TO_DIFFERENT_USER,
@@ -219,7 +230,7 @@ public class AccountsLogic {
         } 
     
         StudentAttributes existingStudent =
-                StudentsLogic.inst().getStudentForGoogleId(studentRole.course, googleId);
+                StudentsLogic.inst().getStudentForCourseIdAndGoogleId(studentRole.course, googleId);
         
         if (existingStudent != null) {
             throw new JoinCourseException(

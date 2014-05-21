@@ -280,7 +280,8 @@ public class FeedbackQuestionsLogic {
 
     /**
      * Gets a {@code List} of all <b>unanswered</b> questions corresponding to
-     *  the given session and team.
+     * the given session and team.
+     * TODO: remove this function after ensuring no other references exist
      */
     public List<FeedbackQuestionAttributes> getFeedbackQuestionsForTeam(
             String feedbackSessionName, String courseId, String teamName)

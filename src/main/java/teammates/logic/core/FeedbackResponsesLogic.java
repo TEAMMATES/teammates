@@ -54,6 +54,10 @@ public class FeedbackResponsesLogic {
         }
     }
     
+    public FeedbackResponseAttributes getFeedbackResponse(String feedbackResponseId) {
+        return frDb.getFeedbackResponse(feedbackResponseId);
+    }
+    
     public FeedbackResponseAttributes getFeedbackResponse(String feedbackQuestionId,
             String giverEmail, String recipient) {
         return frDb.getFeedbackResponse(feedbackQuestionId, giverEmail, recipient);
@@ -306,14 +310,17 @@ public class FeedbackResponsesLogic {
         
         FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(response.feedbackQuestionId);
         
-        boolean isGiverOfResponse = response.giverEmail.equals(enrollment.email);
-        boolean isReceiverOfResponse = response.recipientEmail.equals(enrollment.email);
+        boolean isGiverSameForResponseAndEnrollment = response.giverEmail.equals(enrollment.email);
+        boolean isReceiverSameForResponseAndEnrollment = response.recipientEmail.equals(enrollment.email);
         
-        boolean shouldDeleteResponse = (isGiverOfResponse && (question.giverType == FeedbackParticipantType.TEAMS
-                                        || question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS)) ||
-                                        (isReceiverOfResponse && question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS);
+        boolean shouldDeleteByChangeOfGiver = (isGiverSameForResponseAndEnrollment && (question.giverType == FeedbackParticipantType.TEAMS
+                || question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS));
+        boolean shouldDeleteByChangeOfRecipient = (isReceiverSameForResponseAndEnrollment 
+                && question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS);
         
-        if(shouldDeleteResponse) {
+        boolean shouldDeleteResponse =  shouldDeleteByChangeOfGiver || shouldDeleteByChangeOfRecipient;
+        
+        if (shouldDeleteResponse) {
             frDb.deleteEntity(response);
         }
     }
