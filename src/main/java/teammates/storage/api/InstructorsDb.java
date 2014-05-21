@@ -36,6 +36,7 @@ public class InstructorsDb extends EntitiesDb{
      * @return null if no matching objects. 
      */
     public InstructorAttributes getInstructorForEmail(String courseId, String email) {
+        
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
     
@@ -56,6 +57,7 @@ public class InstructorsDb extends EntitiesDb{
      * @return null if no matching objects. 
      */
     public InstructorAttributes getInstructorForGoogleId(String courseId, String googleId) {
+        
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
     
@@ -75,6 +77,7 @@ public class InstructorsDb extends EntitiesDb{
      * @return null if no matching instructor.
      */
     public InstructorAttributes getInstructorForRegistrationKey(String encryptedKey){
+        
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, encryptedKey);
         
         encryptedKey = encryptedKey.trim();
@@ -94,6 +97,7 @@ public class InstructorsDb extends EntitiesDb{
      * @return empty list if no matching objects. 
      */
     public List<InstructorAttributes> getInstructorsForEmail(String email) {
+        
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
         
         List<Instructor> instructorList = getInstructorEntitiesForEmail(email);
@@ -114,6 +118,7 @@ public class InstructorsDb extends EntitiesDb{
      * @return empty list if no matching objects. 
      */
     public List<InstructorAttributes> getInstructorsForGoogleId(String googleId) {
+        
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
         
         List<Instructor> instructorList = getInstructorEntitiesForGoogleId(googleId);
@@ -134,6 +139,7 @@ public class InstructorsDb extends EntitiesDb{
      * @return empty list if no matching objects. 
      */
     public List<InstructorAttributes> getInstructorsForCourse(String courseId) {
+        
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         
         List<Instructor> instructorList = getInstructorEntitiesForCourse(courseId);
@@ -155,6 +161,7 @@ public class InstructorsDb extends EntitiesDb{
      */
     @Deprecated
     public List<InstructorAttributes> getAllInstructors() {
+        
         List<InstructorAttributes> list = new LinkedList<InstructorAttributes>();
         List<Instructor> entities = getInstructorEntities();
         Iterator<Instructor> it = entities.iterator();
@@ -173,6 +180,7 @@ public class InstructorsDb extends EntitiesDb{
      * @throws EntityDoesNotExistException 
      */
     public void updateInstructorByGoogleId(InstructorAttributes instructorAttributesToUpdate) throws InvalidParametersException, EntityDoesNotExistException {
+        
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, instructorAttributesToUpdate);
          
         if (!instructorAttributesToUpdate.isValid()) {
@@ -205,6 +213,7 @@ public class InstructorsDb extends EntitiesDb{
      * @throws InvalidParametersException 
      */
     public void updateInstructorByEmail(InstructorAttributes instructorAttributesToUpdate) throws InvalidParametersException, EntityDoesNotExistException {
+        
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, instructorAttributesToUpdate);
         
         if (!instructorAttributesToUpdate.isValid()) {
@@ -262,7 +271,7 @@ public class InstructorsDb extends EntitiesDb{
             log.severe("Operation did not persist in time: deleteInstructor->"
                     + email);
         }
-        
+
         //TODO: reuse the method in the parent class instead
     }
     
@@ -272,6 +281,7 @@ public class InstructorsDb extends EntitiesDb{
      *  * All parameters are non-null.
      */
     public void deleteInstructorsForGoogleId(String googleId) {
+        
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
 
         List<Instructor> instructorList = getInstructorEntitiesForGoogleId(googleId);
@@ -286,6 +296,7 @@ public class InstructorsDb extends EntitiesDb{
      *  * All parameters are non-null.
      */
     public void deleteInstructorsForCourse(String courseId) {
+        
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
         List<Instructor> instructorList = getInstructorEntitiesForCourse(courseId);
@@ -382,6 +393,7 @@ public class InstructorsDb extends EntitiesDb{
     }
 
     private List<Instructor> getInstructorEntities() {
+        
         String query = "select from " + Instructor.class.getName();
             
         @SuppressWarnings("unchecked")
@@ -396,7 +408,7 @@ public class InstructorsDb extends EntitiesDb{
         
         InstructorAttributes instructorToGet = (InstructorAttributes) attributes;    
             
-        return getInstructorForEmail(instructorToGet.courseId, instructorToGet.email);
+        return getInstructorEntityForEmail(instructorToGet.courseId, instructorToGet.email);
     }
     
 
