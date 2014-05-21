@@ -187,6 +187,24 @@ public class StudentAttributes extends EntityAttributes {
             }
         });
     }
+    
+    public void updateWithExistingRecord(StudentAttributes originalStudent) {
+        if(this.email == null){
+            this.email = originalStudent.email;
+        }
+        if(this.name == null){
+            this.name = originalStudent.name;
+        }
+        if(this.googleId == null){
+            this.googleId = originalStudent.googleId;
+        }
+        if(this.team == null){
+            this.team = originalStudent.team;
+        }
+        if(this.comments == null){
+            this.comments = originalStudent.comments;
+        }
+    }
 
     public Student toEntity() {
         return new Student(email, name, googleId, comments, course, team);

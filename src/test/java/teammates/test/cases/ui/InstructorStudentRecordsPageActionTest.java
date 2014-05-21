@@ -11,6 +11,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.logic.api.Logic;
@@ -138,7 +139,7 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
     }
     
     private void createStudentInTypicalDataBundleForCourseWithNoSession() throws EntityAlreadyExistsException, 
-    InvalidParametersException {
+    InvalidParametersException, EntityDoesNotExistException {
         Logic logic = new Logic();
         StudentAttributes student = new StudentAttributes("team", "nameOfStudent", "emailTemp@gmail.com", "No comment", "idOfCourseNoEvals");
         logic.createStudent(student);
