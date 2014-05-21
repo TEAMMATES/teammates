@@ -50,6 +50,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
             String feedbackQuestionId, String giverEmail, String receiverEmail) {
         
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackQuestionId);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, giverEmail);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, receiverEmail);
         
         FeedbackResponse fr = 
