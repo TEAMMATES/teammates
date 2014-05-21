@@ -488,7 +488,7 @@ public class StudentsLogic {
                     invalidityInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, line, info));
                 }
                 
-                if(isStudentEmailDuplicated(student.email,studentEmailList)){
+                if (isStudentEmailDuplicated(student.email,studentEmailList)){
                     String info = StringHelper.toString(getInvalidityInfoInDuplicatedEmail(student.email,studentEmailList,linesArray), 
                                                     "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
                     invalidityInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, line, info));

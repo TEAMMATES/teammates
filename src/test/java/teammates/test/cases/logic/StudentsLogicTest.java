@@ -288,7 +288,9 @@ public class StudentsLogicTest extends BaseComponentTestCase{
             studentsLogic.sendRegistrationInviteToStudent(invalidCourseId, studentEmail);
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
-            ignoreExpectedException();
+            String expectedMsg = "Course does not exist [" + invalidCourseId + 
+                    "], trying to send invite email to student [" + studentEmail + "]";
+            assertEquals(expectedMsg, e.getMessage());
         }
         
         
@@ -299,7 +301,8 @@ public class StudentsLogicTest extends BaseComponentTestCase{
             studentsLogic.sendRegistrationInviteToStudent(courseId, invalidStudentEmail);
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
-            ignoreExpectedException();
+            String expectedMsg = "Student [" + invalidStudentEmail + "] does not exist in course [" + courseId + "]";
+            assertEquals(expectedMsg, e.getMessage());
         }
         
     }
