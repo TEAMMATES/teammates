@@ -71,4 +71,11 @@ public class FeedbackTextQuestionDetails extends
         List<String> errors = new ArrayList<String>();
         return errors;
     }
+
+    @Override
+    public List<String> validateResponseAttributes(
+            List<FeedbackResponseAttributes> responses) {
+        List<String> errors = new ArrayList<String>();
+        return errors;
+    }
 }

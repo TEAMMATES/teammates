@@ -175,4 +175,20 @@ public class FeedbackNumericalScaleQuestionDetails extends
         }
         return errors;
     }
+    
+    final String ERROR_OUT_OF_RANGE = " is out of the range "+minScale+" to "+maxScale+" for " + Const.FeedbackQuestionTypeNames.MCQ + ".";
+    
+    @Override
+    public List<String> validateResponseAttributes(
+            List<FeedbackResponseAttributes> responses) {
+        List<String> errors = new ArrayList<String>();
+        for(FeedbackResponseAttributes response : responses){
+            FeedbackNumericalScaleResponseDetails frd = (FeedbackNumericalScaleResponseDetails) response.getResponseDetails();
+            if(frd.getAnswer() < minScale || frd.getAnswer() > maxScale){
+                errors.add(frd.getAnswerString() + ERROR_OUT_OF_RANGE);
+            }
+            //TODO: strengthen check for step
+        }
+        return errors;
+    }
 }

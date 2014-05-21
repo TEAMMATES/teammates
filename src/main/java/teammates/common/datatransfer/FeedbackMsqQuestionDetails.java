@@ -277,4 +277,21 @@ public class FeedbackMsqQuestionDetails extends FeedbackAbstractQuestionDetails 
         
         return errors;
     }
+    
+    final String ERROR_INVALID_OPTION = " is not a valid option for the " + Const.FeedbackQuestionTypeNames.MSQ + ".";
+    
+    @Override
+    public List<String> validateResponseAttributes(
+            List<FeedbackResponseAttributes> responses) {
+        List<String> errors = new ArrayList<String>();
+        for(FeedbackResponseAttributes response : responses){
+            FeedbackMsqResponseDetails frd = (FeedbackMsqResponseDetails) response.getResponseDetails();
+            if(!otherEnabled){
+                if(!msqChoices.containsAll(frd.answers)){
+                    errors.add(ERROR_INVALID_OPTION);
+                }
+            }
+        }
+        return errors;
+    }
 }

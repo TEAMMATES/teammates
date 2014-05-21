@@ -51,6 +51,13 @@ public abstract class FeedbackAbstractQuestionDetails {
      */
     public abstract List<String> validateQuestionDetails();
     
+    /**
+     * Validates {@code List<FeedbackResponseAttributes>} for the question based on the current {@code Feedback*QuestionDetails}.
+     * @param responses - The {@code List<FeedbackResponseAttributes>} for the question to be validated
+     * @return A {@code List<String>} of error messages (to show as status message to user) if any, or an empty list if question responses are valid.
+     */
+    public abstract List<String> validateResponseAttributes(List<FeedbackResponseAttributes> responses);
+    
     public static FeedbackAbstractQuestionDetails createQuestionDetails(Map<String, String[]> requestParameters, FeedbackQuestionType questionType) {
         String questionText = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_TEXT);
         Assumption.assertNotNull("Null question text", questionText);

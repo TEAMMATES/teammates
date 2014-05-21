@@ -6,6 +6,10 @@ public class FeedbackNumericalScaleResponseDetails extends
         FeedbackAbstractResponseDetails {
     private double answer;
     
+    public double getAnswer() {
+        return answer;
+    }
+
     public FeedbackNumericalScaleResponseDetails() {
         super(FeedbackQuestionType.NUMSCALE);
     }
