@@ -38,6 +38,7 @@
             <class name="teammates.test.cases.storage.EvaluationsDbTest" />
             <class name="teammates.test.cases.storage.FeedbackSessionsDbTest" />
             <class name="teammates.test.cases.storage.FeedbackQuestionsDbTest" />
+            <class name="teammates.test.cases.storage.FeedbackResponsesDbTest" />
             <class name="teammates.test.cases.storage.InstructorsDbTest" />
             <class name="teammates.test.cases.storage.StudentsDbTest" />
             <class name="teammates.test.cases.storage.SubmissionsDbTest" />

@@ -2,6 +2,7 @@ package teammates.test.util;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
+import static org.testng.AssertJUnit.assertNull;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.EvaluationDetailsBundle;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
@@ -43,6 +45,7 @@ import teammates.storage.api.CoursesDb;
 import teammates.storage.api.EvaluationsDb;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponseCommentsDb;
+import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.StudentsDb;
@@ -64,6 +67,7 @@ public class TestHelper extends BaseComponentTestCase{
     private static final StudentsDb studentsDb = new StudentsDb();
     private static final FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
     private static final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
+    private static final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
     private static final CommentsDb commentsDb = new CommentsDb();
     private static final FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
 
@@ -206,7 +210,7 @@ public class TestHelper extends BaseComponentTestCase{
 
     public static void verifyAbsentInDatastore(AccountAttributes account)
             throws Exception {
-        assertEquals(null, logic.getAccount(account.googleId));
+        assertNull(logic.getAccount(account.googleId));
     }
 
     
@@ -219,39 +223,40 @@ public class TestHelper extends BaseComponentTestCase{
     }
 
     public static void verifyAbsentInDatastore(InstructorAttributes expectedInstructor) {
-        assertEquals(null, instructorsDb.getInstructorForGoogleId(expectedInstructor.courseId, expectedInstructor.googleId));
+        assertNull(instructorsDb.getInstructorForGoogleId(expectedInstructor.courseId, expectedInstructor.googleId));
     }
 
     public static void verifyAbsentInDatastore(CourseAttributes course) {
-        assertEquals(null, coursesDb.getCourse(course.id));
+        assertNull(coursesDb.getCourse(course.id));
     }
 
     public static void verifyAbsentInDatastore(StudentAttributes student) {
-        assertEquals(null, logic.getStudentForEmail(student.course, student.email));
+        assertNull(logic.getStudentForEmail(student.course, student.email));
     }
 
     public static void verifyAbsentInDatastore(EvaluationAttributes evaluation) {
-        assertEquals(null,
-                logic.getEvaluation(evaluation.courseId, evaluation.name));
+        assertNull(logic.getEvaluation(evaluation.courseId, evaluation.name));
     }
     
     public static void verifyAbsentInDatastore(FeedbackSessionAttributes fsa) {
-        assertEquals(null,
-                fsDb.getFeedbackSession(fsa.courseId, fsa.feedbackSessionName));    
+        assertNull(fsDb.getFeedbackSession(fsa.courseId, fsa.feedbackSessionName));    
     }
     
     public static void verifyAbsentInDatastore(FeedbackQuestionAttributes fqa) {
-        assertEquals(null,
-                fqDb.getFeedbackQuestion(fqa.feedbackSessionName, fqa.courseId, fqa.questionNumber));    
+        assertNull(fqDb.getFeedbackQuestion(fqa.feedbackSessionName, fqa.courseId, fqa.questionNumber));    
+    }
+    
+    public static void verifyAbsentInDatastore(FeedbackResponseAttributes fra) {
+        assertNull(frDb.getFeedbackResponse(fra.feedbackQuestionId, fra.giverEmail, fra.recipientEmail));
     }
     
     public static void verifyAbsentInDatastore(CommentAttributes comment) {
-        assertEquals(null, commentsDb.getComment(comment.courseId,
+        assertNull(commentsDb.getComment(comment.courseId,
                 comment.giverEmail, comment.receiverEmail, comment.commentText, comment.createdAt));
     }
     
     public static void verifyAbsentInDatastore(FeedbackResponseCommentAttributes frComment) {
-        assertEquals(null, frcDb.getFeedbackResponseComment(frComment.getId()));
+        assertNull(frcDb.getFeedbackResponseComment(frComment.getId()));
     }
     
     public static void verifyPresentInDatastore(AccountAttributes expectedAccount) {
@@ -315,6 +320,21 @@ public class TestHelper extends BaseComponentTestCase{
     public static void verifyPresentInDatastore(FeedbackQuestionAttributes expected, boolean wildcardId) {
         FeedbackQuestionAttributes actual = fqDb.getFeedbackQuestion(
                 expected.feedbackSessionName, expected.courseId, expected.questionNumber);
+        if(wildcardId){
+            actual.setId("*");
+        }
+        assertEquals(gson.toJson(expected), gson.toJson(actual));
+    }
+    
+    public static void verifyPresentInDatastore(FeedbackResponseAttributes expected) {
+        FeedbackResponseAttributes actual = frDb.getFeedbackResponse(
+                expected.feedbackQuestionId, expected.giverEmail, expected.recipientEmail);
+        assertEquals(gson.toJson(expected), gson.toJson(actual));
+    }
+    
+    public static void verifyPresentInDatastore(FeedbackResponseAttributes expected, boolean wildcardId) {
+        FeedbackResponseAttributes actual = frDb.getFeedbackResponse(
+                expected.feedbackQuestionId, expected.giverEmail, expected.recipientEmail);
         if(wildcardId){
             actual.setId("*");
         }
