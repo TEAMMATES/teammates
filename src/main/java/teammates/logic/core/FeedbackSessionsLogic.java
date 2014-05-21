@@ -85,7 +85,13 @@ public class FeedbackSessionsLogic {
         return fsDb.getFeedbackSessionsForCourse(courseId);
     }
     
-    // This method returns a list of viewable feedback sessions for any user for his course.
+    /**
+     * 
+     * @param courseId
+     * @param userEmail
+     * @return a list of viewable feedback sessions for any user for his course.
+     * @throws EntityDoesNotExistException
+     */
     public List<FeedbackSessionAttributes> getFeedbackSessionsForUserInCourse(
             String courseId, String userEmail) throws EntityDoesNotExistException {
 
@@ -291,19 +297,26 @@ public class FeedbackSessionsLogic {
         return export;
     }
     
-    public List<FeedbackSessionAttributes> getFeedbackSessionsWhichNeedPublishedEmailsToBeSent() {
+    /**
+     * Criteria: must be published, publishEmail must be enabled and 
+     * resultsVisibleTime must be custom.
+     * 
+     * @return returns a list of sessions that require automated emails to be sent 
+     * as they are published
+     */
+    public List<FeedbackSessionAttributes> getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent() {
         List<FeedbackSessionAttributes> sessions =
                 fsDb.getFeedbackSessionsWithUnsentPublishedEmail();
         List<FeedbackSessionAttributes> sessionsToSendEmailsFor =
                 new ArrayList<FeedbackSessionAttributes>();
-        
+
         for (FeedbackSessionAttributes session : sessions){
-            // Don't send email if publish time is same as open time or not automated.
-            if (session.isPublished() && session.isPublishedEmailEnabled
+            // automated emails are required only for custom publish times
+            if (session.isPublished() && session.isPublishedEmailEnabled 
                     && !TimeHelper.isSpecialTime(session.resultsVisibleFromTime)) {
                 sessionsToSendEmailsFor.add(session);
             }
-        }        
+        }
         return sessionsToSendEmailsFor;
     }
     
@@ -587,7 +600,7 @@ public class FeedbackSessionsLogic {
     }
 
     public void scheduleFeedbackSessionPublishedEmails() {        
-        List<FeedbackSessionAttributes> sessions = getFeedbackSessionsWhichNeedPublishedEmailsToBeSent();
+        List<FeedbackSessionAttributes> sessions = getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent();
         
         for(FeedbackSessionAttributes session : sessions){
             sendFeedbackSessionPublishedEmail(session);
@@ -675,24 +688,7 @@ public class FeedbackSessionsLogic {
                 }
             }
             break;
-
-        case TEAM:
-            details.stats.expectedTotal = coursesLogic
-                    .getNumberOfTeams(fsa.courseId);
-            List<TeamDetailsBundle> teams = coursesLogic
-                    .getTeamsForCourse(fsa.courseId);
-
-            int teamsSubmitted = 0;
-            for (TeamDetailsBundle team : teams) {
-                if (isFeedbackSessionFullyCompletedByTeam(
-                        fsa.feedbackSessionName,
-                        fsa.courseId, team.name)) {
-                    teamsSubmitted += 1;
-                }
-            }
-            details.stats.submittedTotal = teamsSubmitted;
-            break;
-
+            
         case PRIVATE:
             if (fqLogic.getFeedbackQuestionsForSession(
                     fsa.feedbackSessionName, fsa.courseId).isEmpty()) {

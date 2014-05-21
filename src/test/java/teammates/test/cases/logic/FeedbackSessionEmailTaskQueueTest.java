@@ -2,6 +2,7 @@ package teammates.test.cases.logic;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
+import static org.testng.AssertJUnit.assertFalse;
 
 import java.util.HashMap;
 
@@ -16,6 +17,7 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Const.ParamsNames;
+import teammates.common.util.Const.SystemParams;
 import teammates.common.util.TimeHelper;
 import teammates.logic.api.Logic;
 import teammates.logic.core.FeedbackSessionsLogic;
@@ -124,6 +126,92 @@ public class FeedbackSessionEmailTaskQueueTest extends
         } catch (AssertionError a) {
             assertEquals("The supplied parameter was null\n", a.getMessage());
         }
+        FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(0);
+    }
+    
+    @Test
+    public void testScheduleFeedbackSessionOpeningEmails() throws Exception {
+        // this method tests a function from FeedbackSessionLogic.java
+
+        restoreTypicalDataInDatastore();
+        FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+        FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
+        
+        ______TS("no opening email tasks to be sent");
+                
+        fsLogic.scheduleFeedbackSessionOpeningEmails();
+        FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(0);
+        
+        ______TS("1 opening email task to be sent");
+        
+        FeedbackSessionAttributes fsa = fsLogic.getFeedbackSession("First feedback session", "idOfTypicalCourse1");
+        assertEquals("First feedback session", fsa.feedbackSessionName);
+        fsa.startTime = TimeHelper.getDateOffsetToCurrentTime(1);
+        fsa.endTime = TimeHelper.getDateOffsetToCurrentTime(2);
+        
+        fsLogic.updateFeedbackSession(fsa);
+        fsa = fsLogic.getFeedbackSession("First feedback session", "idOfTypicalCourse1");
+        assertFalse(fsa.sentOpenEmail);
+        fsa.startTime = TimeHelper.getDateOffsetToCurrentTime(-1);
+        fsLogic.updateFeedbackSession(fsa);
+        
+        fsLogic.scheduleFeedbackSessionOpeningEmails();
+        
+        FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(1);
+        FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
+    }
+    
+    @Test
+    public void testScheduleFeedbackSessionClosingEmails() throws Exception {
+        // this method tests a function from FeedbackSessionLogic.java
+        
+        restoreTypicalDataInDatastore();
+        FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
+        FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+        
+        ______TS("no closing email tasks to be sent");
+        
+        assertTrue(fsLogic.getFeedbackSessionsClosingWithinTimeLimit().isEmpty());
+        fsLogic.scheduleFeedbackSessionOpeningEmails();
+        FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(0);
+        
+        ______TS("1 closing email task to be sent");
+
+        FeedbackSessionAttributes fsa = fsLogic.getFeedbackSession("First feedback session", "idOfTypicalCourse1");
+        fsa.startTime = TimeHelper.getDateOffsetToCurrentTime(-3);
+        fsa.endTime = TimeHelper.getMsOffsetToCurrentTime(((SystemParams.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT 
+                + (int) fsa.timeZone) * 60 * 60 * 1000) - 60 * 1000);
+        fsLogic.updateFeedbackSession(fsa);
+        
+        assertFalse(fsLogic.getFeedbackSessionsClosingWithinTimeLimit().isEmpty());
+        fsLogic.scheduleFeedbackSessionClosingEmails();
+        
+        FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(1);
+        FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
+    }
+    
+    @Test
+    public void testScheduleFeedbackSessionPublishedEmails() throws Exception {
+        // this method tests a function from FeedbackSessionLogic.java
+        
+        restoreTypicalDataInDatastore();
+        FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
+        FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+        
+        ______TS("1 closing email tasks to be sent");
+        
+        fsLogic.scheduleFeedbackSessionPublishedEmails();
+        // the "Empty Session"
+        FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(1);
+        FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
+        
+        ______TS("0 closing email task to be sent");
+
+        FeedbackSessionAttributes fsa = fsLogic.getFeedbackSession("Empty session", "idOfTypicalCourse1");
+        fsa.isPublishedEmailEnabled = false;
+        fsLogic.updateFeedbackSession(fsa);
+        fsLogic.scheduleFeedbackSessionPublishedEmails();
+        
         FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(0);
     }
 }
