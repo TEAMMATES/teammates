@@ -35,6 +35,7 @@ public class InstructorFeedbackQuestionAddAction extends Action {
         List<String> questionDetailsErrors = feedbackQuestion.getQuestionDetails().validateQuestionDetails();
         if(questionDetailsErrors.size() > 0){
             statusToUser.addAll(questionDetailsErrors);
+            isError = true;
         } else {
             try {
                 logic.createFeedbackQuestion(feedbackQuestion);    
