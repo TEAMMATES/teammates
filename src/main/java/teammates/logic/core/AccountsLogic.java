@@ -230,7 +230,7 @@ public class AccountsLogic {
         } 
     
         StudentAttributes existingStudent =
-                StudentsLogic.inst().getStudentForGoogleId(studentRole.course, googleId);
+                StudentsLogic.inst().getStudentForCourseIdAndGoogleId(studentRole.course, googleId);
         
         if (existingStudent != null) {
             throw new JoinCourseException(
