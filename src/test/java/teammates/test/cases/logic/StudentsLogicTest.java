@@ -23,6 +23,8 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
+import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentAttributesFactory;
 import teammates.common.datatransfer.StudentEnrollDetails;
@@ -34,12 +36,14 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
+import teammates.common.util.TimeHelper;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.Emails;
 import teammates.logic.core.EvaluationsLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
+import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.logic.core.SubmissionsLogic;
 import teammates.storage.api.StudentsDb;
@@ -50,6 +54,7 @@ import teammates.test.driver.AssertHelper;
 import teammates.test.util.TestHelper;
 
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.datastore.Text;
 
 public class StudentsLogicTest extends BaseComponentTestCase{
     
@@ -544,10 +549,19 @@ public class StudentsLogicTest extends BaseComponentTestCase{
                 
         String instructorId = "instructorForEnrollTesting";
         String courseIdForEnrollTest = "courseForEnrollTest";
+        String instructorEmail = "instructor@email.com";
         AccountAttributes accountToAdd = new AccountAttributes(instructorId, 
-                "Instructor 1", true, "instructor@email.com", "National University Of Singapore");
+                "Instructor 1", true, instructorEmail, "National University Of Singapore");
         accountsLogic.createAccount(accountToAdd);
         coursesLogic.createCourseAndInstructor(instructorId, courseIdForEnrollTest, "Course for Enroll Testing");
+        FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+        FeedbackSessionAttributes fsAttr = new FeedbackSessionAttributes("newFeedbackSessionName",
+                courseIdForEnrollTest, instructorEmail, new Text("default instructions"),
+                TimeHelper.getHoursOffsetToCurrentTime(0), TimeHelper.getHoursOffsetToCurrentTime(2), TimeHelper.getHoursOffsetToCurrentTime(5),
+                TimeHelper.getHoursOffsetToCurrentTime(1), TimeHelper.getHoursOffsetToCurrentTime(6),
+                8.0, 0, FeedbackSessionType.PRIVATE, false, false, false, false, false);
+        fsLogic.createFeedbackSession(fsAttr);
+        
         String EOL = Const.EOL;
         
         String line0 = "t1|n1|e1@g|c1";
