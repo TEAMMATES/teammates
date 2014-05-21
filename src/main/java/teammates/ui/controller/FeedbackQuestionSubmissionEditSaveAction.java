@@ -33,6 +33,9 @@ public abstract class FeedbackQuestionSubmissionEditSaveAction extends Action {
         feedbackQuestionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
         Assumption.assertNotNull(feedbackQuestionId);
         
+        String totalResponsesForQuestion = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL);
+        Assumption.assertNotNull(totalResponsesForQuestion);
+        
         verifyAccesibleForSpecificUser();
         
         setStatusToAdmin();
@@ -47,8 +50,9 @@ public abstract class FeedbackQuestionSubmissionEditSaveAction extends Action {
         
         getPageData(userEmailForCourse);
         
-        String totalResponsesForQuestion = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL);
         int numOfResponsesToGet = Integer.parseInt(totalResponsesForQuestion);
+
+        
         
         for(int responseIndx = 0; responseIndx < numOfResponsesToGet; responseIndx++){
             FeedbackAbstractQuestionDetails questionDetails  = data.bundle.question.getQuestionDetails();
