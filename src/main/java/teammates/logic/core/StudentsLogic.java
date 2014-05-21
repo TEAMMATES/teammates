@@ -299,6 +299,7 @@ public class StudentsLogic {
 
     private void scheduleSubmissionAdjustmentForFeedbackInCourse(
             ArrayList<StudentEnrollDetails> enrollmentList, String courseId, String sessionName) {
+        // private methods -- should I test this?
         HashMap<String, String> paramMap = new HashMap<String, String>();
         
         paramMap.put(ParamsNames.COURSE_ID, courseId);
