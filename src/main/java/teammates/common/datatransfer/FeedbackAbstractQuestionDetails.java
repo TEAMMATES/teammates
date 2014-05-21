@@ -123,9 +123,6 @@ public abstract class FeedbackAbstractQuestionDetails {
             String stepString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP);
             Assumption.assertNotNull("Null step", stepString);
             Double step = Double.parseDouble(stepString);
-            
-            Assumption.assertTrue(minScale < maxScale);
-            Assumption.assertTrue(step > 0.0);
 
             questionDetails = 
                     new FeedbackNumericalScaleQuestionDetails(questionText, minScale, maxScale, step);
