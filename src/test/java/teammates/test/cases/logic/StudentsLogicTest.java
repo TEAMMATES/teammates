@@ -352,16 +352,19 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         
         restoreTypicalDataInDatastore();
         
+        // the case below will not cause the response to be deleted
+        // because the studentEnrollDetails'email is not the same as giver or recipient
         ______TS("adjust feedback response: no change");
         
         String course1Id = dataBundle.courses.get("typicalCourse1").id;
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
+        StudentAttributes student2InCourse1 = dataBundle.students.get("student2InCourse1");
         ArrayList<StudentEnrollDetails> enrollmentList = new ArrayList<StudentEnrollDetails>();
         StudentEnrollDetails studentDetails1 = new StudentEnrollDetails(StudentAttributes.UpdateStatus.MODIFIED,
                 course1Id, student1InCourse1.email, student1InCourse1.team, student1InCourse1.team + "tmp");
         enrollmentList.add(studentDetails1);
         
-        FeedbackResponseAttributes feedbackResponse1InBundle = dataBundle.feedbackResponses.get("response1ForQ2S1C1");
+        FeedbackResponseAttributes feedbackResponse1InBundle = dataBundle.feedbackResponses.get("response1ForQ2S2C1");
         FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
         FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
         FeedbackQuestionAttributes feedbackQuestionInDb = fqLogic.getFeedbackQuestion(feedbackResponse1InBundle.feedbackSessionName, 
@@ -376,10 +379,14 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         assertEquals(responseBefore.getId(), responseAfter.getId());
         
         
+        // the code below will cause the feedback to be deleted because
+        // recipient's e-mail is the same as the one in studentEnrollDetails
+        // and the question's recipient's type is own team members
         ______TS("adjust feedback response: delete after adjustment");
         
         studentDetails1 = new StudentEnrollDetails(StudentAttributes.UpdateStatus.MODIFIED,
-                course1Id, student1InCourse1.email, student1InCourse1.team, student1InCourse1.team + "tmp");
+                course1Id, student2InCourse1.email, student1InCourse1.team, student1InCourse1.team + "tmp");
+        enrollmentList = new ArrayList<StudentEnrollDetails>();
         enrollmentList.add(studentDetails1);
         
         feedbackQuestionInDb = fqLogic.getFeedbackQuestion(feedbackResponse1InBundle.feedbackSessionName, 
@@ -792,7 +799,6 @@ public class StudentsLogicTest extends BaseComponentTestCase{
 
         restoreTypicalDataInDatastore();
 
-
         ______TS("null parameters");
 
         try {
@@ -880,8 +886,6 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         restoreTypicalDataInDatastore();
     
         ______TS("student in two courses");
-    
-        restoreTypicalDataInDatastore();
         
         StudentAttributes studentInTwoCoursesInCourse1 = dataBundle.students
                 .get("student2InCourse1");
@@ -920,10 +924,6 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         restoreTypicalDataInDatastore();
         
         ______TS("course with multiple students");
-    
-        restoreTypicalDataInDatastore();
-    
-        
     
         CourseAttributes course1OfInstructor1 = dataBundle.courses.get("typicalCourse1");
         List<StudentAttributes> studentList = studentsLogic

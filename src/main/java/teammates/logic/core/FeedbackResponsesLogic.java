@@ -313,9 +313,12 @@ public class FeedbackResponsesLogic {
         boolean isGiverSameForResponseAndEnrollment = response.giverEmail.equals(enrollment.email);
         boolean isReceiverSameForResponseAndEnrollment = response.recipientEmail.equals(enrollment.email);
         
-        boolean shouldDeleteResponse = (isGiverSameForResponseAndEnrollment && (question.giverType == FeedbackParticipantType.TEAMS
-                                        || question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS)) ||
-                                        (isReceiverSameForResponseAndEnrollment && question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS);
+        boolean shouldDeleteByChangeOfGiver = (isGiverSameForResponseAndEnrollment && (question.giverType == FeedbackParticipantType.TEAMS
+                || question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS));
+        boolean shouldDeleteByChangeOfRecipient = (isReceiverSameForResponseAndEnrollment 
+                && question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS);
+        
+        boolean shouldDeleteResponse =  shouldDeleteByChangeOfGiver || shouldDeleteByChangeOfRecipient;
         
         if (shouldDeleteResponse) {
             frDb.deleteEntity(response);
