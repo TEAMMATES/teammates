@@ -131,7 +131,7 @@ public class FeedbackSessionEmailTaskQueueTest extends
     
     @Test
     public void testScheduleFeedbackSessionOpeningEmails() throws Exception {
-        // this method tests fsLogic function scheduleFeedbackSessionOpeningEmails()
+        // this method tests a function from FeedbackSessionLogic.java
 
         restoreTypicalDataInDatastore();
         FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
@@ -163,7 +163,7 @@ public class FeedbackSessionEmailTaskQueueTest extends
     
     @Test
     public void testScheduleFeedbackSessionClosingEmails() throws Exception {
-        // this method tests fsLogic function scheduleFeedbackSessionClosingEmails()
+        // this method tests a function from FeedbackSessionLogic.java
         
         restoreTypicalDataInDatastore();
         FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
@@ -192,7 +192,7 @@ public class FeedbackSessionEmailTaskQueueTest extends
     
     @Test
     public void testScheduleFeedbackSessionPublishedEmails() throws Exception {
-        // this method tests fsLogic function scheduleFeedbackSessionPublishedEmails()
+        // this method tests a function from FeedbackSessionLogic.java
         
         restoreTypicalDataInDatastore();
         FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
