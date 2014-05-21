@@ -54,4 +54,8 @@ public class InstructorFeedbackSubmissionEditPageAction extends FeedbackSubmissi
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT, data);
     }
 
+    @Override
+    protected RedirectResult createSpecificRedirectResult() {
+        return createRedirectResult(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
+    }
 }
