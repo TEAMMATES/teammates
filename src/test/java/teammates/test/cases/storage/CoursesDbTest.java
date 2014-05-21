@@ -5,7 +5,6 @@ import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
 
 import org.testng.Assert;
-import org.testng.AssertJUnit;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -14,8 +13,12 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
+import teammates.common.util.StringHelper;
 import teammates.storage.api.CoursesDb;
+import teammates.storage.api.EntitiesDb;
 import teammates.test.cases.BaseComponentTestCase;
+import teammates.test.driver.AssertHelper;
 import teammates.test.util.TestHelper;
 
 public class CoursesDbTest extends BaseComponentTestCase {
@@ -36,7 +39,7 @@ public class CoursesDbTest extends BaseComponentTestCase {
          * the parent class actually calls an overridden method from the SUT.
          */
 
-        ______TS("success: typical case");
+        ______TS("Success: typical case");
         
         CourseAttributes c = new CourseAttributes();
         c.id = "CDbT.tCC.newCourse";
@@ -44,6 +47,44 @@ public class CoursesDbTest extends BaseComponentTestCase {
         coursesDb.createEntity(c);
         TestHelper.verifyPresentInDatastore(c);
         
+        ______TS("Failure: create duplicate course");
+
+        try {
+            coursesDb.createEntity(c);
+            signalFailureToDetectException();
+        } catch (EntityAlreadyExistsException e) {
+            AssertHelper.assertContains(String.format(EntitiesDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS, "Course"), e.getMessage());
+        }
+
+        ______TS("Failure: create a course with invalid parameter");
+
+        c.id = "Invalid id";
+        try {
+            coursesDb.createEntity(c);
+            signalFailureToDetectException();
+        } catch (InvalidParametersException e) {
+            AssertHelper.assertContains("not acceptable to TEAMMATES as a Course ID because it is not in the correct format", 
+                                        e.getMessage());
+        }
+
+        c.id = "CDbT.tCC.newCourse";
+        c.name = StringHelper.generateStringOfLength(FieldValidator.COURSE_NAME_MAX_LENGTH + 1);
+        try {
+            coursesDb.createEntity(c);
+            signalFailureToDetectException();
+        } catch (InvalidParametersException e) {
+            AssertHelper.assertContains("not acceptable to TEAMMATES as a course name because it is too long",
+                                        e.getMessage());
+        }
+
+        ______TS("Failure: null parameter");
+
+        try {
+            coursesDb.createEntity(null);
+            signalFailureToDetectException();
+        } catch (AssertionError e){
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
+        }
         
     }
     
@@ -51,35 +92,39 @@ public class CoursesDbTest extends BaseComponentTestCase {
     public void testGetCourse() throws InvalidParametersException {
         CourseAttributes c = createNewCourse();
         
-        // Get existent
+        ______TS("Success: get an existent course");
+
         CourseAttributes retrieved = coursesDb.getCourse(c.id);
         assertNotNull(retrieved);
         
-        // Get non-existent - just return null
+        ______TS("Failure: get a non-existent course");
+
         retrieved = coursesDb.getCourse("non-existent-course");
         assertNull(retrieved);
         
-        // Null params check:
+        ______TS("Failure: get null parameters");
+        
         try {
             coursesDb.getCourse(null);
             Assert.fail();
-        } catch (AssertionError a) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
+        } catch (AssertionError e) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
         }
     }
     
     @Test
     public void testUpdateCourse() throws Exception {
         
-        ______TS("null paramater");
+        ______TS("Failure: null paramater");
+        
         try {
             coursesDb.updateCourse(null);
-            Assert.fail();
-        } catch (AssertionError ae) {
-            AssertJUnit.assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
         }
         
-        ______TS("fail: course with invalid parameters");
+        ______TS("Failure: update course with invalid parameters");
         
         CourseAttributes course = new CourseAttributes();
         course.id = "";
@@ -90,7 +135,10 @@ public class CoursesDbTest extends BaseComponentTestCase {
             coursesDb.updateCourse(course);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
-            ignoreExpectedException();
+            AssertHelper.assertContains("not acceptable to TEAMMATES as a Course ID because it is empty",
+                                        e.getMessage());
+            AssertHelper.assertContains("not acceptable to TEAMMATES as a course name because it is empty",
+                                        e.getMessage());
         }
         
         ______TS("fail: non-exisitng course");
@@ -110,37 +158,41 @@ public class CoursesDbTest extends BaseComponentTestCase {
         
         course = createNewCourse();
         course.isArchived = true;
-        
+     
         coursesDb.updateCourse(course);
         
         CourseAttributes courseRetrieved = coursesDb.getCourse(course.id);
-        assertEquals(true, courseRetrieved.isArchived);
-        
+        assertEquals(course.isArchived, courseRetrieved.isArchived);
     }
     
     @Test
     public void testDeleteCourse() throws InvalidParametersException {
         CourseAttributes c = createNewCourse();
         
-        // Delete
+        ______TS("Success: delete an existing course");
+
         coursesDb.deleteCourse(c.id);
         
         CourseAttributes deleted = coursesDb.getCourse(c.id);
         assertNull(deleted);
         
-        // delete again - should fail silently
+        ______TS("Failure: delete a non-existent courses");
+
+        // Should fail silently
         coursesDb.deleteCourse(c.id);
-        
-        // Null params check:
+
+        ______TS("Failure: null parameter");
+
         try {
             coursesDb.deleteCourse(null);
-            Assert.fail();
-        } catch (AssertionError a) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
         }
     }
 
     private CourseAttributes createNewCourse() throws InvalidParametersException {
+        
         CourseAttributes c = new CourseAttributes();
         c.id = "Computing101";
         c.name = "Basic Computing";
