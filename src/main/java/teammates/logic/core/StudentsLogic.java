@@ -170,6 +170,7 @@ public class StudentsLogic {
          *    of a student are being updated or when the new email to be updated is invalid
          */
         FieldValidator validator = new FieldValidator();
+        // second branch is unlikely to happen because previous method call will throw exception
         String finalEmail = (student.email == null || !validator
                 .getInvalidityInfo(FieldType.EMAIL, student.email).isEmpty()) ?
                 originalEmail : student.email;
@@ -488,11 +489,13 @@ public class StudentsLogic {
                     invalidityInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, line, info));
                 }
                 
-                if (isStudentEmailDuplicated(student.email,studentEmailList)){
-                    String info = StringHelper.toString(getInvalidityInfoInDuplicatedEmail(student.email,studentEmailList,linesArray), 
+                if (isStudentEmailDuplicated(student.email, studentEmailList)){
+                    String info = StringHelper.toString(getInvalidityInfoInDuplicatedEmail(student.email, studentEmailList,linesArray), 
                                                     "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
                     invalidityInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, line, info));
                 }
+                
+                studentEmailList.add(student.email);
             } catch (EnrollException e) {
                 String info = String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, line, e.getMessage());
                 invalidityInfo.add(info);

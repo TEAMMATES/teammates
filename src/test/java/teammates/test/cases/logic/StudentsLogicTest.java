@@ -362,7 +362,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         
         // the case below will not cause the response to be deleted
         // because the studentEnrollDetails'email is not the same as giver or recipient
-        ______TS("adjust feedback response: no change");
+        ______TS("adjust feedback response: no change of team");
         
         String course1Id = dataBundle.courses.get("typicalCourse1").id;
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
@@ -383,6 +383,27 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         studentsLogic.adjustFeedbackResponseForEnrollments(enrollmentList, responseBefore);
         
         FeedbackResponseAttributes responseAfter = frLogic.getFeedbackResponse(feedbackQuestionInDb.getId(), 
+                feedbackResponse1InBundle.giverEmail, feedbackResponse1InBundle.recipientEmail);
+        assertEquals(responseBefore.getId(), responseAfter.getId());
+        
+        
+        // the case below will not cause the response to be deleted
+        // because the studentEnrollDetails'email is not the same as giver or recipient
+        ______TS("adjust feedback response: unmodified status");
+        
+        enrollmentList = new ArrayList<StudentEnrollDetails>();
+        studentDetails1 = new StudentEnrollDetails(StudentAttributes.UpdateStatus.UNMODIFIED,
+                course1Id, student1InCourse1.email, student1InCourse1.team, student1InCourse1.team + "tmp");
+        enrollmentList.add(studentDetails1);
+        
+        feedbackQuestionInDb = fqLogic.getFeedbackQuestion(feedbackResponse1InBundle.feedbackSessionName, 
+                feedbackResponse1InBundle.courseId, Integer.parseInt(feedbackResponse1InBundle.feedbackQuestionId));
+        responseBefore = frLogic.getFeedbackResponse(feedbackQuestionInDb.getId(),
+                feedbackResponse1InBundle.giverEmail, feedbackResponse1InBundle.recipientEmail);
+        
+        studentsLogic.adjustFeedbackResponseForEnrollments(enrollmentList, responseBefore);
+        
+        responseAfter = frLogic.getFeedbackResponse(feedbackQuestionInDb.getId(), 
                 feedbackResponse1InBundle.giverEmail, feedbackResponse1InBundle.recipientEmail);
         assertEquals(responseBefore.getId(), responseAfter.getId());
         
@@ -520,6 +541,16 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         ______TS("enrollLines with only whitespaces");
         // not tested as enroll lines must be trimmed before passing to the method
         
+        
+        ______TS("enrollLines with duplicate emails");
+        
+        enrollLines = lineWithCorrectInput + Const.EOL + lineWithCorrectInput;
+        
+        invalidInfo = invokeGetInvalidityInfoInEnrollLines(enrollLines, courseId);
+
+        assertEquals(1, invalidInfo.size());
+        
+        
         ______TS("enrollLines with a mix of all above cases");
         enrollLines = lineWithInvalidTeamName + Const.EOL + lineWithInvalidTeamNameAndStudentNameAndEmail + 
                 Const.EOL + lineWithExtraParameters + Const.EOL +
@@ -548,11 +579,12 @@ public class StudentsLogicTest extends BaseComponentTestCase{
     }
     
     @Test
-    public void testEnrollStudents() throws Exception {     
-                
+    public void testEnrollStudents() throws Exception {
+        
         String instructorId = "instructorForEnrollTesting";
         String courseIdForEnrollTest = "courseForEnrollTest";
-        String instructorEmail = "instructor@email.com";
+        String instructorEmail = "instructor@email.com";      
+        String EOL = Const.EOL;
         AccountAttributes accountToAdd = new AccountAttributes(instructorId, 
                 "Instructor 1", true, instructorEmail, "National University Of Singapore");
         accountsLogic.createAccount(accountToAdd);
@@ -565,7 +597,8 @@ public class StudentsLogicTest extends BaseComponentTestCase{
                 8.0, 0, FeedbackSessionType.PRIVATE, false, false, false, false, false);
         fsLogic.createFeedbackSession(fsAttr);
         
-        String EOL = Const.EOL;
+        
+        ______TS("all valid students, but contains blank lines");
         
         String line0 = "t1|n1|e1@g|c1";
         String line1 = " t2|  n2|  e2@g|  c2";
@@ -589,39 +622,6 @@ public class StudentsLogicTest extends BaseComponentTestCase{
             
         CourseDetailsBundle cd = coursesLogic.getCourseDetails(courseIdForEnrollTest);
         assertEquals(5, cd.stats.unregisteredTotal);
-        
-        
-                ______TS("invalid course id");
-        
-        String enrollLines = "";
-        String invalidCourseId = "invalidCourseId";
-        try {
-            studentsLogic.enrollStudents(enrollLines, invalidCourseId);
-            signalFailureToDetectException();
-        } catch (EntityDoesNotExistException e) {
-            ignoreExpectedException();
-        }
-        
-        
-        ______TS("empty enroll line");
-        
-        try {
-            studentsLogic.enrollStudents(enrollLines, courseIdForEnrollTest);
-            signalFailureToDetectException();
-        } catch (EnrollException e) {
-            ignoreExpectedException();
-        }
-        
-        
-        ______TS("invalidity info in enroll line");
-        
-        enrollLines = "invalidline0\ninvalidline1\n";
-        try {
-            studentsLogic.enrollStudents(enrollLines, courseIdForEnrollTest);
-            signalFailureToDetectException();
-        } catch (EnrollException e) {
-            ignoreExpectedException();
-        }
         
         
         ______TS("includes a mix of unmodified, modified, and new");
@@ -670,8 +670,8 @@ public class StudentsLogicTest extends BaseComponentTestCase{
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
         }
         
-        ______TS("same student added, modified and unmodified");
         
+        ______TS("same student added, modified and unmodified");
         
         accountToAdd = new AccountAttributes("tes.instructor", 
                 "Instructor 1", true, "instructor@email.com", "National University Of Singapore");
@@ -705,6 +705,39 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         } catch (EnrollException e) {
             assertTrue(e.getMessage().contains(line_t10));
             assertTrue(e.getMessage().contains("Same email address as the student in line \""+line_t9+"\""));    
+        }
+        
+        
+______TS("invalid course id");
+        
+        String enrollLines = "";
+        String invalidCourseId = "invalidCourseId";
+        try {
+            studentsLogic.enrollStudents(enrollLines, invalidCourseId);
+            signalFailureToDetectException();
+        } catch (EntityDoesNotExistException e) {
+            ignoreExpectedException();
+        }
+        
+        
+        ______TS("empty enroll line");
+        
+        try {
+            studentsLogic.enrollStudents(enrollLines, courseIdForEnrollTest);
+            signalFailureToDetectException();
+        } catch (EnrollException e) {
+            ignoreExpectedException();
+        }
+        
+        
+        ______TS("invalidity info in enroll line");
+        
+        enrollLines = "invalidline0\ninvalidline1\n";
+        try {
+            studentsLogic.enrollStudents(enrollLines, courseIdForEnrollTest);
+            signalFailureToDetectException();
+        } catch (EnrollException e) {
+            ignoreExpectedException();
         }
         
     }
