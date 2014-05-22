@@ -133,7 +133,7 @@ public class Logic {
      * 
      */
     public void createAccount(String googleId, String name, boolean isInstructor,
-                                String email, String institute) throws InvalidParametersException, EntityAlreadyExistsException {
+                                String email, String institute) throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, name);
@@ -175,7 +175,8 @@ public class Logic {
      * * All parameters are non-null.<br>
      * * {@code newAccountAttributes} represents an existing account.
      */
-    public void updateAccount(AccountAttributes newAccountAttributes) throws InvalidParametersException {
+    public void updateAccount(AccountAttributes newAccountAttributes) 
+            throws InvalidParametersException, EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, newAccountAttributes);
         

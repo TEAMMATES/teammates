@@ -10,6 +10,7 @@ import javax.jdo.Query;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
@@ -31,14 +32,21 @@ public class AccountsDb extends EntitiesDb {
      * Preconditions: 
      * <br> * {@code accountToAdd} is not null and has valid data.
      */
-    public void createAccount(AccountAttributes accountToAdd) throws InvalidParametersException {
+    public void createAccount(AccountAttributes accountToAdd) 
+            throws InvalidParametersException {
         // TODO: use createEntity once there is a proper way to add instructor accounts.
         try {
             createEntity(accountToAdd);
         } catch (EntityAlreadyExistsException e) {
             // We update the account instead if it already exists. This is due to how
             // adding of instructor accounts work.
-            updateAccount(accountToAdd);
+            try {
+                updateAccount(accountToAdd);
+            } catch (EntityDoesNotExistException edne) {
+                // This situation is not tested as replicating such a situation is 
+                // difficult during testing
+                Assumption.fail("Entity found be already existing and not existing simultaneously");
+            }
         }
     }
     
@@ -84,7 +92,8 @@ public class AccountsDb extends EntitiesDb {
      * Preconditions: 
      * <br> * {@code accountToAdd} is not null and has valid data.
      */
-    public void updateAccount(AccountAttributes a) throws InvalidParametersException {
+    public void updateAccount(AccountAttributes a) 
+            throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, a);
         
         if (!a.isValid()) {
@@ -92,9 +101,11 @@ public class AccountsDb extends EntitiesDb {
         }
         
         Account accountToUpdate = getAccountEntity(a.googleId);
-        //TODO: this should be an exception instead?
-        Assumption.assertNotNull(ERROR_UPDATE_NON_EXISTENT_ACCOUNT + a.googleId
-                + ThreadHelper.getCurrentThreadStack(), accountToUpdate);
+
+        if (accountToUpdate == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_ACCOUNT + a.googleId
+                + ThreadHelper.getCurrentThreadStack());
+        }
         
         accountToUpdate.setName(a.name);
         accountToUpdate.setEmail(a.email);
@@ -112,9 +123,9 @@ public class AccountsDb extends EntitiesDb {
      */
     public void deleteAccount(String googleId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
-    
+        
         Account accountToDelete = getAccountEntity(googleId);
-    
+
         if (accountToDelete == null) {
             return;
         }
@@ -125,6 +136,8 @@ public class AccountsDb extends EntitiesDb {
         // Wait for the operation to persist
         int elapsedTime = 0;
         Account accountCheck = getAccountEntity(googleId);
+        // the following while loop is not tested as 
+        // replicating a persistence delay is difficult during testing
         while ((accountCheck != null)
                 && (elapsedTime < Config.PERSISTENCE_CHECK_DURATION)) {
             ThreadHelper.waitBriefly();
