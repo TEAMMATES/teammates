@@ -17,6 +17,7 @@
 <%@ page import="teammates.common.datatransfer.FeedbackTextResponseDetails"%>
 <%@ page import="teammates.common.datatransfer.FeedbackMcqResponseDetails"%>
 <%@ page import="teammates.ui.controller.StudentFeedbackResultsPageData"%>
+<%@ page import="static teammates.ui.controller.PageData.sanitizeForHtml"%>
 <%
     StudentFeedbackResultsPageData data = (StudentFeedbackResultsPageData)request.getAttribute("data");
 %>
@@ -59,13 +60,13 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Course:</label>
                                 <div class="col-sm-10">
-                                    <p class="form-control-static"><%=data.bundle.feedbackSession.courseId%></p>
+                                    <p class="form-control-static"><%=sanitizeForHtml(data.bundle.feedbackSession.courseId)%></p>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Session:</label>
                                 <div class="col-sm-10">
-                                    <p class="form-control-static"><%=data.bundle.feedbackSession.feedbackSessionName%></p>
+                                    <p class="form-control-static"><%=sanitizeForHtml(data.bundle.feedbackSession.feedbackSessionName)%></p>
                                 </div>
                             </div>
                             <div class="form-group">
