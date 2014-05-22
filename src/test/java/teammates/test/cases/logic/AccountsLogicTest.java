@@ -17,6 +17,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.JoinCourseException;
 import teammates.common.util.Assumption;
@@ -212,8 +213,8 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         try {
             accountsLogic.updateAccount(account);
             signalFailureToDetectException();
-        } catch (AssertionError e) {
-            ignoreExpectedException();
+        } catch (EntityDoesNotExistException edne) {
+            AssertHelper.assertContains(AccountsDb.ERROR_UPDATE_NON_EXISTENT_ACCOUNT, edne.getMessage());
         }
         
         ______TS("test downgradeInstructorToStudentCascade");
