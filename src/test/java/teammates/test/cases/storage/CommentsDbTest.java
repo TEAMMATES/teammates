@@ -2,6 +2,7 @@ package teammates.test.cases.storage;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
+import static org.testng.AssertJUnit.assertNull;
 import static teammates.common.util.FieldValidator.COURSE_ID_ERROR_MESSAGE;
 import static teammates.common.util.FieldValidator.REASON_INCORRECT_FORMAT;
 import static teammates.common.util.FieldValidator.EMAIL_ERROR_MESSAGE;
@@ -78,29 +79,39 @@ public class CommentsDbTest extends BaseComponentTestCase {
         CommentAttributes c = createNewComment();
         
         ______TS("typical success case: existent");
-        CommentAttributes retrieved = commentsDb.getCommentsForGiver(c.courseId, c.giverEmail).get(0);
-        assertNotNull(retrieved);
+        CommentAttributes retrievedComment = commentsDb.getCommentsForGiver(c.courseId, c.giverEmail).get(0);
+        assertNotNull(retrievedComment);
         assertNotNull(commentsDb.getCommentsForReceiver(
-                retrieved.courseId, retrieved.receiverEmail));
+                retrievedComment.courseId, retrievedComment.receiverEmail));
         assertNotNull(commentsDb.getCommentsForGiverAndReceiver(
-                retrieved.courseId, retrieved.giverEmail, retrieved.receiverEmail));
+                retrievedComment.courseId, retrievedComment.giverEmail, retrievedComment.receiverEmail));
+        
+        CommentAttributes anotherRetrievedComment = commentsDb.getComment(retrievedComment.getCommentId());
+        assertEquals(retrievedComment.commentText, anotherRetrievedComment.commentText);
+        assertEquals(retrievedComment.giverEmail, anotherRetrievedComment.giverEmail);
+        assertEquals(retrievedComment.receiverEmail, anotherRetrievedComment.receiverEmail);
+        assertEquals(retrievedComment.courseId, anotherRetrievedComment.courseId);
         
         ______TS("non existant comment case");
         List<CommentAttributes> retrievedList = commentsDb.getCommentsForGiver("any-course-id", "non-existent@email.com");
         assertEquals(0, retrievedList.size());
         
+        long nonExistId = -1;
+        c = commentsDb.getComment(nonExistId);
+        assertNull(c);
+        
         ______TS("null params case");
-        retrieved.courseId = null;
-        verifyExceptionThrownFromGetComments(retrieved, GetCommentsType.FOR_GIVER,
+        retrievedComment.courseId = null;
+        verifyExceptionThrownFromGetComments(retrievedComment, GetCommentsType.FOR_GIVER,
                 Const.StatusCodes.DBLEVEL_NULL_INPUT);
 
-        retrieved.courseId = "any-course-id";
-        retrieved.giverEmail = null;
-        retrieved.receiverEmail = null;
-        verifyExceptionThrownFromGetComments(retrieved, GetCommentsType.FOR_RECEIVER,
+        retrievedComment.courseId = "any-course-id";
+        retrievedComment.giverEmail = null;
+        retrievedComment.receiverEmail = null;
+        verifyExceptionThrownFromGetComments(retrievedComment, GetCommentsType.FOR_RECEIVER,
                 Const.StatusCodes.DBLEVEL_NULL_INPUT);
 
-        verifyExceptionThrownFromGetComments(retrieved, GetCommentsType.FOR_GIVER_AND_RECEIVER,
+        verifyExceptionThrownFromGetComments(retrievedComment, GetCommentsType.FOR_GIVER_AND_RECEIVER,
                 Const.StatusCodes.DBLEVEL_NULL_INPUT);
     }
 
