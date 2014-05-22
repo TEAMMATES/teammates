@@ -10,7 +10,7 @@
     if(!statusMessage.isEmpty()) {
 %>
     <div id="statusMessage"
-        style="display: block;<%if(isError) out.print(" background-color: rgb(255, 153, 153);");%>">
+        <%if(isError) out.print(" class=\"alert alert-danger\""); else out.print(" class=\"alert alert-warning\"");%>>
         <%=statusMessage%></div>
 <%    } else { %>
     <div id="statusMessage" style="display: none;"></div>

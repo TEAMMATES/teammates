@@ -10,8 +10,9 @@
     if(!statusMessage.isEmpty()) {
 %>
     <div id="statusMessage"
-        style="display: block;<%if(isError) out.print(" background-color: rgb(255, 153, 153);");%>">
-        <%=statusMessage%></div>
+        <%if(isError) out.print(" class=\"alert alert-danger\""); else out.print(" class=\"alert alert-warning\"");%>>
+        <%=statusMessage%>
+    </div>
     <script type="text/javascript">
         document.getElementById( 'statusMessage' ).scrollIntoView();
     </script>
