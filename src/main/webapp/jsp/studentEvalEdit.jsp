@@ -20,12 +20,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>TEAMMATES - Student</title>
     <link rel="stylesheet" href="/stylesheets/common.css" type="text/css" media="screen">
-    <link rel="stylesheet" href="/stylesheets/studentEvalEdit.css" type="text/css" media="screen">
     <link rel="stylesheet" href="/stylesheets/common-print.css" type="text/css" media="print">
     <link rel="stylesheet" href="/stylesheets/studentEvalEdit-print.css" type="text/css" media="print">
     <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
-    
 
     <script type="text/javascript" src="/js/googleAnalytics.js"></script>
     <script type="text/javascript" src="/js/jquery-minified.js"></script>
@@ -81,29 +79,37 @@
             <h1>Evaluation Submission</h1>
         </div>
         
-        <div class="panel panel-primary" style="max-width:500px; margin: 0 auto;">
-            <table class="table table-striped" id="studentEvaluationInformation">
-                <tr>
-                    <td width="30%" class="bold">Course ID:</td>
-                    <td id="<%=Const.ParamsNames.COURSE_ID%>"><%=data.eval.courseId%></td>
-                </tr>
-                <tr>
-                    <td width="30%" class="bold">Evaluation name:</td>
-                    <td id="<%=Const.ParamsNames.EVALUATION_NAME%>"><%=StudentEvalSubmissionEditPageData.sanitizeForHtml(data.eval.name)%></td>
-                </tr>
-                <tr>
-                    <td width="30%" class="bold">Opening time:</td>
-                    <td id="<%=Const.ParamsNames.EVALUATION_STARTTIME%>"><%=TimeHelper.formatTime(data.eval.startTime)%></td>
-                </tr>
-                <tr>
-                    <td width="30%" class="bold">Closing time:</td>
-                    <td id="<%=Const.ParamsNames.EVALUATION_DEADLINETIME%>"><%=TimeHelper.formatTime(data.eval.endTime)%></td>
-                </tr>
-                <tr>
-                    <td width="30%" class="bold">Instructions:</td>
-                    <td class="multiline" id="<%=Const.ParamsNames.EVALUATION_INSTRUCTIONS%>"><%=StudentEvalSubmissionEditPageData.sanitizeForHtml(data.eval.instructions.getValue())%></td>
-                </tr>
-            </table>
+        <div class="row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-8">
+                <div class="panel panel-default">
+                    <div class="form form-horizontal" id="studentEvaluationInformation">
+                        <div class="panel-heading">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Course ID:</label>
+                                <div class="col-sm-5" id="<%=Const.ParamsNames.COURSE_ID%>"><%=data.eval.courseId%></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Evaluation name:</label>
+                                <div class="col-sm-5" id="<%=Const.ParamsNames.EVALUATION_NAME%>"><%=StudentEvalSubmissionEditPageData.sanitizeForHtml(data.eval.name)%></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Opening time:</label>
+                                <div class="col-sm-5" id="<%=Const.ParamsNames.EVALUATION_STARTTIME%>"><%=TimeHelper.formatTime(data.eval.startTime)%></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Closing time:</label>
+                                <div class="col-sm-5" id="<%=Const.ParamsNames.EVALUATION_DEADLINETIME%>"><%=TimeHelper.formatTime(data.eval.endTime)%></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Instructions:</label>
+                                <div class="col-sm-5 multiline" id="<%=Const.ParamsNames.EVALUATION_INSTRUCTIONS%>"><%=StudentEvalSubmissionEditPageData.sanitizeForHtml(data.eval.instructions.getValue())%></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2"></div>
         </div>
         
         <br>
@@ -111,28 +117,34 @@
         <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
         <br>
         <br>
-        <div class="panel panel-primary" style="max-width: 760px; margin: 0 auto;">
-            <div class="panel-heading">
-                <span class="bold">How do I choose ‘estimated contribution’ values?</span>
+        <div class="row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-8">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="bold">How do I choose ‘estimated contribution’ values?</span>
+                    </div>
+                    <div class="panel-body">
+                        Choose ‘Equal share’ if this team member did an equal share of the work. 
+                        ‘Equal share + 10%’ means the team member did 10% more than an equal share of the work.
+                    </div>
+                </div>
             </div>
-            <div class="panel-body">
-                Choose ‘Equal share’ if this team member did an equal share of the work. 
-                ‘Equal share + 10%’ means the team member did 10% more than an equal share of the work.
-            </div>
+            <div class="col-sm-2"></div>
         </div>
-        <br>
         <br>
         <br>
         
         <form name="form_submitevaluation" id="form_submitevaluation" method="post"
-                action="<%=Const.ActionURIs.STUDENT_EVAL_SUBMISSION_EDIT_SAVE%>">
+                action="<%=Const.ActionURIs.STUDENT_EVAL_SUBMISSION_EDIT_SAVE%>"
+                class="form form-horizontal" role="form">
             <jsp:include page="<%=Const.ViewURIs.EVAL_SUBMISSION_EDIT%>">
             <jsp:param name="isStudent" value="true" />
             </jsp:include>
             <br>
             <br>
             <div id="studentEvaluationSubmissionButtons" class="centeralign">
-                <input type="submit" class="button" name="submitEvaluation"
+                <input type="submit" class="btn btn-primary" name="submitEvaluation"
                         id="button_submit" value="Submit Evaluation" 
                         <%=(!data.disableAttribute.isEmpty() || data.isPreview) ? "disabled=\"disabled\"" : ""%>
                         <%
@@ -146,9 +158,9 @@
             </div>
             <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
         </form>
-         <br>
-         <br>
-         <br>
+        <br>
+        <br>
+        <br>
     
     </div>
 
