@@ -60,11 +60,11 @@
                 <%
                     } else if (data.isPreview || !data.isSessionOpenForSubmission) {
                 %>
-                        <input disabled="disabled" type="submit" class="button" id="response_submit_button" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_EDIT_SAVE%>')" onmouseout="hideddrivetip()" value="Save Feedback" style="background: #66727A;"/>
+                        <input disabled="disabled" type="submit" class="btn btn-primary" id="response_submit_button" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_EDIT_SAVE%>')" onmouseout="hideddrivetip()" value="Save Feedback" style="background: #66727A;"/>
                 <%
                     } else {
                 %>
-                        <input type="submit" class="button" id="response_submit_button" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_EDIT_SAVE%>')" onmouseout="hideddrivetip()" value="Save Feedback"/>
+                        <input type="submit" class="btn btn-primary" id="response_submit_button" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_EDIT_SAVE%>')" onmouseout="hideddrivetip()" value="Save Feedback"/>
                 <%
                     }
                 %>

@@ -47,6 +47,7 @@
             </div>
         </div>
     <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
+    <br />
 <%
     int qnIndx = 1;
     List<FeedbackQuestionAttributes> questions = data.bundle.getSortedQuestions();
@@ -67,42 +68,37 @@
         <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_TYPE%>-<%=Integer.toString(qnIndx)%>" value="<%=question.questionType%>"/>
         <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_ID%>-<%=Integer.toString(qnIndx)%>" value="<%=question.getId()%>"/>
         <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL%>-<%=Integer.toString(qnIndx)%>" value="<%=numOfResponseBoxes%>"/>
-        <table class="inputTable responseTable">
-            <tr style="border-bottom: 3px dotted white;">
-                <td class="bold" colspan="2" style="white-space:pre-wrap;">Question <%=qnIndx%>:<br/><%=sanitizeForHtml(questionDetails.questionText)%></td>
-            </tr>
-            <tr><td class="bold" colspan="2">Only the following persons can see your responses:</tr>
-            <tr style="border-bottom: 3px dotted white;">
-                <td colspan="2"
-                    onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_RESPONSE_VISIBILITY_INFO%>')"
-                    onmouseout="hideddrivetip()">
-                    <ul>
+        <div class="form-horizontal">
+            <div class="panel panel-primary">
+                <div class="panel-heading">Question <%=qnIndx%>:<br/>
+                    <%=sanitizeForHtml(questionDetails.questionText)%></div>
+                <div class="panel-body">
+                    <p class="text-muted">Only the following persons can see your responses: </p>
+                    <ul class="text-muted">
                     <%
                         if (question.getVisibilityMessage().isEmpty()) {
                     %>
-                            <li>No-one but the feedback session creator can see your responses.</li>
+                            <li class="unordered">No-one but the feedback session creator can see your responses.</li>
                     <%
                         }
                         for (String line : question.getVisibilityMessage()) {
                     %>
-                            <li><%=line%></li>
+                            <li class="unordered"><%=line%></li>
                     <%
                         }
                     %>
                     </ul>
-                </td>
-            </tr>
-            <tr><td class="bold centeralign" style="padding-top: 15px; padding-bottom: 0px" colspan="3">Your Response</td></tr>
+                    <br />
         <%
             int responseIndx = 0;
             List<FeedbackResponseAttributes> existingResponses =
                     data.bundle.questionResponseBundle.get(question);
             for (FeedbackResponseAttributes existingResponse : existingResponses) {
         %>
-                <tr>
-                    <td class="middlealign nowrap" <%=(question.isRecipientNameHidden()) ? "style=\"display:none\"" : ""%>>
-                        <span class="label bold">To: </span> 
-                        <select class="participantSelect middlealign" 
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label" <%=(question.isRecipientNameHidden()) ? "style=\"display:none\"" : ""%>>
+                        To: 
+                        <select class="participantSelect middlealign form-control" 
                             name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"
                             <%=(numOfResponseBoxes == maxResponsesPossible) ? "style=\"display:none\"" : ""%>
                             <%=data.isSessionOpenForSubmission ? "" : "disabled=\"disabled\""%>>
@@ -112,24 +108,25 @@
                             }
                         %>
                         </select>
-                    </td>
-                    <td class="responseText">
+                        <br />
+                    </label>
+                    <div class="col-sm-10">
                         <%=questionDetails.getQuestionWithExistingResponseSubmissionFormHtml(
                             data.isSessionOpenForSubmission, 
                             qnIndx, responseIndx, question.courseId, 
                             existingResponse.getResponseDetails())%>
                         <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_ID%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>" value="<%=existingResponse.getId()%>"/>
-                    </td>
-                </tr>
+                    </div>
+                </div>
         <%
             responseIndx++;
                         }
                         while (responseIndx < numOfResponseBoxes) {
         %>
-                <tr>
-                    <td class="middlealign nowrap" <%=(question.isRecipientNameHidden()) ? "style=\"display:none\"" : ""%>>
-                        <span class="label bold">To: </span> 
-                        <select class="participantSelect middlealign newResponse" 
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label" <%=(question.isRecipientNameHidden()) ? "style=\"display:none\"" : ""%>>
+                        To:  
+                        <select class="participantSelect middlealign newResponse form-control" 
                             name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"
                             <%=(numOfResponseBoxes == maxResponsesPossible) ? "style=\"display:none\"" : ""%>
                             <%=data.isSessionOpenForSubmission ? "" : "disabled=\"disabled\""%>>
@@ -139,18 +136,19 @@
                                                         }
                         %>
                         </select>
-                    </td>
-                    <td class="responseText">
+                        <br />
+                    </label>
+                    <div class="col-sm-10">
                     <%=questionDetails.getQuestionWithoutExistingResponseSubmissionFormHtml(
                             data.isSessionOpenForSubmission, 
                             qnIndx, responseIndx, question.courseId)%>
-                    </td>
-                </tr>
+                    </div>
+                </div>
         <%
                 responseIndx++;
             }
-        %>
-        </table>
+        %></div></div>
+        </div>
         <br><br>
 <%
         qnIndx++;
