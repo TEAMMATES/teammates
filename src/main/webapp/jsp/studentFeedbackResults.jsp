@@ -212,9 +212,8 @@
             <% 
                 }
                    if (questionsWithResponses.isEmpty()) {
-            %>                
-                    <br><br><br>
-                    <div class="bold color_red centeralign">There are currently no responses for you for this feedback session.</div>
+            %>
+                    <div class="alert alert-danger">There are currently no responses for you for this feedback session.</div>
             <% 
                 } 
             %>
