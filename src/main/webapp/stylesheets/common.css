@@ -231,7 +231,7 @@ h2 {
 
 #frameBodyWrapper {
     margin: 0 auto;
-    width: 1000px;
+    max-width: 1000px;
     min-height: 200px;
 }
 
@@ -239,20 +239,6 @@ h2 {
     margin: 30px 0px;
     text-align: center;
 }
-
-
-
-/*---------------------  Status Message  --------------------------------------------------- */
-div#statusMessage {
-    background-color: #FFFF99;
-    margin: 20px auto;
-    padding: 8px;
-    text-align: center;
-    width: 920px;
-    display: none;
-}
-
-
 
 /*---------------------  Background Block  --------------------------------------------------- */
 .backgroundBlock {
