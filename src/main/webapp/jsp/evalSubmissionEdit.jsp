@@ -30,33 +30,78 @@
                             id="<%=Const.ParamsNames.TO_EMAIL+idx%>">
             </div>
             <div class="panel-heading"><%=data.getEvaluationSectionTitle(sub)%></div>
-
-            <div class="panel-body">
         <%
             if(sub.reviewee.equals(sub.reviewer)) {
         %>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">My estimated contribution:</label>
-                    <div class="col-sm-10">
-                        <select class="form-control"
-                                name="<%=Const.ParamsNames.POINTS%>"
-                                id="<%=Const.ParamsNames.POINTS+idx%>"
-                                <%=data.disableAttribute%>>
-                            <%=data.getEvaluationOptions(sub)%>
-                        </select>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">My estimated contribution:</label>
+                        <div class="col-sm-10">
+                            <select class="form-control"
+                                    name="<%=Const.ParamsNames.POINTS%>"
+                                    id="<%=Const.ParamsNames.POINTS+idx%>"
+                                    <%=data.disableAttribute%>>
+                                <%=data.getEvaluationOptions(sub)%>
+                            </select>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label"><%=data.getJustificationInstr(sub)%></label>
-                    <div class="col-sm-10">
-                        <textarea class="form-control" rows="8" 
-                                name="<%=Const.ParamsNames.JUSTIFICATION%>"
-                                id="<%=Const.ParamsNames.JUSTIFICATION+idx%>"
-                                <%=data.disableAttribute%>><%=EvalSubmissionEditPageData.sanitizeForHtml(sub.justification.getValue())%></textarea>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"><%=data.getJustificationInstr(sub)%></label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" rows="8" 
+                                    name="<%=Const.ParamsNames.JUSTIFICATION%>"
+                                    id="<%=Const.ParamsNames.JUSTIFICATION+idx%>"
+                                    <%=data.disableAttribute%>><%=EvalSubmissionEditPageData.sanitizeForHtml(sub.justification.getValue())%></textarea>
+                        </div>
                     </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"><%=data.getCommentsInstr(sub)%></label>
+                    <%
+                        if(data.eval.p2pEnabled){
+                    %>
+                            <div class="col-sm-10">
+                            <textarea class = "form-control" rows="8"
+                                    name="<%=Const.ParamsNames.COMMENTS%>"
+                                     id="<%=Const.ParamsNames.COMMENTS+idx%>"
+                                     <%=data.disableAttribute%>><%=data.getP2PComments(sub)%></textarea>
+                            </div>
+                    <%
+                        } else {
+                    %>
+                            <label class="col-sm-2 control-label">
+                                <font color="red">
+                                    <textarea class="form-control" rows="1"
+                                            name="<%=Const.ParamsNames.COMMENTS%>"
+                                            id="<%=Const.ParamsNames.COMMENTS+idx%>"
+                                            disabled="disabled">N.A.</textarea>
+                                </font>
+                            </label>
+                    <%
+                        }
+                    %>
+                    </div>
+
+                    <br>
+                    <br>
+                    <br>
                 </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label"><%=data.getCommentsInstr(sub)%></label>
+        <%
+            } else {
+        %>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">His/Her estimated contribution:</label>
+                        <div class="col-sm-10">
+                            <select class="form-control"
+                                    name="<%=Const.ParamsNames.POINTS%>"
+                                    id="<%=Const.ParamsNames.POINTS+idx%>"
+                                    <%=data.disableAttribute%>>
+                                <%=data.getEvaluationOptions(sub)%>
+                            </select>
+                        </div>
+                    </tr>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"><%=data.getCommentsInstr(sub)%></label>
                 <%
                     if(data.eval.p2pEnabled){
                 %>
@@ -69,76 +114,32 @@
                 <%
                     } else {
                 %>
-                        <label class="col-sm-2 control-label">
+                        <div class="col-sm-10">
                             <font color="red">
                                 <textarea class="form-control" rows="1"
                                         name="<%=Const.ParamsNames.COMMENTS%>"
                                         id="<%=Const.ParamsNames.COMMENTS+idx%>"
                                         disabled="disabled">N.A.</textarea>
                             </font>
-                        </td>
+                        </div>
                 <%
                     }
                 %>
-                </tr>
-
-                <br>
-                <br>
-                <br>
-        <%
-            } else {
-        %>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">His/Her estimated contribution:</label>
-                    <div class="col-sm-10">
-                        <select class="form-control"
-                                name="<%=Const.ParamsNames.POINTS%>"
-                                id="<%=Const.ParamsNames.POINTS+idx%>"
-                                <%=data.disableAttribute%>>
-                            <%=data.getEvaluationOptions(sub)%>
-                        </select>
-                    </div>
-                </tr>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label"><%=data.getCommentsInstr(sub)%></label>
-            <%
-                if(data.eval.p2pEnabled){
-            %>
-                    <div class="col-sm-10">
-                    <textarea class = "form-control" rows="8"
-                            name="<%=Const.ParamsNames.COMMENTS%>"
-                             id="<%=Const.ParamsNames.COMMENTS+idx%>"
-                             <%=data.disableAttribute%>><%=data.getP2PComments(sub)%></textarea>
-                    </div>
-            <%
-                } else {
-            %>
-                    <div class="col-sm-10">
-                        <font color="red">
-                            <textarea class="form-control" rows="1"
-                                    name="<%=Const.ParamsNames.COMMENTS%>"
-                                    id="<%=Const.ParamsNames.COMMENTS+idx%>"
-                                    disabled="disabled">N.A.</textarea>
-                        </font>
-                    </div>
-            <%
-                }
-            %>
-                </tr>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label"><%=data.getJustificationInstr(sub)%></label>
-                    <div>
-                        <textarea class="form-control" rows="8" 
-                                name="<%=Const.ParamsNames.JUSTIFICATION%>"
-                                id="<%=Const.ParamsNames.JUSTIFICATION+idx%>"
-                                <%=data.disableAttribute%>><%=!data.isPreview ? EvalSubmissionEditPageData.sanitizeForHtml(sub.justification.getValue()) : ""%></textarea>
+                    </tr>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"><%=data.getJustificationInstr(sub)%></label>
+                        <div>
+                            <textarea class="form-control" rows="8" 
+                                    name="<%=Const.ParamsNames.JUSTIFICATION%>"
+                                    id="<%=Const.ParamsNames.JUSTIFICATION+idx%>"
+                                    <%=data.disableAttribute%>><%=!data.isPreview ? EvalSubmissionEditPageData.sanitizeForHtml(sub.justification.getValue()) : ""%></textarea>
+                        </div>
                     </div>
                 </div>
             <%    
-                }
+            }
             %>
     <%        idx++; %>
-        </div>
     <%
         } 
     %>
