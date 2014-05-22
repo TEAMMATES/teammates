@@ -73,7 +73,7 @@
         }
     %>
 
-    <div class="container">
+    <div class="container theme-showcase" role="main">
         <div id="topOfPage"></div>
         <div id="headerOperation">
             <h1>Evaluation Submission</h1>
@@ -84,7 +84,7 @@
             <div class="col-sm-8">
                 <div class="panel panel-default">
                     <div class="form form-horizontal" id="studentEvaluationInformation">
-                        <div class="panel-heading">
+                        <div class="panel-body">
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Course ID:</label>
                                 <div class="col-sm-5" id="<%=Const.ParamsNames.COURSE_ID%>"><%=data.eval.courseId%></div>
@@ -117,20 +117,10 @@
         <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
         <br>
         <br>
-        <div class="row">
-            <div class="col-sm-2"></div>
-            <div class="col-sm-8">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <span class="bold">How do I choose ‘estimated contribution’ values?</span>
-                    </div>
-                    <div class="panel-body">
+        <div class="text-muted">
+                        <span class="bold">How do I choose ‘estimated contribution’ values?</span><br>
                         Choose ‘Equal share’ if this team member did an equal share of the work. 
                         ‘Equal share + 10%’ means the team member did 10% more than an equal share of the work.
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-2"></div>
         </div>
         <br>
         <br>
