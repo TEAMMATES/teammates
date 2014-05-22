@@ -45,9 +45,7 @@
 
 <body>
     <div id="dhtmltooltip"></div>
-    <div id="frameTop">
-        <jsp:include page="<%=Const.ViewURIs.STUDENT_HEADER%>" />
-    </div>
+    <jsp:include page="<%=Const.ViewURIs.STUDENT_HEADER%>" />
 
     <div id="frameBody" class="container">
         <div id="frameBodyWrapper">
