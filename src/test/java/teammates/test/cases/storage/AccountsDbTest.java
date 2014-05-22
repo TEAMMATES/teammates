@@ -1,22 +1,31 @@
 package teammates.test.cases.storage;
 
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertNull;
+import static org.testng.AssertJUnit.assertNotNull;
+import static org.testng.AssertJUnit.assertTrue;
+import static org.testng.AssertJUnit.assertFalse;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.testng.Assert;
-import org.testng.AssertJUnit;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.DataBundle;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.StringHelper;
 import teammates.storage.api.AccountsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
+import teammates.test.util.TestHelper;
 
 public class AccountsDbTest extends BaseComponentTestCase {
-    
-    //TODO: add missing test cases, refine existing ones. Follow the example
-    //  of CoursesDbTest::testCreateCourse().
 
     private AccountsDb accountsDb = new AccountsDb();
     
@@ -27,8 +36,49 @@ public class AccountsDbTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testCreateAccount() throws InvalidParametersException {
-        // SUCCESS
+    public void testGetAccount() throws Exception {
+        AccountAttributes a = createNewAccount();
+        
+       ______TS("typical success case");
+        AccountAttributes retrieved = accountsDb.getAccount(a.googleId);
+        assertNotNull(retrieved);
+        
+        ______TS("expect null for non-existent account");
+        retrieved = accountsDb.getAccount("non.existent");
+        assertNull(retrieved);
+        
+        ______TS("failure: null parameter");
+        try {
+            accountsDb.getAccount(null);
+            Assert.fail();
+        } catch (AssertionError ae) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+        }
+    }
+    
+    @Test
+    public void testGetInstructorAccounts() throws Exception {
+        
+        restoreTypicalDataInDatastore();
+        DataBundle dataBundle = getTypicalDataBundle();
+        
+        List<AccountAttributes> instructorAccountsActual = accountsDb.getInstructorAccounts();
+        
+        List<AccountAttributes> typicalAccounts = new ArrayList<AccountAttributes>(dataBundle.accounts.values());
+        List<AccountAttributes> instructorAccountsExpected = new ArrayList<AccountAttributes>();
+        for (AccountAttributes acc : typicalAccounts) {
+            if (acc.isInstructor) {
+                instructorAccountsExpected.add(acc);
+            }
+        }
+        assertEquals(10, instructorAccountsActual.size());
+        TestHelper.isSameContentIgnoreOrder(instructorAccountsExpected, instructorAccountsActual);
+    }
+    
+    @Test
+    public void testCreateAccount() throws Exception {
+
+        ______TS("typical success case");
         AccountAttributes a = new AccountAttributes();
         a.googleId = "test.account";
         a.name = "Test account Name";
@@ -37,22 +87,21 @@ public class AccountsDbTest extends BaseComponentTestCase {
         a.institute = "National University of Singapore";
         accountsDb.createAccount(a);
             
-        // SUCCESS : duplicate
+        ______TS("success case: duplicate account");
         accountsDb.createAccount(a);
         
-        // Test for latest entry persistence
+        ______TS("test persistence of latest entry");
         AccountAttributes accountDataTest = accountsDb.getAccount(a.googleId);
-        AssertJUnit.assertFalse(accountDataTest.isInstructor);
+        assertFalse(accountDataTest.isInstructor);
         // Change a field
         accountDataTest.isInstructor = true;
         accountsDb.updateAccount(accountDataTest);
         // Re-retrieve
         accountDataTest = accountsDb.getAccount(a.googleId);
-        AssertJUnit.assertTrue(accountDataTest.isInstructor);
+        assertTrue(accountDataTest.isInstructor);
         
-        // FAIL : invalid parameters
         // Should we not allow empty fields?
-        
+        ______TS("failure case: invalid parameter");
         a.email = "invalid email";
         try {
             accountsDb.createAccount(a);
@@ -65,88 +114,81 @@ public class AccountsDbTest extends BaseComponentTestCase {
                     e.getMessage());
         }
         
-        
-        // Null parameters check:
+        ______TS("failure: null parameter");
         try {
             accountsDb.createAccount(null);
             Assert.fail();
         } catch (AssertionError ae) {
-            AssertJUnit.assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
         }
     }
     
     @Test
-    public void testGetAccount() throws InvalidParametersException {
+    public void testEditAccount() throws Exception {
         AccountAttributes a = createNewAccount();
         
-        // Get existent
-        AccountAttributes retrieved = accountsDb.getAccount(a.googleId);
-        AssertJUnit.assertNotNull(retrieved);
-        
-        // Get non-existent - just return null
-        retrieved = accountsDb.getAccount("non.existent");
-        AssertJUnit.assertNull(retrieved);
-        
-        // Null params check:
-        try {
-            accountsDb.getAccount(null);
-            Assert.fail();
-        } catch (AssertionError ae) {
-            AssertJUnit.assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
-        }
-    }
-    
-    @Test
-    public void testEditAccount() throws InvalidParametersException {
-        AccountAttributes a = createNewAccount();
-        
-        // Edit existent
+        ______TS("typical success case");
         a.name = "Edited name";
         accountsDb.updateAccount(a);
         
-        // Edit non-existent
+        ______TS("non-existent account");
+        
         try {
             a.googleId = "non.existent";
             accountsDb.updateAccount(a);
-            Assert.fail();
-        } catch (AssertionError ae) {
-            AssertHelper.assertContains(AccountsDb.ERROR_UPDATE_NON_EXISTENT_ACCOUNT, ae.getMessage());
+            signalFailureToDetectException();
+        } catch (EntityDoesNotExistException edne) {
+            AssertHelper.assertContains(AccountsDb.ERROR_UPDATE_NON_EXISTENT_ACCOUNT, edne.getMessage());
         }
         
-        // Null parameters check:
+        ______TS("failure: invalid parameters");
+        
+        a.googleId = "";
+        a.email = "test-no-at-funny.com";
+        a.name = "%asdf";
+        a.institute = StringHelper.generateStringOfLength(65);
+        
+        try {
+            accountsDb.updateAccount(a);
+        } catch (InvalidParametersException ipe) {
+            assertEquals(StringHelper.toString(a.getInvalidityInfo()), ipe.getMessage());
+        }
+        
         // Only check first 2 parameters (course & email) which are used to identify the student entry. The rest are actually allowed to be null.
+        ______TS("failure: null parameter");
         try {
             accountsDb.updateAccount(null);
             Assert.fail();
         } catch (AssertionError ae) {
-            AssertJUnit.assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
         }
     }
     
     @Test
-    public void testDeleteAccount() throws InvalidParametersException {
+    public void testDeleteAccount() throws Exception {
         AccountAttributes a = createNewAccount();
         
-        // Delete
+        ______TS("typical success case");
         accountsDb.deleteAccount(a.googleId);
         
         AccountAttributes deleted = accountsDb.getAccount(a.googleId);
-        AssertJUnit.assertNull(deleted);
+        assertNull(deleted);
         
-        // delete again - should fail silently
+        ______TS("silent deletion of same account");
         accountsDb.deleteAccount(a.googleId);
         
-        // Null parameters check:
+        ______TS("failure null paramter");
+        
         try {
             accountsDb.deleteAccount(null);
             Assert.fail();
         } catch (AssertionError ae) {
-            AssertJUnit.assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
         }
     }
 
 
-    private AccountAttributes createNewAccount() throws InvalidParametersException {
+    private AccountAttributes createNewAccount() throws Exception {
         AccountAttributes a = new AccountAttributes();
         a.googleId = "valid.googleId";
         a.name = "Valid Fresh Account";
