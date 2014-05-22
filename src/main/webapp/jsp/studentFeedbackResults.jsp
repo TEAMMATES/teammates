@@ -55,7 +55,7 @@
             <h2>Feedback Results - Student</h2>
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <form class="form-horizontal">
+                    <div class="form-horizontal">
                         <div class="panel-heading">
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Course:</label>
@@ -78,7 +78,7 @@
                                 </div>
                             </div>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
             <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
