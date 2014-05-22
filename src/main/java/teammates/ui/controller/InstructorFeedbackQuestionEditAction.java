@@ -20,7 +20,6 @@ public class InstructorFeedbackQuestionEditAction extends Action {
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
         
-        //TODO: Looks like this class is handling multiple actions. Break up?
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         
@@ -39,24 +38,9 @@ public class InstructorFeedbackQuestionEditAction extends Action {
         
         try {
             if(editType.equals("edit")) {
-                if(updatedQuestion.questionNumber != 0){ //Question number was updated
-                    logic.updateFeedbackQuestionNumber(updatedQuestion);
-                    statusToUser.add(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
-                } else{
-                    logic.updateFeedbackQuestion(updatedQuestion);    
-                    statusToUser.add(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
-                    statusToAdmin = "Feedback Question "+ updatedQuestion.questionNumber +" for session:<span class=\"bold\">(" +
-                            updatedQuestion.feedbackSessionName + ")</span> for Course <span class=\"bold\">[" +
-                            updatedQuestion.courseId + "]</span> edited.<br>" +
-                            "<span class=\"bold\">" + updatedQuestion.getQuestionDetails().getQuestionTypeDisplayName() + ":</span> " +
-                            updatedQuestion.getQuestionDetails().questionText;
-                }
+                editQuestion(updatedQuestion);
             } else if (editType.equals("delete")) {
-                logic.deleteFeedbackQuestion(updatedQuestion.getId());
-                statusToUser.add(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
-                statusToAdmin = "Feedback Question "+ updatedQuestion.questionNumber +" for session:<span class=\"bold\">(" +
-                        updatedQuestion.feedbackSessionName + ")</span> for Course <span class=\"bold\">[" +
-                        updatedQuestion.courseId + "]</span> deleted.<br>";
+                deleteQuestion(updatedQuestion);
             } else {
                 Assumption.fail("Invalid editType");
             }
@@ -65,6 +49,36 @@ public class InstructorFeedbackQuestionEditAction extends Action {
         }
         
         return createRedirectResult(new PageData(account).getInstructorFeedbackSessionEditLink(courseId,feedbackSessionName));
+    }
+
+    private void deleteQuestion(FeedbackQuestionAttributes updatedQuestion) {
+        logic.deleteFeedbackQuestion(updatedQuestion.getId());
+        statusToUser.add(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
+        statusToAdmin = "Feedback Question "+ updatedQuestion.questionNumber +" for session:<span class=\"bold\">(" +
+                updatedQuestion.feedbackSessionName + ")</span> for Course <span class=\"bold\">[" +
+                updatedQuestion.courseId + "]</span> deleted.<br>";
+    }
+
+    private void editQuestion(FeedbackQuestionAttributes updatedQuestion)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        if(updatedQuestion.questionNumber != 0){ //Question number was updated
+            logic.updateFeedbackQuestionNumber(updatedQuestion);
+            statusToUser.add(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+        } else{
+            List<String> questionDetailsErrors = updatedQuestion.getQuestionDetails().validateQuestionDetails();
+            if(!questionDetailsErrors.isEmpty()){
+                statusToUser.addAll(questionDetailsErrors);
+                isError = true;
+            } else {
+                logic.updateFeedbackQuestion(updatedQuestion);    
+                statusToUser.add(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+                statusToAdmin = "Feedback Question "+ updatedQuestion.questionNumber +" for session:<span class=\"bold\">(" +
+                        updatedQuestion.feedbackSessionName + ")</span> for Course <span class=\"bold\">[" +
+                        updatedQuestion.courseId + "]</span> edited.<br>" +
+                        "<span class=\"bold\">" + updatedQuestion.getQuestionDetails().getQuestionTypeDisplayName() + ":</span> " +
+                        updatedQuestion.getQuestionDetails().questionText;
+            }
+        }
     }
 
     private static FeedbackQuestionAttributes extractFeedbackQuestionData(Map<String, String[]> requestParameters) {
