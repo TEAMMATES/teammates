@@ -34,14 +34,12 @@
     <div id="dhtmltooltip"></div>
 
     <!-- Common Header -->
+    <jsp:include page="<%=Const.ViewURIs.STUDENT_HEADER%>" />
 
-    <div id="frameTop">
-        <jsp:include page="<%=Const.ViewURIs.STUDENT_HEADER%>" />
-    </div>
 
     <!-- Main Body -->
     
-    <div class = "container" role = "main">   
+    <div class = "container">   
             <div id="topOfPage"></div>
                 <div id="headerOperation">
                     <h2>Team Details for <%=data.courseDetails.course.id%></h2>
