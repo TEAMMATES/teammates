@@ -284,9 +284,9 @@ public class FeedbackMcqQuestionDetails extends FeedbackAbstractQuestionDetails 
         List<String> errors = new ArrayList<String>();
         for(FeedbackResponseAttributes response : responses){
             FeedbackMcqResponseDetails frd = (FeedbackMcqResponseDetails) response.getResponseDetails();
-            if(!otherEnabled){
+            if(!otherEnabled && generateOptionsFor == FeedbackParticipantType.NONE){
                 if(!mcqChoices.contains(frd.getAnswerString())){
-                    errors.add(ERROR_INVALID_OPTION);
+                    errors.add(frd.getAnswerString() + ERROR_INVALID_OPTION);
                 }
             }
         }

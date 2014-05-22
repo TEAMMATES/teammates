@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.FeedbackAbstractQuestionDetails;
 import teammates.common.datatransfer.FeedbackAbstractResponseDetails;
 import teammates.common.datatransfer.FeedbackQuestionBundle;
@@ -43,6 +45,7 @@ public abstract class FeedbackQuestionSubmissionEditSaveAction extends Action {
         if (isSessionOpenForSpecificUser(fs) == false) {
             isError = true;
             statusToUser.add(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN);
+            return createSpecificShowPageResult();
         }
         
         String userEmailForCourse = getUserEmailForCourse();
@@ -55,7 +58,10 @@ public abstract class FeedbackQuestionSubmissionEditSaveAction extends Action {
         
         for(int responseIndx = 0; responseIndx < numOfResponsesToGet; responseIndx++) {
             FeedbackResponseAttributes response = extractFeedbackResponseData(requestParameters, 1, responseIndx, questionDetails);
-            if(response != null){
+            if(response.responseMetaData.getValue().isEmpty()){
+                //deletes the response since answer is empty.
+                saveResponse(response);
+            } else {
                 response.giverEmail = userEmailForCourse;
                 responsesForQuestion.add(response);
             }
@@ -64,10 +70,8 @@ public abstract class FeedbackQuestionSubmissionEditSaveAction extends Action {
         List<String> errors = questionDetails.validateResponseAttributes(responsesForQuestion);
         
         if(errors.isEmpty()) {
-            if(isSessionOpenForSpecificUser(fs) == true) {
-                for(FeedbackResponseAttributes response : responsesForQuestion) {
-                    saveResponse(response);
-                }
+            for(FeedbackResponseAttributes response : responsesForQuestion) {
+                saveResponse(response);
             }
         } else {
             statusToUser.addAll(errors);
@@ -77,6 +81,10 @@ public abstract class FeedbackQuestionSubmissionEditSaveAction extends Action {
         if (isError == false) {
             statusToUser.add(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
         }
+        
+        getPageData(userEmailForCourse);
+        
+        data.isSessionOpenForSubmission = isSessionOpenForSpecificUser(fs);
         
         return createSpecificShowPageResult();
     }
@@ -138,7 +146,7 @@ public abstract class FeedbackQuestionSubmissionEditSaveAction extends Action {
                             questionDetails);
             response.setResponseDetails(responseDetails);
         } else {
-            response = null;
+            response.responseMetaData = new Text("");
         }
         
         return response;

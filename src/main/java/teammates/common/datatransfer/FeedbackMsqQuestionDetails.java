@@ -287,8 +287,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackAbstractQuestionDetails 
         for(FeedbackResponseAttributes response : responses){
             FeedbackMsqResponseDetails frd = (FeedbackMsqResponseDetails) response.getResponseDetails();
             if(!otherEnabled){
-                if(!msqChoices.containsAll(frd.answers)){
-                    errors.add(ERROR_INVALID_OPTION);
+                if(!msqChoices.containsAll(frd.answers) && generateOptionsFor == FeedbackParticipantType.NONE){
+                    errors.add(frd.getAnswerString() + ERROR_INVALID_OPTION);
                 }
             }
         }

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.FeedbackAbstractQuestionDetails;
 import teammates.common.datatransfer.FeedbackAbstractResponseDetails;
 import teammates.common.datatransfer.FeedbackQuestionType;
@@ -41,6 +43,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         if (!isSessionOpenForSpecificUser(data.bundle.feedbackSession)) {
             isError = true;
             statusToUser.add(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN);
+            return createSpecificRedirectResult();
         }
         
         int numOfQuestionsToGet = data.bundle.questionResponseBundle.size();
@@ -57,7 +60,10 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             
             for(int responseIndx = 0; responseIndx < numOfResponsesToGet; responseIndx++) {
                 FeedbackResponseAttributes response = extractFeedbackResponseData(requestParameters, questionIndx, responseIndx, questionDetails);
-                if(response != null){
+                if(response.responseMetaData.getValue().isEmpty()){
+                    //deletes the response since answer is empty
+                    saveResponse(response);
+                } else {
                     response.giverEmail = userEmailForCourse;
                     responsesForQuestion.add(response);
                 }
@@ -66,10 +72,8 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             List<String> errors = questionDetails.validateResponseAttributes(responsesForQuestion);
             
             if(errors.isEmpty()) {
-                if(isSessionOpenForSpecificUser(data.bundle.feedbackSession) == true) {
-                    for(FeedbackResponseAttributes response : responsesForQuestion) {
-                        saveResponse(response);
-                    }
+                for(FeedbackResponseAttributes response : responsesForQuestion) {
+                    saveResponse(response);
                 }
             } else {
                 statusToUser.addAll(errors);
@@ -160,7 +164,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                             questionDetails);
             response.setResponseDetails(responseDetails);
         } else {
-            response = null;
+            response.responseMetaData = new Text("");
         }
         
         return response;
