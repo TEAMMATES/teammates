@@ -17,8 +17,6 @@ import teammates.common.util.HttpRequestHelper;
 public abstract class FeedbackAbstractQuestionDetails {
     public FeedbackQuestionType questionType;
     public String questionText;
-
-    //TODO: Add abstract function to check validity of question details.
     
     protected FeedbackAbstractQuestionDetails(FeedbackQuestionType questionType){
         this.questionType = questionType;
@@ -46,6 +44,19 @@ public abstract class FeedbackAbstractQuestionDetails {
     public abstract boolean isChangesRequiresResponseDeletion(FeedbackAbstractQuestionDetails newDetails);
     
     public abstract String getCsvHeader();
+    
+    /**
+     * Validates the question details
+     * @return A {@code List<String>} of error messages (to show as status message to user) if any, or an empty list if question details are valid.
+     */
+    public abstract List<String> validateQuestionDetails();
+    
+    /**
+     * Validates {@code List<FeedbackResponseAttributes>} for the question based on the current {@code Feedback*QuestionDetails}.
+     * @param responses - The {@code List<FeedbackResponseAttributes>} for the question to be validated
+     * @return A {@code List<String>} of error messages (to show as status message to user) if any, or an empty list if question responses are valid.
+     */
+    public abstract List<String> validateResponseAttributes(List<FeedbackResponseAttributes> responses);
     
     public static FeedbackAbstractQuestionDetails createQuestionDetails(Map<String, String[]> requestParameters, FeedbackQuestionType questionType) {
         String questionText = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_TEXT);
@@ -119,9 +130,6 @@ public abstract class FeedbackAbstractQuestionDetails {
             String stepString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP);
             Assumption.assertNotNull("Null step", stepString);
             Double step = Double.parseDouble(stepString);
-            
-            Assumption.assertTrue(minScale < maxScale);
-            Assumption.assertTrue(step > 0.0);
 
             questionDetails = 
                     new FeedbackNumericalScaleQuestionDetails(questionText, minScale, maxScale, step);
