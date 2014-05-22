@@ -109,7 +109,7 @@ public class AccountsLogic {
         return institute;
     }
 
-    public void updateAccount(AccountAttributes account) throws InvalidParametersException {
+    public void updateAccount(AccountAttributes account) throws InvalidParametersException, EntityDoesNotExistException {
         accountsDb.updateAccount(account);
     }
     
@@ -250,7 +250,7 @@ public class AccountsLogic {
             account.isInstructor = false;
             try {
                 accountsDb.updateAccount(account);
-            } catch (InvalidParametersException e) {
+            } catch (InvalidParametersException | EntityDoesNotExistException e) {
                 Assumption.fail("Invalid account data detected unexpectedly " +
                         "while removing instruction privileges from account :"+account.toString());
             }
@@ -267,7 +267,7 @@ public class AccountsLogic {
             account.isInstructor = true;
             try {
                 accountsDb.updateAccount(account);
-            } catch (InvalidParametersException e) {
+            } catch (InvalidParametersException | EntityDoesNotExistException e) {
                 Assumption.fail("Invalid account data detected unexpectedly " +
                         "while adding instruction privileges to account :"+account.toString());
             }
@@ -279,11 +279,12 @@ public class AccountsLogic {
     public void deleteAccountCascade(String googleId) {
         InstructorsLogic.inst().deleteInstructorsForGoogleId(googleId);
         StudentsLogic.inst().deleteStudentsForGoogleId(googleId);
-        accountsDb.deleteAccount(googleId); 
+        accountsDb.deleteAccount(googleId);
         //TODO: deal with orphan courses, submissions etc.
     }
     
-    private void createStudentAccount(StudentAttributes student) throws InvalidParametersException {
+    private void createStudentAccount(StudentAttributes student) 
+            throws InvalidParametersException {
         AccountAttributes account = new AccountAttributes();
         account.googleId = student.googleId;
         account.email = student.email;
