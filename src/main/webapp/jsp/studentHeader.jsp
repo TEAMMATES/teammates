@@ -28,11 +28,11 @@
                         <li class="<%=data.getClass().toString().contains("StudentHelp")?"active":""%>">
                             <a class='nav help' href="/studentHelp.html" target="_blank">Help</a>
                         </li>
-                        <li><a class='nav logout' href="</%=Const.ViewURIs.LOGOUT%>">Logout
+                        <li><a class='nav logout' href="<%=Const.ViewURIs.LOGOUT%>">Logout
                                 <%
                                     if(data.account.googleId.length() > Const.SystemParams.USER_ID_MAX_DISPLAY_LENGTH){
                                 %>
-                                (<span class="text-info" onmouseover="ddrivetip('</%=data.account.googleId%>')" onmouseout="hideddrivetip()">
+                                (<span class="text-info" onmouseover="ddrivetip('<%=data.account.googleId%>')" onmouseout="hideddrivetip()">
                                         <%=PageData.truncate(data.account.googleId,Const.SystemParams.USER_ID_MAX_DISPLAY_LENGTH)%>
                                 </span>)
                                 <%
