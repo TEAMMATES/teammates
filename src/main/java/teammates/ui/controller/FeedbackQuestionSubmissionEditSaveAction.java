@@ -74,13 +74,9 @@ public abstract class FeedbackQuestionSubmissionEditSaveAction extends Action {
             isError = true;
         }
         
-        //getPageData(userEmailForCourse);
-        
         if (isError == false) {
             statusToUser.add(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
         }
-        
-        //data.isSessionOpenForSubmission = isSessionOpenForSpecificUser(fs);
         
         return createSpecificShowPageResult();
     }
