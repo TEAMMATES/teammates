@@ -19,7 +19,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>TEAMMATES - Student</title>
-    <link rel="stylesheet" href="/stylesheets/common.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="/stylesheets/teammatesCommon.css" type="text/css" media="screen">
     <link rel="stylesheet" href="/stylesheets/common-print.css" type="text/css" media="print">
     <link rel="stylesheet" href="/stylesheets/studentEvalEdit-print.css" type="text/css" media="print">
     <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">

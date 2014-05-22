@@ -4,6 +4,10 @@ body {
     padding-top: 60px;
 }
 
- .btn-tm-actions {
+.btn-tm-actions {
     margin-right:3px;
- }
+}
+
+.centeralign {
+    text-align: center;
+}
