@@ -60,22 +60,22 @@
                         if(data.eval.p2pEnabled){
                     %>
                             <div class="col-sm-10">
-                            <textarea class = "form-control" rows="8"
-                                    name="<%=Const.ParamsNames.COMMENTS%>"
-                                     id="<%=Const.ParamsNames.COMMENTS+idx%>"
-                                     <%=data.disableAttribute%>><%=data.getP2PComments(sub)%></textarea>
+                                <textarea class="form-control" rows="8"
+                                        name="<%=Const.ParamsNames.COMMENTS%>"
+                                         id="<%=Const.ParamsNames.COMMENTS+idx%>"
+                                         <%=data.disableAttribute%>><%=data.getP2PComments(sub)%></textarea>
                             </div>
                     <%
                         } else {
                     %>
-                            <label class="col-sm-2 control-label">
+                            <div class="col-sm-10">
                                 <font color="red">
                                     <textarea class="form-control" rows="1"
                                             name="<%=Const.ParamsNames.COMMENTS%>"
                                             id="<%=Const.ParamsNames.COMMENTS+idx%>"
                                             disabled="disabled">N.A.</textarea>
                                 </font>
-                            </label>
+                            </div>
                     <%
                         }
                     %>
@@ -106,10 +106,10 @@
                     if(data.eval.p2pEnabled){
                 %>
                         <div class="col-sm-10">
-                        <textarea class = "form-control" rows="8"
-                                name="<%=Const.ParamsNames.COMMENTS%>"
-                                 id="<%=Const.ParamsNames.COMMENTS+idx%>"
-                                 <%=data.disableAttribute%>><%=data.getP2PComments(sub)%></textarea>
+                            <textarea class = "form-control" rows="8"
+                                    name="<%=Const.ParamsNames.COMMENTS%>"
+                                     id="<%=Const.ParamsNames.COMMENTS+idx%>"
+                                     <%=data.disableAttribute%>><%=data.getP2PComments(sub)%></textarea>
                         </div>
                 <%
                     } else {
