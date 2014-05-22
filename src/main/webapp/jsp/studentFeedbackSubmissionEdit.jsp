@@ -45,12 +45,10 @@
     %>
     </div>
 
-    <div id="frameBody">
+    <div id="frameBody"  class="container">
         <div id="frameBodyWrapper">
             <div id="topOfPage"></div>
-            <div id="headerOperation">
-                <h1>Submit Feedback</h1>
-            </div>
+            <h2>Submit Feedback</h2>
             
             <form method="post" action="<%=Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE%>" name="form_student_submit_response">
                 
