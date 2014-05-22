@@ -14,7 +14,7 @@
     <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.bundle.feedbackSession.courseId%>"/>
     <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
     <div class="panel panel-default" id="course1">
-            <div class="panel-heading">
+            <div class="panel-body">
                 <div class="form-horizontal">
                     <div class="panel-heading">
                         <div class="form-group">
@@ -96,7 +96,7 @@
         %>
                 <br />
                 <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-2 control-label" <%=(question.isRecipientNameHidden()) ? "style=\"display:none\"" : ""%>>
+                    <label for="input" class="col-sm-2 control-label" <%=(question.isRecipientNameHidden()) ? "style=\"display:none\"" : ""%>>
                         To: 
                         <select class="participantSelect middlealign form-control" 
                             name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"
@@ -124,7 +124,7 @@
         %>
                 <br />
                 <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-2 control-label" <%=(question.isRecipientNameHidden()) ? "style=\"display:none\"" : ""%>>
+                    <label for="input" class="col-sm-2 control-label" <%=(question.isRecipientNameHidden()) ? "style=\"display:none\"" : ""%>>
                         To:  
                         <select class="participantSelect middlealign newResponse form-control" 
                             name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"

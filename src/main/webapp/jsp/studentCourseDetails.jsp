@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="/stylesheets/common.css" type="text/css" media="screen"/>
     <link rel="stylesheet" href="/stylesheets/common-print.css" type="text/css" media="print"/>
     <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" type="text/css" media="screen"/>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap-theme.min.css" type="text/css" media="screen"/>
     <link rel="stylesheet" href="/stylesheets/studentCourseDetails.css" type="text/css" media="screen"/>
     <link rel="stylesheet" href="/stylesheets/studentCourseDetails-print.css" type="text/css" media="print"/>
 
@@ -36,7 +37,6 @@
     <!-- Common Header -->
     <jsp:include page="<%=Const.ViewURIs.STUDENT_HEADER%>" />
 
-
     <!-- Main Body -->
     
     <div class = "container">   
@@ -49,7 +49,6 @@
             <br>
             <div class="well">
                     <form class="form-horizontal" role="form">
-                        <div class="panel-heading">
                             <!-- Course ID -->
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Course ID:</label>
@@ -149,8 +148,7 @@
                                 </div>
                             </div>
                         </div> 
-                    </form>
-                </div>   
+                    </form>  
              <br>
              <br>
              <br>        
