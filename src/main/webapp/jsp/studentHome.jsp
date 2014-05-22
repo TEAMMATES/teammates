@@ -16,18 +16,15 @@
     <link rel="shortcut icon" href="/favicon.png">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>TEAMMATES - Student</title>
-    <link rel="stylesheet" href="/stylesheets/common.css" type="text/css" media="screen">
-    <link rel="stylesheet" href="/stylesheets/studentHome.css" type="text/css" media="screen">
-    <link rel="stylesheet" href="/stylesheets/common-print.css" type="text/css" media="print">
-    <link rel="stylesheet" href="/stylesheets/studentHome-print.css" type="text/css" media="print">
-    <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="../bootstrap/css/bootstrap-theme.min.css" type="text/css">
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap-theme.min.css" type="text/css">
+    <link rel="stylesheet" href="/stylesheets/teammatesCommon.css" type="text/css">
 
     <script type="text/javascript" src="/js/googleAnalytics.js"></script>
     <script type="text/javascript" src="/js/jquery-minified.js"></script>
     <script type="text/javascript" src="/js/tooltip.js"></script>
     <script type="text/javascript" src="/js/common.js"></script>
-    <script src="../bootstrap/js/bootstrap.min.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
     
     <script type="text/javascript" src="/js/student.js"></script>
     <script type="text/javascript" src="/js/studentHome.js"></script>
@@ -39,14 +36,11 @@
 
     <jsp:include page="<%=Const.ViewURIs.STUDENT_HEADER%>" />
 
-    <div id="frameBody" class="theme-showcase container">
+    <div class="container theme-showcase">
+        <div id="topOfPage"></div>
         <div id="frameBodyWrapper">
-            <div id="topOfPage"></div>
-            <div id="headerOperation">
-                <h1>Student Home</h1>
-            </div>
-                        
-            <br>
+                <h2>Student Home</h2>
+
             <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
             <br>
 
@@ -56,78 +50,76 @@
                 for (CourseDetailsBundle courseDetails : data.courses) {
                     courseIdx++;
             %>
-            <div class="backgroundBlock">
-                <div class="result_team home_courses_div" id="course<%=courseIdx%>">
-                    <div class="result_homeTitle">
-                        <h2 class="color_white">[<%=courseDetails.course.id%>] :
-                            <%=PageData.sanitizeForHtml(courseDetails.course.name)%>
-                        </h2>
-                    </div>
-                    <div class="result_homeLinks blockLink rightalign">
-                        <a class="t_course_view<%=courseIdx%> color_white"
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <strong>
+                    [<%=courseDetails.course.id%>] : <%=PageData.sanitizeForHtml(courseDetails.course.name)%>
+                    </strong>
+                    <span class="pull-right">
+                        <a class="btn btn-primary btn-xs"
                             href="<%=data.getStudentCourseDetailsLink(courseDetails.course.id)%>"
                             onmouseover="ddrivetip('<%=Const.Tooltips.STUDENT_COURSE_DETAILS%>')"
-                            onmouseout="hideddrivetip()">
-                            View Team
-                        </a>
-                    </div>
-                    <div style="clear: both;"></div>
-                    <br>
-                    <%
-                        if (courseDetails.evaluations.size() > 0 || 
-                            courseDetails.feedbackSessions.size() > 0) {
-                    %>
-                            <table class="dataTable">
+                            onmouseout="hideddrivetip()"
+                            >View Team</a>
+                    </span>
+                </div>
+                
+                <table class="table-responsive table table-striped">
+                <%
+                    if (courseDetails.evaluations.size() > 0 || 
+                        courseDetails.feedbackSessions.size() > 0) {
+                %>
+                            <thead>
                                 <tr>
-                                    <th class="leftalign bold color_white">Session Name</th>
-                                    <th class="centeralign bold color_white">Deadline</th>
-                                    <th class="centeralign bold color_white">Status</th>
-                                    <th class="centeralign bold color_white">Action(s)</th>
+                                    <th>Session Name</th>
+                                    <th>Deadline</th>
+                                    <th>Status</th>
+                                    <th>Action(s)</th>
                                 </tr>
-                            <%
-                                for (EvaluationDetailsBundle edd : courseDetails.evaluations) {
-                                    sessionIdx++;
-                            %>
-                                    <tr class="home_evaluations_row" id="evaluation<%=sessionIdx%>">
-                                        <td class="t_eval_name"><%=PageData.sanitizeForHtml(edd.evaluation.name)%></td>
-                                        <td class="t_eval_deadline centeralign"><%=TimeHelper.formatTime(edd.evaluation.endTime)%></td>
-                                        <td class="t_eval_status centeralign"><span
-                                            onmouseover="ddrivetip(' <%=data.getStudentHoverMessageForEval(data.getStudentStatusForEval(edd.evaluation))%>')"
-                                            onmouseout="hideddrivetip()"><%=data.getStudentStatusForEval(edd.evaluation)%></span></td>
-                                        <td class="centeralign"><%=data.getStudentEvaluationActions(edd.evaluation,sessionIdx)%>
-                                        </td>
-                                    </tr>
-                            <%
-                                }
+                            </thead>
+                        <%
+                            for (EvaluationDetailsBundle edd : courseDetails.evaluations) {
+                                sessionIdx++;
+                        %>
+                                <tr id="evaluation<%=sessionIdx%>">
+                                    <td><%=PageData.sanitizeForHtml(edd.evaluation.name)%></td>
+                                    <td><%=TimeHelper.formatTime(edd.evaluation.endTime)%></td>
+                                    <td><span
+                                        onmouseover="ddrivetip(' <%=data.getStudentHoverMessageForEval(data.getStudentStatusForEval(edd.evaluation))%>')"
+                                        onmouseout="hideddrivetip()"><%=data.getStudentStatusForEval(edd.evaluation)%></span></td>
+                                    <td>
+                                        <div class="control-group"><div class="controls">
+                                        <%=data.getStudentEvaluationActions(edd.evaluation,sessionIdx)%>
+                                        </div></div>
+                                    </td>
+                                </tr>
+                        <%
+                            }
                                 for (FeedbackSessionDetailsBundle fsd : courseDetails.feedbackSessions) {
                                     sessionIdx++;
                             %>
                                     <tr class="home_evaluations_row" id="evaluation<%=sessionIdx%>">
-                                        <td class="t_eval_name"><%=PageData.sanitizeForHtml(fsd.feedbackSession.feedbackSessionName)%></td>
-                                        <td class="t_eval_deadline centeralign"><%=TimeHelper.formatTime(fsd.feedbackSession.endTime)%></td>
-                                        <td class="t_eval_status centeralign"><span
+                                        <td><%=PageData.sanitizeForHtml(fsd.feedbackSession.feedbackSessionName)%></td>
+                                        <td><%=TimeHelper.formatTime(fsd.feedbackSession.endTime)%></td>
+                                        <td><span
                                             onmouseover="ddrivetip(' <%=data.getStudentHoverMessageForSession(fsd.feedbackSession)%>')"
                                             onmouseout="hideddrivetip()"><%=data.getStudentStatusForSession(fsd.feedbackSession)%></span></td>
-                                        <td class="centeralign"><%=data.getStudentFeedbackSessionActions(fsd.feedbackSession,sessionIdx)%>
+                                        <td><%=data.getStudentFeedbackSessionActions(fsd.feedbackSession,sessionIdx)%>
                                         </td>
                                     </tr>
                             <%
                                 }
-                            %>
-                            </table>
-                    <%
-                        } else {
-                    %>
-                            <table class="dataTable">
+                            } else {
+                        %>
                                 <tr>
                                     <th class="centeralign bold color_white">
                                         Currently, there are no open evaluation/feedback sessions in this course. When a session is open for submission you will be notified.
                                     </th>
                                 </tr>
-                            </table>
-                    <%
-                        }
-                    %>
+                        <%
+                            }
+                        %>
+                </table>
                 </div>
             </div>
             <br>
@@ -140,7 +132,6 @@
         </div>
         
     </div>
-    
     <div id="frameBottom">
         <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
     </div>
