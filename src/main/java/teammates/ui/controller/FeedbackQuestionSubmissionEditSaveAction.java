@@ -142,7 +142,7 @@ public abstract class FeedbackQuestionSubmissionEditSaveAction extends Action {
             FeedbackAbstractResponseDetails responseDetails = 
                     FeedbackAbstractResponseDetails.createResponseDetails(
                             answer,
-                            response.feedbackQuestionType,
+                            questionDetails.questionType,
                             questionDetails);
             response.setResponseDetails(responseDetails);
         } else {
