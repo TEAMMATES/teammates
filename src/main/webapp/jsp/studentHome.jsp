@@ -20,11 +20,14 @@
     <link rel="stylesheet" href="/stylesheets/studentHome.css" type="text/css" media="screen">
     <link rel="stylesheet" href="/stylesheets/common-print.css" type="text/css" media="print">
     <link rel="stylesheet" href="/stylesheets/studentHome-print.css" type="text/css" media="print">
+    <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="../bootstrap/css/bootstrap-theme.min.css" type="text/css">
 
     <script type="text/javascript" src="/js/googleAnalytics.js"></script>
     <script type="text/javascript" src="/js/jquery-minified.js"></script>
     <script type="text/javascript" src="/js/tooltip.js"></script>
     <script type="text/javascript" src="/js/common.js"></script>
+    <script src="../bootstrap/js/bootstrap.min.js"></script>
     
     <script type="text/javascript" src="/js/student.js"></script>
     <script type="text/javascript" src="/js/studentHome.js"></script>
@@ -34,11 +37,9 @@
 <body>
     <div id="dhtmltooltip"></div>
 
-    <div id="frameTop">
-        <jsp:include page="<%=Const.ViewURIs.STUDENT_HEADER%>" />
-    </div>
+    <jsp:include page="<%=Const.ViewURIs.STUDENT_HEADER%>" />
 
-    <div id="frameBody">
+    <div id="frameBody" class="theme-showcase container">
         <div id="frameBodyWrapper">
             <div id="topOfPage"></div>
             <div id="headerOperation">
