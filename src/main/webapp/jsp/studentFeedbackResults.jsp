@@ -147,7 +147,7 @@
                     				}
                     %>
                     <div class="panel panel-primary">
-                        <div class="panel-heading">To: <%=recipientName%></div>
+                        <div class="panel-heading"><b>To:</b> <%=recipientName%></div>
                         <table class="table">
                             <tbody>    
                         <%
@@ -155,7 +155,7 @@
                         %>
                             <tr class="resultSubheader">
                                 <td>
-                                    <span class="bold">From:</span> <%=giverName%>
+                                    <span class="bold"><b>From:</b></span> <%=giverName%>
                                 </td>
                             </tr>
                             <tr>
