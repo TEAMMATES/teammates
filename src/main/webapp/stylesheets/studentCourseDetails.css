@@ -1,3 +1,18 @@
 #studentCourseInformation{
     width: 600px;
 }
+
+#frameBottom {
+	position: fixed;
+}
+
+.well {
+	width: 60%;
+	margin: 0 auto;
+	margin-top: -25px;
+	background-image: linear-gradient(to bottom,#DFF0F8 0,#C6E6F7  100%);
+	border-color: #AFCBD8;
+  	border-radius: 12.5px;
+  	-webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, .05), 0 1px 0 rgba(255, 255, 255, .1);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, .05), 0 1px 0 rgba(255, 255, 255, .1);
+}
