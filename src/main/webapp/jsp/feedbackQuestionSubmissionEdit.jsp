@@ -14,8 +14,8 @@
     <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.bundle.feedbackSession.courseId%>"/>
     <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
     
-    <div class="panel panel-default" >
-    <div class="panel-heading">
+    <div class="panel panel-info" >
+    <div class="panel-body">
         <div class="form-horizontal" role="form">
             <div class="form-group">
                 <label class="col-sm-2 control-label">Course:</label>
@@ -30,11 +30,17 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">Duration:</label>
-                <div class="col-sm-10">
+                <label class="col-sm-2 control-label">Opening Time:</label>
+                <div class="col-sm-2">
                     <p class="form-control-static">
                         <%=TimeHelper.formatTime(data.bundle.feedbackSession.startTime)%>
-                        <b>to</b>
+                    </p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Closing Time:</label>
+                <div class="col-sm-10">
+                    <p class="form-control-static">
                         <%=TimeHelper.formatTime(data.bundle.feedbackSession.endTime)%>
                     </p>
                 </div>
