@@ -396,11 +396,11 @@ function setStatusMessage(message, error) {
     $(DIV_STATUS_MESSAGE).html(message);
     $(DIV_STATUS_MESSAGE).show();
     if (error === true) {
-        $(DIV_STATUS_MESSAGE).attr("style",
-                "display: block; background-color: rgb(255, 153, 153);");
+        $(DIV_STATUS_MESSAGE).attr("class",
+                "alert alert-danger");
     } else {
-        $(DIV_STATUS_MESSAGE).attr("style",
-                "display: block; ");
+        $(DIV_STATUS_MESSAGE).attr("class",
+                "alert alert-warning");
     }
     document.getElementById( 'statusMessage' ).scrollIntoView();
 }

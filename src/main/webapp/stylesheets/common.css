@@ -297,20 +297,6 @@ h2 {
     text-align: center;
 }
 
-
-
-/*---------------------  Status Message  --------------------------------------------------- */
-div#statusMessage {
-    background-color: #FFFF99;
-    margin: 20px auto;
-    padding: 8px;
-    text-align: center;
-    width: 920px;
-    display: none;
-}
-
-
-
 /*---------------------  Background Block  --------------------------------------------------- */
 .backgroundBlock {
     background: #036;
