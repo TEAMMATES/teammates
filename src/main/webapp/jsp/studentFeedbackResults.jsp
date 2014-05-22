@@ -25,18 +25,21 @@
 <head>
     <link rel="shortcut icon" href="/favicon.png">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>TEAMMATES - Submit Feedback</title>
     <link rel="stylesheet" href="/stylesheets/common.css" type="text/css" media="screen">
     <link rel="stylesheet" href="/stylesheets/common-print.css" type="text/css" media="print">
     <link rel="stylesheet" href="/stylesheets/studentFeedback.css" type="text/css" media="screen">
-    
-    <script type="text/javascript" src="/js/googleAnalytics.js"></script>
-    <script type="text/javascript" src="/js/jquery-minified.js"></script>
-    <script type="text/javascript" src="/js/tooltip.js"></script>
-    <script type="text/javascript" src="/js/AnchorPosition.js"></script>
-    <script type="text/javascript" src="/js/common.js"></script>
-    <script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
-    <jsp:include page="../enableJS.jsp"></jsp:include>
+    <!-- Bootstrap core CSS -->
+    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap theme -->
+    <link href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
 </head>
 
 <body>
@@ -45,29 +48,39 @@
         <jsp:include page="<%=Const.ViewURIs.STUDENT_HEADER%>" />
     </div>
 
-    <div id="frameBody">
+    <div id="frameBody" class="container">
         <div id="frameBodyWrapper">
             <div id="topOfPage"></div>
-            <div id="headerOperation">
-                <h1>Feedback Results - Student</h1>
-            </div>
+            <h2>Feedback Results - Student</h2>
             
-            <table class="inputTable">
-            <tr>
-                <td class="bold">Course:</td>
-                <td colspan="2"><%=data.bundle.feedbackSession.courseId%></td>
-            </tr>
-            <tr>
-                <td class="bold">Session Name:</td>
-                <td colspan="3"><%=data.bundle.feedbackSession.feedbackSessionName%></td>                
-            </tr>
-            <tr>
-                <td class="bold">Open from:</td>
-                <td><%=StudentFeedbackResultsPageData.displayDateTime(data.bundle.feedbackSession.startTime)%></td>
-                <td class="bold">To:</td>
-                <td><%=StudentFeedbackResultsPageData.displayDateTime(data.bundle.feedbackSession.endTime)%></td>
-            </tr>
-            </table>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <form class="form-horizontal" role="form">
+                        <div class="panel-heading">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Course:</label>
+                                <div class="col-sm-10">
+                                    <p class="form-control-static"><%=data.bundle.feedbackSession.courseId%></p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Session:</label>
+                                <div class="col-sm-10">
+                                    <p class="form-control-static"><%=data.bundle.feedbackSession.feedbackSessionName%></p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Duration:</label>
+                                <div class="col-sm-10">
+                                    <p class="form-control-static">from:
+                                        <%=StudentFeedbackResultsPageData.displayDateTime(data.bundle.feedbackSession.startTime)%> To: 
+                                        <%=StudentFeedbackResultsPageData.displayDateTime(data.bundle.feedbackSession.endTime)%></p>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
             <br>
             <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
             <br>
@@ -208,5 +221,15 @@
     <div id="frameBottom">
         <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
     </div>
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/javascript" src="/js/googleAnalytics.js"></script>
+    <script type="text/javascript" src="/js/jquery-minified.js"></script>
+    <script type="text/javascript" src="/js/tooltip.js"></script>
+    <script type="text/javascript" src="/js/AnchorPosition.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+    <script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
+    <jsp:include page="../enableJS.jsp"></jsp:include>
+    <!-- Bootstrap core JavaScript ================================================== -->
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>
