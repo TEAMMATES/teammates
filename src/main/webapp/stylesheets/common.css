@@ -288,7 +288,7 @@ h2 {
 
 #frameBodyWrapper {
     margin: 0 auto;
-    width: 1000px;
+    max-width: 1000px;
     min-height: 200px;
 }
 
