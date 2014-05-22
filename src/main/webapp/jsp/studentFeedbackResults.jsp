@@ -51,6 +51,7 @@
         <div id="frameBodyWrapper">
             <div id="topOfPage"></div>
             <h2>Feedback Results - Student</h2>
+            <br />
             <div class="panel panel-default">
                 <div class="panel-body">
                     <div class="form-horizontal">
@@ -92,6 +93,7 @@
                     
                     FeedbackAbstractQuestionDetails questionDetails = questionWithResponses.getKey().getQuestionDetails();
             %>
+                <br />
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4>Question <%=qnIndx%>: <%=StudentFeedbackResultsPageData.sanitizeForHtml(questionDetails.questionText)%>
