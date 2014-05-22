@@ -88,11 +88,11 @@ public class PageData {
         else if(points==0)
             return "<span class=\"color_negative\">0%</span>";
         else if(points>100)
-            return "<span class=\"color_positive\">E +"+(points-100)+"%</span>";
+            return "<span class=\"color_positive\"><abbr title=\"Equal Share\">E</abbr> +"+(points-100)+"%</span>";
         else if(points<100)
-            return "<span class=\"color_negative\">E -"+(100-points)+"%</span>";
+            return "<span class=\"color_negative\"><abbr title=\"Equal Share\">E</abbr> -"+(100-points)+"%</span>";
         else
-            return "<span class=\"color_neutral\">E</span>";
+            return "<span class=\"color_neutral\"><abbr title=\"Equal Share\">E</abbr></span>";
     }
     
     /**
