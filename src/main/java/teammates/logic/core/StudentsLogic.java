@@ -57,9 +57,15 @@ public class StudentsLogic {
     }
     
     public void createStudentCascade(StudentAttributes studentData) 
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        //TODO: check that course exists
+            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+        
         createStudentCascadeWithSubmissionAdjustmentScheduled(studentData);
+        
+        if (!coursesLogic.isCoursePresent(studentData.course)) {
+            throw new EntityDoesNotExistException(
+                    "Course does not exist [" + studentData.course + "]");
+        }
+        
         evaluationsLogic.adjustSubmissionsForNewStudent(
                 studentData.course, studentData.email, studentData.team);
     }
@@ -73,7 +79,7 @@ public class StudentsLogic {
         return studentsDb.getStudentForEmail(courseId, email);
     }
 
-    public StudentAttributes getStudentForGoogleId(String courseId, String googleId) {
+    public StudentAttributes getStudentForCourseIdAndGoogleId(String courseId, String googleId) {
         return studentsDb.getStudentForGoogleId(courseId, googleId);
     }
 
@@ -95,27 +101,26 @@ public class StudentsLogic {
     }
 
     public List<StudentAttributes> getUnregisteredStudentsForCourse(String courseId) {
-        
         return studentsDb.getUnregisteredStudentsForCourse(courseId);
     }
     
-    public String getKeyForStudent(String courseId, String email) {
-    
+    public String getKeyForStudent(String courseId, String email) throws EntityDoesNotExistException {
+        
         StudentAttributes studentData = getStudentForEmail(courseId, email);
     
         if (studentData == null) {
-            return null; //TODO: throw EntityDoesNotExistException?
+            throw new EntityDoesNotExistException("Student does not exist: [" + courseId + "/" + email + "]");
         }
     
         return studentData.key;
     }
     
-    public String getEncryptedKeyForStudent(String courseId, String email) {
+    public String getEncryptedKeyForStudent(String courseId, String email) throws EntityDoesNotExistException {
         
         StudentAttributes studentData = getStudentForEmail(courseId, email);
         
         if (studentData == null) {
-            return null; //TODO: throw EntityDoesNotExistException?
+            throw new EntityDoesNotExistException("Student does not exist: [" + courseId + "/" + email + "]");
         }
     
         return StringHelper.encrypt(studentData.key);
@@ -180,31 +185,17 @@ public class StudentsLogic {
             StudentAttributes student) 
             throws EntityDoesNotExistException, InvalidParametersException {
         // Edit student uses KeepOriginal policy, where unchanged fields are set
-        // as null. Hence, we can't do isValid() here.
+        // as null. Hence, we can't do isValid() for student here.
+        // After updateWithReferenceToExistingStudentRecord method called,
+        // the student should be valid
     
+        // here is like a db access that can be avoided if we really want to optimize the code
         studentsDb.verifyStudentExists(student.course, originalEmail);
         
         StudentAttributes originalStudent = getStudentForEmail(student.course, originalEmail);
         
-        //TODO: The block of code below can be extracted to a method in StudentAttributes.
-        //      e.g., originalStudent.updateValues(student)
-        
         // prepare new student
-        if(student.email == null){
-            student.email = originalStudent.email;
-        }
-        if(student.name == null){
-            student.name = originalStudent.name;
-        }
-        if(student.googleId == null){
-            student.googleId = originalStudent.googleId;
-        }
-        if(student.team == null){
-            student.team = originalStudent.team;
-        }
-        if(student.comments == null){
-            student.comments = originalStudent.comments;
-        }
+        student.updateWithExistingRecord(originalStudent);
         
         if(!student.isValid()) {
             throw new InvalidParametersException(student.getInvalidityInfo());
@@ -308,6 +299,7 @@ public class StudentsLogic {
 
     private void scheduleSubmissionAdjustmentForFeedbackInCourse(
             ArrayList<StudentEnrollDetails> enrollmentList, String courseId, String sessionName) {
+        // private methods -- should I test this?
         HashMap<String, String> paramMap = new HashMap<String, String>();
         
         paramMap.put(ParamsNames.COURSE_ID, courseId);
@@ -397,12 +389,12 @@ public class StudentsLogic {
 
     public void deleteStudentsForCourse(String courseId) {
         studentsDb.deleteStudentsForCourse(courseId);
-        
     }
     
     public void adjustSubmissionsForEnrollments(
             ArrayList<StudentEnrollDetails> enrollmentList,
             EvaluationAttributes eval) throws InvalidParametersException, EntityDoesNotExistException {
+        // will not be tested as submissions are depreciated
         
         for(StudentEnrollDetails enrollment : enrollmentList) {
             if(enrollment.updateStatus == UpdateStatus.MODIFIED &&
@@ -443,8 +435,9 @@ public class StudentsLogic {
                 updateStudentCascadeWithSubmissionAdjustmentScheduled(originalStudentAttributes.email, validStudentAttributes);
                 enrollmentDetails.updateStatus = UpdateStatus.MODIFIED;
                 
-                if(!originalStudentAttributes.team.equals(validStudentAttributes.team))
+                if(!originalStudentAttributes.team.equals(validStudentAttributes.team)) {
                     enrollmentDetails.oldTeam = originalStudentAttributes.team;
+                }
             } else {
                 createStudentCascadeWithSubmissionAdjustmentScheduled(validStudentAttributes);
                 enrollmentDetails.updateStatus = UpdateStatus.NEW;
@@ -463,7 +456,7 @@ public class StudentsLogic {
         return enrollmentDetails;
     }
     
-    /* All empty lines or lines with only whitespaces will be skipped.
+    /* All empty lines or lines with only white spaces will be skipped.
      * The invalidity info returned are in HTML format.
      */
     private List<String> getInvalidityInfoInEnrollLines(String lines, String courseId) throws EnrollException {
@@ -519,15 +512,15 @@ public class StudentsLogic {
     private boolean isStudentEmailDuplicated(String email, 
             ArrayList<String> studentEmailList){
         boolean isEmailDuplicated = studentEmailList.contains(email);
-        studentEmailList.add(email);
         return isEmailDuplicated;
     }
     
     private boolean isInEnrollList(StudentAttributes student,
             ArrayList<StudentAttributes> studentInfoList) {
         for (StudentAttributes studentInfo : studentInfoList) {
-            if (studentInfo.email.equalsIgnoreCase(student.email))
+            if (studentInfo.email.equalsIgnoreCase(student.email)) {
                 return true;
+            }
         }
         return false;
     }

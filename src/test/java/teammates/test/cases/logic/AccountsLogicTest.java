@@ -17,6 +17,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.JoinCourseException;
 import teammates.common.util.Assumption;
@@ -212,8 +213,8 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         try {
             accountsLogic.updateAccount(account);
             signalFailureToDetectException();
-        } catch (AssertionError e) {
-            ignoreExpectedException();
+        } catch (EntityDoesNotExistException edne) {
+            AssertHelper.assertContains(AccountsDb.ERROR_UPDATE_NON_EXISTENT_ACCOUNT, edne.getMessage());
         }
         
         ______TS("test downgradeInstructorToStudentCascade");
@@ -437,8 +438,41 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         assertEquals(nonInstrAccount.googleId, joinedInstructor.googleId);
         instructorsLogic.verifyInstructorExists(nonInstrAccount.googleId);
         
+        
+        ______TS("success: instructor join and assigned institute when some instructors have not joined course");
+        
+        instructor = dataBundle.instructors.get("instructor4");
+        
+        instructorsLogic.addInstructor(instructor.courseId, "anInstructorWithoutGoogleId", "anInstructorWithoutGoogleId@gmail.com");  
+        
+        nonInstrAccount = dataBundle.accounts.get("student2InCourse1");
+        nonInstrAccount.email = "newInstructor@gmail.com";
+        nonInstrAccount.name = " newInstructor";
+        nonInstrAccount.googleId = "newInstructorGoogleId";
+       
+        instructorsLogic.addInstructor(instructor.courseId, nonInstrAccount.name, nonInstrAccount.email);
+        key = instructorsLogic.getKeyForInstructor(instructor.courseId, nonInstrAccount.email);
+        encryptedKey = StringHelper.encrypt(key);
+        
+        accountsLogic.joinCourseForInstructor(encryptedKey, nonInstrAccount.googleId);
+        
+        joinedInstructor = instructorsLogic.getInstructorForEmail(instructor.courseId, nonInstrAccount.email);
+        assertEquals(nonInstrAccount.googleId, joinedInstructor.googleId);
+        instructorsLogic.verifyInstructorExists(nonInstrAccount.googleId);
+        
+        AccountAttributes instructorAccount = accountsLogic.getAccount(nonInstrAccount.googleId);
+        assertEquals("National University of Singapore", instructorAccount.institute);
+        
+        
         ______TS("failure: instructor already joined");
-
+        
+        nonInstrAccount = dataBundle.accounts.get("student1InCourse1");
+        instructor = dataBundle.instructors.get("instructorNotYetJoinCourse");
+        
+        key = instructorsLogic.getKeyForInstructor(instructor.courseId, nonInstrAccount.email);
+        encryptedKey = StringHelper.encrypt(key);
+        joinedInstructor = instructorsLogic.getInstructorForEmail(instructor.courseId, nonInstrAccount.email);
+        
         try {
             accountsLogic.joinCourseForInstructor(encryptedKey, joinedInstructor.googleId);
             signalFailureToDetectException();
@@ -481,21 +515,20 @@ public class AccountsLogicTest extends BaseComponentTestCase {
 
     @Test
     public void testDeleteAccountCascade() throws Exception {
+        
+        restoreTypicalDataInDatastore();
 
         ______TS("typical success case");
 
-        logic.createInstructorAccount("googleId", "courseId", "name",
-                "email@com", "institute");
-        InstructorAttributes instructor = logic.getInstructorForGoogleId(
-                "courseId", "googleId");
+        String course1Id = dataBundle.courses.get("typicalCourse1").id;
+        logic.createInstructorAccount("googleId", course1Id, "name", "email@com", "institute");
+        InstructorAttributes instructor = logic.getInstructorForGoogleId(course1Id, "googleId");
         AccountAttributes account = logic.getAccount("googleId");
 
         // Make instructor account id a student too.
         StudentAttributes student = new StudentAttributes("googleId",
-                "email@com", "name", "",
-                "courseId", "team");
+                "email@com", "name", "", course1Id, "team");
         logic.createStudent(student);
-
         TestHelper.verifyPresentInDatastore(account);
         TestHelper.verifyPresentInDatastore(instructor);
         TestHelper.verifyPresentInDatastore(student);

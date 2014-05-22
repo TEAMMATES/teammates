@@ -233,6 +233,9 @@ public class StudentsDbTest extends BaseComponentTestCase {
         } catch (AssertionError a) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
         }
+        
+      //Untested case: The deletion is not persisted immediately (i.e. persistence delay) 
+      //       Reason: Difficult to reproduce a persistence delay during testing
     }
     
     @AfterClass
