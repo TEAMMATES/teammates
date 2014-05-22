@@ -37,7 +37,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
         
         FeedbackQuestionAttributes updatedQuestion = extractFeedbackQuestionData(requestParameters);
         List<String> questionDetailsErrors = updatedQuestion.getQuestionDetails().validateQuestionDetails();
-        if(questionDetailsErrors.size() > 0){
+        if(!questionDetailsErrors.isEmpty()){
             statusToUser.addAll(questionDetailsErrors);
             isError = true;
         } else {

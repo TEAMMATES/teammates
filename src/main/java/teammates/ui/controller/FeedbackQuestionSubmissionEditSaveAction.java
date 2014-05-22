@@ -1,5 +1,7 @@
 package teammates.ui.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import teammates.common.datatransfer.FeedbackAbstractQuestionDetails;
@@ -14,8 +16,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
-
-import com.google.appengine.api.datastore.Text;
 
 public abstract class FeedbackQuestionSubmissionEditSaveAction extends Action {
     protected String courseId;
@@ -50,25 +50,37 @@ public abstract class FeedbackQuestionSubmissionEditSaveAction extends Action {
         getPageData(userEmailForCourse);
         
         int numOfResponsesToGet = Integer.parseInt(totalResponsesForQuestion);
-
+        List<FeedbackResponseAttributes> responsesForQuestion = new ArrayList<FeedbackResponseAttributes>();
+        FeedbackAbstractQuestionDetails questionDetails  = data.bundle.question.getQuestionDetails();
         
-        
-        for(int responseIndx = 0; responseIndx < numOfResponsesToGet; responseIndx++){
-            FeedbackAbstractQuestionDetails questionDetails  = data.bundle.question.getQuestionDetails();
+        for(int responseIndx = 0; responseIndx < numOfResponsesToGet; responseIndx++) {
             FeedbackResponseAttributes response = extractFeedbackResponseData(requestParameters, 1, responseIndx, questionDetails);
-            response.giverEmail = userEmailForCourse;
-            if(isSessionOpenForSpecificUser(fs) == true){
-                saveResponse(response);
+            if(response != null){
+                response.giverEmail = userEmailForCourse;
+                responsesForQuestion.add(response);
             }
         }
         
-        getPageData(userEmailForCourse);
+        List<String> errors = questionDetails.validateResponseAttributes(responsesForQuestion);
+        
+        if(errors.isEmpty()) {
+            if(isSessionOpenForSpecificUser(fs) == true) {
+                for(FeedbackResponseAttributes response : responsesForQuestion) {
+                    saveResponse(response);
+                }
+            }
+        } else {
+            statusToUser.addAll(errors);
+            isError = true;
+        }
+        
+        //getPageData(userEmailForCourse);
         
         if (isError == false) {
             statusToUser.add(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
         }
         
-        data.isSessionOpenForSubmission = isSessionOpenForSpecificUser(fs);
+        //data.isSessionOpenForSubmission = isSessionOpenForSpecificUser(fs);
         
         return createSpecificShowPageResult();
     }
@@ -130,7 +142,7 @@ public abstract class FeedbackQuestionSubmissionEditSaveAction extends Action {
                             questionDetails);
             response.setResponseDetails(responseDetails);
         } else {
-            response.responseMetaData = new Text("");
+            response = null;
         }
         
         return response;

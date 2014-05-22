@@ -32,7 +32,7 @@ public class InstructorFeedbackQuestionAddAction extends Action {
         
         FeedbackQuestionAttributes feedbackQuestion = extractFeedbackQuestionData(requestParameters, instructorDetailForCourse.email);
         List<String> questionDetailsErrors = feedbackQuestion.getQuestionDetails().validateQuestionDetails();
-        if(questionDetailsErrors.size() > 0){
+        if(!questionDetailsErrors.isEmpty()){
             statusToUser.addAll(questionDetailsErrors);
             isError = true;
         } else {

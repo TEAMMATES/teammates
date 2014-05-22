@@ -1,8 +1,8 @@
 package teammates.ui.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
-
-import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.FeedbackAbstractQuestionDetails;
 import teammates.common.datatransfer.FeedbackAbstractResponseDetails;
@@ -51,20 +51,31 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 continue; // question has been skipped (not displayed).
             }
             
-            int numOfResponsesToGet = Integer.parseInt(totalResponsesForQuestion);            
+            List<FeedbackResponseAttributes> responsesForQuestion = new ArrayList<FeedbackResponseAttributes>();
             FeedbackAbstractQuestionDetails questionDetails = data.bundle.getSortedQuestions().get(questionIndx - 1).getQuestionDetails();
-            for(int responseIndx = 0; responseIndx < numOfResponsesToGet; responseIndx++){
-                FeedbackResponseAttributes response = 
-                        extractFeedbackResponseData(
-                                requestParameters, 
-                                questionIndx, 
-                                responseIndx, 
-                                questionDetails);
-                response.giverEmail = userEmailForCourse;
-                if(isSessionOpenForSpecificUser(data.bundle.feedbackSession) == true){
-                    saveResponse(response);
+            int numOfResponsesToGet = Integer.parseInt(totalResponsesForQuestion);  
+            
+            for(int responseIndx = 0; responseIndx < numOfResponsesToGet; responseIndx++) {
+                FeedbackResponseAttributes response = extractFeedbackResponseData(requestParameters, questionIndx, responseIndx, questionDetails);
+                if(response != null){
+                    response.giverEmail = userEmailForCourse;
+                    responsesForQuestion.add(response);
                 }
             }
+            
+            List<String> errors = questionDetails.validateResponseAttributes(responsesForQuestion);
+            
+            if(errors.isEmpty()) {
+                if(isSessionOpenForSpecificUser(data.bundle.feedbackSession) == true) {
+                    for(FeedbackResponseAttributes response : responsesForQuestion) {
+                        saveResponse(response);
+                    }
+                }
+            } else {
+                statusToUser.addAll(errors);
+                isError = true;
+            }
+            
         }
         
         if (!isError) {
@@ -149,7 +160,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                             questionDetails);
             response.setResponseDetails(responseDetails);
         } else {
-            response.responseMetaData = new Text("");
+            response = null;
         }
         
         return response;
