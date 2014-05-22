@@ -51,7 +51,7 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         
         browser.driver.get(joinLink);
         confirmationPage =
-                createCorretLoginPageType(browser.driver.getPageSource())
+                createCorrectLoginPageType(browser.driver.getPageSource())
                         .loginAsJoiningStudent(
                                 TestProperties.inst().TEST_STUDENT1_ACCOUNT,
                                 TestProperties.inst().TEST_STUDENT1_PASSWORD);
@@ -61,7 +61,7 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         
         browser.driver.get(joinLink);
         confirmationPage =
-                createCorretLoginPageType(browser.driver.getPageSource())
+                createCorrectLoginPageType(browser.driver.getPageSource())
                         .loginAsJoiningStudent(
                                 TestProperties.inst().TEST_STUDENT1_ACCOUNT,
                                 TestProperties.inst().TEST_STUDENT1_PASSWORD);
@@ -96,7 +96,7 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         BrowserPool.release(browser);
     }
     
-    private LoginPage createCorretLoginPageType(String pageSource) {
+    private LoginPage createCorrectLoginPageType(String pageSource) {
         if (DevServerLoginPage.containsExpectedPageContents(pageSource)) {
             return (LoginPage) createNewPage(browser, DevServerLoginPage.class);
         } else if (GoogleLoginPage.containsExpectedPageContents(pageSource)) {
