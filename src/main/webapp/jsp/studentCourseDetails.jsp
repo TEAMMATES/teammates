@@ -21,8 +21,6 @@
     <link rel="stylesheet" href="/stylesheets/studentCourseDetails.css" type="text/css" media="screen"/>
     <link rel="stylesheet" href="/stylesheets/studentCourseDetails-print.css" type="text/css" media="print"/>
 
-    
-
     <script type="text/javascript" src="/js/googleAnalytics.js"></script>
     <script type="text/javascript" src="/js/jquery-minified.js"></script>
     <script type="text/javascript" src="/js/tooltip.js"></script>
