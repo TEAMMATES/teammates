@@ -88,13 +88,13 @@
                         }
                     %>
                     </ul>
-                    <br />
         <%
             int responseIndx = 0;
             List<FeedbackResponseAttributes> existingResponses =
                     data.bundle.questionResponseBundle.get(question);
             for (FeedbackResponseAttributes existingResponse : existingResponses) {
         %>
+                <br />
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label" <%=(question.isRecipientNameHidden()) ? "style=\"display:none\"" : ""%>>
                         To: 
@@ -108,7 +108,6 @@
                             }
                         %>
                         </select>
-                        <br />
                     </label>
                     <div class="col-sm-10">
                         <%=questionDetails.getQuestionWithExistingResponseSubmissionFormHtml(
@@ -123,6 +122,7 @@
                         }
                         while (responseIndx < numOfResponseBoxes) {
         %>
+                <br />
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label" <%=(question.isRecipientNameHidden()) ? "style=\"display:none\"" : ""%>>
                         To:  
@@ -136,7 +136,6 @@
                                                         }
                         %>
                         </select>
-                        <br />
                     </label>
                     <div class="col-sm-10">
                     <%=questionDetails.getQuestionWithoutExistingResponseSubmissionFormHtml(
