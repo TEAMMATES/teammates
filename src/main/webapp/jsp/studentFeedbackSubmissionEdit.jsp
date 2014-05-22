@@ -29,7 +29,6 @@
 
 <body>
     <div id="dhtmltooltip"></div>
-    <div id="frameTop">
     <%
         if (!data.isPreview) {
     %>
@@ -43,7 +42,6 @@
     <% 
         }
     %>
-    </div>
 
     <div id="frameBody"  class="container">
         <div id="frameBodyWrapper">
