@@ -14,7 +14,9 @@
     <link rel="stylesheet" href="/stylesheets/common.css" type="text/css" media="screen">
     <link rel="stylesheet" href="/stylesheets/common-print.css" type="text/css" media="print">
     <link rel="stylesheet" href="/stylesheets/studentFeedback.css" type="text/css" media="screen">
-    
+    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+
     <script type="text/javascript" src="/js/googleAnalytics.js"></script>
     <script type="text/javascript" src="/js/jquery-minified.js"></script>
     <script type="text/javascript" src="/js/tooltip.js"></script>
@@ -27,7 +29,7 @@
 <body>
     <div id="dhtmltooltip"></div>
 
-    <div id="frameBody" style="top:0px;">
+    <div id="frameBody" style="top:0px;bottom:0px;" class="container theme-showcase" role="main">
         <div id="frameBodyWrapper">
             <div id="topOfPage"></div>
             <div id="headerOperation">
@@ -39,17 +41,18 @@
                 <jsp:include page="<%=Const.ViewURIs.FEEDBACK_QUESTION_SUBMISSION_EDIT%>" />
                 
                 <div class="bold centeralign">
-                    <input type="submit" class="button" 
+                    <button type="submit" class="btn btn-primary" 
                         id="response_submit_button" 
                         onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_EDIT_SAVE%>')" 
                         onmouseout="hideddrivetip()" 
-                        value="Save Feedback"
                         <%=data.bundle.feedbackSession.isOpened() ? "" : "style=\"background: #66727A;\" disabled=\"disabled\""%>/>
+                        Save Feedback
+                    </button>
                 </div>
                 <br><br>    
             </form>
         </div>
     </div>
-
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>

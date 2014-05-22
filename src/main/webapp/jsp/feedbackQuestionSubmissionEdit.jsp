@@ -14,29 +14,44 @@
     <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.bundle.feedbackSession.courseId%>"/>
     <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
     
-    <table class="inputTable">
-        <tr>
-            <td class="bold">Course:</td>
-            <td colspan="2"><%=sanitizeForHtml(data.bundle.feedbackSession.courseId)%></td>
-        </tr>
-        <tr>
-            <td class="bold">Session Name:</td>
-            <td colspan="3"><%=sanitizeForHtml(data.bundle.feedbackSession.feedbackSessionName)%></td>                
-        </tr>
-        <tr>
-            <td class="bold">Open from:</td>
-            <td><%=TimeHelper.formatTime(data.bundle.feedbackSession.startTime)%></td>
-            <td class="bold">To:</td>
-            <td><%=TimeHelper.formatTime(data.bundle.feedbackSession.endTime)%></td>
-        </tr>
-        <tr>
-            <td class="bold middlealign">Instructions:</td>
-            <td class="multiline" colspan="3"><%=sanitizeForHtml(data.bundle.feedbackSession.instructions.getValue())%></td>
-        </tr>
-    </table>
+    <div class="panel panel-default" >
+    <div class="panel-heading">
+        <div class="form-horizontal" role="form">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Course:</label>
+                <div class="col-sm-10">
+                    <p class="form-control-static"><%=sanitizeForHtml(data.bundle.feedbackSession.courseId)%></p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Session Name:</label>
+                <div class="col-sm-10">
+                    <p class="form-control-static"><%=sanitizeForHtml(data.bundle.feedbackSession.feedbackSessionName)%></p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Duration:</label>
+                <div class="col-sm-10">
+                    <p class="form-control-static">
+                        <%=TimeHelper.formatTime(data.bundle.feedbackSession.startTime)%>
+                        <b>to</b>
+                        <%=TimeHelper.formatTime(data.bundle.feedbackSession.endTime)%>
+                    </p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Instructions:</label>
+                <div class="col-sm-10">
+                    <p class="form-control-static"><%=sanitizeForHtml(data.bundle.feedbackSession.instructions.getValue())%></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
     <br>
     <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
     <br>
+    <form class="form-horizontal" role="form">
 <%
     int qnIndx = 1;
 
