@@ -6,7 +6,7 @@
 <%@ page import="teammates.common.datatransfer.FeedbackAbstractQuestionDetails"%>
 <%@ page import="teammates.common.datatransfer.FeedbackResponseAttributes"%>
 <%@ page import="teammates.ui.controller.FeedbackSubmissionEditPageData"%>
-<%@ page import="static teammates.ui.controller.PageData.sanitizeForHtml"%>
+<%@ page import="teammates.common.util.Sanitizer"%>
 <%
     FeedbackSubmissionEditPageData data = (FeedbackSubmissionEditPageData)request.getAttribute("data");
 %>    
@@ -20,13 +20,13 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Course:</label>
                             <div class="col-sm-10">
-                                <p class="form-control-static"><%=sanitizeForHtml(data.bundle.feedbackSession.courseId)%></p>
+                                <p class="form-control-static"><%=Sanitizer.sanitizeForHtml(data.bundle.feedbackSession.courseId)%></p>
                             </div>
                         </div> 
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Session:</label>
                             <div class="col-sm-10">
-                                <p class="form-control-static"><%=sanitizeForHtml(data.bundle.feedbackSession.feedbackSessionName)%></p>
+                                <p class="form-control-static"><%=Sanitizer.sanitizeForHtml(data.bundle.feedbackSession.feedbackSessionName)%></p>
                             </div>
                         </div>  
                         <div class="form-group">
@@ -39,7 +39,7 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Instructions:</label>
                             <div class="col-sm-10">
-                                <p class="form-control-static"><%=sanitizeForHtml(data.bundle.feedbackSession.instructions.getValue())%></p>
+                                <p class="form-control-static"><%=Sanitizer.sanitizeForHtml(data.bundle.feedbackSession.instructions.getValue())%></p>
                             </div>
                         </div> 
                     </div> 
@@ -71,7 +71,7 @@
         <div class="form-horizontal">
             <div class="panel panel-primary">
                 <div class="panel-heading">Question <%=qnIndx%>:<br/>
-                    <%=sanitizeForHtml(questionDetails.questionText)%></div>
+                    <%=Sanitizer.sanitizeForHtml(questionDetails.questionText)%></div>
                 <div class="panel-body">
                     <p class="text-muted">Only the following persons can see your responses: </p>
                     <ul class="text-muted">
