@@ -262,4 +262,36 @@ public class FeedbackMsqQuestionDetails extends FeedbackAbstractQuestionDetails 
         List<String> sanitizedChoices = Sanitizer.sanitizeListForCsv(msqChoices);
         return "Feedbacks:," + StringHelper.toString(sanitizedChoices, ",");
     }
+    
+    final int MIN_NUM_OF_MSQ_CHOICES = 2;
+    final String ERROR_NOT_ENOUGH_MSQ_CHOICES = "Too little choices for "+Const.FeedbackQuestionTypeNames.MSQ+". Minimum number of options is: ";
+    
+    @Override
+    public List<String> validateQuestionDetails() {
+        List<String> errors = new ArrayList<String>();
+        if(generateOptionsFor == FeedbackParticipantType.NONE &&
+                numOfMsqChoices < MIN_NUM_OF_MSQ_CHOICES){
+            errors.add(ERROR_NOT_ENOUGH_MSQ_CHOICES + MIN_NUM_OF_MSQ_CHOICES+".");
+        }
+        //TODO: check that msq options do not repeat. needed?
+        
+        return errors;
+    }
+    
+    final String ERROR_INVALID_OPTION = " is not a valid option for the " + Const.FeedbackQuestionTypeNames.MSQ + ".";
+    
+    @Override
+    public List<String> validateResponseAttributes(
+            List<FeedbackResponseAttributes> responses) {
+        List<String> errors = new ArrayList<String>();
+        for(FeedbackResponseAttributes response : responses){
+            FeedbackMsqResponseDetails frd = (FeedbackMsqResponseDetails) response.getResponseDetails();
+            if(!otherEnabled){
+                if(!msqChoices.containsAll(frd.answers) && generateOptionsFor == FeedbackParticipantType.NONE){
+                    errors.add(frd.getAnswerString() + ERROR_INVALID_OPTION);
+                }
+            }
+        }
+        return errors;
+    }
 }

@@ -9,7 +9,6 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionType;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
@@ -32,21 +31,26 @@ public class InstructorFeedbackQuestionAddAction extends Action {
                 true);
         
         FeedbackQuestionAttributes feedbackQuestion = extractFeedbackQuestionData(requestParameters, instructorDetailForCourse.email);
-                
-        try {
-            logic.createFeedbackQuestion(feedbackQuestion);    
-            statusToUser.add(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
-            statusToAdmin = "Created Feedback Question for Feedback Session:<span class=\"bold\">(" +
-                    feedbackQuestion.feedbackSessionName + ")</span> for Course <span class=\"bold\">[" +
-                    feedbackQuestion.courseId + "]</span> created.<br>" +
-                    "<span class=\"bold\">" + feedbackQuestion.getQuestionDetails().getQuestionTypeDisplayName() + 
-                    ":</span> " + feedbackQuestion.getQuestionDetails().questionText;
-        } catch (InvalidParametersException e) {
-            statusToUser.add(e.getMessage());
-            statusToAdmin = e.getMessage();
+        List<String> questionDetailsErrors = feedbackQuestion.getQuestionDetails().validateQuestionDetails();
+        if(!questionDetailsErrors.isEmpty()){
+            statusToUser.addAll(questionDetailsErrors);
             isError = true;
+        } else {
+            try {
+                logic.createFeedbackQuestion(feedbackQuestion);    
+                statusToUser.add(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
+                statusToAdmin = "Created Feedback Question for Feedback Session:<span class=\"bold\">(" +
+                        feedbackQuestion.feedbackSessionName + ")</span> for Course <span class=\"bold\">[" +
+                        feedbackQuestion.courseId + "]</span> created.<br>" +
+                        "<span class=\"bold\">" + feedbackQuestion.getQuestionDetails().getQuestionTypeDisplayName() + 
+                        ":</span> " + feedbackQuestion.getQuestionDetails().questionText;
+                
+            } catch (InvalidParametersException e) {
+                statusToUser.add(e.getMessage());
+                statusToAdmin = e.getMessage();
+                isError = true;
+            }
         }
-        
         return createRedirectResult(new PageData(account).getInstructorFeedbackSessionEditLink(courseId,feedbackSessionName));
     }
 

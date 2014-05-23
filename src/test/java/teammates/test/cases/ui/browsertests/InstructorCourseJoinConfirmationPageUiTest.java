@@ -84,13 +84,13 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         browser.driver.get(joinLink);
         confirmationPage = createNewPage(browser, InstructorCourseJoinConfirmationPage.class);
         instructorHome = confirmationPage.clickConfirmButton();
-        instructorHome.verifyHtml("/InstructorHomeJoined.html");
+        instructorHome.verifyStatus("");
         
         ______TS("Already joined, no confirmation page");
                 
         browser.driver.get(joinLink);
         instructorHome = createNewPage(browser, InstructorHomePage.class);
-        instructorHome.verifyHtml("/InstructorHomeAlreadyJoined.html");
+        instructorHome.verifyStatus(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT+ " has already joined this course");
     }
     
     @AfterClass
