@@ -1,8 +1,15 @@
+#frameBottom {
+  position: fixed;
+}
+
+body {
+    padding-top: 40px;
+}
+
 .evalResultHeader {
     width: 940px;
     padding: 10px;
 }
-
 
 .result_studentform{
     width:960px;

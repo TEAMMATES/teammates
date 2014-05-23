@@ -29,7 +29,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>TEAMMATES - Submit Feedback</title>
-    <link rel="stylesheet" href="/stylesheets/common.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="/stylesheets/teammatesCommon.css" type="text/css" media="screen">
     <link rel="stylesheet" href="/stylesheets/common-print.css" type="text/css" media="print">
     <link rel="stylesheet" href="/stylesheets/studentFeedback.css" type="text/css" media="screen">
     <!-- Bootstrap core CSS -->
@@ -45,16 +45,15 @@
 
 <body>
     <div id="dhtmltooltip"></div>
-    <div id="frameTop">
-        <jsp:include page="<%=Const.ViewURIs.STUDENT_HEADER%>" />
-    </div>
+    <jsp:include page="<%=Const.ViewURIs.STUDENT_HEADER%>" />
 
     <div id="frameBody" class="container">
         <div id="frameBodyWrapper">
             <div id="topOfPage"></div>
             <h2>Feedback Results - Student</h2>
+            <br />
             <div class="panel panel-default">
-                <div class="panel-heading">
+                <div class="panel-body">
                     <div class="form-horizontal">
                         <div class="panel-heading">
                             <div class="form-group">
@@ -81,6 +80,7 @@
                     </div>
                 </div>
             </div>
+            <br />
             <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
             <%
                 int qnIndx = 0;
@@ -93,6 +93,7 @@
                     
                     FeedbackAbstractQuestionDetails questionDetails = questionWithResponses.getKey().getQuestionDetails();
             %>
+                <br />
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4>Question <%=qnIndx%>: <%=StudentFeedbackResultsPageData.sanitizeForHtml(questionDetails.questionText)%>
@@ -146,7 +147,7 @@
                     				}
                     %>
                     <div class="panel panel-primary">
-                        <div class="panel-heading">To: <%=recipientName%></div>
+                        <div class="panel-heading"><b>To:</b> <%=recipientName%></div>
                         <table class="table">
                             <tbody>    
                         <%
@@ -154,7 +155,7 @@
                         %>
                             <tr class="resultSubheader">
                                 <td>
-                                    <span class="bold">From:</span> <%=giverName%>
+                                    <span class="bold"><b>From:</b></span> <%=giverName%>
                                 </td>
                             </tr>
                             <tr>
@@ -211,9 +212,8 @@
             <% 
                 }
                    if (questionsWithResponses.isEmpty()) {
-            %>                
-                    <br><br><br>
-                    <div class="bold color_red centeralign">There are currently no responses for you for this feedback session.</div>
+            %>
+                    <div class="alert alert-danger">There are currently no responses for you for this feedback session.</div>
             <% 
                 } 
             %>
