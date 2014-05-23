@@ -21,8 +21,8 @@ public class StudentEvalEditPage extends AppPage {
         return getPageSource().contains("<h1>Evaluation Submission</h1>");
     }
     
-    public void fillSubmissionValues(String receiverName, SubmissionAttributes s){
-        fillSubmissionValues(receiverName, s.points, s.justification.getValue(), s.p2pFeedback.getValue());
+    public void fillSubmissionValues(int receiverId, SubmissionAttributes s){
+        fillSubmissionValues(receiverId, s.points, s.justification.getValue(), s.p2pFeedback.getValue());
     }
     
     public StudentHomePage submit() {
@@ -37,11 +37,10 @@ public class StudentEvalEditPage extends AppPage {
         return this;
     }
 
-    private void fillSubmissionValues(String receiverName, int points, String justification, String p2pComments){
-        int rowId = getStudentRowIdInEditSubmission(receiverName);
-        setPoints(rowId, points);
-        setJustification(rowId, justification);
-        setComments(rowId, p2pComments);
+    private void fillSubmissionValues(int receiverIdx, int points, String justification, String p2pComments){
+        setPoints(receiverIdx, points);
+        setJustification(receiverIdx, justification);
+        setComments(receiverIdx, p2pComments);
     }
     
     private void setPoints(int rowId, int points) {
@@ -56,24 +55,6 @@ public class StudentEvalEditPage extends AppPage {
     private void setComments(int rowId, String comments) {
         WebElement element = browser.driver.findElement(By.id(Const.ParamsNames.COMMENTS + rowId));
         fillTextBox(element, comments);
-    }
-    
-    /**
-     * Returns the rowID of the specified student for use in edit submission
-     * both in instructor page and student page.<br />
-     * This works by looking up the name in the section title. To get the row ID
-     * for the student itself (in case of student self submission which has no
-     * name in its title), put "self" as the student name.
-     */
-    private int getStudentRowIdInEditSubmission(String studentNameOrSelf) {
-        int max = browser.driver.findElements(By.className("reportHeader")).size();
-        for (int i = 0; i < max; i++) {
-            if (browser.driver.findElement(By.id("sectiontitle" + i)).getText()
-                    .toUpperCase().contains(studentNameOrSelf.toUpperCase())) {
-                return i;
-            }
-        }
-        return -1;
     }
 
 }

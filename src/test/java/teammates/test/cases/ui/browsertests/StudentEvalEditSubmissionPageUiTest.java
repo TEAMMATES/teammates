@@ -124,10 +124,15 @@ public class StudentEvalEditSubmissionPageUiTest extends BaseUiTestCase {
         subForNewGuy.justification = subs[2].justification;
         
         //submit new values
-        editPage.fillSubmissionValues("Charlie", subs[0]);
-        editPage.fillSubmissionValues("self", subs[1]);
-        editPage.fillSubmissionValues("Emily", subs[2]);
-        editPage.fillSubmissionValues("New Guy", subs[2]);
+        
+        // for Charlie
+        editPage.fillSubmissionValues(1, subs[0]);
+        // for self
+        editPage.fillSubmissionValues(0, subs[1]);
+        // for Emily
+        editPage.fillSubmissionValues(2, subs[2]);
+        // for New Guy
+        editPage.fillSubmissionValues(3, subs[2]);
         StudentHomePage homePage = editPage.submit();
         homePage.verifyStatus(String.format(Const.StatusMessages.STUDENT_EVALUATION_SUBMISSION_RECEIVED,eval.name,eval.courseId).replace("<br />", "\n"));
         
