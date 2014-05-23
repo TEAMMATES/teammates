@@ -101,8 +101,8 @@
         %>
                 <br />
                 <div class="form-group">
-                    <label for="input" class="col-sm-2 control-label" <%=(question.isRecipientNameHidden()) ? "style=\"display:none\"" : ""%>>
-                        To: 
+                    <div class="col-sm-2 form-inline" <%=(question.isRecipientNameHidden()) ? "style=\"display:none\"" : "style=\"text-align:right;\""%>>
+                        <label for="input">To: </label>
                         <select class="participantSelect middlealign form-control" 
                             name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"
                             <%=(numOfResponseBoxes == maxResponsesPossible) ? "style=\"display:none\"" : ""%>
@@ -113,7 +113,7 @@
                             }
                         %>
                         </select>
-                    </label>
+                    </div>
                     <div <%=(question.isRecipientNameHidden()) ? "class=\"col-sm-12\"" : "class=\"col-sm-10\""%>>
                         <%=questionDetails.getQuestionWithExistingResponseSubmissionFormHtml(
                             data.isSessionOpenForSubmission, 
@@ -129,19 +129,19 @@
         %>
                 <br />
                 <div class="form-group">
-                    <label for="input" class="col-sm-2 control-label" <%=(question.isRecipientNameHidden()) ? "style=\"display:none\"" : ""%>>
-                        To:  
+                    <div class="col-sm-2 form-inline" <%=(question.isRecipientNameHidden()) ? "style=\"display:none\"" : "style=\"text-align:right\""%>>
+                        <label for="input">To:</label>
                         <select class="participantSelect middlealign newResponse form-control" 
                             name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"
                             <%=(numOfResponseBoxes == maxResponsesPossible) ? "style=\"display:none\"" : ""%>
                             <%=data.isSessionOpenForSubmission ? "" : "disabled=\"disabled\""%>>
                         <%
                             for(String opt: data.getRecipientOptionsForQuestion(question.getId(), null)) {
-                                                            out.println(opt);
-                                                        }
+                                out.println(opt);
+                            }
                         %>
                         </select>
-                    </label>
+                    </div>
                     <div <%=(question.isRecipientNameHidden()) ? "class=\"col-sm-12\"" : "class=\"col-sm-10\""%>>
                     <%=questionDetails.getQuestionWithoutExistingResponseSubmissionFormHtml(
                             data.isSessionOpenForSubmission, 
