@@ -2,6 +2,7 @@
 
 body {
     padding-top: 60px;
+    padding-bottom:40px;
 }
 
  .btn-tm-actions {
@@ -30,3 +31,10 @@ body {
     margin: 0 auto;
     width:60%;
  }
+ 
+
+.border-left-gray{
+    border-left-color: #ddd;
+    border-width: 1px;
+    border-left-style: solid;
+}

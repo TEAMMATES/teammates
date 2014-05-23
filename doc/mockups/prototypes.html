@@ -13,7 +13,8 @@
 	<!-- Bootstrap core CSS -->
 	<link href="../../src/main/webapp/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	<!-- Bootstrap theme -->
-	<link href="../../src/main/webapp/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+  <link href="../../src/main/webapp/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+	<link href="../../src/main/webapp/stylesheets/teammatesCommon.css" rel="stylesheet">
 
 	<!-- Custom styles for this template -->
 	<link href="theme.css" rel="stylesheet">
@@ -52,10 +53,17 @@
   	</div>
 
   	<div class="container theme-showcase" role="main">
-
-  		<br>
-  		<br>
-  		<h2>Student Home</h2>
+      <div class="panel panel-default">
+      <h4>Table of content</h4>
+        <ul>
+          <li><a href="#StudentHome">Student Home</a></li>
+          <li><a href="#StudentTeamDetails">Student Team Details</a></li>
+          <li><a href="#StudentEvaluationSubmission">Student Evaluation Submission</a></li>
+          <li><a href="#InstructorCreateSession">Instructor Create Session</a></li>
+        </ul>
+      </div>
+      <a name="StudentHome"></a>
+      <h2>Student Home</h2>
   		<div class="alert alert-warning"> Welcome back! Your profile page is incomplere. Click 
   			<a href="#" class="alert-link">here</a> to update your profile.
   		</div>
@@ -151,6 +159,7 @@
   			</table>
   		</div>
 
+      <a name="StudentTeamDetails"></a>
   		<h2>Team Details</h2>
   		<div class="panel panel-default" id="course1">
   			<div class="panel-heading">
@@ -185,6 +194,7 @@
   			</div>
   		</div>
 
+      <a name="StudentEvaluationSubmission"></a>
   		<h2>Submit responses for: Team peer evaluation</h2>
   		<div class="panel panel-default">
   			<form class="form-horizontal" role="form">
@@ -451,8 +461,7 @@
 
           <h3><span class="label label-primary">Your results</span></h3>
 
-          <div class="panel panel-default">
-            <div class="panel-heading">
+          <div class="well well-plain">
               <form class="form-horizontal" role="form">
                 <div class="panel-heading">
                   <div class="form-group">
@@ -476,7 +485,6 @@
                   </div> 
                 </div> 
               </form>
-            </div>
           </div>
 
           <div class="panel panel-info">
@@ -589,8 +597,316 @@
 
           --Instructions go here--
 
+          <a name="InstructorCreateSession"></a>
+          <h2>Instructor Create Sesssion</h2>
 
-      </div> <!-- /container -->
+          <form role="form">
+            <div class="form-group">
+              <label for="sessionType">Session type</label>
+              <select class="form-control">
+                <option value="/page/instructorFeedbacksPage" selected="selected">Feedback Session with customizable questions</option>
+                <option value="/page/instructorEvalsPage">Standard Team Peer Evaluation with fixed questions</option>
+              </select>
+            </div>
+          </form>
+
+        <div class="well well-plain">
+            <form role="form">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Basic info</div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputEmail3"
+                                        class="col-sm-4 control-label">Course</label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control">
+                                            <option value="cs1101"
+                                                selected="selected">CS1101</option>
+                                            <option value="cs1101">CS1102</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputEmail3"
+                                        class="col-sm-4 control-label">Time
+                                        zone</label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control">
+                                            <option value="cs1101"
+                                                selected="selected">UTC-12.00</option>
+                                            <option value="cs1101">UTC-11.00</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="inputEmail3"
+                                        class="col-sm-2 control-label">Session
+                                        name:</label>
+                                    <div class="col-sm-10">
+                                        <input type="email"
+                                            class="form-control"
+                                            id="inputEmail3"
+                                            placeholder="e.g. Feedback for the project">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="form-group">
+                                        <label for="instructions"
+                                            class="col-sm-2 control-label">Instructions</label>
+                                        <div class="col-sm-10">
+                                            <textarea
+                                                class="form-control"
+                                                rows="3"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Duration</div>
+                    <div class="panel-body">
+                    <div class="row">
+                            <div class="col-md-4"><strong>Submission
+                                    opening time:</strong><br>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <input type="datepicker"
+                                            class="form-control col-sm-2"
+                                            id="startdate"
+                                            placeholder="Date">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <select class="form-control">
+                                            <option value="cs1101"
+                                                selected="selected">2359</option>
+                                            <option value="0100">0100
+                                                min</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                </div>
+                            <div class="col-md-4 border-left-gray"><strong>Submission
+                                    closing time:</strong><br>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <input type="datepicker"
+                                            class="form-control col-sm-2"
+                                            id="startdate"
+                                            placeholder="Date">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <select class="form-control">
+                                            <option value="cs1101"
+                                                selected="selected">2359</option>
+                                            <option value="0100">0100
+                                                min</option>
+                                        </select>
+                                    </div>
+                                </div></div>
+                            <div class="col-md-4 border-left-gray">
+                                <div class="form-group">
+                                    <label for="graceperiod"
+                                        class="col-sm-4 control-label">Grace
+                                        period</label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control">
+                                            <option value="cs1101"
+                                                selected="selected">0</option>
+                                            <option value="cs1101">5
+                                                min</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                    </div>
+
+                </div>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Visibility settings</div>
+                    <div class="panel-body">
+                    <div class="row">
+                            <div class="col-md-6 border-gray"><strong>Session
+                                    visible from:</strong><br>
+                                <div class="radio">
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <label>At <input
+                                                name="optionsRadios"
+                                                id="optionsRadios1"
+                                                value="option1"
+                                                checked="" type="radio">
+                                        </div>
+                                        <div class="col-md-5">
+                                            <input type="datepicker"
+                                                class="form-control col-sm-2"
+                                                id="startdate"
+                                                placeholder="Date">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <select class="form-control">
+                                                <option value="cs1101"
+                                                    selected="selected">2359</option>
+                                                <option value="0100">0100
+                                                    min</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="radio">
+                                    <label> <input
+                                        name="optionsRadios"
+                                        id="optionsRadios1"
+                                        value="option1" type="radio">
+                                        Submission opening time
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label> <input
+                                        name="optionsRadios"
+                                        id="optionsRadios2"
+                                        value="private" type="radio">
+                                        Never (this is a private
+                                        session) 
+                                </div></div>
+
+                            <div class="col-md-6 border-left-gray"><strong>Responses
+                                    visible from:</strong><br>
+                                <div class="radio">
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <label>At <input
+                                                name="optionsRadios"
+                                                id="optionsRadios1"
+                                                value="option1"
+                                                checked="" type="radio">
+                                        </div>
+                                        <div class="col-md-5">
+                                            <input type="datepicker"
+                                                class="form-control col-sm-2"
+                                                id="startdate"
+                                                placeholder="Date">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <select class="form-control">
+                                                <option value="cs1101"
+                                                    selected="selected">2359</option>
+                                                <option value="0100">0100
+                                                    min</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="radio">
+                                    <label> <input
+                                        name="optionsRadios"
+                                        id="optionsRadios2"
+                                        value="private" type="radio">
+                                        Immediately 
+                                </div>
+                                <div class="radio">
+                                    <label> <input
+                                        name="optionsRadios"
+                                        id="optionsRadios1"
+                                        value="option1" type="radio">
+                                        Publish manually
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label> <input
+                                        name="optionsRadios"
+                                        id="optionsRadios2"
+                                        value="private" type="radio">
+                                        Never 
+                                </div></div>
+                                </div>
+                        </div>
+                </div>
+
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Alerts</div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label for="emailflag"
+                                class="col-sm-1 control-label">Send
+                                emails for:</label>
+                            <div class="col-sm-2">
+                                <div class="checkbox">
+                                    <label> <input
+                                        type="checkbox" value="">
+                                        Join reminder
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="checkbox">
+                                    <label> <input
+                                        type="checkbox" value="">
+                                        Session opening reminder
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="checkbox">
+                                    <label> <input
+                                        type="checkbox" value="">
+                                        Session closing reminder
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="checkbox">
+                                    <label> <input
+                                        type="checkbox" value="">
+                                        Results published announcement
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-5 col-sm-10">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+            </form>
+            <br><br>
+        </div>
+        <div id="footerComponent" class="container-fluid">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4">
+                        <span>[TEAMMATES V5.00]</span>
+                    </div>
+                    <div class="col-md-4">
+                        <span class="col ">National University of
+                            Singapore</span>
+                    </div>
+                    <div class="col-md-4">
+                        <span>[Send <a class="link"
+                            href="../contact.html" target="_blank">Feedback</a>]
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- /container -->
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
