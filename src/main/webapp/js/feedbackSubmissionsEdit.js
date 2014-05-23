@@ -18,9 +18,6 @@ $(document).ready(function () {
         $(this).after('<span> '+$(this).find('option:selected').html()+'</span>');
     });
     
-    // Enable tooltips
-    document.onmousemove = positiontip;
-    
     disallowNonNumericEntries($('input[type=number]'), true, true);
 });
 

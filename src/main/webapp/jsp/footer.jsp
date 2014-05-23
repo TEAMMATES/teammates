@@ -19,7 +19,7 @@
                 <span>[<a href="/index.html">TEAMMATES</a> V<%=version%>]</span>
             </div>
             <div class="col-md-4">
-                [for <span class="highligh-white"><%=institute%></span>]
+                [for <span class="highlight-white"><%=institute%></span>]
             </div>
             <div class="col-md-4">
                 <span>[Send <a class="link" href="../contact.html" target="_blank">Feedback</a>]</span>

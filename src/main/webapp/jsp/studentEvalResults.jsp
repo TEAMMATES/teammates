@@ -44,7 +44,6 @@
 
         <div class="well well-plain">
             <form class="form-horizontal" role="form">
-                <!-- Course ID -->
                 <div class="form-group">
                     <label class="col-sm-1 control-label">Course:</label>
                     <div class="col-sm-11">
@@ -53,7 +52,6 @@
                         </p>
                     </div>
                 </div> 
-                <!-- Session Name -->
                 <div class="form-group">
                     <label class="col-sm-1 control-label">Session:</label>
                     <div class="col-sm-11">
@@ -62,7 +60,6 @@
                         </p>
                     </div>
                 </div>  
-                <!-- Student Name -->
                 <div class="form-group">
                     <label class="col-sm-1 control-label">Student:</label>
                     <div class="col-sm-11">
@@ -80,7 +77,6 @@
             <div class="panel-heading">Comparison of work distribution </div>
                 <table class="table table-striped">
                     <tbody>
-                        <!-- My View -->
                         <tr>
                           <td><strong>My view:</strong></td>
                           <td><span class="text-muted"><strong>of me:</strong></span> 
@@ -90,7 +86,6 @@
                             <%=StudentEvalResultsPageData.getPointsListOriginal(data.outgoing)%>
                           </td>
                         </tr>
-                        <!-- Team's view -->
                         <tr>
                           <td><strong>Teams's view:</strong></td>
                           <td><span class="text-muted"><strong>of me:</strong></span> <%=StudentEvalResultsPageData.getPointsAsColorizedHtml(data.evalResult.incoming.get(0).details.normalizedToStudent)%>
@@ -150,21 +145,18 @@
             <div class="panel-heading">Self evaluation</div>
             <table class="table table-striped">
                 <tbody>
-                <!-- Estimated Contribution -->
                 <tr>
                   <td><strong>Your estimated contribution:</strong></td>
                   <td>
                     <%=StudentEvalResultsPageData.getPointsAsColorizedHtml(data.evalResult.getSelfEvaluation().points)%>
                   </td>
                 </tr>
-                <!-- Contribution comments -->
                 <tr>
                   <td><strong>Comments about your contribution:</strong></td>
                   <td>
                     <%=PageData.sanitizeForHtml(data.evalResult.getSelfEvaluation().justification.getValue())%>
                   </td>
                 </tr>
-                <!-- Team Dynamics Comments -->
                 <tr>
                   <td><strong>Comments about team dynamics:</strong></td>
                   <td>
