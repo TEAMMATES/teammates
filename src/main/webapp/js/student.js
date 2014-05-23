@@ -8,7 +8,9 @@
 //Initial load-up
 //-----------------------------------------------------------------------------
 window.onload = function() {
-    initializetooltip();
+    $(function() { 
+        $("[data-toggle='tooltip']").tooltip({html: true}); 
+    });
 };
 
 // DynamicDrive JS mouse-hover

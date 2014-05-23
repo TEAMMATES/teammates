@@ -16,15 +16,15 @@
     <title>TEAMMATES - Student</title>
     <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/stylesheets/common-print.css" type="text/css" media="print">
-    <link rel="stylesheet" href="/stylesheets/studentHome-print.css" type="text/css" media="print">
+    <link rel="stylesheet" href="/stylesheets/teammatesCommon.css" type="text/css">
     <link href="/stylesheets/studentCourseJoin.css" rel="stylesheet">
 
     <script type="text/javascript" src="/js/googleAnalytics.js"></script>
     <script type="text/javascript" src="/js/jquery-minified.js"></script>
     <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="/js/tooltip.js"></script>
     <script type="text/javascript" src="/js/common.js"></script>
+    
+    <script type="text/javascript" src="/js/student.js"></script>
     
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -67,8 +67,6 @@
             </div>
         </div>
     </div>
-    <div class="footer" id="frameBottom" style="position: fixed;">
-        <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
-    </div>
+    <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
 </body>
 </html>

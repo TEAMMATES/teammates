@@ -21,9 +21,7 @@
     <title>TEAMMATES - Student</title>
     <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/stylesheets/teammatesCommon.css" type="text/css" media="screen">
-    <link rel="stylesheet" href="/stylesheets/common-print.css" type="text/css" media="print">
-    <link rel="stylesheet" href="/stylesheets/studentEvalEdit-print.css" type="text/css" media="print">
+    <link rel="stylesheet" href="/stylesheets/teammatesCommon.css" type="text/css">
 
     <script type="text/javascript" src="/js/googleAnalytics.js"></script>
     <script type="text/javascript" src="/js/jquery-minified.js"></script>
@@ -87,7 +85,7 @@
         <div class="row">
             <div class="col-sm-2"></div>
             <div class="col-sm-8">
-                <div class="panel panel-default">
+                <div class="well well-plain">
                     <div class="form form-horizontal" id="studentEvaluationInformation">
                         <div class="panel-body">
                             <div class="form-group">

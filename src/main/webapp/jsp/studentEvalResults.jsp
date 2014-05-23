@@ -14,9 +14,9 @@
     <link rel="shortcut icon" href="/favicon.png">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>TEAMMATES - Student</title>
-    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" type="text/css" media="screen"/>
-    <link rel="stylesheet" href="/bootstrap/css/bootstrap-theme.min.css" type="text/css" media="screen"/>
-    <link rel="stylesheet" href="/stylesheets/teammatesCommon.css" type="text/css" media="screen"/>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" type="text/css"/>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap-theme.min.css" type="text/css"/>
+    <link rel="stylesheet" href="/stylesheets/teammatesCommon.css" type="text/css"/>
 
     <script type="text/javascript" src="/js/googleAnalytics.js"></script>
     <script type="text/javascript" src="/js/jquery-minified.js"></script>
@@ -42,12 +42,12 @@
             <h1>Evaluation Results</h1>
         </div>
 
-        <div class="well well-narrow well-plain">
+        <div class="well well-plain">
             <form class="form-horizontal" role="form">
                 <!-- Course ID -->
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">Course:</label>
-                    <div class="col-sm-9">
+                    <label class="col-sm-1 control-label">Course:</label>
+                    <div class="col-sm-11">
                         <p class="form-control-static">
                             <%=data.eval.courseId%>
                         </p>
@@ -55,8 +55,8 @@
                 </div> 
                 <!-- Session Name -->
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">Session:</label>
-                    <div class="col-sm-9">
+                    <label class="col-sm-1 control-label">Session:</label>
+                    <div class="col-sm-11">
                         <p class="form-control-static">
                             <%=PageData.sanitizeForHtml(data.eval.name)%>
                         </p>
@@ -64,8 +64,8 @@
                 </div>  
                 <!-- Student Name -->
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">Student:</label>
-                    <div class="col-sm-9">
+                    <label class="col-sm-1 control-label">Student:</label>
+                    <div class="col-sm-11">
                         <p class="form-control-static">
                             <%=PageData.sanitizeForHtml(data.student.name)%>
                         </p>
