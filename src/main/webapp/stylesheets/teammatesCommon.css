@@ -8,9 +8,11 @@ body {
 .btn-tm-actions {
     margin-right:3px;
  }
+
  .centeralign {
     text-align: center;
 }
+
  #footerComponent {
     margin:0px;
     bottom: 0px;
@@ -20,7 +22,6 @@ body {
     text-align:center;
     background-color:black;
     color:grey;
-    
     background-image: linear-gradient(to bottom,#3c3c3c 0,#222 100%);
  }
  
@@ -56,7 +57,10 @@ body {
 
 @media print {
     a[href]:after {
-    content:none;
+        content:none;
+    }
+    .no-print {
+        display: none;
     }
 }
 
