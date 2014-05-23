@@ -45,7 +45,7 @@
         <div id="topOfPage"></div>
         
         <div id="headerOperation">
-            <h2>Team Details for <%=data.courseDetails.course.id%></h2>
+            <h1>Team Details for <%=data.courseDetails.course.id%></h1>
         </div>
         <br>
         

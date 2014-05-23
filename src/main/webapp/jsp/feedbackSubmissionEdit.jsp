@@ -13,7 +13,7 @@
     <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.bundle.feedbackSession.feedbackSessionName%>"/>
     <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.bundle.feedbackSession.courseId%>"/>
     <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
-    <div class="panel panel-default" id="course1">
+    <div class="well well-plain" id="course1">
             <div class="panel-body">
                 <div class="form-horizontal">
                     <div class="panel-heading">
@@ -30,12 +30,17 @@
                             </div>
                         </div>  
                         <div class="form-group">
-                            <label class="col-sm-2 control-label">Duration:</label>
+                            <label class="col-sm-2 control-label">Opening time:</label>
                             <div class="col-sm-10">
-                                <p class="form-control-static">from:  <%=TimeHelper.formatTime(data.bundle.feedbackSession.startTime)%>  
-                                To: <%=TimeHelper.formatTime(data.bundle.feedbackSession.endTime)%></p>
+                                <p class="form-control-static"><%=TimeHelper.formatTime(data.bundle.feedbackSession.startTime)%></p>
                             </div>
-                        </div>  
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Closing time:</label>
+                            <div class="col-sm-10">
+                                <p class="form-control-static"><%=TimeHelper.formatTime(data.bundle.feedbackSession.endTime)%></p>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Instructions:</label>
                             <div class="col-sm-10">
@@ -96,9 +101,9 @@
         %>
                 <br />
                 <div class="form-group">
-                    <label for="input" class="col-sm-2 control-label" <%=(question.isRecipientNameHidden()) ? "style=\"display:none\"" : ""%>>
-                        To: 
-                        <select class="participantSelect middlealign form-control" 
+                    <div class="col-sm-2 form-inline" <%=(question.isRecipientNameHidden()) ? "style=\"display:none\"" : "style=\"text-align:right;\""%>>
+                        <label for="input">To: </label>
+                        <select class="participantSelect middlealign form-control" style="max-width:125px"
                             name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"
                             <%=(numOfResponseBoxes == maxResponsesPossible) ? "style=\"display:none\"" : ""%>
                             <%=data.isSessionOpenForSubmission ? "" : "disabled=\"disabled\""%>>
@@ -108,8 +113,8 @@
                             }
                         %>
                         </select>
-                    </label>
-                    <div class="col-sm-10">
+                    </div>
+                    <div <%=(question.isRecipientNameHidden()) ? "class=\"col-sm-12\"" : "class=\"col-sm-10\""%>>
                         <%=questionDetails.getQuestionWithExistingResponseSubmissionFormHtml(
                             data.isSessionOpenForSubmission, 
                             qnIndx, responseIndx, question.courseId, 
@@ -124,20 +129,20 @@
         %>
                 <br />
                 <div class="form-group">
-                    <label for="input" class="col-sm-2 control-label" <%=(question.isRecipientNameHidden()) ? "style=\"display:none\"" : ""%>>
-                        To:  
-                        <select class="participantSelect middlealign newResponse form-control" 
+                    <div class="col-sm-2 form-inline" <%=(question.isRecipientNameHidden()) ? "style=\"display:none\"" : "style=\"text-align:right\""%>>
+                        <label for="input">To:</label>
+                        <select class="participantSelect middlealign newResponse form-control" style="max-width:125px"
                             name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"
                             <%=(numOfResponseBoxes == maxResponsesPossible) ? "style=\"display:none\"" : ""%>
                             <%=data.isSessionOpenForSubmission ? "" : "disabled=\"disabled\""%>>
                         <%
                             for(String opt: data.getRecipientOptionsForQuestion(question.getId(), null)) {
-                                                            out.println(opt);
-                                                        }
+                                out.println(opt);
+                            }
                         %>
                         </select>
-                    </label>
-                    <div class="col-sm-10">
+                    </div>
+                    <div <%=(question.isRecipientNameHidden()) ? "class=\"col-sm-12\"" : "class=\"col-sm-10\""%>>
                     <%=questionDetails.getQuestionWithoutExistingResponseSubmissionFormHtml(
                             data.isSessionOpenForSubmission, 
                             qnIndx, responseIndx, question.courseId)%>

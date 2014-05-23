@@ -21,7 +21,7 @@
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
       <![endif]-->
-    <link rel="stylesheet" href="/stylesheets/teamatesCommon.css" type="text/css">
+    <link rel="stylesheet" href="/stylesheets/teammatesCommon.css" type="text/css">
     <script type="text/javascript" src="/js/googleAnalytics.js"></script>
     <script type="text/javascript" src="/js/jquery-minified.js"></script>
     <script type="text/javascript" src="/js/tooltip.js"></script>
@@ -36,7 +36,7 @@
     <div id="frameBody" style="top:0px;bottom:0px;" class="container theme-showcase" role="main">
         <div id="frameBodyWrapper">
             <div id="topOfPage"></div>
-            <h2>Submit Feedback Question</h2>
+            <h1>Submit Feedback Question</h1>
             <br>
             
             <form method="post" action="<%=Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_SAVE%>" name="form_submit_response">

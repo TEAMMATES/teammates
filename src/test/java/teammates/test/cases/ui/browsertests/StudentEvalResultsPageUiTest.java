@@ -9,16 +9,16 @@ import teammates.common.util.Const;
 import teammates.common.util.Url;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
-import teammates.test.pageobjects.StudenEvalResultsPage;
+import teammates.test.pageobjects.StudentEvalResultsPage;
 
 /**
  * Covers 'Evaluation Results' page for students.
- * SUT: {@link StudenEvalResultsPage}
+ * SUT: {@link StudentEvalResultsPage}
  */
 public class StudentEvalResultsPageUiTest extends BaseUiTestCase {
     private static Browser browser;
     private static DataBundle testData;
-    private StudenEvalResultsPage resultsPage;
+    private StudentEvalResultsPage resultsPage;
     
 
     @BeforeClass
@@ -78,7 +78,7 @@ public class StudentEvalResultsPageUiTest extends BaseUiTestCase {
             .withCourseId(testData.evaluations.get(evalObjectId).courseId)
             .withEvalName(testData.evaluations.get(evalObjectId).name);
         
-        resultsPage = loginAdminToPage(browser, resultsUrl, StudenEvalResultsPage.class);
+        resultsPage = loginAdminToPage(browser, resultsUrl, StudentEvalResultsPage.class);
         resultsPage.verifyHtml(filePath);
     }
 

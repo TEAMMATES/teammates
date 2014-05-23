@@ -2,7 +2,7 @@
 
 body {
     padding-top: 60px;
-    padding-bottom:40px;
+    padding-bottom:30px;
 }
 
 .btn-tm-actions {
@@ -68,6 +68,10 @@ body {
 
 .color_negative { 
     color:#e74c3c;
+}
+
+.highlight-white {
+    color:white;
 }
 
 @media print {
