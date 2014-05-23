@@ -1,0 +1,32 @@
+@CHARSET "ISO-8859-1";
+
+body {
+    padding-top: 60px;
+}
+
+ .btn-tm-actions {
+    margin-right:3px;
+ }
+ 
+ #footerComponent {
+    margin:0px;
+    bottom: 0px;
+    position:fixed;
+    height: 20px;
+    width:100%;
+    text-align:center;
+    background-color:black;
+    color:grey;
+ }
+ 
+ .well-plain {
+    border: 0px;
+    box-shadow: 0 0 0 0;
+    background-image: none;
+    background-color: #eaeff5;
+ }
+ 
+ .well-narrow {
+    margin: 0 auto;
+    width:60%;
+ }

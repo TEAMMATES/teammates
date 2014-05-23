@@ -9,7 +9,6 @@
 //-----------------------------------------------------------------------------
 window.onload = function() {
     initializetooltip();
-    initializenavbar();
 };
 
 // DynamicDrive JS mouse-hover
