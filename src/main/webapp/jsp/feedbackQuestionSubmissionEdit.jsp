@@ -14,8 +14,7 @@
     <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.bundle.feedbackSession.courseId%>"/>
     <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
     
-    <div class="panel panel-info" >
-    <div class="panel-body">
+    <div class="well well-plain" >
         <div class="form-horizontal" role="form">
             <div class="form-group">
                 <label class="col-sm-2 control-label">Course:</label>
@@ -163,5 +162,4 @@
     <%    
         }
     %>
-        </div>
         </div>
