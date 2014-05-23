@@ -61,6 +61,9 @@
         <li><a href="#StudentTeamDetails">Student Team Details</a></li>
         <li><a href="#StudentSessionSubmission">Student Session Submission</a></li>
         <li><a href="#StudentEvalResults">Student Eval Results</a></li>
+        <li><a href="#InstructorHome">Instructor Home</a></li>
+        <li><a href="#InstructorAddCourse">Instructor Add Course</a></li>
+        <li><a href="#InstructorEditCourse">Instructor Edit Course</a></li>
         <li><a href="#InstructorSessionResults">Instructor Session Results</a></li>
         <li><a href="#InstructorCreateSession">Instructor Create Session</a></li>
       </ul>
@@ -481,36 +484,41 @@
     <h1>_____________________________________________________________________</h1>
     <a name="InstructorHome"></a>
     <h1>Instructor Home</h1>
-    
+
     //similar to student home
-    
+
     <h1>_____________________________________________________________________</h1>
     <a name="InstructorAddCourse"></a>
     <h1>Instructor Add Course</h1>
-    
-    <div class="well well-plain">
-    <form class="form-horizontal" role="form">
-      <div class="form-group">
-        <label for="inputEmail3" class="col-sm-3 control-label">Course ID</label>
-        <div class="col-sm-3">
-          <input class="form-control" id="inputEmail3" placeholder="e.g. ECN101-Fall2014" type="email">
-        </div>
+
+    <div class="panel panel-primary">
+      <div class="panel-body fill-plain">
+        <form class="form-horizontal" role="form">
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-3 control-label">Course ID</label>
+            <div class="col-sm-3">
+              <input class="form-control" id="inputEmail3" placeholder="e.g. ECN101-Fall2014"
+                type="email">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputPassword3" class="col-sm-3 control-label">Course Name</label>
+            <div class="col-sm-9">
+              <input class="form-control" id="inputPassword3"
+                placeholder="e.g. Economics 101 - Fall 2014">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-10">
+              <button type="submit" class="btn btn-primary">Add Course</button>
+            </div>
+          </div>
+        </form>
       </div>
-      <div class="form-group">
-        <label for="inputPassword3" class="col-sm-3 control-label">Course Name</label>
-        <div class="col-sm-9">
-          <input class="form-control" id="inputPassword3" placeholder="e.g. Economics 101 - Fall 2014" type="password">
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="col-sm-offset-3 col-sm-10">
-          <button type="submit" class="btn btn-primary">Add Course</button>
-        </div>
-      </div>
-    </form>
     </div>
+
     <h3>Active courses</h3>
-    
+
     <table class="table table-bordered table-striped">
       <thead>
         <tr class="fill-primary">
@@ -549,15 +557,13 @@
         </tr>
       </tbody>
     </table>
-    
+
     <span class="text-muted"><h3>Archived courses</h3></span>
     <table class="table table-bordered table-striped">
       <thead>
         <tr class="fill-default">
           <th>Course ID</th>
           <th>Course Name</th>
-          <th>Teams</th>
-          <th>Total Students</th>
           <th>Total Unregistered</th>
           <th>Actions</th>
         </tr>
@@ -567,15 +573,11 @@
           <td>1</td>
           <td>Mark</td>
           <td>Otto</td>
-          <td>Otto</td>
-          <td>Otto</td>
           <td>@mdo</td>
         </tr>
         <tr>
           <td>2</td>
           <td>Jacob</td>
-          <td>Thornton</td>
-          <td>Thornton</td>
           <td>Thornton</td>
           <td>@fat</td>
         </tr>
@@ -583,14 +585,89 @@
           <td>3</td>
           <td>Larry</td>
           <td>the Bird</td>
-          <td>the Bird</td>
-          <td>the Bird</td>
           <td>@twitter</td>
         </tr>
       </tbody>
     </table>
-    
-    
+
+    <h1>_____________________________________________________________________</h1>
+    <a name="InstructorEditCourse"></a>
+    <h1>Instructor Edit Course</h1>
+
+    <div class="panel panel-primary panel-narrow">
+      <div class="panel-heading">
+        <strong>Course</strong>
+        <button type="button" title="Delete course" class="btn btn-primary btn-xs pull-right">
+          <span class="glyphicon glyphicon-trash"></span> Delete
+        </button>
+      </div>
+      <div class="panel-body fill-plain">
+        <form class="form-horizontal" role="form">
+
+          <br>
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-3 control-label">ID</label>
+            <div class="col-sm-3">
+              <input class="form-control" id="inputEmail3" type="email" value="CS2103-Jan2014"
+                disabled="">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputPassword3" class="col-sm-3 control-label">Name</label>
+            <div class="col-sm-9">
+              <input class="form-control" id="inputPassword3" value="Economics 101 - Fall 2014"
+                disabled="">
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <br>
+    <div class="panel panel-primary panel-narrow">
+      <div class="panel-heading">
+        <strong>Instructor 1</strong>
+        <div class="pull-right">
+          <button type="button" title="Edit" class="btn btn-primary btn-xs">
+            <span class="glyphicon glyphicon-pencil"></span> Edit
+          </button>
+          &nbsp;
+          <button type="button" title="Delete" class="btn btn-primary btn-xs">
+            <span class="glyphicon glyphicon-trash"></span> Delete
+          </button>
+        </div>
+      </div>
+      <div class="panel-body">
+        <form class="form-horizontal" role="form">
+
+          <br>
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-3 control-label">Google ID</label>
+            <div class="col-sm-3">
+              <input class="form-control" id="inputEmail3" type="email" value="ins.id" disabled="">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputPassword3" class="col-sm-3 control-label">Name</label>
+            <div class="col-sm-9">
+              <input class="form-control" id="inputPassword3" value="Jim Davis" disabled="">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputPassword3" class="col-sm-3 control-label">Email</label>
+            <div class="col-sm-9">
+              <input class="form-control" id="inputPassword3" value="email@email.com" disabled="">
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <br>
+    <div class="col-sm-offset-5">
+      <button type="button" title="Edit" class="btn btn-primary btn-md">Add instructor</button>
+      <br>
+    </div>
+    //clicking the above button can generate a form similar to 'edit course' form
+
     <h1>_____________________________________________________________________</h1>
     <a name="InstructorSessionResults"></a>
 
@@ -661,15 +738,15 @@
                       <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
                     </button> <br> Comment from instructor.Comment from instructor.Comment from
                     instructor.Comment from instructor.Comment from instructor.</li>
-                    <li class="list-group-item list-group-item-warning"><span class="text-muted">
+                  <li class="list-group-item list-group-item-warning"><span class="text-muted">
                       <form role="form">
                         <div class="form-group">
                           <textarea class="form-control" rows="3">Comment from instructor.Comment from instructor.Comment from instructor.Comment from instructor.Comment from instructor.
                           </textarea>
                         </div>
                         <div class="col-sm-offset-5">
-                        <button type="submit" class="btn btn-primary">Save</button>
-                        <button type="submit" class="btn btn-default">Cancel</button>
+                          <button type="submit" class="btn btn-primary">Save</button>
+                          <button type="submit" class="btn btn-default">Cancel</button>
                         </div>
                       </form></li>
                 </ul>
@@ -709,125 +786,28 @@
       </div>
     </div>
 
-    <div class="well well-plain">
-      <h4>Team 1</h4>
-      <div class="panel panel-primary">
-        <div class="panel-heading">From: Alice Betsy</div>
-        <strong>To: Charlie Davis</strong>
-        <div class="panel panel-default col-sm-offset-1">
-          <div class="panel-heading">What did you like about this team member?</div>
-          <div class="panel-body">
-            This is the response.This is the response.This is the response. <br>This is the
-            response.This is the response.This is the response.This is the response.<br>This is
-            the response.
-          </div>
-        </div>
 
-        <div class="panel panel-default col-sm-offset-1">
-          <div class="panel-heading">What can be improved by this team member?</div>
-          <div class="panel-body">
-            This is the response.This is the response.This is the response. <br>This is the
-            response.This is the response.This is the response.This is the response.<br>This is
-            the response.
-          </div>
-        </div>
-        <hr>
-        <p>To: Benny Charles</p>
-        <div class="panel panel-default col-sm-offset-1">
-          <div class="panel-heading">What did you like about this team member?</div>
-          <div class="panel-body">
-            This is the response.This is the response.This is the response. <br>This is the
-            response.This is the response.This is the response.This is the response.<br>This is
-            the response.
-          </div>
-        </div>
-
-        <div class="panel panel-default col-sm-offset-1">
-          <div class="panel-heading">What can be improved by this team member?</div>
-          <div class="panel-body">
-            This is the response.This is the response.This is the response. <br>This is the
-            response.This is the response.This is the response.This is the response.<br>This is
-            the response.
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <hr>
-
-    <h3>
-      Session results: By reviewee <small>Grouped by question</small>
-    </h3>
-
-    <div class="panel panel-info">
-      <div class="panel-heading">
-        <h4>Team 1</h4>
-        <div class="panel panel-primary">
-          <div class="panel-heading">To: Alice Betsy</div>
-          <table class="table table-bordered">
-            <tbody>
-              <tr>
-                <td><strong>What is the estimated contribution of this team member?</strong>
-                  <div class="panel panel-default col-sm-offset-1">
-                    <div class="panel-heading">From: Benny Charles</div>
-                    <div class="panel-body">Equal share + 10%</div>
-                  </div>
-                  <div class="panel panel-default col-sm-offset-1">
-                    <div class="panel-heading">From:Charlie Davis</div>
-                    <div class="panel-body">Equal share</div>
-                  </div>
-                  <div class="panel panel-default col-sm-offset-1">
-                    <div class="panel-heading">From:Danny Engles</div>
-                    <div class="panel-body">Equal share - 5%</div>
-                  </div>
-                  <div class="panel panel-default col-sm-offset-1">
-                    <div class="panel-heading">
-                      <strong>Summary:</strong> Equal share - 2.5%
-                    </div>
-                  </div></td>
-              </tr>
-              <tr>
-                <td><strong>What did you like about this team member?</strong>
-                  <div class="panel panel-default col-sm-offset-1">
-                    <div class="panel-heading">From: Benny Charles</div>
-                    <div class="panel-body">
-                      This is the response.This is the response.This is the response. <br>This
-                      is the response.This is the response.This is the response.This is the
-                      response.<br>This is the response.
-                    </div>
-                  </div>
-                  <div class="panel panel-default col-sm-offset-1">
-                    <div class="panel-heading">From: Charlie Davis</div>
-                    <div class="panel-body">
-                      This is the response.This is the response.This is the response. <br>This
-                      is the response.This is the response.This is the response.This is the
-                      response.<br>This is the response.
-                    </div>
-                  </div></td>
-              </tr>
-            </tbody>
-          </table>
-
-        </div>
-
-      </div>
-    </div>
-
+    <h1>_____________________________________________________________________</h1>
 
     <a name="InstructorCreateSession"></a>
     <h2>Instructor Create Sesssion</h2>
 
-    <form role="form">
-      <div class="form-group">
-        <label for="sessionType">Session type</label> <select class="form-control">
-          <option value="/page/instructorFeedbacksPage" selected="selected">Feedback
-            Session with customizable questions</option>
-          <option value="/page/instructorEvalsPage">Standard Team Peer Evaluation with
-            fixed questions</option>
-        </select>
-      </div>
-    </form>
-
+    <div class="row">
+      <form role="form">
+        <div class="form-group">
+          <label for="sessionType" class="col-sm-2 control-label">Session type :</label>
+          <div class="col-sm-10">
+            <select class="form-control">
+              <option value="/page/instructorFeedbacksPage" selected="selected">Feedback
+                Session with customizable questions</option>
+              <option value="/page/instructorEvalsPage">Standard Team Peer Evaluation with
+                fixed questions</option>
+            </select>
+          </div>
+        </div>
+      </form>
+    </div>
+    <br>
     <div class="well well-plain">
       <form role="form">
         <div class="panel panel-primary">
@@ -1046,19 +1026,19 @@
       </form>
       <br> <br>
     </div>
-    <div id="footerComponent" class="container-fluid">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-4">
-            <span>[TEAMMATES V5.00]</span>
-          </div>
-          <div class="col-md-4">
-            <span class="col ">National University of Singapore</span>
-          </div>
-          <div class="col-md-4">
-            <span>[Send <a class="link" href="../contact.html" target="_blank">Feedback</a>]
-            </span>
-          </div>
+  </div>
+  <div id="footerComponent" class="container-fluid">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <span>[TEAMMATES V5.00]</span>
+        </div>
+        <div class="col-md-4">
+          <span class="col ">National University of Singapore</span>
+        </div>
+        <div class="col-md-4">
+          <span>[Send <a class="link" href="../contact.html" target="_blank">Feedback</a>]
+          </span>
         </div>
       </div>
     </div>
