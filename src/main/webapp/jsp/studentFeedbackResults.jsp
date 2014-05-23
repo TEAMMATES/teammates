@@ -29,13 +29,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>TEAMMATES - Submit Feedback</title>
-    <link rel="stylesheet" href="/stylesheets/teammatesCommon.css" type="text/css" media="screen">
-    <link rel="stylesheet" href="/stylesheets/common-print.css" type="text/css" media="print">
-    <link rel="stylesheet" href="/stylesheets/studentFeedback.css" type="text/css" media="screen">
     <!-- Bootstrap core CSS -->
     <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap theme -->
     <link href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/stylesheets/teammatesCommon.css" type="text/css" media="screen">
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -52,7 +50,7 @@
             <div id="topOfPage"></div>
             <h2>Feedback Results - Student</h2>
             <br />
-            <div class="panel panel-default">
+            <div class="well well-plain">
                 <div class="panel-body">
                     <div class="form-horizontal">
                         <div class="panel-heading">
@@ -69,11 +67,15 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">Duration:</label>
+                                <label class="col-sm-2 control-label">Opening time:</label>
                                 <div class="col-sm-10">
-                                    <p class="form-control-static">from:
-                                        <%=StudentFeedbackResultsPageData.displayDateTime(data.bundle.feedbackSession.startTime)%> To: 
-                                        <%=StudentFeedbackResultsPageData.displayDateTime(data.bundle.feedbackSession.endTime)%></p>
+                                    <p class="form-control-static"><%=StudentFeedbackResultsPageData.displayDateTime(data.bundle.feedbackSession.startTime)%></p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Closing time:</label>
+                                <div class="col-sm-10">
+                                    <p class="form-control-static"><%=StudentFeedbackResultsPageData.displayDateTime(data.bundle.feedbackSession.endTime)%></p>
                                 </div>
                             </div>
                         </div>
