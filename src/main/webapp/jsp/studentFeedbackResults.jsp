@@ -29,13 +29,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>TEAMMATES - Submit Feedback</title>
-    <link rel="stylesheet" href="/stylesheets/teammatesCommon.css" type="text/css" media="screen">
-    <link rel="stylesheet" href="/stylesheets/common-print.css" type="text/css" media="print">
-    <link rel="stylesheet" href="/stylesheets/studentFeedback.css" type="text/css" media="screen">
     <!-- Bootstrap core CSS -->
     <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap theme -->
     <link href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/stylesheets/teammatesCommon.css" type="text/css" media="screen">
+    <script type="text/javascript" src="/js/googleAnalytics.js"></script>
+    <script type="text/javascript" src="/js/jquery-minified.js"></script>
+    <script type="text/javascript" src="/js/AnchorPosition.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+    <script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
+    <script type="text/javascript" src="/js/student.js"></script>
+    <jsp:include page="../enableJS.jsp"></jsp:include>
+    <!-- Bootstrap core JavaScript ================================================== -->
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -44,15 +51,14 @@
 </head>
 
 <body>
-    <div id="dhtmltooltip"></div>
     <jsp:include page="<%=Const.ViewURIs.STUDENT_HEADER%>" />
 
     <div id="frameBody" class="container">
         <div id="frameBodyWrapper">
             <div id="topOfPage"></div>
-            <h2>Feedback Results - Student</h2>
+            <h1>Feedback Results - Student</h1>
             <br />
-            <div class="panel panel-default">
+            <div class="well well-plain">
                 <div class="panel-body">
                     <div class="form-horizontal">
                         <div class="panel-heading">
@@ -69,11 +75,15 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">Duration:</label>
+                                <label class="col-sm-2 control-label">Opening time:</label>
                                 <div class="col-sm-10">
-                                    <p class="form-control-static">from:
-                                        <%=StudentFeedbackResultsPageData.displayDateTime(data.bundle.feedbackSession.startTime)%> To: 
-                                        <%=StudentFeedbackResultsPageData.displayDateTime(data.bundle.feedbackSession.endTime)%></p>
+                                    <p class="form-control-static"><%=StudentFeedbackResultsPageData.displayDateTime(data.bundle.feedbackSession.startTime)%></p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Closing time:</label>
+                                <div class="col-sm-10">
+                                    <p class="form-control-static"><%=StudentFeedbackResultsPageData.displayDateTime(data.bundle.feedbackSession.endTime)%></p>
                                 </div>
                             </div>
                         </div>
@@ -82,6 +92,7 @@
             </div>
             <br />
             <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
+            <br />
             <%
                 int qnIndx = 0;
                 Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponses = data.bundle
@@ -93,7 +104,6 @@
                     
                     FeedbackAbstractQuestionDetails questionDetails = questionWithResponses.getKey().getQuestionDetails();
             %>
-                <br />
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4>Question <%=qnIndx%>: <%=StudentFeedbackResultsPageData.sanitizeForHtml(questionDetails.questionText)%>
@@ -209,11 +219,12 @@
                     %>
                     </div>
                 </div>
+                <br />
             <% 
                 }
                    if (questionsWithResponses.isEmpty()) {
             %>
-                    <div class="alert alert-danger">There are currently no responses for you for this feedback session.</div>
+                    <div class="col-sm-12" style="color: red">There are currently no responses for you for this feedback session.</div>
             <% 
                 } 
             %>
@@ -223,15 +234,5 @@
     <div id="frameBottom">
         <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
     </div>
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script type="text/javascript" src="/js/googleAnalytics.js"></script>
-    <script type="text/javascript" src="/js/jquery-minified.js"></script>
-    <script type="text/javascript" src="/js/tooltip.js"></script>
-    <script type="text/javascript" src="/js/AnchorPosition.js"></script>
-    <script type="text/javascript" src="/js/common.js"></script>
-    <script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
-    <jsp:include page="../enableJS.jsp"></jsp:include>
-    <!-- Bootstrap core JavaScript ================================================== -->
-    <script src="/bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>
