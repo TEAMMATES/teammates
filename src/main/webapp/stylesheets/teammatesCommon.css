@@ -4,11 +4,11 @@ body {
     padding-top: 60px;
 }
 
- .btn-tm-actions {
+.btn-tm-actions {
     margin-right:3px;
- }
- 
- #footerComponent {
+}
+
+#footerComponent {
     margin:0px;
     bottom: 0px;
     position:fixed;
@@ -17,16 +17,24 @@ body {
     text-align:center;
     background-color:black;
     color:grey;
- }
- 
- .well-plain {
+}
+
+.well-plain {
     border: 0px;
     box-shadow: 0 0 0 0;
     background-image: none;
     background-color: #eaeff5;
- }
- 
- .well-narrow {
+}
+
+.well-narrow {
     margin: 0 auto;
     width:60%;
- }
+}
+
+.color_positive { 
+    color: #1BBD3B;
+}
+
+.color_negative { 
+    color:#e74c3c;
+}
