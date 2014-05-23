@@ -15,59 +15,60 @@
 <html>
 <head>
     <link rel="shortcut icon" href="/favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>TEAMMATES - Instructor</title>
-    <link rel="stylesheet" href="/stylesheets/common.css" type="text/css" media="screen">
-    <link rel="stylesheet" href="/stylesheets/instructorCourseDetails.css" type="text/css" media="screen">
-    <link rel="stylesheet" href="/stylesheets/common-print.css" type="text/css" media="print">
-    <link rel="stylesheet" href="/stylesheets/instructorCourseDetails-print.css" type="text/css" media="print">
-    
-    
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" type="text/css"/>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap-theme.min.css" type="text/css"/>
+    <link rel="stylesheet" href="/stylesheets/teammatesCommon.css" type="text/css"/>
+   
     <script type="text/javascript" src="/js/googleAnalytics.js"></script>
     <script type="text/javascript" src="/js/jquery-minified.js"></script>
     <script type="text/javascript" src="/js/tooltip.js"></script>
-    <script type="text/javascript" src="/js/date.js"></script>
-    <script type="text/javascript" src="/js/CalendarPopup.js"></script>
-    <script type="text/javascript" src="/js/AnchorPosition.js"></script>
     <script type="text/javascript" src="/js/common.js"></script>
-    
+    <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/js/instructor.js"></script>
     <script type="text/javascript" src="/js/instructorCourseDetails.js"></script>
-    <jsp:include page="../enableJS.jsp"></jsp:include>
+    <jsp:include page="../enableJS.jsp"></jsp:include>   
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]--> 
 </head>
 
 <body>
-    <div id="dhtmltooltip"></div>
-    <div id="frameTop">
-        <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
-    </div>
+    <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
 
-    <div id="frameBody">
-        <div id="frameBodyWrapper">
-            <div id="topOfPage"></div>
-            <div id="headerOperation">
-                <h1>Course Details</h1>
-            </div>
+    <div class="container">
+        <div id="topOfPage"></div>
+        
+        <div id="headerOperation">
+            <h1>Team Details for <%=data.courseDetails.course.id%></h1>
+        </div>
+        <br>
 
-            <table class="inputTable" id="courseInformationHeader">
-                <tr>
-                     <td class="label rightalign bold" width="30%">Course ID:</td>
-                     <td id="courseid"><%=sanitizeForHtml(data.courseDetails.course.id)%></td>
-                 </tr>
+        <div class="well well-plain well-narrow" id="courseInformationHeader">
+            <div class="form form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Course ID:</label>
+                    <td id="courseid"><%=sanitizeForHtml(data.courseDetails.course.id)%></td>
+                </div>
                  <tr>
-                     <td class="label rightalign bold" width="30%">Course name:</td>
+                     <label class="col-sm-3 control-label">Course name:</label>
                      <td id="coursename"><%=sanitizeForHtml(data.courseDetails.course.name)%></td>
                 </tr>
                 <tr>
-                     <td class="label rightalign bold" width="30%">Teams:</td>
+                     <label class="col-sm-3 control-label">Teams:</label>
                      <td id="total_teams"><%=data.courseDetails.stats.teamsTotal%></td>
                  </tr>
                  <tr>
-                     <td class="label rightalign bold" width="30%">Total students:</td>
+                     <label class="col-sm-3 control-label">Total students:</label>
                      <td id="total_students"><%=data.courseDetails.stats.studentsTotal%></td>
                  </tr>
                  <tr>
-                     <td class="label rightalign bold" width="30%">Instructors:</td>
+                     <label class="col-sm-3 control-label">Instructors:</label>
                      <td id="instructors">
                      <%
                          for (int i = 0; i < data.instructors.size(); i++){
@@ -103,7 +104,8 @@
                  <%
                      }
                  %>
-            </table>
+            </div>
+        </div>
             
             <br>
             <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
@@ -172,10 +174,6 @@
             <br>
             
         </div>
-    </div>
-
-    <div id="frameBottom">
-        <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
-    </div>
+    <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
 </body>
 </html>
