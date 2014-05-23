@@ -2,9 +2,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet" href="stylesheets/teammates.css" type="text/css">
-<link rel="stylesheet" href="stylesheets/common.css" type="text/css">
-<link rel="stylesheet" href="stylesheets/helpPage.css" type="text/css">
+<link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" type="text/css"/>
+<link rel="stylesheet" href="/bootstrap/css/bootstrap-theme.min.css" type="text/css"/>
+<link rel="stylesheet" href="stylesheets/teammatesCommon.css" type="text/css">
 <title>TEAMMATES Online Peer Feedback System for Student Team Projects - Student Help</title>
 <link rel="apple-touch-icon" href="apple-touch-icon.png" />
 <!--[if !IE 7]>
@@ -18,92 +18,68 @@
 
     <div id="mainContainer">
         <!-- wrap -->
-        <div id="header">
-            <div id="headerWrapper">
-                <div id="imageHolder">
-                    <img alt="TEAMMATES" src="images/teammateslogo.jpg" width="150px"
-                        height="47px">
-                </div>
-
-                <div id="textHolder">
-                    <ul id="navbar">
-                        <li><br></li>
-                    </ul>
+        <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/index.html">TEAMMATES</a>
                 </div>
             </div>
         </div>
-
-        <div id="mainContent">
-            <div id="headerOperation">
-                <h1>Help for Students</h1>
-            </div>
-            
-            <div id="caption">
-                <div id="captionText">
-                    <span><a name="gs">Getting Started</a></span>
-                </div>
-            </div>
-
-            <div id="contentHolder" >
-                <br>
-                <ol>
-                    <li><span class="bold">Join the course</span> by clicking
-                        the link given in the email you received from TEAMMATES.<br>Note
-                        that you need to join a course only once per course.<br> <br>
-                    </li>
-                    <li><span class="bold">Do the pending submissions</span> (if
-                        any).<br> <br></li>
-                    <li>You can <span class="bold">edit your submissions</span> up
-                        to the closing time of the respective session.<br> <br></li>
-                    <li>You can <span class="bold">view session results</span>
-                        after the instructor has published session results. The
-                        system will notify you via email when results are available for
-                        viewing.
-                    </li>
-                </ol>
-                <br><p align = right><a href="#Top">Back to Top</a></p>
-            </div>
+        
+        <div class="container">
+            <h1>Help for Students</h1><br>
+            <h4>Getting Started</h4>
+            <br>
+            <ol>
+                <li><span class="bold">Join the course</span> by clicking
+                    the link given in the email you received from TEAMMATES.<br>Note
+                    that you need to join a course only once per course.<br> <br>
+                </li>
+                <li><span class="bold">Do the pending submissions</span> (if
+                    any).<br> <br></li>
+                <li>You can <span class="bold">edit your submissions</span> up
+                    to the closing time of the respective session.<br> <br></li>
+                <li>You can <span class="bold">view session results</span>
+                    after the instructor has published session results. The
+                    system will notify you via email when results are available for
+                    viewing.
+                </li>
+            </ol>
+            <br>
 
             <!-- FAQ -->
-            <div id="caption">
-                <div id="captionText">
-                    <span><a name="faq">Frequently Asked Questions</a></span>
-                </div>
-            </div>
-            <div id="contentHolder" >
-                <div class="bulletPointsIndent">
-                <ul>
+            <h4>Frequently Asked Questions</h4>
+            <br>
+            <ul>
+            <li><a>What should I do if I
+                    cannot see any/some of my courses I should be able to see in the
+                    system?</a> 
+                    <div class="helpSectionContent">
+                    These are the possible reasons:
+                    <ol></ol>
+                    1. You used a different Google account to access 
+                    TEAMMATES in the past. In that case, you need to 
+                    use the same Google account to access TEAMMATES again. 
+                    Logout and re-login using the other Google account.<br> 
+                    2. You changed the primary email from a non-Gmail 
+                    address to a Gmail address recently. In that case, 
+                    email <a href="mailto:teammates@comp.nus.edu.sg">teammates@comp.nus.edu.sg</a>
+                     so that we can reconfigure your account to use 
+                     the new Gmail address. <br><br>
+                    </div></li>
 
-                    <li><a name="faq2" id="question">What should I do if I
-                            cannot see any/some of my courses I should be able to see in the
-                            system?</a> 
-                            <div class="helpSectionContent">
-                            These are the possible reasons:<br> 
-                            1. You used a different Google account to access 
-                            TEAMMATES in the past. In that case, you need to 
-                            use the same Google account to access TEAMMATES again. 
-                            Logout and re-login using the other Google account.<br> 
-                            2. You changed the primary email from a non-Gmail 
-                            address to a Gmail address recently. In that case, 
-                            email <a href="mailto:teammates@comp.nus.edu.sg">teammates@comp.nus.edu.sg</a>
-                             so that we can reconfigure your account to use 
-                             the new Gmail address. <br><br>
-                            </div></li>
-
-                    <li><a name="faq5" id="question">What should I do if I'm
-                            unable to submit my responses?</a>
-                            <div class="helpSectionContent"> Email <a
-                        href="mailto:teammates@comp.nus.edu.sg">us</a> so that 
-                        we can help you submit. Note that we cannot do much if
-                        the submission deadline is over. It is not up to us 
-                        (the TEAMMATES team) to accept overdue submissions. <br>
-                    <br>
-                            </div></li>
-                    
-                </ul>
-                <br><p align = right><a href="#Top">Back to Top</a></p>
-                </div>
-            </div>        
+            <li><a name="faq5" id="question">What should I do if I'm
+                    unable to submit my responses?</a>
+                    <div class="helpSectionContent"> Email <a
+                href="mailto:teammates@comp.nus.edu.sg">us</a> so that 
+                we can help you submit. Note that we cannot do much if
+                the submission deadline is over. It is not up to us 
+                (the TEAMMATES team) to accept overdue submissions. <br>
+            <br>
+                    </div>
+            </li>
+                
+            </ul><br>
 
     </div>
 
