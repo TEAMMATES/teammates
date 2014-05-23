@@ -479,6 +479,119 @@
 
     --Instructions go here--
     <h1>_____________________________________________________________________</h1>
+    <a name="InstructorHome"></a>
+    <h1>Instructor Home</h1>
+    
+    //similar to student home
+    
+    <h1>_____________________________________________________________________</h1>
+    <a name="InstructorAddCourse"></a>
+    <h1>Instructor Add Course</h1>
+    
+    <div class="well well-plain">
+    <form class="form-horizontal" role="form">
+      <div class="form-group">
+        <label for="inputEmail3" class="col-sm-3 control-label">Course ID</label>
+        <div class="col-sm-3">
+          <input class="form-control" id="inputEmail3" placeholder="e.g. ECN101-Fall2014" type="email">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="inputPassword3" class="col-sm-3 control-label">Course Name</label>
+        <div class="col-sm-9">
+          <input class="form-control" id="inputPassword3" placeholder="e.g. Economics 101 - Fall 2014" type="password">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-offset-3 col-sm-10">
+          <button type="submit" class="btn btn-primary">Add Course</button>
+        </div>
+      </div>
+    </form>
+    </div>
+    <h3>Active courses</h3>
+    
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr class="fill-primary">
+          <th>Course ID</th>
+          <th>Course Name</th>
+          <th>Teams</th>
+          <th>Total Students</th>
+          <th>Total Unregistered</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>Mark</td>
+          <td>Otto</td>
+          <td>Otto</td>
+          <td>Otto</td>
+          <td>@mdo</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Jacob</td>
+          <td>Thornton</td>
+          <td>Thornton</td>
+          <td>Thornton</td>
+          <td>@fat</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>Larry</td>
+          <td>the Bird</td>
+          <td>the Bird</td>
+          <td>the Bird</td>
+          <td>@twitter</td>
+        </tr>
+      </tbody>
+    </table>
+    
+    <span class="text-muted"><h3>Archived courses</h3></span>
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr class="fill-default">
+          <th>Course ID</th>
+          <th>Course Name</th>
+          <th>Teams</th>
+          <th>Total Students</th>
+          <th>Total Unregistered</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>Mark</td>
+          <td>Otto</td>
+          <td>Otto</td>
+          <td>Otto</td>
+          <td>@mdo</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Jacob</td>
+          <td>Thornton</td>
+          <td>Thornton</td>
+          <td>Thornton</td>
+          <td>@fat</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>Larry</td>
+          <td>the Bird</td>
+          <td>the Bird</td>
+          <td>the Bird</td>
+          <td>@twitter</td>
+        </tr>
+      </tbody>
+    </table>
+    
+    
+    <h1>_____________________________________________________________________</h1>
     <a name="InstructorSessionResults"></a>
 
     <h1>
@@ -487,7 +600,7 @@
 
     <div class="panel panel-primary">
       <div class="panel-heading">
-        From: Alice Betsy (Team 1) [<a href="#">alice.b.tmms@gmail.com</a>]
+        From: <strong>Alice Betsy</strong> (Team 1) [<a class="link-in-dark-bg" href="#">alice.b.tmms@gmail.com</a>]
       </div>
       <div class="panel-body">
         <div class="row">
@@ -498,7 +611,33 @@
               <div class="panel-body">
                 This is the response.This is the response.This is the response. <br>This is the
                 response.This is the response.This is the response.This is the response.<br>This
-                is the response. <button type="button" title="Add comment" class="btn btn-default btn-xs icon-button pull-right"><span class="glyphicon glyphicon-comment glyphicon-primary"></span></button>
+                is the response.
+                <button type="button" title="Add comment"
+                  class="btn btn-default btn-xs icon-button pull-right">
+                  <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
+                </button>
+                <ul class="list-group comment-list">
+                  <li class="list-group-item list-group-item-warning"><span class="text-muted">From:
+                      Prof James [2014.05.12 4.45pm]</span>
+                    </button> <a type="button" title="Delete comment"
+                    class="btn btn-default btn-xs icon-button pull-right"> <span
+                      class="glyphicon glyphicon-trash glyphicon-primary"> </span></a>
+                    <button type="button" title="Edit comment"
+                      class="btn btn-default btn-xs icon-button pull-right">
+                      <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
+                    </button> <br> Comment from instructor.Comment from instructor.Comment from
+                    instructor.Comment from instructor.Comment from instructor.</li>
+                  <li class="list-group-item list-group-item-warning"><span class="text-muted">From:
+                      Prof James [2014.05.12 4.45pm]</span>
+                    </button> <a type="button" title="Delete comment"
+                    class="btn btn-default btn-xs icon-button pull-right"> <span
+                      class="glyphicon glyphicon-trash glyphicon-primary"> </span></a>
+                    <button type="button" title="Edit comment"
+                      class="btn btn-default btn-xs icon-button pull-right">
+                      <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
+                    </button> <br> Comment from instructor.Comment from instructor.Comment from
+                    instructor.Comment from instructor.Comment from instructor.</li>
+                </ul>
               </div>
             </div>
             <div class="panel panel-info">
@@ -506,27 +645,33 @@
               <div class="panel-body">
                 This is the response.This is the response.This is the response. <br>This is the
                 response.This is the response.This is the response.This is the response.<br>This
-                is the response. <button type="button" title="Add comment" class="btn btn-default btn-xs icon-button pull-right"><span class="glyphicon glyphicon-comment glyphicon-primary"></span></button>
+                is the response.
+                <button type="button" title="Add comment"
+                  class="btn btn-default btn-xs icon-button pull-right disabled">
+                  <span class="glyphicon glyphicon-comment glyphicon-default"></span>
+                </button>
                 <ul class="list-group comment-list">
                   <li class="list-group-item list-group-item-warning"><span class="text-muted">From:
                       Prof James [2014.05.12 4.45pm]</span>
-                      <button type="button" title="Edit comment" class="btn btn-default btn-xs icon-button pull-right">
-                      <span class="glyphicon glyphicon-pencil glyphicon-primary"></span></button>
-                      <a type="button" title="Delete comment" class="btn btn-default btn-xs icon-button pull-right">
-                      <span class="glyphicon glyphicon-trash glyphicon-primary"> </span></a>
-                      <button type="button" title="Save comment" class="btn btn-default btn-xs icon-button pull-right">
-                      <span class="glyphicon glyphicon-ok glyphicon-primary"></span></button>
-                      <button type="button" title="Go back without saving" class="btn btn-default btn-xs icon-button pull-right">
-                      <span class="glyphicon glyphicon-arrow-left glyphicon-primary"></span></button>
-                      
-                      <br>
-                      Comment from instructor.Comment from
-                    instructor.Comment from instructor.Comment from instructor.Comment from
-                    instructor.</li>
-                  <li class="list-group-item list-group-item-warning"><span class="text-muted">From:
-                      Prof James [2014.05.12 4.45pm]</span><br>Comment from instructor.Comment from
-                    instructor.Comment from instructor.Comment from instructor.Comment from
-                    instructor.</li>
+                    </button> <a type="button" title="Delete comment"
+                    class="btn btn-default btn-xs icon-button pull-right"> <span
+                      class="glyphicon glyphicon-trash glyphicon-primary"> </span></a>
+                    <button type="button" title="Edit comment"
+                      class="btn btn-default btn-xs icon-button pull-right">
+                      <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
+                    </button> <br> Comment from instructor.Comment from instructor.Comment from
+                    instructor.Comment from instructor.Comment from instructor.</li>
+                    <li class="list-group-item list-group-item-warning"><span class="text-muted">
+                      <form role="form">
+                        <div class="form-group">
+                          <textarea class="form-control" rows="3">Comment from instructor.Comment from instructor.Comment from instructor.Comment from instructor.Comment from instructor.
+                          </textarea>
+                        </div>
+                        <div class="col-sm-offset-5">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="submit" class="btn btn-default">Cancel</button>
+                        </div>
+                      </form></li>
                 </ul>
               </div>
             </div>
@@ -540,7 +685,11 @@
               <div class="panel-body">
                 This is the response.This is the response.This is the response. <br>This is the
                 response.This is the response.This is the response.This is the response.<br>This
-                is the response.<button type="button" title="Add comment" class="btn btn-default btn-xs icon-button pull-right"><span class="glyphicon glyphicon-comment glyphicon-primary"></span></button>
+                is the response.
+                <button type="button" title="Add comment"
+                  class="btn btn-default btn-xs icon-button pull-right">
+                  <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
+                </button>
               </div>
             </div>
             <div class="panel panel-info">
@@ -548,7 +697,11 @@
               <div class="panel-body">
                 This is the response.This is the response.This is the response. <br>This is the
                 response.This is the response.This is the response.This is the response.<br>This
-                is the response.<button type="button" title="Add comment" class="btn btn-default btn-xs icon-button pull-right"><span class="glyphicon glyphicon-comment glyphicon-primary"></span></button>
+                is the response.
+                <button type="button" title="Add comment"
+                  class="btn btn-default btn-xs icon-button pull-right">
+                  <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
+                </button>
               </div>
             </div>
           </div>
