@@ -101,7 +101,7 @@
         %>
                 <br />
                 <div class="form-group">
-                    <div class="col-sm-2 form-inline" <%=(question.isRecipientNameHidden()) ? "style=\"display:none\"" : "style=\"text-align:right;\""%>>
+                    <div class="col-sm-3 form-inline" <%=(question.isRecipientNameHidden()) ? "style=\"display:none\"" : "style=\"text-align:right;\""%>>
                         <label for="input">To: </label>
                         <select class="participantSelect middlealign form-control" 
                             name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"
@@ -114,7 +114,7 @@
                         %>
                         </select>
                     </div>
-                    <div <%=(question.isRecipientNameHidden()) ? "class=\"col-sm-12\"" : "class=\"col-sm-10\""%>>
+                    <div <%=(question.isRecipientNameHidden()) ? "class=\"col-sm-12\"" : "class=\"col-sm-9\""%>>
                         <%=questionDetails.getQuestionWithExistingResponseSubmissionFormHtml(
                             data.isSessionOpenForSubmission, 
                             qnIndx, responseIndx, question.courseId, 
