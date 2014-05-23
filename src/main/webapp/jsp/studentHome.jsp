@@ -36,8 +36,6 @@
 </head>
 
 <body>
-    <div id="dhtmltooltip"></div>
-
     <jsp:include page="<%=Const.ViewURIs.STUDENT_HEADER%>" />
 
     <div class="container theme-showcase">
