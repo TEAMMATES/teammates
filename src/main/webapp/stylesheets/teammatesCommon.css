@@ -7,3 +7,14 @@ body {
  .btn-tm-actions {
     margin-right:3px;
  }
+ 
+ #footerComponent {
+    margin:0px;
+    bottom: 0px;
+    position:fixed;
+    height: 20px;
+    width:100%;
+    text-align:center;
+    background-color:black;
+    color:grey;
+ }
