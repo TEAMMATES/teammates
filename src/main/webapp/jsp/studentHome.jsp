@@ -58,8 +58,7 @@
                     <span class="pull-right">
                         <a class="btn btn-primary btn-xs"
                             href="<%=data.getStudentCourseDetailsLink(courseDetails.course.id)%>"
-                            onmouseover="ddrivetip('<%=Const.Tooltips.STUDENT_COURSE_DETAILS%>')"
-                            onmouseout="hideddrivetip()"
+                            data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.STUDENT_COURSE_DETAILS%>"
                             >View Team</a>
                     </span>
                 </div>
@@ -84,13 +83,17 @@
                                 <tr id="evaluation<%=sessionIdx%>">
                                     <td><%=PageData.sanitizeForHtml(edd.evaluation.name)%></td>
                                     <td><%=TimeHelper.formatTime(edd.evaluation.endTime)%></td>
-                                    <td><span
-                                        onmouseover="ddrivetip(' <%=data.getStudentHoverMessageForEval(data.getStudentStatusForEval(edd.evaluation))%>')"
-                                        onmouseout="hideddrivetip()"><%=data.getStudentStatusForEval(edd.evaluation)%></span></td>
+                                    <td><span data-toggle="tooltip" data-placement="top" 
+                                        title="<%=data.getStudentHoverMessageForEval(data.getStudentStatusForEval(edd.evaluation))%>">
+                                        <%=data.getStudentStatusForEval(edd.evaluation)%>
+                                        </span>
+                                    </td>
                                     <td>
-                                        <div class="control-group"><div class="controls">
-                                        <%=data.getStudentEvaluationActions(edd.evaluation,sessionIdx)%>
-                                        </div></div>
+                                        <div class="control-group">
+                                            <div class="controls">
+                                                <%=data.getStudentEvaluationActions(edd.evaluation,sessionIdx)%>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                         <%
@@ -101,9 +104,11 @@
                                     <tr class="home_evaluations_row" id="evaluation<%=sessionIdx%>">
                                         <td><%=PageData.sanitizeForHtml(fsd.feedbackSession.feedbackSessionName)%></td>
                                         <td><%=TimeHelper.formatTime(fsd.feedbackSession.endTime)%></td>
-                                        <td><span
-                                            onmouseover="ddrivetip(' <%=data.getStudentHoverMessageForSession(fsd.feedbackSession)%>')"
-                                            onmouseout="hideddrivetip()"><%=data.getStudentStatusForSession(fsd.feedbackSession)%></span></td>
+                                        <td><span data-toggle="tooltip" data-placement="top" 
+                                                title="<%=data.getStudentHoverMessageForSession(fsd.feedbackSession)%>">
+                                                <%=data.getStudentStatusForSession(fsd.feedbackSession)%>
+                                            </span>
+                                        </td>
                                         <td><%=data.getStudentFeedbackSessionActions(fsd.feedbackSession,sessionIdx)%>
                                         </td>
                                     </tr>
@@ -130,5 +135,10 @@
         </div>
     </div>
     <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
+<script>
+    $(function() { 
+        $("[data-toggle='tooltip']").tooltip({html: true}); 
+    });
+</script>
 </body>
 </html>

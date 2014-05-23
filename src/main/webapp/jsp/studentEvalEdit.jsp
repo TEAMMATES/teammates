@@ -154,8 +154,6 @@
     
     </div>
 
-    <div id="frameBottom" style="position: fixed;">
-        <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
-    </div>
+    <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
 </body>
 </html>

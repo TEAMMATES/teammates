@@ -158,9 +158,9 @@ public class StudentHomePageData extends PageData {
             return "<a class=\"btn btn-default btn-xs btn-tm-actions\" id=\"submitEvaluation"
                     + idx + "\" " + "href=\""
                     + getStudentEvaluationSubmissionEditLink(eval.courseId,
-                            eval.name) + "\" " + "onmouseover=\"ddrivetip('"
-                    + Const.Tooltips.EVALUATION_SUBMIT + "')\" "
-                    + "onmouseout=\"hideddrivetip()\" role=\"button\">"
+                            eval.name) + "\" "
+                    + "data-toggle=\"tooltip\" data-placement=\"top\""
+                    + "title=\"" + Const.Tooltips.EVALUATION_SUBMIT + "\">"
                     + "Submit</a>";
         }
         
@@ -182,17 +182,16 @@ public class StudentHomePageData extends PageData {
                 + "href=\"" + getStudentEvaluationResultsLink(eval.courseId, eval.name)
                 + "\" " + "name=\"viewEvaluationResults"
                 + idx + "\" " + " id=\"viewEvaluationResults" + idx + "\" "
-                + "onmouseover=\"ddrivetip('" + Const.Tooltips.EVALUATION_RESULTS
-                + "')\" " + "onmouseout=\"hideddrivetip()\" "
+                + "data-toggle=\"tooltip\" data-placement=\"top\""
+                + "title=\"" + Const.Tooltips.EVALUATION_RESULTS + "\""
                 + "role=\"button\">" + "View Results</a>";
         
         result += "<a class=\"btn btn-default btn-xs btn-tm-actions" + (hasEdit ? "\"" : DISABLED) 
                 + "href=\"" + getStudentEvaluationSubmissionEditLink(eval.courseId, eval.name)
                 + "\" " + "name=\"editEvaluationSubmission" + idx
                 + "\" id=\"editEvaluationSubmission" + idx + "\" "
-                + "onmouseover=\"ddrivetip('"
-                + Const.Tooltips.EVALUATION_EDIT_SUBMISSION
-                + "')\" onmouseout=\"hideddrivetip()\" "
+                + "data-toggle=\"tooltip\" data-placement=\"top\""
+                + "title=\"" + Const.Tooltips.EVALUATION_EDIT_SUBMISSION + "\""
                 + " role=\"button\">"
                 + "Edit/View Submission</a>";
         // @formatter:off
@@ -212,8 +211,8 @@ public class StudentHomePageData extends PageData {
                 + "href=\"" + getStudentFeedbackResultsLink(fs.courseId, fs.feedbackSessionName)
                 + "\" " + "name=\"viewFeedbackResults"
                 + idx + "\" " + " id=\"viewFeedbackResults" + idx + "\" "
-                + "onmouseover=\"ddrivetip('" + Const.Tooltips.FEEDBACK_SESSION_RESULTS
-                + "')\" " + "onmouseout=\"hideddrivetip()\" "
+                + "data-toggle=\"tooltip\" data-placement=\"top\""
+                + "title=\"" + Const.Tooltips.FEEDBACK_SESSION_RESULTS + "\""
                 + "role=\"button\">" + "View Responses</a>";
                 
         if (hasSubmitted) {
@@ -221,20 +220,20 @@ public class StudentHomePageData extends PageData {
                     + getStudentFeedbackResponseEditLink(fs.courseId, fs.feedbackSessionName)
                     + "\" " + "name=\"editFeedbackResponses" + idx
                     + "\" id=\"editFeedbackResponses" + idx + "\" "
-                    + "onmouseover=\"ddrivetip('"
-                    + (fs.isOpened() ? 
-                        Const.Tooltips.FEEDBACK_SESSION_EDIT_SUBMITTED_RESPONSE :
-                        Const.Tooltips.FEEDBACK_SESSION_VIEW_SUBMITTED_RESPONSE)            
-                    + "')\" onmouseout=\"hideddrivetip()\"role=\"button\">"
+                    + "data-toggle=\"tooltip\" data-placement=\"top\""
+                    + "title=\"" + (fs.isOpened() ? 
+                                Const.Tooltips.FEEDBACK_SESSION_EDIT_SUBMITTED_RESPONSE :
+                                Const.Tooltips.FEEDBACK_SESSION_VIEW_SUBMITTED_RESPONSE) + "\""
+                    + "role=\"button\">"
                     + (fs.isOpened() ? "Edit" : "View") + " Submission</a>";
         } else {
             result += "<a class=\"btn btn-default btn-xs btn-tm-actions" + (fs.isVisible() ? "\"" : DISABLED)
                     + "id=\"submitFeedback" + idx + "\" " + "href=\"" 
                     + getStudentFeedbackResponseEditLink(fs.courseId,
-                        fs.feedbackSessionName) + "\" " + "onmouseover=\"ddrivetip('"
-                    + (fs.isWaitingToOpen() ? Const.Tooltips.FEEDBACK_SESSION_AWAITING :
-                        Const.Tooltips.FEEDBACK_SESSION_SUBMIT) + "')\" "
-                    + "onmouseout=\"hideddrivetip()\" " 
+                        fs.feedbackSessionName) + "\" "
+                    + "data-toggle=\"tooltip\" data-placement=\"top\""
+                    + "title=\"" + (fs.isWaitingToOpen() ? Const.Tooltips.FEEDBACK_SESSION_AWAITING :
+                        Const.Tooltips.FEEDBACK_SESSION_SUBMIT) + "\""
                     + "role=\"button\">Submit</a>";    
         }
         // @formatter:off
