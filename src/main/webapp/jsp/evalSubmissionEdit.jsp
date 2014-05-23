@@ -128,7 +128,7 @@
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label"><%=data.getJustificationInstr(sub)%></label>
-                        <div>
+                        <div class="col-sm-10">
                             <textarea class="form-control" rows="8" 
                                     name="<%=Const.ParamsNames.JUSTIFICATION%>"
                                     id="<%=Const.ParamsNames.JUSTIFICATION+idx%>"

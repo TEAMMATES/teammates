@@ -2,6 +2,7 @@
 
 body {
     padding-top: 60px;
+    padding-bottom:40px;
 }
 
 .btn-tm-actions {
@@ -19,6 +20,8 @@ body {
     text-align:center;
     background-color:black;
     color:grey;
+    
+    background-image: linear-gradient(to bottom,#3c3c3c 0,#222 100%);
  }
  
  .well-plain {
@@ -32,6 +35,13 @@ body {
     margin: 0 auto;
     width:60%;
  }
+
+.border-left-gray{
+    border-left-color: #ddd;
+    border-width: 1px;
+    border-left-style: solid;
+}
+
 .color_positive { 
     color: #1BBD3B;
 }
@@ -45,3 +55,4 @@ body {
     content:none;
     }
 }
+
