@@ -28,12 +28,14 @@
     
     <script type="text/javascript" src="/js/student.js"></script>
     <script type="text/javascript" src="/js/studentHome.js"></script>
-    <jsp:include page="../enableJS.jsp"></jsp:include>    
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+      <![endif]-->
+    <jsp:include page="../enableJS.jsp"></jsp:include>
 </head>
 
 <body>
-    <div id="dhtmltooltip"></div>
-
     <jsp:include page="<%=Const.ViewURIs.STUDENT_HEADER%>" />
 
     <div class="container theme-showcase">
@@ -58,8 +60,7 @@
                     <span class="pull-right">
                         <a class="btn btn-primary btn-xs"
                             href="<%=data.getStudentCourseDetailsLink(courseDetails.course.id)%>"
-                            onmouseover="ddrivetip('<%=Const.Tooltips.STUDENT_COURSE_DETAILS%>')"
-                            onmouseout="hideddrivetip()"
+                            data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.STUDENT_COURSE_DETAILS%>"
                             >View Team</a>
                     </span>
                 </div>
@@ -74,7 +75,7 @@
                                     <th>Session Name</th>
                                     <th>Deadline</th>
                                     <th>Status</th>
-                                    <th>Action(s)</th>
+                                    <th class="studentHomeActions">Action(s)</th>
                                 </tr>
                             </thead>
                         <%
@@ -84,13 +85,13 @@
                                 <tr id="evaluation<%=sessionIdx%>">
                                     <td><%=PageData.sanitizeForHtml(edd.evaluation.name)%></td>
                                     <td><%=TimeHelper.formatTime(edd.evaluation.endTime)%></td>
-                                    <td><span
-                                        onmouseover="ddrivetip(' <%=data.getStudentHoverMessageForEval(data.getStudentStatusForEval(edd.evaluation))%>')"
-                                        onmouseout="hideddrivetip()"><%=data.getStudentStatusForEval(edd.evaluation)%></span></td>
-                                    <td>
-                                        <div class="control-group"><div class="controls">
+                                    <td><span data-toggle="tooltip" data-placement="top" 
+                                        title="<%=data.getStudentHoverMessageForEval(data.getStudentStatusForEval(edd.evaluation))%>">
+                                        <%=data.getStudentStatusForEval(edd.evaluation)%>
+                                        </span>
+                                    </td>
+                                    <td class="studentHomeActions">
                                         <%=data.getStudentEvaluationActions(edd.evaluation,sessionIdx)%>
-                                        </div></div>
                                     </td>
                                 </tr>
                         <%
@@ -101,10 +102,12 @@
                                     <tr class="home_evaluations_row" id="evaluation<%=sessionIdx%>">
                                         <td><%=PageData.sanitizeForHtml(fsd.feedbackSession.feedbackSessionName)%></td>
                                         <td><%=TimeHelper.formatTime(fsd.feedbackSession.endTime)%></td>
-                                        <td><span
-                                            onmouseover="ddrivetip(' <%=data.getStudentHoverMessageForSession(fsd.feedbackSession)%>')"
-                                            onmouseout="hideddrivetip()"><%=data.getStudentStatusForSession(fsd.feedbackSession)%></span></td>
-                                        <td><%=data.getStudentFeedbackSessionActions(fsd.feedbackSession,sessionIdx)%>
+                                        <td><span data-toggle="tooltip" data-placement="top" 
+                                                title="<%=data.getStudentHoverMessageForSession(fsd.feedbackSession)%>">
+                                                <%=data.getStudentStatusForSession(fsd.feedbackSession)%>
+                                            </span>
+                                        </td>
+                                        <td class="studentHomeActions"><%=data.getStudentFeedbackSessionActions(fsd.feedbackSession,sessionIdx)%>
                                         </td>
                                     </tr>
                             <%

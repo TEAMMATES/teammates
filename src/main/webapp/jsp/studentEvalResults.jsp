@@ -14,12 +14,9 @@
     <link rel="shortcut icon" href="/favicon.png">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>TEAMMATES - Student</title>
-    <link rel="stylesheet" href="/stylesheets/common.css" type="text/css" media="screen">
-    <link rel="stylesheet" href="/stylesheets/common-print.css" type="text/css" media="print">
-    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" type="text/css" media="screen"/>
-    <link rel="stylesheet" href="/bootstrap/css/bootstrap-theme.min.css" type="text/css" media="screen"/>
-    <link rel="stylesheet" href="/stylesheets/studentEvalResults.css" type="text/css" media="screen"/>
-    <link rel="stylesheet" href="/stylesheets/studentEvalResults-print.css" type="text/css" media="print"/>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" type="text/css"/>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap-theme.min.css" type="text/css"/>
+    <link rel="stylesheet" href="/stylesheets/teammatesCommon.css" type="text/css"/>
 
     <script type="text/javascript" src="/js/googleAnalytics.js"></script>
     <script type="text/javascript" src="/js/jquery-minified.js"></script>
@@ -27,12 +24,17 @@
     <script type="text/javascript" src="/js/common.js"></script>
     <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/js/student.js"></script>
-    <jsp:include page="../enableJS.jsp"></jsp:include>    
+    <jsp:include page="../enableJS.jsp"></jsp:include> 
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->   
 </head>
 
 <body>
-    <div id="dhtmltooltip"></div>
-    
+
     <jsp:include page="<%=Const.ViewURIs.STUDENT_HEADER%>" />
     
     <div class="container">
@@ -40,43 +42,39 @@
             <h1>Evaluation Results</h1>
         </div>
 
-        <h3><span class="label label-primary">Your results</span></h3>
-
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <form class="form-horizontal" role="form">
-                    <div class="panel-heading">
-                        <!-- Course ID -->
-                        <div class="form-group">
-                            <label class="col-sm-1 control-label">Course:</label>
-                            <div class="col-sm-11">
-                                <p class="form-control-static">
-                                    <%=data.eval.courseId%>
-                                </p>
-                            </div>
-                        </div> 
-                        <!-- Session Name -->
-                        <div class="form-group">
-                            <label class="col-sm-1 control-label">Session:</label>
-                            <div class="col-sm-11">
-                                <p class="form-control-static">
-                                    <%=PageData.sanitizeForHtml(data.eval.name)%>
-                                </p>
-                            </div>
-                        </div>  
-                        <!-- Student Name -->
-                        <div class="form-group">
-                            <label class="col-sm-1 control-label">Student:</label>
-                            <div class="col-sm-11">
-                                <p class="form-control-static">
-                                    <%=PageData.sanitizeForHtml(data.student.name)%>
-                                </p>
-                            </div>
-                        </div> 
-                    </div> 
-                </form>
-            </div>
+        <div class="well well-plain">
+            <form class="form-horizontal" role="form">
+                <!-- Course ID -->
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">Course:</label>
+                    <div class="col-sm-11">
+                        <p class="form-control-static">
+                            <%=data.eval.courseId%>
+                        </p>
+                    </div>
+                </div> 
+                <!-- Session Name -->
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">Session:</label>
+                    <div class="col-sm-11">
+                        <p class="form-control-static">
+                            <%=PageData.sanitizeForHtml(data.eval.name)%>
+                        </p>
+                    </div>
+                </div>  
+                <!-- Student Name -->
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">Student:</label>
+                    <div class="col-sm-11">
+                        <p class="form-control-static">
+                            <%=PageData.sanitizeForHtml(data.student.name)%>
+                        </p>
+                    </div>
+                </div>  
+            </form>
         </div>
+
+        <h3><span class="label label-primary">Your results</span></h3>
 
         <div class="panel panel-info">
             <div class="panel-heading">Comparison of work distribution </div>
@@ -264,10 +262,12 @@
         </ul>
         The actual calculation is a bit complex and the finer details can be found 
         <a href="/dev/spec.html#supplementaryrequirements-pointcalculationscheme">here</a>.
+        <br>
+        <br>
+        <br>
     </div>
     
-    <div id="frameBottom">
-        <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
-    </div>
+    <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
+    
 </body>
 </html>
