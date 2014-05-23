@@ -28,6 +28,7 @@
     <script type="text/javascript" src="/js/AnchorPosition.js"></script>
     <script type="text/javascript" src="/js/common.js"></script>
     <script type="text/javascript" src="/js/feedbackSubmissionsEdit.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
     <jsp:include page="../enableJS.jsp"></jsp:include>
 </head>
 
@@ -55,6 +56,5 @@
             </form>
         </div>
     </div>
-    <script src="/bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>
