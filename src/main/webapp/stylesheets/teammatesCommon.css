@@ -50,6 +50,10 @@ body {
     color:#e74c3c;
 }
 
+.highligh-white {
+    color:white;
+}
+
 @media print {
     a[href]:after {
     content:none;

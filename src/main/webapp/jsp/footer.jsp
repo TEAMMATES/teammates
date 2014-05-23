@@ -9,17 +9,17 @@
     //  helper is not available for pages such as generic error pages.
     //  account may not be available for admin.
     if((data!= null) && (data.account != null) && (data.account.institute != null)) {
-        institute = "[for <span class=\"color_white\">"+data.account.institute+"</span>]";
+        institute = "<span class=\"color_white\">"+data.account.institute+"</span>";
     }
 %>
 <div id="footerComponent" class="container-fluid">
     <div class="container">
         <div class="row">
             <div class="col-md-4">
-                <span>[TEAMMATES V<%=version%>]</span>
+                <span>[<a href="/index.html">TEAMMATES</a> V<%=version%>]</span>
             </div>
             <div class="col-md-4">
-                <span class="col "><%=institute%></span>
+                [for <span class="highligh-white"><%=institute%></span>]
             </div>
             <div class="col-md-4">
                 <span>[Send <a class="link" href="../contact.html" target="_blank">Feedback</a>]</span>
