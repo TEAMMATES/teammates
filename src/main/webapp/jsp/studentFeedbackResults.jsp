@@ -42,7 +42,6 @@
 </head>
 
 <body>
-    <div id="dhtmltooltip"></div>
     <jsp:include page="<%=Const.ViewURIs.STUDENT_HEADER%>" />
 
     <div id="frameBody" class="container">
@@ -84,6 +83,7 @@
             </div>
             <br />
             <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
+            <br />
             <%
                 int qnIndx = 0;
                 Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponses = data.bundle
@@ -95,7 +95,6 @@
                     
                     FeedbackAbstractQuestionDetails questionDetails = questionWithResponses.getKey().getQuestionDetails();
             %>
-                <br />
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4>Question <%=qnIndx%>: <%=StudentFeedbackResultsPageData.sanitizeForHtml(questionDetails.questionText)%>
@@ -211,6 +210,7 @@
                     %>
                     </div>
                 </div>
+                <br />
             <% 
                 }
                    if (questionsWithResponses.isEmpty()) {
@@ -228,7 +228,6 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script type="text/javascript" src="/js/googleAnalytics.js"></script>
     <script type="text/javascript" src="/js/jquery-minified.js"></script>
-    <script type="text/javascript" src="/js/tooltip.js"></script>
     <script type="text/javascript" src="/js/AnchorPosition.js"></script>
     <script type="text/javascript" src="/js/common.js"></script>
     <script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
