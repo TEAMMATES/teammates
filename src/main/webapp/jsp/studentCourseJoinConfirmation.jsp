@@ -43,7 +43,7 @@
         <div id="topOfPage"></div>
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h2>Confirm your Google account</h2>
+                <h1>Confirm your Google account</h1>
                 </div>
             <div class="panel-body">
                 <br>

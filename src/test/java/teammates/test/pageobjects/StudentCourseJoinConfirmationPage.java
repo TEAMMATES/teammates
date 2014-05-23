@@ -16,7 +16,7 @@ public class StudentCourseJoinConfirmationPage extends AppPage {
     
     @Override
     public boolean containsExpectedPageContents() {
-        return getPageSource().contains("<h2>Confirm your Google account</h2>");
+        return getPageSource().contains("<h1>Confirm your Google account</h1>");
     }
 
     public StudentHomePage clickConfirmButton() {
