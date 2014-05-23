@@ -1,5 +1,7 @@
 package teammates.ui.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import com.google.appengine.api.datastore.Text;
@@ -41,6 +43,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         if (!isSessionOpenForSpecificUser(data.bundle.feedbackSession)) {
             isError = true;
             statusToUser.add(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN);
+            return createSpecificRedirectResult();
         }
         
         int numOfQuestionsToGet = data.bundle.questionResponseBundle.size();
@@ -51,20 +54,32 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 continue; // question has been skipped (not displayed).
             }
             
-            int numOfResponsesToGet = Integer.parseInt(totalResponsesForQuestion);            
+            List<FeedbackResponseAttributes> responsesForQuestion = new ArrayList<FeedbackResponseAttributes>();
             FeedbackAbstractQuestionDetails questionDetails = data.bundle.getSortedQuestions().get(questionIndx - 1).getQuestionDetails();
-            for(int responseIndx = 0; responseIndx < numOfResponsesToGet; responseIndx++){
-                FeedbackResponseAttributes response = 
-                        extractFeedbackResponseData(
-                                requestParameters, 
-                                questionIndx, 
-                                responseIndx, 
-                                questionDetails);
-                response.giverEmail = userEmailForCourse;
-                if(isSessionOpenForSpecificUser(data.bundle.feedbackSession) == true){
+            int numOfResponsesToGet = Integer.parseInt(totalResponsesForQuestion);  
+            
+            for(int responseIndx = 0; responseIndx < numOfResponsesToGet; responseIndx++) {
+                FeedbackResponseAttributes response = extractFeedbackResponseData(requestParameters, questionIndx, responseIndx, questionDetails);
+                if(response.responseMetaData.getValue().isEmpty()){
+                    //deletes the response since answer is empty
                     saveResponse(response);
+                } else {
+                    response.giverEmail = userEmailForCourse;
+                    responsesForQuestion.add(response);
                 }
             }
+            
+            List<String> errors = questionDetails.validateResponseAttributes(responsesForQuestion);
+            
+            if(errors.isEmpty()) {
+                for(FeedbackResponseAttributes response : responsesForQuestion) {
+                    saveResponse(response);
+                }
+            } else {
+                statusToUser.addAll(errors);
+                isError = true;
+            }
+            
         }
         
         if (!isError) {
@@ -144,9 +159,9 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         if(answer != null && !answer[0].trim().isEmpty()) {
             FeedbackAbstractResponseDetails responseDetails = 
                     FeedbackAbstractResponseDetails.createResponseDetails(
-                            requestParameters, answer,
-                            response.feedbackQuestionType,
-                            questionIndx, responseIndx, questionDetails);
+                            answer,
+                            questionDetails.questionType,
+                            questionDetails);
             response.setResponseDetails(responseDetails);
         } else {
             response.responseMetaData = new Text("");
