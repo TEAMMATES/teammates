@@ -22,8 +22,9 @@
     <script type="text/javascript" src="/js/googleAnalytics.js"></script>
     <script type="text/javascript" src="/js/jquery-minified.js"></script>
     <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="/js/tooltip.js"></script>
     <script type="text/javascript" src="/js/common.js"></script>
+    
+    <script type="text/javascript" src="/js/student.js"></script>
     
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -67,10 +68,5 @@
         </div>
     </div>
     <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
-<script>
-    $(function() { 
-        $("[data-toggle='tooltip']").tooltip({html: true}); 
-    });
-</script>
 </body>
 </html>
