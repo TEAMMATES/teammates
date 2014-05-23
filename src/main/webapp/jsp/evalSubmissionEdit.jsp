@@ -99,7 +99,7 @@
                                 <%=data.getEvaluationOptions(sub)%>
                             </select>
                         </div>
-                    </tr>
+                    </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label"><%=data.getCommentsInstr(sub)%></label>
                 <%
@@ -125,7 +125,7 @@
                 <%
                     }
                 %>
-                    </tr>
+                    </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label"><%=data.getJustificationInstr(sub)%></label>
                         <div>
