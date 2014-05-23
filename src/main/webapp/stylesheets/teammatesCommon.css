@@ -18,3 +18,15 @@ body {
     background-color:black;
     color:grey;
  }
+ 
+ .well-plain {
+    border: 0px;
+    box-shadow: 0 0 0 0;
+    background-image: none;
+    background-color: #eaeff5;
+ }
+ 
+ .well-narrow {
+    margin: 0 auto;
+    width:60%;
+ }
