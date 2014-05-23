@@ -42,7 +42,6 @@
 </head>
 
 <body>
-    <div id="dhtmltooltip"></div>
     <%
         if (!data.isPreview) {
     %>

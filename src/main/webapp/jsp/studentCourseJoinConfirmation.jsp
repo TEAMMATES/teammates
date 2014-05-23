@@ -38,7 +38,6 @@
 </head>
 
 <body>
-    <div id="dhtmltooltip"></div>
     <div id="frameTop">
         <jsp:include page="<%=Const.ViewURIs.STUDENT_HEADER%>" />
     </div>
