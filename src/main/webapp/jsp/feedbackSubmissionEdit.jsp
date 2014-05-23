@@ -30,12 +30,17 @@
                             </div>
                         </div>  
                         <div class="form-group">
-                            <label class="col-sm-2 control-label">Duration:</label>
+                            <label class="col-sm-2 control-label">Opening time:</label>
                             <div class="col-sm-10">
-                                <p class="form-control-static">from:  <%=TimeHelper.formatTime(data.bundle.feedbackSession.startTime)%>  
-                                To: <%=TimeHelper.formatTime(data.bundle.feedbackSession.endTime)%></p>
+                                <p class="form-control-static"><%=TimeHelper.formatTime(data.bundle.feedbackSession.startTime)%></p>
                             </div>
-                        </div>  
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Closing time:</label>
+                            <div class="col-sm-10">
+                                <p class="form-control-static"><%=TimeHelper.formatTime(data.bundle.feedbackSession.endTime)%></p>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Instructions:</label>
                             <div class="col-sm-10">
