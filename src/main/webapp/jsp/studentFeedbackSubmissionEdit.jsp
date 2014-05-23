@@ -52,7 +52,7 @@
     <div id="frameBody"  class="container">
         <div id="frameBodyWrapper">
             <div id="topOfPage"></div>
-            <h2>Submit Feedback</h2>
+            <h1>Submit Feedback</h1>
             <br />
             
             <form method="post" action="<%=Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE%>" name="form_student_submit_response">

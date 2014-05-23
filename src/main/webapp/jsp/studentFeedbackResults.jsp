@@ -56,7 +56,7 @@
     <div id="frameBody" class="container">
         <div id="frameBodyWrapper">
             <div id="topOfPage"></div>
-            <h2>Feedback Results - Student</h2>
+            <h1>Feedback Results - Student</h1>
             <br />
             <div class="well well-plain">
                 <div class="panel-body">
