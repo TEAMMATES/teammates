@@ -1,6 +1,10 @@
 package teammates.ui.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+
+import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.FeedbackAbstractQuestionDetails;
 import teammates.common.datatransfer.FeedbackAbstractResponseDetails;
@@ -11,12 +15,9 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
-
-import com.google.appengine.api.datastore.Text;
 
 public abstract class FeedbackQuestionSubmissionEditSaveAction extends Action {
     protected String courseId;
@@ -44,6 +45,7 @@ public abstract class FeedbackQuestionSubmissionEditSaveAction extends Action {
         if (isSessionOpenForSpecificUser(fs) == false) {
             isError = true;
             statusToUser.add(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN);
+            return createSpecificShowPageResult();
         }
         
         String userEmailForCourse = getUserEmailForCourse();
@@ -51,23 +53,36 @@ public abstract class FeedbackQuestionSubmissionEditSaveAction extends Action {
         getPageData(userEmailForCourse);
         
         int numOfResponsesToGet = Integer.parseInt(totalResponsesForQuestion);
-
+        List<FeedbackResponseAttributes> responsesForQuestion = new ArrayList<FeedbackResponseAttributes>();
+        FeedbackAbstractQuestionDetails questionDetails  = data.bundle.question.getQuestionDetails();
         
-        
-        for(int responseIndx = 0; responseIndx < numOfResponsesToGet; responseIndx++){
-            FeedbackAbstractQuestionDetails questionDetails  = data.bundle.question.getQuestionDetails();
+        for(int responseIndx = 0; responseIndx < numOfResponsesToGet; responseIndx++) {
             FeedbackResponseAttributes response = extractFeedbackResponseData(requestParameters, 1, responseIndx, questionDetails);
-            response.giverEmail = userEmailForCourse;
-            if(isSessionOpenForSpecificUser(fs) == true){
+            if(response.responseMetaData.getValue().isEmpty()){
+                //deletes the response since answer is empty.
                 saveResponse(response);
+            } else {
+                response.giverEmail = userEmailForCourse;
+                responsesForQuestion.add(response);
             }
         }
         
-        getPageData(userEmailForCourse);
+        List<String> errors = questionDetails.validateResponseAttributes(responsesForQuestion);
+        
+        if(errors.isEmpty()) {
+            for(FeedbackResponseAttributes response : responsesForQuestion) {
+                saveResponse(response);
+            }
+        } else {
+            statusToUser.addAll(errors);
+            isError = true;
+        }
         
         if (isError == false) {
             statusToUser.add(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
         }
+        
+        getPageData(userEmailForCourse);
         
         data.isSessionOpenForSubmission = isSessionOpenForSpecificUser(fs);
         
@@ -126,9 +141,9 @@ public abstract class FeedbackQuestionSubmissionEditSaveAction extends Action {
         if(answer != null && !answer[0].trim().isEmpty()) {
             FeedbackAbstractResponseDetails responseDetails = 
                     FeedbackAbstractResponseDetails.createResponseDetails(
-                            requestParameters, answer,
-                            response.feedbackQuestionType,
-                            questionIndx, responseIndx, questionDetails);
+                            answer,
+                            questionDetails.questionType,
+                            questionDetails);
             response.setResponseDetails(responseDetails);
         } else {
             response.responseMetaData = new Text("");

@@ -43,10 +43,9 @@ public class FeedbackResponseDetailsTest extends BaseTestCase {
         
         FeedbackAbstractResponseDetails responseDetails =
                 FeedbackAbstractResponseDetails.createResponseDetails(
-                        httpParams,
                         new String[] { "text answer" },
                         FeedbackQuestionType.TEXT,
-                        1, 0,textQuestionDetails);
+                        textQuestionDetails);
         
         assertEquals(responseDetails.questionType, FeedbackQuestionType.TEXT);
         assertTrue(responseDetails instanceof FeedbackTextResponseDetails);
@@ -57,10 +56,9 @@ public class FeedbackResponseDetailsTest extends BaseTestCase {
         
         responseDetails = 
                 FeedbackAbstractResponseDetails.createResponseDetails(
-                        httpParams,
                         new String[] { "mcq option" },
                         FeedbackQuestionType.MCQ,
-                        1, 0,mcqQuestionDetails);
+                        mcqQuestionDetails);
 
         assertEquals(responseDetails.questionType, FeedbackQuestionType.MCQ);
         assertTrue(responseDetails instanceof FeedbackMcqResponseDetails);
@@ -71,10 +69,9 @@ public class FeedbackResponseDetailsTest extends BaseTestCase {
         
         responseDetails = 
                 FeedbackAbstractResponseDetails.createResponseDetails(
-                        httpParams,
                         new String[] { "msq option 1", "msq option 2", "msq option 3" },
                         FeedbackQuestionType.MSQ,
-                        1, 0,msqQuestionDetails);
+                        msqQuestionDetails);
 
         assertEquals(responseDetails.questionType, FeedbackQuestionType.MSQ);
         assertTrue(responseDetails instanceof FeedbackMsqResponseDetails);
@@ -87,10 +84,9 @@ public class FeedbackResponseDetailsTest extends BaseTestCase {
         
         responseDetails = 
                 FeedbackAbstractResponseDetails.createResponseDetails(
-                        httpParams,
                         new String[] { "-3.5" },
                         FeedbackQuestionType.NUMSCALE,
-                        1, 0,numericalScaleQuestionDetails);
+                        numericalScaleQuestionDetails);
 
         assertEquals(responseDetails.questionType, FeedbackQuestionType.NUMSCALE);
         assertTrue(responseDetails instanceof FeedbackNumericalScaleResponseDetails);
@@ -100,10 +96,9 @@ public class FeedbackResponseDetailsTest extends BaseTestCase {
         
         responseDetails = 
                 FeedbackAbstractResponseDetails.createResponseDetails(
-                        httpParams,
                         new String[] { "9" },
                         FeedbackQuestionType.NUMSCALE,
-                        1, 0,numericalScaleQuestionDetails);
+                        numericalScaleQuestionDetails);
 
         assertEquals(responseDetails.questionType, FeedbackQuestionType.NUMSCALE);
         assertTrue(responseDetails instanceof FeedbackNumericalScaleResponseDetails);
@@ -113,10 +108,9 @@ public class FeedbackResponseDetailsTest extends BaseTestCase {
         
         responseDetails = 
                 FeedbackAbstractResponseDetails.createResponseDetails(
-                        httpParams,
                         new String[] { "-10" },
                         FeedbackQuestionType.NUMSCALE,
-                        1, 0,numericalScaleQuestionDetails);
+                        numericalScaleQuestionDetails);
 
         assertEquals(responseDetails.questionType, FeedbackQuestionType.NUMSCALE);
         assertTrue(responseDetails instanceof FeedbackNumericalScaleResponseDetails);
@@ -126,10 +120,9 @@ public class FeedbackResponseDetailsTest extends BaseTestCase {
         
         responseDetails = 
                 FeedbackAbstractResponseDetails.createResponseDetails(
-                        httpParams,
                         new String[] { "-0.5.3" },
                         FeedbackQuestionType.NUMSCALE,
-                        1, 0,numericalScaleQuestionDetails);
+                        numericalScaleQuestionDetails);
 
         assertNull(responseDetails);
         
@@ -140,10 +133,9 @@ public class FeedbackResponseDetailsTest extends BaseTestCase {
         
         responseDetails = 
                 FeedbackAbstractResponseDetails.createResponseDetails(
-                        httpParams,
                         new String[] { "9" },
                         FeedbackQuestionType.NUMSCALE,
-                        1, 0,numericalScaleQuestionDetails);
+                        numericalScaleQuestionDetails);
 
         assertEquals(responseDetails.questionType, FeedbackQuestionType.NUMSCALE);
         assertTrue(responseDetails instanceof FeedbackNumericalScaleResponseDetails);
