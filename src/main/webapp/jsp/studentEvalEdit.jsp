@@ -158,5 +158,10 @@
     </div>
 
     <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
+<script>
+    $(function() { 
+        $("[data-toggle='tooltip']").tooltip({html: true}); 
+    });
+</script>
 </body>
 </html>

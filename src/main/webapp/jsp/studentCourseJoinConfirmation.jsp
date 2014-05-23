@@ -66,8 +66,11 @@
             </div>
         </div>
     </div>
-    <div class="footer" id="frameBottom" style="position: fixed;">
-        <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
-    </div>
+    <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
+<script>
+    $(function() { 
+        $("[data-toggle='tooltip']").tooltip({html: true}); 
+    });
+</script>
 </body>
 </html>
