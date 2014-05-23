@@ -39,3 +39,9 @@ body {
 .color_negative { 
     color:#e74c3c;
 }
+
+@media print {
+    a[href]:after {
+    content:none;
+    }
+}

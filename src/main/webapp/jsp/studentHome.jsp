@@ -75,7 +75,7 @@
                                     <th>Session Name</th>
                                     <th>Deadline</th>
                                     <th>Status</th>
-                                    <th>Action(s)</th>
+                                    <th class="studentHomeActions">Action(s)</th>
                                 </tr>
                             </thead>
                         <%
@@ -90,12 +90,8 @@
                                         <%=data.getStudentStatusForEval(edd.evaluation)%>
                                         </span>
                                     </td>
-                                    <td>
-                                        <div class="control-group">
-                                            <div class="controls">
-                                                <%=data.getStudentEvaluationActions(edd.evaluation,sessionIdx)%>
-                                            </div>
-                                        </div>
+                                    <td class="studentHomeActions">
+                                        <%=data.getStudentEvaluationActions(edd.evaluation,sessionIdx)%>
                                     </td>
                                 </tr>
                         <%
@@ -111,7 +107,7 @@
                                                 <%=data.getStudentStatusForSession(fsd.feedbackSession)%>
                                             </span>
                                         </td>
-                                        <td><%=data.getStudentFeedbackSessionActions(fsd.feedbackSession,sessionIdx)%>
+                                        <td class="studentHomeActions"><%=data.getStudentFeedbackSessionActions(fsd.feedbackSession,sessionIdx)%>
                                         </td>
                                     </tr>
                             <%
