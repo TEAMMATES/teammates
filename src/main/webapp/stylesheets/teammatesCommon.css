@@ -42,6 +42,26 @@ body {
     border-left-style: solid;
 }
 
+.border-top-gray{
+    border-top-color: #ddd;
+    border-width: 1px;
+    border-top-style: solid;
+    padding-top: 10px;
+}
+
+.glyphicon-primary{
+    color: #428bca;
+}
+
+.icon-button{
+	border:0;
+	background:transparent;
+}
+
+.comment-list{
+	padding-top:15px;
+}
+
 .color_positive { 
     color: #1BBD3B;
 }
