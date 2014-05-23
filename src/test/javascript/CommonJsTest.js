@@ -83,22 +83,21 @@ test('setStatusMessage(message,error)', function(){
     $("body").append('<div id="statusMessage"></div>');
     var message = "Status Message";
     
-    //('background-color') == "rgba(0, 0, 0, 0)" is for chrome browser
-    //('background-color') == "transparent" is for firefox browser
+    //isError = false: class = alert alert-warning
+    //isError = true: class = alert alert-danger
     
     setStatusMessage(message, false);
     equal($("#statusMessage").html(), message, "Normal status message");
-    ok(($("#statusMessage").css('background-color') == "rgba(0, 0, 0, 0)" || $("#statusMessage").css('background-color') == "transparent"), "No background");
+    ok(($("#statusMessage").attr("class") == "alert alert-warning"), "No warning");
     setStatusMessage("", false);
     equal($("#statusMessage").html(), "", "Empty status message");
-    ok(($("#statusMessage").css('background-color') == "rgba(0, 0, 0, 0)" || $("#statusMessage").css('background-color') == "transparent"), "No background");
+    ok(($("#statusMessage").attr("class") == "alert alert-warning"), "No warning");
     setStatusMessage(message, true);
     equal($("#statusMessage").html(), message, "Normal status message");
-    equal($("#statusMessage").css('background-color'), "rgb(255, 153, 153)", "Red background");
+    ok(($("#statusMessage").attr("class") == "alert alert-danger"), "No danger");
     setStatusMessage("", true);
     equal($("#statusMessage").html(), "", "Normal status message");
-    ok(($("#statusMessage").css('background-color') == "rgba(0, 0, 0, 0)" || $("#statusMessage").css('background-color') == "transparent"), "No background");
-    
+    ok(($("#statusMessage").attr("class") == "alert alert-danger"), "No danger");
 });
 
 
