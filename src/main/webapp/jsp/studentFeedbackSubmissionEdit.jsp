@@ -23,14 +23,10 @@
     <script type="text/javascript" src="/js/AnchorPosition.js"></script>
     <script type="text/javascript" src="/js/common.js"></script>
     <script type="text/javascript" src="/js/feedbackSubmissionsEdit.js"></script>
+    <script type="text/javascript" src="/js/student.js"></script>
     <jsp:include page="../enableJS.jsp"></jsp:include>
     <!-- Bootstrap core JavaScript ================================================== -->
     <script src="/bootstrap/js/bootstrap.min.js"></script>    
-    <script>
-    $(function() { 
-        $("[data-toggle='tooltip']").tooltip({html: true}); 
-    });
-    </script>
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>

@@ -34,6 +34,15 @@
     <!-- Bootstrap theme -->
     <link href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/stylesheets/teammatesCommon.css" type="text/css" media="screen">
+    <script type="text/javascript" src="/js/googleAnalytics.js"></script>
+    <script type="text/javascript" src="/js/jquery-minified.js"></script>
+    <script type="text/javascript" src="/js/AnchorPosition.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+    <script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
+    <script type="text/javascript" src="/js/student.js"></script>
+    <jsp:include page="../enableJS.jsp"></jsp:include>
+    <!-- Bootstrap core JavaScript ================================================== -->
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -225,14 +234,5 @@
     <div id="frameBottom">
         <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
     </div>
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script type="text/javascript" src="/js/googleAnalytics.js"></script>
-    <script type="text/javascript" src="/js/jquery-minified.js"></script>
-    <script type="text/javascript" src="/js/AnchorPosition.js"></script>
-    <script type="text/javascript" src="/js/common.js"></script>
-    <script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
-    <jsp:include page="../enableJS.jsp"></jsp:include>
-    <!-- Bootstrap core JavaScript ================================================== -->
-    <script src="/bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>
