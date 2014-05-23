@@ -20,6 +20,8 @@ body {
     text-align:center;
     background-color:black;
     color:grey;
+    
+    background-image: linear-gradient(to bottom,#3c3c3c 0,#222 100%);
  }
  
  .well-plain {
