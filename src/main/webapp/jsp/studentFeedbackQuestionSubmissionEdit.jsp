@@ -36,7 +36,7 @@
     <div id="frameBody" style="top:0px;bottom:0px;" class="container theme-showcase" role="main">
         <div id="frameBodyWrapper">
             <div id="topOfPage"></div>
-            <h2>Submit Feedback Question</h2>
+            <h1>Submit Feedback Question</h1>
             <br>
             
             <form method="post" action="<%=Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_SAVE%>" name="form_submit_response">
