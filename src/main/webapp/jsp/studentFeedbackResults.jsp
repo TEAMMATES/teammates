@@ -224,7 +224,7 @@
                 }
                    if (questionsWithResponses.isEmpty()) {
             %>
-                    <div class="alert alert-danger">There are currently no responses for you for this feedback session.</div>
+                    <div class="col-sm-12" style="color: red">There are currently no responses for you for this feedback session.</div>
             <% 
                 } 
             %>
