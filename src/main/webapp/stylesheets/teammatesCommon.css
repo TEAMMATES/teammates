@@ -32,9 +32,25 @@ body {
     background-color: #eaeff5;
  }
  
+  .well-default {
+    border: 0px;
+    box-shadow: 0 0 0 0;
+    background-image: none;
+    background-color: #D9EDF7;
+ }
+ 
  .well-narrow {
     margin: 0 auto;
     width:60%;
+ }
+ 
+ .panel-narrow {
+    margin: 0 auto;
+    width:60%;
+ }
+ 
+ .fill-plain {
+    background-color: #eaeff5;
  }
 
 .border-left-gray{
@@ -69,6 +85,11 @@ body {
 .glyphicon-primary{
     color: #428bca;
 }
+
+.glyphicon-danger{
+    color: red;
+}
+
 
 .icon-button{
 	border:0;
