@@ -53,23 +53,25 @@
             <div class="form form-horizontal">
                 <div class="form-group">
                     <label class="col-sm-3 control-label">Course ID:</label>
-                    <td id="courseid"><%=sanitizeForHtml(data.courseDetails.course.id)%></td>
+                    <div class="col-sm-9" id="courseid">
+                        <%=sanitizeForHtml(data.courseDetails.course.id)%>
+                    </div>
                 </div>
-                 <tr>
-                     <label class="col-sm-3 control-label">Course name:</label>
-                     <td id="coursename"><%=sanitizeForHtml(data.courseDetails.course.name)%></td>
-                </tr>
-                <tr>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Course name:</label>
+                    <div class="col-sm-9" id="coursename"><%=sanitizeForHtml(data.courseDetails.course.name)%></div>
+                </div>
+                <div class="form-group">
                      <label class="col-sm-3 control-label">Teams:</label>
-                     <td id="total_teams"><%=data.courseDetails.stats.teamsTotal%></td>
-                 </tr>
-                 <tr>
+                     <div class="col-sm-9" id="total_teams"><%=data.courseDetails.stats.teamsTotal%></div>
+                 </div>
+                 <div class="form-group">
                      <label class="col-sm-3 control-label">Total students:</label>
-                     <td id="total_students"><%=data.courseDetails.stats.studentsTotal%></td>
-                 </tr>
-                 <tr>
+                     <div class="col-sm-9" id="total_students"><%=data.courseDetails.stats.studentsTotal%></div>
+                 </div>
+                 <div class="form-group">
                      <label class="col-sm-3 control-label">Instructors:</label>
-                     <td id="instructors">
+                     <div class="col-sm-9" id="instructors">
                      <%
                          for (int i = 0; i < data.instructors.size(); i++){
                                                                                              InstructorAttributes instructor = data.instructors.get(i);
@@ -79,28 +81,27 @@
                              <%
                                  }
                              %>
-                    </td>
-                 </tr>
+                    </div>
+                 </div>
                  <%
                      if(data.courseDetails.stats.studentsTotal>1){
                  %>
-                 <tr>
-                     <td class="centeralign" colspan="2">
-                         <input type="button" class="button t_remind_students"
+                 <div class="form-group">
+                     <div class="centeralign">
+                         <input type="button" class="btn btn-primary"
                                  id="button_remind"
-                                 onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_REMIND%>')" 
-                                 onmouseout="hideddrivetip();"
-                                 onclick="hideddrivetip(); if(toggleSendRegistrationKeysConfirmation('<%=data.courseDetails.course.id%>')) window.location.href='<%=data.getInstructorCourseRemindLink()%>';"
+                                 data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_REMIND%>"
+                                 onclick="if(toggleSendRegistrationKeysConfirmation('<%=data.courseDetails.course.id%>')) window.location.href='<%=data.getInstructorCourseRemindLink()%>';"
                                  value="Remind Students to Join" tabindex="1">
                          <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_LIST_DOWNLOAD%>" style="display:inline;">
-                            <input id="button_download" type="submit" class="button"
+                            <input id="button_download" type="submit" class="btn btn-primary"
                                 name="<%=Const.ParamsNames.FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON%>"
                                 value=" Download Student List ">
                             <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
                             <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.courseDetails.course.id%>">
                         </form>
-                     </td>
-                 </tr>
+                     </div>
+                 </div>
                  <%
                      }
                  %>
@@ -111,15 +112,15 @@
             <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
             <br>
 
-            <table class="dataTable">
+            <table class="table table-striped">
                 <tr>
-                    <th class="centeralign color_white bold"><input class="buttonSortNone" type="button" id="button_sortstudentteam"
+                    <th class="centeralign"><input class="buttonSortNone" type="button" id="button_sortstudentteam"
                             onclick="toggleSort(this,1)">Team</th>
-                    <th class="centeralign color_white bold"><input class="buttonSortAscending" type="button" id="button_sortstudentname" 
+                    <th class="centeralign"><input class="buttonSortAscending" type="button" id="button_sortstudentname" 
                             onclick="toggleSort(this,2)">Student Name</th>
-                    <th class="centeralign color_white bold"><input class="buttonSortNone" type="button" id="button_sortstudentstatus"
+                    <th class="centeralign"><input class="buttonSortNone" type="button" id="button_sortstudentstatus"
                             onclick="toggleSort(this,3)">Status</th>
-                    <th class="centeralign color_white bold no-print">Action(s)</th>
+                    <th class="centeralign no-print">Action(s)</th>
                 </tr>
                 <%
                     int idx = -1;
@@ -128,37 +129,32 @@
                         <tr class="student_row" id="student<%=idx%>">
                             <td id="<%=Const.ParamsNames.TEAM_NAME%>"><%=sanitizeForHtml(student.team)%></td>
                             <td id="<%=Const.ParamsNames.STUDENT_NAME%>"><%=sanitizeForHtml(student.name)%></td>
-                             <td class="centeralign"><%=data.getStudentStatus(student)%></td>
-                             <td class="centeralign no-print">
-                                <a class="color_black t_student_details<%=idx%>"
+                            <td class="centeralign"><%=data.getStudentStatus(student)%></td>
+                            <td class="centeralign no-print">
+                                <a class="btn btn-default btn-xs t_student_details<%=idx%>"
                                         href="<%=data.getCourseStudentDetailsLink(student)%>"
-                                        onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_STUDENT_DETAILS%>')"
-                                        onmouseout="hideddrivetip()">
+                                        data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_STUDENT_DETAILS%>">
                                         View</a>
-                                <a class="color_black t_student_edit<%=idx%>" href="<%=data.getCourseStudentEditLink(student)%>"
-                                        onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_STUDENT_EDIT%>')"
-                                        onmouseout="hideddrivetip()">
+                                <a class="btn btn-default btn-xs t_student_edit<%=idx%>" href="<%=data.getCourseStudentEditLink(student)%>"
+                                        data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_STUDENT_EDIT%>">
                                         Edit</a>
                                 <%
                                     if(data.getStudentStatus(student).equals(Const.STUDENT_COURSE_STATUS_YET_TO_JOIN)){
                                 %>
-                                    <a class="color_black t_student_resend<%=idx%>" href="<%=data.getCourseStudentRemindLink(student)%>"
+                                    <a class="btn btn-default btn-xs t_student_resend<%=idx%>" href="<%=data.getCourseStudentRemindLink(student)%>"
                                             onclick="return toggleSendRegistrationKey()"
-                                            onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_STUDENT_REMIND%>')"
-                                            onmouseout="hideddrivetip()">
+                                            data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_STUDENT_REMIND%>">
                                             Send Invite</a>
                                 <%
                                     }
                                 %>
-                                <a class="color_black t_student_delete<%=idx%>" href="<%=data.getCourseStudentDeleteLink(student)%>"
+                                <a class="btn btn-default btn-xs t_student_delete<%=idx%>" href="<%=data.getCourseStudentDeleteLink(student)%>"
                                         onclick="return toggleDeleteStudentConfirmation('<%=sanitizeForJs(student.name)%>')"
-                                        onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_STUDENT_DELETE%>')"
-                                        onmouseout="hideddrivetip()">
+                                        data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_STUDENT_DELETE%>">
                                         Delete</a>
-                                <a class="color_black t_student_records-c<%=data.courseDetails.course.id %>.<%=idx%>"
+                                <a class="btn btn-default btn-xs t_student_records-c<%=data.courseDetails.course.id %>.<%=idx%>"
                                         href="<%=data.getStudentRecordsLinkWithAddComment(data.courseDetails.course.id, student)%>"
-                                        onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_STUDENT_RECORDS%>')"
-                                        onmouseout="hideddrivetip()"> 
+                                        data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_STUDENT_RECORDS%>"> 
                                         Add Comment</a>
                             </td>
                          </tr>
