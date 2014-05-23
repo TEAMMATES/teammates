@@ -14,9 +14,9 @@
     <link rel="shortcut icon" href="/favicon.png">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>TEAMMATES - Student</title>
-    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" type="text/css" media="screen"/>
-    <link rel="stylesheet" href="/bootstrap/css/bootstrap-theme.min.css" type="text/css" media="screen"/>
-    <link rel="stylesheet" href="/stylesheets/teammatesCommon.css" type="text/css" media="screen"/>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" type="text/css"/>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap-theme.min.css" type="text/css"/>
+    <link rel="stylesheet" href="/stylesheets/teammatesCommon.css" type="text/css"/>
 
     <script type="text/javascript" src="/js/googleAnalytics.js"></script>
     <script type="text/javascript" src="/js/jquery-minified.js"></script>
