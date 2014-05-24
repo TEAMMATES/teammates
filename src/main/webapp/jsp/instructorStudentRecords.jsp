@@ -236,13 +236,8 @@
                             .getResponsesSortedByGiver().get(giverName);
             %>
                     <div class="student_feedback" id="studentFeedback-<%=fbIndex%>">
-                    <table class="inputTable" id="studentEvaluationInfo">
-                        <tr>
-                            <td class="label rightalign bold" width="250px">Feedback Session Name:</td>
-                            <td class="leftalign" id="feedback_name-<%=fbIndex%>" width="250px"><%=InstructorStudentRecordsPageData.sanitizeForHtml(feedback.feedbackSession.feedbackSessionName)%></td>
-                        </tr>
-                    </table>
-                    <br><br>
+                    <h3 id="feedback_name-<%=fbIndex%>">Feedback Session Name: <%=InstructorStudentRecordsPageData.sanitizeForHtml(feedback.feedbackSession.feedbackSessionName)%></h3>
+                    <br>
             <%
                     if(received != null){
             %>
