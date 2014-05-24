@@ -10,11 +10,9 @@
 
 
 window.addEventListener('load', function (){
-    initializetooltip();
     if(typeof doPageSpecificOnload !== 'undefined'){
         doPageSpecificOnload();
     };
-    initializenavbar();
 });
 
 $(document).ready(function(){

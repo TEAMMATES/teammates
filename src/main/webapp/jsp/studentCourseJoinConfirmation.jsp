@@ -36,32 +36,30 @@
 </head>
 
 <body>
-    <div id="frameTop">
-        <jsp:include page="<%=Const.ViewURIs.STUDENT_HEADER%>" />
-    </div>
-    <div class="container">
+    <jsp:include page="<%=Const.ViewURIs.STUDENT_HEADER%>" />
+    <div class="container theme-showcase">
         <div id="topOfPage"></div>
-        <div class="panel panel-default">
+        <br>
+        <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
+        <br>
+        <div class="panel panel-primary">
             <div class="panel-heading">
                 <h1>Confirm your Google account</h1>
-                </div>
+            </div>
             <div class="panel-body">
-                <br>
-                <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
-                <br>
                 <p class="lead">
-                    You are currently logged in as <span class="bold"><%=data.account.googleId%></span>. 
+                    You are currently logged in as <span><strong><%=data.account.googleId%></strong></span>. 
                     <br>If this is not you please <a href="/logout.jsp">log out</a> and re-login using your own Google account.
                     <br>If this is you, please confirm below to complete your registration.
                     <br><br><br>
                 </p>
                 <div class="center-align">
-                <a href="<%=Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED + "?regkey=" + data.regkey%>" 
-                    class="btn btn-success"
-                    id="button_confirm">Yes, this is my account</a>
-                <a href="/logout.jsp" 
-                    class="btn btn-danger"
-                    id="button_cancel">No, this is not my account</a>
+                    <a href="<%=Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED + "?regkey=" + data.regkey%>" 
+                        class="btn btn-success"
+                        id="button_confirm">Yes, this is my account</a>
+                    <a href="/logout.jsp" 
+                        class="btn btn-danger"
+                        id="button_cancel">No, this is not my account</a>
                 </div>
                 
             </div>
