@@ -266,36 +266,25 @@
                                         FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
                                         out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, "giver-"+giverIndex+"-session-"+fbIndex));
                                     %></div>
-                                <table class="table">
-                                <tbody>
-                                <tr>
-                                    <td><%=singleResponse.getResponseDetails().getAnswerHtml()%></td>
-                                </tr>
+                                <div class="panel-body"><%=singleResponse.getResponseDetails().getAnswerHtml()%>
                             <%
                                 List<FeedbackResponseCommentAttributes> responseComments = feedback.responseComments.get(singleResponse.getId());
                                 if (responseComments != null) {
                             %>
-                                <tr>
-                                    <td>
-                                        <div class="panel panel-default">
-                                        <div class="panel-heading">Comments: </div>
-                                        <table class="table table-bordered table-hover">
+                                <ul class="list-group comment-list">
                                             <%
                                                 for (FeedbackResponseCommentAttributes comment : responseComments) {
                                             %>
-                                                    <tr>
-                                                        <td class="feedbackResponseCommentText"><%=comment.commentText.getValue() %></td>
-                                                        <td class="feedbackResponseCommentGiver"><%=comment.giverEmail %></td>
-                                                        <td class="feedbackResponseCommentTime"><%=comment.createdAt %></td>
-                                                    </tr>
+                                                    <li class="list-group-item list-group-item-warning">
+                                                        <span class="text-muted">From: <%=comment.giverEmail %> [<%=comment.createdAt %>]</span>
+                                                        <div><%=comment.commentText.getValue() %></div>
+                                                    </li>
                                             <%
                                                 }
                                             %>
-                                        </table></div>
-                                    </td>
-                                </tr>
+                                </ul>
                             <%
-                                }%></tbody></table></div>
+                                }%></div></div>
                             <%}qnIndx++;
                                 if (responsesReceived.getValue().isEmpty()) {
                             %>
@@ -347,35 +336,25 @@
                                         FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
                                         out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, "recipient-"+recipientIndex+"-session-"+fbIndex));
                                     %></div>
-                                <table class="table">
-                                <tbody>  
-                                <tr>
-                                    <td><%=singleResponse.getResponseDetails().getAnswerHtml()%></td>
-                                </tr>
+                                <div class="panel-body"><%=singleResponse.getResponseDetails().getAnswerHtml()%>
                             <%
                                 List<FeedbackResponseCommentAttributes> responseComments = feedback.responseComments.get(singleResponse.getId());
                                 if (responseComments != null) {
                             %>
-                                <tr>
-                                <td>
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading">Comments: </div>
-                                        <table class="table table-bordered table-hover">
+                                <ul class="list-group comment-list">
                                             <%
                                                 for (FeedbackResponseCommentAttributes comment : responseComments) {
                                             %>
-                                            <tr>
-                                                <td class="col-md-6"><%=comment.commentText.getValue()%></td>
-                                                <td class="col-md-3"><%=comment.giverEmail%></td>
-                                                <td class="col-md-3"><%=comment.createdAt%></td>
-                                            </tr>
+                                                    <li class="list-group-item list-group-item-warning">
+                                                        <span class="text-muted">From: <%=comment.giverEmail %> [<%=comment.createdAt %>]</span>
+                                                        <div><%=comment.commentText.getValue() %></div>
+                                                    </li>
                                             <%
                                                 }
                                             %>
-                                        </table>
-                                    </div></td></tr>
+                                </ul>
                             <%
-                                } %></tbody></table></div>
+                                } %></div></div>
                             <%
                                 qnIndx++;
                             }
