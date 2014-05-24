@@ -135,6 +135,7 @@
                 </ul>
               </div>
             </div>
+            <hr>
             <br>
             <%
                 int evalIndex = -1;
@@ -302,10 +303,9 @@
                 <%
                     } else{
                 %>
-                    <div class="backgroundBlock">
-                            <h4 class="col-sm-12">No feedback for <%=data.student.name%> found</h4>
+                    <div class="panel panel-info">
+                            <div class="panel-body">No feedback for <%=data.student.name%> found</div>
                     </div>
-                    <br>
                 <%
                     }
                     if(given != null){
@@ -374,15 +374,15 @@
                 <%
                     } else{
                 %>
-                        <div class="backgroundBlock">
-                            <h4 class="col-sm-12">No feedback by <%=data.student.name%> found</h4>
+                        <div class="panel panel-info">
+                            <div class="panel-body">No feedback by <%=data.student.name%> found</div>
                         </div>
                 <%
                     }
                 %>    
                     </div>
-                    <br>
                     <hr>
+                    <br />
             <%
                 }
                 }
