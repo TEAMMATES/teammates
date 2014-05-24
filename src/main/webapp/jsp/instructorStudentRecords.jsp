@@ -26,116 +26,117 @@
 <head>
     <link rel="shortcut icon" href="/favicon.png">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>TEAMMATES - Instructor</title>
-    <link rel="stylesheet" href="/stylesheets/common.css" type="text/css" media="screen">
-    <link rel="stylesheet" href="/stylesheets/instructorStudentRecords.css" type="text/css" media="screen">
-    <link rel="stylesheet" href="/stylesheets/common-print.css" type="text/css" media="print">
-    
+    <!-- Bootstrap core CSS -->
+    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap theme -->
+    <link href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/stylesheets/teammatesCommon.css" type="text/css" media="screen">
     <script type="text/javascript" src="/js/googleAnalytics.js"></script>
     <script type="text/javascript" src="/js/jquery-minified.js"></script>
-    <script type="text/javascript" src="/js/tooltip.js"></script>
-    <script type="text/javascript" src="/js/date.js"></script>
-    <script type="text/javascript" src="/js/CalendarPopup.js"></script>
     <script type="text/javascript" src="/js/AnchorPosition.js"></script>
     <script type="text/javascript" src="/js/common.js"></script>
     
     <script type="text/javascript" src="/js/instructor.js"></script>
     <script type="text/javascript" src="/js/instructorStudentRecords.js"></script>
     <script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
+    <jsp:include page="../enableJS.jsp"></jsp:include>
+    <!-- Bootstrap core JavaScript ================================================== -->
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
     <script type="text/javascript">
         var showCommentBox = "<%=data.showCommentBox%>";
     </script>
-    <jsp:include page="../enableJS.jsp"></jsp:include>
 </head>
 
-<body onload="readyStudentRecordsPage(); initializetooltip();">
+<body onload="readyStudentRecordsPage();">
     <div id="dhtmltooltip"></div>
     <div id="frameTop">
         <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
     </div>
 
-    <div id="frameBody">
+    <div id="frameBody" class="container">
         <div id="frameBodyWrapper">
             <div id="topOfPage"></div>
-            <div id="headerOperation">
-                <h1><%=data.courseId %> - <%=data.student.name %>'s Records</h1>
-                <hr>
-            </div>
+            <h1><%=data.courseId %> - <%=data.student.name %>'s Records</h1>
+            <br />
             <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
-            <div id="commentSection">
-                <table class="resultTable" id="commentTable">
-                    <thead>
-                        <tr>
-                            <th colspan="2" class="bold centeralign">
-                                Your comments on this student:
-                            </th>
-                        </tr>
-                    </thead>
-                    <%
-                        int commentIdx = -1;
-                        for(CommentAttributes comment : data.comments){
-                            commentIdx++;
-                    %>
-                            <tr>
-                                <td>
-                                    <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_EDIT%>" name="form_commentedit" class="form_comment" id="form_commentedit-<%=commentIdx %>">
-                                        <table id="commentFormTable">
-                                            <tr>
-                                                <td style="width: 50%;">
-                                                    <span class="color_gray"><%=TimeHelper.formatTime(comment.createdAt)%></span>
-                                                </td>
-                                                <td class="rightalign">
-                                                    <a class="color_blue pad_right t_comment_edit" id="commentedit-<%=commentIdx %>" href=""
-                                                    onclick="return enableEdit('<%=commentIdx %>', '<%=data.comments.size() %>');"
-                                                    onmouseover="ddrivetip('<%=Const.Tooltips.COMMENT_EDIT%>')"
-                                                    onmouseout="hideddrivetip()"> Edit</a> 
-                                                    
-                                                    <a class="color_green pad_right t_comment_save" style="display:none;" href="" id="commentsave-<%=commentIdx %>"
-                                                    onclick="return submitCommentForm('<%=commentIdx %>');">Save Changes</a>
-                                                    
-                                                    <a class="color_red pad_right t_comment_delete" id="commentdelete-<%=commentIdx %>" href=""
-                                                    onclick="return deleteComment('<%=commentIdx %>');"
-                                                    onmouseover="ddrivetip('<%=Const.Tooltips.COMMENT_DELETE%>')"
-                                                    onmouseout="hideddrivetip()" > Delete</a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="2">
-                                                    <textarea onkeyup="textAreaAdjust(this)" class="textvalue" name=<%=Const.ParamsNames.COMMENT_TEXT%> id="commentText<%=commentIdx %>" disabled="disabled"><%=comment.commentText.getValue() %></textarea>
-                                                    <input type="hidden" name=<%=Const.ParamsNames.COMMENT_EDITTYPE%> id="<%=Const.ParamsNames.COMMENT_EDITTYPE%>-<%=commentIdx %>" value="edit">
-                                                    <input type="hidden" name=<%=Const.ParamsNames.COMMENT_ID%> value="<%=comment.getCommentId()%>">
-                                                    <input type="hidden" name=<%=Const.ParamsNames.COURSE_ID%> value="<%=data.courseId%>">
-                                                    <input type="hidden" name=<%=Const.ParamsNames.STUDENT_EMAIL%> value="<%=data.student.email %>">
-                                                    <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </form>
-                                </td>
-                            </tr>
-                    <%
-                        }
-                    %>    
-                        <tr id="comment_box" style="display:none;">
-                            <td colspan="2" class="centeralign">
-                                <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_ADD%>" name="form_commentadd" class="form_comment">
-                                    <textarea placeholder="Your comment about this student" onkeyup="textAreaAdjust(this)" class="textvalue" name=<%=Const.ParamsNames.COMMENT_TEXT%> id="commentText"></textarea>
-                                    <br>
-                                    <input type="submit" class="button" id="button_save_comment" value="Save Comment">
-                                    <input type="hidden" name=<%=Const.ParamsNames.COURSE_ID%> value="<%=data.courseId%>">
-                                    <input type="hidden" name=<%=Const.ParamsNames.STUDENT_EMAIL%> value="<%=data.student.email %>">
-                                    <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
-                                </form>
-                            </td>
-                        </tr>
-                        <tr id="comment_link"><td colspan="2" class="centeralign">
-                            <input type="button" class="button" id="button_add_comment" value="Add Comment"
-                            onclick="showAddCommentBox(); return false;">
-                        </td></tr>
-                </table>
+            <div class="panel panel-info">
+              <div class="panel-heading">Student Records Comments</div>
+              <div class="panel-body">
+                Your comments on this student:
+                <button type="button" title="Add comment" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showAddCommentBox();"
+                data-toggle="tooltip" data-placement="top" title="Add comment">
+                  <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
+                </button>
+                <ul class="list-group comment-list">
+                <%
+                    int commentIdx = -1;
+                    for(CommentAttributes comment : data.comments){
+                        commentIdx++;
+                %>
+                  <li class="list-group-item list-group-item-warning">
+                  <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_EDIT%>" name="form_commentedit" class="form_comment" id="form_commentedit-<%=commentIdx %>">
+                    <div id="commentBar<%=commentIdx %>">
+                        <span class="text-muted"><%=TimeHelper.formatTime(comment.createdAt)%></span>
+                        <a type="button" id="commentdelete-<%=commentIdx %>" title="Delete comment" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('<%=commentIdx %>');"
+                        data-toggle="tooltip" data-placement="top" title="Delete comment"> 
+                            <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
+                        </a>
+                        <a type="button" id="commentedit-<%=commentIdx %>" title="Edit comment" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('<%=commentIdx %>', '<%=data.comments.size() %>');"
+                        data-toggle="tooltip" data-placement="top" title="Edit comment">
+                            <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
+                        </a>
+                    </div>
+                    <div id="plainCommentText<%=commentIdx %>"><%=comment.commentText.getValue() %></div>
+                    <div id="commentTextEdit<%=commentIdx %>" style="display:none;">
+                        <div class="form-group">
+                            <textarea class="form-control" rows="3" placeholder="Your comment about this student" name=<%=Const.ParamsNames.COMMENT_TEXT%> id="commentText<%=commentIdx %>"><%=comment.commentText.getValue() %></textarea>
+                        </div>
+                        <div class="col-sm-offset-5">
+                            <input id="commentsave-<%=commentIdx %>" title="Save comment" onclick="return submitCommentForm('<%=commentIdx %>');" type="submit" class="btn btn-primary" id="button_save_comment" value="Save">
+                            <input type="button" class="btn btn-default" value="Cancel" onclick="return disableComment('<%=commentIdx %>');">
+                        </div>
+                    </div>
+                    <input type="hidden" name=<%=Const.ParamsNames.COMMENT_EDITTYPE%> id="<%=Const.ParamsNames.COMMENT_EDITTYPE%>-<%=commentIdx %>" value="edit">
+                    <input type="hidden" name=<%=Const.ParamsNames.COMMENT_ID%> value="<%=comment.getCommentId()%>">
+                    <input type="hidden" name=<%=Const.ParamsNames.COURSE_ID%> value="<%=data.courseId%>">
+                    <input type="hidden" name=<%=Const.ParamsNames.STUDENT_EMAIL%> value="<%=data.student.email %>">
+                    <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
+                  </form>
+                  </li>
+                  <%
+                      }
+                      if(commentIdx == -1){
+                  %>
+                        <li  class="list-group-item list-group-item-warning">You don't have any comments on this student.</li>
+                  <%   
+                      }
+                  %>
+                  <li class="list-group-item list-group-item-warning" id="comment_box" style="display:none;">
+                      <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_ADD%>" name="form_commentadd" class="form_comment">
+                        <div class="form-group">
+                          <textarea class="form-control" rows="3" placeholder="Your comment about this student" name=<%=Const.ParamsNames.COMMENT_TEXT%> id="commentText"></textarea>
+                        </div>
+                        <div class="col-sm-offset-5">
+                          <input type="submit" class="btn btn-primary" id="button_save_comment" value="Add Comment">
+                          <input type="button" class="btn btn-default" value="Cancel" onclick="hideAddCommentBox();">
+                          <input type="hidden" name=<%=Const.ParamsNames.COURSE_ID%> value="<%=data.courseId%>">
+                          <input type="hidden" name=<%=Const.ParamsNames.STUDENT_EMAIL%> value="<%=data.student.email %>">
+                          <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
+                        </div>
+                      </form>
+                  </li>
+                </ul>
+              </div>
             </div>
             <br>
-            <hr>
             <br>
             <%
                 int evalIndex = -1;
