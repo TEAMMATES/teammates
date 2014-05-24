@@ -104,12 +104,12 @@
                             class="btn btn-primary btn-xs"
                             data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_INSTRUCTOR_REMIND%>"
                             onclick="return toggleSendRegistrationKey('<%=instructor.courseId%>','<%=instructor.email%>);">
-                            <span class="glyphicon glyphicon-envelope"></span>Resend Invite</a>
+                            <span class="glyphicon glyphicon-envelope"></span>Resend Invite</a>&nbsp;
                     <% } else { %>
                         <a href="#" id="instrEditLink<%=index%>" class="btn btn-primary btn-xs"
                             data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_INSTRUCTOR_EDIT%>"
                             onclick="enableEditInstructor(<%=index%>, <%=data.instructorList.size()%>)">
-                            <span class="glyphicon glyphicon-pencil"></span>Edit</a>
+                            <span class="glyphicon glyphicon-pencil"></span>Edit</a>&nbsp;
                     <% } %>
                     <a href="<%=data.getInstructorCourseInstructorDeleteLink(instructor.courseId, instructor.email)%>" id="instrDeleteLink<%=index%>"
                         class="btn btn-primary btn-xs"
@@ -133,8 +133,7 @@
                                 <div class="col-sm-9"><input class="form-control" type="text"
                                     name="<%=Const.ParamsNames.INSTRUCTOR_ID%>" id="<%=Const.ParamsNames.INSTRUCTOR_ID+index%>"
                                     value="<%=instructor.googleId%>"
-                                    onmouseover="ddrivetip('Enter the google id of the instructor.')"
-                                    onmouseout="hideddrivetip()"
+                                    data-toggle="tooltip" data-placement="top" title="Enter the google id of the instructor."
                                     maxlength=<%=FieldValidator.GOOGLE_ID_MAX_LENGTH%> tabindex=3
                                     disabled="disabled">
                                 </div>
@@ -145,8 +144,7 @@
                             <div class="col-sm-9"><input class="form-control" type="text"
                                 name="<%=Const.ParamsNames.INSTRUCTOR_NAME%>" id="<%=Const.ParamsNames.INSTRUCTOR_NAME+index%>"
                                 value="<%=instructor.name%>"
-                                onmouseover="ddrivetip('Enter the name of the instructor.')"
-                                onmouseout="hideddrivetip()"
+                                data-toggle="tooltip" data-placement="top" title="Enter the name of the instructor."
                                 maxlength=<%=FieldValidator.PERSON_NAME_MAX_LENGTH%> tabindex=4
                                 disabled="disabled">
                             </div>
@@ -156,8 +154,7 @@
                             <div class="col-sm-9"><input class="form-control" type="text"
                                 name="<%=Const.ParamsNames.INSTRUCTOR_EMAIL%>" id="<%=Const.ParamsNames.INSTRUCTOR_EMAIL+index%>"
                                 value="<%=instructor.email%>"
-                                onmouseover="ddrivetip('Enter the name of the instructor.')"
-                                onmouseout="hideddrivetip()"
+                                data-toggle="tooltip" data-placement="top" title="Enter the Email of the instructor."
                                 maxlength=<%=FieldValidator.EMAIL_MAX_LENGTH%> tabindex=5
                                 disabled="disabled">
                             </div>
@@ -199,8 +196,7 @@
                             <label class="col-sm-3 control-label">Name:</label>
                             <div class="col-sm-9"><input class="form-control" type="text"
                                 name="<%=Const.ParamsNames.INSTRUCTOR_NAME%>" id="<%=Const.ParamsNames.INSTRUCTOR_NAME%>"
-                                onmouseover="ddrivetip('Enter the name of the instructor.')"
-                                onmouseout="hideddrivetip()"
+                                data-toggle="tooltip" data-placement="top" title="Enter the name of the instructor."
                                 maxlength=<%=FieldValidator.PERSON_NAME_MAX_LENGTH%> tabindex=8/>
                             </div>
                         </div>
@@ -208,8 +204,7 @@
                             <label class="col-sm-3 control-label">Email:</label>
                             <div class="col-sm-9"><input class="form-control" type="text"
                                 name="<%=Const.ParamsNames.INSTRUCTOR_EMAIL%>" id="<%=Const.ParamsNames.INSTRUCTOR_EMAIL%>"
-                                onmouseover="ddrivetip('Enter the name of the instructor.')"
-                                onmouseout="hideddrivetip()"
+                                data-toggle="tooltip" data-placement="top" title="Enter the Email of the instructor."
                                 maxlength=<%=FieldValidator.EMAIL_MAX_LENGTH%> tabindex=9/>
                             </div>
                         </div>
