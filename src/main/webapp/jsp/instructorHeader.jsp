@@ -9,32 +9,55 @@
 <%
     PageData data = (PageData)request.getAttribute("data");
 %>
-        <div id="frameTopWrapper">
-            <div id="logo">
-                <a href="/index.html">
-                <img alt="TEAMMATES" height="47px"
-                    src="/images/teammateslogo.jpg"
-                    width="150px">
-                </a>
-            </div>            
-            <div id="contentLinks">
-                <ul id="navbar">
-                    <li ><a class='nav home' data-link="instructorHome" href="<%=data.getInstructorHomeLink()%>">Home</a></li>
-                    <li><a class='nav courses' data-link="instructorCourse" href="<%=data.getInstructorCourseLink()%>">Courses</a></li>
-                    <li><a class='nav evaluations' data-link="instructorEval" href="<%=data.getInstructorEvaluationLink()%>">Sessions</a></li>
-                    <li><a class='nav students' data-link="instructorStudent" href="<%=data.getInstructorStudentListLink()%>">Students</a></li>
-                    <li><a class='nav help' href="/instructorHelp.html" target="_blank">Help</a></li>
-                    <li><a class='nav logout' href="<%=Const.ViewURIs.LOGOUT%>">Logout</a>
-                    <b><%
-                        if(data.account.googleId.length() > Const.SystemParams.USER_ID_MAX_DISPLAY_LENGTH){
-                    %>
-                    <span onmouseover="ddrivetip('<%=data.account.googleId%>')" onmouseout="hideddrivetip()">
-                            (<%=PageData.truncate(data.account.googleId,Const.SystemParams.USER_ID_MAX_DISPLAY_LENGTH)%>)</span><%
-                        }else{
-                    %>
-                            (<%=PageData.truncate(data.account.googleId,Const.SystemParams.USER_ID_MAX_DISPLAY_LENGTH)%>)<%} %></b>
-                    </li>
-                </ul>
-            </div>
-            <div style="clear: both;"></div>
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#contentLinks">
+                 <span class="sr-only">Toggle navigation</span>
+                 <span class="icon-bar"></span>
+                 <span class="icon-bar"></span>
+                 <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/index.html">TEAMMATES</a>
         </div>
+        <div class="collapse navbar-collapse" id="contentLinks">
+            <ul class="nav navbar-nav">
+                <li class="<%=data.getClass().toString().contains("InstructorHome")?"active":""%>">
+                    <a class='nav home' data-link="instructorHome" href="<%=data.getInstructorHomeLink()%>">Home</a>
+                </li>
+                <li class="<%=data.getClass().toString().contains("InstructorCourses")?"active":""%>">
+                    <a class='nav courses' data-link="instructorCourse" href="<%=data.getInstructorCourseLink()%>">Courses</a>
+                </li>
+                <li class="<%=(data.getClass().toString().contains("InstructorEval") || data.getClass().toString().contains("InstructorFeedback"))?"active":""%>">
+                    <a class='nav evaluations' data-link="instructorEval" href="<%=data.getInstructorEvaluationLink()%>">Sessions</a>
+                </li>
+                <li class="<%=data.getClass().toString().contains("InstructorStudent")?"active":""%>">
+                    <a class='nav students' data-link="instructorStudent" href="<%=data.getInstructorStudentListLink()%>">Students</a>
+                </li>
+                <li>
+                    <a class='nav help' href="/instructorHelp.html" target="_blank">Help</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav pull-right">
+                <li><a class='nav logout' href="<%=Const.ViewURIs.LOGOUT%>">Logout
+                        <%
+                            if(data.account.googleId.length() > Const.SystemParams.USER_ID_MAX_DISPLAY_LENGTH){
+                        %>
+                        (<span class="text-info" data-toggle="tooltip" data-placement="bottom" 
+                                title="<%=data.account.googleId%>">
+                                <%=PageData.truncate(data.account.googleId,Const.SystemParams.USER_ID_MAX_DISPLAY_LENGTH)%>
+                        </span>)
+                        <%
+                            } else {
+                        %>
+                        (<span class="text-info" data-toggle="tooltip" data-placement="bottom" 
+                                title="<%=data.account.googleId%>">
+                                <%=PageData.truncate(data.account.googleId,Const.SystemParams.USER_ID_MAX_DISPLAY_LENGTH)%>
+                         </span>)
+                        <%} %>
+                    </a>
+                </li>
+            </ul>            
+        </div>
+    </div>
+</div>
