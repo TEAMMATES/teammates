@@ -90,23 +90,33 @@
                         <div class="panel-body">
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Course ID:</label>
-                                <div class="col-sm-5" id="<%=Const.ParamsNames.COURSE_ID%>"><%=data.eval.courseId%></div>
+                                <div class="col-sm-5" id="<%=Const.ParamsNames.COURSE_ID%>">
+                                    <p class="form-control-static"><%=data.eval.courseId%></p>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Evaluation name:</label>
-                                <div class="col-sm-5" id="<%=Const.ParamsNames.EVALUATION_NAME%>"><%=StudentEvalSubmissionEditPageData.sanitizeForHtml(data.eval.name)%></div>
+                                <div class="col-sm-5" id="<%=Const.ParamsNames.EVALUATION_NAME%>">
+                                    <p class="form-control-static"><%=StudentEvalSubmissionEditPageData.sanitizeForHtml(data.eval.name)%></p>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Opening time:</label>
-                                <div class="col-sm-5" id="<%=Const.ParamsNames.EVALUATION_STARTTIME%>"><%=TimeHelper.formatTime(data.eval.startTime)%></div>
+                                <div class="col-sm-5" id="<%=Const.ParamsNames.EVALUATION_STARTTIME%>">
+                                    <p class="form-control-static"><%=TimeHelper.formatTime(data.eval.startTime)%></p>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Closing time:</label>
-                                <div class="col-sm-5" id="<%=Const.ParamsNames.EVALUATION_DEADLINETIME%>"><%=TimeHelper.formatTime(data.eval.endTime)%></div>
+                                <div class="col-sm-5" id="<%=Const.ParamsNames.EVALUATION_DEADLINETIME%>">
+                                    <p class="form-control-static"><%=TimeHelper.formatTime(data.eval.endTime)%></p>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Instructions:</label>
-                                <div class="col-sm-5 multiline" id="<%=Const.ParamsNames.EVALUATION_INSTRUCTIONS%>"><%=StudentEvalSubmissionEditPageData.sanitizeForHtml(data.eval.instructions.getValue())%></div>
+                                <div class="col-sm-5 multiline" id="<%=Const.ParamsNames.EVALUATION_INSTRUCTIONS%>">
+                                    <p class="form-control-static"><%=StudentEvalSubmissionEditPageData.sanitizeForHtml(data.eval.instructions.getValue())%></p>
+                                </div>
                             </div>
                         </div>
                     </div>
