@@ -56,7 +56,6 @@
 </head>
 
 <body onload="readyStudentRecordsPage();">
-    <div id="dhtmltooltip"></div>
     <div id="frameTop">
         <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
     </div>
@@ -68,11 +67,11 @@
             <br />
             <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
             <div class="panel panel-info">
-              <div class="panel-heading">Student Records Comments</div>
+              <div class="panel-heading">Student Records Comment</div>
               <div class="panel-body">
                 Your comments on this student:
-                <button type="button" title="Add comment" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showAddCommentBox();"
-                data-toggle="tooltip" data-placement="top" title="Add comment">
+                <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showAddCommentBox();"
+                data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COMMENT_ADD%>">
                   <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                 </button>
                 <ul class="list-group comment-list">
@@ -85,12 +84,12 @@
                   <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_EDIT%>" name="form_commentedit" class="form_comment" id="form_commentedit-<%=commentIdx %>">
                     <div id="commentBar<%=commentIdx %>">
                         <span class="text-muted"><%=TimeHelper.formatTime(comment.createdAt)%></span>
-                        <a type="button" id="commentdelete-<%=commentIdx %>" title="Delete comment" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('<%=commentIdx %>');"
-                        data-toggle="tooltip" data-placement="top" title="Delete comment"> 
+                        <a type="button" id="commentdelete-<%=commentIdx %>" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('<%=commentIdx %>');"
+                        data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COMMENT_DELETE%>"> 
                             <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
                         </a>
-                        <a type="button" id="commentedit-<%=commentIdx %>" title="Edit comment" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('<%=commentIdx %>', '<%=data.comments.size() %>');"
-                        data-toggle="tooltip" data-placement="top" title="Edit comment">
+                        <a type="button" id="commentedit-<%=commentIdx %>" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('<%=commentIdx %>', '<%=data.comments.size() %>');"
+                        data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COMMENT_EDIT%>">
                             <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
                         </a>
                     </div>
@@ -136,7 +135,7 @@
                 </ul>
               </div>
             </div>
-            <br>
+            <hr>
             <br>
             <%
                 int evalIndex = -1;
@@ -151,42 +150,54 @@
                     
             %>
                     <div class="student_eval" id="studentEval-<%=evalIndex%>">
-                    <table class="inputTable" id="studentEvaluationInfo">
-                        <tr>
-                            <td class="label rightalign bold" width="250px">Evaluation Name:</td>
-                            <td class="leftalign" id="eval_name-<%=evalIndex%>"width="250px"><%=InstructorStudentRecordsPageData.sanitizeForHtml(eval.name)%></td>
-                        </tr>
-                    </table>
+                    <h3 id="eval_name-<%=evalIndex%>">Evaluation Name: <%=InstructorStudentRecordsPageData.sanitizeForHtml(eval.name)%></h3>
                 <%
                     for(boolean byReviewee = true, repeat=true; repeat; repeat = byReviewee, byReviewee=false){
                 %>
-                        <h2 class="centeralign"><%=InstructorStudentRecordsPageData.sanitizeForHtml(data.student.name) + (byReviewee ? "'s Result" : "'s Submission")%></h2>
-                        <table class="resultTable">
-                            <thead><tr>
-                                <th colspan="2" width="10%" class="bold leftalign">
-                                    <span class="resultHeader"><%=byReviewee ? "Reviewee" : "Reviewer"%>: </span><%=data.student.name%></th>
-                                <th class="bold leftalign"><span class="resultHeader"
-                                    onmouseover="ddrivetip('<%=Const.Tooltips.CLAIMED%>')"
-                                    onmouseout="hideddrivetip()">
-                                    Claimed Contribution: </span><%=InstructorEvalSubmissionPageData.getPointsInEqualShareFormatAsHtml(studentResult.summary.claimedToInstructor,true)%></th>
-                                <th class="bold leftalign"><span class="resultHeader"
-                                    onmouseover="ddrivetip('<%=Const.Tooltips.PERCEIVED%>')"
-                                    onmouseout="hideddrivetip()">
-                                    Perceived Contribution: </span><%=InstructorEvalSubmissionPageData.getPointsInEqualShareFormatAsHtml(studentResult.summary.perceivedToInstructor,true)%></th>
-                                </tr></thead>
+                <h3>
+                    <span class="label <%=byReviewee ? "label-primary" : "label-default"%>"><%=InstructorStudentRecordsPageData.sanitizeForHtml(data.student.name) + (byReviewee ? "'s result" : "'s submission")%></span>
+                </h3>
+                <div class="panel <%=byReviewee ? "panel-info" : "panel-default"%>">
+                    <div class="panel-heading"><%=byReviewee ? "Comparison of work distribution" : "Self evaluation"%></div>
+                    <table class="table table-striped">
+                        <tbody>
+                            <% if(byReviewee){ %>
+                            <tr>
+                                <td class="col-sm-4"><strong><%=byReviewee ? "Reviewee" : "Reviewer"%>:</strong> <%=data.student.name%>
+                                </td>
+                                <td class="col-sm-4"><strong data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.CLAIMED%>">Claimed Contribution: </strong>
+                                <abbr
+                                    title="Equal Share"><%=InstructorEvalSubmissionPageData.getPointsInEqualShareFormatAsHtml(studentResult.summary.claimedToInstructor,true)%></abbr></td>
+                                <td class="col-sm-4"><strong data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.PERCEIVED%>">Perceived Contribution: </strong>
+                                <abbr
+                                    title="Equal Share"><%=InstructorEvalSubmissionPageData.getPointsInEqualShareFormatAsHtml(studentResult.summary.perceivedToInstructor,true)%></abbr></td>
+                            </tr>
+                            <% } else { %>
                                 <tr>
-                                <td colspan="4"><span class="bold">Self evaluation:</span><br>
+                                    <td><strong>Self estimated contribution: </strong>
+                                        <%=InstructorEvalSubmissionPageData.getPointsInEqualShareFormatAsHtml(studentResult.summary.claimedToInstructor,true)%></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Self evaluation: </strong>
                                         <%=InstructorEvalSubmissionPageData.getJustificationAsSanitizedHtml(studentResult.getSelfEvaluation())%></td>
                                 </tr>
                                 <tr>
-                                    <td colspan="4"><span class="bold">Comments about team:</span><br>
+                                    <td><strong>Comments about team: </strong>
                                         <%=InstructorEvalSubmissionPageData.sanitizeForHtml(studentResult.getSelfEvaluation().p2pFeedback.getValue())%></td>
                                 </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="panel <%=byReviewee ? "panel-info" : "panel-default"%>">
+                <div class="panel-heading">Feedback <%=byReviewee ? "from" : "to"%> others</div>
+                <table class="table table-striped">
+
                                 <tr class="resultSubheader">
-                                    <td width="15%" class="bold"><%=byReviewee ? "From" : "To"%> Student</td>
-                                    <td width="5%" class="bold">Contribution</td>
-                                    <td width="40%" class="bold">Confidential comments</td>
-                                    <td width="40%" class="bold">Feedback to peer</td>
+                                    <td width="15%"><strong><%=byReviewee ? "From" : "To"%> student</strong></td>
+                                    <td width="5%"><strong>Contribution</strong></td>
+                                    <td width="40%"><strong>Confidential comments</strong></td>
+                                    <td width="40%"><strong>Feedback to peer</strong></td>
                                 </tr>
                     <%
                         for(SubmissionAttributes sub: (byReviewee ? studentResult.incoming : studentResult.outgoing)){
@@ -201,17 +212,15 @@
                     <%
                         }
                     %>
-                        </table>
-                        <br><br>
+                </table></div>
                 <%
                     }
                 %>
                     <div class="centeralign">
-                        <input type="button" class="button" id="button_edit-<%=evalIndex %>" value="Edit Submission"
+                        <input type="button" class="btn btn-primary" id="button_edit-<%=evalIndex %>" value="Edit Submission"
                             onclick="window.location.href='<%=data.getInstructorEvaluationSubmissionEditLink(eval.courseId, eval.name, data.student.email)%>'">
                     </div>
                     </div>
-                    <br>
                     <hr>
                     <br>
             <%
@@ -228,190 +237,156 @@
                             .getResponsesSortedByGiver().get(giverName);
             %>
                     <div class="student_feedback" id="studentFeedback-<%=fbIndex%>">
-                    <table class="inputTable" id="studentEvaluationInfo">
-                        <tr>
-                            <td class="label rightalign bold" width="250px">Feedback Session Name:</td>
-                            <td class="leftalign" id="feedback_name-<%=fbIndex%>" width="250px"><%=InstructorStudentRecordsPageData.sanitizeForHtml(feedback.feedbackSession.feedbackSessionName)%></td>
-                        </tr>
-                    </table>
-                    <br><br>
+                    <h3 id="feedback_name-<%=fbIndex%>">Feedback Session Name: <%=InstructorStudentRecordsPageData.sanitizeForHtml(feedback.feedbackSession.feedbackSessionName)%></h3>
+                    <br>
             <%
                     if(received != null){
             %>
-                        <div class="backgroundBlock">
-                            <h2 class="color_white">To: <%=recipientName%></h2>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    To: <strong><%=recipientName%></strong>
+                </div>
+                    <div class="panel-body">
                     <%
                         int giverIndex = 0;
                         for (Map.Entry<String, List<FeedbackResponseAttributes>> responsesReceived : received.entrySet()) {
                             giverIndex++;
                     %>
-                            <table class="resultTable" style="width: 100%">
-                                <thead>
-                                    <tr>
-                                        <th class="leftalign"><span class="bold">From: </span><%=responsesReceived.getKey()%></th>
-                                    </tr>
-                                </thead>
+                    <div class="row <%=giverIndex == 1?"":"border-top-gray"%>">
+                        <div class="col-md-2"><strong>From: <%=responsesReceived.getKey()%></strong></div>
+                        <div class="col-md-10">
                         <%
                             int qnIndx = 1;
                             for (FeedbackResponseAttributes singleResponse : responsesReceived.getValue()) {
                         %>
-                                <tr class="resultSubheader">
-                                    <td class="multiline"><span class="bold">Question <%=feedback.questions.get(singleResponse.feedbackQuestionId).questionNumber%>: </span><%=
+                                <div class="panel panel-info">
+                                    <div class="panel-heading">Question <%=feedback.questions.get(singleResponse.feedbackQuestionId).questionNumber%>: <%=
                                         feedback.getQuestionText(singleResponse.feedbackQuestionId)%><%
                                         Map<String, FeedbackQuestionAttributes> questions = feedback.questions;
                                         FeedbackQuestionAttributes question = questions.get(singleResponse.feedbackQuestionId);
                                         FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
                                         out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, "giver-"+giverIndex+"-session-"+fbIndex));
-                                    %></td>
-                                </tr>
-                                <tr>
-                                    <td class="multiline"><span class="bold">Response: </span><%=singleResponse.getResponseDetails().getAnswerHtml()%></td>
-                                </tr>
+                                    %></div>
+                                <div class="panel-body"><%=singleResponse.getResponseDetails().getAnswerHtml()%>
                             <%
                                 List<FeedbackResponseCommentAttributes> responseComments = feedback.responseComments.get(singleResponse.getId());
                                 if (responseComments != null) {
                             %>
-                                <tr>
-                                    <td>
-                                        <span class="bold">Comments: </span>
-                                        <table class="responseCommentTable">
+                                <ul class="list-group comment-list">
                                             <%
                                                 for (FeedbackResponseCommentAttributes comment : responseComments) {
                                             %>
-                                                    <tr>
-                                                        <td class="feedbackResponseCommentText"><%=comment.commentText.getValue() %></td>
-                                                        <td class="feedbackResponseCommentGiver"><%=comment.giverEmail %></td>
-                                                        <td class="feedbackResponseCommentTime"><%=comment.createdAt %></td>
-                                                    </tr>
+                                                    <li class="list-group-item list-group-item-warning">
+                                                        <span class="text-muted">From: <%=comment.giverEmail %> [<%=comment.createdAt %>]</span>
+                                                        <div><%=comment.commentText.getValue() %></div>
+                                                    </li>
                                             <%
                                                 }
                                             %>
-                                        </table> 
-                                    </td>
-                                </tr>
+                                </ul>
+                            <%
+                                }%></div></div>
+                            <%}qnIndx++;
+                                if (responsesReceived.getValue().isEmpty()) {
+                            %>
+                                <div class="col-sm-12" style="color:red;">No feedback from this user.</div>
                             <%
                                 }
-                                qnIndx++;
-                            }
-                            if (responsesReceived.getValue().isEmpty()) {
                             %>
-                                <tr>
-                                    <td class="bold color_red">No feedback from this user.</td>
-                                </tr>
-                        <%
-                            }
-                        %>
-                            </table>
+                            </div></div>
+                            <br>
                     <%
                         }
                     %>
-                    </div>
-                    <br>
-                    <br>
+                    </div></div>
+                    
                 <%
                     } else{
                 %>
-                    <div class="backgroundBlock">
-                            <h4 class="centeralign color_white">No feedback for <%=data.student.name%> found</h4>
+                    <div class="panel panel-info">
+                            <div class="panel-body">No feedback for <%=data.student.name%> found</div>
                     </div>
-                    <br>
-                    <br>
                 <%
                     }
                     if(given != null){
                 %>
-                        <div class="backgroundBlock">
-                            <h2 class="color_white">From: <%=giverName%></h2>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        From: <strong><%=giverName%></strong>
+                    </div>
+                    <div class="panel-body">
                     <%
                         int recipientIndex = 0;
                         for (Map.Entry<String, List<FeedbackResponseAttributes>> responsesGiven : given.entrySet()) {
                         recipientIndex++;
                     %>
-                            <table class="resultTable" style="width: 100%">
-                                <thead>
-                                    <tr>
-                                        <th class="leftalign"><span class="bold">To: </span><%=responsesGiven.getKey()%></th>
-                                    </tr>
-                                </thead>
+                    <div class="row <%=recipientIndex == 1?"":"border-top-gray"%>">
+                        <div class="col-md-2"><strong>To: <%=responsesGiven.getKey()%></strong></div>
+                        <div class="col-md-10">
                         <%
                             int qnIndx = 1;
                             for (FeedbackResponseAttributes singleResponse : responsesGiven.getValue()) {
                         %>
-                                <tr class="resultSubheader">
-                                    <td class="multiline"><span class="bold">Question <%=feedback.questions.get(singleResponse.feedbackQuestionId).questionNumber%>: </span><%=
+                                
+                                <div class="panel panel-info">
+                                    <div class="panel-heading">Question <%=feedback.questions.get(singleResponse.feedbackQuestionId).questionNumber%>: <%=
                                         feedback.getQuestionText(singleResponse.feedbackQuestionId)%><%
                                         Map<String, FeedbackQuestionAttributes> questions = feedback.questions;
                                         FeedbackQuestionAttributes question = questions.get(singleResponse.feedbackQuestionId);
                                         FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
                                         out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, "recipient-"+recipientIndex+"-session-"+fbIndex));
-                                    %></td>
-                                </tr>
-                                <tr>
-                                    <td class="multiline"><span class="bold">Response: </span><%=singleResponse.getResponseDetails().getAnswerHtml()%></td>
-                                </tr>
+                                    %></div>
+                                <div class="panel-body"><%=singleResponse.getResponseDetails().getAnswerHtml()%>
                             <%
                                 List<FeedbackResponseCommentAttributes> responseComments = feedback.responseComments.get(singleResponse.getId());
                                 if (responseComments != null) {
                             %>
-                                <tr>
-                                    <td>
-                                        <span class="bold">Comments: </span>
-                                        <table class="responseCommentTable">
+                                <ul class="list-group comment-list">
                                             <%
                                                 for (FeedbackResponseCommentAttributes comment : responseComments) {
                                             %>
-                                                    <tr>
-                                                        <td class="feedbackResponseCommentText"><%=comment.commentText.getValue() %></td>
-                                                        <td class="feedbackResponseCommentGiver"><%=comment.giverEmail %></td>
-                                                        <td class="feedbackResponseCommentTime"><%=comment.createdAt %></td>
-                                                    </tr>
+                                                    <li class="list-group-item list-group-item-warning">
+                                                        <span class="text-muted">From: <%=comment.giverEmail %> [<%=comment.createdAt %>]</span>
+                                                        <div><%=comment.commentText.getValue() %></div>
+                                                    </li>
                                             <%
                                                 }
                                             %>
-                                        </table> 
-                                    </td>
-                                </tr>
+                                </ul>
                             <%
-                                }
+                                } %></div></div>
+                            <%
                                 qnIndx++;
                             }
                             if (responsesGiven.getValue().isEmpty()) {
                             %>
-                                <tr>
-                                    <td class="bold color_red">No feedback from this user.</td>
-                                </tr>
+                                <div class="col-sm-12" style="color:red;">No feedback from this user.</div>
                         <%
                             }
                         %>
-                            </table>
+                            </div></div>
                             <br>
                         
                     <%
                         }
                     %>
-                    </div>
+                    </div></div>
                 <%
                     } else{
                 %>
-                        <div class="backgroundBlock">
-                            <h4 class="centeralign color_white">No feedback by <%=data.student.name%> found</h4>
+                        <div class="panel panel-info">
+                            <div class="panel-body">No feedback by <%=data.student.name%> found</div>
                         </div>
                 <%
                     }
                 %>    
                     </div>
-                    <br>
                     <hr>
-                    <br>
+                    <br />
             <%
                 }
                 }
             %>
-            
-            <br>
-            <br>
-            <br>
-
         </div>
     </div>
 

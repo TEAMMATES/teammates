@@ -203,6 +203,7 @@ public class Const {
         
         public static final String SHOW_EMAILS = "Show emails of all currently listed students";
         
+        public static final String COMMENT_ADD = "Add comment";
         public static final String COMMENT_EDIT = "Edit this comment";
         public static final String COMMENT_DELETE = "Delete this comment";
         
