@@ -19,11 +19,11 @@
 <input type="hidden" value="<%=data.student.email%>"
         name="<%=Const.ParamsNames.FROM_EMAIL%>"
         id="<%=Const.ParamsNames.FROM_EMAIL%>">
-<div class="panel panel-primary">
-    <%
-        int idx = 0;
-        for(SubmissionAttributes sub: data.submissions){
-    %>
+<%
+    int idx = 0;
+    for(SubmissionAttributes sub: data.submissions){
+%>
+        <div class="panel panel-primary">
             <div style="display: none;">
                     <input type="text" value="<%=sub.reviewee%>"
                             name="<%=Const.ParamsNames.TO_EMAIL%>"
@@ -80,10 +80,6 @@
                         }
                     %>
                     </div>
-
-                    <br>
-                    <br>
-                    <br>
                 </div>
         <%
             } else {
@@ -136,11 +132,12 @@
                         </div>
                     </div>
                 </div>
-            <%    
-            }
-            %>
-    <%        idx++; %>
-    <%
-        } 
-    %>
-</div>
+        <%    
+           }
+        %>
+<%        idx++; %>
+        </div>
+        <br><br>
+<%
+    }
+%>
