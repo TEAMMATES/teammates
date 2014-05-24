@@ -106,7 +106,7 @@
                             onclick="return toggleSendRegistrationKey('<%=instructor.courseId%>','<%=instructor.email%>);">
                             <span class="glyphicon glyphicon-envelope"></span>Resend Invite</a>&nbsp;
                     <% } else { %>
-                        <a href="#" id="instrEditLink<%=index%>" class="btn btn-primary btn-xs"
+                        <a href="javascript:;" id="instrEditLink<%=index%>" class="btn btn-primary btn-xs"
                             data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_INSTRUCTOR_EDIT%>"
                             onclick="enableEditInstructor(<%=index%>, <%=data.instructorList.size()%>)">
                             <span class="glyphicon glyphicon-pencil"></span>Edit</a>&nbsp;
