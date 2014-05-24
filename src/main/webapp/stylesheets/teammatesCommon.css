@@ -9,11 +9,11 @@ body {
     margin-right:3px;
  }
 
- .centeralign {
+.centeralign {
     text-align: center;
 }
 
- #footerComponent {
+#footerComponent {
     margin:0px;
     bottom: 0px;
     position:fixed;
@@ -23,35 +23,35 @@ body {
     background-color:black;
     color:grey;
     background-image: linear-gradient(to bottom,#3c3c3c 0,#222 100%);
- }
+}
  
- .well-plain {
+.well-plain {
     border: 0px;
     box-shadow: 0 0 0 0;
     background-image: none;
     background-color: #eaeff5;
- }
+}
  
-  .well-default {
+.well-default {
     border: 0px;
     box-shadow: 0 0 0 0;
     background-image: none;
     background-color: #D9EDF7;
- }
+}
  
- .well-narrow {
+.well-narrow {
     margin: 0 auto;
     width:60%;
- }
+}
  
- .panel-narrow {
+.panel-narrow {
     margin: 0 auto;
     width:60%;
- }
+}
  
- .fill-plain {
+.fill-plain {
     background-color: #eaeff5;
- }
+}
 
 .border-left-gray{
     border-left-color: #ddd;

@@ -43,37 +43,44 @@
         <div id="headerOperation">
             <h1>Add New Course</h1>
         </div>
-            <div class="well well-plain well-narrow">
-                <form method="get" action="<%=Const.ActionURIs.INSTRUCTOR_COURSE_ADD%>" name="form_addcourse" class="form form-horizontal">
-                    <input type="hidden" id="<%=Const.ParamsNames.INSTRUCTOR_ID%>" name="<%=Const.ParamsNames.INSTRUCTOR_ID%>" value="<%=data.account.googleId%>">
-                    <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Course ID:</label>
-                        <div class="col-sm-9"><input class="form-control" type="text"
-                            name="<%=Const.ParamsNames.COURSE_ID%>" id="<%=Const.ParamsNames.COURSE_ID%>"
-                            value="<%=(sanitizeForHtml(data.courseIdToShow))%>"
-                            data-toggle="tooltip" data-placement="top" title="Enter the identifier of the course, e.g.CS3215-2013Semester1."
-                            maxlength=<%=FieldValidator.COURSE_ID_MAX_LENGTH%> tabindex="1"
-                            placeholder="e.g. CS3215-2013Semester1" />
+        
+        <div class="row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-8">
+                <div class="well well-plain">
+                    <form method="get" action="<%=Const.ActionURIs.INSTRUCTOR_COURSE_ADD%>" name="form_addcourse" class="form form-horizontal">
+                        <input type="hidden" id="<%=Const.ParamsNames.INSTRUCTOR_ID%>" name="<%=Const.ParamsNames.INSTRUCTOR_ID%>" value="<%=data.account.googleId%>">
+                        <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Course ID:</label>
+                            <div class="col-sm-9"><input class="form-control" type="text"
+                                name="<%=Const.ParamsNames.COURSE_ID%>" id="<%=Const.ParamsNames.COURSE_ID%>"
+                                value="<%=(sanitizeForHtml(data.courseIdToShow))%>"
+                                data-toggle="tooltip" data-placement="top" title="Enter the identifier of the course, e.g.CS3215-2013Semester1."
+                                maxlength=<%=FieldValidator.COURSE_ID_MAX_LENGTH%> tabindex="1"
+                                placeholder="e.g. CS3215-2013Semester1" />
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Course Name:</label>
-                        <div class="col-sm-9"><input class="form-control" type="text"
-                            name="<%=Const.ParamsNames.COURSE_NAME%>" id="<%=Const.ParamsNames.COURSE_NAME%>"
-                            value="<%=(sanitizeForHtml(data.courseNameToShow))%>"
-                            data-toggle="tooltip" data-placement="top" title="Enter the name of the course, e.g. Software Engineering."
-                            maxlength=<%=FieldValidator.COURSE_NAME_MAX_LENGTH%> tabindex=2
-                            placeholder="e.g. Software Engineering" />
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Course Name:</label>
+                            <div class="col-sm-9"><input class="form-control" type="text"
+                                name="<%=Const.ParamsNames.COURSE_NAME%>" id="<%=Const.ParamsNames.COURSE_NAME%>"
+                                value="<%=(sanitizeForHtml(data.courseNameToShow))%>"
+                                data-toggle="tooltip" data-placement="top" title="Enter the name of the course, e.g. Software Engineering."
+                                maxlength=<%=FieldValidator.COURSE_NAME_MAX_LENGTH%> tabindex=2
+                                placeholder="e.g. Software Engineering" />
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-12 centeralign"><input id="btnAddCourse" type="submit" class="btn btn-primary"
-                                onclick="return verifyCourseData();" value="Add Course" tabindex="3">
+                        <div class="form-group">
+                            <div class="col-sm-12 centeralign"><input id="btnAddCourse" type="submit" class="btn btn-primary"
+                                    onclick="return verifyCourseData();" value="Add Course" tabindex="3">
+                            </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
+            <div class="col-sm-2"></div>
+        </div>
 
         <br>
         <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
