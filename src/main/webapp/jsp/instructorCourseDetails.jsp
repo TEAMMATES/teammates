@@ -55,33 +55,41 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Course ID:</label>
                         <div class="col-sm-6" id="courseid">
-                            <%=sanitizeForHtml(data.courseDetails.course.id)%>
+                            <p class="form-control-static"><%=sanitizeForHtml(data.courseDetails.course.id)%></p>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Course name:</label>
-                        <div class="col-sm-6" id="coursename"><%=sanitizeForHtml(data.courseDetails.course.name)%></div>
+                        <div class="col-sm-6" id="coursename">
+                            <p class="form-control-static"><%=sanitizeForHtml(data.courseDetails.course.name)%></p>
+                        </div>
                     </div>
                     <div class="form-group">
-                         <label class="col-sm-3 control-label">Teams:</label>
-                         <div class="col-sm-6" id="total_teams"><%=data.courseDetails.stats.teamsTotal%></div>
+                        <label class="col-sm-3 control-label">Teams:</label>
+                        <div class="col-sm-6" id="total_teams">
+                            <p class="form-control-static"><%=data.courseDetails.stats.teamsTotal%></p>
+                        </div>
                      </div>
                      <div class="form-group">
-                         <label class="col-sm-3 control-label">Total students:</label>
-                         <div class="col-sm-6" id="total_students"><%=data.courseDetails.stats.studentsTotal%></div>
+                        <label class="col-sm-3 control-label">Total students:</label>
+                        <div class="col-sm-6" id="total_students">
+                            <p class="form-control-static"><%=data.courseDetails.stats.studentsTotal%></p>
+                        </div>
                      </div>
                      <div class="form-group">
-                         <label class="col-sm-3 control-label">Instructors:</label>
-                         <div class="col-sm-6" id="instructors">
-                         <%
-                             for (int i = 0; i < data.instructors.size(); i++){
-                                                                                                 InstructorAttributes instructor = data.instructors.get(i);
-                                                                                                 String instructorInfo = instructor.name + " (" + instructor.email + ")";
-                         %>
-                                     <%=sanitizeForHtml(instructorInfo)%><br><br>
-                                 <%
-                                     }
-                                 %>
+                        <label class="col-sm-3 control-label">Instructors:</label>
+                        <div class="col-sm-6" id="instructors">
+                            <div class="form-control-static">
+                        <%
+                            for (int i = 0; i < data.instructors.size(); i++){
+                                InstructorAttributes instructor = data.instructors.get(i);
+                                String instructorInfo = instructor.name + " (" + instructor.email + ")";
+                        %>
+                            <%=sanitizeForHtml(instructorInfo)%><br><br>
+                        <%
+                            }
+                        %>
+                            </div>
                         </div>
                      </div>
                      <%
