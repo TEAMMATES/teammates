@@ -68,7 +68,7 @@
             <br />
             <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
             <div class="panel panel-info">
-              <div class="panel-heading">Student Records' Comments</div>
+              <div class="panel-heading">Student Records Comments</div>
               <div class="panel-body">
                 Your comments on this student:
                 <button type="button" title="Add comment" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showAddCommentBox();"
@@ -112,6 +112,11 @@
                   </form>
                   </li>
                   <%
+                      }
+                      if(commentIdx == -1){
+                  %>
+                        <li  class="list-group-item list-group-item-warning">You don't have any comments on this student.</li>
+                  <%   
                       }
                   %>
                   <li class="list-group-item list-group-item-warning" id="comment_box" style="display:none;">
