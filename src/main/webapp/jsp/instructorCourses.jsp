@@ -38,71 +38,63 @@
 <body>
     <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
 
-    <div class="container">
+    <div class="container theme-showcase">
         <div id="topOfPage"></div>
         <div id="headerOperation">
             <h1>Add New Course</h1>
         </div>
         
-        <div class="row">
-            <div class="col-sm-2"></div>
-            <div class="col-sm-8">
-                <div class="well well-plain">
-                    <form method="get" action="<%=Const.ActionURIs.INSTRUCTOR_COURSE_ADD%>" name="form_addcourse" class="form form-horizontal">
-                        <input type="hidden" id="<%=Const.ParamsNames.INSTRUCTOR_ID%>" name="<%=Const.ParamsNames.INSTRUCTOR_ID%>" value="<%=data.account.googleId%>">
-                        <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Course ID:</label>
-                            <div class="col-sm-9"><input class="form-control" type="text"
-                                name="<%=Const.ParamsNames.COURSE_ID%>" id="<%=Const.ParamsNames.COURSE_ID%>"
-                                value="<%=(sanitizeForHtml(data.courseIdToShow))%>"
-                                data-toggle="tooltip" data-placement="top" title="Enter the identifier of the course, e.g.CS3215-2013Semester1."
-                                maxlength=<%=FieldValidator.COURSE_ID_MAX_LENGTH%> tabindex="1"
-                                placeholder="e.g. CS3215-2013Semester1" />
-                            </div>
+        <div class="panel panel-primary">
+            <div class="panel-body fill-plain">
+                <form method="get" action="<%=Const.ActionURIs.INSTRUCTOR_COURSE_ADD%>" name="form_addcourse" class="form form-horizontal">
+                    <input type="hidden" id="<%=Const.ParamsNames.INSTRUCTOR_ID%>" name="<%=Const.ParamsNames.INSTRUCTOR_ID%>" value="<%=data.account.googleId%>">
+                    <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Course ID:</label>
+                        <div class="col-sm-3"><input class="form-control" type="text"
+                            name="<%=Const.ParamsNames.COURSE_ID%>" id="<%=Const.ParamsNames.COURSE_ID%>"
+                            value="<%=(sanitizeForHtml(data.courseIdToShow))%>"
+                            data-toggle="tooltip" data-placement="top" title="Enter the identifier of the course, e.g.CS3215-2013Semester1."
+                            maxlength=<%=FieldValidator.COURSE_ID_MAX_LENGTH%> tabindex="1"
+                            placeholder="e.g. CS3215-2013Semester1" />
                         </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Course Name:</label>
-                            <div class="col-sm-9"><input class="form-control" type="text"
-                                name="<%=Const.ParamsNames.COURSE_NAME%>" id="<%=Const.ParamsNames.COURSE_NAME%>"
-                                value="<%=(sanitizeForHtml(data.courseNameToShow))%>"
-                                data-toggle="tooltip" data-placement="top" title="Enter the name of the course, e.g. Software Engineering."
-                                maxlength=<%=FieldValidator.COURSE_NAME_MAX_LENGTH%> tabindex=2
-                                placeholder="e.g. Software Engineering" />
-                            </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Course Name:</label>
+                        <div class="col-sm-9"><input class="form-control" type="text"
+                            name="<%=Const.ParamsNames.COURSE_NAME%>" id="<%=Const.ParamsNames.COURSE_NAME%>"
+                            value="<%=(sanitizeForHtml(data.courseNameToShow))%>"
+                            data-toggle="tooltip" data-placement="top" title="Enter the name of the course, e.g. Software Engineering."
+                            maxlength=<%=FieldValidator.COURSE_NAME_MAX_LENGTH%> tabindex=2
+                            placeholder="e.g. Software Engineering" />
                         </div>
-                        <div class="form-group">
-                            <div class="col-sm-12 centeralign"><input id="btnAddCourse" type="submit" class="btn btn-primary"
-                                    onclick="return verifyCourseData();" value="Add Course" tabindex="3">
-                            </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-3 col-sm-9"><input id="btnAddCourse" type="submit" class="btn btn-primary"
+                                onclick="return verifyCourseData();" value="Add Course" tabindex="3">
                         </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
-            <div class="col-sm-2"></div>
         </div>
 
         <br>
         <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
         <br>
         
-        <h2 class="centeralign">Active courses</h2>
+        <h2>Active courses</h2>
         
-        <table class="table table-striped">
-            <tr>
-                <th class="color_white bold"><input class="buttonSortAscending" type="button"
-                    id="button_sortcourseid"
-                    onclick="toggleSort(this,1);">
-                    Course ID</th>
-                <th class="color_white bold"><input class="buttonSortNone" type="button"
-                    id="button_sortcoursename"
-                    onclick="toggleSort(this,2);">
-                    Course Name</th>
-                <th class="centeralign color_white bold">Teams</th>
-                <th class="centeralign color_white bold">Total Students</th>
-                <th class="centeralign color_white bold">Total Unregistered</th>
-                <th class="centeralign color_white bold no-print">Action(s)</th>
-            </tr>
+        <table class="table table-bordered table-striped">
+            <thead class="fill-primary">
+                <tr>
+                    <th>Course ID</th>
+                    <th>Course Name</th>
+                    <th>Teams</th>
+                    <th>Total Students</th>
+                    <th>Total Unregistered</th>
+                    <th class="centeralign no-print">Action(s)</th>
+                </tr>
+            </thead>
             <%
                 int idx = -1;
                 for(CourseDetailsBundle courseDetails: data.allCourses){ 
@@ -177,15 +169,15 @@
         
         <table class="dataTable" style="width:600px">
             <tr>
-                <th class="color_white bold"><input class="buttonSortAscending" type="button"
+                <th><input class="buttonSortAscending" type="button"
                     id="button_sortcourseid"
                     onclick="toggleSort(this,1);">
                     Course ID</th>
-                <th class="color_white bold"><input class="buttonSortNone" type="button"
+                <th><input class="buttonSortNone" type="button"
                     id="button_sortcoursename"
                     onclick="toggleSort(this,2);">
                     Course Name</th>
-                <th class="centeralign color_white bold no-print">Action(s)</th>
+                <th class="centeralign no-print">Action(s)</th>
             </tr>
             <%
                 for (CourseAttributes course: data.archivedCourses) { 
