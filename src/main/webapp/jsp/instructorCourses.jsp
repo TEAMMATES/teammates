@@ -101,7 +101,7 @@
                     if (!courseDetails.course.isArchived) {
                         idx++;
             %>
-                <tr class="courses_row">
+                <tr>
                     <td id="courseid<%=idx%>"><%=sanitizeForHtml(courseDetails.course.id)%></td>
                     <td id="coursename<%=idx%>"><%=sanitizeForHtml(courseDetails.course.name)%></td>
                     <td class="t_course_teams centeralign"><%=courseDetails.stats.teamsTotal%></td>
@@ -165,34 +165,30 @@
             if (!data.archivedCourses.isEmpty()) {
         %>
         
-        <h2 class="centeralign">Archived courses</h2>
+        <h2>Archived courses</h2>
         
-        <table class="dataTable" style="width:600px">
-            <tr>
-                <th><input class="buttonSortAscending" type="button"
-                    id="button_sortcourseid"
-                    onclick="toggleSort(this,1);">
-                    Course ID</th>
-                <th><input class="buttonSortNone" type="button"
-                    id="button_sortcoursename"
-                    onclick="toggleSort(this,2);">
-                    Course Name</th>
-                <th class="centeralign no-print">Action(s)</th>
-            </tr>
+        <table class="table table-bordered table-striped">
+            <thead class="fill-primary">
+                <tr>
+                    <th>Course ID</th>
+                    <th>Course Name</th>
+                    <th class="centeralign no-print">Action(s)</th>
+                </tr>
+            </thead>
             <%
                 for (CourseAttributes course: data.archivedCourses) { 
                     idx++;
             %>
-                <tr class="courses_row">
+                <tr>
                     <td id="courseid<%=idx%>"><%=sanitizeForHtml(course.id)%></td>
                     <td id="coursename<%=idx%>"><%=sanitizeForHtml(course.name)%></td>
                     <td class="centeralign no-print">
-                        <a class="color_black t_course_delete<%=idx%>"
+                        <a class="btn btn-default btn-xs" id="t_course_delete<%=idx%>"
                             href="<%=data.getInstructorCourseDeleteLink(course.id,false)%>"
                             onclick="return toggleDeleteCourseConfirmation('<%=course.id%>');"
                             data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_DELETE%>">
                             Delete</a>
-                        <a class="color_black t_course_unarchive<%=idx%>"
+                        <a class="btn btn-default btn-xs" id="t_course_unarchive<%=idx%>"
                             href="<%=data.getInstructorCourseArchiveLink(course.id, false, false)%>">
                             Unarchive</a>
                     </td>
