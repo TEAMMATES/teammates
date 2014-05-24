@@ -122,6 +122,14 @@ body {
     color:white;
 }
 
+.text-color-primary{
+    color:#428bca;
+}
+
+.text-color-white{
+    color:white;
+}
+
 @media print {
     a[href]:after {
         content:none;
