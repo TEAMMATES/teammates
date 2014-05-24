@@ -78,11 +78,11 @@
              </div>
             <div class="form-group">
                 <label class="col-sm-1 control-label">Join Link:</label>
-                <small id="<%=Const.ParamsNames.REGKEY%>">
-                    <%=sanitizeForHtml(Config.APP_URL 
-                        + Const.ActionURIs.STUDENT_COURSE_JOIN 
-                        + "?regkey=" + data.regKey)%>
-                </small>
+                <div class="col-sm-11">
+                    <input id="<%=Const.ParamsNames.REGKEY%>" value="<%=sanitizeForHtml(Config.APP_URL 
+                            + Const.ActionURIs.STUDENT_COURSE_JOIN 
+                            + "?regkey=" + data.regKey)%>" class="form-control" readonly="readonly">
+                </div>
             </div>
              <div class="form-group">
                  <label class="col-sm-1 control-label">Comments:</label>
