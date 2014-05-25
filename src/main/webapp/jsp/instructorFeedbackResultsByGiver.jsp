@@ -17,18 +17,27 @@
 <head>
 <link rel="shortcut icon" href="/favicon.png">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>TEAMMATES - Feedback Session Results</title>
-<link rel="stylesheet" href="/stylesheets/common.css" type="text/css" media="screen">
-<link rel="stylesheet" href="/stylesheets/common-print.css" type="text/css" media="print">
-<link rel="stylesheet" href="/stylesheets/instructorFeedbacks.css" type="text/css" media="screen">
-
-<script type="text/javascript" src="/js/googleAnalytics.js"></script>
-<script type="text/javascript" src="/js/jquery-minified.js"></script>
-<script type="text/javascript" src="/js/tooltip.js"></script>
-<script type="text/javascript" src="/js/AnchorPosition.js"></script>
-<script type="text/javascript" src="/js/common.js"></script>
-<script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
-<jsp:include page="../enableJS.jsp"></jsp:include>
+<!-- Bootstrap core CSS -->
+    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap theme -->
+    <link href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/stylesheets/teammatesCommon.css" type="text/css" media="screen">
+    <script type="text/javascript" src="/js/googleAnalytics.js"></script>
+    <script type="text/javascript" src="/js/jquery-minified.js"></script>
+    <script type="text/javascript" src="/js/AnchorPosition.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+    <script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
+    <jsp:include page="../enableJS.jsp"></jsp:include>
+    <!-- Bootstrap core JavaScript ================================================== -->
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
 </head>
 
 <body onload="">
@@ -37,7 +46,7 @@
         <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
     </div>
 
-    <div id="frameBody">
+    <div id="frameBody" class="container">
         <div id="frameBodyWrapper">
             <div id="topOfPage"></div>
             <div id="headerOperation">
