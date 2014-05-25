@@ -28,12 +28,13 @@
     <script type="text/javascript" src="/js/AnchorPosition.js"></script>
     <script type="text/javascript" src="/js/common.js"></script>
     <script type="text/javascript" src="/js/feedbackSubmissionsEdit.js"></script>
+    <script type="text/javascript" src="/js/instructor.js"></script>
     <script src="/bootstrap/js/bootstrap.min.js"></script>
     <jsp:include page="../enableJS.jsp"></jsp:include>
 </head>
 
 <body>
-    <div id="frameBody" style="top:0px;">
+    <div id="frameBody" style="top:0px;bottom:0px;" class="container">
         <div id="frameBodyWrapper">
             <div id="topOfPage"></div>
             <h1>Submit Feedback Question</h1>
@@ -44,10 +45,9 @@
                 <jsp:include page="<%=Const.ViewURIs.FEEDBACK_QUESTION_SUBMISSION_EDIT%>" />
                 
                 <div class="bold centeralign">
-                    <input type="submit" class="button" 
+                    <input type="submit" class="btn btn-primary center-block" 
                         id="response_submit_button" 
-                        onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_EDIT_SAVE%>')" 
-                        onmouseout="hideddrivetip()" 
+                        data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_SESSION_EDIT_SAVE%>"
                         value="Save Feedback"
                         <%=(data.bundle.feedbackSession.isOpened() || data.bundle.feedbackSession.isPrivateSession()) ? 
                                 "" : "style=\"background: #66727A;\" disabled=\"disabled\""%>/>
