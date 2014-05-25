@@ -53,6 +53,12 @@ body {
     background-color: #eaeff5;
 }
 
+.border-gray{
+    border-color: #ddd;
+    border-width: 1px;
+    border-style: solid;
+}
+
 .border-left-gray{
     border-left-color: #ddd;
     border-width: 1px;
