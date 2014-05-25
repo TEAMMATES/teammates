@@ -96,25 +96,20 @@
     action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>">
     <div class="panel panel-info">
         <div class="panel-body">
-        <table class="col-md-offset-2">
-        <tr>
-            <td class="col-sm-5"><input type="radio"
+        <ul class="list-inline col-sm-offset-1" style="padding-left:45px">
+            <li class="col-sm-4"><input type="radio"
                 name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE%>" value="giver"
                 onclick="this.form.submit()"
-                <%=(data.sortType!=null) ? data.sortType.equals("giver") ? "checked=\"checked\"" : "" : ""%>><span
-                > Sort by giver</span></td>
-            <td class="col-sm-5"><input type="radio"
+                <%=(data.sortType!=null) ? data.sortType.equals("giver") ? "checked=\"checked\"" : "" : ""%>><strong> Sort by giver</strong></li>
+            <li class="col-sm-4"><input type="radio"
                 name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE%>" value="recipient"
                 onclick="this.form.submit()"
-                <%=(data.sortType!=null) ? data.sortType.equals("recipient") ? "checked=\"checked\"" : "" : "checked=\"checked\""%>><span
-                > Sort by recipient</span></td>
-            <td><input type="radio"
+                <%=(data.sortType!=null) ? data.sortType.equals("recipient") ? "checked=\"checked\"" : "" : "checked=\"checked\""%>><strong> Sort by recipient</strong></li>
+            <li class="col-sm-3"><input type="radio"
                 name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE%>" value="table"
                 onclick="this.form.submit()"
-                <%=(data.sortType!=null) ? data.sortType.equals("table") ? "checked=\"checked\"" : "" : ""%>><span
-                > View as table</span></td>
-        </tr>
-        </table>
+                <%=(data.sortType!=null) ? data.sortType.equals("table") ? "checked=\"checked\"" : "" : ""%>><strong> View as table</strong></li>
+        </ul>
         </div>
     </div>
     <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>"
