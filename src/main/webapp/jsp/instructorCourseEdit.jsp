@@ -48,7 +48,8 @@
                 <strong>Course:</strong>
                 <a href="<%=data.getInstructorCourseDeleteLink(data.course.id, false)%>"
                     class="btn btn-primary btn-xs pull-right"
-                    data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_DELETE%>">
+                    data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_DELETE%>"
+                    onclick="return toggleDeleteCourseConfirmation('<%=data.course.id%>');">
                     <span class="glyphicon glyphicon-trash"></span>
                     Delete</a>
             </div>
