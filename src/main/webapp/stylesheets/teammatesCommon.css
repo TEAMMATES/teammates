@@ -116,8 +116,12 @@ body {
     color: white;
 }
 
+.fill-info {
+    background-color: #c4e3f3;
+}
+
 .color_positive { 
-    color: #1BBD3B;
+    color: #108627;
 }
 
 .color_negative { 
@@ -134,6 +138,14 @@ body {
 
 .text-color-white{
     color:white;
+}
+
+.text-bold{
+	font-weight: bold;
+}
+
+.background-color-white{
+    background-color:white;
 }
 
 @media print {
