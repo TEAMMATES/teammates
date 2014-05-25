@@ -65,6 +65,11 @@
         <li><a href="#InstructorAddCourse">Instructor Add Course</a></li>
         <li><a href="#InstructorEditCourse">Instructor Edit Course</a></li>
         <li><a href="#InstructorEnroll">Instructor Enroll</a></li>
+        <li><a href="#InstructorCourseDetails">Instructor Course Details</a></li>
+        <li><a href="#InstructorStudentsList">Instructor Students List</a></li>
+        <li><a href="#InstructorStudentDetails">Instructor Student Details</a></li>
+        <li><a href="#InstructorEditStudentDetails">Instructor Edit Student Details</a></li>
+        <li><a href="#InstructorEvaluations">Instructor Evaluations</a></li>
         <li><a href="#InstructorSessionResults">Instructor Session Results</a></li>
         <li><a href="#InstructorCreateSession">Instructor Create Session</a></li>
       </ul>
@@ -699,6 +704,353 @@
       </div>
 
     </div>
+
+    <h1>_____________________________________________________________________</h1>
+    <a name="InstructorCourseDetails"></a>
+    <h1>Instructor Course Details</h1>
+    TBD
+    <h1>_____________________________________________________________________</h1>
+    <a name="InstructorStudentsList"></a>
+    <h1>Instructor Students List</h1>
+
+    <div class="panel panel-primary">
+      <div class="panel-body fill-plain">
+        <form class="form-horizontal col-sm-12" role="form">
+          <div class="row">
+            <div class="col-sm-10">
+              <div class="form-group">
+                <input type="email" class="form-control" id="inputEmail3"
+                  placeholder="e.g. Charles Shultz">
+              </div>
+            </div>
+            <div class="col-sm-2">
+              <div class="form-group">
+                &nbsp;
+                <button type="submit" class="btn btn-primary">
+                <span class="glyphicon glyphicon-search"></span> Search
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-2">
+              <div class="checkbox">
+                <label> <input type="checkbox" value=""> Show more options
+                </label>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="checkbox">
+                <label> <input type="checkbox" value=""> Include archived courses
+                </label>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="panel panel-primary">
+      <div class="panel-body fill-plain">
+        <form class="form-horizontal col-sm-12" role="form">
+
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="text-color-primary">
+                <strong>Courses</strong>
+              </div>
+              <br>
+              <div class="checkbox">
+                <label> <input type="checkbox" value=""> <strong>Select all</strong>
+                </label>
+              </div>
+              <br>
+              <div class="checkbox">
+                <label> <input type="checkbox" value=""> Course 1
+                </label>
+              </div>
+              <div class="checkbox">
+                <label> <input type="checkbox" value=""> Course 2
+                </label>
+              </div>
+              <div class="checkbox">
+                <label> <input type="checkbox" value=""> Course 3
+                </label>
+              </div>
+            </div>
+
+            <div class="col-sm-4">
+              <div class="text-color-primary">
+                <strong>Teams</strong>
+              </div>
+              <br>
+              <div class="checkbox">
+                <label> <input type="checkbox" value=""> <strong>Select all</strong>
+                </label>
+              </div>
+              <br>
+              <div class="checkbox">
+                <label> <input type="checkbox" value=""> Team 1
+                </label>
+              </div>
+              <div class="checkbox">
+                <label> <input type="checkbox" value=""> Team 2
+                </label>
+              </div>
+              <div class="checkbox">
+                <label> <input type="checkbox" value=""> Team 3
+                </label>
+              </div>
+              <div class="checkbox">
+                <label> <input type="checkbox" value=""> Team 4
+                </label>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="checkbox">
+                <label> <input type="checkbox" value="">
+                  <div class="text-color-primary">
+                    <strong>Show emails</strong>
+                  </div>
+                </label>
+              </div>
+              <br>
+              <div class="checkbox">
+                <label> <input type="checkbox" value=""> email1@email.com
+                </label>
+              </div>
+              <div class="checkbox">
+                <label> <input type="checkbox" value=""> email1@email.com
+                </label>
+              </div>
+              <div class="checkbox">
+                <label> <input type="checkbox" value=""> email1@email.com
+                </label>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="well well-plain">
+      <div class="row">
+        <div class="text-color-primary col-sm-10">
+          <h4><strong>[CS2103-Aug2014] Software Engineering</strong></h4>
+        </div>
+        <div class="col-sm-2">
+          <a class="btn btn-default btn-xs pull-right" href="#" role="button">
+          <span class="glyphicon glyphicon-list"></span> Enroll</a>
+        </div>
+      </div>
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr class="fill-primary">
+            <th>Team</th>
+            <th>Name</th>
+            <th>email</th>
+            <th class="centeralign no-print">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td class="centeralign no-print"><a class="btn btn-default btn-xs" href="#" role="button">View</a> <a
+              class="btn btn-default btn-xs" href="#" role="button">Edit</a> <a
+              class="btn btn-default btn-xs" href="#" role="button">Delete</a> <a
+              class="btn btn-default btn-xs" href="#" role="button">All records</a></td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Jacob</td>
+            <td>Thornton</td>
+            <td class="centeralign no-print"><a class="btn btn-default btn-xs" href="#" role="button">View</a> <a
+              class="btn btn-default btn-xs" href="#" role="button">Edit</a> <a
+              class="btn btn-default btn-xs" href="#" role="button">Delete</a> <a
+              class="btn btn-default btn-xs" href="#" role="button">All records</a></td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Larry</td>
+            <td>the Bird</td>
+            <td class="centeralign no-print"><a class="btn btn-default btn-xs" href="#" role="button">View</a> <a
+              class="btn btn-default btn-xs" href="#" role="button">Edit</a> <a
+              class="btn btn-default btn-xs" href="#" role="button">Delete</a> <a
+              class="btn btn-default btn-xs" href="#" role="button">All records</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <h1>_____________________________________________________________________</h1>
+    <a name="InstructorStudentDetails"></a>
+    <h1>Instructor Student Details</h1>
+    TBD
+    
+    <h1>_____________________________________________________________________</h1>
+    <a name="InstructorStudentEditDetails"></a>
+    <h1>Instructor Student Edit Details</h1>
+    TBD
+    
+    <h1>_____________________________________________________________________</h1>
+    <a name="InstructorEvaluations"></a>
+    <h2>Instructor Evaluations</h2>
+
+<div class="panel panel-primary">
+  <div class="panel-body fill-plain">
+     
+    <div class="row">
+      <form class="form-horizontal" role="form">
+        <div class="form-group">
+          <label for="sessionType" class="col-sm-2 control-label text-primary">Session type :</label>
+          <div class="col-sm-5">
+            <select class="form-control">
+              <option value="/page/instructorFeedbacksPage" selected="selected">Feedback
+                Session with customizable questions</option>
+              <option value="/page/instructorEvalsPage">Standard Team Peer Evaluation with
+                fixed questions</option>
+            </select>
+          </div>
+          <div class="col-sm-5"><span class="glyphicon glyphicon-info-sign glyphicon-default"></span><span class="text-muted"> Select a session type before filling out the form below.</span></div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+    <br>
+
+    <div class="panel panel-primary">
+      <div class="panel-heading">Create new evaluation</div>
+      <div class="panel-body fill-plain">
+        <form class="form-horizontal" role="form">
+          <div class="row">
+            <div class="col-md-7">
+              <div class="row">
+                <div class="form-group">
+                  <label for="input1" class="col-sm-4 control-label">Course:</label>
+                  <div class="col-sm-7">
+                    <select class="form-control">
+                      <option value="cs1101" selected="selected">CS1101</option>
+                      <option value="cs1101">CS1102</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="input1" class="col-sm-4 control-label">Evaluation
+                    name:</label>
+                  <div class="col-sm-7">
+                    <input class="form-control" id="input1"
+                      placeholder="e.g Peer evalution for the project">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group">
+                  <label for="input1" class="col-sm-4 control-label">Peer
+                    feedback:</label>
+                  <div class="col-md-8">
+                    <div class="radio">
+                      <label> <input type="radio" name="optionsRadios" id="optionsRadios1"
+                        value="option1" checked> Enabled
+                      </label>
+                    </div>
+                    <div class="radio">
+                      <label> <input type="radio" name="optionsRadios" id="optionsRadios2"
+                        value="option2"> Disabled
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            
+            <div class="col-md-5 border-left-gray">
+              <div class="row">
+                <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-4 control-label">Starting time:</label>
+                  <div class="col-md-4">
+                    <input type="datepicker" class="form-control col-sm-2" id="startdate"
+                      placeholder="Date">
+                  </div>
+                  <div class="col-md-3">
+                    <select class="form-control">
+                      <option value="cs1101" selected="selected">2359</option>
+                      <option value="0100">0100 min</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-4 control-label">Ending time:</label>
+                  <div class="col-md-4">
+                    <input type="datepicker" class="form-control col-sm-2" id="startdate"
+                      placeholder="Date">
+                  </div>
+                  <div class="col-md-3">
+                    <select class="form-control">
+                      <option value="cs1101" selected="selected">2359</option>
+                      <option value="0100">0100 min</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-4 control-label">Grace
+                    period:</label>
+                  <div class="col-sm-4">
+                    <select class="form-control">
+                      <option value="option1" selected="selected">0</option>
+                      <option value="option2">10</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-4 control-label">Timezone:</label>
+                  <div class="col-sm-4">
+                    <select class="form-control">
+                      <option value="option1" selected="selected">UTC+5.00</option>
+                      <option value="option2">UTC+6.00</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="row">
+          <br>
+            <div class="form-group">
+              <label for="inputEmail3" class="col-sm-2 control-label">Instructions:</label>
+              <div class="col-sm-9">
+                <textarea class="form-control" rows="3">some text</textarea>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="row">
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary">Save</button>
+              </div>
+            </div>
+          </div>
+          
+          
+        </form>
+      </div>
+    </div>
+    
+    //The evaluations table similar to other such tables
+    
     <h1>_____________________________________________________________________</h1>
     <a name="InstructorSessionResults"></a>
 

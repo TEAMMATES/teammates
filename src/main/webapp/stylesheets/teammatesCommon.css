@@ -53,6 +53,12 @@ body {
     background-color: #eaeff5;
 }
 
+.border-gray{
+    border-color: #ddd;
+    border-width: 1px;
+    border-style: solid;
+}
+
 .border-left-gray{
     border-left-color: #ddd;
     border-width: 1px;
@@ -119,6 +125,14 @@ body {
 }
 
 .highlight-white {
+    color:white;
+}
+
+.text-color-primary{
+    color:#428bca;
+}
+
+.text-color-white{
     color:white;
 }
 
