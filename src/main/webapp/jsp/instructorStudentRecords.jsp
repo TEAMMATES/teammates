@@ -135,7 +135,6 @@
                 </ul>
               </div>
             </div>
-            <hr>
             <br>
             <%
                 int evalIndex = -1;
@@ -149,8 +148,11 @@
                         EvaluationAttributes eval = (EvaluationAttributes) data.sessions.get(sessionIndex);
                     
             %>
-                    <div class="student_eval" id="studentEval-<%=evalIndex%>">
-                    <h3 id="eval_name-<%=evalIndex%>">Evaluation Name: <%=InstructorStudentRecordsPageData.sanitizeForHtml(eval.name)%></h3>
+                    <div class="panel panel-default student_eval" id="studentEval-<%=evalIndex%>">
+                    <div class="panel-heading">
+                        <h4 id="eval_name-<%=evalIndex%>">Evaluation Name: <%=InstructorStudentRecordsPageData.sanitizeForHtml(eval.name)%></h4>
+                    </div>
+                    <div class="panel-body">
                 <%
                     for(boolean byReviewee = true, repeat=true; repeat; repeat = byReviewee, byReviewee=false){
                 %>
@@ -220,8 +222,7 @@
                         <input type="button" class="btn btn-primary" id="button_edit-<%=evalIndex %>" value="Edit Submission"
                             onclick="window.location.href='<%=data.getInstructorEvaluationSubmissionEditLink(eval.courseId, eval.name, data.student.email)%>'">
                     </div>
-                    </div>
-                    <hr>
+                    </div></div>
                     <br>
             <%
                 } else if(sessionResult instanceof FeedbackSessionResultsBundle){
@@ -236,9 +237,12 @@
                     Map<String, List<FeedbackResponseAttributes>> given = feedback
                             .getResponsesSortedByGiver().get(giverName);
             %>
-                    <div class="student_feedback" id="studentFeedback-<%=fbIndex%>">
-                    <h3 id="feedback_name-<%=fbIndex%>">Feedback Session Name: <%=InstructorStudentRecordsPageData.sanitizeForHtml(feedback.feedbackSession.feedbackSessionName)%></h3>
-                    <br>
+                    <div class="panel panel-default student_feedback" id="studentFeedback-<%=fbIndex%>">
+                    <div class="panel-heading">
+                        <h4 id="feedback_name-<%=fbIndex%>">Feedback Session Name: <%=InstructorStudentRecordsPageData.sanitizeForHtml(feedback.feedbackSession.feedbackSessionName)%></h4>
+                    </div>
+                    <div class="panel-body">
+                    <br />
             <%
                     if(received != null){
             %>
@@ -380,8 +384,7 @@
                 <%
                     }
                 %>    
-                    </div>
-                    <hr>
+                    </div></div>
                     <br />
             <%
                 }
