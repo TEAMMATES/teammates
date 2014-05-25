@@ -165,11 +165,11 @@
             if (!data.archivedCourses.isEmpty()) {
         %>
         
-        <h2>Archived courses</h2>
+        <h2 class="text-muted">Archived courses</h2>
         
         <table class="table table-bordered table-striped">
-            <thead class="fill-primary">
-                <tr>
+            <thead>
+                <tr class="fill-default">
                     <th>Course ID</th>
                     <th>Course Name</th>
                     <th class="centeralign no-print">Action(s)</th>
