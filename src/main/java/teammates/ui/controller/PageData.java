@@ -115,19 +115,19 @@ public class PageData {
     protected static String getPointsInEqualShareFormatAsHtml(int points, boolean inline){
         int delta = 0;
         if (points == Const.POINTS_NOT_SUBMITTED || points==Const.INT_UNINITIALIZED) {
-            return "<span class=\"color_negative\">N/A</span>";
+            return "<span class=\"badge background-color-white color_negative\">N/A</span>";
         } else if (points == Const.POINTS_NOT_SURE) {
-            return "<span class=\"color_negative\">Not sure</span>";
+            return "<span class=\"badge background-color-white color_negative\">Not sure</span>";
         } else if (points == 0) {
-            return "<span class=\"color_negative\">0%</span>";
+            return "<span class=\"badge background-color-white color_negative\">0%</span>";
         } else if (points > 100) {
             delta = points - 100;
-            if(inline) return "Equal Share<span class=\"color_positive\"> + " + delta + "%</span>";
-            else return "Equal Share<br /><span class=\"color_positive\"> + " + delta + "%</span>";
+            if(inline) return "Equal Share <span class=\"badge background-color-white color_positive\"> + " + delta + "%</span>";
+            else return "Equal Share<br /><span class=\"badge background-color-white color_positive\"> + " + delta + "%</span>";
         } else if (points < 100) {
             delta = 100 - points;
-            if(inline) return "Equal Share<span class=\"color_negative\"> - " + delta + "%</span>";
-            else return "Equal Share<br /><span class=\"color_negative\"> - " + delta + "%</span>";
+            if(inline) return "Equal Share <span class=\"badge background-color-white color_negative\"> - " + delta + "%</span>";
+            else return "Equal Share<br /><span class=\"badge background-color-white color_negative\"> - " + delta + "%</span>";
         } else {
             return "Equal Share";
         }

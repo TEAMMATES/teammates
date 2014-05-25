@@ -148,63 +148,70 @@
                         EvaluationAttributes eval = (EvaluationAttributes) data.sessions.get(sessionIndex);
                     
             %>
-                    <div class="panel panel-default student_eval" id="studentEval-<%=evalIndex%>">
-                    <div class="panel-heading">
-                        <h4 id="eval_name-<%=evalIndex%>">Evaluation Name: <%=InstructorStudentRecordsPageData.sanitizeForHtml(eval.name)%></h4>
+                    <div class="well well-plain student_eval" id="studentEval-<%=evalIndex%>">
+                    <div class="text-primary">
+                        <h2 id="eval_name-<%=evalIndex%>">Evaluation Name: <%=InstructorStudentRecordsPageData.sanitizeForHtml(eval.name)%></h2>
                     </div>
-                    <div class="panel-body">
                 <%
                     for(boolean byReviewee = true, repeat=true; repeat; repeat = byReviewee, byReviewee=false){
                 %>
                 <h3>
                     <span class="label <%=byReviewee ? "label-primary" : "label-default"%>"><%=InstructorStudentRecordsPageData.sanitizeForHtml(data.student.name) + (byReviewee ? "'s result" : "'s submission")%></span>
                 </h3>
-                <div class="panel <%=byReviewee ? "panel-info" : "panel-default"%>">
-                    <div class="panel-heading"><%=byReviewee ? "Comparison of work distribution" : "Self evaluation"%></div>
-                    <table class="table table-striped">
-                        <tbody>
-                            <% if(byReviewee){ %>
-                            <tr>
-                                <td class="col-sm-4"><strong><%=byReviewee ? "Reviewee" : "Reviewer"%>:</strong> <%=data.student.name%>
+                <div class="panel <%=byReviewee ? "panel-primary" : "panel-default"%>">
+                    <table class="table panel-heading">
+                        <tr>
+                                <td class="col-sm-4"><%=byReviewee ? "Reviewee" : "Reviewer"%>: <strong><%=data.student.name%></strong>
                                 </td>
-                                <td class="col-sm-4"><strong data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.CLAIMED%>">Claimed Contribution: </strong>
-                                <abbr
-                                    title="Equal Share"><%=InstructorEvalSubmissionPageData.getPointsInEqualShareFormatAsHtml(studentResult.summary.claimedToInstructor,true)%></abbr></td>
-                                <td class="col-sm-4"><strong data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.PERCEIVED%>">Perceived Contribution: </strong>
-                                <abbr
-                                    title="Equal Share"><%=InstructorEvalSubmissionPageData.getPointsInEqualShareFormatAsHtml(studentResult.summary.perceivedToInstructor,true)%></abbr></td>
+                                <td class="col-sm-4">
+                                    <div class="pull-right"><span data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.CLAIMED%>">Claimed Contribution: </span>
+                                        <%=InstructorEvalSubmissionPageData.getPointsInEqualShareFormatAsHtml(studentResult.summary.claimedToInstructor,true)%>
+                                    </div>
+                                </td>
+                                <td class="col-sm-4">
+                                    <div class="pull-right"><span data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.PERCEIVED%>">Perceived Contribution: </span>
+                                        <%=InstructorEvalSubmissionPageData.getPointsInEqualShareFormatAsHtml(studentResult.summary.perceivedToInstructor,true)%>
+                                    </div>
+                                </td>
+                        </tr>
+                    </table>
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td><strong>Self evaluation: </strong><br />
+                                    <%=InstructorEvalSubmissionPageData.getJustificationAsSanitizedHtml(studentResult.getSelfEvaluation())%></td>
                             </tr>
-                            <% } else { %>
-                                <tr>
-                                    <td><strong>Self estimated contribution: </strong>
-                                        <%=InstructorEvalSubmissionPageData.getPointsInEqualShareFormatAsHtml(studentResult.summary.claimedToInstructor,true)%></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Self evaluation: </strong>
-                                        <%=InstructorEvalSubmissionPageData.getJustificationAsSanitizedHtml(studentResult.getSelfEvaluation())%></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Comments about team: </strong>
-                                        <%=InstructorEvalSubmissionPageData.sanitizeForHtml(studentResult.getSelfEvaluation().p2pFeedback.getValue())%></td>
-                                </tr>
-                            <% } %>
+                            <tr>
+                                <td><strong>Comments about the team: </strong><br />
+                                    <%=InstructorEvalSubmissionPageData.sanitizeForHtml(studentResult.getSelfEvaluation().p2pFeedback.getValue())%></td>
+                            </tr>
                         </tbody>
                     </table>
+                <% if(byReviewee){ %>
+                <table class="table">
+                <tr class="fill-primary"><td>
+                    Feedback from others
+                </td></tr></table>
+                <% } else { %>
+                <div class="panel-heading panel-default">
+                    <div style="margin-left:-5px">
+                    Feedback to others</div>
                 </div>
-                <div class="panel <%=byReviewee ? "panel-info" : "panel-default"%>">
-                <div class="panel-heading">Feedback <%=byReviewee ? "from" : "to"%> others</div>
-                <table class="table table-striped">
-
-                                <tr class="resultSubheader">
+                <% } %>
+                <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr class="border-top-gray <%=byReviewee ? "fill-info" : ""%>">
                                     <td width="15%"><strong><%=byReviewee ? "From" : "To"%> student</strong></td>
                                     <td width="5%"><strong>Contribution</strong></td>
                                     <td width="40%"><strong>Confidential comments</strong></td>
                                     <td width="40%"><strong>Feedback to peer</strong></td>
                                 </tr>
+                            </thead><tbody>
                     <%
                         for(SubmissionAttributes sub: (byReviewee ? studentResult.incoming : studentResult.outgoing)){
                             if(sub.reviewer.equals(sub.reviewee)) continue;
                     %>
+                        
                             <tr>
                                 <td><b><%=InstructorEvalSubmissionPageData.sanitizeForHtml(byReviewee ? sub.details.reviewerName : sub.details.revieweeName)%></b></td>
                                 <td><%=InstructorEvalSubmissionPageData.getPointsInEqualShareFormatAsHtml(sub.details.normalizedToInstructor,false)%></td>
@@ -213,7 +220,7 @@
                             </tr>
                     <%
                         }
-                    %>
+                    %></tbody>
                 </table></div>
                 <%
                     }
@@ -222,7 +229,7 @@
                         <input type="button" class="btn btn-primary" id="button_edit-<%=evalIndex %>" value="Edit Submission"
                             onclick="window.location.href='<%=data.getInstructorEvaluationSubmissionEditLink(eval.courseId, eval.name, data.student.email)%>'">
                     </div>
-                    </div></div>
+                    </div>
                     <br>
             <%
                 } else if(sessionResult instanceof FeedbackSessionResultsBundle){
@@ -237,11 +244,12 @@
                     Map<String, List<FeedbackResponseAttributes>> given = feedback
                             .getResponsesSortedByGiver().get(giverName);
             %>
-                    <div class="panel panel-default student_feedback" id="studentFeedback-<%=fbIndex%>">
-                    <div class="panel-heading">
-                        <h4 id="feedback_name-<%=fbIndex%>">Feedback Session Name: <%=InstructorStudentRecordsPageData.sanitizeForHtml(feedback.feedbackSession.feedbackSessionName)%></h4>
+                    <div class="well well-plain student_feedback" id="studentFeedback-<%=fbIndex%>">
+                    <div class="text-primary">
+                        <h2 id="feedback_name-<%=fbIndex%>">
+                            <strong>Feedback Session Name: <%=InstructorStudentRecordsPageData.sanitizeForHtml(feedback.feedbackSession.feedbackSessionName)%></strong>
+                        </h2>
                     </div>
-                    <div class="panel-body">
                     <br />
             <%
                     if(received != null){
@@ -384,7 +392,7 @@
                 <%
                     }
                 %>    
-                    </div></div>
+                    </div>
                     <br />
             <%
                 }
