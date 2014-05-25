@@ -177,22 +177,18 @@
                         %>
                             <tr>
                                 <td>
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading">Comments: </div>
-                                        <table class="table table-bordered table-hover">
+                                    <ul class="list-group comment-list">
                                             <%
-                                            	for (FeedbackResponseCommentAttributes comment : responseComments) {
+                                                for (FeedbackResponseCommentAttributes comment : responseComments) {
                                             %>
-                                            <tr>
-                                                <td class="col-md-6"><%=comment.commentText.getValue()%></td>
-                                                <td class="col-md-3"><%=comment.giverEmail%></td>
-                                                <td class="col-md-3"><%=comment.createdAt%></td>
-                                            </tr>
+                                                    <li class="list-group-item list-group-item-warning">
+                                                        <span class="text-muted">From: <%=comment.giverEmail %> [<%=comment.createdAt %>]</span>
+                                                        <div><%=comment.commentText.getValue() %></div>
+                                                    </li>
                                             <%
                                                 }
                                             %>
-                                        </table>
-                                    </div>
+                                    </ul>
                                  </td>    
                             </tr>
                         <%
