@@ -567,7 +567,7 @@ public class PageData {
      *         Flag whether the link is to be put at homepage (to determine the redirect link in delete / publish)
      * @return
      */
-    public String getInstructorEvaluationActions(EvaluationAttributes eval, int position, boolean isHome){
+    public String getInstructorEvaluationActions(EvaluationAttributes eval, boolean isHome){
         StringBuffer result = new StringBuffer();
         
         boolean hasView = false;
@@ -602,31 +602,31 @@ public class PageData {
         }
         
         result.append(
-            "<a class=\"color_green t_session_view"+ position + "\" " +
+            "<a class=\"btn btn-default btn-xs btn-tm-actions\"" +
             "href=\"" + getInstructorEvaluationResultsLink(eval.courseId,eval.name) + "\" " +
             "onmouseover=\"ddrivetip('"+Const.Tooltips.EVALUATION_RESULTS+"')\" "+
             "onmouseout=\"hideddrivetip()\"" + (hasView ? "" : DISABLED) + ">View Results</a>"
         );
         result.append(
-            "<a class=\"color_brown t_session_edit" + position + "\" " +
+            "<a class=\"btn btn-default btn-xs btn-tm-actions\"" + 
             "href=\"" + getInstructorEvaluationEditLink(eval.courseId,eval.name) + "\" " +
             "onmouseover=\"ddrivetip('"+Const.Tooltips.EVALUATION_EDIT+"')\" onmouseout=\"hideddrivetip()\" " +
             (hasEdit ? "" : DISABLED) + ">Edit</a>"
         );
         result.append(
-            "<a class=\"color_brown t_session_preview" + position + "\" " +
+            "<a class=\"btn btn-default btn-xs btn-tm-actions\"" + 
             "href=\"" + getInstructorEvaluationPreviewLink(eval.courseId,eval.name) + "\" " +
             "onmouseover=\"ddrivetip('"+Const.Tooltips.EVALUATION_PREVIEW+"')\" onmouseout=\"hideddrivetip()\" " +
             "target=\"_blank\">Preview</a>"
         );
         result.append(
-            "<a class=\"color_red t_session_delete" + position + "\" " +
+            "<a class=\"btn btn-default btn-xs btn-tm-actions\"" + 
             "href=\"" + getInstructorEvaluationDeleteLink(eval.courseId,eval.name,(isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE : Const.ActionURIs.INSTRUCTOR_EVALS_PAGE)) + "\" " +
             "onclick=\"hideddrivetip(); return toggleDeleteEvaluationConfirmation('" + eval.courseId + "','" + eval.name + "');\" " +
             "onmouseover=\"ddrivetip('"+Const.Tooltips.EVALUATION_DELETE+"')\" onmouseout=\"hideddrivetip()\">Delete</a>"
         );
         result.append(
-            "<a class=\"color_black t_session_remind" + position + "\" " +
+            "<a class=\"btn btn-default btn-xs btn-tm-actions\"" + 
             "href=\"" + getInstructorEvaluationRemindLink(eval.courseId,eval.name) + "\" " +
             (hasRemind ? "onclick=\"hideddrivetip(); return toggleRemindStudents('" + eval.name + "');\" " : "") +
             "onmouseover=\"ddrivetip('"+Const.Tooltips.EVALUATION_REMIND+"')\" " +
@@ -635,7 +635,7 @@ public class PageData {
         
         if (hasUnpublish) {
             result.append(
-                "<a class=\"color_black t_session_unpublish" + position + "\" " +
+                "<a class=\"btn btn-default btn-xs btn-tm-actions\"" + 
                 "href=\"" + getInstructorEvaluationUnpublishLink(eval.courseId,eval.name,isHome) + "\" " +
                 "onclick=\"hideddrivetip(); return toggleUnpublishEvaluation('" + eval.name + "');\" " +
                 "onmouseover=\"ddrivetip('"+Const.Tooltips.EVALUATION_UNPUBLISH+"')\" onmouseout=\"hideddrivetip()\">" +
@@ -643,11 +643,11 @@ public class PageData {
             );
         } else {
             result.append(
-                "<a class=\"color_black t_session_publish" + position + "\" " +
+                "<a class=\"btn btn-default btn-xs btn-tm-actions" + (hasPublish ? "\"" : DISABLED) +
                 "href=\"" + getInstructorEvaluationPublishLink(eval.courseId,eval.name,isHome) + "\" " +
                 (hasPublish ? "onclick=\"hideddrivetip(); return togglePublishEvaluation('" + eval.name + "');\" " : "") +
                 "onmouseover=\"ddrivetip('"+Const.Tooltips.EVALUATION_PUBLISH+"')\" " +
-                "onmouseout=\"hideddrivetip()\"" + (hasPublish ? "" : DISABLED) + ">Publish</a>"
+                "onmouseout=\"hideddrivetip()\">Publish</a>"
             );
         }
         return result.toString();
@@ -707,7 +707,7 @@ public class PageData {
      * @return
      */
     public String getInstructorFeedbackSessionActions(FeedbackSessionAttributes session,
-            int position, boolean isHome){
+            boolean isHome){
         StringBuffer result = new StringBuffer();
         
         // Allowing ALL instructors to view results regardless of publish state.
@@ -719,20 +719,20 @@ public class PageData {
         boolean hasRemind = session.isOpened();
         
         result.append(
-            "<a class=\"color_green t_session_view"+ position + "\" " +
+            "<a class=\"btn btn-default btn-xs btn-tm-actions\"" +
             "href=\"" + getInstructorFeedbackSessionResultsLink(session.courseId,session.feedbackSessionName) + "\" " +
             "onmouseover=\"ddrivetip('"+Const.Tooltips.FEEDBACK_SESSION_RESULTS+"')\" "+
             "onmouseout=\"hideddrivetip()\" " + (hasView ? "" : DISABLED) + ">View Results</a> "
         );
         if(isCreator){
             result.append(
-                    "<a class=\"color_brown t_session_edit" + position + "\" " +
+                    "<a class=\"btn btn-default btn-xs btn-tm-actions\" " +
                     "href=\"" + getInstructorFeedbackSessionEditLink(session.courseId,session.feedbackSessionName) + "\" " +
                     "onmouseover=\"ddrivetip('"+Const.Tooltips.FEEDBACK_SESSION_EDIT+"')\" " +
                     "onmouseout=\"hideddrivetip()\">Edit</a> "
                 );
             result.append(
-                    "<a class=\"color_red t_session_delete" + position + "\" " +
+                    "<a class=\"btn btn-default btn-xs btn-tm-actions\"" +
                     "href=\"" + getInstructorFeedbackSessionDeleteLink(session.courseId,session.feedbackSessionName,(isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE : Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)) + "\" " +
                     "onclick=\"hideddrivetip(); return toggleDeleteFeedbackSessionConfirmation('" + session.courseId + "','" + session.feedbackSessionName + "');\" " +
                     "onmouseover=\"ddrivetip('"+Const.Tooltips.FEEDBACK_SESSION_DELETE+"')\" " +
@@ -740,23 +740,23 @@ public class PageData {
                 );
         } else{
             result.append(
-                    "<a class=\"color_brown t_session_edit" + position + "\" " +
+                    "<a class=\"btn btn-default btn-xs btn-tm-actions" + DISABLED +
                     "href=\"" + getInstructorFeedbackSessionEditLink(session.courseId,session.feedbackSessionName) + "\" " +
                     "onmouseover=\"ddrivetip('"+Const.Tooltips.FEEDBACK_SESSION_NOT_CREATOR_EDIT+"')\" " +
-                    "onmouseout=\"hideddrivetip()\" " + DISABLED + ">Edit</a> "
+                    "onmouseout=\"hideddrivetip()\">Edit</a> "
                 );
             result.append(
-                    "<a class=\"color_red t_session_delete" + position + "\" " +
+                    "<a class=\"btn btn-default btn-xs btn-tm-actions" + DISABLED +
                     "href=\"" + getInstructorFeedbackSessionDeleteLink(session.courseId,session.feedbackSessionName,(isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE : Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)) + "\" " +
                     "onmouseover=\"ddrivetip('"+Const.Tooltips.FEEDBACK_SESSION_NOT_CREATOR_DELETE+"')\" " +
                     "onmouseout=\"hideddrivetip()\" " + DISABLED + ">Delete</a> "
                 );
         }
         result.append(
-            "<a class=\"color_blue t_session_submit" + position + "\" " +
+            "<a class=\"btn btn-default btn-xs btn-tm-actions" + (hasSubmit ? "" : DISABLED) +
             "href=\"" + getInstructorFeedbackSessionSubmitLink(session.courseId,session.feedbackSessionName) + "\" " +
             "onmouseover=\"ddrivetip('"+Const.Tooltips.FEEDBACK_SESSION_SUBMIT+"')\" " +
-            "onmouseout=\"hideddrivetip()\" " + (hasSubmit ? "" : DISABLED) + ">Submit</a> "
+            "onmouseout=\"hideddrivetip()\">Submit</a> "
         );
         
         // Don't need to show any other links if private
@@ -765,17 +765,17 @@ public class PageData {
         }
         
         result.append(
-            "<a class=\"color_black t_session_remind" + position + "\" " +
+            "<a class=\"btn btn-default btn-xs btn-tm-actions" + (hasRemind ? "" : DISABLED) + 
             "href=\"" + getInstructorFeedbackSessionRemindLink(session.courseId,session.feedbackSessionName) + "\" " +
             (hasRemind ? "onclick=\"hideddrivetip(); return toggleRemindStudents('" + session.feedbackSessionName + "');\" " : "") +
             "onmouseover=\"ddrivetip('"+Const.Tooltips.FEEDBACK_SESSION_REMIND+"')\" " +
-            "onmouseout=\"hideddrivetip()\"" + (hasRemind ? "" : DISABLED) + ">Remind</a> "
+            "onmouseout=\"hideddrivetip()\">Remind</a> "
         );
         
         if(isCreator){
             if (hasUnpublish) {
                 result.append(
-                    "<a class=\"color_black t_session_unpublish" + position + "\" " +
+                    "<a class=\"btn btn-default btn-xs btn-tm-actions\"" +
                     "href=\"" + getInstructorFeedbackSessionUnpublishLink(session.courseId,session.feedbackSessionName,isHome) + "\" " +
                     "onclick=\"hideddrivetip(); return toggleUnpublishEvaluation('" + session.feedbackSessionName + "');\" " +
                     "onmouseover=\"ddrivetip('"+Const.Tooltips.FEEDBACK_SESSION_UNPUBLISH+"')\" onmouseout=\"hideddrivetip()\">" +
@@ -783,27 +783,27 @@ public class PageData {
                 );
             } else {
                 result.append(
-                    "<a class=\"color_black t_session_publish" + position + "\" " +
+                    "<a class=\"btn btn-default btn-xs btn-tm-actions" + (hasPublish ? "" : DISABLED) + 
                     "href=\"" + getInstructorFeedbackSessionPublishLink(session.courseId,session.feedbackSessionName,isHome) + "\" " +
                     (hasPublish ? "onclick=\"hideddrivetip(); return togglePublishEvaluation('" + session.feedbackSessionName + "');\" " : "") +
                     "onmouseover=\"ddrivetip('"+ (hasPublish ? Const.Tooltips.FEEDBACK_SESSION_PUBLISH :  Const.Tooltips.FEEDBACK_SESSION_AWAITING)+"')\" " +
-                    "onmouseout=\"hideddrivetip()\" " + (hasPublish ? "" : DISABLED) + ">Publish</a> "
+                    "onmouseout=\"hideddrivetip()\">Publish</a> "
                 );
             }
         } else{
             if (hasUnpublish) {
                 result.append(
-                    "<a class=\"color_black t_session_unpublish" + position + "\" " +
+                    "<a class=\"btn btn-default btn-xs btn-tm-actions" + DISABLED +
                     "href=\"" + getInstructorFeedbackSessionUnpublishLink(session.courseId,session.feedbackSessionName,isHome) + "\" " +
-                    "onmouseover=\"ddrivetip('"+Const.Tooltips.FEEDBACK_SESSION_NOT_CREATOR_UNPUBLISH+"')\" onmouseout=\"hideddrivetip()\" " + DISABLED + ">" +
+                    "onmouseover=\"ddrivetip('"+Const.Tooltips.FEEDBACK_SESSION_NOT_CREATOR_UNPUBLISH+"')\" onmouseout=\"hideddrivetip()\">" +
                     "Unpublish</a> "
                 );
             } else {
                 result.append(
-                    "<a class=\"color_black t_session_publish" + position + "\" " +
+                    "<a class=\"btn btn-default btn-xs btn-tm-actions" + DISABLED +
                     "href=\"" + getInstructorFeedbackSessionPublishLink(session.courseId,session.feedbackSessionName,isHome) + "\" " +
                     "onmouseover=\"ddrivetip('"+ Const.Tooltips.FEEDBACK_SESSION_NOT_CREATOR_PUBLISH +"')\" " +
-                    "onmouseout=\"hideddrivetip()\" " + DISABLED + ">Publish</a> "
+                    "onmouseout=\"hideddrivetip()\">Publish</a> "
                 );
             }
         }
