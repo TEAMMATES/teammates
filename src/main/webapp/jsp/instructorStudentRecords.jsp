@@ -183,7 +183,14 @@
                             </tr>
                             <tr>
                                 <td><strong>Comments about the team: </strong><br />
-                                    <%=InstructorEvalSubmissionPageData.sanitizeForHtml(studentResult.getSelfEvaluation().p2pFeedback.getValue())%></td>
+                                    <%String commentAboutTeam = 
+                                    	    InstructorEvalSubmissionPageData.sanitizeForHtml(studentResult.getSelfEvaluation().p2pFeedback.getValue());
+                                      if(commentAboutTeam == null || commentAboutTeam.isEmpty()) {%>
+                                      N/A
+                                    <%} else {%>
+                                    <%=commentAboutTeam%>
+                                    <%} %>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
