@@ -58,25 +58,23 @@
                 for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responseEntries : data.bundle
                         .getQuestionResponseMap().entrySet()) {
             %>
-            <div class="backgroundBlock">
-                    <h2 class="color_white multiline" style="padding-left: 20px;">Question <%=responseEntries.getKey().questionNumber%>:<br><%=data.bundle.getQuestionText(responseEntries.getKey().getId())%><%
+            <div class="well well-default">
+                    <h4>Question <%=responseEntries.getKey().questionNumber%>:<br><%=data.bundle.getQuestionText(responseEntries.getKey().getId())%><%
                         Map<String, FeedbackQuestionAttributes> questions = data.bundle.questions;
                         FeedbackQuestionAttributes question = questions.get(responseEntries.getKey().getId());
                         FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
                         out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, ""));
-                    %></h2>
-                    <table class="table">
+                    %></h4>
+                    <div class="panel panel-primary">
+                    <table class="table table-striped table-bordered">
+                    <thead class="fill-primary">
                         <tr>
-                            <th class="leftalign color_white bold">
-                                <input class="buttonSortNone" type="button" id="button_sortgiver" 
-                                    onclick="toggleSort(this,1)">From:</th>
-                            <th class="leftalign color_white bold">
-                                <input class="buttonSortAscending" type="button" id="button_sortrecipient"
-                                    onclick="toggleSort(this,2)">To:</th>
-                            <th class="leftalign color_white bold">
-                                <input class="buttonSortNone" type="button" id="button_sortanswer"
-                                    onclick="toggleSort(this,3)">Feedback:</th>
+                            <th id="button_sortFrom" class="button-sort-ascending" onclick="toggleSort(this,1)" style="width: 25%;">From: <span class="sort-icon unsorted"></span></th>
+                            <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 25%;">To: <span class="sort-icon unsorted"></span></th>
+                            <th id="button_sortFeedback" class="button-sort-none" onclick="toggleSort(this,3)" style="width: 50%;">Feedback: <span class="sort-icon unsorted"></span></th>
                         </tr>
+                    <thead>
+                    <tbody>
                         <%
                             for(FeedbackResponseAttributes responseEntry: responseEntries.getValue()) {
                         %>
@@ -96,8 +94,8 @@
                         </tr>        
                         <%
                             }
-                        %>    
-                    </table>
+                        %></tbody>
+                    </table></div>
                 </div>
             <br>
             <%
