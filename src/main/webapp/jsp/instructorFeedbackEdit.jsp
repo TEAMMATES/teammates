@@ -21,15 +21,17 @@
     <link rel="shortcut icon" href="/favicon.png">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>TEAMMATES - Instructor</title>
-    <link rel="stylesheet" href="/stylesheets/common.css" type="text/css" media="screen">
-    <link rel="stylesheet" href="/stylesheets/instructorFeedbacks.css" type="text/css" media="screen">
-    <link rel="stylesheet" href="/stylesheets/common-print.css" type="text/css" media="print">
-    <link rel="stylesheet" href="/stylesheets/datepicker.css" type="text/css" media="screen">
+    <!-- Bootstrap core CSS -->
+    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap theme -->
+    <link href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/stylesheets/teammatesCommon.css" type="text/css">
+    <link rel="stylesheet" href="/stylesheets/instructorFeedbacks.css" type="text/css">
+    <link rel="stylesheet" href="/stylesheets/datepicker.css" type="text/css">
 
     <script type="text/javascript" src="/js/googleAnalytics.js"></script>
     <script type="text/javascript" src="/js/jquery-minified.js"></script>
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="/js/tooltip.js"></script>
     <script type="text/javascript" src="/js/date.js"></script>
     <script type="text/javascript" src="/js/datepicker.js"></script>
     <script type="text/javascript" src="/js/AnchorPosition.js"></script>
@@ -41,18 +43,16 @@
     <jsp:include page="../enableJS.jsp"></jsp:include>
 </head>
 
-<body onload="readyFeedbackEditPage(); initializetooltip();">
-    <div id="dhtmltooltip"></div>
+<body onload="readyFeedbackEditPage();">
     <div id="frameTop">
         <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
     </div>
 
-    <div id="frameBody">
+    <div id="frameBody" class="container">
         <div id="frameBodyWrapper">
             <div id="topOfPage"></div>
-            <div id="headerOperation">
-                <h1>Edit Feedback Session</h1>
-            </div>
+            <h1>Edit Feedback Session</h1>
+            <br>
 
             <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_SAVE%>" id="form_editfeedbacksession">
                 <div class="sessionDetailsBackground">
