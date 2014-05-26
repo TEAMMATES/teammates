@@ -27,11 +27,11 @@
     <script type="text/javascript" src="/js/googleAnalytics.js"></script>
     <script type="text/javascript" src="/js/jquery-minified.js"></script>
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="/js/tooltip.js"></script>
     <script type="text/javascript" src="/js/date.js"></script>
     <script type="text/javascript" src="/js/datepicker.js"></script>
     <script type="text/javascript" src="/js/AnchorPosition.js"></script>
     <script type="text/javascript" src="/js/common.js"></script>
+    <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
     
     <script type="text/javascript" src="/js/instructor.js"></script>
     <script type="text/javascript" src="/js/instructorFeedbacks.js"></script>
@@ -40,58 +40,374 @@
 </head>
 
 <body onload="readyFeedbackPage(); initializetooltip();">
-    <div id="dhtmltooltip"></div>
-    <div id="frameTop">
-        <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
-    </div>
+    <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
 
-    <div id="frameBody">
-        <div id="frameBodyWrapper">
+    <div id="frameBodyWrapper" class="container theme-showcase">
             <div id="topOfPage"></div>
-            <div id="headerOperation">
-                <h1>Add New Feedback Session</h1>
-            </div>
+            <h1>Add New Feedback Session</h1>
             
             <p class="bold centeralign middlealign"><span style="padding-right:10px">Session Type</span>
-            <select style="width:730px" name="feedbackchangetype"
-                                    id="feedbackchangetype"
-                                    onmouseover="ddrivetip('Select a different type of session here.')"
-                                    onmouseout="hideddrivetip()" tabindex="0">
-                                    <option value="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE%>" selected="selected">Feedback Session with customizable questions</option>
-                                    <!-- <option value="TEAM">Team Feedback Session</option> -->
-                                    <!-- <option value="PRIVATE">Private Feedback Session</option> -->
-                                    <option value="<%=Const.ActionURIs.INSTRUCTOR_EVALS_PAGE%>">Standard Team Peer Evaluation with fixed questions</option>
-            </select></p>
-            <br><br>
+                <select style="width:730px" 
+                    name="feedbackchangetype"
+                    id="feedbackchangetype"
+                    onmouseover="ddrivetip('Select a different type of session here.')"
+                    onmouseout="hideddrivetip()" tabindex="0">
+                    <option value="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE%>" selected="selected">Feedback Session with customizable questions</option>
+                    <option value="<%=Const.ActionURIs.INSTRUCTOR_EVALS_PAGE%>">Standard Team Peer Evaluation with fixed questions</option>
+                </select>
+            </p>
+
+            <div class="well well-plain">
+                <form role="form">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">Basic info</div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">Course</label>
+                                        <div class="col-sm-8">
+                                            <select class="form-control"
+                                                name="<%=Const.ParamsNames.COURSE_ID%>"
+                                                id="<%=Const.ParamsNames.COURSE_ID%>"
+                                                onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_COURSE%>')"
+                                                onmouseout="hideddrivetip()"
+                                                tabindex="1">
+                                                <%
+                                                	for (String opt : data.getCourseIdOptions())
+                                                		out.println(opt);
+                                                %>
+                                            </select>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">Time Zone</label>
+                                        <div class="col-sm-8">
+                                            <select class="form-control" 
+                                                name="<%=Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE%>" 
+                                                id="<%=Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE%>"
+                                                onmouseover="ddrivetip('<%=Const.Tooltips.EVALUATION_INPUT_TIMEZONE%>')"
+                                                onmouseout="hideddrivetip()" tabindex="2">
+                                                <%
+                                                    for(String opt: data.getTimeZoneOptionsAsHtml()) out.println(opt);
+                                                %>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Session name:</label>
+                                        <div class="col-sm-10">
+                                            <input  class="form-control"
+                                                type="text"
+                                                name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" id="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>"
+                                                onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_INPUT_NAME%>')"
+                                                onmouseout="hideddrivetip()" maxlength=<%=FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH%>
+                                                value="<%if(data.newFeedbackSession!=null) out.print(InstructorFeedbacksPageData.sanitizeForHtml(data.newFeedbackSession.feedbackSessionName));%>"
+                                                placeholder="e.g. Feedback for Project Presentation 1">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="form-group">
+                                            <label for="instructions"
+                                                class="col-sm-2 control-label">Instructions</label>
+                                            <div class="col-sm-10">
+                                                <textarea   class="form-control" rows="4" cols="100%" 
+                                                    name="<%=Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS%>" 
+                                                    id="<%=Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS%>"
+                                                    onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_INSTRUCTIONS%>')"
+                                                    onmouseout="hideddrivetip()"
+                                                    placeholder="e.g. Please answer all the given questions."
+                                                    ><%
+                                                        if(data.newFeedbackSession==null) {
+                                                            out.print("Please answer all the given questions.");
+                                                        } else {
+                                                            out.print(InstructorFeedbacksPageData.sanitizeForHtml(data.newFeedbackSession.instructions.getValue()));
+                                                        }
+                                            %></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">Duration</div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label class="label-control">Submission opening time:</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <input class="form-control col-sm-2"
+                                                type="text"
+                                                name="<%=Const.ParamsNames.FEEDBACK_SESSION_STARTDATE%>"
+                                                id="<%=Const.ParamsNames.FEEDBACK_SESSION_STARTDATE%>"
+                                                value="<%=(data.newFeedbackSession==null? TimeHelper.formatDate(TimeHelper.getNextHour()) : TimeHelper.formatDate(data.newFeedbackSession.startTime))%>"
+                                                placeholder="Date">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <select class="form-control"
+                                                name="<%=Const.ParamsNames.FEEDBACK_SESSION_STARTTIME%>"
+                                                id="<%=Const.ParamsNames.FEEDBACK_SESSION_STARTTIME%>">
+                                                    <%
+                                                        Date date;
+                                                        date = (data.newFeedbackSession == null ? null
+                                                                : data.newFeedbackSession.startTime);
+                                                        for (String opt : data.getTimeOptionsAsHtml(date))
+                                                            out.println(opt);
+                                                    %>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 border-left-gray">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label class="label-control">Submission closing time:</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <input class="form-control col-sm-2"
+                                                type="text"
+                                                name="<%=Const.ParamsNames.FEEDBACK_SESSION_ENDDATE%>"
+                                                id="<%=Const.ParamsNames.FEEDBACK_SESSION_ENDDATE%>"
+                                                value="<%=(data.newFeedbackSession==null? "" : TimeHelper.formatDate(data.newFeedbackSession.endTime))%>"
+                                                placeHolder="Date">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <select class="form-control"
+                                                name="<%=Const.ParamsNames.FEEDBACK_SESSION_ENDTIME%>"
+                                                id="<%=Const.ParamsNames.FEEDBACK_SESSION_ENDTIME%>">
+                                                    <%
+                                                        date = (data.newFeedbackSession == null ? null
+                                                                : data.newFeedbackSession.endTime);
+                                                        for (String opt : data.getTimeOptionsAsHtml(date))
+                                                            out.println(opt);
+                                                    %>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 border-left-gray">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label class="control-label">Grace period</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-8">
+                                            <select class="form-control"
+                                                name="<%=Const.ParamsNames.FEEDBACK_SESSION_GRACEPERIOD%>"
+                                                id="<%=Const.ParamsNames.FEEDBACK_SESSION_GRACEPERIOD%>">
+                                                    <%
+                                                        for(String opt: data.getGracePeriodOptionsAsHtml()) out.println(opt);
+                                                    %>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">Visibility
+                            settings</div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-6 border-gray">
+                                    <strong>Session visible
+                                        from:</strong><br>
+                                    <div class="radio">
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <label>At <input
+                                                    name="optionsRadios"
+                                                    id="optionsRadios1"
+                                                    value="option1"
+                                                    checked=""
+                                                    type="radio">
+                                                </label>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <input type="datepicker"
+                                                    class="form-control col-sm-2"
+                                                    id="startdate"
+                                                    placeholder="Date">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <select
+                                                    class="form-control">
+                                                    <option
+                                                        value="cs1101"
+                                                        selected="selected">2359</option>
+                                                    <option value="0100">0100
+                                                        min</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="radio">
+                                        <label> <input
+                                            name="optionsRadios"
+                                            id="optionsRadios1"
+                                            value="option1" type="radio">
+                                            Submission opening time
+                                        </label>
+                                    </div>
+                                    <div class="radio">
+                                        <label> <input
+                                            name="optionsRadios"
+                                            id="optionsRadios2"
+                                            value="private" type="radio">
+                                            Never (this is a private
+                                            session)
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 border-left-gray">
+                                    <strong>Responses visible
+                                        from:</strong><br>
+                                    <div class="radio">
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <label>At <input
+                                                    name="optionsRadios"
+                                                    id="optionsRadios1"
+                                                    value="option1"
+                                                    checked=""
+                                                    type="radio">
+                                                </label>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <input type="datepicker"
+                                                    class="form-control col-sm-2"
+                                                    id="startdate"
+                                                    placeholder="Date">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <select
+                                                    class="form-control">
+                                                    <option
+                                                        value="cs1101"
+                                                        selected="selected">2359</option>
+                                                    <option value="0100">0100
+                                                        min</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="radio">
+                                        <label> <input
+                                            name="optionsRadios"
+                                            id="optionsRadios2"
+                                            value="private" type="radio">
+                                            Immediately
+                                        </label>
+                                    </div>
+                                    <div class="radio">
+                                        <label> <input
+                                            name="optionsRadios"
+                                            id="optionsRadios1"
+                                            value="option1" type="radio">
+                                            Publish manually
+                                        </label>
+                                    </div>
+                                    <div class="radio">
+                                        <label> <input
+                                            name="optionsRadios"
+                                            id="optionsRadios2"
+                                            value="private" type="radio">
+                                            Never
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">Alerts</div>
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <label for="emailflag"
+                                    class="col-sm-1 control-label">Send
+                                    emails for:</label>
+                                <div class="col-sm-2">
+                                    <div class="checkbox">
+                                        <label> <input
+                                            type="checkbox" value="">
+                                            Join reminder
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="checkbox">
+                                        <label> <input
+                                            type="checkbox" value="">
+                                            Session opening reminder
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="checkbox">
+                                        <label> <input
+                                            type="checkbox" value="">
+                                            Session closing reminder
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="checkbox">
+                                        <label> <input
+                                            type="checkbox" value="">
+                                            Results published
+                                            announcement
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-5 col-sm-10">
+                            <button type="submit"
+                                class="btn btn-primary">Submit</button>
+                        </div>
+                    </div>
+                </form>
+                <br> <br>
+            </div>
+            
             <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_ADD%>" name="form_addfeedbacksession">
                 <table class="inputTable sessionTable" id="sessionNameTable">
                     <tr>
                         <td class="label bold" >Course:</td>
-                        <td><select name="<%=Const.ParamsNames.COURSE_ID%>"
-                                    id="<%=Const.ParamsNames.COURSE_ID%>"
-                                    onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_COURSE%>')"
-                                    onmouseout="hideddrivetip()" tabindex="1">
-                                        <%
-                                            for(String opt: data.getCourseIdOptions()) out.println(opt);
-                                        %>
-                            </select></td>
+                        <td></td>
                         <td class="label bold" >Time zone:</td>
-                        <td><select name="<%=Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE%>" id="<%=Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE%>"
-                                    onmouseover="ddrivetip('<%=Const.Tooltips.EVALUATION_INPUT_TIMEZONE%>')"
-                                    onmouseout="hideddrivetip()" tabindex="2">
-                                        <%
-                                            for(String opt: data.getTimeZoneOptionsAsHtml()) out.println(opt);
-                                        %>
-                            </select></td>
+                        <td></td>
                     </tr>
                     <tr>
                         <td class="label bold">Feedback session name:</td>
-                        <td colspan="3"><input  type="text"
-                                    name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" id="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>"
-                                    onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_INPUT_NAME%>')"
-                                    onmouseout="hideddrivetip()" maxlength=<%=FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH%>
-                                    value="<%if(data.newFeedbackSession!=null) out.print(InstructorFeedbacksPageData.sanitizeForHtml(data.newFeedbackSession.feedbackSessionName));%>"
-                                    tabindex="3" placeholder="e.g. Feedback for Project Presentation 1"></td>
+                        <td colspan="3"></td>
                     </tr>
                 </table>
                 <br>
@@ -101,53 +417,17 @@
                             onmouseout="hideddrivetip()">Submission<br>Opening Time:</td>
                         <td onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_STARTDATE%>')"
                             onmouseout="hideddrivetip()">
-                            <input style="width: 100px;" type="text"
-                            name="<%=Const.ParamsNames.FEEDBACK_SESSION_STARTDATE%>"
-                            id="<%=Const.ParamsNames.FEEDBACK_SESSION_STARTDATE%>"
-                            value="<%=(data.newFeedbackSession==null? TimeHelper.formatDate(TimeHelper.getNextHour()) : TimeHelper.formatDate(data.newFeedbackSession.startTime))%>"
-                            readonly="readonly" tabindex="4"> @ <select
-                            style="width: 70px;"
-                            name="<%=Const.ParamsNames.FEEDBACK_SESSION_STARTTIME%>"
-                            id="<%=Const.ParamsNames.FEEDBACK_SESSION_STARTTIME%>" tabindex="5">
-                                <%
-                                    Date date;
-                                    date = (data.newFeedbackSession == null ? null
-                                            : data.newFeedbackSession.startTime);
-                                    for (String opt : data.getTimeOptionsAsHtml(date))
-                                        out.println(opt);
-                                %>
-                        </select></td>
+                             @ </td>
                         <td class="label bold middlealign" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_ENDDATE%>')"
                             onmouseout="hideddrivetip()">Submission<br>Closing Time:</td>
                         <td
                             onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_ENDDATE%>')"
-                            onmouseout="hideddrivetip()"><input style="width: 100px;"
-                            type="text"
-                            name="<%=Const.ParamsNames.FEEDBACK_SESSION_ENDDATE%>"
-                            id="<%=Const.ParamsNames.FEEDBACK_SESSION_ENDDATE%>"
-                            value="<%=(data.newFeedbackSession==null? "" : TimeHelper.formatDate(data.newFeedbackSession.endTime))%>"
-                            readonly="readonly" tabindex="6"> @ <select
-                            style="width: 70px;"
-                            name="<%=Const.ParamsNames.FEEDBACK_SESSION_ENDTIME%>"
-                            id="<%=Const.ParamsNames.FEEDBACK_SESSION_ENDTIME%>" tabindex="7">
-                                <%
-                                    date = (data.newFeedbackSession == null ? null
-                                            : data.newFeedbackSession.endTime);
-                                    for (String opt : data.getTimeOptionsAsHtml(date))
-                                        out.println(opt);
-                                %>
-                        </select></td>
+                            onmouseout="hideddrivetip()"> @ </td>
                         <td class="label bold" onmouseover="ddrivetip('<%=Const.Tooltips.EVALUATION_INPUT_GRACEPERIOD%>')"
                             onmouseout="hideddrivetip()">Grace Period:</td>
                         <td onmouseover="ddrivetip('<%=Const.Tooltips.EVALUATION_INPUT_GRACEPERIOD%>')"
                             onmouseout="hideddrivetip()">
-                            <select style="width: 75px;" name="<%=Const.ParamsNames.FEEDBACK_SESSION_GRACEPERIOD%>"
-                                id="<%=Const.ParamsNames.FEEDBACK_SESSION_GRACEPERIOD%>"
-                                tabindex="8">
-                                    <%
-                                        for(String opt: data.getGracePeriodOptionsAsHtml()) out.println(opt);
-                                    %>
-                        </select></td>
+                            </td>
                     </tr>
                 </table>
                 <br>
@@ -316,9 +596,7 @@
                 <table class="inputTable" id="instructionsTable">
                     <tr>
                         <td class="label bold middlealign" >Instructions to students:</td>
-                        <td><textarea rows="4" cols="100%" class="textvalue" name="<%=Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS%>" id="<%=Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS%>"
-                                onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_INSTRUCTIONS%>')"
-                                onmouseout="hideddrivetip()" tabindex="13"><%=data.newFeedbackSession==null ? "Please answer all the given questions." :InstructorFeedbacksPageData.sanitizeForHtml(data.newFeedbackSession.instructions.getValue())%></textarea>
+                        <td>
                         </td>
                     </tr>
                     <tr>
@@ -419,7 +697,6 @@
             <%
                 }
             %>
-        </div>
     </div>
 
     <div id="frameBottom">
