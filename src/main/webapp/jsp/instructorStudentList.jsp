@@ -30,45 +30,62 @@
         <script type="text/javascript" src="/js/CalendarPopup.js"></script>
         <script type="text/javascript" src="/js/AnchorPosition.js"></script>
         <script type="text/javascript" src="/js/common.js"></script>
+        <script type="text/javascript"  src="/bootstrap/js/bootstrap.min.js"></script>
         
         <script type="text/javascript" src="/js/instructor.js"></script>
         <script type="text/javascript" src="/js/instructorStudentList.js"></script>
         <jsp:include page="../enableJS.jsp"></jsp:include>
-
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
     </head>
 
     <body>
-        <div id="dhtmltooltip"></div>
-        <div id="frameTop">
-            <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
-        </div>
-    
-        <div id="frameBody">
-            <div id="frameBodyWrapper">
+        <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />    
+        <div id="frameBodyWrapper" class="container theme-showcase">
                 <div id="topOfPage"></div>
-                <div id="headerOperation">
-                    <h1>Student List</h1>
-                </div>
-    
-                <table class="inputTable" id="searchTable">
-                    <tr>
-                        <td><input type="text" id="searchbox"
-                            onmouseover="ddrivetip('<%=Const.Tooltips.SEARCH_STUDENT%>')"
-                            onmouseout="hideddrivetip()" tabindex="1" value="<%=data.searchKey == null ? "" : PageData.sanitizeForHtml(data.searchKey) %>"></td>
-                        <td><input id="button_search" type="submit" class="button"
-                            onclick="return applyFilters();" value="Search" tabindex="2"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">
-                            <input id="option_check" type="checkbox">
-                                <label for="option_check">
-                                Show More Options
-                                </label>
-                            <input id="displayArchivedCourses_check" type="checkbox" <%if(data.displayArchive){%>checked="checked"<%}%>>
-                            <label for="displayArchivedCourses_check">Display Archived Courses</label>
-                        </td>
-                    </tr>
-                </table>
+                <h1>Instructor Students List</h1>
+                <div class="well well-plain">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <div class="form-group">
+                                        <input type="text" id="searchbox"
+                                            title="<%=Const.Tooltips.SEARCH_STUDENT%>"
+                                            class="form-control"
+                                            data-toggle="tooltip"
+                                            data-placement="top"
+                                            placeholder="e.g. Charles Shultz"
+                                            value="<%=data.searchKey == null ? "" : PageData.sanitizeForHtml(data.searchKey) %>">
+                                    </div>
+                                </div>
+                                <div class="col-md-2 nav">
+                                    <div class="form-group">
+                                        <button id="button_search" class="btn btn-primary" type="submit" onclick="return applyFilters();" value="Search">
+                                            <span class="glyphicon glyphicon-search"></span>Search
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div class="checkbox">
+                                        <input id="option_check" type="checkbox">
+                                        <label for="option_check">Show More Options</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="checkbox">
+                                        <input id="displayArchivedCourses_check" type="checkbox" <%if(data.displayArchive){%>checked="checked"<%}%>>
+                                        <label for="displayArchivedCourses_check">Display Archived Courses</label>
+                                    </div>
+                                </div>
+                            </div>
+                         </div>
+                     </div>
+                 </div>
                 <br><br>
                 <table class="inputTable" id="optionsTable" style="display: none;">    
                     <tr>
@@ -188,8 +205,9 @@
                     <div class="enrollLink blockLink rightalign">
                         <a class="t_course_enroll-<%=courseIdx%> color_white bold"
                             href="<%=data.getInstructorCourseEnrollLink(courseDetails.course.id)%>"
-                            onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_ENROLL%>')"
-                            onmouseout="hideddrivetip()"> Enroll Students</a>
+                            title="<%=Const.Tooltips.COURSE_ENROLL%>"
+                            data-toggle="tooltip"
+                            data-placement="top"> Enroll Students</a>
                     </div>
                     <div style="clear: both;"></div>
                     <br>
@@ -263,15 +281,9 @@
                         }
                     }
                 %>
-            </div>
             <br> <br> <br>
         </div>
-    
-    
-    
-    
-        <div id="frameBottom">
-            <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
-        </div>
+
+        <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
     </body>
 </html>
