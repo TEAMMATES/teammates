@@ -44,148 +44,147 @@
     <body>
         <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />    
         <div id="frameBodyWrapper" class="container theme-showcase">
-                <div id="topOfPage"></div>
-                <h1>Instructor Students List</h1>
-                <div class="well well-plain">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="row">
-                                <div class="col-md-10">
-                                    <div class="form-group">
-                                        <input type="text" id="searchbox"
-                                            title="<%=Const.Tooltips.SEARCH_STUDENT%>"
-                                            class="form-control"
-                                            data-toggle="tooltip"
-                                            data-placement="top"
-                                            placeholder="e.g. Charles Shultz"
-                                            value="<%=data.searchKey == null ? "" : PageData.sanitizeForHtml(data.searchKey) %>">
-                                    </div>
-                                </div>
-                                <div class="col-md-2 nav">
-                                    <div class="form-group">
-                                        <button id="button_search" class="btn btn-primary" type="submit" onclick="return applyFilters();" value="Search">
-                                            <span class="glyphicon glyphicon-search"></span>Search
-                                        </button>
-                                    </div>
+            <div id="topOfPage"></div>
+            <h1>Instructor Students List</h1>
+            <div class="well well-plain">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-10">
+                                <div class="form-group">
+                                    <input type="text" id="searchbox"
+                                        title="<%=Const.Tooltips.SEARCH_STUDENT%>"
+                                        class="form-control"
+                                        data-toggle="tooltip"
+                                        data-placement="top"
+                                        placeholder="e.g. Charles Shultz"
+                                        value="<%=data.searchKey == null ? "" : PageData.sanitizeForHtml(data.searchKey) %>">
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-2">
-                                    <div class="checkbox">
-                                        <input id="option_check" type="checkbox">
-                                        <label for="option_check">Show More Options</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="checkbox">
-                                        <input id="displayArchivedCourses_check" type="checkbox" <%if(data.displayArchive){%>checked="checked"<%}%>>
-                                        <label for="displayArchivedCourses_check">Display Archived Courses</label>
-                                    </div>
+                            <div class="col-md-2 nav">
+                                <div class="form-group">
+                                    <button id="button_search" class="btn btn-primary" type="submit" onclick="return applyFilters();" value="Search">
+                                        <span class="glyphicon glyphicon-search"></span>Search
+                                    </button>
                                 </div>
                             </div>
-                         </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="checkbox">
+                                    <input id="option_check" type="checkbox">
+                                    <label for="option_check">Show More Options</label>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="checkbox">
+                                    <input id="displayArchivedCourses_check" type="checkbox" <%if(data.displayArchive){%>checked="checked"<%}%>>
+                                    <label for="displayArchivedCourses_check">Display Archived Courses</label>
+                                </div>
+                            </div>
+                        </div>
                      </div>
                  </div>
-                <br><br>
-                <table class="inputTable" id="optionsTable" style="display: none;">    
-                    <tr>
-                        <td width="250px">
-                            <h4 class="bold">Courses</h4>
-                            <div class="leftalign" id="course_checkboxes">
-                            <br>
-                                <ul>
-                                <li>
-                                    <input id="course_all" type="checkbox" checked="checked">
-                                    <label for="course_all" class="bold">Select All</label>
-                                </li>
-                                <%
-                                    int courseIdx = -1;
-                                    for(CourseDetailsBundle courseDetails: data.courses){
-                                        if((courseDetails.course.isArchived && data.displayArchive) || !courseDetails.course.isArchived){
-                                            courseIdx++;
-                                %>
-                                    <li><input class="course_check" id="course_check-<%=courseIdx %>" type="checkbox" checked="checked">
-                                        <label for="course_check-<%=courseIdx %>">
-                                        [<%=courseDetails.course.id%>] : <%=PageData.sanitizeForHtml(courseDetails.course.name)%>
-                                        </label>
-                                    </li>
-                                <%
-                                        }
-                                    }
-                                %>
-                                </ul>
-                            <br>
+             </div>
+            <br>
+            <div id="moreOptionsDiv" class="well well-plain" style="display: none;">
+                <form class="form-horizontal container" role="form">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="text-color-primary">
+                                <strong>Courses</strong>
                             </div>
-                        </td>
-                        <td width="250px">
-                            <h4 class="bold">Teams</h4>
-                            <div class="leftalign" id="team_checkboxes">
                             <br>
-                            <ul>
-                                <li>
-                                    <input id="team_all" type="checkbox" checked="checked">
-                                    <label for="team_all" class="bold">Select All</label>
-                                </li>
-                                <%
-                                    courseIdx = -1;
-                                    for(CourseDetailsBundle courseDetails: data.courses){
-                                        if((courseDetails.course.isArchived && data.displayArchive) || !courseDetails.course.isArchived){
-                                            courseIdx++;
-                                            int teamIdx = -1;
-                                            for(TeamDetailsBundle teamDetails: courseDetails.teams){
-                                                teamIdx++;
-                                %>
-                                    <li><input class="team_check" id="team_check-<%=courseIdx %>-<%=teamIdx %>" type="checkbox" checked="checked">
-                                        <label for="team_check-<%=courseIdx %>-<%=teamIdx%>">
-                                        [<%=courseDetails.course.id%>] : <%=PageData.sanitizeForHtml(teamDetails.name)%>
-                                        </label>
-                                    </li>
-                                <%
-                                            }
-                                        }
-                                    }
-                                %>
-                            </ul>
-                            <br>
+                            <div class="checkbox">
+                                <input type="checkbox" value="" id="course_all" checked="checked"> 
+                                 <label for="course_all"><strong>Select all</strong></label>
                             </div>
-                        </td>
-                        <td width="250px">
-                            <h4 class="bold">
-                                <input id="show_email" type="checkbox">
-                                    <label for="show_email">
-                                    Show Emails
-                                    </label>
-                            </h4>
-                            <div class="leftalign" id="emails" style="display: none;">
                             <br>
-                            <ul>
                             <%
-                                
+                                int courseIdx = -1;
+                                for(CourseDetailsBundle courseDetails: data.courses){
+                                    if((courseDetails.course.isArchived && data.displayArchive) || !courseDetails.course.isArchived){
+                                        courseIdx++;
+                            %>
+                                <div class="checkbox"><input id="course_check-<%=courseIdx %>" type="checkbox" checked="checked">
+                                    <label for="course_check-<%=courseIdx %>">
+                                    [<%=courseDetails.course.id%>] : <%=PageData.sanitizeForHtml(courseDetails.course.name)%>
+                                    </label>
+                                </div>
+                            <%
+                                    }
+                                }
+                            %>
+                        </div>
+    
+                        <div class="col-sm-4">
+                            <div class="text-color-primary">
+                                <strong>Teams</strong>
+                            </div>
+                            <br>
+                            <div class="checkbox">
+                                <input id="team_all" type="checkbox" checked="checked">
+                                <label for="team_all"><strong>Select All</strong></label>
+                            </div>
+                            <br>
+                            <%
                                 courseIdx = -1;
                                 for(CourseDetailsBundle courseDetails: data.courses){
                                     if((courseDetails.course.isArchived && data.displayArchive) || !courseDetails.course.isArchived){
                                         courseIdx++;
-                                        int totalCourseStudents = courseDetails.stats.studentsTotal;
-                                        if(totalCourseStudents >= 1){
-                                            int studentIdx = -1;
-                                            for(TeamDetailsBundle teamDetails: courseDetails.teams){
-                                                for(StudentAttributes student: teamDetails.students){
-                                                    studentIdx++;
+                                        int teamIdx = -1;
+                                        for(TeamDetailsBundle teamDetails: courseDetails.teams){
+                                            teamIdx++;
                             %>
-                                    <li class="student_email" id="student_email-c<%=courseIdx %>.<%=studentIdx%>" style="display: list-item;"><%=student.email %></li>
+                                <div class="checkbox">
+                                    <input id="team_check-<%=courseIdx %>-<%=teamIdx %>" type="checkbox" checked="checked">
+                                    <label for="team_check-<%=courseIdx %>-<%=teamIdx%>">
+                                    [<%=courseDetails.course.id%>] : <%=PageData.sanitizeForHtml(teamDetails.name)%>
+                                    </label>
+                                </div>
                             <%
-                                                }
-                                            }
                                         }
                                     }
                                 }
                             %>
-                            </ul>
-                            <br>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="text-color-primary">
+                                <strong>Emails</strong>
                             </div>
-                        </td>
-                    </tr>
-                </table>
+                            <br>
+                            <div class="checkbox">
+                                <input id="show_email" type="checkbox" checked="checked">
+                                    <label for="show_email"><strong>Show Emails</strong></label>
+                            </div>
+                            <br>
+                            <div id="emails">
+                                <%
+                                
+                                    courseIdx = -1;
+                                    for(CourseDetailsBundle courseDetails: data.courses){
+                                        if((courseDetails.course.isArchived && data.displayArchive) || !courseDetails.course.isArchived){
+                                            courseIdx++;
+                                            int totalCourseStudents = courseDetails.stats.studentsTotal;
+                                            if(totalCourseStudents >= 1){
+                                                int studentIdx = -1;
+                                                for(TeamDetailsBundle teamDetails: courseDetails.teams){
+                                                    for(StudentAttributes student: teamDetails.students){
+                                                        studentIdx++;
+                                %>
+                                        <div id="student_email-c<%=courseIdx %>.<%=studentIdx%>" style="display: list-item;"><%=student.email %></div>
+                                <%
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                %>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
     
                 <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
                 <%
