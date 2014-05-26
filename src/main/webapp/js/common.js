@@ -122,17 +122,17 @@ function toggleSort(divElement, colIdx, comparator) {
         sortTable(divElement, colIdx, comparator, true);
         $(divElement).parent().find(".buttonSortAscending").attr("class", "buttonSortNone");
         $(divElement).parent().find(".buttonSortDescending").attr("class", "buttonSortNone");
-        $(divElement).parent().find(".sign").attr("class", "");
+        $(divElement).parent().find(".sortIcon").attr("class", "sortIcon unsorted");
         $(divElement).attr("class", "buttonSortAscending");
-        $(divElement).find("span").attr("class", "sign arrow");
+        $(divElement).find(".sortIcon").attr("class", "sortIcon ascending-sorted");
     } else if ($(divElement).attr("class") == "buttonSortAscending") {
         sortTable(divElement, colIdx, comparator, false);
         $(divElement).attr("class", "buttonSortDescending");
-        $(divElement).find(".sign").attr("class", "sign arrow up");
+        $(divElement).find(".sortIcon").attr("class", "sortIcon descending-sorted");
     } else {
         sortTable(divElement, colIdx, comparator, true);
         $(divElement).attr("class", "buttonSortAscending");
-        $(divElement).find(".sign").attr("class", "sign arrow");
+        $(divElement).find(".sortIcon").attr("class", "sortIcon ascending-sorted");
     }
 }
 

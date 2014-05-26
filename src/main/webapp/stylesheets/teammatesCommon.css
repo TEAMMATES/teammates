@@ -157,14 +157,24 @@ body {
     }
 }
 
-table span.sign {
+.sortIcon {
+    width: 12px;
+    height: 17px;
     display: block;
+    margin-top: 1px;
     float: right;
-    top: 50%;
-    right: 5px;
-    font-size: 12px;
-    margin-top: -10px;
-    color: #bfbfc1;
+}
+
+.unsorted {
+    background: url('../images/sortSideButton.png');
+}
+
+.ascending-sorted {
+    background: url('../images/sortDownButton.png');
+}
+
+.descending-sorted {
+    background: url('../images/sortUpButton.png');
 }
 
 table span.arrow {
@@ -185,7 +195,6 @@ table span.arrow.up {
 
 .buttonSortAscending:hover, .buttonSortNone:hover, .buttonSortDescending:hover {
     cursor: pointer;
-    background: #efefef;
 }
 
 
