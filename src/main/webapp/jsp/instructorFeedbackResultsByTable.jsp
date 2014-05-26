@@ -69,9 +69,9 @@
                     <table class="table table-striped table-bordered">
                     <thead class="fill-primary">
                         <tr>
-                            <th id="button_sortFrom" class="button-sort-ascending" onclick="toggleSort(this,1)" style="width: 25%;">From: <span class="sort-icon unsorted"></span></th>
-                            <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 25%;">To: <span class="sort-icon unsorted"></span></th>
-                            <th id="button_sortFeedback" class="button-sort-none" onclick="toggleSort(this,3)" style="width: 50%;">Feedback: <span class="sort-icon unsorted"></span></th>
+                            <th id="button_sortFrom" class="button-sort-ascending" onclick="toggleSort(this,1)" style="width: 25%;">From<span class="sort-icon unsorted"></span></th>
+                            <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 25%;">To<span class="sort-icon unsorted"></span></th>
+                            <th id="button_sortFeedback" class="button-sort-none" onclick="toggleSort(this,3)" style="width: 50%;">Feedback<span class="sort-icon unsorted"></span></th>
                         </tr>
                     <thead>
                     <tbody>
