@@ -86,7 +86,7 @@
                     for (Map.Entry<String, List<FeedbackResponseAttributes>> responsesForRecipientFromGiver : responsesForRecipient.getValue().entrySet()) {
                         giverIndex++;
                 %>
-                        <div class="row">
+                        <div class="row <%=giverIndex == 1? "": "border-top-gray"%>">
                             <div class="col-md-2"><strong>From: <%=responsesForRecipientFromGiver.getKey()%></strong></div>
                             <div class="col-md-10">
                             <%
