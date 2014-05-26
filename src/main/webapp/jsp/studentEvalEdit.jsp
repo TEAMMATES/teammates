@@ -76,7 +76,7 @@
         }
     %>
 
-    <div class="container theme-showcase" role="main">
+    <div class="container theme-showcase" id="frameBodyWrapper">
         <div id="topOfPage"></div>
         <div id="headerOperation">
             <h1>Evaluation Submission</h1>
