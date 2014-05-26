@@ -125,10 +125,18 @@
         <table class="table table-bordered table-striped">
             <thead class="fill-primary">
                 <tr>
-                    <th>Team</th>
-                    <th>Student Name</th>
-                    <th class="centeralign">Status</th>
-                    <th class="centeralign no-print">Action(s)</th>
+                    <th onclick="toggleSort(this,1);" id="button_sortid" class="button-sort-ascending">
+                        Team<span class="sort-icon unsorted"></span>
+                    </th>
+                    <th onclick="toggleSort(this,2);" id="button_sortid" class="button-sort-ascending">
+                        Student Name<span class="sort-icon unsorted"></span>
+                    </th>
+                    <th onclick="toggleSort(this,2);" id="button_sortid" class="button-sort-ascending">
+                        Status<span class="sort-icon unsorted"></span>
+                    </th>
+                    <th class="centeralign no-print">
+                        Action(s)
+                    </th>
                 </tr>
             </thead>
             <%
