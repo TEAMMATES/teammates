@@ -118,21 +118,21 @@ var INSTITUTION_MAX_LENGTH = 64;
  *            The column index (1-based) as key for the sort
  */
 function toggleSort(divElement, colIdx, comparator) {
-    if ($(divElement).attr("class") == "buttonSortNone") {
+    if ($(divElement).attr("class") == "button-sort-none") {
         sortTable(divElement, colIdx, comparator, true);
-        $(divElement).parent().find(".buttonSortAscending").attr("class", "buttonSortNone");
-        $(divElement).parent().find(".buttonSortDescending").attr("class", "buttonSortNone");
-        $(divElement).parent().find(".sortIcon").attr("class", "sortIcon unsorted");
-        $(divElement).attr("class", "buttonSortAscending");
-        $(divElement).find(".sortIcon").attr("class", "sortIcon ascending-sorted");
-    } else if ($(divElement).attr("class") == "buttonSortAscending") {
+        $(divElement).parent().find(".button-sort-ascending").attr("class", "button-sort-none");
+        $(divElement).parent().find(".button-sort-descending").attr("class", "button-sort-none");
+        $(divElement).parent().find(".sort-icon").attr("class", "sort-icon unsorted");
+        $(divElement).attr("class", "button-sort-ascending");
+        $(divElement).find(".sort-icon").attr("class", "sort-icon ascending-sorted");
+    } else if ($(divElement).attr("class") == "button-sort-ascending") {
         sortTable(divElement, colIdx, comparator, false);
-        $(divElement).attr("class", "buttonSortDescending");
-        $(divElement).find(".sortIcon").attr("class", "sortIcon descending-sorted");
+        $(divElement).attr("class", "button-sort-descending");
+        $(divElement).find(".sort-icon").attr("class", "sort-icon descending-sorted");
     } else {
         sortTable(divElement, colIdx, comparator, true);
-        $(divElement).attr("class", "buttonSortAscending");
-        $(divElement).find(".sortIcon").attr("class", "sortIcon ascending-sorted");
+        $(divElement).attr("class", "button-sort-ascending");
+        $(divElement).find(".sort-icon").attr("class", "sort-icon ascending-sorted");
     }
 }
 
