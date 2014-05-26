@@ -22,7 +22,6 @@
     
     <script type="text/javascript" src="/js/googleAnalytics.js"></script>
     <script type="text/javascript" src="/js/jquery-minified.js"></script>
-    <script type="text/javascript" src="/js/tooltip.js"></script>
     <script type="text/javascript" src="/js/date.js"></script>
     <script type="text/javascript" src="/js/CalendarPopup.js"></script>
     <script type="text/javascript" src="/js/AnchorPosition.js"></script>
