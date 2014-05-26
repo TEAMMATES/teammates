@@ -45,22 +45,34 @@
         </div>
         
         <%
-            for(int i=0; i<5; i++){
+            for(int i=0; i < 6; i++){
                 List<StudentAttributes> students = data.students[i];
         %>
             <%
                 if(students.size()>0){
             %>  
+                <% if(i == 0){ %>
+                <div class="panel panel-danger">
+                <% } else if(i == 1){ %>
+                <div class="panel panel-primary">
+                <% } else if(i == 2){ %>
+                <div class="panel panel-warning">
+                <% } else if(i == 3){ %>
                 <div class="panel panel-info">
+                <% } else if(i == 4){ %>
+                <div class="panel panel-default">
+                <% } else{ %>
+                <div class="panel panel-danger">
+                <% } %>
                 <div class="panel-heading">
                 <%=data.getMessageForEnrollmentStatus(i)%>
                 </div>
                 <table class="table table-striped table-bordered">
                 <tr>
-                    <th class="bold color_white">Student Name</th>
-                    <th class="bold color_white">E-mail address</th>
-                    <th class="bold color_white">Team</th>
-                    <th class="bold color_white" width="40%">Comments</th>
+                    <th>Student Name</th>
+                    <th>E-mail address</th>
+                    <th>Team</th>
+                    <th>Comments</th>
                 </tr>
                 <%
                     for(StudentAttributes student: students){
