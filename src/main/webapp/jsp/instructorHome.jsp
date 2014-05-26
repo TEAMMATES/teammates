@@ -22,7 +22,6 @@
     
     <script type="text/javascript" src="/js/googleAnalytics.js"></script>
     <script type="text/javascript" src="/js/jquery-minified.js"></script>
-    <script type="text/javascript" src="/js/tooltip.js"></script>
     <script type="text/javascript" src="/js/date.js"></script>
     <script type="text/javascript" src="/js/CalendarPopup.js"></script>
     <script type="text/javascript" src="/js/AnchorPosition.js"></script>
@@ -64,37 +63,26 @@
                 </div>
             </div>
         </div>
-        <hr>
+        <br>
         <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
         
-        <div class="row">
-            <div class="col-md-4">
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <input type="radio" name="sortby" value="id" <%= data.sortCriteria.equals(Const.SORT_BY_COURSE_ID) ? "checked" : "" %>>
-                    </span>
-                    <button class="form-control" name="sortby" value="id">Sort by Course ID </button>
+        <div class="inner-container well well-plain">
+            <div class="row text-center">
+                <div class="col-md-4">
+                    <input type="radio" name="sortby" value="id" <%= data.sortCriteria.equals(Const.SORT_BY_COURSE_ID) ? "checked" : "" %>>
+                    <label class="label-control" name="sortby" value="id"> Sort by Course ID </label>
                 </div>
-            </div>
-            <div class="col-md-4">
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <input type="radio" name="sortby" value="name" <%= data.sortCriteria.equals(Const.SORT_BY_COURSE_NAME) ? "checked" : "" %>>
-                    </span>
-                    <button class="form-control" name="sortby" value="name">Sort by Course Name</button>
+                <div class="col-md-4">
+                    <input type="radio" name="sortby" value="name" <%= data.sortCriteria.equals(Const.SORT_BY_COURSE_NAME) ? "checked" : "" %>>
+                    <label class="label-control" name="sortby" value="name">Sort by Course Name<label>
                 </div>
-            </div>
-            <div class="col-md-4">
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <input type="radio" name="sortby" value="createdAt" <%= data.sortCriteria.equals(Const.SORT_BY_COURSE_CREATION_DATE) ? "checked" : "" %>>
-                    </span>
-                    <button class="form-control" name="sortby" value="createdAt">Sort by Course Creation Date </button>
+                <div class="col-md-4">
+                    <input type="radio" name="sortby" value="createdAt" <%= data.sortCriteria.equals(Const.SORT_BY_COURSE_CREATION_DATE) ? "checked" : "" %>>
+                    <label class="label-control" name="sortby" value="createdAt">Sort by Course Creation Date </label>
                 </div>
             </div>
         </div>
         <br>
-        <br>    
     <%
         int courseIdx = -1;
         int sessionIdx = -1;
