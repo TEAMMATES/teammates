@@ -64,58 +64,37 @@
                 </div>
             </div>
         </div>
-        <br>
-        
+        <hr>
         <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
-        <div class="inner-container">
-            <div class="col-md-9">
-                <div class="btn-group btn-group-justified">
-                    <a class=" form-control btn btn-default" role="button">Sort by Course ID</a>
-                    <a class="btn btn-default" role="button">Sort by Course Name</a>
-                    <a class="btn btn-default" role="button">Sort by Course Creation Date</a>
-                </div>
-            </div>
-        </div>
-        <br>
-        <br>
-        <br>
-        <div class="btn-group btn-group-justified">
-            <a class="form-control btn btn-default" role="button">Sort by Course ID</a>
-            <a class="btn btn-default" role="button">Sort by Course Name</a>
-            <a class="btn btn-default" role="button">Sort by Course Creation Date</a>
-        </div>
-        <br>
+        
         <div class="row">
             <div class="col-md-4">
                 <div class="input-group">
                     <span class="input-group-addon">
-                        <input type="radio" name="sortby" value="id">
+                        <input type="radio" name="sortby" value="id" <%= data.sortCriteria.equals(Const.SORT_BY_COURSE_ID) ? "checked" : "" %>>
                     </span>
-                    <button class="form-control" name="sortby" value="id" value="Sort by course name">Sort by course ID </button>
-                    <!-- <input type="radio" name="sortby" value="id" id="sortbyid" <%= data.sortCriteria.equals(Const.SORT_BY_COURSE_ID) ? "checked" : "" %>> Sort by course ID-->
+                    <button class="form-control" name="sortby" value="id">Sort by Course ID </button>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="input-group">
                     <span class="input-group-addon">
-                        <input type="radio" name="sortby" value="id">
+                        <input type="radio" name="sortby" value="name" <%= data.sortCriteria.equals(Const.SORT_BY_COURSE_NAME) ? "checked" : "" %>>
                     </span>
-                    <input type="text" class="form-control" value="Sort by course name" disabled />
-                    <!-- <input type="radio" name="sortby" value="name" id="sortbyname" <%= data.sortCriteria.equals(Const.SORT_BY_COURSE_NAME) ? "checked" : "" %>> Sort by course name-->
+                    <button class="form-control" name="sortby" value="name">Sort by Course Name</button>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="input-group">
                     <span class="input-group-addon">
-                        <input type="radio" name="sortby" value="id">
+                        <input type="radio" name="sortby" value="createdAt" <%= data.sortCriteria.equals(Const.SORT_BY_COURSE_CREATION_DATE) ? "checked" : "" %>>
                     </span>
-                    <input type="text" class="form-control" value="Sort by course creation date" disabled />
-                    <!-- <input type="radio" name="sortby" value="createdAt" id="sortbydate" <%= data.sortCriteria.equals(Const.SORT_BY_COURSE_CREATION_DATE) ? "checked" : "" %>> Sort by course creation date-->
+                    <button class="form-control" name="sortby" value="createdAt">Sort by Course Creation Date </button>
                 </div>
             </div>
         </div>
         <br>
-
+        <br>    
     <%
         int courseIdx = -1;
         int sessionIdx = -1;
@@ -220,7 +199,7 @@
                         }
                     %>
                 </div>
-                <hr>
+                <br>
     <%
                 out.flush();
             }

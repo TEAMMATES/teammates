@@ -1,7 +1,7 @@
 $(document).ready(function(){
     
     //Click event binding for radio buttons
-    var radiobuttons = $("input[name='sortby']");
+    var radiobuttons = $("button[name='sortby'], input[name='sortby']");
     $.each(radiobuttons, function() {
         $(this).click(function (){
             var currentPath = window.location.pathname;
