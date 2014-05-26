@@ -7,256 +7,261 @@
     <head>
         <link rel="shortcut icon" href="/favicon.png"></link>
         <meta http-equiv="X-UA-Compatible" content="IE=8"></link>
+        <meta content="width=device-width, initial-scale=1.0"  name="viewport" />
         <title>Teammates - Webpage Compilation</title>
         
-        <link rel=stylesheet href="mashup.css" type="text/css"></link>
+        <link href="/bootstrap/css/bootstrap.min.css"  rel="stylesheet"  type="text/css" />
+        <link href="/bootstrap/css/bootstrap-theme.min.css"  rel="stylesheet"  type="text/css" />
+        <link href="/stylesheets/teammatesCommon.css"  rel="stylesheet"  type="text/css" />
         <script language="JavaScript" src="/js/jquery-minified.js"></script>
-        <script language="JavaScript" src="/js/tooltip.js"></script>
+        <script src="/bootstrap/js/bootstrap.min.js"></script>
         <script src="/js/common.js" type="text/javascript"></script>
     </head>
-    <body id="compilation">
-        <div id="dhtmltooltip"></div>
-        <h1>Table Of Contents</h1>
-        <table id="tableofcontents">
-        <tbody>
-            <tr>
-                <td width="20%">
-                    <h2>Instructor Pages</h2>
-                    <ul class="nav">
-                        <li><a href="#instructorHomePage">Instructor Home Page</a></li>
-                        <li><a href="#instructorAddCoursePage">Instructor Add Course Page</a></li>
-                        <li><a href="#instructorEditCoursePage">Instructor Edit Course Page</a></li>
-                        <li><a href="#instructorEnrollPage">Instructor Enroll Students Page</a></li>
-                        <li><a href="#instructorCourseDetailsPage">Instructor Course Details Page</a></li>
-                        <li><a href="#instructorStudentListPage">Instructor Student List Page</a></li>
-                        <li><a href="#instructorCourseStudentDetailsPage">Instructor Student Details Page</a></li>
-                        <li><a href="#instructorCourseStudentEditPage">Instructor Student Edit Page</a></li>
-                        <li><a href="#instructorCourseEvalPage">Instructor Eval Page</a></li>
-                        <li><a href="#instructorCourseEvalEditPage">Instructor Eval Edit Page</a></li>
-                        <li><a href="#instructorCourseEvalPreviewPage">Instructor Eval Preview Page</a></li>
-                        <li><a href="#instructorCourseEvalResultsPage1">Instructor Eval Results Page (instructorEvaluationSummaryTable)</a></li>
-                        <li><a href="#instructorCourseEvalResultsPage2">Instructor Eval Results Page (instructorEvaluationDetailedReviewerTable)</a></li>
-                        <li><a href="#instructorCourseEvalResultsPage3">Instructor Eval Results Page (instructorEvaluationDetailedRevieweeTable)</a></li>
-                        <li><a href="#instructorCourseEvalSubmissionViewPage">Instructor Eval Submission View Page</a></li>
-                        <li><a href="#instructorCourseEvalSubmissionEditPage">Instructor Eval Submission Edit Page</a></li>
-                        <li><a href="#instructorFeedbackPage">Instructor Feedback Page</a></li>
-                        <li><a href="#instructorFeedbackEditPage">Instructor Feedback Edit Page</a></li>
-                        <li><a href="#instructorFeedbackPreviewAsStudentPage">Instructor Feedback Preview as Student Page</a></li>
-                        <li><a href="#instructorFeedbackPreviewAsInstructorPage">Instructor Feedback Preview as Instructor Page</a></li>
-                        <li><a href="#instructorFeedbackSubmitPage">Instructor Feedback Submit Page</a></li>
-                        <li><a href="#instructorFeedbackQuestionSubmitPage">Instructor Feedback Question Submit Page</a></li>
-                        <li><a href="#instructorFeedbackResultsPageByGiver">Instructor Feedback Results Page (By giver)</a></li>
-                        <li><a href="#instructorFeedbackResultsPageByRecipient">Instructor Feedback Results Page (By recipient)</a></li>
-                        <li><a href="#instructorFeedbackResultsPageByTable">Instructor Feedback Results Page (By table)</a></li>                        
-                    </ul>
-                </td>
-                <td width="20%">
-                    <h2>Student Pages</h2>
-                    <ul class="nav">
-                        <li><a href="#studentHomePage">Student Home Page</a></li>
-                        <li><a href="#studentCourseJoinConfirmationPage">Student Course Join Confirmation Page</a></li>
-                        <li><a href="#studentCourseDetailsPage">Student Course Details Page</a></li>
-                        <li><a href="#studentEvalEditPage">Student Eval Edit Page</a></li>
-                        <li><a href="#studentEvalResultsPage">Student Eval Results Page</a></li>
-                        <li><a href="#studentFeedbackSubmitPage">Student Feedback Submit Page</a></li>
-                        <li><a href="#studentFeedbackQuestionSubmitPage">Student Feedback Question Submit Page</a></li>
-                        <li><a href="#studentFeedbackResultsPage">Student Feedback Results Page</a></li>
-                    </ul>
-                <td>
-                </td>
-                <td width="20%">
-                    <h2>Admin Pages</h2>
-                    <ul class="nav">
-                        <li><a href="#adminHomePage">Admin Home Page</a></li>
-                        <li><a href="#adminSearchPage">Admin Search Page</a></li>
-                        <li><a href="#adminActivityLogPage">Admin Activity Log Page</a></li>
-                    </ul>
-                </td>
-                <td width="20%">    
-                    <h2>Static Pages</h2>
-                    <ul class="nav">
-                        <li><a href="#index">Home Page</a></li>
-                        <li><a href="#features">Features Page</a></li>
-                        <li><a href="#about">About Us Page</a></li>
-                        <li><a href="#contact">Contact Page</a></li>
-                        <li><a href="#terms">Terms Of Use Page</a></li>
-                        <li><a href="#request">Request Account Page</a></li>
-                        <li><a href="#studentHelp">Student Help Page</a></li>
-                        <li><a href="#instructorHelp">Instructor Help Page</a></li>
-                    </ul>
-                </td>
-                <td width="20%">    
-                    <h2>Error Pages</h2>
-                    <ul class="nav">
-                        <li><a href="#deadlineExceededErrorPage">Deadline Exceeded Error Page</a></li>
-                        <li><a href="#errorPage">Error Page</a></li>
-                        <li><a href="#entityNotFoundPage">Entity Not Found Page</a></li>
-                    </ul>
-                </td>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+    <body>
+        <div class="container">
+            <div id="dhtmltooltip"></div>
+            <h1>Table Of Contents</h1>
+            <table class="table table-striped">
+            <tbody>
+                <tr>
+                    <td>
+                        <h2>Instructor Pages</h2>
+                        <ul class="nav">
+                            <li><a href="#instructorHomePage">Instructor Home Page</a></li>
+                            <li><a href="#instructorAddCoursePage">Instructor Add Course Page</a></li>
+                            <li><a href="#instructorEditCoursePage">Instructor Edit Course Page</a></li>
+                            <li><a href="#instructorEnrollPage">Instructor Enroll Students Page</a></li>
+                            <li><a href="#instructorCourseDetailsPage">Instructor Course Details Page</a></li>
+                            <li><a href="#instructorStudentListPage">Instructor Student List Page</a></li>
+                            <li><a href="#instructorCourseStudentDetailsPage">Instructor Student Details Page</a></li>
+                            <li><a href="#instructorCourseStudentEditPage">Instructor Student Edit Page</a></li>
+                            <li><a href="#instructorCourseEvalPage">Instructor Eval Page</a></li>
+                            <li><a href="#instructorCourseEvalEditPage">Instructor Eval Edit Page</a></li>
+                            <li><a href="#instructorCourseEvalPreviewPage">Instructor Eval Preview Page</a></li>
+                            <li><a href="#instructorCourseEvalResultsPage1">Instructor Eval Results Page (instructorEvaluationSummaryTable)</a></li>
+                            <li><a href="#instructorCourseEvalResultsPage2">Instructor Eval Results Page (instructorEvaluationDetailedReviewerTable)</a></li>
+                            <li><a href="#instructorCourseEvalResultsPage3">Instructor Eval Results Page (instructorEvaluationDetailedRevieweeTable)</a></li>
+                            <li><a href="#instructorCourseEvalSubmissionViewPage">Instructor Eval Submission View Page</a></li>
+                            <li><a href="#instructorCourseEvalSubmissionEditPage">Instructor Eval Submission Edit Page</a></li>
+                            <li><a href="#instructorFeedbackPage">Instructor Feedback Page</a></li>
+                            <li><a href="#instructorFeedbackEditPage">Instructor Feedback Edit Page</a></li>
+                            <li><a href="#instructorFeedbackPreviewAsStudentPage">Instructor Feedback Preview as Student Page</a></li>
+                            <li><a href="#instructorFeedbackPreviewAsInstructorPage">Instructor Feedback Preview as Instructor Page</a></li>
+                            <li><a href="#instructorFeedbackSubmitPage">Instructor Feedback Submit Page</a></li>
+                            <li><a href="#instructorFeedbackQuestionSubmitPage">Instructor Feedback Question Submit Page</a></li>
+                            <li><a href="#instructorFeedbackResultsPageByGiver">Instructor Feedback Results Page (By giver)</a></li>
+                            <li><a href="#instructorFeedbackResultsPageByRecipient">Instructor Feedback Results Page (By recipient)</a></li>
+                            <li><a href="#instructorFeedbackResultsPageByTable">Instructor Feedback Results Page (By table)</a></li>                        
+                        </ul>
+                    </td>
+                    <td>
+                        <h2>Student Pages</h2>
+                        <ul class="nav">
+                            <li><a href="#studentHomePage">Student Home Page</a></li>
+                            <li><a href="#studentCourseJoinConfirmationPage">Student Course Join Confirmation Page</a></li>
+                            <li><a href="#studentCourseDetailsPage">Student Course Details Page</a></li>
+                            <li><a href="#studentEvalEditPage">Student Eval Edit Page</a></li>
+                            <li><a href="#studentEvalResultsPage">Student Eval Results Page</a></li>
+                            <li><a href="#studentFeedbackSubmitPage">Student Feedback Submit Page</a></li>
+                            <li><a href="#studentFeedbackQuestionSubmitPage">Student Feedback Question Submit Page</a></li>
+                            <li><a href="#studentFeedbackResultsPage">Student Feedback Results Page</a></li>
+                        </ul>
+                    <td>
+                    </td>
+                    <td>
+                        <h2>Admin Pages</h2>
+                        <ul class="nav">
+                            <li><a href="#adminHomePage">Admin Home Page</a></li>
+                            <li><a href="#adminSearchPage">Admin Search Page</a></li>
+                            <li><a href="#adminActivityLogPage">Admin Activity Log Page</a></li>
+                        </ul>
+                    </td>
+                    <td>    
+                        <h2>Static Pages</h2>
+                        <ul class="nav">
+                            <li><a href="#index">Home Page</a></li>
+                            <li><a href="#features">Features Page</a></li>
+                            <li><a href="#about">About Us Page</a></li>
+                            <li><a href="#contact">Contact Page</a></li>
+                            <li><a href="#terms">Terms Of Use Page</a></li>
+                            <li><a href="#request">Request Account Page</a></li>
+                            <li><a href="#studentHelp">Student Help Page</a></li>
+                            <li><a href="#instructorHelp">Instructor Help Page</a></li>
+                        </ul>
+                    </td>
+                    <td>    
+                        <h2>Error Pages</h2>
+                        <ul class="nav">
+                            <li><a href="#deadlineExceededErrorPage">Deadline Exceeded Error Page</a></li>
+                            <li><a href="#errorPage">Error Page</a></li>
+                            <li><a href="#entityNotFoundPage">Entity Not Found Page</a></li>
+                        </ul>
+                    </td>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+                
+            <div class="pageinfo">Instructor Home Page</div>
+            <div id="instructorHomePage" class="panel panel-primary"></div>
             
-        <div class="pageinfo">Instructor Home Page</div>
-        <div id="instructorHomePage" class="wrapper"></div>
-        
-        <div class="pageinfo">Instructor Add Course Page</div>
-        <div id="instructorAddCoursePage" class="wrapper"></div>
-        
-        <div class="pageinfo">Instructor Edit Course Page</div>
-        <div id="instructorEditCoursePage" class="wrapper"></div>
-        
-        <div class="pageinfo">Instructor Enroll Students Page</div>
-        <div id="instructorEnrollPage" class="wrapper"></div>
-        
-        <div class="pageinfo">Instructor Course Details Page</div>
-        <div id="instructorCourseDetailsPage" class="wrapper"></div>
+            <div class="pageinfo">Instructor Add Course Page</div>
+            <div id="instructorAddCoursePage" class="panel panel-primary"></div>
+            
+            <div class="pageinfo">Instructor Edit Course Page</div>
+            <div id="instructorEditCoursePage" class="panel panel-primary"></div>
+            
+            <div class="pageinfo">Instructor Enroll Students Page</div>
+            <div id="instructorEnrollPage" class="panel panel-primary"></div>
+            
+            <div class="pageinfo">Instructor Course Details Page</div>
+            <div id="instructorCourseDetailsPage" class="panel panel-primary"></div>
 
-        <div class="pageinfo">Instructor Student List Page</div>
-        <div id="instructorStudentListPage" class="wrapper"></div>
-        
-        <div class="pageinfo">Instructor Student Details Page</div>
-        <div id="instructorCourseStudentDetailsPage" class="wrapper"></div>
-        
-        <div class="pageinfo">Instructor Student Edit Page</div>
-        <div id="instructorCourseStudentEditPage" class="wrapper"></div>
-        
-        <div class="pageinfo">Instructor Eval Page</div>
-        <div id="instructorCourseEvalPage" class="wrapper"></div>
-        
-        <div class="pageinfo">Instructor Eval Edit Page</div>
-        <div id="instructorCourseEvalEditPage" class="wrapper"></div>
-        
-        <div class="pageinfo">Instructor Eval Preview Page</div>
-        <div id="instructorCourseEvalPreviewPage" class="wrapper"></div>
-        
-        <div class="pageinfo">Instructor Eval Results Page (instructorEvaluationSummaryTable)</div>
-        <div id="instructorCourseEvalResultsPage1" class="wrapper"></div>
-        
-        <div class="pageinfo">Instructor Eval Results Page (instructorEvaluationDetailedReviewerTable)</div>
-        <div id="instructorCourseEvalResultsPage2" class="wrapper"></div>
-        
-        <div class="pageinfo">Instructor Eval Results Page (instructorEvaluationDetailedRevieweeTable)</div>
-        <div id="instructorCourseEvalResultsPage3" class="wrapper"></div>
-        
-        <div class="pageinfo">Instructor Eval Submission View Page</div>
-        <div id="instructorCourseEvalSubmissionViewPage" class="wrapper"></div>
-        
-        <div class="pageinfo">Instructor Eval Submission Edit Page</div>
-        <div id="instructorCourseEvalSubmissionEditPage" class="wrapper"></div>
-        
-        <div class="pageinfo">Instructor Feedback Page</div>
-        <div id="instructorFeedbackPage" class="wrapper"></div>
-        
-        <div class="pageinfo">Instructor Feedback Edit Page</div>
-        <div id="instructorFeedbackEditPage" class="wrapper"></div>
-        
-        <div class="pageinfo">Instructor Feedback Preview as Student Page</div>
-        <div id="instructorFeedbackPreviewAsStudentPage" class="wrapper"></div>
-        <div class="pageinfo">Instructor Feedback Submit Page</div>
-        <div id="instructorFeedbackSubmitPage" class="wrapper"></div>
-        
-        <div class="pageinfo">Instructor Feedback Preview as Instructor Page</div>
-        <div id="instructorFeedbackPreviewAsInstructorPage" class="wrapper"></div>
-        <div class="pageinfo">Instructor Feedback Question Submit Page</div>
-        <div id="instructorFeedbackQuestionSubmitPage" class="wrapper"></div>
-        
-        <div class="pageinfo">Instructor Feedback Results Page (By giver)</div>
-        <div id="instructorFeedbackResultsPageByGiver" class="wrapper"></div>        
-        
-        <div class="pageinfo">Instructor Feedback Results Page (By recipient)</div>
-        <div id="instructorFeedbackResultsPageByRecipient" class="wrapper"></div>
-        
-        <div class="pageinfo">Instructor Feedback Results Page (By table)</div>
-        <div id="instructorFeedbackResultsPageByTable" class="wrapper"></div>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <div class="pageinfo">Student Home Page</div>
-        <div id="studentHomePage" class="wrapper"></div>
-        
-        <div class="pageinfo">Student Course Join Confirmation Page</div>
-        <div id="studentCourseJoinConfirmationPage" class="wrapper"></div>
-        
-        <div class="pageinfo">Student Course Details Page</div>
-        <div id="studentCourseDetailsPage" class="wrapper"></div>
-        
-        <div class="pageinfo">Student Eval Edit Page</div>
-        <div id="studentEvalEditPage" class="wrapper"></div>
-        
-        <div class="pageinfo">Student Eval Results Page</div>
-        <div id="studentEvalResultsPage" class="wrapper"></div>
-        
-        <div class="pageinfo">Student Feedback Submit Page</div>
-        <div id="studentFeedbackSubmitPage" class="wrapper"></div>
-        
-        <div class="pageinfo">Student Feedback Question Submit Page</div>
-        <div id="studentFeedbackQuestionSubmitPage" class="wrapper"></div>
+            <div class="pageinfo">Instructor Student List Page</div>
+            <div id="instructorStudentListPage" class="panel panel-primary"></div>
+            
+            <div class="pageinfo">Instructor Student Details Page</div>
+            <div id="instructorCourseStudentDetailsPage" class="panel panel-primary"></div>
+            
+            <div class="pageinfo">Instructor Student Edit Page</div>
+            <div id="instructorCourseStudentEditPage" class="panel panel-primary"></div>
+            
+            <div class="pageinfo">Instructor Eval Page</div>
+            <div id="instructorCourseEvalPage" class="panel panel-primary"></div>
+            
+            <div class="pageinfo">Instructor Eval Edit Page</div>
+            <div id="instructorCourseEvalEditPage" class="panel panel-primary"></div>
+            
+            <div class="pageinfo">Instructor Eval Preview Page</div>
+            <div id="instructorCourseEvalPreviewPage" class="panel panel-primary"></div>
+            
+            <div class="pageinfo">Instructor Eval Results Page (instructorEvaluationSummaryTable)</div>
+            <div id="instructorCourseEvalResultsPage1" class="panel panel-primary"></div>
+            
+            <div class="pageinfo">Instructor Eval Results Page (instructorEvaluationDetailedReviewerTable)</div>
+            <div id="instructorCourseEvalResultsPage2" class="panel panel-primary"></div>
+            
+            <div class="pageinfo">Instructor Eval Results Page (instructorEvaluationDetailedRevieweeTable)</div>
+            <div id="instructorCourseEvalResultsPage3" class="panel panel-primary"></div>
+            
+            <div class="pageinfo">Instructor Eval Submission View Page</div>
+            <div id="instructorCourseEvalSubmissionViewPage" class="panel panel-primary"></div>
+            
+            <div class="pageinfo">Instructor Eval Submission Edit Page</div>
+            <div id="instructorCourseEvalSubmissionEditPage" class="panel panel-primary"></div>
+            
+            <div class="pageinfo">Instructor Feedback Page</div>
+            <div id="instructorFeedbackPage" class="panel panel-primary"></div>
+            
+            <div class="pageinfo">Instructor Feedback Edit Page</div>
+            <div id="instructorFeedbackEditPage" class="panel panel-primary"></div>
+            
+            <div class="pageinfo">Instructor Feedback Preview as Student Page</div>
+            <div id="instructorFeedbackPreviewAsStudentPage" class="panel panel-primary"></div>
+            <div class="pageinfo">Instructor Feedback Submit Page</div>
+            <div id="instructorFeedbackSubmitPage" class="panel panel-primary"></div>
+            
+            <div class="pageinfo">Instructor Feedback Preview as Instructor Page</div>
+            <div id="instructorFeedbackPreviewAsInstructorPage" class="panel panel-primary"></div>
+            <div class="pageinfo">Instructor Feedback Question Submit Page</div>
+            <div id="instructorFeedbackQuestionSubmitPage" class="panel panel-primary"></div>
+            
+            <div class="pageinfo">Instructor Feedback Results Page (By giver)</div>
+            <div id="instructorFeedbackResultsPageByGiver" class="panel panel-primary"></div>        
+            
+            <div class="pageinfo">Instructor Feedback Results Page (By recipient)</div>
+            <div id="instructorFeedbackResultsPageByRecipient" class="panel panel-primary"></div>
+            
+            <div class="pageinfo">Instructor Feedback Results Page (By table)</div>
+            <div id="instructorFeedbackResultsPageByTable" class="panel panel-primary"></div>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <div class="pageinfo">Student Home Page</div>
+            <div id="studentHomePage" class="panel panel-primary"></div>
+            
+            <div class="pageinfo">Student Course Join Confirmation Page</div>
+            <div id="studentCourseJoinConfirmationPage" class="panel panel-primary"></div>
+            
+            <div class="pageinfo">Student Course Details Page</div>
+            <div id="studentCourseDetailsPage" class="panel panel-primary"></div>
+            
+            <div class="pageinfo">Student Eval Edit Page</div>
+            <div id="studentEvalEditPage" class="panel panel-primary"></div>
+            
+            <div class="pageinfo">Student Eval Results Page</div>
+            <div id="studentEvalResultsPage" class="panel panel-primary"></div>
+            
+            <div class="pageinfo">Student Feedback Submit Page</div>
+            <div id="studentFeedbackSubmitPage" class="panel panel-primary"></div>
+            
+            <div class="pageinfo">Student Feedback Question Submit Page</div>
+            <div id="studentFeedbackQuestionSubmitPage" class="panel panel-primary"></div>
 
-        <div class="pageinfo">Student Feedback Results Page</div>
-        <div id="studentFeedbackResultsPage" class="wrapper"></div>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <div class="pageinfo">Admin Home Page</div>
-        <div id="adminHomePage" class="wrapper"></div>
-        
-        <div class="pageinfo">Admin Search Page</div>
-        <div id="adminSearchPage" class="wrapper"></div>
-        
-        <div class="pageinfo">Admin Activity Log Page</div>
-        <div id="adminActivityLogPage" class="wrapper"></div>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <div class="pageinfo">Home Page</div>
-        <div id="index">
-            <iframe class="wrapper" src="../index.html" onLoad="calcHeight(this);" ></iframe>
+            <div class="pageinfo">Student Feedback Results Page</div>
+            <div id="studentFeedbackResultsPage" class="panel panel-primary"></div>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <div class="pageinfo">Admin Home Page</div>
+            <div id="adminHomePage" class="panel panel-primary"></div>
+            
+            <div class="pageinfo">Admin Search Page</div>
+            <div id="adminSearchPage" class="panel panel-primary"></div>
+            
+            <div class="pageinfo">Admin Activity Log Page</div>
+            <div id="adminActivityLogPage" class="panel panel-primary"></div>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <div class="pageinfo">Home Page</div>
+            <div id="index">
+                <iframe class="panel panel-primary" src="../index.html" onLoad="calcHeight(this);" ></iframe>
+            </div>
+            <div class="pageinfo">Features Page</div>
+            <div id="features">
+                <iframe class="panel panel-primary" src="../features.html" onLoad="calcHeight(this);" ></iframe>
+            </div>
+            <div class="pageinfo">About Us Page</div>
+            <div id="about">
+                <iframe class="panel panel-primary" src="../about.html" onLoad="calcHeight(this);" ></iframe>
+            </div>
+            <div class="pageinfo">Contact Page</div>
+            <div id="contact">
+                <iframe class="panel panel-primary" src="../contact.html" onLoad="calcHeight(this);" ></iframe>
+            </div>
+            <div class="pageinfo">Terms Of Use Page</div>
+            <div id="terms">
+                <iframe class="panel panel-primary" src="../terms.html" onLoad="calcHeight(this);" ></iframe>
+            </div>
+            <div class="pageinfo">Request Account Page</div>
+            <div id="request">
+                <iframe class="panel panel-primary" src="../request.html" onLoad="calcHeight(this);" ></iframe>
+            </div>
+            <div class="pageinfo">Student Help Page</div>
+            <div id="studentHelp">
+                <iframe class="panel panel-primary" src="../studentHelp.html" onLoad="calcHeight(this);" ></iframe>
+            </div>
+            <div class="pageinfo">Instructor Help Page</div>
+            <div id="instructorHelp">
+                <iframe class="panel panel-primary" src="../instructorHelp.html" onLoad="calcHeight(this);" ></iframe>
+            </div>
+            <div class="pageinfo">Deadline Exceeded Error Page</div>
+            <div id="deadlineExceededErrorPage" class="panel panel-primary"></div>
+            
+            <div class="pageinfo">Error Page</div>
+            <div id="errorPage" class="panel panel-primary"></div>
+            
+            <div class="pageinfo">Entity Not Found Page</div>
+            <div id="entityNotFoundPage" class="panel panel-primary"></div>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
         </div>
-        <div class="pageinfo">Features Page</div>
-        <div id="features">
-            <iframe class="wrapper" src="../features.html" onLoad="calcHeight(this);" ></iframe>
-        </div>
-        <div class="pageinfo">About Us Page</div>
-        <div id="about">
-            <iframe class="wrapper" src="../about.html" onLoad="calcHeight(this);" ></iframe>
-        </div>
-        <div class="pageinfo">Contact Page</div>
-        <div id="contact">
-            <iframe class="wrapper" src="../contact.html" onLoad="calcHeight(this);" ></iframe>
-        </div>
-        <div class="pageinfo">Terms Of Use Page</div>
-        <div id="terms">
-            <iframe class="wrapper" src="../terms.html" onLoad="calcHeight(this);" ></iframe>
-        </div>
-        <div class="pageinfo">Request Account Page</div>
-        <div id="request">
-            <iframe class="wrapper" src="../request.html" onLoad="calcHeight(this);" ></iframe>
-        </div>
-        <div class="pageinfo">Student Help Page</div>
-        <div id="studentHelp">
-            <iframe class="wrapper" src="../studentHelp.html" onLoad="calcHeight(this);" ></iframe>
-        </div>
-        <div class="pageinfo">Instructor Help Page</div>
-        <div id="instructorHelp">
-            <iframe class="wrapper" src="../instructorHelp.html" onLoad="calcHeight(this);" ></iframe>
-        </div>
-        <div class="pageinfo">Deadline Exceeded Error Page</div>
-        <div id="deadlineExceededErrorPage" class="wrapper"></div>
-        
-        <div class="pageinfo">Error Page</div>
-        <div id="errorPage" class="wrapper"></div>
-        
-        <div class="pageinfo">Entity Not Found Page</div>
-        <div id="entityNotFoundPage" class="wrapper"></div>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
 </body>
     
     <script type="text/javascript">
@@ -278,7 +283,6 @@
             $('head').append('<link rel=stylesheet href="/stylesheets/instructorFeedbacks.css" type="text/css">');
             $('head').append('<link rel=stylesheet href="/stylesheets/studentHome.css" type="text/css">');
             $('head').append('<link rel=stylesheet href="/stylesheets/studentCourseDetails.css" type="text/css">');
-            $('head').append('<link rel=stylesheet href="/stylesheets/studentEvalEdit.css" type="text/css">');
             $('head').append('<link rel=stylesheet href="/stylesheets/studentEvalResults.css" type="text/css">');
             $('head').append('<link rel=stylesheet href="/stylesheets/studentFeedback.css" type="text/css">');
             $('head').append('<link rel=stylesheet href="/stylesheets/adminHome.css" type="text/css">');
@@ -343,8 +347,7 @@
             $('#entityNotFoundPage').load("<%=Const.ViewURIs.ENTITY_NOT_FOUND_PAGE%> #frameBodyWrapper");
             
             //Tooltip
-            initializetooltip();
-            document.onmousemove = positiontip;
+            $("[data-toggle='tooltip']").tooltip({html: true}); 
         });
         
         function calcHeight(iframe) {
