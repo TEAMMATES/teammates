@@ -274,8 +274,6 @@
             $('head').append('<link rel=stylesheet href="/stylesheets/instructorCourseEnroll.css" type="text/css">');
             $('head').append('<link rel=stylesheet href="/stylesheets/instructorCourseDetails.css" type="text/css">');
             $('head').append('<link rel=stylesheet href="/stylesheets/instructorStudentList.css" type="text/css">');
-            $('head').append('<link rel=stylesheet href="/stylesheets/instructorCourseStudentDetails.css" type="text/css">');
-            $('head').append('<link rel=stylesheet href="/stylesheets/instructorCourseStudentEdit.css" type="text/css">');
             $('head').append('<link rel=stylesheet href="/stylesheets/instructorEvals.css" type="text/css">');
             $('head').append('<link rel=stylesheet href="/stylesheets/instructorEvalEdit.css" type="text/css">');
             $('head').append('<link rel=stylesheet href="/stylesheets/instructorEvalResults.css" type="text/css">');
