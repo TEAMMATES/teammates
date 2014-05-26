@@ -120,15 +120,19 @@ var INSTITUTION_MAX_LENGTH = 64;
 function toggleSort(divElement, colIdx, comparator) {
     if ($(divElement).attr("class") == "buttonSortNone") {
         sortTable(divElement, colIdx, comparator, true);
-        $(divElement).parent().parent().find(".buttonSortAscending").attr("class", "buttonSortNone");
-        $(divElement).parent().parent().find(".buttonSortDescending").attr("class", "buttonSortNone");
+        $(divElement).parent().find(".buttonSortAscending").attr("class", "buttonSortNone");
+        $(divElement).parent().find(".buttonSortDescending").attr("class", "buttonSortNone");
+        $(divElement).parent().find(".sign").attr("class", "");
         $(divElement).attr("class", "buttonSortAscending");
+        $(divElement).find("span").attr("class", "sign arrow");
     } else if ($(divElement).attr("class") == "buttonSortAscending") {
         sortTable(divElement, colIdx, comparator, false);
         $(divElement).attr("class", "buttonSortDescending");
+        $(divElement).find(".sign").attr("class", "sign arrow up");
     } else {
         sortTable(divElement, colIdx, comparator, true);
         $(divElement).attr("class", "buttonSortAscending");
+        $(divElement).find(".sign").attr("class", "sign arrow");
     }
 }
 
@@ -159,7 +163,7 @@ function sortTable(oneOfTableCell, colIdx, comparator, ascending) {
         var innerText = RowList[i].cells[colIdx-1].innerHTML;
         
         //Store rows together with the innerText to compare
-        store.push([innerText, RowList[i]]);
+        store.push([innerText, RowList[i], i]);
         
         if((columnType==0 || columnType==1) && isNumber(innerText)){
             columnType=1;
@@ -182,9 +186,19 @@ function sortTable(oneOfTableCell, colIdx, comparator, ascending) {
     
     store.sort(function(x,y){
         if(ascending==true){
-            return comparator(x[0],y[0]);
+            var compareResult = comparator(x[0],y[0]);
+            if(compareResult == 0){
+                return  x[2] - y[2];
+            } else {
+                return compareResult;
+            }
         }else{
-            return comparator(y[0],x[0]);
+            var compareResult = comparator(y[0],x[0]);
+            if(compareResult == 0){
+                return x[2] - y[2];
+            } else {
+                return compareResult;
+            }
         }
     });
     
