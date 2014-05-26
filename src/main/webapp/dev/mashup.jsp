@@ -13,6 +13,7 @@
         <link href="/bootstrap/css/bootstrap.min.css"  rel="stylesheet"  type="text/css" />
         <link href="/bootstrap/css/bootstrap-theme.min.css"  rel="stylesheet"  type="text/css" />
         <link href="/stylesheets/teammatesCommon.css"  rel="stylesheet"  type="text/css" />
+        <link rel="stylesheet" type="text/css" href="./mashup.css">
         <script language="JavaScript" src="/js/jquery-minified.js"></script>
         <script src="/bootstrap/js/bootstrap.min.js"></script>
         <script src="/js/common.js" type="text/javascript"></script>
@@ -219,35 +220,35 @@
             <br></br>
             <div class="pageinfo">Home Page</div>
             <div id="index">
-                <iframe class="panel panel-primary" src="../index.html" onLoad="calcHeight(this);" ></iframe>
+                <iframe class="panel panel-primary full-width" src="../index.html" onLoad="calcHeight(this);"></iframe>
             </div>
             <div class="pageinfo">Features Page</div>
             <div id="features">
-                <iframe class="panel panel-primary" src="../features.html" onLoad="calcHeight(this);" ></iframe>
+                <iframe class="panel panel-primary full-width" src="../features.html" onLoad="calcHeight(this);" ></iframe>
             </div>
             <div class="pageinfo">About Us Page</div>
             <div id="about">
-                <iframe class="panel panel-primary" src="../about.html" onLoad="calcHeight(this);" ></iframe>
+                <iframe class="panel panel-primary full-width" src="../about.html" onLoad="calcHeight(this);" ></iframe>
             </div>
             <div class="pageinfo">Contact Page</div>
             <div id="contact">
-                <iframe class="panel panel-primary" src="../contact.html" onLoad="calcHeight(this);" ></iframe>
+                <iframe class="panel panel-primary full-width" src="../contact.html" onLoad="calcHeight(this);" ></iframe>
             </div>
             <div class="pageinfo">Terms Of Use Page</div>
             <div id="terms">
-                <iframe class="panel panel-primary" src="../terms.html" onLoad="calcHeight(this);" ></iframe>
+                <iframe class="panel panel-primary full-width" src="../terms.html" onLoad="calcHeight(this);" ></iframe>
             </div>
             <div class="pageinfo">Request Account Page</div>
             <div id="request">
-                <iframe class="panel panel-primary" src="../request.html" onLoad="calcHeight(this);" ></iframe>
+                <iframe class="panel panel-primary full-width" src="../request.html" onLoad="calcHeight(this);" ></iframe>
             </div>
             <div class="pageinfo">Student Help Page</div>
             <div id="studentHelp">
-                <iframe class="panel panel-primary" src="../studentHelp.html" onLoad="calcHeight(this);" ></iframe>
+                <iframe class="panel panel-primary full-width" src="../studentHelp.html" onLoad="calcHeight(this);" ></iframe>
             </div>
             <div class="pageinfo">Instructor Help Page</div>
             <div id="instructorHelp">
-                <iframe class="panel panel-primary" src="../instructorHelp.html" onLoad="calcHeight(this);" ></iframe>
+                <iframe class="panel panel-primary full-width" src="../instructorHelp.html" onLoad="calcHeight(this);" ></iframe>
             </div>
             <div class="pageinfo">Deadline Exceeded Error Page</div>
             <div id="deadlineExceededErrorPage" class="panel panel-primary"></div>
@@ -268,20 +269,14 @@
         $(document).ready(function(){
             $('head').append('<link rel=stylesheet href="/stylesheets/common.css" type="text/css">');
             $('head').append('<link rel=stylesheet href="/stylesheets/instructorHome.css" type="text/css">');
-            $('head').append('<link rel=stylesheet href="/stylesheets/instructorCourses.css" type="text/css">');
-            $('head').append('<link rel=stylesheet href="/stylesheets/instructorCourseEdit.css" type="text/css">');
             $('head').append('<link rel=stylesheet href="/stylesheets/instructorCourseEnroll.css" type="text/css">');
-            $('head').append('<link rel=stylesheet href="/stylesheets/instructorCourseDetails.css" type="text/css">');
             $('head').append('<link rel=stylesheet href="/stylesheets/instructorStudentList.css" type="text/css">');
-            $('head').append('<link rel=stylesheet href="/stylesheets/instructorCourseStudentDetails.css" type="text/css">');
-            $('head').append('<link rel=stylesheet href="/stylesheets/instructorCourseStudentEdit.css" type="text/css">');
             $('head').append('<link rel=stylesheet href="/stylesheets/instructorEvals.css" type="text/css">');
             $('head').append('<link rel=stylesheet href="/stylesheets/instructorEvalEdit.css" type="text/css">');
             $('head').append('<link rel=stylesheet href="/stylesheets/instructorEvalResults.css" type="text/css">');
             $('head').append('<link rel=stylesheet href="/stylesheets/instructorEvalSubmissionView.css" type="text/css">');
             $('head').append('<link rel=stylesheet href="/stylesheets/instructorEvalSubmissionEdit.css" type="text/css">');
             $('head').append('<link rel=stylesheet href="/stylesheets/instructorFeedbacks.css" type="text/css">');
-            $('head').append('<link rel=stylesheet href="/stylesheets/studentHome.css" type="text/css">');
             $('head').append('<link rel=stylesheet href="/stylesheets/studentCourseDetails.css" type="text/css">');
             $('head').append('<link rel=stylesheet href="/stylesheets/studentEvalResults.css" type="text/css">');
             $('head').append('<link rel=stylesheet href="/stylesheets/studentFeedback.css" type="text/css">');
@@ -290,7 +285,10 @@
 
             $('#instructorHomePage').load("<%=Const.ActionURIs.INSTRUCTOR_HOME_PAGE%>?user=teammates.test #frameBodyWrapper");
             $('#instructorAddCoursePage').load("<%=Const.ActionURIs.INSTRUCTOR_COURSES_PAGE%>?user=teammates.test #frameBodyWrapper");
-            $('#instructorEditCoursePage').load("<%=Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE%>?user=teammates.test&courseid=CS1101 #frameBodyWrapper");
+            $('#instructorEditCoursePage').load("<%=Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE%>?user=teammates.test&courseid=CS1101 #frameBodyWrapper",
+                function(response, status, xml) {
+                    $('#instructorEditCoursePage').find('#panelAddInstructor').hide();
+                });
             $('#instructorEnrollPage').load("<%=Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE%>?user=teammates.test&courseid=CS1101 #frameBodyWrapper");
             $('#instructorCourseDetailsPage').load("<%=Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE%>?user=teammates.test&courseid=CS1101 #frameBodyWrapper");
             $('#instructorStudentListPage').load("<%=Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE%>?user=teammates.test #frameBodyWrapper");
