@@ -67,13 +67,31 @@
         <br>
         
         <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
+        <div class="inner-container">
+            <div class="col-md-9">
+                <div class="btn-group btn-group-justified">
+                    <a class=" form-control btn btn-default" role="button">Sort by Course ID</a>
+                    <a class="btn btn-default" role="button">Sort by Course Name</a>
+                    <a class="btn btn-default" role="button">Sort by Course Creation Date</a>
+                </div>
+            </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        <div class="btn-group btn-group-justified">
+            <a class="form-control btn btn-default" role="button">Sort by Course ID</a>
+            <a class="btn btn-default" role="button">Sort by Course Name</a>
+            <a class="btn btn-default" role="button">Sort by Course Creation Date</a>
+        </div>
+        <br>
         <div class="row">
             <div class="col-md-4">
                 <div class="input-group">
                     <span class="input-group-addon">
                         <input type="radio" name="sortby" value="id">
                     </span>
-                    <input type="text" class="form-control" value="Sort by course ID" disabled />
+                    <button class="form-control" name="sortby" value="id" value="Sort by course name">Sort by course ID </button>
                     <!-- <input type="radio" name="sortby" value="id" id="sortbyid" <%= data.sortCriteria.equals(Const.SORT_BY_COURSE_ID) ? "checked" : "" %>> Sort by course ID-->
                 </div>
             </div>
