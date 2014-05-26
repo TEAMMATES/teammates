@@ -101,35 +101,29 @@
                         <span class="pull-right">
                              <a class="btn btn-primary btn-xs btn-tm-actions"
                                 href="<%=data.getInstructorCourseEnrollLink(courseDetails.course.id)%>"
-                                onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_ENROLL%>')"
-                                onmouseout="hideddrivetip()"> Enroll</a>
+                                title="<%=Const.Tooltips.COURSE_ENROLL%>" data-toggle="tooltip" data-placement="top"> Enroll</a>
                                  
                              <a class="btn btn-primary btn-xs btn-tm-actions"
                                 href="<%=data.getInstructorCourseDetailsLink(courseDetails.course.id)%>"
-                                onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_DETAILS%>')"
-                                onmouseout="hideddrivetip()"> View</a> 
+                                title="<%=Const.Tooltips.COURSE_DETAILS%>" data-toggle="tooltip" data-placement="top"> View</a> 
                                 
                              <a class="btn btn-primary btn-xs btn-tm-actions"
                                 href="<%=data.getInstructorCourseEditLink(courseDetails.course.id)%>"
-                                onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_EDIT%>')"
-                                onmouseout="hideddrivetip()"> Edit</a>
+                                title="<%=Const.Tooltips.COURSE_EDIT%>" data-toggle="tooltip" data-placement="top"> Edit</a>
                                 
                              <a class="btn btn-primary btn-xs btn-tm-actions"
                                 href="<%=data.getInstructorEvaluationLinkForCourse(courseDetails.course.id)%>"
-                                onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_ADD_EVALUATION%>')"
-                                onmouseout="hideddrivetip()"> Add Session</a>
+                                title="<%=Const.Tooltips.COURSE_ADD_EVALUATION%>" data-toggle="tooltip" data-placement="top"> Add Session</a>
                              
                              <a class="btn btn-primary btn-xs btn-tm-actions"
                                 href="<%=data.getInstructorCourseArchiveLink(courseDetails.course.id, true, true)%>"
-                                onclick="hideddrivetip(); return toggleArchiveCourseConfirmation('<%=courseDetails.course.id%>')"
-                                onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_ARCHIVE%>')"
-                                onmouseout="hideddrivetip()">Archive</a>
+                                title="<%=Const.Tooltips.COURSE_ARCHIVE%>" data-toggle="tooltip" data-placement="top"
+                                onclick="return toggleArchiveCourseConfirmation('<%=courseDetails.course.id%>')">Archive</a>
                                 
                              <a class="btn btn-primary btn-xs btn-tm-actions"
                                 href="<%=data.getInstructorCourseDeleteLink(courseDetails.course.id,true)%>"
-                                onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('<%=courseDetails.course.id%>')"
-                                onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_DELETE%>')"
-                                onmouseout="hideddrivetip()"> Delete</a>
+                                title="<%=Const.Tooltips.COURSE_DELETE%>" data-toggle="tooltip" data-placement="top"
+                                onclick="return toggleDeleteCourseConfirmation('<%=courseDetails.course.id%>')"> Delete</a>
                         </span>
                     </div>
                     <%
@@ -138,26 +132,28 @@
                     %>
                             <table class="table-responsive table table-striped">
                                 <tr>
-                                    <th class="leftalign color_white bold">Session Name</th>
-                                    <th class="centeralign color_white bold">Status</th>
-                                    <th class="centeralign color_white bold"><span
-                                        onmouseover="ddrivetip('<%=Const.Tooltips.EVALUATION_RESPONSE_RATE%>')"
-                                        onmouseout="hideddrivetip()">Response Rate</span></th>
-                                    <th class="centeralign color_white bold no-print">Action(s)</th>
+                                    <th>Session Name</th>
+                                    <th>Status</th>
+                                    <th>
+                                        <span title="<%=Const.Tooltips.EVALUATION_RESPONSE_RATE%>" data-toggle="tooltip" data-placement="top">Response Rate</span>
+                                    </th>
+                                    <th class="no-print">Action(s)</th>
                                 </tr>
                         <%
                             for (EvaluationAttributes edd: courseDetails.evaluations){
                                 sessionIdx++;
                         %>
-                                <tr class="home_sessions_row" id="session<%=sessionIdx%>">
-                                    <td class="t_session_name<%=courseIdx%>"><%=PageData.sanitizeForHtml(edd.name)%></td>
-                                    <td class="t_session_status<%=courseIdx%> centeralign"><span
-                                        onmouseover="ddrivetip('<%=PageData.getInstructorHoverMessageForEval(edd)%>')"
-                                        onmouseout="hideddrivetip()"><%=PageData.getInstructorStatusForEval(edd)%></span></td>
-                                    <td class="t_session_response<%=courseIdx%> centeralign<% if(!TimeHelper.isOlderThanAYear(edd.endTime)) { out.print(" recent");} %>">
+                                <tr id="session<%=sessionIdx%>">
+                                    <td><%=PageData.sanitizeForHtml(edd.name)%></td>
+                                    <td>
+                                        <span title="<%=PageData.getInstructorHoverMessageForEval(edd)%>" data-toggle="tooltip" data-placement="top">
+                                            <%=PageData.getInstructorStatusForEval(edd)%>
+                                        </span>
+                                    </td>
+                                    <td class="<% if(!TimeHelper.isOlderThanAYear(edd.endTime)) { out.print(" recent");} %>">
                                         <a oncontextmenu="return false;" href="<%=data.getEvaluationStatsLink(edd.courseId, edd.name)%>">Show</a>
                                     </td>
-                                    <td class="centeralign no-print"><%=data.getInstructorEvaluationActions(edd, true)%>
+                                    <td class="no-print"><%=data.getInstructorEvaluationActions(edd, true)%>
                                     </td>
                                 </tr>
                         <%
@@ -165,18 +161,18 @@
                             for(FeedbackSessionAttributes fdb: courseDetails.feedbackSessions) {
                                 sessionIdx++;
                         %>
-                                <tr class="home_sessions_row" id="session<%=sessionIdx%>">
-                                    <td class="t_session_name"><%=PageData
+                                <tr id="session<%=sessionIdx%>">
+                                    <td><%=PageData
                                             .sanitizeForHtml(fdb.feedbackSessionName)%></td>
-                                    <td class="t_session_status centeralign"><span
-                                        onmouseover="ddrivetip(' <%=PageData
-                                            .getInstructorHoverMessageForFeedbackSession(fdb)%>')"
-                                        onmouseout="hideddrivetip()"><%=PageData
-                                            .getInstructorStatusForFeedbackSession(fdb)%></span></td>
-                                    <td class="t_session_response centeralign<% if(!TimeHelper.isOlderThanAYear(fdb.createdTime)) { out.print(" recent");} %>">
+                                    <td>
+                                        <span title="<%=PageData.getInstructorHoverMessageForFeedbackSession(fdb)%>" data-toggle="tooltip" data-placement="top">
+                                            <%=PageData.getInstructorStatusForFeedbackSession(fdb)%>
+                                        </span>
+                                    </td>
+                                    <td class="<% if(!TimeHelper.isOlderThanAYear(fdb.createdTime)) { out.print(" recent");} %>">
                                         <a oncontextmenu="return false;" href="<%=data.getFeedbackSessionStatsLink(fdb.courseId, fdb.feedbackSessionName)%>">Show</a>
                                     </td>
-                                    <td class="centeralign no-print"><%=data.getInstructorFeedbackSessionActions(
+                                    <td class="no-print"><%=data.getInstructorFeedbackSessionActions(
                                             fdb, false)%></td>
                                 </tr>
                         <%
