@@ -3,6 +3,7 @@
 <%@ page import="java.util.Map"%>
 <%@ page import="java.util.List"%>
 <%@ page import="teammates.common.util.Const"%>
+<%@ page import="teammates.common.datatransfer.FeedbackSessionResponseStatus"%>
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackResponseAttributes"%>
 <%@ page import="teammates.ui.controller.InstructorFeedbackResultsPageData"%>
@@ -101,6 +102,38 @@
             <%
                 }
             %>
+            
+            <%
+            // Only output the list of students who haven't responded when there are responses.
+            FeedbackSessionResponseStatus responseStatus = data.bundle.responseStatus;
+            if (!responseStatus.hasResponse.isEmpty()) {
+        %>
+                <div class="panel panel-info">
+                    <div class="panel-heading">Student Response Information</div>
+                    
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Students Who Did Not Respond to Any Question</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <%
+                            for (String studentName : responseStatus.getStudentsWhoDidNotRespondToAnyQuestion()) {
+                        %>
+                                <tr>
+                                    <td><%=studentName%></td>
+                                </tr>
+                        <%
+                            }
+                        %>
+                        </tbody>
+                    </table>
+                </div>
+                <br> <br>
+        <%
+            }
+        %>
         </div>
     </div>
 
