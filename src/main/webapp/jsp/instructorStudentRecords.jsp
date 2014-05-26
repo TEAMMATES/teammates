@@ -63,7 +63,7 @@
     <div id="frameBody" class="container">
         <div id="frameBodyWrapper">
             <div id="topOfPage"></div>
-            <h1><%=data.courseId %> - <%=data.student.name %>'s Records</h1>
+            <h1><%=data.courseId %> - <%=InstructorStudentRecordsPageData.sanitizeForHtml(data.student.name)%>'s Records</h1>
             <br />
             <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
             <div class="panel panel-info">
@@ -156,12 +156,12 @@
                     for(boolean byReviewee = true, repeat=true; repeat; repeat = byReviewee, byReviewee=false){
                 %>
                 <h3>
-                    <span class="label <%=byReviewee ? "label-primary" : "label-default"%>"><%=InstructorStudentRecordsPageData.sanitizeForHtml(data.student.name) + (byReviewee ? "'s result" : "'s submission")%></span>
+                    <span class="label <%=byReviewee ? "label-primary" : "label-default"%>"><%=(byReviewee ? "Result" : "Submission")%></span>
                 </h3>
                 <div class="panel <%=byReviewee ? "panel-primary" : "panel-default"%>">
                     <table class="table panel-heading">
                         <tr>
-                                <td class="col-sm-4"><%=byReviewee ? "Reviewee" : "Reviewer"%>: <strong><%=data.student.name%></strong>
+                                <td class="col-sm-4"><%=byReviewee ? "Reviewee" : "Reviewer"%>: <strong><%=InstructorStudentRecordsPageData.sanitizeForHtml(data.student.name)%></strong>
                                 </td>
                                 <td class="col-sm-4">
                                     <div class="pull-right"><span data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.CLAIMED%>">Claimed Contribution: </span>
@@ -244,7 +244,7 @@
                     
                     fbIndex++;
 
-                    String giverName = feedback.appendTeamNameToName(data.student.name, data.student.team);
+                    String giverName = feedback.appendTeamNameToName(InstructorStudentRecordsPageData.sanitizeForHtml(data.student.name), data.student.team);
                     String recipientName = giverName;
                     Map<String, List<FeedbackResponseAttributes>> received = feedback 
                             .getResponsesSortedByRecipient().get(recipientName);
@@ -323,7 +323,7 @@
                     } else{
                 %>
                     <div class="panel panel-info">
-                            <div class="panel-body">No feedback for <%=data.student.name%> found</div>
+                            <div class="panel-body">No feedback for <%=InstructorStudentRecordsPageData.sanitizeForHtml(data.student.name)%> found</div>
                     </div>
                 <%
                     }
@@ -394,7 +394,7 @@
                     } else{
                 %>
                         <div class="panel panel-info">
-                            <div class="panel-body">No feedback by <%=data.student.name%> found</div>
+                            <div class="panel-body">No feedback by <%=InstructorStudentRecordsPageData.sanitizeForHtml(data.student.name)%> found</div>
                         </div>
                 <%
                     }
