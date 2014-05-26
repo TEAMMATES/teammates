@@ -98,10 +98,10 @@ function toggleVisibilityOptions(elem){
         $options.show();
         feedbackGiverUpdateVisibilityOptions($giverType);
         feedbackRecipientUpdateVisibilityOptions($recipientType);
-        $(elem).html("[-] Hide Visibility Options");
+        $(elem).html("<span class=\"glyphicon glyphicon-eye-close\"></span> Hide Visibility Options");
     } else {
         $options.hide();
-        $(elem).html("[+] Show Visibility Options");
+        $(elem).html("<span class=\"glyphicon glyphicon-eye-open\"></span> Show Visibility Options");
     }
 }
 
@@ -134,7 +134,8 @@ function enableQuestion(number){
         not('[name="receiverFollowerCheckbox"]').
         not('.disabled_radio').
         removeAttr("disabled", "disabled");
-    $('#questionTable'+number).find('a').show();
+    $('#questionTable'+number).find('.removeOptionLink').show();
+    $('#questionTable'+number).find('.addOptionLink').show();
     
     if($("#generateOptionsCheckbox-"+number).prop("checked")){
         $("#mcqChoiceTable-"+number).hide();
@@ -224,14 +225,14 @@ function formatNumberBoxes(){
  */
 function formatNumberBox(value, qnNumber) {
     if (value == "STUDENTS" || value == "TEAMS") {
-        $("td.numberOfEntitiesElements"+qnNumber).show();
+        $("div.numberOfEntitiesElements"+qnNumber).show();
         if(value == "STUDENTS") {
             $("span#"+FEEDBACK_QUESTION_NUMBEROFENTITIES+"_text_inner-"+qnNumber).html("students");
         } else {
             $("span#"+FEEDBACK_QUESTION_NUMBEROFENTITIES+"_text_inner-"+qnNumber).html("teams");
         }
     } else {
-        $("td.numberOfEntitiesElements"+qnNumber).hide();
+        $("div.numberOfEntitiesElements"+qnNumber).hide();
     }
     tallyCheckboxes(qnNumber);
 }
@@ -309,13 +310,21 @@ function addMcqOption(questionNumber) {
     
     var curNumberOfChoiceCreated = parseInt($("#"+FEEDBACK_QUESTION_NUMBEROFCHOICECREATED+idSuffix).val());
         
-    $("<tr id=\"mcqOptionRow-"+curNumberOfChoiceCreated+idSuffix+"\">"
-        + "<td><input type=\"radio\" disabled=\"disabled\"></td>"
-        + "<td><input type=\"text\" name=\""+FEEDBACK_QUESTION_MCQCHOICE+"-"+curNumberOfChoiceCreated+"\""
-        + " id=\""+FEEDBACK_QUESTION_MCQCHOICE+"-"+curNumberOfChoiceCreated+idSuffix+"\" class=\"mcqOptionTextBox\">"
-        + "<a href=\"#\" class=\"removeOptionLink\" id=\"mcqRemoveOptionLink\" "
-        + "onclick=\"removeMcqOption("+curNumberOfChoiceCreated+","+questionNumber+")\" tabindex=\"-1\">"
-        + " x</a></td></tr>"
+    $(    "<div id=\"mcqOptionRow-"+curNumberOfChoiceCreated+idSuffix+"\">"
+        +   "<div class=\"input-group\">"
+        +       "<span class=\"input-group-addon\">"
+        +          "<input type=\"radio\" disabled=\"disabled\">"
+        +       "</span>"
+        +       "<input type=\"text\" name=\""+FEEDBACK_QUESTION_MCQCHOICE+"-"+curNumberOfChoiceCreated+"\" "
+        +               "id=\""+FEEDBACK_QUESTION_MCQCHOICE+"-"+curNumberOfChoiceCreated+idSuffix+"\" class=\"form-control mcqOptionTextBox\">"
+        +       "<span class=\"input-group-btn\">"
+        +           "<button class=\"btn btn-default removeOptionLink\" id=\"mcqRemoveOptionLink\" "
+        +                   "onclick=\"removeMcqOption("+curNumberOfChoiceCreated+","+questionNumber+")\" tabindex=\"-1\">"
+        +               "<span class=\"glyphicon glyphicon-remove\"></span>"
+        +           "</button>"
+        +       "</span>"
+        +   "</div>"
+        + "</div>"
     ).insertBefore($("#mcqAddOptionRow" + idSuffix));
 
     $("#"+FEEDBACK_QUESTION_NUMBEROFCHOICECREATED+idSuffix).val(curNumberOfChoiceCreated+1);
@@ -626,8 +635,12 @@ function getQuestionLink(qnNumber) {
                         + "&fsname=" + fsname 
                         + "&questionid=" + questionId;
     
-    setStatusMessage("Link for question " + qnNumber + ": " + questionLink, false);
+    $("#statusMessage").text("Link for question " + qnNumber + ": " + questionLink);
+    $("#statusMessage").attr("class", "alert alert-warning");
+    $("#statusMessage").show();
     
+    var scrollAmount = $("#statusMessage")[0].scrollHeight + $("#frameBody").height() * 3/4; 
+    $("#frameBody").animate({scrollTop: scrollAmount}, 1000);
 }
 
 function toParameterFormat(str) {
