@@ -22,7 +22,6 @@
     
     <script type="text/javascript" src="/js/googleAnalytics.js"></script>
     <script type="text/javascript" src="/js/jquery-minified.js"></script>
-    <script type="text/javascript" src="/js/tooltip.js"></script>
     <script type="text/javascript" src="/js/date.js"></script>
     <script type="text/javascript" src="/js/CalendarPopup.js"></script>
     <script type="text/javascript" src="/js/AnchorPosition.js"></script>
@@ -69,7 +68,6 @@
         
         <div class="inner-container well well-plain">
             <div class="row text-center">
-            
                 <div class="col-md-4">
                     <input type="radio" name="sortby" value="id" <%= data.sortCriteria.equals(Const.SORT_BY_COURSE_ID) ? "checked" : "" %>>
                     <label class="label-control" name="sortby" value="id"> Sort by Course ID </label>
