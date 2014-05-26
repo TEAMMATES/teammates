@@ -51,7 +51,7 @@ public class Const {
         public static final String COURSE_DETAILS = "View, edit and send invitation emails to the students in the course";
         public static final String COURSE_EDIT = "Edit Course information and instructor list";
         public static final String COURSE_DELETE = "Delete the course and its corresponding students and evaluations";
-        public static final String COURSE_ARCHIVE = "Archive the course so that it will not be shown in the home page any more \\(you can still access it from the \\'Courses\\' tab\\)";
+        public static final String COURSE_ARCHIVE = "Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)";
         public static final String COURSE_ADD_EVALUATION = "Add an evaluation for the course";
         public static final String CLAIMED = "This is student own estimation of his/her contributions to the project";
         public static final String PERCEIVED = "This is the average of what other team members think this student contributed to the project";

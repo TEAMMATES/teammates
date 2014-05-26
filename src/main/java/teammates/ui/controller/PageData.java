@@ -602,52 +602,50 @@ public class PageData {
         }
         
         result.append(
-            "<a class=\"btn btn-default btn-xs btn-tm-actions\"" +
+            "<a class=\"btn btn-default btn-xs btn-tm-actions" + (hasView ? "\"" : DISABLED) +
             "href=\"" + getInstructorEvaluationResultsLink(eval.courseId,eval.name) + "\" " +
-            "onmouseover=\"ddrivetip('"+Const.Tooltips.EVALUATION_RESULTS+"')\" "+
-            "onmouseout=\"hideddrivetip()\"" + (hasView ? "" : DISABLED) + ">View Results</a>"
+            "title=\"" + Const.Tooltips.EVALUATION_RESULTS+"\" data-toggle=\"tooltip\" data-placement=\"bottom\">View Results</a>"
         );
         result.append(
-            "<a class=\"btn btn-default btn-xs btn-tm-actions\"" + 
+            "<a class=\"btn btn-default btn-xs btn-tm-actions" + (hasEdit ? "\"" : DISABLED) + 
             "href=\"" + getInstructorEvaluationEditLink(eval.courseId,eval.name) + "\" " +
-            "onmouseover=\"ddrivetip('"+Const.Tooltips.EVALUATION_EDIT+"')\" onmouseout=\"hideddrivetip()\" " +
-            (hasEdit ? "" : DISABLED) + ">Edit</a>"
+            "title=\"" + Const.Tooltips.EVALUATION_EDIT + "\" data-toggle=\"tooltip\" data-placement=\"top\">Edit</a>"
         );
         result.append(
             "<a class=\"btn btn-default btn-xs btn-tm-actions\"" + 
             "href=\"" + getInstructorEvaluationPreviewLink(eval.courseId,eval.name) + "\" " +
-            "onmouseover=\"ddrivetip('"+Const.Tooltips.EVALUATION_PREVIEW+"')\" onmouseout=\"hideddrivetip()\" " +
+            "title=\"" + Const.Tooltips.EVALUATION_PREVIEW + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
             "target=\"_blank\">Preview</a>"
         );
         result.append(
             "<a class=\"btn btn-default btn-xs btn-tm-actions\"" + 
             "href=\"" + getInstructorEvaluationDeleteLink(eval.courseId,eval.name,(isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE : Const.ActionURIs.INSTRUCTOR_EVALS_PAGE)) + "\" " +
-            "onclick=\"hideddrivetip(); return toggleDeleteEvaluationConfirmation('" + eval.courseId + "','" + eval.name + "');\" " +
-            "onmouseover=\"ddrivetip('"+Const.Tooltips.EVALUATION_DELETE+"')\" onmouseout=\"hideddrivetip()\">Delete</a>"
+            "title=\"" + Const.Tooltips.EVALUATION_DELETE + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
+            "onclick=\"return toggleDeleteEvaluationConfirmation('" + eval.courseId + "','" + eval.name + "');\" " +
+            ">Delete</a>"
         );
         result.append(
-            "<a class=\"btn btn-default btn-xs btn-tm-actions\"" + 
+            "<a class=\"btn btn-default btn-xs btn-tm-actions" + (hasRemind ? "\"" : DISABLED) + 
             "href=\"" + getInstructorEvaluationRemindLink(eval.courseId,eval.name) + "\" " +
-            (hasRemind ? "onclick=\"hideddrivetip(); return toggleRemindStudents('" + eval.name + "');\" " : "") +
-            "onmouseover=\"ddrivetip('"+Const.Tooltips.EVALUATION_REMIND+"')\" " +
-            "onmouseout=\"hideddrivetip()\"" + (hasRemind ? "" : DISABLED) + ">Remind</a>"
+            (hasRemind ? "onclick=\"return toggleRemindStudents('" + eval.name + "');\" " : "") +
+            "title=\"" + Const.Tooltips.EVALUATION_REMIND + "\" data-toggle=\"tooltip\" data-placement=\"top\">Remind</a>"
         );
         
         if (hasUnpublish) {
             result.append(
                 "<a class=\"btn btn-default btn-xs btn-tm-actions\"" + 
                 "href=\"" + getInstructorEvaluationUnpublishLink(eval.courseId,eval.name,isHome) + "\" " +
-                "onclick=\"hideddrivetip(); return toggleUnpublishEvaluation('" + eval.name + "');\" " +
-                "onmouseover=\"ddrivetip('"+Const.Tooltips.EVALUATION_UNPUBLISH+"')\" onmouseout=\"hideddrivetip()\">" +
+                "title=\"" + Const.Tooltips.EVALUATION_UNPUBLISH+"\" data-toggle=\"tooltip\" data-placement=\"top\"" +
+                "onclick=\"return toggleUnpublishEvaluation('" + eval.name + "');\">" +
                 "Unpublish</a>"
             );
         } else {
             result.append(
                 "<a class=\"btn btn-default btn-xs btn-tm-actions" + (hasPublish ? "\"" : DISABLED) +
                 "href=\"" + getInstructorEvaluationPublishLink(eval.courseId,eval.name,isHome) + "\" " +
-                (hasPublish ? "onclick=\"hideddrivetip(); return togglePublishEvaluation('" + eval.name + "');\" " : "") +
-                "onmouseover=\"ddrivetip('"+Const.Tooltips.EVALUATION_PUBLISH+"')\" " +
-                "onmouseout=\"hideddrivetip()\">Publish</a>"
+                "title=\"" + Const.Tooltips.EVALUATION_PUBLISH + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
+                (hasPublish ? "onclick=\"return togglePublishEvaluation('" + eval.name + "');\" " : "") +
+                ">Publish</a>"
             );
         }
         return result.toString();
@@ -719,44 +717,43 @@ public class PageData {
         boolean hasRemind = session.isOpened();
         
         result.append(
-            "<a class=\"btn btn-default btn-xs btn-tm-actions\"" +
+            "<a class=\"btn btn-default btn-xs btn-tm-actions" + (hasView ? "\"" : DISABLED) +
             "href=\"" + getInstructorFeedbackSessionResultsLink(session.courseId,session.feedbackSessionName) + "\" " +
-            "onmouseover=\"ddrivetip('"+Const.Tooltips.FEEDBACK_SESSION_RESULTS+"')\" "+
-            "onmouseout=\"hideddrivetip()\" " + (hasView ? "" : DISABLED) + ">View Results</a> "
+            "title=\"" + Const.Tooltips.FEEDBACK_SESSION_RESULTS + "\" data-toggle=\"tooltip\" data-placement=\"top\""
+                    + ">View Results</a> "
         );
         if(isCreator){
             result.append(
-                    "<a class=\"btn btn-default btn-xs btn-tm-actions\" " +
+                    "<a class=\"btn btn-default btn-xs btn-tm-actions\"" + 
                     "href=\"" + getInstructorFeedbackSessionEditLink(session.courseId,session.feedbackSessionName) + "\" " +
-                    "onmouseover=\"ddrivetip('"+Const.Tooltips.FEEDBACK_SESSION_EDIT+"')\" " +
-                    "onmouseout=\"hideddrivetip()\">Edit</a> "
+                    "title=\"" + Const.Tooltips.FEEDBACK_SESSION_EDIT + "\" data-toggle=\"tooltip\" data-placement=\"top\">Edit</a> "
                 );
             result.append(
                     "<a class=\"btn btn-default btn-xs btn-tm-actions\"" +
                     "href=\"" + getInstructorFeedbackSessionDeleteLink(session.courseId,session.feedbackSessionName,(isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE : Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)) + "\" " +
-                    "onclick=\"hideddrivetip(); return toggleDeleteFeedbackSessionConfirmation('" + session.courseId + "','" + session.feedbackSessionName + "');\" " +
-                    "onmouseover=\"ddrivetip('"+Const.Tooltips.FEEDBACK_SESSION_DELETE+"')\" " +
-                    "onmouseout=\"hideddrivetip()\">Delete</a> "
+                    "title=\"" + Const.Tooltips.FEEDBACK_SESSION_DELETE + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
+                    "onclick=\"return toggleDeleteFeedbackSessionConfirmation('" + session.courseId + "','" + session.feedbackSessionName + "');\" " +
+                    ">Delete</a> "
                 );
         } else{
             result.append(
                     "<a class=\"btn btn-default btn-xs btn-tm-actions" + DISABLED +
                     "href=\"" + getInstructorFeedbackSessionEditLink(session.courseId,session.feedbackSessionName) + "\" " +
-                    "onmouseover=\"ddrivetip('"+Const.Tooltips.FEEDBACK_SESSION_NOT_CREATOR_EDIT+"')\" " +
-                    "onmouseout=\"hideddrivetip()\">Edit</a> "
+                    "title=\"" + Const.Tooltips.FEEDBACK_SESSION_NOT_CREATOR_EDIT + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
+                    ">Edit</a>"
                 );
             result.append(
                     "<a class=\"btn btn-default btn-xs btn-tm-actions" + DISABLED +
                     "href=\"" + getInstructorFeedbackSessionDeleteLink(session.courseId,session.feedbackSessionName,(isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE : Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)) + "\" " +
-                    "onmouseover=\"ddrivetip('"+Const.Tooltips.FEEDBACK_SESSION_NOT_CREATOR_DELETE+"')\" " +
-                    "onmouseout=\"hideddrivetip()\" " + DISABLED + ">Delete</a> "
+                    "title=\"" + Const.Tooltips.FEEDBACK_SESSION_NOT_CREATOR_DELETE + "\" data-toggle=\"tooltip\" data-placement=\"top\"" + 
+                    ">Delete</a>"
                 );
         }
         result.append(
             "<a class=\"btn btn-default btn-xs btn-tm-actions" + (hasSubmit ? "" : DISABLED) +
             "href=\"" + getInstructorFeedbackSessionSubmitLink(session.courseId,session.feedbackSessionName) + "\" " +
-            "onmouseover=\"ddrivetip('"+Const.Tooltips.FEEDBACK_SESSION_SUBMIT+"')\" " +
-            "onmouseout=\"hideddrivetip()\">Submit</a> "
+            "title=\"" + Const.Tooltips.FEEDBACK_SESSION_SUBMIT + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
+            ">Submit</a> "
         );
         
         // Don't need to show any other links if private
@@ -767,9 +764,9 @@ public class PageData {
         result.append(
             "<a class=\"btn btn-default btn-xs btn-tm-actions" + (hasRemind ? "" : DISABLED) + 
             "href=\"" + getInstructorFeedbackSessionRemindLink(session.courseId,session.feedbackSessionName) + "\" " +
-            (hasRemind ? "onclick=\"hideddrivetip(); return toggleRemindStudents('" + session.feedbackSessionName + "');\" " : "") +
-            "onmouseover=\"ddrivetip('"+Const.Tooltips.FEEDBACK_SESSION_REMIND+"')\" " +
-            "onmouseout=\"hideddrivetip()\">Remind</a> "
+            "title=\"" + Const.Tooltips.FEEDBACK_SESSION_REMIND + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
+            (hasRemind ? "onclick=\"return toggleRemindStudents('" + session.feedbackSessionName + "');\" " : "") +
+            ">Remind</a> "
         );
         
         if(isCreator){
@@ -777,33 +774,34 @@ public class PageData {
                 result.append(
                     "<a class=\"btn btn-default btn-xs btn-tm-actions\"" +
                     "href=\"" + getInstructorFeedbackSessionUnpublishLink(session.courseId,session.feedbackSessionName,isHome) + "\" " +
-                    "onclick=\"hideddrivetip(); return toggleUnpublishEvaluation('" + session.feedbackSessionName + "');\" " +
-                    "onmouseover=\"ddrivetip('"+Const.Tooltips.FEEDBACK_SESSION_UNPUBLISH+"')\" onmouseout=\"hideddrivetip()\">" +
+                    "title=\"" + Const.Tooltips.FEEDBACK_SESSION_UNPUBLISH + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
+                    "onclick=\"return toggleUnpublishEvaluation('" + session.feedbackSessionName + "');\">" +
                     "Unpublish</a> "
                 );
             } else {
                 result.append(
                     "<a class=\"btn btn-default btn-xs btn-tm-actions" + (hasPublish ? "" : DISABLED) + 
                     "href=\"" + getInstructorFeedbackSessionPublishLink(session.courseId,session.feedbackSessionName,isHome) + "\" " +
-                    (hasPublish ? "onclick=\"hideddrivetip(); return togglePublishEvaluation('" + session.feedbackSessionName + "');\" " : "") +
-                    "onmouseover=\"ddrivetip('"+ (hasPublish ? Const.Tooltips.FEEDBACK_SESSION_PUBLISH :  Const.Tooltips.FEEDBACK_SESSION_AWAITING)+"')\" " +
-                    "onmouseout=\"hideddrivetip()\">Publish</a> "
+                    "title=\"" + (hasPublish ? Const.Tooltips.FEEDBACK_SESSION_PUBLISH :  Const.Tooltips.FEEDBACK_SESSION_AWAITING) + "\"" +
+                    "data-toggle=\"tooltip\" data-placement=\"top\"" +
+                    (hasPublish ? "onclick=\"return togglePublishEvaluation('" + session.feedbackSessionName + "');\" " : "") +
+                    ">Publish</a> "
                 );
             }
         } else{
             if (hasUnpublish) {
                 result.append(
                     "<a class=\"btn btn-default btn-xs btn-tm-actions" + DISABLED +
-                    "href=\"" + getInstructorFeedbackSessionUnpublishLink(session.courseId,session.feedbackSessionName,isHome) + "\" " +
-                    "onmouseover=\"ddrivetip('"+Const.Tooltips.FEEDBACK_SESSION_NOT_CREATOR_UNPUBLISH+"')\" onmouseout=\"hideddrivetip()\">" +
+                    "href=\"" + getInstructorFeedbackSessionUnpublishLink(session.courseId,session.feedbackSessionName,isHome) + "\"" +
+                    "title=\"" + Const.Tooltips.FEEDBACK_SESSION_NOT_CREATOR_UNPUBLISH + "\" data-toggle=\"tooltip\" data-placement=\"top\">" +
                     "Unpublish</a> "
                 );
             } else {
                 result.append(
                     "<a class=\"btn btn-default btn-xs btn-tm-actions" + DISABLED +
                     "href=\"" + getInstructorFeedbackSessionPublishLink(session.courseId,session.feedbackSessionName,isHome) + "\" " +
-                    "onmouseover=\"ddrivetip('"+ Const.Tooltips.FEEDBACK_SESSION_NOT_CREATOR_PUBLISH +"')\" " +
-                    "onmouseout=\"hideddrivetip()\">Publish</a> "
+                    "title=\"" + Const.Tooltips.FEEDBACK_SESSION_NOT_CREATOR_PUBLISH  + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
+                    ">Publish</a> "
                 );
             }
         }
