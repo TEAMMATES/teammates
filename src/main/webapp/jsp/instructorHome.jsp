@@ -32,7 +32,10 @@
     <script type="text/javascript" src="/js/instructorHome.js"></script>
     <script type="text/javascript" src="/js/ajaxResponseRate.js"></script>
     <jsp:include page="../enableJS.jsp"></jsp:include>
-
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
 </head>
 
 <body>
@@ -49,8 +52,8 @@
                     <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE%>" name="search_form">
                         <div class="input-group">
                             <input type="text" name=<%=Const.ParamsNames.SEARCH_KEY %>
-                                    onmouseover="ddrivetip('<%=Const.Tooltips.SEARCH_STUDENT%>')"
-                                    onmouseout="hideddrivetip()" class="form-control" placeholder="Student Name">
+                                title="<%=Const.Tooltips.SEARCH_STUDENT%>"
+                                class="form-control" placeholder="Student Name">
                             <span class="input-group-btn">
                                 <button class="btn btn-default" type="submit" value="Search">Search</button>
                             </span>
@@ -130,15 +133,17 @@
                         if (courseDetails.evaluations.size() > 0||
                             courseDetails.feedbackSessions.size() > 0) {
                     %>
-                            <table class="table-responsive table table-striped">
-                                <tr>
-                                    <th>Session Name</th>
-                                    <th>Status</th>
-                                    <th>
-                                        <span title="<%=Const.Tooltips.EVALUATION_RESPONSE_RATE%>" data-toggle="tooltip" data-placement="top">Response Rate</span>
-                                    </th>
-                                    <th class="no-print">Action(s)</th>
-                                </tr>
+                            <table class="table-responsive table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Session Name</th>
+                                        <th>Status</th>
+                                        <th>
+                                            <span title="<%=Const.Tooltips.EVALUATION_RESPONSE_RATE%>" data-toggle="tooltip" data-placement="top">Response Rate</span>
+                                        </th>
+                                        <th class="no-print">Action(s)</th>
+                                    </tr>
+                                </thead>
                         <%
                             for (EvaluationAttributes edd: courseDetails.evaluations){
                                 sessionIdx++;
