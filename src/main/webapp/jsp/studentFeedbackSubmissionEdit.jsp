@@ -35,6 +35,7 @@
 </head>
 
 <body>
+    <div id="frameTop">
     <%
         if (!data.isPreview) {
     %>
@@ -48,8 +49,9 @@
     <% 
         }
     %>
+    </div>
 
-    <div id="frameBody"  class="container">
+    <div id="frameBody" class="container">
         <div id="frameBodyWrapper">
             <div id="topOfPage"></div>
             <h1>Submit Feedback</h1>
