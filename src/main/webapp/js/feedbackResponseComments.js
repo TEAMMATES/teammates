@@ -31,6 +31,7 @@ $(document).ready(function(){
                         newCommentRow.find("form[class*='responseCommentEditForm'] > div > a").click(editCommentHandler);
                         newCommentRow.find("form[class*='responseCommentDeleteForm'] > a").click(deleteCommentHandler);
                         addCount++;
+                        $("[data-toggle='tooltip']").tooltip({html: true});
                         
                         // Reset add comment form
                         formObject.find("textarea").prop("disabled", false);
