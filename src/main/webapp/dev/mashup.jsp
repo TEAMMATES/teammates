@@ -13,6 +13,7 @@
         <link href="/bootstrap/css/bootstrap.min.css"  rel="stylesheet"  type="text/css" />
         <link href="/bootstrap/css/bootstrap-theme.min.css"  rel="stylesheet"  type="text/css" />
         <link href="/stylesheets/teammatesCommon.css"  rel="stylesheet"  type="text/css" />
+        <link rel="stylesheet" type="text/css" href="./mashup.css">
         <script language="JavaScript" src="/js/jquery-minified.js"></script>
         <script src="/bootstrap/js/bootstrap.min.js"></script>
         <script src="/js/common.js" type="text/javascript"></script>
@@ -219,35 +220,35 @@
             <br></br>
             <div class="pageinfo">Home Page</div>
             <div id="index">
-                <iframe class="panel panel-primary" src="../index.html" onLoad="calcHeight(this);" ></iframe>
+                <iframe class="panel panel-primary full-width" src="../index.html" onLoad="calcHeight(this);"></iframe>
             </div>
             <div class="pageinfo">Features Page</div>
             <div id="features">
-                <iframe class="panel panel-primary" src="../features.html" onLoad="calcHeight(this);" ></iframe>
+                <iframe class="panel panel-primary full-width" src="../features.html" onLoad="calcHeight(this);" ></iframe>
             </div>
             <div class="pageinfo">About Us Page</div>
             <div id="about">
-                <iframe class="panel panel-primary" src="../about.html" onLoad="calcHeight(this);" ></iframe>
+                <iframe class="panel panel-primary full-width" src="../about.html" onLoad="calcHeight(this);" ></iframe>
             </div>
             <div class="pageinfo">Contact Page</div>
             <div id="contact">
-                <iframe class="panel panel-primary" src="../contact.html" onLoad="calcHeight(this);" ></iframe>
+                <iframe class="panel panel-primary full-width" src="../contact.html" onLoad="calcHeight(this);" ></iframe>
             </div>
             <div class="pageinfo">Terms Of Use Page</div>
             <div id="terms">
-                <iframe class="panel panel-primary" src="../terms.html" onLoad="calcHeight(this);" ></iframe>
+                <iframe class="panel panel-primary full-width" src="../terms.html" onLoad="calcHeight(this);" ></iframe>
             </div>
             <div class="pageinfo">Request Account Page</div>
             <div id="request">
-                <iframe class="panel panel-primary" src="../request.html" onLoad="calcHeight(this);" ></iframe>
+                <iframe class="panel panel-primary full-width" src="../request.html" onLoad="calcHeight(this);" ></iframe>
             </div>
             <div class="pageinfo">Student Help Page</div>
             <div id="studentHelp">
-                <iframe class="panel panel-primary" src="../studentHelp.html" onLoad="calcHeight(this);" ></iframe>
+                <iframe class="panel panel-primary full-width" src="../studentHelp.html" onLoad="calcHeight(this);" ></iframe>
             </div>
             <div class="pageinfo">Instructor Help Page</div>
             <div id="instructorHelp">
-                <iframe class="panel panel-primary" src="../instructorHelp.html" onLoad="calcHeight(this);" ></iframe>
+                <iframe class="panel panel-primary full-width" src="../instructorHelp.html" onLoad="calcHeight(this);" ></iframe>
             </div>
             <div class="pageinfo">Deadline Exceeded Error Page</div>
             <div id="deadlineExceededErrorPage" class="panel panel-primary"></div>
