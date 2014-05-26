@@ -31,6 +31,7 @@ $(document).ready(function(){
                         newCommentRow.find("form[class*='responseCommentEditForm'] > div > a").click(editCommentHandler);
                         newCommentRow.find("form[class*='responseCommentDeleteForm'] > a").click(deleteCommentHandler);
                         addCount++;
+                        $("[data-toggle='tooltip']").tooltip({html: true});
                         
                         // Reset add comment form
                         formObject.find("textarea").prop("disabled", false);
@@ -91,7 +92,7 @@ $(document).ready(function(){
             }
         });
     };
-    $("form[class*='responseCommentEditForm'] > div > a#button_save_comment").click(editCommentHandler);
+    $("form[class*='responseCommentEditForm'] > div > a").click(editCommentHandler);
     
     var deleteCommentHandler = function(e) {
         var submitButton = $(this);
@@ -170,7 +171,7 @@ function generateNewCommentRow(data) {
     + 			" id=\"" + FEEDBACK_RESPONSE_COMMENT_TEXT + "\"-" + addCount + "\">" + data.comment.commentText.value + "</textarea>"
     +	 "</div>"
     + 	 "<div class=\"col-sm-offset-5\">"
-    + 		"<a href=\"/page/instructorFeedbackResponseCommentEdit\" type=\"button\" class=\"btn btn-primary\" id=\"button_save_comment\">"
+    + 		"<a href=\"/page/instructorFeedbackResponseCommentEdit\" type=\"button\" class=\"btn btn-primary\" id=\"button_save_comment_for_edit-" + addCount + "\">"
     + 			"Save"
     + 		"</a><span> </span>"
     +    	"<input type=\"button\" class=\"btn btn-default\" value=\"Cancel\" onclick=\"return hideResponseCommentEditForm(" + addCount + ");\">"
@@ -211,7 +212,7 @@ function hideResponseCommentAddForm(recipientIndex, giverIndex, qnIndx) {
     	$("#responseCommentTable"+id).hide();
     }
     $("#showResponseCommentAddForm"+id).hide();
-    removeFormErrorMessage($("#buttonSaveComment" + id));
+    removeFormErrorMessage($("#button_save_comment_for_add" + id));
 }
 
 function showResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commentIndex) {
@@ -235,6 +236,7 @@ function hideResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commen
     }
     $("#plainCommentText"+id).show();
     $("#responseCommentEditForm"+id).hide();
+    removeFormErrorMessage($("#button_save_comment_for_edit" + id));
 }
 
 function showNewlyAddedResponseCommentEditForm(addedIndex) {
