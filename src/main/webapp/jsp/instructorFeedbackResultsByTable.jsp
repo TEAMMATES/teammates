@@ -28,6 +28,7 @@
     <script type="text/javascript" src="/js/jquery-minified.js"></script>
     <script type="text/javascript" src="/js/AnchorPosition.js"></script>
     <script type="text/javascript" src="/js/common.js"></script>
+    <script type="text/javascript" src="/js/instructor.js"></script>
     <script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
     <jsp:include page="../enableJS.jsp"></jsp:include>
     <!-- Bootstrap core JavaScript ================================================== -->
@@ -64,7 +65,7 @@
                         FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
                         out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, ""));
                     %></h2>
-                    <table class="dataTable">
+                    <table class="table">
                         <tr>
                             <th class="leftalign color_white bold">
                                 <input class="buttonSortNone" type="button" id="button_sortgiver" 
