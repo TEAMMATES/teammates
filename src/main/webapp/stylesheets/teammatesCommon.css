@@ -161,7 +161,11 @@ body {
     }
 }
 
+<<<<<<< HEAD
 .sortIcon {
+=======
+.sort-icon {
+>>>>>>> origin/bootstrap
     width: 12px;
     height: 17px;
     display: block;
@@ -174,11 +178,11 @@ body {
 }
 
 .ascending-sorted {
-    background: url('../images/sortDownButton.png');
+    background: url('../images/sortUpButton.png');
 }
 
 .descending-sorted {
-    background: url('../images/sortUpButton.png');
+    background: url('../images/sortDownButton.png');
 }
 
 table span.arrow {
@@ -197,7 +201,7 @@ table span.arrow.up {
     margin-top: 3px;
 }
 
-.buttonSortAscending:hover, .buttonSortNone:hover, .buttonSortDescending:hover {
+.button-sort-ascending:hover, .button-sort-none:hover, .button-sort-descending:hover {
     cursor: pointer;
 }
 
