@@ -340,13 +340,21 @@ function addMsqOption(questionNumber) {
     
     var curNumberOfChoiceCreated = parseInt($("#"+FEEDBACK_QUESTION_NUMBEROFCHOICECREATED+idSuffix).val());
         
-    $("<tr id=\"msqOptionRow-"+curNumberOfChoiceCreated+idSuffix+"\">"
-        + "<td><input type=\"checkbox\" disabled=\"disabled\"></td>"
-        + "<td><input type=\"text\" name=\""+FEEDBACK_QUESTION_MSQCHOICE+"-"+curNumberOfChoiceCreated+"\""
-        + " id=\""+FEEDBACK_QUESTION_MSQCHOICE+"-"+curNumberOfChoiceCreated+idSuffix+"\" class=\"msqOptionTextBox\">"
-        + "<a href=\"#\" class=\"removeOptionLink\" id=\"msqRemoveOptionLink\" "
-        + "onclick=\"removeMsqOption("+curNumberOfChoiceCreated+","+questionNumber+")\" tabindex=\"-1\">"
-        + " x</a></td></tr>"
+    $(   "<div id=\"msqOptionRow-"+curNumberOfChoiceCreated+idSuffix+"\">"
+        +   "<div class=\"input-group\">"
+        +       "<span class=\"input-group-addon\">"
+        +          "<input type=\"checkbox\" disabled=\"disabled\">"
+        +       "</span>"
+        +       "<input type=\"text\" name=\""+FEEDBACK_QUESTION_MSQCHOICE+"-"+curNumberOfChoiceCreated+"\" "
+        +               "id=\""+FEEDBACK_QUESTION_MSQCHOICE+"-"+curNumberOfChoiceCreated+idSuffix+"\" class=\"form-control msqOptionTextBox\">"
+        +       "<span class=\"input-group-btn\">"
+        +           "<button class=\"btn btn-default removeOptionLink\" id=\"msqRemoveOptionLink\" "
+        +                   "onclick=\"removeMcqOption("+curNumberOfChoiceCreated+","+questionNumber+")\" tabindex=\"-1\">"
+        +               "<span class=\"glyphicon glyphicon-remove\"></span>"
+        +           "</button>"
+        +       "</span>"
+        +   "</div>"
+        + "</div>"
     ).insertBefore($("#msqAddOptionRow" + idSuffix));
 
     $("#"+FEEDBACK_QUESTION_NUMBEROFCHOICECREATED+idSuffix).val(curNumberOfChoiceCreated+1);

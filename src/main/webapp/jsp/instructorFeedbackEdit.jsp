@@ -536,29 +536,33 @@
                 }
             %>
 
-            <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_ADD%>" name="form_addquestions" class="form_question" onsubmit="tallyCheckboxes('')" >
-            <table class="inputTable" id="addNewQuestionTable">
-                <tr>
-                    <td class="bold">
-                        Question Type
-                        <select class="questionType"
-                                name="<%=Const.ParamsNames.FEEDBACK_QUESTION_TYPE%>"
-                                id="questionTypeChoice">
-                            <option value = "TEXT"><%=Const.FeedbackQuestionTypeNames.TEXT%></option>
-                            <option value = "MCQ"><%=Const.FeedbackQuestionTypeNames.MCQ%></option>
-                            <option value = "MSQ"><%=Const.FeedbackQuestionTypeNames.MSQ%></option>
-                            <option value = "NUMSCALE"><%=Const.FeedbackQuestionTypeNames.NUMSCALE%></option>
-                        </select>
-                    </td>
-                    <td>
-                        <input id="button_openframe" class="button centeralign" value="Add New Question"
+            <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_ADD%>" name="form_addquestions" class="form-horizontal form_question" role="form" onsubmit="tallyCheckboxes('')" >
+            <div class="well well-plain inputTable" id="addNewQuestionTable">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label for="questionTypeChoice" class="control-label col-sm-4">
+                            Question Type
+                        </label>
+                        <div class="col-sm-8">
+                            <select class="form-control questionType"
+                                    name="<%=Const.ParamsNames.FEEDBACK_QUESTION_TYPE%>"
+                                    id="questionTypeChoice">
+                                <option value = "TEXT"><%=Const.FeedbackQuestionTypeNames.TEXT%></option>
+                                <option value = "MCQ"><%=Const.FeedbackQuestionTypeNames.MCQ%></option>
+                                <option value = "MSQ"><%=Const.FeedbackQuestionTypeNames.MSQ%></option>
+                                <option value = "NUMSCALE"><%=Const.FeedbackQuestionTypeNames.NUMSCALE%></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <input id="button_openframe" class="btn btn-primary" value="Add New Question"
                             onclick="showNewQuestionFrame(document.getElementById('questionTypeChoice').value)">
-                    </td>
-                    <td>
-                        <a href="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE + "?" + Const.ParamsNames.USER_ID + "=" + data.account.googleId + "&" + Const.ParamsNames.COURSE_ID + "=" + data.session.courseId%>" class="button">Done Editing</a>
-                    </td>
-                </tr>
-            </table>
+                    </div>
+                    <div class="col-sm-3">
+                        <a class="btn btn-primary" href="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE + "?" + Const.ParamsNames.USER_ID + "=" + data.account.googleId + "&" + Const.ParamsNames.COURSE_ID + "=" + data.session.courseId%>" class="button">Done Editing</a>
+                    </div>
+                </div>
+            </div>
 
             <table class="inputTable questionTable" id="questionTableNew" style="display:none;">
                 <tr>
@@ -821,50 +825,61 @@
                 value="<%=FeedbackParticipantType.NONE.toString()%>">
         </form>
         <br><br>
-        <table class="inputTable" id="questionPreviewTable">
-            <tr>
-                <td class="bold">
-                    Preview Session:
-                </td>
-                <td onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_PREVIEW_ASSTUDENT%>')" onmouseout="hideddrivetip()">
+        <div class="well well-plain inputTable" id="questionPreviewTable">
+            <div class="row">
+                <form class="form-horizontal">
+                    <label class="control-label col-sm-2 text-right">
+                        Preview Session:
+                    </label>
+                </form>
+                <div class="col-sm-5" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_PREVIEW_ASSTUDENT%>')" onmouseout="hideddrivetip()">
                     <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_PREVIEW_ASSTUDENT%>"
                         name="form_previewasstudent" class="form_preview" target="_blank">
-                        <select name="<%=Const.ParamsNames.PREVIEWAS%>">
+                        
+                        <div class="col-sm-6">
+                            <select class="form-control" name="<%=Const.ParamsNames.PREVIEWAS%>">
+                                <%
+                                    for(StudentAttributes student : data.studentList) {
+                                %>
+                                        <option value="<%=student.email%>">[<%=student.team%>] <%=student.name%></option>
+                                <%
+                                    }
+                                %>
+                            </select>
+                        </div>
+                        <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.session.feedbackSessionName%>">
+                        <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.session.courseId%>">
+                        <div class="col-sm-6">
+                            <input id="button_preview_student" type="submit" class="btn btn-primary" value="Preview as Student"
+                            <%=data.studentList.isEmpty() ? "disabled=\"disabled\" style=\"background: #66727A;\"" : ""%>>
+                        </div>
+                        <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
+                    </form>
+                </div>
+                <div class="col-sm-5" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_PREVIEW_ASINSTRUCTOR%>')" onmouseout="hideddrivetip()">
+                    <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_PREVIEW_ASINSTRUCTOR%>"
+                        name="form_previewasinstructor" class="form_preview" target="_blank">
+                        <div class="col-sm-6">
+                            <select class="form-control" name="<%=Const.ParamsNames.PREVIEWAS%>">
                             <%
-                                for(StudentAttributes student : data.studentList) {
+                                for(InstructorAttributes instructor : data.instructorList) {
                             %>
-                                    <option value="<%=student.email%>">[<%=student.team%>] <%=student.name%></option>
+                                    <option value="<%=instructor.email%>"><%=instructor.name%></option>
                             <%
                                 }
                             %>
-                        </select>
+                            </select>
+                        </div>
                         <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.session.feedbackSessionName%>">
                         <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.session.courseId%>">
-                        <input id="button_preview_student" type="submit" class="button" value="Preview as Student"
-                            <%=data.studentList.isEmpty() ? "disabled=\"disabled\" style=\"background: #66727A;\"" : ""%>>
+                        <div class="col-sm-6">
+                            <input id="button_preview_instructor" type="submit" class="btn btn-primary" value="Preview as Instructor">
+                        </div>
                         <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
                     </form>
-                </td>
-                <td onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_PREVIEW_ASINSTRUCTOR%>')" onmouseout="hideddrivetip()">
-                    <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_PREVIEW_ASINSTRUCTOR%>"
-                        name="form_previewasinstructor" class="form_preview" target="_blank">
-                        <select name="<%=Const.ParamsNames.PREVIEWAS%>">
-                        <%
-                            for(InstructorAttributes instructor : data.instructorList) {
-                        %>
-                                <option value="<%=instructor.email%>"><%=instructor.name%></option>
-                        <%
-                            }
-                        %>
-                        </select>
-                        <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.session.feedbackSessionName%>">
-                        <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.session.courseId%>">
-                        <input id="button_preview_instructor" type="submit" class="button" value="Preview as Instructor">
-                        <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
-                    </form>
-                </td>
-            </tr>
-        </table>
+                </div>
+            </div>
+        </div>
         <br><br>
         </div>
     </div>
