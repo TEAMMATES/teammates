@@ -46,16 +46,21 @@
             <div id="topOfPage"></div>
             <h1>Add New Feedback Session</h1>
             
-            <p class="bold centeralign middlealign"><span style="padding-right:10px">Session Type</span>
-                <select style="width:730px" 
-                    name="feedbackchangetype"
-                    id="feedbackchangetype"
-                    onmouseover="ddrivetip('Select a different type of session here.')"
-                    onmouseout="hideddrivetip()" tabindex="0">
-                    <option value="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE%>" selected="selected">Feedback Session with customizable questions</option>
-                    <option value="<%=Const.ActionURIs.INSTRUCTOR_EVALS_PAGE%>">Standard Team Peer Evaluation with fixed questions</option>
-                </select>
-            </p>
+            <div class="container">
+                <div class="row">
+                    <label class="label-control col-md-2">Session Type</label>
+                    <div class="col-md-10">
+                        <select class="form-control" 
+                            name="feedbackchangetype"
+                            id="feedbackchangetype"
+                            onmouseover="ddrivetip('Select a different type of session here.')"
+                            onmouseout="hideddrivetip()" tabindex="0">
+                            <option value="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE%>" selected="selected">Feedback Session with customizable questions</option>
+                            <option value="<%=Const.ActionURIs.INSTRUCTOR_EVALS_PAGE%>">Standard Team Peer Evaluation with fixed questions</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
 
             <div class="well well-plain">
                 <form role="form">
