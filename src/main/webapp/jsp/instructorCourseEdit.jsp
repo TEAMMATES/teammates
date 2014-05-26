@@ -37,7 +37,7 @@
 
 <body onload="readyCourseEditPage();"><jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
 
-    <div class="container theme-showcase">
+    <div class="container theme-showcase" id="frameBodyWrapper">
         <div id="topOfPage"></div>
         <div id="headerOperation">
             <h1>Edit Course Details</h1>
@@ -47,7 +47,7 @@
             <div class="panel-heading">
                 <strong>Course:</strong>
                 <a href="<%=data.getInstructorCourseDeleteLink(data.course.id, false)%>"
-                    class="btn btn-primary btn-xs pull-right"
+                    class="btn btn-primary btn-xs pull-right" id="courseDeleteLink"
                     data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_DELETE%>"
                     onclick="return toggleDeleteCourseConfirmation('<%=data.course.id%>');">
                     <span class="glyphicon glyphicon-trash"></span>
