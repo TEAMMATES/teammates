@@ -596,7 +596,7 @@ function feedbackGiverUpdateVisibilityOptions(el){
  * Sets the correct initial question number from the value field
  */
 function formatQuestionNumbers(){
-    var $questions = $("table[class*='questionTable']");
+    var $questions = $("div[class*='questionTable']");
     
     $questions.each(function (index){
         var $selector = $(this).find('.questionNumber');
@@ -626,12 +626,8 @@ function getQuestionLink(qnNumber) {
                         + "&fsname=" + fsname 
                         + "&questionid=" + questionId;
     
-    $("#statusMessage")
-            .text("Link for question " + qnNumber + ": " + questionLink);
-    $("#statusMessage").show();
+    setStatusMessage("Link for question " + qnNumber + ": " + questionLink, false);
     
-    var scrollAmount = $("#statusMessage")[0].scrollHeight + $("#frameBody").height() * 3/4; 
-    $("#frameBody").animate({scrollTop: scrollAmount}, 1000);
 }
 
 function toParameterFormat(str) {
