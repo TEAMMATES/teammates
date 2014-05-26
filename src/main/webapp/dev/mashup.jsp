@@ -269,10 +269,7 @@
         $(document).ready(function(){
             $('head').append('<link rel=stylesheet href="/stylesheets/common.css" type="text/css">');
             $('head').append('<link rel=stylesheet href="/stylesheets/instructorHome.css" type="text/css">');
-            $('head').append('<link rel=stylesheet href="/stylesheets/instructorCourses.css" type="text/css">');
-            $('head').append('<link rel=stylesheet href="/stylesheets/instructorCourseEdit.css" type="text/css">');
             $('head').append('<link rel=stylesheet href="/stylesheets/instructorCourseEnroll.css" type="text/css">');
-            $('head').append('<link rel=stylesheet href="/stylesheets/instructorCourseDetails.css" type="text/css">');
             $('head').append('<link rel=stylesheet href="/stylesheets/instructorStudentList.css" type="text/css">');
             $('head').append('<link rel=stylesheet href="/stylesheets/instructorEvals.css" type="text/css">');
             $('head').append('<link rel=stylesheet href="/stylesheets/instructorEvalEdit.css" type="text/css">');
@@ -280,7 +277,6 @@
             $('head').append('<link rel=stylesheet href="/stylesheets/instructorEvalSubmissionView.css" type="text/css">');
             $('head').append('<link rel=stylesheet href="/stylesheets/instructorEvalSubmissionEdit.css" type="text/css">');
             $('head').append('<link rel=stylesheet href="/stylesheets/instructorFeedbacks.css" type="text/css">');
-            $('head').append('<link rel=stylesheet href="/stylesheets/studentHome.css" type="text/css">');
             $('head').append('<link rel=stylesheet href="/stylesheets/studentCourseDetails.css" type="text/css">');
             $('head').append('<link rel=stylesheet href="/stylesheets/studentEvalResults.css" type="text/css">');
             $('head').append('<link rel=stylesheet href="/stylesheets/studentFeedback.css" type="text/css">');
@@ -289,7 +285,10 @@
 
             $('#instructorHomePage').load("<%=Const.ActionURIs.INSTRUCTOR_HOME_PAGE%>?user=teammates.test #frameBodyWrapper");
             $('#instructorAddCoursePage').load("<%=Const.ActionURIs.INSTRUCTOR_COURSES_PAGE%>?user=teammates.test #frameBodyWrapper");
-            $('#instructorEditCoursePage').load("<%=Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE%>?user=teammates.test&courseid=CS1101 #frameBodyWrapper");
+            $('#instructorEditCoursePage').load("<%=Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE%>?user=teammates.test&courseid=CS1101 #frameBodyWrapper",
+                function(response, status, xml) {
+                    $('#instructorEditCoursePage').find('#panelAddInstructor').hide();
+                });
             $('#instructorEnrollPage').load("<%=Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE%>?user=teammates.test&courseid=CS1101 #frameBodyWrapper");
             $('#instructorCourseDetailsPage').load("<%=Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE%>?user=teammates.test&courseid=CS1101 #frameBodyWrapper");
             $('#instructorStudentListPage').load("<%=Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE%>?user=teammates.test #frameBodyWrapper");
