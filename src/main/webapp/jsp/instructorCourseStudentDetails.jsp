@@ -70,10 +70,10 @@
                     </div>
                     <div class="form-group">
                         <label class="col-sm-1 control-label">Join Link:</label>
-                        <div class="col-sm-11" id="<%=Const.ParamsNames.REGKEY%>">
-                            <small class="form-control-static"><%=sanitizeForHtml(Config.APP_URL 
+                        <div class="col-sm-11">
+                            <input id="<%=Const.ParamsNames.REGKEY%>" value="<%=sanitizeForHtml(Config.APP_URL 
                                     + Const.ActionURIs.STUDENT_COURSE_JOIN 
-                                    + "?regkey=" + data.regKey)%></small>
+                                    + "?regkey=" + data.regKey)%>" class="form-control" readonly="readonly">
                         </div>
                     </div>
                     <div class="form-group">
