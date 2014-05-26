@@ -37,46 +37,65 @@
 </head>
 
 <body>
-    <div id="dhtmltooltip"></div>
     <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
 
     <div class="container theme-showcase">
         <div id="topOfPage"></div>
-        <div class="row">
-            <div class="col-md-9">
-                <h1>Instructor Home</h1>
-            </div>
-            <div class="col-md-3">
-                <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE%>" name="search_form">
-                    <div class="input-group">
-                        <input type="text" name=<%=Const.ParamsNames.SEARCH_KEY %>
-                                onmouseover="ddrivetip('<%=Const.Tooltips.SEARCH_STUDENT%>')"
-                                onmouseout="hideddrivetip()" class="form-control" placeholder="Student Name">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" type="button" value="Search">Search</button>
-                        </span>
-                    </div>
-                    <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
-                </form>
-            </div>
-        </div>
-            
-        <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
-        <div class="container well well-plain">
-            <div class="col-md-3">
-                <input type="radio" name="sortby" value="id" id="sortbyid" <%= data.sortCriteria.equals(Const.SORT_BY_COURSE_ID) ? "checked" : "" %>>Sort by course ID
-            </div>
-            <div class="col-md-3">
-                <input type="radio" name="sortby" value="name" id="sortbyname" <%= data.sortCriteria.equals(Const.SORT_BY_COURSE_NAME) ? "checked" : "" %>>Sort by course name
-            </div>
-            <div class="col-md-3">
-                <input type="radio" name="sortby" value="createdAt" id="sortbydate" <%= data.sortCriteria.equals(Const.SORT_BY_COURSE_CREATION_DATE) ? "checked" : "" %>>Sort by course creation date
-            </div>
-            <div class="col-md-3">
-                <a href="<%=data.getInstructorCourseLink() %>" id="addNewCourse" class="bold">Add New Course </a>
+        <div class="inner-container">
+            <div class="row">
+                <div class="col-md-5">
+                    <h1>Instructor Home</h1>
+                </div>
+                <div class="col-md-5 instructor-header-bar">
+                    <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE%>" name="search_form">
+                        <div class="input-group">
+                            <input type="text" name=<%=Const.ParamsNames.SEARCH_KEY %>
+                                    onmouseover="ddrivetip('<%=Const.Tooltips.SEARCH_STUDENT%>')"
+                                    onmouseout="hideddrivetip()" class="form-control" placeholder="Student Name">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="submit" value="Search">Search</button>
+                            </span>
+                        </div>
+                        <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
+                    </form>
+                </div>
+                <div class="col-md-2 instructor-header-bar">
+                    <a class="btn btn-primary btn-md" href="<%=data.getInstructorCourseLink() %>" id="addNewCourse">Add New Course </a>
+                </div>
             </div>
         </div>
         <br>
+        
+        <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
+        <div class="row">
+            <div class="col-md-4">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <input type="radio" name="sortby" value="id">
+                    </span>
+                    <input type="text" class="form-control" value="Sort by course ID" disabled />
+                    <!-- <input type="radio" name="sortby" value="id" id="sortbyid" <%= data.sortCriteria.equals(Const.SORT_BY_COURSE_ID) ? "checked" : "" %>> Sort by course ID-->
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <input type="radio" name="sortby" value="id">
+                    </span>
+                    <input type="text" class="form-control" value="Sort by course name" disabled />
+                    <!-- <input type="radio" name="sortby" value="name" id="sortbyname" <%= data.sortCriteria.equals(Const.SORT_BY_COURSE_NAME) ? "checked" : "" %>> Sort by course name-->
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <input type="radio" name="sortby" value="id">
+                    </span>
+                    <input type="text" class="form-control" value="Sort by course creation date" disabled />
+                    <!-- <input type="radio" name="sortby" value="createdAt" id="sortbydate" <%= data.sortCriteria.equals(Const.SORT_BY_COURSE_CREATION_DATE) ? "checked" : "" %>> Sort by course creation date-->
+                </div>
+            </div>
+        </div>
         <br>
 
     <%

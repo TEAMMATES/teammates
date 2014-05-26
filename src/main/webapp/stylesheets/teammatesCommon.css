@@ -136,6 +136,10 @@ body {
     color:white;
 }
 
+.instructor-header-bar {
+    margin-top:20px;
+}
+
 @media print {
     a[href]:after {
         content:none;
