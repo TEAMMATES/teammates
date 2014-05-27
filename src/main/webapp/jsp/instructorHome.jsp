@@ -178,7 +178,7 @@
                                             <%=PageData.getInstructorStatusForEval(edd)%>
                                         </span>
                                     </td>
-                                    <td class="<% if(!TimeHelper.isOlderThanAYear(edd.endTime)) { out.print(" recent");} %>">
+                                    <td class="session-response<% if(!TimeHelper.isOlderThanAYear(edd.endTime)) { out.print(" recent");} %>">
                                         <a oncontextmenu="return false;" href="<%=data.getEvaluationStatsLink(edd.courseId, edd.name)%>">Show</a>
                                     </td>
                                     <td class="no-print"><%=data.getInstructorEvaluationActions(edd, true)%>
@@ -197,7 +197,7 @@
                                             <%=PageData.getInstructorStatusForFeedbackSession(fdb)%>
                                         </span>
                                     </td>
-                                    <td class="<% if(!TimeHelper.isOlderThanAYear(fdb.createdTime)) { out.print(" recent");} %>">
+                                    <td class="session-response<% if(!TimeHelper.isOlderThanAYear(fdb.createdTime)) { out.print(" recent");} %>">
                                         <a oncontextmenu="return false;" href="<%=data.getFeedbackSessionStatsLink(fdb.courseId, fdb.feedbackSessionName)%>">Show</a>
                                     </td>
                                     <td class="no-print"><%=data.getInstructorFeedbackSessionActions(
