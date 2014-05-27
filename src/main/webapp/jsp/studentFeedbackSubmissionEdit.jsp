@@ -48,7 +48,7 @@
     <% 
         }
     %>
-
+    <div id="frameBody">
     <div id="frameBodyWrapper" class="container">
         <div id="topOfPage"></div>
         <h1>Submit Feedback</h1>
@@ -77,7 +77,7 @@
             </div>
             <br><br>    
         </form>
-    </div>
+    </div></div>
 
     <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
 </body>

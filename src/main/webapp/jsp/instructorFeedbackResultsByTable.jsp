@@ -44,8 +44,8 @@
 <body>
     <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
 
-    <div id="frameBody" class="container">
-        <div id="frameBodyWrapper">
+    <div id="frameBody">
+        <div id="frameBodyWrapper" class="container">
             <div id="topOfPage"></div>
             <div id="headerOperation">
                 <h1>Feedback Results - Instructor</h1>
