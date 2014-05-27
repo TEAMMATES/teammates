@@ -87,20 +87,20 @@
         <table class="table table-bordered table-striped">
             <thead class="fill-primary">
                 <tr>
-                    <th onclick="toggleSort(this,1);" id="button_sortid" class="button-sort-ascending">
+                    <th onclick="toggleSort(this,1);" id="button_sortcourseid" class="button-sort-ascending">
                         Course ID<span class="sort-icon unsorted"></span>
                     </th>
-                    <th onclick="toggleSort(this,2);" id="button_sortid" class="button-sort-ascending">
+                    <th onclick="toggleSort(this,2);" id="button_sortcoursename" class="button-sort-ascending">
                         Course Name<span class="sort-icon unsorted"></span>
                     </th>
-                    <th onclick="toggleSort(this,3);" id="button_sortid" class="button-sort-ascending">
-                        Teams<span class="sort-icon unsorted"></span>
+                    <th>
+                        Teams
                     </th>
-                    <th onclick="toggleSort(this,4);" id="button_sortid" class="button-sort-ascending">
-                        Total Students<span class="sort-icon unsorted"></span>
+                    <th>
+                        Total Students
                     </th>
-                    <th onclick="toggleSort(this,5);" id="button_sortid" class="button-sort-ascending">
-                        Total Unregistered<span class="sort-icon unsorted"></span>
+                    <th>
+                        Total Unregistered
                     </th>
                     <th class="centeralign no-print">Action(s)</th>
                 </tr>

@@ -90,9 +90,9 @@ public class InstructorEvalSubmissionEditPageUiTest extends BaseUiTestCase{
             subs[i].p2pFeedback= new Text(subs[i].p2pFeedback.getValue()+"(edited)");
         }
         
-        editPage.setValuesForSubmission(testData.students.get("Charlie").name, subs[0]);
-        editPage.setValuesForSubmission(testData.students.get("Danny").name, subs[1]);
-        editPage.setValuesForSubmission(testData.students.get("Emily").name, subs[2]);
+        editPage.setValuesForSubmission(0, subs[0]);
+        editPage.setValuesForSubmission(1, subs[1]);
+        editPage.setValuesForSubmission(2, subs[2]);
         
         InstructorEvalResultsPage resultsPage = editPage.submit();
         String expectedStatus = String.format(
