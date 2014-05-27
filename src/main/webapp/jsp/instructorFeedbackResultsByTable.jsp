@@ -64,7 +64,7 @@
                         out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, ""));
                     %></h4>
                     <div class="panel panel-primary">
-                    <table class="table table-striped table-bordered">
+                    <table class="table table-striped table-bordered dataTable">
                     <thead class="fill-primary">
                         <tr>
                             <th id="button_sortFrom" class="button-sort-ascending" onclick="toggleSort(this,1)" style="width: 25%;">From<span class="sort-icon unsorted"></span></th>
