@@ -64,7 +64,7 @@
                             <div class="col-md-2 nav">
                                 <div class="form-group">
                                     <button id="button_search" class="btn btn-primary" type="submit" onclick="return applyFilters();" value="Search">
-                                        <span class="glyphicon glyphicon-search"></span>Search
+                                        <span class="glyphicon glyphicon-search"></span> Search
                                     </button>
                                 </div>
                             </div>
@@ -186,100 +186,116 @@
                 </form>
             </div>
     
-                <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
-                <%
-                    courseIdx = -1;
-                    for (CourseDetailsBundle courseDetails : data.courses) {
-                        if((courseDetails.course.isArchived && data.displayArchive) || !courseDetails.course.isArchived){
-                            courseIdx++;
-                            int totalCourseStudents = courseDetails.stats.studentsTotal;
-                %>
-    
-                <div class="backgroundBlock" id="course-<%=courseIdx%>">
-                    <div class="courseTitle">
-                        <h2 class="color_white">
-                            [<%=courseDetails.course.id%>] : <%=PageData.sanitizeForHtml(courseDetails.course.name)%>
-                        </h2>
+            <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
+            <%
+                courseIdx = -1;
+                for (CourseDetailsBundle courseDetails : data.courses) {
+                    if((courseDetails.course.isArchived && data.displayArchive) || !courseDetails.course.isArchived){
+                        courseIdx++;
+                        int totalCourseStudents = courseDetails.stats.studentsTotal;
+            %>
+
+            <div class="well well-plain" id="course-<%=courseIdx%>">
+                <div class="row">
+                    <div class="col-md-10 text-color-primary">
+                        <h4 class="color_white">
+                            <strong>
+                                [<%=courseDetails.course.id%>] : <%=PageData.sanitizeForHtml(courseDetails.course.name)%>
+                            </strong>
+                        </h4>
                     </div>
-                    <div class="enrollLink blockLink rightalign">
-                        <a class="t_course_enroll-<%=courseIdx%> color_white bold"
+                    <div class="col-md-2">
+                        <a class="btn btn-default btn-xs pull-right pull-down"
                             href="<%=data.getInstructorCourseEnrollLink(courseDetails.course.id)%>"
                             title="<%=Const.Tooltips.COURSE_ENROLL%>"
                             data-toggle="tooltip"
-                            data-placement="top"> Enroll Students</a>
+                            data-placement="top">
+                                <span class="glyphicon glyphicon-list"></span> Enroll
+                        </a>
                     </div>
-                    <div style="clear: both;"></div>
-                    <br>
-                    <%
-                            if (totalCourseStudents > 0) {
-                    %>
-                    <table class="dataTable">
-                        <tr>
-                            <th class="leftalign color_white bold">
-                                <input class="buttonSortAscending" type="button"
-                                id="button_sortteam" onclick="toggleSort(this,1)">Team
-                            </th>
-                            <th class="leftalign color_white bold"><input
-                                class="buttonSortNone" type="button"
-                                id="button_sortstudentname" onclick="toggleSort(this,2)">Student Name</th>
-                            <th class="centeralign color_white bold no-print">Action(s)</th>
-                        </tr>
-                        <%
-                                int teamIdx = -1;
-                                int studentIdx = -1;
-                                for(TeamDetailsBundle teamDetails: courseDetails.teams){
-                                    teamIdx++;
-                                    for(StudentAttributes student: teamDetails.students){
-                                        studentIdx++;
-                        %>
-                        <tr class="student_row" id="student-c<%=courseIdx %>.<%=studentIdx%>" style="display: table-row;">
-                            <td id="studentteam-c<%=courseIdx %>.<%=teamIdx%>"><%=PageData.sanitizeForHtml(teamDetails.name)%></td>
-                            <td id="studentname-c<%=courseIdx %>.<%=studentIdx%>"><%=PageData.sanitizeForHtml(student.name)%></td>
-                            <td class="centeralign no-print">
-                                <a class="color_black t_student_details-c<%=courseIdx %>.<%=studentIdx%>" 
-                                href="<%=data.getCourseStudentDetailsLink(courseDetails.course.id, student)%>"
-                                onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_STUDENT_DETAILS%>')"
-                                onmouseout="hideddrivetip()"> View</a> 
-                                
-                                <a class="color_black t_student_edit-c<%=courseIdx %>.<%=studentIdx%>"
-                                href="<%=data.getCourseStudentEditLink(courseDetails.course.id, student)%>"
-                                onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_STUDENT_EDIT%>')"
-                                onmouseout="hideddrivetip()"> Edit</a> 
-                                
-                                <a class="color_black t_student_delete-c<%=courseIdx %>.<%=studentIdx%>"
-                                href="<%=data.getCourseStudentDeleteLink(courseDetails.course.id, student)%>"
-                                onclick="return toggleDeleteStudentConfirmation('<%=sanitizeForJs(courseDetails.course.id)%>','<%=sanitizeForJs(student.name)%>')"
-                                onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_STUDENT_DELETE%>')"
-                                onmouseout="hideddrivetip()"> Delete</a>
-                                
-                                <a class="color_black t_student_records-c<%=courseIdx %>.<%=studentIdx%>"
-                                href="<%=data.getStudentRecordsLink(courseDetails.course.id, student)%>"
-                                onmouseover="ddrivetip('<%=Const.Tooltips.COURSE_STUDENT_RECORDS%>')"
-                                onmouseout="hideddrivetip()"> All Records</a>
-                            </td>
-                        </tr>
-                        <%
-                                    }
-                                }
-                        %>
-                    </table>
-                    <%
-                            } else {
-                    %>
-                    <table class="dataTable">
-                        <tr>
-                            <th class="centeralign color_white bold"><%=Const.StatusMessages.INSTRUCTOR_COURSE_EMPTY %></th>
-                        </tr>
-                    </table>
-                    <%
-                            }
-                    %>
                 </div>
                 <%
-                        out.flush();
-                        }
-                    }
+                    if (totalCourseStudents > 0) {
                 %>
+                        <table class="table table-responsive table-striped table-bordered">
+                            <thead>
+                                <tr class="fill-primary">
+                                    <th id="button_sortteam" class="button-sort-ascending" onclick="toggleSort(this,1)">
+                                        Team <span class="sort-icon ascending-sorted"></span>
+                                    </th>
+                                    <th id="button_sortstudentname" class="button-sort-none" onclick="toggleSort(this,2)">
+                                        Student Name <span class="sort-icon unsorted"></span>
+                                    </th>
+                                    <th id="button_sortteam" class="button-sort-none" onclick="toggleSort(this,3)"> 
+                                        Email <span class="sort-icon unsorted"></span>
+                                    </th>
+                                    <th>Action(s)
+                                    </th>
+                                </tr>
+                            </thead>
+                            <%
+                                    int teamIdx = -1;
+                                    int studentIdx = -1;
+                                    for(TeamDetailsBundle teamDetails: courseDetails.teams){
+                                        teamIdx++;
+                                        for(StudentAttributes student: teamDetails.students){
+                                            studentIdx++;
+                            %>
+                            <tr id="student-c<%=courseIdx %>.<%=studentIdx%>" style="display: table-row;">
+                                <td id="studentteam-c<%=courseIdx %>.<%=teamIdx%>"><%=PageData.sanitizeForHtml(teamDetails.name)%></td>
+                                <td id="studentname-c<%=courseIdx %>.<%=studentIdx%>"><%=PageData.sanitizeForHtml(student.name)%></td>
+                                <td id="studentemail-c<%=courseIdx %>.<%=studentIdx%>"><%=PageData.sanitizeForHtml(student.email)%></td>
+                                <td class="no-print centeralign">
+                                    <a class="btn btn-default btn-xs" 
+                                    href="<%=data.getCourseStudentDetailsLink(courseDetails.course.id, student)%>"
+                                    title="<%=Const.Tooltips.COURSE_STUDENT_DETAILS%>"
+                                    data-toggle="tooltip"
+                                    data-placement="top"> View</a> 
+                                    
+                                    <a class="btn btn-default btn-xs"
+                                    href="<%=data.getCourseStudentEditLink(courseDetails.course.id, student)%>"
+                                    title="<%=Const.Tooltips.COURSE_STUDENT_EDIT%>"
+                                    data-toggle="tooltip"
+                                    data-placement="top"> Edit</a> 
+                                    
+                                    <a class="btn btn-default btn-xs"
+                                    href="<%=data.getCourseStudentDeleteLink(courseDetails.course.id, student)%>"
+                                    onclick="return toggleDeleteStudentConfirmation('<%=sanitizeForJs(courseDetails.course.id)%>','<%=sanitizeForJs(student.name)%>')"
+                                    title="<%=Const.Tooltips.COURSE_STUDENT_DELETE%>"
+                                    data-toggle="tooltip"
+                                    data-placement="top"> Delete</a>
+                                    
+                                    <a class="btn btn-default btn-xs"
+                                    href="<%=data.getStudentRecordsLink(courseDetails.course.id, student)%>"
+                                    title="<%=Const.Tooltips.COURSE_STUDENT_RECORDS%>"
+                                    data-toggle="tooltip"
+                                    data-placement="top"> All Records</a>
+                                </td>
+                            </tr>
+                            <%
+                                        }
+                                    }
+                            %>
+                        </table>
+                        <%
+                                } else {
+                        %>
+                        <table class="table table-responsive table-striped table-bordered">
+                            <thead>
+                                <tr class="fill-primary">
+                                    <th class="centeralign color_white bold"><%=Const.StatusMessages.INSTRUCTOR_COURSE_EMPTY %></th>
+                                </tr>
+                            </thead>
+                        </table>
+                        <%
+                                }
+                        %>
+                    </div>
+            <%
+                    out.flush();
+                    }
+                }
+            %>
             <br> <br> <br>
         </div>
 
