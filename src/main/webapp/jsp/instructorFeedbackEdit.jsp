@@ -100,12 +100,14 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label
-                                            for="<%=Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE%>"
-                                            class="col-sm-4 control-label"
-                                            title="<%=Const.Tooltips.EVALUATION_INPUT_TIMEZONE%>"
-                                            data-toggle="tooltip"
-                                            data-placement="top">Timezone</label>
+                                        <h5 class="col-sm-4">
+                                            <label
+                                                for="<%=Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE%>"
+                                                class="col-sm-4 control-label"
+                                                title="<%=Const.Tooltips.EVALUATION_INPUT_TIMEZONE%>"
+                                                data-toggle="tooltip"
+                                                data-placement="top">Timezone</label>
+                                        </h5>
                                         <div class="col-sm-8">
                                             <select class="form-control"
                                                 name="<%=Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE%>"
@@ -166,15 +168,15 @@
                     <div class="panel panel-primary">
                         <div class="panel-body">
                             <div class="row">
-                                <div class="col-md-5">
+                                <div class="col-md-5" title="<%=Const.Tooltips.FEEDBACK_SESSION_STARTDATE%>"
+                                                data-toggle="tooltip"
+                                                data-placement="top">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <label
                                                 for="<%=Const.ParamsNames.FEEDBACK_SESSION_STARTDATE%>"
                                                 class="label-control"
-                                                title="<%=Const.Tooltips.FEEDBACK_SESSION_STARTDATE%>"
-                                                data-toggle="tooltip"
-                                                data-placement="top">Submission opening time</label>
+                                                >Submission opening time</label>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -198,15 +200,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-5 border-left-gray">
+                                <div class="col-md-5 border-left-gray" title="<%=Const.Tooltips.FEEDBACK_SESSION_ENDDATE%>"
+                                                data-toggle="tooltip"
+                                                data-placement="top">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <label
                                                 for="<%=Const.ParamsNames.FEEDBACK_SESSION_ENDDATE%>"
                                                 class="label-control"
-                                                title="<%=Const.Tooltips.FEEDBACK_SESSION_ENDDATE%>"
-                                                data-toggle="tooltip"
-                                                data-placement="top">Submission closing time</label>
+                                                >Submission closing time</label>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -231,15 +233,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-2 border-left-gray">
+                                <div class="col-md-2 border-left-gray" title="<%=Const.Tooltips.EVALUATION_INPUT_GRACEPERIOD%>"
+                                                data-toggle="tooltip"
+                                                data-placement="top">
                                     <div class="row">
                                         <div class="col-md-12">
                                             <label
                                                 for="<%=Const.ParamsNames.FEEDBACK_SESSION_GRACEPERIOD%>"
                                                 class="control-label"
-                                                title="<%=Const.Tooltips.EVALUATION_INPUT_GRACEPERIOD%>"
-                                                data-toggle="tooltip"
-                                                data-placement="top">Grace
+                                                >Grace
                                                 period</label>
                                         </div>
                                     </div>

@@ -134,7 +134,7 @@ public class InstructorCoursesPage extends AppPage {
     }
 
     private int getCourseCount() {
-        return browser.driver.findElements(By.className("courses_row")).size();
+        return browser.driver.findElements(By.className("table")).get(0).findElements(By.tagName("tr")).size();
     }
 
     private int getRowNumberOfCourse(String courseId) {
@@ -161,7 +161,7 @@ public class InstructorCoursesPage extends AppPage {
     }
     
     private WebElement getUnarchiveLinkInRow(int rowId) {
-        By archiveLink =  By.className("t_course_unarchive" + rowId);
+        By archiveLink =  By.id("t_course_unarchive" + rowId);
         return browser.driver.findElement(archiveLink);
     }
 

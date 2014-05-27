@@ -1,438 +1,487 @@
-    <!DOCTYPE html>
 <html>
-<head>
-    <link href="/favicon.png" rel="shortcut icon" />
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
-    <title>TEAMMATES - Instructor</title>
-    <link href="/stylesheets/common.css" media="screen" rel="stylesheet" type="text/css" />
-    <link href="/stylesheets/instructorStudentRecords.css" media="screen" rel="stylesheet" type="text/css" />
-    <link href="/stylesheets/common-print.css" media="print" rel="stylesheet" type="text/css" />
-    
-    <script async="" src="https://ssl.google-analytics.com/ga.js" type="text/javascript"></script>
-    <script src="/js/googleAnalytics.js" type="text/javascript"></script>
-    <script src="/js/jquery-minified.js" type="text/javascript"></script>
-    <script src="/js/tooltip.js" type="text/javascript"></script>
-    <script src="/js/date.js" type="text/javascript"></script>
-    <script src="/js/CalendarPopup.js" type="text/javascript"></script>
-    <script src="/js/AnchorPosition.js" type="text/javascript"></script>
-    <script src="/js/common.js" type="text/javascript"></script>
-    <script src="/js/instructor.js" type="text/javascript"></script>
-    <script src="/js/instructorStudentRecords.js"  type="text/javascript"></script>
-    <script src="/js/additionalQuestionInfo.js"  type="text/javascript" ></script>
-    <script type="text/javascript" >
+      <head>
+         <link href="/favicon.png"  rel="shortcut icon" />
+                  <meta content="text/html; charset=UTF-8"  http-equiv="Content-Type" />
+                  <meta content="IE=edge"  http-equiv="X-UA-Compatible" />
+                  <meta content="width=device-width, initial-scale=1"  name="viewport" />
+                  <title>
+            TEAMMATES - Instructor
+         </title>
+         <!--{*}-->
+         <link href="/bootstrap/css/bootstrap.min.css"  rel="stylesheet" />
+                  <!--{*}-->
+         <link href="/bootstrap/css/bootstrap-theme.min.css"  rel="stylesheet" />
+                  <link href="/stylesheets/teammatesCommon.css"  media="screen"  rel="stylesheet"  type="text/css" />
+                  <script async=""  src="https://ssl.google-analytics.com/ga.js"  type="text/javascript" >
+         </script>
+         <script src="/js/googleAnalytics.js"  type="text/javascript" >
+         </script>
+         <script src="/js/jquery-minified.js"  type="text/javascript" >
+         </script>
+         <script src="/js/AnchorPosition.js"  type="text/javascript" >
+         </script>
+         <script src="/js/common.js"  type="text/javascript" >
+         </script>
+         <script src="/js/instructor.js"  type="text/javascript" >
+         </script>
+         <script src="/js/instructorStudentRecords.js"  type="text/javascript" >
+         </script>
+         <script src="/js/additionalQuestionInfo.js"  type="text/javascript" >
+         </script>
+         <!--{*}-->
+         <script src="/bootstrap/js/bootstrap.min.js" >
+         </script>
+         <!--{*}-->
+         <!--{*}-->
+         <script type="text/javascript" >
             var showCommentBox = "null";
-    </script>
-</head>
-<body onload="readyStudentRecordsPage(); initializetooltip();">
-    <div id="frameTop">
-        <div id="frameTopWrapper">
-            <div id="logo">
-                <a href="/index.html"> <img alt="TEAMMATES" height="47px"
-                    src="/images/teammateslogo.jpg" width="150px" />
-                </a>
-            </div>
-            <div id="contentLinks">
-                <ul id="navbar">
-                    <li><a class="nav home" data-link="instructorHome"
-                        href="/page/instructorHomePage?user=FSQTT.idOfInstructor1OfCourse1"> Home </a></li>
-                    <li><a class="nav courses" data-link="instructorCourse"
-                        href="/page/instructorCoursesPage?user=FSQTT.idOfInstructor1OfCourse1">
-                            Courses </a></li>
-                    <li><a class="nav evaluations" data-link="instructorEval"
-                        href="/page/instructorEvalsPage?user=FSQTT.idOfInstructor1OfCourse1">
-                            Sessions </a></li>
-                    <li class="current"><a class="nav students"
-                        data-link="instructorStudent"
-                        href="/page/instructorStudentListPage?user=FSQTT.idOfInstructor1OfCourse1">
-                            Students </a></li>
-                    <li><a class="nav help" href="/instructorHelp.html"
-                        target="_blank"> Help </a></li>
-                    <li><a class="nav logout" href="/logout.jsp"> Logout </a> <b>
-                        <span onmouseout="hideddrivetip()"  onmouseover="ddrivetip('FSQTT.idOfInstructor1OfCourse1')" >
-                              (FSQTT.idOfInstructor...)
+         </script>
+      </head>
+      <body onload="readyStudentRecordsPage();" >
+         <div class="navbar navbar-inverse navbar-fixed-top"  role="navigation" >
+            <div class="container" >
+               <div class="navbar-header" >
+                  <button class="navbar-toggle"  data-target="#contentLinks"  data-toggle="collapse"  type="button" >
+                     <span class="sr-only" >
+                        Toggle navigation
+                     </span>
+                     <span class="icon-bar" >
+                     </span>
+                     <span class="icon-bar" >
+                     </span>
+                     <span class="icon-bar" >
+                     </span>
+                  </button>
+                  <a class="navbar-brand"  href="/index.html" >
+                     TEAMMATES
+                  </a>
+               </div>
+               <div class="collapse navbar-collapse"  id="contentLinks" >
+                  <ul class="nav navbar-nav" >
+                     <li class="" >
+                        <a class="nav home"  data-link="instructorHome"  href="/page/instructorHomePage?user=FSQTT.idOfInstructor1OfCourse1" >
+                           Home
+                        </a>
+                     </li>
+                     <li class="" >
+                        <a class="nav courses"  data-link="instructorCourse"  href="/page/instructorCoursesPage?user=FSQTT.idOfInstructor1OfCourse1" >
+                           Courses
+                        </a>
+                     </li>
+                     <li class="" >
+                        <a class="nav evaluations"  data-link="instructorEval"  href="/page/instructorEvalsPage?user=FSQTT.idOfInstructor1OfCourse1" >
+                           Sessions
+                        </a>
+                     </li>
+                     <li class="active" >
+                        <a class="nav students"  data-link="instructorStudent"  href="/page/instructorStudentListPage?user=FSQTT.idOfInstructor1OfCourse1" >
+                           Students
+                        </a>
+                     </li>
+                     <li>
+                        <a class="nav help"  href="/instructorHelp.html"  target="_blank" >
+                           Help
+                        </a>
+                     </li>
+                  </ul>
+                  <ul class="nav navbar-nav pull-right" >
+                     <li>
+                        <a class="nav logout"  href="/logout.jsp" >
+                           Logout
+                        
+                        (
+                           <span class="text-info"  data-original-title="FSQTT.idOfInstructor1OfCourse1"  data-placement="bottom"  data-toggle="tooltip"  title="" >
+                              FSQTT.idOfInstructor...
                            </span>
-                    </b></li>
-                </ul>
+                           )
+                        </a>
+                     </li>
+                  </ul>
+               </div>
             </div>
-            <div style="clear: both;"></div>
-        </div>
-    </div>
-    <div id="frameBody">
-        <div id="frameBodyWrapper">
-            <div id="topOfPage"></div>
-            <div id="headerOperation">
-                <h1>FSQTT.idOfTypicalCourse1 - student1 In Course1's Records</h1>
-                <hr />
-            </div>
-            <div id="statusMessage" style="display: none;"></div>
-            <div id="commentSection">
-                <table class="resultTable" id="commentTable">
-                    <thead>
-                        <tr>
-                            <th class="bold centeralign" colspan="2">Your comments on this student:
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr id="comment_box" style="display:none;">
-                            <td class="centeralign" colspan="2">
-                                <form action="/page/instructorStudentCommentAdd"
-                                    class="form_comment" method="post" name="form_commentadd">
-                                    <textarea class="textvalue" id="commentText" name="commenttext"
-                                        onkeyup="textAreaAdjust(this)"
-                                        placeholder="Your comment about this student">
-                                 </textarea>
-                                    <br /> <input class="button" id="button_save_comment"
-                                        type="submit" value="Save Comment" /> <input name="courseid"
-                                        type="hidden" value="FSQTT.idOfTypicalCourse1" /> <input
-                                        name="studentemail" type="hidden"
-                                        value="student1InCourse1@gmail.com" />
-                                        <input name="user"  type="hidden"  value="FSQTT.idOfInstructor1OfCourse1" />
-                                </form>
-                            </td>
-                        </tr>
-                        <tr id="comment_link">
-                            <td class="centeralign" colspan="2"><input class="button"
-                                id="button_add_comment"
-                                onclick="showAddCommentBox(); return false;" type="button"
-                                value="Add Comment" /></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <br />
-            <hr />
-            <br />
-            <div class="student_feedback"  id="studentFeedback-0">
-                <table class="inputTable" id="studentEvaluationInfo">
-                    <tbody>
-                        <tr>
-                            <td class="label rightalign bold" width="250px">
-                                Feedback Session Name:
-                            </td>
-                            <td class="leftalign" id="feedback_name-0" width="250px">MCQ Session</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <br /> <br />
-                <div class="backgroundBlock">
-                    <h2 class="color_white">To: student1 In Course1 (Team 1.1)</h2>
-                    <table class="resultTable" style="width: 100%">
-                        <thead>
-                            <tr>
-                                <th class="leftalign">
-                                    <span class="bold">From: </span>
-                                    student1 In Course1 (Team 1.1)
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="resultSubheader">
-                                <td class="multiline">
-                                    <span class="bold">Question 1: </span> 
-                                    What do you like best about our product? 
-                                    <span style=" white-space: normal;" >
-                                        <a class="color_gray" id="questionAdditionalInfoButton-1-giver-1-session-0" href="#"  onclick="toggleAdditionalQuestionInfo('1-giver-1-session-0')" >
-                                            [more]
-                                        </a>
-                                        <br/>
-                                        <span id="questionAdditionalInfo-1-giver-1-session-0"  style="display:none;" >
-                                              Multiple-choice (single answer) options:
-                                              <ul style="list-style-type: disc;margin-left: 20px;" >
-                                                   <li>
-                                                      It's good
-                                                   </li>
-                                                   <li>
-                                                    It's perfect
-                                                   </li>
-                                               </ul>
-                                        </span>
-                                     </span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="multiline">
-                                    <span class="bold">Response:</span> 
-                                    It's good
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <br /> <br />
-                <div class="backgroundBlock">
-                    <h2 class="color_white">From: student1 In Course1 (Team 1.1)</h2>
-                    <table class="resultTable" style="width: 100%">
-                        <thead>
-                            <tr>
-                                <th class="leftalign">
-                                    <span class="bold">To: </span>
-                                    student1 In Course1 (Team 1.1)
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="resultSubheader">
-                                <td class="multiline">
-                                    <span class="bold">Question 1: </span>
-                                    What do you like best about our product? 
-                                <span style=" white-space: normal;" >
-                                    <a class="color_gray" id="questionAdditionalInfoButton-1-recipient-1-session-0" href="#"  onclick="toggleAdditionalQuestionInfo('1-recipient-1-session-0')" >
-                                        [more]
-                                    </a>
-                                    <br/>
-                                    <span id="questionAdditionalInfo-1-recipient-1-session-0"  style="display:none;" >
-                                       Multiple-choice (single answer) options:
-                                       <ul style="list-style-type: disc;margin-left: 20px;" >
-                                           <li>
-                                              It's good
-                                           </li>
-                                           <li>
-                                              It's perfect
-                                           </li>
-                                        </ul>
-                                    </span>
-                                 </span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="multiline">
-                                    <span class="bold">Response: </span>
-                                    It's good
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <br/>
-                </div>
-            </div>
-            <br />
-            <hr />
-            <br />
-            <div class="student_feedback" id="studentFeedback-1">
-                <table class="inputTable" id="studentEvaluationInfo">
-                    <tbody>
-                        <tr>
-                            <td class="label rightalign bold" width="250px">Feedback Session Name:</td>
-                            <td class="leftalign" id="feedback_name-1" width="250px">
-                                MSQ Session</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <br /> <br />
-                <div class="backgroundBlock">
-                    <h2 class="color_white">To: student1 In Course1 (Team 1.1)</h2>
-                    <table class="resultTable" style="width: 100%">
-                        <thead>
-                            <tr>
-                                <th class="leftalign"><span class="bold"> From: </span>
-                                    student1 In Course1 (Team 1.1)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="resultSubheader">
-                                <td class="multiline"><span class="bold"> Question 1: </span>  What do you like best about our product? 
-                                     <span style=" white-space: normal;" >
-                                        <a class="color_gray" id="questionAdditionalInfoButton-1-giver-1-session-1" href="#"  onclick="toggleAdditionalQuestionInfo('1-giver-1-session-1')" >
-                                           [more]
-                                        </a>
-                                        <br/>
-                                        <span id="questionAdditionalInfo-1-giver-1-session-1"  style="display:none;" >
-                                           Multiple-choice (multiple answers) options:
-                                           <ul style="list-style-type: disc;margin-left: 20px;" >
-                                               <li>
-                                                  It's good
-                                               </li>
-                                               <li>
-                                                  It's perfect
-                                               </li>
-                                            </ul>
-                                        </span>
-                                     </span>
-                                 </td>
-                            </tr>
-                            <tr>
-                                <td class="multiline"><span class="bold"> Response: </span>
-                                    <ul class="selectedOptionsList">
-                                        <li>It's good</li>
-                                        <li>It's perfect</li>
-                                    </ul></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <br /> <br/>
-                <div class="backgroundBlock">
-                    <h2 class="color_white">From: student1 In Course1 (Team 1.1)</h2>
-                    <table class="resultTable" style="width: 100%">
-                        <thead>
-                            <tr>
-                                <th class="leftalign"><span class="bold"> To: </span>
-                                    student1 In Course1 (Team 1.1)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="resultSubheader">
-                                <td class="multiline"><span class="bold"> Question 1: </span> What do you like best about our product? 
-                                     <span style=" white-space: normal;" >
-                                        <a class="color_gray" id="questionAdditionalInfoButton-1-recipient-1-session-1" href="#"  onclick="toggleAdditionalQuestionInfo('1-recipient-1-session-1')" >
-                                           [more]
-                                        </a>
-                                        <br/>
-                                        <span id="questionAdditionalInfo-1-recipient-1-session-1"  style="display:none;" >
-                                           Multiple-choice (multiple answers) options:
-                                           <ul style="list-style-type: disc;margin-left: 20px;" >
-                                               <li>
-                                                  It's good
-                                               </li>
-                                               <li>
-                                                  It's perfect
-                                               </li>
-                                            </ul>
-                                        </span>
-                                     </span>
-                                 </td>
-                            </tr>
-                            <tr>
-                                <td class="multiline"><span class="bold"> Response: </span>
-                                    <ul class="selectedOptionsList">
-                                        <li>It's good</li>
-                                        <li>It's perfect</li>
-                                    </ul></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <br />
-                </div>
-            </div>
-            <br />
-            <hr />
-            <br /> 
-            <div class="student_feedback"  id="studentFeedback-2" >
-                  <table class="inputTable"  id="studentEvaluationInfo" >
-                     <tbody>
-                        <tr>
-                           <td class="label rightalign bold"  width="250px" >
-                              Feedback Session Name:
-                           </td>
-                           <td class="leftalign"  id="feedback_name-2"  width="250px" >
-                              NUMSCALE Session
-                           </td>
-                        </tr>
-                     </tbody>
-                  </table>
-                  <br/>
-                                    <br/>
-                                    <div class="backgroundBlock" >
-                     <h2 class="color_white" >
-                        To: student1 In Course1 (Team 1.1)
-                     </h2>
-                     <table class="resultTable"  style="width: 100%" >
-                        <thead>
-                           <tr>
-                              <th class="leftalign" >
-                                 <span class="bold" >
-                                    From:
-                                 </span>
-                                 student1 In Course1 (Team 1.1)
-                              </th>
-                           </tr>
-                        </thead>
-                        <tbody>
-                           <tr class="resultSubheader" >
-                              <td class="multiline" >
-                                 <span class="bold" >
-                                    Question 1:
-                                 </span>
-                                 Rate our product. 
-                                 <span style=" white-space: normal;" >
-                                    <a class="color_gray"  href="#"  id="questionAdditionalInfoButton-1-giver-1-session-2"  onclick="toggleAdditionalQuestionInfo('1-giver-1-session-2')" >
-                                       [more]
-                                    </a>
-                                    <br/>
-                                                                        <span id="questionAdditionalInfo-1-giver-1-session-2"  style="display:none;" >
-                                       Numerical-scale question:
-                                       <br/>
-                                                                              Minimum value: 1. Increment: 0.5. Maximum value: 5. 
-                                    </span>
-                                 </span>
-                              </td>
-                           </tr>
-                           <tr>
-                              <td class="multiline" >
-                                 <span class="bold" >
-                                    Response:
-                                 </span>
-                                 3.5
-                              </td>
-                           </tr>
-                        </tbody>
-                     </table>
+         </div>
+         <div class="container"  id="frameBody" >
+            <div id="frameBodyWrapper" >
+               <div id="topOfPage" >
+               </div>
+               <h1>
+                  FSQTT.idOfTypicalCourse1 - student1 In Course1's Records
+               </h1>
+               <br/>
+                              <div id="statusMessage"  style="display: none;" >
+               </div>
+               <div class="panel panel-info" >
+                  <div class="panel-heading" >
+                     Student Records Comment
                   </div>
-                  <br/>
-                                    <br/>
-                                    <div class="backgroundBlock" >
-                     <h2 class="color_white" >
-                        From: student1 In Course1 (Team 1.1)
-                     </h2>
-                     <table class="resultTable"  style="width: 100%" >
-                        <thead>
-                           <tr>
-                              <th class="leftalign" >
-                                 <span class="bold" >
-                                    To:
-                                 </span>
-                                 student1 In Course1 (Team 1.1)
-                              </th>
-                           </tr>
-                        </thead>
-                        <tbody>
-                           <tr class="resultSubheader" >
-                              <td class="multiline" >
-                                 <span class="bold" >
-                                    Question 1:
-                                 </span>
-                                 Rate our product. 
-                                 <span style=" white-space: normal;" >
-                                    <a class="color_gray"  href="#"  id="questionAdditionalInfoButton-1-recipient-1-session-2"  onclick="toggleAdditionalQuestionInfo('1-recipient-1-session-2')" >
-                                       [more]
-                                    </a>
-                                    <br/>
-                                                                        <span id="questionAdditionalInfo-1-recipient-1-session-2"  style="display:none;" >
-                                       Numerical-scale question:
-                                       <br/>
-                                                                              Minimum value: 1. Increment: 0.5. Maximum value: 5. 
-                                    </span>
-                                 </span>
-                              </td>
-                           </tr>
-                           <tr>
-                              <td class="multiline" >
-                                 <span class="bold" >
-                                    Response:
-                                 </span>
-                                 3.5
-                              </td>
-                           </tr>
-                        </tbody>
-                     </table>
-                     <br/>
-                                       </div>
+                  <div class="panel-body" >
+                     Your comments on this student:
+                     <button class="btn btn-default btn-xs icon-button pull-right"  data-original-title="Add comment"  data-placement="top"  data-toggle="tooltip"  id="button_add_comment"  onclick="showAddCommentBox();"  title=""  type="button" >
+                        <span class="glyphicon glyphicon-comment glyphicon-primary" >
+                        </span>
+                     </button>
+                     <ul class="list-group comment-list" >
+                        <li class="list-group-item list-group-item-warning" >
+                           You don't have any comments on this student.
+                        </li>
+                        <li class="list-group-item list-group-item-warning"  id="comment_box"  style="display:none;" >
+                           <form action="/page/instructorStudentCommentAdd"  class="form_comment"  method="post"  name="form_commentadd" >
+                              <div class="form-group" >
+                                 <textarea class="form-control"  id="commentText"  name="commenttext"  placeholder="Your comment about this student"  rows="3" >
+                                 </textarea>
+                              </div>
+                              <div class="col-sm-offset-5" >
+                                 <input class="btn btn-primary"  id="button_save_comment"  type="submit"  value="Add Comment" />
+                                                                  <input class="btn btn-default"  onclick="hideAddCommentBox();"  type="button"  value="Cancel" />
+                                                                  <input name="courseid"  type="hidden"  value="FSQTT.idOfTypicalCourse1" />
+                                                                  <input name="studentemail"  type="hidden"  value="student1InCourse1@gmail.com" />
+                                                                  <input name="user"  type="hidden"  value="FSQTT.idOfInstructor1OfCourse1" />
+                                                               </div>
+                           </form>
+                        </li>
+                     </ul>
+                  </div>
                </div>
                <br/>
-                              <hr/>
-                              <br/>
-            <br /> <br /> <br />
-        </div>
-    </div>
-    <div id="frameBottom">
-        <div id="contentFooter">
-            <span class="floatleft"> [<span class="color_white">TEAMMATES </span>V{$version}]
-            </span> [for <span class="color_white"> National University of Singapore </span> ] 
-            <span class="floatright"> [Send <span class="color_white"> <a href="../contact.html" target="_blank"> Feedback </a>
-            </span> ]
-            </span>
-        </div>
-    </div>
-</body>
-</html>
+                              <div class="well well-plain student_feedback"  id="studentFeedback-0" >
+                  <div class="text-primary" >
+                     <h2 id="feedback_name-0" >
+                        <strong>
+                           Feedback Session Name: MCQ Session
+                        </strong>
+                     </h2>
+                  </div>
+                  <br/>
+                                    <div class="panel panel-primary" >
+                     <div class="panel-heading" >
+                        To:
+                        <strong>
+                           student1 In Course1 (Team 1.1)
+                        </strong>
+                     </div>
+                     <div class="panel-body" >
+                        <div class="row " >
+                           <div class="col-md-2" >
+                              <strong>
+                                 From: student1 In Course1 (Team 1.1)
+                              </strong>
+                           </div>
+                           <div class="col-md-10" >
+                              <div class="panel panel-info" >
+                                 <div class="panel-heading" >
+                                    Question 1: What do you like best about our product? 
+                                    <span style=" white-space: normal;" >
+                                       <a class="color_gray"  href="javascript:;"  id="questionAdditionalInfoButton-1-giver-1-session-0"  onclick="toggleAdditionalQuestionInfo('1-giver-1-session-0')" >
+                                          [more]
+                                       </a>
+                                       <br/>
+                                                                              <span id="questionAdditionalInfo-1-giver-1-session-0"  style="display:none;" >
+                                          Multiple-choice (single answer) options:
+                                          <ul style="list-style-type: disc;margin-left: 20px;" >
+                                             <li>
+                                                It's good
+                                             </li>
+                                             <li>
+                                                It's perfect
+                                             </li>
+                                          </ul>
+                                       </span>
+                                    </span>
+                                 </div>
+                                 <div class="panel-body" >
+                                    It's good
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <br/>
+                                             </div>
+                  </div>
+                  <div class="panel panel-primary" >
+                     <div class="panel-heading" >
+                        From:
+                        <strong>
+                           student1 In Course1 (Team 1.1)
+                        </strong>
+                     </div>
+                     <div class="panel-body" >
+                        <div class="row " >
+                           <div class="col-md-2" >
+                              <strong>
+                                 To: student1 In Course1 (Team 1.1)
+                              </strong>
+                           </div>
+                           <div class="col-md-10" >
+                              <div class="panel panel-info" >
+                                 <div class="panel-heading" >
+                                    Question 1: What do you like best about our product? 
+                                    <span style=" white-space: normal;" >
+                                       <a class="color_gray"  href="javascript:;"  id="questionAdditionalInfoButton-1-recipient-1-session-0"  onclick="toggleAdditionalQuestionInfo('1-recipient-1-session-0')" >
+                                          [more]
+                                       </a>
+                                       <br/>
+                                                                              <span id="questionAdditionalInfo-1-recipient-1-session-0"  style="display:none;" >
+                                          Multiple-choice (single answer) options:
+                                          <ul style="list-style-type: disc;margin-left: 20px;" >
+                                             <li>
+                                                It's good
+                                             </li>
+                                             <li>
+                                                It's perfect
+                                             </li>
+                                          </ul>
+                                       </span>
+                                    </span>
+                                 </div>
+                                 <div class="panel-body" >
+                                    It's good
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <br/>
+                                             </div>
+                  </div>
+               </div>
+               <br/>
+                              <div class="well well-plain student_feedback"  id="studentFeedback-1" >
+                  <div class="text-primary" >
+                     <h2 id="feedback_name-1" >
+                        <strong>
+                           Feedback Session Name: MSQ Session
+                        </strong>
+                     </h2>
+                  </div>
+                  <br/>
+                                    <div class="panel panel-primary" >
+                     <div class="panel-heading" >
+                        To:
+                        <strong>
+                           student1 In Course1 (Team 1.1)
+                        </strong>
+                     </div>
+                     <div class="panel-body" >
+                        <div class="row " >
+                           <div class="col-md-2" >
+                              <strong>
+                                 From: student1 In Course1 (Team 1.1)
+                              </strong>
+                           </div>
+                           <div class="col-md-10" >
+                              <div class="panel panel-info" >
+                                 <div class="panel-heading" >
+                                    Question 1: What do you like best about our product? 
+                                    <span style=" white-space: normal;" >
+                                       <a class="color_gray"  href="javascript:;"  id="questionAdditionalInfoButton-1-giver-1-session-1"  onclick="toggleAdditionalQuestionInfo('1-giver-1-session-1')" >
+                                          [more]
+                                       </a>
+                                       <br/>
+                                                                              <span id="questionAdditionalInfo-1-giver-1-session-1"  style="display:none;" >
+                                          Multiple-choice (multiple answers) options:
+                                          <ul style="list-style-type: disc;margin-left: 20px;" >
+                                             <li>
+                                                It's good
+                                             </li>
+                                             <li>
+                                                It's perfect
+                                             </li>
+                                          </ul>
+                                       </span>
+                                    </span>
+                                 </div>
+                                 <div class="panel-body" >
+                                    <ul class="selectedOptionsList" >
+                                       <li>
+                                          It's good
+                                       </li>
+                                       <li>
+                                          It's perfect
+                                       </li>
+                                    </ul>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <br/>
+                                             </div>
+                  </div>
+                  <div class="panel panel-primary" >
+                     <div class="panel-heading" >
+                        From:
+                        <strong>
+                           student1 In Course1 (Team 1.1)
+                        </strong>
+                     </div>
+                     <div class="panel-body" >
+                        <div class="row " >
+                           <div class="col-md-2" >
+                              <strong>
+                                 To: student1 In Course1 (Team 1.1)
+                              </strong>
+                           </div>
+                           <div class="col-md-10" >
+                              <div class="panel panel-info" >
+                                 <div class="panel-heading" >
+                                    Question 1: What do you like best about our product? 
+                                    <span style=" white-space: normal;" >
+                                       <a class="color_gray"  href="javascript:;"  id="questionAdditionalInfoButton-1-recipient-1-session-1"  onclick="toggleAdditionalQuestionInfo('1-recipient-1-session-1')" >
+                                          [more]
+                                       </a>
+                                       <br/>
+                                                                              <span id="questionAdditionalInfo-1-recipient-1-session-1"  style="display:none;" >
+                                          Multiple-choice (multiple answers) options:
+                                          <ul style="list-style-type: disc;margin-left: 20px;" >
+                                             <li>
+                                                It's good
+                                             </li>
+                                             <li>
+                                                It's perfect
+                                             </li>
+                                          </ul>
+                                       </span>
+                                    </span>
+                                 </div>
+                                 <div class="panel-body" >
+                                    <ul class="selectedOptionsList" >
+                                       <li>
+                                          It's good
+                                       </li>
+                                       <li>
+                                          It's perfect
+                                       </li>
+                                    </ul>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <br/>
+                                             </div>
+                  </div>
+               </div>
+               <br/>
+                              <div class="well well-plain student_feedback"  id="studentFeedback-2" >
+                  <div class="text-primary" >
+                     <h2 id="feedback_name-2" >
+                        <strong>
+                           Feedback Session Name: NUMSCALE Session
+                        </strong>
+                     </h2>
+                  </div>
+                  <br/>
+                                    <div class="panel panel-primary" >
+                     <div class="panel-heading" >
+                        To:
+                        <strong>
+                           student1 In Course1 (Team 1.1)
+                        </strong>
+                     </div>
+                     <div class="panel-body" >
+                        <div class="row " >
+                           <div class="col-md-2" >
+                              <strong>
+                                 From: student1 In Course1 (Team 1.1)
+                              </strong>
+                           </div>
+                           <div class="col-md-10" >
+                              <div class="panel panel-info" >
+                                 <div class="panel-heading" >
+                                    Question 1: Rate our product. 
+                                    <span style=" white-space: normal;" >
+                                       <a class="color_gray"  href="javascript:;"  id="questionAdditionalInfoButton-1-giver-1-session-2"  onclick="toggleAdditionalQuestionInfo('1-giver-1-session-2')" >
+                                          [more]
+                                       </a>
+                                       <br/>
+                                                                              <span id="questionAdditionalInfo-1-giver-1-session-2"  style="display:none;" >
+                                          Numerical-scale question:
+                                          <br/>
+                                                                                    Minimum value: 1. Increment: 0.5. Maximum value: 5.
+                                       </span>
+                                    </span>
+                                 </div>
+                                 <div class="panel-body" >
+                                    3.5
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <br/>
+                                             </div>
+                  </div>
+                  <div class="panel panel-primary" >
+                     <div class="panel-heading" >
+                        From:
+                        <strong>
+                           student1 In Course1 (Team 1.1)
+                        </strong>
+                     </div>
+                     <div class="panel-body" >
+                        <div class="row " >
+                           <div class="col-md-2" >
+                              <strong>
+                                 To: student1 In Course1 (Team 1.1)
+                              </strong>
+                           </div>
+                           <div class="col-md-10" >
+                              <div class="panel panel-info" >
+                                 <div class="panel-heading" >
+                                    Question 1: Rate our product. 
+                                    <span style=" white-space: normal;" >
+                                       <a class="color_gray"  href="javascript:;"  id="questionAdditionalInfoButton-1-recipient-1-session-2"  onclick="toggleAdditionalQuestionInfo('1-recipient-1-session-2')" >
+                                          [more]
+                                       </a>
+                                       <br/>
+                                                                              <span id="questionAdditionalInfo-1-recipient-1-session-2"  style="display:none;" >
+                                          Numerical-scale question:
+                                          <br/>
+                                                                                    Minimum value: 1. Increment: 0.5. Maximum value: 5.
+                                       </span>
+                                    </span>
+                                 </div>
+                                 <div class="panel-body" >
+                                    3.5
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <br/>
+                                             </div>
+                  </div>
+               </div>
+               <br/>
+                           </div>
+         </div>
+         <div class="container-fluid"  id="footerComponent" >
+            <div class="container" >
+               <div class="row" >
+                  <div class="col-md-4" >
+                     <span>
+                        [
+                        <a href="/index.html" >
+                           TEAMMATES
+                        </a>
+                        V{$version}]
+                     </span>
+                  </div>
+                  <div class="col-md-4" >
+                     [for
+                     <span class="highlight-white" >
+                        <span class="color_white" >
+                           National University of Singapore
+                        </span>
+                     </span>
+                     ]
+                  </div>
+                  <div class="col-md-4" >
+                     <span>
+                        [Send
+                        <a class="link"  href="../contact.html"  target="_blank" >
+                           Feedback
+                        </a>
+                        ]
+                     </span>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </body>
+   </html>
