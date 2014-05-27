@@ -45,6 +45,7 @@
             <div id="headerOperation">
             <h1>Add New Instructor</h1>
             </div>
+            <br />
             <div class="well well-plain">
                 <form method="post" action="<%=Const.ActionURIs.ADMIN_INSTRUCTORACCOUNT_ADD%>" name="form_addinstructoraccount">
                     <div>
