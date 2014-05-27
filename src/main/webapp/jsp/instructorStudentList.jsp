@@ -88,7 +88,7 @@
              </div>
             <br>
             <div id="moreOptionsDiv" class="well well-plain" style="display: none;">
-                <form class="form-horizontal container" role="form">
+                <form class="form-horizontal" role="form">
                     <div class="row">
                         <div class="col-sm-4">
                             <div class="text-color-primary">
@@ -97,7 +97,7 @@
                             <br>
                             <div class="checkbox">
                                 <input type="checkbox" value="" id="course_all" checked="checked"> 
-                                 <label for="course_all"><strong>Select all</strong></label>
+                                <label for="course_all"><strong>Select all</strong></label>
                             </div>
                             <br>
                             <%
@@ -172,7 +172,7 @@
                                                     for(StudentAttributes student: teamDetails.students){
                                                         studentIdx++;
                                 %>
-                                        <div id="student_email-c<%=courseIdx %>.<%=studentIdx%>" style="display: list-item;"><%=student.email %></div>
+                                        <div id="student_email-c<%=courseIdx %>.<%=studentIdx%>"><%=student.email %></div>
                                 <%
                                                     }
                                                 }
@@ -198,7 +198,7 @@
             <div class="well well-plain" id="course-<%=courseIdx%>">
                 <div class="row">
                     <div class="col-md-10 text-color-primary">
-                        <h4 class="color_white">
+                        <h4>
                             <strong>
                                 [<%=courseDetails.course.id%>] : <%=PageData.sanitizeForHtml(courseDetails.course.name)%>
                             </strong>
