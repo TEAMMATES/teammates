@@ -137,8 +137,7 @@
                             href="<%=data.getAdminDeleteAccountLink(acc.googleId)%>"
                             onclick="return toggleDeleteAccountConfirmation('<%=acc.googleId%>')"
                             class="btn btn-link btn-xs ">
-                            <span class="glyphicon glyphicon-trash"></span>
-                            Delete Entire Account</a>
+                            <span class="glyphicon glyphicon-trash"></span>Delete Entire Account</a>
                         </td>
                         
                     </tr>
