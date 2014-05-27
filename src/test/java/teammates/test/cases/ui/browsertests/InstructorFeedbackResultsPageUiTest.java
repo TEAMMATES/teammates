@@ -3,6 +3,7 @@ package teammates.test.cases.ui.browsertests;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -148,21 +149,23 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         ______TS("test in-table sort");
         
-        resultsPage.sortTableByAnswer()
-                .verifyTablePattern(2,"{*}1 Response to Danny.{*}2 Response to Benny.{*}3 Response to Emily.{*}4 Response to Charlie.");
-        resultsPage.sortTableByAnswer()
-                .verifyTablePattern(2,"{*}4 Response to Charlie.{*}3 Response to Emily.{*}2 Response to Benny.{*}1 Response to Danny.");
-        
-        resultsPage.sortTableByGiver()
-                .verifyTablePattern(0,"{*}Alice Betsy (Team 1){*}Benny Charles (Team 1){*}Benny Charles (Team 1){*}Charlie Dávis (Team 2)");
-        resultsPage.sortTableByGiver()
-                .verifyTablePattern(0,"{*}Charlie Dávis (Team 2){*}Benny Charles (Team 1){*}Benny Charles (Team 1){*}Alice Betsy (Team 1)");
-        
-        resultsPage.sortTableByRecipient()
-                .verifyTablePattern(1,"{*}Benny Charles (Team 1){*}Charlie Dávis (Team 2){*}Danny Engrid (Team 2){*}Emily (Team 3)");
-        resultsPage.sortTableByRecipient()
-                .verifyTablePattern(1,"{*}Emily (Team 3){*}Danny Engrid (Team 2){*}Charlie Dávis (Team 2){*}Benny Charles (Team 1)");
+        verifySortingOrder(By.id("button_sortFeedback"), 
+                "1 Response to Danny.", 
+                "2 Response to Benny.", 
+                "3 Response to Emily.", 
+                "4 Response to Charlie.");
 
+        verifySortingOrder(By.id("button_sortFrom"), 
+                "Alice Betsy (Team 1)", 
+                "Benny Charles (Team 1)", 
+                "Benny Charles (Team 1)", 
+                "Charlie Dávis (Team 2)");
+
+        verifySortingOrder(By.id("button_sortTo"), 
+                "Benny Charles (Team 1)", 
+                "Charlie Dávis (Team 2)", 
+                "Danny Engrid (Team 2)" ,
+                "Emily (Team 3)");
     }
     
     public void testFeedbackResponseCommentActions() {
@@ -281,6 +284,24 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         }
         return loginAdminToPage(browser, editUrl,
                 InstructorFeedbackResultsPage.class);
+    }
+    
+    private void verifySortingOrder(By sortIcon, String... values) {
+        //check if the rows match the given order of values
+        resultsPage.click(sortIcon);
+        String searchString = "";
+        for (int i = 0; i < values.length; i++) {
+            searchString += values[i]+"{*}";
+        }
+        resultsPage.verifyContains(searchString);
+        
+        //click the sort icon again and check for the reverse order
+        resultsPage.click(sortIcon);
+        searchString = "";
+        for (int i = values.length; i > 0; i--) {
+            searchString += values[i-1]+"{*}";
+        }
+        resultsPage.verifyContains(searchString);
     }
 
 }

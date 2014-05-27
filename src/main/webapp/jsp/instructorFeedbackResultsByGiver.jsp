@@ -43,7 +43,7 @@
     <![endif]-->
 </head>
 
-<body onload="">
+<body>
     <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
 
     <div id="frameBody" class="container">
