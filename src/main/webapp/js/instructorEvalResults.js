@@ -1,3 +1,8 @@
+$(document).ready(function(){
+	toggleSort($("#button_sortteam"),1);
+});
+
+
 /**
  * Shows the desired evaluation report based on the id.
  * This is for the evaluation results page.
