@@ -52,22 +52,22 @@
            <div class="collapse navbar-collapse"  id="contentLinks" >
               <ul class="nav navbar-nav" >
                  <li class="" >
-                    <a class="nav home"  data-link="instructorHome"  href="/page/instructorHomePage?user=CCAddUiTest.instr2" >
+                    <a class="nav home"  data-link="instructorHome"  href="/page/instructorHomePage?user=CCAddUiTest.instructor" >
                        Home
                     </a>
                  </li>
                  <li class="active" >
-                    <a class="nav courses"  data-link="instructorCourse"  href="/page/instructorCoursesPage?user=CCAddUiTest.instr2" >
+                    <a class="nav courses"  data-link="instructorCourse"  href="/page/instructorCoursesPage?user=CCAddUiTest.instructor" >
                        Courses
                     </a>
                  </li>
                  <li class="" >
-                    <a class="nav evaluations"  data-link="instructorEval"  href="/page/instructorEvalsPage?user=CCAddUiTest.instr2" >
+                    <a class="nav evaluations"  data-link="instructorEval"  href="/page/instructorEvalsPage?user=CCAddUiTest.instructor" >
                        Sessions
                     </a>
                  </li>
                  <li class="" >
-                    <a class="nav students"  data-link="instructorStudent"  href="/page/instructorStudentListPage?user=CCAddUiTest.instr2" >
+                    <a class="nav students"  data-link="instructorStudent"  href="/page/instructorStudentListPage?user=CCAddUiTest.instructor" >
                        Students
                     </a>
                  </li>
@@ -79,12 +79,12 @@
               </ul>
               <ul class="nav navbar-nav pull-right" >
                  <li>
-                    <a class="nav logout"  href="/logout.jsp" >
+                     <a class="nav logout"  href="/logout.jsp" >
                            Logout
                         
                         (
-                           <span class="text-info"  data-original-title="CCAddUiTest.instr2"  data-placement="bottom"  data-toggle="tooltip"  title="" >
-                              CCAddUiTest.instr2
+                           <span class="text-info"  data-original-title="CCAddUiTest.instructor"  data-placement="bottom"  data-toggle="tooltip"  title="" >
+                              CCAddUiTest.instructor
                            </span>
                            )
                         </a>
@@ -104,8 +104,8 @@
         <div class="panel panel-primary" >
            <div class="panel-body fill-plain" >
               <form action="/page/instructorCourseAdd"  class="form form-horizontal"  method="get"  name="form_addcourse" >
-                 <input id="instructorid"  name="instructorid"  type="hidden"  value="CCAddUiTest.instr2" />
-                                      <input name="user"  type="hidden"  value="CCAddUiTest.instr2" />
+                 <input id="instructorid"  name="instructorid"  type="hidden"  value="CCAddUiTest.instructor" />
+                                      <input name="user"  type="hidden"  value="CCAddUiTest.instructor" />
                                       <div class="form-group" >
                     <label class="col-sm-3 control-label" >
                        Course ID:
@@ -131,27 +131,23 @@
            </div>
         </div>
         <br/>
-                    <div class="alert alert-warning"  id="statusMessage" >
-           You have not created any courses yet. Use the form above to create a course.
+                    <div id="statusMessage"  style="display: none;" >
         </div>
-        <script type="text/javascript" >
-           document.getElementById( 'statusMessage' ).scrollIntoView();
-        </script>
         <br/>
                     <h2>
            Active courses
         </h2>
         <table class="table table-bordered table-striped" >
-        <thead class="fill-primary" >
+           <thead class="fill-primary" >
                   <tr>
                      <th class="button-sort-ascending"  id="button_sortcourseid"  onclick="toggleSort(this,1);" >
                         Course ID
                         <span class="sort-icon unsorted" >
                         </span>
                      </th>
-                     <th class="button-sort-ascending"  id="button_sortcoursename"  onclick="toggleSort(this,2);" >
+                     <th class="button-sort-descending"  id="button_sortcoursename"  onclick="toggleSort(this,2);" >
                         Course Name
-                        <span class="sort-icon unsorted" >
+                        <span class="sort-icon descending-sorted" >
                         </span>
                      </th>
                      <th>
@@ -170,24 +166,75 @@
                </thead>
            <tbody>
               <tr>
-                 <td>
+                 <td id="courseid0" >
+                    CCAddUiTest.CS1101
                  </td>
-                 <td>
+                 <td id="coursename0" >
+                    Programming Methodology
                  </td>
-                 <td>
+                 <td class="t_course_teams centeralign" >
+                    0
                  </td>
-                 <td>
+                 <td class="centeralign" >
+                    0
                  </td>
-                 <td>
+                 <td class="centeralign" >
+                    0
                  </td>
-                 <td>
+                 <td class="centeralign no-print" >
+                    <a class="btn btn-default btn-xs t_course_enroll0"  data-original-title="Enroll student into the course"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseEnrollPage?courseid=CCAddUiTest.CS1101&user=CCAddUiTest.instructor"  title="" >
+                       Enroll
+                    </a>
+                    <a class="btn btn-default btn-xs t_course_view0"  data-original-title="View, edit and send invitation emails to the students in the course"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseDetailsPage?courseid=CCAddUiTest.CS1101&user=CCAddUiTest.instructor"  title="" >
+                       View
+                    </a>
+                    <a class="btn btn-default btn-xs t_course_edit0"  data-original-title="Edit Course information and instructor list"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseEditPage?courseid=CCAddUiTest.CS1101&user=CCAddUiTest.instructor"  title="" >
+                       Edit
+                    </a>
+                    <a class="btn btn-default btn-xs t_course_delete0"  data-original-title="Delete the course and its corresponding students and evaluations"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseDelete?courseid=CCAddUiTest.CS1101&next=%2Fpage%2FinstructorCoursesPage&user=CCAddUiTest.instructor"  onclick="return toggleDeleteCourseConfirmation('CCAddUiTest.CS1101');"  title="" >
+                       Delete
+                    </a>
+                    <a class="btn btn-default btn-xs t_course_archive0"  data-original-title="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseArchive?courseid=CCAddUiTest.CS1101&archive=true&next=%2Fpage%2FinstructorCoursesPage&user=CCAddUiTest.instructor"  title="" >
+                       Archive
+                    </a>
+                 </td>
+              </tr>
+              <tr>
+                 <td id="courseid1" >
+                    CCAddUiTest.CS2104
+                 </td>
+                 <td id="coursename1" >
+                    Programming Language Concept
+                 </td>
+                 <td class="t_course_teams centeralign" >
+                    0
+                 </td>
+                 <td class="centeralign" >
+                    0
+                 </td>
+                 <td class="centeralign" >
+                    0
+                 </td>
+                 <td class="centeralign no-print" >
+                    <a class="btn btn-default btn-xs t_course_enroll1"  data-original-title="Enroll student into the course"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseEnrollPage?courseid=CCAddUiTest.CS2104&user=CCAddUiTest.instructor"  title="" >
+                       Enroll
+                    </a>
+                    <a class="btn btn-default btn-xs t_course_view1"  data-original-title="View, edit and send invitation emails to the students in the course"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseDetailsPage?courseid=CCAddUiTest.CS2104&user=CCAddUiTest.instructor"  title="" >
+                       View
+                    </a>
+                    <a class="btn btn-default btn-xs t_course_edit1"  data-original-title="Edit Course information and instructor list"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseEditPage?courseid=CCAddUiTest.CS2104&user=CCAddUiTest.instructor"  title="" >
+                       Edit
+                    </a>
+                    <a class="btn btn-default btn-xs t_course_delete1"  data-original-title="Delete the course and its corresponding students and evaluations"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseDelete?courseid=CCAddUiTest.CS2104&next=%2Fpage%2FinstructorCoursesPage&user=CCAddUiTest.instructor"  onclick="return toggleDeleteCourseConfirmation('CCAddUiTest.CS2104');"  title="" >
+                       Delete
+                    </a>
+                    <a class="btn btn-default btn-xs t_course_archive1"  data-original-title="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseArchive?courseid=CCAddUiTest.CS2104&archive=true&next=%2Fpage%2FinstructorCoursesPage&user=CCAddUiTest.instructor"  title="" >
+                       Archive
+                    </a>
                  </td>
               </tr>
            </tbody>
         </table>
-        <br/>
-                    <br/>
-                    No records found.
         <br/>
                     <br/>
                     <br/>
@@ -203,7 +250,7 @@
                        <a href="/index.html" >
                           TEAMMATES
                        </a>
-                       V4.18]
+                       V{$version}]
                     </span>
                  </div>
                  <div class="col-md-4" >
@@ -229,4 +276,4 @@
         </div>
      </div>
     </body>
-    </html>
+</html>

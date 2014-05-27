@@ -186,14 +186,14 @@ function sortTable(oneOfTableCell, colIdx, comparator, ascending) {
     
     store.sort(function(x,y){
         if(ascending==true){
-            var compareResult = comparator(x[0],y[0]);
+            var compareResult = comparator(x[0].toUpperCase(),y[0].toUpperCase());
             if(compareResult == 0){
                 return  x[2] - y[2];
             } else {
                 return compareResult;
             }
         }else{
-            var compareResult = comparator(y[0],x[0]);
+            var compareResult = comparator(y[0].toUpperCase(),x[0].toUpperCase());
             if(compareResult == 0){
                 return x[2] - y[2];
             } else {

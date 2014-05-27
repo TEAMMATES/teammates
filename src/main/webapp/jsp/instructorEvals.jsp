@@ -75,8 +75,10 @@
                     </select>
                 </div>
                 <div class="col-md-5">
-                    <span class="glyphicon glyphicon-info-sign glyphicon-default"></span>
-                    <span class="text-muted"> Select a session type before filling out the form below.</span>
+                    <h5>
+                        <span class="glyphicon glyphicon-info-sign glyphicon-primary"></span>
+                        <span class="text-muted"> Select a session type before filling out the form below.</span>
+                    </h5>
                 </div>
             </div>
             <br>
@@ -296,9 +298,9 @@
                         </div>
                         <br>
                         <div class="row">
-                            <div class="col-md-offset-2 col-md-10">
+                            <div class="col-md-12">
                                 <button type="submit" 
-                                    class="btn btn-primary text-center"
+                                    class="btn btn-primary center-block"
                                     onclick="return checkAddEvaluation(this.form);">
                                     Create Evaluation Session
                                 </button>

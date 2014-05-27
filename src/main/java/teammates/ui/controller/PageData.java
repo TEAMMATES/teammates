@@ -750,7 +750,7 @@ public class PageData {
                 );
         }
         result.append(
-            "<a class=\"btn btn-default btn-xs btn-tm-actions" + (hasSubmit ? "" : DISABLED) +
+            "<a class=\"btn btn-default btn-xs btn-tm-actions" + (hasSubmit ? "\"" : DISABLED) +
             "href=\"" + getInstructorFeedbackSessionSubmitLink(session.courseId,session.feedbackSessionName) + "\" " +
             "title=\"" + Const.Tooltips.FEEDBACK_SESSION_SUBMIT + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
             ">Submit</a> "
@@ -762,7 +762,7 @@ public class PageData {
         }
         
         result.append(
-            "<a class=\"btn btn-default btn-xs btn-tm-actions" + (hasRemind ? "" : DISABLED) + 
+            "<a class=\"btn btn-default btn-xs btn-tm-actions" + (hasRemind ? "\"" : DISABLED) + 
             "href=\"" + getInstructorFeedbackSessionRemindLink(session.courseId,session.feedbackSessionName) + "\" " +
             "title=\"" + Const.Tooltips.FEEDBACK_SESSION_REMIND + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
             (hasRemind ? "onclick=\"return toggleRemindStudents('" + session.feedbackSessionName + "');\" " : "") +
@@ -780,7 +780,7 @@ public class PageData {
                 );
             } else {
                 result.append(
-                    "<a class=\"btn btn-default btn-xs btn-tm-actions" + (hasPublish ? "" : DISABLED) + 
+                    "<a class=\"btn btn-default btn-xs btn-tm-actions" + (hasPublish ? "\"" : DISABLED) + 
                     "href=\"" + getInstructorFeedbackSessionPublishLink(session.courseId,session.feedbackSessionName,isHome) + "\" " +
                     "title=\"" + (hasPublish ? Const.Tooltips.FEEDBACK_SESSION_PUBLISH :  Const.Tooltips.FEEDBACK_SESSION_AWAITING) + "\"" +
                     "data-toggle=\"tooltip\" data-placement=\"top\"" +
