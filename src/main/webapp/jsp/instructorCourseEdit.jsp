@@ -105,18 +105,18 @@
                             class="btn btn-primary btn-xs"
                             data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_INSTRUCTOR_REMIND%>"
                             onclick="return toggleSendRegistrationKey('<%=instructor.courseId%>','<%=instructor.email%>);">
-                            <span class="glyphicon glyphicon-envelope"></span>Resend Invite</a>&nbsp;
+                            <span class="glyphicon glyphicon-envelope"></span> Resend Invite</a>&nbsp;
                     <% } else { %>
                         <a href="javascript:;" id="instrEditLink<%=index%>" class="btn btn-primary btn-xs"
                             data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_INSTRUCTOR_EDIT%>"
                             onclick="enableEditInstructor(<%=index%>, <%=data.instructorList.size()%>)">
-                            <span class="glyphicon glyphicon-pencil"></span>Edit</a>&nbsp;
+                            <span class="glyphicon glyphicon-pencil"></span> Edit</a>&nbsp;
                     <% } %>
                     <a href="<%=data.getInstructorCourseInstructorDeleteLink(instructor.courseId, instructor.email)%>" id="instrDeleteLink<%=index%>"
                         class="btn btn-primary btn-xs"
                         data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_INSTRUCTOR_DELETE%>"
                         onclick="return toggleDeleteInstructorConfirmation('<%=instructor.courseId%>','<%=instructor.email%>', <%=instructor.email.equals(data.account.email)%>);">
-                        <span class="glyphicon glyphicon-trash"></span>Delete</a>
+                        <span class="glyphicon glyphicon-trash"></span> Delete</a>
                 </div>
             </div>
 

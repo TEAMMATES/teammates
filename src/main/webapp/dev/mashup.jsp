@@ -343,8 +343,9 @@
             $('#deadlineExceededErrorPage').load("<%=Const.ViewURIs.DEADLINE_EXCEEDED_ERROR_PAGE%> #frameBodyWrapper");
             $('#errorPage').load("<%=Const.ViewURIs.ERROR_PAGE%> #frameBodyWrapper");
             $('#entityNotFoundPage').load("<%=Const.ViewURIs.ENTITY_NOT_FOUND_PAGE%> #frameBodyWrapper");
-            
-            //Tooltip
+        });
+
+        $(function() {
             $("[data-toggle='tooltip']").tooltip({html: true}); 
         });
         

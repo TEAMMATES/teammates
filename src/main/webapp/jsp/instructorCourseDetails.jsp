@@ -49,72 +49,70 @@
         <br>
         
         
-        <div class="panel panel-primary panel-narrow" id="courseInformationHeader">
-            <div class="panel-body fill-plain">
-                <div class="form form-horizontal">
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Course ID:</label>
-                        <div class="col-sm-6" id="courseid">
-                            <p class="form-control-static"><%=sanitizeForHtml(data.courseDetails.course.id)%></p>
-                        </div>
+        <div class="well well-plain well-narrow" id="courseInformationHeader">
+            <div class="form form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Course ID:</label>
+                    <div class="col-sm-6" id="courseid">
+                        <p class="form-control-static"><%=sanitizeForHtml(data.courseDetails.course.id)%></p>
                     </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Course name:</label>
-                        <div class="col-sm-6" id="coursename">
-                            <p class="form-control-static"><%=sanitizeForHtml(data.courseDetails.course.name)%></p>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Teams:</label>
-                        <div class="col-sm-6" id="total_teams">
-                            <p class="form-control-static"><%=data.courseDetails.stats.teamsTotal%></p>
-                        </div>
-                     </div>
-                     <div class="form-group">
-                        <label class="col-sm-3 control-label">Total students:</label>
-                        <div class="col-sm-6" id="total_students">
-                            <p class="form-control-static"><%=data.courseDetails.stats.studentsTotal%></p>
-                        </div>
-                     </div>
-                     <div class="form-group">
-                        <label class="col-sm-3 control-label">Instructors:</label>
-                        <div class="col-sm-6" id="instructors">
-                            <div class="form-control-static">
-                        <%
-                            for (int i = 0; i < data.instructors.size(); i++){
-                                InstructorAttributes instructor = data.instructors.get(i);
-                                String instructorInfo = instructor.name + " (" + instructor.email + ")";
-                        %>
-                            <%=sanitizeForHtml(instructorInfo)%><br><br>
-                        <%
-                            }
-                        %>
-                            </div>
-                        </div>
-                     </div>
-                     <%
-                         if(data.courseDetails.stats.studentsTotal>1){
-                     %>
-                     <div class="form-group">
-                         <div class="centeralign">
-                             <input type="button" class="btn btn-primary"
-                                     id="button_remind"
-                                     data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_REMIND%>"
-                                     onclick="if(toggleSendRegistrationKeysConfirmation('<%=data.courseDetails.course.id%>')) window.location.href='<%=data.getInstructorCourseRemindLink()%>';"
-                                     value="Remind Students to Join" tabindex="1">
-                             <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_LIST_DOWNLOAD%>" style="display:inline;">
-                                <input id="button_download" type="submit" class="btn btn-primary"
-                                    name="<%=Const.ParamsNames.FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON%>"
-                                    value=" Download Student List ">
-                                <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
-                                <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.courseDetails.course.id%>">
-                            </form>
-                         </div>
-                     </div>
-                     <%
-                         }
-                     %>
                 </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Course name:</label>
+                    <div class="col-sm-6" id="coursename">
+                        <p class="form-control-static"><%=sanitizeForHtml(data.courseDetails.course.name)%></p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Teams:</label>
+                    <div class="col-sm-6" id="total_teams">
+                        <p class="form-control-static"><%=data.courseDetails.stats.teamsTotal%></p>
+                    </div>
+                 </div>
+                 <div class="form-group">
+                    <label class="col-sm-3 control-label">Total students:</label>
+                    <div class="col-sm-6" id="total_students">
+                        <p class="form-control-static"><%=data.courseDetails.stats.studentsTotal%></p>
+                    </div>
+                 </div>
+                 <div class="form-group">
+                    <label class="col-sm-3 control-label">Instructors:</label>
+                    <div class="col-sm-6" id="instructors">
+                        <div class="form-control-static">
+                    <%
+                        for (int i = 0; i < data.instructors.size(); i++){
+                            InstructorAttributes instructor = data.instructors.get(i);
+                            String instructorInfo = instructor.name + " (" + instructor.email + ")";
+                    %>
+                        <%=sanitizeForHtml(instructorInfo)%><br><br>
+                    <%
+                        }
+                    %>
+                        </div>
+                    </div>
+                 </div>
+                 <%
+                     if(data.courseDetails.stats.studentsTotal>1){
+                 %>
+                 <div class="form-group">
+                     <div class="centeralign">
+                         <input type="button" class="btn btn-primary"
+                                 id="button_remind"
+                                 data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_REMIND%>"
+                                 onclick="if(toggleSendRegistrationKeysConfirmation('<%=data.courseDetails.course.id%>')) window.location.href='<%=data.getInstructorCourseRemindLink()%>';"
+                                 value="Remind Students to Join" tabindex="1">
+                         <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_LIST_DOWNLOAD%>" style="display:inline;">
+                            <input id="button_download" type="submit" class="btn btn-primary"
+                                name="<%=Const.ParamsNames.FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON%>"
+                                value=" Download Student List ">
+                            <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
+                            <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.courseDetails.course.id%>">
+                        </form>
+                     </div>
+                 </div>
+                 <%
+                     }
+                 %>
             </div>
         </div>
             
@@ -125,10 +123,18 @@
         <table class="table table-bordered table-striped">
             <thead class="fill-primary">
                 <tr>
-                    <th>Team</th>
-                    <th>Student Name</th>
-                    <th class="centeralign">Status</th>
-                    <th class="centeralign no-print">Action(s)</th>
+                    <th onclick="toggleSort(this,1);" id="button_sortid" class="button-sort-ascending">
+                        Team<span class="sort-icon unsorted"></span>
+                    </th>
+                    <th onclick="toggleSort(this,2);" id="button_sortid" class="button-sort-ascending">
+                        Student Name<span class="sort-icon unsorted"></span>
+                    </th>
+                    <th onclick="toggleSort(this,2);" id="button_sortid" class="button-sort-ascending">
+                        Status<span class="sort-icon unsorted"></span>
+                    </th>
+                    <th class="centeralign no-print">
+                        Action(s)
+                    </th>
                 </tr>
             </thead>
             <%

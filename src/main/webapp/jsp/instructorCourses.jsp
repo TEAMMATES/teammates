@@ -87,11 +87,21 @@
         <table class="table table-bordered table-striped">
             <thead class="fill-primary">
                 <tr>
-                    <th>Course ID</th>
-                    <th>Course Name</th>
-                    <th>Teams</th>
-                    <th>Total Students</th>
-                    <th>Total Unregistered</th>
+                    <th onclick="toggleSort(this,1);" id="button_sortid" class="button-sort-ascending">
+                        Course ID<span class="sort-icon unsorted"></span>
+                    </th>
+                    <th onclick="toggleSort(this,2);" id="button_sortid" class="button-sort-ascending">
+                        Course Name<span class="sort-icon unsorted"></span>
+                    </th>
+                    <th onclick="toggleSort(this,3);" id="button_sortid" class="button-sort-ascending">
+                        Teams<span class="sort-icon unsorted"></span>
+                    </th>
+                    <th onclick="toggleSort(this,4);" id="button_sortid" class="button-sort-ascending">
+                        Total Students<span class="sort-icon unsorted"></span>
+                    </th>
+                    <th onclick="toggleSort(this,5);" id="button_sortid" class="button-sort-ascending">
+                        Total Unregistered<span class="sort-icon unsorted"></span>
+                    </th>
                     <th class="centeralign no-print">Action(s)</th>
                 </tr>
             </thead>
@@ -170,8 +180,12 @@
         <table class="table table-bordered table-striped">
             <thead>
                 <tr class="fill-default">
-                    <th>Course ID</th>
-                    <th>Course Name</th>
+                    <th onclick="toggleSort(this,1);" id="button_sortid" class="button-sort-ascending">
+                        Course ID<span class="sort-icon unsorted"></span>
+                    </th>
+                    <th onclick="toggleSort(this,2);" id="button_sortid" class="button-sort-ascending">
+                        Course Name<span class="sort-icon unsorted"></span>
+                    </th>
                     <th class="centeralign no-print">Action(s)</th>
                 </tr>
             </thead>

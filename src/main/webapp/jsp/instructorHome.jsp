@@ -69,8 +69,33 @@
         <br>
         <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
         
-        <div class="inner-container well well-plain">
-            <div class="row text-center">
+        <div class="row">
+            <div class="col-md-5 pull-right">
+                <div class="row">
+                    <div class="col-md-3 btn-group">
+                        <h5 class="pull-right"><strong> Sort By: </strong></h5>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="btn-group pull-right" data-toggle="buttons">
+                            <label class="btn btn-default <%= data.sortCriteria.equals(Const.SORT_BY_COURSE_ID) ? "active" : "" %>" name="sortby" data="id">
+                                <input type="radio">
+                                Course ID
+                            </label>
+                            <label class="btn btn-default <%= data.sortCriteria.equals(Const.SORT_BY_COURSE_NAME) ? "active" : "" %>" name="sortby" data="name">
+                                <input type="radio" name="sortby" value="name" >
+                                Course Name
+                            </label>
+                            <label class="btn btn-default <%= data.sortCriteria.equals(Const.SORT_BY_COURSE_CREATION_DATE) ? "active" : "" %>" name="sortby" data="createdAt">
+                                <input type="radio">
+                                Creation Date
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <!-- <div class="row text-center">
                 <div class="col-md-4">
                     <input type="radio" name="sortby" value="id" <%= data.sortCriteria.equals(Const.SORT_BY_COURSE_ID) ? "checked" : "" %>>
                     <label class="label-control" name="sortby" value="id"> Sort by Course ID </label>
@@ -83,9 +108,7 @@
                     <input type="radio" name="sortby" value="createdAt" <%= data.sortCriteria.equals(Const.SORT_BY_COURSE_CREATION_DATE) ? "checked" : "" %>>
                     <label class="label-control" name="sortby" value="createdAt">Sort by Course Creation Date </label>
                 </div>
-            </div>
-        </div>
-        <br>
+            </div> -->
     <%
         int courseIdx = -1;
         int sessionIdx = -1;

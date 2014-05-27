@@ -47,40 +47,38 @@
         
         <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
         
-        <div class="panel panel-primary">
-            <div class="panel-body fill-plain">
-                <div class="form form-horizontal" id="studentInfomationTable">
-                    <div class="form-group">
-                        <label class="col-sm-1 control-label">Student Name:</label>
-                        <div class="col-sm-11" id="<%=Const.ParamsNames.STUDENT_NAME%>">
-                            <p class="form-control-static"><%=data.student.name%></p>
-                        </div>
+        <div class="well well-plain">
+            <div class="form form-horizontal" id="studentInfomationTable">
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">Student Name:</label>
+                    <div class="col-sm-11" id="<%=Const.ParamsNames.STUDENT_NAME%>">
+                        <p class="form-control-static"><%=data.student.name%></p>
                     </div>
-                    <div class="form-group">
-                        <label class="col-sm-1 control-label">Team Name:</label>
-                        <div class="col-sm-11" id="<%=Const.ParamsNames.TEAM_NAME%>">
-                            <p class="form-control-static"><%=sanitizeForHtml(data.student.team)%></p>
-                        </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">Team Name:</label>
+                    <div class="col-sm-11" id="<%=Const.ParamsNames.TEAM_NAME%>">
+                        <p class="form-control-static"><%=sanitizeForHtml(data.student.team)%></p>
                     </div>
-                    <div class="form-group">
-                        <label class="col-sm-1 control-label">E-mail Address:</label>
-                        <div class="col-sm-11" id="<%=Const.ParamsNames.STUDENT_EMAIL%>">
-                            <p class="form-control-static"><%=sanitizeForHtml(data.student.email)%></p>
-                        </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">E-mail Address:</label>
+                    <div class="col-sm-11" id="<%=Const.ParamsNames.STUDENT_EMAIL%>">
+                        <p class="form-control-static"><%=sanitizeForHtml(data.student.email)%></p>
                     </div>
-                    <div class="form-group">
-                        <label class="col-sm-1 control-label">Join Link:</label>
-                        <div class="col-sm-11">
-                            <input id="<%=Const.ParamsNames.REGKEY%>" value="<%=sanitizeForHtml(Config.APP_URL 
-                                    + Const.ActionURIs.STUDENT_COURSE_JOIN 
-                                    + "?regkey=" + data.regKey)%>" class="form-control" readonly="readonly">
-                        </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">Join Link:</label>
+                    <div class="col-sm-11">
+                        <input id="<%=Const.ParamsNames.REGKEY%>" value="<%=sanitizeForHtml(Config.APP_URL 
+                                + Const.ActionURIs.STUDENT_COURSE_JOIN 
+                                + "?regkey=" + data.regKey)%>" class="form-control" readonly="readonly">
                     </div>
-                    <div class="form-group">
-                        <label class="col-sm-1 control-label">Comments:</label>
-                        <div class="col-sm-11" id="<%=Const.ParamsNames.COMMENTS%>">
-                            <p class="form-control-static"><%=sanitizeForHtml(data.student.comments)%></p>
-                        </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">Comments:</label>
+                    <div class="col-sm-11" id="<%=Const.ParamsNames.COMMENTS%>">
+                        <p class="form-control-static"><%=sanitizeForHtml(data.student.comments)%></p>
                     </div>
                 </div>
             </div>
