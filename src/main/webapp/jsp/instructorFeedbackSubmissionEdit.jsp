@@ -33,7 +33,6 @@
 </head>
 
 <body>
-    <div id="frameTop">
     <%
         if (!data.isPreview) {
     %>
@@ -41,44 +40,41 @@
     <%    
         } else { 
     %>
-            <div id="frameTopWrapper">
-                <h1 class="color_white centeralign">Previewing Session as Instructor <%=data.previewInstructor.name%> (<%=data.previewInstructor.email%>)</h1>
-            </div>
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <h3 class="text-center">Previewing Session as Instructor <%=data.previewInstructor.name%> (<%=data.previewInstructor.email%>)</h3>
+        </nav>
     <% 
         }
     %>
-    </div>
 
-    <div id="frameBody" class="container">
-        <div id="frameBodyWrapper">
-            <div id="topOfPage"></div>
-            <h1>Submit Feedback</h1>
-            <br>
+    <div id="frameBodyWrapper" class="container">
+        <div id="topOfPage"></div>
+        <h1>Submit Feedback</h1>
+        <br>
+        
+        <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE%>" name="form_submit_response">
             
-            <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE%>" name="form_submit_response">
-                
-                <jsp:include page="<%=Const.ViewURIs.FEEDBACK_SUBMISSION_EDIT%>" />
-                
-                <div class="bold centeralign">
-                <%
-                    if (data.bundle.questionResponseBundle.isEmpty()) {
-                %>
-                        There are no questions for you to answer here!
-                <%
-                    } else if (data.isPreview || !data.isSessionOpenForSubmission) {
-                %>
-                        <input disabled="disabled" type="submit" class="btn btn-primary center-block" id="response_submit_button" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_EDIT_SAVE%>')" value="Save Feedback" style="background: #66727A;"/>
-                <%
-                    } else {
-                %>
-                        <input type="submit" class="btn btn-primary center-block" id="response_submit_button" data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_SESSION_EDIT_SAVE%>" value="Save Feedback"/>
-                <%
-                    }
-                %>
-                </div>
-                <br><br>    
-            </form>
-        </div>
+            <jsp:include page="<%=Const.ViewURIs.FEEDBACK_SUBMISSION_EDIT%>" />
+            
+            <div class="bold centeralign">
+            <%
+                if (data.bundle.questionResponseBundle.isEmpty()) {
+            %>
+                    There are no questions for you to answer here!
+            <%
+                } else if (data.isPreview || !data.isSessionOpenForSubmission) {
+            %>
+                    <input disabled="disabled" type="submit" class="btn btn-primary center-block" id="response_submit_button" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_EDIT_SAVE%>')" value="Save Feedback" style="background: #66727A;"/>
+            <%
+                } else {
+            %>
+                    <input type="submit" class="btn btn-primary center-block" id="response_submit_button" data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_SESSION_EDIT_SAVE%>" value="Save Feedback"/>
+            <%
+                }
+            %>
+            </div>
+            <br><br>    
+        </form>
     </div>
 
     <div id="frameBottom">
