@@ -15,6 +15,7 @@
 <head>
     <link rel="shortcut icon" href="/favicon.png" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TEAMMATES - Instructor</title>
     <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" type="text/css"/>
     <link rel="stylesheet" href="/bootstrap/css/bootstrap-theme.min.css" type="text/css"/>
