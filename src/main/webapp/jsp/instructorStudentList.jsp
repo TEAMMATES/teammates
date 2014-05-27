@@ -193,7 +193,7 @@
 
             <div class="well well-plain" id="course-<%=courseIdx%>">
                 <div class="row">
-                    <div class="col-md-10 text-color-primary">
+                    <div class="col-md-10 text-color-<%=courseDetails.course.isArchived ? "default":"primary" %>">
                         <h4>
                             <strong>
                                 [<%=courseDetails.course.id%>] : <%=PageData.sanitizeForHtml(courseDetails.course.name)%>
@@ -215,7 +215,7 @@
                 %>
                         <table class="table table-responsive table-striped table-bordered">
                             <thead>
-                                <tr class="fill-primary">
+                                <tr class="fill-<%=courseDetails.course.isArchived ? "default":"primary" %>">
                                     <th id="button_sortteam" class="button-sort-ascending" onclick="toggleSort(this,1)">
                                         Team <span class="sort-icon ascending-sorted"></span>
                                     </th>
@@ -278,7 +278,7 @@
                         %>
                         <table class="table table-responsive table-striped table-bordered">
                             <thead>
-                                <tr class="fill-primary">
+                                <tr class="fill-<%=courseDetails.course.isArchived ? "default":"primary" %>">
                                     <th class="centeralign color_white bold"><%=Const.StatusMessages.INSTRUCTOR_COURSE_EMPTY %></th>
                                 </tr>
                             </thead>
