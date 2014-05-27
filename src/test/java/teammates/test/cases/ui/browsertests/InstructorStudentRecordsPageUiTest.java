@@ -4,6 +4,8 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import static org.testng.AssertJUnit.assertTrue;
+
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
@@ -11,7 +13,6 @@ import teammates.common.util.Const;
 import teammates.common.util.Url;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
-import teammates.test.pageobjects.InstructorEvalSubmissionEditPage;
 import teammates.test.pageobjects.InstructorStudentRecordsPage;
 
 /**
@@ -122,8 +123,8 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
             .withStudentEmail(student.email);
         
         viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentRecordsPage.class);
-        InstructorEvalSubmissionEditPage editPage = viewPage.clickEvalEditLink("First Eval");
-        editPage.verifyHtml("/instructorEvalSubmissionEdit.html");
+        viewPage.clickEvalEditLink("First Eval");
+        assertTrue(browser.driver.getCurrentUrl().toString().contains(Const.ActionURIs.INSTRUCTOR_EVAL_SUBMISSION_EDIT));
     }
     
     private void testAction() throws Exception{
