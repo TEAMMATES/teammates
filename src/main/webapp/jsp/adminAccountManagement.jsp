@@ -61,93 +61,90 @@
                     Instructors: <%=data.instructorCoursesTable.size()%></strong>
             </div>
             <div class="table-responsive">
-            <table class="table table-striped dataTable">
-                <thead>
-                    <tr>
-                        <th width="10%">Account Info</th>
-                        <th width="5%">Instructor for</th>
-                        <th width="20%" onclick="toggleSort(this,3)"
-                            class="button-sort-ascending">
-                            Institute
-                            <span class="sort-icon unsorted"
-                            id="button_sort_institute"></span>
-                        </th>
-                        <th width="30%" onclick="toggleSort(this,4);"
-                            class="button-sort-ascending">Create At
-                            <span class="sort-icon unsorted"
-                            id="button_sort_createat"></span></th>
-                        <th width="5%">Options</th>
-                    </tr>
-                </thead>
-                
-                <tbody>
-                <%
-                	for (Map.Entry<String, AccountAttributes> entry : data.instructorAccountsTable
-                			.entrySet()) {
-                		String key = entry.getKey();
-                		AccountAttributes acc = entry.getValue();
-                		ArrayList<InstructorAttributes> coursesList = data.instructorCoursesTable
-                				.get(key);
-                %>
-                
-                
-                    <tr>
-                        <td><%="<span class=\"bold\">Google ID: </span><a href=\""
-    						+ data.getInstructorHomePageViewLink(acc.googleId)
-    						+ "\" target=\"blank\">" + acc.googleId
-    						+ "</a><br><span class=\"bold\">Name: </span>"
-    						+ acc.name + "<br><span class=\"bold\">Email: </span>"
-    						+ acc.email%>
-                        </td>
-                        
-                        <td>
-                            <%
-                            	if (coursesList != null) {
-                            			out.print("Total Courses: " + coursesList.size() + "<br>");
-                            			for (InstructorAttributes i : coursesList) {
-                            				out.print(" --- " + i.courseId + "<br>");
-                            			}
-                            		} else {
-                            			out.print("No Courses found");
-                            		}
-                            %>
-                        </td>
-                        
-                        <td id="<%=acc.googleId + "_institude"%>"><%=acc.institute%>
-                        </td>
-                        
-                        <td id="<%=acc.googleId + "_createAt"%>"><%=AdminAccountManagementPageData
-						    .displayDateTime(acc.createdAt)%>
-                        </td>
-                        
-                        <td>
-                            <a id="<%=acc.googleId + "_details"%>"
-                            href="<%=data.getAdminViewAccountDetailsLink(acc.googleId)%>"
-                            class="btn  btn-link btn-xs">
-                            <span class="glyphicon glyphicon-info-sign">
-                            </span>View Details </a>&nbsp;&nbsp;&nbsp;&nbsp; 
-                            
-                            <a id="<%=acc.googleId + "_delete"%>"
-                            href="<%=data.getAdminDeleteInstructorStatusLink(acc.googleId)%>"
-                            class="btn  btn-link btn-xs" role="button">
-                            <span class="glyphicon glyphicon-remove"></span>Delete Instructor Status</a>
-                            
-                            <br> 
-                            
-                            <a id="<%=acc.googleId + "_deleteAccount"%>"
-                            href="<%=data.getAdminDeleteAccountLink(acc.googleId)%>"
-                            onclick="return toggleDeleteAccountConfirmation('<%=acc.googleId%>')"
-                            class="btn btn-link btn-xs ">
-                            <span class="glyphicon glyphicon-trash"></span>Delete Entire Account</a>
-                        </td>
-                        
-                    </tr>
+                <table class="table table-striped dataTable">
+                    <thead>
+                        <tr>
+                            <th width="10%">Account Info</th>
+                            <th width="5%">Instructor for</th>
+                            <th width="20%" onclick="toggleSort(this,3)"
+                                class="button-sort-ascending">
+                                Institute
+                                <span class="sort-icon unsorted"
+                                id="button_sort_institute"></span>
+                            </th>
+                            <th width="30%" onclick="toggleSort(this,4);"
+                                class="button-sort-ascending">Create At
+                                <span class="sort-icon unsorted"
+                                id="button_sort_createat"></span></th>
+                            <th width="5%">Options</th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
                     <%
-                    	}
+                    	for (Map.Entry<String, AccountAttributes> entry : data.instructorAccountsTable
+                    			.entrySet()) {
+                    		String key = entry.getKey();
+                    		AccountAttributes acc = entry.getValue();
+                    		ArrayList<InstructorAttributes> coursesList = data.instructorCoursesTable
+                    				.get(key);
                     %>
-                </tbody>
-                
-            </table>
+                    
+                    
+                        <tr>
+                            <td><%="<span class=\"bold\">Google ID: </span><a href=\""
+        						+ data.getInstructorHomePageViewLink(acc.googleId)
+        						+ "\" target=\"blank\">" + acc.googleId
+        						+ "</a><br><span class=\"bold\">Name: </span>"
+        						+ acc.name + "<br><span class=\"bold\">Email: </span>"
+        						+ acc.email%>
+                            </td>
+                            
+                            <td>
+                                <%
+                                	if (coursesList != null) {
+                                			out.print("Total Courses: " + coursesList.size() + "<br>");
+                                			for (InstructorAttributes i : coursesList) {
+                                				out.print(" --- " + i.courseId + "<br>");
+                                			}
+                                		} else {
+                                			out.print("No Courses found");
+                                		}
+                                %>
+                            </td>
+                            
+                            <td id="<%=acc.googleId + "_institude"%>"><%=acc.institute%>
+                            </td>
+                            
+                            <td id="<%=acc.googleId + "_createAt"%>"><%=AdminAccountManagementPageData
+    						    .displayDateTime(acc.createdAt)%>
+                            </td>
+                            
+                            <td>
+                                <a id="<%=acc.googleId + "_details"%>"
+                                href="<%=data.getAdminViewAccountDetailsLink(acc.googleId)%>"
+                                class="btn  btn-link btn-xs">
+                                View Details </a>&nbsp;&nbsp;&nbsp;&nbsp; 
+                                
+                                <a id="<%=acc.googleId + "_delete"%>"
+                                href="<%=data.getAdminDeleteInstructorStatusLink(acc.googleId)%>"
+                                class="btn  btn-link btn-xs" role="button">
+                                Delete Instructor Status</a>
+          
+                                <a id="<%=acc.googleId + "_deleteAccount"%>"
+                                href="<%=data.getAdminDeleteAccountLink(acc.googleId)%>"
+                                onclick="return toggleDeleteAccountConfirmation('<%=acc.googleId%>')"
+                                class="btn btn-link btn-xs ">
+                                Delete Entire Account</a>
+                            </td>
+                            
+                        </tr>
+                        <%
+                        	}
+                        %>
+                    </tbody>
+                    
+                </table>
             </div>
         </div>
     </div>
