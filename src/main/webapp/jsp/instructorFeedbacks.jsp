@@ -165,8 +165,8 @@
                                                 rows="4" cols="100%"
                                                 name="<%=Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS%>"
                                                 id="<%=Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS%>"
-                                                placeholder="e.g. Please answer all the given questions.">
-                                                <%
+                                                placeholder="e.g. Please answer all the given questions."
+                                                ><%
                                                 	if (data.newFeedbackSession == null) {
                                                 		out.print("Please answer all the given questions.");
                                                 	} else {
@@ -174,8 +174,7 @@
                                                 				.sanitizeForHtml(data.newFeedbackSession.instructions
                                                 						.getValue()));
                                                 	}
-                                                %>
-                                            </textarea>
+                                            %></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -627,7 +626,7 @@
                     </span>
                 </td>
                 <td
-                    class="<%if (!TimeHelper.isOlderThanAYear(fdb.createdTime)) {
+                    class="session-response<%if (!TimeHelper.isOlderThanAYear(fdb.createdTime)) {
 						out.print(" recent");
 					}%>">
                     <a oncontextmenu="return false;"
@@ -652,7 +651,7 @@
                     </span>
                 </td>
                 <td
-                    class="<%if (!TimeHelper.isOlderThanAYear(edd.endTime)) {
+                    class="session-response<%if (!TimeHelper.isOlderThanAYear(edd.endTime)) {
 						out.print(" recent");
 					}%>">
                     <a oncontextmenu="return false;"
