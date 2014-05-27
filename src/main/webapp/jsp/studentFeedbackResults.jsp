@@ -53,8 +53,8 @@
 <body>
     <jsp:include page="<%=Const.ViewURIs.STUDENT_HEADER%>" />
 
-    <div id="frameBody" class="container">
-        <div id="frameBodyWrapper">
+    <div id="frameBody">
+        <div id="frameBodyWrapper" class="container">
             <div id="topOfPage"></div>
             <h1>Feedback Results - Student</h1>
             <br />

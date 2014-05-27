@@ -49,8 +49,8 @@
         }
     %>
 
-    <div id="frameBody" class="container">
-        <div id="frameBodyWrapper">
+    <div id="frameBody">
+        <div id="frameBodyWrapper" class="container">
             <div id="topOfPage"></div>
             <h1>Submit Feedback</h1>
             <br />
