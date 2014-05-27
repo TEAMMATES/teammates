@@ -55,7 +55,7 @@
             <div class="well well-plain">
                 <form class="form-group" method="post"
                     action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_SAVE%>"
-                    name="form_editfeedbacksession">
+                    id="form_editfeedbacksession">
                     <div class="row">
                         <div class="col-sm-12">
                             <span class="pull-right">
