@@ -447,6 +447,10 @@ public class FeedbackResponsesLogic {
                     studentsLogic.getStudentForEmail(
                             response.courseId, response.recipientEmail);
             
+            if(student == null) {
+                continue;
+            }
+            
             if(studentsLogic.isStudentInTeam(
                     response.courseId, student.team, userEmail)) {
                 teamResponses.add(response);
