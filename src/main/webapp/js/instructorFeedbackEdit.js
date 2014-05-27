@@ -300,7 +300,7 @@ function showNewQuestionFrame(type){
     enableNewQuestion();
     $('#addNewQuestionTable').hide();
     $('#empty_message').hide(); 
-    $('#frameBody').animate({scrollTop: $('#frameBody')[0].scrollHeight}, 1000);
+    $('#frameBodyWrapper').animate({scrollTop: $('#frameBodyWrapper')[0].scrollHeight}, 1000);
     copyOptions();
 }
 
@@ -708,8 +708,8 @@ function getQuestionLink(qnNumber) {
     $("#statusMessage").attr("class", "alert alert-warning");
     $("#statusMessage").show();
     
-    var scrollAmount = $("#statusMessage")[0].scrollHeight + $("#frameBody").height() * 3/4; 
-    $("#frameBody").animate({scrollTop: scrollAmount}, 1000);
+    var scrollAmount = $("#statusMessage")[0].scrollHeight + $("#frameBodyWrapper").height() * 3/4; 
+    $("#frameBodyWrapper").animate({scrollTop: scrollAmount}, 1000);
 }
 
 function toParameterFormat(str) {
