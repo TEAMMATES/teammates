@@ -53,22 +53,24 @@ $(document).ready(function(){
         }
         
         //If all the courses are selected, check the "Select All" option
-        if($(".course_check:checked").length == $(".course_check").length){
+        if($("input[id^='course_check']:checked").length == $("input[id^='course_check']").length){
             $("#course_all").prop("checked", true);
         } else{
             $("#course_all").prop("checked", false);
         }
         
         //If none of of the courses are selected, hide the team's "Select All" option
-        if($(".course_check:checked").length == 0){
+        if($("input[id^='course_check']:checked").length == 0){
             $("#team_all").parent().hide();
+            $("#show_email").parent().hide();
         } else{
             $("#team_all").parent().show();
+            $("#show_email").parent().show();
         }
         
         //If all the currently visible teams are selected, check the "Select All" option
         //This is necessary here because we show/hide the team's "Select All" previously
-        if($(".team_check:visible:checked").length == $(".team_check:visible").length){
+        if($("input[id^='team_check']:visible:checked").length == $("input[id^='team_check']:visible").length){
             $("#team_all").prop("checked", true);
         } else{
             $("#team_all").prop("checked", false);
@@ -81,7 +83,7 @@ $(document).ready(function(){
     $("input[id^=team_check]").change(function(){
         
         //If all the currently visible teams are selected, check the "Select All" option
-        if($(".team_check:visible:checked").length == $(".team_check:visible").length){
+        if($("input[id^='team_check']:visible:checked").length == $("input[id^='team_check']:visible").length){
             $("#team_all").prop("checked", true);
         } else{
             $("#team_all").prop("checked", false);
@@ -95,12 +97,14 @@ $(document).ready(function(){
         if(this.checked){
             $("#team_all").prop("checked", true);
             $("#team_all").parent().show();
+            $("#show_email").parent().show();
             $("input[id^=course_check]").prop("checked", true);
             $("input[id^=team_check-]").prop("checked", true);
             $("input[id^=team_check-]").parent().show();
         } else{
             $("#team_all").prop("checked", false);
             $("#team_all").parent().hide();
+            $("#show_email").parent().hide();
             $("input[id^=course_check]").prop("checked", false);
             $("input[id^=team_check-]").prop("checked", false);
             $("input[id^=team_check-]").parent().hide();
@@ -155,15 +159,15 @@ function removeParamInUrl(url, param){
  * Apply display filter for email
  */
 function applyFilters(){
-    $('.student_row').show();
-    $('.student_email').show();
+    $("tr[id^='student-c']").show();
+    $("td[is^='studentemail-c'").show();
     filterCourse();
     filterTeam();
     filterName();
     filterEmails();
     
     //Give message if there are no result
-    if($('.backgroundBlock:visible').length == 0){
+    if($("div[id^='course-']:visible").length == 0){
         setStatusMessage("Your search criteria did not match any students");
     } else{
         clearStatusMessage();
@@ -216,16 +220,16 @@ function filterName($key){
     if($key == null || $key == ""){
         return;
     }else{
-        $('.student_row').each(function(){
-            if($(this).is(':not(:containsIN('+$key+'))')){
+        $("tr[id^='student-c']").each(function(){
+            if($(this).is(':not(:containsIN("'+$key+'"))')){
                 $(this).hide();
             }
         });
         
         //If a table only contains the header, then we can hide the course.
-        $('.dataTable tbody').each(function(){
-            if($(this).children(':visible').length == 1) {
-                $(this).parent().parent().hide();
+        $('.table').each(function() {
+        	if ($(this).children('tbody').children(':visible').length == 0) {
+                $(this).parent().hide();
             }
         });
     }
@@ -238,7 +242,7 @@ function filterName($key){
 function filterEmails(){
 
     var uniqueEmails={};
-    $('.student_row').each(function(){
+    $("tr[id^='student-c']").each(function(){
         var $elementId = $(this).attr('id');
         var $studentId = $elementId.split('-')[1];
         var $emailElement = $("#student_email-" + $studentId.replace('.','\\.'));

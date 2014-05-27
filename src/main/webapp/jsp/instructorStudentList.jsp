@@ -25,10 +25,6 @@
 
         <script type="text/javascript" src="/js/googleAnalytics.js"></script>
         <script type="text/javascript" src="/js/jquery-minified.js"></script>
-        <script type="text/javascript" src="/js/tooltip.js"></script>
-        <script type="text/javascript" src="/js/date.js"></script>
-        <script type="text/javascript" src="/js/CalendarPopup.js"></script>
-        <script type="text/javascript" src="/js/AnchorPosition.js"></script>
         <script type="text/javascript" src="/js/common.js"></script>
         <script type="text/javascript"  src="/bootstrap/js/bootstrap.min.js"></script>
         
@@ -88,7 +84,7 @@
              </div>
             <br>
             <div id="moreOptionsDiv" class="well well-plain" style="display: none;">
-                <form class="form-horizontal container" role="form">
+                <form class="form-horizontal" role="form">
                     <div class="row">
                         <div class="col-sm-4">
                             <div class="text-color-primary">
@@ -97,7 +93,7 @@
                             <br>
                             <div class="checkbox">
                                 <input type="checkbox" value="" id="course_all" checked="checked"> 
-                                 <label for="course_all"><strong>Select all</strong></label>
+                                <label for="course_all"><strong>Select all</strong></label>
                             </div>
                             <br>
                             <%
@@ -172,7 +168,7 @@
                                                     for(StudentAttributes student: teamDetails.students){
                                                         studentIdx++;
                                 %>
-                                        <div id="student_email-c<%=courseIdx %>.<%=studentIdx%>" style="display: list-item;"><%=student.email %></div>
+                                        <div id="student_email-c<%=courseIdx %>.<%=studentIdx%>"><%=student.email %></div>
                                 <%
                                                     }
                                                 }
@@ -197,8 +193,8 @@
 
             <div class="well well-plain" id="course-<%=courseIdx%>">
                 <div class="row">
-                    <div class="col-md-10 text-color-primary">
-                        <h4 class="color_white">
+                    <div class="col-md-10 text-color-<%=courseDetails.course.isArchived ? "default":"primary" %>">
+                        <h4>
                             <strong>
                                 [<%=courseDetails.course.id%>] : <%=PageData.sanitizeForHtml(courseDetails.course.name)%>
                             </strong>
@@ -219,7 +215,7 @@
                 %>
                         <table class="table table-responsive table-striped table-bordered">
                             <thead>
-                                <tr class="fill-primary">
+                                <tr class="fill-<%=courseDetails.course.isArchived ? "default":"primary" %>">
                                     <th id="button_sortteam" class="button-sort-ascending" onclick="toggleSort(this,1)">
                                         Team <span class="sort-icon ascending-sorted"></span>
                                     </th>
@@ -282,7 +278,7 @@
                         %>
                         <table class="table table-responsive table-striped table-bordered">
                             <thead>
-                                <tr class="fill-primary">
+                                <tr class="fill-<%=courseDetails.course.isArchived ? "default":"primary" %>">
                                     <th class="centeralign color_white bold"><%=Const.StatusMessages.INSTRUCTOR_COURSE_EMPTY %></th>
                                 </tr>
                             </thead>

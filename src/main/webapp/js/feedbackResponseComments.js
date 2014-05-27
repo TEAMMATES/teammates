@@ -99,6 +99,8 @@ $(document).ready(function(){
         var formObject = $(this).parent();
         var deletedCommentRow = $(this).parent().parent();
         var formData = formObject.serialize();
+        var editForm = submitButton.parent().next().next().next();
+    	var frCommentList = submitButton.parent().parent().parent();
         
         e.preventDefault();
         
@@ -109,29 +111,29 @@ $(document).ready(function(){
                 submitButton.html("<img src='/images/ajax-loader.gif'/>");
             },
             error : function() {
-                if (submitButton.parent().parent().parent().next().is(':visible')) {
-                    submitButton.parent().parent().parent().next().find("#deleteErrorMessage").text("Failed to delete comment. Please try again.");
-                } else {
-                    submitButton.parent().parent().parent().after("<tr><td colspan=\"5\"><span id=\"deleteErrorMessage\">Failed to delete comment. Please try again.</span></td></tr>");
-                    submitButton.parent().parent().parent().next().children().children().attr("class", "color_red floatright");
+                if (editForm.is(':visible')) {
+                    setFormErrorMessage(editForm.find("div > a"), "Failed to delete comment. Please try again.");
+                } else if (frCommentList.parent().find("div.delete_error_msg").length == 0) {
+                	frCommentList.after("<div class=\"delete_error_msg alert alert-danger\">Failed to delete comment. Please try again.</div>");
                 }
-                submitButton.html("<a href=\"/page/instructorFeedbackResponseCommentDelete\" class=\"color_red pad_right\">Delete</a>");
+                submitButton.html("<span class=\"glyphicon glyphicon-trash glyphicon-primary\"></span>");
             },
             success : function(data) {
                 setTimeout(function(){
                     if (!data.isError) {
-                    	var aa = deletedCommentRow.parent().children('li');
-                        if(aa.length <= 2){
+                    	var numberOfItemInFrCommentList = deletedCommentRow.parent().children('li');
+                        if(numberOfItemInFrCommentList.length <= 2){
                         	deletedCommentRow.parent().hide();
                         }
                         deletedCommentRow.remove();
+                        frCommentList.parent().find("div.delete_error_msg").remove();
                     } else {
-                        if (submitButton.parent().parent().parent().next().is(':visible')) {
-                            submitButton.parent().parent().parent().next().find("#deleteErrorMessage").text(data.errorMessage);
-                        } else {
-                            submitButton.parent().parent().parent().after("<tr><td colspan=\"5\"><span id=\"deleteErrorMessage\">" + data.errorMessage + "</span></td></tr>");
-                            submitButton.parent().parent().parent().next().children().children().attr("class", "color_red floatright");
+                        if (editForm.is(':visible')) {
+                        	setFormErrorMessage(editForm.find("div > a"), data.errorMessage);
+                        } else if (frCommentList.parent().find("div.delete_error_msg").length == 0) {
+                        	frCommentList.after("<div class=\"delete_error_msg alert alert-danger\">" + data.errorMessage + "</div>");
                         }
+                        submitButton.html("<span class=\"glyphicon glyphicon-trash glyphicon-primary\"></span>");
                     }
                 },500);
             }
@@ -141,10 +143,16 @@ $(document).ready(function(){
 });
 
 function generateNewCommentRow(data) {
+	var commentDate = new Date(data.comment.createdAt);
+	var commentDateStr = commentDate.toString();
+	var thisYear = commentDate.getFullYear();
+	var indexOfYear = commentDateStr.indexOf(thisYear, 0);
+	var formattedDate = commentDateStr.substring(0, indexOfYear - 1);
+	
     var newRow =
     // Comment Row
 	"<li class=\"list-group-item list-group-item-warning\" id=\"responseCommentRow-" + addCount + "\">"
-    + "<span class=\"text-muted\">From: " + data.comment.giverEmail + " [" + data.comment.createdAt + "]</span>"
+    + "<span class=\"text-muted\">From: " + data.comment.giverEmail + " [" + formattedDate + "]</span>"
 	// Delete form
     + "<form class=\"responseCommentDeleteForm pull-right\">"
     + 		"<a href=\"/page/instructorFeedbackResponseCommentDelete\" type=\"button\" id=\"commentdelete-" + data.comment.feedbackResponseCommentId + "\" class=\"btn btn-default btn-xs icon-button\"" 

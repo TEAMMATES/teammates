@@ -42,10 +42,7 @@
 </head>
 
 <body>
-    <div id="dhtmltooltip"></div>
-    <div id="frameTop">
-        <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
-    </div>
+    <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
 
     <div id="frameBody" class="container">
         <div id="frameBodyWrapper">
@@ -67,7 +64,7 @@
                         out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, ""));
                     %></h4>
                     <div class="panel panel-primary">
-                    <table class="table table-striped table-bordered">
+                    <table class="table table-striped table-bordered dataTable">
                     <thead class="fill-primary">
                         <tr>
                             <th id="button_sortFrom" class="button-sort-ascending" onclick="toggleSort(this,1)" style="width: 25%;">From<span class="sort-icon unsorted"></span></th>
@@ -137,8 +134,6 @@
         </div>
     </div>
 
-    <div id="frameBottom">
-        <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
-    </div>
+    <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
 </body>
 </html>
