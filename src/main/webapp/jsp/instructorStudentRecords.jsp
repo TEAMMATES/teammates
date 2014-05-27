@@ -58,8 +58,8 @@
 <body onload="readyStudentRecordsPage();">
     <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
 
-    <div id="frameBody" class="container">
-        <div id="frameBodyWrapper">
+    <div id="frameBody">
+        <div id="frameBodyWrapper" class="container">
             <div id="topOfPage"></div>
             <h1><%=data.courseId %> - <%=InstructorStudentRecordsPageData.sanitizeForHtml(data.student.name)%>'s Records</h1>
             <br />
