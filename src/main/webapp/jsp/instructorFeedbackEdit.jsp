@@ -419,96 +419,94 @@
                 </div>
                 <div class="visibilityOptions">
                     <br>
-                    <td colspan="4">
-                        <table class="dataTable participantTable table table-striped text-center">
-                            <tr>
-                                <th class="text-center">User/Group</th>
-                                <th class="text-center">Can see answer</th>
-                                <th class="text-center">Can see giver's name</th>
-                                <th class="text-center">Can see recipient's name</th>
-                            </tr>
-                            <tr onmouseover="ddrivetip('<%=Const.Tooltips.VISIBILITY_OPTIONS_RECIPIENT%>')" onmouseout="hideddrivetip()">
-                                <td class="text-left">Recipient(s)</td>
-                                <td>
-                                    <input class="visibilityCheckbox answerCheckbox<%=question.questionNumber%> centered" name="receiverLeaderCheckbox" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER%>" disabled="disabled"
-                                    <%if(question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER)) {%> checked="checked" <%}%>/>
-                                </td>
-                                <td>
-                                    <input class="visibilityCheckbox giverCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER%>" disabled="disabled"
-                                    <%if(question.showGiverNameTo.contains(FeedbackParticipantType.RECEIVER)) {%> checked="checked" <%}%>/>     
-                                </td>
-                                <td>
-                                    <input class="visibilityCheckbox recipientCheckbox<%=question.questionNumber%>" name="receiverFollowerCheckbox" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER%>" disabled="disabled"
-                                    <%if(question.showRecipientNameTo.contains(FeedbackParticipantType.RECEIVER)) {%> checked="checked" <%}%>/>
-                                </td>
-                            </tr>
-                            <tr onmouseover="ddrivetip('<%=Const.Tooltips.VISIBILITY_OPTIONS_GIVER_TEAM_MEMBERS%>')"
-                                onmouseout="hideddrivetip()">
-                                <td class="text-left">Giver's Team Members</td>
-                                <td>
-                                    <input class="visibilityCheckbox answerCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.OWN_TEAM_MEMBERS%>" disabled="disabled"
-                                    <%if(question.showResponsesTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS)) {%> checked="checked" <%}%>/>
-                                </td>
-                                <td>
-                                    <input class="visibilityCheckbox giverCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.OWN_TEAM_MEMBERS%>" disabled="disabled"
-                                    <%if(question.showGiverNameTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS)) {%> checked="checked" <%}%>/>
-                                </td>
-                                <td>
-                                    <input class="visibilityCheckbox recipientCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.OWN_TEAM_MEMBERS%>" disabled="disabled"
-                                    <%if(question.showRecipientNameTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS)) {%> checked="checked" <%}%>/>
-                                </td>
-                            </tr>
-                            <tr onmouseover="ddrivetip('<%=Const.Tooltips.VISIBILITY_OPTIONS_RECIPIENT_TEAM_MEMBERS%>')" onmouseout="hideddrivetip()">
-                                <td class="text-left">Recipient's Team Members</td>
-                                <td>
-                                    <input class="visibilityCheckbox answerCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER_TEAM_MEMBERS%>" disabled="disabled"
-                                    <%if(question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)) {%> checked="checked" <%}%>/>
-                                </td>
-                                <td>
-                                    <input class="visibilityCheckbox giverCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER_TEAM_MEMBERS%>" disabled="disabled"
-                                    <%if(question.showGiverNameTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)) {%> checked="checked" <%}%>/>
-                                </td>
-                                <td>
-                                    <input class="visibilityCheckbox recipientCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER_TEAM_MEMBERS%>" disabled="disabled"
-                                    <%if(question.showRecipientNameTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)) {%> checked="checked" <%}%>/>
-                                </td>
-                            </tr>
-                            <tr onmouseover="ddrivetip('<%=Const.Tooltips.VISIBILITY_OPTIONS_OTHER_STUDENTS%>')" onmouseout="hideddrivetip()">
-                                <td class="text-left">
-                                    Other students
-                                </td>
-                                <td>
-                                    <input class="visibilityCheckbox answerCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.STUDENTS%>" disabled="disabled"
-                                    <%if(question.showResponsesTo.contains(FeedbackParticipantType.STUDENTS)) {%> checked="checked" <%}%>/>
-                                </td>
-                                <td>
-                                    <input class="visibilityCheckbox giverCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.STUDENTS%>" disabled="disabled"
-                                    <%if(question.showGiverNameTo.contains(FeedbackParticipantType.STUDENTS)) {%> checked="checked" <%}%>/>
-                                </td>
-                                <td>
-                                    <input class="visibilityCheckbox recipientCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.STUDENTS%>" disabled="disabled"
-                                    <%if(question.showRecipientNameTo.contains(FeedbackParticipantType.STUDENTS)) {%> checked="checked" <%}%>/>
-                                </td>
-                            </tr>
-                            <tr onmouseover="ddrivetip('<%=Const.Tooltips.VISIBILITY_OPTIONS_INSTRUCTORS%>')" onmouseout="hideddrivetip()">
-                                <td class="text-left">
-                                    Instructors
-                                </td>
-                                <td>
-                                    <input class="visibilityCheckbox answerCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.INSTRUCTORS%>" disabled="disabled"
-                                    <%if(question.showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS)) {%> checked="checked" <%}%>/>
-                                </td>
-                                <td>
-                                    <input class="visibilityCheckbox giverCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.INSTRUCTORS%>" disabled="disabled"
-                                    <%if(question.showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS)) {%> checked="checked" <%}%>/>
-                                </td>
-                                <td>
-                                    <input class="visibilityCheckbox recipientCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.INSTRUCTORS%>" disabled="disabled"
-                                    <%if(question.showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS)) {%> checked="checked" <%}%>/>
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
+                    <table class="dataTable participantTable table table-striped text-center">
+                        <tr>
+                            <th class="text-center">User/Group</th>
+                            <th class="text-center">Can see answer</th>
+                            <th class="text-center">Can see giver's name</th>
+                            <th class="text-center">Can see recipient's name</th>
+                        </tr>
+                        <tr onmouseover="ddrivetip('<%=Const.Tooltips.VISIBILITY_OPTIONS_RECIPIENT%>')" onmouseout="hideddrivetip()">
+                            <td class="text-left">Recipient(s)</td>
+                            <td>
+                                <input class="visibilityCheckbox answerCheckbox<%=question.questionNumber%> centered" name="receiverLeaderCheckbox" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER%>" disabled="disabled"
+                                <%if(question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER)) {%> checked="checked" <%}%>/>
+                            </td>
+                            <td>
+                                <input class="visibilityCheckbox giverCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER%>" disabled="disabled"
+                                <%if(question.showGiverNameTo.contains(FeedbackParticipantType.RECEIVER)) {%> checked="checked" <%}%>/>     
+                            </td>
+                            <td>
+                                <input class="visibilityCheckbox recipientCheckbox<%=question.questionNumber%>" name="receiverFollowerCheckbox" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER%>" disabled="disabled"
+                                <%if(question.showRecipientNameTo.contains(FeedbackParticipantType.RECEIVER)) {%> checked="checked" <%}%>/>
+                            </td>
+                        </tr>
+                        <tr onmouseover="ddrivetip('<%=Const.Tooltips.VISIBILITY_OPTIONS_GIVER_TEAM_MEMBERS%>')"
+                            onmouseout="hideddrivetip()">
+                            <td class="text-left">Giver's Team Members</td>
+                            <td>
+                                <input class="visibilityCheckbox answerCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.OWN_TEAM_MEMBERS%>" disabled="disabled"
+                                <%if(question.showResponsesTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS)) {%> checked="checked" <%}%>/>
+                            </td>
+                            <td>
+                                <input class="visibilityCheckbox giverCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.OWN_TEAM_MEMBERS%>" disabled="disabled"
+                                <%if(question.showGiverNameTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS)) {%> checked="checked" <%}%>/>
+                            </td>
+                            <td>
+                                <input class="visibilityCheckbox recipientCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.OWN_TEAM_MEMBERS%>" disabled="disabled"
+                                <%if(question.showRecipientNameTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS)) {%> checked="checked" <%}%>/>
+                            </td>
+                        </tr>
+                        <tr onmouseover="ddrivetip('<%=Const.Tooltips.VISIBILITY_OPTIONS_RECIPIENT_TEAM_MEMBERS%>')" onmouseout="hideddrivetip()">
+                            <td class="text-left">Recipient's Team Members</td>
+                            <td>
+                                <input class="visibilityCheckbox answerCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER_TEAM_MEMBERS%>" disabled="disabled"
+                                <%if(question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)) {%> checked="checked" <%}%>/>
+                            </td>
+                            <td>
+                                <input class="visibilityCheckbox giverCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER_TEAM_MEMBERS%>" disabled="disabled"
+                                <%if(question.showGiverNameTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)) {%> checked="checked" <%}%>/>
+                            </td>
+                            <td>
+                                <input class="visibilityCheckbox recipientCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER_TEAM_MEMBERS%>" disabled="disabled"
+                                <%if(question.showRecipientNameTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)) {%> checked="checked" <%}%>/>
+                            </td>
+                        </tr>
+                        <tr onmouseover="ddrivetip('<%=Const.Tooltips.VISIBILITY_OPTIONS_OTHER_STUDENTS%>')" onmouseout="hideddrivetip()">
+                            <td class="text-left">
+                                Other students
+                            </td>
+                            <td>
+                                <input class="visibilityCheckbox answerCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.STUDENTS%>" disabled="disabled"
+                                <%if(question.showResponsesTo.contains(FeedbackParticipantType.STUDENTS)) {%> checked="checked" <%}%>/>
+                            </td>
+                            <td>
+                                <input class="visibilityCheckbox giverCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.STUDENTS%>" disabled="disabled"
+                                <%if(question.showGiverNameTo.contains(FeedbackParticipantType.STUDENTS)) {%> checked="checked" <%}%>/>
+                            </td>
+                            <td>
+                                <input class="visibilityCheckbox recipientCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.STUDENTS%>" disabled="disabled"
+                                <%if(question.showRecipientNameTo.contains(FeedbackParticipantType.STUDENTS)) {%> checked="checked" <%}%>/>
+                            </td>
+                        </tr>
+                        <tr onmouseover="ddrivetip('<%=Const.Tooltips.VISIBILITY_OPTIONS_INSTRUCTORS%>')" onmouseout="hideddrivetip()">
+                            <td class="text-left">
+                                Instructors
+                            </td>
+                            <td>
+                                <input class="visibilityCheckbox answerCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.INSTRUCTORS%>" disabled="disabled"
+                                <%if(question.showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS)) {%> checked="checked" <%}%>/>
+                            </td>
+                            <td>
+                                <input class="visibilityCheckbox giverCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.INSTRUCTORS%>" disabled="disabled"
+                                <%if(question.showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS)) {%> checked="checked" <%}%>/>
+                            </td>
+                            <td>
+                                <input class="visibilityCheckbox recipientCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.INSTRUCTORS%>" disabled="disabled"
+                                <%if(question.showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS)) {%> checked="checked" <%}%>/>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
                 <div>
                     <span class="pull-right">
@@ -564,254 +562,305 @@
                 </div>
             </div>
 
-            <table class="inputTable questionTable" id="questionTableNew" style="display:none;">
-                <tr>
-                    <td class="bold" colspan="3">
-                        Question
-                        <select class="questionNumber nonDestructive" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBER%>">
-                        <%
-                            for(int opt = 1; opt < data.questions.size()+2; opt++){
-                                out.println("<option value=" + opt +">" + opt + "</option>");
-
-                            }
-                        %>
-                        </select>
-                        <span id="questionTypeHeader"></span>
-                    </td>
-                    <td class="rightalign">
-                        <a href="#" class="color_red"
-                            onclick="deleteQuestion(-1)"
-                            onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_QUESTION_DELETE%>')"
-                            onmouseout="hideddrivetip()">
-                                Delete
-                            </a>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="4"><textarea rows="5" style="width:100%"
-                            class="textvalue" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_TEXT%>"
-                            id="<%=Const.ParamsNames.FEEDBACK_QUESTION_TEXT%>"
-                            onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_QUESTION_INPUT_INSTRUCTIONS%>')"
-                            onmouseout="hideddrivetip()" tabindex="9"></textarea>
-                    </td>
-                </tr>
-                <tr id="mcqForm">
-                    <td colspan="2">
-                        <table id="mcqChoiceTable">
-                            <tr id="mcqOptionRow-0">
-                                <td><input type="radio" disabled="disabled"></td>
-                                <td>
-                                    <input type="text" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE%>-0"
-                                        id="<%=Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE%>-0" class="mcqOptionTextBox">
-                                    <a href="#" class="removeOptionLink"
-                                        id="mcqRemoveOptionLink"
-                                        onclick="removeMcqOption(0,-1)"
-                                        tabindex="-1"> x</a>
-                                </td>
-                            </tr>
-                            <tr id="mcqOptionRow-1">
-                                <td><input type="radio" disabled="disabled"></td>
-                                <td>
-                                    <input type="text" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE%>-1"
-                                        id="<%=Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE%>-1"
-                                        class="mcqOptionTextBox">
-                                    <a href="#" class="removeOptionLink"
-                                        id="mcqRemoveOptionLink"
-                                        onclick="removeMcqOption(1,-1)"
-                                        tabindex="-1"> x</a>
-                                </td>
-                            </tr>
-                            <tr id="mcqAddOptionRow">
-                                <td colspan="2">
-                                    <a href="#" class="color_blue" id="mcqAddOptionLink"
-                                        onclick="addMcqOption(-1)">
-                                        +add more options
-                                    </a>
-                                </td>
-                            </tr>
-                        </table>
-                        <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED%>"
-                            id="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED%>">
-                    </td>
-                    <td colspan="2" style="vertical-align:top;">
-                        <label><input type="checkbox"
-                            id="generateOptionsCheckbox"
-                            onchange="toggleMcqGeneratedOptions(this,-1)">Or, generate options from the list of all </label>
-                        <select id="mcqGenerateForSelect"
-                            onchange="changeMcqGenerateFor(-1)"
-                            disabled="disabled">
-                            <option value="<%=FeedbackParticipantType.STUDENTS.toString()%>">students</option>
-                            <option value="<%=FeedbackParticipantType.TEAMS.toString()%>">teams</option>
-                            <option value="<%=FeedbackParticipantType.INSTRUCTORS.toString()%>">instructors</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr id="msqForm">
-                    <td colspan="2">
-                        <table id="msqChoiceTable">
-                            <tr id="msqOptionRow-0">
-                                <td><input type="checkbox" disabled="disabled"></td>
-                                <td>
-                                    <input type="text" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE%>-0"
-                                        id="<%=Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE%>-0" class="msqOptionTextBox">
-                                    <a href="#" class="removeOptionLink"
-                                        id="msqRemoveOptionLink"
-                                        onclick="removeMsqOption(0,-1)"
-                                        tabindex="-1"> x</a>
-                                </td>
-                            </tr>
-                            <tr id="msqOptionRow-1">
-                                <td><input type="checkbox" disabled="disabled"></td>
-                                <td>
-                                    <input type="text" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE%>-1"
-                                        id="<%=Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE%>-1"
-                                        class="msqOptionTextBox">
-                                    <a href="#" class="removeOptionLink"
-                                        id="msqRemoveOptionLink"
-                                        onclick="removeMsqOption(1,-1)"
-                                        tabindex="-1"> x</a>
-                                </td>
-                            </tr>
-                            <tr id="msqAddOptionRow">
-                                <td colspan="2">
-                                    <a href="#" class="color_blue" id="msqAddOptionLink"
-                                        onclick="addMsqOption(-1)">
-                                        +add more options
-                                    </a>
-                                </td>
-                            </tr>
-                        </table>
-                        <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED%>"
-                            id="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED%>">
-                    </td>
-                    <td colspan="2" style="vertical-align:top;">
-                        <label><input type="checkbox"
-                            id="generateOptionsCheckbox"
-                            onchange="toggleMsqGeneratedOptions(this,-1)">Or, generate options from the list of all </label>
-                        <select id="msqGenerateForSelect"
-                            onchange="changeMsqGenerateFor(-1)"
-                            disabled="disabled">
-                            <option value="<%=FeedbackParticipantType.STUDENTS.toString()%>">students</option>
-                            <option value="<%=FeedbackParticipantType.TEAMS.toString()%>">teams</option>
-                            <option value="<%=FeedbackParticipantType.INSTRUCTORS.toString()%>">instructors</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr id="numScaleForm">
-                    <td colspan="4">
-                        <table>
-                            <tr>
-                                <td onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_QUESTION_NUMSCALE_MIN%>')"
-                                    onmouseout="hideddrivetip()">Minimum value:
-                                    <input type="number" class="minScaleBox" id="minScaleBox"
-                                        name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN%>"
-                                        value="1" onChange="updateNumScalePossibleValues(-1)">
-                                </td>
-                                <td onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_QUESTION_NUMSCALE_STEP%>')"
-                                    onmouseout="hideddrivetip()">Increment:
-                                    <input type="number" class="stepBox" id="stepBox"
-                                        name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP%>"
-                                        value="0.5" min="0.001" step="0.001"
-                                        onChange="updateNumScalePossibleValues(-1)">
-                                </td>
-                                <td onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_QUESTION_NUMSCALE_MAX%>')"
-                                    onmouseout="hideddrivetip()">Maximum value:
-                                    <input type="number" class="maxScaleBox" id="maxScaleBox"
-                                        name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX%>"
-                                        value="5" onChange="updateNumScalePossibleValues(-1)">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan = "3">
-                                        <span id="numScalePossibleValues">[Based on the above settings, acceptable responses are: 1, 1.5, 2, ..., 4, 4.5, 5]</span>
-                                   </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="bold" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_GIVER%>')" onmouseout="hideddrivetip()">Feedback Giver:</td>
-                    <td><select class="participantSelect" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE%>"
-                                onchange="feedbackGiverUpdateVisibilityOptions(this)">
-                        <%
-                            for(String opt: data.getParticipantOptions(null, true)) out.println(opt);
-                        %>
-                    </select></td>
-                    <td class="bold nowrap" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_RECIPIENT%>')" onmouseout="hideddrivetip()">
-                    Feedback Recipient:
-                    </td>
-                    <td><select class="participantSelect" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>"
-                                onchange="feedbackRecipientUpdateVisibilityOptions(this)">
-                        <%
-                            for(String opt: data.getParticipantOptions(null, false)) out.println(opt);
-                        %>
+            <div class="panel panel-primary inputTable questionTable" id="questionTableNew" style="display:none;">
+                <div class="panel-heading">
+                    <strong>Question</strong>
+                    <select class="questionNumber nonDestructive text-primary" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBER%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBER%>">
+                    <%
+                        for(int opt = 1; opt < data.questions.size()+1; opt++){
+                            out.println("<option value=" + opt +">" + opt + "</option>");
+                        }
+                    %>
                     </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td></td><td></td>
-                    <td class="numberOfEntitiesElements"><span id="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES%>_text-" class="bold">The maximum number of <span id="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES%>_text_inner-" class="bold"></span> <br>each respondant should give feedback to:</span></td>
-                    <td class="numberOfEntitiesElements">
-                    <input type="radio" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE%>" value="custom">
-                    <input type="number" class="numberOfEntitiesBox" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES%>-" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES%>" min="1" max="250" value="1">
-                    <input type="radio" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE%>" value="max" checked="checked">
-                    <span class="label">Unlimited</span>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td colspan="4">
-                        <table class="dataTable participantTable">
+                    &nbsp;
+                    <span id="questionTypeHeader"></span>
+                    <span class="pull-right">
+                        <a class="btn btn-primary btn-xs" onclick="deleteQuestion(-1)" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_QUESTION_DELETE%>')" onmouseout="hideddrivetip()">Delete
+                        </a>
+                    </span>
+                </div>
+                <div class="panel-body">
+                    <div>
+                        <textarea rows="5"
+                            class="form-control textvalue nonDestructive"
+                            name="questiontext"
+                            id="questiontext-1"
+                            onmouseover="ddrivetip('Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?')"
+                            onmouseout="hideddrivetip()" tabindex="9"
+                            disabled="disabled"></textarea>
+                    </div>
+                    <br>
+                    <tr id="mcqForm">
+                        <td colspan="2">
+                            <table id="mcqChoiceTable">
+                                <tr id="mcqOptionRow-0">
+                                    <td><input type="radio" disabled="disabled"></td>
+                                    <td>
+                                        <input type="text" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE%>-0"
+                                            id="<%=Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE%>-0" class="mcqOptionTextBox">
+                                        <a href="#" class="removeOptionLink"
+                                            id="mcqRemoveOptionLink"
+                                            onclick="removeMcqOption(0,-1)"
+                                            tabindex="-1"> x</a>
+                                    </td>
+                                </tr>
+                                <tr id="mcqOptionRow-1">
+                                    <td><input type="radio" disabled="disabled"></td>
+                                    <td>
+                                        <input type="text" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE%>-1"
+                                            id="<%=Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE%>-1"
+                                            class="mcqOptionTextBox">
+                                        <a href="#" class="removeOptionLink"
+                                            id="mcqRemoveOptionLink"
+                                            onclick="removeMcqOption(1,-1)"
+                                            tabindex="-1"> x</a>
+                                    </td>
+                                </tr>
+                                <tr id="mcqAddOptionRow">
+                                    <td colspan="2">
+                                        <a href="#" class="color_blue" id="mcqAddOptionLink"
+                                            onclick="addMcqOption(-1)">
+                                            +add more options
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+                            <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED%>"
+                                id="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED%>">
+                        </td>
+                        <td colspan="2" style="vertical-align:top;">
+                            <label><input type="checkbox"
+                                id="generateOptionsCheckbox"
+                                onchange="toggleMcqGeneratedOptions(this,-1)">Or, generate options from the list of all </label>
+                            <select id="mcqGenerateForSelect"
+                                onchange="changeMcqGenerateFor(-1)"
+                                disabled="disabled">
+                                <option value="<%=FeedbackParticipantType.STUDENTS.toString()%>">students</option>
+                                <option value="<%=FeedbackParticipantType.TEAMS.toString()%>">teams</option>
+                                <option value="<%=FeedbackParticipantType.INSTRUCTORS.toString()%>">instructors</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr id="msqForm">
+                        <td colspan="2">
+                            <table id="msqChoiceTable">
+                                <tr id="msqOptionRow-0">
+                                    <td><input type="checkbox" disabled="disabled"></td>
+                                    <td>
+                                        <input type="text" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE%>-0"
+                                            id="<%=Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE%>-0" class="msqOptionTextBox">
+                                        <a href="#" class="removeOptionLink"
+                                            id="msqRemoveOptionLink"
+                                            onclick="removeMsqOption(0,-1)"
+                                            tabindex="-1"> x</a>
+                                    </td>
+                                </tr>
+                                <tr id="msqOptionRow-1">
+                                    <td><input type="checkbox" disabled="disabled"></td>
+                                    <td>
+                                        <input type="text" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE%>-1"
+                                            id="<%=Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE%>-1"
+                                            class="msqOptionTextBox">
+                                        <a href="#" class="removeOptionLink"
+                                            id="msqRemoveOptionLink"
+                                            onclick="removeMsqOption(1,-1)"
+                                            tabindex="-1"> x</a>
+                                    </td>
+                                </tr>
+                                <tr id="msqAddOptionRow">
+                                    <td colspan="2">
+                                        <a href="#" class="color_blue" id="msqAddOptionLink"
+                                            onclick="addMsqOption(-1)">
+                                            +add more options
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+                            <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED%>"
+                                id="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED%>">
+                        </td>
+                        <td colspan="2" style="vertical-align:top;">
+                            <label><input type="checkbox"
+                                id="generateOptionsCheckbox"
+                                onchange="toggleMsqGeneratedOptions(this,-1)">Or, generate options from the list of all </label>
+                            <select id="msqGenerateForSelect"
+                                onchange="changeMsqGenerateFor(-1)"
+                                disabled="disabled">
+                                <option value="<%=FeedbackParticipantType.STUDENTS.toString()%>">students</option>
+                                <option value="<%=FeedbackParticipantType.TEAMS.toString()%>">teams</option>
+                                <option value="<%=FeedbackParticipantType.INSTRUCTORS.toString()%>">instructors</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr id="numScaleForm">
+                        <td colspan="4">
+                            <table>
+                                <tr>
+                                    <td onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_QUESTION_NUMSCALE_MIN%>')"
+                                        onmouseout="hideddrivetip()">Minimum value:
+                                        <input type="number" class="minScaleBox" id="minScaleBox"
+                                            name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN%>"
+                                            value="1" onChange="updateNumScalePossibleValues(-1)">
+                                    </td>
+                                    <td onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_QUESTION_NUMSCALE_STEP%>')"
+                                        onmouseout="hideddrivetip()">Increment:
+                                        <input type="number" class="stepBox" id="stepBox"
+                                            name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP%>"
+                                            value="0.5" min="0.001" step="0.001"
+                                            onChange="updateNumScalePossibleValues(-1)">
+                                    </td>
+                                    <td onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_QUESTION_NUMSCALE_MAX%>')"
+                                        onmouseout="hideddrivetip()">Maximum value:
+                                        <input type="number" class="maxScaleBox" id="maxScaleBox"
+                                            name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX%>"
+                                            value="5" onChange="updateNumScalePossibleValues(-1)">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan = "3">
+                                            <span id="numScalePossibleValues">[Based on the above settings, acceptable responses are: 1, 1.5, 2, ..., 4, 4.5, 5]</span>
+                                       </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <br>
+                    <div>
+                        <div class="col-sm-6" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_GIVER%>')" onmouseout="hideddrivetip()">  
+                            <label class="col-sm-4 control-label">
+                                Feedback Giver:
+                            </label>
+                            <div class="col-sm-8">
+                                <select class="form-control participantSelect" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE%>" onchange="feedbackGiverUpdateVisibilityOptions(this)">
+                                    <%
+                                        for(String opt: data.getParticipantOptions(null, true)) out.println(opt);
+                                    %>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_RECIPIENT%>')" onmouseout="hideddrivetip()">
+                            <label class="col-sm-4 control-label">
+                                Feedback Recipient:
+                            </label>
+                            <div class="col-sm-8">
+                                <select class="form-control participantSelect" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>" onchange="feedbackRecipientUpdateVisibilityOptions(this)">
+                                    <%
+                                        for(String opt: data.getParticipantOptions(null, false)) out.println(opt);
+                                    %>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <br>
+                        <div class="col-sm-6">
+                            <a class="visibilityOptionsLabel btn btn-xs  btn-info" onclick="toggleVisibilityOptions(this)">
+                                <span class="glyphicon glyphicon-eye-open">
+                                </span> Show Visibility Options
+                            </a>
+                        </div>
+                        <div class="col-sm-6 numberOfEntitiesElements">
+                            <label id="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES%>_text-" class="control-label col-sm-4 small">
+                                The maximum number of <span id="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES%>_text_inner-"></span> each respondant should give feedback to:
+                            </label>
+                            <div class="col-sm-8 form-control-static">
+                                <div class="col-sm-6">
+                                    <input class="nonDestructive" type="radio" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE%>" value="custom">
+                                        <input class="nonDestructive numberOfEntitiesBox" type="number" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES%>"  min="1" max="250" value="1">
+                                </div>
+                                <div class="col-sm-6">
+                                    <input class="nonDestructive" type="radio" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE%>" checked="checked" value="max">
+                                    <span class="">Unlimited</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="visibilityOptions">
+                        <br>
+                        <table class="dataTable participantTable table table-striped text-center">
                             <tr>
-                                <th class="color_white bold">User/Group</th>
-                                <th class="color_white bold">Can see answer</th>
-                                <th class="color_white bold">Can see giver's name</th>
-                                <th class="color_white bold">Can see recipient's name</th>
+                                <th class="text-center">User/Group</th>
+                                <th class="text-center">Can see answer</th>
+                                <th class="text-center">Can see giver's name</th>
+                                <th class="text-center">Can see recipient's name</th>
                             </tr>
-                            <tr onmouseover="ddrivetip('<%=Const.Tooltips.VISIBILITY_OPTIONS_RECIPIENT%>')"
-                            onmouseout="hideddrivetip()">
-                                <td>Recipient(s)</td>
-                                <td><input class="visibilityCheckbox answerCheckbox" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER%>" name="receiverLeaderCheckbox" checked="checked"/></td>
-                                <td><input class="visibilityCheckbox giverCheckbox" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER%>" checked="checked"/></td>
-                                <td><input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER%>" name="receiverFollowerCheckbox" disabled="disabled" checked="checked"/></td>
+                            <tr onmouseover="ddrivetip('<%=Const.Tooltips.VISIBILITY_OPTIONS_RECIPIENT%>')" onmouseout="hideddrivetip()">
+                                <td class="text-left">Recipient(s)</td>
+                                <td>
+                                    <input class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER%>" checked="checked"/>
+                                </td>
+                                <td>
+                                    <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER%>" checked="checked"/>     
+                                </td>
+                                <td>
+                                    <input class="visibilityCheckbox recipientCheckbox" name="receiverFollowerCheckbox" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER%>" disabled="disabled" checked="checked"/>
+                                </td>
                             </tr>
                             <tr onmouseover="ddrivetip('<%=Const.Tooltips.VISIBILITY_OPTIONS_GIVER_TEAM_MEMBERS%>')"
-                            onmouseout="hideddrivetip()">
-                                <td>Giver's Team Members</td>
-                                <td><input class="visibilityCheckbox answerCheckbox" type="checkbox" value="<%=FeedbackParticipantType.OWN_TEAM_MEMBERS%>"/></td>
-                                <td><input class="visibilityCheckbox giverCheckbox" type="checkbox" value="<%=FeedbackParticipantType.OWN_TEAM_MEMBERS%>"/></td>
-                                <td><input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="<%=FeedbackParticipantType.OWN_TEAM_MEMBERS%>"/></td>
+                                onmouseout="hideddrivetip()">
+                                <td class="text-left">Giver's Team Members</td>
+                                <td>
+                                    <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="<%=FeedbackParticipantType.OWN_TEAM_MEMBERS%>"/>
+                                </td>
+                                <td>
+                                    <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="<%=FeedbackParticipantType.OWN_TEAM_MEMBERS%>"/>
+                                </td>
+                                <td>
+                                    <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="<%=FeedbackParticipantType.OWN_TEAM_MEMBERS%>"/>
+                                </td>
                             </tr>
-                            <tr onmouseover="ddrivetip('<%=Const.Tooltips.VISIBILITY_OPTIONS_RECIPIENT_TEAM_MEMBERS%>')"
-                            onmouseout="hideddrivetip()">
-                                <td>Recipient's Team Members</td>
-                                <td><input class="visibilityCheckbox answerCheckbox" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER_TEAM_MEMBERS%>"/></td>
-                                <td><input class="visibilityCheckbox giverCheckbox" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER_TEAM_MEMBERS%>"/></td>
-                                <td><input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER_TEAM_MEMBERS%>"/></td>
+                            <tr onmouseover="ddrivetip('<%=Const.Tooltips.VISIBILITY_OPTIONS_RECIPIENT_TEAM_MEMBERS%>')" onmouseout="hideddrivetip()">
+                                <td class="text-left">Recipient's Team Members</td>
+                                <td>
+                                    <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER_TEAM_MEMBERS%>"/>
+                                </td>
+                                <td>
+                                    <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER_TEAM_MEMBERS%>"/>
+                                </td>
+                                <td>
+                                    <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER_TEAM_MEMBERS%>"/>
+                                </td>
                             </tr>
-                            <tr onmouseover="ddrivetip('<%=Const.Tooltips.VISIBILITY_OPTIONS_OTHER_STUDENTS%>')"
-                            onmouseout="hideddrivetip()">
-                                <td>Other students</td>
-                                <td><input class="visibilityCheckbox answerCheckbox" type="checkbox" value="<%=FeedbackParticipantType.STUDENTS%>"/></td>
-                                <td><input class="visibilityCheckbox giverCheckbox" type="checkbox" value="<%=FeedbackParticipantType.STUDENTS%>"/></td>
-                                <td><input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="<%=FeedbackParticipantType.STUDENTS%>"/></td>
+                            <tr onmouseover="ddrivetip('<%=Const.Tooltips.VISIBILITY_OPTIONS_OTHER_STUDENTS%>')" onmouseout="hideddrivetip()">
+                                <td class="text-left">
+                                    Other students
+                                </td>
+                                <td>
+                                    <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="<%=FeedbackParticipantType.STUDENTS%>"/>
+                                </td>
+                                <td>
+                                    <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="<%=FeedbackParticipantType.STUDENTS%>"/>
+                                </td>
+                                <td>
+                                    <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="<%=FeedbackParticipantType.STUDENTS%>"/>
+                                </td>
                             </tr>
-                            <tr onmouseover="ddrivetip('<%=Const.Tooltips.VISIBILITY_OPTIONS_INSTRUCTORS%>')"
-                            onmouseout="hideddrivetip()">
-                                <td>Instructors</td>
-                                <td><input class="visibilityCheckbox answerCheckbox" type="checkbox" value="<%=FeedbackParticipantType.INSTRUCTORS%>" checked="checked"/></td>
-                                <td><input class="visibilityCheckbox giverCheckbox" type="checkbox" value="<%=FeedbackParticipantType.INSTRUCTORS%>" checked="checked"/></td>
-                                <td><input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="<%=FeedbackParticipantType.INSTRUCTORS%>" checked="checked"/></td>
+                            <tr onmouseover="ddrivetip('<%=Const.Tooltips.VISIBILITY_OPTIONS_INSTRUCTORS%>')" onmouseout="hideddrivetip()">
+                                <td class="text-left">
+                                    Instructors
+                                </td>
+                                <td>
+                                    <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="<%=FeedbackParticipantType.INSTRUCTORS%>" checked="checked"/>
+                                </td>
+                                <td>
+                                    <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="<%=FeedbackParticipantType.INSTRUCTORS%>" checked="checked"/>
+                                </td>
+                                <td>
+                                    <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="<%=FeedbackParticipantType.INSTRUCTORS%>"checked="checked"/>
+                                </td>
                             </tr>
                         </table>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="centeralign" colspan="4"><input id="button_submit_add"
-                        type="submit" class="button" value="Save Question" tabindex="9">
-                    </td>
-                </tr>
-            </table>
+                    </div>
+                    <div>
+                        <span class="pull-right">
+                            <input  id="button_submit_add"
+                                    type="submit" class="btn btn-primary"
+                                    value="Save Question" tabindex="9">
+                        </span>
+                    </div>
+                </div>
+            </div>
+            </div>
             <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBER%>" value="<%=data.questions.size()+1%>">
             <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.session.feedbackSessionName%>">
             <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.session.courseId%>">
