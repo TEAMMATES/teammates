@@ -13,9 +13,9 @@ $(document).ready(function(){
     //Binding for "Show More Options" check box.
     $("#option_check").change(function(){
         if(this.checked){
-            $("#optionsTable").show();
+            $("#moreOptionsDiv").show();
         } else{
-            $("#optionsTable").hide();
+            $("#moreOptionsDiv").hide();
         }
     });
     

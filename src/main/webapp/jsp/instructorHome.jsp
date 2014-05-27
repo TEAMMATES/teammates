@@ -32,13 +32,16 @@
     <script type="text/javascript" src="/js/instructorHome.js"></script>
     <script type="text/javascript" src="/js/ajaxResponseRate.js"></script>
     <jsp:include page="../enableJS.jsp"></jsp:include>
-
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
 </head>
 
 <body>
     <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
 
-    <div class="container theme-showcase">
+    <div id="frameBodyWrapper" class="container theme-showcase">
         <div id="topOfPage"></div>
         <div class="inner-container">
             <div class="row">
@@ -49,8 +52,8 @@
                     <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE%>" name="search_form">
                         <div class="input-group">
                             <input type="text" name=<%=Const.ParamsNames.SEARCH_KEY %>
-                                    onmouseover="ddrivetip('<%=Const.Tooltips.SEARCH_STUDENT%>')"
-                                    onmouseout="hideddrivetip()" class="form-control" placeholder="Student Name">
+                                title="<%=Const.Tooltips.SEARCH_STUDENT%>"
+                                class="form-control" placeholder="Student Name">
                             <span class="input-group-btn">
                                 <button class="btn btn-default" type="submit" value="Search">Search</button>
                             </span>
@@ -66,8 +69,33 @@
         <br>
         <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
         
-        <div class="inner-container well well-plain">
-            <div class="row text-center">
+        <div class="row">
+            <div class="col-md-5 pull-right">
+                <div class="row">
+                    <div class="col-md-3 btn-group">
+                        <h5 class="pull-right"><strong> Sort By: </strong></h5>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="btn-group pull-right" data-toggle="buttons">
+                            <label class="btn btn-default <%= data.sortCriteria.equals(Const.SORT_BY_COURSE_ID) ? "active" : "" %>" name="sortby" data="id">
+                                <input type="radio">
+                                Course ID
+                            </label>
+                            <label class="btn btn-default <%= data.sortCriteria.equals(Const.SORT_BY_COURSE_NAME) ? "active" : "" %>" name="sortby" data="name">
+                                <input type="radio" name="sortby" value="name" >
+                                Course Name
+                            </label>
+                            <label class="btn btn-default <%= data.sortCriteria.equals(Const.SORT_BY_COURSE_CREATION_DATE) ? "active" : "" %>" name="sortby" data="createdAt">
+                                <input type="radio">
+                                Creation Date
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <!-- <div class="row text-center">
                 <div class="col-md-4">
                     <input type="radio" name="sortby" value="id" <%= data.sortCriteria.equals(Const.SORT_BY_COURSE_ID) ? "checked" : "" %>>
                     <label class="label-control" name="sortby" value="id"> Sort by Course ID </label>
@@ -80,9 +108,7 @@
                     <input type="radio" name="sortby" value="createdAt" <%= data.sortCriteria.equals(Const.SORT_BY_COURSE_CREATION_DATE) ? "checked" : "" %>>
                     <label class="label-control" name="sortby" value="createdAt">Sort by Course Creation Date </label>
                 </div>
-            </div>
-        </div>
-        <br>
+            </div> -->
     <%
         int courseIdx = -1;
         int sessionIdx = -1;
@@ -130,15 +156,17 @@
                         if (courseDetails.evaluations.size() > 0||
                             courseDetails.feedbackSessions.size() > 0) {
                     %>
-                            <table class="table-responsive table table-striped">
-                                <tr>
-                                    <th>Session Name</th>
-                                    <th>Status</th>
-                                    <th>
-                                        <span title="<%=Const.Tooltips.EVALUATION_RESPONSE_RATE%>" data-toggle="tooltip" data-placement="top">Response Rate</span>
-                                    </th>
-                                    <th class="no-print">Action(s)</th>
-                                </tr>
+                            <table class="table-responsive table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Session Name</th>
+                                        <th>Status</th>
+                                        <th>
+                                            <span title="<%=Const.Tooltips.EVALUATION_RESPONSE_RATE%>" data-toggle="tooltip" data-placement="top">Response Rate</span>
+                                        </th>
+                                        <th class="no-print">Action(s)</th>
+                                    </tr>
+                                </thead>
                         <%
                             for (EvaluationAttributes edd: courseDetails.evaluations){
                                 sessionIdx++;
