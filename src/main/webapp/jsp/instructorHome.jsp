@@ -95,20 +95,6 @@
             </div>
         </div>
         <br>
-        <!-- <div class="row text-center">
-                <div class="col-md-4">
-                    <input type="radio" name="sortby" value="id" <%= data.sortCriteria.equals(Const.SORT_BY_COURSE_ID) ? "checked" : "" %>>
-                    <label class="label-control" name="sortby" value="id"> Sort by Course ID </label>
-                </div>
-                <div class="col-md-4">
-                    <input type="radio" name="sortby" value="name" <%= data.sortCriteria.equals(Const.SORT_BY_COURSE_NAME) ? "checked" : "" %>>
-                    <label class="label-control" name="sortby" value="name">Sort by Course Name<label>
-                </div>
-                <div class="col-md-4">
-                    <input type="radio" name="sortby" value="createdAt" <%= data.sortCriteria.equals(Const.SORT_BY_COURSE_CREATION_DATE) ? "checked" : "" %>>
-                    <label class="label-control" name="sortby" value="createdAt">Sort by Course Creation Date </label>
-                </div>
-            </div> -->
     <%
         int courseIdx = -1;
         int sessionIdx = -1;
@@ -159,7 +145,9 @@
                             <table class="table-responsive table table-striped table-bordered">
                                 <thead>
                                     <tr>
-                                        <th>Session Name</th>
+                                        <th id="button_sortname" onclick="toggleSort(this,1);"
+                                            class="button-sort-none">
+                                            Session Name<span class="sort-icon unsorted"></span></th>
                                         <th>Status</th>
                                         <th>
                                             <span title="<%=Const.Tooltips.EVALUATION_RESPONSE_RATE%>" data-toggle="tooltip" data-placement="top">Response Rate</span>
