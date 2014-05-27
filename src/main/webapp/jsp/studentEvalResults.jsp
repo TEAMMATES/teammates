@@ -37,7 +37,7 @@
 
     <jsp:include page="<%=Const.ViewURIs.STUDENT_HEADER%>" />
     
-    <div class="container">
+    <div class="container" id="frameBodyWrapper">
         <div id="headerOperation">
             <h1>Evaluation Results</h1>
         </div>
