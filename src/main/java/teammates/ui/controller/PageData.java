@@ -120,14 +120,14 @@ public class PageData {
             return "<span class=\"badge background-color-white color_negative\">0%</span>";
         } else if (points > 100) {
             delta = points - 100;
-            if(inline) return "Equal Share <span class=\"badge background-color-white color_positive\"> + " + delta + "%</span>";
+            if(inline) return "<span class=\"badge background-color-white color_positive\"> E +" + delta + "%</span>";
             else return "Equal Share<br /><span class=\"badge background-color-white color_positive\"> + " + delta + "%</span>";
         } else if (points < 100) {
             delta = 100 - points;
-            if(inline) return "Equal Share <span class=\"badge background-color-white color_negative\"> - " + delta + "%</span>";
+            if(inline) return "<span class=\"badge background-color-white color_negative\"> E -" + delta + "%</span>";
             else return "Equal Share<br /><span class=\"badge background-color-white color_negative\"> - " + delta + "%</span>";
         } else {
-            return "Equal Share";
+            return "<span class=\"badge background-color-white color_positive\"> E </span>";
         }
     }
     
