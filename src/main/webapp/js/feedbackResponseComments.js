@@ -115,7 +115,10 @@ $(document).ready(function(){
                     submitButton.parent().parent().parent().after("<tr><td colspan=\"5\"><span id=\"deleteErrorMessage\">Failed to delete comment. Please try again.</span></td></tr>");
                     submitButton.parent().parent().parent().next().children().children().attr("class", "color_red floatright");
                 }
-                submitButton.html("<a href=\"/page/instructorFeedbackResponseCommentDelete\" class=\"color_red pad_right\">Delete</a>");
+                submitButton.html("<a href=\"/page/instructorFeedbackResponseCommentDelete\" type=\"button\" class=\"btn btn-default btn-xs icon-button\"" 
+                	    +    		" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Delete this comment\">" 
+                	    +    		"<span class=\"glyphicon glyphicon-trash glyphicon-primary\"></span>"
+                	    +    	"</a>");
             },
             success : function(data) {
                 setTimeout(function(){
