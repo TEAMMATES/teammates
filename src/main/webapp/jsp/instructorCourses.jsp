@@ -87,10 +87,10 @@
         <table class="table table-bordered table-striped">
             <thead class="fill-primary">
                 <tr>
-                    <th onclick="toggleSort(this,1);" id="button_sortcourseid" class="button-sort-ascending">
+                    <th onclick="toggleSort(this,1);" id="button_sortcourseid" class="button-sort-none">
                         Course ID<span class="sort-icon unsorted"></span>
                     </th>
-                    <th onclick="toggleSort(this,2);" id="button_sortcoursename" class="button-sort-ascending">
+                    <th onclick="toggleSort(this,2);" id="button_sortcoursename" class="button-sort-none">
                         Course Name<span class="sort-icon unsorted"></span>
                     </th>
                     <th>
