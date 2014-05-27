@@ -219,7 +219,7 @@
                         
                             <tr>
                                 <td><b><%=InstructorEvalSubmissionPageData.sanitizeForHtml(byReviewee ? sub.details.reviewerName : sub.details.revieweeName)%></b></td>
-                                <td><%=InstructorEvalSubmissionPageData.getPointsInEqualShareFormatAsHtml(sub.details.normalizedToInstructor,false)%></td>
+                                <td><%=InstructorEvalSubmissionPageData.getPointsInEqualShareFormatAsHtml(sub.details.normalizedToInstructor,true)%></td>
                                 <td><%=InstructorEvalSubmissionPageData.getJustificationAsSanitizedHtml(sub)%></td>
                                 <td><%=InstructorEvalSubmissionPageData.getP2pFeedbackAsHtml(InstructorEvalSubmissionPageData.sanitizeForHtml(sub.p2pFeedback.getValue()), eval.p2pEnabled)%></td>
                             </tr>
