@@ -80,19 +80,17 @@ public class PageData {
      */
     protected static String getPointsAsColorizedHtml(int points){
         if(points==Const.POINTS_NOT_SUBMITTED || points==Const.INT_UNINITIALIZED)
-            return "<span class=\"color_negative\" onmouseover=\"ddrivetip('"+
-                Const.Tooltips.EVALUATION_SUBMISSION_NOT_AVAILABLE+"')\" onmouseout=\"hideddrivetip()\">N/A</span>";
+            return "<span class=\"color_negative\" data-toggle=\"tooltip\" data-placement=\"top\" data-container=\"body\" title=\"<%= Const.Tooltips.EVALUATION_SUBMISSION_NOT_AVAILABLE%>\">N/A</span>";
         else if(points==Const.POINTS_NOT_SURE)
-            return "<span class=\"color_negative\" onmouseover=\"ddrivetip('"+
-                Const.Tooltips.EVALUATION_SUBMISSION_NOT_SURE+"')\" onmouseout=\"hideddrivetip()\">N/S</span>";
+            return "<span class=\"color_negative\" data-toggle=\"tooltip\" data-placement=\"top\" data-container=\"body\" title=\"<%= Const.Tooltips.EVALUATION_SUBMISSION_NOT_SURE%>\">N/S</span>";
         else if(points==0)
             return "<span class=\"color_negative\">0%</span>";
         else if(points>100)
-            return "<span class=\"color_positive\"><abbr title=\"Equal Share\">E</abbr> +"+(points-100)+"%</span>";
+            return "<span class=\"color_positive\">E +"+(points-100)+"%</span>";
         else if(points<100)
-            return "<span class=\"color_negative\"><abbr title=\"Equal Share\">E</abbr> -"+(100-points)+"%</span>";
+            return "<span class=\"color_negative\">E -"+(100-points)+"%</span>";
         else
-            return "<span class=\"color_neutral\"><abbr title=\"Equal Share\">E</abbr></span>";
+            return "<span class=\"color_neutral\">E</span>";
     }
     
     /**
@@ -150,13 +148,13 @@ public class PageData {
         int diff = perceived - claimed;
         if(perceived==Const.POINTS_NOT_SUBMITTED || perceived==Const.INT_UNINITIALIZED
                 || claimed==Const.POINTS_NOT_SUBMITTED || claimed==Const.INT_UNINITIALIZED){
-            return "<span class=\"negDiff\" onmouseover=\"ddrivetip('"+Const.Tooltips.EVALUATION_SUBMISSION_NOT_AVAILABLE+"')\" onmouseout=\"hideddrivetip()\">N/A</span>";
+            return "<span class=\"color_negative\" data-toggle=\"tooltip\" data-placement=\"top\" data-container=\"body\" title=\"<%=Const.Tooltips.EVALUATION_SUBMISSION_NOT_AVAILABLE%>\">N/A</span>";
         } else if(perceived==Const.POINTS_NOT_SURE || claimed==Const.POINTS_NOT_SURE) {
-            return "<span class=\"negDiff\" onmouseover=\"ddrivetip('"+Const.Tooltips.EVALUATION_SUBMISSION_NOT_SURE+"')\" onmouseout=\"hideddrivetip()\">N/S</span>";
+            return "<span class=\"color_negative\" data-toggle=\"tooltip\" data-placement=\"top\" data-container=\"body\" title=\"<%=Const.Tooltips.EVALUATION_SUBMISSION_NOT_SURE%>\">N/S</span>";
         } else if(diff>0){
-            return "<span class=\"posDiff\">+"+diff+"%</span>";
+            return "<span class=\"color_positive\">+"+diff+"%</span>";
         } else if(diff<0){
-            return "<span class=\"negDiff\">"+diff+"%</span>";
+            return "<span class=\"color_negative\">"+diff+"%</span>";
         } else {
             return "<span>"+diff+"</span>";
         }
