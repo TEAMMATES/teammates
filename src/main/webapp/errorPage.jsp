@@ -21,18 +21,20 @@
     </div>
 
     <div id="frameBodyWrapper" class="container">
-            <div style="margin: 30px auto; border: 1px solid #333; padding: 10px; text-align: left; width: 550px; background: #FFFFCC; height: 100px;">
-                <img src="/images/error.png"
-                    style="float: left; margin: 0 10px 10px 0; height: 90px;">
-                <p>
-                    There was an error in our server.<br> <br>
-                    Please try again in a few moments.
-                </p>
+    <br><br>
+            <div class="row">
+                <div class="alert alert-warning col-md-4 col-md-offset-4">
+                    <img src="/images/error.png"
+                        style="float: left; margin: 0 10px 10px 0; height: 90px;">
+                    <p>
+                        There was an error in our server.<br>
+                        Please try again in a few moments. <br><br>
+                        If the error persists, please <a class="link" href="contact.html" target="_blank"> let us know </a>
+                    </p>
+                </div>
             </div>
     </div>
 
-    <div id="frameBottom">
-        <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
-    </div>
+    <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
 </body>
 </html>
