@@ -812,7 +812,7 @@
                     <strong>Question</strong>
                     <select class="questionNumber nonDestructive text-primary" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBER%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBER%>">
                     <%
-                        for(int opt = 1; opt < data.questions.size()+1; opt++){
+                        for(int opt = 1; opt < data.questions.size()+2; opt++){
                             out.println("<option value=" + opt +">" + opt + "</option>");
                         }
                     %>
