@@ -604,31 +604,31 @@ public class PageData {
         result.append(
             "<a class=\"btn btn-default btn-xs btn-tm-actions" + (hasView ? "\"" : DISABLED) +
             "href=\"" + getInstructorEvaluationResultsLink(eval.courseId,eval.name) + "\" " +
-            "title=\"" + Const.Tooltips.EVALUATION_RESULTS+"\" data-toggle=\"tooltip\" data-placement=\"bottom\">View Results</a>"
+            "title=\"" + Const.Tooltips.EVALUATION_RESULTS+"\" data-toggle=\"tooltip\" data-placement=\"bottom\">View Results</a> "
         );
         result.append(
             "<a class=\"btn btn-default btn-xs btn-tm-actions" + (hasEdit ? "\"" : DISABLED) + 
             "href=\"" + getInstructorEvaluationEditLink(eval.courseId,eval.name) + "\" " +
-            "title=\"" + Const.Tooltips.EVALUATION_EDIT + "\" data-toggle=\"tooltip\" data-placement=\"top\">Edit</a>"
+            "title=\"" + Const.Tooltips.EVALUATION_EDIT + "\" data-toggle=\"tooltip\" data-placement=\"top\">Edit</a> "
         );
         result.append(
             "<a class=\"btn btn-default btn-xs btn-tm-actions\"" + 
             "href=\"" + getInstructorEvaluationPreviewLink(eval.courseId,eval.name) + "\" " +
             "title=\"" + Const.Tooltips.EVALUATION_PREVIEW + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
-            "target=\"_blank\">Preview</a>"
+            "target=\"_blank\">Preview</a> "
         );
         result.append(
             "<a class=\"btn btn-default btn-xs btn-tm-actions\"" + 
             "href=\"" + getInstructorEvaluationDeleteLink(eval.courseId,eval.name,(isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE : Const.ActionURIs.INSTRUCTOR_EVALS_PAGE)) + "\" " +
             "title=\"" + Const.Tooltips.EVALUATION_DELETE + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
             "onclick=\"return toggleDeleteEvaluationConfirmation('" + eval.courseId + "','" + eval.name + "');\" " +
-            ">Delete</a>"
+            ">Delete</a> "
         );
         result.append(
             "<a class=\"btn btn-default btn-xs btn-tm-actions" + (hasRemind ? "\"" : DISABLED) + 
             "href=\"" + getInstructorEvaluationRemindLink(eval.courseId,eval.name) + "\" " +
             (hasRemind ? "onclick=\"return toggleRemindStudents('" + eval.name + "');\" " : "") +
-            "title=\"" + Const.Tooltips.EVALUATION_REMIND + "\" data-toggle=\"tooltip\" data-placement=\"top\">Remind</a>"
+            "title=\"" + Const.Tooltips.EVALUATION_REMIND + "\" data-toggle=\"tooltip\" data-placement=\"top\">Remind</a> "
         );
         
         if (hasUnpublish) {
@@ -637,7 +637,7 @@ public class PageData {
                 "href=\"" + getInstructorEvaluationUnpublishLink(eval.courseId,eval.name,isHome) + "\" " +
                 "title=\"" + Const.Tooltips.EVALUATION_UNPUBLISH+"\" data-toggle=\"tooltip\" data-placement=\"top\"" +
                 "onclick=\"return toggleUnpublishEvaluation('" + eval.name + "');\">" +
-                "Unpublish</a>"
+                "Unpublish</a> "
             );
         } else {
             result.append(
@@ -645,7 +645,7 @@ public class PageData {
                 "href=\"" + getInstructorEvaluationPublishLink(eval.courseId,eval.name,isHome) + "\" " +
                 "title=\"" + Const.Tooltips.EVALUATION_PUBLISH + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
                 (hasPublish ? "onclick=\"return togglePublishEvaluation('" + eval.name + "');\" " : "") +
-                ">Publish</a>"
+                ">Publish</a> "
             );
         }
         return result.toString();
@@ -740,13 +740,13 @@ public class PageData {
                     "<a class=\"btn btn-default btn-xs btn-tm-actions" + DISABLED +
                     "href=\"" + getInstructorFeedbackSessionEditLink(session.courseId,session.feedbackSessionName) + "\" " +
                     "title=\"" + Const.Tooltips.FEEDBACK_SESSION_NOT_CREATOR_EDIT + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
-                    ">Edit</a>"
+                    ">Edit</a> "
                 );
             result.append(
                     "<a class=\"btn btn-default btn-xs btn-tm-actions" + DISABLED +
                     "href=\"" + getInstructorFeedbackSessionDeleteLink(session.courseId,session.feedbackSessionName,(isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE : Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)) + "\" " +
                     "title=\"" + Const.Tooltips.FEEDBACK_SESSION_NOT_CREATOR_DELETE + "\" data-toggle=\"tooltip\" data-placement=\"top\"" + 
-                    ">Delete</a>"
+                    ">Delete</a> "
                 );
         }
         result.append(

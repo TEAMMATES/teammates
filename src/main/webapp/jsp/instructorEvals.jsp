@@ -131,20 +131,23 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="row"
+                                    title="<%=Const.Tooltips.EVALUATION_INPUT_COMMENTSSTATUS%>"
+                                    data-toggle="tooltip"
+                                    data-placement="top">
                                     <h5 class="col-md-4">
                                         <label for="" class="control-label">
                                             Peer feedback
                                         </label>
                                     </h5>
                                     <div class="col-md-7">
-                                        <div class="radio" title="<%=Const.Tooltips.EVALUATION_INPUT_COMMENTSSTATUS%>">
+                                        <div class="radio">
                                             <label for="commentsstatus_enabled">Enabled</label>
                                             <input type="radio" name="<%=Const.ParamsNames.EVALUATION_COMMENTSENABLED%>"
                                                 id="commentsstatus_enabled" value="true"
                                                 <%if(data.newEvaluationToBeCreated==null || data.newEvaluationToBeCreated.p2pEnabled) out.print("checked=\"checked\"");%>>
                                         </div>
-                                        <div class="radio" title="<%=Const.Tooltips.EVALUATION_INPUT_COMMENTSSTATUS%>">
+                                        <div class="radio">
                                             <label for="commentsstatus_disabled">Disabled</label>
                                             <input type="radio" name="<%=Const.ParamsNames.EVALUATION_COMMENTSENABLED%>"
                                                 id="commentsstatus_disabled" value="false"
@@ -258,16 +261,16 @@
                             </div>
                         </div>
                         <br>
-                        <div class="row">
+                        <div class="row"
+                            title="<%=Const.Tooltips.EVALUATION_INPUT_INSTRUCTIONS%>"
+                            data-toggle="tooltip"
+                            data-placement="top">
                             <h5 class="col-md-2">
                                 <label for="<%=Const.ParamsNames.EVALUATION_INSTRUCTIONS%>" class="control-label">
                                     Instructions
                                 </label>
                             </h5>
-                            <div class="col-md-10"
-                                title="<%=Const.Tooltips.EVALUATION_INPUT_INSTRUCTIONS%>"
-                                data-toggle="tooltip"
-                                data-placement="top">
+                            <div class="col-md-10">
                                 <%
                                     if(data.newEvaluationToBeCreated==null){
                                 %>

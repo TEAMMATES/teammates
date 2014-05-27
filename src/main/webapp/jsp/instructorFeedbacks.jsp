@@ -55,16 +55,16 @@
         <h1>Add New Feedback Session</h1>
 
         <div class="well well-plain">
-            <div class="row">
+            <div class="row"
+                title="Select a different type of session here."
+                data-toggle="tooltip" 
+                data-placement="top">
                 <h4 class="label-control col-md-2 text-md">Session
                     Type</h4>
                 <div class="col-md-10">
                     <select class="form-control"
                         name="feedbackchangetype"
-                        id="feedbackchangetype"
-                        title="Select a different type of session here."
-                        data-toggle="tooltip" 
-                        data-placement="top">
+                        id="feedbackchangetype">
                         <option
                             value="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE%>"
                             selected="selected">Feedback
@@ -82,14 +82,15 @@
                 <div class="panel panel-primary">
                     <div class="panel-body">
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-6"
+                                title="<%=Const.Tooltips.FEEDBACK_SESSION_COURSE%>"
+                                data-toggle="tooltip"
+                                data-placement="top">
                                 <div class="form-group">
-                                    <label
-                                        for="<%=Const.ParamsNames.COURSE_ID%>"
-                                        class="col-sm-4 control-label"
-                                        title="<%=Const.Tooltips.FEEDBACK_SESSION_COURSE%>"
-                                        data-toggle="tooltip"
-                                        data-placement="top">Course</label>
+                                    <h5 class="col-sm-4">
+                                        <label for="<%=Const.ParamsNames.COURSE_ID%>"
+                                            class="control-label">Course</label>
+                                    </h5>
                                     <div class="col-sm-8">
                                         <select class="form-control"
                                             name="<%=Const.ParamsNames.COURSE_ID%>"
@@ -103,14 +104,15 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6"
+                                title="<%=Const.Tooltips.EVALUATION_INPUT_TIMEZONE%>"
+                                data-toggle="tooltip"
+                                data-placement="top">
                                 <div class="form-group">
-                                    <label
-                                        for="<%=Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE%>"
-                                        class="col-sm-4 control-label"
-                                        title="<%=Const.Tooltips.EVALUATION_INPUT_TIMEZONE%>"
-                                        data-toggle="tooltip"
-                                        data-placement="top">Timezone</label>
+                                    <h5 class="col-sm-4">
+                                        <label for="<%=Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE%>"
+                                            class="control-label">Timezone</label>
+                                    </h5>
                                     <div class="col-sm-8">
                                         <select class="form-control"
                                             name="<%=Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE%>"
@@ -126,15 +128,16 @@
                         </div>
                         <br>
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-12"
+                                title="<%=Const.Tooltips.FEEDBACK_SESSION_INPUT_NAME%>"
+                                data-toggle="tooltip"
+                                data-placement="top">
                                 <div class="form-group">
-                                    <label
-                                        for="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>"
-                                        class="col-sm-2 control-label"
-                                        title="<%=Const.Tooltips.FEEDBACK_SESSION_INPUT_NAME%>"
-                                        data-toggle="tooltip"
-                                        data-placement="top">Session
-                                        name</label>
+                                    <h5 class="col-sm-2">
+                                        <label for="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>"
+                                            class="control-label">Session
+                                            name</label>
+                                    </h5>
                                     <div class="col-sm-10">
                                         <input class="form-control"
                                             type="text"
@@ -142,40 +145,39 @@
                                             id="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>"
                                             maxlength=<%=FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH%>
                                             value="<%if (data.newFeedbackSession != null)
-				out.print(InstructorFeedbacksPageData
-						.sanitizeForHtml(data.newFeedbackSession.feedbackSessionName));%>"
+                                            		   out.print(InstructorFeedbacksPageData.sanitizeForHtml(data.newFeedbackSession.feedbackSessionName));%>"
                                             placeholder="e.g. Feedback for Project Presentation 1">
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <br>
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-12"
+                                title="<%=Const.Tooltips.FEEDBACK_SESSION_INSTRUCTIONS%>"
+                                data-toggle="tooltip"
+                                data-placement="top">
                                 <div class="form-group">
-                                    <div class="form-group">
-                                        <label
-                                            for="<%=Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS%>"
-                                            class="col-sm-2 control-label"
-                                            title="<%=Const.Tooltips.FEEDBACK_SESSION_INSTRUCTIONS%>"
-                                            data-toggle="tooltip"
-                                            data-placement="top">Instructions</label>
-                                        <div class="col-sm-10">
-                                            <textarea
-                                                class="form-control"
-                                                rows="4" cols="100%"
-                                                name="<%=Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS%>"
-                                                id="<%=Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS%>"
-                                                placeholder="e.g. Please answer all the given questions."
-                                                ><%
-                                                	if (data.newFeedbackSession == null) {
-                                                		out.print("Please answer all the given questions.");
-                                                	} else {
-                                                		out.print(InstructorFeedbacksPageData
-                                                				.sanitizeForHtml(data.newFeedbackSession.instructions
-                                                						.getValue()));
-                                                	}
-                                            %></textarea>
-                                        </div>
+                                    <h5 class="col-sm-2">
+                                        <label for="<%=Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS%>"
+                                            class="control-label">Instructions</label>
+                                    </h5>
+                                    <div class="col-sm-10">
+                                        <textarea
+                                            class="form-control"
+                                            rows="4" cols="100%"
+                                            name="<%=Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS%>"
+                                            id="<%=Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS%>"
+                                            placeholder="e.g. Please answer all the given questions."
+                                            ><%
+                                            	if (data.newFeedbackSession == null) {
+                                            		out.print("Please answer all the given questions.");
+                                            	} else {
+                                            		out.print(InstructorFeedbacksPageData
+                                            				.sanitizeForHtml(data.newFeedbackSession.instructions
+                                            						.getValue()));
+                                            	}
+                                        %></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -185,16 +187,15 @@
                 <div class="panel panel-primary">
                     <div class="panel-body">
                         <div class="row">
-                            <div class="col-md-5">
+                            <div class="col-md-5"
+                                title="<%=Const.Tooltips.FEEDBACK_SESSION_STARTDATE%>"
+                                data-toggle="tooltip"
+                                data-placement="top">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <label
-                                            for="<%=Const.ParamsNames.FEEDBACK_SESSION_STARTDATE%>"
-                                            class="label-control"
-                                            title="<%=Const.Tooltips.FEEDBACK_SESSION_STARTDATE%>"
-                                            data-toggle="tooltip"
-                                            data-placement="top">Submission
-                                            opening time</label>
+                                        <label for="<%=Const.ParamsNames.FEEDBACK_SESSION_STARTDATE%>"
+                                            class="label-control">
+                                            Submission opening time</label>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -204,9 +205,8 @@
                                             type="text"
                                             name="<%=Const.ParamsNames.FEEDBACK_SESSION_STARTDATE%>"
                                             id="<%=Const.ParamsNames.FEEDBACK_SESSION_STARTDATE%>"
-                                            value="<%=(data.newFeedbackSession == null ? TimeHelper
-					.formatDate(TimeHelper.getNextHour()) : TimeHelper
-					.formatDate(data.newFeedbackSession.startTime))%>"
+                                            value="<%=(data.newFeedbackSession == null ? TimeHelper.formatDate(TimeHelper.getNextHour()) : 
+                                            		   TimeHelper.formatDate(data.newFeedbackSession.startTime))%>"
                                             placeholder="Date">
                                     </div>
                                     <div class="col-md-6">
@@ -224,15 +224,14 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-5 border-left-gray">
+                            <div class="col-md-5 border-left-gray"
+                                title="<%=Const.Tooltips.FEEDBACK_SESSION_ENDDATE%>"
+                                data-toggle="tooltip"
+                                data-placement="top">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <label
-                                            for="<%=Const.ParamsNames.FEEDBACK_SESSION_ENDDATE%>"
-                                            class="label-control"
-                                            title="<%=Const.Tooltips.FEEDBACK_SESSION_ENDDATE%>"
-                                            data-toggle="tooltip"
-                                            data-placement="top">Submission
+                                        <label for="<%=Const.ParamsNames.FEEDBACK_SESSION_ENDDATE%>"
+                                            class="label-control">Submission
                                             closing time</label>
                                     </div>
                                 </div>
@@ -243,8 +242,7 @@
                                             type="text"
                                             name="<%=Const.ParamsNames.FEEDBACK_SESSION_ENDDATE%>"
                                             id="<%=Const.ParamsNames.FEEDBACK_SESSION_ENDDATE%>"
-                                            value="<%=(data.newFeedbackSession == null ? "" : TimeHelper
-					.formatDate(data.newFeedbackSession.endTime))%>"
+                                            value="<%=(data.newFeedbackSession == null ? "" : TimeHelper.formatDate(data.newFeedbackSession.endTime))%>"
                                             placeHolder="Date">
                                     </div>
                                     <div class="col-md-6">
@@ -261,16 +259,15 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-2 border-left-gray">
+                            <div class="col-md-2 border-left-gray"
+                                title="<%=Const.Tooltips.EVALUATION_INPUT_GRACEPERIOD%>"
+                                data-toggle="tooltip"
+                                data-placement="top">
                                 <div class="row">
-                                    <div class="col-md-12">
-                                        <label
-                                            for="<%=Const.ParamsNames.FEEDBACK_SESSION_GRACEPERIOD%>"
-                                            class="control-label"
-                                            title="<%=Const.Tooltips.EVALUATION_INPUT_GRACEPERIOD%>"
-                                            data-toggle="tooltip"
-                                            data-placement="top">Grace
-                                            period</label>
+                                    <div class="col-md-12"> 
+                                        <label for="<%=Const.ParamsNames.FEEDBACK_SESSION_GRACEPERIOD%>"
+                                            class="control-label">
+                                            Grace period</label>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -314,10 +311,8 @@
                                             name="<%=Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>"
                                             id="<%=Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>_custom"
                                             value="<%=Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM%>"
-                                            <%if (data.newFeedbackSession != null
-					&& !TimeHelper
-							.isSpecialTime(data.newFeedbackSession.sessionVisibleFromTime))
-				out.print("checked=\"checked\"");%>>
+                                            <%if (data.newFeedbackSession != null && !TimeHelper.isSpecialTime(data.newFeedbackSession.sessionVisibleFromTime))
+                                                out.print("checked=\"checked\"");%>>
                                     </div>
                                     <div class="col-md-5">
                                         <input
