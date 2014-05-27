@@ -43,7 +43,7 @@ function readyFeedbackEditPage(){
     formatCheckBoxes();
     formatQuestionNumbers();
     collapseIfPrivateSession();
-    document.onmousemove = positiontip;
+    //document.onmousemove = positiontip;
 }
 
 /**

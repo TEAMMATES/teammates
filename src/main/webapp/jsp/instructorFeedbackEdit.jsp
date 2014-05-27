@@ -37,9 +37,11 @@
     <script type="text/javascript" src="/js/datepicker.js"></script>
     <script type="text/javascript" src="/js/common.js"></script>
 
+    <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/js/instructor.js"></script>
     <script type="text/javascript" src="/js/instructorFeedbacks.js"></script>
     <script type="text/javascript" src="/js/instructorFeedbackEdit.js"></script>
+
     <jsp:include page="../enableJS.jsp"></jsp:include>
 </head>
 
@@ -339,15 +341,15 @@
                 <%=questionDetails.getQuestionTypeDisplayName()%>
                 <span class="pull-right">
                     <a class="btn btn-primary btn-xs" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_GETLINK%>-<%=question.questionNumber%>"
-                    onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_QUESTION_GETLINK%>')" onmouseout="hideddrivetip()"
+                    data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_QUESTION_GETLINK%>"
                     onclick="getQuestionLink(<%=question.questionNumber%>)">Get Link</a>
                     <a class="btn btn-primary btn-xs" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_EDITTEXT%>-<%=question.questionNumber%>"
-                    onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_QUESTION_EDIT%>')" onmouseout="hideddrivetip()"
+                     data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_QUESTION_EDIT%>"
                     onclick="enableEdit(<%=question.questionNumber%>,<%=data.questions.size()%>)">Edit</a>
                     <a class="btn btn-primary btn-xs" style="display:none"
                      id="<%=Const.ParamsNames.FEEDBACK_QUESTION_SAVECHANGESTEXT%>-<%=question.questionNumber%>">Save Changes</a>
                     <a class="btn btn-primary btn-xs" onclick="deleteQuestion(<%=question.questionNumber%>)"
-                    onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_QUESTION_DELETE%>')" onmouseout="hideddrivetip()">Delete</a>
+                     data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_QUESTION_DELETE%>">Delete</a>
                 </span>
             </div>
             <div class="panel-body">
@@ -356,14 +358,15 @@
                         class="form-control textvalue nonDestructive"
                         name="<%=Const.ParamsNames.FEEDBACK_QUESTION_TEXT%>"
                         id="<%=Const.ParamsNames.FEEDBACK_QUESTION_TEXT%>-<%=question.questionNumber%>"
-                        onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_QUESTION_INPUT_INSTRUCTIONS%>')"
-                        onmouseout="hideddrivetip()" tabindex="9"
+                        data-toggle="tooltip" data-placement="top"
+                        title="<%=Const.Tooltips.FEEDBACK_QUESTION_INPUT_INSTRUCTIONS%>"
+                        tabindex="9"
                         disabled="disabled"><%=InstructorFeedbackEditPageData.sanitizeForHtml(questionDetails.questionText)%></textarea>
                 </div>
                 <%=questionDetails.getQuestionSpecificEditFormHtml(question.questionNumber)%>
                 <br>
                 <div>
-                    <div class="col-sm-6" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_GIVER%>')" onmouseout="hideddrivetip()">  
+                    <div class="col-sm-6" data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_SESSION_GIVER%>">  
                         <label class="col-sm-4 control-label">
                             Feedback Giver:
                         </label>
@@ -376,7 +379,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-sm-6" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_RECIPIENT%>')" onmouseout="hideddrivetip()">
+                    <div class="col-sm-6" data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_SESSION_RECIPIENT%>">
                         <label class="col-sm-4 control-label">
                             Feedback Recipient:
                         </label>
@@ -423,8 +426,12 @@
                             <th class="text-center">Can see giver's name</th>
                             <th class="text-center">Can see recipient's name</th>
                         </tr>
-                        <tr onmouseover="ddrivetip('<%=Const.Tooltips.VISIBILITY_OPTIONS_RECIPIENT%>')" onmouseout="hideddrivetip()">
-                            <td class="text-left">Recipient(s)</td>
+                        <tr>
+                            <td class="text-left">
+                                <div data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.VISIBILITY_OPTIONS_RECIPIENT%>">
+                                    Recipient(s)
+                                </div>
+                            </td>
                             <td>
                                 <input class="visibilityCheckbox answerCheckbox<%=question.questionNumber%> centered" name="receiverLeaderCheckbox" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER%>" disabled="disabled"
                                 <%if(question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER)) {%> checked="checked" <%}%>/>
@@ -438,9 +445,12 @@
                                 <%if(question.showRecipientNameTo.contains(FeedbackParticipantType.RECEIVER)) {%> checked="checked" <%}%>/>
                             </td>
                         </tr>
-                        <tr onmouseover="ddrivetip('<%=Const.Tooltips.VISIBILITY_OPTIONS_GIVER_TEAM_MEMBERS%>')"
-                            onmouseout="hideddrivetip()">
-                            <td class="text-left">Giver's Team Members</td>
+                        <tr>
+                            <td class="text-left">
+                                <div data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.VISIBILITY_OPTIONS_GIVER_TEAM_MEMBERS%>">
+                                    Giver's Team Members
+                                </div>
+                            </td>
                             <td>
                                 <input class="visibilityCheckbox answerCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.OWN_TEAM_MEMBERS%>" disabled="disabled"
                                 <%if(question.showResponsesTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS)) {%> checked="checked" <%}%>/>
@@ -454,8 +464,12 @@
                                 <%if(question.showRecipientNameTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS)) {%> checked="checked" <%}%>/>
                             </td>
                         </tr>
-                        <tr onmouseover="ddrivetip('<%=Const.Tooltips.VISIBILITY_OPTIONS_RECIPIENT_TEAM_MEMBERS%>')" onmouseout="hideddrivetip()">
-                            <td class="text-left">Recipient's Team Members</td>
+                        <tr>
+                            <td class="text-left">
+                                <div data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.VISIBILITY_OPTIONS_RECIPIENT_TEAM_MEMBERS%>">
+                                    Recipient's Team Members
+                                </div>
+                            </td>
                             <td>
                                 <input class="visibilityCheckbox answerCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER_TEAM_MEMBERS%>" disabled="disabled"
                                 <%if(question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)) {%> checked="checked" <%}%>/>
@@ -469,9 +483,11 @@
                                 <%if(question.showRecipientNameTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)) {%> checked="checked" <%}%>/>
                             </td>
                         </tr>
-                        <tr onmouseover="ddrivetip('<%=Const.Tooltips.VISIBILITY_OPTIONS_OTHER_STUDENTS%>')" onmouseout="hideddrivetip()">
+                        <tr>
                             <td class="text-left">
-                                Other students
+                                <div data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.VISIBILITY_OPTIONS_OTHER_STUDENTS%>">
+                                    Other students
+                                </div>
                             </td>
                             <td>
                                 <input class="visibilityCheckbox answerCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.STUDENTS%>" disabled="disabled"
@@ -486,9 +502,11 @@
                                 <%if(question.showRecipientNameTo.contains(FeedbackParticipantType.STUDENTS)) {%> checked="checked" <%}%>/>
                             </td>
                         </tr>
-                        <tr onmouseover="ddrivetip('<%=Const.Tooltips.VISIBILITY_OPTIONS_INSTRUCTORS%>')" onmouseout="hideddrivetip()">
+                        <tr>
                             <td class="text-left">
-                                Instructors
+                                <div data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.VISIBILITY_OPTIONS_INSTRUCTORS%>">
+                                    Instructors
+                                </div>
                             </td>
                             <td>
                                 <input class="visibilityCheckbox answerCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.INSTRUCTORS%>" disabled="disabled"
@@ -572,7 +590,7 @@
                     &nbsp;
                     <span id="questionTypeHeader"></span>
                     <span class="pull-right">
-                        <a class="btn btn-primary btn-xs" onclick="deleteQuestion(-1)" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_QUESTION_DELETE%>')" onmouseout="hideddrivetip()">Delete
+                        <a class="btn btn-primary btn-xs" onclick="deleteQuestion(-1)" data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_QUESTION_DELETE%>">Delete
                         </a>
                     </span>
                 </div>
@@ -582,8 +600,8 @@
                             class="form-control textvalue nonDestructive"
                             name="questiontext"
                             id="questiontext-1"
-                            onmouseover="ddrivetip('Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?')"
-                            onmouseout="hideddrivetip()" tabindex="9"
+                            data-toggle="tooltip" data-placement="top" title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?"
+                            tabindex="9"
                             disabled="disabled"></textarea>
                     </div>
                     <div id="mcqForm">
@@ -615,7 +633,7 @@
                     </div>
                     <br>
                     <div>
-                        <div class="col-sm-6" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_GIVER%>')" onmouseout="hideddrivetip()">  
+                        <div class="col-sm-6" data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_SESSION_GIVER%>')">  
                             <label class="col-sm-4 control-label">
                                 Feedback Giver:
                             </label>
@@ -627,7 +645,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-sm-6" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_RECIPIENT%>')" onmouseout="hideddrivetip()">
+                        <div class="col-sm-6" data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_SESSION_RECIPIENT%>">
                             <label class="col-sm-4 control-label">
                                 Feedback Recipient:
                             </label>
@@ -673,8 +691,12 @@
                                 <th class="text-center">Can see giver's name</th>
                                 <th class="text-center">Can see recipient's name</th>
                             </tr>
-                            <tr onmouseover="ddrivetip('<%=Const.Tooltips.VISIBILITY_OPTIONS_RECIPIENT%>')" onmouseout="hideddrivetip()">
-                                <td class="text-left">Recipient(s)</td>
+                            <tr>
+                                <td class="text-left">
+                                    <div data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.VISIBILITY_OPTIONS_RECIPIENT%>">
+                                        Recipient(s)
+                                    </div>
+                                </td>
                                 <td>
                                     <input class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER%>" checked="checked"/>
                                 </td>
@@ -685,9 +707,12 @@
                                     <input class="visibilityCheckbox recipientCheckbox" name="receiverFollowerCheckbox" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER%>" disabled="disabled" checked="checked"/>
                                 </td>
                             </tr>
-                            <tr onmouseover="ddrivetip('<%=Const.Tooltips.VISIBILITY_OPTIONS_GIVER_TEAM_MEMBERS%>')"
-                                onmouseout="hideddrivetip()">
-                                <td class="text-left">Giver's Team Members</td>
+                            <tr>
+                                <td class="text-left">
+                                    <div data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.VISIBILITY_OPTIONS_GIVER_TEAM_MEMBERS%>">
+                                        Giver's Team Members
+                                    </div>
+                                </td>
                                 <td>
                                     <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="<%=FeedbackParticipantType.OWN_TEAM_MEMBERS%>"/>
                                 </td>
@@ -698,8 +723,12 @@
                                     <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="<%=FeedbackParticipantType.OWN_TEAM_MEMBERS%>"/>
                                 </td>
                             </tr>
-                            <tr onmouseover="ddrivetip('<%=Const.Tooltips.VISIBILITY_OPTIONS_RECIPIENT_TEAM_MEMBERS%>')" onmouseout="hideddrivetip()">
-                                <td class="text-left">Recipient's Team Members</td>
+                            <tr>
+                                <td class="text-left">
+                                    <div data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.VISIBILITY_OPTIONS_RECIPIENT_TEAM_MEMBERS%>">
+                                        Recipient's Team Members
+                                    </div>
+                                </td>
                                 <td>
                                     <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER_TEAM_MEMBERS%>"/>
                                 </td>
@@ -710,9 +739,11 @@
                                     <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER_TEAM_MEMBERS%>"/>
                                 </td>
                             </tr>
-                            <tr onmouseover="ddrivetip('<%=Const.Tooltips.VISIBILITY_OPTIONS_OTHER_STUDENTS%>')" onmouseout="hideddrivetip()">
+                            <tr>
                                 <td class="text-left">
-                                    Other students
+                                    <div data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.VISIBILITY_OPTIONS_OTHER_STUDENTS%>">
+                                        Other students
+                                    </div>
                                 </td>
                                 <td>
                                     <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="<%=FeedbackParticipantType.STUDENTS%>"/>
@@ -724,9 +755,11 @@
                                     <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="<%=FeedbackParticipantType.STUDENTS%>"/>
                                 </td>
                             </tr>
-                            <tr onmouseover="ddrivetip('<%=Const.Tooltips.VISIBILITY_OPTIONS_INSTRUCTORS%>')" onmouseout="hideddrivetip()">
+                            <tr>
                                 <td class="text-left">
-                                    Instructors
+                                    <div data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.VISIBILITY_OPTIONS_INSTRUCTORS%>">
+                                        Instructors
+                                    </div>
                                 </td>
                                 <td>
                                     <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="<%=FeedbackParticipantType.INSTRUCTORS%>" checked="checked"/>
@@ -763,58 +796,60 @@
                 value="<%=FeedbackParticipantType.NONE.toString()%>">
         </form>
         <br><br>
-        <div class="well well-plain inputTable" id="questionPreviewTable">
-            <div class="row">
-                <form class="form-horizontal">
-                    <label class="control-label col-sm-2 text-right">
-                        Preview Session:
-                    </label>
-                </form>
-                <div class="col-sm-5" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_PREVIEW_ASSTUDENT%>')" onmouseout="hideddrivetip()">
-                    <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_PREVIEW_ASSTUDENT%>"
-                        name="form_previewasstudent" class="form_preview" target="_blank">
-                        
-                        <div class="col-sm-6">
-                            <select class="form-control" name="<%=Const.ParamsNames.PREVIEWAS%>">
+        <div class="container">
+            <div class="well well-plain inputTable" id="questionPreviewTable">
+                <div class="row">
+                    <form class="form-horizontal">
+                        <label class="control-label col-sm-2 text-right">
+                            Preview Session:
+                        </label>
+                    </form>
+                    <div class="col-sm-5" data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_PREVIEW_ASSTUDENT%>">
+                        <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_PREVIEW_ASSTUDENT%>"
+                            name="form_previewasstudent" class="form_preview" target="_blank">
+                            
+                            <div class="col-sm-6">
+                                <select class="form-control" name="<%=Const.ParamsNames.PREVIEWAS%>">
+                                    <%
+                                        for(StudentAttributes student : data.studentList) {
+                                    %>
+                                            <option value="<%=student.email%>">[<%=student.team%>] <%=student.name%></option>
+                                    <%
+                                        }
+                                    %>
+                                </select>
+                            </div>
+                            <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.session.feedbackSessionName%>">
+                            <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.session.courseId%>">
+                            <div class="col-sm-6">
+                                <input id="button_preview_student" type="submit" class="btn btn-primary" value="Preview as Student"
+                                <%=data.studentList.isEmpty() ? "disabled=\"disabled\" style=\"background: #66727A;\"" : ""%>>
+                            </div>
+                            <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
+                        </form>
+                    </div>
+                    <div class="col-sm-5" data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_PREVIEW_ASINSTRUCTOR%>">
+                        <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_PREVIEW_ASINSTRUCTOR%>"
+                            name="form_previewasinstructor" class="form_preview" target="_blank">
+                            <div class="col-sm-6">
+                                <select class="form-control" name="<%=Const.ParamsNames.PREVIEWAS%>">
                                 <%
-                                    for(StudentAttributes student : data.studentList) {
+                                    for(InstructorAttributes instructor : data.instructorList) {
                                 %>
-                                        <option value="<%=student.email%>">[<%=student.team%>] <%=student.name%></option>
+                                        <option value="<%=instructor.email%>"><%=instructor.name%></option>
                                 <%
                                     }
                                 %>
-                            </select>
-                        </div>
-                        <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.session.feedbackSessionName%>">
-                        <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.session.courseId%>">
-                        <div class="col-sm-6">
-                            <input id="button_preview_student" type="submit" class="btn btn-primary" value="Preview as Student"
-                            <%=data.studentList.isEmpty() ? "disabled=\"disabled\" style=\"background: #66727A;\"" : ""%>>
-                        </div>
-                        <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
-                    </form>
-                </div>
-                <div class="col-sm-5" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_PREVIEW_ASINSTRUCTOR%>')" onmouseout="hideddrivetip()">
-                    <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_PREVIEW_ASINSTRUCTOR%>"
-                        name="form_previewasinstructor" class="form_preview" target="_blank">
-                        <div class="col-sm-6">
-                            <select class="form-control" name="<%=Const.ParamsNames.PREVIEWAS%>">
-                            <%
-                                for(InstructorAttributes instructor : data.instructorList) {
-                            %>
-                                    <option value="<%=instructor.email%>"><%=instructor.name%></option>
-                            <%
-                                }
-                            %>
-                            </select>
-                        </div>
-                        <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.session.feedbackSessionName%>">
-                        <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.session.courseId%>">
-                        <div class="col-sm-6">
-                            <input id="button_preview_instructor" type="submit" class="btn btn-primary" value="Preview as Instructor">
-                        </div>
-                        <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
-                    </form>
+                                </select>
+                            </div>
+                            <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.session.feedbackSessionName%>">
+                            <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.session.courseId%>">
+                            <div class="col-sm-6">
+                                <input id="button_preview_instructor" type="submit" class="btn btn-primary" value="Preview as Instructor">
+                            </div>
+                            <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
