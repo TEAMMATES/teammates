@@ -93,7 +93,7 @@
            </div>
         </div>
      </div>
-     <div class="container theme-showcase" >
+     <div class="container theme-showcase"  id="frameBodyWrapper" >
         <div id="topOfPage" >
         </div>
         <div id="headerOperation" >
@@ -142,28 +142,38 @@
            Active courses
         </h2>
         <table class="table table-bordered table-striped" >
-           <thead class="fill-primary" >
-              <tr>
-                 <th>
-                    Course ID
-                 </th>
-                 <th>
-                    Course Name
-                 </th>
-                 <th>
-                    Teams
-                 </th>
-                 <th>
-                    Total Students
-                 </th>
-                 <th>
-                    Total Unregistered
-                 </th>
-                 <th class="centeralign no-print" >
-                    Action(s)
-                 </th>
-              </tr>
-           </thead>
+        <thead class="fill-primary" >
+           <tr>
+               <th class="button-sort-ascending"  id="button_sortid"  onclick="toggleSort(this,1);" >
+                  Course ID
+                  <span class="sort-icon unsorted" >
+                  </span>
+               </th>
+               <th class="button-sort-ascending"  id="button_sortid"  onclick="toggleSort(this,2);" >
+                  Course Name
+                  <span class="sort-icon unsorted" >
+                  </span>
+               </th>
+               <th class="button-sort-ascending"  id="button_sortid"  onclick="toggleSort(this,3);" >
+                  Teams
+                  <span class="sort-icon unsorted" >
+                  </span>
+               </th>
+               <th class="button-sort-ascending"  id="button_sortid"  onclick="toggleSort(this,4);" >
+                  Total Students
+                  <span class="sort-icon unsorted" >
+                  </span>
+               </th>
+               <th class="button-sort-ascending"  id="button_sortid"  onclick="toggleSort(this,5);" >
+                  Total Unregistered
+                  <span class="sort-icon unsorted" >
+                  </span>
+               </th>
+               <th class="centeralign no-print" >
+                  Action(s)
+               </th>
+            </tr>
+          </thead>
            <tbody>
               <tr>
                  <td>
