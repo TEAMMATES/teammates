@@ -42,7 +42,7 @@
         <br>
         <div id="topOfPage"></div>
         
-        <div class="panel panel-primary">
+        <div class="panel panel-primary panel-narrow">
             <div class="panel-heading">
                 <h1>Confirm your Google account</h1>
             </div>
