@@ -52,260 +52,490 @@
             <h1>Edit Feedback Session</h1>
             <br>
 
-            <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_SAVE%>" id="form_editfeedbacksession">
-                <div class="sessionDetailsBackground">
-                <table class="inputTable sessionTable" id="sessionNameTable">
-                    <tr>
-                        <td class="label bold">Course:</td>
-                        <td><%=InstructorFeedbackEditPageData.sanitizeForHtml(data.session.courseId)%></td>
-                        <td class="rightalign" colspan="2">
-                            <a href="#" class="color_blue pad_right" id="fsEditLink"
-                            onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_EDIT%>')" onmouseout="hideddrivetip()"
-                            onclick="enableEditFS()">Edit</a>
-                            <a href="#" class="color_green pad_right" style="display:none;" id="fsSaveLink">Save Changes</a>
-                            <a href="<%=data.getInstructorFeedbackSessionDeleteLink(data.session.courseId, data.session.feedbackSessionName, "")%>"
-                            onclick="hideddrivetip(); return toggleDeleteFeedbackSessionConfirmation('<%=data.session.courseId%>','<%=data.session.feedbackSessionName%>');"
-                            onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_DELETE%>')" onmouseout="hideddrivetip()"
-                            class="color_red" id="fsDeleteLink">Delete</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="width:200px" class="label bold">Feedback session name:</td>
-                        <td><%=InstructorFeedbackEditPageData.sanitizeForHtml(data.session.feedbackSessionName)%></td>
+            <div class="well well-plain">
+                <form class="form-group" method="post"
+                    action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_SAVE%>"
+                    name="form_editfeedbacksession">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <span class="pull-right">
+                                <a class="btn btn-primary btn-sm" id="fsEditLink"
+                                    title="<%=Const.Tooltips.FEEDBACK_SESSION_EDIT%>"
+                                    data-toggle="tooltip"
+                                    data-placement="top"
+                                    onclick="enableEditFS()">
+                                    Edit
+                                </a>
+                                <button type="submit" id="fsSaveLink" style="display:none;" class="btn btn-primary btn-sm" onclick="return checkEditFeedbackSession(this.form);">
+                                    Save Changes
+                                </button>
+                                <a href="<%=data.getInstructorFeedbackSessionDeleteLink(data.session.courseId, data.session.feedbackSessionName, "")%>"
+                                onclick="return toggleDeleteFeedbackSessionConfirmation('<%=data.session.courseId%>','<%=data.session.feedbackSessionName%>');"
+                                title="<%=Const.Tooltips.FEEDBACK_SESSION_DELETE%>"
+                                data-toggle="tooltip"
+                                data-placement="top"
+                                class="btn btn-primary btn-sm" id="fsDeleteLink">
+                                    Delete
+                                </a>
+                            </span>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="panel panel-primary">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label
+                                            class="col-sm-4 control-label"
+                                            title="<%=Const.Tooltips.FEEDBACK_SESSION_COURSE%>"
+                                            data-toggle="tooltip"
+                                            data-placement="top">Course</label>
+                                        <div class="col-sm-8">
+                                            <div class="form-control-static">
+                                                <%=InstructorFeedbackEditPageData.sanitizeForHtml(data.session.courseId)%>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label
+                                            for="<%=Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE%>"
+                                            class="col-sm-4 control-label"
+                                            title="<%=Const.Tooltips.EVALUATION_INPUT_TIMEZONE%>"
+                                            data-toggle="tooltip"
+                                            data-placement="top">Timezone</label>
+                                        <div class="col-sm-8">
+                                            <select class="form-control"
+                                                name="<%=Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE%>"
+                                                id="<%=Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE%>">
+                                                <%
+                                                    for (String opt : data.getTimeZoneOptionsAsHtml())
+                                                        out.println(opt);
+                                                %>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label
+                                            for="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>"
+                                            class="col-sm-2 control-label"
+                                            title="<%=Const.Tooltips.FEEDBACK_SESSION_INPUT_NAME%>"
+                                            data-toggle="tooltip"
+                                            data-placement="top">Session
+                                            name</label>
+                                        <div class="col-sm-10">
+                                            <div class="form-control-static">
+                                                <%=InstructorFeedbackEditPageData.sanitizeForHtml(data.session.feedbackSessionName)%>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="form-group">
+                                            <label
+                                                for="<%=Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS%>"
+                                                class="col-sm-2 control-label"
+                                                title="<%=Const.Tooltips.FEEDBACK_SESSION_INSTRUCTIONS%>"
+                                                data-toggle="tooltip"
+                                                data-placement="top">Instructions</label>
+                                            <div class="col-sm-10">
+                                                <textarea
+                                                    class="form-control"
+                                                    rows="4" cols="100%"
+                                                    name="<%=Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS%>"
+                                                    id="<%=Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS%>"
+                                                    ><%=InstructorFeedbacksPageData.sanitizeForHtml(data.session.instructions.getValue())
+                                                    %></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-primary">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label
+                                                for="<%=Const.ParamsNames.FEEDBACK_SESSION_STARTDATE%>"
+                                                class="label-control"
+                                                title="<%=Const.Tooltips.FEEDBACK_SESSION_STARTDATE%>"
+                                                data-toggle="tooltip"
+                                                data-placement="top">Submission opening time</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <input
+                                                class="form-control col-sm-2"
+                                                type="text"
+                                                name="<%=Const.ParamsNames.FEEDBACK_SESSION_STARTDATE%>"
+                                                id="<%=Const.ParamsNames.FEEDBACK_SESSION_STARTDATE%>"
+                                                value="<%=TimeHelper.formatDate(data.session.startTime)%>"
+                                                placeholder="Date">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <select class="form-control"
+                                                name="<%=Const.ParamsNames.FEEDBACK_SESSION_STARTTIME%>"
+                                                id="<%=Const.ParamsNames.FEEDBACK_SESSION_STARTTIME%>">
+                                                <%
+                                                    for(String opt: data.getTimeOptionsAsHtml(data.session.startTime)) out.println(opt);
+                                                %>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-5 border-left-gray">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label
+                                                for="<%=Const.ParamsNames.FEEDBACK_SESSION_ENDDATE%>"
+                                                class="label-control"
+                                                title="<%=Const.Tooltips.FEEDBACK_SESSION_ENDDATE%>"
+                                                data-toggle="tooltip"
+                                                data-placement="top">Submission closing time</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <input
+                                                class="form-control col-sm-2"
+                                                type="text"
+                                                name="<%=Const.ParamsNames.FEEDBACK_SESSION_ENDDATE%>"
+                                                id="<%=Const.ParamsNames.FEEDBACK_SESSION_ENDDATE%>"
+                                                value="<%=TimeHelper.formatDate(data.session.endTime)%>"
+                                                placeHolder="Date">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <select class="form-control"
+                                                name="<%=Const.ParamsNames.FEEDBACK_SESSION_ENDTIME%>"
+                                                id="<%=Const.ParamsNames.FEEDBACK_SESSION_ENDTIME%>">
+                                                <%
+                                                    for (String opt : data.getTimeOptionsAsHtml(data.session.endTime))
+                                                        out.println(opt);
+                                                %>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 border-left-gray">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label
+                                                for="<%=Const.ParamsNames.FEEDBACK_SESSION_GRACEPERIOD%>"
+                                                class="control-label"
+                                                title="<%=Const.Tooltips.EVALUATION_INPUT_GRACEPERIOD%>"
+                                                data-toggle="tooltip"
+                                                data-placement="top">Grace
+                                                period</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <select class="form-control"
+                                                name="<%=Const.ParamsNames.FEEDBACK_SESSION_GRACEPERIOD%>"
+                                                id="<%=Const.ParamsNames.FEEDBACK_SESSION_GRACEPERIOD%>">
+                                                <%
+                                                    for (String opt : data.getGracePeriodOptionsAsHtml())
+                                                        out.println(opt);
+                                                %>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-primary">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-6"
+                                            title="<%=Const.Tooltips.FEEDBACK_SESSION_SESSIONVISIBLELABEL%>"
+                                            data-toggle="tooltip"
+                                            data-placement="top">
+                                            <label class="label-control">Session visible from </label>
+                                        </div>
+                                    </div>
+                                    <div class="row radio">
+                                        <div class="col-md-2"
+                                            title="<%=Const.Tooltips.FEEDBACK_SESSION_VISIBLEDATE%>"
+                                            data-toggle="tooltip"
+                                            data-placement="top">
+                                            <label
+                                                for="<%=Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>_custom">At
+                                            </label> <input type="radio"
+                                                name="<%=Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>"
+                                                id="<%=Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>_custom"
+                                                value="<%=Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM%>"
+                                                <%if(TimeHelper.isSpecialTime(data.session.sessionVisibleFromTime) == false)
+                                                    out.print("checked=\"checked\"");%>>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <input
+                                                class="form-control col-sm-2"
+                                                type="text"
+                                                name="<%=Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE%>"
+                                                id="<%=Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE%>"
+                                                value="<%=TimeHelper.isSpecialTime(data.session.sessionVisibleFromTime) ? "" : TimeHelper.formatDate(data.session.sessionVisibleFromTime)%>"
+                                                <%if(TimeHelper.isSpecialTime(data.session.sessionVisibleFromTime))
+                                                    out.print("disabled=\"disabled\"");%>>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <select class="form-control"
+                                                name="<%=Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME%>"
+                                                id="<%=Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME%>"
+                                                <%if(TimeHelper.isSpecialTime(data.session.sessionVisibleFromTime))
+                                                    out.print("disabled=\"disabled\"");%>>
+                                                <%
+                                                    Date date = TimeHelper.isSpecialTime(
+                                                            data.session.sessionVisibleFromTime) ? null
+                                                            : data.session.sessionVisibleFromTime;
+                                                    for (String opt : data.getTimeOptionsAsHtml(date))
+                                                        out.println(opt);
+                                                %>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row radio">
+                                        <div class="col-md-6"
+                                            title="<%=Const.Tooltips.FEEDBACK_SESSION_SESSIONVISIBLEATOPEN%>"
+                                            data-toggle="tooltip"
+                                            data-placement="top">
+                                            <label
+                                                for="<%=Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>_atopen">Submission opening time
+                                            </label>
+                                            <input
+                                                type="radio"
+                                                name="<%=Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>"
+                                                id="<%=Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>_atopen"
+                                                value="<%=Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN%>"
+                                                <%if(Const.TIME_REPRESENTS_FOLLOW_OPENING.equals(data.session.sessionVisibleFromTime))
+                                                    out.print("checked=\"checked\"");%>>
+                                        </div>
+                                    </div>
+                                    <div class="row radio">
+                                        <div class="col-md-6"
+                                            title="<%=Const.Tooltips.FEEDBACK_SESSION_SESSIONVISIBLENEVER%>"
+                                            data-toggle="tooltip"
+                                            data-placement="top">
+                                            <label for="<%=Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>_never">
+                                                Never (this is a private session)
+                                            </label>
+                                            <input type="radio"
+                                                name="<%=Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>"
+                                                id="<%=Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>_never"
+                                                value="never"
+                                                <%if(data.session.isPrivateSession()) out.print("checked=\"checked\"");%>
+                                                <%if(Const.TIME_REPRESENTS_NEVER.equals(data.session.sessionVisibleFromTime))
+                                                    out.print("checked=\"checked\"");%>>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 border-left-gray">
+                                    <div class="row">
+                                        <div class="col-md-6"
+                                            title="<%=Const.Tooltips.FEEDBACK_SESSION_RESULTSVISIBLELABEL%>"
+                                            data-toggle="tooltip"
+                                            data-placement="top">
+                                            <label class="label-control">Responsesvisible from</label>
+                                        </div>
+                                    </div>
+                                    <div class="row radio">
+                                        <div class="col-md-2"
+                                            title="<%=Const.Tooltips.FEEDBACK_SESSION_RESULTSVISIBLECUSTOM%>"
+                                            data-toggle="tooltip"
+                                            data-placement="top">
+                                            <label
+                                                for="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_custom">At</label>
 
-                        <td class="rightalign"><span class="label bold" style="padding-right:10px">Time zone: </span> <select
-                            name="<%=Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE%>"
-                            id="<%=Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE%>"
-                            onmouseover="ddrivetip('<%=Const.Tooltips.EVALUATION_INPUT_TIMEZONE%>')"
-                            onmouseout="hideddrivetip()" tabindex="3">
-                                <%
-                                    for (String opt : data.getTimeZoneOptionsAsHtml())
-                                        out.println(opt);
-                                %>
-                        </select></td>
-                    </tr>
-                </table>
-                <br>
-                <table class="inputTable sessionTable" id="timeFrameTable">
-                    <tr>
-                        <td class="label bold middlealign" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_STARTDATE%>')"
-                            onmouseout="hideddrivetip()">Submission<br>Opening Time:</td>
-                        <td onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_STARTDATE%>')"
-                            onmouseout="hideddrivetip()">
-                            <input style="width: 100px;" type="text"
-                            name="<%=Const.ParamsNames.FEEDBACK_SESSION_STARTDATE%>"
-                            id="<%=Const.ParamsNames.FEEDBACK_SESSION_STARTDATE%>"
-                            value="<%=TimeHelper.formatDate(data.session.startTime)%>"
-                            readonly="readonly" tabindex="7"> @ <select
-                            style="width: 70px;"
-                            name="<%=Const.ParamsNames.FEEDBACK_SESSION_STARTTIME%>"
-                            id="<%=Const.ParamsNames.FEEDBACK_SESSION_STARTTIME%>" tabindex="4">
-                                <%
-                                    for(String opt: data.getTimeOptionsAsHtml(data.session.startTime)) out.println(opt);
-                                %>
-                        </select></td>
-                        <td class="label bold middlealign" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_ENDDATE%>')"
-                            onmouseout="hideddrivetip()">Submission<br>Closing Time:</td>
-                        <td class="nowrap" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_ENDDATE%>')"
-                            onmouseout="hideddrivetip()">
-                            <input style="width: 100px;" type="text"
-                            name="<%=Const.ParamsNames.FEEDBACK_SESSION_ENDDATE%>"
-                            id="<%=Const.ParamsNames.FEEDBACK_SESSION_ENDDATE%>"
-                            value="<%=TimeHelper.formatDate(data.session.endTime)%>"
-                            readonly="readonly" tabindex="8"> @ <select
-                            style="width: 70px;"
-                            name="<%=Const.ParamsNames.FEEDBACK_SESSION_ENDTIME%>"
-                            id="<%=Const.ParamsNames.FEEDBACK_SESSION_ENDTIME%>" tabindex="4">
-                                <%
-                                    for (String opt : data.getTimeOptionsAsHtml(data.session.endTime))
-                                        out.println(opt);
-                                %>
-                        </select></td>
-                        <td class="label bold" onmouseover="ddrivetip('<%=Const.Tooltips.EVALUATION_INPUT_GRACEPERIOD%>')"
-                            onmouseout="hideddrivetip()">Grace Period:</td>
-                        <td onmouseover="ddrivetip('<%=Const.Tooltips.EVALUATION_INPUT_GRACEPERIOD%>')"
-                            onmouseout="hideddrivetip()">
-                            <select style="width: 75px;" name="<%=Const.ParamsNames.FEEDBACK_SESSION_GRACEPERIOD%>"
-                                id="<%=Const.ParamsNames.FEEDBACK_SESSION_GRACEPERIOD%>"
-                                tabindex="7">
-                                    <%
-                                        for(String opt: data.getGracePeriodOptionsAsHtml()) out.println(opt);
-                                    %>
-                        </select></td>
-                    </tr>
-                </table>
-                <br>
-                <table class="inputTable sessionTable" id="sessionViewableTable">
-                    <tr>
-                        <td class="label bold" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_SESSIONVISIBLELABEL%>')"
-                            onmouseout="hideddrivetip()">Session visible from:</td>
-                        <td
-                            onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_VISIBLEDATE%>')"
-                            onmouseout="hideddrivetip()"><input type="radio"
-                            name="<%=Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>"
-                            id="<%=Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>_custom"
-                            value="custom"
-                            <%if(TimeHelper.isSpecialTime(data.session.sessionVisibleFromTime) == false)
-                                    out.print("checked=\"checked\"");%>> <input style="width: 100px;" type="text"
-                            name="<%=Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE%>"
-                            id="<%=Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE%>"
-                            value="<%=TimeHelper.isSpecialTime(data.session.sessionVisibleFromTime) ? "" : TimeHelper.formatDate(data.session.sessionVisibleFromTime)%>"
-                            <%if(TimeHelper.isSpecialTime(data.session.sessionVisibleFromTime))
-                                    out.print("disabled=\"disabled\"");%>
-                            readonly="readonly" tabindex="3"> @ <select
-                            style="width: 70px;"
-                            name="<%=Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME%>"
-                            id="<%=Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME%>"
-                            tabindex="4"
-                            <%if(TimeHelper.isSpecialTime(data.session.sessionVisibleFromTime))
-                                    out.print("disabled=\"disabled\"");%>>
-                                <%
-                                    Date date = TimeHelper.isSpecialTime(
-                                            data.session.sessionVisibleFromTime) ? null
-                                            : data.session.sessionVisibleFromTime;
-                                    for (String opt : data.getTimeOptionsAsHtml(date))
-                                        out.println(opt);
-                                %>
-                        </select></td>
-                        <td onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_SESSIONVISIBLEATOPEN%>')"
-                            onmouseout="hideddrivetip()">
-                            <input type="radio"
-                            name="<%=Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>"
-                            id="<%=Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>_atopen" value="atopen"
-                            <%if(Const.TIME_REPRESENTS_FOLLOW_OPENING.equals(data.session.sessionVisibleFromTime))
-                                    out.print("checked=\"checked\"");%>>
-                             Submissions opening time</td>
-                        <td colspan="2" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_SESSIONVISIBLENEVER%>')"
-                            onmouseout="hideddrivetip()"
-                            <%if(data.session.isPrivateSession()) out.print("checked=\"checked\"");%>>
-                            <input type="radio" name="<%=Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>"
-                            id="<%=Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>_never" value="never"
-                            <%if(Const.TIME_REPRESENTS_NEVER.equals(data.session.sessionVisibleFromTime))
-                                    out.print("checked=\"checked\"");%>>
-                             Never (This is a private session)</td>
-                    </tr>
-                    <tr id="response_visible_from_row">
-                        <td class="label bold" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_RESULTSVISIBLELABEL%>')"
-                            onmouseout="hideddrivetip()">Responses visible from:</td>
-                        <td
-                            onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_PUBLISHDATE%>')"
-                            onmouseout="hideddrivetip()"><input type="radio"
-                            name="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>"
-                            id="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_custom"
-                            value="custom"
-                            <%if(TimeHelper.isSpecialTime(data.session.resultsVisibleFromTime) == false)
-                                    out.print("checked=\"checked\"");%>>
-                            <input style="width: 100px;" type="text"
-                            name="<%=Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE%>"
-                            id="<%=Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE%>"
-                            value="<%=TimeHelper.isSpecialTime(data.session.resultsVisibleFromTime) ? "" : TimeHelper.formatDate(data.session.resultsVisibleFromTime)%>"
-                            readonly="readonly" tabindex="5"
-                            <%if(TimeHelper.isSpecialTime(data.session.resultsVisibleFromTime))
-                                    out.print("disabled=\"disabled\"");%>
-                            >
-                            @ <select style="width: 70px;"
-                            name="<%=Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME%>"
-                            id="<%=Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME%>"
-                            tabindex="6"
-                            onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_PUBLISHDATE%>')"
-                            onmouseout="hideddrivetip()"
-                            <%if(TimeHelper.isSpecialTime(data.session.resultsVisibleFromTime))
-                                    out.print("disabled=\"disabled\"");%>>
-                                <%
-                                    date = ((TimeHelper.isSpecialTime(data.session.resultsVisibleFromTime)) ? null
-                                            : data.session.resultsVisibleFromTime);
-                                    for (String opt : data.getTimeOptionsAsHtml(date)){
-                                        out.println(opt);
-                                    }
-                                %>
-                        </select></td>
-                        <td onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_RESULTSVISIBLEATVISIBLE%>')"
-                            onmouseout="hideddrivetip()">
-                            <input type="radio" name="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>"
-                            id="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_atvisible" value="atvisible"
-                            <%if(data.session!=null && Const.TIME_REPRESENTS_FOLLOW_VISIBLE.equals(data.session.resultsVisibleFromTime))
-                                    out.print("checked=\"checked\"");%>>
-                             Immediately</td>
-                        <td onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_RESULTSVISIBLELATER%>')"
-                            onmouseout="hideddrivetip()"><input type="radio" name="resultsVisibleFromButton"
-                            id="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_later" value="later"
-                            <%if(Const.TIME_REPRESENTS_LATER.equals(data.session.resultsVisibleFromTime) ||
-                                 Const.TIME_REPRESENTS_NOW.equals(data.session.resultsVisibleFromTime))
-                                    out.print("checked=\"checked\"");%>>
-                             Publish manually </td>
-                        <td onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_RESULTSVISIBLENEVER%>')"
-                            onmouseout="hideddrivetip()"><input type="radio"
-                            name="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>"
-                            id="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_never" value="never"
-                            <%if(Const.TIME_REPRESENTS_NEVER.equals(data.session.resultsVisibleFromTime))
-                                    out.print("checked=\"checked\"");%>>
-                             Never</td>
-                    </tr>
-                </table>
-                <br>
-                <table class="inputTable sessionTable" id="sessionEmailReminderTable">
-                    <tr>
-                        <td>
-                            <span class="bold">Send Emails For:</span>
-                        </td>
-                        <td onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_SENDJOINEMAIL%>')"
-                            onmouseout="hideddrivetip()">
-                            <label><input type="checkbox" checked="checked" disabled="disabled" class="disabled">
-                                Join Reminder
-                            </label>
-                        </td>
-                        <td onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_SENDOPENEMAIL%>')"
-                            onmouseout="hideddrivetip()">
-                            <label><input type="checkbox"
-                                <%=data.session.isOpeningEmailEnabled ? "checked=\"checked\"" : ""%>
-                                name="<%=Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL%>"
-                                id="<%=Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL%>_open"
-                                value="<%=EmailType.FEEDBACK_OPENING.toString()%>">
-                                    Session Opening Reminder
-                            </label>
-                        </td>
-                        <td onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_SENDCLOSINGEMAIL%>')"
-                            onmouseout="hideddrivetip()">
-                            <label><input type="checkbox"
-                                <%=data.session.isClosingEmailEnabled ? "checked=\"checked\"" : ""%>
-                                name="<%=Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL%>"
-                                id="<%=Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL%>_closing"
-                                value="<%=EmailType.FEEDBACK_CLOSING.toString()%>">
-                                    Session Closing Reminder
-                            </label>
-                        </td>
-                        <td onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_SENDPUBLISHEDEMAIL%>')"
-                            onmouseout="hideddrivetip()">
-                            <label><input type="checkbox"
-                                <%=data.session.isPublishedEmailEnabled ? "checked=\"checked\"" : ""%>
-                                name="<%=Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL%>"
-                                id="<%=Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL%>_published"
-                                value="<%=EmailType.FEEDBACK_PUBLISHED.toString()%>">
-                                    Results Published Announcement
-                            </label>
-                        </td>
-                    </tr>
-                </table>
-                <br>
-                <table class="inputTable" id="instructionsTable">
-                    <tr>
-                        <td class="label bold middlealign" >Instructions to students:</td>
-                        <td><textarea rows="4" cols="100%" class="textvalue" name="<%=Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS%>" id="<%=Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS%>"
-                                onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_INSTRUCTIONS%>')"
-                                onmouseout="hideddrivetip()" tabindex="8"><%=InstructorFeedbacksPageData.sanitizeForHtml(data.session.instructions.getValue())%></textarea>
-                        </td>
-                    </tr>
-                </table>
-                <br><div class="rightalign"><input id="button_submit_edit"
-                            type="submit" class="button" style="display:none;"
-                            onclick="return checkEditFeedbackSession(this.form);"
-                            value="Save Changes"></div>
-                </div>
-                <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.session.feedbackSessionName%>">
-                <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.session.courseId%>">
-                <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
-            </form>
-
+                                            <input type="radio"
+                                                name="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>"
+                                                id="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_custom"
+                                                value="<%=Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM%>"
+                                                <%if(TimeHelper.isSpecialTime(data.session.resultsVisibleFromTime) == false)
+                                                    out.print("checked=\"checked\"");%>>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <input class="form-control"
+                                                type="text"
+                                                name="<%=Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE%>"
+                                                id="<%=Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE%>"
+                                                value="<%=TimeHelper.isSpecialTime(data.session.resultsVisibleFromTime) ? "" : TimeHelper.formatDate(data.session.resultsVisibleFromTime)%>"
+                                                <%if(TimeHelper.isSpecialTime(data.session.resultsVisibleFromTime))
+                                                        out.print("disabled=\"disabled\"");%>
+                                                >
+                                        </div>
+                                        <div class="col-md-4">
+                                            <select class="form-control"
+                                                name="<%=Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME%>"
+                                                id="<%=Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME%>"
+                                                title="<%=Const.Tooltips.FEEDBACK_SESSION_PUBLISHDATE%>"
+                                                data-toggle="tooltip" 
+                                                data-placement="top"
+                                                <%if(TimeHelper.isSpecialTime(data.session.resultsVisibleFromTime))
+                                                    out.print("disabled=\"disabled\"");%>>
+                                                <%
+                                                    date = ((TimeHelper.isSpecialTime(data.session.resultsVisibleFromTime)) ? null
+                                                            : data.session.resultsVisibleFromTime);
+                                                    for (String opt : data.getTimeOptionsAsHtml(date)){
+                                                        out.println(opt);
+                                                    }
+                                                %>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row radio">
+                                        <div class="col-md-3"
+                                            title="<%=Const.Tooltips.FEEDBACK_SESSION_RESULTSVISIBLEATVISIBLE%>"
+                                            data-toggle="tooltip"
+                                            data-placement="top">
+                                            <label for="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_atvisible">
+                                                Immediately
+                                            </label>
+                                            <input type="radio"
+                                                name="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>"
+                                                id="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_atvisible"
+                                                value="<%=Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_ATVISIBLE%>"
+                                                <%if(data.session!=null && Const.TIME_REPRESENTS_FOLLOW_VISIBLE.equals(data.session.resultsVisibleFromTime))
+                                                    out.print("checked=\"checked\"");%>>
+                                        </div>
+                                    </div>
+                                    <div class="row radio">
+                                        <div class="col-md-4"
+                                            title="<%=Const.Tooltips.FEEDBACK_SESSION_RESULTSVISIBLELATER%>"
+                                            data-toggle="tooltip"
+                                            data-placement="top">
+                                            <label for="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_later">
+                                                Publish manually
+                                            </label>
+                                            <input type="radio"
+                                                name="resultsVisibleFromButton"
+                                                id="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_later"
+                                                value="<%=Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER%>"
+                                                <%if(Const.TIME_REPRESENTS_LATER.equals(data.session.resultsVisibleFromTime) || Const.TIME_REPRESENTS_NOW.equals(data.session.resultsVisibleFromTime))
+                                                    out.print("checked=\"checked\"");%>>
+                                        </div>
+                                    </div>
+                                    <div class="row radio">
+                                        <div class="col-md-2"
+                                            title="<%=Const.Tooltips.FEEDBACK_SESSION_RESULTSVISIBLENEVER%>"
+                                            data-toggle="tooltip"
+                                            data-placement="top">
+                                            <label for="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_never">
+                                                Never
+                                            </label>
+                                            <input type="radio"
+                                                name="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>"
+                                                id="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_never"
+                                                value="<%=Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_NEVER%>"
+                                                <%if(Const.TIME_REPRESENTS_NEVER.equals(data.session.resultsVisibleFromTime))
+                                                    out.print("checked=\"checked\"");%>>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-primary">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label class="control-label">
+                                        Send emails for
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-2"
+                                    title="<%=Const.Tooltips.FEEDBACK_SESSION_SENDJOINEMAIL%>"
+                                    data-toggle="tooltip"
+                                    data-placement="top">
+                                    <div class="checkbox">
+                                        <label for="<%=Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL%>_join">
+                                            Join reminder
+                                        </label>
+                                        <input type="checkbox"
+                                            <%=data.session.isOpeningEmailEnabled ? "checked=\"checked\"" : ""%>
+                                            id="<%=Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL%>_join"
+                                            disabled="disabled">
+                                    </div>
+                                </div>
+                                <div class="col-sm-3"
+                                    title="<%=Const.Tooltips.FEEDBACK_SESSION_SENDOPENEMAIL%>"
+                                    data-toggle="tooltip"
+                                    data-placement="top">
+                                    <div class="checkbox">
+                                        <label>
+                                            Session opening reminder
+                                        </label>
+                                        <input type="checkbox"
+                                            <%=data.session.isOpeningEmailEnabled ? "checked=\"checked\"" : ""%>
+                                            name="<%=Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL%>"
+                                            id="<%=Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL%>_open"
+                                            value="<%=EmailType.FEEDBACK_OPENING.toString()%>">
+                                    </div>
+                                </div>
+                                <div class="col-sm-3"
+                                    title="<%=Const.Tooltips.FEEDBACK_SESSION_SENDCLOSINGEMAIL%>"
+                                    data-toggle="tooltip"
+                                    data-placement="top">
+                                    <div class="checkbox">
+                                        <label for="<%=Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL%>_closing">
+                                            Session closing reminder
+                                        </label>
+                                        <input
+                                            type="checkbox"
+                                            <%=data.session.isClosingEmailEnabled ? "checked=\"checked\"" : ""%>
+                                            name="<%=Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL%>"
+                                            id="<%=Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL%>_closing"
+                                            value="<%=EmailType.FEEDBACK_CLOSING.toString()%>">
+                                    </div>
+                                </div>
+                                <div class="col-sm-4"
+                                    title="<%=Const.Tooltips.FEEDBACK_SESSION_SENDPUBLISHEDEMAIL%>"
+                                    data-toggle="tooltip"
+                                    data-placement="top">
+                                    <div class="checkbox">
+                                        <label for="<%=Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL%>_published">
+                                            Results published announcement
+                                        </label> 
+                                        <input
+                                            type="checkbox"
+                                            <%=data.session.isPublishedEmailEnabled ? "checked=\"checked\"" : ""%>
+                                            name="<%=Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL%>"
+                                            id="<%=Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL%>_published"
+                                            value="<%=EmailType.FEEDBACK_PUBLISHED.toString()%>">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        <div class="col-sm-12">
+                            <button type="submit" id="button_submit_edit" style="display:none;" class="btn btn-primary center-block" onclick="return checkEditFeedbackSession(this.form);">
+                                Save Changes
+                            </button>
+                        </div>
+                    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.session.feedbackSessionName%>">
+                    <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.session.courseId%>">
+                    <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
+                </form>
+                <br> <br>
+            </div>
             <br>
             <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
             <br>
