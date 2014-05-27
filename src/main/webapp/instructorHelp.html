@@ -2,9 +2,10 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet" href="stylesheets/teammates.css" type="text/css">
-<link rel="stylesheet" href="stylesheets/common.css" type="text/css">
-<link rel="stylesheet" href="stylesheets/helpPage.css" type="text/css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" type="text/css"/>
+<link rel="stylesheet" href="/bootstrap/css/bootstrap-theme.min.css" type="text/css"/>
+<link rel="stylesheet" href="stylesheets/teammatesCommon.css" type="text/css">
 
 <title>TEAMMATES Online Peer Feedback System for Student Team Projects - Instructor Help</title>
 <link rel="apple-touch-icon" href="apple-touch-icon.png" />
@@ -15,36 +16,23 @@
 
     <div id="mainContainer">
         <!-- wrap -->
-        <div id="header">
-            <div id="headerWrapper">
-                <div id="imageHolder">
-                    <img alt="TEAMMATES" src="images/teammateslogo.jpg" width="150px"
-                        height="47px">
-                </div>
-
-                <div id="textHolder">
-                    <ul id="navbar">
-                        <li><br></li>
-                    </ul>
+        <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/index.html">TEAMMATES</a>
                 </div>
             </div>
         </div>
 
-        <div id="mainContent">
-            <div id="headerOperation">
-                <h1>Help for Instructors</h1>
-            </div>
+        <div class="container">
+            <h1>Help for Instructors</h1>
 
-            <div id="caption">
-                <div id="captionText">
-                    <span><a name="#top">Table of Content</a></span>
-                </div>
-            </div>
+            <a name="#top">Table of Content</a></li>
 
             <div id="contentHolder" >
-        
-                <li><a href="#gs"  class="toc">Getting Started</a></li>
-                <li><a href="#faq"  class="toc">Frequently Asked Questions</a>
+                <ul>
+                    <li><a href="#gs">Getting Started</a></li>
+                    <li><a href="#faq">Frequently Asked Questions</a>
                         <div style="margin: 0 auto; padding: 0 50px;">
                             <ul>
                                 <li><a href="#faq1">How do I view a list of students in
@@ -72,30 +60,29 @@
                                 <li><a href="#faq11">How are the contribution numbers
                                         calculated?</a></li>
                             </ul>
-                        </div></li>
-                <li><a href="#tips" class="toc">Tips for using the system </a></li>
-                <li><a href="#sessionTypes" class="toc">Session types</a>
-                    <div style="margin: 0 auto; padding: 0 50px;">
-                        <ul>
-                            <li><a href="#evalType">Standard team peer evaluation session with fixed questions</a></li>
-                            <li><a href="#fbType">Feedback session with customizable questions</a></li>
-                        </ul>
-                    </div>
-                </li>
+                        </div>
+                    </li>
+                    <li><a href="#tips">Tips for using the system </a></li>
+                    <li><a href="#sessionTypes">Session types</a>
+                        <div style="margin: 0 auto; padding: 0 50px;">
+                            <ul>
+                                <li><a href="#evalType">Standard team peer evaluation session with fixed questions</a></li>
+                                <li><a href="#fbType">Feedback session with customizable questions</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
 
             </div>
 
             <!-- Getting Started -->
-            <div id="caption">
-                <div id="captionText">
-                    <span><a name="gs">Getting Started</a></span>
-                </div>
-            </div>
+            <br><hr><br>
+            <h4><a name="gs">Getting Started</a></h4>
             
             <div id="contentHolder" >
                 <br>
                 <ol type="1">
-                    <li><span class="bold">Create a course</span>
+                    <li><span class="text-bold">Create a course</span>
                         <div class="helpSectionContent">
                             Go to the ‘Courses’ page and create a course.
                         <br>Some of the elements in the user interface (e.g., text boxes) have hover over tips 
@@ -104,7 +91,7 @@
                             <center>
                                 <img alt="Instructor add course" src="images/instructorHelp/createCourse.png" width="450" height="auto">
                             </center>
-                        <br><span class="bold">Adding more instructors</span>
+                        <br><span class="text-bold">Adding more instructors</span>
                         <div class="helpSectionContent">
                             More instructors (e.g. tutors) can be added to a course by going to the ‘edit’ link 
                         of the course.
@@ -113,7 +100,7 @@
                         </div>
                     </li>
                     <li>
-                        <span class="bold">Enroll students</span>
+                        <span class="text-bold">Enroll students</span>
                         <div class="helpSectionContent">
                             Enroll students by clicking the ‘Enroll’ link for the relevant course. That link is 
                         available in the ‘Courses’ page and the ‘Home’ page. 
@@ -121,7 +108,7 @@
                         them to do at this point.<br><br>
                         </div>
                     </li>
-                    <li><span class="bold">Create a session</span>
+                    <li><span class="text-bold">Create a session</span>
                         <div class="helpSectionContent">
                             Go to the ‘Sessions’ page and create a 
                             session (there are different session types to choose from).<br><br>
@@ -156,14 +143,14 @@
                     information about the session types.<br><br>
                     </div>
                     </li>
-                    <li><span class="bold">At the opening time of the session</span>
+                    <li><span class="text-bold">At the opening time of the session</span>
                         <div class="helpSectionContent">
                             When it is time to open the session (based on the ‘opening time’ you specified), 
                         TEAMMATES automatically emails students instructions
                         for accessing the session. A copy of that email will be sent to you as well.<br><br>
                         <div class="helpSectionContent">
                     </li>
-                    <li><span class="bold">While the session is open</span>
+                    <li><span class="text-bold">While the session is open</span>
                         <div class="helpSectionContent">
                             You can view responses any time after the session is open, even when the session is still 
                         ongoing. Just go to the ‘Sessions’ page and click the corresponding ‘View results/responses’ 
@@ -174,7 +161,7 @@
                         using the ‘remind’ link.<br> <br>
                         </div>
                     </li>
-                    <li><span class="bold">After the session is closed</span>
+                    <li><span class="text-bold">After the session is closed</span>
                         <div class="helpSectionContent">
                         You can publish results (i.e. make it visible to students) using the ‘publish’ link in 
                         the ‘Sessions’ page.<br>
@@ -185,22 +172,22 @@
                         spreadsheet format.<br><br>
                         </div>
                     </li>
-                    <li><span class="bold">Any time</span>
+                    <li><span class="text-bold">Any time</span>
                         <div class="helpSectionContent">
                             You can use the ‘Students’ page any time to do these things:
                         <div style="margin: 0 auto; padding: 0 50px;">
                         <ul>
-                        <li><span class="bold">Email a group of students</span>:
+                        <li><span class="text-bold">Email a group of students</span>:
                             Filter out students in  certain teams/courses and email them. Also handy for locating the email of any past student.</li>
-                        <li><span class="bold">Comment on students</span>:
+                        <li><span class="text-bold">Comment on students</span>:
                             Add private comments about any student. Handy for saving and retrieving comments about a student quickly.</li>
-                        <li><span class="bold">View all past records of a student</span>:
+                        <li><span class="text-bold">View all past records of a student</span>:
                             See in one place all submissions given/received by a student. Handy for examining how a student progressed through a course.<br><br></li>
                         </ul>
                         </div>
                         </div>
                     </li>
-                    <li><span class="bold">When you need help</span>
+                    <li><span class="text-bold">When you need help</span>
                         <div class="helpSectionContent">
                             If you have a doubt or need our help, just <a href="mailto:teammates@comp.nus.edu.sg">email us</a>. We respond within 24 hours.<br><br>
                         </div>
@@ -210,11 +197,8 @@
             </div>
 
             <!--FAQ -->
-            <div id="caption">
-                <div id="captionText">
-                    <span><a name="faq">Frequently Asked Questions</a></span>
-                </div>
-            </div>
+            <br><hr><br>
+            <h4><a name="faq">Frequently Asked Questions</a></h4>
 
             <div id="contentHolder" >
                 <div class="bulletPointsIndent">
@@ -271,20 +255,20 @@
                                 interpret/use contribution values in evaluation reports?</a></b><br>
                     <div class="helpSectionContent">
                         <ul>
-                            <li><span class="bold gray">E (Equal share)</span> is a
+                            <li><span class="text-bold gray">E (Equal share)</span> is a
                                 relative measure. e.g. For a 3-person team, an ‘Equal
                                 share’ means ‘a third of the total work done’.</li>
-                            <li><span class="bold gray">CC (Claimed Contribution)</span>
+                            <li><span class="text-bold gray">CC (Claimed Contribution)</span>
                                 : This is what the student claimed he contributed.</li>
-                            <li><span class="bold gray">Ratings Received </span>: These
+                            <li><span class="text-bold gray">Ratings Received </span>: These
                                 are the peer opinions as to how much the student contributed.
                                 These values have been adjusted to neutralize any attempts by
                                 students to boost their own standing by rating others low.</li>
-                            <li><span class="bold gray">PC (Perceived
+                            <li><span class="text-bold gray">PC (Perceived
                                     Contribution)</span>: This is the average value of the ‘Ratings
                                 Received’. This can be considered as the <span class="italic">team’s
                                     perception of how much the student contributed</span>.</li>
-                            <li><span class="bold gray">Diff</span> : The difference
+                            <li><span class="text-bold gray">Diff</span> : The difference
                                 between the claimed contribution (CC) and the perceived
                                 contribution (PC). This value can be used to identify those who
                                 have over/under-estimated their own contribution.</li>
@@ -349,11 +333,9 @@
                 </div>
             </div>
 
-            <div id="caption">
-                <div id="captionText">
-                    <span><a name="tips">Tips for using 'team peer evaluation' sessions</a></span>
-                </div>
-            </div>
+            <!--tips-->
+            <br><hr><br>
+            <h4><a name="tips">Tips for using 'team peer evaluation' sessions</a></h4>
 
             <div id="contentHolder" >
                 <br>
@@ -429,17 +411,15 @@
                 <p align = right><a href="#Top">Back to Top</p>
             </div>
             
-            <div id="caption">
-                <div id="captionText">
-                    <span><a name="sessionTypes">Session types</a></span>
-                </div>
-            </div>
+            <!--sessionTypes-->
+            <br><hr><br>
+            <h4><a name="sessionTypes">Session types</a></h4>
             
             <div id="contentHolder" >
                 <br>
-                <ol>
+                <ol style="list-style-type: none;">
                     <li>
-                        <span class="bold"><a name="evalType"><h3>1. Standard team peer evaluation session with fixed questions</h3></a></span>
+                        <span class="text-bold"><a name="evalType"><h3>1. Standard team peer evaluation session with fixed questions</h3></a></span>
                         <br><br>Setting up is as easy as submitting this form.<br>
                         <br><img alt="Create evaluation session" src="images/instructorHelp/createEvaluation.png" width="780" height="auto"><br>
                         <br>If you do not want students to give peer feedback to each other, you can disable the
@@ -467,7 +447,7 @@
                         distribution with the team’s view.<br><br><br>
                     </li>
                     <li>
-                        <span class="bold"><a name="fbType"><h3>2. Feedback session with customizable questions</h3></a></span>
+                        <span class="text-bold"><a name="fbType"><h3>2. Feedback session with customizable questions</h3></a></span>
                         <br>
                         <br>This is the form used to set up the session.
                         <br><br><img alt="Create feedback session" src="images/instructorHelp/createFeedbackSession.png" width="780" height="auto"><br>
@@ -508,11 +488,18 @@
     </div>
 
 
-    <div id="footer">
-        <div id="footerWrapper">
-            <div id="footerRightCol">
-                Hosted on <a class="footer" href="http://code.google.com/appengine/"
-                    target="_blank">Google App Engine</a>
+    <div id="footerComponent" class="container-fluid">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <span>[<a href="/index.html">TEAMMATES</a>]</span>
+                </div>
+                <div class="col-md-4">
+                    [hosted on <a href="http://code.google.com/appengine/">Google App Engine</a>]
+                </div>
+                <div class="col-md-4">
+                    <span>[Send <a class="link" href="../contact.html" target="_blank">Feedback</a>]</span>
+                </div>
             </div>
         </div>
     </div>

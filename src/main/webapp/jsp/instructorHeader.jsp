@@ -22,16 +22,16 @@
         </div>
         <div class="collapse navbar-collapse" id="contentLinks">
             <ul class="nav navbar-nav">
-                <li class="<%=data.getClass().toString().contains("InstructorHome")?"active":""%>">
+                <li class="<%=data.getClass().toString().contains("Home")?"active":""%>">
                     <a class='nav home' data-link="instructorHome" href="<%=data.getInstructorHomeLink()%>">Home</a>
                 </li>
-                <li class="<%=data.getClass().toString().contains("InstructorCourses")?"active":""%>">
+                <li class="<%=data.getClass().toString().contains("InstructorCourse") && !data.getClass().toString().contains("CourseStudent")?"active":""%>">
                     <a class='nav courses' data-link="instructorCourse" href="<%=data.getInstructorCourseLink()%>">Courses</a>
                 </li>
-                <li class="<%=(data.getClass().toString().contains("InstructorEval") || data.getClass().toString().contains("InstructorFeedback"))?"active":""%>">
+                <li class="<%=(data.getClass().toString().contains("Eval") || data.getClass().toString().contains("Feedback"))?"active":""%>">
                     <a class='nav evaluations' data-link="instructorEval" href="<%=data.getInstructorEvaluationLink()%>">Sessions</a>
                 </li>
-                <li class="<%=data.getClass().toString().contains("InstructorStudent")?"active":""%>">
+                <li class="<%=data.getClass().toString().contains("Student")?"active":""%>">
                     <a class='nav students' data-link="instructorStudent" href="<%=data.getInstructorStudentListLink()%>">Students</a>
                 </li>
                 <li>

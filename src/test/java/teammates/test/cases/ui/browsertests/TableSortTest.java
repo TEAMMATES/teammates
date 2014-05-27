@@ -26,12 +26,10 @@ public class TableSortTest extends BaseUiTestCase {
         page = AppPage.getNewPageInstance(browser).navigateTo(new Url(getPath()));
     }
     
-
     @Test
     public void testTableSortingID() throws Exception{
-        
         verifySortingOrder(By.id("button_sortid"),
-                
+            
                 "-13.5",
                 "-2",
                 "-1.3",
@@ -60,15 +58,15 @@ public class TableSortTest extends BaseUiTestCase {
                 "Chong Kok Wei",
                 "Hou GuoChen",
                 "Le Minh Khue",
+                "Le Minh Khue",
+                "Le Minh Khue",
+                "Le Minh Khue",
                 "Loke Yan Hao",
                 "Luk Ming Kit",
                 "Phan Thi Quynh Trang",
-                "Shawn Teo Chee Yong",
                 "Shum Chee How",
-                "Sim ShengMing, Eugene",
                 "Tan Guo Wei",
                 "Teo Yock Swee Terence",
-                "Yen Zi Shyun",
                 "Zhang HaoQiang");
 
     }
@@ -138,6 +136,60 @@ public class TableSortTest extends BaseUiTestCase {
                 "N/S",
                 "N/S",
                 "N/A");
+    }
+ 
+    @Test
+    public void testStableSort() throws Exception {
+        page.click(By.id("button_sortid"));
+        page.click(By.id("button_sortid"));
+        page.click(By.id("button_sortname"));
+
+        String[] idList = { "15", 
+                            "0", 
+                            "-13.5",
+                            "2",
+                            "-2",
+                            "-1.3",
+                            "10.01",
+                            "24",
+                            "1",
+                            "10.7",
+                            "3",
+                            "33",
+                            "10.35",
+                            "-0.001",
+                            "10.3"
+                          };
+
+        String searchString = "";
+        for (int i = 0; i < idList.length; i++) {
+            searchString += idList[i]+"{*}";
+        }
+        page.verifyContains(searchString);
+
+        page.click(By.id("button_sortname"));
+        String[] reversedIdList = {  "10.3",
+                    "-0.001",
+                    "10.35",
+                    "33",
+                    "3",
+                    "10.7",
+                    "1",
+                    "-2",
+                    "-1.3",
+                    "10.01",
+                    "24",
+                    "2",
+                    "-13.5",
+                    "0",
+                    "15"
+                 };
+
+        searchString = "";
+        for (int i = 0; i < reversedIdList.length; i++) {
+            searchString += reversedIdList[i]+"{*}";
+        }
+        page.verifyContains(searchString);
     }
     
     private void verifySortingOrder(By sortIcon, String... values) {

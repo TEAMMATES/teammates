@@ -37,7 +37,7 @@
 
 <body>
     <jsp:include page="<%=Const.ViewURIs.STUDENT_HEADER%>" />
-    <div class="container theme-showcase">
+    <div class="container theme-showcase" id="frameBodyWrapper">
         <div id="topOfPage"></div>
         <br>
         <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
@@ -53,7 +53,7 @@
                     <br>If this is you, please confirm below to complete your registration.
                     <br><br><br>
                 </p>
-                <div class="center-align">
+                <div class="centeralign">
                     <a href="<%=Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED + "?regkey=" + data.regkey%>" 
                         class="btn btn-success"
                         id="button_confirm">Yes, this is my account</a>

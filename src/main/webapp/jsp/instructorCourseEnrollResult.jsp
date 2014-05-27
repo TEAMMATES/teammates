@@ -12,16 +12,16 @@
 <html>
 <head>
     <link rel="shortcut icon" href="/favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>TEAMMATES - Instructor</title>
-    <link rel="stylesheet" href="/stylesheets/common.css" type="text/css" media="screen">
-    <link rel="stylesheet" href="/stylesheets/instructorCourseEnroll.css" type="text/css" media="screen">
-    <link rel="stylesheet" href="/stylesheets/common-print.css" type="text/css" media="print">
-    <link rel="stylesheet" href="/stylesheets/instructorCourseEnroll-print.css" type="text/css" media="print">
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" type="text/css" >
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap-theme.min.css" type="text/css" >
+    <link rel="stylesheet" href="/stylesheets/teammatesCommon.css" type="text/css" >
     
     <script type="text/javascript" src="/js/googleAnalytics.js"></script>
     <script type="text/javascript" src="/js/jquery-minified.js"></script>
-    <script type="text/javascript" src="/js/tooltip.js"></script>
+    <script type="text/javascript"  src="/bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/js/date.js"></script>
     <script type="text/javascript" src="/js/CalendarPopup.js"></script>
     <script type="text/javascript" src="/js/AnchorPosition.js"></script>
@@ -29,69 +29,85 @@
     
     <script type="text/javascript" src="/js/instructor.js"></script>
     <jsp:include page="../enableJS.jsp"></jsp:include>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
 </head>
 
 <body>
-    <div id="dhtmltooltip"></div>
-    <div id="frameTop">
-        <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
-    </div>
+    <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
 
-    <div id="frameBody">
-        <div id="frameBodyWrapper">
-            <div id="topOfPage"></div>
-                <div id="headerOperation">
-                    <h1>Enrollment Results for <%=sanitizeForHtml(data.courseId)%></h1>
+    <div class="container" id="frameBodyWrapper">
+        <div id="headerOperation">
+            <h1>Enrollment Results for <%=sanitizeForHtml(data.courseId)%></h1>
+        </div>
+
+        <div class="alert alert-success">
+        Enrollment Successful. Summary given below. Click <a href="javascript:history.go(-1)" id="edit_enroll">here</a> 
+        to modify values and re-do the enrollment.
+        </div>
+        
+        <%
+            for(int i=0; i < 6; i++){
+                List<StudentAttributes> students = data.students[i];
+        %>
+            <%
+                if(students.size()>0){
+            %>  
+                <% if(i == 0){ %>
+                <div class="panel panel-danger">
+                <% } else if(i == 1){ %>
+                <div class="panel panel-primary">
+                <% } else if(i == 2){ %>
+                <div class="panel panel-warning">
+                <% } else if(i == 3){ %>
+                <div class="panel panel-info">
+                <% } else if(i == 4){ %>
+                <div class="panel panel-default">
+                <% } else{ %>
+                <div class="panel panel-danger">
+                <% } %>
+                <div class="panel-heading">
+                <%=data.getMessageForEnrollmentStatus(i)%>
                 </div>
-                <div style="display: block;" id="statusMessage">Enrollment Successful. 
-                Summary given below. Click <a href="javascript:history.go(-1)" id="edit_enroll">here</a> 
-                to modify values and re-do the enrollment.</div>
+                <table class="table table-striped table-bordered">
+                <tr>
+                    <th>Student Name</th>
+                    <th>E-mail address</th>
+                    <th>Team</th>
+                    <th>Comments</th>
+                </tr>
                 <%
-                    for(int i=0; i<5; i++){
-                                                List<StudentAttributes> students = data.students[i];
+                    for(StudentAttributes student: students){
                 %>
-                    <%
-                        if(students.size()>0){
-                    %>
-                        <p class="bold centeralign"><%=data.getMessageForEnrollmentStatus(i)%></p>
-                        <br>
-                        <table class="dataTable" class="enroll_result<%=i%>">
-                        <tr>
-                            <th class="bold color_white">Student Name</th>
-                            <th class="bold color_white centeralign">E-mail address</th>
-                            <th class="bold color_white centeralign">Team</th>
-                            <th class="bold color_white centeralign" width="40%">Comments</th>
-                        </tr>
-                        <%
-                            for(StudentAttributes student: students){
-                        %>
-                            <tr>
-                                <td><%=sanitizeForHtml(student.name)%></td>
-                                <td><%=sanitizeForHtml(student.email)%></td>
-                                <td><%=sanitizeForHtml(student.team)%></td>
-                                <td><%=sanitizeForHtml(student.comments)%></td>
-                            </tr>
-                        <%
-                            }
-                        %>
-                        </table>
-                        <br>
-                        <br>
-                        <br>
-                    <%
-                        }
-                    %>
+                    <tr>
+                        <td><%=sanitizeForHtml(student.name)%></td>
+                        <td><%=sanitizeForHtml(student.email)%></td>
+                        <td><%=sanitizeForHtml(student.team)%></td>
+                        <td><%=sanitizeForHtml(student.comments)%></td>
+                    </tr>
                 <%
                     }
                 %>
-                
-                <div id="instructorCourseEnrollmentButtons">
+                </table>
                 </div>
+                <br>
+                <br>
+            <%
+                }
+            %>
+        <%
+            }
+        %>
+        
+        <div id="instructorCourseEnrollmentButtons">
         </div>
     </div>
 
-    <div id="frameBottom">
-        <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
-    </div>
+    <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
+
 </body>
 </html>

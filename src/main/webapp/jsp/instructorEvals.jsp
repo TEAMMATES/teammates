@@ -236,7 +236,7 @@
                     <td class="t_session_response centeralign<% if(!TimeHelper.isOlderThanAYear(edd.endTime)) { out.print(" recent");} %>">
                         <a oncontextmenu="return false;" href="<%=data.getEvaluationStatsLink(edd.courseId, edd.name)%>">Show</a></td>
                     <td class="centeralign no-print"><%=data.getInstructorEvaluationActions(
-                            edd, sessionIdx, false)%>
+                            edd, false)%>
                     </td>
                 </tr>
                 <%
@@ -256,7 +256,7 @@
                     <td class="t_session_response centeralign<% if(!TimeHelper.isOlderThanAYear(fdb.createdTime)) { out.print(" recent");} %>">
                         <a oncontextmenu="return false;" href="<%=data.getFeedbackSessionStatsLink(fdb.courseId, fdb.feedbackSessionName)%>">Show</a></td>
                     <td class="centeralign no-print"><%=data.getInstructorFeedbackSessionActions(
-                            fdb, sessionIdx, false)%>
+                            fdb, false)%>
                     </td>
                 </tr>
                 <%
