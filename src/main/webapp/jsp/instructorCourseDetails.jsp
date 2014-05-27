@@ -123,13 +123,13 @@
         <table class="table table-bordered table-striped">
             <thead class="fill-primary">
                 <tr>
-                    <th onclick="toggleSort(this,1);" id="button_sortid" class="button-sort-ascending">
+                    <th onclick="toggleSort(this,1);" id="button_sortid" class="button-sort-none">
                         Team<span class="sort-icon unsorted"></span>
                     </th>
-                    <th onclick="toggleSort(this,2);" id="button_sortid" class="button-sort-ascending">
+                    <th onclick="toggleSort(this,2);" id="button_sortid" class="button-sort-none">
                         Student Name<span class="sort-icon unsorted"></span>
                     </th>
-                    <th onclick="toggleSort(this,2);" id="button_sortid" class="button-sort-ascending">
+                    <th onclick="toggleSort(this,2);" id="button_sortid" class="button-sort-none">
                         Status<span class="sort-icon unsorted"></span>
                     </th>
                     <th class="centeralign no-print">
