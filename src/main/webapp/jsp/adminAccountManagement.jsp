@@ -15,7 +15,7 @@
 %>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
 
@@ -60,7 +60,7 @@
                 <strong id="instructorCount"> Total
                     Instructors: <%=data.instructorCoursesTable.size()%></strong>
             </div>
-            
+            <div class="table-responsive">
             <table class="table table-striped dataTable">
                 <thead>
                     <tr>
@@ -80,6 +80,7 @@
                     </tr>
                 </thead>
                 
+                <tbody>
                 <%
                 	for (Map.Entry<String, AccountAttributes> entry : data.instructorAccountsTable
                 			.entrySet()) {
@@ -89,7 +90,7 @@
                 				.get(key);
                 %>
                 
-                <tbody>
+                
                     <tr>
                         <td><%="<span class=\"bold\">Google ID: </span><a href=\""
     						+ data.getInstructorHomePageViewLink(acc.googleId)
@@ -147,6 +148,7 @@
                 </tbody>
                 
             </table>
+            </div>
         </div>
     </div>
 
