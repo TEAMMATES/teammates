@@ -8,6 +8,9 @@
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionType"%>
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackAbstractQuestionDetails"%>
+<%@ page import="teammates.common.datatransfer.FeedbackMcqQuestionDetails"%>
+<%@ page import="teammates.common.datatransfer.FeedbackMsqQuestionDetails"%>
+<%@ page import="teammates.common.datatransfer.FeedbackNumericalScaleQuestionDetails"%>
 <%@ page import="teammates.common.datatransfer.StudentAttributes"%>
 <%@ page import="teammates.common.datatransfer.InstructorAttributes"%>
 <%@ page import="teammates.logic.core.Emails.EmailType"%>
@@ -43,12 +46,9 @@
 </head>
 
 <body onload="readyFeedbackEditPage();">
-    <div id="frameTop">
-        <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
-    </div>
+    <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
 
-    <div id="frameBody" class="container">
-        <div id="frameBodyWrapper">
+    <div id="frameBodyWrapper" class="container">
             <div id="topOfPage"></div>
             <h1>Edit Feedback Session</h1>
             <br>
@@ -589,141 +589,33 @@
                             onmouseout="hideddrivetip()" tabindex="9"
                             disabled="disabled"></textarea>
                     </div>
-                    <br>
-                    <tr id="mcqForm">
-                        <td colspan="2">
-                            <table id="mcqChoiceTable">
-                                <tr id="mcqOptionRow-0">
-                                    <td><input type="radio" disabled="disabled"></td>
-                                    <td>
-                                        <input type="text" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE%>-0"
-                                            id="<%=Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE%>-0" class="mcqOptionTextBox">
-                                        <a href="#" class="removeOptionLink"
-                                            id="mcqRemoveOptionLink"
-                                            onclick="removeMcqOption(0,-1)"
-                                            tabindex="-1"> x</a>
-                                    </td>
-                                </tr>
-                                <tr id="mcqOptionRow-1">
-                                    <td><input type="radio" disabled="disabled"></td>
-                                    <td>
-                                        <input type="text" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE%>-1"
-                                            id="<%=Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE%>-1"
-                                            class="mcqOptionTextBox">
-                                        <a href="#" class="removeOptionLink"
-                                            id="mcqRemoveOptionLink"
-                                            onclick="removeMcqOption(1,-1)"
-                                            tabindex="-1"> x</a>
-                                    </td>
-                                </tr>
-                                <tr id="mcqAddOptionRow">
-                                    <td colspan="2">
-                                        <a href="#" class="color_blue" id="mcqAddOptionLink"
-                                            onclick="addMcqOption(-1)">
-                                            +add more options
-                                        </a>
-                                    </td>
-                                </tr>
-                            </table>
-                            <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED%>"
-                                id="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED%>">
-                        </td>
-                        <td colspan="2" style="vertical-align:top;">
-                            <label><input type="checkbox"
-                                id="generateOptionsCheckbox"
-                                onchange="toggleMcqGeneratedOptions(this,-1)">Or, generate options from the list of all </label>
-                            <select id="mcqGenerateForSelect"
-                                onchange="changeMcqGenerateFor(-1)"
-                                disabled="disabled">
-                                <option value="<%=FeedbackParticipantType.STUDENTS.toString()%>">students</option>
-                                <option value="<%=FeedbackParticipantType.TEAMS.toString()%>">teams</option>
-                                <option value="<%=FeedbackParticipantType.INSTRUCTORS.toString()%>">instructors</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr id="msqForm">
-                        <td colspan="2">
-                            <table id="msqChoiceTable">
-                                <tr id="msqOptionRow-0">
-                                    <td><input type="checkbox" disabled="disabled"></td>
-                                    <td>
-                                        <input type="text" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE%>-0"
-                                            id="<%=Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE%>-0" class="msqOptionTextBox">
-                                        <a href="#" class="removeOptionLink"
-                                            id="msqRemoveOptionLink"
-                                            onclick="removeMsqOption(0,-1)"
-                                            tabindex="-1"> x</a>
-                                    </td>
-                                </tr>
-                                <tr id="msqOptionRow-1">
-                                    <td><input type="checkbox" disabled="disabled"></td>
-                                    <td>
-                                        <input type="text" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE%>-1"
-                                            id="<%=Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE%>-1"
-                                            class="msqOptionTextBox">
-                                        <a href="#" class="removeOptionLink"
-                                            id="msqRemoveOptionLink"
-                                            onclick="removeMsqOption(1,-1)"
-                                            tabindex="-1"> x</a>
-                                    </td>
-                                </tr>
-                                <tr id="msqAddOptionRow">
-                                    <td colspan="2">
-                                        <a href="#" class="color_blue" id="msqAddOptionLink"
-                                            onclick="addMsqOption(-1)">
-                                            +add more options
-                                        </a>
-                                    </td>
-                                </tr>
-                            </table>
-                            <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED%>"
-                                id="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED%>">
-                        </td>
-                        <td colspan="2" style="vertical-align:top;">
-                            <label><input type="checkbox"
-                                id="generateOptionsCheckbox"
-                                onchange="toggleMsqGeneratedOptions(this,-1)">Or, generate options from the list of all </label>
-                            <select id="msqGenerateForSelect"
-                                onchange="changeMsqGenerateFor(-1)"
-                                disabled="disabled">
-                                <option value="<%=FeedbackParticipantType.STUDENTS.toString()%>">students</option>
-                                <option value="<%=FeedbackParticipantType.TEAMS.toString()%>">teams</option>
-                                <option value="<%=FeedbackParticipantType.INSTRUCTORS.toString()%>">instructors</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr id="numScaleForm">
-                        <td colspan="4">
-                            <table>
-                                <tr>
-                                    <td onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_QUESTION_NUMSCALE_MIN%>')"
-                                        onmouseout="hideddrivetip()">Minimum value:
-                                        <input type="number" class="minScaleBox" id="minScaleBox"
-                                            name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN%>"
-                                            value="1" onChange="updateNumScalePossibleValues(-1)">
-                                    </td>
-                                    <td onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_QUESTION_NUMSCALE_STEP%>')"
-                                        onmouseout="hideddrivetip()">Increment:
-                                        <input type="number" class="stepBox" id="stepBox"
-                                            name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP%>"
-                                            value="0.5" min="0.001" step="0.001"
-                                            onChange="updateNumScalePossibleValues(-1)">
-                                    </td>
-                                    <td onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_QUESTION_NUMSCALE_MAX%>')"
-                                        onmouseout="hideddrivetip()">Maximum value:
-                                        <input type="number" class="maxScaleBox" id="maxScaleBox"
-                                            name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX%>"
-                                            value="5" onChange="updateNumScalePossibleValues(-1)">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan = "3">
-                                            <span id="numScalePossibleValues">[Based on the above settings, acceptable responses are: 1, 1.5, 2, ..., 4, 4.5, 5]</span>
-                                       </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
+                    <div id="mcqForm">
+                        <%
+                            FeedbackMcqQuestionDetails fMcqQd = new FeedbackMcqQuestionDetails();
+                            fMcqQd.numOfMcqChoices = 2;
+                            fMcqQd.mcqChoices.add("");
+                            fMcqQd.mcqChoices.add("");
+                        %>
+                        <%=fMcqQd.getQuestionSpecificEditFormHtml(-1)%>
+                    </div>
+                    <div id="msqForm">
+                        <%
+                            FeedbackMsqQuestionDetails fMsqQd = new FeedbackMsqQuestionDetails();
+                            fMsqQd.numOfMsqChoices = 2;
+                            fMsqQd.msqChoices.add("");
+                            fMsqQd.msqChoices.add("");
+                        %>
+                        <%=fMsqQd.getQuestionSpecificEditFormHtml(-1)%>
+                    </div>
+                    <div id="numScaleForm">
+                        <%
+                            FeedbackNumericalScaleQuestionDetails fNumQd = new FeedbackNumericalScaleQuestionDetails();
+                            fNumQd.minScale = 1;
+                            fNumQd.maxScale = 5;
+                            fNumQd.step = 1;
+                        %>
+                        <%=fNumQd.getQuestionSpecificEditFormHtml(-1)%>
+                    </div>
                     <br>
                     <div>
                         <div class="col-sm-6" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_GIVER%>')" onmouseout="hideddrivetip()">  
@@ -930,11 +822,8 @@
             </div>
         </div>
         <br><br>
-        </div>
     </div>
 
-    <div id="frameBottom">
-        <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
-    </div>
+    <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
 </body>
 </html>

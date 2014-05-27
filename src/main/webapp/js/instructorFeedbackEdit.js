@@ -156,6 +156,37 @@ function enableQuestion(number){
     // $('#questionTable'+number).find('.visibilityOptionsLabel').click();
 }
 
+function enableNewQuestion(){
+    var newQnSuffix = "New";
+    var number = "-1"
+    $('#questionTable'+newQnSuffix).find('text,button,textarea,select,input').
+        not('[name="receiverFollowerCheckbox"]').
+        not('.disabled_radio').
+        removeAttr("disabled", "disabled");
+    $('#questionTable'+newQnSuffix).find('.removeOptionLink').show();
+    $('#questionTable'+newQnSuffix).find('.addOptionLink').show();
+    
+
+
+    if($("#generateOptionsCheckbox-"+number).prop("checked")){
+        $("#mcqChoiceTable-"+number).hide();
+        $("#msqChoiceTable-"+number).hide();
+        $("#mcqGenerateForSelect-"+number).prop("disabled", false);
+        $("#msqGenerateForSelect-"+number).prop("disabled", false);
+    } else {
+        $("#mcqChoiceTable-"+number).show();
+        $("#msqChoiceTable-"+number).show();
+        $("#mcqGenerateForSelect-"+number).prop("disabled", true);
+        $("#msqGenerateForSelect-"+number).prop("disabled", true);
+    }       
+    
+    $('#'+FEEDBACK_QUESTION_EDITTEXT+'-'+number).hide();
+    $('#'+FEEDBACK_QUESTION_SAVECHANGESTEXT+'-'+number).show();
+    $('#'+'button_question_submit-'+number).show();
+    $('#'+FEEDBACK_QUESTION_EDITTYPE+'-'+number).value="edit";
+    // $('#questionTable'+number).find('.visibilityOptionsLabel').click();
+}
+
 /**
  * Disable question fields and "save changes" button for the given question number,
  * and shows the edit link.
@@ -266,6 +297,7 @@ function tallyCheckboxes(qnNumber){
 function showNewQuestionFrame(type){
     prepareQuestionForm(type);
     $('#questionTableNew').show();
+    enableNewQuestion();
     $('#addNewQuestionTable').hide();
     $('#empty_message').hide(); 
     $('#frameBody').animate({scrollTop: $('#frameBody')[0].scrollHeight}, 1000);
@@ -307,6 +339,9 @@ function prepareQuestionForm(type) {
 function addMcqOption(questionNumber) {
     idOfQuestion = '#form_editquestion-' + questionNumber;
     idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
+    if(questionNumber == -1){
+        idSuffix = "--1";
+    }
     
     var curNumberOfChoiceCreated = parseInt($("#"+FEEDBACK_QUESTION_NUMBEROFCHOICECREATED+idSuffix).val());
         
@@ -337,7 +372,10 @@ function addMcqOption(questionNumber) {
 function addMsqOption(questionNumber) {
     idOfQuestion = '#form_editquestion-' + questionNumber;
     idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
-    
+    if(questionNumber == -1){
+        idSuffix = "--1";
+    }
+
     var curNumberOfChoiceCreated = parseInt($("#"+FEEDBACK_QUESTION_NUMBEROFCHOICECREATED+idSuffix).val());
         
     $(   "<div id=\"msqOptionRow-"+curNumberOfChoiceCreated+idSuffix+"\">"
@@ -367,6 +405,10 @@ function addMsqOption(questionNumber) {
 function removeMcqOption(index, questionNumber) {
     idOfQuestion = '#form_editquestion-' + questionNumber;
     idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
+    if(questionNumber == -1){
+        idSuffix = "--1";
+    }
+
     $("#mcqOptionRow-"+index+idSuffix).remove();
     
     if($(idOfQuestion).attr('editStatus') == "hasResponses") {
@@ -377,6 +419,10 @@ function removeMcqOption(index, questionNumber) {
 function removeMsqOption(index, questionNumber) {
     idOfQuestion = '#form_editquestion-' + questionNumber;
     idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
+    if(questionNumber == -1){
+        idSuffix = "--1";
+    }
+
     $("#msqOptionRow-"+index+idSuffix).remove();
     
     if($(idOfQuestion).attr('editStatus') == "hasResponses") {
@@ -386,7 +432,10 @@ function removeMsqOption(index, questionNumber) {
 
 function toggleMcqGeneratedOptions(checkbox, questionNumber) {
     idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
-    
+    if(questionNumber == -1){
+        idSuffix = "--1";
+    }
+
     if (checkbox.checked) {
         $("#mcqChoiceTable"+idSuffix).find("input[type=text]").prop('disabled', true);
         $("#mcqChoiceTable"+idSuffix).hide();
@@ -403,14 +452,20 @@ function toggleMcqGeneratedOptions(checkbox, questionNumber) {
 
 function changeMcqGenerateFor(questionNumber) {
     idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
-    
+    if(questionNumber == -1){
+        idSuffix = "--1";
+    }
+
     $("#generatedOptions"+idSuffix).attr("value", 
             $("#mcqGenerateForSelect"+idSuffix).prop("value"));
 }
 
 function toggleMsqGeneratedOptions(checkbox, questionNumber) {
     idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
-    
+    if(questionNumber == -1){
+        idSuffix = "--1";
+    }
+
     if (checkbox.checked) {
         $("#msqChoiceTable"+idSuffix).find("input[type=text]").prop('disabled', true);
         $("#msqChoiceTable"+idSuffix).hide();
@@ -427,13 +482,19 @@ function toggleMsqGeneratedOptions(checkbox, questionNumber) {
 
 function changeMsqGenerateFor(questionNumber) {
     idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
-    
+    if(questionNumber == -1){
+        idSuffix = "--1";
+    }
+
     $("#generatedOptions"+idSuffix).attr("value", 
             $("#msqGenerateForSelect"+idSuffix).prop("value"));
 }
 
 function updateNumScalePossibleValues(questionNumber) {
     idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
+    if(questionNumber == -1){
+        idSuffix = "--1";
+    }
     
     var min = parseInt($("#minScaleBox"+idSuffix).val());
     var max = parseInt($("#maxScaleBox"+idSuffix).val());
