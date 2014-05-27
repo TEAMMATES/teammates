@@ -97,18 +97,18 @@
     <div class="panel panel-info">
         <div class="panel-body">
         <ul class="list-inline col-sm-offset-1" style="padding-left:45px">
-            <li class="col-sm-4"><input type="radio"
+            <li class="col-sm-4 text-bold"><input type="radio"
                 name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE%>" value="giver"
                 onclick="this.form.submit()"
-                <%=(data.sortType!=null) ? data.sortType.equals("giver") ? "checked=\"checked\"" : "" : ""%>><strong> Sort by giver</strong></li>
-            <li class="col-sm-4"><input type="radio"
+                <%=(data.sortType!=null) ? data.sortType.equals("giver") ? "checked=\"checked\"" : "" : ""%>> Sort by giver</li>
+            <li class="col-sm-4 text-bold"><input type="radio"
                 name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE%>" value="recipient"
                 onclick="this.form.submit()"
-                <%=(data.sortType!=null) ? data.sortType.equals("recipient") ? "checked=\"checked\"" : "" : "checked=\"checked\""%>><strong> Sort by recipient</strong></li>
-            <li class="col-sm-3"><input type="radio"
+                <%=(data.sortType!=null) ? data.sortType.equals("recipient") ? "checked=\"checked\"" : "" : "checked=\"checked\""%>> Sort by recipient</li>
+            <li class="col-sm-3 text-bold"><input type="radio"
                 name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE%>" value="table"
                 onclick="this.form.submit()"
-                <%=(data.sortType!=null) ? data.sortType.equals("table") ? "checked=\"checked\"" : "" : ""%>><strong> View as table</strong></li>
+                <%=(data.sortType!=null) ? data.sortType.equals("table") ? "checked=\"checked\"" : "" : ""%>> View as table</li>
         </ul>
         </div>
     </div>
