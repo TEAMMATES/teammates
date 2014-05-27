@@ -50,15 +50,15 @@
     <div class="container theme-showcase" id="frameBodyWrapper"
         role="main">
         <div id="topOfPage"></div>
-        <div id="headerOperation">
-            <h2>Instructor Account Management</h2>
+        <div id="headerOperation" class="page-header">
+            <h1>Instructor Account Management<small id="instructorCount"> Total
+                    Instructors: <%=data.instructorCoursesTable.size()%></small></h1>
             <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
         </div>
 
         <div class="panel panel-primary">
             <div class="panel-heading">
-                <strong id="instructorCount"> Total
-                    Instructors: <%=data.instructorCoursesTable.size()%></strong>
+                <strong>Instructor List</strong>
             </div>
             <div class="table-responsive">
                 <table class="table table-striped dataTable">
@@ -124,17 +124,20 @@
                                 <a id="<%=acc.googleId + "_details"%>"
                                 href="<%=data.getAdminViewAccountDetailsLink(acc.googleId)%>"
                                 class="btn  btn-link btn-xs">
+                                <span class="glyphicon glyphicon-info-sign"></span>
                                 View Details </a>&nbsp;&nbsp;&nbsp;&nbsp; 
                                 
                                 <a id="<%=acc.googleId + "_delete"%>"
                                 href="<%=data.getAdminDeleteInstructorStatusLink(acc.googleId)%>"
                                 class="btn  btn-link btn-xs" role="button">
+                                <span class="glyphicon glyphicon-remove"></span>
                                 Delete Instructor Status</a>
           
                                 <a id="<%=acc.googleId + "_deleteAccount"%>"
                                 href="<%=data.getAdminDeleteAccountLink(acc.googleId)%>"
                                 onclick="return toggleDeleteAccountConfirmation('<%=acc.googleId%>')"
                                 class="btn btn-link btn-xs ">
+                                <span class="glyphicon glyphicon-trash"></span>
                                 Delete Entire Account</a>
                             </td>
                             

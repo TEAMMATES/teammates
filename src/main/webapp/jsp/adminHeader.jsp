@@ -52,7 +52,9 @@
             <ul class="nav navbar-nav pull-right">
                 <li>                
                     <a class="nav logout"
-                        href="<%=Const.ViewURIs.LOGOUT%>">Logout <%
+                        href="<%=Const.ViewURIs.LOGOUT%>">
+                        <span class="glyphicon glyphicon-user"></span>
+                        Logout <%
                     	if (data.account.googleId.length() > Const.SystemParams.USER_ID_MAX_DISPLAY_LENGTH) {
                     %> (<span class="text-info" data-toggle="tooltip"
                             data-placement="bottom"
