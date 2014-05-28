@@ -42,7 +42,7 @@
     <div id="frameBody">
         <div id="frameBodyWrapper" class="container">
             <div id="topOfPage"></div>
-            <div id="headerOperation">
+            <div id="headerOperation" class="page-header">
             <h1>Add New Instructor</h1>
             </div>
             <br />
