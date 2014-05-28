@@ -491,89 +491,93 @@
 
                 <%
                 	if (data.queryMessage != null) {
-                		out.println("<tr><td colspan=\"3\" class=\"color_red bold\">"
-                				+ data.queryMessage + "</td></tr>");
+                %>
+                <div class="alert alert-danger">
+                    <span class="glyphicon glyphicon-warning-sign"></span>
+                    <%
+                    	out.println(" " + data.queryMessage);
+                    %>
+                </div>
+                <%
                 	}
                 %>
 
+
+
+                <input type="hidden" name="offset"
+                    value="<%=data.offset%>"> <input
+                    type="hidden" name="pageChange" value="false">
+
+
             </div>
 
-            <input type="hidden" name="offset" value="<%=data.offset%>">
-            <input type="hidden" name="pageChange" value="false">
+
+            <br> <br>
 
 
-        </div>
+            <%
+            	List<ActivityLogEntry> appLogs = data.logs;
+            	if (appLogs != null) {
+            %>
+            <div class="panael panel-primary">
+                <div class="panel-heading">
+                    <strong>Activity Log</strong>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-striped dataTable">
 
+                        <thead>
+                            <tr>
+                                <th width="10%">Date</th>
+                                <th>[Role][Google
+                                    ID][Name][Email][Action]</th>
+                            </tr>
 
-        <br> <br>
+                        </thead>
+                        <tbody>
+                            <%
+                            	if (appLogs.isEmpty()) {
+                            %>
+                            <tr>
+                                <td colspan='2'><i>No
+                                        application logs found</i></td>
+                            </tr>
+                            <%
+                            	} else {
+                            			for (ActivityLogEntry log : appLogs) {
+                            %>
+                            <tr>
+                                <td><%=log.getDateInfo()%></td>
+                                <td><%=log.getRoleInfo()%>&nbsp;&nbsp;<%=log.getPersonInfo()%>&nbsp;&nbsp;<%=log.getActionInfo()%>
+                                    <br><%=log.getMessageInfo()%></td>
+                            </tr>
+                            <%
+                            	}
+                            		}
+                            %>
 
+                        </tbody>
+                    </table>
+                </div>
 
-        <%
-        	List<ActivityLogEntry> appLogs = data.logs;
-        	if (appLogs != null) {
-        %>
-        <div class="panael panel-primary">
-            <div class="panel-heading">
-                <strong>Activity Log</strong>
             </div>
-            <div class="table-responsive">
-                <table class="table table-striped dataTable">
+            <%
+            	}
+            %>
 
-                    <thead>
-                        <tr>
-                            <th width="10%">Date</th>
-                            <th>[Role][Google
-                                ID][Name][Email][Action]</th>
-                        </tr>
+            <jsp:include
+                page="<%=Const.ViewURIs.STATUS_MESSAGE_WITHOUT_FOCUS%>" />
+            <br>
 
-                    </thead>
-                    <tbody>
-                        <%
-                        	if (appLogs.isEmpty()) {
-                        %>
-                        <tr>
-                            <td colspan='2'><i>No application
-                                    logs found</i></td>
-                        </tr>
-                        <%
-                        	} else {
-                        			for (ActivityLogEntry log : appLogs) {
-                        %>
-                        <tr>
-                            <td><%=log.getDateInfo()%></td>
-                            <td><%=log.getRoleInfo()%>&nbsp;&nbsp;<%=log.getPersonInfo()%>&nbsp;&nbsp;<%=log.getActionInfo()%>
-                                <br><%=log.getMessageInfo()%></td>
-                        </tr>
-                        <%
-                        	}
-                        		}
-                        %>
-
-                    </tbody>
-                </table>
+            <div>
+                <a href="#frameBodyWrapper" class="btn  btn-primary"><span
+                    class="glyphicon glyphicon-arrow-up"></span> Back To
+                    Top</a>
             </div>
-
+            <br> <br>
         </div>
-        <%
-        	}
-        %>
-
-        <jsp:include
-            page="<%=Const.ViewURIs.STATUS_MESSAGE_WITHOUT_FOCUS%>" />
-        <br>
-
-        <div>
-            <a href="#frameBodyWrapper" class="btn  btn-primary"><span
-                class="glyphicon glyphicon-arrow-up"></span> Back To Top</a>
-        </div>
-        <br> <br>
     </div>
 
-
-
-
-
     <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
-
 </body>
 </html>
