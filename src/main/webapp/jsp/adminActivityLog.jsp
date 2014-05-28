@@ -519,7 +519,7 @@
             	List<ActivityLogEntry> appLogs = data.logs;
             	if (appLogs != null) {
             %>
-            <div class="panael panel-primary">
+            <div class="panel panel-primary">
                 <div class="panel-heading">
                     <strong>Activity Log</strong>
                 </div>
