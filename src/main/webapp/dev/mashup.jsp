@@ -106,97 +106,97 @@
                     
                 <div class="pageinfo">Instructor Home Page</div>
                 <div id="instructorHomePage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Instructor Add Course Page</div>
                 <div id="instructorAddCoursePage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Instructor Edit Course Page</div>
                 <div id="instructorEditCoursePage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Instructor Enroll Students Page</div>
                 <div id="instructorEnrollPage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Instructor Course Details Page</div>
                 <div id="instructorCourseDetailsPage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
 
                 <div class="pageinfo">Instructor Student List Page</div>
                 <div id="instructorStudentListPage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Instructor Student Details Page</div>
                 <div id="instructorCourseStudentDetailsPage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Instructor Student Edit Page</div>
                 <div id="instructorCourseStudentEditPage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Instructor Eval Page</div>
                 <div id="instructorCourseEvalPage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Instructor Eval Edit Page</div>
                 <div id="instructorCourseEvalEditPage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Instructor Eval Preview Page</div>
                 <div id="instructorCourseEvalPreviewPage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Instructor Eval Results Page (instructorEvaluationSummaryTable)</div>
                 <div id="instructorCourseEvalResultsPage1"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Instructor Eval Results Page (instructorEvaluationDetailedReviewerTable)</div>
                 <div id="instructorCourseEvalResultsPage2"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Instructor Eval Results Page (instructorEvaluationDetailedRevieweeTable)</div>
                 <div id="instructorCourseEvalResultsPage3"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Instructor Eval Submission View Page</div>
                 <div id="instructorCourseEvalSubmissionViewPage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Instructor Eval Submission Edit Page</div>
                 <div id="instructorCourseEvalSubmissionEditPage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Instructor Feedback Page</div>
                 <div id="instructorFeedbackPage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Instructor Feedback Edit Page</div>
                 <div id="instructorFeedbackEditPage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Instructor Feedback Preview as Student Page</div>
                 <div id="instructorFeedbackPreviewAsStudentPage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 <div class="pageinfo">Instructor Feedback Submit Page</div>
                 <div id="instructorFeedbackSubmitPage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Instructor Feedback Preview as Instructor Page</div>
                 <div id="instructorFeedbackPreviewAsInstructorPage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 <div class="pageinfo">Instructor Feedback Question Submit Page</div>
                 <div id="instructorFeedbackQuestionSubmitPage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Instructor Feedback Results Page (By giver)</div>
                 <div id="instructorFeedbackResultsPageByGiver"></div>
-                <br><hr><br>        
+                <br><hr class="hr-bold"><br>        
                 
                 <div class="pageinfo">Instructor Feedback Results Page (By recipient)</div>
                 <div id="instructorFeedbackResultsPageByRecipient"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Instructor Feedback Results Page (By table)</div>
                 <div id="instructorFeedbackResultsPageByTable"></div>
@@ -204,35 +204,35 @@
                 <br></br>
                 <br></br>
                 <br></br>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
 
                 <div class="pageinfo">Student Home Page</div>
                 <div id="studentHomePage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Student Course Join Confirmation Page</div>
                 <div id="studentCourseJoinConfirmationPage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Student Course Details Page</div>
                 <div id="studentCourseDetailsPage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Student Eval Edit Page</div>
                 <div id="studentEvalEditPage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Student Eval Results Page</div>
                 <div id="studentEvalResultsPage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Student Feedback Submit Page</div>
                 <div id="studentFeedbackSubmitPage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Student Feedback Question Submit Page</div>
                 <div id="studentFeedbackQuestionSubmitPage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
 
                 <div class="pageinfo">Student Feedback Results Page</div>
                 <div id="studentFeedbackResultsPage"></div>
@@ -240,15 +240,15 @@
                 <br></br>
                 <br></br>
                 <br></br>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
 
                 <div class="pageinfo">Admin Home Page</div>
                 <div id="adminHomePage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Admin Search Page</div>
                 <div id="adminSearchPage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Admin Activity Log Page</div>
                 <div id="adminActivityLogPage"></div>
@@ -256,7 +256,7 @@
                 <br></br>
                 <br></br>
                 <br></br>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Home Page</div>
                 <div id="index">
@@ -292,15 +292,15 @@
                 </div>
                 <div class="pageinfo">Deadline Exceeded Error Page</div>
                 <div id="deadlineExceededErrorPage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Error Page</div>
                 <div id="errorPage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Entity Not Found Page</div>
                 <div id="entityNotFoundPage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 <br></br>
                 <br></br>
                 <br></br>
@@ -311,73 +311,179 @@
     
     <script type="text/javascript">
         $(document).ready(function(){
-            $('head').append('<link rel=stylesheet href="/stylesheets/adminHome.css" type="text/css">');
-            $('head').append('<link rel=stylesheet href="/stylesheets/adminActivityLog.css" type="text/css">');
-
-            $('#instructorHomePage').load("<%=Const.ActionURIs.INSTRUCTOR_HOME_PAGE%>?user=teammates.test #frameBodyWrapper");
-            $('#instructorAddCoursePage').load("<%=Const.ActionURIs.INSTRUCTOR_COURSES_PAGE%>?user=teammates.test #frameBodyWrapper");
-            $('#instructorEditCoursePage').load("<%=Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE%>?user=teammates.test&courseid=CS1101 #frameBodyWrapper",
-                function(response, status, xml) {
-                    $('#instructorEditCoursePage').find('#panelAddInstructor').hide();
+            $('#instructorHomePage').load("<%=Const.ActionURIs.INSTRUCTOR_HOME_PAGE%>?user=teammates.test #frameBodyWrapper",
+                function (response, status, xml) {
+                    $("[data-toggle='tooltip']").tooltip({html: true}); 
                 });
-            $('#instructorEnrollPage').load("<%=Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE%>?user=teammates.test&courseid=CS1101 #frameBodyWrapper");
-            $('#instructorCourseDetailsPage').load("<%=Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE%>?user=teammates.test&courseid=CS1101 #frameBodyWrapper");
-            $('#instructorStudentListPage').load("<%=Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE%>?user=teammates.test #frameBodyWrapper");
-            $('#instructorCourseStudentDetailsPage').load("<%=Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE%>?user=teammates.test&courseid=CS2104&studentemail=teammates.test%40gmail.com #frameBodyWrapper");
-            $('#instructorCourseStudentEditPage').load("<%=Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT%>?user=teammates.test&courseid=CS2104&studentemail=benny.c.tmms%40gmail.com #frameBodyWrapper");
-            $('#instructorCourseEvalPage').load("<%=Const.ActionURIs.INSTRUCTOR_EVALS_PAGE%>?user=teammates.test #frameBodyWrapper");
-            $('#instructorCourseEvalEditPage').load("<%=Const.ActionURIs.INSTRUCTOR_EVAL_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper");
-            $('#instructorCourseEvalPreviewPage').load("<%=Const.ActionURIs.INSTRUCTOR_EVAL_PREVIEW%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper");
-            $('#instructorCourseEvalResultsPage1').load("<%=Const.ActionURIs.INSTRUCTOR_EVAL_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper");
-            $('#instructorCourseEvalResultsPage2').load("<%=Const.ActionURIs.INSTRUCTOR_EVAL_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper", function(response, status, xml){
-                $('#instructorCourseEvalResultsPage2').find('#instructorEvaluationSummaryTable').hide();
-                $('#instructorCourseEvalResultsPage2').find('#instructorEvaluationDetailedReviewerTable').show();
+            $('#instructorAddCoursePage').load("<%=Const.ActionURIs.INSTRUCTOR_COURSES_PAGE%>?user=teammates.test #frameBodyWrapper",
+                function (response, status, xml) {
+                    $("[data-toggle='tooltip']").tooltip({html: true}); 
+                });
+            $('#instructorEditCoursePage').load("<%=Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE%>?user=teammates.test&courseid=CS1101 #frameBodyWrapper",
+                function (response, status, xml) {
+                    $('#instructorEditCoursePage').find('#panelAddInstructor').hide();
+                    $("[data-toggle='tooltip']").tooltip({html: true}); 
+                });
+            $('#instructorEnrollPage').load("<%=Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE%>?user=teammates.test&courseid=CS1101 #frameBodyWrapper",
+                function (response, status, xml) {
+                    $("[data-toggle='tooltip']").tooltip({html: true}); 
+                });
+            $('#instructorCourseDetailsPage').load("<%=Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE%>?user=teammates.test&courseid=CS1101 #frameBodyWrapper",
+                function (response, status, xml) {
+                    $("[data-toggle='tooltip']").tooltip({html: true}); 
+                });
+            $('#instructorStudentListPage').load("<%=Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE%>?user=teammates.test #frameBodyWrapper",
+                function (response, status, xml) {
+                    $("[data-toggle='tooltip']").tooltip({html: true}); 
+                });
+            $('#instructorCourseStudentDetailsPage').load("<%=Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE%>?user=teammates.test&courseid=CS2104&studentemail=teammates.test%40gmail.com #frameBodyWrapper",
+                function (response, status, xml) {
+                    $("[data-toggle='tooltip']").tooltip({html: true}); 
+                });
+            $('#instructorCourseStudentEditPage').load("<%=Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT%>?user=teammates.test&courseid=CS2104&studentemail=benny.c.tmms%40gmail.com #frameBodyWrapper",
+                function (response, status, xml) {
+                    $("[data-toggle='tooltip']").tooltip({html: true}); 
+                });
+            $('#instructorCourseEvalPage').load("<%=Const.ActionURIs.INSTRUCTOR_EVALS_PAGE%>?user=teammates.test #frameBodyWrapper",
+                function (response, status, xml) {
+                    $("[data-toggle='tooltip']").tooltip({html: true}); 
+                });
+            $('#instructorCourseEvalEditPage').load("<%=Const.ActionURIs.INSTRUCTOR_EVAL_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper",
+                function (response, status, xml) {
+                    $("[data-toggle='tooltip']").tooltip({html: true}); 
+                });
+            $('#instructorCourseEvalPreviewPage').load("<%=Const.ActionURIs.INSTRUCTOR_EVAL_PREVIEW%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper",
+                function (response, status, xml) {
+                    $("[data-toggle='tooltip']").tooltip({html: true}); 
+                });
+            $('#instructorCourseEvalResultsPage1').load("<%=Const.ActionURIs.INSTRUCTOR_EVAL_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper",
+                function (response, status, xml) {
+                    $("[data-toggle='tooltip']").tooltip({html: true}); 
+                });
+            $('#instructorCourseEvalResultsPage2').load("<%=Const.ActionURIs.INSTRUCTOR_EVAL_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper", 
+                function (response, status, xml){
+                    $('#instructorCourseEvalResultsPage2').find('#instructorEvaluationSummaryTable').hide();
+                    $('#instructorCourseEvalResultsPage2').find('#instructorEvaluationDetailedReviewerTable').show();
+                    $("[data-toggle='tooltip']").tooltip({html: true}); 
             });
-            $('#instructorCourseEvalResultsPage3').load("<%=Const.ActionURIs.INSTRUCTOR_EVAL_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper", function(response, status, xml){
-                $('#instructorCourseEvalResultsPage3').find('#instructorEvaluationSummaryTable').hide();
-                $('#instructorCourseEvalResultsPage3').find('#instructorEvaluationDetailedRevieweeTable').show();
+            $('#instructorCourseEvalResultsPage3').load("<%=Const.ActionURIs.INSTRUCTOR_EVAL_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper", 
+                function (response, status, xml){
+                    $('#instructorCourseEvalResultsPage3').find('#instructorEvaluationSummaryTable').hide();
+                    $('#instructorCourseEvalResultsPage3').find('#instructorEvaluationDetailedRevieweeTable').show();
+                    $("[data-toggle='tooltip']").tooltip({html: true}); 
             });
-            $('#instructorCourseEvalSubmissionViewPage').load("<%=Const.ActionURIs.INSTRUCTOR_EVAL_SUBMISSION_PAGE%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval&studentemail=teammates.test%40gmail.com #frameBodyWrapper");        
-            $('#instructorCourseEvalSubmissionEditPage').load("<%=Const.ActionURIs.INSTRUCTOR_EVAL_SUBMISSION_EDIT%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval&studentemail=charlie.d.tmms%40gmail.com #frameBodyWrapper");
-            $('#instructorFeedbackPage').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE%>?user=teammates.test #frameBodyWrapper");
-            $('#instructorFeedbackEditPage').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session #frameBodyWrapper");
-            $('#instructorFeedbackPreviewAsStudentPage').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_PREVIEW_ASSTUDENT%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&previewas=teammates.test@gmail.com #frameBodyWrapper");
-            $('#instructorFeedbackPreviewAsInstructorPage').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_PREVIEW_ASINSTRUCTOR%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&previewas=teammates.test@gmail.com #frameBodyWrapper");
-            $('#instructorFeedbackSubmitPage').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session #frameBodyWrapper");
+            $('#instructorCourseEvalSubmissionViewPage').load("<%=Const.ActionURIs.INSTRUCTOR_EVAL_SUBMISSION_PAGE%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval&studentemail=teammates.test%40gmail.com #frameBodyWrapper",
+                function (response, status, xml) {
+                    $("[data-toggle='tooltip']").tooltip({html: true}); 
+                });        
+            $('#instructorCourseEvalSubmissionEditPage').load("<%=Const.ActionURIs.INSTRUCTOR_EVAL_SUBMISSION_EDIT%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval&studentemail=charlie.d.tmms%40gmail.com #frameBodyWrapper",
+                function (response, status, xml) {
+                    $("[data-toggle='tooltip']").tooltip({html: true}); 
+                });
+            $('#instructorFeedbackPage').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE%>?user=teammates.test #frameBodyWrapper",
+                function (response, status, xml) {
+                    $("[data-toggle='tooltip']").tooltip({html: true}); 
+                });
+            $('#instructorFeedbackEditPage').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session #frameBodyWrapper",
+                function (response, status, xml) {
+                    $("[data-toggle='tooltip']").tooltip({html: true}); 
+                });
+            $('#instructorFeedbackPreviewAsStudentPage').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_PREVIEW_ASSTUDENT%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&previewas=teammates.test@gmail.com #frameBodyWrapper",
+                function (response, status, xml) {
+                    $("[data-toggle='tooltip']").tooltip({html: true}); 
+                });
+            $('#instructorFeedbackPreviewAsInstructorPage').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_PREVIEW_ASINSTRUCTOR%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&previewas=teammates.test@gmail.com #frameBodyWrapper",
+                function (response, status, xml) {
+                    $("[data-toggle='tooltip']").tooltip({html: true}); 
+                });
+            $('#instructorFeedbackSubmitPage').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session #frameBodyWrapper",
+                function (response, status, xml) {
+                    $("[data-toggle='tooltip']").tooltip({html: true}); 
+                });
             <%
                 String instrQuestionId = FeedbackQuestionsLogic.inst().getFeedbackQuestion("First feedback session", "CS2104", 3).getId();
             %>
-            $('#instructorFeedbackQuestionSubmitPage').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&questionid=<%=instrQuestionId%> #frameBodyWrapper");
-            $('#instructorFeedbackResultsPageByGiver').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&frsorttype=giver #frameBodyWrapper");
-            $('#instructorFeedbackResultsPageByRecipient').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&frsorttype=recipient #frameBodyWrapper");
-            $('#instructorFeedbackResultsPageByTable').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&frsorttype=table #frameBodyWrapper");
+            $('#instructorFeedbackQuestionSubmitPage').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&questionid=<%=instrQuestionId%> #frameBodyWrapper",
+                function (response, status, xml) {
+                    $("[data-toggle='tooltip']").tooltip({html: true}); 
+                });
+            $('#instructorFeedbackResultsPageByGiver').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&frsorttype=giver #frameBodyWrapper",
+                function (response, status, xml) {
+                    $("[data-toggle='tooltip']").tooltip({html: true}); 
+                });
+            $('#instructorFeedbackResultsPageByRecipient').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&frsorttype=recipient #frameBodyWrapper",
+                function (response, status, xml) {
+                    $("[data-toggle='tooltip']").tooltip({html: true}); 
+                });
+            $('#instructorFeedbackResultsPageByTable').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&frsorttype=table #frameBodyWrapper",
+                function (response, status, xml) {
+                    $("[data-toggle='tooltip']").tooltip({html: true}); 
+                });
             
-            $('#studentHomePage').load("<%=Const.ActionURIs.STUDENT_HOME_PAGE%>?user=teammates.test #frameBodyWrapper");
+            $('#studentHomePage').load("<%=Const.ActionURIs.STUDENT_HOME_PAGE%>?user=teammates.test #frameBodyWrapper",
+                function (response, status, xml) {
+                    $("[data-toggle='tooltip']").tooltip({html: true}); 
+                });
             <%
                 String regkey = StringHelper.encrypt(new Logic().getStudentForEmail("CS4215", "teammates.test@gmail.com").key);
             %>
-            $('#studentCourseJoinConfirmationPage').load("<%=Const.ActionURIs.STUDENT_COURSE_JOIN%>?regkey=<%=regkey%> #frameBodyWrapper");
-            $('#studentCourseDetailsPage').load("<%=Const.ActionURIs.STUDENT_COURSE_DETAILS_PAGE%>?user=teammates.test&courseid=CS2104 #frameBodyWrapper");
-            $('#studentEvalEditPage').load("<%=Const.ActionURIs.STUDENT_EVAL_SUBMISSION_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper");
-            $('#studentEvalResultsPage').load("<%=Const.ActionURIs.STUDENT_EVAL_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&evaluationname=Second+Eval #frameBodyWrapper");
-            $('#studentFeedbackSubmitPage').load("<%=Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session #frameBodyWrapper");
+            $('#studentCourseJoinConfirmationPage').load("<%=Const.ActionURIs.STUDENT_COURSE_JOIN%>?regkey=<%=regkey%> #frameBodyWrapper",
+                function (response, status, xml) {
+                    $("[data-toggle='tooltip']").tooltip({html: true}); 
+                });
+            $('#studentCourseDetailsPage').load("<%=Const.ActionURIs.STUDENT_COURSE_DETAILS_PAGE%>?user=teammates.test&courseid=CS2104 #frameBodyWrapper",
+                function (response, status, xml) {
+                    $("[data-toggle='tooltip']").tooltip({html: true}); 
+                });
+            $('#studentEvalEditPage').load("<%=Const.ActionURIs.STUDENT_EVAL_SUBMISSION_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper",
+                function (response, status, xml) {
+                    $("[data-toggle='tooltip']").tooltip({html: true}); 
+                });
+            $('#studentEvalResultsPage').load("<%=Const.ActionURIs.STUDENT_EVAL_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&evaluationname=Second+Eval #frameBodyWrapper",
+                function (response, status, xml) {
+                    $("[data-toggle='tooltip']").tooltip({html: true}); 
+                });
+            $('#studentFeedbackSubmitPage').load("<%=Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session #frameBodyWrapper",
+                function (response, status, xml) {
+                    $("[data-toggle='tooltip']").tooltip({html: true}); 
+                });
             <%
                 String studentQuestionId = FeedbackQuestionsLogic.inst().getFeedbackQuestion("First feedback session", "CS2104", 1).getId();
             %>
-            $('#studentFeedbackQuestionSubmitPage').load("<%=Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&questionid=<%=studentQuestionId%> #frameBodyWrapper");
-            $('#studentFeedbackResultsPage').load("<%=Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session #frameBodyWrapper");
+            $('#studentFeedbackQuestionSubmitPage').load("<%=Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&questionid=<%=studentQuestionId%> #frameBodyWrapper",
+                function (response, status, xml) {
+                    $("[data-toggle='tooltip']").tooltip({html: true}); 
+                });
+            $('#studentFeedbackResultsPage').load("<%=Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session #frameBodyWrapper",
+                function (response, status, xml) {
+                    $("[data-toggle='tooltip']").tooltip({html: true}); 
+                });
             
-            $('#adminHomePage').load("<%=Const.ActionURIs.ADMIN_HOME_PAGE%> #frameBodyWrapper");
-            $('#adminSearchPage').load("<%=Const.ActionURIs.ADMIN_SEARCH_PAGE%>?limit=20&query=teammates&search=Search #frameBodyWrapper");
-            $('#adminActivityLogPage').load("<%=Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE%> #frameBodyWrapper");
+            $('#adminHomePage').load("<%=Const.ActionURIs.ADMIN_HOME_PAGE%> #frameBodyWrapper",
+                function (response, status, xml) {
+                    $("[data-toggle='tooltip']").tooltip({html: true}); 
+                });
+            $('#adminSearchPage').load("<%=Const.ActionURIs.ADMIN_SEARCH_PAGE%>?limit=20&query=teammates&search=Search #frameBodyWrapper",
+                function (response, status, xml) {
+                    $("[data-toggle='tooltip']").tooltip({html: true}); 
+                });
+            $('#adminActivityLogPage').load("<%=Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE%> #frameBodyWrapper",
+                function (response, status, xml) {
+                    $("[data-toggle='tooltip']").tooltip({html: true}); 
+                });
             
-            $('#deadlineExceededErrorPage').load("<%=Const.ViewURIs.DEADLINE_EXCEEDED_ERROR_PAGE%> #frameBodyWrapper");
-            $('#errorPage').load("<%=Const.ViewURIs.ERROR_PAGE%> #frameBodyWrapper");
-            $('#entityNotFoundPage').load("<%=Const.ViewURIs.ENTITY_NOT_FOUND_PAGE%> #frameBodyWrapper");
-        });
-
-        $(function() {
-            $("[data-toggle='tooltip']").tooltip({html: true}); 
+            $('#deadlineExceededErrorPage').load("<%=Const.ViewURIs.DEADLINE_EXCEEDED_ERROR_PAGE%> #frameBodyWrapper",
+                function (response, status, xml) {
+                    $("[data-toggle='tooltip']").tooltip({html: true}); 
+                });
+            $('#errorPage').load("<%=Const.ViewURIs.ERROR_PAGE%> #frameBodyWrapper",
+                function (response, status, xml) {
+                    $("[data-toggle='tooltip']").tooltip({html: true}); 
+                });
+            $('#entityNotFoundPage').load("<%=Const.ViewURIs.ENTITY_NOT_FOUND_PAGE%> #frameBodyWrapper",
+                function (response, status, xml) {
+                    $("[data-toggle='tooltip']").tooltip({html: true}); 
+                });
         });
         
         function calcHeight(iframe) {

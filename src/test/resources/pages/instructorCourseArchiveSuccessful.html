@@ -214,21 +214,15 @@
             </h2>
             <table class="table table-bordered table-striped" >
                <thead>
-                  <tr class="fill-default" >
-                     <th class="button-sort-ascending"  id="button_sortid"  onclick="toggleSort(this,1);" >
-                        Course ID
-                        <span class="sort-icon unsorted" >
-                        </span>
-                     </th>
-                     <th class="button-sort-ascending"  id="button_sortid"  onclick="toggleSort(this,2);" >
-                        Course Name
-                        <span class="sort-icon unsorted" >
-                        </span>
-                     </th>
-                     <th class="centeralign no-print" >
-                        Action(s)
-                     </th>
-                  </tr>
+                  <tr class="fill-default">
+                    <th onclick="toggleSort(this,1);" id="button_sortid" class="button-sort-none">
+                        Course ID<span class="sort-icon unsorted"></span>
+                    </th>
+                    <th onclick="toggleSort(this,2);" id="button_sortid" class="button-sort-none">
+                        Course Name<span class="sort-icon unsorted"></span>
+                    </th>
+                    <th class="centeralign no-print">Action(s)</th>
+                </tr>
                </thead>
                <tbody>
                   <tr>

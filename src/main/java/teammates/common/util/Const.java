@@ -105,7 +105,7 @@ public class Const {
         public static final String EVALUATION_SUBMISSION_VIEW_REVIEWEE = "View feedback from the team for the student<br />This opens in a new window";
         public static final String EVALUATION_SUBMISSION_INSTRUCTOR_EDIT = "Edit feedback from the student for his team<br />This opens in a new window";
     
-        public static final String EVALUATION_SUBMISSION_NOT_AVAILABLE = "Not Available: There is no data for this<br />or the data is not enough";
+        public static final String EVALUATION_SUBMISSION_NOT_AVAILABLE = "Not Available: There is no data for this or the data is not enough";
         public static final String EVALUATION_SUBMISSION_NOT_SURE = "Not sure about the contribution";
     
         public static final String STUDENT_COURSE_PROFILE = "Your profile in this course";
