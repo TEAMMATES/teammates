@@ -559,30 +559,36 @@
             onsubmit="tallyCheckboxes(<%=question.questionNumber%>)"
             <%=data.questionHasResponses.get(question.getId()) ? "editStatus=\"hasResponses\"" : "" %>
             >
-            <div class="panel panel-primary inputTable questionTable" id="questionTable<%=question.questionNumber%>">
+            <div class="panel panel-primary" id="questionTable<%=question.questionNumber%>">
             <div class="panel-heading">
-                <strong>Question</strong>
-                <select class="questionNumber nonDestructive text-primary" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBER%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBER%>-<%=question.questionNumber%>">
-                <%
-                    for(int opt = 1; opt < data.questions.size()+1; opt++){
-                        out.println("<option value=" + opt +">" + opt + "</option>");
-                    }
-                %>
-                </select>
-                &nbsp;
-                <%=questionDetails.getQuestionTypeDisplayName()%>
-                <span class="pull-right">
-                    <a class="btn btn-primary btn-xs" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_GETLINK%>-<%=question.questionNumber%>"
-                    data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_QUESTION_GETLINK%>"
-                    onclick="getQuestionLink(<%=question.questionNumber%>)">Get Link</a>
-                    <a class="btn btn-primary btn-xs" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_EDITTEXT%>-<%=question.questionNumber%>"
-                     data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_QUESTION_EDIT%>"
-                    onclick="enableEdit(<%=question.questionNumber%>,<%=data.questions.size()%>)">Edit</a>
-                    <a class="btn btn-primary btn-xs" style="display:none"
-                     id="<%=Const.ParamsNames.FEEDBACK_QUESTION_SAVECHANGESTEXT%>-<%=question.questionNumber%>">Save Changes</a>
-                    <a class="btn btn-primary btn-xs" onclick="deleteQuestion(<%=question.questionNumber%>)"
-                     data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_QUESTION_DELETE%>">Delete</a>
-                </span>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <span>
+                            <strong>Question</strong>
+                            <select class="questionNumber nonDestructive text-primary" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBER%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBER%>-<%=question.questionNumber%>">
+                            <%
+                                for(int opt = 1; opt < data.questions.size()+1; opt++){
+                                    out.println("<option value=" + opt +">" + opt + "</option>");
+                                }
+                            %>
+                            </select>
+                            &nbsp;
+                            <%=questionDetails.getQuestionTypeDisplayName()%>
+                        </span>
+                        <span class="pull-right">
+                            <a class="btn btn-primary btn-xs" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_GETLINK%>-<%=question.questionNumber%>"
+                            data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_QUESTION_GETLINK%>"
+                            onclick="getQuestionLink(<%=question.questionNumber%>)">Get Link</a>
+                            <a class="btn btn-primary btn-xs" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_EDITTEXT%>-<%=question.questionNumber%>"
+                             data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_QUESTION_EDIT%>"
+                            onclick="enableEdit(<%=question.questionNumber%>,<%=data.questions.size()%>)">Edit</a>
+                            <a class="btn btn-primary btn-xs" style="display:none"
+                             id="<%=Const.ParamsNames.FEEDBACK_QUESTION_SAVECHANGESTEXT%>-<%=question.questionNumber%>">Save Changes</a>
+                            <a class="btn btn-primary btn-xs" onclick="deleteQuestion(<%=question.questionNumber%>)"
+                             data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_QUESTION_DELETE%>">Delete</a>
+                        </span>
+                    </div>
+                </div>
             </div>
             <div class="panel-body">
                 <div>
@@ -809,7 +815,7 @@
                 </div>
             </div>
 
-            <div class="panel panel-primary inputTable questionTable" id="questionTableNew" style="display:none;">
+            <div class="panel panel-primary" id="questionTableNew" style="display:none;">
                 <div class="panel-heading">
                     <strong>Question</strong>
                     <select class="questionNumber nonDestructive text-primary" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBER%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBER%>">

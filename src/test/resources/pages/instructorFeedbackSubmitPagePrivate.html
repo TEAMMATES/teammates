@@ -31,195 +31,191 @@
          <!---->
       </head>
       <body>
-         <div id="frameTop" >
-            <div class="navbar navbar-inverse navbar-fixed-top"  role="navigation" >
-               <div class="container" >
-                  <div class="navbar-header" >
-                     <button class="navbar-toggle"  data-target="#contentLinks"  data-toggle="collapse"  type="button" >
-                        <span class="sr-only" >
-                           Toggle navigation
-                        </span>
-                        <span class="icon-bar" >
-                        </span>
-                        <span class="icon-bar" >
-                        </span>
-                        <span class="icon-bar" >
-                        </span>
-                     </button>
-                     <a class="navbar-brand"  href="/index.html" >
-                        TEAMMATES
-                     </a>
-                  </div>
-                  <div class="collapse navbar-collapse"  id="contentLinks" >
-                     <ul class="nav navbar-nav" >
-                        <li class="" >
-                           <a class="nav home"  data-link="instructorHome"  href="/page/instructorHomePage?user=IFSubmitUiT.instr" >
-                              Home
-                           </a>
-                        </li>
-                        <li class="" >
-                           <a class="nav courses"  data-link="instructorCourse"  href="/page/instructorCoursesPage?user=IFSubmitUiT.instr" >
-                              Courses
-                           </a>
-                        </li>
-                        <li class="" >
-                           <a class="nav evaluations"  data-link="instructorEval"  href="/page/instructorEvalsPage?user=IFSubmitUiT.instr" >
-                              Sessions
-                           </a>
-                        </li>
-                        <li class="" >
-                           <a class="nav students"  data-link="instructorStudent"  href="/page/instructorStudentListPage?user=IFSubmitUiT.instr" >
-                              Students
-                           </a>
-                        </li>
-                        <li>
-                           <a class="nav help"  href="/instructorHelp.html"  target="_blank" >
-                              Help
-                           </a>
-                        </li>
-                     </ul>
-                     <ul class="nav navbar-nav pull-right" >
-                        <li>
-                           <a class="nav logout"  href="/logout.jsp" >
-                              Logout
+         <div class="navbar navbar-inverse navbar-fixed-top"  role="navigation" >
+            <div class="container" >
+               <div class="navbar-header" >
+                  <button class="navbar-toggle"  data-target="#contentLinks"  data-toggle="collapse"  type="button" >
+                     <span class="sr-only" >
+                        Toggle navigation
+                     </span>
+                     <span class="icon-bar" >
+                     </span>
+                     <span class="icon-bar" >
+                     </span>
+                     <span class="icon-bar" >
+                     </span>
+                  </button>
+                  <a class="navbar-brand"  href="/index.html" >
+                     TEAMMATES
+                  </a>
+               </div>
+               <div class="collapse navbar-collapse"  id="contentLinks" >
+                  <ul class="nav navbar-nav" >
+                     <li class="" >
+                        <a class="nav home"  data-link="instructorHome"  href="/page/instructorHomePage?user=IFSubmitUiT.instr" >
+                           Home
+                        </a>
+                     </li>
+                     <li class="" >
+                        <a class="nav courses"  data-link="instructorCourse"  href="/page/instructorCoursesPage?user=IFSubmitUiT.instr" >
+                           Courses
+                        </a>
+                     </li>
+                     <li class="active" >
+                        <a class="nav evaluations"  data-link="instructorEval"  href="/page/instructorEvalsPage?user=IFSubmitUiT.instr" >
+                           Sessions
+                        </a>
+                     </li>
+                     <li class="" >
+                        <a class="nav students"  data-link="instructorStudent"  href="/page/instructorStudentListPage?user=IFSubmitUiT.instr" >
+                           Students
+                        </a>
+                     </li>
+                     <li>
+                        <a class="nav help"  href="/instructorHelp.html"  target="_blank" >
+                           Help
+                        </a>
+                     </li>
+                  </ul>
+                  <ul class="nav navbar-nav pull-right" >
+                     <li>
+                        <a class="nav logout"  href="/logout.jsp" >
+                           Logout
                         
                         (
-                              <span class="text-info"  data-original-title="IFSubmitUiT.instr"  data-placement="bottom"  data-toggle="tooltip"  title="" >
-                                 IFSubmitUiT.instr
-                              </span>
-                              )
-                           </a>
-                        </li>
-                     </ul>
-                  </div>
+                           <span class="text-info"  data-original-title="IFSubmitUiT.instr"  data-placement="bottom"  data-toggle="tooltip"  title="" >
+                              IFSubmitUiT.instr
+                           </span>
+                           )
+                        </a>
+                     </li>
+                  </ul>
                </div>
             </div>
          </div>
-         <div class="container"  id="frameBody" >
-            <div id="frameBodyWrapper" >
-               <div id="topOfPage" >
-               </div>
-               <h1>
-                  Submit Feedback
-               </h1>
-               <br/>
-                              <form action="/page/instructorFeedbackSubmissionEditSave"  method="post"  name="form_submit_response" >
-                  <input name="fsname"  type="hidden"  value="Private Session" />
-                                    <input name="courseid"  type="hidden"  value="IFSubmitUiT.CS2104" />
-                                    <input name="user"  type="hidden"  value="IFSubmitUiT.instr" />
-                                    <div class="well well-plain"  id="course1" >
-                     <div class="panel-body" >
-                        <div class="form-horizontal" >
-                           <div class="panel-heading" >
-                              <div class="form-group" >
-                                 <label class="col-sm-2 control-label" >
-                                    Course:
-                                 </label>
-                                 <div class="col-sm-10" >
-                                    <p class="form-control-static" >
-                                       IFSubmitUiT.CS2104
-                                    </p>
-                                 </div>
-                              </div>
-                              <div class="form-group" >
-                                 <label class="col-sm-2 control-label" >
-                                    Session:
-                                 </label>
-                                 <div class="col-sm-10" >
-                                    <p class="form-control-static" >
-                                       Private Session
-                                    </p>
-                                 </div>
-                              </div>
-                              <div class="form-group" >
-                                 <label class="col-sm-2 control-label" >
-                                    Opening time:
-                                 </label>
-                                 <div class="col-sm-10" >
-                                    <p class="form-control-static" >
-                                       01 Apr 2012, 23:59
-                                    </p>
-                                 </div>
-                              </div>
-                              <div class="form-group" >
-                                 <label class="col-sm-2 control-label" >
-                                    Closing time:
-                                 </label>
-                                 <div class="col-sm-10" >
-                                    <p class="form-control-static" >
-                                    </p>
-                                 </div>
-                              </div>
-                              <div class="form-group" >
-                                 <label class="col-sm-2 control-label" >
-                                    Instructions:
-                                 </label>
-                                 <div class="col-sm-10" >
-                                    <p class="form-control-static" >
-                                       Please please fill in the following questions.
-                                    </p>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-                  <div id="statusMessage"  style="display: none;" >
-                  </div>
-                  <br/>
-                                    <input name="questiontype-1"  type="hidden"  value="TEXT" />
-                                    <input name="questionid-1"  type="hidden"  value="{*}" />
-                                    <input name="questionresponsetotal-1"  type="hidden"  value="1" />
-                                    <div class="form-horizontal" >
-                     <div class="panel panel-primary" >
-                        <div class="panel-heading" >
-                           Question 1:
-                           <br/>
-                                                      Give feedback to your instructors
-                        </div>
-                        <div class="panel-body" >
-                           <p class="text-muted" >
-                              Only the following persons can see your responses:
-                           </p>
-                           <ul class="text-muted" >
-                              <li class="unordered" >
-                                 You can see your own feedback in the results page later on.
-                              </li>
-                           </ul>
-                           <br/>
-                                                      <div class="form-group" >
-                              <div class="col-sm-2 form-inline"  style="display:none" >
-                                 <label for="input" >
-                                    To:
-                                 </label>
-                                 <select class="participantSelect middlealign newResponse form-control"  name="responserecipient-1-0"  style="max-width:125px" >
-                                    <option selected="selected"  value="" >
-                                    </option>
-                                    <option value="IFSubmitUiT.instr@gmail.com" >
-                                       Myself
-                                    </option>
-                                 </select>
-                                 <span>
-                                    Myself
-                                 </span>
-                              </div>
-                              <div class="col-sm-12" >
-                                 <textarea class="form-control"  cols="100%"  name="responsetext-1-0"  rows="4" >
-                                 </textarea>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-                  <br/>
-                                    <br/>
-                                    <div class="bold centeralign" >
-                     <input class="btn btn-primary center-block"  data-original-title="You can save your responses at any time and come back later to continue."  data-placement="top"  data-toggle="tooltip"  id="response_submit_button"  title=""  type="submit"  value="Save Feedback" />
-                                       </div>
-                  <br/>
-                                    <br/>
-                                 </form>
+         <div class="container"  id="frameBodyWrapper" >
+            <div id="topOfPage" >
             </div>
+            <h1>
+               Submit Feedback
+            </h1>
+            <br/>
+                        <form action="/page/instructorFeedbackSubmissionEditSave"  method="post"  name="form_submit_response" >
+               <input name="fsname"  type="hidden"  value="Private Session" />
+                              <input name="courseid"  type="hidden"  value="IFSubmitUiT.CS2104" />
+                              <input name="user"  type="hidden"  value="IFSubmitUiT.instr" />
+                              <div class="well well-plain"  id="course1" >
+                  <div class="panel-body" >
+                     <div class="form-horizontal" >
+                        <div class="panel-heading" >
+                           <div class="form-group" >
+                              <label class="col-sm-2 control-label" >
+                                 Course:
+                              </label>
+                              <div class="col-sm-10" >
+                                 <p class="form-control-static" >
+                                    IFSubmitUiT.CS2104
+                                 </p>
+                              </div>
+                           </div>
+                           <div class="form-group" >
+                              <label class="col-sm-2 control-label" >
+                                 Session:
+                              </label>
+                              <div class="col-sm-10" >
+                                 <p class="form-control-static" >
+                                    Private Session
+                                 </p>
+                              </div>
+                           </div>
+                           <div class="form-group" >
+                              <label class="col-sm-2 control-label" >
+                                 Opening time:
+                              </label>
+                              <div class="col-sm-10" >
+                                 <p class="form-control-static" >
+                                    01 Apr 2012, 23:59
+                                 </p>
+                              </div>
+                           </div>
+                           <div class="form-group" >
+                              <label class="col-sm-2 control-label" >
+                                 Closing time:
+                              </label>
+                              <div class="col-sm-10" >
+                                 <p class="form-control-static" >
+                                 </p>
+                              </div>
+                           </div>
+                           <div class="form-group" >
+                              <label class="col-sm-2 control-label" >
+                                 Instructions:
+                              </label>
+                              <div class="col-sm-10" >
+                                 <p class="form-control-static" >
+                                    Please please fill in the following questions.
+                                 </p>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div id="statusMessage"  style="display: none;" >
+               </div>
+               <br/>
+                              <input name="questiontype-1"  type="hidden"  value="TEXT" />
+                              <input name="questionid-1"  type="hidden"  value="{*}" />
+                              <input name="questionresponsetotal-1"  type="hidden"  value="1" />
+                              <div class="form-horizontal" >
+                  <div class="panel panel-primary" >
+                     <div class="panel-heading" >
+                        Question 1:
+                        <br/>
+                                                Give feedback to your instructors
+                     </div>
+                     <div class="panel-body" >
+                        <p class="text-muted" >
+                           Only the following persons can see your responses:
+                        </p>
+                        <ul class="text-muted" >
+                           <li class="unordered" >
+                              You can see your own feedback in the results page later on.
+                           </li>
+                        </ul>
+                        <br/>
+                                                <div class="form-group" >
+                           <div class="col-sm-2 form-inline"  style="display:none" >
+                              <label for="input" >
+                                 To:
+                              </label>
+                              <select class="participantSelect middlealign newResponse form-control"  name="responserecipient-1-0"  style="max-width:125px" >
+                                 <option selected="selected"  value="" >
+                                 </option>
+                                 <option value="IFSubmitUiT.instr@gmail.com" >
+                                    Myself
+                                 </option>
+                              </select>
+                              <span>
+                                 Myself
+                              </span>
+                           </div>
+                           <div class="col-sm-12" >
+                              <textarea class="form-control"  cols="100%"  name="responsetext-1-0"  rows="4" >
+                              </textarea>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <br/>
+                              <br/>
+                              <div class="bold centeralign" >
+                  <input class="btn btn-primary center-block"  data-original-title="You can save your responses at any time and come back later to continue."  data-placement="top"  data-toggle="tooltip"  id="response_submit_button"  title=""  type="submit"  value="Save Feedback" />
+                                 </div>
+               <br/>
+                              <br/>
+                           </form>
          </div>
          <div id="frameBottom" >
             <div class="container-fluid"  id="footerComponent" >

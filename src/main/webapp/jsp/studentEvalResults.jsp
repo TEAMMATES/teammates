@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
-<%@page import="teammates.ui.controller.StudentEvalResultsPageData"%>
+<%@ page import="teammates.ui.controller.StudentEvalResultsPageData"%>
 <%@ page import="teammates.common.util.Const" %>
 <%@ page import="teammates.common.datatransfer.SubmissionAttributes" %>
 <%@ page import="teammates.ui.controller.PageData"%>
@@ -72,7 +72,16 @@
             </form>
         </div>
 
-        <h3><span class="label label-primary">Your results</span></h3>
+        <h3 style="display:inline;">
+            <span class="label label-primary">Your results</span> &nbsp; &nbsp; &nbsp;
+        </h3>
+
+        <h4 style="display:inline; float:right;">
+            <span class="label label-danger">E</span> Equal Share
+        </h4>
+
+        <br>
+        <br>
 
         <div class="panel panel-info">
             <div class="panel-heading">Comparison of work distribution </div>

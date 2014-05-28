@@ -76,20 +76,24 @@
                         <span class="resultHeader">
                             <%=byReviewee ? "Reviewee" : "Reviewer"%>:
                         </span>
-                        <%=data.student.name%>
+                        <strong>
+                            <%=data.student.name%>
+                        </strong>
                     </div>
                     <div class="col-md-4">
                         <span class="resultHeader"
-                            onmouseover="ddrivetip('<%=Const.Tooltips.CLAIMED%>')"
-                            onmouseout="hideddrivetip()">
+                            title="<%=Const.Tooltips.CLAIMED%>"
+                            data-toggle="tooltip"
+                            data-placement="top">
                             Claimed Contribution:
                         </span>
                         <%=InstructorEvalSubmissionPageData.getPointsInEqualShareFormatAsHtml(data.studentResult.summary.claimedToInstructor,true)%>
                     </div>
                     <div class="col-md-4">
                         <span class="resultHeader"
-                            onmouseover="ddrivetip('<%=Const.Tooltips.PERCEIVED%>')"
-                            onmouseout="hideddrivetip()">
+                            title="<%=Const.Tooltips.PERCEIVED%>"
+                            data-toggle="tooltip"
+                            data-placement="top">
                             Perceived Contribution: 
                         </span>
                         <%=InstructorEvalSubmissionPageData.getPointsInEqualShareFormatAsHtml(data.studentResult.summary.perceivedToInstructor,true)%>
