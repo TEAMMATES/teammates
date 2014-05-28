@@ -1,172 +1,259 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"><head>
-    <link href="/favicon.png" rel="shortcut icon" />
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
-    <title>TEAMMATES - Instructor</title>
-    <link media="screen" type="text/css" href="/stylesheets/common.css" rel="stylesheet" />
-    <link media="screen" type="text/css" href="/stylesheets/instructorHome.css" rel="stylesheet" />
-    <link media="print" type="text/css" href="/stylesheets/common-print.css" rel="stylesheet" />
-    <link media="print" type="text/css" href="/stylesheets/instructorHome-print.css" rel="stylesheet" />
-    
-    <script type="text/javascript" async="" src="https://ssl.google-analytics.com/ga.js"></script><script src="/js/googleAnalytics.js" type="text/javascript"></script>
-    <script src="/js/jquery-minified.js" type="text/javascript"></script>
-    <script src="/js/tooltip.js" type="text/javascript"></script>
-    <script src="/js/date.js" type="text/javascript"></script>
-    <script src="/js/CalendarPopup.js" type="text/javascript"></script>
-    <script src="/js/AnchorPosition.js" type="text/javascript"></script>
-    <script src="/js/common.js" type="text/javascript"></script>
-    
-    <script src="/js/instructor.js" type="text/javascript"></script>
-    <script src="/js/instructorHome.js" type="text/javascript"></script><script src="/js/ajaxResponseRate.js"  type="text/javascript" ></script>
-    <noscript>{*}</noscript>
-
-
-
-</head>
-
-<body>
-    <div id="dhtmltooltip"></div>
-    <div id="frameTop">
-        
-
-
-        <div id="frameTopWrapper">
-            <div id="logo">
-                <a href="/index.html">
-                <img width="150px" height="47px" src="/images/teammateslogo.jpg" alt="TEAMMATES" />
-                </a>
-            </div>            
-            <div id="contentLinks">
-                <ul id="navbar">
-                    <li class="current"><a href="/page/instructorHomePage?user=newIns.withSample" data-link="instructorHome" class="nav home">Home</a></li>
-                    <li><a href="/page/instructorCoursesPage?user=newIns.withSample" data-link="instructorCourse" class="nav courses">Courses</a></li>
-                    <li><a href="/page/instructorEvalsPage?user=newIns.withSample" data-link="instructorEval" class="nav evaluations">Sessions</a></li>
-                    <li><a class="nav students"  data-link="instructorStudent"  href="/page/instructorStudentListPage?user=newIns.withSample" >Students</a></li>
-                    <li><a target="_blank" href="/instructorHelp.html" class="nav help">Help</a></li>
-                    <li><a href="/logout.jsp" class="nav logout">Logout</a>
-                    <b>
-                            (newIns.withSample)</b>
-                    </li>
-                </ul>
+   <html>
+      <head>
+         <link href="/favicon.png"  rel="shortcut icon" />
+                  <meta content="text/html; charset=UTF-8"  http-equiv="Content-Type" />
+                  <meta content="width=device-width, initial-scale=1.0"  name="viewport" />
+                  <title>
+            TEAMMATES - Instructor
+         </title>
+         <link href="/bootstrap/css/bootstrap.min.css"  rel="stylesheet"  type="text/css" />
+                  <link href="/bootstrap/css/bootstrap-theme.min.css"  rel="stylesheet"  type="text/css" />
+                  <link href="/stylesheets/teammatesCommon.css"  rel="stylesheet"  type="text/css" />
+                  <script async=""  src="https://ssl.google-analytics.com/ga.js"  type="text/javascript" >
+         </script>
+         <script src="/js/googleAnalytics.js"  type="text/javascript" >
+         </script>
+         <script src="/js/jquery-minified.js"  type="text/javascript" >
+         </script>
+         <script src="/js/date.js"  type="text/javascript" >
+         </script>
+         <script src="/js/CalendarPopup.js"  type="text/javascript" >
+         </script>
+         <script src="/js/AnchorPosition.js"  type="text/javascript" >
+         </script>
+         <script src="/js/common.js"  type="text/javascript" >
+         </script>
+         <script src="/bootstrap/js/bootstrap.min.js"  type="text/javascript" >
+         </script>
+         <script src="/js/instructor.js"  type="text/javascript" >
+         </script>
+         <script src="/js/instructorHome.js"  type="text/javascript" >
+         </script>
+         <script src="/js/ajaxResponseRate.js"  type="text/javascript" >
+         </script>
+         <noscript>{*}</noscript>
+         <!-- 
+            [if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+            <![endif]
+        -->
+      </head>
+      <body>
+         <div class="navbar navbar-inverse navbar-fixed-top"  role="navigation" >
+            <div class="container" >
+               <div class="navbar-header" >
+                  <button class="navbar-toggle"  data-target="#contentLinks"  data-toggle="collapse"  type="button" >
+                     <span class="sr-only" >
+                        Toggle navigation
+                     </span>
+                     <span class="icon-bar" >
+                     </span>
+                     <span class="icon-bar" >
+                     </span>
+                     <span class="icon-bar" >
+                     </span>
+                  </button>
+                  <a class="navbar-brand"  href="/index.html" >
+                     TEAMMATES
+                  </a>
+               </div>
+               <div class="collapse navbar-collapse"  id="contentLinks" >
+                  <ul class="nav navbar-nav" >
+                     <li class="active" >
+                        <a class="nav home"  data-link="instructorHome"  href="/page/instructorHomePage?user=newIns.withSample" >
+                           Home
+                        </a>
+                     </li>
+                     <li class="" >
+                        <a class="nav courses"  data-link="instructorCourse"  href="/page/instructorCoursesPage?user=newIns.withSample" >
+                           Courses
+                        </a>
+                     </li>
+                     <li class="" >
+                        <a class="nav evaluations"  data-link="instructorEval"  href="/page/instructorEvalsPage?user=newIns.withSample" >
+                           Sessions
+                        </a>
+                     </li>
+                     <li class="" >
+                        <a class="nav students"  data-link="instructorStudent"  href="/page/instructorStudentListPage?user=newIns.withSample" >
+                           Students
+                        </a>
+                     </li>
+                     <li>
+                        <a class="nav help"  href="/instructorHelp.html"  target="_blank" >
+                           Help
+                        </a>
+                     </li>
+                  </ul>
+                  <ul class="nav navbar-nav pull-right" >
+                     <li>
+                        <a class="nav logout"  href="/logout.jsp" >
+                           Logout
+                        
+                        (
+                           <span class="text-info"  data-original-title="newIns.withSample"  data-placement="bottom"  data-toggle="tooltip"  title="" >
+                              newIns.withSample
+                           </span>
+                           )
+                        </a>
+                     </li>
+                  </ul>
+               </div>
             </div>
-            <div style="clear: both;"></div>
-        </div>
-
-    </div>
-
-    <div id="frameBody">
-        <div id="frameBodyWrapper">
-            <div id="topOfPage"></div>
-            <div id="headerOperation">
-                <h1>Instructor Home</h1>
+         </div>
+         <div class="container theme-showcase"  id="frameBodyWrapper" >
+            <div id="topOfPage" >
             </div>
-            
-            
-
-
-
-
-    <div id="statusMessage"  style="display: block;" >
-        New to TEAMMATES? You may wish to have a look at our <a href="/instructorHelp.html#gs" target="_blank" >Getting Started Guide</a>
-        .<br/>
-        A <a href="https://youtube.googleapis.com/v/wCxBOUEiD6Q&hd=1&autoplay=1&rel=0" target="_blank" >video tour</a>
-        is also available in our <a href="/index.html"  target="_blank" >home page</a>.
-    </div>
-
-    <script type="text/javascript" >
-        document.getElementById( 'statusMessage' ).scrollIntoView();
-    </script>
-    
-    <form action="/page/instructorStudentListPage" method="post" name="search_form">
-        <table class="inputTable" id="searchTable">
-            <tbody>
-                <tr>
-                    <td><input id="searchbox" name="searchkey"
-                        onmouseout="hideddrivetip()"
-                        onmouseover="ddrivetip('Search for student\'s name')"
-                        tabindex="1" type="text" /></td>
-                    <td><input class="button" id="button_search" tabindex="2"
-                        type="submit" value="Search" /></td>
-                </tr>
-            </tbody>
-        </table>
-        <input name="user" type="hidden" value="newIns.withSample" />
-    </form>
-    <br /> <br />
-            
-            <div class="backgroundBlock blockLink"  style="background: #EAEFF5;" >
-                <table class="inputTable"  id="sortingTable" >
-                    <tbody>
-                        <tr>
-                           <td>
-                              <input name="sortby"  type="radio"  value="id"  id="sortbyid"/>Sort by course ID
-                           </td>
-                           <td>
-                              <input name="sortby"  type="radio"  value="name"  id="sortbyname"/>Sort by course name
-                           </td>
-                           <td>
-                              <input checked="checked"  name="sortby"  type="radio"  value="createdAt"  id="sortbydate"/>Sort by course creation date
-                           </td>
-                           <td class="rightalign"  style="width: 400px;" >
-                              <a class="bold"  href="/page/instructorCoursesPage?user=newIns.withSample"  id="addNewCourse" >
-                                 Add New Course
-                              </a>
-                           </td>
-                        </tr>
-                    </tbody>
-                </table>
-           </div>
-        <br />
-        <br />
-        <br />
-        <div class="backgroundBlock home_courses_div"  id="course0" >
-                  <div class="result_homeTitle" >
-                     <h2 class="color_white" >
-                        [newIns.wit-demo] :
-                        Sample Course 101
-                     </h2>
+            <div class="inner-container" >
+               <div class="row" >
+                  <div class="col-md-5" >
+                     <h1>
+                        Instructor Home
+                     </h1>
                   </div>
-                  <div class="result_homeLinks blockLink rightalign" >
-                     <a class="t_course_enroll0 color_white bold"  href="/page/instructorCourseEnrollPage?courseid=newIns.wit-demo&user=newIns.withSample"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Enroll student into the course')" >
-                        Enroll
-                     </a>
-                     <a class="t_course_view0 color_white bold"  href="/page/instructorCourseDetailsPage?courseid=newIns.wit-demo&user=newIns.withSample"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('View, edit and send invitation emails to the students in the course')" >
-                        View
-                     </a>
-                     <a class="t_course_edit0 color_white bold"  href="/page/instructorCourseEditPage?courseid=newIns.wit-demo&user=newIns.withSample"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Edit Course information and instructor list')" >
-                        Edit
-                     </a>
-                     <a class="t_course_add_eval0 color_white bold"  href="/page/instructorEvalsPage?user=newIns.withSample&courseid=newIns.wit-demo"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Add an evaluation for the course')" >
-                        Add Session
-                     </a>
-                     <a class="t_course_archive0 color_white bold"  href="/page/instructorCourseArchive?courseid=newIns.wit-demo&archive=true&next=%2Fpage%2FinstructorHomePage&user=newIns.withSample"  onclick="hideddrivetip(); return toggleArchiveCourseConfirmation('newIns.wit-demo')"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Archive the course so that it will not be shown in the home page any more \(you can still access it from the \'Courses\' tab\)')" >
-                        Archive
-                     </a>
-                     <a class="t_course_delete0 color_white bold"  href="/page/instructorCourseDelete?courseid=newIns.wit-demo&next=%2Fpage%2FinstructorHomePage&user=newIns.withSample"  onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('newIns.wit-demo')"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Delete the course and its corresponding students and evaluations')" >
-                        Delete
+                  <div class="col-md-5 instructor-header-bar" >
+                     <form action="/page/instructorStudentListPage?user=newIns.withSample"  method="post"  name="search_form" >
+                        <div class="input-group" >
+                           <input class="form-control"  name="searchkey"  placeholder="Student Name"  title="Search for student's name"  type="text" id="searchBox" />
+                                                      <span class="input-group-btn" >
+                              <button class="btn btn-default"  id="buttonSearch"  type="submit"  value="Search" >
+                                 Search
+                              </button>
+                           </span>
+                        </div>
+                        <input name="user"  type="hidden"  value="newIns.withSample" />
+                                             </form>
+                  </div>
+                  <div class="col-md-2 instructor-header-bar" >
+                     <a class="btn btn-primary btn-md"  href="/page/instructorCoursesPage?user=newIns.withSample"  id="addNewCourse" >
+                        Add New Course
                      </a>
                   </div>
-                  <div style="clear: both;" >
-                  </div>
-                  <br/>
-                                 </div>
+               </div>
             </div>
             <br/>
-                        <br/>
-                        <br/>
-    </div>
-
-    
-    <div id="frameBottom">
-        
-
-
-
-<div id="contentFooter">
-    <span class="floatleft">[<span class="color_white">TEAMMATES </span>V{$version}]</span>
-    [for <span class="color_white">National University of Singapore</span>]
-    <span class="floatright">[Send <span class="color_white"><a target="_blank" href="../contact.html">Feedback</a></span>]</span>
-</div>
-    </div>
-
-</body></html>
+                        <div class="alert alert-warning"  id="statusMessage" >
+               New to TEAMMATES? You may wish to have a look at our
+               <a href="/instructorHelp.html#gs"  target="_blank" >
+                  Getting Started Guide
+               </a>
+               .
+               <br/>
+                              A
+               <a href="https://youtube.googleapis.com/v/wCxBOUEiD6Q&hd=1&autoplay=1&rel=0"  target="_blank" >
+                  video tour
+               </a>
+               is also available in our
+               <a href="/index.html"  target="_blank" >
+                  home page
+               </a>
+               .
+            </div>
+            <script type="text/javascript" >
+               document.getElementById( 'statusMessage' ).scrollIntoView();
+            </script>
+            <div class="row" >
+               <div class="col-md-5 pull-right" >
+                  <div class="row" >
+                     <div class="col-md-3 btn-group" >
+                        <h5 class="pull-right" >
+                           <strong>
+                              Sort By:
+                           </strong>
+                        </h5>
+                     </div>
+                     <div class="col-md-9" >
+                        <div class="btn-group pull-right"  data-toggle="buttons" >
+                           <label class="btn btn-default "  data="id"  name="sortby" id="sortById" >
+                              <input type="radio" />
+                                                            Course ID
+                           </label>
+                           <label class="btn btn-default "  data="name"  name="sortby" id="sortByName" >
+                              <input name="sortby"  type="radio"  value="name" />
+                                                            Course Name
+                           </label>
+                           <label class="btn btn-default active"  data="createdAt"  name="sortby" id="sortByDate" >
+                              <input type="radio" />
+                                                            Creation Date
+                           </label>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <br/>
+                        <div class="panel panel-primary"  id="course0" >
+               <div class="panel-heading" >
+                  <div class="row" >
+                     <div class="col-md-6" >
+                        <strong>
+                           [newIns.wit-demo] :
+                                    Sample Course 101
+                        </strong>
+                     </div>
+                     <div class="col-md-6" >
+                        <span class="pull-right" >
+                           <a class="btn btn-primary btn-xs btn-tm-actions course-enroll-for-test"  data-original-title="Enroll student into the course"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseEnrollPage?courseid=newIns.wit-demo&user=newIns.withSample"  title="" >
+                              Enroll
+                           </a>
+                           <a class="btn btn-primary btn-xs btn-tm-actions course-view-for-test"  data-original-title="View, edit and send invitation emails to the students in the course"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseDetailsPage?courseid=newIns.wit-demo&user=newIns.withSample"  title="" >
+                              View
+                           </a>
+                           <a class="btn btn-primary btn-xs btn-tm-actions course-edit-for-test"  data-original-title="Edit Course information and instructor list"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseEditPage?courseid=newIns.wit-demo&user=newIns.withSample"  title="" >
+                              Edit
+                           </a>
+                           <a class="btn btn-primary btn-xs btn-tm-actions course-add-eval-for-test"  data-original-title="Add an evaluation for the course"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorEvalsPage?user=newIns.withSample&courseid=newIns.wit-demo"  title="" >
+                              Add Session
+                           </a>
+                           <a class="btn btn-primary btn-xs btn-tm-actions course-archive-for-test"  data-original-title="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseArchive?courseid=newIns.wit-demo&archive=true&next=%2Fpage%2FinstructorHomePage&user=newIns.withSample"  onclick="return toggleArchiveCourseConfirmation('newIns.wit-demo')"  title="" >
+                              Archive
+                           </a>
+                           <a class="btn btn-primary btn-xs btn-tm-actions course-delete-for-test"  data-original-title="Delete the course and its corresponding students and evaluations"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseDelete?courseid=newIns.wit-demo&next=%2Fpage%2FinstructorHomePage&user=newIns.withSample"  onclick="return toggleDeleteCourseConfirmation('newIns.wit-demo')"  title="" >
+                              Delete
+                           </a>
+                        </span>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <br/>
+                     </div>
+         <br/>
+                  <br/>
+                  <br/>
+                  <div class="container-fluid"  id="footerComponent" >
+            <div class="container" >
+               <div class="row" >
+                  <div class="col-md-4" >
+                     <span>
+                        [
+                        <a href="/index.html" >
+                           TEAMMATES
+                        </a>
+                        V4.18]
+                     </span>
+                  </div>
+                  <div class="col-md-4" >
+                     [for
+                     <span class="highlight-white" >
+                        <span class="color_white" >
+                           National University of Singapore
+                        </span>
+                     </span>
+                     ]
+                  </div>
+                  <div class="col-md-4" >
+                     <span>
+                        [Send
+                        <a class="link"  href="../contact.html"  target="_blank" >
+                           Feedback
+                        </a>
+                        ]
+                     </span>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </body>
+   </html>

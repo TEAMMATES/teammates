@@ -31,7 +31,7 @@ $(document).ready(function(){
             }
         });
     };
-    $("td[class*='session-response'] > a").click(responseRateClickHandler);
+    $("td[class*='session-response-for-test'] > a").click(responseRateClickHandler);
     
     $(".table").each(function(idx) {
         //this is bound to current object in question
