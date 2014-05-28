@@ -262,6 +262,7 @@
                 <span class="text-primary"><h4>
                     <strong><%=sanitizeForHtml(teamResultBundle.getTeamName())%></strong>
                 </h4></span>
+                <br>
                 <%
                     boolean firstStudent = true;
                     for(StudentResultBundle studentResult: teamResultBundle.studentResults){
@@ -299,7 +300,7 @@
                                  %> 
                                 <div class="col-md-1">
                                     <div class="pull-right">
-                                <a target="_blank" class="button btn-warning btn-xs"
+                                <a target="_blank" class="button btn-primary btn-xs"
                                 href="<%=data.getInstructorEvaluationSubmissionEditLink(student.course, data.evaluationResults.evaluation.name, student.email)%>"
                                 onclick="return openChildWindow(this.href)"> Edit</a> 
                                  </div>
