@@ -44,16 +44,16 @@
             <h1>Edit Student's Submission</h1>
         </div>
         
-        <div class="well well-plain well-narrow">
+        <div class="well well-plain">
             <div class="form form-horizontal" id="studentEvaluationInfo">
                 <div class="form-group">
-                    <label class="col-sm-3 control-label text-bold" width="30%">Course ID:</label>
+                    <label class="col-sm-3 control-label text-bold">Course ID:</label>
                     <div class="col-sm-9">
                         <p class="form-control-static"><%=data.eval.courseId%></p>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-3 control-label text-bold" width="30%">Evaluation Name:</label>
+                    <label class="col-sm-3 control-label text-bold">Evaluation Name:</label>
                     <div class="col-sm-9">
                         <p class="form-control-static"><%=InstructorEvalSubmissionEditPageData.sanitizeForHtml(data.eval.name)%></p>
                     </div>
