@@ -47,27 +47,29 @@
     <%
         } else {
     %>
-            <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_EVAL_PREVIEW%>" 
-                    name="form_previewasstudent" class="form_preview">
-                 <h1 class="color_white centeralign">
-                     Previewing Evaluation as
-                     <select name="<%=Const.ParamsNames.PREVIEWAS%>" onchange="this.form.submit()" style="font-size:80%;">
-                     <%
-                          for (StudentAttributes student : data.studentList) {
-                      %>
-                          <option value="<%=student.email%>"
-                              <%=student.email.equals(data.student.email) ? "selected=\"selected\"" : ""%>>
-                                  [<%=student.team%>] <%=student.name%>
-                           </option>
-                      <%
-                          }
-                      %>
-                      </select>
-                 </h1>
-                 <input type="hidden" name="<%=Const.ParamsNames.EVALUATION_NAME%>" value="<%=data.eval.name%>">
-                 <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.eval.courseId%>">
-                 <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
-             </form>
+            <nav class="navbar navbar-default navbar-fixed-top">
+                <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_EVAL_PREVIEW%>" 
+                        name="form_previewasstudent" class="form_preview">
+                     <h1 class="color_white centeralign">
+                         Previewing Evaluation as
+                         <select name="<%=Const.ParamsNames.PREVIEWAS%>" onchange="this.form.submit()" style="font-size:80%;">
+                         <%
+                              for (StudentAttributes student : data.studentList) {
+                          %>
+                              <option value="<%=student.email%>"
+                                  <%=student.email.equals(data.student.email) ? "selected=\"selected\"" : ""%>>
+                                      [<%=student.team%>] <%=student.name%>
+                               </option>
+                          <%
+                              }
+                          %>
+                          </select>
+                     </h1>
+                     <input type="hidden" name="<%=Const.ParamsNames.EVALUATION_NAME%>" value="<%=data.eval.name%>">
+                     <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.eval.courseId%>">
+                     <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
+                 </form>
+            </nav>
     <% 
         }
     %>
