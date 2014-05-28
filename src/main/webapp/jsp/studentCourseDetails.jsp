@@ -52,8 +52,8 @@
         <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
         
         <br>
-        <div class="well well-plain well-narrow">
-            <form class="form-horizontal" role="form">
+        <div class="well well-plain">
+            <div class="form-horizontal">
                 <!-- Course ID -->
                 <div class="form-group">
                     <label class="col-sm-3 control-label">Course ID:</label>
@@ -152,7 +152,7 @@
                         </p>
                     </div>
                 </div> 
-            </form>  
+            </div>  
         </div>
         <br>
         <br>
