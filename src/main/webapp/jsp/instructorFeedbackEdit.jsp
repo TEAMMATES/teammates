@@ -559,7 +559,7 @@
             onsubmit="tallyCheckboxes(<%=question.questionNumber%>)"
             <%=data.questionHasResponses.get(question.getId()) ? "editStatus=\"hasResponses\"" : "" %>
             >
-            <div class="panel panel-primary inputTable questionTable" id="questionTable<%=question.questionNumber%>">
+            <div class="panel panel-primary" id="questionTable<%=question.questionNumber%>">
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-sm-12">
@@ -815,7 +815,7 @@
                 </div>
             </div>
 
-            <div class="panel panel-primary inputTable questionTable" id="questionTableNew" style="display:none;">
+            <div class="panel panel-primary" id="questionTableNew" style="display:none;">
                 <div class="panel-heading">
                     <strong>Question</strong>
                     <select class="questionNumber nonDestructive text-primary" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBER%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBER%>">
