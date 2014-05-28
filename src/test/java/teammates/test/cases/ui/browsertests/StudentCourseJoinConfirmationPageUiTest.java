@@ -66,7 +66,8 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
                                 TestProperties.inst().TEST_STUDENT1_ACCOUNT,
                                 TestProperties.inst().TEST_STUDENT1_PASSWORD);
         StudentHomePage studentHome = confirmationPage.clickConfirmButton();
-        studentHome.verifyHtml("/StudentHomeInvalidKey.html");
+        String expectedMsg = "You have used an invalid join link: /page/studentCourseJoin?regkey=ThisIsAnInvalidKey";
+        studentHome.verifyStatus(expectedMsg);
         
         ______TS("click join link then confirm: success: valid key");
 
@@ -82,13 +83,15 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         browser.driver.get(joinLink);
         confirmationPage = createNewPage(browser, StudentCourseJoinConfirmationPage.class);
         studentHome = confirmationPage.clickConfirmButton();
-        studentHome.verifyHtml("/StudentHomeJoined.html");
+        expectedMsg = "";
+        studentHome.verifyStatus(expectedMsg);
         
         ______TS("already joined, no confirmation page");
                 
         browser.driver.get(joinLink);
         studentHome = createNewPage(browser, StudentHomePage.class);
-        studentHome.verifyHtml("/StudentHomeAlreadyJoined.html");
+        expectedMsg = "alice.tmms has already joined this course";
+        studentHome.verifyStatus(expectedMsg);
     }
     
     @AfterClass
