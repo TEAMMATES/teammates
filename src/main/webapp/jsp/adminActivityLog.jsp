@@ -576,11 +576,8 @@
             </div>
             <br> <br>
         </div>
+    </div>
 
-
-
-
-
-        <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
+    <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
 </body>
 </html>
