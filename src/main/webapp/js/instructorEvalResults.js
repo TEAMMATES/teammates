@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	toggleSort($("#button_sortteam"),1);
+	toggleSort($("#button_sortteamname"),1);
 });
 
 

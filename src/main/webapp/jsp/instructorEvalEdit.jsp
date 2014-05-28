@@ -197,7 +197,7 @@
                         value="Save Changes">Save Changes</button>
               </div>
               <div class="col-xs-2">
-                <button id="button_back" type="button" class="btn btn-primary"
+                <button id="button_back" type="button" class="btn btn-default"
                        onclick="window.location.href='<%=data.getInstructorEvaluationLink()%>'"
                        value="Cancel">Cancel</button>
                 </div>

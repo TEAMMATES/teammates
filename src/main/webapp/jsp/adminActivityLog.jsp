@@ -12,32 +12,31 @@
 %>
 <!DOCTYPE html>
 <html>
+
 <head>
-<link rel="shortcut icon" href="/favicon.png" />
-<meta http-equiv="X-UA-Compatible" content="IE=8" />
-<title>TEAMMATES - Administrator</title>
-
-<!-- 
-<link rel=stylesheet href="/stylesheets/adminActivityLog.css"
-    type="text/css" /> -->
-<link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<link href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
-<link href="/stylesheets/teammatesCommon.css" rel="stylesheet">
-<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-<!--[if lt IE 9]>
-          <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-          <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-          <![endif]-->
-
-<script type="text/javascript" src="/js/googleAnalytics.js"></script>
-<script type="text/javascript" src="/js/jquery-minified.js"></script>
-<script type="text/javascript" src="/js/tooltip.js"></script>
-<script type="text/javascript" src="/js/common.js"></script>
-<script type="text/javascript" src="/js/administrator.js"></script>
-<script type="text/javascript" src="/js/adminActivityLog.js"></script>
-<script type="text/javascript"
-    src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-<script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="shortcut icon" href="/favicon.png" />
+    <meta http-equiv="X-UA-Compatible" content="IE=8" />
+    <title>TEAMMATES - Administrator</title>
+    
+    
+    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="/stylesheets/teammatesCommon.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+              <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+              <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+              <![endif]-->
+    
+    <script type="text/javascript" src="/js/googleAnalytics.js"></script>
+    <script type="text/javascript" src="/js/jquery-minified.js"></script>
+    <script type="text/javascript" src="/js/tooltip.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+    <script type="text/javascript" src="/js/administrator.js"></script>
+    <script type="text/javascript" src="/js/adminActivityLog.js"></script>
+    <script type="text/javascript"
+        src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
 </head>
 
 <body>
@@ -80,9 +79,6 @@
                             </div>
 
                             <div class="form-group">
-                                <!-- <td colspan="2"><a href="#"
-                                    onclick="toggleReference()">Show/Hide
-                                        Reference</a></td> -->
                                 <a href="#"
                                     class="btn btn-link center-block"
                                     onclick="toggleReference()"><span
