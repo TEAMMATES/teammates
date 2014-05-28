@@ -5,7 +5,7 @@ function submitForm(offset) {
 }
 
 function toggleReference() {
-	$("#filterReference").toggle();
+	$("#filterReference").toggle("slow");
 	
 	var button = $("#detailButton").attr("class");
 	
