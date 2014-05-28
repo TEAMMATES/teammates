@@ -7,36 +7,36 @@
 <%@ page import="teammates.ui.controller.AdminAccountDetailsPageData"%>
 
 <%
-	AdminAccountDetailsPageData data = (AdminAccountDetailsPageData) request
-			.getAttribute("data");
+    AdminAccountDetailsPageData data = (AdminAccountDetailsPageData) request
+            .getAttribute("data");
 %>
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="shortcut icon" href="/favicon.png">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>TEAMMATES - Administrator Account Details</title>
-    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
-    <link href="/stylesheets/teammatesCommon.css" rel="stylesheet">
-    
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
+<link rel="shortcut icon" href="/favicon.png">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>TEAMMATES - Administrator Account Details</title>
+<link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+<link href="/stylesheets/teammatesCommon.css" rel="stylesheet">
+
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
               <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
               <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
               <![endif]-->
-              
-    <link rel="stylesheet" href="/stylesheets/adminAccountDetails.css"
-        type="text/css">
-    <script type="text/javascript" src="/js/googleAnalytics.js"></script>
-    <script type="text/javascript" src="/js/jquery-minified.js"></script>
-    <script type="text/javascript" src="/js/tooltip.js"></script>
-    <script type="text/javascript" src="/js/common.js"></script>
-    <script type="text/javascript" src="/js/administrator.js"></script>
-    <script type="text/javascript"
-        src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
-    <jsp:include page="../enableJS.jsp"></jsp:include>
+
+<link rel="stylesheet" href="/stylesheets/adminAccountDetails.css"
+    type="text/css">
+<script type="text/javascript" src="/js/googleAnalytics.js"></script>
+<script type="text/javascript" src="/js/jquery-minified.js"></script>
+<script type="text/javascript" src="/js/tooltip.js"></script>
+<script type="text/javascript" src="/js/common.js"></script>
+<script type="text/javascript" src="/js/administrator.js"></script>
+<script type="text/javascript"
+    src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+<jsp:include page="../enableJS.jsp"></jsp:include>
 </head>
 
 <body>
@@ -94,14 +94,14 @@
                         Instructor For <small
                             class="courseCount rightalign bold">
                             <%=data.instructorCourseList != null ? data.instructorCourseList
-					.size() : 0%> Courses
+                    .size() : 0%> Courses
                         </small>
                     </h2>
                 </div>
 
                 <%
-                	if (data.instructorCourseList != null
-                			&& data.instructorCourseList.size() != 0) {
+                    if (data.instructorCourseList != null
+                            && data.instructorCourseList.size() != 0) {
                 %>
                 <div class="panel panel-primary">
                     <div class="panel-heading">
@@ -117,27 +117,27 @@
                         </thead>
                         <tbody>
                             <%
-                            	for (CourseDetailsBundle courseDetails : data.instructorCourseList) {
-                            			out.print("<tr>");
-                            			out.print("<td>[" + courseDetails.course.id + "] "
-                            					+ courseDetails.course.name + "</td>");
-                            			out.print("<td><a id=\"instructor_"
-                            					+ courseDetails.course.id
-                            					+ "\" class=\"btn btn-danger btn-sm \" href=\""
-                            					+ data.getAdminDeleteInstructorFromCourseLink(
-                            							data.accountInformation.googleId,
-                            							courseDetails.course.id)
-                            					+ "\"><span class=\"glyphicon glyphicon-trash\"></span>"
-                            					+ "Remove From Course</a></td>");
-                            			out.print("</tr>");
-                            		}
+                                for (CourseDetailsBundle courseDetails : data.instructorCourseList) {
+                                        out.print("<tr>");
+                                        out.print("<td>[" + courseDetails.course.id + "] "
+                                                + courseDetails.course.name + "</td>");
+                                        out.print("<td><a id=\"instructor_"
+                                                + courseDetails.course.id
+                                                + "\" class=\"btn btn-danger btn-sm \" href=\""
+                                                + data.getAdminDeleteInstructorFromCourseLink(
+                                                        data.accountInformation.googleId,
+                                                        courseDetails.course.id)
+                                                + "\"><span class=\"glyphicon glyphicon-trash\"></span>"
+                                                + "Remove From Course</a></td>");
+                                        out.print("</tr>");
+                                    }
                             %>
                         </tbody>
                     </table>
                 </div>
 
                 <%
-                	} else {
+                    } else {
                 %>
 
                 <div class="alert alert-warning">
@@ -146,8 +146,8 @@
                 </div>
 
                 <%
-                	/* out.print("<tr><td colspan=\"2\" class=\"bold\">No Courses found for this Account.</td></tr>"); */
-                	}
+                    /* out.print("<tr><td colspan=\"2\" class=\"bold\">No Courses found for this Account.</td></tr>"); */
+                    }
                 %>
 
 
@@ -157,13 +157,13 @@
                         Student For <small
                             class="courseCount rightalign bold">
                             <%=data.studentCourseList != null ? data.studentCourseList
-					.size() : 0%> Courses
+                    .size() : 0%> Courses
                         </small>
                     </h2>
                 </div>
 
                 <%
-                	if (data.studentCourseList != null) {
+                    if (data.studentCourseList != null) {
                 %>
                 <div class="panel panel-primary">
                     <div class="panel-heading">
@@ -180,26 +180,25 @@
                         </thead>
                         <tbody>
                             <%
-                            	for (CourseAttributes course : data.studentCourseList) {
-                            			out.print("<tr>");
-                            			out.print("<td>[" + course.id + "] " + course.name
-                            					+ "</td>");
-                            			out.print("<td><a id=\"student_"
-                            					+ course.id
-                            					+ "\" class=\"btn btn-danger btn-sm \" href=\""
-                            					+ "\" href=\""
-                            					+ data.getAdminDeleteStudentFromCourseLink(
-                            							data.accountInformation.googleId, course.id)
-                            					+ "\"><span class=\"glyphicon glyphicon-trash\"></span>"
-                            					+ "Remove From Course</a></td>");
-                            			out.print("</tr>");
-                            		}
+                                for (CourseAttributes course : data.studentCourseList) {
+                                        out.print("<tr>");
+                                        out.print("<td>[" + course.id + "] " + course.name
+                                                + "</td>");
+                                        out.print("<td><a id=\"student_"
+                                                + course.id
+                                                + "\" class=\"btn btn-danger btn-sm \" href=\""
+                                                + data.getAdminDeleteStudentFromCourseLink(
+                                                        data.accountInformation.googleId, course.id)
+                                                + "\"><span class=\"glyphicon glyphicon-trash\"></span>"
+                                                + "Remove From Course</a></td>");
+                                        out.print("</tr>");
+                                    }
                             %>
                         </tbody>
                     </table>
                 </div>
                 <%
-                	} else {
+                    } else {
                 %>
 
                 <div class="alert alert-warning">
@@ -208,7 +207,7 @@
                 </div>
 
                 <%
-                	}
+                    }
                 %>
                 <br> <br> <br>
             </div>
