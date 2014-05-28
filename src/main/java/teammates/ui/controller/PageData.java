@@ -602,7 +602,7 @@ public class PageData {
         result.append(
             "<a class=\"btn btn-default btn-xs btn-tm-actions" + (hasView ? "\"" : DISABLED) +
             "href=\"" + getInstructorEvaluationResultsLink(eval.courseId,eval.name) + "\" " +
-            "title=\"" + Const.Tooltips.EVALUATION_RESULTS+"\" data-toggle=\"tooltip\" data-placement=\"bottom\">View Results</a> "
+            "title=\"" + Const.Tooltips.EVALUATION_RESULTS+"\" data-toggle=\"tooltip\" data-placement=\"top\">View Results</a> "
         );
         result.append(
             "<a class=\"btn btn-default btn-xs btn-tm-actions" + (hasEdit ? "\"" : DISABLED) + 
