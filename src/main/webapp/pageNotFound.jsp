@@ -3,28 +3,32 @@
 
 <html>
 <head>
-<link rel="shortcut icon" href="/favicon.png">
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>TEAMMATES</title>
-<link rel="stylesheet" href="/stylesheets/common.css" type="text/css">
+    <link rel="shortcut icon" href="/favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>TEAMMATES</title>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" type="text/css"/>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap-theme.min.css" type="text/css"/>
+    <link rel="stylesheet" href="/stylesheets/teammatesCommon.css" type="text/css"/>
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]--> 
 </head>
 <body>
-    <div id="frameTop">
-        <div id="frameTopWrapper">
-            <div id="logo">
-                <a href="/index.html">
-                <img alt="TEAMMATES" src="/images/teammateslogo.jpg"
-                    height="47px" width="150px">
-                </a>
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/index.html">TEAMMATES</a>
             </div>
         </div>
     </div>
 
-    <div id="frameBody">
-        <div id="frameBodyWrapper">
-            <div style="margin: 30px auto; border: 1px solid #333; padding: 10px; text-align: left; width: 550px; background: #FFFFCC; height: 100px">
-                <img src="/images/error.png"
-                    style="float: left; margin: 0 10px 10px 0; height: 90px;">
+    <div class="container" id="frameBodyWrapper">
+        <div class="row">
+            <div class="alert alert-warning col-md-4 col-md-offset-4">
+                <img src="/images/error.png" style="float: left; margin: 0 10px 10px 0; height: 90px;">
                 <p>
                     The page you are looking for is not there.<br><br>
                     Make sure that the URL is correct, or go to <a href="/">main page</a>
@@ -33,8 +37,6 @@
         </div>
     </div>
 
-    <div id="frameBottom">
-        <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
-    </div>
+    <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
 </body>
 </html>
