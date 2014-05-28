@@ -184,8 +184,8 @@
             <div class="form-group">
               <label class="col-sm-2 control-label">Instructions:</label>
               <div class="col-sm-9">
-                <textarea rows="3" cols="90" class="form-control" name="<%=Const.ParamsNames.EVALUATION_INSTRUCTIONS%>" 
-                          id="<%=Const.ParamsNames.EVALUATION_INSTRUCTIONS%>"
+                <textarea rows="3" class="form-control" name="<%=Const.ParamsNames.EVALUATION_INSTRUCTIONS%>" 
+                          id="<%=Const.ParamsNames.EVALUATION_INSTRUCTIONS%>" style="max-width:100%;"
                           data-toggle="tooltip" data-placement="top" 
                           title="<%=Const.Tooltips.EVALUATION_INPUT_INSTRUCTIONS%>"><%=InstructorEvalEditPageData.sanitizeForHtml(data.evaluation.instructions.getValue())%></textarea>
               </div>

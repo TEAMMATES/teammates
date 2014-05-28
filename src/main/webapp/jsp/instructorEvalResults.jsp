@@ -280,18 +280,18 @@
                             </div>
                             <div class="col-md-4">
                               <div class="pull-right">
-                                <p data-toggle="tooltip" data-placement="top" data-container="body"  
+                                <span data-toggle="tooltip" data-placement="top" data-container="body"  
                                     title='<%=Const.Tooltips.CLAIMED%>'>
                                 Claimed contribution: <%=InstructorEvalResultsPageData.getPointsInEqualShareFormatAsHtml(studentResult.summary.claimedToInstructor,true)%>
-                                </p>
+                                </span>
                               </div>
                             </div>
                             <div class="col-md-4">
                               <div class="pull-right">
-                                <p data-toggle="tooltip" data-placement="top" data-container="body"  
+                                <span data-toggle="tooltip" data-placement="top" data-container="body"  
                                     title='<%=Const.Tooltips.PERCEIVED%>'>
                                 Perceived contribution: <%=InstructorEvalResultsPageData.getPointsInEqualShareFormatAsHtml(studentResult.summary.perceivedToInstructor,true)%>
-                                </p>
+                                </span>
                               </div>
                             </div>
                            
