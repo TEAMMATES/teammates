@@ -136,8 +136,6 @@
             <jsp:include page="<%=Const.ViewURIs.EVAL_SUBMISSION_EDIT%>">
             <jsp:param name="isStudent" value="true" />
             </jsp:include>
-            <br>
-            <br>
             <div id="studentEvaluationSubmissionButtons" class="centeralign">
                 <input type="submit" class="btn btn-primary" name="submitEvaluation"
                         id="button_submit" value="Submit Evaluation" 

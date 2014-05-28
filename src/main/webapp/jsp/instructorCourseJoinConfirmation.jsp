@@ -44,14 +44,14 @@
         
         <div class="panel panel-primary panel-narrow">
             <div class="panel-heading">
-                <h1>Confirm your Google account</h1>
+                <h3>Confirm your Google account</h3>
             </div>
             <div class="panel-body">
                 <p class="lead">
                     You are currently logged in as <span><strong><%=data.account.googleId%></strong></span>. 
                     <br>If this is not you please <a href="/logout.jsp">log out</a> and re-login using your own Google account.
                     <br>If this is you, please confirm below to complete your registration.
-                    <br><br><br>
+                    <br>
                     <div class="centeralign">
                         <a href="<%=Const.ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED + "?regkey=" + data.regkey%>" 
                             style="padding-right:30px;"

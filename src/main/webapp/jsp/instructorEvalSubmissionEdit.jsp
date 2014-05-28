@@ -68,9 +68,7 @@
                 <jsp:include page="<%=Const.ViewURIs.EVAL_SUBMISSION_EDIT%>">
                 <jsp:param name="isStudent" value="false" />
                 </jsp:include>
-                <br>
                 <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
-                <br>
                 <div class="centeralign">
                     <input type="submit" class="btn btn-primary centeralign" name="submitEvaluation"
                             onclick="return checkEvaluationForm(this.form)"
@@ -82,8 +80,6 @@
         </div>
     </div>
 
-    <div id="frameBottom">
-        <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
-    </div>
+    <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
 </body>
 </html>
