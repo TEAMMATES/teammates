@@ -106,97 +106,97 @@
                     
                 <div class="pageinfo">Instructor Home Page</div>
                 <div id="instructorHomePage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Instructor Add Course Page</div>
                 <div id="instructorAddCoursePage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Instructor Edit Course Page</div>
                 <div id="instructorEditCoursePage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Instructor Enroll Students Page</div>
                 <div id="instructorEnrollPage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Instructor Course Details Page</div>
                 <div id="instructorCourseDetailsPage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
 
                 <div class="pageinfo">Instructor Student List Page</div>
                 <div id="instructorStudentListPage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Instructor Student Details Page</div>
                 <div id="instructorCourseStudentDetailsPage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Instructor Student Edit Page</div>
                 <div id="instructorCourseStudentEditPage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Instructor Eval Page</div>
                 <div id="instructorCourseEvalPage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Instructor Eval Edit Page</div>
                 <div id="instructorCourseEvalEditPage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Instructor Eval Preview Page</div>
                 <div id="instructorCourseEvalPreviewPage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Instructor Eval Results Page (instructorEvaluationSummaryTable)</div>
                 <div id="instructorCourseEvalResultsPage1"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Instructor Eval Results Page (instructorEvaluationDetailedReviewerTable)</div>
                 <div id="instructorCourseEvalResultsPage2"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Instructor Eval Results Page (instructorEvaluationDetailedRevieweeTable)</div>
                 <div id="instructorCourseEvalResultsPage3"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Instructor Eval Submission View Page</div>
                 <div id="instructorCourseEvalSubmissionViewPage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Instructor Eval Submission Edit Page</div>
                 <div id="instructorCourseEvalSubmissionEditPage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Instructor Feedback Page</div>
                 <div id="instructorFeedbackPage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Instructor Feedback Edit Page</div>
                 <div id="instructorFeedbackEditPage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Instructor Feedback Preview as Student Page</div>
                 <div id="instructorFeedbackPreviewAsStudentPage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 <div class="pageinfo">Instructor Feedback Submit Page</div>
                 <div id="instructorFeedbackSubmitPage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Instructor Feedback Preview as Instructor Page</div>
                 <div id="instructorFeedbackPreviewAsInstructorPage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 <div class="pageinfo">Instructor Feedback Question Submit Page</div>
                 <div id="instructorFeedbackQuestionSubmitPage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Instructor Feedback Results Page (By giver)</div>
                 <div id="instructorFeedbackResultsPageByGiver"></div>
-                <br><hr><br>        
+                <br><hr class="hr-bold"><br>        
                 
                 <div class="pageinfo">Instructor Feedback Results Page (By recipient)</div>
                 <div id="instructorFeedbackResultsPageByRecipient"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Instructor Feedback Results Page (By table)</div>
                 <div id="instructorFeedbackResultsPageByTable"></div>
@@ -204,35 +204,35 @@
                 <br></br>
                 <br></br>
                 <br></br>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
 
                 <div class="pageinfo">Student Home Page</div>
                 <div id="studentHomePage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Student Course Join Confirmation Page</div>
                 <div id="studentCourseJoinConfirmationPage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Student Course Details Page</div>
                 <div id="studentCourseDetailsPage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Student Eval Edit Page</div>
                 <div id="studentEvalEditPage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Student Eval Results Page</div>
                 <div id="studentEvalResultsPage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Student Feedback Submit Page</div>
                 <div id="studentFeedbackSubmitPage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Student Feedback Question Submit Page</div>
                 <div id="studentFeedbackQuestionSubmitPage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
 
                 <div class="pageinfo">Student Feedback Results Page</div>
                 <div id="studentFeedbackResultsPage"></div>
@@ -240,15 +240,15 @@
                 <br></br>
                 <br></br>
                 <br></br>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
 
                 <div class="pageinfo">Admin Home Page</div>
                 <div id="adminHomePage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Admin Search Page</div>
                 <div id="adminSearchPage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Admin Activity Log Page</div>
                 <div id="adminActivityLogPage"></div>
@@ -256,7 +256,7 @@
                 <br></br>
                 <br></br>
                 <br></br>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Home Page</div>
                 <div id="index">
@@ -292,15 +292,15 @@
                 </div>
                 <div class="pageinfo">Deadline Exceeded Error Page</div>
                 <div id="deadlineExceededErrorPage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Error Page</div>
                 <div id="errorPage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Entity Not Found Page</div>
                 <div id="entityNotFoundPage"></div>
-                <br><hr><br>
+                <br><hr class="hr-bold"><br>
                 <br></br>
                 <br></br>
                 <br></br>
