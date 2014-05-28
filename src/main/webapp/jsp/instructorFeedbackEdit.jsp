@@ -559,7 +559,7 @@
             onsubmit="tallyCheckboxes(<%=question.questionNumber%>)"
             <%=data.questionHasResponses.get(question.getId()) ? "editStatus=\"hasResponses\"" : "" %>
             >
-            <div class="panel panel-primary" id="questionTable<%=question.questionNumber%>">
+            <div class="panel panel-primary questionTable" id="questionTable<%=question.questionNumber%>">
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-sm-12">
@@ -815,7 +815,7 @@
                 </div>
             </div>
 
-            <div class="panel panel-primary" id="questionTableNew" style="display:none;">
+            <div class="panel panel-primary questionTable" id="questionTableNew" style="display:none;">
                 <div class="panel-heading">
                     <strong>Question</strong>
                     <select class="questionNumber nonDestructive text-primary" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBER%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBER%>">
@@ -837,7 +837,7 @@
                         <textarea rows="5"
                             class="form-control textvalue nonDestructive"
                             name="questiontext"
-                            id="questiontext-1"
+                            id="questiontext"
                             data-toggle="tooltip" data-placement="top" title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?"
                             tabindex="9"
                             disabled="disabled"></textarea>
