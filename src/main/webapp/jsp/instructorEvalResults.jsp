@@ -54,7 +54,6 @@
             <h1>Evaluation Results</h1>
         </div>
 
-        <!-- Evaluation Results Top -->
         <div class="well well-plain">
             <form class="form-horizontal" role="form" id="download_eval_report" method="GET" action=<%=Const.ActionURIs.INSTRUCTOR_EVAL_RESULTS_DOWNLOAD%>>
                 <div class="form-group">
@@ -161,8 +160,6 @@
             out.flush();
         %>
 
-        <!-- Evaluation Results Summary -->
-
         <div id="instructorEvaluationSummaryTable" class="evaluation_result">
             <h4 style="display:inline;">
                 <span class="label label-info" data-toggle="tooltip" data-placement="top" data-container="body"  
@@ -178,10 +175,10 @@
             <br>
             <br>
            
-            <table class="table table-bordered table-striped">
+            <table class="table table-bordered table-striped" id="dataTable">
                 <thead class="fill-primary">
                 <tr>
-                    <th class="button-sort-none" id="button_sortteam" onclick="toggleSort(this,1);">Team 
+                    <th class="button-sort-none" id="button_sortteamname" onclick="toggleSort(this,1);">Team 
                         <span class="sort-icon unsorted"></span></th>
                     <th class="button-sort-none" id="button_sortname" onclick="toggleSort(this,2)">Student
                         <span class="sort-icon unsorted"></span></th>
@@ -208,7 +205,7 @@
                     <td><%=sanitizeForHtml(student.team)%></td>
                     <td id="<%=Const.ParamsNames.STUDENT_NAME%>"
                         data-toggle="tooltip" data-placement="top" data-container="body"  
-                        title='<%=InstructorEvalResultsPageData.sanitizeForJs(student.comments)%>'> 
+                        title="<%=InstructorEvalResultsPageData.sanitizeForJs(student.comments)%>"> 
                         <%=student.name%>
                     </td>
                     <td><%=InstructorEvalResultsPageData.getPointsAsColorizedHtml(studentResult.summary.claimedToInstructor)%></td>
@@ -220,11 +217,11 @@
                         id="viewEvaluationResults<%=idx%>" target="_blank"
                         href="<%=data.getInstructorEvaluationSubmissionViewLink(data.evaluationResults.evaluation.courseId, data.evaluationResults.evaluation.name, student.email)%>"
                         data-toggle="tooltip" data-placement="top" data-container="body"  
-                        title='<%=Const.Tooltips.EVALUATION_SUBMISSION_VIEW_REVIEWER%>'> View</a> <a class="btn btn-default btn-xs" name="editEvaluationResults<%=idx%>"
+                        title="<%=Const.Tooltips.EVALUATION_SUBMISSION_VIEW_REVIEWER%>"> View</a> <a class="btn btn-default btn-xs" name="editEvaluationResults<%=idx%>"
                         id="editEvaluationResults<%=idx%>" target="_blank"
                         href="<%=data.getInstructorEvaluationSubmissionEditLink(data.evaluationResults.evaluation.courseId, data.evaluationResults.evaluation.name, student.email)%>"
                         data-toggle="tooltip" data-placement="top" data-container="body"  
-                        title='<%=Const.Tooltips.EVALUATION_SUBMISSION_INSTRUCTOR_EDIT%>'
+                        title="<%=Const.Tooltips.EVALUATION_SUBMISSION_INSTRUCTOR_EDIT%>"
                         onclick="return openChildWindow(this.href)">Edit</a></td>
                 </tr>
                 <%
@@ -239,8 +236,6 @@
         <%
             out.flush();
         %>
-
-        <!-- Evaluation Results Detailed-->
 
         <%
             for(boolean byReviewer = true, repeat=true; repeat; repeat = byReviewer, byReviewer=false){
@@ -326,7 +321,6 @@
                         <table class="table table-bordered table-striped">
                           <thead>
                             <tr class="border-top-gray fill-info">
-                              <!-- To get the border at the top -->
                               <th class="col-sm-1"><%=byReviewer ? "To" : "From"%></th>
                               <th class="col-sm-1">Contribution</th>
                               <th class="col-sm-5">Confidential comments</th>
