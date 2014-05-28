@@ -39,99 +39,97 @@
 <body>
     <jsp:include page="<%=Const.ViewURIs.STUDENT_HEADER%>" />
 
-    <div class="container theme-showcase">
+    <div id="frameBodyWrapper" class="container theme-showcase">
         <div id="topOfPage"></div>
-        <div id="frameBodyWrapper">
-                <h2>Student Home</h2>
+        <h2>Student Home</h2>
 
-            <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
-            <br>
+        <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
+        <br>
 
+        <%
+            int courseIdx = -1;
+            int sessionIdx = -1;
+            for (CourseDetailsBundle courseDetails : data.courses) {
+                courseIdx++;
+        %>
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <strong>
+                [<%=courseDetails.course.id%>] : <%=PageData.sanitizeForHtml(courseDetails.course.name)%>
+                </strong>
+                <span class="pull-right">
+                    <a class="btn btn-primary btn-xs"
+                        href="<%=data.getStudentCourseDetailsLink(courseDetails.course.id)%>"
+                        data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.STUDENT_COURSE_DETAILS%>"
+                        >View Team</a>
+                </span>
+            </div>
+            
+            <table class="table-responsive table table-striped">
             <%
-                int courseIdx = -1;
-                int sessionIdx = -1;
-                for (CourseDetailsBundle courseDetails : data.courses) {
-                    courseIdx++;
+                if (courseDetails.evaluations.size() > 0 || 
+                    courseDetails.feedbackSessions.size() > 0) {
             %>
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <strong>
-                    [<%=courseDetails.course.id%>] : <%=PageData.sanitizeForHtml(courseDetails.course.name)%>
-                    </strong>
-                    <span class="pull-right">
-                        <a class="btn btn-primary btn-xs"
-                            href="<%=data.getStudentCourseDetailsLink(courseDetails.course.id)%>"
-                            data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.STUDENT_COURSE_DETAILS%>"
-                            >View Team</a>
-                    </span>
-                </div>
-                
-                <table class="table-responsive table table-striped">
-                <%
-                    if (courseDetails.evaluations.size() > 0 || 
-                        courseDetails.feedbackSessions.size() > 0) {
-                %>
-                            <thead>
-                                <tr>
-                                    <th>Session Name</th>
-                                    <th>Deadline</th>
-                                    <th>Status</th>
-                                    <th class="studentHomeActions">Action(s)</th>
-                                </tr>
-                            </thead>
-                        <%
-                            for (EvaluationDetailsBundle edd : courseDetails.evaluations) {
+                        <thead>
+                            <tr>
+                                <th>Session Name</th>
+                                <th>Deadline</th>
+                                <th>Status</th>
+                                <th class="studentHomeActions">Action(s)</th>
+                            </tr>
+                        </thead>
+                    <%
+                        for (EvaluationDetailsBundle edd : courseDetails.evaluations) {
+                            sessionIdx++;
+                    %>
+                            <tr id="evaluation<%=sessionIdx%>">
+                                <td><%=PageData.sanitizeForHtml(edd.evaluation.name)%></td>
+                                <td><%=TimeHelper.formatTime(edd.evaluation.endTime)%></td>
+                                <td><span data-toggle="tooltip" data-placement="top" 
+                                    title="<%=data.getStudentHoverMessageForEval(data.getStudentStatusForEval(edd.evaluation))%>">
+                                    <%=data.getStudentStatusForEval(edd.evaluation)%>
+                                    </span>
+                                </td>
+                                <td class="studentHomeActions">
+                                    <%=data.getStudentEvaluationActions(edd.evaluation,sessionIdx)%>
+                                </td>
+                            </tr>
+                    <%
+                        }
+                            for (FeedbackSessionDetailsBundle fsd : courseDetails.feedbackSessions) {
                                 sessionIdx++;
                         %>
-                                <tr id="evaluation<%=sessionIdx%>">
-                                    <td><%=PageData.sanitizeForHtml(edd.evaluation.name)%></td>
-                                    <td><%=TimeHelper.formatTime(edd.evaluation.endTime)%></td>
+                                <tr class="home_evaluations_row" id="evaluation<%=sessionIdx%>">
+                                    <td><%=PageData.sanitizeForHtml(fsd.feedbackSession.feedbackSessionName)%></td>
+                                    <td><%=TimeHelper.formatTime(fsd.feedbackSession.endTime)%></td>
                                     <td><span data-toggle="tooltip" data-placement="top" 
-                                        title="<%=data.getStudentHoverMessageForEval(data.getStudentStatusForEval(edd.evaluation))%>">
-                                        <%=data.getStudentStatusForEval(edd.evaluation)%>
+                                            title="<%=data.getStudentHoverMessageForSession(fsd.feedbackSession)%>">
+                                            <%=data.getStudentStatusForSession(fsd.feedbackSession)%>
                                         </span>
                                     </td>
-                                    <td class="studentHomeActions">
-                                        <%=data.getStudentEvaluationActions(edd.evaluation,sessionIdx)%>
+                                    <td class="studentHomeActions"><%=data.getStudentFeedbackSessionActions(fsd.feedbackSession,sessionIdx)%>
                                     </td>
                                 </tr>
                         <%
                             }
-                                for (FeedbackSessionDetailsBundle fsd : courseDetails.feedbackSessions) {
-                                    sessionIdx++;
-                            %>
-                                    <tr class="home_evaluations_row" id="evaluation<%=sessionIdx%>">
-                                        <td><%=PageData.sanitizeForHtml(fsd.feedbackSession.feedbackSessionName)%></td>
-                                        <td><%=TimeHelper.formatTime(fsd.feedbackSession.endTime)%></td>
-                                        <td><span data-toggle="tooltip" data-placement="top" 
-                                                title="<%=data.getStudentHoverMessageForSession(fsd.feedbackSession)%>">
-                                                <%=data.getStudentStatusForSession(fsd.feedbackSession)%>
-                                            </span>
-                                        </td>
-                                        <td class="studentHomeActions"><%=data.getStudentFeedbackSessionActions(fsd.feedbackSession,sessionIdx)%>
-                                        </td>
-                                    </tr>
-                            <%
-                                }
-                            } else {
-                        %>
-                                <tr>
-                                    <th class="centeralign bold color_white">
-                                        Currently, there are no open evaluation/feedback sessions in this course. When a session is open for submission you will be notified.
-                                    </th>
-                                </tr>
-                        <%
-                            }
-                        %>
-                </table>
-            </div>
-            <br>
-            <br>
-            <%
-                out.flush();
-                            }
-            %>
+                        } else {
+                    %>
+                            <tr>
+                                <th class="centeralign bold color_white">
+                                    Currently, there are no open evaluation/feedback sessions in this course. When a session is open for submission you will be notified.
+                                </th>
+                            </tr>
+                    <%
+                        }
+                    %>
+            </table>
         </div>
+        <br>
+        <br>
+        <%
+            out.flush();
+                        }
+        %>
     </div>
     <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
 </body>
