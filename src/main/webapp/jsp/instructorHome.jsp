@@ -50,13 +50,15 @@
                     <h1>Instructor Home</h1>
                 </div>
                 <div class="col-md-5 instructor-header-bar">
-                    <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE%>" name="search_form">
+                    <form method="post" action="<%=data.getInstructorStudentListLink()%>" name="search_form">
                         <div class="input-group">
-                            <input type="text" name=<%=Const.ParamsNames.SEARCH_KEY %>
+                            <input type="text" 
+                                name=<%=Const.ParamsNames.SEARCH_KEY %>
                                 title="<%=Const.Tooltips.SEARCH_STUDENT%>"
-                                class="form-control" placeholder="Student Name">
+                                class="form-control" placeholder="Student Name"
+                                id="searchBox">
                             <span class="input-group-btn">
-                                <button class="btn btn-default" type="submit" value="Search">Search</button>
+                                <button class="btn btn-default" type="submit" value="Search" id="buttonSearch">Search</button>
                             </span>
                         </div>
                         <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
@@ -78,15 +80,15 @@
                     </div>
                     <div class="col-md-9">
                         <div class="btn-group pull-right" data-toggle="buttons">
-                            <label class="btn btn-default <%= data.sortCriteria.equals(Const.SORT_BY_COURSE_ID) ? "active" : "" %>" name="sortby" data="id">
+                            <label class="btn btn-default <%= data.sortCriteria.equals(Const.SORT_BY_COURSE_ID) ? "active" : "" %>" name="sortby" data="id" id="sortById">
                                 <input type="radio">
                                 Course ID
                             </label>
-                            <label class="btn btn-default <%= data.sortCriteria.equals(Const.SORT_BY_COURSE_NAME) ? "active" : "" %>" name="sortby" data="name">
+                            <label class="btn btn-default <%= data.sortCriteria.equals(Const.SORT_BY_COURSE_NAME) ? "active" : "" %>" name="sortby" data="name" id="sortByName">
                                 <input type="radio" name="sortby" value="name" >
                                 Course Name
                             </label>
-                            <label class="btn btn-default <%= data.sortCriteria.equals(Const.SORT_BY_COURSE_CREATION_DATE) ? "active" : "" %>" name="sortby" data="createdAt">
+                            <label class="btn btn-default <%= data.sortCriteria.equals(Const.SORT_BY_COURSE_CREATION_DATE) ? "active" : "" %>" name="sortby" data="createdAt" id="sortByDate">
                                 <input type="radio">
                                 Creation Date
                             </label>
@@ -107,37 +109,43 @@
     %>
                 <div class="panel panel-primary" id="course<%=courseIdx%>">
                     <div class="panel-heading">
-                        <strong class="color_white">
-                            [<%=courseDetails.course.id%>] :
-                            <%=PageData.sanitizeForHtml(courseDetails.course.name)%>
-                        </strong>
-                        <span class="pull-right">
-                             <a class="btn btn-primary btn-xs btn-tm-actions"
-                                href="<%=data.getInstructorCourseEnrollLink(courseDetails.course.id)%>"
-                                title="<%=Const.Tooltips.COURSE_ENROLL%>" data-toggle="tooltip" data-placement="top"> Enroll</a>
-                                 
-                             <a class="btn btn-primary btn-xs btn-tm-actions"
-                                href="<%=data.getInstructorCourseDetailsLink(courseDetails.course.id)%>"
-                                title="<%=Const.Tooltips.COURSE_DETAILS%>" data-toggle="tooltip" data-placement="top"> View</a> 
-                                
-                             <a class="btn btn-primary btn-xs btn-tm-actions"
-                                href="<%=data.getInstructorCourseEditLink(courseDetails.course.id)%>"
-                                title="<%=Const.Tooltips.COURSE_EDIT%>" data-toggle="tooltip" data-placement="top"> Edit</a>
-                                
-                             <a class="btn btn-primary btn-xs btn-tm-actions"
-                                href="<%=data.getInstructorEvaluationLinkForCourse(courseDetails.course.id)%>"
-                                title="<%=Const.Tooltips.COURSE_ADD_EVALUATION%>" data-toggle="tooltip" data-placement="top"> Add Session</a>
-                             
-                             <a class="btn btn-primary btn-xs btn-tm-actions"
-                                href="<%=data.getInstructorCourseArchiveLink(courseDetails.course.id, true, true)%>"
-                                title="<%=Const.Tooltips.COURSE_ARCHIVE%>" data-toggle="tooltip" data-placement="top"
-                                onclick="return toggleArchiveCourseConfirmation('<%=courseDetails.course.id%>')">Archive</a>
-                                
-                             <a class="btn btn-primary btn-xs btn-tm-actions"
-                                href="<%=data.getInstructorCourseDeleteLink(courseDetails.course.id,true)%>"
-                                title="<%=Const.Tooltips.COURSE_DELETE%>" data-toggle="tooltip" data-placement="top"
-                                onclick="return toggleDeleteCourseConfirmation('<%=courseDetails.course.id%>')"> Delete</a>
-                        </span>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <strong>
+                                    [<%=courseDetails.course.id%>] :
+                                    <%=PageData.sanitizeForHtml(courseDetails.course.name)%>
+                                </strong>
+                            </div>
+                            <div class="col-md-6">
+                                <span class="pull-right">
+                                     <a class="btn btn-primary btn-xs btn-tm-actions course-enroll-for-test"
+                                        href="<%=data.getInstructorCourseEnrollLink(courseDetails.course.id)%>"
+                                        title="<%=Const.Tooltips.COURSE_ENROLL%>" data-toggle="tooltip" data-placement="top"> Enroll</a>
+                                         
+                                     <a class="btn btn-primary btn-xs btn-tm-actions course-view-for-test"
+                                        href="<%=data.getInstructorCourseDetailsLink(courseDetails.course.id)%>"
+                                        title="<%=Const.Tooltips.COURSE_DETAILS%>" data-toggle="tooltip" data-placement="top"> View</a> 
+                                        
+                                     <a class="btn btn-primary btn-xs btn-tm-actions course-edit-for-test"
+                                        href="<%=data.getInstructorCourseEditLink(courseDetails.course.id)%>"
+                                        title="<%=Const.Tooltips.COURSE_EDIT%>" data-toggle="tooltip" data-placement="top"> Edit</a>
+                                        
+                                     <a class="btn btn-primary btn-xs btn-tm-actions course-add-eval-for-test"
+                                        href="<%=data.getInstructorEvaluationLinkForCourse(courseDetails.course.id)%>"
+                                        title="<%=Const.Tooltips.COURSE_ADD_EVALUATION%>" data-toggle="tooltip" data-placement="top"> Add Session</a>
+                                     
+                                     <a class="btn btn-primary btn-xs btn-tm-actions course-archive-for-test"
+                                        href="<%=data.getInstructorCourseArchiveLink(courseDetails.course.id, true, true)%>"
+                                        title="<%=Const.Tooltips.COURSE_ARCHIVE%>" data-toggle="tooltip" data-placement="top"
+                                        onclick="return toggleArchiveCourseConfirmation('<%=courseDetails.course.id%>')">Archive</a>
+                                        
+                                     <a class="btn btn-primary btn-xs btn-tm-actions course-delete-for-test"
+                                        href="<%=data.getInstructorCourseDeleteLink(courseDetails.course.id,true)%>"
+                                        title="<%=Const.Tooltips.COURSE_DELETE%>" data-toggle="tooltip" data-placement="top"
+                                        onclick="return toggleDeleteCourseConfirmation('<%=courseDetails.course.id%>')"> Delete</a>
+                                </span>
+                            </div>
+                        </div>
                     </div>
                     <%
                         if (courseDetails.evaluations.size() > 0||
@@ -167,7 +175,7 @@
                                             <%=PageData.getInstructorStatusForEval(edd)%>
                                         </span>
                                     </td>
-                                    <td class="session-response<% if(!TimeHelper.isOlderThanAYear(edd.endTime)) { out.print(" recent");} %>">
+                                    <td class="session-response-for-test<% if(!TimeHelper.isOlderThanAYear(edd.endTime)) { out.print(" recent");} %>">
                                         <a oncontextmenu="return false;" href="<%=data.getEvaluationStatsLink(edd.courseId, edd.name)%>">Show</a>
                                     </td>
                                     <td class="no-print"><%=data.getInstructorEvaluationActions(edd, true)%>
@@ -186,7 +194,7 @@
                                             <%=PageData.getInstructorStatusForFeedbackSession(fdb)%>
                                         </span>
                                     </td>
-                                    <td class="session-response<% if(!TimeHelper.isOlderThanAYear(fdb.createdTime)) { out.print(" recent");} %>">
+                                    <td class="session-response-for-test<% if(!TimeHelper.isOlderThanAYear(fdb.createdTime)) { out.print(" recent");} %>">
                                         <a oncontextmenu="return false;" href="<%=data.getFeedbackSessionStatsLink(fdb.courseId, fdb.feedbackSessionName)%>">Show</a>
                                     </td>
                                     <td class="no-print"><%=data.getInstructorFeedbackSessionActions(
