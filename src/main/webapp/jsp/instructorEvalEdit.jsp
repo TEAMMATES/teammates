@@ -51,7 +51,7 @@
       <div class="panel-heading">Edit evaluation</div>
       <div class="panel-body fill-plain">
         <form class="form-horizontal" role="form" action="<%=Const.ActionURIs.INSTRUCTOR_EVAL_EDIT_SAVE%>" name="form_addevaluation">
-          <div class="row">
+          
             <div class="col-md-7">
               <div class="row">
                 <div class="form-group">
@@ -76,7 +76,7 @@
                 <div class="form-group">
                   <label class="col-sm-4 control-label">Peer
                     feedback:</label>
-                  <div class="col-md-8">
+                  <div class="col-sm-8">
                     <div class="radio">
                       <label> <input type="radio" name="<%=Const.ParamsNames.EVALUATION_COMMENTSENABLED%>" 
                                 id="commentsstatus_enabled" value="true"
@@ -104,15 +104,15 @@
                 <div class="form-group">
                   <label class="col-sm-4 control-label">Starting time:</label>
                   <div class="col-md-4">
-                    <input class="form-control col-sm-2" type="datepicker"
+                    <input class="form-control col-sm-2 inline" type="datepicker"
                            name="<%=Const.ParamsNames.EVALUATION_START%>"
                            id="<%=Const.ParamsNames.EVALUATION_START%>"
                            data-toggle="tooltip" data-placement="top" 
                            title="<%=Const.Tooltips.EVALUATION_INPUT_START%>"
                            value="<%=TimeHelper.formatDate(data.evaluation.startTime)%>">
                   </div>
-                  <div class="col-md-3">
-                    <select class="form-control"
+                  <div class="col-md-4">
+                    <select class="form-control inline"
                             name="<%=Const.ParamsNames.EVALUATION_STARTTIME%>"
                             id="<%=Const.ParamsNames.EVALUATION_STARTTIME%>">
                       <%
@@ -126,15 +126,15 @@
                 <div class="form-group">
                   <label class="col-sm-4 control-label">Ending time:</label>
                   <div class="col-md-4">
-                    <input class="form-control col-sm-2" type="datepicker"
+                    <input class="form-control col-sm-2 inline" type="datepicker"
                            name="<%=Const.ParamsNames.EVALUATION_DEADLINE%>" 
                            id="<%=Const.ParamsNames.EVALUATION_DEADLINE%>"
                            data-toggle="tooltip" data-placement="top" 
                            title="<%=Const.Tooltips.EVALUATION_INPUT_DEADLINE%>"
                            value="<%=TimeHelper.formatDate(data.evaluation.endTime)%>">
                   </div>
-                  <div class="col-md-3">
-                    <select class="form-control"
+                  <div class="col-md-4">
+                    <select class="form-control inline"
                             name="<%=Const.ParamsNames.EVALUATION_DEADLINETIME%>"
                             id="<%=Const.ParamsNames.EVALUATION_DEADLINETIME%>">
                        <%
@@ -148,8 +148,8 @@
                 <div class="form-group">
                   <label class="col-sm-4 control-label">Grace
                     period:</label>
-                  <div class="col-sm-4">
-                    <select class="form-control" name="<%=Const.ParamsNames.EVALUATION_GRACEPERIOD%>"
+                  <div class="col-md-4">
+                    <select class="form-control inline" name="<%=Const.ParamsNames.EVALUATION_GRACEPERIOD%>"
                             id="<%=Const.ParamsNames.EVALUATION_GRACEPERIOD%>"
                             data-toggle="tooltip" data-placement="top" 
                             title="<%=Const.Tooltips.EVALUATION_INPUT_GRACEPERIOD%>">
@@ -163,8 +163,8 @@
               <div class="row">
                 <div class="form-group">
                   <label class="col-sm-4 control-label">Timezone:</label>
-                  <div class="col-sm-4">
-                    <select class="form-control" name="<%=Const.ParamsNames.EVALUATION_TIMEZONE%>" 
+                  <div class="col-md-4">
+                    <select class="form-control inline" name="<%=Const.ParamsNames.EVALUATION_TIMEZONE%>" 
                             id="<%=Const.ParamsNames.EVALUATION_TIMEZONE%>"
                             data-toggle="tooltip" data-placement="top" 
                             title="<%=Const.Tooltips.EVALUATION_INPUT_TIMEZONE%>">
@@ -176,39 +176,33 @@
                 </div>
               </div>
             </div>
-          </div>
-
-
-          <div class="row">
-          <br>
+    
             <div class="form-group">
               <label class="col-sm-2 control-label">Instructions:</label>
-              <div class="col-sm-9">
-                <textarea rows="3" class="form-control" name="<%=Const.ParamsNames.EVALUATION_INSTRUCTIONS%>" 
+              <div class="col-sm-10">
+                <textarea rows="5" class="form-control" name="<%=Const.ParamsNames.EVALUATION_INSTRUCTIONS%>" 
                           id="<%=Const.ParamsNames.EVALUATION_INSTRUCTIONS%>" style="max-width:100%;"
                           data-toggle="tooltip" data-placement="top" 
                           title="<%=Const.Tooltips.EVALUATION_INPUT_INSTRUCTIONS%>"><%=InstructorEvalEditPageData.sanitizeForHtml(data.evaluation.instructions.getValue())%></textarea>
               </div>
             </div>
-          </div>
 
           <br>
-          <div class="row">
+
             <div class="form-group">
-              <div class="col-md-5"></div>
-              <div class="col-md-2">
+            <div class="row">
+              <div class="col-xs-offset-2 col-xs-5 col-sm-offset-5 col-sm-2">
                 <button id="button_submit" type="submit" class="btn btn-primary"
                         onclick="return checkEditEvaluation(this.form);"
                         value="Save Changes">Save Changes</button>
               </div>
-              <div class="col-md-2">
-                <button id="button_back" type="button" class="btn btn-primary"
+              <div class="col-xs-2">
+                <button id="button_back" type="button" class="btn btn-default"
                        onclick="window.location.href='<%=data.getInstructorEvaluationLink()%>'"
                        value="Cancel">Cancel</button>
                 </div>
-              <div class="col-md-3"></div>
             </div>
-          </div>
+            </div>
 
           <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" id="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.evaluation.courseId%>"></input>
           <input type="hidden" name="<%=Const.ParamsNames.EVALUATION_NAME%>" id="<%=Const.ParamsNames.EVALUATION_NAME%>" value="<%=InstructorEvalEditPageData.sanitizeForHtml(data.evaluation.name)%>"></input>

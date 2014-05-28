@@ -53,7 +53,8 @@ public class AccountsLogicTest extends BaseComponentTestCase {
     public void testGetInstructorAccounts() throws Exception{
         
         restoreTypicalDataInDatastore();
-
+        dataBundle = getTypicalDataBundle();
+        
         ______TS("success case");
         
         List<AccountAttributes> instructorAccounts = logic.getInstructorAccounts();
@@ -67,9 +68,18 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         instructorAccounts = logic.getInstructorAccounts();
         assertEquals(instructorAccounts.size(), size);
     }
-
+    
     @Test
-    public void testCreateAccount() throws Exception {
+    public void testAll() throws Exception{
+        testCreateAccount();
+        testCreateInstructorAccount();
+        testAccountFunctions();
+        testJoinCourseForStudent();
+        testJoinCourseForInstructor();
+        testDeleteAccountCascade();
+    }
+ 
+    private void testCreateAccount() throws Exception {
 
         ______TS("typical success case");
 
@@ -91,11 +101,11 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         
     }
 
-    @Test
-    public void testCreateInstructorAccount() throws Exception {
+    private void testCreateInstructorAccount() throws Exception {
 
         restoreTypicalDataInDatastore();
-
+        dataBundle = getTypicalDataBundle();
+        
         ______TS("success case");
 
         // Delete any existing
@@ -179,9 +189,9 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         }
     }
     
-    @Test
-    public void testAccountFunctions() throws Exception {
+    private void testAccountFunctions() throws Exception {
         restoreTypicalDataInDatastore();
+        dataBundle = getTypicalDataBundle();
         
         ______TS("test isAccountPresent");
 
@@ -238,8 +248,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
 
     }
 
-    @Test
-    public void testJoinCourseForStudent() throws Exception {
+    private void testJoinCourseForStudent() throws Exception {
         restoreTypicalDataInDatastore();
         
         String correctStudentId = "correctStudentId";
@@ -378,8 +387,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         assertTrue(logic.isInstructor(correctStudentId));
     }
     
-    @Test
-    public void testJoinCourseForInstructor() throws Exception {
+    private void testJoinCourseForInstructor() throws Exception {
         restoreTypicalDataInDatastore();
         
         InstructorAttributes instructor = dataBundle.instructors.get("instructorNotYetJoinCourse");
@@ -513,8 +521,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         
     }
 
-    @Test
-    public void testDeleteAccountCascade() throws Exception {
+    private void testDeleteAccountCascade() throws Exception {
         
         restoreTypicalDataInDatastore();
 
