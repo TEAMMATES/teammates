@@ -362,7 +362,7 @@ public abstract class AppPage {
      * from a table (which is of type {@code class=dataTable}) in the page.
      */
     public String getCellValueFromDataTable(int row, int column) {
-        return browser.selenium.getTable("id=dataTable." + row + "." + column);
+        return browser.selenium.getTable("css=table[class~='table']." + row + "." + column);
     }
 
     /**

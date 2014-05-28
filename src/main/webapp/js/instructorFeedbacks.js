@@ -179,7 +179,6 @@ function convertDateToHHMM(date) {
 }
 
 function readyFeedbackPage (){
-
     formatSessionVisibilityGroup();
     formatResponsesVisibilityGroup();
     collapseIfPrivateSession();
@@ -243,16 +242,12 @@ function toggleDisabledAndStoreLast(id, bool) {
  */
 function collapseIfPrivateSession() {
     if ($('[name='+FEEDBACK_SESSION_SESSIONVISIBLEBUTTON+']').filter(':checked').val() == "never") {
-        $('#timeFrameTable').hide();
-        $('#instructionsTable').find('tr:first').hide();
-        if($('#instructionsTable').find(':visible').size()==0) {
-            $('#instructionsTable').hide();
-        }
-        $('#response_visible_from_row').hide();
+        $('#timeFramePanel').hide();
+        $('#instructionsRow').hide();
+        $('#responsesVisibleFromColumn').hide();
     } else {
-        $('#timeFrameTable').show();
-        $('#instructionsTable').show();
-        $('#instructionsTable').find('tr:first').show();
-        $('#response_visible_from_row').show();
+        $('#timeFramePanel').show();
+        $('#instructionsRow').show();
+        $('#responsesVisibleFromColumn').show();
     }
 }

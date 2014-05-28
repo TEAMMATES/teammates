@@ -153,7 +153,7 @@
                             </div>
                         </div>
                         <br>
-                        <div class="row">
+                        <div class="row" id="instructionsRow">
                             <div class="col-md-12"
                                 title="<%=Const.Tooltips.FEEDBACK_SESSION_INSTRUCTIONS%>"
                                 data-toggle="tooltip"
@@ -185,7 +185,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="panel panel-primary">
+                <div class="panel panel-primary" id="timeFramePanel">
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-5"
@@ -387,7 +387,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-6 border-left-gray">
+                            <div class="col-md-6 border-left-gray" id="responsesVisibleFromColumn">
                                 <div class="row">
                                     <div class="col-md-6"
                                         title="<%=Const.Tooltips.FEEDBACK_SESSION_RESULTSVISIBLELABEL%>"
@@ -571,7 +571,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-md-12">
-                        <button type="submit" class="btn btn-primary center-block">Create
+                        <button id="button_submit" type="submit" class="btn btn-primary center-block">Create
                             Feedback Session</button>
                     </div>
                 </div>
@@ -612,7 +612,7 @@
             		for (FeedbackSessionAttributes fdb : data.existingFeedbackSessions) {
             			sessionIdx++;
             %>
-            <tr id="session<%=sessionIdx%>">
+            <tr class="sessionsRow" id="session<%=sessionIdx%>">
                 <td><%=fdb.courseId%></td>
                 <td><%=InstructorFeedbacksPageData
 							.sanitizeForHtml(fdb.feedbackSessionName)%></td>
@@ -622,7 +622,7 @@
                     </span>
                 </td>
                 <td
-                    class="session-response<%if (!TimeHelper.isOlderThanAYear(fdb.createdTime)) {
+                    class="session-response-for-test<%if (!TimeHelper.isOlderThanAYear(fdb.createdTime)) {
 						out.print(" recent");
 					}%>">
                     <a oncontextmenu="return false;"
@@ -637,7 +637,7 @@
             		for (EvaluationAttributes edd : data.existingEvalSessions) {
             			sessionIdx++;
             %>
-            <tr class="sessions_row" id="evaluation<%=sessionIdx%>">
+            <tr class="sessionsRow" id="evaluation<%=sessionIdx%>">
                 <td><%=edd.courseId%></td>
                 <td><%=InstructorFeedbacksPageData
 							.sanitizeForHtml(edd.name)%></td>
@@ -647,7 +647,7 @@
                     </span>
                 </td>
                 <td
-                    class="session-response<%if (!TimeHelper.isOlderThanAYear(edd.endTime)) {
+                    class="session-response-for-test<%if (!TimeHelper.isOlderThanAYear(edd.endTime)) {
 						out.print(" recent");
 					}%>">
                     <a oncontextmenu="return false;"
@@ -682,8 +682,6 @@
         %>
     </div>
 
-    <div id="frameBottom">
-        <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
-    </div>
+    <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
 </body>
 </html>

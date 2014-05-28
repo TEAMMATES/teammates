@@ -218,7 +218,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         
-        feedbackPage.verifyHtml("/instructorFeedbackAllSessionTypes.html");
+        feedbackPage.verifyHtmlAjax("/instructorFeedbackAllSessionTypes.html");
 
         feedbackPage.sortByName()
             .verifyTablePattern(1,"{*}Awaiting Session{*}First Eval{*}First Session{*}Manual Session{*}Open Session{*}Private Session");
@@ -364,9 +364,9 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.clickNeverVisibleTimeButton();
         
         //verify that timeFrameTable, instructions and ResponseVisTable are all hidden
-        feedbackPage.verifyHidden(By.id("timeFrameTable"));
-        feedbackPage.verifyHidden(By.id("response_visible_from_row"));
-        feedbackPage.verifyInstructionsTextAreaIsHidden();
+        feedbackPage.verifyHidden(By.id("timeFramePanel"));
+        feedbackPage.verifyHidden(By.id("responsesVisibleFromColumn"));
+        feedbackPage.verifyHidden(By.id("instructionsRow"));
         
         
         newSession.feedbackSessionName = "private session of characters123456789";
