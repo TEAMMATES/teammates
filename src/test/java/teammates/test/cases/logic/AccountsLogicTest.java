@@ -53,7 +53,8 @@ public class AccountsLogicTest extends BaseComponentTestCase {
     public void testGetInstructorAccounts() throws Exception{
         
         restoreTypicalDataInDatastore();
-
+        dataBundle = getTypicalDataBundle();
+        
         ______TS("success case");
         
         List<AccountAttributes> instructorAccounts = logic.getInstructorAccounts();
@@ -95,7 +96,8 @@ public class AccountsLogicTest extends BaseComponentTestCase {
     public void testCreateInstructorAccount() throws Exception {
 
         restoreTypicalDataInDatastore();
-
+        dataBundle = getTypicalDataBundle();
+        
         ______TS("success case");
 
         // Delete any existing
@@ -182,6 +184,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
     @Test
     public void testAccountFunctions() throws Exception {
         restoreTypicalDataInDatastore();
+        dataBundle = getTypicalDataBundle();
         
         ______TS("test isAccountPresent");
 
