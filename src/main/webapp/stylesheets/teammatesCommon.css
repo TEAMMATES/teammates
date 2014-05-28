@@ -152,6 +152,10 @@ body {
     background-color:white;
 }
 
+.inline {
+    display: inline;
+}
+
 @media print {
     a[href]:after {
         content:none;
