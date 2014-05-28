@@ -89,30 +89,29 @@
                     </div>
                 </div>
                  <div class="form-group">
-                    <label class="col-sm-3 control-label">Report type:</label>
-                    <label class="radio inline col-sm-2">
+                    <label class="control-label col-sm-3">Report type:</label>
+                    <label class="radio col-sm-3">
                         <input  type="radio" name="radio_reporttype"
                                 id="radio_summary" value="instructorEvaluationSummaryTable"
                                 checked="checked" onclick="showReport(this.value)">
                         Summary
                     </label>
-                    <label class="radio inline col-sm-3">
+                    <label class="radio col-sm-3">
                         <input  type="radio" name="radio_reporttype" id="radio_reviewer"
                                 value="instructorEvaluationDetailedReviewerTable"
                                 onclick="showReport(this.value)">
                         Detailed: By Reviewer
                     </label>
-                    <label class="radio inline col-sm-3">
+                    <label class="radio col-sm-3">
                         <input  type="radio" name="radio_reporttype" id="radio_reviewee"
                                 value="instructorEvaluationDetailedRevieweeTable"
                                 onclick="showReport(this.value)">
                         Detailed: By Reviewee
-                    </label>           
+                    </label>     
                 </div>
                 <br>
                 <div class="form-group">
-                    <div class="col-sm-4"></div>
-                    <div class="col-sm-2">
+                    <div class="col-sm-offset-4 col-sm-2 col-xs-3">
                         <%
                             if(InstructorEvalResultsPageData.getInstructorStatusForEval(data.evaluationResults.evaluation).equals(Const.INSTRUCTOR_EVALUATION_STATUS_PUBLISHED)) {
                         %>
@@ -138,7 +137,7 @@
                         %>
                     </div>
 
-                    <div class="col-sm-2">
+                    <div class="col-sm-2 col-xs-4">
                         <button type="submit" value="Download Report" class="btn btn-primary">Download Report</button>    
                     </div>
                     <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>"
@@ -161,20 +160,25 @@
         %>
 
         <div id="instructorEvaluationSummaryTable" class="evaluation_result">
-            <h4 style="display:inline;">
-                <span class="label label-info" data-toggle="tooltip" data-placement="top" data-container="body"  
-                        title='<%=Const.Tooltips.CLAIMED%>'>CC</span> Claimed Contribution &nbsp; &nbsp; &nbsp;
+            <div class="row">
+            <div class="col-sm-4">
+            <h4><span class="label label-info" data-toggle="tooltip" data-placement="top" data-container="body"  
+                        title='<%=Const.Tooltips.CLAIMED%>'>CC</span> Claimed Contribution 
+            </h4>
+            </div>
+            <div class="col-sm-5"> 
+            <h4><span class="label label-success" data-toggle="tooltip" data-placement="top" data-container="body"  
+                        title='<%=Const.Tooltips.PERCEIVED%>'>PC</span> Perceived Contribution 
+            </h4>
+            </div>
+            <div class="col-sm-2">
+            <h4><span class="label label-danger">E</span> Equal Share</h4>
+            </div>
+            </div>
+            <div class="pull-right">
+            [<a href="/instructorHelp.html#faq7a" target="_blank" id="interpret_help_link">How do I interpret/use these values?</a> ]
+        </div>
 
-                <span class="label label-success" data-toggle="tooltip" data-placement="top" data-container="body"  
-                        title='<%=Const.Tooltips.PERCEIVED%>'>PC</span> Perceived Contribution &nbsp; &nbsp; &nbsp;
-  
-                <span class="label label-danger">E</span> Equal Share &nbsp; &nbsp; &nbsp;
-            </h4> 
-             [ <a href="/instructorHelp.html#faq7a" target="_blank" id="interpret_help_link">How do I interpret/use these values?</a> ]
-
-            <br>
-            <br>
-           
             <table class="table table-bordered table-striped" id="dataTable">
                 <thead class="fill-primary">
                 <tr>
