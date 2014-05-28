@@ -164,10 +164,10 @@
                 <div class="form-group">
                   <label class="col-sm-4 control-label">Timezone:</label>
                   <div class="col-sm-4">
-                    <select class="form-control" name="<%=Const.ParamsNames.EVALUATION_TIMEZONE%>Select" 
-                            id="<%=Const.ParamsNames.EVALUATION_TIMEZONE%>Select"
+                    <select class="form-control" name="<%=Const.ParamsNames.EVALUATION_TIMEZONE%>" 
+                            id="<%=Const.ParamsNames.EVALUATION_TIMEZONE%>"
                             data-toggle="tooltip" data-placement="top" 
-                            title="<%=Const.Tooltips.EVALUATION_INPUT_TIMEZONE%>" disabled="disabled">
+                            title="<%=Const.Tooltips.EVALUATION_INPUT_TIMEZONE%>">
                       <%
                         for(String opt: data.getTimeZoneOptionsAsHtml()) out.println(opt);
                       %>
