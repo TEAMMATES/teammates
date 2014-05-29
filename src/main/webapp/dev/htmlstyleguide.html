@@ -17,7 +17,7 @@
         </div>
         <ul>
             <li>
-                We will use the HTML5 Doctype and HTML5 features.
+                We will use the HTML5 Doctype and HTML5 features.<br>
                 <span class="code green">&lt;!DOCTYPE html&gt;</span><br>
                 Do not include xml namespace in the document.<br>
                 <span class="code red">xmlns="http://www.w3.org/1999/xhtml”</span><br><br>
@@ -48,12 +48,11 @@
                         Markup defines the structure and outline of a document and offers a structured content.<br>
                         It is not intended to define the look and feel of the content on the page beyond rudimentary concepts such as headers, paragraphs, and lists.<br>
                         The presentation attributes of HTML have all been deprecated and style should be contained in style sheets.<br>
-                        No inline styling should be coontainer in any form.<br>
+                        No inline styling should be coontainer in any form.<br><br>
                     </li>
                 </ul>
             </li>
-            <li>
-                General structure for HTML document
+            <li>General structure for HTML document<br><br>
                 <div class="code green">
                     &lt;!DOCTYPE html&gt;<br>
                     &lt;html&gt;<br>
@@ -134,17 +133,6 @@
                 <span class="code green">&lt;input value=”computer” id=”someInput” disabled=”disabled” tabindex=”2”&gt;</span><br>
                 <span class="code red">&lt;input value=computer id='someInput' disabled='disabled' tabindex=2&gt; (single/no quotes)</span><br>
                 <span class="code red">&lt;input value="computer" id="someInput" disabled tabindex="2"&gt; (specify boolean variables in the attributes)</span><br><br>
-            </li>
-            <li>
-                Avoid using the style attribute within tags. Put them in css sheets instead.
-                 If really required, do it in the format <span class="code">style=”attr1: value; attr2: value; attr3: value;”</span><br>
-                 <span class="code green">&lt;span style=”color: red; display: block; font-size: 15px;”&gt;</span><br>
-                <span class="code red">&lt;span style=”color:red display:block font-size:15px”&gt; (no whitespace, no semicolon)</span><br><br>
-            </li>
-            <li>
-                Ensure that attribute values have units.<br>
-                 <span class="code green">&lt;span style=”width: 100px; height: 100px; font-size: 15px;”&gt;</span><br>
-                <span class="code red">&lt;span style=”width: 100; height: 100; font-size: 15;”&gt; (no units)</span><br><br>
             </li>
         </ul>
         
