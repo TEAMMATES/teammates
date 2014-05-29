@@ -51,9 +51,9 @@ public class AccountsLogicTest extends BaseComponentTestCase {
     @SuppressWarnings("deprecation")
     @Test
     public void testGetInstructorAccounts() throws Exception{
-        
-        restoreTypicalDataInDatastore();
+
         dataBundle = getTypicalDataBundle();
+        restoreTypicalDataInDatastore();
         
         ______TS("success case");
         
@@ -71,9 +71,9 @@ public class AccountsLogicTest extends BaseComponentTestCase {
     
     @Test
     public void testAll() throws Exception{
+        testAccountFunctions();
         testCreateAccount();
         testCreateInstructorAccount();
-        testAccountFunctions();
         testJoinCourseForStudent();
         testJoinCourseForInstructor();
         testDeleteAccountCascade();
@@ -103,8 +103,8 @@ public class AccountsLogicTest extends BaseComponentTestCase {
 
     private void testCreateInstructorAccount() throws Exception {
 
-        restoreTypicalDataInDatastore();
         dataBundle = getTypicalDataBundle();
+        restoreTypicalDataInDatastore();
         
         ______TS("success case");
 
@@ -190,8 +190,9 @@ public class AccountsLogicTest extends BaseComponentTestCase {
     }
     
     private void testAccountFunctions() throws Exception {
-        restoreTypicalDataInDatastore();
+
         dataBundle = getTypicalDataBundle();
+        restoreTypicalDataInDatastore();
         
         ______TS("test isAccountPresent");
 
@@ -208,6 +209,11 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         assertFalse(accountsLogic.isAccountAnInstructor("id-does-not-exist"));
         
         ______TS("test getInstructorAccounts");
+        
+        
+        for(AccountAttributes aa : accountsLogic.getInstructorAccounts()){
+            ______TS(aa.toString());
+        }
         
         assertEquals(10, accountsLogic.getInstructorAccounts().size());
         
@@ -523,8 +529,6 @@ public class AccountsLogicTest extends BaseComponentTestCase {
 
     private void testDeleteAccountCascade() throws Exception {
         
-        restoreTypicalDataInDatastore();
-
         ______TS("typical success case");
 
         String course1Id = dataBundle.courses.get("typicalCourse1").id;
