@@ -230,6 +230,8 @@ function showResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commen
 	} else {
 		id = "-"+recipientIndex;
 	}
+	var commentBar = $("#plainCommentText"+id).parent().find("#commentBar"+id);
+	commentBar.hide();
     $("#plainCommentText"+id).hide();
     $("#responseCommentEditForm"+id).show();
     $("#responseCommentEditForm"+id+" > div > textarea").focus();
@@ -242,6 +244,8 @@ function hideResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commen
     } else {
     	id = "-"+recipientIndex;
     }
+    var commentBar = $("#plainCommentText"+id).parent().find("#commentBar"+id);
+    commentBar.show();
     $("#plainCommentText"+id).show();
     $("#responseCommentEditForm"+id).hide();
     removeFormErrorMessage($("#button_save_comment_for_edit" + id));

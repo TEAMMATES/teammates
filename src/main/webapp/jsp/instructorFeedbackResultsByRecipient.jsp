@@ -115,6 +115,7 @@
                                                     for (FeedbackResponseCommentAttributes comment : responseComments) {
                                             %>
                                         <li class="list-group-item list-group-item-warning" id="responseCommentRow-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>">
+                                            <div id="commentBar-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>">
                                             <span class="text-muted">From: <%=comment.giverEmail%> [<%=comment.createdAt%>]</span>
                                             <% 
                                                 if (comment.giverEmail.equals(data.instructor.email)) {
@@ -135,6 +136,7 @@
                                                 data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COMMENT_EDIT%>">
                                                 <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
                                             </a>
+                                            </div>
                                             <%  } %>
                                             <!-- frComment Content -->
                                             <div id="plainCommentText-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>"><%=InstructorFeedbackResultsPageData.sanitizeForHtml(comment.commentText.getValue()) %></div>
