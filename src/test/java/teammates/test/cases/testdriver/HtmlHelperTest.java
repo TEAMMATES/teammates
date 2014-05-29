@@ -50,7 +50,7 @@ public class HtmlHelperTest {
     public void testConvertToStandardHtml() throws Exception{
         
         //Tool tip in actual. Should not be ignored.
-        String actual = "<html><head></head><body><div id=\"dhtmltooltip\">tool tip <br> 2nd line </div></body></html>";
+        String actual = "<html><head></head><body><div class=\"tooltip\">tool tip <br> 2nd line </div></body></html>";
         String expected = "<html><head></head><body></body></html>";
         assertEquals(HtmlHelper.convertToStandardHtml(expected),HtmlHelper.convertToStandardHtml(actual));
         
@@ -65,8 +65,8 @@ public class HtmlHelperTest {
         assertFalse(HtmlHelper.convertToStandardHtml(expected).equals(HtmlHelper.convertToStandardHtml(actual)));
         
         //Different tool tips. Will be ignored (the logic does not detect this).
-        actual = "<html><head></head><body><div id=\"dhtmltooltip\">tool tip <br> 2nd line </div></body></html>";
-        expected = "<html><head></head><body><div id=\"dhtmltooltip\"></div></body></html>";
+        actual = "<html><head></head><body><div class=\"tooltip\">tool tip <br> 2nd line </div></body></html>";
+        expected = "<html><head></head><body><div class=\"tooltip\"></div></body></html>";
         assertEquals(HtmlHelper.convertToStandardHtml(expected),HtmlHelper.convertToStandardHtml(actual));
     }
     
