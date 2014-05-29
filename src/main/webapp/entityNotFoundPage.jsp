@@ -2,15 +2,15 @@
 <!DOCTYPE html>
 
 <html>
-    <head>
-        <link rel="shortcut icon" href="/favicon.png">
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>TEAMMATES</title>
-        <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" type="text/css"/>
-        <link rel="stylesheet" href="/bootstrap/css/bootstrap-theme.min.css" type="text/css"/>
-        <link rel="stylesheet" href="stylesheets/teammatesCommon.css" type="text/css">
-    </head>
+<head>
+    <link rel="shortcut icon" href="/favicon.png">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TEAMMATES</title>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" type="text/css"/>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap-theme.min.css" type="text/css"/>
+    <link rel="stylesheet" href="stylesheets/teammatesCommon.css" type="text/css">
+</head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
