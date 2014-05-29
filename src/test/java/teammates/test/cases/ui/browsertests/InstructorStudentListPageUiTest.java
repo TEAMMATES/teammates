@@ -76,7 +76,7 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         viewPage.verifyHtml("/instructorStudentListPageSearchShowEmail.html");
         viewPage.clickShowEmail();
         viewPage.clickShowMoreOptions();
-        viewPage.verifyHtml("/instructorStudentListPageSearchStudent.html");
+        viewPage.verifyIsHidden("moreOptionsDiv");
         
         ______TS("content: live search");
 
