@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -54,6 +55,7 @@ public abstract class Action {
     /** Whether the execution completed without any errors */
     protected boolean isError = false;
     
+    protected HttpSession session;
     
     /** Initializes variables. 
      * Aborts with an {@link UnauthorizedAccessException} if the user is not
@@ -66,6 +68,7 @@ public abstract class Action {
         requestUrl = HttpRequestHelper.getRequestedURL(req);
         logic = new Logic();
         requestParameters = req.getParameterMap();
+        session = req.getSession();
         
         //---- set error status forwarded from the previous action
         
@@ -139,7 +142,12 @@ public abstract class Action {
         response.responseParams.put(Const.ParamsNames.USER_ID, account.googleId);
         response.responseParams.put(Const.ParamsNames.ERROR, ""+response.isError);
         if(!response.getStatusMessage().isEmpty()){
-            response.responseParams.put(Const.ParamsNames.STATUS_MESSAGE, response.getStatusMessage());
+            String statusMessage = (String) session.getAttribute(Const.ParamsNames.STATUS_MESSAGE);
+            if(statusMessage == null || statusMessage.isEmpty()){
+                session.setAttribute(Const.ParamsNames.STATUS_MESSAGE, response.getStatusMessage());
+            } else {
+                session.setAttribute(Const.ParamsNames.STATUS_MESSAGE, statusMessage + "<br />"  + response.getStatusMessage());
+            }
         }
         
         return response;
