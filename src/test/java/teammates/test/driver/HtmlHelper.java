@@ -154,8 +154,8 @@ public class HtmlHelper {
             
         for (int i = 0; i < attributes.getLength(); i++) {
             Node attribute = attributes.item(i);
-            if(attribute.getNodeName().equalsIgnoreCase("id")
-                    && attribute.getNodeValue().equalsIgnoreCase("dhtmltooltip")){
+            if(attribute.getNodeName().equalsIgnoreCase("class")
+                    && attribute.getNodeValue().contains("tooltip")){
                 return true;
             }
         }
