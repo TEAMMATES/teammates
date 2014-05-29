@@ -108,7 +108,7 @@
                                             </div>
                                             <% List<FeedbackResponseCommentAttributes> responseComments = data.bundle.responseComments.get(singleResponse.getId()); %>
                                             <ul class="list-group" id="responseCommentTable-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>"
-                                             style="<%=responseComments != null && responseComments.size() > 0? "margin-top:15px;": "display:none;"%>">
+                                             style="<%=responseComments != null && responseComments.size() > 0? "margin-top:15px;": "display:none"%>">
                                             <%
                                                 if (responseComments != null && responseComments.size() > 0) {
                                                     int responseCommentIndex = 1;
