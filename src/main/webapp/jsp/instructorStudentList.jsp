@@ -202,7 +202,7 @@
                         </h4>
                     </div>
                     <div class="col-md-2">
-                        <a class="btn btn-default btn-xs pull-right pull-down"
+                        <a class="btn btn-default btn-xs pull-right pull-down course-enroll-for-test"
                             href="<%=data.getInstructorCourseEnrollLink(courseDetails.course.id)%>"
                             title="<%=Const.Tooltips.COURSE_ENROLL%>"
                             data-toggle="tooltip"
@@ -243,26 +243,26 @@
                                 <td id="studentname-c<%=courseIdx %>.<%=studentIdx%>"><%=PageData.sanitizeForHtml(student.name)%></td>
                                 <td id="studentemail-c<%=courseIdx %>.<%=studentIdx%>"><%=PageData.sanitizeForHtml(student.email)%></td>
                                 <td class="no-print centeralign">
-                                    <a class="btn btn-default btn-xs" 
+                                    <a class="btn btn-default btn-xs student-view-for-test" 
                                     href="<%=data.getCourseStudentDetailsLink(courseDetails.course.id, student)%>"
                                     title="<%=Const.Tooltips.COURSE_STUDENT_DETAILS%>"
                                     data-toggle="tooltip"
                                     data-placement="top"> View</a> 
                                     
-                                    <a class="btn btn-default btn-xs"
+                                    <a class="btn btn-default btn-xs student-edit-for-test"
                                     href="<%=data.getCourseStudentEditLink(courseDetails.course.id, student)%>"
                                     title="<%=Const.Tooltips.COURSE_STUDENT_EDIT%>"
                                     data-toggle="tooltip"
                                     data-placement="top"> Edit</a> 
                                     
-                                    <a class="btn btn-default btn-xs"
+                                    <a class="btn btn-default btn-xs student-delete-for-test"
                                     href="<%=data.getCourseStudentDeleteLink(courseDetails.course.id, student)%>"
                                     onclick="return toggleDeleteStudentConfirmation('<%=sanitizeForJs(courseDetails.course.id)%>','<%=sanitizeForJs(student.name)%>')"
                                     title="<%=Const.Tooltips.COURSE_STUDENT_DELETE%>"
                                     data-toggle="tooltip"
                                     data-placement="top"> Delete</a>
                                     
-                                    <a class="btn btn-default btn-xs"
+                                    <a class="btn btn-default btn-xs student-records-for-test"
                                     href="<%=data.getStudentRecordsLink(courseDetails.course.id, student)%>"
                                     title="<%=Const.Tooltips.COURSE_STUDENT_RECORDS%>"
                                     data-toggle="tooltip"
