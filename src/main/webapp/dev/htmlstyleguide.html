@@ -1,11 +1,8 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    
     <title>TM HTML Style Guide</title>
-    
     <link rel="stylesheet" href="dev.css" type="text/css">
 </head>
 <body>
@@ -14,20 +11,46 @@
             Teammates HTML Style Guide
         </div>
         <br>
-        
-        
-        
+
         <div class="subheader">
             <span class="bold">Document Properties</span>
         </div>
         <ul>
             <li>
-                Doctype to be used: HTML5<br>
-                <span class="code green">&lt;!DOCTYPE html&gt;</span><br><br>
-            </li>
-            <li>
+                We will use the HTML5 Doctype and HTML5 features.
+                <span class="code green">&lt;!DOCTYPE html&gt;</span><br>
                 Do not include xml namespace in the document.<br>
                 <span class="code red">xmlns="http://www.w3.org/1999/xhtml”</span><br><br>
+            </li>
+            <li>
+                <p>Character Encoding</p>
+                All markup should be delivered as UTF-8, as its the most friendly for internationalization.<br>
+                <span class="code green">&lt;meta http-equiv="Content-Type" content="text/html; charset=UTF-8"&gt;</span><br>
+                <span class="code green">&lt;meta charset="utf-8"&gt;</span><br>
+                <br><br>
+            </li>
+            <li>
+                General Rules
+                <ul>
+                    <li>
+                        <p>Indentation</p>
+                        For all code languages, we require indentation to be done via soft tabs (using the space character).<br>
+                        Hitting Tab in your text editor shall be equivalent to four spaces.
+                    </li>
+                    <li>
+                        <p>Readability vs Compression</p>
+                        We prefer readability over file-size savings when it comes to maintaining existing files.<br>
+                        Plenty of whitespace is encouraged, along with ASCII art, where appropriate.<br>
+                        There is no need for any developer to purposefully compress HTML or CSS, nor obfuscate JavaScript.<br><br>
+                    </li>
+                    <li>
+                        <p>Markup and inline styling</p>
+                        Markup defines the structure and outline of a document and offers a structured content.<br>
+                        It is not intended to define the look and feel of the content on the page beyond rudimentary concepts such as headers, paragraphs, and lists.<br>
+                        The presentation attributes of HTML have all been deprecated and style should be contained in style sheets.<br>
+                        No inline styling should be coontainer in any form.<br>
+                    </li>
+                </ul>
             </li>
             <li>
                 General structure for HTML document
@@ -35,29 +58,28 @@
                     &lt;!DOCTYPE html&gt;<br>
                     &lt;html&gt;<br>
                     &lt;head&gt;<br>
-                        &nbsp;&nbsp; &lt;meta http-equiv="Content-Type" content="text/html; charset=UTF-8"&gt;<br>
+                        &nbsp;&nbsp;&nbsp; &lt;meta http-equiv="Content-Type" content="text/html; charset=UTF-8"&gt;<br>
                     
-                        &nbsp;&nbsp; &lt;title&gt;Teammates&lt;/title&gt;<br><br>
+                        &nbsp;&nbsp;&nbsp; &lt;title&gt;Teammates&lt;/title&gt;<br><br>
                     
-                        &nbsp;&nbsp; &lt;link rel="shortcut icon" href="/favicon.png"&gt;<br><br>
-                        &nbsp;&nbsp; &lt;!-- Sample stylesheet inclusion --&gt;<br>
-                        &nbsp;&nbsp; &lt;link type="text/css" href="stylesheets/teammates.css" rel="stylesheet"&gt;<br><br>
+                        &nbsp;&nbsp;&nbsp; &lt;link rel="shortcut icon" href="/favicon.png"&gt;<br><br>
+                        &nbsp;&nbsp;&nbsp; &lt;!-- Sample stylesheet inclusion --&gt;<br>
+                        &nbsp;&nbsp;&nbsp; &lt;link type="text/css" href="stylesheets/teammates.css" rel="stylesheet"&gt;<br><br>
                     
-                        &nbsp;&nbsp; &lt;!-- Sample javascript inclusion --&gt;<br>
-                        &nbsp;&nbsp; &lt;script type="text/javascript" src="/js/jquery-minified.js"&gt;&lt;/script&gt;<br>
+                        &nbsp;&nbsp;&nbsp; &lt;!-- Sample javascript inclusion --&gt;<br>
+                        &nbsp;&nbsp;&nbsp; &lt;script type="text/javascript" src="/js/jquery-minified.js"&gt;&lt;/script&gt;<br>
                     &lt;/head&gt;<br>
                     
                     &lt;body&gt;<br>
-                        &nbsp;&nbsp; &lt;div id="dhtmltooltip"&gt;&lt;/div&gt;<br>
-                        &nbsp;&nbsp; &lt;div id="frameTop"&gt;<br>
-                            &nbsp;&nbsp;&nbsp;&nbsp; stuff...<br>
-                        &nbsp;&nbsp; &lt;/div&gt;<br>
-                        &nbsp;&nbsp; &lt;div id=”frameBody”&gt;<br>
-                            &nbsp;&nbsp;&nbsp;&nbsp; stuff...<br>
-                        &nbsp;&nbsp;&lt;/div&gt;<br>
-                        &nbsp;&nbsp; &lt;div id=”frameBottom”&gt;<br>
-                            &nbsp;&nbsp;&nbsp;&nbsp; stuff...<br>
-                        &nbsp;&nbsp; &lt;/div&gt;<br>
+                        &nbsp;&nbsp;&nbsp; &lt;div id="frameTop"&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; stuff...<br>
+                        &nbsp;&nbsp;&nbsp; &lt;/div&gt;<br>
+                        &nbsp;&nbsp;&nbsp; &lt;div id=”frameBodyWrapper” class="container theme-showcase"&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; stuff...<br>
+                        &nbsp;&nbsp;&nbsp; &lt;/div&gt;<br>
+                        &nbsp;&nbsp;&nbsp; &lt;div id=”frameBottom”&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; stuff...<br>
+                        &nbsp;&nbsp;&nbsp; &lt;/div&gt;<br>
                     &lt;/body&gt;<br>
                     &lt;/html&gt;<br><br>
                 </div>
