@@ -206,7 +206,7 @@
             if (!responseStatus.hasResponse.isEmpty()) {
         %>
                 <div class="panel panel-info">
-                    <div class="panel-heading">Student Response Information</div>
+                    <div class="panel-heading">Additional Information</div>
                     
                     <table class="table table-striped">
                         <thead>
