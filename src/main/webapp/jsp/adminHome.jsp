@@ -22,7 +22,6 @@
     <link rel="stylesheet" href="/stylesheets/teammatesCommon.css" type="text/css" media="screen">
     <script type="text/javascript" src="/js/googleAnalytics.js"></script>
     <script type="text/javascript" src="/js/jquery-minified.js"></script>
-    <script type="text/javascript" src="/js/tooltip.js"></script>
     <script type="text/javascript" src="/js/common.js"></script>
     <script type="text/javascript" src="/js/administrator.js"></script>
     <jsp:include page="../enableJS.jsp"></jsp:include>
