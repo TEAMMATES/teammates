@@ -160,7 +160,6 @@ function removeParamInUrl(url, param){
  */
 function applyFilters(){
     $("tr[id^='student-c']").show();
-    $("td[is^='studentemail-c'").show();
     filterCourse();
     filterTeam();
     filterName();
@@ -220,10 +219,22 @@ function filterName($key){
     if($key == null || $key == ""){
         return;
     }else{
-        $("tr[id^='student-c']").each(function(){
-            if($(this).is(':not(:containsIN("'+$key+'"))')){
-                $(this).hide();
-            }
+    	//iterate over all tr with students
+        $("tr[id^='student-c']").each(function() {
+        	var doesNotHaveContent = true;
+        	//iterate over each td in the tr
+        	// NOTE: containsIN is a custom defined function
+        	$(this).children("td").each(function() {
+        		if($(this).is(':containsIN("'+$key+'"):not(.no-print)')){
+                    doesNotHaveContent = false;
+                    return false;
+                }
+        	});
+        	
+        	if(doesNotHaveContent) {
+        		$(this).hide();
+        	}
+            
         });
         
         //If a table only contains the header, then we can hide the course.
