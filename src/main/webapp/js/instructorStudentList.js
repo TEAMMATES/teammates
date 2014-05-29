@@ -13,6 +13,7 @@ $(document).ready(function(){
     //Binding for "Show More Options" check box.
     $("#option_check").change(function(){
         if(this.checked){
+        	applyFilters();
             $("#moreOptionsDiv").show();
         } else{
             $("#moreOptionsDiv").hide();
@@ -162,7 +163,7 @@ function applyFilters(){
     $("tr[id^='student-c']").show();
     filterCourse();
     filterTeam();
-    filterName();
+    filterBySearchWord();
     filterEmails();
     
     //Give message if there are no result
@@ -206,11 +207,11 @@ function filterTeam(){
 /**
  * Search function that hide unrelated items.
  * Currently features to:
- * - 1 student name
+ * - 1 student name/email/team
  * - case insensitive
- * - exact matching
+ * - subString matching
  */
-function filterName($key){
+function filterBySearchWord($key){
     
     if($key == undefined){
         $key = $('#searchbox').val();
@@ -258,7 +259,6 @@ function filterEmails(){
         var $studentId = $elementId.split('-')[1];
         var $emailElement = $("#student_email-" + $studentId.replace('.','\\.'));
         var $emailText = $emailElement.text();
-
         if($(this).is(':hidden') || uniqueEmails[$emailText]){
             $emailElement.hide();
         } else {
