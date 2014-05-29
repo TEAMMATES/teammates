@@ -105,14 +105,15 @@
                                                 </button>
                                             </div>
                                             <% List<FeedbackResponseCommentAttributes> responseComments = data.bundle.responseComments.get(singleResponse.getId()); %>
-                                            <ul class="list-group comment-list" id="responseCommentTable-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>"
-                                             style="<%=responseComments != null && responseComments.size() > 0? "": "display:none"%>">
+                                            <ul class="list-group" id="responseCommentTable-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>"
+                                             style="<%=responseComments != null && responseComments.size() > 0? "margin-top:15px;": "display:none"%>">
                                             <%
                                                 if (responseComments != null && responseComments.size() > 0) {
                                                     int responseCommentIndex = 1;
                                                     for (FeedbackResponseCommentAttributes comment : responseComments) {
                                             %>
                                         <li class="list-group-item list-group-item-warning" id="responseCommentRow-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>">
+                                            <div id="commentBar-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>">
                                             <span class="text-muted">From: <%=comment.giverEmail%> [<%=comment.createdAt%>]</span>
                                             <% 
                                                 if (comment.giverEmail.equals(data.instructor.email)) {
@@ -133,6 +134,7 @@
                                                 data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COMMENT_EDIT%>">
                                                 <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
                                             </a>
+                                            </div>
                                             <%  } %>
                                             <!-- frComment Content -->
                                             <div id="plainCommentText-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>"><%=InstructorFeedbackResultsPageData.sanitizeForHtml(comment.commentText.getValue()) %></div>
@@ -204,7 +206,7 @@
                 if (!responseStatus.hasResponse.isEmpty()) {
             %>
             <div class="panel panel-info">
-                    <div class="panel-heading">Student Response Information</div>
+                    <div class="panel-heading">Additional Information</div>
                     
                     <table class="table table-striped">
                         <thead>

@@ -72,7 +72,7 @@
                 data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COMMENT_ADD%>">
                   <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                 </button>
-                <ul class="list-group comment-list">
+                <ul class="list-group" style="margin-top:15px;">
                 <%
                     int commentIdx = -1;
                     for(CommentAttributes comment : data.comments){
