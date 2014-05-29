@@ -64,7 +64,7 @@
             <%
                 } else if (data.isPreview || !data.isSessionOpenForSubmission) {
             %>
-                    <input disabled="disabled" type="submit" class="btn btn-primary center-block" id="response_submit_button" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_EDIT_SAVE%>')" value="Save Feedback" style="background: #66727A;"/>
+                    <input disabled="disabled" type="submit" class="btn btn-primary center-block" id="response_submit_button" data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_SESSION_EDIT_SAVE%>" value="Save Feedback"/>
             <%
                 } else {
             %>
