@@ -39,7 +39,7 @@
 </head> 
 
 <body>
-          <div class="navbar navbar-inverse navbar-fixed-top"  role="navigation" >
+         <div class="navbar navbar-inverse navbar-fixed-top"  role="navigation" >
             <div class="container" >
                <div class="navbar-header" >
                   <button class="navbar-toggle"  data-target="#contentLinks"  data-toggle="collapse"  type="button" >
@@ -152,25 +152,27 @@
                      </div>
                   </div>
                   <div class="form-group" >
-                     <label class="control-label col-sm-3" >
+                     <label class="control-label col-sm-3 col-xs-3" >
                         Report type:
                      </label>
-                     <label class="radio col-sm-3" >
-                        <input checked="checked"  id="radio_summary"  name="radio_reporttype"  onclick="showReport(this.value)"  type="radio"  value="instructorEvaluationSummaryTable" />
-                                                Summary
-                     </label>
-                     <label class="radio col-sm-3" >
-                        <input id="radio_reviewer"  name="radio_reporttype"  onclick="showReport(this.value)"  type="radio"  value="instructorEvaluationDetailedReviewerTable" />
-                                                Detailed: By Reviewer
-                     </label>
-                     <label class="radio col-sm-3" >
-                        <input id="radio_reviewee"  name="radio_reporttype"  onclick="showReport(this.value)"  type="radio"  value="instructorEvaluationDetailedRevieweeTable" />
-                                                Detailed: By Reviewee
-                     </label>
+                     <div class="col-sm-9 col-xs-5" >
+                        <label class="radio-inline"  style="margin-left:10px;" >
+                           <input checked="checked"  id="radio_summary"  name="radio_reporttype"  onclick="showReport(this.value)"  type="radio"  value="instructorEvaluationSummaryTable" />
+                                                      Summary
+                        </label>
+                        <label class="radio-inline" >
+                           <input id="radio_reviewer"  name="radio_reporttype"  onclick="showReport(this.value)"  type="radio"  value="instructorEvaluationDetailedReviewerTable" />
+                                                      Detailed: By Reviewer
+                        </label>
+                        <label class="radio-inline" >
+                           <input id="radio_reviewee"  name="radio_reporttype"  onclick="showReport(this.value)"  type="radio"  value="instructorEvaluationDetailedRevieweeTable" />
+                                                      Detailed: By Reviewee
+                        </label>
+                     </div>
                   </div>
                   <br/>
                                     <div class="form-group" >
-                     <div class="col-sm-offset-4 col-sm-2 col-xs-3" >
+                     <div class="col-sm-offset-4 col-sm-2 col-xs-offset-2 col-xs-3 col-md-offset-5 col-md-1" >
                         <button class="btn btn-primary"  id="button_publish"  onclick="if(togglePublishEvaluation('Fifth Eval')) window.location.href='/page/instructorEvalPublish?courseid=CEvalRUiT.CS1101&evaluationname=Fifth+Eval&next=%2Fpage%2FinstructorEvalsPage%3Fuser%3DCEvalRUiT.instr&user=CEvalRUiT.instr';"  type="button"  value="Publish" >
                            Publish
                         </button>
@@ -205,15 +207,15 @@
                   </div>
                   <div class="col-sm-5" >
                      <h4>
-                        <span class="label label-success"  data-container="body"  data-original-title="This is the average of what other team members think this student contributed to the project"  data-placement="top"  data-toggle="tooltip"  title="" >
+                        <span class="label label-info"  data-container="body"  data-original-title="This is the average of what other team members think this student contributed to the project"  data-placement="top"  data-toggle="tooltip"  title="" >
                            PC
                         </span>
                         Perceived Contribution
                      </h4>
                   </div>
-                  <div class="col-sm-2" >
+                  <div class="col-sm-3" >
                      <h4>
-                        <span class="label label-danger" >
+                        <span class="label label-info" >
                            E
                         </span>
                         Equal Share
@@ -230,9 +232,9 @@
                <table class="table table-bordered table-striped"  id="dataTable" >
                   <thead class="fill-primary" >
                      <tr>
-                        <th class="button-sort-none"  id="button_sortteamname"  onclick="toggleSort(this,1);" >
+                        <th class="button-sort-ascending"  id="button_sortteamname"  onclick="toggleSort(this,1);" >
                            Team
-                           <span class="sort-icon unsorted" >
+                           <span class="sort-icon ascending-sorted" >
                            </span>
                         </th>
                         <th class="button-sort-none"  id="button_sortname"  onclick="toggleSort(this,2)" >
@@ -504,6 +506,8 @@
                            <div class="col-md-1" >
                               <div class="pull-right" >
                                  <a class="button btn-primary btn-xs"  href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&evaluationname=Fifth+Eval&studentemail=CEvalRUiT.alice.b%40gmail.com&user=CEvalRUiT.instr"  onclick="return openChildWindow(this.href)"  target="_blank" >
+                                    <span class="glyphicon glyphicon-pencil" >
+                                    </span>
                                     Edit
                                  </a>
                               </div>
@@ -606,6 +610,8 @@
                            <div class="col-md-1" >
                               <div class="pull-right" >
                                  <a class="button btn-primary btn-xs"  href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&evaluationname=Fifth+Eval&studentemail=CEvalRUiT.benny.c%40gmail.com&user=CEvalRUiT.instr"  onclick="return openChildWindow(this.href)"  target="_blank" >
+                                    <span class="glyphicon glyphicon-pencil" >
+                                    </span>
                                     Edit
                                  </a>
                               </div>
@@ -678,11 +684,13 @@
                </div>
                <br/>
                               <div class="centeralign" >
-                  <button class="btn btn-primary btn-sm"  onclick="scrollToTop()"  value="To Top" >
+                  <button class="btn btn-info btn-circle"  onclick="scrollToTop()"  value="To Top" >
                      <span class="glyphicon glyphicon-arrow-up" >
                      </span>
-                     To Top
                   </button>
+                  <a href="#"  onclick="scrollToTop()" >
+                     To Top
+                  </a>
                </div>
                <br/>
                               <br/>
@@ -727,6 +735,8 @@
                            <div class="col-md-1" >
                               <div class="pull-right" >
                                  <a class="button btn-primary btn-xs"  href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&evaluationname=Fifth+Eval&studentemail=CEvalRUiT.charlie.d%40gmail.com&user=CEvalRUiT.instr"  onclick="return openChildWindow(this.href)"  target="_blank" >
+                                    <span class="glyphicon glyphicon-pencil" >
+                                    </span>
                                     Edit
                                  </a>
                               </div>
@@ -847,6 +857,8 @@
                            <div class="col-md-1" >
                               <div class="pull-right" >
                                  <a class="button btn-primary btn-xs"  href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&evaluationname=Fifth+Eval&studentemail=CEvalRUiT.danny.e%40gmail.com&user=CEvalRUiT.instr"  onclick="return openChildWindow(this.href)"  target="_blank" >
+                                    <span class="glyphicon glyphicon-pencil" >
+                                    </span>
                                     Edit
                                  </a>
                               </div>
@@ -967,6 +979,8 @@
                            <div class="col-md-1" >
                               <div class="pull-right" >
                                  <a class="button btn-primary btn-xs"  href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&evaluationname=Fifth+Eval&studentemail=CEvalRUiT.emily.f%40gmail.com&user=CEvalRUiT.instr"  onclick="return openChildWindow(this.href)"  target="_blank" >
+                                    <span class="glyphicon glyphicon-pencil" >
+                                    </span>
                                     Edit
                                  </a>
                               </div>
@@ -1057,11 +1071,13 @@
                </div>
                <br/>
                               <div class="centeralign" >
-                  <button class="btn btn-primary btn-sm"  onclick="scrollToTop()"  value="To Top" >
+                  <button class="btn btn-info btn-circle"  onclick="scrollToTop()"  value="To Top" >
                      <span class="glyphicon glyphicon-arrow-up" >
                      </span>
-                     To Top
                   </button>
+                  <a href="#"  onclick="scrollToTop()" >
+                     To Top
+                  </a>
                </div>
                <br/>
                            </div>
@@ -1267,11 +1283,13 @@
                </div>
                <br/>
                               <div class="centeralign" >
-                  <button class="btn btn-primary btn-sm"  onclick="scrollToTop()"  value="To Top" >
+                  <button class="btn btn-info btn-circle"  onclick="scrollToTop()"  value="To Top" >
                      <span class="glyphicon glyphicon-arrow-up" >
                      </span>
-                     To Top
                   </button>
+                  <a href="#"  onclick="scrollToTop()" >
+                     To Top
+                  </a>
                </div>
                <br/>
                               <br/>
@@ -1625,11 +1643,13 @@
                </div>
                <br/>
                               <div class="centeralign" >
-                  <button class="btn btn-primary btn-sm"  onclick="scrollToTop()"  value="To Top" >
+                  <button class="btn btn-info btn-circle"  onclick="scrollToTop()"  value="To Top" >
                      <span class="glyphicon glyphicon-arrow-up" >
                      </span>
-                     To Top
                   </button>
+                  <a href="#"  onclick="scrollToTop()" >
+                     To Top
+                  </a>
                </div>
                <br/>
                            </div>

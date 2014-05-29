@@ -89,29 +89,31 @@
                     </div>
                 </div>
                  <div class="form-group">
-                    <label class="control-label col-sm-3">Report type:</label>
-                    <label class="radio col-sm-3">
-                        <input  type="radio" name="radio_reporttype"
-                                id="radio_summary" value="instructorEvaluationSummaryTable"
-                                checked="checked" onclick="showReport(this.value)">
-                        Summary
-                    </label>
-                    <label class="radio col-sm-3">
-                        <input  type="radio" name="radio_reporttype" id="radio_reviewer"
-                                value="instructorEvaluationDetailedReviewerTable"
-                                onclick="showReport(this.value)">
-                        Detailed: By Reviewer
-                    </label>
-                    <label class="radio col-sm-3">
-                        <input  type="radio" name="radio_reporttype" id="radio_reviewee"
-                                value="instructorEvaluationDetailedRevieweeTable"
-                                onclick="showReport(this.value)">
-                        Detailed: By Reviewee
-                    </label>     
+                    <label class="control-label col-sm-3 col-xs-3">Report type:</label>
+                    <div class="col-sm-9 col-xs-5">
+                        <label class="radio-inline" style="margin-left:10px;">
+                            <input  type="radio" name="radio_reporttype"
+                                    id="radio_summary" value="instructorEvaluationSummaryTable"
+                                    checked="checked" onclick="showReport(this.value)">
+                            Summary
+                        </label>
+                        <label class="radio-inline">
+                            <input  type="radio" name="radio_reporttype" id="radio_reviewer"
+                                    value="instructorEvaluationDetailedReviewerTable"
+                                    onclick="showReport(this.value)">
+                            Detailed: By Reviewer
+                        </label>
+                        <label class="radio-inline">
+                            <input  type="radio" name="radio_reporttype" id="radio_reviewee"
+                                    value="instructorEvaluationDetailedRevieweeTable"
+                                    onclick="showReport(this.value)">
+                            Detailed: By Reviewee
+                        </label>
+                    </div>     
                 </div>
                 <br>
                 <div class="form-group">
-                    <div class="col-sm-offset-4 col-sm-2 col-xs-3">
+                    <div class="col-sm-offset-4 col-sm-2 col-xs-offset-2 col-xs-3 col-md-offset-5 col-md-1">
                         <%
                             if(InstructorEvalResultsPageData.getInstructorStatusForEval(data.evaluationResults.evaluation).equals(Const.INSTRUCTOR_EVALUATION_STATUS_PUBLISHED)) {
                         %>
@@ -167,12 +169,12 @@
             </h4>
             </div>
             <div class="col-sm-5"> 
-            <h4><span class="label label-success" data-toggle="tooltip" data-placement="top" data-container="body"  
+            <h4><span class="label label-info" data-toggle="tooltip" data-placement="top" data-container="body"  
                         title='<%=Const.Tooltips.PERCEIVED%>'>PC</span> Perceived Contribution 
             </h4>
             </div>
-            <div class="col-sm-2">
-            <h4><span class="label label-danger">E</span> Equal Share</h4>
+            <div class="col-sm-3">
+            <h4><span class="label label-info">E</span> Equal Share</h4>
             </div>
             </div>
             <div class="pull-right">
@@ -301,7 +303,7 @@
                                     <div class="pull-right">
                                 <a target="_blank" class="button btn-primary btn-xs"
                                 href="<%=data.getInstructorEvaluationSubmissionEditLink(student.course, data.evaluationResults.evaluation.name, student.email)%>"
-                                onclick="return openChildWindow(this.href)"> Edit</a> 
+                                onclick="return openChildWindow(this.href)"><span class="glyphicon glyphicon-pencil"></span> Edit</a> 
                                  </div>
                             </div>
                                 <%
@@ -354,9 +356,9 @@
             </div>
                 <br>
                 <div class="centeralign">
-                    <button class="btn btn-primary btn-sm" value="To Top" onclick="scrollToTop()">
-                        <span class="glyphicon glyphicon-arrow-up"></span> To Top
-                    </button>
+                    <button class="btn btn-info btn-circle" value="To Top" onclick="scrollToTop()">
+                        <span class="glyphicon glyphicon-arrow-up"></span></button>
+                       <a onclick="scrollToTop()" href="#"> To Top </a>
                 </div>
                 <br>
                 <%
