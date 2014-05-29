@@ -38,6 +38,10 @@
     <script type="text/javascript" src="/js/instructor.js"></script>
     <script type="text/javascript" src="/js/instructorEvals.js"></script>
     <script type="text/javascript" src="/js/ajaxResponseRate.js"></script>
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
     <%
         if(data.newEvaluationToBeCreated==null){
     %>
@@ -301,6 +305,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <button type="submit" 
+                                    id="button_submit" 
                                     class="btn btn-primary center-block"
                                     onclick="return checkAddEvaluation(this.form);">
                                     Create Evaluation Session
@@ -340,11 +345,10 @@
                 int sessionIdx = -1;
                 if (data.existingFeedbackSessions.size() > 0
                         || data.existingEvalSessions.size() > 0) {
-
                     for (EvaluationAttributes edd : data.existingEvalSessions) {
                         sessionIdx++;
             %>
-            <tr class="sessions_row" id="evaluation<%=sessionIdx%>">
+            <tr class="sessionsRow" id="evaluation<%=sessionIdx%>">
                 <td><%=edd.courseId%></td>
                 <td><%=InstructorEvalPageData
                             .sanitizeForHtml(edd.name)%></td>
@@ -354,7 +358,7 @@
                     </span>
                 </td>
                 <td
-                    class="session-response<%if (!TimeHelper.isOlderThanAYear(edd.endTime)) {
+                    class="session-response-for-test<%if (!TimeHelper.isOlderThanAYear(edd.endTime)) {
                         out.print(" recent");
                     }%>">
                     <a oncontextmenu="return false;"
@@ -368,7 +372,7 @@
                     for (FeedbackSessionAttributes fdb : data.existingFeedbackSessions) {
                         sessionIdx++;
             %>
-            <tr id="session<%=sessionIdx%>">
+            <tr class="sessionsRow" id="session<%=sessionIdx%>">
                 <td><%=fdb.courseId%></td>
                 <td><%=InstructorEvalPageData
                             .sanitizeForHtml(fdb.feedbackSessionName)%></td>
@@ -378,7 +382,7 @@
                     </span>
                 </td>
                 <td
-                    class="session-response<%if (!TimeHelper.isOlderThanAYear(fdb.createdTime)) {
+                    class="session-response-for-test<%if (!TimeHelper.isOlderThanAYear(fdb.createdTime)) {
                         out.print(" recent");
                     }%>">
                     <a oncontextmenu="return false;"
