@@ -30,6 +30,7 @@ public class StudentHomePageAction extends Action {
         data = new StudentHomePageData(account);
         String recentlyJoinedCourseId = getRequestParamValue(Const.ParamsNames.CHECK_PERSISTENCE_COURSE);
         
+        
         try{
             data.courses = logic.getCourseDetailsListForStudent(account.googleId);
     
@@ -42,6 +43,7 @@ public class StudentHomePageAction extends Action {
             boolean isDataConsistent = checkEventualConsistency(recentlyJoinedCourseId);
             if(!isDataConsistent) {
                 addPlaceholderCourse(recentlyJoinedCourseId, account.googleId);
+                data.setEventualConsistencyCourse(recentlyJoinedCourseId);
             }
             
             for(CourseDetailsBundle course: data.courses){
@@ -59,6 +61,7 @@ public class StudentHomePageAction extends Action {
         } 
         
         ShowPageResult response = createShowPageResult(Const.ViewURIs.STUDENT_HOME, data);
+        
         return response;
 
     }
@@ -158,6 +161,7 @@ public class StudentHomePageAction extends Action {
                 }
             }
         }
+        
         return isDataConsistent;
     }
 

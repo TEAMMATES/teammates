@@ -21,8 +21,17 @@ public class StudentEvalSubmissionEditPageAction extends Action {
         String evalName = getRequestParamValue(Const.ParamsNames.EVALUATION_NAME);
         Assumption.assertNotNull(evalName);
         
+        String recentlyJoinedCourseId = getRequestParamValue(Const.ParamsNames.CHECK_PERSISTENCE_COURSE);
+        log.info("recent: " + recentlyJoinedCourseId);
         if(!isJoinedCourse(courseId, account.googleId)){
-            return createPleaseJoinCourseResponse(courseId);
+            if(recentlyJoinedCourseId == null) {
+                return createPleaseJoinCourseResponse(courseId);
+            } else {
+                statusToUser.add("Eventual consistency");
+                
+                RedirectResult response = createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
+                return response;
+            }
         }
         //No need to call GateKeeper because of the above redirect
         
