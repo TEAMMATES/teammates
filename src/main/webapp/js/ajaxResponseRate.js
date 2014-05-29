@@ -13,14 +13,12 @@ $(document).ready(function(){
             error : function() {
                 parentOfHyperlinkObject.html("Failed. ")
                                        .append(hyperlinkObject);
+                hyperlinkObject.attr("data-toggle", "tooltip");
+                hyperlinkObject.attr("data-placement", "top");
+                hyperlinkObject.prop("title","Error occured while trying to fetch response rate. Click to retry.");
                 hyperlinkObject.html("Try again?");
+                hyperlinkObject.tooltip({html: true});
                 hyperlinkObject.click(responseRateClickHandler);
-                hyperlinkObject.mouseover(function() {
-                    ddrivetip("Error occured while trying to fetch response rate. Click to retry.");
-                });
-                hyperlinkObject.mouseout(function() {
-                    hideddrivetip();
-                });
             },
             success :function(data) {
                 setTimeout(function(){

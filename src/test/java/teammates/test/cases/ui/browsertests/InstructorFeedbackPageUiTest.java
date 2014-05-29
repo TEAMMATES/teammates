@@ -246,6 +246,8 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         //Already displayed
         assertEquals("0 / 2", feedbackPage.getResponseValue("CFeedbackUiT.CS1101","First Eval"));
         
+        // Failure case tested in HomePageUiTest
+        
     }
 
     public void testViewResultsLink() {
