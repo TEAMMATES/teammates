@@ -90,7 +90,7 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
                 
         browser.driver.get(joinLink);
         studentHome = createNewPage(browser, StudentHomePage.class);
-        expectedMsg = "alice.tmms has already joined this course";
+        expectedMsg = TestProperties.inst().TEST_STUDENT1_ACCOUNT + " has already joined this course";
         studentHome.verifyStatus(expectedMsg);
     }
     
