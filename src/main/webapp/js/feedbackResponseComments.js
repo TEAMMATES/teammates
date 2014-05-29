@@ -54,6 +54,7 @@ $(document).ready(function(){
         var submitButton = $(this);
         var formObject = $(this).parent().parent();
         var displayedText = $(this).parent().parent().prev();
+        var commentBar = displayedText.parent().find("div");
         var formData = formObject.serialize();
         
         e.preventDefault();
@@ -75,6 +76,7 @@ $(document).ready(function(){
                     if (!data.isError) {
                         // Update editted comment
                     	displayedText.text(data.comment.commentText.value);
+                    	commentBar.show();
                         
                         // Reset edit comment form
                         formObject.find("textarea").prop("disabled", false);
@@ -152,6 +154,7 @@ function generateNewCommentRow(data) {
     var newRow =
     // Comment Row
 	"<li class=\"list-group-item list-group-item-warning\" id=\"responseCommentRow-" + addCount + "\">"
+	+ "<div id=\"commentBar-" + addCount + "\">"
     + "<span class=\"text-muted\">From: " + data.comment.giverEmail + " [" + formattedDate + "]</span>"
 	// Delete form
     + "<form class=\"responseCommentDeleteForm pull-right\">"
@@ -169,6 +172,7 @@ function generateNewCommentRow(data) {
     + 		" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Edit this comment\">"
     + 	"<span class=\"glyphicon glyphicon-pencil glyphicon-primary\"></span>"
     + "</a>"
+    + "</div>"
     // Display Saved Comment
     + "<div id=\"plainCommentText-" + addCount + "\">" + data.comment.commentText.value + "</div>"
     // Edit form
@@ -233,6 +237,7 @@ function showResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commen
 	var commentBar = $("#plainCommentText"+id).parent().find("#commentBar"+id);
 	commentBar.hide();
     $("#plainCommentText"+id).hide();
+    $("#responseCommentEditForm"+id+" > div > textarea").val($("#plainCommentText"+id).text());
     $("#responseCommentEditForm"+id).show();
     $("#responseCommentEditForm"+id+" > div > textarea").focus();
 }
