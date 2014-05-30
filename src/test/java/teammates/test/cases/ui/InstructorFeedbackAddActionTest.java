@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.Sanitizer;
 import teammates.ui.controller.InstructorFeedbackAddAction;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.ShowPageResult;
@@ -159,7 +160,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                 "<span class=\"bold\"> to</span> Thu Jan 01 00:00:00 UTC 2015<br>" +
                 "<span class=\"bold\">Session visible from:</span> Fri Nov 27 00:00:00 UTC 1970<br>" +
                 "<span class=\"bold\">Results visible from:</span> Fri Nov 27 00:00:00 UTC 1970<br>" +
-                "<br><span class=\"bold\">Instructions:</span> <Text: <script<script>>test</script</script>>>|||/page/instructorFeedbackAdd";
+                "<br><span class=\"bold\">Instructions:</span> <Text: &lt;script&lt;script&gt;&gt;test&lt;&#x2f;script&lt;&#x2f;script&gt;&g...>|||/page/instructorFeedbackAdd";
         assertEquals(expectedLogMessage, a.getLogMessage());
         
         ______TS("Masquerade mode");

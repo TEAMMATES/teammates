@@ -219,7 +219,6 @@ public class InstructorsDb extends EntitiesDb{
         if (!instructorAttributesToUpdate.isValid()) {
             throw new InvalidParametersException(instructorAttributesToUpdate.getInvalidityInfo());
         }
-        instructorAttributesToUpdate.sanitizeForSaving();
         
         Instructor instructorToUpdate = getInstructorEntityForEmail(
                 instructorAttributesToUpdate.courseId, 
@@ -230,6 +229,7 @@ public class InstructorsDb extends EntitiesDb{
                         + ThreadHelper.getCurrentThreadStack());
         }
         
+        instructorAttributesToUpdate.sanitizeForSaving();
         instructorToUpdate.setGoogleId(instructorAttributesToUpdate.googleId);
         instructorToUpdate.setName(instructorAttributesToUpdate.name);
         

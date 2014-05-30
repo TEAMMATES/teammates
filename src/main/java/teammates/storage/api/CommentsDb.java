@@ -99,8 +99,6 @@ public class CommentsDb extends EntitiesDb{
         
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT,  newAttributes);
         
-        newAttributes.sanitizeForSaving();
-        
         if (!newAttributes.isValid()) {
             throw new InvalidParametersException(newAttributes.getInvalidityInfo());
         }
@@ -110,6 +108,7 @@ public class CommentsDb extends EntitiesDb{
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + newAttributes.toString());
         }
         
+        newAttributes.sanitizeForSaving();
         comment.setCommentText(newAttributes.commentText);
         
         getPM().close();
