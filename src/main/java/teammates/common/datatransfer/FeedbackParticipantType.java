@@ -1,5 +1,7 @@
 package teammates.common.datatransfer;
 
+import teammates.common.util.Sanitizer;
+
 public enum FeedbackParticipantType { 
     // booleans represent: isValidGiver?, isValidRecipient? isValidViewer?
     // Strings represents: option shown in giver select box, option shown in recipient select box, 
@@ -49,7 +51,7 @@ public enum FeedbackParticipantType {
      * @return A user-friendly {@code String} representing this participant as a feedback giver.
      */
     public String toDisplayGiverName(){
-        return displayNameGiver;
+        return Sanitizer.sanitizeForHtml(displayNameGiver);
     }
     
     /**
@@ -57,7 +59,7 @@ public enum FeedbackParticipantType {
      * @return A user-friendly {@code String} representing this participant as a feedback recipient.
      */
     public String toDisplayRecipientName(){
-        return displayNameRecipient;
+        return Sanitizer.sanitizeForHtml(displayNameRecipient);
     }
     
     /**
@@ -66,7 +68,7 @@ public enum FeedbackParticipantType {
      * responding to a feedback.
      */
     public String toVisibilityString(){
-        return displayNameVisibility;
+        return Sanitizer.sanitizeForHtml(displayNameVisibility);
     }
     
     /**
