@@ -75,6 +75,22 @@ function checkFeedbackQuestion(form) {
         setStatusMessage(DISPLAY_FEEDBACK_QUESTION_TEXTINVALID,true);
         return false;
     }
+    if ($(form).find('[name='+FEEDBACK_QUESTION_TYPE+']').val() == "NUMSCALE") {
+        if( $(form).find('[name='+FEEDBACK_QUESTION_NUMSCALE_MIN+']').val() == "" || 
+                $(form).find('[name='+FEEDBACK_QUESTION_NUMSCALE_MAX+']').val() == ""||
+                $(form).find('[name='+FEEDBACK_QUESTION_NUMSCALE_STEP+']').val() == "") {
+            setStatusMessage(DISPLAY_FEEDBACK_QUESTION_NUMSCALE_OPTIONSINVALID,true);
+            return false;
+        }
+        var qnNum = ($(form).attr('name')=='form_addquestions') ? -1 : parseInt($(form).find('[name='+FEEDBACK_QUESTION_NUMBER+']').val());
+        if(updateNumScalePossibleValues(qnNum)){
+            return true;
+        } else {
+            setStatusMessage(DISPLAY_FEEDBACK_QUESTION_NUMSCALE_INTERVALINVALID,true);
+            return false;
+        }
+    }
+
     return true;
 }
 

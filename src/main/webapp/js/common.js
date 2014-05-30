@@ -100,7 +100,11 @@ var DISPLAY_FEEDBACK_SESSION_NAME_LENGTHINVALID = "Feedback session name should 
 var DISPLAY_FEEDBACK_SESSION_SCHEDULEINVALID = "The feedback sesion schedule (start/end) is not valid.<br />"
         + "The start time should be in the future, and the end time should be after start time.";
 var DISPLAY_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID = "Please enter the maximum number of recipients each respondants should give feedback to.";
+
 var DISPLAY_FEEDBACK_QUESTION_TEXTINVALID = "Please enter a valid question. The question text cannot be empty.";
+var DISPLAY_FEEDBACK_QUESTION_NUMSCALE_OPTIONSINVALID = "Please enter valid options. The min/max/step cannot be empty.";
+var DISPLAY_FEEDBACK_QUESTION_NUMSCALE_INTERVALINVALID = "Please enter valid options. The interval is not divisible by the specified increment.";
+
 var DISPLAY_FEEDBACK_SESSION_INSTRUCTIONS_LENGTHINVALID = "Instructions to students should not exceed 500 characters.";
 var DISPLAY_FEEDBACK_SESSION_VISIBLE_DATEINVALID = "Feedback session visible date must not be empty";
 var DISPLAY_FEEDBACK_SESSION_PUBLISH_DATEINVALID = "Feedback session publish date must not be empty";
@@ -389,7 +393,13 @@ function setStatusMessage(message, error) {
         $(DIV_STATUS_MESSAGE).attr("class",
                 "alert alert-warning");
     }
-    document.getElementById( 'statusMessage' ).scrollIntoView();
+
+    Element.prototype.documentOffsetTop = function () {
+        return this.offsetTop + ( this.offsetParent ? this.offsetParent.documentOffsetTop() : 0 );
+    }
+
+    var pos = document.getElementById( 'statusMessage' ).documentOffsetTop() - (window.innerHeight / 2 );
+    window.scrollTo( 0, pos );
 }
 
 /**
