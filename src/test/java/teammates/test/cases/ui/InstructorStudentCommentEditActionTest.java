@@ -55,6 +55,7 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
 
     @Test
     public void testExecuteAndPostProcess() throws Exception {
+        //TODO: find a way to test status message from session
         InstructorAttributes instructor = dataBundle.instructors.get("instructor3OfCourse1");
         StudentAttributes student = dataBundle.students.get("student2InCourse1");
         String instructorId = instructor.googleId;
@@ -108,7 +109,6 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
                 + "?courseid=idOfTypicalCourse1&"
                 + "studentemail=student2InCourse1%40gmail.com&"
                 + "user=idOfInstructor3&"
-                + "message=Comment+edited&"
                 + "error=false",
                 r.getDestinationWithParams());
         assertEquals(false, r.isError);
@@ -139,7 +139,6 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
                 + "?courseid=idOfTypicalCourse1&"
                 + "studentemail=student2InCourse1%40gmail.com&"
                 + "user=idOfInstructor3&"
-                + "message=Comment+deleted&"
                 + "error=false",
                 r.getDestinationWithParams());
         assertEquals(false, r.isError);

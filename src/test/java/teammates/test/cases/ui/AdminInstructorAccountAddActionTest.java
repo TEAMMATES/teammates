@@ -48,7 +48,7 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
     
     @Test
     public void testExecuteAndPostProcess() throws Exception{
-
+        //TODO: find a way to test status message from session
         final String newInstructorId = "JamesBond89";
         final String name = "JamesBond";
         final String email = "jamesbond89@gmail.com";
@@ -94,7 +94,7 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
         assertEquals(false, r.isError);
         assertEquals("Instructor " + name + " has been successfully created", r.getStatusMessage());
         assertEquals(Const.ActionURIs.ADMIN_HOME_PAGE, r.destination);
-        assertEquals(Const.ActionURIs.ADMIN_HOME_PAGE + "?message=Instructor+JamesBond+has+been+successfully+created&error=false&user=" + adminUserId, r.getDestinationWithParams());
+        assertEquals(Const.ActionURIs.ADMIN_HOME_PAGE + "?error=false&user=" + adminUserId, r.getDestinationWithParams());
         
         ______TS("Error: already an instructor");
         
@@ -107,7 +107,7 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
         assertEquals(true, rForAlreadyExistingInstructor.isError);
         assertEquals("The Google ID " + newInstructorId + " is already registered as an instructor", rForAlreadyExistingInstructor.getStatusMessage());
         assertEquals(Const.ViewURIs.ADMIN_HOME, rForAlreadyExistingInstructor.destination);
-        assertEquals(Const.ViewURIs.ADMIN_HOME + "?message=The+Google+ID+" + newInstructorId + "+is+already+registered+as+an+instructor&error=true&user=" + adminUserId, rForAlreadyExistingInstructor.getDestinationWithParams());
+        assertEquals(Const.ViewURIs.ADMIN_HOME + "?error=true&user=" + adminUserId, rForAlreadyExistingInstructor.getDestinationWithParams());
         AdminHomePageData pageData = (AdminHomePageData)rForAlreadyExistingInstructor.data;
         assertEquals(email, pageData.instructorEmail);
         assertEquals(newInstructorId, pageData.instructorId);
@@ -129,7 +129,7 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
         assertEquals(true, rInvalidParam.isError);
         assertEquals("\"" + invalidName + "\" is not acceptable to TEAMMATES as a person name because it contains invalid characters. All a person name must start with an alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).", rInvalidParam.getStatusMessage());
         assertEquals(Const.ViewURIs.ADMIN_HOME, rInvalidParam.destination);
-        assertEquals(Const.ViewURIs.ADMIN_HOME + "?message=%22James%2520Bond99%22+is+not+acceptable+to+TEAMMATES+as+a+person+name+because+it+contains+invalid+characters.+All+a+person+name+must+start+with+an+alphanumeric+character%2C+and+cannot+contain+any+vertical+bar+%28%7C%29+or+percent+sign+%28%25%29.&error=true&user=" + adminUserId,
+        assertEquals(Const.ViewURIs.ADMIN_HOME + "?error=true&user=" + adminUserId,
                 rInvalidParam.getDestinationWithParams());
         
         pageData = (AdminHomePageData) rInvalidParam.data;
@@ -151,7 +151,7 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
         assertEquals(false, r.isError);
         assertEquals("Instructor " + name + " has been successfully created", r.getStatusMessage());
         assertEquals(Const.ActionURIs.ADMIN_HOME_PAGE, r.destination);
-        assertEquals(Const.ActionURIs.ADMIN_HOME_PAGE + "?message=Instructor+JamesBond+has+been+successfully+created&error=false&user=" + adminUserId, r.getDestinationWithParams());
+        assertEquals(Const.ActionURIs.ADMIN_HOME_PAGE + "?error=false&user=" + adminUserId, r.getDestinationWithParams());
     }
     
 
