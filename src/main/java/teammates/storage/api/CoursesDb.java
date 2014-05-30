@@ -82,6 +82,8 @@ public class CoursesDb extends EntitiesDb {
         
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseToUpdate);
         
+        courseToUpdate.sanitizeForSaving();
+        
         if (!courseToUpdate.isValid()) {
             throw new InvalidParametersException(courseToUpdate.getInvalidityInfo());
         }
@@ -92,7 +94,6 @@ public class CoursesDb extends EntitiesDb {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_COURSE);
         }
         
-        courseToUpdate.sanitizeForSaving();
         courseEntityToUpdate.setArchiveStatus(Boolean.valueOf(courseToUpdate.isArchived));
         
         getPM().close();

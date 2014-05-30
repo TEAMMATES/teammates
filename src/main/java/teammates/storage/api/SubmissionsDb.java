@@ -153,6 +153,8 @@ public class SubmissionsDb extends EntitiesDb {
             throws EntityDoesNotExistException, InvalidParametersException {
         
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, newSubmissionAttributes);
+
+        newSubmissionAttributes.sanitizeForSaving();
         
         if (!newSubmissionAttributes.isValid()) {
             throw new InvalidParametersException(newSubmissionAttributes.getInvalidityInfo());
@@ -166,8 +168,6 @@ public class SubmissionsDb extends EntitiesDb {
                     ERROR_UPDATE_NON_EXISTENT + Const.EOL
                     + newSubmissionAttributes.toString());
         }
-        
-        newSubmissionAttributes.sanitizeForSaving();
 
         submission.setPoints(newSubmissionAttributes.points);
         submission.setJustification(newSubmissionAttributes.justification);

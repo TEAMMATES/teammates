@@ -80,7 +80,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
         ______TS("enroll action: non-empty course, enroll lines without header");
         
         // A new student
-        enrollString += "Team 3 | Emily France | emily.f's.!email@gmail.com | This student has just been added\n";
+        enrollString += "Team 3 | Emily France | emily.fs.!email@gmail.com | This student has just been added\n";
         // A new student with no comment
         enrollString += "Team 3 | Frank Galoe | frank.g.tmms@gmail.com\n";
         // A new student with name containing accented characters
