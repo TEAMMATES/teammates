@@ -211,7 +211,13 @@ public class SubmissionAttributes extends EntityAttributes {
     
     @Override
     public void sanitizeForSaving() {
-        // TODO implement this
+        this.course = Sanitizer.sanitizeForHtml(course); //TODO: rename to courseId 
+        this.evaluation = Sanitizer.sanitizeForHtml(evaluation); //TODO: rename to evaluationName 
+        this.team = Sanitizer.sanitizeForHtml(team); //TODO: rename to teamName
+        this.reviewer = Sanitizer.sanitizeForHtml(reviewer); //TODO: rename to reviewerEmail
+        this.reviewee = Sanitizer.sanitizeForHtml(reviewee); //TODO: rename to revieweeEmail
+        this.justification = new Text(Sanitizer.sanitizeForHtml(justification.getValue()));
+        this.p2pFeedback = new Text(Sanitizer.sanitizeForHtml(p2pFeedback.getValue()));
     }
 
 }
