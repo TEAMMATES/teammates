@@ -121,7 +121,7 @@ public class FeedbackQuestionsDb extends EntitiesDb {
                 Const.StatusCodes.DBLEVEL_NULL_INPUT, 
                 newAttributes);
         
-        newAttributes.sanitizeForSaving();
+        //TODO: Sanitize values and update tests accordingly
         
         if (!newAttributes.isValid()) {
             throw new InvalidParametersException(newAttributes.getInvalidityInfo());

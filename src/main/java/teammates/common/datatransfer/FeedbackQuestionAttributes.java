@@ -437,10 +437,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes
 
     @Override
     public void sanitizeForSaving() {
-      this.feedbackSessionName = Sanitizer.sanitizeForHtml(feedbackSessionName);
-      this.courseId = Sanitizer.sanitizeForHtml(courseId);
-      this.creatorEmail = Sanitizer.sanitizeForHtml(creatorEmail);
-      this.questionMetaData = new Text(Sanitizer.sanitizeForHtml(questionMetaData.getValue()));
+        // TODO implement this
     }
     
     /** This method converts the given Feedback*QuestionDetails object to JSON for storing
