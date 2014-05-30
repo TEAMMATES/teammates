@@ -59,6 +59,7 @@ public class InstructorFeedbackPublishActionTest extends BaseActionTest {
     
     @Test
     public void testExecuteAndPostProcess() throws Exception{
+        //TODO: find a way to test status message from session
         gaeSimulation.loginAsInstructor(dataBundle.instructors.get("instructor1OfCourse1").googleId);
         FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session2InCourse1");
         String[] paramsNormal = {
@@ -80,8 +81,7 @@ public class InstructorFeedbackPublishActionTest extends BaseActionTest {
         RedirectResult result = (RedirectResult) publishAction.executeAndPostProcess();
         
         String expectedDestination = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE +
-                "?message=The+feedback+session+has+been+published." +
-                "&error=false" +
+                "?error=false" +
                 "&user=idOfInstructor1OfCourse1";
         assertEquals(expectedDestination, result.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_PUBLISHED,
@@ -120,8 +120,7 @@ public class InstructorFeedbackPublishActionTest extends BaseActionTest {
         result = (RedirectResult) publishAction.executeAndPostProcess();
         
         expectedDestination = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE +
-                "?message=Session+is+already+published." +
-                "&error=true" +
+                "?error=true" +
                 "&user=idOfInstructor1OfCourse1";
         assertEquals(expectedDestination, result.getDestinationWithParams());
         assertEquals("Session is already published.", result.getStatusMessage());

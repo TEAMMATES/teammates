@@ -50,6 +50,7 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
     
     @Test
     public void testExecuteAndPostProcess() throws Exception {
+        //TODO: find a way to test status message from session
         InstructorAttributes instructorToEdit = dataBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructorToEdit.googleId;
         String courseId = instructorToEdit.courseId;    
@@ -73,7 +74,7 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
         RedirectResult redirectResult = (RedirectResult) saveAction.executeAndPostProcess();
         
         AssertHelper.assertContains(
-                    Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE + "?message=The+changes+to+the+instructor+has+been+updated.",
+                    Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE,
                     redirectResult.getDestinationWithParams());
         assertEquals(false, redirectResult.isError);
         assertEquals(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, redirectResult.getStatusMessage());
@@ -102,7 +103,7 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
         redirectResult = (RedirectResult) saveAction.executeAndPostProcess();
         
         AssertHelper.assertContains(
-                Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE + "?message=%22wrongEmail.com%22+is+not+acceptable+to+TEAMMATES+as+an+email+because+it+is+not+in+the+correct+format.+An+email+address+contains+some+text+followed+by+one+%27%40%27+sign+followed+by+some+more+text.+It+cannot+be+longer+than+45+characters.+It+cannot+be+empty+and+it+cannot+have+spaces.",
+                Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE,
                 redirectResult.getDestinationWithParams());
         assertEquals(true, redirectResult.isError);
         String expectedErrorMessage = (new FieldValidator()).getInvalidityInfo(FieldType.EMAIL, invalidEmail);
@@ -128,7 +129,7 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
         redirectResult = (RedirectResult) saveAction.executeAndPostProcess();
         
         AssertHelper.assertContains(
-                Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE + "?message=The+changes+to+the+instructor+has+been+updated.",
+                Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE,
                 redirectResult.getDestinationWithParams());
         assertEquals(false, redirectResult.isError);
         assertEquals(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, redirectResult.getStatusMessage());

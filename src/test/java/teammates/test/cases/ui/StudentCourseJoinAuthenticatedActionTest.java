@@ -46,6 +46,7 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
 
     @Test
     public void testExecuteAndPostProcess() throws Exception {
+        //TODO: find a way to test status message from session
         StudentsDb studentsDb = new StudentsDb();
         AccountsDb accountsDb = new AccountsDb();
         StudentAttributes student1InCourse1 = dataBundle.students
@@ -69,9 +70,7 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
         RedirectResult redirectResult = getRedirectResult(authenticatedAction);
 
         assertEquals(Const.ActionURIs.STUDENT_HOME_PAGE
-                + "?message=You+have+used+an+invalid+join+link"
-                + "%3A+%2Fpage%2FstudentCourseJoin%3Fregkey%3Dinvalid+key"
-                + "&error=true&user=" + student1InCourse1.googleId,
+                + "?error=true&user=" + student1InCourse1.googleId,
                 redirectResult.getDestinationWithParams());
         assertTrue(redirectResult.isError);
         assertEquals("You have used an invalid join link:"
@@ -89,8 +88,7 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
         redirectResult = getRedirectResult(authenticatedAction);
 
         assertEquals(Const.ActionURIs.STUDENT_HOME_PAGE
-                + "?message=student1InCourse1+has+already+joined+this+course"
-                + "&persistencecourse=" + student1InCourse1.course
+                + "?persistencecourse=" + student1InCourse1.course
                 + "&error=true&user=" + student1InCourse1.googleId,
                 redirectResult.getDestinationWithParams());
         assertTrue(redirectResult.isError);
@@ -114,16 +112,7 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
 
         assertEquals(
                 Const.ActionURIs.STUDENT_HOME_PAGE
-                        + "?message=The+join+link+used+belongs+to+a+different+user"
-                        + "+whose+Google+ID+is+stude..ourse1"
-                        + "+%28only+part+of+the+Google+ID+is+shown+to+protect+privacy%29."
-                        + "+If+that+Google+ID+is+owned+by+you%2C+please+logout+and"
-                        + "+re-login+using+that+Google+account.+If+it+doesn%E2%80%99t"
-                        + "+belong+to+you%2C+please+%3Ca+href%3D%22mailto"
-                        + "%3Ateammates%40comp.nus.edu.sg%3Fbody%3D"
-                        + "Your+name%3A%250AYour+course%3A%250AYour+university%3A%22%3E"
-                        + "contact+us%3C%2Fa%3E+so+that+we+can+investigate."
-                        + "&persistencecourse=" + student1InCourse1.course
+                        + "?persistencecourse=" + student1InCourse1.course
                         + "&error=true&user=" + student1InCourse1.googleId,
                 redirectResult.getDestinationWithParams());
         assertTrue(redirectResult.isError);
