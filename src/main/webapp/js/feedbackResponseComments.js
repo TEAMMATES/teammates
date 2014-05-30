@@ -75,7 +75,7 @@ $(document).ready(function(){
                 setTimeout(function(){
                     if (!data.isError) {
                         // Update editted comment
-                    	displayedText.text(data.comment.commentText.value);
+                    	displayedText.html(data.comment.commentText.value);
                     	commentBar.show();
                         
                         // Reset edit comment form
