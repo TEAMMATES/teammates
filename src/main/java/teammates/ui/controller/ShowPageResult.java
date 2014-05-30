@@ -53,15 +53,18 @@ public class ShowPageResult extends ActionResult{
          */ 
         req.setAttribute(Const.ParamsNames.ERROR, ""+isError);
         
-        String statusMessage = (String) req.getSession().getAttribute(Const.ParamsNames.STATUS_MESSAGE); 
-        if(statusMessage != null && !statusMessage.isEmpty()){
-            req.getSession().removeAttribute(Const.ParamsNames.STATUS_MESSAGE);
-            req.setAttribute(Const.ParamsNames.STATUS_MESSAGE, statusMessage);
-        } else {
-            req.setAttribute(Const.ParamsNames.STATUS_MESSAGE, "");
-        }
+        putStatusMessageToRequest(req);
         req.getRequestDispatcher(getDestinationWithParams()).forward(req, resp);
     }
 
-
+    private void putStatusMessageToRequest(HttpServletRequest req) {
+        String statusMessageInSession = (String) req.getSession().getAttribute(Const.ParamsNames.STATUS_MESSAGE); 
+        if(statusMessageInSession != null && !statusMessageInSession.isEmpty()){
+            //Remove status message in session, thus it becomes an one-time message
+            req.getSession().removeAttribute(Const.ParamsNames.STATUS_MESSAGE);
+            req.setAttribute(Const.ParamsNames.STATUS_MESSAGE, statusMessageInSession);
+        } else {
+            req.setAttribute(Const.ParamsNames.STATUS_MESSAGE, "");
+        }
+    }
 }

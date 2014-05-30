@@ -17,7 +17,7 @@
         <property name="java.util.logging.config.file" value="WEB-INF/logging.properties"/>
     </system-properties>
 
-    <!-- Enable session to maintain one-time stuff, e.g. status message -->
+    <!-- Enable session to maintain one-time status message -->
     <sessions-enabled>true</sessions-enabled>
     
 </appengine-web-app>

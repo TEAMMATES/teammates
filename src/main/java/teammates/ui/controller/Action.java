@@ -55,6 +55,7 @@ public abstract class Action {
     /** Whether the execution completed without any errors */
     protected boolean isError = false;
     
+    /** Session that contains status message information */
     protected HttpSession session;
     
     /** Initializes variables. 
@@ -141,16 +142,22 @@ public abstract class Action {
         //Set the common parameters for the response
         response.responseParams.put(Const.ParamsNames.USER_ID, account.googleId);
         response.responseParams.put(Const.ParamsNames.ERROR, ""+response.isError);
+        
+        //Pass status message using session to prevent XSS attack
         if(!response.getStatusMessage().isEmpty()){
-            String statusMessage = (String) session.getAttribute(Const.ParamsNames.STATUS_MESSAGE);
-            if(statusMessage == null || statusMessage.isEmpty()){
-                session.setAttribute(Const.ParamsNames.STATUS_MESSAGE, response.getStatusMessage());
-            } else {
-                session.setAttribute(Const.ParamsNames.STATUS_MESSAGE, statusMessage + "<br />"  + response.getStatusMessage());
-            }
+            putStatusMessageToSession(response);
         }
         
         return response;
+    }
+
+    private void putStatusMessageToSession(ActionResult response) {
+        String statusMessageInSession = (String) session.getAttribute(Const.ParamsNames.STATUS_MESSAGE);
+        if(statusMessageInSession == null || statusMessageInSession.isEmpty()){
+            session.setAttribute(Const.ParamsNames.STATUS_MESSAGE, response.getStatusMessage());
+        } else {
+            session.setAttribute(Const.ParamsNames.STATUS_MESSAGE, statusMessageInSession + "<br />"  + response.getStatusMessage());
+        }
     }
 
     /**
