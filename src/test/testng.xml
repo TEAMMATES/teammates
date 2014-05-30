@@ -5,11 +5,6 @@
     <test name="component-tests">
     <!--  These can be run without starting the server. Should be run often. -->
         <classes>
-            <class name="teammates.test.automated.EvaluationClosingReminderTest" />
-            <class name="teammates.test.automated.EvaluationOpeningReminderTest" />
-            <class name="teammates.test.automated.FeedbackSessionClosingReminderTest" />
-            <class name="teammates.test.automated.FeedbackSessionOpeningReminderTest" />
-            <class name="teammates.test.automated.FeedbackSessionPublishedReminderTest" />
             <class name="teammates.test.cases.BaseTestCaseTest" />
             <class name="teammates.test.cases.common.AccountAttributesTest" />
             <class name="teammates.test.cases.common.BuildPropertiesTest" />
@@ -145,6 +140,11 @@
             <class name="teammates.test.cases.ui.StudentFeedbackQuestionSubmissionEditPageActionTest" />
             <class name="teammates.test.cases.ui.StudentFeedbackQuestionSubmissionEditSaveActionTest" />
             <class name="teammates.test.cases.ui.StudentHomePageActionTest" />
+            <class name="teammates.test.automated.EvaluationClosingReminderTest" />
+            <class name="teammates.test.automated.EvaluationOpeningReminderTest" />
+            <class name="teammates.test.automated.FeedbackSessionClosingReminderTest" />
+            <class name="teammates.test.automated.FeedbackSessionOpeningReminderTest" />
+            <class name="teammates.test.automated.FeedbackSessionPublishedReminderTest" />
         </classes>
     </test>
     <test name="occasional-tests" parallel="classes">

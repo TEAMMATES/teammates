@@ -63,7 +63,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
     @Test
     public void testExecuteAndPostProcess() throws Exception{
         //TODO Test error states (catch-blocks and isError == true states)
-        
+        //TODO: find a way to test status message from session
         ______TS("Unsuccessful case: test empty feedback session name parameter");
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, dataBundle.feedbackResponses.get("response1ForQ1S1C1").courseId
@@ -126,8 +126,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         
         assertFalse(r.isError);
         assertEquals("All responses submitted succesfully!", r.getStatusMessage());
-        assertEquals("/page/instructorHomePage?message=All+responses+submitted+succesfully%21"
-                        + "&error=" + r.isError +"&user=instructor1InCourse1",
+        assertEquals("/page/instructorHomePage?error=" + r.isError +"&user=instructor1InCourse1",
                         r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
         
@@ -149,8 +148,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         
         assertFalse(r.isError);
         assertEquals("All responses submitted succesfully!", r.getStatusMessage());
-        assertEquals("/page/instructorHomePage?message=All+responses+submitted+succesfully%21"
-                        + "&error=" + r.isError +"&user=instructor1InCourse1",
+        assertEquals("/page/instructorHomePage?error=" + r.isError +"&user=instructor1InCourse1",
                         r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
                 
@@ -171,8 +169,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         
         assertFalse(r.isError);
         assertEquals("All responses submitted succesfully!", r.getStatusMessage());
-        assertEquals("/page/instructorHomePage?message=All+responses+submitted+succesfully%21"
-                        + "&error=" + r.isError +"&user=instructor1InCourse1",
+        assertEquals("/page/instructorHomePage?error=" + r.isError +"&user=instructor1InCourse1",
                         r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
         
@@ -193,8 +190,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         
         assertFalse(r.isError);
         assertEquals("All responses submitted succesfully!", r.getStatusMessage());
-        assertEquals("/page/instructorHomePage?message=All+responses+submitted+succesfully%21"
-                        + "&error=" + r.isError +"&user=instructor1InCourse1",
+        assertEquals("/page/instructorHomePage?error=" + r.isError +"&user=instructor1InCourse1",
                         r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
         
@@ -223,8 +219,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         
         assertFalse(r.isError);
         assertEquals("All responses submitted succesfully!", r.getStatusMessage());
-        assertEquals("/page/instructorHomePage?message=All+responses+submitted+succesfully%21"
-                        + "&error=" + r.isError +"&user=instructor1InCourse1",
+        assertEquals("/page/instructorHomePage?error=" + r.isError +"&user=instructor1InCourse1",
                         r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
         
@@ -245,8 +240,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         
         assertFalse(r.isError);
         assertEquals("All responses submitted succesfully!", r.getStatusMessage());
-        assertEquals("/page/instructorHomePage?message=All+responses+submitted+succesfully%21"
-                        + "&error=" + r.isError +"&user=instructor1InCourse1",
+        assertEquals("/page/instructorHomePage?error=" + r.isError +"&user=instructor1InCourse1",
                         r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
         
@@ -275,8 +269,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         
         assertFalse(r.isError);
         assertEquals("All responses submitted succesfully!", r.getStatusMessage());
-        assertEquals("/page/instructorHomePage?message=All+responses+submitted+succesfully%21"
-                        + "&error=" + r.isError +"&user=instructor1InCourse1",
+        assertEquals("/page/instructorHomePage?error=" + r.isError +"&user=instructor1InCourse1",
                         r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
         
@@ -311,8 +304,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         
         assertFalse(r.isError);
         assertEquals("All responses submitted succesfully!", r.getStatusMessage());
-        assertEquals("/page/instructorHomePage?message=All+responses+submitted+succesfully%21"
-                        + "&error=" + r.isError +"&user=FSQTT.idOfInstructor1OfCourse1",
+        assertEquals("/page/instructorHomePage?error=" + r.isError +"&user=FSQTT.idOfInstructor1OfCourse1",
                         r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
         
@@ -333,8 +325,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         
         assertFalse(r.isError);
         assertEquals("All responses submitted succesfully!", r.getStatusMessage());
-        assertEquals("/page/instructorHomePage?message=All+responses+submitted+succesfully%21"
-                        + "&error=" + r.isError +"&user=FSQTT.idOfInstructor1OfCourse1",
+        assertEquals("/page/instructorHomePage?error=" + r.isError +"&user=FSQTT.idOfInstructor1OfCourse1",
                         r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
         
@@ -369,8 +360,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         
         assertFalse(r.isError);
         assertEquals("All responses submitted succesfully!", r.getStatusMessage());
-        assertEquals("/page/instructorHomePage?message=All+responses+submitted+succesfully%21"
-                        + "&error=" + r.isError +"&user=FSQTT.idOfInstructor1OfCourse1",
+        assertEquals("/page/instructorHomePage?error=" + r.isError +"&user=FSQTT.idOfInstructor1OfCourse1",
                         r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
         
@@ -391,8 +381,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         
         assertFalse(r.isError);
         assertEquals("All responses submitted succesfully!", r.getStatusMessage());
-        assertEquals("/page/instructorHomePage?message=All+responses+submitted+succesfully%21"
-                        + "&error=" + r.isError +"&user=FSQTT.idOfInstructor1OfCourse1",
+        assertEquals("/page/instructorHomePage?error=" + r.isError +"&user=FSQTT.idOfInstructor1OfCourse1",
                         r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
         
@@ -432,8 +421,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         
         assertFalse(r.isError);
         assertEquals("All responses submitted succesfully!", r.getStatusMessage());
-        assertEquals("/page/instructorHomePage?message=All+responses+submitted+succesfully%21"
-                        + "&error=" + r.isError +"&user=FSQTT.idOfInstructor1OfCourse1",
+        assertEquals("/page/instructorHomePage?error=" + r.isError +"&user=FSQTT.idOfInstructor1OfCourse1",
                         r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
         
@@ -458,8 +446,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         
         assertFalse(r.isError);
         assertEquals("All responses submitted succesfully!", r.getStatusMessage());
-        assertEquals("/page/instructorHomePage?message=All+responses+submitted+succesfully%21"
-                        + "&error=" + r.isError +"&user=FSQTT.idOfInstructor1OfCourse1",
+        assertEquals("/page/instructorHomePage?error=" + r.isError +"&user=FSQTT.idOfInstructor1OfCourse1",
                         r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
     }
@@ -514,7 +501,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         ActionResult r = a.executeAndPostProcess();
         
         assertEquals(
-                Const.ActionURIs.INSTRUCTOR_HOME_PAGE+"?message=All+responses+submitted+succesfully%21&error=false&user=instructor1InCourse1", 
+                Const.ActionURIs.INSTRUCTOR_HOME_PAGE+"?error=false&user=instructor1InCourse1", 
                 r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
                 r.getStatusMessage());
@@ -531,7 +518,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         a = getAction(submissionParams);
         r = a.executeAndPostProcess();
         assertEquals(
-                Const.ActionURIs.INSTRUCTOR_HOME_PAGE+"?message=All+responses+submitted+succesfully%21&error=false&user=instructor1InCourse1", 
+                Const.ActionURIs.INSTRUCTOR_HOME_PAGE+"?error=false&user=instructor1InCourse1", 
                 r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
                 r.getStatusMessage());

@@ -13,8 +13,7 @@
 <link rel="stylesheet" href="stylesheets/teammatesCommon.css"
     type="text/css">
 
-<title>TEAMMATES Online Peer Feedback System for Student Team
-    Projects - Instructor Help</title>
+<title>TEAMMATES Online Peer Feedback System for Student Team Projects - Instructor Help</title>
 <link rel="apple-touch-icon" href="apple-touch-icon.png" />
 <script type="text/javascript" src="/js/googleAnalytics.js"></script>
 <script type="text/javascript"
@@ -24,11 +23,11 @@
 </head>
 
 <script type="text/javascript">
-    $(function() {
-        $("[data-toggle='tooltip']").tooltip({
-            html : true
-        });
-    });
+	$(function() {
+		$("[data-toggle='tooltip']").tooltip({
+			html : true
+		});
+	});
 </script>
 
 <body>
@@ -1483,7 +1482,7 @@ Probably too busy with other courses.
                                         <div class="col-sm-5">
                                             <h4>
                                                 <span
-                                                    class="label label-success"
+                                                    class="label label-info"
                                                     data-toggle="tooltip"
                                                     data-placement="top"
                                                     data-container="body"
@@ -1495,19 +1494,13 @@ Probably too busy with other courses.
                                         <div class="col-sm-2">
                                             <h4>
                                                 <span
-                                                    class="label label-danger">E</span>
+                                                    class="label label-info">E</span>
                                                 Equal Share
                                             </h4>
                                         </div>
                                     </div>
-                                    <div class="pull-right">
-                                        [<a
-                                            href="/instructorHelp.html#faq7a"
-                                            target="_blank">How do I
-                                            interpret/use these values?</a>
-                                        ]
-                                    </div>
 
+                                    <br>
                                     <table
                                         class="table table-bordered table-striped">
                                         <thead class="fill-primary">
@@ -1796,7 +1789,7 @@ Probably too busy with other courses.
 
                                         </tbody>
                                     </table>
-                                    <br> <br> <br>
+
                                 </div>
 
                             </div>
@@ -1966,7 +1959,7 @@ Probably too busy with other courses.
                                 </h3>
                                 <h4
                                     style="display: inline; float: right;">
-                                    <span class="label label-danger">E</span>
+                                    <span class="label label-info">E</span>
                                     Equal Share
                                 </h4>
                                 <br> <br>
@@ -3067,7 +3060,8 @@ Probably too busy with other courses.
                                                             value="OWN_TEAM">Giver's
                                                             team</option>
                                                         <option
-                                                            value="OWN_TEAM_MEMBERS">Giver's
+                                                            value="OWN_TEAM_MEMBERS"
+                                                            selected="selected">Giver's
                                                             team members</option>
                                                         <option
                                                             value="OWN_TEAM_MEMBERS_INCLUDING_SELF">Giver's
@@ -3087,51 +3081,9 @@ Probably too busy with other courses.
                                         <div class="row">
                                             <br>
                                             <div class="col-sm-6">
-                                                <a
-                                                    class="visibilityOptionsLabel btn btn-xs  btn-info">
-                                                    <span
-                                                    class="glyphicon glyphicon-eye-open">
-                                                </span> Show Visibility Options
-                                                </a>
+
                                             </div>
-                                            <div
-                                                class="col-sm-6 numberOfEntitiesElements1">
-                                                <label
-                                                    class="control-label col-sm-4 small">
-                                                    The maximum number
-                                                    of <span></span>
-                                                    each respondant
-                                                    should give feedback
-                                                    to:
-                                                </label>
-                                                <div
-                                                    class="col-sm-8 form-control-static">
-                                                    <div
-                                                        class="col-sm-6">
-                                                        <input
-                                                            class="nonDestructive"
-                                                            type="radio"
-                                                            name="numofrecipientstype"
-                                                            checked="checked"
-                                                            value="custom">
-                                                        <input
-                                                            class="nonDestructive numberOfEntitiesBox"
-                                                            type="number"
-                                                            min="1"
-                                                            max="250"
-                                                            value="1">
-                                                    </div>
-                                                    <div
-                                                        class="col-sm-6">
-                                                        <input
-                                                            class="nonDestructive"
-                                                            type="radio"
-                                                            name="numofrecipientstype"
-                                                            value="max">
-                                                        <span class="">Unlimited</span>
-                                                    </div>
-                                                </div>
-                                            </div>
+
                                         </div>
                                         <div class="visibilityOptions">
                                             <br>
@@ -3168,7 +3120,8 @@ Probably too busy with other courses.
                                                         <td><input
                                                             class="visibilityCheckbox answerCheckbox1 centered"
                                                             type="checkbox"
-                                                            value="RECEIVER">
+                                                            value="RECEIVER"
+                                                            checked="checked">
                                                         </td>
                                                         <td><input
                                                             class="visibilityCheckbox giverCheckbox1"
@@ -3287,8 +3240,7 @@ Probably too busy with other courses.
                                                         <td><input
                                                             class="visibilityCheckbox giverCheckbox1"
                                                             type="checkbox"
-                                                            value="INSTRUCTORS"
-                                                            checked="checked">
+                                                            value="INSTRUCTORS">
                                                         </td>
                                                         <td><input
                                                             class="visibilityCheckbox recipientCheckbox1"
@@ -3606,7 +3558,8 @@ Probably too busy with other courses.
                                                             (Self
                                                             feedback)</option>
                                                         <option
-                                                            value="STUDENTS">Other
+                                                            value="STUDENTS"
+                                                            selected="selected">Other
                                                             students in
                                                             the course</option>
                                                         <option
@@ -3639,15 +3592,7 @@ Probably too busy with other courses.
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <br>
-                                            <div class="col-sm-6">
-                                                <a
-                                                    class="visibilityOptionsLabel btn btn-xs  btn-info"
-                                                    onclick="toggleVisibilityOptions(this)"><span
-                                                    class="glyphicon glyphicon-eye-close"></span>
-                                                    Hide Visibility
-                                                    Options</a>
-                                            </div>
+                                            <br> <br>
 
                                         </div>
                                         <div class="visibilityOptions">
@@ -3691,8 +3636,7 @@ Probably too busy with other courses.
                                                         <td><input
                                                             class="visibilityCheckbox giverCheckbox"
                                                             type="checkbox"
-                                                            value="RECEIVER"
-                                                            checked="checked">
+                                                            value="RECEIVER">
                                                         </td>
                                                         <td><input
                                                             class="visibilityCheckbox recipientCheckbox"
@@ -3757,7 +3701,8 @@ Probably too busy with other courses.
                                                         <td><input
                                                             class="visibilityCheckbox recipientCheckbox"
                                                             type="checkbox"
-                                                            value="RECEIVER_TEAM_MEMBERS">
+                                                            value="RECEIVER_TEAM_MEMBERS"
+                                                            checked="checked">
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -3903,23 +3848,19 @@ Probably too busy with other courses.
                                                         Question 6: What
                                                         do you like
                                                         about our
-                                                        product?&nbsp;<span
-                                                            style="white-space: normal;">
-                                                            <a
-                                                            class="color_gray">[less]</a>
-                                                            <br> <span>Multiple-choice
+                                                        product? <br>
+                                                        <small><span>Multiple-choice
                                                                 (multiple
                                                                 answers)
                                                                 options:
                                                                 <ul
-                                                                    style="list-style-type: disc; margin-left: 20px;">
+                                                                    style="list-style-type: disc;">
                                                                     <li>It's
                                                                         good</li>
                                                                     <li>It's
                                                                         perfect</li>
                                                                 </ul>
-                                                        </span>
-                                                        </span>
+                                                        </span></small> </span>
                                                     </div>
                                                     <div
                                                         class="panel-body">
@@ -4288,18 +4229,17 @@ Probably too busy with other courses.
                                 <div class="panel-heading">
                                     <h4>
                                         Question 2: Was this team member
-                                        punctual? &nbsp;<span
-                                            style="white-space: normal;">
-                                            <a class="color_gray">[less]</a>
-                                            <br> <span>Multiple-choice
-                                                (single answer) options:
-                                                <ul
-                                                    style="list-style-type: disc; margin-left: 20px;">
-                                                    <li>Yes</li>
-                                                    <li>No</li>
-                                                </ul>
-                                        </span>
-                                        </span>
+                                        punctual? <br> <small>
+                                            Multiple-choice (single
+                                            answer) options:
+                                            <ul
+                                                style="list-style-type: disc;">
+                                                <li>Yes</li>
+                                                <li>No</li>
+                                            </ul>
+
+                                        </small>
+
                                     </h4>
 
                                     <div class="panel panel-primary">

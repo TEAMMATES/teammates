@@ -59,6 +59,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
     
     @Test
     public void testExecuteAndPostProcess() throws Exception{
+        //TODO: find a way to test status message from session
         gaeSimulation.loginAsInstructor(dataBundle.instructors.get("instructor1OfCourse1").googleId);
         
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
@@ -87,7 +88,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         
         assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=idOfTypicalCourse1"
                 + "&fsname=First+feedback+session&user=idOfInstructor1OfCourse1"
-                + "&message=The+changes+to+the+question+has+been+updated.&error=false", 
+                + "&error=false", 
                 r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
         assertFalse(r.isError);
@@ -116,7 +117,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         
         assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=idOfTypicalCourse1"
                 + "&fsname=First+feedback+session&user=idOfInstructor1OfCourse1"
-                + "&message=The+changes+to+the+question+has+been+updated.&error=false", 
+                + "&error=false", 
                 r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
         assertFalse(r.isError);
@@ -144,7 +145,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         
         assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=idOfTypicalCourse1"
                 + "&fsname=First+feedback+session&user=idOfInstructor1OfCourse1"
-                + "&message=The+changes+to+the+question+has+been+updated.&error=false", 
+                + "&error=false", 
                 r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
         assertFalse(r.isError);
@@ -172,7 +173,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         
         assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=idOfTypicalCourse1"
                 + "&fsname=First+feedback+session&user=idOfInstructor1OfCourse1"
-                + "&message=The+changes+to+the+question+has+been+updated.&error=false", 
+                + "&error=false", 
                 r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
         assertFalse(r.isError);
@@ -273,7 +274,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         
         assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=idOfTypicalCourse1"
                 + "&fsname=First+feedback+session&user=idOfInstructor1OfCourse1"
-                + "&message=The+question+has+been+deleted.&error=false", 
+                + "&error=false", 
                 r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED, r.getStatusMessage());
         assertFalse(r.isError);
@@ -323,7 +324,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         
         assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=FSQTT.idOfTypicalCourse1"
                 + "&fsname=MCQ+Session&user=FSQTT.idOfInstructor1OfCourse1"
-                + "&message=The+changes+to+the+question+has+been+updated.&error=false", 
+                + "&error=false", 
                 r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
         assertFalse(r.isError);
@@ -364,7 +365,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         
         assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=FSQTT.idOfTypicalCourse1"
                 + "&fsname=MCQ+Session&user=FSQTT.idOfInstructor1OfCourse1"
-                + "&message=The+changes+to+the+question+has+been+updated.&error=false", 
+                + "&error=false", 
                 r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
         assertFalse(r.isError);
@@ -401,7 +402,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         
         assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=FSQTT.idOfTypicalCourse1"
                 + "&fsname=MCQ+Session&user=FSQTT.idOfInstructor1OfCourse1"
-                + "&message=The+changes+to+the+question+has+been+updated.&error=false", 
+                + "&error=false", 
                 r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
         assertFalse(r.isError);
@@ -451,7 +452,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         
         assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=FSQTT.idOfTypicalCourse1"
                 + "&fsname=MSQ+Session&user=FSQTT.idOfInstructor1OfCourse1"
-                + "&message=The+changes+to+the+question+has+been+updated.&error=false", 
+                + "&error=false", 
                 r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
         assertFalse(r.isError);
@@ -492,7 +493,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         
         assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=FSQTT.idOfTypicalCourse1"
                 + "&fsname=MSQ+Session&user=FSQTT.idOfInstructor1OfCourse1"
-                + "&message=The+changes+to+the+question+has+been+updated.&error=false", 
+                + "&error=false", 
                 r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
         assertFalse(r.isError);
@@ -529,7 +530,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         
         assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=FSQTT.idOfTypicalCourse1"
                 + "&fsname=MSQ+Session&user=FSQTT.idOfInstructor1OfCourse1"
-                + "&message=The+changes+to+the+question+has+been+updated.&error=false", 
+                + "&error=false", 
                 r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
         assertFalse(r.isError);
@@ -577,7 +578,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         
         assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=FSQTT.idOfTypicalCourse1"
                 + "&fsname=NUMSCALE+Session&user=FSQTT.idOfInstructor1OfCourse1"
-                + "&message=The+changes+to+the+question+has+been+updated.&error=false", 
+                + "&error=false", 
                 r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
         assertFalse(r.isError);
@@ -611,7 +612,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         
         assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=FSQTT.idOfTypicalCourse1"
                 + "&fsname=NUMSCALE+Session&user=FSQTT.idOfInstructor1OfCourse1"
-                + "&message=The+changes+to+the+question+has+been+updated.&error=false", 
+                + "&error=false", 
                 r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
         assertFalse(r.isError);

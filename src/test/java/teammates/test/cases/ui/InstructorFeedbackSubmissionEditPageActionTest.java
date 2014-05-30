@@ -44,6 +44,7 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
     
     @Test
     public void testExecuteAndPostProcess() throws Exception{
+        //TODO: find a way to test status message from session
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
         gaeSimulation.loginAsInstructor(instructor.googleId);
@@ -109,9 +110,7 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
         
         assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT
                 + "?"
-                + "message="
-                + Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN.replaceAll(" ", "+")
-                + "&error=false"
+                + "error=false"
                 + "&" + Const.ParamsNames.USER_ID + "=" + instructor.googleId,
                 r.getDestinationWithParams());
         assertFalse(r.isError);
