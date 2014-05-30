@@ -102,13 +102,14 @@ public class Sanitizer {
      */
     public static String sanitizeForHtml(String str){ 
         if(str == null) return str;
-        return str.replace("&", "&amp;")
-                .replace("#", "&#35;")
-                .replace("<", "&lt;")
+        return str.replace("<", "&lt;")
                 .replace(">", "&gt;")
                 .replace("\"", "&quot;")
                 .replace("/", "&#x2f;")
-                .replace("'", "&#39;");
+                .replace("'", "&#39;")
+                //To ensure when apply sanitizeForHtml for multiple times, the string's still fine
+                //Regex meaning: replace '&' with safe encoding, but not the one that is safe already
+                .replaceAll("&(?!(amp;)|(lt;)|(gt;)|(quot;)|(#x2f;)|(#39;))", "&amp;");
     }
     
     /**
