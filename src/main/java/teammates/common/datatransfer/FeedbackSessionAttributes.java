@@ -336,7 +336,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
         this.feedbackSessionName = Sanitizer.sanitizeForHtml(feedbackSessionName);
         this.courseId = Sanitizer.sanitizeForHtml(courseId);
         this.creatorEmail = Sanitizer.sanitizeForHtml(creatorEmail);
-        this.instructions = new Text(Sanitizer.sanitizeForHtml(instructions.getValue()));
+        this.instructions = new Text(Sanitizer.sanitizeForHtml(instructions != null? instructions.getValue(): null));
     }
 
     @Override

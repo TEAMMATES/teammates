@@ -216,8 +216,8 @@ public class SubmissionAttributes extends EntityAttributes {
         this.team = Sanitizer.sanitizeForHtml(team); //TODO: rename to teamName
         this.reviewer = Sanitizer.sanitizeForHtml(reviewer); //TODO: rename to reviewerEmail
         this.reviewee = Sanitizer.sanitizeForHtml(reviewee); //TODO: rename to revieweeEmail
-        this.justification = new Text(Sanitizer.sanitizeForHtml(justification.getValue()));
-        this.p2pFeedback = new Text(Sanitizer.sanitizeForHtml(p2pFeedback.getValue()));
+        this.justification = new Text(Sanitizer.sanitizeForHtml(justification != null? justification.getValue(): null));
+        this.p2pFeedback = new Text(Sanitizer.sanitizeForHtml(p2pFeedback != null? p2pFeedback.getValue(): null));
     }
 
 }
