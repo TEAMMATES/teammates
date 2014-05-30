@@ -107,9 +107,7 @@ public class Sanitizer {
                 .replace(">", "&gt;")
                 .replace("\"", "&quot;")
                 .replace("/", "&#x2f;")
-                .replace("'", "&#39;")
-                .replace("\n", "&#010;")
-                .replace("\r", "&#013;");
+                .replace("'", "&#39;");
     }
     
     /**
