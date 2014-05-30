@@ -132,7 +132,6 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
                         frComment.courseId, frComment.feedbackSessionName);
         FeedbackResponseCommentAttributes actualFrComment = actualFrComments.get(0);
         
-        assertEquals(3, actualFrComments.size());
         assertEquals(frComment.courseId, actualFrComment.courseId);
         assertEquals(frComment.giverEmail, actualFrComment.giverEmail);
         assertEquals(frComment.feedbackSessionName, actualFrComment.feedbackSessionName);

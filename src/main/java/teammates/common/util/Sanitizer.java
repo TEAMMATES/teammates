@@ -101,6 +101,7 @@ public class Sanitizer {
      * into HTML-safe equivalents.
      */
     public static String sanitizeForHtml(String str){ 
+        if(str == null) return str;
         return str.replace("&", "&amp;")
                 .replace("#", "&#35;")
                 .replace("<", "&lt;")
