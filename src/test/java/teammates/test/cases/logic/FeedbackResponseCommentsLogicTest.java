@@ -1,6 +1,7 @@
 package teammates.test.cases.logic;
 
 import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.List;
 
@@ -91,12 +92,20 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
         frComment.commentText = new Text("Already existed FeedbackResponseComment from instructor2 in course 1");
         
         frcLogic.createFeedbackResponseComment(frComment);
-        FeedbackResponseCommentAttributes actualFrComment = 
+        List<FeedbackResponseCommentAttributes> actualFrComments = 
                 frcLogic.getFeedbackResponseCommentForSession(
                         frComment.courseId, 
-                        frComment.feedbackSessionName).get(1);
+                        frComment.feedbackSessionName);
         
-        assertEquals(frComment.commentText, actualFrComment.commentText);
+        FeedbackResponseCommentAttributes actualFrComment = null;
+        for(int i = 0; i < actualFrComments.size(); i++){
+            if(actualFrComments.get(i).commentText.equals(frComment.commentText)){
+                actualFrComment = actualFrComments.get(i);
+                break;
+            }
+        }
+        
+        assertTrue(actualFrComment != null);
         
         //delete afterwards
         frcLogic.deleteFeedbackResponseComment(frComment);
@@ -123,7 +132,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
                         frComment.courseId, frComment.feedbackSessionName);
         FeedbackResponseCommentAttributes actualFrComment = actualFrComments.get(0);
         
-        assertEquals(1, actualFrComments.size());
+        assertEquals(3, actualFrComments.size());
         assertEquals(frComment.courseId, actualFrComment.courseId);
         assertEquals(frComment.giverEmail, actualFrComment.giverEmail);
         assertEquals(frComment.feedbackSessionName, actualFrComment.feedbackSessionName);
@@ -154,10 +163,18 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
         frComment.commentText = new Text("Updated feedback response comment");
         frcLogic.updateFeedbackResponseComment(frComment);
         TestHelper.verifyPresentInDatastore(frComment);
-        FeedbackResponseCommentAttributes actualFrComment = 
+        List<FeedbackResponseCommentAttributes> actualFrComments = 
                 frcLogic.getFeedbackResponseCommentForSession(
-                        frComment.courseId, frComment.feedbackSessionName).get(0);
-        assertEquals(frComment.commentText, actualFrComment.commentText);
+                        frComment.courseId, frComment.feedbackSessionName);
+        
+        FeedbackResponseCommentAttributes actualFrComment = null;
+        for(int i = 0; i < actualFrComments.size(); i++){
+            if(actualFrComments.get(i).commentText.equals(frComment.commentText)){
+                actualFrComment = actualFrComments.get(i);
+                break;
+            }
+        }
+        assertTrue(actualFrComment != null);
     }
     
     @Test
@@ -251,8 +268,10 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
         
         FeedbackResponseCommentAttributes existingFrCommentWithId = null;
         for(FeedbackResponseCommentAttributes c: existingFrComments){
-            existingFrCommentWithId = 
-                    c.commentText.equals(existingFrComment.commentText)? c: null;
+            if(c.commentText.equals(existingFrComment.commentText)){
+                existingFrCommentWithId = c;
+                break;
+            }
         }
         frComment.setId(existingFrCommentWithId.getId());
         frComment.feedbackResponseId = existingFrCommentWithId.feedbackResponseId;
