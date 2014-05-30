@@ -318,9 +318,6 @@ public class EvaluationAttributes extends EntityAttributes implements SessionAtt
         this.courseId = this.courseId.trim();
         this.name = this.name.trim();
         this.instructions = Sanitizer.sanitizeTextField(this.instructions);
-        this.courseId = Sanitizer.sanitizeForHtml(courseId);
-        this.name = Sanitizer.sanitizeForHtml(name);
-        this.instructions = new Text(Sanitizer.sanitizeForHtml(instructions.getValue()));
     }
     
     /**
