@@ -101,7 +101,7 @@ public class CommentAttributes extends EntityAttributes{
         this.courseId = Sanitizer.sanitizeForHtml(courseId);
         this.giverEmail = Sanitizer.sanitizeForHtml(giverEmail);
         this.receiverEmail = Sanitizer.sanitizeForHtml(receiverEmail);
-        this.commentText = new Text(Sanitizer.sanitizeForHtml(commentText.toString()));
+        this.commentText = new Text(Sanitizer.sanitizeForHtml(commentText.getValue()));
     }
     
     public static void sortCommentsByCreationTime(List<CommentAttributes> comments){
