@@ -47,22 +47,22 @@
                <div class="collapse navbar-collapse"  id="contentLinks" >
                   <ul class="nav navbar-nav" >
                      <li class="" >
-                        <a class="nav home"  data-link="instructorHome"  href="/page/instructorHomePage?user=teammates.coord" >
+                        <a class="nav home"  data-link="instructorHome"  href="/page/instructorHomePage?user={$test.instructor}" >
                            Home
                         </a>
                      </li>
                      <li class="" >
-                        <a class="nav courses"  data-link="instructorCourse"  href="/page/instructorCoursesPage?user=teammates.coord" >
+                        <a class="nav courses"  data-link="instructorCourse"  href="/page/instructorCoursesPage?user={$test.instructor}" >
                            Courses
                         </a>
                      </li>
                      <li class="" >
-                        <a class="nav evaluations"  data-link="instructorEval"  href="/page/instructorEvalsPage?user=teammates.coord" >
+                        <a class="nav evaluations"  data-link="instructorEval"  href="/page/instructorEvalsPage?user={$test.instructor}" >
                            Sessions
                         </a>
                      </li>
                      <li class="active" >
-                        <a class="nav students"  data-link="instructorStudent"  href="/page/instructorStudentListPage?user=teammates.coord" >
+                        <a class="nav students"  data-link="instructorStudent"  href="/page/instructorStudentListPage?user={$test.instructor}" >
                            Students
                         </a>
                      </li>
@@ -78,8 +78,8 @@
                            Logout
                         
                         (
-                           <span class="text-info"  data-original-title="teammates.coord"  data-placement="bottom"  data-toggle="tooltip"  title="" >
-                              teammates.coord
+                           <span class="text-info"  data-original-title="{$test.instructor}"  data-placement="bottom"  data-toggle="tooltip"  title="" >
+                              {$test.instructor}
                            </span>
                            )
                         </a>
@@ -266,7 +266,7 @@
                      </h4>
                   </div>
                   <div class="col-md-2" >
-                     <a class="btn btn-default btn-xs pull-right pull-down course-enroll-for-test"  data-original-title="Enroll student into the course"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseEnrollPage?courseid=CHomeUiT.CS1101&user=teammates.coord"  title="" >
+                     <a class="btn btn-default btn-xs pull-right pull-down course-enroll-for-test"  data-original-title="Enroll student into the course"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseEnrollPage?courseid=CHomeUiT.CS1101&user={$test.instructor}"  title="" >
                         <span class="glyphicon glyphicon-list" >
                         </span>
                         Enroll
@@ -308,16 +308,16 @@
                            CHomeUiT.alice.b.tmms@gmail.com
                         </td>
                         <td class="no-print centeralign" >
-                           <a class="btn btn-default btn-xs student-view-for-test"  data-original-title="View the details of the student"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDetailsPage?courseid=CHomeUiT.CS1101&studentemail=CHomeUiT.alice.b.tmms%40gmail.com&user=teammates.coord"  title="" >
+                           <a class="btn btn-default btn-xs student-view-for-test"  data-original-title="View the details of the student"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDetailsPage?courseid=CHomeUiT.CS1101&studentemail=CHomeUiT.alice.b.tmms%40gmail.com&user={$test.instructor}"  title="" >
                               View
                            </a>
-                           <a class="btn btn-default btn-xs student-edit-for-test"  data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDetailsEdit?courseid=CHomeUiT.CS1101&studentemail=CHomeUiT.alice.b.tmms%40gmail.com&user=teammates.coord"  title="" >
+                           <a class="btn btn-default btn-xs student-edit-for-test"  data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDetailsEdit?courseid=CHomeUiT.CS1101&studentemail=CHomeUiT.alice.b.tmms%40gmail.com&user={$test.instructor}"  title="" >
                               Edit
                            </a>
-                           <a class="btn btn-default btn-xs student-delete-for-test"  data-original-title="Delete the student and the corresponding evaluations from the course"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDelete?courseid=CHomeUiT.CS1101&studentemail=CHomeUiT.alice.b.tmms%40gmail.com&user=teammates.coord"  onclick="return toggleDeleteStudentConfirmation('CHomeUiT.CS1101','Alice Betsy')"  title="" >
+                           <a class="btn btn-default btn-xs student-delete-for-test"  data-original-title="Delete the student and the corresponding evaluations from the course"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDelete?courseid=CHomeUiT.CS1101&studentemail=CHomeUiT.alice.b.tmms%40gmail.com&user={$test.instructor}"  onclick="return toggleDeleteStudentConfirmation('CHomeUiT.CS1101','Alice Betsy')"  title="" >
                               Delete
                            </a>
-                           <a class="btn btn-default btn-xs student-records-for-test"  data-original-title="View all student\'s evaluations and feedbacks"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorStudentRecordsPage?courseid=CHomeUiT.CS1101&studentemail=CHomeUiT.alice.b.tmms%40gmail.com&user=teammates.coord"  title="" >
+                           <a class="btn btn-default btn-xs student-records-for-test"  data-original-title="View all student\'s evaluations and feedbacks"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorStudentRecordsPage?courseid=CHomeUiT.CS1101&studentemail=CHomeUiT.alice.b.tmms%40gmail.com&user={$test.instructor}"  title="" >
                               All Records
                            </a>
                         </td>
@@ -333,16 +333,16 @@
                            CHomeUiT.benny.c.tmms@gmail.com
                         </td>
                         <td class="no-print centeralign" >
-                           <a class="btn btn-default btn-xs student-view-for-test"  data-original-title="View the details of the student"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDetailsPage?courseid=CHomeUiT.CS1101&studentemail=CHomeUiT.benny.c.tmms%40gmail.com&user=teammates.coord"  title="" >
+                           <a class="btn btn-default btn-xs student-view-for-test"  data-original-title="View the details of the student"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDetailsPage?courseid=CHomeUiT.CS1101&studentemail=CHomeUiT.benny.c.tmms%40gmail.com&user={$test.instructor}"  title="" >
                               View
                            </a>
-                           <a class="btn btn-default btn-xs student-edit-for-test"  data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDetailsEdit?courseid=CHomeUiT.CS1101&studentemail=CHomeUiT.benny.c.tmms%40gmail.com&user=teammates.coord"  title="" >
+                           <a class="btn btn-default btn-xs student-edit-for-test"  data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDetailsEdit?courseid=CHomeUiT.CS1101&studentemail=CHomeUiT.benny.c.tmms%40gmail.com&user={$test.instructor}"  title="" >
                               Edit
                            </a>
-                           <a class="btn btn-default btn-xs student-delete-for-test"  data-original-title="Delete the student and the corresponding evaluations from the course"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDelete?courseid=CHomeUiT.CS1101&studentemail=CHomeUiT.benny.c.tmms%40gmail.com&user=teammates.coord"  onclick="return toggleDeleteStudentConfirmation('CHomeUiT.CS1101','Benny Charles')"  title="" >
+                           <a class="btn btn-default btn-xs student-delete-for-test"  data-original-title="Delete the student and the corresponding evaluations from the course"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDelete?courseid=CHomeUiT.CS1101&studentemail=CHomeUiT.benny.c.tmms%40gmail.com&user={$test.instructor}"  onclick="return toggleDeleteStudentConfirmation('CHomeUiT.CS1101','Benny Charles')"  title="" >
                               Delete
                            </a>
-                           <a class="btn btn-default btn-xs student-records-for-test"  data-original-title="View all student\'s evaluations and feedbacks"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorStudentRecordsPage?courseid=CHomeUiT.CS1101&studentemail=CHomeUiT.benny.c.tmms%40gmail.com&user=teammates.coord"  title="" >
+                           <a class="btn btn-default btn-xs student-records-for-test"  data-original-title="View all student\'s evaluations and feedbacks"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorStudentRecordsPage?courseid=CHomeUiT.CS1101&studentemail=CHomeUiT.benny.c.tmms%40gmail.com&user={$test.instructor}"  title="" >
                               All Records
                            </a>
                         </td>
@@ -358,16 +358,16 @@
                            CHomeUiT.charlie.d.tmms@gmail.com
                         </td>
                         <td class="no-print centeralign" >
-                           <a class="btn btn-default btn-xs student-view-for-test"  data-original-title="View the details of the student"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDetailsPage?courseid=CHomeUiT.CS1101&studentemail=CHomeUiT.charlie.d.tmms%40gmail.com&user=teammates.coord"  title="" >
+                           <a class="btn btn-default btn-xs student-view-for-test"  data-original-title="View the details of the student"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDetailsPage?courseid=CHomeUiT.CS1101&studentemail=CHomeUiT.charlie.d.tmms%40gmail.com&user={$test.instructor}"  title="" >
                               View
                            </a>
-                           <a class="btn btn-default btn-xs student-edit-for-test"  data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDetailsEdit?courseid=CHomeUiT.CS1101&studentemail=CHomeUiT.charlie.d.tmms%40gmail.com&user=teammates.coord"  title="" >
+                           <a class="btn btn-default btn-xs student-edit-for-test"  data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDetailsEdit?courseid=CHomeUiT.CS1101&studentemail=CHomeUiT.charlie.d.tmms%40gmail.com&user={$test.instructor}"  title="" >
                               Edit
                            </a>
-                           <a class="btn btn-default btn-xs student-delete-for-test"  data-original-title="Delete the student and the corresponding evaluations from the course"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDelete?courseid=CHomeUiT.CS1101&studentemail=CHomeUiT.charlie.d.tmms%40gmail.com&user=teammates.coord"  onclick="return toggleDeleteStudentConfirmation('CHomeUiT.CS1101','Charlie Davis')"  title="" >
+                           <a class="btn btn-default btn-xs student-delete-for-test"  data-original-title="Delete the student and the corresponding evaluations from the course"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDelete?courseid=CHomeUiT.CS1101&studentemail=CHomeUiT.charlie.d.tmms%40gmail.com&user={$test.instructor}"  onclick="return toggleDeleteStudentConfirmation('CHomeUiT.CS1101','Charlie Davis')"  title="" >
                               Delete
                            </a>
-                           <a class="btn btn-default btn-xs student-records-for-test"  data-original-title="View all student\'s evaluations and feedbacks"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorStudentRecordsPage?courseid=CHomeUiT.CS1101&studentemail=CHomeUiT.charlie.d.tmms%40gmail.com&user=teammates.coord"  title="" >
+                           <a class="btn btn-default btn-xs student-records-for-test"  data-original-title="View all student\'s evaluations and feedbacks"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorStudentRecordsPage?courseid=CHomeUiT.CS1101&studentemail=CHomeUiT.charlie.d.tmms%40gmail.com&user={$test.instructor}"  title="" >
                               All Records
                            </a>
                         </td>
@@ -383,16 +383,16 @@
                            CHomeUiT.danny.e.tmms@gmail.com
                         </td>
                         <td class="no-print centeralign" >
-                           <a class="btn btn-default btn-xs student-view-for-test"  data-original-title="View the details of the student"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDetailsPage?courseid=CHomeUiT.CS1101&studentemail=CHomeUiT.danny.e.tmms%40gmail.com&user=teammates.coord"  title="" >
+                           <a class="btn btn-default btn-xs student-view-for-test"  data-original-title="View the details of the student"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDetailsPage?courseid=CHomeUiT.CS1101&studentemail=CHomeUiT.danny.e.tmms%40gmail.com&user={$test.instructor}"  title="" >
                               View
                            </a>
-                           <a class="btn btn-default btn-xs student-edit-for-test"  data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDetailsEdit?courseid=CHomeUiT.CS1101&studentemail=CHomeUiT.danny.e.tmms%40gmail.com&user=teammates.coord"  title="" >
+                           <a class="btn btn-default btn-xs student-edit-for-test"  data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDetailsEdit?courseid=CHomeUiT.CS1101&studentemail=CHomeUiT.danny.e.tmms%40gmail.com&user={$test.instructor}"  title="" >
                               Edit
                            </a>
-                           <a class="btn btn-default btn-xs student-delete-for-test"  data-original-title="Delete the student and the corresponding evaluations from the course"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDelete?courseid=CHomeUiT.CS1101&studentemail=CHomeUiT.danny.e.tmms%40gmail.com&user=teammates.coord"  onclick="return toggleDeleteStudentConfirmation('CHomeUiT.CS1101','Danny Engrid')"  title="" >
+                           <a class="btn btn-default btn-xs student-delete-for-test"  data-original-title="Delete the student and the corresponding evaluations from the course"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDelete?courseid=CHomeUiT.CS1101&studentemail=CHomeUiT.danny.e.tmms%40gmail.com&user={$test.instructor}"  onclick="return toggleDeleteStudentConfirmation('CHomeUiT.CS1101','Danny Engrid')"  title="" >
                               Delete
                            </a>
-                           <a class="btn btn-default btn-xs student-records-for-test"  data-original-title="View all student\'s evaluations and feedbacks"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorStudentRecordsPage?courseid=CHomeUiT.CS1101&studentemail=CHomeUiT.danny.e.tmms%40gmail.com&user=teammates.coord"  title="" >
+                           <a class="btn btn-default btn-xs student-records-for-test"  data-original-title="View all student\'s evaluations and feedbacks"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorStudentRecordsPage?courseid=CHomeUiT.CS1101&studentemail=CHomeUiT.danny.e.tmms%40gmail.com&user={$test.instructor}"  title="" >
                               All Records
                            </a>
                         </td>
@@ -410,7 +410,7 @@
                      </h4>
                   </div>
                   <div class="col-md-2" >
-                     <a class="btn btn-default btn-xs pull-right pull-down course-enroll-for-test"  data-original-title="Enroll student into the course"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseEnrollPage?courseid=CHomeUiT.CS2104&user=teammates.coord"  title="" >
+                     <a class="btn btn-default btn-xs pull-right pull-down course-enroll-for-test"  data-original-title="Enroll student into the course"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseEnrollPage?courseid=CHomeUiT.CS2104&user={$test.instructor}"  title="" >
                         <span class="glyphicon glyphicon-list" >
                         </span>
                         Enroll
@@ -452,16 +452,16 @@
                            CHomeUiT.alice.b.tmms@gmail.com
                         </td>
                         <td class="no-print centeralign" >
-                           <a class="btn btn-default btn-xs student-view-for-test"  data-original-title="View the details of the student"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDetailsPage?courseid=CHomeUiT.CS2104&studentemail=CHomeUiT.alice.b.tmms%40gmail.com&user=teammates.coord"  title="" >
+                           <a class="btn btn-default btn-xs student-view-for-test"  data-original-title="View the details of the student"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDetailsPage?courseid=CHomeUiT.CS2104&studentemail=CHomeUiT.alice.b.tmms%40gmail.com&user={$test.instructor}"  title="" >
                               View
                            </a>
-                           <a class="btn btn-default btn-xs student-edit-for-test"  data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDetailsEdit?courseid=CHomeUiT.CS2104&studentemail=CHomeUiT.alice.b.tmms%40gmail.com&user=teammates.coord"  title="" >
+                           <a class="btn btn-default btn-xs student-edit-for-test"  data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDetailsEdit?courseid=CHomeUiT.CS2104&studentemail=CHomeUiT.alice.b.tmms%40gmail.com&user={$test.instructor}"  title="" >
                               Edit
                            </a>
-                           <a class="btn btn-default btn-xs student-delete-for-test"  data-original-title="Delete the student and the corresponding evaluations from the course"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDelete?courseid=CHomeUiT.CS2104&studentemail=CHomeUiT.alice.b.tmms%40gmail.com&user=teammates.coord"  onclick="return toggleDeleteStudentConfirmation('CHomeUiT.CS2104','Alice Betsy')"  title="" >
+                           <a class="btn btn-default btn-xs student-delete-for-test"  data-original-title="Delete the student and the corresponding evaluations from the course"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDelete?courseid=CHomeUiT.CS2104&studentemail=CHomeUiT.alice.b.tmms%40gmail.com&user={$test.instructor}"  onclick="return toggleDeleteStudentConfirmation('CHomeUiT.CS2104','Alice Betsy')"  title="" >
                               Delete
                            </a>
-                           <a class="btn btn-default btn-xs student-records-for-test"  data-original-title="View all student\'s evaluations and feedbacks"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorStudentRecordsPage?courseid=CHomeUiT.CS2104&studentemail=CHomeUiT.alice.b.tmms%40gmail.com&user=teammates.coord"  title="" >
+                           <a class="btn btn-default btn-xs student-records-for-test"  data-original-title="View all student\'s evaluations and feedbacks"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorStudentRecordsPage?courseid=CHomeUiT.CS2104&studentemail=CHomeUiT.alice.b.tmms%40gmail.com&user={$test.instructor}"  title="" >
                               All Records
                            </a>
                         </td>
@@ -477,16 +477,16 @@
                            CHomeUiT.benny.c.tmms@gmail.com
                         </td>
                         <td class="no-print centeralign" >
-                           <a class="btn btn-default btn-xs student-view-for-test"  data-original-title="View the details of the student"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDetailsPage?courseid=CHomeUiT.CS2104&studentemail=CHomeUiT.benny.c.tmms%40gmail.com&user=teammates.coord"  title="" >
+                           <a class="btn btn-default btn-xs student-view-for-test"  data-original-title="View the details of the student"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDetailsPage?courseid=CHomeUiT.CS2104&studentemail=CHomeUiT.benny.c.tmms%40gmail.com&user={$test.instructor}"  title="" >
                               View
                            </a>
-                           <a class="btn btn-default btn-xs student-edit-for-test"  data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDetailsEdit?courseid=CHomeUiT.CS2104&studentemail=CHomeUiT.benny.c.tmms%40gmail.com&user=teammates.coord"  title="" >
+                           <a class="btn btn-default btn-xs student-edit-for-test"  data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDetailsEdit?courseid=CHomeUiT.CS2104&studentemail=CHomeUiT.benny.c.tmms%40gmail.com&user={$test.instructor}"  title="" >
                               Edit
                            </a>
-                           <a class="btn btn-default btn-xs student-delete-for-test"  data-original-title="Delete the student and the corresponding evaluations from the course"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDelete?courseid=CHomeUiT.CS2104&studentemail=CHomeUiT.benny.c.tmms%40gmail.com&user=teammates.coord"  onclick="return toggleDeleteStudentConfirmation('CHomeUiT.CS2104','Benny Charles')"  title="" >
+                           <a class="btn btn-default btn-xs student-delete-for-test"  data-original-title="Delete the student and the corresponding evaluations from the course"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDelete?courseid=CHomeUiT.CS2104&studentemail=CHomeUiT.benny.c.tmms%40gmail.com&user={$test.instructor}"  onclick="return toggleDeleteStudentConfirmation('CHomeUiT.CS2104','Benny Charles')"  title="" >
                               Delete
                            </a>
-                           <a class="btn btn-default btn-xs student-records-for-test"  data-original-title="View all student\'s evaluations and feedbacks"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorStudentRecordsPage?courseid=CHomeUiT.CS2104&studentemail=CHomeUiT.benny.c.tmms%40gmail.com&user=teammates.coord"  title="" >
+                           <a class="btn btn-default btn-xs student-records-for-test"  data-original-title="View all student\'s evaluations and feedbacks"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorStudentRecordsPage?courseid=CHomeUiT.CS2104&studentemail=CHomeUiT.benny.c.tmms%40gmail.com&user={$test.instructor}"  title="" >
                               All Records
                            </a>
                         </td>
@@ -502,16 +502,16 @@
                            CHomeUiT.charlie.d.tmms@gmail.com
                         </td>
                         <td class="no-print centeralign" >
-                           <a class="btn btn-default btn-xs student-view-for-test"  data-original-title="View the details of the student"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDetailsPage?courseid=CHomeUiT.CS2104&studentemail=CHomeUiT.charlie.d.tmms%40gmail.com&user=teammates.coord"  title="" >
+                           <a class="btn btn-default btn-xs student-view-for-test"  data-original-title="View the details of the student"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDetailsPage?courseid=CHomeUiT.CS2104&studentemail=CHomeUiT.charlie.d.tmms%40gmail.com&user={$test.instructor}"  title="" >
                               View
                            </a>
-                           <a class="btn btn-default btn-xs student-edit-for-test"  data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDetailsEdit?courseid=CHomeUiT.CS2104&studentemail=CHomeUiT.charlie.d.tmms%40gmail.com&user=teammates.coord"  title="" >
+                           <a class="btn btn-default btn-xs student-edit-for-test"  data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDetailsEdit?courseid=CHomeUiT.CS2104&studentemail=CHomeUiT.charlie.d.tmms%40gmail.com&user={$test.instructor}"  title="" >
                               Edit
                            </a>
-                           <a class="btn btn-default btn-xs student-delete-for-test"  data-original-title="Delete the student and the corresponding evaluations from the course"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDelete?courseid=CHomeUiT.CS2104&studentemail=CHomeUiT.charlie.d.tmms%40gmail.com&user=teammates.coord"  onclick="return toggleDeleteStudentConfirmation('CHomeUiT.CS2104','Charlie Davis')"  title="" >
+                           <a class="btn btn-default btn-xs student-delete-for-test"  data-original-title="Delete the student and the corresponding evaluations from the course"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDelete?courseid=CHomeUiT.CS2104&studentemail=CHomeUiT.charlie.d.tmms%40gmail.com&user={$test.instructor}"  onclick="return toggleDeleteStudentConfirmation('CHomeUiT.CS2104','Charlie Davis')"  title="" >
                               Delete
                            </a>
-                           <a class="btn btn-default btn-xs student-records-for-test"  data-original-title="View all student\'s evaluations and feedbacks"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorStudentRecordsPage?courseid=CHomeUiT.CS2104&studentemail=CHomeUiT.charlie.d.tmms%40gmail.com&user=teammates.coord"  title="" >
+                           <a class="btn btn-default btn-xs student-records-for-test"  data-original-title="View all student\'s evaluations and feedbacks"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorStudentRecordsPage?courseid=CHomeUiT.CS2104&studentemail=CHomeUiT.charlie.d.tmms%40gmail.com&user={$test.instructor}"  title="" >
                               All Records
                            </a>
                         </td>
@@ -527,16 +527,16 @@
                            CHomeUiT.danny.e.tmms@gmail.com
                         </td>
                         <td class="no-print centeralign" >
-                           <a class="btn btn-default btn-xs student-view-for-test"  data-original-title="View the details of the student"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDetailsPage?courseid=CHomeUiT.CS2104&studentemail=CHomeUiT.danny.e.tmms%40gmail.com&user=teammates.coord"  title="" >
+                           <a class="btn btn-default btn-xs student-view-for-test"  data-original-title="View the details of the student"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDetailsPage?courseid=CHomeUiT.CS2104&studentemail=CHomeUiT.danny.e.tmms%40gmail.com&user={$test.instructor}"  title="" >
                               View
                            </a>
-                           <a class="btn btn-default btn-xs student-edit-for-test"  data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDetailsEdit?courseid=CHomeUiT.CS2104&studentemail=CHomeUiT.danny.e.tmms%40gmail.com&user=teammates.coord"  title="" >
+                           <a class="btn btn-default btn-xs student-edit-for-test"  data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDetailsEdit?courseid=CHomeUiT.CS2104&studentemail=CHomeUiT.danny.e.tmms%40gmail.com&user={$test.instructor}"  title="" >
                               Edit
                            </a>
-                           <a class="btn btn-default btn-xs student-delete-for-test"  data-original-title="Delete the student and the corresponding evaluations from the course"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDelete?courseid=CHomeUiT.CS2104&studentemail=CHomeUiT.danny.e.tmms%40gmail.com&user=teammates.coord"  onclick="return toggleDeleteStudentConfirmation('CHomeUiT.CS2104','Danny Engrid')"  title="" >
+                           <a class="btn btn-default btn-xs student-delete-for-test"  data-original-title="Delete the student and the corresponding evaluations from the course"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDelete?courseid=CHomeUiT.CS2104&studentemail=CHomeUiT.danny.e.tmms%40gmail.com&user={$test.instructor}"  onclick="return toggleDeleteStudentConfirmation('CHomeUiT.CS2104','Danny Engrid')"  title="" >
                               Delete
                            </a>
-                           <a class="btn btn-default btn-xs student-records-for-test"  data-original-title="View all student\'s evaluations and feedbacks"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorStudentRecordsPage?courseid=CHomeUiT.CS2104&studentemail=CHomeUiT.danny.e.tmms%40gmail.com&user=teammates.coord"  title="" >
+                           <a class="btn btn-default btn-xs student-records-for-test"  data-original-title="View all student\'s evaluations and feedbacks"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorStudentRecordsPage?courseid=CHomeUiT.CS2104&studentemail=CHomeUiT.danny.e.tmms%40gmail.com&user={$test.instructor}"  title="" >
                               All Records
                            </a>
                         </td>

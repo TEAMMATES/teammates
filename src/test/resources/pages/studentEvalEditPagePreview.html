@@ -31,7 +31,7 @@
                <h1 class="color_white centeralign" >
                   Previewing Evaluation as
                   <select name="previewas"  onchange="this.form.submit()"  style="font-size:80%;" >
-                     <option selected="selected"  value="alice.tmms@gmail.com" >
+                     <option selected="selected"  value="{$test.student1}@gmail.com" >
                         [Team 1] Alice Betsy
                      </option>
                      <option value="benny.c.tmms@gmail.com" >
@@ -128,10 +128,10 @@
                <input id="courseid"  name="courseid"  type="hidden"  value="CEvalUiT.CS2104" />
                               <input id="evaluationname"  name="evaluationname"  type="hidden"  value="First Eval" />
                               <input id="teamname"  name="teamname"  type="hidden"  value="Team 1" />
-                              <input id="fromemail"  name="fromemail"  type="hidden"  value="alice.tmms@gmail.com" />
+                              <input id="fromemail"  name="fromemail"  type="hidden"  value="{$test.student1}@gmail.com" />
                               <div class="panel panel-primary" >
                   <div style="display: none;" >
-                     <input id="toemail0"  name="toemail"  type="text"  value="alice.tmms@gmail.com" />
+                     <input id="toemail0"  name="toemail"  type="text"  value="{$test.student1}@gmail.com" />
                                        </div>
                   <div class="panel-heading" >
                      Self evaluation

@@ -59,22 +59,22 @@
                <div class="collapse navbar-collapse"  id="contentLinks" >
                   <ul class="nav navbar-nav" >
                      <li class="active" >
-                        <a class="nav home"  data-link="instructorHome"  href="/page/instructorHomePage?user=teammates.coord" >
+                        <a class="nav home"  data-link="instructorHome"  href="/page/instructorHomePage?user={$test.instructor}" >
                            Home
                         </a>
                      </li>
                      <li class="" >
-                        <a class="nav courses"  data-link="instructorCourse"  href="/page/instructorCoursesPage?user=teammates.coord" >
+                        <a class="nav courses"  data-link="instructorCourse"  href="/page/instructorCoursesPage?user={$test.instructor}" >
                            Courses
                         </a>
                      </li>
                      <li class="" >
-                        <a class="nav evaluations"  data-link="instructorEval"  href="/page/instructorEvalsPage?user=teammates.coord" >
+                        <a class="nav evaluations"  data-link="instructorEval"  href="/page/instructorEvalsPage?user={$test.instructor}" >
                            Sessions
                         </a>
                      </li>
                      <li class="" >
-                        <a class="nav students"  data-link="instructorStudent"  href="/page/instructorStudentListPage?user=teammates.coord" >
+                        <a class="nav students"  data-link="instructorStudent"  href="/page/instructorStudentListPage?user={$test.instructor}" >
                            Students
                         </a>
                      </li>
@@ -90,7 +90,7 @@
                            Logout
                         
                         (
-                           <span class="text-info"  data-original-title="teammates.coord"  data-placement="bottom"  data-toggle="tooltip"  title="" >
+                           <span class="text-info"  data-original-title="{$test.instructor}"  data-placement="bottom"  data-toggle="tooltip"  title="" >
                               {$test.instructor}
                            </span>
                            )
@@ -111,7 +111,7 @@
                      </h1>
                   </div>
                   <div class="col-md-5 instructor-header-bar" >
-                     <form action="/page/instructorStudentListPage?user=teammates.coord"  method="post"  name="search_form" >
+                     <form action="/page/instructorStudentListPage?user={$test.instructor}"  method="post"  name="search_form" >
                         <div class="input-group" >
                            <input class="form-control"  id="searchBox"  name="searchkey"  placeholder="Student Name"  title="Search for student's name"  type="text" />
                                                       <span class="input-group-btn" >
@@ -120,11 +120,11 @@
                               </button>
                            </span>
                         </div>
-                        <input name="user"  type="hidden"  value="teammates.coord" />
+                        <input name="user"  type="hidden"  value="{$test.instructor}" />
                                              </form>
                   </div>
                   <div class="col-md-2 instructor-header-bar" >
-                     <a class="btn btn-primary btn-md"  href="/page/instructorCoursesPage?user=teammates.coord"  id="addNewCourse" >
+                     <a class="btn btn-primary btn-md"  href="/page/instructorCoursesPage?user={$test.instructor}"  id="addNewCourse" >
                         Add New Course
                      </a>
                   </div>
