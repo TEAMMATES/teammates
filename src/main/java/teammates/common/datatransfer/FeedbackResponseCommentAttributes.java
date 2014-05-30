@@ -112,6 +112,12 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
         this.courseId = this.courseId.trim();
         this.feedbackSessionName = this.feedbackSessionName.trim();
         this.commentText = Sanitizer.sanitizeTextField(this.commentText);
+        this.courseId = Sanitizer.sanitizeForHtml(courseId);
+        this.feedbackSessionName = Sanitizer.sanitizeForHtml(feedbackSessionName);
+        this.feedbackQuestionId = Sanitizer.sanitizeForHtml(feedbackQuestionId);
+        this.giverEmail = Sanitizer.sanitizeForHtml(giverEmail);
+        this.feedbackResponseId = Sanitizer.sanitizeForHtml(feedbackResponseId);
+        this.commentText = new Text(Sanitizer.sanitizeForHtml(commentText.getValue()));
     }
     
     @Override
