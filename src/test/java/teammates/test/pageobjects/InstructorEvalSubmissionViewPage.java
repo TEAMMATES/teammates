@@ -26,7 +26,7 @@ public class InstructorEvalSubmissionViewPage extends AppPage {
 
     public void verifyIsCorrectPage(String studentName) {
         assertTrue(containsExpectedPageContents());
-        assertTrue(getPageSource().contains(studentName+"'s Result</h2>"));
+        assertTrue(getPageSource().contains("<h1>View Student's Evaluation</h1>"));
     }
 
 }

@@ -8,9 +8,6 @@ var DISPLAY_COMMENT_BLANK = "Please enter a valid comment. The comment can't be 
  * of comment box if the request parameter asks for it
  */
 function readyStudentRecordsPage(){
-    
-    initializenavbar();
-    
     //Bind form submission to check for blank comment field
     $('form.form_comment').submit(function(){
         return checkComment(this);		
@@ -46,6 +43,7 @@ function checkComment(form){
     var formTextField = $(form).find('[name='+COMMENT_TEXT+']').val();
     if (isBlank(formTextField)) {
         setStatusMessage(DISPLAY_COMMENT_BLANK,true);
+        $(window).scrollTop(0);
         return false;
     }
 }
@@ -60,7 +58,10 @@ function isBlank(str) {
 function showAddCommentBox(){
     $('#comment_box').show();
     $('#commentText').focus();
-    $('#comment_link').hide();
+}
+
+function hideAddCommentBox(){
+    $('#comment_box').hide();
 }
 
 /**
@@ -82,15 +83,16 @@ function enableEdit(commentIdx, maxComments){
 }
 
 function enableComment(commentIdx){
-    $("textarea[id='commentText"+commentIdx+"']").removeAttr("disabled", "disabled");
-    $('#'+'commentsave-'+commentIdx).show();
-    $('#'+'commentedit-'+commentIdx).hide();
+	$('#'+'commentBar'+commentIdx).hide();
+	$('#'+'plainCommentText'+commentIdx).hide();
+	$("div[id='commentTextEdit"+commentIdx+"']").show();
+    $("textarea[id='commentText"+commentIdx+"']").focus();
 }
 
 function disableComment(commentIdx){
-    $("textarea[id='commentText"+commentIdx+"']").attr("disabled", "disabled");
-    $('#'+'commentsave-'+commentIdx).hide();
-    $('#'+'commentedit-'+commentIdx).show();
+	$('#'+'commentBar'+commentIdx).show();
+	$('#'+'plainCommentText'+commentIdx).show();
+	$("div[id='commentTextEdit"+commentIdx+"']").hide();
 }
 
 function textAreaAdjust(o) {

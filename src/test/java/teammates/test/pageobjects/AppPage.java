@@ -59,31 +59,31 @@ public abstract class AppPage {
     @FindBy(id = "statusMessage")
     protected WebElement statusMessage;
     
-    @FindBy(xpath = "//*[@id=\"navbar\"]/li[1]/a")
+    @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[1]/a")
     protected WebElement instructorHomeTab;
     
-    @FindBy(xpath = "//*[@id=\"navbar\"]/li[2]/a")
+    @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[2]/a")
     protected WebElement instructorCoursesTab;
     
-    @FindBy(xpath = "//*[@id=\"navbar\"]/li[3]/a")
+    @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[3]/a")
     protected WebElement instructorEvaluationsTab;
     
-    @FindBy(xpath = "//*[@id=\"navbar\"]/li[4]/a")
+    @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[4]/a")
     protected WebElement instructorStudentsTab;
     
-    @FindBy(xpath = "//*[@id=\"navbar\"]/li[5]/a")
+    @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[5]/a")
     protected WebElement instructorHelpTab;
     
-    @FindBy(xpath = "//*[@id=\"navbar\"]/li[6]/a")
+    @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[2]/li[1]/a")
     protected WebElement instructorLogoutLink;
     
-    @FindBy(xpath = "//*[@id=\"navbar\"]/li[1]/a")
+    @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[1]/a")
     protected WebElement studentHomeTab;
     
-    @FindBy(xpath = "//*[@id=\"navbar\"]/li[2]/a")
+    @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[2]/a")
     protected WebElement studentHelpTab;
     
-    @FindBy(xpath = "//*[@id=\"navbar\"]/li[3]/a")
+    @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[2]/li[1]/a")
     protected WebElement studentLogoutLink;
     
     @SuppressWarnings("unused")
@@ -362,7 +362,7 @@ public abstract class AppPage {
      * from a table (which is of type {@code class=dataTable}) in the page.
      */
     public String getCellValueFromDataTable(int row, int column) {
-        return browser.selenium.getTable("class=dataTable." + row + "." + column);
+        return browser.selenium.getTable("css=table[class~='table']." + row + "." + column);
     }
 
     /**

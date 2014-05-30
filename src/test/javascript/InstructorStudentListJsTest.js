@@ -11,13 +11,14 @@ test('filterCourse()', function(){
     }
     
     //Manually reset view first
-    $(".student_row").show();
-    $(".student_email").show();
-    $(".backgroundBlock").show();
+    $("tr[id^='student-c']").show();
+    $("#emails").show();
+    $("div[id^='course-']").show();
     
     //Deselect 1 course, and select back using Select All
     $("#course_check-0").click();
     equal($("#course-0").is(':hidden'), true, "Course not selected is hidden");
+    equal($("#course-1").is(':visible'), true, "Course selected is visible");
     equal($("#course_all").is(":checked"), false, "Select all check should be removed");
     equal($("#team_check-0-0").is(':hidden'), true, "Team in non-selected course should be hidden");
     equal($("#team_check-0-1").is(':hidden'), true, "Team in non-selected course should be hidden");
@@ -80,9 +81,9 @@ test('filterTeam()', function(){
     }
     
     //Manually reset view first
-    $(".student_row").show();
-    $(".student_email").show();
-    $(".backgroundBlock").show();
+    $("tr[id^='student-c']").show();
+    $("#emails").show();
+    $(".div[id^='course-']").show();
     
     //Deselect 2 team, and select back using Select All
     $("#team_check-0-0").click();
@@ -140,7 +141,7 @@ test('filterTeam()', function(){
     equal($("[id^=student_email]:visible").length, 11, "All emails (minus 1 duplicate) should be visible again");
 });
 
-function testFilterName(){};
+function testFilterBySearchWord(){};
 test('filterName(key)', function(){
     
     //Initialize by checking the options box and show email
@@ -152,12 +153,12 @@ test('filterName(key)', function(){
     }
     
     //Manually reset view first
-    $(".student_row").show();
-    $(".student_email").show();
-    $(".backgroundBlock").show();
+    $("tr[id^='student-c']").show();
+    $("#emails").show();
+    $("div[id^='course-']").show();
     
     //Search 1 student name that exists in 2 course
-    filterName("ben");
+    filterBySearchWord("ben");
     filterEmails();
     equal($("#student-c0\\.0").is(':hidden'), true, "Alice Betsy hidden");
     equal($("#student-c0\\.1").is(':visible'), true, "Benny Charles visible");
@@ -188,9 +189,9 @@ test('filterName(key)', function(){
     //Search 1 student name that only exist in 1 of the course
     
     //Manually reset view first
-    $(".student_row").show();
-    $(".student_email").show();
-    filterName("James");
+    $("tr[id^='student-c']").show();
+    $("#emails").show();
+    filterBySearchWord("James");
     filterEmails();
     equal($("#course-0").is(':hidden'), true, "Course with no student visible is hidden");
     
@@ -228,9 +229,9 @@ test('applyFilters()', function(){
     }
     
     //Manually reset view first
-    $(".student_row").show();
-    $(".student_email").show();
-    $(".backgroundBlock").show();
+    $("tr[id^='student-c']").show();
+    $("#emails").show();
+    $("div[id^='course-']").show();
     
     //Search for Ben, except in [Team 1] [course3]
     $("#searchbox").val("ben"); //Set searchbox value to ben
@@ -248,7 +249,7 @@ test('applyFilters()', function(){
     
     equal($("[id^=student-c]:visible").length, 0, "No student should be visible");
     equal($("[id^=student_email-c]:visible").length, 0, "No email should be visible");
-    equal($(".backgroundBlock:visible").length, 0, "No course should be visible");
+    equal($("div[id^='course-']:visible").length, 0, "No course should be visible");
     
     //Reset the filter by selecting all course
     $("#course_all").click();
@@ -258,7 +259,7 @@ test('applyFilters()', function(){
     equal($("#student_email-c0\\.1").is(':visible'), true, "Benny Charles' email visible");
     equal($("#student_email-c1\\.1").is(':hidden'), true, "Another Benny Charles' email should be hidden");
     equal($("[id^=student_email-c]:visible").length, 1, "Only 1 Benny Charles' emails should be visible");
-    equal($(".backgroundBlock:visible").length, 2, "All courses should be visible");
+    equal($("div[id^='course-']:visible").length, 2, "All courses should be visible");
 });
 
 function testFilterEmails(){};

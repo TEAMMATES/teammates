@@ -122,3 +122,5 @@ function toggleDeleteAccountConfirmation(googleId) {
                     "This operation will delete ALL information about this account " + 
                     "from the system.");
 }
+
+$(function () { $("[data-toggle='tooltip']").tooltip(); });

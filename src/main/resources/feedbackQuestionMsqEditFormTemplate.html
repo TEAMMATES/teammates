@@ -1,34 +1,42 @@
-<tr>
-    <td colspan="2">
-        <table id="msqChoiceTable-${questionNumber}">
+<div class="row">
+    <br>
+    <div class="col-sm-6">
+        <div id="msqChoiceTable-${questionNumber}">
             ${msqEditFormOptionFragments}            
-            <tr id="msqAddOptionRow-${questionNumber}">
-                <td colspan="2"><a href="#" class="color_blue" id="msqAddOptionLink"
-                    onclick="addMsqOption(${questionNumber})" style="display:none"> +add more options</a>
-                </td>
-            </tr>
-        </table>
+            <div id="msqAddOptionRow-${questionNumber}">
+                <div colspan="2">
+                    <a class="btn btn-primary btn-xs addOptionLink" id="msqAddOptionLink"
+                            onclick="addMsqOption(${questionNumber})" style="display:none">
+                        <span class="glyphicon glyphicon-plus">
+                        </span> add more options
+                    </a>
+                </div>
+            </div>
+        </div>
         
         <input type="hidden" name="${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}"
             id="${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNumber}" 
             value="${numOfMsqChoices}">
-    </td>
-    <td colspan="2" style="vertical-align:top;">
-        <label><input type="checkbox" 
+    </div>
+    <div class="col-sm-6">
+        <label class="control-label col-sm-8"><input type="checkbox" 
             disabled="disabled"
             id="generateOptionsCheckbox-${questionNumber}"
             ${checkedGeneratedOptions}
             onchange="toggleMsqGeneratedOptions(this,${questionNumber})">Or, generate options from the list of all </label>
-        <select id="msqGenerateForSelect-${questionNumber}" 
-            onchange="changeMsqGenerateFor(${questionNumber})"
-            disabled="disabled">
-            <option ${studentSelected} value="${FeedbackParticipantType.STUDENTS.toString()}">students</option>
-            <option ${teamSelected} value="${FeedbackParticipantType.TEAMS.toString()}">teams</option>
-            <option ${instructorSelected} value="${FeedbackParticipantType.INSTRUCTORS.toString()}">instructors</option>
-        </select>
+        <div class="col-sm-4">
+            <select class="form-control" id="msqGenerateForSelect-${questionNumber}" 
+                onchange="changeMsqGenerateFor(${questionNumber})"
+                disabled="disabled">
+                <option ${studentSelected} value="${FeedbackParticipantType.STUDENTS.toString()}">students</option>
+                <option ${teamSelected} value="${FeedbackParticipantType.TEAMS.toString()}">teams</option>
+                <option ${instructorSelected} value="${FeedbackParticipantType.INSTRUCTORS.toString()}">instructors</option>
+            </select>
+        </div>
         <input type="hidden" 
             id="${Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS}-${questionNumber}"
             name="${Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS}" 
             value="${generateOptionsForValue}"> 
-    </td>
-</tr>
+    </div>
+    <br>
+</div>

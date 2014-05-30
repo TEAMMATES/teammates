@@ -69,7 +69,6 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         feedbackSession_PUBLISHED = testData.feedbackSessions.get("Fourth Feedback Session");
     }
     
-
     @Test
     public void allTests() throws Exception{
         testLogin();

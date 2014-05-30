@@ -3,7 +3,7 @@ var addCount = 0;
 $(document).ready(function(){
     var addCommentHandler = function(e) {
         var submitButton = $(this);
-        var formObject = $(this).parent();
+        var formObject = $(this).parent().parent();
         var addFormRow = $(this).parent().parent().parent();
         var formData = formObject.serialize();
         
@@ -14,46 +14,47 @@ $(document).ready(function(){
             url : 	submitButton.attr('href') + "?" + formData,
             beforeSend : function() {
                 formObject.find("textarea").prop("disabled", true);
-                submitButton.attr("class", "floatright");
                 submitButton.html("<img src='/images/ajax-loader.gif'/>");
             },
             error : function() {
                 formObject.find("textarea").prop("disabled", false);
                 setFormErrorMessage(submitButton, "Failed to save comment. Please try again.");
+                submitButton.text("Add");
             },
             success : function(data) {
                 setTimeout(function(){
                     if (!data.isError) {
                         // Inject new comment row
-                        addFormRow.prev().before(generateNewCommentRow(data));
-                        var newCommentRow = addFormRow.prev().prev().prev();
-                        newCommentRow.next().find("form[class*='responseCommentEditForm'] > a").click(editCommentHandler);
+                    	addFormRow.parent().attr("class", "list-group comment-list");
+                        addFormRow.before(generateNewCommentRow(data));
+                        var newCommentRow = addFormRow.prev();
+                        newCommentRow.find("form[class*='responseCommentEditForm'] > div > a").click(editCommentHandler);
                         newCommentRow.find("form[class*='responseCommentDeleteForm'] > a").click(deleteCommentHandler);
                         addCount++;
+                        $("[data-toggle='tooltip']").tooltip({html: true});
                         
                         // Reset add comment form
                         formObject.find("textarea").prop("disabled", false);
                         formObject.find("textarea").val("");
-                        submitButton.addClass("button");
-                        submitButton.text("Submit Comment");
+                        submitButton.text("Add");
                         removeFormErrorMessage(submitButton);
                         addFormRow.prev().show();
-                        addFormRow.hide();
                     } else {
                         formObject.find("textarea").prop("disabled", false);
                         setFormErrorMessage(submitButton, data.errorMessage);
+                        submitButton.text("Add");
                     }
                 },500);
             }
         });
     };
-    $("form[class*='responseCommentAddForm'] > a").click(addCommentHandler);
+    $("form[class*='responseCommentAddForm'] > div > a").click(addCommentHandler);
     
     var editCommentHandler = function(e) {
         var submitButton = $(this);
-        var formObject = $(this).parent();
-        var editFormRow = $(this).parent().parent().parent();
-        var editedCommentRow = $(this).parent().parent().parent().prev();
+        var formObject = $(this).parent().parent();
+        var displayedText = $(this).parent().parent().prev();
+        var commentBar = displayedText.parent().find("div");
         var formData = formObject.serialize();
         
         e.preventDefault();
@@ -63,42 +64,45 @@ $(document).ready(function(){
             url : 	submitButton.attr('href') + "?" + formData,
             beforeSend : function() {
                 formObject.find("textarea").prop("disabled", true);
-                submitButton.attr("class", "floatright");
                 submitButton.html("<img src='/images/ajax-loader.gif'/>");
             },
             error : function() {
                 formObject.find("textarea").prop("disabled", false);
                 setFormErrorMessage(submitButton, "Failed to save changes. Please try again.");
+                submitButton.text("Save");
             },
             success : function(data) {
                 setTimeout(function(){
                     if (!data.isError) {
                         // Update editted comment
-                        editedCommentRow.find("[class='feedbackResponseCommentText']").text(data.comment.commentText.value);
+                    	displayedText.text(data.comment.commentText.value);
+                    	commentBar.show();
                         
                         // Reset edit comment form
                         formObject.find("textarea").prop("disabled", false);
                         formObject.find("textarea").val(data.comment.commentText.value);
-                        submitButton.addClass("button");
-                        submitButton.text("Submit Comment");
+                        submitButton.text("Save");
                         removeFormErrorMessage(submitButton);
-                        editFormRow.prev().show();
-                        editFormRow.hide();
+                        formObject.hide();
+                        displayedText.show();
                     } else {
                         formObject.find("textarea").prop("disabled", false);
                         setFormErrorMessage(submitButton, data.errorMessage);
+                        submitButton.text("Save");
                     }
                 },500);
             }
         });
     };
-    $("form[class*='responseCommentEditForm'] > a").click(editCommentHandler);
+    $("form[class*='responseCommentEditForm'] > div > a").click(editCommentHandler);
     
     var deleteCommentHandler = function(e) {
         var submitButton = $(this);
         var formObject = $(this).parent();
-        var deletedCommentRow = $(this).parent().parent().parent();
+        var deletedCommentRow = $(this).parent().parent();
         var formData = formObject.serialize();
+        var editForm = submitButton.parent().next().next().next();
+    	var frCommentList = submitButton.parent().parent().parent();
         
         e.preventDefault();
         
@@ -109,26 +113,29 @@ $(document).ready(function(){
                 submitButton.html("<img src='/images/ajax-loader.gif'/>");
             },
             error : function() {
-                if (submitButton.parent().parent().parent().next().is(':visible')) {
-                    submitButton.parent().parent().parent().next().find("#deleteErrorMessage").text("Failed to delete comment. Please try again.");
-                } else {
-                    submitButton.parent().parent().parent().after("<tr><td colspan=\"5\"><span id=\"deleteErrorMessage\">Failed to delete comment. Please try again.</span></td></tr>");
-                    submitButton.parent().parent().parent().next().children().children().attr("class", "color_red floatright");
+                if (editForm.is(':visible')) {
+                    setFormErrorMessage(editForm.find("div > a"), "Failed to delete comment. Please try again.");
+                } else if (frCommentList.parent().find("div.delete_error_msg").length == 0) {
+                	frCommentList.after("<div class=\"delete_error_msg alert alert-danger\">Failed to delete comment. Please try again.</div>");
                 }
-                submitButton.html("<a href=\"/page/instructorFeedbackResponseCommentDelete\" class=\"color_red pad_right\">Delete</a>");
+                submitButton.html("<span class=\"glyphicon glyphicon-trash glyphicon-primary\"></span>");
             },
             success : function(data) {
                 setTimeout(function(){
                     if (!data.isError) {
-                        deletedCommentRow.next().remove();
-                        deletedCommentRow.remove();
-                    } else {
-                        if (submitButton.parent().parent().parent().next().is(':visible')) {
-                            submitButton.parent().parent().parent().next().find("#deleteErrorMessage").text(data.errorMessage);
-                        } else {
-                            submitButton.parent().parent().parent().after("<tr><td colspan=\"5\"><span id=\"deleteErrorMessage\">" + data.errorMessage + "</span></td></tr>");
-                            submitButton.parent().parent().parent().next().children().children().attr("class", "color_red floatright");
+                    	var numberOfItemInFrCommentList = deletedCommentRow.parent().children('li');
+                        if(numberOfItemInFrCommentList.length <= 2){
+                        	deletedCommentRow.parent().hide();
                         }
+                        deletedCommentRow.remove();
+                        frCommentList.parent().find("div.delete_error_msg").remove();
+                    } else {
+                        if (editForm.is(':visible')) {
+                        	setFormErrorMessage(editForm.find("div > a"), data.errorMessage);
+                        } else if (frCommentList.parent().find("div.delete_error_msg").length == 0) {
+                        	frCommentList.after("<div class=\"delete_error_msg alert alert-danger\">" + data.errorMessage + "</div>");
+                        }
+                        submitButton.html("<span class=\"glyphicon glyphicon-trash glyphicon-primary\"></span>");
                     }
                 },500);
             }
@@ -138,72 +145,115 @@ $(document).ready(function(){
 });
 
 function generateNewCommentRow(data) {
+	var commentDate = new Date(data.comment.createdAt);
+	var commentDateStr = commentDate.toString();
+	var thisYear = commentDate.getFullYear();
+	var indexOfYear = commentDateStr.indexOf(thisYear, 0);
+	var formattedDate = commentDateStr.substring(0, indexOfYear - 1);
+	
     var newRow =
-        // Comment Row
-        "<tr id=\"responseCommentRow-" + addCount + "\">" 
-            // Display Saved Comment
-            + "<td class=\"feedbackResponseCommentText\">" + data.comment.commentText.value + "</td>"
-            + "<td class=\"feedbackResponseCommentGiver\">" + data.comment.giverEmail + "</td>"
-            + "<td class=\"feedbackResponseCommentTime\">" + data.comment.createdAt + "</td>"
-            + "<td class=\"rightalign\"><a href=\"#\" class=\"color_blue\" onclick=\"showNewlyAddedResponseCommentEditForm(" + addCount + ")\">Edit</a></td>"
-            
-            // Delete Form
-            + "<td class=\"rightalign\"><form class=\"responseCommentDeleteForm\">"
-            + "<a href=\"/page/instructorFeedbackResponseCommentDelete\" class=\"color_red pad_right\">Delete</a>"
-            + "<input type=\"hidden\" name=\"" + FEEDBACK_RESPONSE_COMMENT_ID + "\" value=\"" + data.comment.feedbackResponseCommentId + "\">"
-            + "<input type=\"hidden\" name=\"" + COURSE_ID + "\" value=\"" + data.comment.courseId + "\">"
-            + "<input type=\"hidden\" name=\"" + FEEDBACK_SESSION_NAME + "\" value=\"" + data.comment.feedbackSessionName + "\">"
-            + "<input type=\"hidden\" name=\"" + USER_ID + "\" value=\"" + data.account.googleId + "\">"
-            + "</form></td>"
-        + "</tr>"
-        
-        // Edit Form
-        + "<tr id=\"responseCommentEditForm-" + addCount + "\" style=\"display: none;\">" 
-            + "<td colspan=\"5\"><form class=\"responseCommentEditForm\">"
-            + "<textarea rows=\"4\" name=\"" + FEEDBACK_RESPONSE_COMMENT_TEXT + "\">" + data.comment.commentText.value + "</textarea>"
-            + "<input type=\"hidden\" name=\"" + FEEDBACK_RESPONSE_COMMENT_ID + "\" value=\"" + data.comment.feedbackResponseCommentId + "\">"
-            + "<input type=\"hidden\" name=\"" + COURSE_ID + "\" value=\"" + data.comment.courseId + "\">"
-            + "<input type=\"hidden\" name=\"" + FEEDBACK_SESSION_NAME + "\" value=\"" + data.comment.feedbackSessionName + "\">"
-            + "<input type=\"hidden\" name=\"" + USER_ID + "\" value=\"" + data.account.googleId + "\">"
-            + "<a href=\"/page/instructorFeedbackResponseCommentEdit\" class=\"button floatright\">Save Changes</a>"
-        + "</form></td></tr>";
+    // Comment Row
+	"<li class=\"list-group-item list-group-item-warning\" id=\"responseCommentRow-" + addCount + "\">"
+	+ "<div id=\"commentBar-" + addCount + "\">"
+    + "<span class=\"text-muted\">From: " + data.comment.giverEmail + " [" + formattedDate + "]</span>"
+	// Delete form
+    + "<form class=\"responseCommentDeleteForm pull-right\">"
+    + 		"<a href=\"/page/instructorFeedbackResponseCommentDelete\" type=\"button\" id=\"commentdelete-" + data.comment.feedbackResponseCommentId + "\" class=\"btn btn-default btn-xs icon-button\"" 
+    +    		" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Delete this comment\">" 
+    +    		"<span class=\"glyphicon glyphicon-trash glyphicon-primary\"></span>"
+    +    	"</a>"
+    + 	"<input type=\"hidden\" name=\"" + FEEDBACK_RESPONSE_COMMENT_ID + "\" value=\"" + data.comment.feedbackResponseCommentId + "\">"
+    + 	"<input type=\"hidden\" name=\"" + COURSE_ID + "\" value=\"" + data.comment.courseId + "\">"
+    + 	"<input type=\"hidden\" name=\"" + FEEDBACK_SESSION_NAME + "\" value=\"" + data.comment.feedbackSessionName + "\">"
+    + 	"<input type=\"hidden\" name=\"" + USER_ID + "\" value=\"" + data.account.googleId + "\">"
+    + "</form>"
+    + "<a type=\"button\" id=\"commentedit-" + addCount + "\" class=\"btn btn-default btn-xs icon-button pull-right\""
+    + 		" onclick=\"showResponseCommentEditForm(" + addCount + ")\""
+    + 		" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Edit this comment\">"
+    + 	"<span class=\"glyphicon glyphicon-pencil glyphicon-primary\"></span>"
+    + "</a>"
+    + "</div>"
+    // Display Saved Comment
+    + "<div id=\"plainCommentText-" + addCount + "\">" + data.comment.commentText.value + "</div>"
+    // Edit form
+    + "<form style=\"display:none;\" id=\"responseCommentEditForm-" + addCount + "\" class=\"responseCommentEditForm\">"
+    + 	"<div class=\"form-group\">"
+    + 		"<textarea class=\"form-control\" rows=\"3\" placeholder=\"Your comment about this response\""
+    + 			" name=\"" + FEEDBACK_RESPONSE_COMMENT_TEXT + "\""
+    + 			" id=\"" + FEEDBACK_RESPONSE_COMMENT_TEXT + "\"-" + addCount + "\">" + data.comment.commentText.value + "</textarea>"
+    +	 "</div>"
+    + 	 "<div class=\"col-sm-offset-5\">"
+    + 		"<a href=\"/page/instructorFeedbackResponseCommentEdit\" type=\"button\" class=\"btn btn-primary\" id=\"button_save_comment_for_edit-" + addCount + "\">"
+    + 			"Save"
+    + 		"</a><span> </span>"
+    +    	"<input type=\"button\" class=\"btn btn-default\" value=\"Cancel\" onclick=\"return hideResponseCommentEditForm(" + addCount + ");\">"
+    + 	 "</div>"
+    + 	 "<input type=\"hidden\" name=\"" + FEEDBACK_RESPONSE_COMMENT_ID + "\" value=\"" + data.comment.feedbackResponseCommentId + "\">"
+    + 	 "<input type=\"hidden\" name=\"" + COURSE_ID + "\" value=\"" + data.comment.courseId + "\">"
+    + 	 "<input type=\"hidden\" name=\"" + FEEDBACK_SESSION_NAME + "\" value=\"" + data.comment.feedbackSessionName + "\">"
+    + 	 "<input type=\"hidden\" name=\"" + USER_ID + "\" value=\"" + data.account.googleId + "\">"
+    + "</form>"
+    + "</li>";
     return newRow;
 }
 
 function removeFormErrorMessage(submitButton) {
-    if (submitButton.prev().attr("class") == "color_red") {
-        submitButton.prev().remove();
+    if (submitButton.next().next().attr("id") == "errorMessage") {
+        submitButton.next().next().remove();
     }
 }
 
 function setFormErrorMessage(submitButton, msg){
-    if (submitButton.prev().attr("id") == "errorMessage") {
-        submitButton.prev().text(msg);
+    if (submitButton.next().next().attr("id") == "errorMessage") {
+        submitButton.next().next().text(msg);
     } else {
-        submitButton.before("<span id=\"errorMessage\">" + msg + "</span>");
-        submitButton.prev().addClass("color_red");
+        submitButton.next().after("<span id=\"errorMessage\" class=\"pull-right \"> " + msg + "</span>");
     }
-    
-    submitButton.addClass("button");
-    submitButton.text("Submit Comment");
 }
 
 function showResponseCommentAddForm(recipientIndex, giverIndex, qnIndx) {
     var id = "-"+recipientIndex+"-"+giverIndex+"-"+qnIndx;
+    $("#responseCommentTable"+id).show();
+    $("#showResponseCommentAddForm"+id).show();
+    $("#responseCommentAddForm"+id).focus();
+}
 
-    $("#showResponseCommentAddFormButton"+id).hide();
-    $("#responseCommentAddForm"+id).show();
-    $("#responsecommenttext"+id).focus();
+function hideResponseCommentAddForm(recipientIndex, giverIndex, qnIndx) {
+    var id = "-"+recipientIndex+"-"+giverIndex+"-"+qnIndx;
+    if($("#responseCommentTable"+ id + " > li").length <= 1){
+    	$("#responseCommentTable"+id).hide();
+    }
+    $("#showResponseCommentAddForm"+id).hide();
+    removeFormErrorMessage($("#button_save_comment_for_add" + id));
 }
 
 function showResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commentIndex) {
-    var id = "-"+recipientIndex+"-"+giverIndex+"-"+qnIndex+"-"+commentIndex;
-    
-    $("#responseCommentRow"+id).hide();
-    if ($("#responseCommentEditForm"+id).prev().is(':visible')) {
-        $("#responseCommentEditForm"+id).prev().remove();
-    }
+	var id;
+	if(giverIndex || qnIndex || commentIndex){
+		id = "-"+recipientIndex+"-"+giverIndex+"-"+qnIndex+"-"+commentIndex;
+	} else {
+		id = "-"+recipientIndex;
+	}
+	var commentBar = $("#plainCommentText"+id).parent().find("#commentBar"+id);
+	commentBar.hide();
+    $("#plainCommentText"+id).hide();
+    $("#responseCommentEditForm"+id+" > div > textarea").val($("#plainCommentText"+id).text());
     $("#responseCommentEditForm"+id).show();
+    $("#responseCommentEditForm"+id+" > div > textarea").focus();
+}
+
+function hideResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commentIndex) {
+    var id;
+    if(giverIndex || qnIndex || commentIndex){
+    	id = "-"+recipientIndex+"-"+giverIndex+"-"+qnIndex+"-"+commentIndex;
+    } else {
+    	id = "-"+recipientIndex;
+    }
+    var commentBar = $("#plainCommentText"+id).parent().find("#commentBar"+id);
+    commentBar.show();
+    $("#plainCommentText"+id).show();
+    $("#responseCommentEditForm"+id).hide();
+    removeFormErrorMessage($("#button_save_comment_for_edit" + id));
 }
 
 function showNewlyAddedResponseCommentEditForm(addedIndex) {

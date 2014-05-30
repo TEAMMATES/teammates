@@ -1,8 +1,8 @@
 package teammates.test.pageobjects;
 
-public class StudenEvalResultsPage extends AppPage {
+public class StudentEvalResultsPage extends AppPage {
 
-    public StudenEvalResultsPage(Browser browser) {
+    public StudentEvalResultsPage(Browser browser) {
         super(browser);
     }
 

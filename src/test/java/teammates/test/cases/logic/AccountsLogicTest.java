@@ -51,9 +51,10 @@ public class AccountsLogicTest extends BaseComponentTestCase {
     @SuppressWarnings("deprecation")
     @Test
     public void testGetInstructorAccounts() throws Exception{
-        
-        restoreTypicalDataInDatastore();
 
+        dataBundle = getTypicalDataBundle();
+        restoreTypicalDataInDatastore();
+        
         ______TS("success case");
         
         List<AccountAttributes> instructorAccounts = logic.getInstructorAccounts();
@@ -67,9 +68,18 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         instructorAccounts = logic.getInstructorAccounts();
         assertEquals(instructorAccounts.size(), size);
     }
-
+    
     @Test
-    public void testCreateAccount() throws Exception {
+    public void testAll() throws Exception{
+        testAccountFunctions();
+        testCreateAccount();
+        testCreateInstructorAccount();
+        testJoinCourseForStudent();
+        testJoinCourseForInstructor();
+        testDeleteAccountCascade();
+    }
+ 
+    private void testCreateAccount() throws Exception {
 
         ______TS("typical success case");
 
@@ -91,11 +101,11 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         
     }
 
-    @Test
-    public void testCreateInstructorAccount() throws Exception {
+    private void testCreateInstructorAccount() throws Exception {
 
+        dataBundle = getTypicalDataBundle();
         restoreTypicalDataInDatastore();
-
+        
         ______TS("success case");
 
         // Delete any existing
@@ -179,8 +189,9 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         }
     }
     
-    @Test
-    public void testAccountFunctions() throws Exception {
+    private void testAccountFunctions() throws Exception {
+
+        dataBundle = getTypicalDataBundle();
         restoreTypicalDataInDatastore();
         
         ______TS("test isAccountPresent");
@@ -198,6 +209,11 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         assertFalse(accountsLogic.isAccountAnInstructor("id-does-not-exist"));
         
         ______TS("test getInstructorAccounts");
+        
+        
+        for(AccountAttributes aa : accountsLogic.getInstructorAccounts()){
+            ______TS(aa.toString());
+        }
         
         assertEquals(10, accountsLogic.getInstructorAccounts().size());
         
@@ -238,8 +254,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
 
     }
 
-    @Test
-    public void testJoinCourseForStudent() throws Exception {
+    private void testJoinCourseForStudent() throws Exception {
         restoreTypicalDataInDatastore();
         
         String correctStudentId = "correctStudentId";
@@ -378,8 +393,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         assertTrue(logic.isInstructor(correctStudentId));
     }
     
-    @Test
-    public void testJoinCourseForInstructor() throws Exception {
+    private void testJoinCourseForInstructor() throws Exception {
         restoreTypicalDataInDatastore();
         
         InstructorAttributes instructor = dataBundle.instructors.get("instructorNotYetJoinCourse");
@@ -513,11 +527,8 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         
     }
 
-    @Test
-    public void testDeleteAccountCascade() throws Exception {
+    private void testDeleteAccountCascade() throws Exception {
         
-        restoreTypicalDataInDatastore();
-
         ______TS("typical success case");
 
         String course1Id = dataBundle.courses.get("typicalCourse1").id;

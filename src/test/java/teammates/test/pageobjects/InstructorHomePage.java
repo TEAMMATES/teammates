@@ -11,19 +11,19 @@ import teammates.common.util.Url;
 
 public class InstructorHomePage extends AppPage {
     
-    @FindBy(id = "searchbox")
+    @FindBy(id = "searchBox")
     private WebElement searchBox;
     
-    @FindBy(id = "button_search")
+    @FindBy(id = "buttonSearch")
     private WebElement searchButton;
     
-    @FindBy(id = "sortbyid")
+    @FindBy(id = "sortById")
     private WebElement sortByIdButton;
 
-    @FindBy(id = "sortbyname")
+    @FindBy(id = "sortByName")
     private WebElement sortByNameButton;
     
-    @FindBy(id = "sortbydate")
+    @FindBy(id = "sortByDate")
     private WebElement sortByDateButton;
     
     public InstructorHomePage(Browser browser){
@@ -62,25 +62,25 @@ public class InstructorHomePage extends AppPage {
     }
     
     public InstructorCourseEnrollPage clickCourseErollLink(String courseId) {
-        getLinkInRow("t_course_enroll", getCourseRowId(courseId)).click();
+        getCourseLinkInRow("course-enroll-for-test", getCourseRowId(courseId)).click();
         waitForPageToLoad();
         return changePageType(InstructorCourseEnrollPage.class);
     }
     
     public InstructorCourseDetailsPage clickCourseViewLink(String courseId) {
-        getLinkInRow("t_course_view", getCourseRowId(courseId)).click();
+        getCourseLinkInRow("course-view-for-test", getCourseRowId(courseId)).click();
         waitForPageToLoad();
         return changePageType(InstructorCourseDetailsPage.class);
     }
     
     public InstructorCourseEditPage clickCourseEditLink(String courseId) {
-        getLinkInRow("t_course_edit", getCourseRowId(courseId)).click();
+        getCourseLinkInRow("course-edit-for-test", getCourseRowId(courseId)).click();
         waitForPageToLoad();
         return changePageType(InstructorCourseEditPage.class);
     }
     
     public InstructorEvalsPage clickCourseAddEvaluationLink(String courseId) {
-        getLinkInRow("t_course_add_eval", getCourseRowId(courseId)).click();
+        getCourseLinkInRow("course-add-eval-for-test", getCourseRowId(courseId)).click();
         waitForPageToLoad();
         return changePageType(InstructorEvalsPage.class);
     }
@@ -119,7 +119,7 @@ public class InstructorHomePage extends AppPage {
     
     public WebElement getViewResponseLink(String courseId, String evalName) {
         int evaluationRowId = getEvaluationRowId(courseId, evalName);
-        String xpathExp = "//tr[@id='session"+ evaluationRowId +"']/td[contains(@class,'t_session_response')]/a";
+        String xpathExp = "//tr[@id='session"+ evaluationRowId +"']/td[contains(@class,'session-response-for-test')]/a";
 
         return browser.driver.findElement(By.xpath(xpathExp));
     }
@@ -130,59 +130,63 @@ public class InstructorHomePage extends AppPage {
     }
 
     public WebElement getViewResultsLink(String courseId, String evalName) {
-        return getLinkInRow("t_session_view", getEvaluationRowId(courseId, evalName));
+        return getSessionLinkInRow("session-view-for-test", getEvaluationRowId(courseId, evalName));
     }
     
     public WebElement getEditLink(String courseId, String evalName) {
-        return getLinkInRow("t_session_edit", getEvaluationRowId(courseId, evalName));
+        return getSessionLinkInRow("session-edit-for-test", getEvaluationRowId(courseId, evalName));
     }
     
     public WebElement getPreviewLink(String courseId, String evalName) {
-        return getLinkInRow("t_session_preview", getEvaluationRowId(courseId, evalName));
+        return getSessionLinkInRow("session-preview-for-test", getEvaluationRowId(courseId, evalName));
     }
     
     public WebElement getRemindLink(String courseId, String evalName) {
-        return getLinkInRow("t_session_remind", getEvaluationRowId(courseId, evalName));
+        return getSessionLinkInRow("session-remind-for-test", getEvaluationRowId(courseId, evalName));
     }
     
     public WebElement getPublishLink(String courseId, String evalName){
-        return getLinkInRow("t_session_publish", getEvaluationRowId(courseId, evalName));
+        return getSessionLinkInRow("session-publish-for-test", getEvaluationRowId(courseId, evalName));
     }
     
     public WebElement getUnpublishLink(String courseId, String evalName){
-        return getLinkInRow("t_session_unpublish", getEvaluationRowId(courseId, evalName));
+        return getSessionLinkInRow("session-unpublish-for-test", getEvaluationRowId(courseId, evalName));
     }
     
     public WebElement getDeleteEvalLink(String courseId, String evalName){
-        return getLinkInRow("t_session_delete", getEvaluationRowId(courseId, evalName));
+        return getSessionLinkInRow("session-delete-for-test", getEvaluationRowId(courseId, evalName));
     }
     
     public WebElement getDeleteCourseLink(String courseId){
-        return getLinkInRow("t_course_delete", getCourseRowId(courseId));
+        return getCourseLinkInRow("course-delete-for-test", getCourseRowId(courseId));
     }
     
     public InstructorHomePage clickArchiveCourseLink(String courseId){
-        getLinkInRow("t_course_archive", getCourseRowId(courseId)).click();
+        getCourseLinkInRow("course-archive-for-test", getCourseRowId(courseId)).click();
         waitForPageToLoad();
         return this;
     }
     
     public Url getArchiveCourseLink(String courseId){
-        String url = getLinkInRow("t_course_archive", getCourseRowId(courseId)).getAttribute("href");
+        String url = getCourseLinkInRow("course-archive-for-test", getCourseRowId(courseId)).getAttribute("href");
         return new Url(url);
     }
     
-    private WebElement getLinkInRow(String elementClassNamePrefix, int rowId){
-        return browser.driver.findElement(By.className(elementClassNamePrefix + rowId));
+    private WebElement getSessionLinkInRow(String elementClassNamePrefix, int rowId){
+        return browser.driver.findElement(By.id("session" + rowId)).findElement(By.className(elementClassNamePrefix));
+    }
+    
+    private WebElement getCourseLinkInRow(String elementClassNamePrefix, int rowId){
+        return browser.driver.findElement(By.id("course" + rowId)).findElement(By.className(elementClassNamePrefix));
     }
 
     private int getEvaluationRowId(String courseId, String evalName) {
         int courseRowID = getCourseRowId(courseId);
         if (courseRowID == -1)
             return -2;
-        String template = "//div[@id='course%d']//table[@class='dataTable']//tr[@id='session%d']";
+        String template = "//div[@id='course%d']//tr[@id='session%d']";
         int max = (Integer) (browser.selenium)
-                .getXpathCount("//div//table[@class='dataTable']//tr");
+                .getXpathCount("//div[starts-with(@id, 'course')]//tr");
         for (int id = 0; id < max; id++) {
             if (getElementText(
                     By.xpath(String.format(template + "//td[1]", courseRowID,
@@ -198,7 +202,7 @@ public class InstructorHomePage extends AppPage {
         while (isElementPresent(By.id("course" + id))) {
             if (getElementText(
                     By.xpath("//div[@id='course" + id
-                            + "']/div[@class='result_homeTitle']/h2"))
+                            + "']//strong"))
                     .startsWith("[" + courseId + "]")) {
                 return id;
             }

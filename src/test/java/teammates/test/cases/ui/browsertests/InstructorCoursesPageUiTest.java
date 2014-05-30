@@ -126,17 +126,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         
         ______TS("sorting");
         
-        coursesPage.sortByCourseName()
-            .verifyTablePattern(1,"{*}Programming Language Concept{*}Programming Methodology");
-
-        coursesPage.sortByCourseName()
-            .verifyTablePattern(1,"{*}Programming Methodology{*}Programming Language Concept");
-        
-        coursesPage.sortByCourseId()
-            .verifyTablePattern(0,"{*}CCAddUiTest.CS1101{*}CCAddUiTest.CS2104");
-        
-        coursesPage.sortByCourseId()
-            .verifyTablePattern(0,"{*}CCAddUiTest.CS2104{*}CCAddUiTest.CS1101");        
+        coursesPage.sortByCourseName().verifyHtml("/instructorCourseByName.html");        
     }
 
     public void testLinks() throws Exception{

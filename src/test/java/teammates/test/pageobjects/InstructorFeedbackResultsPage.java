@@ -1,6 +1,7 @@
 package teammates.test.pageobjects;
 
 import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.fail;
 
 import org.openqa.selenium.By;
@@ -8,23 +9,24 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 
 public class InstructorFeedbackResultsPage extends AppPage {
 
-    @FindBy(id = "button_sortgiver")
+    @FindBy(id = "button_sortFrom")
     private WebElement sortTableGiverButton;
     
-    @FindBy(id = "button_sortrecipient")
+    @FindBy(id = "button_sortTo")
     private WebElement sortTableRecipientButton;
     
-    @FindBy(id = "button_sortanswer")
+    @FindBy(id = "button_sortFeedback")
     private WebElement sortTableAnswerButton;
     
-    @FindBy(id = "showResponseCommentAddFormButton-1-1-1")
+    @FindBy(id = "button_add_comment")
     private WebElement showResponseCommentAddFormButton;
     
-    @FindBy(id = "responseCommentAddForm-1-1-1")
+    @FindBy(id = "showResponseCommentAddForm-1-1-1")
     private WebElement addResponseCommentForm;
     
     
@@ -52,17 +54,17 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
     
     public void displayByGiver() {
-        WebElement button = browser.driver.findElement(By.xpath("//span[@class='label bold' and contains(text(),'Sort by giver')]"));
+        WebElement button = browser.driver.findElements(By.name(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE)).get(0);
         button.click();
     }
     
     public void displayByRecipient() {
-        WebElement button = browser.driver.findElement(By.xpath("//span[@class='label bold' and contains(text(),'Sort by recipient')]"));
+        WebElement button = browser.driver.findElements(By.name(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE)).get(1);
         button.click();
     }
     
     public void displayByTable() {
-        WebElement button = browser.driver.findElement(By.xpath("//span[@class='label bold' and contains(text(),'View as table')]"));
+        WebElement button = browser.driver.findElements(By.name(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE)).get(2);
         button.click();
         waitForPageToLoad();
     }
@@ -103,32 +105,33 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
     
     public void addFeedbackResponseComment(String commentText) {
-        showResponseCommentAddFormButton.findElement(By.tagName("div")).click();
+        showResponseCommentAddFormButton.click();
         fillTextBox(addResponseCommentForm.findElement(By.tagName("textarea")), commentText);
-        addResponseCommentForm.findElement(By.className("button")).click();
+        addResponseCommentForm.findElement(By.tagName("a")).click();
         ThreadHelper.waitFor(1000);
     }
     
     public void editFeedbackResponseComment(String commentIdSuffix, String newCommentText) {
         WebElement commentRow = browser.driver.findElement(By.id("responseCommentRow" + commentIdSuffix));
-        commentRow.findElement(By.linkText("Edit")).click();
+        commentRow.findElements(By.tagName("a")).get(1).click();
         
         WebElement commentEditForm = browser.driver.findElement(By.id("responseCommentEditForm" + commentIdSuffix));
         fillTextBox(commentEditForm.findElement(By.name("responsecommenttext")), newCommentText);
-        commentEditForm.findElement(By.className("button")).click();
+        commentEditForm.findElement(By.tagName("a")).click();
         ThreadHelper.waitFor(1000);
     }
     
     public void deleteFeedbackResponseComment(String commentIdSuffix) {
         WebElement commentRow = browser.driver.findElement(By.id("responseCommentRow" + commentIdSuffix));
-        commentRow.findElement(By.linkText("Delete")).click();
+        commentRow.findElement(By.tagName("form"))
+            .findElement(By.tagName("a")).click();
         ThreadHelper.waitFor(1000);
     }
     
     public void verifyCommentRowContent(String commentRowIdSuffix, String commentText, String giverName) {
         WebElement commentRow = browser.driver.findElement(By.id("responseCommentRow" + commentRowIdSuffix));
-        assertEquals(commentText, commentRow.findElement(By.className("feedbackResponseCommentText")).getText());
-        assertEquals(giverName, commentRow.findElement(By.className("feedbackResponseCommentGiver")).getText());
+        assertEquals(commentText, commentRow.findElement(By.id("plainCommentText" + commentRowIdSuffix)).getText());
+        assertTrue(commentRow.findElement(By.className("text-muted")).getText().contains(giverName));
     }
     
     public void verifyCommentFormErrorMessage(String commentTableIdSuffix, String errorMessage) {
