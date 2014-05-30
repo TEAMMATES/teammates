@@ -1,15 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="all-tests-in-parallel" parallel="tests" thread-count="5">
-
+<!--
     <test name="component-tests">
-    <!--  These can be run without starting the server. Should be run often. -->
+      These can be run without starting the server. Should be run often. 
         <classes>
-            <class name="teammates.test.automated.EvaluationClosingReminderTest" />
-            <class name="teammates.test.automated.EvaluationOpeningReminderTest" />
-            <class name="teammates.test.automated.FeedbackSessionClosingReminderTest" />
-            <class name="teammates.test.automated.FeedbackSessionOpeningReminderTest" />
-            <class name="teammates.test.automated.FeedbackSessionPublishedReminderTest" />
             <class name="teammates.test.cases.BaseTestCaseTest" />
             <class name="teammates.test.cases.common.AccountAttributesTest" />
             <class name="teammates.test.cases.common.BuildPropertiesTest" />
@@ -31,6 +26,7 @@
             <class name="teammates.test.cases.testdriver.DataBundleTest" />
             <class name="teammates.test.cases.testdriver.HtmlHelperTest" />
             <class name="teammates.test.cases.testdriver.TestPropertiesTest" />
+        
             <class name="teammates.test.cases.storage.AccountsDbTest" />
             <class name="teammates.test.cases.storage.CommentsDbTest" />
             <class name="teammates.test.cases.storage.CoursesDbTest" />
@@ -43,6 +39,7 @@
             <class name="teammates.test.cases.storage.StudentsDbTest" />
             <class name="teammates.test.cases.storage.SubmissionsDbTest" />
             <class name="teammates.test.cases.logic.AccountsLogicTest"/>
+            <class name="teammates.test.cases.logic.InstructorsLogicTest" />
             <class name="teammates.test.cases.logic.BackDoorLogicTest"/>
             <class name="teammates.test.cases.logic.CommentsLogicTest"/>
             <class name="teammates.test.cases.logic.CoursesLogicTest"/>
@@ -51,7 +48,6 @@
             <class name="teammates.test.cases.logic.FeedbackSessionsLogicTest" />
             <class name="teammates.test.cases.logic.FeedbackQuestionsLogicTest" />
             <class name="teammates.test.cases.logic.FeedbackResponsesLogicTest" />
-            <class name="teammates.test.cases.logic.InstructorsLogicTest" />
             <class name="teammates.test.cases.logic.LogicTest" />
             <class name="teammates.test.cases.logic.StudentsLogicTest" />
             <class name="teammates.test.cases.logic.SubmissionsAdjustmentTest" />
@@ -61,6 +57,7 @@
             <class name="teammates.test.cases.logic.FeedbackSessionEmailTaskQueueTest" />
             <class name="teammates.test.cases.logic.TeamEvalResultTest" />
             <class name="teammates.test.pageobjects.PageDataTest" />
+
             <class name="teammates.test.cases.ui.ActivityLogTest" />
             <class name="teammates.test.cases.ui.ActionResultTest" />
             <class name="teammates.test.cases.ui.AdminAccountDeletePageActionTest" />
@@ -145,11 +142,20 @@
             <class name="teammates.test.cases.ui.StudentFeedbackQuestionSubmissionEditPageActionTest" />
             <class name="teammates.test.cases.ui.StudentFeedbackQuestionSubmissionEditSaveActionTest" />
             <class name="teammates.test.cases.ui.StudentHomePageActionTest" />
+
+            <class name="teammates.test.automated.EvaluationClosingReminderTest" />
+            <class name="teammates.test.automated.EvaluationOpeningReminderTest" />
+            <class name="teammates.test.automated.FeedbackSessionClosingReminderTest" />
+            <class name="teammates.test.automated.FeedbackSessionOpeningReminderTest" />
+            <class name="teammates.test.automated.FeedbackSessionPublishedReminderTest" />
         </classes>
     </test>
+-->
+
+<!--
     <test name="occasional-tests" parallel="classes">
-    <!-- These need not to run often unless the modification relates to them
-    directly. But they should be run before pushing new code to the repo. -->
+     These need not to run often unless the modification relates to them
+    directly. But they should be run before pushing new code to the repo. 
         <classes>
             <class name="teammates.test.cases.testdriver.BackDoorTest" />
             <class name="teammates.test.cases.ui.browsertests.SystemErrorEmailReportTest" />
@@ -158,9 +164,10 @@
             <class name="teammates.test.cases.ui.browsertests.MashupPageUiTest" />
         </classes>
     </test>
-    
+-->
+
     <test name="parallel-ui-tests" parallel="classes">
-    <!-- These cover the important UI functionality. Can be run in parallel. -->
+     These cover the important UI functionality. Can be run in parallel. 
         <classes>
             <class name="teammates.test.cases.ui.browsertests.AutomatedSessionRemindersTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorCourseJoinConfirmationPageUiTest" />
@@ -191,8 +198,10 @@
             <class name="teammates.test.cases.ui.browsertests.StudentFeedbackResultsPageUiTest" />
         </classes>
     </test>
+
+    <!--
     <test name="sequential-ui-tests">
-    <!--  Theses cases use real Google accounts and need to be run sequentially to avoid state leaks between tests -->
+      Theses cases use real Google accounts and need to be run sequentially to avoid state leaks between tests 
         <classes>
             <class name="teammates.test.cases.ui.browsertests.InstructorHomePageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorCourseDetailsPageUiTest" />
@@ -203,5 +212,5 @@
             <class name="teammates.test.cases.ui.browsertests.AllAccessControlUiTests" />
         </classes>
     </test>
-
+     -->
 </suite> 

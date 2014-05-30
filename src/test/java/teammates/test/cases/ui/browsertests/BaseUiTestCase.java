@@ -76,7 +76,15 @@ public class BaseUiTestCase extends BaseTestCase {
      */
     protected static void restoreTestDataOnServer(DataBundle testData) {
         String backDoorOperationStatus = BackDoor.restoreDataBundle(testData);
-        assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
+        while(!backDoorOperationStatus.equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
+            try {
+                Thread.sleep((long)( Math.random() * 1000));
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            backDoorOperationStatus = BackDoor.restoreDataBundle(testData);
+        }
     }
 
     protected static AdminHomePage loginAdmin(Browser currentBrowser) {

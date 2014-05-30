@@ -46,6 +46,7 @@ public class Browser {
     
     public Browser() {
         this.driver = createWebDriver();
+        this.driver.manage().window().maximize();
         this.selenium = new WebDriverBackedSelenium(this.driver, TestProperties.inst().TEAMMATES_URL);
         isInUse = false; 
         isAdminLoggedIn = false;
