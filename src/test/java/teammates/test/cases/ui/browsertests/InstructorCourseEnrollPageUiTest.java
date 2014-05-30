@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
@@ -79,7 +80,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
         ______TS("enroll action: non-empty course, enroll lines without header");
         
         // A new student
-        enrollString += "Team 3 | Emily France | emily.f's.!email@gmail.com | This student has just been added\n";
+        enrollString += "Team 3 | Emily France | emily.fs.!email@gmail.com | This student has just been added\n";
         // A new student with no comment
         enrollString += "Team 3 | Frank Galoe | frank.g.tmms@gmail.com\n";
         // A new student with name containing accented characters
@@ -87,7 +88,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
         // A student to be modified
         enrollString += "Team 1 | Alice Betsy | alice.b.tmms@gmail.com | This comment has been changed\n";
         // An existing student with no modification
-        enrollString += "Team 1 | Benny Charles | benny.c.tmms@gmail.com | This student's name is Benny Charles";
+        enrollString += Sanitizer.sanitizeForHtml("Team 1 | Benny Charles | benny.c.tmms@gmail.com | This student's name is Benny Charles");
         
         InstructorCourseEnrollResultPage resultsPage = enrollPage.enroll(enrollString);
         resultsPage.verifyHtml("/instructorCourseEnrollPageResult.html");

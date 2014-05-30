@@ -16,6 +16,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Utils;
@@ -227,8 +228,6 @@ public class StudentsDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
         
-        //TODO: Sanitize values and update tests accordingly
-        
         verifyStudentExists(courseId, email);
         
         Student student = getStudentEntityForEmail(courseId, email);
@@ -240,11 +239,11 @@ public class StudentsDb extends EntitiesDb {
             throw new InvalidParametersException(error);
         }
 
-        student.setEmail(newEmail);
-        student.setName(newName);
-        student.setComments(newComments);
-        student.setGoogleId(newGoogleID);
-        student.setTeamName(newTeamName);
+        student.setEmail(Sanitizer.sanitizeForHtml(newEmail));
+        student.setName(Sanitizer.sanitizeForHtml(newName));
+        student.setComments(Sanitizer.sanitizeForHtml(newComments));
+        student.setGoogleId(Sanitizer.sanitizeForHtml(newGoogleID));
+        student.setTeamName(Sanitizer.sanitizeForHtml(newTeamName));
 
         getPM().close();
     }
