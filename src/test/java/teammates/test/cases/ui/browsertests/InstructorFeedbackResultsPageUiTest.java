@@ -51,21 +51,11 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         resultsPage = loginToInstructorFeedbackSubmitPage("CFResultsUiT.instr", "Open Session", NO_STATUS_MESSAGE);
         resultsPage.verifyHtml("/instructorFeedbackResultsPageOpen.html");
-
-        ______TS("standard session results with status message");
-        
-        resultsPage = loginToInstructorFeedbackSubmitPage("CFResultsUiT.instr", "Open Session", "A common status message");
-        resultsPage.verifyHtml("/instructorFeedbackResultsPageOpenWithStatusMessage.html");
         
         ______TS("empty session");
         
         resultsPage = loginToInstructorFeedbackSubmitPage("CFResultsUiT.instr", "Empty Session", NO_STATUS_MESSAGE);
         resultsPage.verifyHtml("/instructorFeedbackResultsPageEmpty.html");
-        
-        ______TS("empty session with status message");
-        
-        resultsPage = loginToInstructorFeedbackSubmitPage("CFResultsUiT.instr", "Empty Session", "A common status message");
-        resultsPage.verifyHtml("/instructorFeedbackResultsPageEmptyWithStatusMessage.html");
     }
     
     public void testSortAction(){
