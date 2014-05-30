@@ -53,11 +53,11 @@ public class ShowPageResult extends ActionResult{
          */ 
         req.setAttribute(Const.ParamsNames.ERROR, ""+isError);
         
-        putStatusMessageToRequest(req);
+        addStatusMessageToRequest(req);
         req.getRequestDispatcher(getDestinationWithParams()).forward(req, resp);
     }
 
-    private void putStatusMessageToRequest(HttpServletRequest req) {
+    private void addStatusMessageToRequest(HttpServletRequest req) {
         String statusMessageInSession = (String) req.getSession().getAttribute(Const.ParamsNames.STATUS_MESSAGE); 
         if(statusMessageInSession != null && !statusMessageInSession.isEmpty()){
             //Remove status message in session, thus it becomes an one-time message
