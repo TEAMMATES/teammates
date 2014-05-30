@@ -35,11 +35,10 @@ public class InstructorEvalSubmissionEditPage extends AppPage {
         setP2pCommentForSubmission(rowId, newSubmissionValues.p2pFeedback.getValue());
     }
     
-    public InstructorEvalResultsPage submit() {
+    public InstructorEvalsPage submit() {
         submitButton.click();
-        switchToParentWindow();
         waitForPageToLoad();
-        return changePageType(InstructorEvalResultsPage.class);
+        return changePageType(InstructorEvalsPage.class);
     }
 
     
