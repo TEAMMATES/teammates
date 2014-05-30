@@ -49,8 +49,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
     }
 
     @SuppressWarnings("deprecation")
-    @Test
-    public void testGetInstructorAccounts() throws Exception{
+    private void testGetInstructorAccounts() throws Exception{
 
         dataBundle = getTypicalDataBundle();
         restoreTypicalDataInDatastore();
@@ -71,6 +70,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
     
     @Test
     public void testAll() throws Exception{
+        testGetInstructorAccounts();
         testAccountFunctions();
         testCreateAccount();
         testCreateInstructorAccount();

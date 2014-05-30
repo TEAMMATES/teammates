@@ -4,9 +4,6 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.FeedbackAbstractResponseDetails;
@@ -19,7 +16,6 @@ import teammates.common.datatransfer.FeedbackNumericalScaleResponseDetails;
 import teammates.common.datatransfer.FeedbackQuestionType;
 import teammates.common.datatransfer.FeedbackTextQuestionDetails;
 import teammates.common.datatransfer.FeedbackTextResponseDetails;
-import teammates.common.util.Const;
 import teammates.test.cases.BaseTestCase;
 
 /**
@@ -36,7 +32,6 @@ import teammates.test.cases.BaseTestCase;
 public class FeedbackResponseDetailsTest extends BaseTestCase {
     @Test
     public void testCreateResponseDetails() throws Exception {
-        Map<String, String[]> httpParams = new HashMap<String, String[]>();
         
         ______TS("TEXT Response");
         FeedbackTextQuestionDetails textQuestionDetails = new FeedbackTextQuestionDetails();
@@ -92,30 +87,6 @@ public class FeedbackResponseDetailsTest extends BaseTestCase {
         assertTrue(responseDetails instanceof FeedbackNumericalScaleResponseDetails);
         assertEquals("-3.5", responseDetails.getAnswerString());
         
-        ______TS("NUMSCALE Response: more than max");
-        
-        responseDetails = 
-                FeedbackAbstractResponseDetails.createResponseDetails(
-                        new String[] { "9" },
-                        FeedbackQuestionType.NUMSCALE,
-                        numericalScaleQuestionDetails);
-
-        assertEquals(responseDetails.questionType, FeedbackQuestionType.NUMSCALE);
-        assertTrue(responseDetails instanceof FeedbackNumericalScaleResponseDetails);
-        assertEquals("5", responseDetails.getAnswerString());
-        
-        ______TS("NUMSCALE Response: less than min");
-        
-        responseDetails = 
-                FeedbackAbstractResponseDetails.createResponseDetails(
-                        new String[] { "-10" },
-                        FeedbackQuestionType.NUMSCALE,
-                        numericalScaleQuestionDetails);
-
-        assertEquals(responseDetails.questionType, FeedbackQuestionType.NUMSCALE);
-        assertTrue(responseDetails instanceof FeedbackNumericalScaleResponseDetails);
-        assertEquals("-5", responseDetails.getAnswerString());
-        
         ______TS("NUMSCALE Response: wrong format");
         
         responseDetails = 
@@ -126,19 +97,5 @@ public class FeedbackResponseDetailsTest extends BaseTestCase {
 
         assertNull(responseDetails);
         
-        ______TS("NUMSCALE Response: fake http hidden value");
-        
-        httpParams.put(Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN + "-1-0", new String[] {"-5"});
-        httpParams.put(Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX + "-1-0", new String[] {"9"});
-        
-        responseDetails = 
-                FeedbackAbstractResponseDetails.createResponseDetails(
-                        new String[] { "9" },
-                        FeedbackQuestionType.NUMSCALE,
-                        numericalScaleQuestionDetails);
-
-        assertEquals(responseDetails.questionType, FeedbackQuestionType.NUMSCALE);
-        assertTrue(responseDetails instanceof FeedbackNumericalScaleResponseDetails);
-        assertEquals("5", responseDetails.getAnswerString());
     }
 }

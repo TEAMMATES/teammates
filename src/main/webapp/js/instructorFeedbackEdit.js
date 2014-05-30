@@ -505,7 +505,7 @@ function updateNumScalePossibleValues(questionNumber) {
         $("#maxScaleBox"+idSuffix).val(max);
     }
     
-    if (step <= 0) {
+    if (step < 0.001) {
         step = 0.001;
         $("#stepBox"+idSuffix).val(step);
     }
@@ -523,6 +523,8 @@ function updateNumScalePossibleValues(questionNumber) {
     if (Math.round(largestValueInRange*1000)/1000 != max) {
         $("#numScalePossibleValues"+idSuffix).css("color","red");
         possibleValuesString = "[The interval " + min.toString() + " - " + max.toString() + " is not divisible by the specified increment.]";
+        $("#numScalePossibleValues"+idSuffix).text(possibleValuesString);
+        return false;
     } else {
         $("#numScalePossibleValues"+idSuffix).css("color","black");
         possibleValuesString = "[Based on the above settings, acceptable responses are: ";
@@ -542,9 +544,9 @@ function updateNumScalePossibleValues(questionNumber) {
             }
         }
         possibleValuesString += "]";
+        $("#numScalePossibleValues"+idSuffix).text(possibleValuesString);
+        return true;
     }
-    
-    $("#numScalePossibleValues"+idSuffix).text(possibleValuesString);
 }
 
 /**
@@ -704,12 +706,7 @@ function getQuestionLink(qnNumber) {
                         + "&fsname=" + fsname 
                         + "&questionid=" + questionId;
     
-    $("#statusMessage").text("Link for question " + qnNumber + ": " + questionLink);
-    $("#statusMessage").attr("class", "alert alert-warning");
-    $("#statusMessage").show();
-    
-    var scrollAmount = $("#statusMessage")[0].scrollHeight + $("#frameBodyWrapper").height() * 3/4; 
-    $("#frameBodyWrapper").animate({scrollTop: scrollAmount}, 1000);
+    setStatusMessage("Link for question " + qnNumber + ": " + questionLink, false);
 }
 
 function toParameterFormat(str) {
