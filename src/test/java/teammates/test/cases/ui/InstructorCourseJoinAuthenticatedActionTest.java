@@ -47,6 +47,7 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
     
     @Test
     public void testExecuteAndPostProcess() throws Exception{
+        //TODO: find a way to test status message from session
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
         InstructorsDb instrDb = new InstructorsDb();
         instructor = instrDb.getInstructorForEmail(instructor.courseId, instructor.email);
@@ -63,9 +64,7 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
         RedirectResult redirectResult = (RedirectResult) joinAction.executeAndPostProcess();
 
         assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE
-                + "?message=You+have+used+an+invalid+join+link"
-                + "%3A+%2Fpage%2FinstructorCourseJoin%3Fregkey%3D" + invalidEncryptedKey
-                + "&error=true&user=" + instructor.googleId,
+                + "?error=true&user=" + instructor.googleId,
                 redirectResult.getDestinationWithParams());
         assertTrue(redirectResult.isError);
         assertEquals("You have used an invalid join link: " + Const.ActionURIs.INSTRUCTOR_COURSE_JOIN 
@@ -86,8 +85,7 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
         redirectResult = (RedirectResult) joinAction.executeAndPostProcess();
 
         assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE
-                + "?message=idOfInstructor1OfCourse1+has+already+joined+this+course"
-                + "&persistencecourse=" + instructor.courseId
+                + "?persistencecourse=" + instructor.courseId
                 + "&error=true&user=" + instructor.googleId,
                 redirectResult.getDestinationWithParams());
         assertTrue(redirectResult.isError);
@@ -111,16 +109,7 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
         redirectResult = (RedirectResult) joinAction.executeAndPostProcess();
 
         assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE
-                + "?message=The+join+link+used+belongs+to+a+different+user"
-                + "+whose+Google+ID+is+idOfInst..fCourse1"
-                + "+%28only+part+of+the+Google+ID+is+shown+to+protect+privacy%29."
-                + "+If+that+Google+ID+is+owned+by+you%2C+please+logout+and"
-                + "+re-login+using+that+Google+account.+If+it+doesn%E2%80%99t"
-                + "+belong+to+you%2C+please+%3Ca+href%3D%22mailto"
-                + "%3Ateammates%40comp.nus.edu.sg%3Fbody%3D"
-                + "Your+name%3A%250AYour+course%3A%250AYour+university%3A%22%3E"
-                + "contact+us%3C%2Fa%3E+so+that+we+can+investigate."
-                + "&persistencecourse=" + instructor2.courseId
+                + "?persistencecourse=" + instructor2.courseId
                 + "&error=true&user=" + instructor.googleId,
                 redirectResult.getDestinationWithParams());
         assertTrue(redirectResult.isError);
@@ -185,9 +174,7 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
         redirectResult = (RedirectResult) joinAction.executeAndPostProcess();
 
         assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE
-                + "?message=The+Google+ID+ICJAAT.instr+belongs+to+an"
-                + "+existing+user+in+the+course.Please+login+again+using+a+different"
-                + "+Google+account%2C+and+try+to+join+the+course+again.&persistencecourse"
+                + "?persistencecourse"
                 + "=idOfTypicalCourse1&error=true&user=ICJAAT.instr",
                 redirectResult.getDestinationWithParams());
         assertTrue(redirectResult.isError);

@@ -47,7 +47,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
     
     @Test
     public void testExecute() throws Exception{
-
+        //TODO: find a way to test status message from session
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor1OfCourse1.googleId;
         
@@ -68,7 +68,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
         ShowPageResult pageResult = (ShowPageResult) addAction.executeAndPostProcess();
         
         assertEquals(
-                Const.ViewURIs.INSTRUCTOR_COURSES+"?message=Please+use+only+alphabets%2C+numbers%2C+dots%2C+hyphens%2C+underscores+and+dollar+signs+in+course+ID.&error=true&user=idOfInstructor1OfCourse1", 
+                Const.ViewURIs.INSTRUCTOR_COURSES+"?error=true&user=idOfInstructor1OfCourse1", 
                 pageResult.getDestinationWithParams());
         assertEquals(true, pageResult.isError);
         assertEquals(Const.StatusMessages.COURSE_INVALID_ID, pageResult.getStatusMessage());
@@ -106,7 +106,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
         pageResult = (ShowPageResult)addAction.executeAndPostProcess();
         
         assertEquals(
-                Const.ViewURIs.INSTRUCTOR_COURSES+"?message=A+course+by+the+same+ID+already+exists+in+the+system%2C+possibly+created+by+another+user.+Please+choose+a+different+course+ID&error=true&user=idOfInstructor1OfCourse1", 
+                Const.ViewURIs.INSTRUCTOR_COURSES+"?error=true&user=idOfInstructor1OfCourse1", 
                 pageResult.getDestinationWithParams());
         assertEquals(true, pageResult.isError);
         assertEquals(Const.StatusMessages.COURSE_EXISTS, pageResult.getStatusMessage());
@@ -131,10 +131,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
                 Const.ParamsNames.COURSE_NAME, "ticac tpa2 name");
         pageResult = (ShowPageResult) addAction.executeAndPostProcess();
         
-        String expectedDestination = Const.ViewURIs.INSTRUCTOR_COURSES + "?message=The+course+has+been+added.." +
-                "+Click+%3Ca+href%3D%22%2Fpage%2FinstructorCourseEnrollPage%3Fcourseid%3Dticac.tpa2.id%26user%3DidOfInstructor1OfCourse1%22%3Ehere" +
-                "%3C%2Fa%3E+to+add+students+to+the+course+or+click+%3Ca+href%3D%22%2Fpage%2FinstructorCourseEditPage%3Fcourseid%3Dticac.tpa2.id%26user%3DidOfInstructor1OfCourse1" +
-                "%22%3Ehere%3C%2Fa%3E+to+add+other+instructors.%3Cbr%3EIf+you+don%27t+see+the+course+in+the+list+below%2C+please+refresh+the+page+after+a+few+moments.&error=false&user=idOfInstructor1OfCourse1";
+        String expectedDestination = Const.ViewURIs.INSTRUCTOR_COURSES + "?error=false&user=idOfInstructor1OfCourse1";
         assertEquals(expectedDestination, pageResult.getDestinationWithParams());
         assertEquals(false, pageResult.isError);
         String expectedStatus = "The course has been added.. Click <a href=\"/page/instructorCourseEnrollPage?courseid=ticac.tpa2.id&user=idOfInstructor1OfCourse1\">here</a> to add students to the course or " +

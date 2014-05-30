@@ -62,6 +62,7 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
     
     @Test
     public void testExecuteAndPostProcess() throws Exception{
+        //TODO: find a way to test status message from session
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor1OfCourse1.googleId;
 
@@ -82,7 +83,7 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
         RedirectResult redirectResult = getRedirectResult(deleteAction);
         
         assertEquals(
-                Const.ActionURIs.INSTRUCTOR_HOME_PAGE+"?message=The+course+idOfTypicalCourse1+has+been+deleted.&error=false&user=idOfInstructor1OfCourse1", 
+                Const.ActionURIs.INSTRUCTOR_HOME_PAGE+"?error=false&user=idOfInstructor1OfCourse1", 
                 redirectResult.getDestinationWithParams());
         assertEquals(false, redirectResult.isError);
         assertEquals("The course idOfTypicalCourse1 has been deleted.", redirectResult.getStatusMessage());
@@ -108,7 +109,7 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
         redirectResult = getRedirectResult(deleteAction);
         
         assertEquals(
-                Const.ActionURIs.INSTRUCTOR_COURSES_PAGE+"?message=The+course+icdct.tpa.id1+has+been+deleted.&error=false&user=idOfInstructor1OfCourse1", 
+                Const.ActionURIs.INSTRUCTOR_COURSES_PAGE+"?error=false&user=idOfInstructor1OfCourse1", 
                 redirectResult.getDestinationWithParams());
         assertEquals(false, redirectResult.isError);
         assertEquals("The course icdct.tpa.id1 has been deleted.", redirectResult.getStatusMessage());

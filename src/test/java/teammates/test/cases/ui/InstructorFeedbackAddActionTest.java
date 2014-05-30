@@ -45,7 +45,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
     
     @Test
     public void testExecuteAndPostProcess() throws Exception{
-        
+        //TODO: find a way to test status message from session
         InstructorAttributes instructor1ofCourse1 =
                 dataBundle.instructors.get("instructor1OfCourse1");
         
@@ -72,7 +72,6 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                         + "&fsname=ifaat+tca+fs"
                         + "&user="
                         + instructor1ofCourse1.googleId
-                        + "&message=The+feedback+session+has+been+added.+Click+the+%22Add+New+Question%22+button+below+to+begin+adding+questions+for+the+feedback+session."
                         + "&error=false",
                 rr.getDestinationWithParams());
         
@@ -96,7 +95,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         a = getAction(params);
         ShowPageResult pr = (ShowPageResult) a.executeAndPostProcess();
         assertEquals(
-                Const.ViewURIs.INSTRUCTOR_FEEDBACKS+"?message=A+feedback+session+by+this+name+already+exists+under+this+course&error=true&user=idOfInstructor1OfCourse1", 
+                Const.ViewURIs.INSTRUCTOR_FEEDBACKS+"?error=true&user=idOfInstructor1OfCourse1", 
                 pr.getDestinationWithParams());
         assertEquals(true, pr.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EXISTS, pr.getStatusMessage());
@@ -117,7 +116,6 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                         + "&fsname=Course+with+trailing+space"
                         + "&user="
                         + instructor1ofCourse1.googleId
-                        + "&message=The+feedback+session+has+been+added.+Click+the+%22Add+New+Question%22+button+below+to+begin+adding+questions+for+the+feedback+session."
                         + "&error=false",
                 rr.getDestinationWithParams());
         
@@ -149,7 +147,6 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                         + "&fsname=Course+with+minute+offset+timezone"
                         + "&user="
                         + instructor1ofCourse1.googleId
-                        + "&message=The+feedback+session+has+been+added.+Click+the+%22Add+New+Question%22+button+below+to+begin+adding+questions+for+the+feedback+session."
                         + "&error=false",
                 rr.getDestinationWithParams());
         
@@ -183,7 +180,6 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                         + "&fsname=masquerade+session"
                         + "&user="
                         + instructor1ofCourse1.googleId
-                        + "&message=The+feedback+session+has+been+added.+Click+the+%22Add+New+Question%22+button+below+to+begin+adding+questions+for+the+feedback+session."
                         + "&error=false",
                 rr.getDestinationWithParams());
         
