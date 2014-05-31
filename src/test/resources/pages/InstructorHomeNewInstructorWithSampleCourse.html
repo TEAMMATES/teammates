@@ -59,22 +59,22 @@
                <div class="collapse navbar-collapse"  id="contentLinks" >
                   <ul class="nav navbar-nav" >
                      <li class="active" >
-                        <a class="nav home"  data-link="instructorHome"  href="/page/instructorHomePage?user=newIns.withSample" >
+                        <a class="nav home"  data-link="instructorHome"  href="/page/instructorHomePage?user={$test.instructor}" >
                            Home
                         </a>
                      </li>
                      <li class="" >
-                        <a class="nav courses"  data-link="instructorCourse"  href="/page/instructorCoursesPage?user=newIns.withSample" >
+                        <a class="nav courses"  data-link="instructorCourse"  href="/page/instructorCoursesPage?user={$test.instructor}" >
                            Courses
                         </a>
                      </li>
                      <li class="" >
-                        <a class="nav evaluations"  data-link="instructorEval"  href="/page/instructorEvalsPage?user=newIns.withSample" >
+                        <a class="nav evaluations"  data-link="instructorEval"  href="/page/instructorEvalsPage?user={$test.instructor}" >
                            Sessions
                         </a>
                      </li>
                      <li class="" >
-                        <a class="nav students"  data-link="instructorStudent"  href="/page/instructorStudentListPage?user=newIns.withSample" >
+                        <a class="nav students"  data-link="instructorStudent"  href="/page/instructorStudentListPage?user={$test.instructor}" >
                            Students
                         </a>
                      </li>
@@ -90,8 +90,8 @@
                            Logout
                         
                         (
-                           <span class="text-info"  data-original-title="newIns.withSample"  data-placement="bottom"  data-toggle="tooltip"  title="" >
-                              newIns.withSample
+                           <span class="text-info"  data-original-title="{$test.instructor}"  data-placement="bottom"  data-toggle="tooltip"  title="" >
+                              {$test.instructor}
                            </span>
                            )
                         </a>
@@ -111,7 +111,7 @@
                      </h1>
                   </div>
                   <div class="col-md-5 instructor-header-bar" >
-                     <form action="/page/instructorStudentListPage?user=newIns.withSample"  method="post"  name="search_form" >
+                     <form action="/page/instructorStudentListPage?user={$test.instructor}"  method="post"  name="search_form" >
                         <div class="input-group" >
                            <input class="form-control"  name="searchkey"  placeholder="Student Name"  title="Search for student's name"  type="text" id="searchBox" />
                                                       <span class="input-group-btn" >
@@ -120,11 +120,11 @@
                               </button>
                            </span>
                         </div>
-                        <input name="user"  type="hidden"  value="newIns.withSample" />
+                        <input name="user"  type="hidden"  value="{$test.instructor}" />
                                              </form>
                   </div>
                   <div class="col-md-2 instructor-header-bar" >
-                     <a class="btn btn-primary btn-md"  href="/page/instructorCoursesPage?user=newIns.withSample"  id="addNewCourse" >
+                     <a class="btn btn-primary btn-md"  href="/page/instructorCoursesPage?user={$test.instructor}"  id="addNewCourse" >
                         Add New Course
                      </a>
                   </div>
@@ -192,22 +192,22 @@
                      </div>
                      <div class="col-md-6" >
                         <span class="pull-right" >
-                           <a class="btn btn-primary btn-xs btn-tm-actions course-enroll-for-test"  data-original-title="Enroll student into the course"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseEnrollPage?courseid=newIns.wit-demo&user=newIns.withSample"  title="" >
+                           <a class="btn btn-primary btn-xs btn-tm-actions course-enroll-for-test"  data-original-title="Enroll student into the course"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseEnrollPage?courseid=newIns.wit-demo&user={$test.instructor}"  title="" >
                               Enroll
                            </a>
-                           <a class="btn btn-primary btn-xs btn-tm-actions course-view-for-test"  data-original-title="View, edit and send invitation emails to the students in the course"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseDetailsPage?courseid=newIns.wit-demo&user=newIns.withSample"  title="" >
+                           <a class="btn btn-primary btn-xs btn-tm-actions course-view-for-test"  data-original-title="View, edit and send invitation emails to the students in the course"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseDetailsPage?courseid=newIns.wit-demo&user={$test.instructor}"  title="" >
                               View
                            </a>
-                           <a class="btn btn-primary btn-xs btn-tm-actions course-edit-for-test"  data-original-title="Edit Course information and instructor list"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseEditPage?courseid=newIns.wit-demo&user=newIns.withSample"  title="" >
+                           <a class="btn btn-primary btn-xs btn-tm-actions course-edit-for-test"  data-original-title="Edit Course information and instructor list"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseEditPage?courseid=newIns.wit-demo&user={$test.instructor}"  title="" >
                               Edit
                            </a>
-                           <a class="btn btn-primary btn-xs btn-tm-actions course-add-eval-for-test"  data-original-title="Add an evaluation for the course"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorEvalsPage?user=newIns.withSample&courseid=newIns.wit-demo"  title="" >
+                           <a class="btn btn-primary btn-xs btn-tm-actions course-add-eval-for-test"  data-original-title="Add an evaluation for the course"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorEvalsPage?user={$test.instructor}&courseid=newIns.wit-demo"  title="" >
                               Add Session
                            </a>
-                           <a class="btn btn-primary btn-xs btn-tm-actions course-archive-for-test"  data-original-title="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseArchive?courseid=newIns.wit-demo&archive=true&next=%2Fpage%2FinstructorHomePage&user=newIns.withSample"  onclick="return toggleArchiveCourseConfirmation('newIns.wit-demo')"  title="" >
+                           <a class="btn btn-primary btn-xs btn-tm-actions course-archive-for-test"  data-original-title="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseArchive?courseid=newIns.wit-demo&archive=true&next=%2Fpage%2FinstructorHomePage&user={$test.instructor}"  onclick="return toggleArchiveCourseConfirmation('newIns.wit-demo')"  title="" >
                               Archive
                            </a>
-                           <a class="btn btn-primary btn-xs btn-tm-actions course-delete-for-test"  data-original-title="Delete the course and its corresponding students and evaluations"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseDelete?courseid=newIns.wit-demo&next=%2Fpage%2FinstructorHomePage&user=newIns.withSample"  onclick="return toggleDeleteCourseConfirmation('newIns.wit-demo')"  title="" >
+                           <a class="btn btn-primary btn-xs btn-tm-actions course-delete-for-test"  data-original-title="Delete the course and its corresponding students and evaluations"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseDelete?courseid=newIns.wit-demo&next=%2Fpage%2FinstructorHomePage&user={$test.instructor}"  onclick="return toggleDeleteCourseConfirmation('newIns.wit-demo')"  title="" >
                               Delete
                            </a>
                         </span>
