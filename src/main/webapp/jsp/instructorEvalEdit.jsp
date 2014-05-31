@@ -203,7 +203,7 @@
                 </div>
             </div>
             </div>
-
+          <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" id="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
           <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" id="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.evaluation.courseId%>"></input>
           <input type="hidden" name="<%=Const.ParamsNames.EVALUATION_NAME%>" id="<%=Const.ParamsNames.EVALUATION_NAME%>" value="<%=InstructorEvalEditPageData.sanitizeForHtml(data.evaluation.name)%>"></input>
 
