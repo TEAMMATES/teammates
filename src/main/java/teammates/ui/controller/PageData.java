@@ -796,7 +796,7 @@ public class PageData {
                 );
             } else {
                 result.append(
-                    "<a class=\"btn btn-default btn-xs btn-tm-action session-publish-for-test" + DISABLED +
+                    "<a class=\"btn btn-default btn-xs btn-tm-actions session-publish-for-test" + DISABLED +
                     "href=\"" + getInstructorFeedbackSessionPublishLink(session.courseId,session.feedbackSessionName,isHome) + "\" " +
                     "title=\"" + Const.Tooltips.FEEDBACK_SESSION_NOT_CREATOR_PUBLISH  + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
                     ">Publish</a> "
