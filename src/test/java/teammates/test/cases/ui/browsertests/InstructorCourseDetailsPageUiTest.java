@@ -4,6 +4,7 @@ import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -85,6 +86,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         patternString = "{*}Team 2{*}Team 2{*}Team 1{*}Team 1";
         detailsPage.sortByTeam().verifyTablePattern(1, 0, patternString);
         
+        detailsPage.verifyHtmlElement(By.id("frameBodyWrapper"), "/testAssert.html");
     }
     
     public void testLinks(){

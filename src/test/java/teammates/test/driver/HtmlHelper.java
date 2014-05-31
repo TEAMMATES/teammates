@@ -31,6 +31,15 @@ public class HtmlHelper {
             assertEquals("<expected>\n"+processedExpectedHtml+"</expected>", "<actual>\n"+processedActualHtml+"</actual>");
         }
     }
+    
+    public static void assertSameHtmlPart(String actualString, String expectedString) {
+        String processedExpectedHtmlPart = convertToStandardHtmlPart(expectedString);
+        String processedActualHtmlPart = convertToStandardHtmlPart(actualString);
+        
+        if(!AssertHelper.isContainsRegex(processedExpectedHtmlPart, processedActualHtmlPart)){
+            assertEquals("<expected>\n"+processedExpectedHtmlPart+"</expected>", "<actual>\n"+processedActualHtmlPart+"</actual>");
+        }
+    }
 
     /**
      * Verifies that two HTML files are logically 
@@ -43,7 +52,7 @@ public class HtmlHelper {
         
         return AssertHelper.isContainsRegex(processedExpectedHtml, processedActualHtml);
     }
-    
+
     /**
      * Transform the HTML text to follow a standard format. 
      * Element attributes are reordered in alphabetical order.
@@ -51,13 +60,22 @@ public class HtmlHelper {
      */
     public static String convertToStandardHtml(String rawHtml) {
         String preProcessedHtml = preProcessHtml(rawHtml);
+        return covertRawHtmlString(preProcessedHtml);
+    }
+    
+    public static String convertToStandardHtmlPart(String rawHtml) {
+        String preProcessedHtml = replaceInRawHtmlString(rawHtml);
+        return covertRawHtmlString(preProcessedHtml);
+    }
+
+    private static String covertRawHtmlString(String preProcessedHtml) {
         try {
             Node currentNode = getNodeFromString(preProcessedHtml);
             StringBuilder currentHtml = new StringBuilder();
             String initialIndentation = "";
             convertToStandardHtmlRecursively(currentNode, initialIndentation, currentHtml);
             return currentHtml.toString()
-                    .replace("<#document   <html   </html>", "")
+                    .replace("<#document", "")
                     .replace("</#document>", ""); //remove two unnecessary tags added by DOM parser.
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -70,6 +88,15 @@ public class HtmlHelper {
      * inconsistencies in the HTML code produced by the DOM parser and the Browsers.
      */
     private static String preProcessHtml(String htmlString){
+        htmlString = replaceInRawHtmlString(htmlString);
+
+        if (!htmlString.contains("<!DOCTYPE")){
+            htmlString = "<!DOCTYPE html>\n" + htmlString;
+        }
+        return htmlString;
+    }
+
+    private static String replaceInRawHtmlString(String htmlString) {
         htmlString = htmlString.replace("{$version}", TestProperties.inst().TEAMMATES_VERSION);
         htmlString = htmlString.replace("{$test.student1}", TestProperties.inst().TEST_STUDENT1_ACCOUNT);
         htmlString = htmlString.replace("{$test.student2}", TestProperties.inst().TEST_STUDENT2_ACCOUNT);
@@ -78,10 +105,6 @@ public class HtmlHelper {
         htmlString = htmlString.replaceFirst("<html xmlns=\"http://www.w3.org/1999/xhtml\">", "<html>");    
         htmlString = htmlString.replaceAll("(?s)<noscript>.*</noscript>", "");
         htmlString = htmlString.replaceAll("src=\"https://ssl.google-analytics.com/ga.js\"", "async=\"\" src=\"https://ssl.google-analytics.com/ga.js\"");
-
-        if (!htmlString.contains("<!DOCTYPE")){
-            htmlString = "<!DOCTYPE html>\n" + htmlString;
-        }
         return htmlString;
     }
 

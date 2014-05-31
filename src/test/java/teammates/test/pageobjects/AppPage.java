@@ -545,6 +545,29 @@ public abstract class AppPage {
     }
     
     /**
+     * Verifies that element specified in currently loaded page has the same HTML content as 
+     * the content given in the file at {@code filePath}. <br>
+     * The HTML is checked for logical equivalence, not text equivalence. 
+     * @param filePath If this starts with "/" (e.g., "/expected.html"), the 
+     * folder is assumed to be {@link Const.TEST_PAGES_FOLDER}. 
+     * @return The page (for chaining method calls).
+     */
+    public AppPage verifyHtmlElement(By by, String filePath) {
+        WebElement element = browser.driver.findElement(by);
+        if(filePath.startsWith("/")){
+            filePath = TestProperties.TEST_PAGES_FOLDER + filePath;
+        }
+        try {
+            String actual = element.getAttribute("outerHTML");
+            String expected = FileHelper.readFile(filePath);
+            HtmlHelper.assertSameHtmlPart(actual, expected);            
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return this;
+    }
+    
+    /**
      * Verifies that the currently loaded page has the same HTML content as 
      * the content given in the file at {@code filePath}. <br>
      * Since the verification is done after making an Ajax Request, the HTML is checked
