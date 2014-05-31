@@ -76,6 +76,7 @@ public class HtmlHelper {
             convertToStandardHtmlRecursively(currentNode, initialIndentation, currentHtml);
             return currentHtml.toString()
                     .replace("<#document", "")
+                    .replace("   <html   </html>", "")
                     .replace("</#document>", ""); //remove two unnecessary tags added by DOM parser.
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -116,7 +117,7 @@ public class HtmlHelper {
     }
 
     private static void convertToStandardHtmlRecursively(Node currentNode, String indentation, StringBuilder currentHtmlText){
-            
+        
         if(currentNode.getNodeType() == Node.TEXT_NODE){
             String text = currentNode.getNodeValue();
             if(!text.trim().isEmpty()){
@@ -143,6 +144,9 @@ public class HtmlHelper {
             
             for (int i = 0; i < actualAttributeList.getLength(); i++){
                 Node actualAttribute = actualAttributeList.item(i);
+                // this will cause the processed html to have more spaces
+                // e.g. instead of "<div class="container" id="frameBodyWrapper">"
+                //      it will be "<div class="container"  id="frameBodyWrapper" >"
                 currentHtmlText.append(" "+ actualAttribute.getNodeName().toLowerCase() + "=\"" + actualAttribute.getNodeValue() + "\" ");
             }
             //close the tag
