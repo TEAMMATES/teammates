@@ -469,7 +469,8 @@ public abstract class AppPage {
      * This can be useful in checking if the table is sorted in a particular order.
      * Separate rows using {*}
      * e.g., {@code "{*}value 1{*}value 2{*}value 3" } <br>
-     * If you include "{*}" at the beginning of the pattern, it will not check the header row.
+     * This will not check the header row--ignores the split string list's first element
+     * This will also ignore empty string in split string list
      */
     public void verifyTablePattern(int column,String patternString){
         //TODO: This method API can be improved
@@ -477,9 +478,9 @@ public abstract class AppPage {
         String[] splitString = patternString.split(java.util.regex.Pattern.quote("{*}"));
         for(int row=1;row<splitString.length;row++){
             //if a row is empty, it will not be asserted with
-            //row starts from 1 to skip the header row, this requires patternString to start with {*}
             if(splitString[row].length()>0){
-                assertEquals(splitString[row],this.getCellValueFromDataTable(row,column));
+                String tableCellString = this.getCellValueFromDataTable(row,column);
+                assertEquals(splitString[row], tableCellString);
             }
         }
     }
