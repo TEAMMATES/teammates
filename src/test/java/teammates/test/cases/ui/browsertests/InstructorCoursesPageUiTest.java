@@ -90,6 +90,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         
         // Explanation: Checks 'actions' that can be performed using the page.
         testAddAction();
+        testSortCourses();
         testDeleteAction();
         testArchiveAction();
         
@@ -120,13 +121,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         coursesUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE)
             .withUserId(testData.accounts.get("instructorWithCourses").googleId);
         coursesPage = loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
-        
-        //this is sorted by Id (default sorting)
-        coursesPage.loadCoursesTab().verifyHtml("/instructorCourseById.html");
-        
-        ______TS("sorting");
-        
-        coursesPage.sortByCourseName().verifyHtml("/instructorCourseByName.html");        
+
     }
 
     public void testLinks() throws Exception{
@@ -135,7 +130,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
          * 'Delete' is not a link, but an action.
          */
     
-        String courseId = testData.courses.get("CS1101").id;
+        String courseId = testData.courses.get("CS2104").id;
         
         ______TS("view link");
         
@@ -244,7 +239,21 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
 
         coursesPage.verifyHtml("/instructorCourseAddMissingParamsFailed.html");
     }
-
+    
+    public void testSortCourses() {
+        
+        ______TS("sorting");
+        
+        String patternString = "Course Name{*}Programming Language Concept{*}Programming Methodology{*}Software Engineering $^&*()";
+        coursesPage.sortByCourseName().verifyTablePattern(1, patternString);
+        patternString = "Course Name{*}Software Engineering $^&*(){*}Programming Methodology{*}Programming Language Concept";
+        coursesPage.sortByCourseName().verifyTablePattern(1, patternString);
+        
+        patternString = "Course ID{*}CCAddUiTest.course1{*}CCAddUiTest.CS1101{*}CCAddUiTest.CS2104";
+        coursesPage.sortByCourseId().verifyTablePattern(0, patternString);
+        patternString = "Course ID{*}CCAddUiTest.CS2104{*}CCAddUiTest.CS1101{*}CCAddUiTest.course1";
+        coursesPage.sortByCourseId().verifyTablePattern(0, patternString);
+    }
 
     public void testDeleteAction() throws Exception{
         

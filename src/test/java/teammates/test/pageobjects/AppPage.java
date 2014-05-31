@@ -360,10 +360,29 @@ public abstract class AppPage {
 
     /** 
      * @return the value of the cell located at {@code (row,column)} 
-     * from a table (which is of type {@code class=dataTable}) in the page.
+     * from the first table (which is of type {@code class=table}) in the page.
      */
     public String getCellValueFromDataTable(int row, int column) {
         return browser.selenium.getTable("css=table[class~='table']." + row + "." + column);
+    }
+    
+    /** 
+     * @return the value of the cell located at {@code (row,column)} 
+     * from the nth table (which is of type {@code class=table}) in the page.
+     */
+    public String getCellValueFromNthDataTable(int tableNum, int row, int column) {
+        WebElement tableElement = browser.driver.findElements(By.className("table")).get(tableNum - 1);
+        WebElement trElement = tableElement.findElements(By.tagName("tr")).get(row);
+        WebElement tdElement = trElement.findElements(By.tagName("td")).get(column);
+        return tdElement.getText();
+    }
+    
+    /** 
+     * @return the number of rows from the nth table (which is of type {@code class=table}) in the page.
+     */
+    public int getNumberOfRowsFromNthDataTable(int tableNum) {
+        WebElement tableElement = browser.driver.findElements(By.className("table")).get(tableNum - 1);
+       return tableElement.findElements(By.tagName("tr")).size();
     }
 
     /**
@@ -469,7 +488,8 @@ public abstract class AppPage {
      * This can be useful in checking if the table is sorted in a particular order.
      * Separate rows using {*}
      * e.g., {@code "{*}value 1{*}value 2{*}value 3" } <br>
-     * If you include "{*}" at the beginning of the pattern, it will not check the header row.
+     * This will not check the header row--ignores the split string list's first element
+     * This will also ignore empty string in split string list
      */
     public void verifyTablePattern(int column,String patternString){
         //TODO: This method API can be improved
@@ -477,10 +497,27 @@ public abstract class AppPage {
         String[] splitString = patternString.split(java.util.regex.Pattern.quote("{*}"));
         for(int row=1;row<splitString.length;row++){
             //if a row is empty, it will not be asserted with
-            //row starts from 1 to skip the header row, this requires patternString to start with {*}
             if(splitString[row].length()>0){
-                assertEquals(splitString[row],this.getCellValueFromDataTable(row,column));
+                String tableCellString = this.getCellValueFromDataTable(row,column);
+                assertEquals(splitString[row], tableCellString);
             }
+        }
+    }
+    
+    /**
+     * Compares selected column's rows with patternString to check the order of rows.
+     * This can be useful in checking if the table is sorted in a particular order.
+     * Separate rows using {*}
+     * e.g., {@code "{*}value 1{*}value 2{*}value 3" } <br>
+     * This will not check the header row--ignores the split string list's first element
+     * This will also ignore empty string in split string list
+     */
+    public void verifyTablePattern(int tableNum, int column,String patternString){
+        String[] splitString = patternString.split(java.util.regex.Pattern.quote("{*}"));
+        assertEquals(splitString.length, getNumberOfRowsFromNthDataTable(tableNum));
+        for(int row=1;row < splitString.length;row++){
+            String tableCellString = this.getCellValueFromNthDataTable(tableNum, row,column);
+            assertEquals(splitString[row], tableCellString);
         }
     }
     
@@ -501,6 +538,29 @@ public abstract class AppPage {
             String expected = FileHelper.readFile(filePath);
             HtmlHelper.assertSameHtml(actual, expected);
             
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return this;
+    }
+    
+    /**
+     * Verifies that element specified in currently loaded page has the same HTML content as 
+     * the content given in the file at {@code filePath}. <br>
+     * The HTML is checked for logical equivalence, not text equivalence. 
+     * @param filePath If this starts with "/" (e.g., "/expected.html"), the 
+     * folder is assumed to be {@link Const.TEST_PAGES_FOLDER}. 
+     * @return The page (for chaining method calls).
+     */
+    public AppPage verifyHtmlElement(By by, String filePath) {
+        WebElement element = browser.driver.findElement(by);
+        if(filePath.startsWith("/")){
+            filePath = TestProperties.TEST_PAGES_FOLDER + filePath;
+        }
+        try {
+            String actual = element.getAttribute("outerHTML");
+            String expected = FileHelper.readFile(filePath);
+            HtmlHelper.assertSameHtmlPart(actual, expected);            
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

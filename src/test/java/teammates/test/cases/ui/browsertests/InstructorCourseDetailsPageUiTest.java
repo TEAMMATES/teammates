@@ -4,6 +4,7 @@ import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -70,17 +71,22 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         
         ______TS("content: sorting");
         
-        detailsPage.sortByStatus();
-        detailsPage.verifyHtml("/InstructorCourseDetailsPageByStatus.html");
+        String patternString = "{*}Joined{*}Joined{*}Yet to join{*}Yet to join";
+        detailsPage.sortByStatus().verifyTablePattern(1, 2, patternString);
+        patternString = "{*}Yet to join{*}Yet to join{*}Joined{*}Joined";
+        detailsPage.sortByStatus().verifyTablePattern(1, 2, patternString);
         
+        patternString = "{*}Alice Betsy{*}Benny Charles{*}Charlie Davis{*}Danny Engrid";
+        detailsPage.sortByName().verifyTablePattern(1, 1, patternString);
+        patternString = "{*}Danny Engrid{*}Charlie Davis{*}Benny Charles{*}Alice Betsy";
+        detailsPage.sortByName().verifyTablePattern(1, 1, patternString);
         
-        detailsPage.sortByName();
-        detailsPage.verifyHtml("/InstructorCourseDetailsPageByName.html");
+        patternString = "{*}Team 1{*}Team 1{*}Team 2{*}Team 2";
+        detailsPage.sortByTeam().verifyTablePattern(1, 0, patternString);
+        patternString = "{*}Team 2{*}Team 2{*}Team 1{*}Team 1";
+        detailsPage.sortByTeam().verifyTablePattern(1, 0, patternString);
         
-        
-        detailsPage.sortByTeam();
-        detailsPage.verifyHtml("/InstructorCourseDetailsPageByTeam.html");
-        
+        detailsPage.verifyHtmlElement(By.id("frameBodyWrapper"), "/testAssert.html");
     }
     
     public void testLinks(){
