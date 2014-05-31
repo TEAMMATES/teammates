@@ -360,10 +360,29 @@ public abstract class AppPage {
 
     /** 
      * @return the value of the cell located at {@code (row,column)} 
-     * from a table (which is of type {@code class=dataTable}) in the page.
+     * from the first table (which is of type {@code class=table}) in the page.
      */
     public String getCellValueFromDataTable(int row, int column) {
         return browser.selenium.getTable("css=table[class~='table']." + row + "." + column);
+    }
+    
+    /** 
+     * @return the value of the cell located at {@code (row,column)} 
+     * from the nth table (which is of type {@code class=table}) in the page.
+     */
+    public String getCellValueFromNthDataTable(int tableNum, int row, int column) {
+        WebElement tableElement = browser.driver.findElements(By.className("table")).get(tableNum - 1);
+        WebElement trElement = tableElement.findElements(By.tagName("tr")).get(row);
+        WebElement tdElement = trElement.findElements(By.tagName("td")).get(column);
+        return tdElement.getText();
+    }
+    
+    /** 
+     * @return the number of rows from the nth table (which is of type {@code class=table}) in the page.
+     */
+    public int getNumberOfRowsFromNthDataTable(int tableNum) {
+        WebElement tableElement = browser.driver.findElements(By.className("table")).get(tableNum - 1);
+       return tableElement.findElements(By.tagName("tr")).size();
     }
 
     /**
@@ -482,6 +501,23 @@ public abstract class AppPage {
                 String tableCellString = this.getCellValueFromDataTable(row,column);
                 assertEquals(splitString[row], tableCellString);
             }
+        }
+    }
+    
+    /**
+     * Compares selected column's rows with patternString to check the order of rows.
+     * This can be useful in checking if the table is sorted in a particular order.
+     * Separate rows using {*}
+     * e.g., {@code "{*}value 1{*}value 2{*}value 3" } <br>
+     * This will not check the header row--ignores the split string list's first element
+     * This will also ignore empty string in split string list
+     */
+    public void verifyTablePattern(int tableNum, int column,String patternString){
+        String[] splitString = patternString.split(java.util.regex.Pattern.quote("{*}"));
+        assertEquals(splitString.length, getNumberOfRowsFromNthDataTable(tableNum));
+        for(int row=1;row < splitString.length;row++){
+            String tableCellString = this.getCellValueFromNthDataTable(tableNum, row,column);
+            assertEquals(splitString[row], tableCellString);
         }
     }
     
