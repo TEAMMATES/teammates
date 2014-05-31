@@ -74,7 +74,7 @@ public class InstructorEvalSubmissionEditSaveAction extends Action {
             setStatusForException(e);
         }        
         
-        RedirectResult response = createRedirectResult(Const.ViewURIs.SHOW_MESSAGE);
+        RedirectResult response = createRedirectResult(Const.ActionURIs.INSTRUCTOR_EVALS_PAGE);
         return response;
 
     }

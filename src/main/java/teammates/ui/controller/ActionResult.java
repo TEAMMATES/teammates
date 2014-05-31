@@ -12,8 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.util.Const;
-import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Url;
 
@@ -47,11 +45,6 @@ public abstract class ActionResult {
         this.destination = destination;
         this.account = account;
         this.statusToUser = status;
-        String previousStatusMessage = getPreviousStatusMessage(parametersFromPreviousRequest);
-        if(previousStatusMessage != null) {
-            //add 'carried over' status messages to the beginning of the list
-            this.statusToUser.add(0, previousStatusMessage); 
-        }
     }
 
 
@@ -60,9 +53,9 @@ public abstract class ActionResult {
      * execution of the action. Messages are separated by {@code '<br>'}
      */
     public String getStatusMessage() {
-        return StringHelper.toString(statusToUser, "<br>");
+        return StringHelper.toString(statusToUser, "<br />");
     }
-        
+    
     /**
      * Parameters to be sent with the result. These will be automatically added
      * to the {@code destination} of the result. For example, if the {@code destination}
@@ -99,11 +92,4 @@ public abstract class ActionResult {
         }
         return returnValue;
     }
-
-    private String getPreviousStatusMessage(
-            Map<String, String[]> parametersFromPreviousRequest) {
-        return HttpRequestHelper.getValueFromParamMap(parametersFromPreviousRequest, Const.ParamsNames.STATUS_MESSAGE);
-    }
-
-
 }

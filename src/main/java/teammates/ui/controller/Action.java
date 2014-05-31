@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -54,6 +55,8 @@ public abstract class Action {
     /** Whether the execution completed without any errors */
     protected boolean isError = false;
     
+    /** Session that contains status message information */
+    protected HttpSession session;
     
     /** Initializes variables. 
      * Aborts with an {@link UnauthorizedAccessException} if the user is not
@@ -66,6 +69,7 @@ public abstract class Action {
         requestUrl = HttpRequestHelper.getRequestedURL(req);
         logic = new Logic();
         requestParameters = req.getParameterMap();
+        session = req.getSession();
         
         //---- set error status forwarded from the previous action
         
@@ -138,11 +142,22 @@ public abstract class Action {
         //Set the common parameters for the response
         response.responseParams.put(Const.ParamsNames.USER_ID, account.googleId);
         response.responseParams.put(Const.ParamsNames.ERROR, ""+response.isError);
+        
+        //Pass status message using session to prevent XSS attack
         if(!response.getStatusMessage().isEmpty()){
-            response.responseParams.put(Const.ParamsNames.STATUS_MESSAGE, response.getStatusMessage());
+            putStatusMessageToSession(response);
         }
         
         return response;
+    }
+
+    private void putStatusMessageToSession(ActionResult response) {
+        String statusMessageInSession = (String) session.getAttribute(Const.ParamsNames.STATUS_MESSAGE);
+        if(statusMessageInSession == null || statusMessageInSession.isEmpty()){
+            session.setAttribute(Const.ParamsNames.STATUS_MESSAGE, response.getStatusMessage());
+        } else {
+            session.setAttribute(Const.ParamsNames.STATUS_MESSAGE, statusMessageInSession + "<br />"  + response.getStatusMessage());
+        }
     }
 
     /**

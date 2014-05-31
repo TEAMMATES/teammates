@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.Sanitizer;
 import teammates.common.util.Url;
 import teammates.common.util.StringHelper;
 import teammates.common.util.FieldValidator;
@@ -111,7 +112,7 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
         assertEquals("Team 1",student.team);
         assertEquals(testData.students.get("registeredStudent").googleId,student.googleId);
         assertEquals("CCSDEditUiT.jose.tmms@gmail.com",student.email);
-        assertEquals("This student's name is José Gómez",student.comments);
+        assertEquals(Sanitizer.sanitizeForHtml("This student's name is José Gómez"),student.comments);
         
         
         ______TS("edit action");

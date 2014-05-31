@@ -48,7 +48,7 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
     
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-
+        //TODO: find a way to test status message from session
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor1OfCourse1.googleId;
         String courseId = instructor1OfCourse1.courseId;
@@ -90,7 +90,7 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
         redirectResult = (RedirectResult) addAction.executeAndPostProcess();
         
         AssertHelper.assertContains(
-                Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE+"?message=An+instructor+with+the+same+email+address+already+exists+in+the+course.", 
+                Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, 
                 redirectResult.getDestinationWithParams());
         assertEquals(true, redirectResult.isError);
         assertEquals(Const.StatusMessages.COURSE_INSTRUCTOR_EXISTS, redirectResult.getStatusMessage());
@@ -112,7 +112,7 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
         redirectResult = (RedirectResult) addAction.executeAndPostProcess();
         
         AssertHelper.assertContains(
-                Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE+"?message=%22ICIAAT.newInvalidInstructor.email.com%22+is+not+acceptable+to+TEAMMATES+as+an+email+because+it+is+not+in+the+correct+format.", 
+                Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, 
                 redirectResult.getDestinationWithParams());
         assertEquals(true, redirectResult.isError);
         assertEquals(String.format(Const.StatusMessages.INVALID_EMAIL,newInvalidInstructorEmail), redirectResult.getStatusMessage());

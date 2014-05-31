@@ -121,5 +121,9 @@ public class InstructorAttributes extends EntityAttributes {
         this.name = Sanitizer.sanitizeName(this.name);
         this.email = Sanitizer.sanitizeEmail(this.email);
         this.courseId = Sanitizer.sanitizeTitle(this.courseId);
+        this.googleId = Sanitizer.sanitizeForHtml(this.googleId);
+        this.name = Sanitizer.sanitizeForHtml(this.name);
+        this.email = Sanitizer.sanitizeForHtml(this.email);
+        this.courseId = Sanitizer.sanitizeForHtml(this.courseId);
     }
 }

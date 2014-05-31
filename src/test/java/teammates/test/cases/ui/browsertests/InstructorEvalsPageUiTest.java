@@ -96,7 +96,6 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
         
         evalsPage.sortByName()
             .verifyTablePattern(1,"{*}First Eval{*}Second Eval{*}Third Eval");
-        evalsPage.verifyHtmlAjax("/instructorEvalByName.html");
         
         evalsPage.sortByName()
             .verifyTablePattern( 1,"{*}Third Eval{*}Second Eval{*}First Eval");
@@ -105,6 +104,7 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
         
         evalsPage.sortById()
         .verifyTablePattern(0,"{*}CEvalUiT.CS1101{*}CEvalUiT.CS2104{*}CEvalUiT.CS2104");
+        
         evalsPage.verifyHtmlAjax("/instructorEvalById.html");
         
         evalsPage.sortById()

@@ -155,14 +155,13 @@ public class StudentHomePageData extends PageData {
         String studentStatus = getStudentStatusForEval(eval);
         
         if (studentStatus.equals(Const.STUDENT_EVALUATION_STATUS_PENDING)) {
-            return "<a class=\"color_black\" id=\"submitEvaluation"
-                    + idx
-                    + "\" "
-                    + "href=\""
+            return "<a class=\"btn btn-default btn-xs btn-tm-actions\" id=\"submitEvaluation"
+                    + idx + "\" " + "href=\""
                     + getStudentEvaluationSubmissionEditLink(eval.courseId,
-                            eval.name) + "\" " + "onmouseover=\"ddrivetip('"
-                    + Const.Tooltips.EVALUATION_SUBMIT + "')\" "
-                    + "onmouseout=\"hideddrivetip()\">Submit</a>";
+                            eval.name) + "\" "
+                    + "data-toggle=\"tooltip\" data-placement=\"top\""
+                    + "title=\"" + Const.Tooltips.EVALUATION_SUBMIT + "\">"
+                    + "Submit</a>";
         }
         
         
@@ -179,20 +178,22 @@ public class StudentHomePageData extends PageData {
         }
         
         // @formatter:off
-        String result = "<a class=\"color_black\" href=\""
-                + getStudentEvaluationResultsLink(eval.courseId, eval.name)
+        String result = "<a class=\"btn btn-default btn-xs btn-tm-actions" + (hasView ? "\"" : DISABLED)
+                + "href=\"" + getStudentEvaluationResultsLink(eval.courseId, eval.name)
                 + "\" " + "name=\"viewEvaluationResults"
                 + idx + "\" " + " id=\"viewEvaluationResults" + idx + "\" "
-                + "onmouseover=\"ddrivetip('" + Const.Tooltips.EVALUATION_RESULTS
-                + "')\" " + "onmouseout=\"hideddrivetip()\" " + (hasView ? "" : DISABLED)
-                + ">" + "View Results</a>" + "<a class=\"color_black\" href=\""
-                + getStudentEvaluationSubmissionEditLink(eval.courseId, eval.name)
+                + "data-toggle=\"tooltip\" data-placement=\"top\""
+                + "title=\"" + Const.Tooltips.EVALUATION_RESULTS + "\""
+                + "role=\"button\">" + "View Results</a>";
+        
+        result += "<a class=\"btn btn-default btn-xs btn-tm-actions" + (hasEdit ? "\"" : DISABLED) 
+                + "href=\"" + getStudentEvaluationSubmissionEditLink(eval.courseId, eval.name)
                 + "\" " + "name=\"editEvaluationSubmission" + idx
                 + "\" id=\"editEvaluationSubmission" + idx + "\" "
-                + "onmouseover=\"ddrivetip('"
-                + Const.Tooltips.EVALUATION_EDIT_SUBMISSION
-                + "')\" onmouseout=\"hideddrivetip()\" "
-                + (hasEdit ? "" : DISABLED) + ">Edit/View Submission</a>";
+                + "data-toggle=\"tooltip\" data-placement=\"top\""
+                + "title=\"" + Const.Tooltips.EVALUATION_EDIT_SUBMISSION + "\""
+                + " role=\"button\">"
+                + "Edit/View Submission</a>";
         // @formatter:off
         
         return result;
@@ -206,33 +207,34 @@ public class StudentHomePageData extends PageData {
         Boolean hasSubmitted = sessionSubmissionStatusMap.get(fs.courseId+"%"+fs.feedbackSessionName);
         
         // @formatter:off
-        String result = "<a class=\"color_black\" href=\""
-                + getStudentFeedbackResultsLink(fs.courseId, fs.feedbackSessionName)
+        String result = "<a class=\"btn btn-default btn-xs btn-tm-actions" + (fs.isPublished() ? "\"" : DISABLED) 
+                + "href=\"" + getStudentFeedbackResultsLink(fs.courseId, fs.feedbackSessionName)
                 + "\" " + "name=\"viewFeedbackResults"
                 + idx + "\" " + " id=\"viewFeedbackResults" + idx + "\" "
-                + "onmouseover=\"ddrivetip('" + Const.Tooltips.FEEDBACK_SESSION_RESULTS
-                + "')\" " + "onmouseout=\"hideddrivetip()\" " + (fs.isPublished() ? "" : DISABLED)
-                + ">" + "View Responses</a>";
+                + "data-toggle=\"tooltip\" data-placement=\"top\""
+                + "title=\"" + Const.Tooltips.FEEDBACK_SESSION_RESULTS + "\""
+                + "role=\"button\">" + "View Responses</a>";
                 
         if (hasSubmitted) {
-            result += "<a class=\"color_black\" href=\""
+            result += "<a class=\"btn btn-default btn-xs btn-tm-actions\" href=\""
                     + getStudentFeedbackResponseEditLink(fs.courseId, fs.feedbackSessionName)
                     + "\" " + "name=\"editFeedbackResponses" + idx
                     + "\" id=\"editFeedbackResponses" + idx + "\" "
-                    + "onmouseover=\"ddrivetip('"
-                    + (fs.isOpened() ? 
-                        Const.Tooltips.FEEDBACK_SESSION_EDIT_SUBMITTED_RESPONSE :
-                        Const.Tooltips.FEEDBACK_SESSION_VIEW_SUBMITTED_RESPONSE)            
-                    + "')\" onmouseout=\"hideddrivetip()\">"
+                    + "data-toggle=\"tooltip\" data-placement=\"top\""
+                    + "title=\"" + (fs.isOpened() ? 
+                                Const.Tooltips.FEEDBACK_SESSION_EDIT_SUBMITTED_RESPONSE :
+                                Const.Tooltips.FEEDBACK_SESSION_VIEW_SUBMITTED_RESPONSE) + "\""
+                    + "role=\"button\">"
                     + (fs.isOpened() ? "Edit" : "View") + " Submission</a>";
         } else {
-            result += "<a class=\"color_black\" id=\"submitFeedback"
-                    + idx + "\" " + "href=\"" 
+            result += "<a class=\"btn btn-default btn-xs btn-tm-actions" + (fs.isVisible() ? "\"" : DISABLED)
+                    + "id=\"submitFeedback" + idx + "\" " + "href=\"" 
                     + getStudentFeedbackResponseEditLink(fs.courseId,
-                        fs.feedbackSessionName) + "\" " + "onmouseover=\"ddrivetip('"
-                    + (fs.isWaitingToOpen() ? Const.Tooltips.FEEDBACK_SESSION_AWAITING :
-                        Const.Tooltips.FEEDBACK_SESSION_SUBMIT) + "')\" "
-                    + "onmouseout=\"hideddrivetip()\" " + (fs.isVisible() ? "" : DISABLED) + ">Submit</a>";    
+                        fs.feedbackSessionName) + "\" "
+                    + "data-toggle=\"tooltip\" data-placement=\"top\""
+                    + "title=\"" + (fs.isWaitingToOpen() ? Const.Tooltips.FEEDBACK_SESSION_AWAITING :
+                        Const.Tooltips.FEEDBACK_SESSION_SUBMIT) + "\""
+                    + "role=\"button\">Submit</a>";    
         }
         // @formatter:off
         

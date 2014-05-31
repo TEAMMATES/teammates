@@ -68,12 +68,15 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         
         ______TS("content: search and toggle show email");
         
+        //TODO: these tests can directly check whether the div is visible and
+        //      whether the table pattern is as expected rather than a html check
+        
         viewPage.clickShowMoreOptions();
         viewPage.clickShowEmail();
         viewPage.verifyHtml("/instructorStudentListPageSearchShowEmail.html");
         viewPage.clickShowEmail();
         viewPage.clickShowMoreOptions();
-        viewPage.verifyHtml("/instructorStudentListPageSearchStudent.html");
+        viewPage.verifyIsHidden("moreOptionsDiv");
         
         ______TS("content: live search");
 

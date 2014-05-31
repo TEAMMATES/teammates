@@ -13,77 +13,80 @@
 <html>
 <head>
     <link rel="shortcut icon" href="/favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>TEAMMATES - Instructor</title>
-    <link rel="stylesheet" href="/stylesheets/common.css" type="text/css" media="screen">
-    <link rel="stylesheet" href="/stylesheets/instructorCourseStudentDetails.css" type="text/css" media="screen">
-    <link rel="stylesheet" href="/stylesheets/common-print.css" type="text/css" media="print">
-    <link rel="stylesheet" href="/stylesheets/instructorCourseStudentDetails-print.css" type="text/css" media="print">
-    
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" type="text/css"/>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap-theme.min.css" type="text/css"/>
+    <link rel="stylesheet" href="/stylesheets/teammatesCommon.css" type="text/css"/>
+   
     <script type="text/javascript" src="/js/googleAnalytics.js"></script>
     <script type="text/javascript" src="/js/jquery-minified.js"></script>
-    <script type="text/javascript" src="/js/tooltip.js"></script>
-    <script type="text/javascript" src="/js/date.js"></script>
-    <script type="text/javascript" src="/js/CalendarPopup.js"></script>
-    <script type="text/javascript" src="/js/AnchorPosition.js"></script>
     <script type="text/javascript" src="/js/common.js"></script>
-    
+    <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/js/instructor.js"></script>
-    <jsp:include page="../enableJS.jsp"></jsp:include>
+    <jsp:include page="../enableJS.jsp"></jsp:include>   
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]--> 
 </head>
 
 
 <body>
-    <div id="dhtmltooltip"></div>
-    <div id="frameTop">
-        <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
-    </div>
+    <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
 
-
-    <div id="frameBody">
-        <div id="frameBodyWrapper">
-            <div id="topOfPage"></div>
-            <div id="headerOperation">
-                <h1>Student Details</h1>
-            </div>
-            
-            <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
-            
-            <table class="inputTable" id="studentInfomationTable">
-                <tr>
-                     <td class="label rightalign bold" width="30%">Student Name:</td>
-                     <td id="<%=Const.ParamsNames.STUDENT_NAME%>"><%=data.student.name%></td>
-                    </tr>
-                 <tr>
-                    <td class="label rightalign bold" width="30%">Team Name:</td>
-                     <td id="<%=Const.ParamsNames.TEAM_NAME%>"><%=sanitizeForHtml(data.student.team)%></td>
-                 </tr>
-                 <tr>
-                     <td class="label rightalign bold" width="30%">E-mail Address:</td>
-                     <td id="<%=Const.ParamsNames.STUDENT_EMAIL%>"><%=sanitizeForHtml(data.student.email)%></td>
-                 </tr>
-                <tr>
-                    <td class="label rightalign bold" width="30%">Join Link:</td>
-                    <td id="<%=Const.ParamsNames.REGKEY%>">
-                        <%=sanitizeForHtml(Config.APP_URL 
-                                + Const.ActionURIs.STUDENT_COURSE_JOIN 
-                                + "?regkey=" + data.regKey)%>
-                    </td>
-                </tr>
-                 <tr>
-                     <td class="label rightalign bold" width="30%">Comments:</td>
-                     <td id="<%=Const.ParamsNames.COMMENTS%>"><%=sanitizeForHtml(data.student.comments)%></td>
-                 </tr>
-             </table>
-             <br>
-             <br>
-        
+    <div class="container theme-showcase" id="frameBodyWrapper">
+        <div id="topOfPage"></div>
+        <div id="headerOperation">
+            <h1>Student Details</h1>
         </div>
+        
+        <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
+        
+        <div class="well well-plain">
+            <div class="form form-horizontal" id="studentInfomationTable">
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">Student Name:</label>
+                    <div class="col-sm-11" id="<%=Const.ParamsNames.STUDENT_NAME%>">
+                        <p class="form-control-static"><%=data.student.name%></p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">Team Name:</label>
+                    <div class="col-sm-11" id="<%=Const.ParamsNames.TEAM_NAME%>">
+                        <p class="form-control-static"><%=sanitizeForHtml(data.student.team)%></p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">E-mail Address:</label>
+                    <div class="col-sm-11" id="<%=Const.ParamsNames.STUDENT_EMAIL%>">
+                        <p class="form-control-static"><%=sanitizeForHtml(data.student.email)%></p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">Join Link:</label>
+                    <div class="col-sm-11">
+                        <input id="<%=Const.ParamsNames.REGKEY%>" value="<%=sanitizeForHtml(Config.APP_URL 
+                                + Const.ActionURIs.STUDENT_COURSE_JOIN 
+                                + "?regkey=" + data.regKey)%>" class="form-control" readonly="readonly">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">Comments:</label>
+                    <div class="col-sm-11" id="<%=Const.ParamsNames.COMMENTS%>">
+                        <p class="form-control-static"><%=sanitizeForHtml(data.student.comments)%></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <br>
     </div>
 
 
-    <div id="frameBottom">
-        <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
-    </div>
+    <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
 </body>
 </html>

@@ -1,0 +1,1591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="shortcut icon" href="../../src/main/webapp/favicon.ico">
+
+<title>HTML mockups for TEAMMATES</title>
+
+<!-- Bootstrap core CSS -->
+<link href="../../src/main/webapp/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<!-- Bootstrap theme -->
+<link href="../../src/main/webapp/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+<link href="../../src/main/webapp/stylesheets/teammatesCommon.css" rel="stylesheet">
+
+<!-- Custom styles for this template -->
+<link href="theme.css" rel="stylesheet">
+
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+      <![endif]-->
+</head>
+
+<body role="document">
+
+  <!-- Fixed navbar -->
+  <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse"
+          data-target=".navbar-collapse">
+          <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span
+            class="icon-bar"></span> <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">TEAMMATES</a>
+      </div>
+      <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="#">Home</a></li>
+          <li><a href="#about">Courses</a></li>
+          <li><a href="#contact">Sessions</a></li>
+          <li><a href="#contact">Students</a></li>
+          <li><a href="#contact">Logout (<span class="text-info">Jim.Davis</span>)
+          </a></li>
+        </ul>
+      </div>
+      <!--/.nav-collapse -->
+    </div>
+  </div>
+
+  <div class="container theme-showcase" role="main">
+    <div class="panel panel-default">
+      <h4>Table of content</h4>
+      <ul>
+        <li><a href="#StudentHome">Student Home</a></li>
+        <li><a href="#StudentTeamDetails">Student Team Details</a></li>
+        <li><a href="#StudentSessionSubmission">Student Session Submission</a></li>
+        <li><a href="#StudentEvalResults">Student Eval Results</a></li>
+        <li><a href="#InstructorHome">Instructor Home</a></li>
+        <li><a href="#InstructorAddCourse">Instructor Add Course</a></li>
+        <li><a href="#InstructorEditCourse">Instructor Edit Course</a></li>
+        <li><a href="#InstructorEnroll">Instructor Enroll</a></li>
+        <li><a href="#InstructorCourseDetails">Instructor Course Details</a></li>
+        <li><a href="#InstructorStudentsList">Instructor Students List</a></li>
+        <li><a href="#InstructorStudentDetails">Instructor Student Details</a></li>
+        <li><a href="#InstructorStudentEditDetails">Instructor Edit Student Details</a></li>
+        <li><a href="#InstructorEvaluations">Instructor Evaluations</a></li>
+        <li><a href="#InstructorEvalResults">Instructor Evaluation Results</a></li>
+        <li><a href="#InstructorSessionResults">Instructor Session Results</a></li>
+        <li><a href="#InstructorCreateSession">Instructor Create Session</a></li>
+      </ul>
+    </div>
+    <h1>_____________________________________________________________________</h1>
+    <a name="StudentHome"></a>
+    <h2>Student Home</h2>
+    <div class="alert alert-warning">
+      Welcome back! Your profile page is incomplere. Click <a href="#" class="alert-link">here</a>
+      to update your profile.
+    </div>
+    <div class="panel panel-primary" id="course1">
+      <div class="panel-heading">
+        <strong>[CS1101] : Programming Methodology</strong> <span class="pull-right"><a
+          href="#" class="btn btn-primary btn-xs" role="button">view team</a></span>
+      </div>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Session Name</th>
+            <th>Deadline</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Second Eval</td>
+            <td>02 Apr 2012, 23:59</td>
+            <td>Open</td>
+            <td><a class="btn btn-default btn-xs" href="#" role="button">View Results</a> <a
+              class="btn btn-default btn-xs" href="#" role="button">Edit/View Submission</a>
+          </tr>
+          <tr>
+            <td>Third Eval</td>
+            <td>02 Apr 2012, 23:59</td>
+            <td>Awaiting</td>
+            <td><a class="btn btn-default btn-xs" href="#" role="button">View Results</a> <a
+              class="btn btn-default btn-xs disabled" href="#" role="button">Edit/View
+                Submission</a>
+          </tr>
+          <tr>
+            <td>Feedback Session for the Project</td>
+            <td>02 Apr 2012, 23:59</td>
+            <td>Open</td>
+            <td><a class="btn btn-default btn-xs" href="#" role="button">View Results</a> <a
+              class="btn btn-default btn-xs" href="#" role="button">Edit/View Submission</a></td>
+          </tr>
+          <tr>
+            <td>Third Eval</td>
+            <td>02 Apr 2012, 23:59</td>
+            <td>Closed</td>
+            <td><a class="btn btn-default btn-xs" href="#" role="button">View Results</a> <a
+              class="btn btn-default btn-xs" href="#" role="button">Edit/View Submission</a></td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+
+    <div class="panel panel-primary" id="course2">
+      <div class="panel-heading">
+        <strong>[CS2103] : Softwar Engineering</strong> <span class="pull-right"><a href="#"
+          class="btn btn-primary btn-xs" role="button">view team</a></span>
+      </div>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Session Name</th>
+            <th>Deadline</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Second Eval</td>
+            <td>02 Apr 2012, 23:59</td>
+            <td>Open</td>
+            <td><a href="">View Results</a> <a href="">Edit/View Submission</a></td>
+          </tr>
+          <tr>
+            <td>Feedback Session for the Project</td>
+            <td>02 Apr 2012, 23:59</td>
+            <td>Open</td>
+            <td><a href="">View Results</a> <a href="">Edit/View Submission</a></td>
+          </tr>
+          <tr>
+            <td>Third Eval</td>
+            <td>02 Apr 2012, 23:59</td>
+            <td>Closed</td>
+            <td><a href="">View Results</a> <span class="text-muted">Edit/View
+                Submission</span></td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+    <h1>_____________________________________________________________________</h1>
+
+    <a name="StudentTeamDetails"></a>
+    <h1>Student Team Details</h1>
+    <div class="well well-plain">
+      <form class="form-horizontal" role="form">
+        <div class="panel-heading">
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Course:</label>
+            <div class="col-sm-10">
+              <p class="form-control-static">CS2104</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Session:</label>
+            <div class="col-sm-10">
+              <p class="form-control-static">First feedback session</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Duration:</label>
+            <div class="col-sm-10">
+              <p class="form-control-static">from: 01 Apr 2012, 23:59 To: 30 Apr 2017, 23:59</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Instructions:</label>
+            <div class="col-sm-10">
+              <p class="form-control-static">Please please fill in the following questions.</p>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <h1>_____________________________________________________________________</h1>
+
+    <a name="StudentSessionSubmission"></a>
+    <h1>Student Session Submission</h1>
+    <div class="well well-plain">
+      <form class="form-horizontal" role="form">
+        <div class="panel-heading">
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Course:</label>
+            <div class="col-sm-10">
+              <p class="form-control-static">CS2104</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Session:</label>
+            <div class="col-sm-10">
+              <p class="form-control-static">First feedback session</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Duration:</label>
+            <div class="col-sm-10">
+              <p class="form-control-static">from: 01 Apr 2012, 23:59 To: 30 Apr 2017, 23:59</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Instructions:</label>
+            <div class="col-sm-10">
+              <p class="form-control-static">Please please fill in the following questions.</p>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <br>
+    <div class="btn-group pull-right" data-toggle="buttons">
+      <label class="btn btn-default"> <input type="radio" name="options" id="option1">
+        Group by question
+      </label> <label class="btn btn-default"> <input type="radio" name="options" id="option2">
+        Group by receiver
+      </label>
+    </div>
+    <br> <br>
+    <form class="form-horizontal" role="form">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          Question 1: <br> What is the best selling point of your product?
+        </div>
+        <div class="panel-body">
+          <p class="text-muted">Only the following persons can see your responses:</p>
+          <ul class="text-muted">
+            <li>Instructors in this course can see your response, the name of the recipient,
+              and your name.</li>
+            <li>The receiving students can see your response, but not your name.</li>
+          </ul>
+
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-2 control-label">To: Alice Betsy</label>
+            <div class="col-sm-10">
+              <textarea class="form-control" rows="3"></textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-2 control-label">To: Benny Charles</label>
+            <div class="col-sm-10">
+              <textarea class="form-control" rows="3"></textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-2 control-label">To: Charlie Davis</label>
+            <div class="col-sm-10">
+              <textarea class="form-control" rows="3"></textarea>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          Question 2: <br> What is the best selling point of your product?
+        </div>
+        <div class="panel-body">
+          <p class="text-muted">Only the following persons can see your responses:</p>
+          <ul class="text-muted">
+            <li>Instructors in this course can see your response, the name of the recipient,
+              and your name.</li>
+            <li>The receiving students can see your response, but not your name.</li>
+          </ul>
+
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-2 control-label">To: Alice Betsy</label>
+            <div class="col-sm-10">
+              <textarea class="form-control" rows="3"></textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-2 control-label">To: Benny Charles</label>
+            <div class="col-sm-10">
+              <textarea class="form-control" rows="3"></textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-2 control-label">To: Charlie Davis</label>
+            <div class="col-sm-10">
+              <textarea class="form-control" rows="3"></textarea>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-offset-6 col-sm-10">
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </div>
+    </form>
+
+    <h1>_____________________________________________________________________</h1>
+
+    <a name="StudentEvalResults"></a>
+    <h1>Student Evaluation Results</h1>
+
+    <h3>
+      <span class="label label-primary">Your results</span>
+    </h3>
+
+    <div class="well well-plain">
+      <form class="form-horizontal" role="form">
+        <div class="panel-heading">
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Course:</label>
+            <div class="col-sm-10">
+              <p class="form-control-static">CS2104</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Session:</label>
+            <div class="col-sm-10">
+              <p class="form-control-static">First feedback session</p>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Student:</label>
+            <div class="col-sm-10">
+              <p class="form-control-static">Alice Betsy</p>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="panel panel-info">
+      <div class="panel-heading">Comparison of work distribution</div>
+      <table class="table table-striped">
+        <tbody>
+          <tr>
+            <td><strong>Your view:</strong></td>
+            <td><span class="text-muted"><strong>of me:</strong></span> <abbr
+              title="Equal Share">E</abbr>+10%</td>
+            <td><span class="text-muted"><strong>of others:</strong></span> <abbr
+              title="Equal Share">E</abbr>+10%, <abbr title="Equal Share">E</abbr>+10%, <abbr
+              title="Equal Share">E</abbr>+10%</td>
+          </tr>
+          <tr>
+            <td><strong>Your teams's view:</strong></td>
+            <td><span class="text-muted"><strong>of me:</strong></span> <abbr
+              title="Equal Share">E</abbr>+10%</td>
+            <td><span class="text-muted"><strong>of others:</strong></span> <abbr
+              title="Equal Share">E</abbr>+10%, <abbr title="Equal Share">E</abbr>+10%, <abbr
+              title="Equal Share">E</abbr>+10%</td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+
+    <div class="panel panel-info">
+      <div class="panel-heading">Anonymous feedback from others</div>
+      <table class="table table-striped">
+        <tbody>
+          <tr>
+            <td>Feedback from one member.Feedback from one member.Feedback from one
+              member.Feedback from one member.Feedback from one member.Feedback from one
+              member.Feedback from one member.Feedback from one member.</td>
+          </tr>
+          <tr>
+            <td>Feedback from one member.Feedback from one member.Feedback from one
+              member.Feedback from one member.Feedback from one member.Feedback from one
+              member.Feedback from one member.Feedback from one member.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="panel panel-info">
+      <div class="panel-heading">What others said about their own contribution</div>
+      <table class="table table-striped table-bordered">
+        <tbody>
+          <tr>
+            <td><strong>Benny Charles</strong></td>
+            <td>Feedback from one member.Feedback from one member.Feedback from one
+              member.Feedback from one member.Feedback from one member.Feedback from one
+              member.Feedback from one member.Feedback from one member.</td>
+          </tr>
+          <tr>
+            <td><strong>Charlie Davis</strong></td>
+            <td>Feedback from one member.Feedback from one member.Feedback from one
+              member.Feedback from one member.Feedback from one member.Feedback from one
+              member.Feedback from one member.Feedback from one member.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      <span class="glyphicon glyphicon-question-sign"> </span> <a href="#interpret">How do I
+        interpret these results? </a>
+    </p>
+
+    <h3>
+      <span class="label label-default">Your submission</span>
+    </h3>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">Self evaluation</div>
+      <table class="table table-striped">
+        <tbody>
+          <tr>
+            <td><strong>Your estimated contribution:</strong></td>
+            <td>E+10%</td>
+          </tr>
+          <tr>
+            <td><strong>Comments about your contribution:</strong></td>
+            <td>This is what I did.This is what I did.This is what I did.This is what I
+              did.This is what I did.This is what I did.This is what I did. <br> This is what I
+              did.This is what I did.This is what I did.This is what I did.This is what I did.This
+              is what I did.
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Comments about team dynamics:</strong></td>
+            <td>Our team is good.Our team is good.Our team is good.Our team is good.Our team is
+              good.Our team is good.Our team is good. <br> Our team is good.Our team is
+              good.Our team is good.Our team is good.Our team is good.Our team is good.
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">Evaluation of team members</div>
+      <table class="table table-striped table-bordered">
+        <header>
+          <tr>
+            <th>Name</th>
+            <th>Comments about the team member</th>
+            <th>Feedback to the team member</th>
+          </tr>
+        </header>
+        <tbody>
+          <tr>
+            <td><strong>Benny Charles</strong></td>
+            <td>He is a good guy.He is a good guy.He is a good guy.He is a good guy.He is a
+              good guy.He is a good guy.He is a good guy.He is a good guy.He is a good guy.</td>
+            <td>You are a good guy.</td>
+          </tr>
+          <tr>
+            <td><strong>Charlie Davis</strong></td>
+            <td>She is OK.She is OK.She is OK.She is OK.She is OK.She is OK.She is OK.She is
+              OK.She is OK.</td>
+            <td>You can be better.You can be better.You can be better.You can be better.You can
+              be better.You can be better.You can be better.</td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+
+    <h4>How do I interpret these results?</h4>
+
+    --Instructions go here--
+    <h1>_____________________________________________________________________</h1>
+    <a name="InstructorHome"></a>
+    <h1>Instructor Home</h1>
+
+    //similar to student home
+
+    <h1>_____________________________________________________________________</h1>
+    <a name="InstructorAddCourse"></a>
+    <h1>Instructor Add Course</h1>
+
+    <div class="panel panel-primary">
+      <div class="panel-body fill-plain">
+        <form class="form-horizontal" role="form">
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-3 control-label">Course ID</label>
+            <div class="col-sm-3">
+              <input class="form-control" id="inputEmail3" placeholder="e.g. ECN101-Fall2014"
+                type="email">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputPassword3" class="col-sm-3 control-label">Course Name</label>
+            <div class="col-sm-9">
+              <input class="form-control" id="inputPassword3"
+                placeholder="e.g. Economics 101 - Fall 2014">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-10">
+              <button type="submit" class="btn btn-primary">Add Course</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <h3>Active courses</h3>
+
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr class="fill-primary">
+          <th>Course ID</th>
+          <th>Course Name</th>
+          <th>Teams</th>
+          <th>Total Students</th>
+          <th>Total Unregistered</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>Mark</td>
+          <td>Otto</td>
+          <td>Otto</td>
+          <td>Otto</td>
+          <td>@mdo</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Jacob</td>
+          <td>Thornton</td>
+          <td>Thornton</td>
+          <td>Thornton</td>
+          <td>@fat</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>Larry</td>
+          <td>the Bird</td>
+          <td>the Bird</td>
+          <td>the Bird</td>
+          <td>@twitter</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <span class="text-muted"><h3>Archived courses</h3></span>
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr class="fill-default">
+          <th>Course ID</th>
+          <th>Course Name</th>
+          <th>Total Unregistered</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>Mark</td>
+          <td>Otto</td>
+          <td>@mdo</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Jacob</td>
+          <td>Thornton</td>
+          <td>@fat</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>Larry</td>
+          <td>the Bird</td>
+          <td>@twitter</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h1>_____________________________________________________________________</h1>
+    <a name="InstructorEditCourse"></a>
+    <h1>Instructor Edit Course</h1>
+
+    <div class="panel panel-primary panel-narrow">
+      <div class="panel-heading">
+        <strong>Course</strong>
+        <button type="button" title="Delete course" class="btn btn-primary btn-xs pull-right">
+          <span class="glyphicon glyphicon-trash"></span> Delete
+        </button>
+      </div>
+      <div class="panel-body fill-plain">
+        <form class="form-horizontal" role="form">
+
+          <br>
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-3 control-label">ID</label>
+            <div class="col-sm-3">
+              <input class="form-control" id="inputEmail3" type="email" value="CS2103-Jan2014"
+                disabled="">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputPassword3" class="col-sm-3 control-label">Name</label>
+            <div class="col-sm-9">
+              <input class="form-control" id="inputPassword3" value="Economics 101 - Fall 2014"
+                disabled="">
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <br>
+    <div class="panel panel-primary panel-narrow">
+      <div class="panel-heading">
+        <strong>Instructor 1</strong>
+        <div class="pull-right">
+          <button type="button" title="Edit" class="btn btn-primary btn-xs">
+            <span class="glyphicon glyphicon-pencil"></span> Edit
+          </button>
+          &nbsp;
+          <button type="button" title="Delete" class="btn btn-primary btn-xs">
+            <span class="glyphicon glyphicon-trash"></span> Delete
+          </button>
+        </div>
+      </div>
+      <div class="panel-body">
+        <form class="form-horizontal" role="form">
+
+          <br>
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-3 control-label">Google ID</label>
+            <div class="col-sm-3">
+              <input class="form-control" id="inputEmail3" type="email" value="ins.id" disabled="">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputPassword3" class="col-sm-3 control-label">Name</label>
+            <div class="col-sm-9">
+              <input class="form-control" id="inputPassword3" value="Jim Davis" disabled="">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputPassword3" class="col-sm-3 control-label">Email</label>
+            <div class="col-sm-9">
+              <input class="form-control" id="inputPassword3" value="email@email.com" disabled="">
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <br>
+    <div class="col-sm-offset-5">
+      <button type="button" title="Edit" class="btn btn-primary btn-md">Add instructor</button>
+      <br>
+    </div>
+    //clicking the above button can generate a form similar to 'edit course' form
+   
+   <h1>_____________________________________________________________________</h1>
+    <a name="InstructorEnroll"></a>
+    <h1>Instructor Enroll</h1>
+
+    <img src="../../src/main/webapp/images/enrollInstructions.gif" class="img-responsive" width="100%"> <br>
+
+    <div class="panel panel-primary">
+
+      <div class="panel-body fill-plain">
+        <div class="text-muted">
+          <span class="glyphicon glyphicon-exclamation-sign glyphicon-primary"></span> Recommended
+          maximum class size : <strong>250</strong> students
+        </div>
+        <br>
+        <form class="form-horizontal" role="form">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label for="instructions" class="col-sm-1 control-label">Student data:</label>
+              <div class="col-sm-11">
+                <textarea class="form-control" rows="5" placeholder="Paste student data here ..."></textarea>
+                <br>
+                <button type="button" title="Edit" class="btn btn-primary btn-md">Enroll
+                  students</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+
+    </div>
+
+    <h1>_____________________________________________________________________</h1>
+    <a name="InstructorCourseDetails"></a>
+    <h1>Instructor Course Details</h1>
+    TBD
+    <h1>_____________________________________________________________________</h1>
+    <a name="InstructorStudentsList"></a>
+    <h1>Instructor Students List</h1>
+
+    <div class="panel panel-primary">
+      <div class="panel-body fill-plain">
+        <form class="form-horizontal col-sm-12" role="form">
+          <div class="row">
+            <div class="col-sm-10">
+              <div class="form-group">
+                <input type="email" class="form-control" id="inputEmail3"
+                  placeholder="e.g. Charles Shultz">
+              </div>
+            </div>
+            <div class="col-sm-2">
+              <div class="form-group">
+                &nbsp;
+                <button type="submit" class="btn btn-primary">
+                <span class="glyphicon glyphicon-search"></span> Search
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-2">
+              <div class="checkbox">
+                <label> <input type="checkbox" value=""> Show more options
+                </label>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="checkbox">
+                <label> <input type="checkbox" value=""> Include archived courses
+                </label>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="panel panel-primary">
+      <div class="panel-body fill-plain">
+        <form class="form-horizontal col-sm-12" role="form">
+
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="text-color-primary">
+                <strong>Courses</strong>
+              </div>
+              <br>
+              <div class="checkbox">
+                <label> <input type="checkbox" value=""> <strong>Select all</strong>
+                </label>
+              </div>
+              <br>
+              <div class="checkbox">
+                <label> <input type="checkbox" value=""> Course 1
+                </label>
+              </div>
+              <div class="checkbox">
+                <label> <input type="checkbox" value=""> Course 2
+                </label>
+              </div>
+              <div class="checkbox">
+                <label> <input type="checkbox" value=""> Course 3
+                </label>
+              </div>
+            </div>
+
+            <div class="col-sm-4">
+              <div class="text-color-primary">
+                <strong>Teams</strong>
+              </div>
+              <br>
+              <div class="checkbox">
+                <label> <input type="checkbox" value=""> <strong>Select all</strong>
+                </label>
+              </div>
+              <br>
+              <div class="checkbox">
+                <label> <input type="checkbox" value=""> Team 1
+                </label>
+              </div>
+              <div class="checkbox">
+                <label> <input type="checkbox" value=""> Team 2
+                </label>
+              </div>
+              <div class="checkbox">
+                <label> <input type="checkbox" value=""> Team 3
+                </label>
+              </div>
+              <div class="checkbox">
+                <label> <input type="checkbox" value=""> Team 4
+                </label>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="checkbox">
+                <label> <input type="checkbox" value="">
+                  <div class="text-color-primary">
+                    <strong>Show emails</strong>
+                  </div>
+                </label>
+              </div>
+              <br>
+              <div class="checkbox">
+                <label> <input type="checkbox" value=""> email1@email.com
+                </label>
+              </div>
+              <div class="checkbox">
+                <label> <input type="checkbox" value=""> email1@email.com
+                </label>
+              </div>
+              <div class="checkbox">
+                <label> <input type="checkbox" value=""> email1@email.com
+                </label>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="well well-plain">
+      <div class="row">
+        <div class="text-color-primary col-sm-10">
+          <h4><strong>[CS2103-Aug2014] Software Engineering</strong></h4>
+        </div>
+        <div class="col-sm-2">
+          <a class="btn btn-default btn-xs pull-right" href="#" role="button">
+          <span class="glyphicon glyphicon-list"></span> Enroll</a>
+        </div>
+      </div>
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr class="fill-primary">
+            <th>Team</th>
+            <th>Name</th>
+            <th>email</th>
+            <th class="centeralign no-print">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td class="centeralign no-print"><a class="btn btn-default btn-xs" href="#" role="button">View</a> <a
+              class="btn btn-default btn-xs" href="#" role="button">Edit</a> <a
+              class="btn btn-default btn-xs" href="#" role="button">Delete</a> <a
+              class="btn btn-default btn-xs" href="#" role="button">All records</a></td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Jacob</td>
+            <td>Thornton</td>
+            <td class="centeralign no-print"><a class="btn btn-default btn-xs" href="#" role="button">View</a> <a
+              class="btn btn-default btn-xs" href="#" role="button">Edit</a> <a
+              class="btn btn-default btn-xs" href="#" role="button">Delete</a> <a
+              class="btn btn-default btn-xs" href="#" role="button">All records</a></td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Larry</td>
+            <td>the Bird</td>
+            <td class="centeralign no-print"><a class="btn btn-default btn-xs" href="#" role="button">View</a> <a
+              class="btn btn-default btn-xs" href="#" role="button">Edit</a> <a
+              class="btn btn-default btn-xs" href="#" role="button">Delete</a> <a
+              class="btn btn-default btn-xs" href="#" role="button">All records</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <h1>_____________________________________________________________________</h1>
+    <a name="InstructorStudentDetails"></a>
+    <h1>Instructor Student Details</h1>
+    TBD
+    
+    <h1>_____________________________________________________________________</h1>
+    <a name="InstructorStudentEditDetails"></a>
+    <h1>Instructor Student Edit Details</h1>
+    TBD
+    
+    <h1>_____________________________________________________________________</h1>
+    <a name="InstructorEvaluations"></a>
+    <h2>Instructor Evaluations</h2>
+
+<div class="panel panel-primary">
+  <div class="panel-body fill-plain">
+     
+    <div class="row">
+      <form class="form-horizontal" role="form">
+        <div class="form-group">
+          <label for="sessionType" class="col-sm-2 control-label text-primary">Session type :</label>
+          <div class="col-sm-5">
+            <select class="form-control">
+              <option value="/page/instructorFeedbacksPage" selected="selected">Feedback
+                Session with customizable questions</option>
+              <option value="/page/instructorEvalsPage">Standard Team Peer Evaluation with
+                fixed questions</option>
+            </select>
+          </div>
+          <div class="col-sm-5"><span class="glyphicon glyphicon-info-sign glyphicon-default"></span><span class="text-muted"> Select a session type before filling out the form below.</span></div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+    <br>
+
+    <div class="panel panel-primary">
+      <div class="panel-heading">Create new evaluation</div>
+      <div class="panel-body fill-plain">
+        <form class="form-horizontal" role="form">
+          <div class="row">
+            <div class="col-md-7">
+              <div class="row">
+                <div class="form-group">
+                  <label for="input1" class="col-sm-4 control-label">Course:</label>
+                  <div class="col-sm-7">
+                    <select class="form-control">
+                      <option value="cs1101" selected="selected">CS1101</option>
+                      <option value="cs1101">CS1102</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="input1" class="col-sm-4 control-label">Evaluation
+                    name:</label>
+                  <div class="col-sm-7">
+                    <input class="form-control" id="input1"
+                      placeholder="e.g Peer evalution for the project">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group">
+                  <label for="input1" class="col-sm-4 control-label">Peer
+                    feedback:</label>
+                  <div class="col-md-8">
+                    <div class="radio">
+                      <label> <input type="radio" name="optionsRadios" id="optionsRadios1"
+                        value="option1" checked> Enabled
+                      </label>
+                    </div>
+                    <div class="radio">
+                      <label> <input type="radio" name="optionsRadios" id="optionsRadios2"
+                        value="option2"> Disabled
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            
+            <div class="col-md-5 border-left-gray">
+              <div class="row">
+                <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-4 control-label">Starting time:</label>
+                  <div class="col-md-4">
+                    <input type="datepicker" class="form-control col-sm-2" id="startdate"
+                      placeholder="Date">
+                  </div>
+                  <div class="col-md-3">
+                    <select class="form-control">
+                      <option value="cs1101" selected="selected">2359</option>
+                      <option value="0100">0100 min</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-4 control-label">Ending time:</label>
+                  <div class="col-md-4">
+                    <input type="datepicker" class="form-control col-sm-2" id="startdate"
+                      placeholder="Date">
+                  </div>
+                  <div class="col-md-3">
+                    <select class="form-control">
+                      <option value="cs1101" selected="selected">2359</option>
+                      <option value="0100">0100 min</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-4 control-label">Grace
+                    period:</label>
+                  <div class="col-sm-4">
+                    <select class="form-control">
+                      <option value="option1" selected="selected">0</option>
+                      <option value="option2">10</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-4 control-label">Timezone:</label>
+                  <div class="col-sm-4">
+                    <select class="form-control">
+                      <option value="option1" selected="selected">UTC+5.00</option>
+                      <option value="option2">UTC+6.00</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="row">
+          <br>
+            <div class="form-group">
+              <label for="inputEmail3" class="col-sm-2 control-label">Instructions:</label>
+              <div class="col-sm-9">
+                <textarea class="form-control" rows="3">some text</textarea>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="row">
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary">Save</button>
+              </div>
+            </div>
+          </div>
+          
+          
+        </form>
+      </div>
+    </div>
+    
+    //The evaluations table similar to other such tables
+    
+    <h1>_____________________________________________________________________</h1>
+    <a name="InstructorEvalResults"></a>
+    <h2>
+      Instructor Evaluation Results <small>by reviewee</small>
+    </h2>
+
+    <div class="well well-plain">
+      <span class="text-primary"><h4>
+          <strong>Team 1</strong>
+        </h4></span>
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-4">
+              To: <strong>Benny Charles</strong>
+            </div>
+            <div class="col-md-4">
+              <div class="pull-right">
+                Claimed contribution: E <span class="badge background-color-white color_positive">+ 5%</span>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="pull-right">
+                Perceived contribution: E <span class="badge background-color-white color_negative">- 5%</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <table class="table table-bordered">
+          <tbody>
+            <tr>
+              <td><strong>Self evaluation:</strong> <br>self evaluation.self
+                evaluation.self evaluation.self evaluation.self evaluation.self evaluation.self
+                evaluation.self evaluation.self evaluation.self evaluation.</td>
+            </tr>
+            <tr>
+              <td><strong>Comments about the team:</strong><br>comments about the
+                team.comments about the team.comments about the team.comments about the
+                team.comments about the team.comments about the team.comments about the
+                team.comments about the team.comments about the team.</td>
+            </tr>
+
+          </tbody>
+        </table>
+
+        <table class="table table-bordered table-striped">
+          <thead>
+            <tr class="border-top-gray fill-info">
+              <!-- To get the border at the top -->
+              <th class="col-sm-1">From</th>
+              <th class="col-sm-1">Contribution</th>
+              <th class="col-sm-5">Confidential comments</th>
+              <th class="col-sm-5">Feedback to peer</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Alice Betsy</td>
+              <td>E <span class="color_positive"><strong>+ 5%</strong></span></td>
+              <td>comments about student.comments about student.comments about student.comments
+                about student.comments about student.comments about student.comments about
+                student.comments about student.comments about student.comments about student.</td>
+              <td>feedback to student. feedback to student. feedback to student. feedback to
+                student. feedback to student. feedback to student. feedback to student. feedback to
+                student. feedback to student. feedback to student. feedback to student.</td>
+            </tr>
+            <tr>
+              <td>Charlie Davis</td>
+              <td>E + 10%</td>
+              <td>comments about student.comments about student.comments about student.comments
+                about student.comments about student.comments about student.comments about
+                student.comments about student.comments about student.comments about student.</td>
+              <td>feedback to student. feedback to student. feedback to student. feedback to
+                student. feedback to student. feedback to student. feedback to student. feedback to
+                student. feedback to student. feedback to student. feedback to student.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-4">
+              To: <strong>Emily Fowler</strong>
+            </div>
+            <div class="col-md-4">
+              <div class="pull-right">
+                Claimed contribution: <span class="badge background-color-white color_positive">E+5%</span>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="pull-right">
+                Perceived contribution: <span class="badge background-color-white color_negative">E-5%</span>
+              </div>
+            </div>
+          </div>
+          </div>
+
+        <table class="table table-bordered">
+          <tbody>
+            <tr>
+              <td><strong>Self evaluation:</strong> <br>self evaluation.self
+                evaluation.self evaluation.self evaluation.self evaluation.self evaluation.self
+                evaluation.self evaluation.self evaluation.self evaluation.</td>
+            </tr>
+            <tr>
+              <td><strong>Comments about the team:</strong><br>comments about the
+                team.comments about the team.comments about the team.comments about the
+                team.comments about the team.comments about the team.comments about the
+                team.comments about the team.comments about the team.</td>
+            </tr>
+
+          </tbody>
+        </table>
+
+        <table class="table table-bordered table-striped">
+          <thead>
+            <tr class="border-top-gray fill-info">
+              <!-- To get the border at the top -->
+              <th class="col-sm-1">From</th>
+              <th class="col-sm-1">Contribution</th>
+              <th class="col-sm-5">Confidential comments</th>
+              <th class="col-sm-5">Feedback to peer</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Alice Betsy</td>
+              <td>E + 5%</td>
+              <td>comments about student.comments about student.comments about student. <br>
+                comments about student.comments about student.comments about student.comments about
+                student.comments about student.comments about student.comments about student.
+              </td>
+              <td>feedback to student. feedback to student. feedback to student. feedback to
+                student. feedback to student. feedback to student. feedback to student. feedback to
+                student. feedback to student. feedback to student. feedback to student.</td>
+            </tr>
+            <tr>
+              <td>Charlie Davis</td>
+              <td>E + 10%</td>
+              <td>comments about student.comments about student.comments comments about
+                student.comments about student.comments about student.comments about student.</td>
+              <td>feedback to student. feedback to student. feedback to student. feedback to
+                student. feedback to student. feedback to student. feedback to student. feedback to
+                student. feedback to student. feedback to student. feedback to student.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    
+    <h1>_____________________________________________________________________</h1>
+    <a name="InstructorSessionResults"></a>
+
+    <h1>
+      Instructor Session Results <small>By reviewer</small>
+    </h1>
+
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        From: <strong>Alice Betsy</strong> (Team 1) [<a class="link-in-dark-bg" href="#">alice.b.tmms@gmail.com</a>]
+      </div>
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-md-2">To: Charlie Davis (Team 2)</div>
+          <div class="col-md-10">
+            <div class="panel panel-info">
+              <div class="panel-heading">What did you like about this team member?</div>
+              <div class="panel-body">
+                This is the response.This is the response.This is the response. <br>This is the
+                response.This is the response.This is the response.This is the response.<br>This
+                is the response.
+                <button type="button" title="Add comment"
+                  class="btn btn-default btn-xs icon-button pull-right">
+                  <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
+                </button>
+                <ul class="list-group comment-list">
+                  <li class="list-group-item list-group-item-warning"><span class="text-muted">From:
+                      Prof James [2014.05.12 4.45pm]</span>
+                    </button> <a type="button" title="Delete comment"
+                    class="btn btn-default btn-xs icon-button pull-right"> <span
+                      class="glyphicon glyphicon-trash glyphicon-primary"> </span></a>
+                    <button type="button" title="Edit comment"
+                      class="btn btn-default btn-xs icon-button pull-right">
+                      <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
+                    </button> <br> Comment from instructor.Comment from instructor.Comment from
+                    instructor.Comment from instructor.Comment from instructor.</li>
+                  <li class="list-group-item list-group-item-warning"><span class="text-muted">From:
+                      Prof James [2014.05.12 4.45pm]</span>
+                    </button> <a type="button" title="Delete comment"
+                    class="btn btn-default btn-xs icon-button pull-right"> <span
+                      class="glyphicon glyphicon-trash glyphicon-primary"> </span></a>
+                    <button type="button" title="Edit comment"
+                      class="btn btn-default btn-xs icon-button pull-right">
+                      <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
+                    </button> <br> Comment from instructor.Comment from instructor.Comment from
+                    instructor.Comment from instructor.Comment from instructor.</li>
+                </ul>
+              </div>
+            </div>
+            <div class="panel panel-info">
+              <div class="panel-heading">What can be improved by this team member?</div>
+              <div class="panel-body">
+                This is the response.This is the response.This is the response. <br>This is the
+                response.This is the response.This is the response.This is the response.<br>This
+                is the response.
+                <button type="button" title="Add comment"
+                  class="btn btn-default btn-xs icon-button pull-right disabled">
+                  <span class="glyphicon glyphicon-comment glyphicon-default"></span>
+                </button>
+                <ul class="list-group comment-list">
+                  <li class="list-group-item list-group-item-warning"><span class="text-muted">From:
+                      Prof James [2014.05.12 4.45pm]</span>
+                    </button> <a type="button" title="Delete comment"
+                    class="btn btn-default btn-xs icon-button pull-right"> <span
+                      class="glyphicon glyphicon-trash glyphicon-primary"> </span></a>
+                    <button type="button" title="Edit comment"
+                      class="btn btn-default btn-xs icon-button pull-right">
+                      <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
+                    </button> <br> Comment from instructor.Comment from instructor.Comment from
+                    instructor.Comment from instructor.Comment from instructor.</li>
+                  <li class="list-group-item list-group-item-warning"><span class="text-muted">
+                      <form role="form">
+                        <div class="form-group">
+                          <textarea class="form-control" rows="3">Comment from instructor.Comment from instructor.Comment from instructor.Comment from instructor.Comment from instructor.
+                          </textarea>
+                        </div>
+                        <div class="col-sm-offset-5">
+                          <button type="submit" class="btn btn-primary">Save</button>
+                          <button type="submit" class="btn btn-default">Cancel</button>
+                        </div>
+                      </form></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row border-top-gray">
+          <div class="col-md-2">To: Benny Charles (Team 2)</div>
+          <div class="col-md-10">
+            <div class="panel panel-info">
+              <div class="panel-heading">What did you like about this team member?</div>
+              <div class="panel-body">
+                This is the response.This is the response.This is the response. <br>This is the
+                response.This is the response.This is the response.This is the response.<br>This
+                is the response.
+                <button type="button" title="Add comment"
+                  class="btn btn-default btn-xs icon-button pull-right">
+                  <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
+                </button>
+              </div>
+            </div>
+            <div class="panel panel-info">
+              <div class="panel-heading">What can be improved by this team member?</div>
+              <div class="panel-body">
+                This is the response.This is the response.This is the response. <br>This is the
+                response.This is the response.This is the response.This is the response.<br>This
+                is the response.
+                <button type="button" title="Add comment"
+                  class="btn btn-default btn-xs icon-button pull-right">
+                  <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <h1>_____________________________________________________________________</h1>
+
+    <a name="InstructorCreateSession"></a>
+    <h2>Instructor Create Sesssion</h2>
+
+    <div class="row">
+      <form role="form">
+        <div class="form-group">
+          <label for="sessionType" class="col-sm-2 control-label">Session type :</label>
+          <div class="col-sm-10">
+            <select class="form-control">
+              <option value="/page/instructorFeedbacksPage" selected="selected">Feedback
+                Session with customizable questions</option>
+              <option value="/page/instructorEvalsPage">Standard Team Peer Evaluation with
+                fixed questions</option>
+            </select>
+          </div>
+        </div>
+      </form>
+    </div>
+    <br>
+    <div class="well well-plain">
+      <form role="form">
+        <div class="panel panel-primary">
+          <div class="panel-heading">Basic info</div>
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-4 control-label">Course</label>
+                  <div class="col-sm-8">
+                    <select class="form-control">
+                      <option value="cs1101" selected="selected">CS1101</option>
+                      <option value="cs1101">CS1102</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-4 control-label">Time zone</label>
+                  <div class="col-sm-8">
+                    <select class="form-control">
+                      <option value="cs1101" selected="selected">UTC-12.00</option>
+                      <option value="cs1101">UTC-11.00</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-2 control-label">Session name:</label>
+                  <div class="col-sm-10">
+                    <input type="email" class="form-control" id="inputEmail3"
+                      placeholder="e.g. Feedback for the project">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <div class="form-group">
+                    <label for="instructions" class="col-sm-2 control-label">Instructions</label>
+                    <div class="col-sm-10">
+                      <textarea class="form-control" rows="3"></textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-primary">
+          <div class="panel-heading">Duration</div>
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-md-4">
+                <strong>Submission opening time:</strong><br>
+                <div class="row">
+                  <div class="col-md-6">
+                    <input type="datepicker" class="form-control col-sm-2" id="startdate"
+                      placeholder="Date">
+                  </div>
+                  <div class="col-md-6">
+                    <select class="form-control">
+                      <option value="cs1101" selected="selected">2359</option>
+                      <option value="0100">0100 min</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 border-left-gray">
+                <strong>Submission closing time:</strong><br>
+                <div class="row">
+                  <div class="col-md-6">
+                    <input type="datepicker" class="form-control col-sm-2" id="startdate"
+                      placeholder="Date">
+                  </div>
+                  <div class="col-md-6">
+                    <select class="form-control">
+                      <option value="cs1101" selected="selected">2359</option>
+                      <option value="0100">0100 min</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 border-left-gray">
+                <div class="form-group">
+                  <label for="graceperiod" class="col-sm-4 control-label">Grace period</label>
+                  <div class="col-sm-8">
+                    <select class="form-control">
+                      <option value="cs1101" selected="selected">0</option>
+                      <option value="cs1101">5 min</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="panel panel-primary">
+          <div class="panel-heading">Visibility settings</div>
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-md-6 border-gray">
+                <strong>Session visible from:</strong><br>
+                <div class="radio">
+                  <div class="row">
+                    <div class="col-md-2">
+                      <label>At <input name="optionsRadios" id="optionsRadios1"
+                        value="option1" checked="" type="radio">
+                    </div>
+                    <div class="col-md-5">
+                      <input type="datepicker" class="form-control col-sm-2" id="startdate"
+                        placeholder="Date">
+                    </div>
+                    <div class="col-md-4">
+                      <select class="form-control">
+                        <option value="cs1101" selected="selected">2359</option>
+                        <option value="0100">0100 min</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="radio">
+                  <label> <input name="optionsRadios" id="optionsRadios1" value="option1"
+                    type="radio"> Submission opening time
+                  </label>
+                </div>
+                <div class="radio">
+                  <label> <input name="optionsRadios" id="optionsRadios2" value="private"
+                    type="radio"> Never (this is a private session) 
+                </div>
+              </div>
+
+              <div class="col-md-6 border-left-gray">
+                <strong>Responses visible from:</strong><br>
+                <div class="radio">
+                  <div class="row">
+                    <div class="col-md-2">
+                      <label>At <input name="optionsRadios" id="optionsRadios1"
+                        value="option1" checked="" type="radio">
+                    </div>
+                    <div class="col-md-5">
+                      <input type="datepicker" class="form-control col-sm-2" id="startdate"
+                        placeholder="Date">
+                    </div>
+                    <div class="col-md-4">
+                      <select class="form-control">
+                        <option value="cs1101" selected="selected">2359</option>
+                        <option value="0100">0100 min</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="radio">
+                  <label> <input name="optionsRadios" id="optionsRadios2" value="private"
+                    type="radio"> Immediately 
+                </div>
+                <div class="radio">
+                  <label> <input name="optionsRadios" id="optionsRadios1" value="option1"
+                    type="radio"> Publish manually
+                  </label>
+                </div>
+                <div class="radio">
+                  <label> <input name="optionsRadios" id="optionsRadios2" value="private"
+                    type="radio"> Never 
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel panel-primary">
+          <div class="panel-heading">Alerts</div>
+          <div class="panel-body">
+            <div class="form-group">
+              <label for="emailflag" class="col-sm-1 control-label">Send emails for:</label>
+              <div class="col-sm-2">
+                <div class="checkbox">
+                  <label> <input type="checkbox" value=""> Join reminder
+                  </label>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="checkbox">
+                  <label> <input type="checkbox" value=""> Session opening reminder
+                  </label>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="checkbox">
+                  <label> <input type="checkbox" value=""> Session closing reminder
+                  </label>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="checkbox">
+                  <label> <input type="checkbox" value=""> Results published
+                    announcement
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-5 col-sm-10">
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </div>
+      </form>
+      <br> <br>
+    </div>
+  </div>
+  <div id="footerComponent" class="container-fluid">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <span>[TEAMMATES V5.00]</span>
+        </div>
+        <div class="col-md-4">
+          <span class="col ">National University of Singapore</span>
+        </div>
+        <div class="col-md-4">
+          <span>[Send <a class="link" href="../contact.html" target="_blank">Feedback</a>]
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /container -->
+  <!-- Bootstrap core JavaScript
+    ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+  <script src="../../src/main/webapp/bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html>

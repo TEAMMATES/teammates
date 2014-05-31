@@ -89,7 +89,10 @@ public class AccountAttributes extends EntityAttributes {
 
     @Override
     public void sanitizeForSaving() {
-        // TODO implement this
+        this.googleId = Sanitizer.sanitizeForHtml(googleId);
+        this.name = Sanitizer.sanitizeForHtml(name);
+        this.email = Sanitizer.sanitizeForHtml(email);
+        this.institute = Sanitizer.sanitizeForHtml(institute);
     }
     
 }

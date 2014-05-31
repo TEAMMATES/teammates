@@ -3,13 +3,13 @@ $(document).ready(function(){
 	var yesterday = today.setDate(today.getDate - 1);
 	var tomorrow = today.setDate(today.getDate + 1);
 	
-	$("#start" ).datepicker({
+	$("#start").datepicker({
     	dateFormat: "dd/mm/yy",
     	showOtherMonths: true,
     	gotoCurrent: true,
         defaultDate: new Date(),
         onSelect: function(date) {
-        	$("#deadline").datepicker("option", "minDate", getMinDateForEndDate($('#startdate').datepicker("getDate")));
+        	$("#deadline").datepicker("option", "minDate", getMinDateForEndDate($('#start').datepicker("getDate")));
         }
     });
 
