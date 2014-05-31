@@ -303,6 +303,7 @@ public abstract class AppPage {
     }
     
     protected void fillTextBox(WebElement textBoxElement, String value) {
+        textBoxElement.click();
         textBoxElement.clear();
         textBoxElement.sendKeys(value);
         

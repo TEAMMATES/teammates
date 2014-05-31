@@ -244,8 +244,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
                 "Link for question 1: " + expectedUrl,
                 feedbackEditPage.getStatus());
         
-        Url url = new Url(expectedUrl);
-        FeedbackQuestionSubmitPage questionPage = feedbackEditPage.navigateTo(url, FeedbackQuestionSubmitPage.class);
+        Url url = new Url(expectedUrl).withUserId(instructorId);
+        FeedbackQuestionSubmitPage questionPage = loginAdminToPage(browser, url, FeedbackQuestionSubmitPage.class);
         
         assertTrue(questionPage.isCorrectPage(courseId, feedbackSessionName));
         
