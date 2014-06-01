@@ -211,7 +211,7 @@
                     <td><%=sanitizeForHtml(student.team)%></td>
                     <td id="<%=Const.ParamsNames.STUDENT_NAME%>"
                         data-toggle="tooltip" data-placement="top" data-container="body"  
-                        title="<%=InstructorEvalResultsPageData.sanitizeForJs(student.comments)%>"> 
+                        title="<%=InstructorEvalResultsPageData.sanitizeForHtml(student.comments)%>"> 
                         <%=student.name%>
                     </td>
                     <td><%=InstructorEvalResultsPageData.getPointsAsColorizedHtml(studentResult.summary.claimedToInstructor)%></td>

@@ -84,6 +84,7 @@ public class CourseAttributes extends EntityAttributes {
 
     @Override
     public void sanitizeForSaving() {
-        // TODO implement this
+        this.id = Sanitizer.sanitizeForHtml(id);
+        this.name = Sanitizer.sanitizeForHtml(name);
     }
 }

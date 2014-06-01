@@ -473,6 +473,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
                 newSession.gracePeriod, newSession.timeZone);
         
         savedSession = BackDoor.getFeedbackSession(newSession.courseId, newSession.feedbackSessionName);
+        newSession.sanitizeForSaving();
         assertEquals(newSession.toString(), savedSession.toString());
         
         ______TS("success case: timezone 0, custom publish time, very looong instructions (~ 500 words)");
@@ -503,6 +504,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
                 newSession.gracePeriod, newSession.timeZone );
         
         savedSession = BackDoor.getFeedbackSession(newSession.courseId, newSession.feedbackSessionName);
+        newSession.sanitizeForSaving();
         assertEquals(newSession.toString(), savedSession.toString());
         
         ______TS("failure case: invalid input: (end < start < visible) and (publish < visible)");
