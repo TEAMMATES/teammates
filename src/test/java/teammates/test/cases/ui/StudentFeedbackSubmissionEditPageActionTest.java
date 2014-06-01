@@ -85,7 +85,7 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
 
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-
+        //TODO: find a way to test status message from session
         StudentAttributes student1InCourse1 = dataBundle.students
                 .get("student1InCourse1");
         gaeSimulation.loginAsStudent(student1InCourse1.googleId);
@@ -127,9 +127,7 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
         RedirectResult redirectResult = getRedirectResult(pageAction);
 
         assertEquals(
-                "/page/studentHomePage?message="
-                        + "The+feedback+session+has+been+deleted+"
-                        + "and+is+no+longer+accessible.&error=false&"
+                "/page/studentHomePage?error=false&"
                         + "user=student1InCourse1",
                 redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
@@ -193,9 +191,7 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
         redirectResult = getRedirectResult(pageAction);
 
         assertEquals(Const.ActionURIs.STUDENT_HOME_PAGE
-                + "?message=You+are+not+registered+in+the+course+"
-                + session1InCourse1.courseId
-                + "&error=true&user=student1InCourse1",
+                + "?error=true&user=student1InCourse1",
                 redirectResult.getDestinationWithParams());
         assertTrue(redirectResult.isError);
         assertEquals(

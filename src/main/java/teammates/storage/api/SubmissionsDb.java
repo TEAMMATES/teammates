@@ -154,7 +154,7 @@ public class SubmissionsDb extends EntitiesDb {
         
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, newSubmissionAttributes);
 
-        //TODO: Sanitize values and update tests accordingly
+        newSubmissionAttributes.sanitizeForSaving();
         
         if (!newSubmissionAttributes.isValid()) {
             throw new InvalidParametersException(newSubmissionAttributes.getInvalidityInfo());

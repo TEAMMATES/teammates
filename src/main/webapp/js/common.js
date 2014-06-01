@@ -100,7 +100,11 @@ var DISPLAY_FEEDBACK_SESSION_NAME_LENGTHINVALID = "Feedback session name should 
 var DISPLAY_FEEDBACK_SESSION_SCHEDULEINVALID = "The feedback sesion schedule (start/end) is not valid.<br />"
         + "The start time should be in the future, and the end time should be after start time.";
 var DISPLAY_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID = "Please enter the maximum number of recipients each respondants should give feedback to.";
+
 var DISPLAY_FEEDBACK_QUESTION_TEXTINVALID = "Please enter a valid question. The question text cannot be empty.";
+var DISPLAY_FEEDBACK_QUESTION_NUMSCALE_OPTIONSINVALID = "Please enter valid options. The min/max/step cannot be empty.";
+var DISPLAY_FEEDBACK_QUESTION_NUMSCALE_INTERVALINVALID = "Please enter valid options. The interval is not divisible by the specified increment.";
+
 var DISPLAY_FEEDBACK_SESSION_INSTRUCTIONS_LENGTHINVALID = "Instructions to students should not exceed 500 characters.";
 var DISPLAY_FEEDBACK_SESSION_VISIBLE_DATEINVALID = "Feedback session visible date must not be empty";
 var DISPLAY_FEEDBACK_SESSION_PUBLISH_DATEINVALID = "Feedback session publish date must not be empty";
@@ -108,33 +112,6 @@ var DISPLAY_FEEDBACK_SESSION_PUBLISH_DATEINVALID = "Feedback session publish dat
 var TEAMNAME_MAX_LENGTH = 60;
 var NAME_MAX_LENGTH = 40;
 var INSTITUTION_MAX_LENGTH = 64;
-
-
-function initializenavbar(){
-    //Get Element By Class Name, in this case nav hyperlinks, it should return an array of items
-    var tabs = document.getElementsByClassName('nav');
-    //Get the url of the current page
-    var url = document.location;
-            
-    if (url.href.charAt(url.length-1) == '/') {
-    //Get the final URL sub string of the page e.g. InstructorEval, InstructorEvalEdit, etc.
-        url = url.substr(0,url.length - 1); 
-    }
-    //get the href link and cast it to lower case for string comparison purposes
-    var curPage = url.href.split('/').pop().toLowerCase();
-            
-    for (i=0; i<tabs.length; i++){
-    //Search the so called tabs, using an attribute call data-link as defined in the href link
-    //This attribute will tell which section of the page the user is on and cast to lower case
-        var link = String(tabs[i].getAttribute('data-link')).toLowerCase();
-        if (curPage.indexOf(link) != -1){ 
-        //if curPage contains any part of the link as defined by data-link, then its found
-        tabs[i].parentNode.className = "current"; 
-        //so set the parentNode classname which is the <li> in this case to class current
-        //as defined in common.css
-        } 
-    }
-}
 
 /**
  * Sorts a table
@@ -145,17 +122,21 @@ function initializenavbar(){
  *            The column index (1-based) as key for the sort
  */
 function toggleSort(divElement, colIdx, comparator) {
-    if ($(divElement).attr("class") == "buttonSortNone") {
+    if ($(divElement).attr("class") == "button-sort-none") {
         sortTable(divElement, colIdx, comparator, true);
-        $(divElement).parent().parent().find(".buttonSortAscending").attr("class", "buttonSortNone");
-        $(divElement).parent().parent().find(".buttonSortDescending").attr("class", "buttonSortNone");
-        $(divElement).attr("class", "buttonSortAscending");
-    } else if ($(divElement).attr("class") == "buttonSortAscending") {
+        $(divElement).parent().find(".button-sort-ascending").attr("class", "button-sort-none");
+        $(divElement).parent().find(".button-sort-descending").attr("class", "button-sort-none");
+        $(divElement).parent().find(".sort-icon").attr("class", "sort-icon unsorted");
+        $(divElement).attr("class", "button-sort-ascending");
+        $(divElement).find(".sort-icon").attr("class", "sort-icon ascending-sorted");
+    } else if ($(divElement).attr("class") == "button-sort-ascending") {
         sortTable(divElement, colIdx, comparator, false);
-        $(divElement).attr("class", "buttonSortDescending");
+        $(divElement).attr("class", "button-sort-descending");
+        $(divElement).find(".sort-icon").attr("class", "sort-icon descending-sorted");
     } else {
         sortTable(divElement, colIdx, comparator, true);
-        $(divElement).attr("class", "buttonSortAscending");
+        $(divElement).attr("class", "button-sort-ascending");
+        $(divElement).find(".sort-icon").attr("class", "sort-icon ascending-sorted");
     }
 }
 
@@ -186,7 +167,7 @@ function sortTable(oneOfTableCell, colIdx, comparator, ascending) {
         var innerText = RowList[i].cells[colIdx-1].innerHTML;
         
         //Store rows together with the innerText to compare
-        store.push([innerText, RowList[i]]);
+        store.push([innerText, RowList[i], i]);
         
         if((columnType==0 || columnType==1) && isNumber(innerText)){
             columnType=1;
@@ -209,9 +190,19 @@ function sortTable(oneOfTableCell, colIdx, comparator, ascending) {
     
     store.sort(function(x,y){
         if(ascending==true){
-            return comparator(x[0],y[0]);
+            var compareResult = comparator(x[0].toUpperCase(),y[0].toUpperCase());
+            if(compareResult == 0){
+                return  x[2] - y[2];
+            } else {
+                return compareResult;
+            }
         }else{
-            return comparator(y[0],x[0]);
+            var compareResult = comparator(y[0].toUpperCase(),x[0].toUpperCase());
+            if(compareResult == 0){
+                return x[2] - y[2];
+            } else {
+                return compareResult;
+            }
         }
     });
     
@@ -396,13 +387,19 @@ function setStatusMessage(message, error) {
     $(DIV_STATUS_MESSAGE).html(message);
     $(DIV_STATUS_MESSAGE).show();
     if (error === true) {
-        $(DIV_STATUS_MESSAGE).attr("style",
-                "display: block; background-color: rgb(255, 153, 153);");
+        $(DIV_STATUS_MESSAGE).attr("class",
+                "alert alert-danger");
     } else {
-        $(DIV_STATUS_MESSAGE).attr("style",
-                "display: block; ");
+        $(DIV_STATUS_MESSAGE).attr("class",
+                "alert alert-warning");
     }
-    document.getElementById( 'statusMessage' ).scrollIntoView();
+
+    Element.prototype.documentOffsetTop = function () {
+        return this.offsetTop + ( this.offsetParent ? this.offsetParent.documentOffsetTop() : 0 );
+    }
+
+    var pos = document.getElementById( 'statusMessage' ).documentOffsetTop() - (window.innerHeight / 2 );
+    window.scrollTo( 0, pos );
 }
 
 /**

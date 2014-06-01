@@ -51,7 +51,7 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
     
     @Test
     public void testExecuteAndPostProcess() throws Exception{
-        
+        //TODO: find a way to test status message from session
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         
@@ -95,8 +95,7 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         RedirectResult r = getRedirectResult(a);
         
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE +
-                "?message=" + "The+student+has+been+edited+successfully&" +
-                "error=" + "false&user=idOfInstructor1OfCourse1&" +
+                "?error=" + "false&user=idOfInstructor1OfCourse1&" +
                 "courseid=" + "idOfTypicalCourse1",
                 r.getDestinationWithParams());
         
@@ -133,8 +132,7 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         RedirectResult rToBeTrimmed = getRedirectResult(aToBeTrimmed);
         
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE +
-                "?message=" + "The+student+has+been+edited+successfully&" +
-                "error=" + "false&user=idOfInstructor1OfCourse1&" +
+                "?error=" + "false&user=idOfInstructor1OfCourse1&" +
                 "courseid=" + "idOfTypicalCourse1",
                 rToBeTrimmed.getDestinationWithParams());
         
@@ -170,11 +168,7 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         ShowPageResult result = getShowPageResult(a);
         
         assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_STUDENT_EDIT +
-                "?message=" + "%22thisisaveryverylonglonglongstudentemailaccountname%40gmail.com%22+is" +
-                "+not+acceptable+to+TEAMMATES+as+an+email+because+it+is+too+long.+An+email+address+contains" +
-                "+some+text+followed+by+one+%27%40%27+sign+followed+by+some+more+text.+It+cannot+be+longer+" +
-                "than+45+characters.+It+cannot+be+empty+and+it+cannot+have+spaces." +
-                "&error=" + "true" +
+                "?error=" + "true" +
                 "&user=idOfInstructor1OfCourse1",
                 result.getDestinationWithParams());
         
@@ -208,9 +202,7 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         result = getShowPageResult(a);
         
         assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_STUDENT_EDIT +
-                "?message=" + "Trying+to+update+to+an+email+that+is+already+used+by" +
-                "%3A+student2+In+Course1%2Fstudent2InCourse1%40gmail.com" +
-                "&error=" + "true" +
+                "?error=" + "true" +
                 "&user=idOfInstructor1OfCourse1",
                 result.getDestinationWithParams());
         

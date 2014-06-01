@@ -1,0 +1,274 @@
+@CHARSET "ISO-8859-1";
+
+body {
+    padding-top: 60px;
+    padding-bottom:30px;
+}
+
+.btn-tm-actions {
+    margin-right:3px;
+ }
+
+.btn-circle {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  padding: 6px 0;
+  font-size: 12px;
+  line-height: 1.428571429;
+  border-radius: 50%;
+}
+
+.btn-circle.btn-lg {
+  width: 50px;
+  height: 50px;
+  padding: 10px 16px;
+  font-size: 18px;
+  line-height: 1.33;
+}
+
+.btn-circle.btn-xl {
+  width: 70px;
+  height: 70px;
+  padding: 10px 16px;
+  font-size: 24px;
+  line-height: 1.33;
+}
+
+.centeralign {
+    text-align: center;
+}
+
+#footerComponent {
+    margin:0px;
+    bottom: 0px;
+    position:fixed;
+    height: 20px;
+    width:100%;
+    text-align:center;
+    background-color:black;
+    color:grey;
+    background-image: linear-gradient(to bottom,#3c3c3c 0,#222 100%);
+}
+ 
+.well-plain {
+    border: 0px;
+    box-shadow: 0 0 0 0;
+    background-image: none;
+    background-color: #eaeff5;
+}
+ 
+.well-default {
+    border: 0px;
+    box-shadow: 0 0 0 0;
+    background-image: none;
+    background-color: #D9EDF7;
+}
+ 
+.well-narrow {
+    margin: 0 auto;
+    width:60%;
+}
+ 
+.panel-narrow {
+    margin: 0 auto;
+    width:60%;
+}
+ 
+.fill-plain {
+    background-color: #eaeff5;
+}
+
+.border-gray{
+    border-color: #ddd;
+    border-width: 1px;
+    border-style: solid;
+}
+
+.border-left-gray{
+    border-left-color: #ddd;
+    border-width: 1px;
+    border-left-style: solid;
+}
+
+.border-top-gray{
+    border-top-color: #ddd;
+    border-width: 1px;
+    border-top-style: solid;
+    padding-top: 10px;
+}
+
+.link-in-dark-bg:link {
+	color: #f2fcac;
+}
+
+.link-in-dark-bg:visited {
+	color: white;
+}
+
+.link-in-dark-bg:hover {
+	color: yellow;
+}
+
+.link-in-dark-bg:active {
+	color: yellow;
+}
+
+.glyphicon-primary{
+    color: #428bca;
+}
+
+.glyphicon-danger{
+    color: red;
+}
+
+
+.icon-button{
+	border:0;
+	background:transparent;
+}
+
+.comment-list{
+	padding-top:15px;
+}
+
+.fill-primary {
+	background-color: #428bca;
+	color: white;
+}
+
+.fill-default {
+    background-color: #9E9E9E;
+    color: white;
+}
+
+.fill-info {
+    background-color: #c4e3f3;
+}
+
+.color_positive { 
+    color: #108627;
+}
+
+.color_negative { 
+    color:#e74c3c;
+}
+
+.highlight-white {
+    color:white;
+}
+
+.text-color-primary{
+    color:#428bca;
+}
+
+.text-color-white{
+    color:white;
+}
+
+.instructor-header-bar {
+    margin-top:20px;
+}
+
+.text-bold{
+	font-weight: bold;
+}
+
+.background-color-white{
+    background-color:white;
+}
+
+.inline {
+    display: inline;
+}
+
+@media print {
+    a[href]:after {
+        content:none;
+    }
+    .no-print {
+        display: none;
+    }
+}
+
+.sort-icon {
+    width: 12px;
+    height: 17px;
+    display: block;
+    margin-top: 1px;
+    float: right;
+}
+
+.unsorted {
+    background: url('../images/sortSideButton.png');
+}
+
+.ascending-sorted {
+    background: url('../images/sortUpButton.png');
+}
+
+.descending-sorted {
+    background: url('../images/sortDownButton.png');
+}
+
+.button-sort-ascending:hover, .button-sort-none:hover, .button-sort-descending:hover {
+    cursor: pointer;
+}
+
+
+.bs-example {
+    position: relative;
+    padding: 45px 15px 15px;
+    margin: 0 -15px 15px;
+    background-color: #fafafa;
+    box-shadow: inset 0 3px 6px rgba(0, 0, 0, .05);
+    border-color: #e5e5e5 #eee #eee;
+    border-style: solid;
+    border-width: 1px 0
+}
+
+.bs-example:after {
+    content: "Example";
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #bbb;
+    text-transform: uppercase;
+    letter-spacing: 1px
+}
+
+.bs-example+.highlight {
+    margin: -15px -15px 15px;
+    border-radius: 0;
+    border-width: 0 0 1px
+}
+
+@media (min-width:768px){.bs-example {
+        margin-left: 0;
+        margin-right: 0;
+        background-color: #fff;
+        border-width: 1px;
+        border-color: #ddd;
+        border-radius: 4px 4px 0 0;
+        box-shadow: none
+    }
+
+    .bs-example+.highlight {
+        margin-top: -16px;
+        margin-left: 0;
+        margin-right: 0;
+        border-width: 1px;
+        border-bottom-left-radius: 4px;
+        border-bottom-right-radius: 4px
+    }
+}
+
+.bs-example .container {
+    width: auto
+}
+
+
+
+

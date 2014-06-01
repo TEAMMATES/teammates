@@ -107,6 +107,7 @@ public class AccountsDb extends EntitiesDb {
                 + ThreadHelper.getCurrentThreadStack());
         }
         
+        a.sanitizeForSaving();
         accountToUpdate.setName(a.name);
         accountToUpdate.setEmail(a.email);
         accountToUpdate.setIsInstructor(a.isInstructor);

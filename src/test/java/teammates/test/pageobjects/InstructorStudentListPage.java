@@ -37,7 +37,7 @@ public class InstructorStudentListPage extends AppPage {
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return getPageSource().contains("<h1>Student List</h1>");
+        return getPageSource().contains("<h1>Instructor Students List</h1>");
     }
     
     public InstructorCourseEnrollPage clickEnrollStudents(String courseId) {
@@ -115,11 +115,15 @@ public class InstructorStudentListPage extends AppPage {
         assertEquals(searchKey, searchBox.getAttribute("value"));
     }
     
+    public boolean verifyIsHidden(String elementId) {
+        return !browser.driver.findElement(By.id(elementId)).isDisplayed();
+    }
+    
     private int getCourseNumber(String courseId) {
         int id = 0;
         while (isElementPresent(By.id("course-" + id))) {
             if (getElementText(
-                    By.xpath("//div[@id='course-" + id + "']/div[@class='courseTitle']/h2"))
+                    By.xpath("//div[@id='course-" + id + "']//h4/strong"))
                     .startsWith("[" + courseId + "]")) {
                 return id;
             }
@@ -129,42 +133,48 @@ public class InstructorStudentListPage extends AppPage {
     }
 
     private String getStudentRowId(String courseId, String studentName) {
-        int studentCount = browser.driver.findElements(By.className("student_row"))
-                .size();
         int courseNumber = getCourseNumber(courseId);
+        int studentCount = browser.driver.findElements(By.cssSelector("tr[id^='student-c"+courseNumber+"']"))
+                .size();
         for (int i = 0; i < studentCount; i++) {
             String studentNameInRow = getStudentNameInRow(courseNumber, i);
             if (studentNameInRow.equals(studentName)) {
-                return ("c"+courseNumber+"."+i);
+                return (courseNumber+"."+i);
             }
         }
         return "";
     }
     
     private String getStudentNameInRow(int courseNumber, int rowId) {
-        String xpath = "//tr[@class='student_row' and @id='student-c" + courseNumber + "."
+        String xpath = "//tr[@id='student-c" + courseNumber + "."
                 + rowId    + "']//td[@id='" + Const.ParamsNames.STUDENT_NAME + "-c" + courseNumber + "." + rowId + "']";
         return browser.driver.findElement(By.xpath(xpath)).getText();
     }
     
     private WebElement getEnrollLink(int courseNumber) {
-        return browser.driver.findElement(By.className("t_course_enroll-" + courseNumber));
+        return browser.driver.findElement(By.id("course-" + courseNumber))
+                .findElement(By.className("course-enroll-for-test"));
     }
     
     private WebElement getViewLink(String rowId) {
-        return browser.driver.findElement(By.className("t_student_details-" + rowId));
+        return getStudentLink("student-view-for-test", rowId);
     }
-    
+
     private WebElement getEditLink(String rowId) {
-        return browser.driver.findElement(By.className("t_student_edit-" + rowId));
+        return getStudentLink("student-edit-for-test", rowId);
     }
     
     private WebElement getViewRecordsLink(String rowId) {
-        return browser.driver.findElement(By.className("t_student_records-" + rowId));
+        return getStudentLink("student-records-for-test", rowId);
     }
     
     private WebElement getDeleteLink(String rowId) {
-        return browser.driver.findElement(By.className("t_student_delete-" + rowId));
+        return getStudentLink("student-delete-for-test", rowId);
+    }
+    
+    private WebElement getStudentLink(String className, String rowId) {
+        return browser.driver.findElement(By.id("student-c" + rowId))
+                .findElement(By.className(className));
     }
     
     private String getElementText(By locator) {

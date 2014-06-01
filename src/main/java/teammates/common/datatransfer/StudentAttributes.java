@@ -239,5 +239,11 @@ public class StudentAttributes extends EntityAttributes {
         this.name = Sanitizer.sanitizeName(this.name);
         this.team = Sanitizer.sanitizeTitle(this.team);
         this.comments = Sanitizer.sanitizeTextField(this.comments);
+        this.googleId = Sanitizer.sanitizeForHtml(this.googleId);
+        this.email = Sanitizer.sanitizeForHtml(this.email);
+        this.course = Sanitizer.sanitizeForHtml(this.course);
+        this.name = Sanitizer.sanitizeForHtml(this.name);
+        this.team = Sanitizer.sanitizeForHtml(this.team);
+        this.comments = Sanitizer.sanitizeForHtml(this.comments);
     }
 }

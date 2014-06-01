@@ -43,7 +43,7 @@ function readyFeedbackEditPage(){
     formatCheckBoxes();
     formatQuestionNumbers();
     collapseIfPrivateSession();
-    document.onmousemove = positiontip;
+    //document.onmousemove = positiontip;
 }
 
 /**
@@ -98,10 +98,10 @@ function toggleVisibilityOptions(elem){
         $options.show();
         feedbackGiverUpdateVisibilityOptions($giverType);
         feedbackRecipientUpdateVisibilityOptions($recipientType);
-        $(elem).html("[-] Hide Visibility Options");
+        $(elem).html("<span class=\"glyphicon glyphicon-eye-close\"></span> Hide Visibility Options");
     } else {
         $options.hide();
-        $(elem).html("[+] Show Visibility Options");
+        $(elem).html("<span class=\"glyphicon glyphicon-eye-open\"></span> Show Visibility Options");
     }
 }
 
@@ -134,7 +134,8 @@ function enableQuestion(number){
         not('[name="receiverFollowerCheckbox"]').
         not('.disabled_radio').
         removeAttr("disabled", "disabled");
-    $('#questionTable'+number).find('a').show();
+    $('#questionTable'+number).find('.removeOptionLink').show();
+    $('#questionTable'+number).find('.addOptionLink').show();
     
     if($("#generateOptionsCheckbox-"+number).prop("checked")){
         $("#mcqChoiceTable-"+number).hide();
@@ -147,6 +148,37 @@ function enableQuestion(number){
         $("#mcqGenerateForSelect-"+number).prop("disabled", true);
         $("#msqGenerateForSelect-"+number).prop("disabled", true);
     }		
+    
+    $('#'+FEEDBACK_QUESTION_EDITTEXT+'-'+number).hide();
+    $('#'+FEEDBACK_QUESTION_SAVECHANGESTEXT+'-'+number).show();
+    $('#'+'button_question_submit-'+number).show();
+    $('#'+FEEDBACK_QUESTION_EDITTYPE+'-'+number).value="edit";
+    // $('#questionTable'+number).find('.visibilityOptionsLabel').click();
+}
+
+function enableNewQuestion(){
+    var newQnSuffix = "New";
+    var number = "-1"
+    $('#questionTable'+newQnSuffix).find('text,button,textarea,select,input').
+        not('[name="receiverFollowerCheckbox"]').
+        not('.disabled_radio').
+        removeAttr("disabled", "disabled");
+    $('#questionTable'+newQnSuffix).find('.removeOptionLink').show();
+    $('#questionTable'+newQnSuffix).find('.addOptionLink').show();
+    
+
+
+    if($("#generateOptionsCheckbox-"+number).prop("checked")){
+        $("#mcqChoiceTable-"+number).hide();
+        $("#msqChoiceTable-"+number).hide();
+        $("#mcqGenerateForSelect-"+number).prop("disabled", false);
+        $("#msqGenerateForSelect-"+number).prop("disabled", false);
+    } else {
+        $("#mcqChoiceTable-"+number).show();
+        $("#msqChoiceTable-"+number).show();
+        $("#mcqGenerateForSelect-"+number).prop("disabled", true);
+        $("#msqGenerateForSelect-"+number).prop("disabled", true);
+    }       
     
     $('#'+FEEDBACK_QUESTION_EDITTEXT+'-'+number).hide();
     $('#'+FEEDBACK_QUESTION_SAVECHANGESTEXT+'-'+number).show();
@@ -224,14 +256,14 @@ function formatNumberBoxes(){
  */
 function formatNumberBox(value, qnNumber) {
     if (value == "STUDENTS" || value == "TEAMS") {
-        $("td.numberOfEntitiesElements"+qnNumber).show();
+        $("div.numberOfEntitiesElements"+qnNumber).show();
         if(value == "STUDENTS") {
             $("span#"+FEEDBACK_QUESTION_NUMBEROFENTITIES+"_text_inner-"+qnNumber).html("students");
         } else {
             $("span#"+FEEDBACK_QUESTION_NUMBEROFENTITIES+"_text_inner-"+qnNumber).html("teams");
         }
     } else {
-        $("td.numberOfEntitiesElements"+qnNumber).hide();
+        $("div.numberOfEntitiesElements"+qnNumber).hide();
     }
     tallyCheckboxes(qnNumber);
 }
@@ -265,9 +297,10 @@ function tallyCheckboxes(qnNumber){
 function showNewQuestionFrame(type){
     prepareQuestionForm(type);
     $('#questionTableNew').show();
+    enableNewQuestion();
     $('#addNewQuestionTable').hide();
     $('#empty_message').hide(); 
-    $('#frameBody').animate({scrollTop: $('#frameBody')[0].scrollHeight}, 1000);
+    $('#frameBodyWrapper').animate({scrollTop: $('#frameBodyWrapper')[0].scrollHeight}, 1000);
     copyOptions();
 }
 
@@ -306,16 +339,27 @@ function prepareQuestionForm(type) {
 function addMcqOption(questionNumber) {
     idOfQuestion = '#form_editquestion-' + questionNumber;
     idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
+    if(questionNumber == -1){
+        idSuffix = "--1";
+    }
     
     var curNumberOfChoiceCreated = parseInt($("#"+FEEDBACK_QUESTION_NUMBEROFCHOICECREATED+idSuffix).val());
         
-    $("<tr id=\"mcqOptionRow-"+curNumberOfChoiceCreated+idSuffix+"\">"
-        + "<td><input type=\"radio\" disabled=\"disabled\"></td>"
-        + "<td><input type=\"text\" name=\""+FEEDBACK_QUESTION_MCQCHOICE+"-"+curNumberOfChoiceCreated+"\""
-        + " id=\""+FEEDBACK_QUESTION_MCQCHOICE+"-"+curNumberOfChoiceCreated+idSuffix+"\" class=\"mcqOptionTextBox\">"
-        + "<a href=\"#\" class=\"removeOptionLink\" id=\"mcqRemoveOptionLink\" "
-        + "onclick=\"removeMcqOption("+curNumberOfChoiceCreated+","+questionNumber+")\" tabindex=\"-1\">"
-        + " x</a></td></tr>"
+    $(    "<div id=\"mcqOptionRow-"+curNumberOfChoiceCreated+idSuffix+"\">"
+        +   "<div class=\"input-group\">"
+        +       "<span class=\"input-group-addon\">"
+        +          "<input type=\"radio\" disabled=\"disabled\">"
+        +       "</span>"
+        +       "<input type=\"text\" name=\""+FEEDBACK_QUESTION_MCQCHOICE+"-"+curNumberOfChoiceCreated+"\" "
+        +               "id=\""+FEEDBACK_QUESTION_MCQCHOICE+"-"+curNumberOfChoiceCreated+idSuffix+"\" class=\"form-control mcqOptionTextBox\">"
+        +       "<span class=\"input-group-btn\">"
+        +           "<button class=\"btn btn-default removeOptionLink\" id=\"mcqRemoveOptionLink\" "
+        +                   "onclick=\"removeMcqOption("+curNumberOfChoiceCreated+","+questionNumber+")\" tabindex=\"-1\">"
+        +               "<span class=\"glyphicon glyphicon-remove\"></span>"
+        +           "</button>"
+        +       "</span>"
+        +   "</div>"
+        + "</div>"
     ).insertBefore($("#mcqAddOptionRow" + idSuffix));
 
     $("#"+FEEDBACK_QUESTION_NUMBEROFCHOICECREATED+idSuffix).val(curNumberOfChoiceCreated+1);
@@ -328,16 +372,27 @@ function addMcqOption(questionNumber) {
 function addMsqOption(questionNumber) {
     idOfQuestion = '#form_editquestion-' + questionNumber;
     idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
-    
+    if(questionNumber == -1){
+        idSuffix = "--1";
+    }
+
     var curNumberOfChoiceCreated = parseInt($("#"+FEEDBACK_QUESTION_NUMBEROFCHOICECREATED+idSuffix).val());
         
-    $("<tr id=\"msqOptionRow-"+curNumberOfChoiceCreated+idSuffix+"\">"
-        + "<td><input type=\"checkbox\" disabled=\"disabled\"></td>"
-        + "<td><input type=\"text\" name=\""+FEEDBACK_QUESTION_MSQCHOICE+"-"+curNumberOfChoiceCreated+"\""
-        + " id=\""+FEEDBACK_QUESTION_MSQCHOICE+"-"+curNumberOfChoiceCreated+idSuffix+"\" class=\"msqOptionTextBox\">"
-        + "<a href=\"#\" class=\"removeOptionLink\" id=\"msqRemoveOptionLink\" "
-        + "onclick=\"removeMsqOption("+curNumberOfChoiceCreated+","+questionNumber+")\" tabindex=\"-1\">"
-        + " x</a></td></tr>"
+    $(   "<div id=\"msqOptionRow-"+curNumberOfChoiceCreated+idSuffix+"\">"
+        +   "<div class=\"input-group\">"
+        +       "<span class=\"input-group-addon\">"
+        +          "<input type=\"checkbox\" disabled=\"disabled\">"
+        +       "</span>"
+        +       "<input type=\"text\" name=\""+FEEDBACK_QUESTION_MSQCHOICE+"-"+curNumberOfChoiceCreated+"\" "
+        +               "id=\""+FEEDBACK_QUESTION_MSQCHOICE+"-"+curNumberOfChoiceCreated+idSuffix+"\" class=\"form-control msqOptionTextBox\">"
+        +       "<span class=\"input-group-btn\">"
+        +           "<button class=\"btn btn-default removeOptionLink\" id=\"msqRemoveOptionLink\" "
+        +                   "onclick=\"removeMcqOption("+curNumberOfChoiceCreated+","+questionNumber+")\" tabindex=\"-1\">"
+        +               "<span class=\"glyphicon glyphicon-remove\"></span>"
+        +           "</button>"
+        +       "</span>"
+        +   "</div>"
+        + "</div>"
     ).insertBefore($("#msqAddOptionRow" + idSuffix));
 
     $("#"+FEEDBACK_QUESTION_NUMBEROFCHOICECREATED+idSuffix).val(curNumberOfChoiceCreated+1);
@@ -350,6 +405,10 @@ function addMsqOption(questionNumber) {
 function removeMcqOption(index, questionNumber) {
     idOfQuestion = '#form_editquestion-' + questionNumber;
     idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
+    if(questionNumber == -1){
+        idSuffix = "--1";
+    }
+
     $("#mcqOptionRow-"+index+idSuffix).remove();
     
     if($(idOfQuestion).attr('editStatus') == "hasResponses") {
@@ -360,6 +419,10 @@ function removeMcqOption(index, questionNumber) {
 function removeMsqOption(index, questionNumber) {
     idOfQuestion = '#form_editquestion-' + questionNumber;
     idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
+    if(questionNumber == -1){
+        idSuffix = "--1";
+    }
+
     $("#msqOptionRow-"+index+idSuffix).remove();
     
     if($(idOfQuestion).attr('editStatus') == "hasResponses") {
@@ -369,7 +432,10 @@ function removeMsqOption(index, questionNumber) {
 
 function toggleMcqGeneratedOptions(checkbox, questionNumber) {
     idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
-    
+    if(questionNumber == -1){
+        idSuffix = "--1";
+    }
+
     if (checkbox.checked) {
         $("#mcqChoiceTable"+idSuffix).find("input[type=text]").prop('disabled', true);
         $("#mcqChoiceTable"+idSuffix).hide();
@@ -386,14 +452,20 @@ function toggleMcqGeneratedOptions(checkbox, questionNumber) {
 
 function changeMcqGenerateFor(questionNumber) {
     idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
-    
+    if(questionNumber == -1){
+        idSuffix = "--1";
+    }
+
     $("#generatedOptions"+idSuffix).attr("value", 
             $("#mcqGenerateForSelect"+idSuffix).prop("value"));
 }
 
 function toggleMsqGeneratedOptions(checkbox, questionNumber) {
     idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
-    
+    if(questionNumber == -1){
+        idSuffix = "--1";
+    }
+
     if (checkbox.checked) {
         $("#msqChoiceTable"+idSuffix).find("input[type=text]").prop('disabled', true);
         $("#msqChoiceTable"+idSuffix).hide();
@@ -410,13 +482,19 @@ function toggleMsqGeneratedOptions(checkbox, questionNumber) {
 
 function changeMsqGenerateFor(questionNumber) {
     idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
-    
+    if(questionNumber == -1){
+        idSuffix = "--1";
+    }
+
     $("#generatedOptions"+idSuffix).attr("value", 
             $("#msqGenerateForSelect"+idSuffix).prop("value"));
 }
 
 function updateNumScalePossibleValues(questionNumber) {
     idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
+    if(questionNumber == -1){
+        idSuffix = "--1";
+    }
     
     var min = parseInt($("#minScaleBox"+idSuffix).val());
     var max = parseInt($("#maxScaleBox"+idSuffix).val());
@@ -427,7 +505,7 @@ function updateNumScalePossibleValues(questionNumber) {
         $("#maxScaleBox"+idSuffix).val(max);
     }
     
-    if (step <= 0) {
+    if (step < 0.001) {
         step = 0.001;
         $("#stepBox"+idSuffix).val(step);
     }
@@ -445,6 +523,8 @@ function updateNumScalePossibleValues(questionNumber) {
     if (Math.round(largestValueInRange*1000)/1000 != max) {
         $("#numScalePossibleValues"+idSuffix).css("color","red");
         possibleValuesString = "[The interval " + min.toString() + " - " + max.toString() + " is not divisible by the specified increment.]";
+        $("#numScalePossibleValues"+idSuffix).text(possibleValuesString);
+        return false;
     } else {
         $("#numScalePossibleValues"+idSuffix).css("color","black");
         possibleValuesString = "[Based on the above settings, acceptable responses are: ";
@@ -464,9 +544,9 @@ function updateNumScalePossibleValues(questionNumber) {
             }
         }
         possibleValuesString += "]";
+        $("#numScalePossibleValues"+idSuffix).text(possibleValuesString);
+        return true;
     }
-    
-    $("#numScalePossibleValues"+idSuffix).text(possibleValuesString);
 }
 
 /**
@@ -596,7 +676,7 @@ function feedbackGiverUpdateVisibilityOptions(el){
  * Sets the correct initial question number from the value field
  */
 function formatQuestionNumbers(){
-    var $questions = $("table[class*='questionTable']");
+    var $questions = $("div[class*='questionTable']");
     
     $questions.each(function (index){
         var $selector = $(this).find('.questionNumber');
@@ -626,12 +706,7 @@ function getQuestionLink(qnNumber) {
                         + "&fsname=" + fsname 
                         + "&questionid=" + questionId;
     
-    $("#statusMessage")
-            .text("Link for question " + qnNumber + ": " + questionLink);
-    $("#statusMessage").show();
-    
-    var scrollAmount = $("#statusMessage")[0].scrollHeight + $("#frameBody").height() * 3/4; 
-    $("#frameBody").animate({scrollTop: scrollAmount}, 1000);
+    setStatusMessage("Link for question " + qnNumber + ": " + questionLink, false);
 }
 
 function toParameterFormat(str) {

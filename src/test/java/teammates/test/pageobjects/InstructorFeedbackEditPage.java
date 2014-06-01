@@ -110,7 +110,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "questionsavechangestext-1")
     private WebElement questionSaveForQuestion1;
     
-    @FindBy(id = "numofrecipients-")
+    @FindBy(id = "numofrecipients")
     private WebElement numberOfRecipients;
     
     @FindBy(xpath = "//input[@name='numofrecipientstype' and @value='max']")
@@ -171,30 +171,45 @@ public class InstructorFeedbackEditPage extends AppPage {
     
     public void fillMinNumScaleBox(int minScale, int qnNumber) {
         String idSuffix = qnNumber > 0 ? "-" + qnNumber : "";
+        if(qnNumber == -1){
+            idSuffix = "--1";
+        }
         WebElement minScaleBox = browser.driver.findElement(By.id("minScaleBox" + idSuffix));
         fillTextBox(minScaleBox, Integer.toString(minScale));
     }
     
     public void fillMaxNumScaleBox(int maxScale, int qnNumber) {
         String idSuffix = qnNumber > 0 ? "-" + qnNumber : "";
+        if(qnNumber == -1){
+            idSuffix = "--1";
+        }
         WebElement maxScaleBox = browser.driver.findElement(By.id("maxScaleBox" + idSuffix));
         fillTextBox(maxScaleBox, Integer.toString(maxScale));
     }
     
     public String getMaxNumScaleBox(int qnNumber) {
         String idSuffix = qnNumber > 0 ? "-" + qnNumber : "";
+        if(qnNumber == -1){
+            idSuffix = "--1";
+        }
         WebElement maxScaleBox = browser.driver.findElement(By.id("maxScaleBox" + idSuffix));
         return maxScaleBox.getAttribute("value");
     }
     
     public void fillStepNumScaleBox(double step, int qnNumber) {
         String idSuffix = qnNumber > 0 ? "-" + qnNumber : "";
+        if(qnNumber == -1){
+            idSuffix = "--1";
+        }
         WebElement stepBox = browser.driver.findElement(By.id("stepBox" + idSuffix));
         fillTextBox(stepBox, StringHelper.toDecimalFormatString(step));
     }
     
     public String getNumScalePossibleValuesString(int qnNumber) {
         String idSuffix = qnNumber > 0 ? "-" + qnNumber : "";
+        if(qnNumber == -1){
+            idSuffix = "--1";
+        }
         WebElement possibleValuesSpan = browser.driver.findElement(By.id("numScalePossibleValues" + idSuffix));
         return possibleValuesSpan.getText();
     }
@@ -272,7 +287,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
     
     public void clickSaveExistingQuestionButton(int qnNumber){
-        WebElement qnSaveLink = browser.driver.findElement(By.id("questionsavechangestext-" + qnNumber));
+        WebElement qnSaveLink = browser.driver.findElement(By.id("button_question_submit-" + qnNumber));
         qnSaveLink.click();
         waitForPageToLoad();
     }
@@ -438,7 +453,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
     
     public void fillMcqOption(int optionIndex, String optionText){
-        WebElement optionBox = browser.driver.findElement(By.id("mcqOption-" + optionIndex));
+        WebElement optionBox = browser.driver.findElement(By.id("mcqOption-" + optionIndex + "--1"));
         fillTextBox(optionBox, optionText);
     }
     
@@ -449,6 +464,9 @@ public class InstructorFeedbackEditPage extends AppPage {
     
     public void clickRemoveMcqOptionLink(int optionIndex, int qnIndex) {
         String idSuffix = qnIndex > 0 ? "-" + qnIndex : "";
+        if(qnIndex == -1){
+            idSuffix = "--1";
+        }
         
         WebElement mcqOptionRow = browser.driver.findElement(By.id("mcqOptionRow-" + optionIndex + idSuffix));
         WebElement removeOptionLink = mcqOptionRow.findElement(By.id("mcqRemoveOptionLink"));
@@ -457,13 +475,16 @@ public class InstructorFeedbackEditPage extends AppPage {
     
     public void clickGenerateOptionsCheckbox(int qnIndex) {
         String idSuffix = qnIndex > 0 ? "-" + qnIndex : "";
+        if(qnIndex == -1){
+            idSuffix = "--1";
+        }
         
         WebElement generateOptionsCheckbox = browser.driver.findElement(By.id("generateOptionsCheckbox" + idSuffix));
         generateOptionsCheckbox.click();
     }
     
     public void fillMsqOption(int optionIndex, String optionText){
-        WebElement optionBox = browser.driver.findElement(By.id("msqOption-" + optionIndex));
+        WebElement optionBox = browser.driver.findElement(By.id("msqOption-" + optionIndex + "--1"));
         fillTextBox(optionBox, optionText);
     }
     
@@ -474,6 +495,9 @@ public class InstructorFeedbackEditPage extends AppPage {
     
     public void clickRemoveMsqOptionLink(int optionIndex, int qnIndex) {
         String idSuffix = qnIndex > 0 ? "-" + qnIndex : "";
+        if(qnIndex == -1){
+            idSuffix = "--1";
+        }
         
         WebElement msqOptionRow = browser.driver.findElement(By.id("msqOptionRow-" + optionIndex + idSuffix));
         WebElement removeOptionLink = msqOptionRow.findElement(By.id("msqRemoveOptionLink"));

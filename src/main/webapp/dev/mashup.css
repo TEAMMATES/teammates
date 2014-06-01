@@ -1,52 +1,12 @@
-#compilation{
-    overflow: scroll;
-    background-color: rgb(230, 230, 230);
+.full-width {
+    width: 100%;
 }
 
-.wrapper{
-    background-color: rgb(255, 255, 255);
-    border-style: solid;
-    border-width: 1px;
-    margin: 0 10%;
-    width: 80%;
+.pageinfo {
+    font-size: 14px;
+    color: red;
 }
 
-.pageinfo{
-    font-size: 12px;
-    margin: 0 10%;
-    margin-top: 50px;
-    width: 1024px;
-}
-
-#tableofcontents{
-    margin: 0 auto;    
-    width: 1024px;
-}
-
-#tableofcontents td{
-    padding: 4px;
-}
-
-/*Navigation Link*/
-.nav {
-    margin-left: 20px;
-    padding: 0;
-    list-style: disc outside none;
-}
-
-.nav li {
-    padding: 3px;
-    margin-left: 5px;
-}
-
-/*remove this & #nav a:hover and link will restored to underline mode*/
-.nav a:link,#nav a:visited {
-    margin: 0;
-    text-decoration: none;
-    color: black;
-}
-
-.nav a:hover{
-    color: #fff;
-    background: #888;
+.hr-bold {
+    border: 2px red solid;
 }

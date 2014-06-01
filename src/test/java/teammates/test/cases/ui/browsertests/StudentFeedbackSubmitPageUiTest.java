@@ -188,7 +188,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.toggleMsqOption(13, 0, "Team 1");
         submitPage.toggleMsqOption(13, 0, "Team 3");
         
-        submitPage.fillResponseTextBox(14, 0, "5.5"); //higher than max to test validation 
+        submitPage.fillResponseTextBox(14, 0, "6"); //higher than max to test validation 
         submitPage.fillResponseTextBox(15, 0, "1.5"); 
         submitPage.fillResponseTextBox(15, 1, "2.5"); 
         

@@ -70,22 +70,16 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         
         ______TS("content: sorting");
         
-        detailsPage.sortByStatus()
-            .verifyTablePattern(2, "{*}Joined{*}Joined{*}Yet to join{*}Yet to join");
-        detailsPage.sortByStatus()
-            .verifyTablePattern(2, "{*}Yet to join{*}Yet to join{*}Joined{*}Joined");
+        detailsPage.sortByStatus();
+        detailsPage.verifyHtml("/InstructorCourseDetailsPageByStatus.html");
         
         
-        detailsPage.sortByName()
-            .verifyTablePattern(1, "{*}Alice Betsy{*}Benny Charles{*}Charlie Davis{*}Danny Engrid");
-        detailsPage.sortByName()
-            .verifyTablePattern(1, "{*}Danny Engrid{*}Charlie Davis{*}Benny Charles{*}Alice Betsy");
+        detailsPage.sortByName();
+        detailsPage.verifyHtml("/InstructorCourseDetailsPageByName.html");
         
         
-        detailsPage.sortByTeam()
-            .verifyTablePattern(0, "{*}Team 1{*}Team 1{*}Team 2{*}Team 2");
-        detailsPage.sortByTeam()
-            .verifyTablePattern(0, "{*}Team 2{*}Team 2{*}Team 1{*}Team 1");
+        detailsPage.sortByTeam();
+        detailsPage.verifyHtml("/InstructorCourseDetailsPageByTeam.html");
         
     }
     

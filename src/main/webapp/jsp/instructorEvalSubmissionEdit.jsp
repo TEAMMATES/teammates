@@ -12,74 +12,73 @@
 <html>
 <head>
     <link rel="shortcut icon" href="/favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>TEAMMATES - Instructor</title>
-    <link rel="stylesheet" href="/stylesheets/common.css" type="text/css" media="screen">
-    <link rel="stylesheet" href="/stylesheets/instructorEvalSubmissionEdit.css" type="text/css" media="screen">
-    <link rel="stylesheet" href="/stylesheets/common-print.css" type="text/css" media="print">
-    <link rel="stylesheet" href="/stylesheets/instructorEvalSubmissionEdit-print.css" type="text/css" media="print">
-    
-    
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" type="text/css"/>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap-theme.min.css" type="text/css"/>
+    <link rel="stylesheet" href="/stylesheets/teammatesCommon.css" type="text/css"/>
+   
     <script type="text/javascript" src="/js/googleAnalytics.js"></script>
     <script type="text/javascript" src="/js/jquery-minified.js"></script>
-    <script type="text/javascript" src="/js/tooltip.js"></script>
-    <script type="text/javascript" src="/js/date.js"></script>
-    <script type="text/javascript" src="/js/CalendarPopup.js"></script>
-    <script type="text/javascript" src="/js/AnchorPosition.js"></script>
     <script type="text/javascript" src="/js/common.js"></script>
-    
+    <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/js/instructor.js"></script>
-    <jsp:include page="../enableJS.jsp"></jsp:include>
+    <script type="text/javascript" src="/js/instructorCourses.js"></script>
+    <jsp:include page="../enableJS.jsp"></jsp:include>   
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]--> 
 </head>
 
 <body>
-    <div id="dhtmltooltip"></div>
-    <div id="frameTop">
-        <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
-    </div>
+    <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
 
-    <div id="frameBody">
-        <div id="frameBodyWrapper">
-            <div id="topOfPage"></div>
-            <div id="headerOperation">
-                <h1>Edit Student's Submission</h1>
-            </div>
-            
-            <table class="inputTable" id="studentEvaluationInfo">
-                <tr>
-                    <td class="label rightalign bold" width="30%">Course ID:</td>
-                    <td class="leftalign"><%=data.eval.courseId%></td>
-                </tr>
-                <tr>
-                    <td class="label rightalign bold" width="30%">Evaluation Name:</td>
-                    <td class="leftalign"><%=InstructorEvalSubmissionEditPageData.sanitizeForHtml(data.eval.name)%></td>
-                </tr>
-            </table>
-            
-            <br>
-            <div id="studentEvaluationSubmissions">
-                <form name="form_submitevaluation" id="form_submitevaluation" method="post"
-                        action="<%=Const.ActionURIs.INSTRUCTOR_EVAL_SUBMISSION_EDIT_SAVE%>">
-                    <jsp:include page="<%=Const.ViewURIs.EVAL_SUBMISSION_EDIT%>">
-                    <jsp:param name="isStudent" value="false" />
-                    </jsp:include>
-                    <br>
-                    <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
-                    <br>
-                    <div class="centeralign">
-                        <input type="submit" class="button" name="submitEvaluation"
-                                onclick="return checkEvaluationForm(this.form)"
-                                id="button_submit" value="Save Changes">
+    <div class="container theme-showcase" id="frameBodyWrapper">
+        <div id="topOfPage"></div>
+        <div id="headerOperation">
+            <h1>Edit Student's Submission</h1>
+        </div>
+        
+        <div class="well well-plain">
+            <div class="form form-horizontal" id="studentEvaluationInfo">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label text-bold">Course ID:</label>
+                    <div class="col-sm-9">
+                        <p class="form-control-static"><%=data.eval.courseId%></p>
                     </div>
-                    <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
-                </form>
-                 <br><br>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label text-bold">Evaluation Name:</label>
+                    <div class="col-sm-9">
+                        <p class="form-control-static"><%=InstructorEvalSubmissionEditPageData.sanitizeForHtml(data.eval.name)%></p>
+                    </div>
+                </div>
             </div>
+        </div>
+        <br><br><br>
+        
+        <div id="studentEvaluationSubmissions">
+            <form name="form_submitevaluation" class="form form-horizontal" id="form_submitevaluation" method="post"
+                    action="<%=Const.ActionURIs.INSTRUCTOR_EVAL_SUBMISSION_EDIT_SAVE%>">
+                <jsp:include page="<%=Const.ViewURIs.EVAL_SUBMISSION_EDIT%>">
+                <jsp:param name="isStudent" value="false" />
+                </jsp:include>
+                <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
+                <div class="centeralign">
+                    <input type="submit" class="btn btn-primary centeralign" name="submitEvaluation"
+                            onclick="return checkEvaluationForm(this.form)"
+                            id="button_submit" value="Save Changes">
+                </div>
+                <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
+            </form>
+             <br><br>
         </div>
     </div>
 
-    <div id="frameBottom">
-        <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
-    </div>
+    <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
 </body>
 </html>

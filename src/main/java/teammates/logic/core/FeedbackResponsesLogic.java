@@ -447,6 +447,12 @@ public class FeedbackResponsesLogic {
                     studentsLogic.getStudentForEmail(
                             response.courseId, response.recipientEmail);
             
+            //Case where student might be null due to invalid course or email
+            if(student == null) {
+                log.severe("Null student in " + response.courseId + " with email " + response.recipientEmail + " while getting feedback responses.");
+                continue;
+            }
+            
             if(studentsLogic.isStudentInTeam(
                     response.courseId, student.team, userEmail)) {
                 teamResponses.add(response);

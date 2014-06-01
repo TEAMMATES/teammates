@@ -59,6 +59,7 @@ public class InstructorFeedbackUnpublishActionTest extends BaseActionTest {
     
     @Test
     public void testExecuteAndPostProcess() throws Exception{
+        //TODO: find a way to test status message from session
         gaeSimulation.loginAsInstructor(dataBundle.instructors.get("instructor1OfCourse1").googleId);
         FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session2InCourse1");
         String[] paramsNormal = {
@@ -80,8 +81,7 @@ public class InstructorFeedbackUnpublishActionTest extends BaseActionTest {
         RedirectResult result = (RedirectResult) unpublishAction.executeAndPostProcess();
         
         String expectedDestination = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE + 
-                "?message=The+feedback+session+has+been+unpublished." + 
-                "&error=false" + 
+                "?error=false" + 
                 "&user=idOfInstructor1OfCourse1";
         assertEquals(expectedDestination, result.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_UNPUBLISHED, result.getStatusMessage());
@@ -119,8 +119,7 @@ public class InstructorFeedbackUnpublishActionTest extends BaseActionTest {
         result = (RedirectResult) unpublishAction.executeAndPostProcess();
         
         expectedDestination = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE + 
-                "?message=Session+is+already+unpublished." +
-                "&error=true" + 
+                "?error=true" + 
                 "&user=idOfInstructor1OfCourse1";
         assertEquals(expectedDestination, result.getDestinationWithParams());
         assertEquals("Session is already unpublished.", result.getStatusMessage());
