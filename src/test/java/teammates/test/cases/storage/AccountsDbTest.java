@@ -56,8 +56,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
         }
     }
     
-    @Test
-    public void testGetInstructorAccounts() throws Exception {
+    private void testGetInstructorAccounts() throws Exception {
         
         restoreTypicalDataInDatastore();
         DataBundle dataBundle = getTypicalDataBundle();
@@ -78,6 +77,8 @@ public class AccountsDbTest extends BaseComponentTestCase {
     @Test
     public void testCreateAccount() throws Exception {
 
+        testGetInstructorAccounts();
+        
         ______TS("typical success case");
         AccountAttributes a = new AccountAttributes();
         a.googleId = "test.account";

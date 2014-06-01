@@ -16,6 +16,7 @@ import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorEvalResultsPage;
 import teammates.test.pageobjects.InstructorEvalSubmissionEditPage;
+import teammates.test.pageobjects.InstructorEvalsPage;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -90,11 +91,11 @@ public class InstructorEvalSubmissionEditPageUiTest extends BaseUiTestCase{
             subs[i].p2pFeedback= new Text(subs[i].p2pFeedback.getValue()+"(edited)");
         }
         
-        editPage.setValuesForSubmission(testData.students.get("Charlie").name, subs[0]);
-        editPage.setValuesForSubmission(testData.students.get("Danny").name, subs[1]);
-        editPage.setValuesForSubmission(testData.students.get("Emily").name, subs[2]);
+        editPage.setValuesForSubmission(0, subs[0]);
+        editPage.setValuesForSubmission(1, subs[1]);
+        editPage.setValuesForSubmission(2, subs[2]);
         
-        InstructorEvalResultsPage resultsPage = editPage.submit();
+        InstructorEvalsPage resultsPage = editPage.submit();
         String expectedStatus = String.format(
                 Const.StatusMessages.INSTRUCTOR_EVALUATION_SUBMISSION_RECEIVED,
                 testData.students.get("Charlie").name,

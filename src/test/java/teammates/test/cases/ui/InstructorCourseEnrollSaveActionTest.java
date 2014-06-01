@@ -50,7 +50,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
     
     @Test
     public void testExecuteAndPostProcess() throws Exception{
-        
+        //TODO: find a way to test status message from session
         String enrollString = "";
         String[] submissionParams = new String[]{};
         
@@ -188,8 +188,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         enrollAction = getAction(submissionParams);
         
         pageResult = getShowPageResult(enrollAction);
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL +"?message=Please+input+at+least+one+student+detail."
-                    + "&error=true&user=idOfInstructor1OfCourse1", pageResult.getDestinationWithParams());
+        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL +"?error=true&user=idOfInstructor1OfCourse1", pageResult.getDestinationWithParams());
         assertEquals(true, pageResult.isError);
         assertEquals(Const.StatusMessages.ENROLL_LINE_EMPTY, pageResult.getStatusMessage());
         

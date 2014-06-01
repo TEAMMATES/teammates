@@ -42,7 +42,7 @@ public class InstructorEvalsPageActionTest extends BaseActionTest {
 
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-
+        //TODO: find a way to test status message from session
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors
                 .get("instructor1OfCourse1");
         String instructorId = instructor1OfCourse1.googleId;
@@ -97,9 +97,7 @@ public class InstructorEvalsPageActionTest extends BaseActionTest {
 
         assertEquals(
                 Const.ViewURIs.INSTRUCTOR_EVALS
-                        + "?message=You+have+not+created+any+sessions+yet."
-                        +
-                        "+Use+the+form+above+to+create+a+session.&error=false&user=idOfInstructor1OfCourse1",
+                        + "?error=false&user=idOfInstructor1OfCourse1",
                 r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.EVALUATION_EMPTY,
                 r.getStatusMessage());
@@ -131,9 +129,7 @@ public class InstructorEvalsPageActionTest extends BaseActionTest {
 
         assertEquals(
                 Const.ViewURIs.INSTRUCTOR_EVALS
-                        + "?message=You+have+not+created+any+courses+yet."
-                        +
-                        "+Go+%3Ca+href%3D%22%2Fpage%2FinstructorCoursesPage%3Fuser%3DidOfInstructor1OfCourse1%22%3Ehere%3C%2Fa%3E+to+create+one.&error=false&user=idOfInstructor1OfCourse1",
+                        + "?error=false&user=idOfInstructor1OfCourse1",
                 r.getDestinationWithParams());
         assertEquals(
                 "You have not created any courses yet. Go <a href=\"/page/instructorCoursesPage?user=idOfInstructor1OfCourse1\">here</a> to create one.",

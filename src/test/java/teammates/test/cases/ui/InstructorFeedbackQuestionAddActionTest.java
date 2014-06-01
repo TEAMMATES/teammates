@@ -88,7 +88,6 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                         + "&fsname=First+feedback+session"
                         + "&user="
                         + instructor1ofCourse1.googleId
-                        + "&message=The+question+has+been+added+to+this+feedback+session."
                         + "&error=false",
                 result.getDestinationWithParams());
 
@@ -131,7 +130,6 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                         + "&fsname=First+feedback+session"
                         + "&user="
                         + instructor1ofCourse1.googleId
-                        + "&message=The+question+has+been+added+to+this+feedback+session."
                         + "&error=false",
                 result.getDestinationWithParams());
 
@@ -188,7 +186,6 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                         + "&fsname=First+feedback+session"
                         + "&user="
                         + instructor1ofCourse1.googleId
-                        + "&message=The+question+has+been+added+to+this+feedback+session."
                         + "&error=false",
                 result.getDestinationWithParams());
 
@@ -231,7 +228,6 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                         + "&fsname=First+feedback+session"
                         + "&user="
                         + instructor1ofCourse1.googleId
-                        + "&message=The+question+has+been+added+to+this+feedback+session."
                         + "&error=false",
                 result.getDestinationWithParams());
 
@@ -284,7 +280,6 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                         + "&fsname=First+feedback+session"
                         + "&user="
                         + instructor1ofCourse1.googleId
-                        + "&message=The+question+has+been+added+to+this+feedback+session."
                         + "&error=false",
                 result.getDestinationWithParams());
 
@@ -300,6 +295,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
     
     @Test
     public void testExecuteAndPostProcess() throws Exception{
+        //TODO: find a way to test status message from session
         InstructorAttributes instructor1ofCourse1 =
                 dataBundle.instructors.get("instructor1OfCourse1");
 
@@ -387,7 +383,6 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                         + "&fsname=First+feedback+session"
                         + "&user="
                         + instructor1ofCourse1.googleId
-                        + "&message=The+question+has+been+added+to+this+feedback+session."
                         + "&error=false",
                 result.getDestinationWithParams());
 
@@ -412,7 +407,6 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                         + "&fsname=First+feedback+session"
                         + "&user="
                         + instructor1ofCourse1.googleId
-                        + "&message=The+question+has+been+added+to+this+feedback+session."
                         + "&error=false",
                 result.getDestinationWithParams());
 
@@ -439,7 +433,6 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                         + "&fsname=First+feedback+session"
                         + "&user="
                         + instructor1ofCourse1.googleId
-                        + "&message=The+question+has+been+added+to+this+feedback+session."
                         + "&error=false",
                 result.getDestinationWithParams());
 
@@ -465,7 +458,6 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                         + "&fsname=First+feedback+session"
                         + "&user="
                         + instructor1ofCourse1.googleId
-                        + "&message=The+question+has+been+added+to+this+feedback+session."
                         + "&error=false",
                 result.getDestinationWithParams());
 
@@ -497,7 +489,6 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                         + "&fsname=First+feedback+session"
                         + "&user="
                         + instructor1ofCourse1.googleId
-                        + "&message=The+question+has+been+added+to+this+feedback+session."
                         + "&error=false",
                 result.getDestinationWithParams());
 
@@ -522,7 +513,6 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                         + "&fsname=First+feedback+session"
                         + "&user="
                         + instructor1ofCourse1.googleId
-                        + "&message=NONE+is+not+a+valid+feedback+giver.."
                         + "&error=true",
                 result.getDestinationWithParams());
 
@@ -550,7 +540,6 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                         + "&fsname=First+feedback+session"
                         + "&user="
                         + instructor1ofCourse1.googleId
-                        + "&message=The+question+has+been+added+to+this+feedback+session."
                         + "&error=false",
                 result.getDestinationWithParams());
         

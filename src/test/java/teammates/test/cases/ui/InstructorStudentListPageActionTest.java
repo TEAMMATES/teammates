@@ -37,7 +37,7 @@ public class InstructorStudentListPageActionTest extends BaseActionTest {
 
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-
+        //TODO: find a way to test status message from session
         InstructorAttributes instructor = dataBundle.instructors.get("instructor3OfCourse1");
         String instructorId = instructor.googleId;
 
@@ -79,8 +79,7 @@ public class InstructorStudentListPageActionTest extends BaseActionTest {
         r = getShowPageResult(a);
 
         assertEquals(Const.ViewURIs.INSTRUCTOR_STUDENT_LIST
-                + "?message=There+are+no+course+or+students+information+to+be+displayed"
-                + "&error=false&user=instructorWithoutCourses",
+                + "?error=false&user=instructorWithoutCourses",
                 r.getDestinationWithParams());
         assertEquals(false, r.isError);
         assertEquals(Const.StatusMessages.INSTRUCTOR_NO_COURSE_AND_STUDENTS, r.getStatusMessage());

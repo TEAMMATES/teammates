@@ -54,9 +54,15 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
     @BeforeClass
     public static void classSetup() throws Exception {
         printTestClassHeader();
-        testData = loadDataBundle("/InstructorHomePageUiTest.json");
+        testData = loadDataBundle("/InstructorHomePageUiTest1.json");
         restoreTestDataOnServer(testData);
         browser = BrowserPool.getBrowser();
+    }
+    
+    private static void loadFinalHomePageTestData() throws Exception {
+        
+        testData = loadDataBundle("/InstructorHomePageUiTest3.json");
+        restoreTestDataOnServer(testData);
         
         firstEval_OPEN = testData.evaluations.get("First Eval");
         secondEval_PUBLISHED = testData.evaluations.get("Second Eval");
@@ -69,7 +75,6 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         feedbackSession_PUBLISHED = testData.feedbackSessions.get("Fourth Feedback Session");
     }
     
-
     @Test
     public void allTests() throws Exception{
         testLogin();
@@ -118,28 +123,30 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         assertTrue(browser.driver.getCurrentUrl().endsWith(Const.ActionURIs.INSTRUCTOR_HOME_PAGE));
     }
     
-    public void testContent(){
+    public void testContent() throws Exception{
         
         ______TS("content: no courses");
         
         //this case is implicitly tested when testing for 'delete course' action and
         //new instructor without sample course
-            
-        ______TS("content: multiple courses");
-        
-        //already logged in
-        homePage.verifyHtmlAjax("/InstructorHomeHTML.html");
-        
+        //loginAsInstructor(testData.accounts.get("newInstructorWithSampleCourse").email);
         ______TS("content: new instructor, with status message HINT_FOR_NEW_INSTRUCTOR");
         
-        loginAsInstructor(testData.accounts.get("newInstructorWithSampleCourse").email);
-        homePage.verifyHtml("/InstructorHomeNewInstructorWithSampleCourse.html");
-        
-        loginAsInstructor(testData.accounts.get("newInstructorWithoutSampleCourse").email);
+        //already logged in
         homePage.verifyHtml("/InstructorHomeNewInstructorWithoutSampleCourse.html");
         
-        //restore login account
-        loginAsCommonInstructor();
+        testData = loadDataBundle("/InstructorHomePageUiTest2.json");
+        restoreTestDataOnServer(testData);
+        homePage.clickHomeTab();
+        
+        homePage.verifyHtml("/InstructorHomeNewInstructorWithSampleCourse.html");
+        
+        
+        ______TS("content: multiple courses");
+        
+        loadFinalHomePageTestData();
+        homePage.clickHomeTab();
+        homePage.verifyHtmlAjax("/InstructorHomeHTML.html");
     }
     
     public void testHelpLink() throws Exception{
@@ -332,7 +339,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         assertTrue(browser.driver.getCurrentUrl().endsWith(Const.ViewURIs.UNAUTHORIZED));
         
         //restore
-        testData = loadDataBundle("/InstructorHomePageUiTest.json");
+        testData = loadDataBundle("/InstructorHomePageUiTest3.json");
         restoreTestDataOnServer(testData);
         loginAsCommonInstructor();
         homePage.clickArchiveCourseLink(courseIdForCS1101);

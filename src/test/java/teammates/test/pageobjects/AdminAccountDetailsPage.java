@@ -28,7 +28,7 @@ public class AdminAccountDetailsPage extends AppPage {
 
     public void verifyIsCorrectPage(String instructorId) {
         assertTrue(containsExpectedPageContents());
-        assertTrue(getPageSource().contains("<td>"+instructorId+"</td>"));
+        assertTrue(getPageSource().contains("<p class=\"form-control-static\">"+instructorId+"</p>"));
     }
 
 }

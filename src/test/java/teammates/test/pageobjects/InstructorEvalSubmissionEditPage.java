@@ -29,18 +29,16 @@ public class InstructorEvalSubmissionEditPage extends AppPage {
         return getPageSource().contains("<h1>Edit Student's Submission</h1>");
     }
 
-    public void setValuesForSubmission(String revieweeName, SubmissionAttributes newSubmissionValues) {
-        int rowId = getRowIdForReviewee(revieweeName);
+    public void setValuesForSubmission(int rowId, SubmissionAttributes newSubmissionValues) {
         setPointsForSubmission(rowId, newSubmissionValues.points);
         setJustificationForSubmission(rowId, newSubmissionValues.justification.getValue());
         setP2pCommentForSubmission(rowId, newSubmissionValues.p2pFeedback.getValue());
     }
     
-    public InstructorEvalResultsPage submit() {
+    public InstructorEvalsPage submit() {
         submitButton.click();
-        switchToParentWindow();
         waitForPageToLoad();
-        return changePageType(InstructorEvalResultsPage.class);
+        return changePageType(InstructorEvalsPage.class);
     }
 
     

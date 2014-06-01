@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.Sanitizer;
 import teammates.ui.controller.InstructorFeedbackAddAction;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.ShowPageResult;
@@ -45,7 +46,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
     
     @Test
     public void testExecuteAndPostProcess() throws Exception{
-        
+        //TODO: find a way to test status message from session
         InstructorAttributes instructor1ofCourse1 =
                 dataBundle.instructors.get("instructor1OfCourse1");
         
@@ -72,7 +73,6 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                         + "&fsname=ifaat+tca+fs"
                         + "&user="
                         + instructor1ofCourse1.googleId
-                        + "&message=The+feedback+session+has+been+added.+Click+the+%22Add+New+Question%22+button+below+to+begin+adding+questions+for+the+feedback+session."
                         + "&error=false",
                 rr.getDestinationWithParams());
         
@@ -96,7 +96,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         a = getAction(params);
         ShowPageResult pr = (ShowPageResult) a.executeAndPostProcess();
         assertEquals(
-                Const.ViewURIs.INSTRUCTOR_FEEDBACKS+"?message=A+feedback+session+by+this+name+already+exists+under+this+course&error=true&user=idOfInstructor1OfCourse1", 
+                Const.ViewURIs.INSTRUCTOR_FEEDBACKS+"?error=true&user=idOfInstructor1OfCourse1", 
                 pr.getDestinationWithParams());
         assertEquals(true, pr.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EXISTS, pr.getStatusMessage());
@@ -117,7 +117,6 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                         + "&fsname=Course+with+trailing+space"
                         + "&user="
                         + instructor1ofCourse1.googleId
-                        + "&message=The+feedback+session+has+been+added.+Click+the+%22Add+New+Question%22+button+below+to+begin+adding+questions+for+the+feedback+session."
                         + "&error=false",
                 rr.getDestinationWithParams());
         
@@ -149,7 +148,6 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                         + "&fsname=Course+with+minute+offset+timezone"
                         + "&user="
                         + instructor1ofCourse1.googleId
-                        + "&message=The+feedback+session+has+been+added.+Click+the+%22Add+New+Question%22+button+below+to+begin+adding+questions+for+the+feedback+session."
                         + "&error=false",
                 rr.getDestinationWithParams());
         
@@ -162,7 +160,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                 "<span class=\"bold\"> to</span> Thu Jan 01 00:00:00 UTC 2015<br>" +
                 "<span class=\"bold\">Session visible from:</span> Fri Nov 27 00:00:00 UTC 1970<br>" +
                 "<span class=\"bold\">Results visible from:</span> Fri Nov 27 00:00:00 UTC 1970<br>" +
-                "<br><span class=\"bold\">Instructions:</span> <Text: <script<script>>test</script</script>>>|||/page/instructorFeedbackAdd";
+                "<br><span class=\"bold\">Instructions:</span> <Text: &lt;script&lt;script&gt;&gt;test&lt;&#x2f;script&lt;&#x2f;script&gt;&g...>|||/page/instructorFeedbackAdd";
         assertEquals(expectedLogMessage, a.getLogMessage());
         
         ______TS("Masquerade mode");
@@ -183,7 +181,6 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                         + "&fsname=masquerade+session"
                         + "&user="
                         + instructor1ofCourse1.googleId
-                        + "&message=The+feedback+session+has+been+added.+Click+the+%22Add+New+Question%22+button+below+to+begin+adding+questions+for+the+feedback+session."
                         + "&error=false",
                 rr.getDestinationWithParams());
         

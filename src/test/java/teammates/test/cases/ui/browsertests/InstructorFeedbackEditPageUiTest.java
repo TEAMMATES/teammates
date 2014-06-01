@@ -5,8 +5,6 @@ import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
 
-import java.util.ArrayList;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -246,8 +244,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
                 "Link for question 1: " + expectedUrl,
                 feedbackEditPage.getStatus());
         
-        Url url = new Url(expectedUrl);
-        FeedbackQuestionSubmitPage questionPage = feedbackEditPage.navigateTo(url, FeedbackQuestionSubmitPage.class);
+        Url url = new Url(expectedUrl).withUserId(instructorId);
+        FeedbackQuestionSubmitPage questionPage = loginAdminToPage(browser, url, FeedbackQuestionSubmitPage.class);
         
         assertTrue(questionPage.isCorrectPage(courseId, feedbackSessionName));
         
@@ -263,17 +261,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.selectRecipientsToBeNobodySpecific();
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.clickNewQuestionButton();
-        
-        int rowNumberInParticipateTableForNobodySpecific = 4;
-        String expectedRow1 = "Giver's Team Members";
-        String expectedRow2 = "Other students";
-        String expectedRow3 = "Instructors";
-        
-        ArrayList<String> htmlsOfRows = feedbackEditPage.allContentsOfRowsInQuestionTableNewParticipateTable();
-        assertEquals(rowNumberInParticipateTableForNobodySpecific, htmlsOfRows.size());
-        assertEquals(expectedRow1, htmlsOfRows.get(1));
-        assertEquals(expectedRow2, htmlsOfRows.get(2));
-        assertEquals(expectedRow3, htmlsOfRows.get(3));
         
         feedbackEditPage.fillQuestionBox("filled qn");
         feedbackEditPage.clickAddQuestionButton();
@@ -307,24 +294,24 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         ______TS("MCQ: add mcq option");
         
-        assertEquals(false, feedbackEditPage.isElementPresent("mcqOptionRow-2"));
+        assertEquals(false, feedbackEditPage.isElementPresent("mcqOptionRow-2--1"));
         feedbackEditPage.clickAddMoreMcqOptionLink();
-        assertEquals(true, feedbackEditPage.isElementPresent("mcqOptionRow-2"));
+        assertEquals(true, feedbackEditPage.isElementPresent("mcqOptionRow-2--1"));
 
         ______TS("MCQ: remove mcq option");
 
         feedbackEditPage.fillMcqOption(2, "Choice 3");
-        assertEquals(true, feedbackEditPage.isElementPresent("mcqOptionRow-1"));
+        assertEquals(true, feedbackEditPage.isElementPresent("mcqOptionRow-1--1"));
         feedbackEditPage.clickRemoveMcqOptionLink(1, -1);
-        assertEquals(false, feedbackEditPage.isElementPresent("mcqOptionRow-1"));
+        assertEquals(false, feedbackEditPage.isElementPresent("mcqOptionRow-1--1"));
 
         ______TS("MCQ: add mcq option after remove");
 
         feedbackEditPage.clickAddMoreMcqOptionLink();
-        assertEquals(true, feedbackEditPage.isElementPresent("mcqOptionRow-3"));
+        assertEquals(true, feedbackEditPage.isElementPresent("mcqOptionRow-3--1"));
         feedbackEditPage.clickAddMoreMcqOptionLink();
         feedbackEditPage.fillMcqOption(4, "Choice 5");
-        assertEquals(true, feedbackEditPage.isElementPresent("mcqOptionRow-4"));
+        assertEquals(true, feedbackEditPage.isElementPresent("mcqOptionRow-4--1"));
     }
 
     private void testAddMcqQuestionAction(){
@@ -438,24 +425,24 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         
         ______TS("MSQ: add msq option");
 
-        assertEquals(false, feedbackEditPage.isElementPresent("msqOptionRow-2"));
+        assertEquals(false, feedbackEditPage.isElementPresent("msqOptionRow-2--1"));
         feedbackEditPage.clickAddMoreMsqOptionLink();
-        assertEquals(true, feedbackEditPage.isElementPresent("msqOptionRow-2"));
+        assertEquals(true, feedbackEditPage.isElementPresent("msqOptionRow-2--1"));
 
         ______TS("MSQ: remove msq option");
 
         feedbackEditPage.fillMsqOption(2, "Choice 3");
-        assertEquals(true, feedbackEditPage.isElementPresent("msqOptionRow-1"));
+        assertEquals(true, feedbackEditPage.isElementPresent("msqOptionRow-1--1"));
         feedbackEditPage.clickRemoveMsqOptionLink(1, -1);
-        assertEquals(false, feedbackEditPage.isElementPresent("msqOptionRow-1"));
+        assertEquals(false, feedbackEditPage.isElementPresent("msqOptionRow-1--1"));
 
         ______TS("MSQ: add msq option after remove");
 
         feedbackEditPage.clickAddMoreMsqOptionLink();
-        assertEquals(true, feedbackEditPage.isElementPresent("msqOptionRow-3"));
+        assertEquals(true, feedbackEditPage.isElementPresent("msqOptionRow-3--1"));
         feedbackEditPage.clickAddMoreMsqOptionLink();
         feedbackEditPage.fillMsqOption(4, "Choice 5");
-        assertEquals(true, feedbackEditPage.isElementPresent("msqOptionRow-4"));
+        assertEquals(true, feedbackEditPage.isElementPresent("msqOptionRow-4--1"));
     }
 
     private void testAddMsqQuestionAction(){
@@ -557,7 +544,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         ______TS("NUMSCALE: min >= max test");
         //Tests javascript that automatically makes max = min+1 when max is <= min.
         feedbackEditPage.fillQuestionBox("NumScale qn");
-        assertEquals("[Based on the above settings, acceptable responses are: 1, 1.5, 2, ..., 4, 4.5, 5]",
+        assertEquals("[Based on the above settings, acceptable responses are: 1, 2, 3, 4, 5]",
                 feedbackEditPage.getNumScalePossibleValuesString(-1));
         feedbackEditPage.fillMinNumScaleBox(6, -1);
         assertEquals("7",feedbackEditPage.getMaxNumScaleBox(-1));
@@ -571,7 +558,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
     private void testCustomizeNumScaleOptions() {
         feedbackEditPage.fillQuestionBox("NumScale qn");
-        assertEquals("[Based on the above settings, acceptable responses are: 1, 1.5, 2, ..., 4, 4.5, 5]",
+        assertEquals("[Based on the above settings, acceptable responses are: 1, 2, 3, 4, 5]",
                 feedbackEditPage.getNumScalePossibleValuesString(-1));
         feedbackEditPage.fillStepNumScaleBox(0.3, -1);
         assertEquals("[The interval 1 - 5 is not divisible by the specified increment.]",

@@ -42,17 +42,8 @@ public abstract class FeedbackAbstractResponseDetails {
             responseDetails = new FeedbackMsqResponseDetails(Arrays.asList(answer));
             break;
         case NUMSCALE:
-            FeedbackNumericalScaleQuestionDetails numericalScaleQuestionDetails= (FeedbackNumericalScaleQuestionDetails) questionDetails;
-            int minScale = numericalScaleQuestionDetails.minScale;
-            int maxScale = numericalScaleQuestionDetails.maxScale;
-            
             try {
                 double numscaleAnswer = Double.parseDouble(answer[0]);
-                if (numscaleAnswer < minScale) {
-                    numscaleAnswer = minScale;
-                } else if (numscaleAnswer > maxScale) {
-                    numscaleAnswer = maxScale;
-                }
                 
                 responseDetails = new FeedbackNumericalScaleResponseDetails(numscaleAnswer);
             } catch (NumberFormatException e) {

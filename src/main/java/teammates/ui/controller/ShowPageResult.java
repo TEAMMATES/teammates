@@ -51,11 +51,20 @@ public class ShowPageResult extends ActionResult{
          *  section is a {@code jsp:include} and cannot see parameters encoded 
          *  in the URL
          */ 
-        req.setAttribute(Const.ParamsNames.ERROR, ""+isError); 
-        req.setAttribute(Const.ParamsNames.STATUS_MESSAGE, ""+getStatusMessage()); 
+        req.setAttribute(Const.ParamsNames.ERROR, ""+isError);
         
+        addStatusMessageToRequest(req);
         req.getRequestDispatcher(getDestinationWithParams()).forward(req, resp);
     }
 
-
+    private void addStatusMessageToRequest(HttpServletRequest req) {
+        String statusMessageInSession = (String) req.getSession().getAttribute(Const.ParamsNames.STATUS_MESSAGE); 
+        if(statusMessageInSession != null && !statusMessageInSession.isEmpty()){
+            //Remove status message in session, thus it becomes an one-time message
+            req.getSession().removeAttribute(Const.ParamsNames.STATUS_MESSAGE);
+            req.setAttribute(Const.ParamsNames.STATUS_MESSAGE, statusMessageInSession);
+        } else {
+            req.setAttribute(Const.ParamsNames.STATUS_MESSAGE, "");
+        }
+    }
 }
