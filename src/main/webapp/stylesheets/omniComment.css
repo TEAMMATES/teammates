@@ -1,0 +1,26 @@
+.omni-comment-drop-down {
+    color: #898989; 
+    padding-top: 16px; 
+    padding-bottom: 20px;
+}
+
+.omni-comment-drop-down:hover {
+    color: #fff;
+}
+
+.open .omni-comment-drop-down {
+    color: #428BCA;
+}
+
+ul.dropdown-menu li {
+    border: none; 
+    min-width: 250px;
+}
+
+#omni-comment-recipient-select {
+    display: none;
+    max-width: 220px;
+    margin-top: 8px;
+    position: absolute;
+    z-index: 999;
+}
