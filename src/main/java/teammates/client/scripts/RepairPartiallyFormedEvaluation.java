@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.jdo.JDOHelper;
+import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
 import teammates.client.remoteapi.RemoteApiClient;
@@ -30,6 +31,11 @@ import com.google.appengine.api.datastore.Text;
  * was only partially completed.
  */
 public class RepairPartiallyFormedEvaluation extends RemoteApiClient {
+    
+    //TODO: remove pm and use Datastore.initialize(); as done in GenerateFeedbackReport
+    protected static final PersistenceManager pm = JDOHelper
+            .getPersistenceManagerFactory("transactions-optional")
+            .getPersistenceManager();
     
     static boolean isTrialRun = true; //set this true to skip writing to database
     

@@ -7,6 +7,9 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.jdo.JDOHelper;
+import javax.jdo.PersistenceManager;
+
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.storage.entity.Account;
 
@@ -14,6 +17,11 @@ import teammates.storage.entity.Account;
  * Generate list of institutes and number of users per institute.
  */
 public class StatisticsPerInstitute extends RemoteApiClient {
+    
+    //TODO: remove pm and use Datastore.initialize(); as done in GenerateFeedbackReport
+    protected static final PersistenceManager pm = JDOHelper
+            .getPersistenceManagerFactory("transactions-optional")
+            .getPersistenceManager();
     
     private static final int INSTRUCTOR_INDEX = 0;
     private static final int STUDENT_INDEX = 1;
