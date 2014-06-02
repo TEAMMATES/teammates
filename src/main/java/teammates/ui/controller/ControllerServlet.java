@@ -18,6 +18,7 @@ import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Utils;
 import teammates.logic.api.Logic;
 
+import com.google.appengine.api.datastore.DatastoreTimeoutException;
 import com.google.apphosting.api.DeadlineExceededException;
 /**
  * Receives requests from the Browser, executes the matching action and sends 
@@ -66,7 +67,7 @@ public class ControllerServlet extends HttpServlet {
             cleanUpStatusMessageInSession(req);
             resp.sendRedirect(Const.ViewURIs.UNAUTHORIZED);
 
-        } catch (DeadlineExceededException e) {
+        } catch (DeadlineExceededException | DatastoreTimeoutException e) {
             /*This exception may not be caught because GAE kills 
               the request soon after throwing it. In that case, the error 
               message in the log will be emailed to the admin by a separate

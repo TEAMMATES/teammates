@@ -9,6 +9,7 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import javax.jdo.JDOHelper;
+import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
 import teammates.client.remoteapi.RemoteApiClient;
@@ -24,6 +25,11 @@ public class RepairStudentsWithDuplicateEmail extends RemoteApiClient {
     // TODO: This class contains lot of code copy-pasted from the Logic and
     // Storage layer. This duplication can be removed if we figure out
     // to reuse the Logic API from here.
+    
+    //TODO: remove pm and use Datastore.initialize(); as done in GenerateFeedbackReport
+    protected static final PersistenceManager pm = JDOHelper
+            .getPersistenceManagerFactory("transactions-optional")
+            .getPersistenceManager();
 
     public static void main(String[] args) throws IOException {
         RepairStudentsWithDuplicateEmail repairman = new RepairStudentsWithDuplicateEmail();
