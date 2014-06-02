@@ -230,7 +230,7 @@
                 <%
                     }
                 %>
-                    <div class="centeralign">
+                    <div class="align-center">
                         <input type="button" class="btn btn-primary" id="button_edit-<%=evalIndex %>" value="Edit Submission"
                             onclick="window.location.href='<%=data.getInstructorEvaluationSubmissionEditLink(eval.courseId, eval.name, data.student.email)%>'">
                     </div>

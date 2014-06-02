@@ -126,17 +126,17 @@ function toggleSort(divElement, colIdx, comparator) {
         sortTable(divElement, colIdx, comparator, true);
         $(divElement).parent().find(".button-sort-ascending").attr("class", "button-sort-none");
         $(divElement).parent().find(".button-sort-descending").attr("class", "button-sort-none");
-        $(divElement).parent().find(".sort-icon").attr("class", "sort-icon unsorted");
+        $(divElement).parent().find(".icon-sort").attr("class", "icon-sort unsorted");
         $(divElement).attr("class", "button-sort-ascending");
-        $(divElement).find(".sort-icon").attr("class", "sort-icon ascending-sorted");
+        $(divElement).find(".icon-sort").attr("class", "icon-sort sorted-ascending");
     } else if ($(divElement).attr("class") == "button-sort-ascending") {
         sortTable(divElement, colIdx, comparator, false);
         $(divElement).attr("class", "button-sort-descending");
-        $(divElement).find(".sort-icon").attr("class", "sort-icon descending-sorted");
+        $(divElement).find(".icon-sort").attr("class", "icon-sort sorted-descending");
     } else {
         sortTable(divElement, colIdx, comparator, true);
         $(divElement).attr("class", "button-sort-ascending");
-        $(divElement).find(".sort-icon").attr("class", "sort-icon ascending-sorted");
+        $(divElement).find(".icon-sort").attr("class", "icon-sort sorted-ascending");
     }
 }
 

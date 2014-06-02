@@ -53,7 +53,7 @@
                     <br>If this is you, please confirm below to complete your registration.
                     <br>
                 </p>
-                <div class="centeralign">
+                <div class="align-center">
                     <a href="<%=Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED + "?regkey=" + data.regkey%>" 
                         class="btn btn-success"
                         id="button_confirm">Yes, this is my account</a>

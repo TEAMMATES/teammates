@@ -189,9 +189,9 @@
                         <span class="icon-sort unsorted" >
                         </span>
                      </th>
-                     <th class="button-sort-none"  id="button_sortstudentstatus"  onclick="toggleSort(this,3);" >
+                     <th class="button-sort-ascending"  id="button_sortstudentstatus"  onclick="toggleSort(this,3);" >
                         Status
-                        <span class="icon-sort unsorted" >
+                        <span class="icon-sort sorted-ascending" >
                         </span>
                      </th>
                      <th class="align-center no-print" >
@@ -221,6 +221,31 @@
                            Delete
                         </a>
                         <a class="btn btn-default btn-xs t_student_records-cCCDetailsUiT.CS2104.0"  data-original-title="View all student\'s evaluations and feedbacks"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorStudentRecordsPage?courseid=CCDetailsUiT.CS2104&studentemail={$test.student1}%40gmail.com&addComment=yes&user=CCDetailsUiT.instr"  title="" >
+                           Add Comment
+                        </a>
+                     </td>
+                  </tr>
+                  <tr class="student_row"  id="student3" >
+                     <td id="teamname" >
+                        Team 2
+                     </td>
+                     <td id="studentname" >
+                        Danny Engrid
+                     </td>
+                     <td class="align-center" >
+                        Joined
+                     </td>
+                     <td class="align-center no-print" >
+                        <a class="btn btn-default btn-xs t_student_details3"  data-original-title="View the details of the student"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2104&studentemail=danny.e.tmms%40gmail.com&user=CCDetailsUiT.instr"  title="" >
+                           View
+                        </a>
+                        <a class="btn btn-default btn-xs t_student_edit3"  data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDetailsEdit?courseid=CCDetailsUiT.CS2104&studentemail=danny.e.tmms%40gmail.com&user=CCDetailsUiT.instr"  title="" >
+                           Edit
+                        </a>
+                        <a class="btn btn-default btn-xs t_student_delete3"  data-original-title="Delete the student and the corresponding evaluations from the course"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDelete?courseid=CCDetailsUiT.CS2104&studentemail=danny.e.tmms%40gmail.com&user=CCDetailsUiT.instr"  onclick="return toggleDeleteStudentConfirmation('Danny Engrid')"  title="" >
+                           Delete
+                        </a>
+                        <a class="btn btn-default btn-xs t_student_records-cCCDetailsUiT.CS2104.3"  data-original-title="View all student\'s evaluations and feedbacks"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorStudentRecordsPage?courseid=CCDetailsUiT.CS2104&studentemail=danny.e.tmms%40gmail.com&addComment=yes&user=CCDetailsUiT.instr"  title="" >
                            Add Comment
                         </a>
                      </td>
@@ -277,31 +302,6 @@
                            Delete
                         </a>
                         <a class="btn btn-default btn-xs t_student_records-cCCDetailsUiT.CS2104.2"  data-original-title="View all student\'s evaluations and feedbacks"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorStudentRecordsPage?courseid=CCDetailsUiT.CS2104&studentemail={$test.student2}%40gmail.com&addComment=yes&user=CCDetailsUiT.instr"  title="" >
-                           Add Comment
-                        </a>
-                     </td>
-                  </tr>
-                  <tr class="student_row"  id="student3" >
-                     <td id="teamname" >
-                        Team 2
-                     </td>
-                     <td id="studentname" >
-                        Danny Engrid
-                     </td>
-                     <td class="align-center" >
-                        Joined
-                     </td>
-                     <td class="align-center no-print" >
-                        <a class="btn btn-default btn-xs t_student_details3"  data-original-title="View the details of the student"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2104&studentemail=danny.e.tmms%40gmail.com&user=CCDetailsUiT.instr"  title="" >
-                           View
-                        </a>
-                        <a class="btn btn-default btn-xs t_student_edit3"  data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDetailsEdit?courseid=CCDetailsUiT.CS2104&studentemail=danny.e.tmms%40gmail.com&user=CCDetailsUiT.instr"  title="" >
-                           Edit
-                        </a>
-                        <a class="btn btn-default btn-xs t_student_delete3"  data-original-title="Delete the student and the corresponding evaluations from the course"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDelete?courseid=CCDetailsUiT.CS2104&studentemail=danny.e.tmms%40gmail.com&user=CCDetailsUiT.instr"  onclick="return toggleDeleteStudentConfirmation('Danny Engrid')"  title="" >
-                           Delete
-                        </a>
-                        <a class="btn btn-default btn-xs t_student_records-cCCDetailsUiT.CS2104.3"  data-original-title="View all student\'s evaluations and feedbacks"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorStudentRecordsPage?courseid=CCDetailsUiT.CS2104&studentemail=danny.e.tmms%40gmail.com&addComment=yes&user=CCDetailsUiT.instr"  title="" >
                            Add Comment
                         </a>
                      </td>

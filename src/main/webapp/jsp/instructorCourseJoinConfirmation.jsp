@@ -52,7 +52,7 @@
                     <br>If this is not you please <a href="/logout.jsp">log out</a> and re-login using your own Google account.
                     <br>If this is you, please confirm below to complete your registration.
                     <br>
-                    <div class="centeralign">
+                    <div class="align-center">
                         <a href="<%=Const.ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED + "?regkey=" + data.regkey%>" 
                             style="padding-right:30px;"
                             id="button_confirm" class="btn btn-success">Yes, this is my account</a>

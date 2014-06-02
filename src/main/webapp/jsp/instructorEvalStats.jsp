@@ -20,12 +20,12 @@
     
     <div id="frameBody">
         <div id="frameBodyWrapper">
-            <h1 class="centeralign"><%=data.evaluationDetails.evaluation.name %></h1>
+            <h1 class="align-center"><%=data.evaluationDetails.evaluation.name %></h1>
             <br />
-            <p class="centeralign">Expected : <%=data.evaluationDetails.stats.expectedTotal %></p>
+            <p class="align-center">Expected : <%=data.evaluationDetails.stats.expectedTotal %></p>
             <br />
             
-            <p class="centeralign">Submitted : <%=data.evaluationDetails.stats.submittedTotal %></p>
+            <p class="align-center">Submitted : <%=data.evaluationDetails.stats.submittedTotal %></p>
             <br />
         </div>
     </div>

@@ -185,20 +185,20 @@
                 <thead class="fill-primary">
                 <tr>
                     <th class="button-sort-none" id="button_sortteamname" onclick="toggleSort(this,1);">Team 
-                        <span class="sort-icon unsorted"></span></th>
+                        <span class="icon-sort unsorted"></span></th>
                     <th class="button-sort-none" id="button_sortname" onclick="toggleSort(this,2)">Student
-                        <span class="sort-icon unsorted"></span></th>
+                        <span class="icon-sort unsorted"></span></th>
                     <th class="button-sort-none" id="button_sortclaimed" onclick="toggleSort(this,3,sortByPoint)"> CC
-                        <span class="sort-icon unsorted"></span></th>
+                        <span class="icon-sort unsorted"></span></th>
                     <th class="button-sort-none" id="button_sortperceived" onclick="toggleSort(this,4,sortByPoint)">PC
-                        <span class="sort-icon unsorted"></span></th>
+                        <span class="icon-sort unsorted"></span></th>
                     <th class="button-sort-none" id="button_sortdiff" onclick="toggleSort(this,5,sortByDiff)"
                         data-toggle="tooltip" data-placement="top" data-container="body"  
                         title='<%=Const.Tooltips.EVALUATION_DIFF%>'>Diff
-                        <span class="sort-icon unsorted"></span></th>
-                    <th class="centeralign" data-toggle="tooltip" data-placement="top" data-container="body"
+                        <span class="icon-sort unsorted"></span></th>
+                    <th class="align-center" data-toggle="tooltip" data-placement="top" data-container="body"
                         title='<%=Const.Tooltips.EVALUATION_POINTS_RECEIVED%>'>Ratings Received</th>
-                    <th class="centeralign">Action(s)</th>
+                    <th class="align-center">Action(s)</th>
                 </tr>
                 </thead>
                 <%
@@ -218,7 +218,7 @@
                     <td><%=InstructorEvalResultsPageData.getPointsAsColorizedHtml(studentResult.summary.perceivedToInstructor)%></td>
                     <td><%=InstructorEvalResultsPageData.getPointsDiffAsHtml(studentResult)%></td>
                     <td><%=InstructorEvalResultsPageData.getNormalizedPointsListColorizedDescending(studentResult.incoming)%></td>
-                    <td class="centeralign no-print"><a class="btn btn-default btn-xs"
+                    <td class="align-center no-print"><a class="btn btn-default btn-xs"
                         name="viewEvaluationResults<%=idx%>"
                         id="viewEvaluationResults<%=idx%>" target="_blank"
                         href="<%=data.getInstructorEvaluationSubmissionViewLink(data.evaluationResults.evaluation.courseId, data.evaluationResults.evaluation.name, student.email)%>"
@@ -355,7 +355,7 @@
                 %>
             </div>
                 <br>
-                <div class="centeralign">
+                <div class="align-center">
                     <button class="btn btn-info btn-circle" value="To Top" onclick="scrollToTop()">
                         <span class="glyphicon glyphicon-arrow-up"></span></button>
                        <a onclick="scrollToTop()" href="#"> To Top </a>
