@@ -51,37 +51,37 @@ public class InstructorEvalResultsPageUiTest extends BaseUiTestCase {
         //sort by name"
         
         resultsPage.sortByName()
-            .verifyTablePattern(1,"{*}Alice Betsy{*}Benny Charles{*}Charlie Davis{*}Danny Engrid{*}Emily");
+            .verifyTablePattern(1, "Alice Betsy{*}Benny Charles{*}Charlie Davis{*}Danny Engrid{*}Emily");
         resultsPage.sortByName()
-            .verifyTablePattern(1,"{*}Emily{*}Danny Engrid{*}Charlie Davis{*}Benny Charles{*}Alice Betsy");
+            .verifyTablePattern(1, "Emily{*}Danny Engrid{*}Charlie Davis{*}Benny Charles{*}Alice Betsy");
         
         //sort by claimed
         
         resultsPage.sortByClaimed()
-            .verifyTablePattern(2, "{*}E -5%{*}E +3%{*}E +5%{*}E +10%{*}E +10%");
+            .verifyTablePattern(2,  "E -5%{*}E +3%{*}E +5%{*}E +10%{*}E +10%");
         resultsPage.sortByClaimed()
-            .verifyTablePattern(2, "{*}E +10%{*}E +10%{*}E +5%{*}E +3%{*}E -5%");
+            .verifyTablePattern(2, "E +10%{*}E +10%{*}E +5%{*}E +3%{*}E -5%");
         
         //sort by perceived
 
         resultsPage.sortByPerceived()
-            .verifyTablePattern(3, "{*}E -3%{*}E -1%{*}E{*}E{*}E +4%");
+            .verifyTablePattern(3, "E -3%{*}E -1%{*}E{*}E{*}E +4%");
         resultsPage.sortByPerceived()
-        .verifyTablePattern(3, "{*}E +4%{*}E{*}E{*}E -1%{*}E -3%");
+        .verifyTablePattern(3, "E +4%{*}E{*}E{*}E -1%{*}E -3%");
         
         //sort by diff
         
         resultsPage.sortByDiff()
-            .verifyTablePattern(4, "{*}-11%{*}-6%{*}-6%{*}-5%{*}+5%");
+            .verifyTablePattern(4, "-11%{*}-6%{*}-6%{*}-5%{*}+5%");
         resultsPage.sortByDiff()
-            .verifyTablePattern(4, "{*}+5%{*}-5%{*}-6%{*}-6%{*}-11%");
+            .verifyTablePattern(4, "+5%{*}-5%{*}-6%{*}-6%{*}-11%");
         
         //sort by team name
         
         resultsPage.sortByTeam()
-            .verifyTablePattern(0, "{*}Team 1{*}Team 1{*}Team 2{*}Team 2{*}Team 2");
+            .verifyTablePattern(0, "Team 1{*}Team 1{*}Team 2{*}Team 2{*}Team 2");
         resultsPage.sortByTeam()
-            .verifyTablePattern(0, "{*}Team 2{*}Team 2{*}Team 2{*}Team 1{*}Team 1");
+            .verifyTablePattern(0, "Team 2{*}Team 2{*}Team 2{*}Team 1{*}Team 1");
         resultsPage.sortByTeam(); //set back to ascending
         
         ______TS("contents: detailed views");
@@ -97,7 +97,7 @@ public class InstructorEvalResultsPageUiTest extends BaseUiTestCase {
         //ensure we can go back to the summary view
         resultsPage.showSummary()
             .sortByName()
-            .verifyTablePattern(1,"{*}Alice Betsy{*}Benny Charles{*}Charlie Davis{*}Danny Engrid{*}Emily");
+            .verifyTablePattern(1,"Alice Betsy{*}Benny Charles{*}Charlie Davis{*}Danny Engrid{*}Emily");
         
         ______TS("link: edit submissions");
         

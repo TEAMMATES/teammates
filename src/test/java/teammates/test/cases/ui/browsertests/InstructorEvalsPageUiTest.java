@@ -95,20 +95,20 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
         ______TS("sort by name");
         
         evalsPage.sortByName()
-            .verifyTablePattern(1,"{*}First Eval{*}Second Eval{*}Third Eval");
+            .verifyTablePattern(1,"First Eval{*}Second Eval{*}Third Eval");
         
         evalsPage.sortByName()
-            .verifyTablePattern( 1,"{*}Third Eval{*}Second Eval{*}First Eval");
+            .verifyTablePattern( 1,"Third Eval{*}Second Eval{*}First Eval");
         
         ______TS("sort by course id");
         
         evalsPage.sortById()
-        .verifyTablePattern(0,"{*}CEvalUiT.CS1101{*}CEvalUiT.CS2104{*}CEvalUiT.CS2104");
+        .verifyTablePattern(0,"CEvalUiT.CS1101{*}CEvalUiT.CS2104{*}CEvalUiT.CS2104");
         
         evalsPage.verifyHtmlAjax("/instructorEvalById.html");
         
         evalsPage.sortById()
-            .verifyTablePattern(0,"{*}CEvalUiT.CS2104{*}CEvalUiT.CS2104{*}CEvalUiT.CS1101");
+            .verifyTablePattern(0,"CEvalUiT.CS2104{*}CEvalUiT.CS2104{*}CEvalUiT.CS1101");
     
     }
     

@@ -487,8 +487,7 @@ public abstract class AppPage {
      * Compares selected column's rows with patternString to check the order of rows.
      * This can be useful in checking if the table is sorted in a particular order.
      * Separate rows using {*}
-     * e.g.1, {@code "value 1{*}value 2{*}value 3" }
-     * e.g.2, {@code "{*}value 1{*}value 2{*}value 3"}
+     * e.g., {@code "value 1{*}value 2{*}value 3" }
      * The header row will be ignored
      */
     public void verifyTablePattern(int column, String patternString){
@@ -499,19 +498,16 @@ public abstract class AppPage {
      * Compares selected column's rows with patternString to check the order of rows.
      * This can be useful in checking if the table is sorted in a particular order.
      * Separate rows using {*}
-     * e.g.1, {@code "value 1{*}value 2{*}value 3" }
-     * e.g.2, {@code "{*}value 1{*}value 2{*}value 3"}
+     * e.g., {@code "value 1{*}value 2{*}value 3" }
      * The header row will be ignored
      */
     public void verifyTablePattern(int tableNum, int column, String patternString){
         String[] splitString = patternString.split(java.util.regex.Pattern.quote("{*}"));
-        boolean isFirstRowEmpty = (splitString.length >= 0) && splitString[0].isEmpty();
-        int expectedNumberOfRowsInTable = isFirstRowEmpty ? splitString.length : splitString.length + 1;
+        int expectedNumberOfRowsInTable = splitString.length + 1;
         assertEquals(expectedNumberOfRowsInTable, getNumberOfRowsFromDataTable(tableNum));
         for(int row=1;row < splitString.length;row++){
-            int rowIndex = isFirstRowEmpty ? row : (row - 1);
             String tableCellString = this.getCellValueFromDataTable(tableNum, row, column);
-            assertEquals(splitString[rowIndex], tableCellString);
+            assertEquals(splitString[row - 1], tableCellString);
         }
     }
     
