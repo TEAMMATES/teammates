@@ -71,15 +71,15 @@ public class HtmlHelper {
      */
     public static String convertToStandardHtml(String rawHtml) {
         String preProcessedHtml = preProcessHtml(rawHtml);
-        return covertRawHtmlString(preProcessedHtml);
+        return convertRawHtmlString(preProcessedHtml);
     }
     
     public static String convertToStandardHtmlPart(String rawHtml) {
         String preProcessedHtml = replaceInRawHtmlString(rawHtml);
-        return covertRawHtmlPartString(preProcessedHtml);
+        return convertRawHtmlPartString(preProcessedHtml);
     }
 
-    private static String covertRawHtmlString(String preProcessedHtml) {
+    private static String convertRawHtmlString(String preProcessedHtml) {
         try {
             Node currentNode = getNodeFromString(preProcessedHtml);
             StringBuilder currentHtml = new StringBuilder();
@@ -94,7 +94,7 @@ public class HtmlHelper {
         }
     }
 
-    private static String covertRawHtmlPartString(String preProcessedHtml) {
+    private static String convertRawHtmlPartString(String preProcessedHtml) {
         try {
             Node currentNode = getNodeFromString(preProcessedHtml);
             StringBuilder currentHtml = new StringBuilder();
