@@ -20,12 +20,12 @@
     
     <div id="frameBody">
         <div id="frameBodyWrapper">
-            <h1 class="centeralign"><%=data.sessionDetails.feedbackSession.feedbackSessionName %></h1>
+            <h1 class="align-center"><%=data.sessionDetails.feedbackSession.feedbackSessionName %></h1>
             <br />
-            <p class="centeralign">Expected : <%=data.sessionDetails.stats.expectedTotal %></p>
+            <p class="align-center">Expected : <%=data.sessionDetails.stats.expectedTotal %></p>
             <br />
             
-            <p class="centeralign">Submitted : <%=data.sessionDetails.stats.submittedTotal %></p>
+            <p class="align-center">Submitted : <%=data.sessionDetails.stats.submittedTotal %></p>
             <br />
         </div>
     </div>

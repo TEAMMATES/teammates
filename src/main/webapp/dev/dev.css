@@ -70,7 +70,16 @@ img {
 
 #content {
     margin: 0 auto;
-     width: 960px;
+    width: 960px;
+}
+
+#references {
+    text-align: center;
+}
+
+#references li {
+   color: #ff00ff;
+   text-align: center;
 }
 
 .title {
@@ -87,7 +96,7 @@ img {
     text-align: left;
 }
 
-.subheader {
+.sub-header {
     color: #FF8C00;
     font-size: 18px;
 }

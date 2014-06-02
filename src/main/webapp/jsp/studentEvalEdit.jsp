@@ -49,7 +49,7 @@
             <nav class="navbar navbar-default navbar-fixed-top">
                 <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_EVAL_PREVIEW%>" 
                         name="form_previewasstudent" class="form_preview">
-                     <h1 class="color_white centeralign">
+                     <h1 class="color_white align-center">
                          Previewing Evaluation as
                          <select name="<%=Const.ParamsNames.PREVIEWAS%>" onchange="this.form.submit()" style="font-size:80%;">
                          <%
@@ -135,7 +135,7 @@
             <jsp:include page="<%=Const.ViewURIs.EVAL_SUBMISSION_EDIT%>">
             <jsp:param name="isStudent" value="true" />
             </jsp:include>
-            <div id="studentEvaluationSubmissionButtons" class="centeralign">
+            <div id="studentEvaluationSubmissionButtons" class="align-center">
                 <input type="submit" class="btn btn-primary" name="submitEvaluation"
                         id="button_submit" value="Submit Evaluation" 
                         <%=(!data.disableAttribute.isEmpty() || data.isPreview) ? "disabled=\"disabled\"" : ""%>

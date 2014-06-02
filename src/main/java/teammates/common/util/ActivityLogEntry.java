@@ -38,7 +38,7 @@ public class ActivityLogEntry {
         googleId = "Unknown";
         email = "Unknown";
         toShow = true;
-        message = "<span class=\"color_red\">Error. ActivityLogEntry object is not created for this servlet action.</span><br>"
+        message = "<span class=\"text-danger\">Error. ActivityLogEntry object is not created for this servlet action.</span><br>"
                 + params;
         url = link;
     }
@@ -72,7 +72,7 @@ public class ActivityLogEntry {
             googleId = "Unknown";
             email = "Unknown";
             toShow = true;
-            message = "<span class=\"color_red\">Error. Problem parsing log message from the server.</span><br>"
+            message = "<span class=\"text-danger\">Error. Problem parsing log message from the server.</span><br>"
                     + "System Error: " + e.getMessage() + "<br>" + appLog.getLogMessage();
             url = "Unknown";
         }
@@ -179,19 +179,25 @@ public class ActivityLogEntry {
     
     public String getActionInfo(){
         String style = "";
+        String isBoldStart = "";
+        String isBoldEnd = "";
+        
         if(action.equals(Const.ACTION_RESULT_FAILURE) || action.equals(Const.ACTION_RESULT_SYSTEM_ERROR_REPORT)) {
-            style = "color_red bold";
+            style = "text-danger";
+            isBoldStart = "<strong>";
+            isBoldEnd = "</strong>";
+            
         } else {
-            style = "color_green bold";
+            style = "text-success bold";
         }
-        return "<a href=\""+getUrlToShow()+"\" class=\""+style+"\" target=\"_blank\">"+servletName+"</a>";
+        return isBoldStart+"<a href=\""+getUrlToShow()+"\" class=\""+style+"\" target=\"_blank\">"+servletName+"</a>" + isBoldEnd;
     }
     
     public String getMessageInfo(){
         if (message.contains(Const.ACTION_RESULT_FAILURE)){
-            message = message.replace(Const.ACTION_RESULT_FAILURE, "<span class=\"color_red bold\">" + Const.ACTION_RESULT_FAILURE + "</span><br>");
+            message = message.replace(Const.ACTION_RESULT_FAILURE, "<strong><span class=\"text-danger \">" + Const.ACTION_RESULT_FAILURE + "</span></strong><br>");
         } else if (message.contains(Const.ACTION_RESULT_SYSTEM_ERROR_REPORT)){
-            message = message.replace(Const.ACTION_RESULT_SYSTEM_ERROR_REPORT, "<span class=\"color_red bold\">" + Const.ACTION_RESULT_SYSTEM_ERROR_REPORT + "</span><br>");
+            message = message.replace(Const.ACTION_RESULT_SYSTEM_ERROR_REPORT, "<strong><span class=\"text-danger bold\">" + Const.ACTION_RESULT_SYSTEM_ERROR_REPORT + "</span></strong><br>");
         }
         return message;
     }
@@ -250,7 +256,7 @@ public class ActivityLogEntry {
         }
         String url = HttpRequestHelper.getRequestedURL(req);
         
-        String message = "<span class=\"color_red\">Servlet Action failure in " + action + "<br>";
+        String message = "<span class=\"text-danger\">Servlet Action failure in " + action + "<br>";
         message += e.getClass() + ": " + TeammatesException.toStringWithStackTrace(e) + "<br>";
         message += HttpRequestHelper.printRequestParameters(req) + "</span>";
         
@@ -271,7 +277,7 @@ public class ActivityLogEntry {
         String message = "";
         if(errorEmail != null){
             try {
-                  message += "<span class=\"color_red\">" + errorEmail.getSubject() + "</span><br>";
+                  message += "<span class=\"text-danger\">" + errorEmail.getSubject() + "</span><br>";
                   message += "<a href=\"#\" onclick=\"showHideErrorMessage('error" + errorEmail.hashCode() +"');\">Show/Hide Details >></a>";
                   message += "<br>";
                   message += "<span id=\"error" + errorEmail.hashCode() + "\" style=\"display: none;\">";

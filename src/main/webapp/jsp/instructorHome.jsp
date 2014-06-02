@@ -156,7 +156,7 @@
                                     <tr>
                                         <th id="button_sortname" onclick="toggleSort(this,1);"
                                             class="button-sort-none">
-                                            Session Name<span class="sort-icon unsorted"></span></th>
+                                            Session Name<span class="icon-sort unsorted"></span></th>
                                         <th>Status</th>
                                         <th>
                                             <span title="<%=Const.Tooltips.EVALUATION_RESPONSE_RATE%>" data-toggle="tooltip" data-placement="top">Response Rate</span>

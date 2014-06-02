@@ -80,15 +80,15 @@ public class PageData {
      */
     protected static String getPointsAsColorizedHtml(int points){
         if(points==Const.POINTS_NOT_SUBMITTED || points==Const.INT_UNINITIALIZED)
-            return "<span class=\"color_negative\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"" + Const.Tooltips.EVALUATION_SUBMISSION_NOT_AVAILABLE+ "\">N/A</span>";
+            return "<span class=\"color-negative\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"" + Const.Tooltips.EVALUATION_SUBMISSION_NOT_AVAILABLE+ "\">N/A</span>";
         else if(points==Const.POINTS_NOT_SURE)
-            return "<span class=\"color_negative\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"" + Const.Tooltips.EVALUATION_SUBMISSION_NOT_SURE + "\">N/S</span>";
+            return "<span class=\"color-negative\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"" + Const.Tooltips.EVALUATION_SUBMISSION_NOT_SURE + "\">N/S</span>";
         else if(points==0)
-            return "<span class=\"color_negative\">0%</span>";
+            return "<span class=\"color-negative\">0%</span>";
         else if(points>100)
-            return "<span class=\"color_positive\">E +"+(points-100)+"%</span>";
+            return "<span class=\"color-positive\">E +"+(points-100)+"%</span>";
         else if(points<100)
-            return "<span class=\"color_negative\">E -"+(100-points)+"%</span>";
+            return "<span class=\"color-negative\">E -"+(100-points)+"%</span>";
         else
             return "<span class=\"color_neutral\">E</span>";
     }
@@ -113,21 +113,21 @@ public class PageData {
     protected static String getPointsInEqualShareFormatAsHtml(int points, boolean inline){
         int delta = 0;
         if (points == Const.POINTS_NOT_SUBMITTED || points==Const.INT_UNINITIALIZED) {
-            return "<span class=\"badge background-color-white color_negative\">N/A</span>";
+            return "<span class=\"badge background-color-white color-negative\">N/A</span>";
         } else if (points == Const.POINTS_NOT_SURE) {
-            return "<span class=\"badge background-color-white color_negative\">Not sure</span>";
+            return "<span class=\"badge background-color-white color-negative\">Not sure</span>";
         } else if (points == 0) {
-            return "<span class=\"badge background-color-white color_negative\">0%</span>";
+            return "<span class=\"badge background-color-white color-negative\">0%</span>";
         } else if (points > 100) {
             delta = points - 100;
-            if(inline) return "<span class=\"badge background-color-white color_positive\"> E +" + delta + "%</span>";
-            else return "Equal Share<br /><span class=\"badge background-color-white color_positive\"> + " + delta + "%</span>";
+            if(inline) return "<span class=\"badge background-color-white color-positive\"> E +" + delta + "%</span>";
+            else return "Equal Share<br /><span class=\"badge background-color-white color-positive\"> + " + delta + "%</span>";
         } else if (points < 100) {
             delta = 100 - points;
-            if(inline) return "<span class=\"badge background-color-white color_negative\"> E -" + delta + "%</span>";
-            else return "Equal Share<br /><span class=\"badge background-color-white color_negative\"> - " + delta + "%</span>";
+            if(inline) return "<span class=\"badge background-color-white color-negative\"> E -" + delta + "%</span>";
+            else return "Equal Share<br /><span class=\"badge background-color-white color-negative\"> - " + delta + "%</span>";
         } else {
-            return "<span class=\"badge background-color-white color_positive\"> E </span>";
+            return "<span class=\"badge background-color-white color-positive\"> E </span>";
         }
     }
     
@@ -148,13 +148,13 @@ public class PageData {
         int diff = perceived - claimed;
         if(perceived==Const.POINTS_NOT_SUBMITTED || perceived==Const.INT_UNINITIALIZED
                 || claimed==Const.POINTS_NOT_SUBMITTED || claimed==Const.INT_UNINITIALIZED){
-            return "<span class=\"color_negative\" data-toggle=\"tooltip\" data-placement=\"top\" data-container=\"body\" title=\"" + Const.Tooltips.EVALUATION_SUBMISSION_NOT_AVAILABLE + "\">N/A</span>";
+            return "<span class=\"color-negative\" data-toggle=\"tooltip\" data-placement=\"top\" data-container=\"body\" title=\"" + Const.Tooltips.EVALUATION_SUBMISSION_NOT_AVAILABLE + "\">N/A</span>";
         } else if(perceived==Const.POINTS_NOT_SURE || claimed==Const.POINTS_NOT_SURE) {
-            return "<span class=\"color_negative\" data-toggle=\"tooltip\" data-placement=\"top\" data-container=\"body\" title=\"" + Const.Tooltips.EVALUATION_SUBMISSION_NOT_SURE + "\">N/S</span>";
+            return "<span class=\"color-negative\" data-toggle=\"tooltip\" data-placement=\"top\" data-container=\"body\" title=\"" + Const.Tooltips.EVALUATION_SUBMISSION_NOT_SURE + "\">N/S</span>";
         } else if(diff>0){
-            return "<span class=\"color_positive\">+"+diff+"%</span>";
+            return "<span class=\"color-positive\">+"+diff+"%</span>";
         } else if(diff<0){
-            return "<span class=\"color_negative\">"+diff+"%</span>";
+            return "<span class=\"color-negative\">"+diff+"%</span>";
         } else {
             return "<span>"+diff+"</span>";
         }

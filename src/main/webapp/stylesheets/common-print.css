@@ -72,7 +72,7 @@ h2 {
     padding: 15px 0px;
 }
 
-.centeralign {
+.align-center {
     text-align: center;
 }
 
@@ -100,11 +100,11 @@ h2 {
     color: #063;
 }
 
-.color_positive { 
+.color-positive { 
     color: #060;
 }
 
-.color_negative { 
+.color-negative { 
     color: #F00;
 }
 

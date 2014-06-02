@@ -125,5 +125,5 @@
 <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
 
 <% if (noResponses) { %>
-    <div class="bold color_red centeralign">There are no responses for this feedback session yet.</div>
+    <div class="bold color_red align-center">There are no responses for this feedback session yet.</div>
 <% } %>

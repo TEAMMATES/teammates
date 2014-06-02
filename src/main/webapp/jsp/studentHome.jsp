@@ -114,7 +114,7 @@
                         } else {
                     %>
                             <tr>
-                                <th class="centeralign bold color_white">
+                                <th class="align-center bold color_white">
                                     Currently, there are no open evaluation/feedback sessions in this course. When a session is open for submission you will be notified.
                                 </th>
                             </tr>

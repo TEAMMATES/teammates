@@ -58,7 +58,7 @@
             
             <jsp:include page="<%=Const.ViewURIs.FEEDBACK_SUBMISSION_EDIT%>" />
             
-            <div class="bold centeralign">
+            <div class="bold align-center">
             <%
                 if (data.bundle.questionResponseBundle.isEmpty()) {
             %>
