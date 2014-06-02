@@ -65,7 +65,7 @@ public class HtmlHelper {
     
     public static String convertToStandardHtmlPart(String rawHtml) {
         String preProcessedHtml = replaceInRawHtmlString(rawHtml);
-        return covertRawHtmlString(preProcessedHtml);
+        return covertRawHtmlPartString(preProcessedHtml);
     }
 
     private static String covertRawHtmlString(String preProcessedHtml) {
@@ -83,6 +83,20 @@ public class HtmlHelper {
         }
     }
 
+    private static String covertRawHtmlPartString(String preProcessedHtml) {
+        try {
+            Node currentNode = getNodeFromString(preProcessedHtml);
+            StringBuilder currentHtml = new StringBuilder();
+            String initialIndentation = "";
+            convertToStandardHtmlPartRecursively(currentNode, initialIndentation, currentHtml);
+            return currentHtml.toString()
+                    .replace("<#document", "")
+                    .replace("   <html   </html>", "")
+                    .replace("</#document>", ""); //remove two unnecessary tags added by DOM parser.
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     /**
      * Modifies the HTML to deal with wild cards (e.g., "{*}") and some other
@@ -133,7 +147,8 @@ public class HtmlHelper {
         }
 
         //Add the start of opening tag
-        currentHtmlText.append(indentation + "<" + currentNode.getNodeName().toLowerCase());
+        String currentNodeName = currentNode.getNodeName().toLowerCase();
+        currentHtmlText.append(indentation + "<" + currentNodeName);
         
         //Add the attributes of the tag
         NamedNodeMap actualAttributeList = currentNode.getAttributes();
@@ -144,10 +159,7 @@ public class HtmlHelper {
             
             for (int i = 0; i < actualAttributeList.getLength(); i++){
                 Node actualAttribute = actualAttributeList.item(i);
-                // this will cause the processed html to have more spaces
-                // e.g. instead of "<div class="container" id="frameBodyWrapper">"
-                //      it will be "<div class="container"  id="frameBodyWrapper" >"
-                currentHtmlText.append(" "+ actualAttribute.getNodeName().toLowerCase() + "=\"" + actualAttribute.getNodeValue() + "\" ");
+                currentHtmlText.append(" "+ actualAttribute.getNodeName().toLowerCase() + "=\"" + actualAttribute.getNodeValue() + "\"");
             }
             //close the tag
             currentHtmlText.append(getEndOfOpeningTag(currentNode)+"\n");
@@ -155,7 +167,8 @@ public class HtmlHelper {
         
         // Recursively add contents of the child nodes 
         NodeList actualChildNodes = currentNode.getChildNodes();
-        for (int i = 0; i < actualChildNodes.getLength(); i++){
+        int numberOfChildNodes = actualChildNodes.getLength();
+        for (int i = 0; i < numberOfChildNodes; i++){
             convertToStandardHtmlRecursively(actualChildNodes.item(i), indentation + "   ", currentHtmlText);
         }
         
@@ -165,7 +178,65 @@ public class HtmlHelper {
         }
     
     }
+    
+private static void convertToStandardHtmlPartRecursively(Node currentNode, String indentation, StringBuilder currentHtmlText){
+        
+        if(currentNode.getNodeType() == Node.TEXT_NODE){
+            String text = currentNode.getNodeValue();
+            if(!text.trim().isEmpty()){
+                currentHtmlText.append(indentation + text.trim() + "\n");
+            }
+            return;
+        } else if(isToolTip(currentNode)){
+            String tooltip = currentNode.getTextContent();
+            if(!tooltip.trim().isEmpty()){
+                System.out.println("ignoring tool tip: "+ tooltip);
+            }
+            return;
+        }
 
+        //Add the start of opening tag
+        String currentNodeName = currentNode.getNodeName().toLowerCase();
+        boolean shouldIncludeCurrentNode = !(currentNodeName.equals("html") ||
+                                               currentNodeName.equals("head") ||
+                                               currentNodeName.equals("body"));
+        
+        if (shouldIncludeCurrentNode) {
+            currentHtmlText.append(indentation + "<" + currentNodeName);
+            
+            //Add the attributes of the tag
+            NamedNodeMap actualAttributeList = currentNode.getAttributes();
+            if(actualAttributeList!=null){
+                
+                List<Node> nodesList = getAttributesAsNodeList(actualAttributeList);
+                sortAttributes(nodesList);
+                
+                for (int i = 0; i < actualAttributeList.getLength(); i++){
+                    Node actualAttribute = actualAttributeList.item(i);
+                    currentHtmlText.append(" "+ actualAttribute.getNodeName().toLowerCase() + "=\"" + actualAttribute.getNodeValue() + "\"");
+                }
+                //close the tag
+                currentHtmlText.append(getEndOfOpeningTag(currentNode)+"\n");
+            }
+        }
+        
+        // Recursively add contents of the child nodes 
+        NodeList actualChildNodes = currentNode.getChildNodes();
+        int numberOfChildNodes = actualChildNodes.getLength();
+        for (int i = 0; i < numberOfChildNodes; i++){
+            if (shouldIncludeCurrentNode) {
+                convertToStandardHtmlPartRecursively(actualChildNodes.item(i), indentation + "   ", currentHtmlText);
+            } else {
+                convertToStandardHtmlPartRecursively(actualChildNodes.item(i), indentation, currentHtmlText); 
+            }
+        }
+        
+        if (shouldIncludeCurrentNode) {
+            if (currentNode.getNodeType() != Node.TEXT_NODE){
+                currentHtmlText.append(indentation + getEndTag(currentNode));
+            }
+        }
+    }
 
     private static boolean isToolTip(Node currentNode) {
         

@@ -85,8 +85,6 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         detailsPage.sortByTeam().verifyTablePattern(1, 0, patternString);
         patternString = "{*}Team 2{*}Team 2{*}Team 1{*}Team 1";
         detailsPage.sortByTeam().verifyTablePattern(1, 0, patternString);
-        
-        detailsPage.verifyHtmlElement(By.id("frameBodyWrapper"), "/testAssert.html");
     }
     
     public void testLinks(){

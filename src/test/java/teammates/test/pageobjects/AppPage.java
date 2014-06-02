@@ -555,7 +555,7 @@ public abstract class AppPage {
      * folder is assumed to be {@link Const.TEST_PAGES_FOLDER}. 
      * @return The page (for chaining method calls).
      */
-    public AppPage verifyHtmlElement(By by, String filePath) {
+    public AppPage verifyHtmlPart(By by, String filePath) {
         WebElement element = browser.driver.findElement(by);
         if(filePath.startsWith("/")){
             filePath = TestProperties.TEST_PAGES_FOLDER + filePath;
