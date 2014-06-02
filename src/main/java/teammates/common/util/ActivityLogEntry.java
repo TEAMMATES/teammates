@@ -250,7 +250,7 @@ public class ActivityLogEntry {
         }
         String url = HttpRequestHelper.getRequestedURL(req);
         
-        String message = "<span class=\"color_red\">Servlet Action failure in " + action + "<br>";
+        String message = "<span class=\"text-danger\">Servlet Action failure in " + action + "<br>";
         message += e.getClass() + ": " + TeammatesException.toStringWithStackTrace(e) + "<br>";
         message += HttpRequestHelper.printRequestParameters(req) + "</span>";
         
@@ -271,7 +271,7 @@ public class ActivityLogEntry {
         String message = "";
         if(errorEmail != null){
             try {
-                  message += "<span class=\"color_red\">" + errorEmail.getSubject() + "</span><br>";
+                  message += "<span class=\"text-danger\">" + errorEmail.getSubject() + "</span><br>";
                   message += "<a href=\"#\" onclick=\"showHideErrorMessage('error" + errorEmail.hashCode() +"');\">Show/Hide Details >></a>";
                   message += "<br>";
                   message += "<span id=\"error" + errorEmail.hashCode() + "\" style=\"display: none;\">";
