@@ -43,7 +43,7 @@
                 
                 <jsp:include page="<%=Const.ViewURIs.FEEDBACK_QUESTION_SUBMISSION_EDIT%>" />
                 
-                <div class="bold centeralign">
+                <div class="bold align-center">
                     <input type="submit" class="btn btn-primary center-block" 
                         id="response_submit_button" 
                         data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_SESSION_EDIT_SAVE%>"

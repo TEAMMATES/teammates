@@ -548,7 +548,7 @@
             <%
                             if (data.questions.isEmpty()) {
             %>
-                <div class="centeralign bold" id="empty_message"><%=Const.StatusMessages.FEEDBACK_QUESTION_EMPTY%></div><br><br>
+                <div class="align-center bold" id="empty_message"><%=Const.StatusMessages.FEEDBACK_QUESTION_EMPTY%></div><br><br>
             <%
                 }
             %>

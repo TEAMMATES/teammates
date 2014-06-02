@@ -88,10 +88,10 @@
             <thead class="fill-primary">
                 <tr>
                     <th onclick="toggleSort(this,1);" id="button_sortcourseid" class="button-sort-none">
-                        Course ID<span class="sort-icon unsorted"></span>
+                        Course ID<span class="icon-sort unsorted"></span>
                     </th>
                     <th onclick="toggleSort(this,2);" id="button_sortcoursename" class="button-sort-none">
-                        Course Name<span class="sort-icon unsorted"></span>
+                        Course Name<span class="icon-sort unsorted"></span>
                     </th>
                     <th>
                         Teams
@@ -102,7 +102,7 @@
                     <th>
                         Total Unregistered
                     </th>
-                    <th class="centeralign no-print">Action(s)</th>
+                    <th class="align-center no-print">Action(s)</th>
                 </tr>
             </thead>
             <%
@@ -114,10 +114,10 @@
                 <tr>
                     <td id="courseid<%=idx%>"><%=sanitizeForHtml(courseDetails.course.id)%></td>
                     <td id="coursename<%=idx%>"><%=sanitizeForHtml(courseDetails.course.name)%></td>
-                    <td class="t_course_teams centeralign"><%=courseDetails.stats.teamsTotal%></td>
-                    <td class="centeralign"><%=courseDetails.stats.studentsTotal%></td>
-                    <td class="centeralign"><%=courseDetails.stats.unregisteredTotal%></td>
-                    <td class="centeralign no-print">
+                    <td class="t_course_teams align-center"><%=courseDetails.stats.teamsTotal%></td>
+                    <td class="align-center"><%=courseDetails.stats.studentsTotal%></td>
+                    <td class="align-center"><%=courseDetails.stats.unregisteredTotal%></td>
+                    <td class="align-center no-print">
                         <a class="btn btn-default btn-xs t_course_enroll<%=idx%>"
                             href="<%=data.getInstructorCourseEnrollLink(courseDetails.course.id)%>"
                             data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_ENROLL%>">
@@ -181,12 +181,12 @@
             <thead>
                 <tr class="fill-default">
                     <th onclick="toggleSort(this,1);" id="button_sortid" class="button-sort-none">
-                        Course ID<span class="sort-icon unsorted"></span>
+                        Course ID<span class="icon-sort unsorted"></span>
                     </th>
                     <th onclick="toggleSort(this,2);" id="button_sortid" class="button-sort-none">
-                        Course Name<span class="sort-icon unsorted"></span>
+                        Course Name<span class="icon-sort unsorted"></span>
                     </th>
-                    <th class="centeralign no-print">Action(s)</th>
+                    <th class="align-center no-print">Action(s)</th>
                 </tr>
             </thead>
             <%
@@ -196,7 +196,7 @@
                 <tr>
                     <td id="courseid<%=idx%>"><%=sanitizeForHtml(course.id)%></td>
                     <td id="coursename<%=idx%>"><%=sanitizeForHtml(course.name)%></td>
-                    <td class="centeralign no-print">
+                    <td class="align-center no-print">
                         <a class="btn btn-default btn-xs" id="t_course_delete<%=idx%>"
                             href="<%=data.getInstructorCourseDeleteLink(course.id,false)%>"
                             onclick="return toggleDeleteCourseConfirmation('<%=course.id%>');"

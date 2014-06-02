@@ -8,7 +8,7 @@ body {
     padding: 60px 0 30px;
 }
 
-.centeralign {
+.-centerenter {
     text-align: center;
 }
 
@@ -29,7 +29,7 @@ body {
     padding-top: 10px;
 }
 
-.color_positive { 
+.color-positive { 
     color: #108627;
 }
 
@@ -168,6 +168,7 @@ body {
 //////////////////////////////////////////////////////////*/
 
 .instructor-header-bar {
+    /* TODO: find a stable solution to vertical middle align the columns */
     margin-top: 20px;
 }
 
@@ -244,7 +245,7 @@ body {
 
 
 
-.sort-icon {
+.icon-sort {
     display: block;
     float: right;
     height: 17px;
@@ -256,11 +257,11 @@ body {
     background: url(../images/sortSideButton.png);
 }
 
-.ascending-sorted {
+.sorted-ascending {
     background: url(../images/sortUpButton.png);
 }
 
-.descending-sorted {
+.sorted-descending {
     background: url(../images/sortDownButton.png);
 }
 
