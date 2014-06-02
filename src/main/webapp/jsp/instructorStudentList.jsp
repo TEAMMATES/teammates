@@ -218,13 +218,13 @@
                             <thead>
                                 <tr class="fill-<%=courseDetails.course.isArchived ? "default":"primary" %>">
                                     <th id="button_sortteam" class="button-sort-ascending" onclick="toggleSort(this,1)">
-                                        Team <span class="sort-icon ascending-sorted"></span>
+                                        Team <span class="icon-sort sorted-ascending"></span>
                                     </th>
                                     <th id="button_sortstudentname" class="button-sort-none" onclick="toggleSort(this,2)">
-                                        Student Name <span class="sort-icon unsorted"></span>
+                                        Student Name <span class="icon-sort unsorted"></span>
                                     </th>
                                     <th id="button_sortteam" class="button-sort-none" onclick="toggleSort(this,3)"> 
-                                        Email <span class="sort-icon unsorted"></span>
+                                        Email <span class="icon-sort unsorted"></span>
                                     </th>
                                     <th>Action(s)
                                     </th>
@@ -242,7 +242,7 @@
                                 <td id="studentteam-c<%=courseIdx %>.<%=teamIdx%>"><%=PageData.sanitizeForHtml(teamDetails.name)%></td>
                                 <td id="studentname-c<%=courseIdx %>.<%=studentIdx%>"><%=PageData.sanitizeForHtml(student.name)%></td>
                                 <td id="studentemail-c<%=courseIdx %>.<%=studentIdx%>"><%=PageData.sanitizeForHtml(student.email)%></td>
-                                <td class="no-print centeralign">
+                                <td class="no-print align-center">
                                     <a class="btn btn-default btn-xs student-view-for-test" 
                                     href="<%=data.getCourseStudentDetailsLink(courseDetails.course.id, student)%>"
                                     title="<%=Const.Tooltips.COURSE_STUDENT_DETAILS%>"
@@ -280,7 +280,7 @@
                         <table class="table table-responsive table-striped table-bordered">
                             <thead>
                                 <tr class="fill-<%=courseDetails.course.isArchived ? "default":"primary" %>">
-                                    <th class="centeralign color_white bold"><%=Const.StatusMessages.INSTRUCTOR_COURSE_EMPTY %></th>
+                                    <th class="align-center color_white bold"><%=Const.StatusMessages.INSTRUCTOR_COURSE_EMPTY %></th>
                                 </tr>
                             </thead>
                         </table>

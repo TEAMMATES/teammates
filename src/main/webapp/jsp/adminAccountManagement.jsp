@@ -68,12 +68,12 @@
                             <th width="20%" onclick="toggleSort(this,3)"
                                 class="button-sort-ascending">
                                 Institute
-                                <span class="sort-icon unsorted"
+                                <span class="icon-sort unsorted"
                                 id="button_sort_institute"></span>
                             </th>
                             <th width="30%" onclick="toggleSort(this,4);"
                                 class="button-sort-ascending">Create At
-                                <span class="sort-icon unsorted"
+                                <span class="icon-sort unsorted"
                                 id="button_sort_createat"></span></th>
                             <th width="5%">Options</th>
                         </tr>

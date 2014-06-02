@@ -68,8 +68,8 @@
                 <jsp:param name="isStudent" value="false" />
                 </jsp:include>
                 <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
-                <div class="centeralign">
-                    <input type="submit" class="btn btn-primary centeralign" name="submitEvaluation"
+                <div class="align-center">
+                    <input type="submit" class="btn btn-primary align-center" name="submitEvaluation"
                             onclick="return checkEvaluationForm(this.form)"
                             id="button_submit" value="Save Changes">
                 </div>
