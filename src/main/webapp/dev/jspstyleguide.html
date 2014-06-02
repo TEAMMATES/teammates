@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>TM JSP Style Guide</title>
+    <link rel="stylesheet" href="dev.css" type="text/css">
+</head>
+<body>
+    <div id="content">
+        <div class="header">
+            Teammates JSP Style Guide
+        </div>
+        <br>
+
+        <div class="sub-header">
+            <span class="bold">General rules</span>
+        </div>
+        <ul>
+            <li>Separate HTML from Java</li>
+            <li>Try to put only presentation logic in JSP</li>
+            <li>Favor HTML in Java handler classes over Java in JSPs</li>
+            <li>Don't overuse Java code in HTML pages</li>
+            <li>Use JSP comments in most cases</li>
+            <li>Indentations should be filled with space characters</li>
+        </ul>
+
+        <div class="sub-header">
+            <span class="bold">Code examples</span>
+        </div>
+        <ul>
+            <li>JSP Page Directive(s)<br>
+                <pre class="code green">
+<%@ page session="false" %>
+<%@ page import="java.util.*" %>
+<%@ page errorPage="/common/errorPage.jsp" %>
+                </pre>
+                Or
+                <pre class="code green">
+<%@ page    session="false" 
+            import="java.util.*"
+            errorPage="/common/errorPage.jsp" 
+%>
+                </pre>
+            </li>
+            <li>JSP Declaration(s)--<span class="red">Try not to use business logic</span>><br>
+                <pre class="code green">
+<%! 
+    private int hitCount;
+    private Date today; 
+
+    public int getHitCount() {
+        return hitCount;
+    }
+%>
+                </pre>
+                Not preferred
+                <pre class="code red">
+<%! private int hitCount; %>
+<%! private Date today; %>
+...
+<%! public int getHitCount() {
+        return hitCount;
+    }
+%>
+                </pre>
+            </li>
+            <li>Compound Indentation with JSP, HTML and Java<br>
+                <pre class="code green">
+&lt;table&gt;
+    &lt;%  if ( tableHeaderRequired ) { %&gt;
+        &lt;tr&gt;
+            &lt;th&gt;Last Name&lt;/th&gt;
+            &lt;th&gt;First Name&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;%  } %&gt;
+    &lt;c:forEach var="customer" items="${customers}"&gt;
+        &lt;tr&gt;
+            &lt;td&gt;&lt;c:out value="${customer.lastName}"/&gt;&lt;/td&gt;
+            &lt;td&gt;&lt;c:out value="${customer.firstName}"/&gt;&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/c:forEach&gt;
+&lt;/table&gt;
+                </pre>
+                Not this
+                <pre class="code red">
+&lt;table&gt;
+    &lt;%  if ( tableHeaderRequired ) { %&gt;
+    &lt;tr&gt;
+        &lt;th&gt;Last Name&lt;/th&gt;
+        &lt;th&gt;First Name&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;% } %&gt;
+    &lt;c:forEach var="customer" items="${customers}"&gt;
+    &lt;tr&gt;
+        &lt;td&gt;&lt;c:out value="${customer.lastName}"/&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;c:out value="${customer.firstName}"/&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;/c:forEach&gt;
+&lt;/table&gt;
+                </pre>
+            </li>
+        </ul>
+    </div>
+
+    <div id="refences">
+        References
+        <ul>
+            <li><a href="http://www.javaworld.com/article/2075857/java-web-development/jsp-best-practices.html">JavaWorld: JSP best practices</a></li>
+            <li><a href="http://www.javaworld.com/article/2073642/java-web-development/more-jsp-best-practices.html">JavaWorld: More JSP best practices</a></li>
+            <li><a href="http://www.oracle.com/technetwork/articles/javase/servlets-jsp-140445.html">Oracle: Servlet and JSP best practices</a></li>
+            <li><a href="http://www.oracle.com/technetwork/articles/javase/code-convention-138726.html">Orable: code conventions for JSP</a></li>
+        </ul>
+    </div>
+</body>
+</html>
