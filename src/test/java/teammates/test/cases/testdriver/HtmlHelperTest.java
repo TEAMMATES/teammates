@@ -78,9 +78,29 @@ public class HtmlHelperTest {
         String expected = "<html><head></head><body></body></html>";
         assertTrue(HtmlHelper.areSameHtmlPart(expected, actual));
         
-        //'<div>' without attributes (not a tool tip). Should not be ignored.
+        //one part does not contain html tag. Should be the same
         actual = "<html><head></head><body><div></div></body></html>";
-        expected = "<html><head></head><body></body></html>";
-        assertFalse(HtmlHelper.areSameHtml(expected, actual));
+        expected = "<html><div></div></html>";
+        assertTrue(HtmlHelper.areSameHtmlPart(expected, actual));
+        
+        //one part does not contain head tag. Should be the same
+        actual = "<html><head></head><body><div></div></body></html>";
+        expected = "<html><body><div></div></body></html>";
+        assertTrue(HtmlHelper.areSameHtmlPart(expected, actual));
+        
+        //one part does not contain body tag. Should be the same
+        actual = "<html><head></head><body><div></div></body></html>";
+        expected = "<html><head></head><div></div></html>";
+        assertTrue(HtmlHelper.areSameHtmlPart(expected, actual));
+        
+        //Different tool tips. Will be ignored (the logic does not detect this)
+        actual = "<html><head></head><body><div class=\"tooltip\">tool tip <br> 2nd line </div></body></html>";
+        expected = "<html><head></head><body><div class=\"tooltip\"></div></body></html>";
+        assertTrue(HtmlHelper.areSameHtmlPart(expected, actual));
+        
+        //Different tool tips and three tags(html, head, body) ignored. Should be the same
+        actual = "<html><head></head><body><div class=\"tooltip\">tool tip <br> 2nd line </div></body></html>";
+        expected = "<div class=\"tooltip\"></div>";
+        assertTrue(HtmlHelper.areSameHtmlPart(expected, actual));
     }
 }
