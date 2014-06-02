@@ -51,6 +51,7 @@ public class SubmissionTaskQueueLogicTest extends
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+        gaeSimulation.tearDown();
         gaeSimulation.setupWithTaskQueueCallbackClass(SubmissionTaskQueueCallback.class);
         gaeSimulation.resetDatastore();
         turnLoggingUp(EvaluationsLogic.class);

@@ -61,6 +61,7 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+        gaeSimulation.tearDown();
         gaeSimulation.setupWithTaskQueueCallbackClass(FeedbackSessionOpeningCallback.class);
         gaeSimulation.resetDatastore();
     }

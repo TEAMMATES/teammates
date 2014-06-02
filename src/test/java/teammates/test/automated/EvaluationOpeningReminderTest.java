@@ -68,6 +68,7 @@ public class EvaluationOpeningReminderTest extends BaseComponentUsingTaskQueueTe
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+        gaeSimulation.tearDown();
         gaeSimulation.setupWithTaskQueueCallbackClass(EvaluationOpeningCallback.class);
         gaeSimulation.resetDatastore();
     }

@@ -50,6 +50,7 @@ public class EvaluationsEmailTaskQueueTest extends
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+        gaeSimulation.tearDown();
         gaeSimulation.setupWithTaskQueueCallbackClass(EvaluationsEmailTaskQueueCallback.class);
         gaeSimulation.resetDatastore();
         turnLoggingUp(EvaluationsLogic.class);

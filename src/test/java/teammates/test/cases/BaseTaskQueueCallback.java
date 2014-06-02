@@ -32,6 +32,6 @@ public abstract class BaseTaskQueueCallback implements LocalTaskQueueCallback {
          *  Wait for 1 more second to see if erroneous or unwanted tasks
          *  are added too
          */
-        ThreadHelper.waitFor((expectedNumberOfTasks + 1) * 1000);
+        ThreadHelper.waitFor((expectedNumberOfTasks + 5) * 1000);
     }
 }
