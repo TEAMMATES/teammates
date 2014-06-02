@@ -134,8 +134,6 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         String courseId = testData.courses.get("CCDetailsUiT.CS2104").id;
         boolean isEmailEnabled = !TestProperties.inst().isDevServer();
 
-        
-
         ______TS("action: remind single student");
 
         detailsPage.clickRemindStudentAndCancel(charlie.name);

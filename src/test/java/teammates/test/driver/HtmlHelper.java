@@ -22,10 +22,9 @@ public class HtmlHelper {
      * Verifies that two HTML files are logically 
      * equivalent e.g., ignores differences in whitespace and attribute order.
      */
-    public static void assertSameHtml(String actualString, String expectedString){
-        
-        String processedExpectedHtml = convertToStandardHtml(expectedString);
-        String processedActualHtml = convertToStandardHtml(actualString);
+    public static void assertSameHtml(String actualString, String expectedString){       
+        String processedExpectedHtml = convertToStandardHtml(expectedString, false);
+        String processedActualHtml = convertToStandardHtml(actualString, false);
         
         if(!AssertHelper.isContainsRegex(processedExpectedHtml, processedActualHtml)){
             assertEquals("<expected>\n"+processedExpectedHtml+"</expected>", "<actual>\n"+processedActualHtml+"</actual>");
@@ -33,8 +32,8 @@ public class HtmlHelper {
     }
     
     public static void assertSameHtmlPart(String actualString, String expectedString) {
-        String processedExpectedHtmlPart = convertToStandardHtmlPart(expectedString);
-        String processedActualHtmlPart = convertToStandardHtmlPart(actualString);
+        String processedExpectedHtmlPart = convertToStandardHtml(expectedString, true);
+        String processedActualHtmlPart = convertToStandardHtml(actualString, true);
         
         if(!AssertHelper.isContainsRegex(processedExpectedHtmlPart, processedActualHtmlPart)){
             assertEquals("<expected>\n"+processedExpectedHtmlPart+"</expected>", "<actual>\n"+processedActualHtmlPart+"</actual>");
@@ -46,9 +45,8 @@ public class HtmlHelper {
      * equivalent e.g., ignores differences in whitespace and attribute order.
      */
     public static boolean areSameHtml(String actualString, String expectedString){
-        
-        String processedExpectedHtml = convertToStandardHtml(expectedString);
-        String processedActualHtml = convertToStandardHtml(actualString);
+        String processedExpectedHtml = convertToStandardHtml(expectedString, false);
+        String processedActualHtml = convertToStandardHtml(actualString, false);
         
         return AssertHelper.isContainsRegex(processedExpectedHtml, processedActualHtml);
     }
@@ -58,8 +56,8 @@ public class HtmlHelper {
      * equivalent e.g., ignores differences in whitespace and attribute order.
      */
     public static boolean areSameHtmlPart(String actualString, String expectedString){
-        String processedExpectedHtml = convertToStandardHtmlPart(expectedString);
-        String processedActualHtml = convertToStandardHtmlPart(actualString);
+        String processedExpectedHtml = convertToStandardHtml(expectedString, true);
+        String processedActualHtml = convertToStandardHtml(actualString, true);
         
         return AssertHelper.isContainsRegex(processedExpectedHtml, processedActualHtml);
     }
@@ -69,37 +67,18 @@ public class HtmlHelper {
      * Element attributes are reordered in alphabetical order.
      * Spacing and line breaks are standardized too.
      */
-    public static String convertToStandardHtml(String rawHtml) {
+    public static String convertToStandardHtml(String rawHtml, boolean isHtmlPartPassedIn) {
         String preProcessedHtml = preProcessHtml(rawHtml);
-        return convertRawHtmlString(preProcessedHtml);
+        
+        return convertRawHtmlString(preProcessedHtml, isHtmlPartPassedIn);
     }
     
-    public static String convertToStandardHtmlPart(String rawHtml) {
-        String preProcessedHtml = preProcessHtml(rawHtml);
-        return convertRawHtmlPartString(preProcessedHtml);
-    }
-
-    private static String convertRawHtmlString(String preProcessedHtml) {
+    private static String convertRawHtmlString(String preProcessedHtml, boolean isHtmlPartPassedIn) {
         try {
             Node currentNode = getNodeFromString(preProcessedHtml);
             StringBuilder currentHtml = new StringBuilder();
             String initialIndentation = "";
-            convertToStandardHtmlRecursively(currentNode, initialIndentation, currentHtml, false);
-            return currentHtml.toString()
-                    .replace("<#document", "")
-                    .replace("   <html   </html>", "")
-                    .replace("</#document>", ""); //remove two unnecessary tags added by DOM parser.
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private static String convertRawHtmlPartString(String preProcessedHtml) {
-        try {
-            Node currentNode = getNodeFromString(preProcessedHtml);
-            StringBuilder currentHtml = new StringBuilder();
-            String initialIndentation = "";
-            convertToStandardHtmlRecursively(currentNode, initialIndentation, currentHtml, true);
+            convertToStandardHtmlRecursively(currentNode, initialIndentation, currentHtml, isHtmlPartPassedIn);
             return currentHtml.toString()
                     .replace("<#document", "")
                     .replace("   <html   </html>", "")
