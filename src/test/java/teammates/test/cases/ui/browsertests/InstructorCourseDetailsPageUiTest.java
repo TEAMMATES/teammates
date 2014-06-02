@@ -71,19 +71,19 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         
         ______TS("content: sorting");
         
-        String patternString = "{*}Joined{*}Joined{*}Yet to join{*}Yet to join";
+        String patternString = "Joined{*}Joined{*}Yet to join{*}Yet to join";
         detailsPage.sortByStatus().verifyTablePattern(1, 2, patternString);
-        patternString = "{*}Yet to join{*}Yet to join{*}Joined{*}Joined";
+        patternString = "Yet to join{*}Yet to join{*}Joined{*}Joined";
         detailsPage.sortByStatus().verifyTablePattern(1, 2, patternString);
         
-        patternString = "{*}Alice Betsy{*}Benny Charles{*}Charlie Davis{*}Danny Engrid";
+        patternString = "Alice Betsy{*}Benny Charles{*}Charlie Davis{*}Danny Engrid";
         detailsPage.sortByName().verifyTablePattern(1, 1, patternString);
-        patternString = "{*}Danny Engrid{*}Charlie Davis{*}Benny Charles{*}Alice Betsy";
+        patternString = "Danny Engrid{*}Charlie Davis{*}Benny Charles{*}Alice Betsy";
         detailsPage.sortByName().verifyTablePattern(1, 1, patternString);
         
-        patternString = "{*}Team 1{*}Team 1{*}Team 2{*}Team 2";
+        patternString = "Team 1{*}Team 1{*}Team 2{*}Team 2";
         detailsPage.sortByTeam().verifyTablePattern(1, 0, patternString);
-        patternString = "{*}Team 2{*}Team 2{*}Team 1{*}Team 1";
+        patternString = "Team 2{*}Team 2{*}Team 1{*}Team 1";
         detailsPage.sortByTeam().verifyTablePattern(1, 0, patternString);
     }
     
