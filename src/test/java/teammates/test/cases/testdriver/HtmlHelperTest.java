@@ -102,5 +102,12 @@ public class HtmlHelperTest {
         actual = "<html><head></head><body><div class=\"tooltip\">tool tip <br> 2nd line </div></body></html>";
         expected = "<div class=\"tooltip\"></div>";
         assertTrue(HtmlHelper.areSameHtmlPart(expected, actual));
+        
+        //Contents inside div are different . Should be different
+        actual = "<html><head></head><body><div>content<br> 2nd line </div></body></html>";
+        expected = "<html><head></head><body><div></div></body></html>";
+        assertFalse(HtmlHelper.areSameHtmlPart(expected, actual));
+        
+        //other cases are tested in testComparison
     }
 }
