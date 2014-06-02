@@ -52,6 +52,17 @@ public class HtmlHelper {
         
         return AssertHelper.isContainsRegex(processedExpectedHtml, processedActualHtml);
     }
+    
+    /**
+     * Verifies that two HTML parts are logically 
+     * equivalent e.g., ignores differences in whitespace and attribute order.
+     */
+    public static boolean areSameHtmlPart(String actualString, String expectedString){
+        String processedExpectedHtml = convertToStandardHtmlPart(expectedString);
+        String processedActualHtml = convertToStandardHtmlPart(actualString);
+        
+        return AssertHelper.isContainsRegex(processedExpectedHtml, processedActualHtml);
+    }
 
     /**
      * Transform the HTML text to follow a standard format. 
@@ -73,7 +84,7 @@ public class HtmlHelper {
             Node currentNode = getNodeFromString(preProcessedHtml);
             StringBuilder currentHtml = new StringBuilder();
             String initialIndentation = "";
-            convertToStandardHtmlRecursively(currentNode, initialIndentation, currentHtml);
+            convertToStandardHtmlRecursively(currentNode, initialIndentation, currentHtml, false);
             return currentHtml.toString()
                     .replace("<#document", "")
                     .replace("   <html   </html>", "")
@@ -88,7 +99,7 @@ public class HtmlHelper {
             Node currentNode = getNodeFromString(preProcessedHtml);
             StringBuilder currentHtml = new StringBuilder();
             String initialIndentation = "";
-            convertToStandardHtmlPartRecursively(currentNode, initialIndentation, currentHtml);
+            convertToStandardHtmlRecursively(currentNode, initialIndentation, currentHtml, true);
             return currentHtml.toString()
                     .replace("<#document", "")
                     .replace("   <html   </html>", "")
@@ -130,7 +141,8 @@ public class HtmlHelper {
         return parser.getDocument();
     }
 
-    private static void convertToStandardHtmlRecursively(Node currentNode, String indentation, StringBuilder currentHtmlText){
+    private static void convertToStandardHtmlRecursively(Node currentNode, String indentation,
+        StringBuilder currentHtmlText, boolean isHtmlPartPassedIn){
         
         if(currentNode.getNodeType() == Node.TEXT_NODE){
             String text = currentNode.getNodeValue();
@@ -148,59 +160,8 @@ public class HtmlHelper {
 
         //Add the start of opening tag
         String currentNodeName = currentNode.getNodeName().toLowerCase();
-        currentHtmlText.append(indentation + "<" + currentNodeName);
-        
-        //Add the attributes of the tag
-        NamedNodeMap actualAttributeList = currentNode.getAttributes();
-        if(actualAttributeList!=null){
-            
-            List<Node> nodesList = getAttributesAsNodeList(actualAttributeList);
-            sortAttributes(nodesList);
-            
-            for (int i = 0; i < actualAttributeList.getLength(); i++){
-                Node actualAttribute = actualAttributeList.item(i);
-                currentHtmlText.append(" "+ actualAttribute.getNodeName().toLowerCase() + "=\"" + actualAttribute.getNodeValue() + "\"");
-            }
-            //close the tag
-            currentHtmlText.append(getEndOfOpeningTag(currentNode)+"\n");
-        }
-        
-        // Recursively add contents of the child nodes 
-        NodeList actualChildNodes = currentNode.getChildNodes();
-        int numberOfChildNodes = actualChildNodes.getLength();
-        for (int i = 0; i < numberOfChildNodes; i++){
-            convertToStandardHtmlRecursively(actualChildNodes.item(i), indentation + "   ", currentHtmlText);
-        }
-        
-        //add end tag, if any
-        if (currentNode.getNodeType() != Node.TEXT_NODE){
-            currentHtmlText.append(indentation + getEndTag(currentNode));
-        }
-    
-    }
-    
-private static void convertToStandardHtmlPartRecursively(Node currentNode, String indentation, StringBuilder currentHtmlText){
-        
-        if(currentNode.getNodeType() == Node.TEXT_NODE){
-            String text = currentNode.getNodeValue();
-            if(!text.trim().isEmpty()){
-                currentHtmlText.append(indentation + text.trim() + "\n");
-            }
-            return;
-        } else if(isToolTip(currentNode)){
-            String tooltip = currentNode.getTextContent();
-            if(!tooltip.trim().isEmpty()){
-                System.out.println("ignoring tool tip: "+ tooltip);
-            }
-            return;
-        }
+        boolean shouldIncludeCurrentNode = shouldIncludeCurrentNode(isHtmlPartPassedIn, currentNodeName);
 
-        //Add the start of opening tag
-        String currentNodeName = currentNode.getNodeName().toLowerCase();
-        boolean shouldIncludeCurrentNode = !(currentNodeName.equals("html") ||
-                                               currentNodeName.equals("head") ||
-                                               currentNodeName.equals("body"));
-        
         if (shouldIncludeCurrentNode) {
             currentHtmlText.append(indentation + "<" + currentNodeName);
             
@@ -225,9 +186,9 @@ private static void convertToStandardHtmlPartRecursively(Node currentNode, Strin
         int numberOfChildNodes = actualChildNodes.getLength();
         for (int i = 0; i < numberOfChildNodes; i++){
             if (shouldIncludeCurrentNode) {
-                convertToStandardHtmlPartRecursively(actualChildNodes.item(i), indentation + "   ", currentHtmlText);
+                convertToStandardHtmlRecursively(actualChildNodes.item(i), indentation + "   ", currentHtmlText, false);
             } else {
-                convertToStandardHtmlPartRecursively(actualChildNodes.item(i), indentation, currentHtmlText); 
+                convertToStandardHtmlRecursively(actualChildNodes.item(i), indentation, currentHtmlText, false);
             }
         }
         
@@ -236,6 +197,14 @@ private static void convertToStandardHtmlPartRecursively(Node currentNode, Strin
                 currentHtmlText.append(indentation + getEndTag(currentNode));
             }
         }
+    
+    }
+
+    private static boolean shouldIncludeCurrentNode(boolean isHtmlPartPassedIn, String currentNodeName) {
+        boolean shouldIncludeCurrentNode = !(!isHtmlPartPassedIn && (currentNodeName.equals("html")
+                                                                         || currentNodeName.equals("head")
+                                                                         || currentNodeName.equals("body")));
+        return shouldIncludeCurrentNode;
     }
 
     private static boolean isToolTip(Node currentNode) {

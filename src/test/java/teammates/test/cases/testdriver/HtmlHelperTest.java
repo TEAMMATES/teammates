@@ -1,7 +1,7 @@
 package teammates.test.cases.testdriver;
 
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 import static teammates.common.util.Const.EOL;
 
 import java.io.IOException;
@@ -52,23 +52,35 @@ public class HtmlHelperTest {
         //Tool tip in actual. Should not be ignored.
         String actual = "<html><head></head><body><div class=\"tooltip\">tool tip <br> 2nd line </div></body></html>";
         String expected = "<html><head></head><body></body></html>";
-        assertEquals(HtmlHelper.convertToStandardHtml(expected),HtmlHelper.convertToStandardHtml(actual));
+        assertTrue(HtmlHelper.areSameHtml(expected, actual));
         
         //'<div>' without attributes (not a tool tip). Should not be ignored.
         actual = "<html><head></head><body><div></div></body></html>";
         expected = "<html><head></head><body></body></html>";
-        assertFalse(HtmlHelper.convertToStandardHtml(expected).equals(HtmlHelper.convertToStandardHtml(actual)));
+        assertFalse(HtmlHelper.areSameHtml(expected, actual));
                 
         //Using a '<div>' that is not a tool tip. Should not be ignored.
         actual = "<html><head></head><body><div id=\"otherId\"></div></body></html>";
         expected = "<html><head></head><body></body></html>";
-        assertFalse(HtmlHelper.convertToStandardHtml(expected).equals(HtmlHelper.convertToStandardHtml(actual)));
+        assertFalse(HtmlHelper.areSameHtml(expected, actual));
         
         //Different tool tips. Will be ignored (the logic does not detect this).
         actual = "<html><head></head><body><div class=\"tooltip\">tool tip <br> 2nd line </div></body></html>";
         expected = "<html><head></head><body><div class=\"tooltip\"></div></body></html>";
-        assertEquals(HtmlHelper.convertToStandardHtml(expected),HtmlHelper.convertToStandardHtml(actual));
+        assertTrue(HtmlHelper.areSameHtml(expected, actual));
     }
     
-
+    @Test
+    public void testConvertToStandardHtmlPart() {
+        
+        //Tool tip in actual. Should not be ignored.
+        String actual = "<html><head></head><body><div class=\"tooltip\">tool tip <br> 2nd line </div></body></html>";
+        String expected = "<html><head></head><body></body></html>";
+        assertTrue(HtmlHelper.areSameHtmlPart(expected, actual));
+        
+        //'<div>' without attributes (not a tool tip). Should not be ignored.
+        actual = "<html><head></head><body><div></div></body></html>";
+        expected = "<html><head></head><body></body></html>";
+        assertFalse(HtmlHelper.areSameHtml(expected, actual));
+    }
 }
