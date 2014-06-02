@@ -244,14 +244,14 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         
         ______TS("sorting");
         
-        String patternString = "Course Name{*}Programming Language Concept{*}Programming Methodology{*}Software Engineering $^&*()";
+        String patternString = "{*}Programming Language Concept{*}Programming Methodology{*}Software Engineering $^&*()";
         coursesPage.sortByCourseName().verifyTablePattern(1, patternString);
-        patternString = "Course Name{*}Software Engineering $^&*(){*}Programming Methodology{*}Programming Language Concept";
+        patternString = "{*}Software Engineering $^&*(){*}Programming Methodology{*}Programming Language Concept";
         coursesPage.sortByCourseName().verifyTablePattern(1, patternString);
         
-        patternString = "Course ID{*}CCAddUiTest.course1{*}CCAddUiTest.CS1101{*}CCAddUiTest.CS2104";
+        patternString = "{*}CCAddUiTest.course1{*}CCAddUiTest.CS1101{*}CCAddUiTest.CS2104";
         coursesPage.sortByCourseId().verifyTablePattern(0, patternString);
-        patternString = "Course ID{*}CCAddUiTest.CS2104{*}CCAddUiTest.CS1101{*}CCAddUiTest.course1";
+        patternString = "{*}CCAddUiTest.CS2104{*}CCAddUiTest.CS1101{*}CCAddUiTest.course1";
         coursesPage.sortByCourseId().verifyTablePattern(0, patternString);
     }
 

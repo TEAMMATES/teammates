@@ -491,7 +491,7 @@ public abstract class AppPage {
      * e.g.2, {@code "value 1{*}value 2{*}value 3"}
      * The header row will be ignored
      */
-    public void verifyTablePattern(int column,String patternString){
+    public void verifyTablePattern(int column, String patternString){
         String[] splitString = patternString.split(java.util.regex.Pattern.quote("{*}"));
         boolean isFirstRowEmpty = (splitString.length >= 0) && splitString[0].isEmpty();
         for (int row=1;row < splitString.length;row++) {
@@ -499,7 +499,7 @@ public abstract class AppPage {
             int rowIndex = isFirstRowEmpty ? row : (row - 1);
             if(splitString[rowIndex].length() > 0){
                 String tableCellString = this.getCellValueFromDataTable(row, column);
-                assertEquals(splitString[row], tableCellString);
+                assertEquals(splitString[rowIndex], tableCellString);
             }
         }
     }
@@ -512,7 +512,7 @@ public abstract class AppPage {
      * e.g.2, {@code "value 1{*}value 2{*}value 3"}
      * The header row will be ignored
      */
-    public void verifyTablePattern(int tableNum, int column,String patternString){
+    public void verifyTablePattern(int tableNum, int column, String patternString){
         String[] splitString = patternString.split(java.util.regex.Pattern.quote("{*}"));
         boolean isFirstRowEmpty = (splitString.length >= 0) && splitString[0].isEmpty();
         int actualNumberOfRowsInTable = isFirstRowEmpty ? splitString.length : splitString.length + 1;
