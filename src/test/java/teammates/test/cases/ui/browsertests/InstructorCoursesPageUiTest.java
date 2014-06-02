@@ -278,45 +278,45 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         
         Url coursesUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE)
                 .withUserId(testData.accounts.get("instructorWithCourses").googleId);
-            coursesPage = loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
+        coursesPage = loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
             
-            ______TS("archive action success");
-            String courseId = "CCAddUiTest.CS1101";
+        ______TS("archive action success");
+       String courseId = "CCAddUiTest.CS1101";
 
-            coursesPage.archiveCourse(courseId);
-            coursesPage.verifyHtmlPart(By.id("frameBodyWrapper"), "/instructorCourseArchiveSuccessful.html");
+       coursesPage.archiveCourse(courseId);
+       coursesPage.verifyHtmlPart(By.id("frameBodyWrapper"), "/instructorCourseArchiveSuccessful.html");
 
-            ______TS("unarchive action success");
-            coursesPage = loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
+       ______TS("unarchive action success");
+       coursesPage = loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
             
-            coursesPage.unarchiveCourse(courseId);
-            coursesPage.verifyHtmlPart(By.id("frameBodyWrapper"), "/instructorCourseUnarchiveSuccessful.html");
+       coursesPage.unarchiveCourse(courseId);
+       coursesPage.verifyHtmlPart(By.id("frameBodyWrapper"), "/instructorCourseUnarchiveSuccessful.html");
 
-            // TODO: Handling for the failure of archive and unarchive is still not good
-            // Need more improvement
+       // TODO: Handling for the failure of archive and unarchive is still not good
+       // Need more improvement
             
-            ______TS("archive action failed");
-            // only possible if someone else delete the course while the user is viewing the page
+       ______TS("archive action failed");
+       // only possible if someone else delete the course while the user is viewing the page
             
-            String anotherCourseId = "CCAddUiTest.CS2104";
+       String anotherCourseId = "CCAddUiTest.CS2104";
 
-            coursesPage = loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
+       coursesPage = loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
             
-            BackDoor.deleteCourse(anotherCourseId);
+       BackDoor.deleteCourse(anotherCourseId);
 
-            coursesPage.archiveCourse(anotherCourseId);
-            coursesPage.verifyContains("You are not authorized to view this page.");
+       coursesPage.archiveCourse(anotherCourseId);
+       coursesPage.verifyContains("You are not authorized to view this page.");
 
-            ______TS("unarchive action failed");
-            // only possible if someone else delete the course while the user is viewing the page
+       ______TS("unarchive action failed");
+       // only possible if someone else delete the course while the user is viewing the page
             
-            coursesPage = loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
-            coursesPage.archiveCourse(courseId);
+       coursesPage = loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
+       coursesPage.archiveCourse(courseId);
  
-            BackDoor.deleteCourse(courseId);
+       BackDoor.deleteCourse(courseId);
 
-            coursesPage.unarchiveCourse(courseId);
-            coursesPage.verifyContains("You are not authorized to view this page.");
+       coursesPage.unarchiveCourse(courseId);
+       coursesPage.verifyContains("You are not authorized to view this page.");
             
     }
     

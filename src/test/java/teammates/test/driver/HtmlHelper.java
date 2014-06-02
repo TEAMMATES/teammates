@@ -75,7 +75,7 @@ public class HtmlHelper {
     }
     
     public static String convertToStandardHtmlPart(String rawHtml) {
-        String preProcessedHtml = replaceInRawHtmlString(rawHtml);
+        String preProcessedHtml = preProcessHtml(rawHtml);
         return convertRawHtmlPartString(preProcessedHtml);
     }
 
