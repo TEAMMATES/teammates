@@ -492,7 +492,7 @@ public abstract class AppPage {
      * The header row will be ignored
      */
     public void verifyTablePattern(int column, String patternString){
-        verifyTablePattern(0, column, patternString);
+        verifyTablePattern(1, column, patternString);
     }
     
     /**

@@ -3,6 +3,7 @@ package teammates.test.cases.ui.browsertests;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -213,14 +214,14 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         BackDoor.deleteCourse(validCourse.id); //delete if it exists
         coursesPage.addCourse(validCourse.id, validCourse.name);
 
-        coursesPage.verifyHtml("/instructorCourseAddSuccessful.html");
+        coursesPage.verifyHtmlPart(By.id("frameBodyWrapper"), "/instructorCourseAddSuccessful.html");
 
         ______TS("add action fail: duplicate course ID");
         coursesPage = loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
         
         coursesPage.addCourse(validCourse.id, "different course name");
 
-        coursesPage.verifyHtml("/instructorCourseAddDupIdFailed.html");
+        coursesPage.verifyHtmlPart(By.id("frameBodyWrapper"), "/instructorCourseAddDupIdFailed.html");
         
         ______TS("add action fail: invalid course ID");
         coursesPage = loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
@@ -228,7 +229,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         
         coursesPage.addCourse(invalidID, "random course name");
 
-        coursesPage.verifyHtml("/instructorCourseAddInvalidIdFailed.html");
+        coursesPage.verifyHtmlPart(By.id("frameBodyWrapper"), "/instructorCourseAddInvalidIdFailed.html");
 
         ______TS("add action fail: missing parameters");
         coursesPage = loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
@@ -237,21 +238,21 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
 
         coursesPage.addCourse(validID, missingCourseName);
 
-        coursesPage.verifyHtml("/instructorCourseAddMissingParamsFailed.html");
+        coursesPage.verifyHtmlPart(By.id("frameBodyWrapper"), "/instructorCourseAddMissingParamsFailed.html");
     }
     
     public void testSortCourses() {
         
         ______TS("sorting");
         
-        String patternString = "{*}Programming Language Concept{*}Programming Methodology{*}Software Engineering $^&*()";
+        String patternString = "Programming Language Concept{*}Programming Methodology{*}Software Engineering $^&*()";
         coursesPage.sortByCourseName().verifyTablePattern(1, patternString);
-        patternString = "{*}Software Engineering $^&*(){*}Programming Methodology{*}Programming Language Concept";
+        patternString = "Software Engineering $^&*(){*}Programming Methodology{*}Programming Language Concept";
         coursesPage.sortByCourseName().verifyTablePattern(1, patternString);
         
-        patternString = "{*}CCAddUiTest.course1{*}CCAddUiTest.CS1101{*}CCAddUiTest.CS2104";
+        patternString = "CCAddUiTest.course1{*}CCAddUiTest.CS1101{*}CCAddUiTest.CS2104";
         coursesPage.sortByCourseId().verifyTablePattern(0, patternString);
-        patternString = "{*}CCAddUiTest.CS2104{*}CCAddUiTest.CS1101{*}CCAddUiTest.course1";
+        patternString = "CCAddUiTest.CS2104{*}CCAddUiTest.CS1101{*}CCAddUiTest.course1";
         coursesPage.sortByCourseId().verifyTablePattern(0, patternString);
     }
 
@@ -269,7 +270,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         assertNotNull(BackDoor.getCourseAsJson(courseId));
 
         coursesPage.clickAndConfirm(coursesPage.getDeleteLink(courseId))
-            .verifyHtml("/instructorCourseDeleteSuccessful.html");
+            .verifyHtmlPart(By.id("frameBodyWrapper"), "/instructorCourseDeleteSuccessful.html");
         
     }
     
@@ -283,13 +284,13 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
             String courseId = "CCAddUiTest.CS1101";
 
             coursesPage.archiveCourse(courseId);
-            coursesPage.verifyHtml("/instructorCourseArchiveSuccessful.html");
+            coursesPage.verifyHtmlPart(By.id("frameBodyWrapper"), "/instructorCourseArchiveSuccessful.html");
 
             ______TS("unarchive action success");
             coursesPage = loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
             
             coursesPage.unarchiveCourse(courseId);
-            coursesPage.verifyHtml("/instructorCourseUnarchiveSuccessful.html");
+            coursesPage.verifyHtmlPart(By.id("frameBodyWrapper"), "/instructorCourseUnarchiveSuccessful.html");
 
             // TODO: Handling for the failure of archive and unarchive is still not good
             // Need more improvement
