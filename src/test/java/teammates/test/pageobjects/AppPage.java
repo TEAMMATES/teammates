@@ -515,8 +515,8 @@ public abstract class AppPage {
     public void verifyTablePattern(int tableNum, int column, String patternString){
         String[] splitString = patternString.split(java.util.regex.Pattern.quote("{*}"));
         boolean isFirstRowEmpty = (splitString.length >= 0) && splitString[0].isEmpty();
-        int actualNumberOfRowsInTable = isFirstRowEmpty ? splitString.length : splitString.length + 1;
-        assertEquals(actualNumberOfRowsInTable, getNumberOfRowsFromDataTable(tableNum));
+        int expectedNumberOfRowsInTable = isFirstRowEmpty ? splitString.length : splitString.length + 1;
+        assertEquals(expectedNumberOfRowsInTable, getNumberOfRowsFromDataTable(tableNum));
         for(int row=1;row < splitString.length;row++){
             int rowIndex = isFirstRowEmpty ? row : (row - 1);
             String tableCellString = this.getCellValueFromDataTable(tableNum, row, column);
