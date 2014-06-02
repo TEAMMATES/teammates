@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.jdo.JDOHelper;
+import javax.jdo.PersistenceManager;
+
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Instructor;
@@ -13,6 +16,11 @@ import teammates.storage.entity.Student;
 public class DataMigrationAppendInstitutionForAccounts extends RemoteApiClient {
     
     private static final boolean isTrial = true;
+    
+    // TODO: remove pm and use Datastore.initialize(); as done in GenerateFeedbackReport
+    protected static final PersistenceManager pm = JDOHelper
+            .getPersistenceManagerFactory("transactions-optional")
+            .getPersistenceManager();
     
     public static void main(String[] args) throws IOException {
         DataMigrationAppendInstitutionForAccounts migrator = new DataMigrationAppendInstitutionForAccounts();
