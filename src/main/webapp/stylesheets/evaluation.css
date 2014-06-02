@@ -337,12 +337,12 @@ tfoot td {
     color: #036;
     font-size:10px;
 }
-.color_positive { 
+.color-positive { 
     color: #060;
     font-weight:bold;
     
 }
-.color_negative { 
+.color-negative { 
     color:#F00;
     font-weight:bold;
 }
@@ -409,7 +409,7 @@ p.splinfo3 {
    text-align: right;
 }
 
-.centeralign {
+.align-center {
    text-align: center;
 }
 

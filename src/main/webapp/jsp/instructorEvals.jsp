@@ -326,11 +326,11 @@
                 <tr class="fill-primary">
                     <th id="button_sortid" onclick="toggleSort(this,1);"
                         class="button-sort-ascending">Course ID <span
-                        class="sort-icon unsorted"></span>
+                        class="icon-sort unsorted"></span>
                     </th>
                     <th id="button_sortname" onclick="toggleSort(this,2)"
                         class="button-sort-none">Session Name <span
-                        class="sort-icon unsorted"></span>
+                        class="icon-sort unsorted"></span>
                     </th>
                     <th>Status</th>
                     <th><span
@@ -410,7 +410,7 @@
         <%
             if (sessionIdx == -1) {
         %>
-        <div class="centeralign">No records found.</div>
+        <div class="align-center">No records found.</div>
         <br> <br> <br>
         <%
             }

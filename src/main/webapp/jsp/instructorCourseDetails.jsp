@@ -95,7 +95,7 @@
                      if(data.courseDetails.stats.studentsTotal>1){
                  %>
                  <div class="form-group">
-                     <div class="centeralign">
+                     <div class="align-center">
                          <input type="button" class="btn btn-primary"
                                  id="button_remind"
                                  data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_REMIND%>"
@@ -124,15 +124,15 @@
             <thead class="fill-primary">
                 <tr>
                     <th onclick="toggleSort(this,1);" id="button_sortstudentteam" class="button-sort-none">
-                        Team<span class="sort-icon unsorted"></span>
+                        Team<span class="icon-sort unsorted"></span>
                     </th>
                     <th onclick="toggleSort(this,2);" id="button_sortstudentname" class="button-sort-none">
-                        Student Name<span class="sort-icon unsorted"></span>
+                        Student Name<span class="icon-sort unsorted"></span>
                     </th>
                     <th onclick="toggleSort(this,3);" id="button_sortstudentstatus" class="button-sort-none">
-                        Status<span class="sort-icon unsorted"></span>
+                        Status<span class="icon-sort unsorted"></span>
                     </th>
-                    <th class="centeralign no-print">
+                    <th class="align-center no-print">
                         Action(s)
                     </th>
                 </tr>
@@ -144,8 +144,8 @@
                     <tr class="student_row" id="student<%=idx%>">
                         <td id="<%=Const.ParamsNames.TEAM_NAME%>"><%=sanitizeForHtml(student.team)%></td>
                         <td id="<%=Const.ParamsNames.STUDENT_NAME%>"><%=sanitizeForHtml(student.name)%></td>
-                        <td class="centeralign"><%=data.getStudentStatus(student)%></td>
-                        <td class="centeralign no-print">
+                        <td class="align-center"><%=data.getStudentStatus(student)%></td>
+                        <td class="align-center no-print">
                             <a class="btn btn-default btn-xs t_student_details<%=idx%>"
                                     href="<%=data.getCourseStudentDetailsLink(student)%>"
                                     data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_STUDENT_DETAILS%>">

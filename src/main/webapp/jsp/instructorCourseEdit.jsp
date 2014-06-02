@@ -77,7 +77,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class=" col-sm-12 centeralign">
+                        <div class=" col-sm-12 align-center">
                             <input type="submit" class="button" id="btnSaveCourse" name="btnSaveCourse"
                             style="display:none;" value="Save Changes" onclick="return verifyCourseData();">
                         </div>
@@ -176,7 +176,7 @@
             }
         %>
         
-        <div class="centeralign">
+        <div class="align-center">
             <input id="btnShowNewInstructorForm" class="btn btn-primary" value="Add New Instructor" 
                 onclick="showNewInstructorForm()">
         </div>
