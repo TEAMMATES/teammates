@@ -47,7 +47,7 @@ public class AppPageUiTest extends BaseUiTestCase {
         page.verifyTablePattern(2, 1, patternString);
         
         // users of this API are not supposed to let the following case happen
-        // empty table--trivia case, will not be tested
+        // empty table--trivial case, will not be tested
         // empty cell--will not be tested
         // cannot find table--will not be tested
         // cannot find columns--will not be tested
