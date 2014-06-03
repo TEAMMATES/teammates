@@ -1,5 +1,6 @@
 $(function () {
-	$("a[type='button']").hide();
+	//to specify a better class name...
+	$(".list-group-item > div > a[type='button']").hide();
 });
 
 //focus comment input when dropdown is open
