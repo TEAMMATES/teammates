@@ -1,7 +1,7 @@
 $(function () {
-	focusOmniCommentRecipientInput();
 });
 
+//focus comment input when dropdown is open
 function focusOmniCommentRecipientInput(){
 	$('#omni-comment-dropdown-trigger').click(function () {
 		setTimeout(function(){$('#omni-comment-recipient-input').focus();}, 0);
@@ -11,6 +11,18 @@ function focusOmniCommentRecipientInput(){
 	});
 }
 
+focusOmniCommentRecipientInput();
+
+//open or close show more options
+$('#option-check').click(function(){
+	if($('#option-check').is(':checked')){
+		$('#more-options').show();
+	} else {
+		$('#more-options').hide();
+	}
+});
+
+//demo auto completion in Quick Access
 var substringMatcher = function(strs) {
   return function findMatches(q, cb) {
     var matches, substringRegex;

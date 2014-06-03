@@ -49,3 +49,11 @@
 .tt-suggestion p {
   margin: 0;
 }
+
+#more-options {
+    display: none;
+}
+
+.feedback-response-comments, .student-record-comments, .notes {
+    margin-top: 10px;
+}
