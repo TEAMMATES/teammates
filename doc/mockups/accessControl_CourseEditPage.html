@@ -24,6 +24,7 @@
   </script>
   <script src="../../src/main/webapp/js/instructor.js"></script>
   <script src="../../src/main/webapp/js/instructorCourseEdit.js"></script>
+  <script src="../../src/main/webapp/js/instructorCourseEditAdditional.js"></script>
   <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!--[if lt IE 9]>
   <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -165,6 +166,57 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Email:</label>
                         <div class="col-sm-9"><input class="form-control" type="text" name="instructoremail" id="instructoremail1" value="franklinguIns@google.com" data-toggle="tooltip" data-placement="top" title="" maxlength="45" tabindex="5" disabled="disabled" data-original-title="Enter the Email of the instructor.">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label">
+                           <input type="checkbox" name="shouldDisplayInstr" value="lecturer">Display to student as a
+                        </label>
+                        <div class="col-sm-6">
+                          <select class="form-control">
+                            <option>Lecturer</option>
+                            <option>Coodinator</option>
+                            <option>Tutor</option>
+                          </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                          <label class="control-label">Access-level</label><br><br><br><br>
+                          <a href="enableTunePermissionsForInstructor(1, 1)" class="small">Fine-tune permissions</a>
+                        </div>
+                        <div class="col-sm-9">
+                            <input type="radio" name="access-level" value="Co-owner">Co-owner:description of the role<br>
+                            <input type="radio" name="access-level" value="Manager">Manager:description of the role<br>
+                            <input type="radio" name="access-level" value="Observer">Observer:description of the role<br>
+                            <input type="radio" name="access-level" value="Tutor">Tutor:description of the role<br>
+                            <input type="radio" name="access-level" value="Helper">Helper:description of the role<br>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="panel panel-info" style="width: 90%; margin: 0 auto;">
+                          <div class="panel-heading">
+                            <strong>Course Related</strong>
+                          </div>
+                          <div class="panel-body align-center">
+                            <input type="checkbox" name="courseAccessControlCourseEdit" value="true">Edit Course&nbsp;
+                            <input type="checkbox" name="courseAccessControlCourseDel" value="true">Delete Course<br>
+                            <input type="checkbox" name="courseAccessControlInstrEditAndDel" value="true">Add/Edit/Delete Instructor<br>
+                            <input type="checkbox" name="courseAccessControlOwnerEditAndDel" value="true">Add/Edit/Delete Owner<br>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="panel panel-info" style="width: 90%; margin: 0 auto;">
+                          <div class="panel-heading">
+                            <strong>Section Related</strong>
+                            <div class="pull-right">
+                              
+                            </div>
+                          </div>
+                          <div class="panel-body align-center">
+                            
+                          </div>
                         </div>
                     </div>
                     <div class="form-group">
