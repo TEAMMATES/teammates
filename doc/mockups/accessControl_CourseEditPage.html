@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="shortcut icon" href="../../src/main/webapp/favicon.ico">
+
+  <title>HTML mockups for TEAMMATES Instructor Course Edit Page</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="../../src/main/webapp/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap theme -->
+  <link href="../../src/main/webapp/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+  <link href="../../src/main/webapp/stylesheets/teammatesCommon.css" rel="stylesheet">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+  <script src="../../src/main/webapp/bootstrap/js/bootstrap.min.js"></script>
+  <script type="text/javascript">
+  $(function() { 
+    $("[data-toggle='tooltip']").tooltip({html: true}); 
+  });
+  </script>
+  <script src="../../src/main/webapp/js/instructor.js"></script>
+  <script src="../../src/main/webapp/js/instructorCourseEdit.js"></script>
+  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+<body>
+  <!-- Fixed navbar -->
+  <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse"
+        data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span
+        class="icon-bar"></span> <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">TEAMMATES</a>
+       </div>
+      <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li><a href="#">Home</a></li>
+          <li class="active"><a href="#about">Courses</a></li>
+          <li><a href="#contact">Sessions</a></li>
+          <li><a href="#contact">Students</a></li>
+          <li><a href="#comment">Comments</a></li>
+          <li class="dropdown">
+            <span data-toggle="dropdown" data-toggle="tooltip" title="Write a comment" class="glyphicon glyphicon-comment omni-comment-drop-down"></span>
+            <ul class="dropdown-menu">
+              <li class="list-group-item">
+                <form>
+                  <div class="form-group">
+                    <input id="omni-comment-recipient-input" class="form-control" placeholder="Comment recipients" />
+                    <select id="omni-comment-recipient-select" class="form-control">
+                      <option selected>to Student in CS2103</option>
+                      <option>to Feedback Response</option>
+                      <option>to Whole Class</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <button type="button" data-toggle="tooltip" title="Change font color" class="btn btn-default btn-xs icon-button">
+                      <span class="glyphicon glyphicon-font"></span>
+                    </button>
+                    <button type="button" data-toggle="tooltip" title="Make font bold" class="btn btn-default btn-xs icon-button">
+                      <span class="glyphicon glyphicon-bold"></span>
+                    </button>
+                    <button type="button" data-toggle="tooltip" title="Add emoticon" class="btn btn-default btn-xs icon-button">
+                      <span class="glyphicon glyphicon-heart"></span>
+                    </button>
+                    <button type="button" data-toggle="tooltip" title="Advanced comment editor" class="btn btn-default btn-xs icon-button pull-right">
+                      <span class="glyphicon glyphicon-th"></span>
+                    </button>
+                  </div>
+                  <div class="form-group">
+                    <textarea rows="5" class="form-control" placeholder="Your comment"></textarea>
+                  </div>
+                  <button type="submit" class="btn btn-primary">Send</button>
+                  <button type="submit" class="btn btn-default">Save as Draft</button>
+                </form>
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <ul class="nav navbar-nav pull-right">
+          <li class="nav logout"><a  href="#contact">Logout (<span class="text-info">Jim.Davis</span>)
+          </a></li>
+        </ul>
+      </div>
+      <!--/.nav-collapse -->
+    </div>
+  </div>
+
+  <div id="frameBodyWrapper" class="container theme-showcase">
+    <div id="headerOperation">
+        <h1>Edit Course Details</h1>
+    </div>
+        
+    <div class="panel panel-primary panel-narrow">
+        <div class="panel-heading">
+            <strong>Course:</strong>
+            <a href="#" class="btn btn-primary btn-xs pull-right" id="courseDeleteLink" data-toggle="tooltip" data-placement="top" title="" onclick="return toggleDeleteCourseConfirmation('franklinguIns.goo-demo');" data-original-title="Delete the course and its corresponding students and evaluations">
+                <span class="glyphicon glyphicon-trash"></span>
+                Delete</a>
+        </div>
+        <div class="panel-body fill-plain">
+            <form action="#" method="post" id="formEditcourse" class="form form-horizontal">
+                <input type="hidden" name="courseid" value="franklinguIns.goo-demo">
+                <input type="hidden" name="instructorid" value="franklinguIns">
+                
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Course ID:</label>
+                    <div class="col-sm-3"><input type="text" class="form-control" name="courseid" id="courseid" value="franklinguIns.goo-demo" data-toggle="tooltip" data-placement="top" title="" maxlength="40" tabindex="1" disabled="disabled" data-original-title="Identifier of the course, e.g.CS3215-Sem1.">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Course Name:</label>
+                    <div class="col-sm-9"><input type="text" class="form-control" name="coursename" id="coursename" value="Sample Course 101" data-toggle="tooltip" data-placement="top" title="" maxlength="64" tabindex="2" disabled="disabled" data-original-title="The name of the course, e.g. Software Engineering.">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class=" col-sm-12 align-center">
+                        <input type="submit" class="button" id="btnSaveCourse" name="btnSaveCourse" style="display:none;" value="Save Changes" onclick="return verifyCourseData();">
+                    </div>
+                </div>
+                <input type="hidden" name="user" value="franklinguIns">
+            </form>
+        </div>
+    </div>
+    <br><br>
+    <div class="panel panel-primary panel-narrow">
+        <div class="panel-heading">
+            <strong>Instructor 1:</strong>
+            <div class="pull-right">
+                <a href="#" id="instrEditLink1" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="" onclick="enableEditInstructor(1, 1)" data-original-title="Edit instructor details">
+                        <span class="glyphicon glyphicon-pencil"></span> Edit</a>                   
+                <a href="#" id="instrDeleteLink1" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="" onclick="return toggleDeleteInstructorConfirmation('franklinguIns.goo-demo', 'franklinguIns@google.com', true);" data-original-title="Delete the instructor from the course">
+                    <span class="glyphicon glyphicon-trash"></span> Delete</a>
+            </div>
+        </div>
+
+        <div class="panel-body">
+            <form method="post" action="#" id="formEditInstructor1" name="formEditInstructors" class="form form-horizontal">
+                <input type="hidden" name="courseid" value="franklinguIns.goo-demo">
+                <input type="hidden" name="instructorid" value="franklinguIns">
+                <input type="hidden" name="user" value="franklinguIns">
+                
+                <div id="instructorTable1">                   
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Google ID:</label>
+                            <div class="col-sm-9"><input class="form-control" type="text" name="instructorid" id="instructorid1" value="franklinguIns" data-toggle="tooltip" data-placement="top" title="" maxlength="45" tabindex="3" disabled="disabled" data-original-title="Enter the google id of the instructor.">
+                            </div>
+                        </div>
+                    
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Name:</label>
+                        <div class="col-sm-9"><input class="form-control" type="text" name="instructorname" id="instructorname1" value="franklinguIns" data-toggle="tooltip" data-placement="top" title="" maxlength="100" tabindex="4" disabled="disabled" data-original-title="Enter the name of the instructor.">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Email:</label>
+                        <div class="col-sm-9"><input class="form-control" type="text" name="instructoremail" id="instructoremail1" value="franklinguIns@google.com" data-toggle="tooltip" data-placement="top" title="" maxlength="45" tabindex="5" disabled="disabled" data-original-title="Enter the Email of the instructor.">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-3 col-sm-9"><input id="btnSaveInstructor1" type="submit" class="btn btn-primary" style="display:none;" value="Save changes" tabindex="6">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>       
+    <br><br>        
+    <div class="align-center">
+        <input id="btnShowNewInstructorForm" class="btn btn-primary" value="Add New Instructor" onclick="showNewInstructorForm()">
+    </div>
+    
+    <div class="panel panel-primary panel-narrow" id="panelAddInstructor" style="display: none;">
+        <div class="panel-heading">
+            <strong>Instructors 2:</strong>
+        </div>
+
+        <div class="panel-body fill-plain">
+            <form method="post" action="#" name="formAddInstructor" class="form form-horizontal" id="formAddInstructor">
+                <input type="hidden" name="courseid" value="franklinguIns.goo-demo">
+                <input type="hidden" name="user" value="franklinguIns">
+                
+                <div id="instructorAddTable">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Name:</label>
+                        <div class="col-sm-9"><input class="form-control" type="text" name="instructorname" id="instructorname" data-toggle="tooltip" data-placement="top" title="" maxlength="100" tabindex="8/" data-original-title="Enter the name of the instructor.">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Email:</label>
+                        <div class="col-sm-9"><input class="form-control" type="text" name="instructoremail" id="instructoremail" data-toggle="tooltip" data-placement="top" title="" maxlength="45" tabindex="9/" data-original-title="Enter the Email of the instructor.">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-3 col-sm-9"><input id="btnAddInstructor" type="submit" class="btn btn-primary" value="Add Instructor" tabindex="10">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br><br>
+  </div>
+
+  <div id="footerComponent" class="container-fluid">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <span>[<a href="/index.html">TEAMMATES</a> V4.18]</span>
+        </div>
+        <div class="col-md-4">
+
+          [for <span class="highlight-white"><span class="color_white">NUS</span></span>]
+
+        </div>
+        <div class="col-md-4">
+          <span>[Send <a class="link" href="../contact.html" target="_blank">Feedback</a>]</span>
+        </div>
+      </div>
+  </div>
+</body>
+</html>
