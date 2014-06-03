@@ -3,6 +3,7 @@ package teammates.test.cases.ui.browsertests;
 import static org.testng.AssertJUnit.assertEquals;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
+import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
 import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.BackDoor;
@@ -77,12 +78,7 @@ public class BaseUiTestCase extends BaseTestCase {
     protected static void restoreTestDataOnServer(DataBundle testData) {
         String backDoorOperationStatus = BackDoor.restoreDataBundle(testData);
         while(!backDoorOperationStatus.equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
-            try {
-                Thread.sleep((long)( Math.random() * 1000));
-            } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+            ThreadHelper.waitFor((int)( Math.random() * 1000));
             backDoorOperationStatus = BackDoor.restoreDataBundle(testData);
         }
     }

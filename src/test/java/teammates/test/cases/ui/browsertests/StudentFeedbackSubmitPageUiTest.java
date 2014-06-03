@@ -89,7 +89,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.fillResponseTextBox(2, 1, "Response to student who is going to drop out.");
         submitPage.selectRecipient(2, 2, "Extra guy");
         submitPage.fillResponseTextBox(2, 2, "Response to extra guy.");
-        submitPage.fillResponseTextBox(14, 0, "0"); //less than min to test validation
+        submitPage.fillResponseTextBox(14, 0, "1");
         
         // Test partial response for question        
         submitPage.fillResponseTextBox(4, 1, "Feedback to team 3");

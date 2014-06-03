@@ -13,6 +13,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
 import teammates.test.driver.AssertHelper;
@@ -546,14 +547,39 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.fillQuestionBox("NumScale qn");
         assertEquals("[Based on the above settings, acceptable responses are: 1, 2, 3, 4, 5]",
                 feedbackEditPage.getNumScalePossibleValuesString(-1));
-        feedbackEditPage.fillMinNumScaleBox(6, -1);
-        assertEquals("7",feedbackEditPage.getMaxNumScaleBox(-1));
-        feedbackEditPage.fillMaxNumScaleBox(6, -1);
-        assertEquals("7",feedbackEditPage.getMaxNumScaleBox(-1));
         
+        fillMinNumScaleBoxWithRecheck(6, -1, "7");
+        fillMaxNumScaleBoxWithRecheck(6, -1, "7");
+            
         //Reset values
         feedbackEditPage.fillMinNumScaleBox(1, -1);
         feedbackEditPage.fillMaxNumScaleBox(5, -1);
+    }
+
+    private void fillMinNumScaleBoxWithRecheck(int minScale, int qnNumber, String expected) {
+        int counter = 0;
+        while(counter != 100) {
+            feedbackEditPage.fillMinNumScaleBox(minScale, qnNumber);
+            if(expected.equals(feedbackEditPage.getMaxNumScaleBox(qnNumber))){
+                return;
+            }
+            counter++;
+            browser.driver.switchTo().window("");
+        }
+        assertEquals(expected, feedbackEditPage.getMaxNumScaleBox(qnNumber));
+    }
+
+    private void fillMaxNumScaleBoxWithRecheck(int maxScale, int qnNumber, String expected) {
+        int counter = 0;
+        while(counter != 100) {
+            feedbackEditPage.fillMaxNumScaleBox(maxScale, qnNumber);
+            if(expected.equals(feedbackEditPage.getMaxNumScaleBox(qnNumber))){
+                return;
+            }
+            counter++;
+            browser.driver.switchTo().window("");
+        }
+        assertEquals(expected, feedbackEditPage.getMaxNumScaleBox(qnNumber));
     }
 
     private void testCustomizeNumScaleOptions() {
