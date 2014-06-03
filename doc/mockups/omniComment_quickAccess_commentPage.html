@@ -61,15 +61,17 @@
                   <button type="button" data-toggle="tooltip" title="Add emoticon" class="btn btn-default btn-xs icon-button">
                     <span class="glyphicon glyphicon-heart"></span>
                   </button>
-                  <button type="button" data-toggle="tooltip" title="Advanced comment editor" class="btn btn-default btn-xs icon-button pull-right">
+                  <button type="button" data-toggle="tooltip" title="Edit in advanced comment editor" class="btn btn-default btn-xs icon-button pull-right">
                     <span class="glyphicon glyphicon-th"></span>
                   </button>
                 </div>
                 <div class="form-group">
-                  <textarea tabindex="2" rows="5" class="form-control" placeholder="Your comment"></textarea>
+                  <textarea tabindex="2" rows="7" class="form-control" placeholder="Your comment"></textarea>
                 </div>
-                <button tabindex="3" type="submit" class="btn btn-primary">Send</button>
-                <button tabindex="4" type="submit" class="btn btn-default">Save as Note</button>
+                <div>
+                  <button tabindex="3" type="submit" class="btn btn-primary">Save</button>
+                  <button tabindex="4" type="submit" class="btn btn-default">Save as Draft</button>
+                </div>
               </form>
             </li>
           </ul>
@@ -92,10 +94,10 @@
       <div class="col-sm-5">
         <h1>Instructor Comments</h1>
       </div>
-      <div class="col-sm-5 instructor-header-bar">
+      <div class="col-sm-4 instructor-header-bar">
         <form method="post" action="#" name="search_form">
           <div class="input-group">
-            <input type="text" name="searchkey" title="Search for comment" class="form-control" placeholder="Comment text" id="searchBox">
+            <input type="text" name="searchkey" title="Search for comment" class="form-control" placeholder="Any info related to comments" id="searchBox">
             <span class="input-group-btn">
               <button class="btn btn-default" type="submit" value="Search" id="buttonSearch">Search</button>
             </span>
@@ -103,7 +105,7 @@
         </form>
       </div>
       <div class="col-md-2 instructor-header-bar">
-        <a class="btn btn-primary btn-md" href="#" id="addNewCourse">Add New Comment </a>
+        <a class="btn btn-primary btn-md" href="#">Edit Comment with Advanced Editor</a>
       </div>
     </div>
   </div>
@@ -119,7 +121,7 @@
       <div class="col-md-3">
         <div class="checkbox">
           <input id="displayArchivedCourses_check" type="checkbox">
-          <label for="displayArchivedCourses_check">Display Archived Courses</label>
+          <label for="displayArchivedCourses_check">Include Archived Courses</label>
         </div>
       </div>
     </div>
@@ -141,14 +143,14 @@
               <div class="checkbox">
                 <input id="team_check-0-0" type="checkbox" checked="checked">
                 <label for="team_check-0-0">
-                  Notes
+                  Drafts
                 </label>
               </div>
 
               <div class="checkbox">
                 <input id="team_check-0-1" type="checkbox" checked="checked">
                 <label for="team_check-0-1">
-                  Student Records Comment
+                  Comments about students
                 </label>
               </div>
 
@@ -227,6 +229,7 @@
   </div>
   <ul class="pagination">
     <li><a href="#">&laquo;</a></li>
+    <li><a href="#">Drafts</a></li>
     <li><a href="#">CS2103 Aug 2013</a></li>
     <li><a href="#">CS2103 Jan 2014</a></li>
     <li><a href="#">CS2103 Aug 2014</a></li>
@@ -242,80 +245,117 @@
     </div>
     <br />
     <div class="panel panel-primary">
-      <div class="panel-heading"><strong>Notes</strong></div>
+      <div class="panel-heading"><strong>Drafts</strong></div>
       <div class="panel-body">
         Your comments that are not assigned to any student or response:
-        <ul class="list-group notes">
-          <li class="list-group-item list-group-item-warning">
-            <div id="commentBar0">
-              <span class="text-muted">on 02 Jun 2014, 09:45</span>
-              <a type="button" id="commentdelete-0" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('0');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment"> 
-                <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
-              </a>
-              <a type="button" id="commentedit-0" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('0', '1');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment">
-                <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
-              </a>
-            </div>
-            <div id="plainCommentText0">Hello World</div>
-          </li>
-          <li class="list-group-item list-group-item-warning">
-            <div id="commentBar0">
-              <span class="text-muted">on 01 Jun 2014, 04:45</span>
-              <a type="button" id="commentdelete-0" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('0');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment"> 
-                <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
-              </a>
-              <a type="button" id="commentedit-0" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('0', '1');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment">
-                <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
-              </a>
-            </div>
-            <div id="plainCommentText0">This is another comment for the demo page!</div>
-          </li>
-        </ul>
+        <div class="panel panel-info student-record-comments drafts">
+          <div class="panel-heading">
+            Your comments:
+          </div>
+
+          <ul class="list-group">
+            <li class="list-group-item list-group-item-warning">
+              <div id="commentBar0">
+                <span class="text-muted">on 02 Jun 2014, 09:45</span>
+                <a type="button" id="commentdelete-0" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('0');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment"> 
+                  <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
+                </a>
+                <a type="button" id="commentedit-0" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('0', '1');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment">
+                  <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
+                </a>
+              </div>
+              <div id="plainCommentText0">Hello World</div>
+            </li>
+            <li class="list-group-item list-group-item-warning">
+              <div id="commentBar0">
+                <span class="text-muted">on 01 Jun 2014, 04:45</span>
+                <a type="button" id="commentdelete-0" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('0');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment"> 
+                  <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
+                </a>
+                <a type="button" id="commentedit-0" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('0', '1');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment">
+                  <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
+                </a>
+              </div>
+              <div id="plainCommentText0">This is another comment for the demo page!</div>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
     <br />
     <div class="panel panel-primary">
-      <div class="panel-heading"><strong>Student Records Comment</strong></div>
+      <div class="panel-heading"><strong>Comments about students</strong></div>
       <div class="panel-body">
         Your comments on student:
-        <ul class="list-group student-record-comments">
-          <li class="list-group-item list-group-item-warning">
-            <div id="commentBar0">
-              <span class="text-muted">To Kai (Team 0, <a href="mailto:kai.john.soc@gmail.com">kai.john.soc@gmail.com</a>) on 02 Jun 2014, 09:45</span>
-              <a type="button" id="commentdelete-0" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('0');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment"> 
-                <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
-              </a>
-              <a type="button" id="commentedit-0" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('0', '1');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment">
-                <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
-              </a>
-            </div>
-            <div id="plainCommentText0">Hello World</div>
-          </li>
-          <li class="list-group-item list-group-item-warning">
-            <div id="commentBar0">
-              <span class="text-muted">To Jack (Team 1, <a href="mailto:soc.foe.nus@gmail.com">soc.foe.nus@gmail.com</a>) on 01 Jun 2014, 04:45</span>
-              <a type="button" id="commentdelete-0" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('0');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment"> 
-                <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
-              </a>
-              <a type="button" id="commentedit-0" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('0', '1');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment">
-                <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
-              </a>
-            </div>
-            <div id="plainCommentText0">This is another comment for the demo page!</div>
-          </li>
-          <li class="list-group-item list-group-item-warning">
-            <div id="commentBar0">
-              <span class="text-muted">To Madana (Team 2, <a href="mailto:dan.na.nus@gmail.com">dan.na.nus@gmail.com</a>) on 01 Jun 2014, 01:45</span>
-              <a type="button" id="commentdelete-0" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('0');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment"> 
-                <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
-              </a>
-              <a type="button" id="commentedit-0" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('0', '1');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment">
-                <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
-              </a>
-            </div>
-            <div id="plainCommentText0">A normal comment to student.</div>
-          </li>
-        </ul>
+        <div class="panel panel-info student-record-comments">
+          <div class="panel-heading">
+            From <b>you</b> to <b>Kai</b> (Team 0, <a href="mailto:kai.john.soc@gmail.com">kai.john.soc@gmail.com</a>) 
+          </div>
+          <ul class="list-group">
+            <li class="list-group-item list-group-item-warning">
+              <div id="commentBar0">
+                <span class="text-muted">on 02 Jun 2014, 09:45</span>
+                <a type="button" id="commentdelete-0" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('0');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment"> 
+                  <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
+                </a>
+                <a type="button" id="commentedit-0" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('0', '1');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment">
+                  <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
+                </a>
+              </div>
+              <div id="plainCommentText0">Hello World</div>
+            </li>
+            <li class="list-group-item list-group-item-warning">
+              <div id="commentBar0">
+                <span class="text-muted">on 02 Jun 2014, 18:45</span>
+                <a type="button" id="commentdelete-0" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('0');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment"> 
+                  <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
+                </a>
+                <a type="button" id="commentedit-0" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('0', '1');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment">
+                  <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
+                </a>
+              </div>
+              <div id="plainCommentText0">Hello World</div>
+            </li>
+          </ul>
+        </div>
+        <div class="panel panel-info student-record-comments">
+          <div class="panel-heading">
+            From <b>you</b> to <b>Jack</b> (Team 1, <a href="mailto:soc.foe.nus@gmail.com">soc.foe.nus@gmail.com</a>)
+          </div>
+          <ul class="list-group">
+            <li class="list-group-item list-group-item-warning">
+              <div id="commentBar0">
+                <span class="text-muted">on 01 Jun 2014, 04:45</span>
+                <a type="button" id="commentdelete-0" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('0');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment"> 
+                  <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
+                </a>
+                <a type="button" id="commentedit-0" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('0', '1');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment">
+                  <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
+                </a>
+              </div>
+              <div id="plainCommentText0">This is another comment for the demo page!</div>
+            </li>
+          </ul>
+        </div>
+        <div class="panel panel-info student-record-comments">
+          <div class="panel-heading">
+            From <b>Instructor2</b> to <b>Madana</b> (Team 2, <a href="mailto:dan.na.nus@gmail.com">dan.na.nus@gmail.com</a>)
+          </div>
+          <ul class="list-group">
+            <li class="list-group-item list-group-item-warning">
+              <div id="commentBar0">
+                <span class="text-muted">on 01 Jun 2014, 01:45</span>
+                <a type="button" id="commentdelete-0" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('0');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment"> 
+                  <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
+                </a>
+                <a type="button" id="commentedit-0" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('0', '1');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment">
+                  <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
+                </a>
+              </div>
+              <div id="plainCommentText0">A normal comment to student.</div>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
     <br />
@@ -348,7 +388,7 @@
                   <ul class="list-group feedback-response-comments">
                     <li class="list-group-item list-group-item-warning">
                       <div id="commentBar0">
-                        <span class="text-muted">To CHEN MINQI (Team 1, <a href="mailto:minqi.soc@gmail.com">minqi.soc@gmail.com</a>) on 02 Jun 2014, 09:45</span>
+                        <span class="text-muted">From <b>you</b> to giver <b>CHEN MINQI</b> (Team 1, <a href="mailto:minqi.soc@gmail.com">minqi.soc@gmail.com</a>) on 02 Jun 2014, 09:45</span>
                         <a type="button" id="commentdelete-0" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('0');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment"> 
                           <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
                         </a>
@@ -360,7 +400,7 @@
                     </li>
                     <li class="list-group-item list-group-item-warning">
                       <div id="commentBar0">
-                        <span class="text-muted">To CHEN MINQI (Team 1, <a href="mailto:minqi.soc@gmail.com">minqi.soc@gmail.com</a>) on 02 Jun 2014, 08:45</span>
+                        <span class="text-muted">From <b>Instructor3</b> to giver <b>CHEN MINQI</b> (Team 1, <a href="mailto:minqi.soc@gmail.com">minqi.soc@gmail.com</a>) on 02 Jun 2014, 08:45</span>
                         <a type="button" id="commentdelete-0" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('0');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment"> 
                           <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
                         </a>
@@ -393,7 +433,7 @@
                   <ul class="list-group feedback-response-comments">
                     <li class="list-group-item list-group-item-warning">
                       <div id="commentBar0">
-                        <span class="text-muted">To Flash (Team 3, <a href="mailto:minqi.soc@gmail.com">minqi.soc@gmail.com</a>) on 02 Jun 2014, 09:45</span>
+                        <span class="text-muted">From <b>you</b> to recipient <b>Flash</b> (Team 3, <a href="mailto:minqi.soc@gmail.com">minqi.soc@gmail.com</a>) on 02 Jun 2014, 09:45</span>
                         <a type="button" id="commentdelete-0" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('0');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment"> 
                           <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
                         </a>
@@ -414,6 +454,7 @@
   </div>
   <ul class="pagination">
     <li><a href="#">&laquo;</a></li>
+    <li><a href="#">Drafts</a></li>
     <li><a href="#">CS2103 Aug 2013</a></li>
     <li><a href="#">CS2103 Jan 2014</a></li>
     <li><a href="#">CS2103 Aug 2014</a></li>

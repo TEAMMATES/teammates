@@ -1,4 +1,5 @@
 $(function () {
+	$("a[type='button']").hide();
 });
 
 //focus comment input when dropdown is open
@@ -70,6 +71,13 @@ $('#omni-comment-recipient-rich-intput').typeahead({
 	name: 'students',
 	displayKey: 'value',
 	source: substringMatcher(students)
+});
+
+$('.list-group-item').hover(
+	function(){
+	$("a[type='button']", this).show();
+}, function(){
+	$("a[type='button']", this).hide();
 });
 
 //enable rich text editor
