@@ -24,7 +24,7 @@ public class ActivityLogTest extends BaseTestCase{
         entry = new ActivityLogEntry(appLog);        
         assertEquals(logMessage, entry.generateLogMessage());
         
-        logMessage = "TEAMMATESLOG|||instructorHome|||Unknown|||true|||Unknown|||Unknown|||Unknown|||Unknown|||<span class=\"color_red\">Error. ActivityLogEntry object is not created for this servlet action.</span><br>Message|||URL";
+        logMessage = "TEAMMATESLOG|||instructorHome|||Unknown|||true|||Unknown|||Unknown|||Unknown|||Unknown|||<span class=\"text-danger\">Error. ActivityLogEntry object is not created for this servlet action.</span><br>Message|||URL";
         entry = new ActivityLogEntry("instructorHome", "Message", "URL");        
         assertEquals(logMessage, entry.generateLogMessage());
         
@@ -33,7 +33,7 @@ public class ActivityLogTest extends BaseTestCase{
         appLog.setTimeUsec(0);
         entry = new ActivityLogEntry(appLog);
         
-        assertEquals("<a href=\"URL?user=UserId\" class=\"color_green bold\" target=\"_blank\">instructorHome</a>", entry.getActionInfo());
+        assertEquals("<a href=\"URL?user=UserId\" class=\"text-success bold\" target=\"_blank\">instructorHome</a>", entry.getActionInfo());
         assertEquals("01-01-1970 07:30:00", entry.getDateInfo());
         assertEquals("Message", entry.getMessageInfo());
         assertEquals("UserId", entry.getPersonInfo());

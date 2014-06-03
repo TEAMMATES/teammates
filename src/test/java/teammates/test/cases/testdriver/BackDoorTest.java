@@ -198,6 +198,7 @@ public class BackDoorTest extends BaseTestCase {
         while(!BackDoor.editAccount(testAccount).equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
             delay();
         }
+        ThreadHelper.waitFor(1000);
         verifyPresentInDatastore(testAccount);
     }
     
@@ -444,6 +445,7 @@ public class BackDoorTest extends BaseTestCase {
         while(!BackDoor.editStudent(originalEmail, student).equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
             delay();
         }
+        ThreadHelper.waitFor(1000);
         verifyPresentInDatastore(student);
 
         // test for unsuccessful edit
@@ -518,7 +520,7 @@ public class BackDoorTest extends BaseTestCase {
         while(!BackDoor.editEvaluation(e).equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
             delay();
         }
-        delay();
+        ThreadHelper.waitFor(1000);
         verifyPresentInDatastore(e);
 
         // not testing for unsuccesful edit because this does 
@@ -560,7 +562,7 @@ public class BackDoorTest extends BaseTestCase {
         while(!BackDoor.editSubmission(submission).equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
             delay();
         }
-        delay();
+        ThreadHelper.waitFor(1000);
         verifyPresentInDatastore(submission);
 
         // test for unsuccessful edit

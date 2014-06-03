@@ -512,6 +512,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
     
     public FeedbackSubmitPage clickPreviewAsInstructorButton() {
+        waitForPageToLoad();
         previewAsInstructorButton.click();
         waitForPageToLoad();
         switchToNewWindow();

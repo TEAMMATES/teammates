@@ -148,6 +148,7 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
         EvaluationAttributes eval = newEval;
         
         // Empty name, closing date
+        
         evalsPage.clickSubmitButton();
         assertEquals(Const.StatusMessages.FIELDS_EMPTY, evalsPage.getStatus());
         
