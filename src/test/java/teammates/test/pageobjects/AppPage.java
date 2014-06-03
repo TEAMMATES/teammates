@@ -368,20 +368,21 @@ public abstract class AppPage {
     
     /** 
      * @return the value of the cell located at {@code (row,column)} 
-     * from the nth table (which is of type {@code class=table}) in the page.
+     * from the nth(0-index-based) table (which is of type {@code class=table}) in the page.
      */
     public String getCellValueFromDataTable(int tableNum, int row, int column) {
-        WebElement tableElement = browser.driver.findElements(By.className("table")).get(tableNum - 1);
+        WebElement tableElement = browser.driver.findElements(By.className("table")).get(tableNum);
         WebElement trElement = tableElement.findElements(By.tagName("tr")).get(row);
         WebElement tdElement = trElement.findElements(By.tagName("td")).get(column);
         return tdElement.getText();
     }
     
     /** 
-     * @return the number of rows from the nth table (which is of type {@code class=table}) in the page.
+     * @return the number of rows from the nth(0-index-based) table 
+     * (which is of type {@code class=table}) in the page.
      */
     public int getNumberOfRowsFromDataTable(int tableNum) {
-        WebElement tableElement = browser.driver.findElements(By.className("table")).get(tableNum - 1);
+        WebElement tableElement = browser.driver.findElements(By.className("table")).get(tableNum);
        return tableElement.findElements(By.tagName("tr")).size();
     }
 
@@ -491,7 +492,7 @@ public abstract class AppPage {
      * The header row will be ignored
      */
     public void verifyTablePattern(int column, String patternString){
-        verifyTablePattern(1, column, patternString);
+        verifyTablePattern(0, column, patternString);
     }
     
     /**
