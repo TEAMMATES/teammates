@@ -60,3 +60,47 @@ $('#omni-comment-recipient-input').typeahead({
 	displayKey: 'value',
 	source: substringMatcher(students)
 });
+
+$('#omni-comment-recipient-rich-intput').typeahead({
+	hint: true,
+	highlight: true,
+	minLength: 1
+},
+{
+	name: 'students',
+	displayKey: 'value',
+	source: substringMatcher(students)
+});
+
+//enable rich text editor
+$('#editor').wysihtml5({
+    "font-styles": true, //Font styling, e.g. h1, h2, etc. Default true
+    "emphasis": true, //Italics, bold, etc. Default true
+    "lists": true, //(Un)ordered lists, e.g. Bullets, Numbers. Default true
+    "html": false, //Button which allows you to edit the generated HTML. Default false
+    "link": true, //Button to insert a link. Default true
+    "image": false, //Button to insert an image. Default true,
+    "color": false, //Button to change color of font  
+    "blockquote": false, //Blockquote  
+  	"size": "none"//default: none, other options are xs, sm, lg
+});
+
+$('#visibility-options-trigger').click(function(){
+	if($('#visibility-options').is(':visible')){
+		$('#visibility-options').hide();
+		$('#visibility-options-trigger').html("<span class=\"glyphicon glyphicon-eye-close\"></span> Show Visibility Options");
+	} else {
+		$('#visibility-options').show();
+		$('#visibility-options-trigger').html("<span class=\"glyphicon glyphicon-eye-close\"></span> Hide Visibility Options");
+	}
+});
+
+$('#bulky-edit-trigger').click(function(){
+	$('#bulky-edit').show();
+	$('#normal-edit').hide();
+});
+
+$('#normal-edit-trigger').click(function(){
+	$('#bulky-edit').hide();
+	$('#normal-edit').show();
+});

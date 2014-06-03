@@ -57,3 +57,29 @@
 .feedback-response-comments, .student-record-comments, .notes {
     margin-top: 10px;
 }
+
+#editor {
+    margin-top: 10px;
+    margin-bottom: 15px;
+    padding: 15px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    box-shadow: 0 5px 10px rgba(0,0,0,.2);
+}
+.wysihtml5-toolbar {
+    clear: both;
+}
+
+#visibility-options {
+    display: none;
+}
+
+#bulky-edit {
+    display: none;
+}
