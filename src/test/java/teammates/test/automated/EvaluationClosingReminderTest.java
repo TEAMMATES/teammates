@@ -97,7 +97,9 @@ public class EvaluationClosingReminderTest extends BaseComponentUsingTaskQueueTe
         ______TS("typical case, 0 evaluations closing soon");
         evaluationsLogic.scheduleRemindersForClosingEvaluations();
 
-        EvaluationClosingCallback.verifyTaskCount(0);
+        if(!EvaluationClosingCallback.verifyTaskCount(0)){
+            assertEquals(EvaluationClosingCallback.taskCount, 0);
+        }
         
         ______TS("typical case, two evaluations closing soon");
         // Reuse an existing evaluation to create a new one that is
@@ -145,10 +147,20 @@ public class EvaluationClosingReminderTest extends BaseComponentUsingTaskQueueTe
 
         evaluationsLogic.createEvaluationCascadeWithoutSubmissionQueue(evaluation3);
         
-        evaluationsLogic.scheduleRemindersForClosingEvaluations();
-        
-        //Expected is 2 because only 2 active evaluations closing within 24 hours
-        EvaluationClosingCallback.verifyTaskCount(2);
+        int counter = 0;
+
+        while(counter != 10){
+            EvaluationClosingCallback.resetTaskCount();
+            evaluationsLogic.scheduleRemindersForClosingEvaluations();
+            //Expected is 2 because only 2 active evaluations closing within 24 hours
+            if(EvaluationClosingCallback.verifyTaskCount(2)){
+                break;
+            }
+            counter++;
+        }
+        if(counter == 10){
+            assertEquals(EvaluationClosingCallback.taskCount, 2);
+        }
         
     }
 

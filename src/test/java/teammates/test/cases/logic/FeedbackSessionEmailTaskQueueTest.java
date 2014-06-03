@@ -85,13 +85,24 @@ public class FeedbackSessionEmailTaskQueueTest extends
         fsa.endTime = TimeHelper.getHoursOffsetToCurrentTime(0);
         
         feedbackSessionsLogic.updateFeedbackSession(fsa);
-        feedbackSessionsLogic.publishFeedbackSession(fsa.feedbackSessionName, fsa.courseId);
-        FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(1);
-        FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
-    
+
+        int counter = 0;
+
+        while(counter != 10){
+            FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
+            feedbackSessionsLogic.publishFeedbackSession(fsa.feedbackSessionName, fsa.courseId);
+            if(FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(1)){
+                break;
+            }
+            counter++;
+        }
+        if(counter == 10){
+            assertEquals(FeedbackSessionsEmailTaskQueueCallback.taskCount, 1);
+        }
         
         ______TS("Try to publish non-existent feedback session");
         
+        FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
         fsa.endTime = TimeHelper.getHoursOffsetToCurrentTime(0);
         feedbackSessionsLogic.updateFeedbackSession(fsa);
         try {
@@ -100,7 +111,9 @@ public class FeedbackSessionEmailTaskQueueTest extends
             assertEquals("Trying to publish a non-existant session.", 
                     e.getMessage());
         }
-        FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(0);
+        if(!FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(0)){
+            assertEquals(FeedbackSessionsEmailTaskQueueCallback.taskCount, 0);
+        }
         
     }
     
@@ -114,20 +127,33 @@ public class FeedbackSessionEmailTaskQueueTest extends
         ______TS("Send feedback session reminder email");
         
         FeedbackSessionAttributes fsa = dataBundle.feedbackSessions.get("session1InCourse1");
-        logic.sendReminderForFeedbackSession(fsa.courseId, fsa.feedbackSessionName);
-        
-        FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(7);// 7 people have not completed feedback session.
-        FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
+        int counter = 0;
+
+        while(counter != 10){
+            FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
+            logic.sendReminderForFeedbackSession(fsa.courseId, fsa.feedbackSessionName);
+            if(FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(7)){// 7 people have not completed feedback session.
+                break;
+            }
+            counter++;
+        }
+        if(counter == 10){
+            assertEquals(FeedbackSessionsEmailTaskQueueCallback.taskCount, 7);
+        }
+      
         
         ______TS("Try to send reminder for null feedback session");
         
+        FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
         fsa = dataBundle.feedbackSessions.get("session1InCourse1");
         try {
             logic.sendReminderForFeedbackSession(fsa.courseId, null);
         } catch (AssertionError a) {
             assertEquals("The supplied parameter was null\n", a.getMessage());
         }
-        FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(0);
+        if(!FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(0)){
+            assertEquals(FeedbackSessionsEmailTaskQueueCallback.taskCount, 0);
+        }
     }
     
     @Test
@@ -141,7 +167,9 @@ public class FeedbackSessionEmailTaskQueueTest extends
         ______TS("no opening email tasks to be sent");
                 
         fsLogic.scheduleFeedbackSessionOpeningEmails();
-        FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(0);
+        if(!FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(0)){
+            assertEquals(FeedbackSessionsEmailTaskQueueCallback.taskCount, 0);
+        }
         
         ______TS("1 opening email task to be sent");
         
@@ -156,10 +184,21 @@ public class FeedbackSessionEmailTaskQueueTest extends
         fsa.startTime = TimeHelper.getDateOffsetToCurrentTime(-1);
         fsLogic.updateFeedbackSession(fsa);
         
-        fsLogic.scheduleFeedbackSessionOpeningEmails();
+        int counter = 0;
+
+        while(counter != 10){
+            FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
+            fsLogic.scheduleFeedbackSessionOpeningEmails();
+            if(FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(1)){
+                break;
+            }
+            counter++;
+        }
+        if(counter == 10){
+            assertEquals(FeedbackSessionsEmailTaskQueueCallback.taskCount, 1);
+        }
+     
         
-        FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(1);
-        FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
     }
     
     @Test
@@ -174,7 +213,9 @@ public class FeedbackSessionEmailTaskQueueTest extends
         
         assertTrue(fsLogic.getFeedbackSessionsClosingWithinTimeLimit().isEmpty());
         fsLogic.scheduleFeedbackSessionOpeningEmails();
-        FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(0);
+        if(!FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(0)){
+            assertEquals(FeedbackSessionsEmailTaskQueueCallback.taskCount, 0);
+        }
         
         ______TS("1 closing email task to be sent");
 
@@ -185,10 +226,19 @@ public class FeedbackSessionEmailTaskQueueTest extends
         fsLogic.updateFeedbackSession(fsa);
         
         assertFalse(fsLogic.getFeedbackSessionsClosingWithinTimeLimit().isEmpty());
-        fsLogic.scheduleFeedbackSessionClosingEmails();
         
-        FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(1);
-        FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
+        int counter = 0;
+        while(counter != 10){
+            FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
+            fsLogic.scheduleFeedbackSessionClosingEmails();
+            if(FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(1)){
+                break;
+            }
+            counter++;
+        }
+        if(counter == 10){
+            assertEquals(FeedbackSessionsEmailTaskQueueCallback.taskCount, 1);
+        }
     }
     
     @Test
@@ -196,23 +246,32 @@ public class FeedbackSessionEmailTaskQueueTest extends
         // this method tests a function from FeedbackSessionLogic.java
         
         restoreTypicalDataInDatastore();
-        FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
         FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
         
         ______TS("1 closing email tasks to be sent");
         
-        fsLogic.scheduleFeedbackSessionPublishedEmails();
-        // the "Empty Session"
-        FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(1);
-        FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
-        
+        int counter = 0;
+        while(counter != 10){
+            FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
+            fsLogic.scheduleFeedbackSessionPublishedEmails(); // empty session
+            if(FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(1)){
+                break;
+            }
+            counter++;
+        }
+        if(counter == 10){
+            assertEquals(FeedbackSessionsEmailTaskQueueCallback.taskCount, 1);
+        }
         ______TS("0 closing email task to be sent");
 
+        FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
         FeedbackSessionAttributes fsa = fsLogic.getFeedbackSession("Empty session", "idOfTypicalCourse1");
         fsa.isPublishedEmailEnabled = false;
         fsLogic.updateFeedbackSession(fsa);
         fsLogic.scheduleFeedbackSessionPublishedEmails();
         
-        FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(0);
+        if(!FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(0)){
+            assertEquals(FeedbackSessionsEmailTaskQueueCallback.taskCount, 0);
+        }
     }
 }

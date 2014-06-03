@@ -84,7 +84,9 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
         
         ______TS("3 sessions opened and emails sent, 1 awaiting");
         fsLogic.scheduleFeedbackSessionOpeningEmails();
-        FeedbackSessionOpeningCallback.verifyTaskCount(0);
+        if(!FeedbackSessionOpeningCallback.verifyTaskCount(0)){
+            assertEquals(FeedbackSessionOpeningCallback.taskCount, 0);
+        }
         
         ______TS("2 sessions opened and emails sent, 1 session opened without emails sent, "
                 + "1 session opened without emails sent with sending open email disabled");
@@ -112,8 +114,20 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
         fsLogic.updateFeedbackSession(session2);
         TestHelper.verifyPresentInDatastore(session2);
         
-        fsLogic.scheduleFeedbackSessionOpeningEmails();
-        FeedbackSessionOpeningCallback.verifyTaskCount(1);
+        int counter = 0;
+
+        while(counter != 10){
+            FeedbackSessionOpeningCallback.resetTaskCount();
+            fsLogic.scheduleFeedbackSessionOpeningEmails();
+            if(FeedbackSessionOpeningCallback.verifyTaskCount(1)){
+                break;
+            }
+            counter++;
+        }
+        if(counter == 10){
+            assertEquals(FeedbackSessionOpeningCallback.taskCount, 1);
+        }
+      
     }
 
     private void testFeedbackSessionOpeningMailAction() throws Exception{
@@ -161,7 +175,9 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
         ______TS("testing whether no more mails are sent");
         FeedbackSessionOpeningCallback.resetTaskCount();
         fsLogic.scheduleFeedbackSessionOpeningEmails();
-        FeedbackSessionOpeningCallback.verifyTaskCount(0);
+        if(!FeedbackSessionOpeningCallback.verifyTaskCount(0)){
+            assertEquals(FeedbackSessionOpeningCallback.taskCount, 0);
+        }
     }
     
     private HashMap<String, String> createParamMapForAction(FeedbackSessionAttributes fs) {

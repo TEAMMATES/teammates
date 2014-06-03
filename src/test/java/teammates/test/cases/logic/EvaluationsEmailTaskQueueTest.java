@@ -78,13 +78,24 @@ public class EvaluationsEmailTaskQueueTest extends
         EvaluationAttributes eval = dataBundle.evaluations.get("evaluation1InCourse1");
         eval.endTime = TimeHelper.getHoursOffsetToCurrentTime(0);
         evaluationsLogic.updateEvaluation(eval);
-        evaluationsLogic.publishEvaluation(eval.courseId, eval.name);
-        EvaluationsEmailTaskQueueCallback.verifyTaskCount(1);
-        EvaluationsEmailTaskQueueCallback.resetTaskCount();
-    
-        
+
+        int counter = 0;
+
+        while(counter != 10){
+            EvaluationsEmailTaskQueueCallback.resetTaskCount();
+            evaluationsLogic.publishEvaluation(eval.courseId, eval.name);
+            if(EvaluationsEmailTaskQueueCallback.verifyTaskCount(1)){
+                break;
+            }
+            counter = 0;
+        }
+        if(counter == 10){
+            assertEquals(EvaluationsEmailTaskQueueCallback.taskCount, 1);
+        }
+
         ______TS("Try to publish non-existent evaluation");
         
+        EvaluationsEmailTaskQueueCallback.resetTaskCount();
         eval.endTime = TimeHelper.getHoursOffsetToCurrentTime(0);
         evaluationsLogic.updateEvaluation(eval);
         try {
@@ -93,7 +104,9 @@ public class EvaluationsEmailTaskQueueTest extends
             assertEquals("Trying to edit non-existent evaluation non-existent-course/non-existent-evaluation", 
                     e.getMessage());
         }
-        EvaluationsEmailTaskQueueCallback.verifyTaskCount(0);
+        if(!EvaluationsEmailTaskQueueCallback.verifyTaskCount(0)){
+            assertEquals(EvaluationsEmailTaskQueueCallback.taskCount, 0);
+        }
         
     }
     
@@ -105,18 +118,31 @@ public class EvaluationsEmailTaskQueueTest extends
         ______TS("Send evaluation reminder email");
         
         EvaluationAttributes eval = dataBundle.evaluations.get("evaluation1InCourse1");
-        logic.sendReminderForEvaluation(eval.courseId, eval.name);
-        EvaluationsEmailTaskQueueCallback.verifyTaskCount(1);
-        EvaluationsEmailTaskQueueCallback.resetTaskCount();
+        int counter = 0;
+
+        while(counter != 10){
+            EvaluationsEmailTaskQueueCallback.resetTaskCount();
+            logic.sendReminderForEvaluation(eval.courseId, eval.name);
+            if(EvaluationsEmailTaskQueueCallback.verifyTaskCount(1)){
+                break;
+            }
+            counter++;
+        }
+        if(counter == 10){  
+            assertEquals(EvaluationsEmailTaskQueueCallback.taskCount, 1);
+        }
         
         ______TS("Try to send reminder for null evaluation");
         
+        EvaluationsEmailTaskQueueCallback.resetTaskCount();
         eval = dataBundle.evaluations.get("evaluation1InCourse1");
         try {
             logic.sendReminderForEvaluation(eval.courseId, null);
         } catch (AssertionError a) {
             assertEquals("The supplied parameter was null\n", a.getMessage());
         }
-        EvaluationsEmailTaskQueueCallback.verifyTaskCount(0);
+        if(!EvaluationsEmailTaskQueueCallback.verifyTaskCount(0)){
+            assertEquals(EvaluationsEmailTaskQueueCallback.taskCount, 0);
+        }
     }
 }

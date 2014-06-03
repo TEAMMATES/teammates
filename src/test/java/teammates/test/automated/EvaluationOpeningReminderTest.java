@@ -95,7 +95,9 @@ public class EvaluationOpeningReminderTest extends BaseComponentUsingTaskQueueTe
         activateAllEvaluations(dataBundle);
         
         evaluationsLogic.activateReadyEvaluations();
-        EvaluationOpeningCallback.verifyTaskCount(0);
+        if(!EvaluationOpeningCallback.verifyTaskCount(0)){
+            assertEquals(EvaluationOpeningCallback.taskCount, 0);
+        }
         
         ______TS("typical case, two ready evaluations");
         // Reuse an existing evaluation to create a new one that is ready to
@@ -139,11 +141,21 @@ public class EvaluationOpeningReminderTest extends BaseComponentUsingTaskQueueTe
                 true, 
                 evaluationsLogic.getEvaluation(evaluation2.courseId, evaluation2.name).isReadyToActivate());
         
-        evaluationsLogic.activateReadyEvaluations();
         
         //Expected is 2 because there are only 2 ready evaluations
-        EvaluationOpeningCallback.verifyTaskCount(2);
+        int counter = 0;
         
+        while(counter != 10){
+            EvaluationOpeningCallback.resetTaskCount();
+            evaluationsLogic.activateReadyEvaluations();
+            if(EvaluationOpeningCallback.verifyTaskCount(2)){
+                break;
+            }
+            counter++;
+        }
+        if(counter == 10){
+            assertEquals(EvaluationOpeningCallback.taskCount, 2);
+        }        
     }
 
     @SuppressWarnings("deprecation")
@@ -200,7 +212,9 @@ public class EvaluationOpeningReminderTest extends BaseComponentUsingTaskQueueTe
         ______TS("Ensure no mails are sent anymore as all tasks are active");
         EvaluationOpeningCallback.resetTaskCount();
         evaluationsLogic.activateReadyEvaluations();
-        EvaluationOpeningCallback.verifyTaskCount(0);
+        if(!EvaluationOpeningCallback.verifyTaskCount(0)){
+            assertEquals(EvaluationOpeningCallback.taskCount, 0);
+        }
     }
 
     private void activateAllEvaluations(DataBundle dataBundle) throws Exception{
