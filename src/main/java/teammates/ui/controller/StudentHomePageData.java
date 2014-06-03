@@ -134,6 +134,7 @@ public class StudentHomePageData extends PageData {
         link = addUserIdToUrl(link);
         link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseID);
         link = Url.addParamToUrl(link,Const.ParamsNames.EVALUATION_NAME,evalName);
+        link = Url.addParamToUrl(link, Const.ParamsNames.CHECK_PERSISTENCE_COURSE, eventualConsistencyCourse);
         return link;
     }
     
@@ -243,6 +244,10 @@ public class StudentHomePageData extends PageData {
         return result;
     }
     
+    /**
+     * Obtain the course ID of the course that the student had just recently joined
+     * so that it can be used to check for eventual consistency.
+     */
     public void setEventualConsistencyCourse(String courseId) {
         eventualConsistencyCourse = courseId;
     }
