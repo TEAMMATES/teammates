@@ -22,8 +22,8 @@
 }
 
 .tt-dropdown-menu{
-    margin-top: 12px;
-    padding: 8px 0;
+    margin-top: 10px;
+    padding: 5px 0;
     background-color: #fff;
     border: 1px solid #ccc;
     border: 1px solid rgba(0, 0, 0, 0.2);
@@ -37,7 +37,7 @@
 }
 
 .tt-suggestion {
-  padding: 3px 20px;
+  padding: 3px 12px;
   line-height: 24px;
 }
 

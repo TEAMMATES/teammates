@@ -35,7 +35,7 @@ var substringMatcher = function(strs) {
   };
 };
  
-var students = ['Kai (Team 1) in CS2103', 'Ashray (Team 2) in CS2103'
+var students = ['Kai Xie in CS2103', 'Ashray Jain in CS2103'
 ];
 
 $('#omni-comment-recipient-input').typeahead({
