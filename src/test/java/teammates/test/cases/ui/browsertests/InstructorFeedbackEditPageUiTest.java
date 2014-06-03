@@ -5,6 +5,11 @@ import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
+
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -715,7 +720,9 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         previewPage.closeCurrentWindowAndSwitchToParentWindow();
 
         ______TS("preview as instructor");
-
+        
+        WebDriverWait wait = new WebDriverWait(browser.driver, 15);
+        wait.until(presenceOfElementLocated(By.id("button_preview_instructor")));
         previewPage = feedbackEditPage.clickPreviewAsInstructorButton();
         previewPage.verifyHtml("/instructorFeedbackSubmitPagePreview.html");
         previewPage.closeCurrentWindowAndSwitchToParentWindow();
