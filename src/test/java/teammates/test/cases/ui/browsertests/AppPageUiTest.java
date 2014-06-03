@@ -46,8 +46,11 @@ public class AppPageUiTest extends BaseUiTestCase {
         patternString = "Test 1{*}Test n{*}Test 2{*}Test m{*}Test 10{*}Test q{*}Test 5{*}Test 8";
         page.verifyTablePattern(2, 1, patternString);
         
-        patternString = "{*}{*}";
-        page.verifyTablePattern(3, 1, patternString);
+        // users of this API are not supposed to let the following case happen
+        // empty table--trivia case, will not be tested
+        // empty cell--will not be tested
+        // cannot find table--will not be tested
+        // cannot find columns--will not be tested
     }
     
     //TODO: add test cases for other methods in AppPage
