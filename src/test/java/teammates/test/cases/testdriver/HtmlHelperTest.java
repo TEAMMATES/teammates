@@ -52,61 +52,86 @@ public class HtmlHelperTest {
         //Tool tip in actual. Should not be ignored.
         String actual = "<html><head></head><body><div class=\"tooltip\">tool tip <br> 2nd line </div></body></html>";
         String expected = "<html><head></head><body></body></html>";
-        assertTrue(HtmlHelper.areSameHtml(expected, actual));
+        assertTrue(HtmlHelper.areSameHtml(actual, expected));
         
         //'<div>' without attributes (not a tool tip). Should not be ignored.
         actual = "<html><head></head><body><div></div></body></html>";
         expected = "<html><head></head><body></body></html>";
-        assertFalse(HtmlHelper.areSameHtml(expected, actual));
+        assertFalse(HtmlHelper.areSameHtml(actual, expected));
                 
         //Using a '<div>' that is not a tool tip. Should not be ignored.
         actual = "<html><head></head><body><div id=\"otherId\"></div></body></html>";
         expected = "<html><head></head><body></body></html>";
-        assertFalse(HtmlHelper.areSameHtml(expected, actual));
+        assertFalse(HtmlHelper.areSameHtml(actual, expected));
         
         //Different tool tips. Will be ignored (the logic does not detect this).
         actual = "<html><head></head><body><div class=\"tooltip\">tool tip <br> 2nd line </div></body></html>";
         expected = "<html><head></head><body><div class=\"tooltip\"></div></body></html>";
-        assertTrue(HtmlHelper.areSameHtml(expected, actual));
+        assertTrue(HtmlHelper.areSameHtml(actual, expected));
+        
+        //Test against areSameHtmlPart
+        actual = "<html><head><script></script></head><body><div></div></body></html>";
+        expected = "<html><head></head><body><script></script><div></div></body></html>";
+        assertFalse(HtmlHelper.areSameHtml(actual, expected));
+        
+        //Test against areSameHtmlPart
+        expected = FileHelper.readFile(TestProperties.TEST_PAGES_FOLDER +"/sampleExpected.html");
+        actual = FileHelper.readFile(TestProperties.TEST_PAGES_FOLDER +"/sampleActualPart.html");
+        assertFalse(HtmlHelper.areSameHtml(actual, expected));
     }
     
     @Test
-    public void testConvertToStandardHtmlPart() {
+    public void testConvertToStandardHtmlPart() throws Exception {
         
         //Tool tip in actual. Should not be ignored.
         String actual = "<html><head></head><body><div class=\"tooltip\">tool tip <br> 2nd line </div></body></html>";
         String expected = "<html><head></head><body></body></html>";
-        assertTrue(HtmlHelper.areSameHtmlPart(expected, actual));
+        assertTrue(HtmlHelper.areSameHtmlPart(actual, expected));
         
         //one part does not contain html tag. Should be the same
         actual = "<html><head></head><body><div></div></body></html>";
         expected = "<html><div></div></html>";
-        assertTrue(HtmlHelper.areSameHtmlPart(expected, actual));
+        assertTrue(HtmlHelper.areSameHtmlPart(actual, expected));
         
         //one part does not contain head tag. Should be the same
         actual = "<html><head></head><body><div></div></body></html>";
         expected = "<html><body><div></div></body></html>";
-        assertTrue(HtmlHelper.areSameHtmlPart(expected, actual));
+        assertTrue(HtmlHelper.areSameHtmlPart(actual, expected));
         
         //one part does not contain body tag. Should be the same
         actual = "<html><head></head><body><div></div></body></html>";
         expected = "<html><head></head><div></div></html>";
-        assertTrue(HtmlHelper.areSameHtmlPart(expected, actual));
+        assertTrue(HtmlHelper.areSameHtmlPart(actual, expected));
         
         //Different tool tips. Will be ignored (the logic does not detect this)
         actual = "<html><head></head><body><div class=\"tooltip\">tool tip <br> 2nd line </div></body></html>";
         expected = "<html><head></head><body><div class=\"tooltip\"></div></body></html>";
-        assertTrue(HtmlHelper.areSameHtmlPart(expected, actual));
+        assertTrue(HtmlHelper.areSameHtmlPart(actual, expected));
         
         //Different tool tips and three tags(html, head, body) ignored. Should be the same
         actual = "<html><head></head><body><div class=\"tooltip\">tool tip <br> 2nd line </div></body></html>";
         expected = "<div class=\"tooltip\"></div>";
-        assertTrue(HtmlHelper.areSameHtmlPart(expected, actual));
+        assertTrue(HtmlHelper.areSameHtmlPart(actual, expected));
         
         //Contents inside div are different . Should be different
         actual = "<html><head></head><body><div>content<br> 2nd line </div></body></html>";
         expected = "<html><head></head><body><div></div></body></html>";
-        assertFalse(HtmlHelper.areSameHtmlPart(expected, actual));
+        assertFalse(HtmlHelper.areSameHtmlPart(actual, expected));
+        
+        //Test against areSameHtml
+        actual = "<html><head><script></script></head><body><div></div></body></html>";
+        expected = "<html><head></head><body><script></script><div></div></body></html>";
+        assertTrue(HtmlHelper.areSameHtmlPart(actual, expected));
+        
+        //Same html structure
+        expected = FileHelper.readFile(TestProperties.TEST_PAGES_FOLDER +"/sampleExpected.html");
+        actual = FileHelper.readFile(TestProperties.TEST_PAGES_FOLDER +"/sampleActual.html");
+        HtmlHelper.assertSameHtmlPart(actual, expected);
+        
+        //Same after ignoring html & head & body tag
+        expected = FileHelper.readFile(TestProperties.TEST_PAGES_FOLDER +"/sampleExpected.html");
+        actual = FileHelper.readFile(TestProperties.TEST_PAGES_FOLDER +"/sampleActualPart.html");
+        HtmlHelper.assertSameHtmlPart(actual, expected);
         
         //other cases are tested in testComparison
     }

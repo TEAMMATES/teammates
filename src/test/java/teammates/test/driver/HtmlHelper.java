@@ -22,6 +22,8 @@ public class HtmlHelper {
      * Verifies that two HTML files are logically 
      * equivalent e.g., ignores differences in whitespace and attribute order.
      */
+    //TODO: for the following 4 methods, change the order of parameters passed in
+    //      should be expectedString, acutalString
     public static void assertSameHtml(String actualString, String expectedString){       
         String processedExpectedHtml = convertToStandardHtml(expectedString, false);
         String processedActualHtml = convertToStandardHtml(actualString, false);
@@ -165,9 +167,9 @@ public class HtmlHelper {
         int numberOfChildNodes = actualChildNodes.getLength();
         for (int i = 0; i < numberOfChildNodes; i++){
             if (shouldIncludeCurrentNode) {
-                convertToStandardHtmlRecursively(actualChildNodes.item(i), indentation + "   ", currentHtmlText, false);
+                convertToStandardHtmlRecursively(actualChildNodes.item(i), indentation + "   ", currentHtmlText, isHtmlPartPassedIn);
             } else {
-                convertToStandardHtmlRecursively(actualChildNodes.item(i), indentation, currentHtmlText, false);
+                convertToStandardHtmlRecursively(actualChildNodes.item(i), indentation, currentHtmlText, isHtmlPartPassedIn);
             }
         }
         
@@ -180,7 +182,7 @@ public class HtmlHelper {
     }
 
     private static boolean shouldIncludeCurrentNode(boolean isHtmlPartPassedIn, String currentNodeName) {
-        boolean shouldIncludeCurrentNode = !(!isHtmlPartPassedIn && (currentNodeName.equals("html")
+        boolean shouldIncludeCurrentNode = !(isHtmlPartPassedIn && (currentNodeName.equals("html")
                                                                          || currentNodeName.equals("head")
                                                                          || currentNodeName.equals("body")));
         return shouldIncludeCurrentNode;
