@@ -44,17 +44,12 @@
         <li><a href="#contact">Students</a></li>
         <li><a href="#comment">Comments</a></li>
         <li class="dropdown">
-          <span data-toggle="dropdown" data-toggle="tooltip" title="Write a comment" class="glyphicon glyphicon-comment omni-comment-drop-down"></span>
-          <ul class="dropdown-menu">
-            <li class="list-group-item">
+          <span data-toggle="dropdown" data-toggle="tooltip" title="Write a comment" id="omni-comment-dropdown-trigger" class="glyphicon glyphicon-comment"></span>
+          <ul class="dropdown-menu omni-comment-dropdown">
+            <li class="list-group-item omni-comment-dropdown-body">
               <form>
                 <div class="form-group">
-                  <input id="omni-comment-recipient-input" class="form-control" placeholder="Comment recipients" />
-                  <select id="omni-comment-recipient-select" class="form-control">
-                    <option selected>to Student in CS2103</option>
-                    <option>to Feedback Response</option>
-                    <option>to Whole Class</option>
-                  </select>
+                  <input type="text" id="omni-comment-recipient-input" class="form-control typeahead" placeholder="Comment recipients"/>
                 </div>
                 <div class="form-group">
                   <button type="button" data-toggle="tooltip" title="Change font color" class="btn btn-default btn-xs icon-button">
@@ -80,6 +75,7 @@
           </ul>
         </li>
       </ul>
+
       <ul class="nav navbar-nav pull-right">
         <li class="nav logout"><a  href="#contact">Logout (<span class="text-info">Jim.Davis</span>)
         </a></li>
@@ -292,6 +288,7 @@
   <!-- Placed at the end of the document so the pages load faster -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
   <script src="../../src/main/webapp/bootstrap/js/bootstrap.min.js"></script>
+  <script src="../../src/main/webapp/js/typeahead.bundle.min.js"></script>
   <script type="text/javascript">
   $(function() { 
     $("[data-toggle='tooltip']").tooltip({html: true}); 
