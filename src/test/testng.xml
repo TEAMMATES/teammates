@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="all-tests-in-parallel" parallel="tests" thread-count="5">
-<!--
+
     <test name="component-tests">
       These can be run without starting the server. Should be run often. 
         <classes>
-      
             <class name="teammates.test.cases.BaseTestCaseTest" />
             <class name="teammates.test.cases.common.AccountAttributesTest" />
             <class name="teammates.test.cases.common.BuildPropertiesTest" />
@@ -27,7 +26,7 @@
             <class name="teammates.test.cases.testdriver.DataBundleTest" />
             <class name="teammates.test.cases.testdriver.HtmlHelperTest" />
             <class name="teammates.test.cases.testdriver.TestPropertiesTest" />
-      
+            
             <class name="teammates.test.cases.storage.AccountsDbTest" />
             <class name="teammates.test.cases.storage.CommentsDbTest" />
             <class name="teammates.test.cases.storage.CoursesDbTest" />
@@ -51,14 +50,18 @@
             <class name="teammates.test.cases.logic.FeedbackResponsesLogicTest" />
             <class name="teammates.test.cases.logic.LogicTest" />
             <class name="teammates.test.cases.logic.StudentsLogicTest" />
+
+   
             <class name="teammates.test.cases.logic.SubmissionsAdjustmentTest" />
             <class name="teammates.test.cases.logic.SubmissionsLogicTest" />
             <class name="teammates.test.cases.logic.SubmissionTaskQueueLogicTest" />
             <class name="teammates.test.cases.logic.EvaluationsEmailTaskQueueTest" />
             <class name="teammates.test.cases.logic.FeedbackSessionEmailTaskQueueTest" />
+     
+
             <class name="teammates.test.cases.logic.TeamEvalResultTest" />
             <class name="teammates.test.pageobjects.PageDataTest" />
-      
+            
             <class name="teammates.test.cases.ui.ActivityLogTest" />
             <class name="teammates.test.cases.ui.ActionResultTest" />
             <class name="teammates.test.cases.ui.AdminAccountDeletePageActionTest" />
@@ -149,11 +152,8 @@
             <class name="teammates.test.automated.FeedbackSessionClosingReminderTest" />
             <class name="teammates.test.automated.FeedbackSessionOpeningReminderTest" />
             <class name="teammates.test.automated.FeedbackSessionPublishedReminderTest" />
-      
         </classes>
     </test>
--->
-
 
     <test name="occasional-tests" parallel="classes">
      These need not to run often unless the modification relates to them
@@ -170,13 +170,9 @@
     <test name="parallel-ui-tests" parallel="classes">
      These cover the important UI functionality. Can be run in parallel. 
         <classes>
+       
             <class name="teammates.test.cases.ui.browsertests.AutomatedSessionRemindersTest" />
-            <class name="teammates.test.cases.ui.browsertests.InstructorCourseJoinConfirmationPageUiTest" />
-            <class name="teammates.test.cases.ui.browsertests.InstructorCourseEnrollPageUiTest" />
-            <class name="teammates.test.cases.ui.browsertests.InstructorCoursesPageUiTest" />
-            <class name="teammates.test.cases.ui.browsertests.InstructorCourseEditPageUiTest" />
-            <class name="teammates.test.cases.ui.browsertests.InstructorCourseStudentDetailsPageUiTest" />
-            <class name="teammates.test.cases.ui.browsertests.InstructorCourseStudentDetailsEditPageUiTest" />
+
             <class name="teammates.test.cases.ui.browsertests.InstructorEvalSubmissionViewPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorEvalSubmissionEditPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorEvalEditPageUiTest" />
@@ -191,6 +187,7 @@
             <class name="teammates.test.cases.ui.browsertests.InstructorSubmissionAdjustmentUiTest" />
             <class name="teammates.test.cases.ui.browsertests.AdminAccountManagementPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.AdminAccountDetailsPageUiTest" />
+            
             <class name="teammates.test.cases.ui.browsertests.StudentCourseDetailsPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.StudentEvalEditSubmissionPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.StudentEvalResultsPageUiTest" />
@@ -200,11 +197,19 @@
         </classes>
     </test>
 
-<!--
     <test name="sequential-ui-tests">
       Theses cases use real Google accounts and need to be run sequentially to avoid state leaks between tests 
         <classes>
             <class name="teammates.test.cases.ui.browsertests.InstructorHomePageUiTest" />
+
+            <class name="teammates.test.cases.ui.browsertests.InstructorCourseJoinConfirmationPageUiTest" />
+            <class name="teammates.test.cases.ui.browsertests.InstructorCourseEnrollPageUiTest" />
+            <class name="teammates.test.cases.ui.browsertests.InstructorCourseStudentDetailsPageUiTest" />
+            <class name="teammates.test.cases.ui.browsertests.InstructorCourseStudentDetailsEditPageUiTest" />
+
+            <class name="teammates.test.cases.ui.browsertests.InstructorCoursesPageUiTest" />
+            <class name="teammates.test.cases.ui.browsertests.InstructorCourseEditPageUiTest" />
+            
             <class name="teammates.test.cases.ui.browsertests.InstructorCourseDetailsPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorEvalsPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.StudentCourseJoinConfirmationPageUiTest" />
@@ -213,5 +218,4 @@
             <class name="teammates.test.cases.ui.browsertests.AllAccessControlUiTests" />
         </classes>
     </test>
--->
 </suite> 
