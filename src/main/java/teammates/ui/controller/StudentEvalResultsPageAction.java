@@ -25,11 +25,21 @@ public class StudentEvalResultsPageAction extends Action {
         String evalName = getRequestParamValue(Const.ParamsNames.EVALUATION_NAME);
         Assumption.assertNotNull(evalName);
         
+        String recentlyJoinedCourseId = getRequestParamValue(Const.ParamsNames.CHECK_PERSISTENCE_COURSE);
         
         data = new StudentEvalResultsPageData(account);
         
         if(!isJoinedCourse(courseId, account.googleId)){
-            return createPleaseJoinCourseResponse(courseId);
+            if(recentlyJoinedCourseId == null) {
+                return createPleaseJoinCourseResponse(courseId);
+            } else {
+                statusToUser.add("Updating of the course data on our servers is currently in progress "
+                        + "and will be completed in a few minutes. "
+                        + "<br>Please wait few minutes to view the evaluation again.");
+                
+                RedirectResult response = createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
+                return response;
+            }
         }
         
         data.student = logic.getStudentForGoogleId(courseId, account.googleId);
