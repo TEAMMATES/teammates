@@ -521,6 +521,8 @@ public abstract class AppPage {
      * @return The page (for chaining method calls).
      */
     public AppPage verifyHtml(String filePath) {
+        // TODO: improve this method by insert header and footer
+        //       to the file specified by filePath
         if(filePath.startsWith("/")){
             filePath = TestProperties.TEST_PAGES_FOLDER + filePath;
         }
@@ -555,6 +557,21 @@ public abstract class AppPage {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+        return this;
+    }
+    
+    /**
+     * Verifies that main content specified id "frameBodyWrapper" in currently 
+     * loaded page has the same HTML content as 
+     * the content given in the file at {@code filePath}. <br>
+     * The HTML is checked for logical equivalence, not text equivalence. 
+     * @param filePath If this starts with "/" (e.g., "/expected.html"), the 
+     * folder is assumed to be {@link Const.TEST_PAGES_FOLDER}. 
+     * @return The page (for chaining method calls).
+     */
+    public AppPage verifyHtmlMainContent(String filePath) {
+        verifyHtmlPart(By.id("frameBodyWrapper"), filePath);
+        
         return this;
     }
     

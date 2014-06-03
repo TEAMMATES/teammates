@@ -4,7 +4,6 @@ import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
 
-import org.openqa.selenium.By;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -176,7 +175,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         assertNotNull(BackDoor.getStudent(courseId, studentEmail));
 
         detailsPage.clickDeleteAndConfirm(studentName)
-            .verifyHtmlPart(By.id("frameBodyWrapper"), "/instructorCourseDetailsStudentDeleteSuccessful.html");
+            .verifyHtmlMainContent("/instructorCourseDetailsStudentDeleteSuccessful.html");
     }
     
     private boolean didStudentReceiveReminder(String courseId, String studentEmail, String studentPassword) {
