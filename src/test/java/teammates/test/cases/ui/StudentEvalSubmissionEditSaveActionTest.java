@@ -109,8 +109,7 @@ public class StudentEvalSubmissionEditSaveActionTest extends BaseActionTest {
         
         assertEquals(
                 Const.ActionURIs.STUDENT_HOME_PAGE+"?"+Const.ParamsNames.CHECK_PERSISTENCE_EVALUATION+"=idOfTypicalCourse1evaluation1+In+Course1"+
-                "&message=Your+submission+for+evaluation1+In+Course1+in+course+"+eval.courseId 
-                +"+has+been+saved+successfully&error=false&user="+student1InCourse1.googleId,r.getDestinationWithParams());
+                "&error=false&user="+student1InCourse1.googleId,r.getDestinationWithParams());
         
         assertFalse(r.isError);
         
@@ -134,7 +133,7 @@ public class StudentEvalSubmissionEditSaveActionTest extends BaseActionTest {
                         + "?courseid=" + eval.courseId
                         + "&evaluationname=evaluation1+In+Course1"
                         + "&user=" + student1InCourse1.googleId
-                        + "&message=Please+give+contribution+scale+to+everyone&error=true",
+                        + "&error=true",
                 r.getDestinationWithParams());
         
         assertTrue(r.isError);
@@ -165,7 +164,7 @@ public class StudentEvalSubmissionEditSaveActionTest extends BaseActionTest {
                         + "?courseid=" + eval.courseId
                         + "&evaluationname=evaluation1+In+Course1"
                         + "&user=" + student1InCourse1.googleId
-                        + "&message=Please+give+contribution+scale+to+everyone&error=true",
+                        + "&error=true",
                 r.getDestinationWithParams());
         
         assertTrue(r.isError);
@@ -173,7 +172,7 @@ public class StudentEvalSubmissionEditSaveActionTest extends BaseActionTest {
     
     @Test
     public void testExecuteAndPostProcess() throws Exception{
-        
+        //TODO: find a way to test status message from session
         //TODO: implement this
         //TODO: ensure uneditable if not OPEN
         gaeSimulation.loginAsStudent(studentId);
@@ -206,8 +205,7 @@ public class StudentEvalSubmissionEditSaveActionTest extends BaseActionTest {
         
         assertEquals(
                 Const.ActionURIs.STUDENT_HOME_PAGE+"?"+Const.ParamsNames.CHECK_PERSISTENCE_EVALUATION+"=idOfTypicalCourse1evaluation1+In+Course1"+
-                "&message=Your+submission+for+evaluation1+In+Course1+in+course+"+eval.courseId 
-                +"+has+been+saved+successfully&error=false&user="+student1InCourse1.googleId,r.getDestinationWithParams());
+                "&error=false&user="+student1InCourse1.googleId,r.getDestinationWithParams());
         
         assertFalse(r.isError);
         

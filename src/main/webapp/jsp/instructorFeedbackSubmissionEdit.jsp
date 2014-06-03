@@ -11,22 +11,28 @@
     <link rel="shortcut icon" href="/favicon.png">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>TEAMMATES - Submit Feedback</title>
-    <link rel="stylesheet" href="/stylesheets/common.css" type="text/css" media="screen">
-    <link rel="stylesheet" href="/stylesheets/common-print.css" type="text/css" media="print">
-    <link rel="stylesheet" href="/stylesheets/studentFeedback.css" type="text/css" media="screen">
-    
+    <!-- Bootstrap core CSS -->
+    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap theme -->
+    <link href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/stylesheets/teammatesCommon.css" type="text/css">
     <script type="text/javascript" src="/js/googleAnalytics.js"></script>
     <script type="text/javascript" src="/js/jquery-minified.js"></script>
-    <script type="text/javascript" src="/js/tooltip.js"></script>
     <script type="text/javascript" src="/js/AnchorPosition.js"></script>
     <script type="text/javascript" src="/js/common.js"></script>
     <script type="text/javascript" src="/js/feedbackSubmissionsEdit.js"></script>
+    <script type="text/javascript" src="/js/student.js"></script>
     <jsp:include page="../enableJS.jsp"></jsp:include>
+    <!-- Bootstrap core JavaScript ================================================== -->
+    <script src="/bootstrap/js/bootstrap.min.js"></script>    
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
 </head>
 
 <body>
-    <div id="dhtmltooltip"></div>
-    <div id="frameTop">
     <%
         if (!data.isPreview) {
     %>
@@ -34,45 +40,41 @@
     <%    
         } else { 
     %>
-            <div id="frameTopWrapper">
-                <h1 class="color_white centeralign">Previewing Session as Instructor <%=data.previewInstructor.name%> (<%=data.previewInstructor.email%>)</h1>
-            </div>
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <h3 class="text-center">Previewing Session as Instructor <%=data.previewInstructor.name%> (<%=data.previewInstructor.email%>)</h3>
+        </nav>
     <% 
         }
     %>
-    </div>
 
-    <div id="frameBody">
-        <div id="frameBodyWrapper">
-            <div id="topOfPage"></div>
-            <div id="headerOperation">
-                <h1>Submit Feedback</h1>
-            </div>
+    <div id="frameBodyWrapper" class="container">
+        <div id="topOfPage"></div>
+        <h1>Submit Feedback</h1>
+        <br>
+        
+        <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE%>" name="form_submit_response">
             
-            <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE%>" name="form_submit_response">
-                
-                <jsp:include page="<%=Const.ViewURIs.FEEDBACK_SUBMISSION_EDIT%>" />
-                
-                <div class="bold centeralign">
-                <%
-                    if (data.bundle.questionResponseBundle.isEmpty()) {
-                %>
-                        There are no questions for you to answer here!
-                <%
-                    } else if (data.isPreview || !data.isSessionOpenForSubmission) {
-                %>
-                        <input disabled="disabled" type="submit" class="button" id="response_submit_button" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_EDIT_SAVE%>')" onmouseout="hideddrivetip()" value="Save Feedback" style="background: #66727A;"/>
-                <%
-                    } else {
-                %>
-                        <input type="submit" class="button" id="response_submit_button" onmouseover="ddrivetip('<%=Const.Tooltips.FEEDBACK_SESSION_EDIT_SAVE%>')" onmouseout="hideddrivetip()" value="Save Feedback"/>
-                <%
-                    }
-                %>
-                </div>
-                <br><br>    
-            </form>
-        </div>
+            <jsp:include page="<%=Const.ViewURIs.FEEDBACK_SUBMISSION_EDIT%>" />
+            
+            <div class="bold align-center">
+            <%
+                if (data.bundle.questionResponseBundle.isEmpty()) {
+            %>
+                    There are no questions for you to answer here!
+            <%
+                } else if (data.isPreview || !data.isSessionOpenForSubmission) {
+            %>
+                    <input disabled="disabled" type="submit" class="btn btn-primary center-block" id="response_submit_button" data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_SESSION_EDIT_SAVE%>" value="Save Feedback"/>
+            <%
+                } else {
+            %>
+                    <input type="submit" class="btn btn-primary center-block" id="response_submit_button" data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_SESSION_EDIT_SAVE%>" value="Save Feedback"/>
+            <%
+                }
+            %>
+            </div>
+            <br><br>    
+        </form>
     </div>
 
     <div id="frameBottom">

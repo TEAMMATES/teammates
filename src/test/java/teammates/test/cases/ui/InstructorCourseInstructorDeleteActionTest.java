@@ -46,7 +46,7 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
     
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        
+        //TODO: find a way to test status message from session
         InstructorAttributes loginInstructor = dataBundle.instructors.get("instructor1OfCourse1");
         String loginInstructorId = loginInstructor.googleId;
         String courseId = loginInstructor.courseId;    
@@ -67,7 +67,7 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
         Action deleteAction = getAction(submissionParams);
         RedirectResult redirectResult = (RedirectResult) deleteAction.executeAndPostProcess();
         
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE + "?message=The+instructor+has+been+deleted+from+the+course.&error=false&user=idOfInstructor1OfCourse1&courseid=idOfTypicalCourse1",
+        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE + "?error=false&user=idOfInstructor1OfCourse1&courseid=idOfTypicalCourse1",
                         redirectResult.getDestinationWithParams());
         assertEquals(false, redirectResult.isError);
         assertEquals(Const.StatusMessages.COURSE_INSTRUCTOR_DELETED, redirectResult.getStatusMessage());
@@ -90,7 +90,7 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
         deleteAction = getAction(submissionParams);
         redirectResult = (RedirectResult) deleteAction.executeAndPostProcess();
         
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE + "?message=The+instructor+has+been+deleted+from+the+course.&error=false&user=idOfInstructor1OfCourse1", 
+        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE + "?error=false&user=idOfInstructor1OfCourse1", 
                         redirectResult.getDestinationWithParams());
         assertEquals(false, redirectResult.isError);
         assertEquals(Const.StatusMessages.COURSE_INSTRUCTOR_DELETED, redirectResult.getStatusMessage());
@@ -117,8 +117,7 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
         deleteAction = getAction(addUserIdToParams(instructorToDelete.googleId, submissionParams));
         redirectResult = (RedirectResult) deleteAction.executeAndPostProcess();
         
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE + "?message=The+instructor+you+are+trying+to+delete+is+the+last+instructor+in+the+course."
-                     + "+Deleting+the+last+instructor+from+the+course+is+not+allowed.&error=true&user=idOfInstructor4&courseid=idOfCourseNoEvals"
+        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE + "?error=true&user=idOfInstructor4&courseid=idOfCourseNoEvals"
                      ,redirectResult.getDestinationWithParams());
         assertEquals(true, redirectResult.isError);
         assertEquals(Const.StatusMessages.COURSE_INSTRUCTOR_DELETE_NOT_ALLOWED, redirectResult.getStatusMessage());

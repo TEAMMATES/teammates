@@ -18,25 +18,29 @@
 <head>
     <link rel="shortcut icon" href="/favicon.png">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TEAMMATES - Instructor</title>
-    <link rel="stylesheet" href="/stylesheets/common.css" type="text/css" media="screen">
-    <link rel="stylesheet" href="/stylesheets/instructorEvals.css" type="text/css" media="screen">
-    <link rel="stylesheet" href="/stylesheets/common-print.css" type="text/css" media="print">
-    <link rel="stylesheet" href="/stylesheets/instructorEvals-print.css" type="text/css" media="print">
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" type="text/css"/>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap-theme.min.css" type="text/css"/>
+    <link rel="stylesheet" href="/stylesheets/teammatesCommon.css" type="text/css"/>
     <link rel="stylesheet" href="/stylesheets/datepicker.css" type="text/css" media="screen">
 
     <script type="text/javascript" src="/js/googleAnalytics.js"></script>
     <script type="text/javascript" src="/js/jquery-minified.js"></script>
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="/js/tooltip.js"></script>
     <script type="text/javascript" src="/js/date.js"></script>
     <script type="text/javascript" src="/js/datepicker.js"></script>
     <script type="text/javascript" src="/js/AnchorPosition.js"></script>
     <script type="text/javascript" src="/js/common.js"></script>
+    <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
 
     <script type="text/javascript" src="/js/instructor.js"></script>
     <script type="text/javascript" src="/js/instructorEvals.js"></script>
     <script type="text/javascript" src="/js/ajaxResponseRate.js"></script>
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
     <%
         if(data.newEvaluationToBeCreated==null){
     %>
@@ -50,249 +54,369 @@
 </head>
 
 <body>
-    <div id="dhtmltooltip"></div>
-    <div id="frameTop">
-        <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
-    </div>
+    <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
 
-    <div id="frameBody">
-        <div id="frameBodyWrapper">
-            <div id="topOfPage"></div>
-            <div id="headerOperation">
-                <h1>Add New Evaluation Session</h1>
+    <div id="frameBodyWrapper" class="container theme-showcase">
+        <div id="topOfPage"></div>
+        <h1>Add New Evaluation Session</h1>
+        
+        <div class="well well-plain">
+            <div class="row">
+                <h4 class="label-control col-md-2 text-md">Session
+                    Type</h4>
+                <div class="col-md-5">
+                    <select class="form-control"
+                        name="feedbackchangetype"
+                        id="feedbackchangetype"
+                        title="Select a different type of session here."
+                        data-toggle="tooltip" 
+                        data-placement="top">
+                        <option value="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE%>">
+                            Feedback Session with customizable questions</option>
+                        <option value="<%=Const.ActionURIs.INSTRUCTOR_EVALS_PAGE%>"
+                            selected="selected">
+                            Standard Team Peer Evaluation with fixed questions</option>
+                    </select>
+                </div>
+                <div class="col-md-5">
+                    <h5>
+                        <span class="glyphicon glyphicon-info-sign glyphicon-primary"></span>
+                        <span class="text-muted"> Select a session type before filling out the form below.</span>
+                    </h5>
+                </div>
             </div>
-            
-            <p class="bold centeralign middlealign"><span style="padding-right: 10px">Session Type</span>
-            <select style="width: 730px" name="feedbackchangetype"
-                                    id="feedbackchangetype"
-                                    onmouseover="ddrivetip('Select a different type of session here.')"
-                                    onmouseout="hideddrivetip()" tabindex="0">
-                                    <option value="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE%>">Feedback Session with customizable questions</option>
-                                    <!-- <option value="TEAM">Team Feedback Session</option> -->
-                                    <!-- <option value="PRIVATE">Private Feedback Session</option> -->
-                                    <option value="<%=Const.ActionURIs.INSTRUCTOR_EVALS_PAGE%>" selected="selected">Standard Team Peer Evaluation with fixed questions</option>
-            </select></p>
-            <br><br>
-            <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_EVAL_ADD%>" name="form_addevaluation">
-                <table class="inputTable" id="instructorEvaluationManagement">
-                    <tr>
-                        <td class="label bold" >Course ID:</td>
-                        <td><select name="<%=Const.ParamsNames.COURSE_ID%>"
-                                    id="<%=Const.ParamsNames.COURSE_ID%>"
-                                    onmouseover="ddrivetip('<%=Const.Tooltips.EVALUATION_INPUT_COURSE%>')"
-                                    onmouseout="hideddrivetip()" tabindex="1">
-                                        <%
-                                            for(String opt: data.getCourseIdOptions()) out.println(opt);
-                                        %>
-                            </select></td>
-                        <td class="label bold" >Opening time:</td>
-                        <td><input style="width: 100px;" type="text"
-                                    name="<%=Const.ParamsNames.EVALUATION_START%>"
-                                    id="<%=Const.ParamsNames.EVALUATION_START%>"
-                                    onmouseover="ddrivetip('<%=Const.Tooltips.EVALUATION_INPUT_START%>')"
-                                    onmouseout="hideddrivetip()"
-                                    value="<%=(data.newEvaluationToBeCreated==null? TimeHelper.formatDate(TimeHelper.getNextHour()) : TimeHelper.formatDate(data.newEvaluationToBeCreated.startTime))%>"
-                                    readonly="readonly" tabindex="3">
-                                    @
-                            <select style="width: 70px;"
-                                    name="<%=Const.ParamsNames.EVALUATION_STARTTIME%>"
-                                    id="<%=Const.ParamsNames.EVALUATION_STARTTIME%>"
-                                    tabindex="4">
-                                        <%
-                                            for(String opt: data.getTimeOptionsAsHtml(true)) out.println(opt);
-                                        %>
-                            </select></td>
-                    </tr>
-                    <tr>
-                        <td class="label bold" >Evaluation name:</td>
-                        <td><input  type="text"
-                                    name="<%=Const.ParamsNames.EVALUATION_NAME%>" id="<%=Const.ParamsNames.EVALUATION_NAME%>"
-                                    onmouseover="ddrivetip('<%=Const.Tooltips.EVALUATION_INPUT_NAME%>')"
-                                    onmouseout="hideddrivetip()" maxlength =<%=FieldValidator.EVALUATION_NAME_MAX_LENGTH%>
-                                    value="<%if(data.newEvaluationToBeCreated!=null) out.print(InstructorEvalPageData.sanitizeForHtml(data.newEvaluationToBeCreated.name));%>"
-                                    tabindex="2" placeholder="e.g. Midterm Evaluation"></td>
-                        <td class="label bold" >Closing time:</td>
-                        <td><input style="width: 100px;" type="text"
-                                    name="<%=Const.ParamsNames.EVALUATION_DEADLINE%>" id="<%=Const.ParamsNames.EVALUATION_DEADLINE%>"
-                                    onmouseover="ddrivetip('<%=Const.Tooltips.EVALUATION_INPUT_DEADLINE%>')"
-                                    onmouseout="hideddrivetip()"
-                                    value="<%=(data.newEvaluationToBeCreated==null? "" : TimeHelper.formatDate(data.newEvaluationToBeCreated.endTime))%>"
-                                    readonly="readonly" tabindex="5">
-                                    @
-                            <select style="width: 70px;"
-                                    name="<%=Const.ParamsNames.EVALUATION_DEADLINETIME%>"
-                                    id="<%=Const.ParamsNames.EVALUATION_DEADLINETIME%>"
-                                    tabindex="6">
-                                        <%
-                                            for(String opt: data.getTimeOptionsAsHtml(false)) out.println(opt);
-                                        %>
-                            </select></td>
-                    </tr>
-                    <tr>
-                        <td class="label bold">Peer feedback:</td>
-                        <td><input type="radio" name="<%=Const.ParamsNames.EVALUATION_COMMENTSENABLED%>"
-                                    id="commentsstatus_enabled" value="true"
-                                    <%if(data.newEvaluationToBeCreated==null || data.newEvaluationToBeCreated.p2pEnabled) out.print("checked=\"checked\"");%>
-                                    onmouseover="ddrivetip('<%=Const.Tooltips.EVALUATION_INPUT_COMMENTSSTATUS%>')"
-                                    onmouseout="hideddrivetip()">
-                            <label for="commentsstatus_enabled">Enabled</label>
-                            <input type="radio" name="<%=Const.ParamsNames.EVALUATION_COMMENTSENABLED%>"
-                                    id="commentsstatus_disabled" value="false"
-                                    <%if(data.newEvaluationToBeCreated!=null && !data.newEvaluationToBeCreated.p2pEnabled) out.print("checked=\"checked\"");%>
-                                    onmouseover="ddrivetip('<%=Const.Tooltips.EVALUATION_INPUT_COMMENTSSTATUS%>')"
-                                    onmouseout="hideddrivetip()">
-                            <label for="commentsstatus_disabled">Disabled</label>
-                        </td>
-                        <td class="label bold" >Time zone:</td>
-                        <td><select style="width: 100px;" name="<%=Const.ParamsNames.EVALUATION_TIMEZONE%>" id="<%=Const.ParamsNames.EVALUATION_TIMEZONE%>"
-                                    onmouseover="ddrivetip('<%=Const.Tooltips.EVALUATION_INPUT_TIMEZONE%>')"
-                                    onmouseout="hideddrivetip()" tabindex="7">
-                                        <%
-                                            for(String opt: data.getTimeZoneOptionsAsHtml()) out.println(opt);
-                                        %>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                    <td></td>
-                    <td></td>
-                    <td class="label bold" >Grace Period:</td>
-                    <td class="inputField">
-                        <select style="width: 70px;" name="<%=Const.ParamsNames.EVALUATION_GRACEPERIOD%>"
-                                id="<%=Const.ParamsNames.EVALUATION_GRACEPERIOD%>"
-                                onmouseover="ddrivetip('<%=Const.Tooltips.EVALUATION_INPUT_GRACEPERIOD%>')"
-                                onmouseout="hideddrivetip()" tabindex="7">
-                                    <%
-                                        for(String opt: data.getGracePeriodOptionsAsHtml()) out.println(opt);
-                                    %>
-                        </select></td>
-                    </tr>
-                    <tr>
-                        <td class="label bold middlealign" >Instructions to students:</td>
-                        <td colspan="3">
-                        <table><tr><td>
-                            <%
-                                if(data.newEvaluationToBeCreated==null){
-                            %>
-                                <textarea rows="3" cols="90" class="textvalue" name="<%=Const.ParamsNames.EVALUATION_INSTRUCTIONS%>" id="<%=Const.ParamsNames.EVALUATION_INSTRUCTIONS%>"
-                                        onmouseover="ddrivetip('<%=Const.Tooltips.EVALUATION_INPUT_INSTRUCTIONS%>')"
-                                        onmouseout="hideddrivetip()" tabindex="8">Please submit your peer evaluation based on the overall contribution of your teammates so far.</textarea>
-                            <%
-                                } else {
-                            %>
-                                <textarea rows="3" cols="90" class="textvalue" name="<%=Const.ParamsNames.EVALUATION_INSTRUCTIONS%>" id="<%=Const.ParamsNames.EVALUATION_INSTRUCTIONS%>"
-                                        onmouseover="ddrivetip('<%=Const.Tooltips.EVALUATION_INPUT_INSTRUCTIONS%>')"
-                                        onmouseout="hideddrivetip()" tabindex="8"><%=InstructorEvalPageData.sanitizeForHtml(data.newEvaluationToBeCreated.instructions.getValue())%></textarea>
-                            <%
-                                }
-                            %>
-                        </td></tr></table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="4" class="centeralign">
-                            <input id="button_submit" type="submit" class="button"
-                                    onclick="return checkAddEvaluation(this.form);"
-                                    value="Create Evaluation" tabindex="9"></td>
-                    </tr>
-                </table>
+            <br>
+            <form class="form-group" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_EVAL_ADD%>" name="form_addevaluation">
+                <div class="panel panel-primary">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-7">
+                                <div class="row">
+                                    <div class="form-group"
+                                        title="<%=Const.Tooltips.EVALUATION_INPUT_COURSE%>"
+                                        data-toggle="tooltip"
+                                        data-placement="top">
+                                        <h5 class="col-sm-4">                                        
+                                            <label 
+                                                for="<%=Const.ParamsNames.COURSE_ID%>"
+                                                class="control-label">
+                                                Course
+                                            </label>
+                                        </h5>
+                                        <div class="col-md-7">
+                                            <select class="form-control" 
+                                                name="<%=Const.ParamsNames.COURSE_ID%>"
+                                                id="<%=Const.ParamsNames.COURSE_ID%>">
+                                                    <%
+                                                        for(String opt: data.getCourseIdOptions()) out.println(opt);
+                                                    %>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group"
+                                        title="<%=Const.Tooltips.EVALUATION_INPUT_NAME%>"
+                                        data-toggle="tooltip"
+                                        data-placement="top">
+                                        <h5 class="col-sm-4 ">
+                                            <label 
+                                                for="<%=Const.ParamsNames.EVALUATION_NAME%>"
+                                                class="control-label">
+                                                Evaluation name
+                                            </label>
+                                        </h5>
+                                        <div class="col-md-7">
+                                            <input class="form-control" 
+                                                type="text"
+                                                name="<%=Const.ParamsNames.EVALUATION_NAME%>" 
+                                                id="<%=Const.ParamsNames.EVALUATION_NAME%>"
+                                                maxlength =<%=FieldValidator.EVALUATION_NAME_MAX_LENGTH%>
+                                                value="<%if(data.newEvaluationToBeCreated!=null) out.print(InstructorEvalPageData.sanitizeForHtml(data.newEvaluationToBeCreated.name));%>"
+                                                placeholder="e.g. Midterm Evaluation">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row"
+                                    title="<%=Const.Tooltips.EVALUATION_INPUT_COMMENTSSTATUS%>"
+                                    data-toggle="tooltip"
+                                    data-placement="top">
+                                    <h5 class="col-md-4">
+                                        <label for="" class="control-label">
+                                            Peer feedback
+                                        </label>
+                                    </h5>
+                                    <div class="col-md-7">
+                                        <div class="radio">
+                                            <label for="commentsstatus_enabled">Enabled</label>
+                                            <input type="radio" name="<%=Const.ParamsNames.EVALUATION_COMMENTSENABLED%>"
+                                                id="commentsstatus_enabled" value="true"
+                                                <%if(data.newEvaluationToBeCreated==null || data.newEvaluationToBeCreated.p2pEnabled) out.print("checked=\"checked\"");%>>
+                                        </div>
+                                        <div class="radio">
+                                            <label for="commentsstatus_disabled">Disabled</label>
+                                            <input type="radio" name="<%=Const.ParamsNames.EVALUATION_COMMENTSENABLED%>"
+                                                id="commentsstatus_disabled" value="false"
+                                                <%if(data.newEvaluationToBeCreated!=null && !data.newEvaluationToBeCreated.p2pEnabled) out.print("checked=\"checked\"");%>>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-5 border-left-gray">
+                                <div class="row">
+                                    <div class="form-group" 
+                                        title="<%=Const.Tooltips.EVALUATION_INPUT_START%>"
+                                        data-toggle="tooltip"
+                                        data-placement="top">
+                                        <h5 class="col-md-4">
+                                            <label for="<%=Const.ParamsNames.EVALUATION_START%>" class="control-label">
+                                                Starting time
+                                            </label>
+                                        </h5>
+                                        <div class="col-md-5" >
+                                            <input class="form-control"
+                                                type="text"
+                                                name="<%=Const.ParamsNames.EVALUATION_START%>"
+                                                id="<%=Const.ParamsNames.EVALUATION_START%>"
+                                                value="<%=(data.newEvaluationToBeCreated==null? TimeHelper.formatDate(TimeHelper.getNextHour()) : TimeHelper.formatDate(data.newEvaluationToBeCreated.startTime))%>">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <select class="form-control"
+                                                    name="<%=Const.ParamsNames.EVALUATION_STARTTIME%>"
+                                                    id="<%=Const.ParamsNames.EVALUATION_STARTTIME%>">
+                                                        <%
+                                                            for(String opt: data.getTimeOptionsAsHtml(true)) out.println(opt);
+                                                        %>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group" 
+                                        title="<%=Const.Tooltips.EVALUATION_INPUT_DEADLINE%>"
+                                        data-toggle="tooltip"
+                                        data-placement="top">
+                                        <h5 class="col-md-4">
+                                            <label for="<%=Const.ParamsNames.EVALUATION_DEADLINE%>" class="control-label">
+                                                Closing time
+                                            </label>
+                                        </h5>
+                                        <div class="col-md-5" >
+                                            <input class="form-control"
+                                                type="text"
+                                                name="<%=Const.ParamsNames.EVALUATION_DEADLINE%>"
+                                                id="<%=Const.ParamsNames.EVALUATION_DEADLINE%>"
+                                                value="<%=(data.newEvaluationToBeCreated==null? "" : TimeHelper.formatDate(data.newEvaluationToBeCreated.endTime))%>">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <select class="form-control"
+                                                    name="<%=Const.ParamsNames.EVALUATION_DEADLINETIME%>"
+                                                    id="<%=Const.ParamsNames.EVALUATION_DEADLINETIME%>">
+                                                        <%
+                                                            for(String opt: data.getTimeOptionsAsHtml(true)) out.println(opt);
+                                                        %>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group" 
+                                        title="<%=Const.Tooltips.EVALUATION_INPUT_GRACEPERIOD%>"
+                                        data-toggle="tooltip"
+                                        data-placement="top">
+                                        <h5 class="col-md-4">
+                                            <label for="<%=Const.ParamsNames.EVALUATION_GRACEPERIOD%>" class="control-label">
+                                                Grace Period
+                                            </label>
+                                        </h5>
+                                        <div class="col-md-5">
+                                            <select class="form-control" 
+                                                name="<%=Const.ParamsNames.EVALUATION_GRACEPERIOD%>"
+                                                id="<%=Const.ParamsNames.EVALUATION_GRACEPERIOD%>">
+                                                    <%
+                                                    for(String opt: data.getGracePeriodOptionsAsHtml()) {
+                                                    	out.println(opt);
+                                                    }
+                                                    %>
+                                        </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group" 
+                                        title="<%=Const.Tooltips.EVALUATION_INPUT_TIMEZONE%>"
+                                        data-toggle="tooltip"
+                                        data-placement="top">
+                                        <h5 class="col-md-4">
+                                            <label for="<%=Const.ParamsNames.EVALUATION_GRACEPERIOD%>" class="control-label">
+                                                Timezone
+                                            </label>
+                                        </h5>
+                                        <div class="col-md-5">
+                                            <select class="form-control" 
+                                                name="<%=Const.ParamsNames.EVALUATION_TIMEZONE%>"
+                                                id="<%=Const.ParamsNames.EVALUATION_TIMEZONE%>">
+                                                    <%
+                                                    for(String opt: data.getTimeZoneOptionsAsHtml()) out.println(opt);
+                                                    %>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row"
+                            title="<%=Const.Tooltips.EVALUATION_INPUT_INSTRUCTIONS%>"
+                            data-toggle="tooltip"
+                            data-placement="top">
+                            <h5 class="col-md-2">
+                                <label for="<%=Const.ParamsNames.EVALUATION_INSTRUCTIONS%>" class="control-label">
+                                    Instructions
+                                </label>
+                            </h5>
+                            <div class="col-md-10">
+                                <%
+                                    if(data.newEvaluationToBeCreated==null){
+                                %>
+                                    <textarea rows="3" class="form-control" 
+                                        name="<%=Const.ParamsNames.EVALUATION_INSTRUCTIONS%>" 
+                                        id="<%=Const.ParamsNames.EVALUATION_INSTRUCTIONS%>"
+                                        placeholder="Please submit your peer evaluation based on the overall contribution of your teammates so far."
+                                        
+                                            >Please submit your peer evaluation based on the overall contribution of your teammates so far.</textarea>
+                                <%
+                                    } else {
+                                %>
+                                    <textarea rows="3" class="form-control" 
+                                        name="<%=Const.ParamsNames.EVALUATION_INSTRUCTIONS%>" 
+                                        id="<%=Const.ParamsNames.EVALUATION_INSTRUCTIONS%>"
+                                        placeholder="Please submit your peer evaluation based on the overall contribution of your teammates so far."
+                                        
+                                            ><%=InstructorEvalPageData.sanitizeForHtml(data.newEvaluationToBeCreated.instructions.getValue())%></textarea>
+                                <%
+                                    }
+                                %>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button type="submit" 
+                                    id="button_submit" 
+                                    class="btn btn-primary center-block"
+                                    onclick="return checkAddEvaluation(this.form);">
+                                    Create Evaluation Session
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
             </form>
-            
-            <br>
-            <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
-            <br>
+        </div>
+        <br>
+        <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
+        <br>
 
 
-            <table class="dataTable">
-                <tr>
-                    <th class="leftalign color_white bold">
-                        <input class="buttonSortAscending" type="button" id="button_sortcourseid"
-                                onclick="toggleSort(this,1)">Course ID</th>
-                    <th class="leftalign color_white bold">
-                        <input class="buttonSortNone" type="button" id="button_sortname"
-                                onclick="toggleSort(this,2)">Evaluation</th>
-                    <th class="centeralign color_white bold">Status</th>
-                    <th class="centeralign color_white bold"><span
-                        onmouseover="ddrivetip('<%=Const.Tooltips.EVALUATION_RESPONSE_RATE%>')"
-                        onmouseout="hideddrivetip()">Response Rate</span></th>
-                    <th class="centeralign color_white bold no-print">Action(s)</th>
-                </tr>
-                <%
-                    int sessionIdx = -1;
-                    if (data.existingEvalSessions.size() > 0
-                            || data.existingFeedbackSessions.size() > 0) {
-                        for (EvaluationAttributes edd : data.existingEvalSessions) {
-                            sessionIdx++;
-                %>
-                <tr class="sessions_row" id="evaluation<%=sessionIdx%>">
-                    <td class="t_session_coursecode"><%=edd.courseId%></td>
-                    <td class="t_session_name"><%=InstructorEvalPageData
-                            .sanitizeForHtml(edd.name)%></td>
-                    <td class="t_session_status centeralign"><span
-                        onmouseover="ddrivetip(' <%=InstructorEvalPageData
-                            .getInstructorHoverMessageForEval(edd)%>')"
-                        onmouseout="hideddrivetip()"><%=InstructorEvalPageData
-                            .getInstructorStatusForEval(edd)%></span></td>
-                    <td class="t_session_response centeralign<% if(!TimeHelper.isOlderThanAYear(edd.endTime)) { out.print(" recent");} %>">
-                        <a oncontextmenu="return false;" href="<%=data.getEvaluationStatsLink(edd.courseId, edd.name)%>">Show</a></td>
-                    <td class="centeralign no-print"><%=data.getInstructorEvaluationActions(
-                            edd, sessionIdx, false)%>
-                    </td>
-                </tr>
-                <%
-                        }
-                        for (FeedbackSessionAttributes fdb : data.existingFeedbackSessions) {
-                            sessionIdx++;
-                %>
-                <tr class="sessions_row" id="session<%=sessionIdx%>">
-                    <td class="t_session_coursecode"><%=fdb.courseId%></td>
-                    <td class="t_session_name"><%=InstructorEvalPageData
-                            .sanitizeForHtml(fdb.feedbackSessionName)%></td>
-                    <td class="t_session_status centeralign"><span
-                        onmouseover="ddrivetip(' <%=InstructorEvalPageData
-                            .getInstructorHoverMessageForFeedbackSession(fdb)%>')"
-                        onmouseout="hideddrivetip()"><%=InstructorEvalPageData
-                            .getInstructorStatusForFeedbackSession(fdb)%></span></td>
-                    <td class="t_session_response centeralign<% if(!TimeHelper.isOlderThanAYear(fdb.createdTime)) { out.print(" recent");} %>">
-                        <a oncontextmenu="return false;" href="<%=data.getFeedbackSessionStatsLink(fdb.courseId, fdb.feedbackSessionName)%>">Show</a></td>
-                    <td class="centeralign no-print"><%=data.getInstructorFeedbackSessionActions(
-                            fdb, sessionIdx, false)%>
-                    </td>
-                </tr>
-                <%
-                        }
-                    } else {
-                %>
-                <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                <%
-                    }
-                %>
-            </table>
-            <br>
-            <br>
-            <br>
+        <table class="table-responsive table table-striped table-bordered">
+            <thead>
+                <tr class="fill-primary">
+                    <th id="button_sortid" onclick="toggleSort(this,1);"
+                        class="button-sort-ascending">Course ID <span
+                        class="icon-sort unsorted"></span>
+                    </th>
+                    <th id="button_sortname" onclick="toggleSort(this,2)"
+                        class="button-sort-none">Session Name <span
+                        class="icon-sort unsorted"></span>
+                    </th>
+                    <th>Status</th>
+                    <th><span
+                        title="<%=Const.Tooltips.EVALUATION_RESPONSE_RATE%>"
+                        data-toggle="tooltip" data-placement="top">
+                            Response Rate</span></th>
+                <th class="no-print">Action(s)</th>
+            </tr>
+            </thead>
             <%
-                if(sessionIdx==-1){
+                int sessionIdx = -1;
+                if (data.existingFeedbackSessions.size() > 0
+                        || data.existingEvalSessions.size() > 0) {
+                    for (EvaluationAttributes edd : data.existingEvalSessions) {
+                        sessionIdx++;
             %>
-                <div class="centeralign">No records found.</div>
-                <br>
-                <br>
-                <br>
+            <tr class="sessionsRow" id="evaluation<%=sessionIdx%>">
+                <td><%=edd.courseId%></td>
+                <td><%=InstructorEvalPageData
+                            .sanitizeForHtml(edd.name)%></td>
+                <td><span title="<%=InstructorEvalPageData.getInstructorHoverMessageForEval(edd)%>"
+                        data-toggle="tooltip" data-placement="top">
+                        <%=InstructorEvalPageData.getInstructorStatusForEval(edd)%>
+                    </span>
+                </td>
+                <td
+                    class="session-response-for-test<%if (!TimeHelper.isOlderThanAYear(edd.endTime)) {
+                        out.print(" recent");
+                    }%>">
+                    <a oncontextmenu="return false;"
+                    href="<%=data.getEvaluationStatsLink(edd.courseId,
+                            edd.name)%>">Show</a>
+                </td>
+                <td class="no-print"><%=data.getInstructorEvaluationActions(edd, false)%></td>
+            </tr>
+            <%
+                }
+                    for (FeedbackSessionAttributes fdb : data.existingFeedbackSessions) {
+                        sessionIdx++;
+            %>
+            <tr class="sessionsRow" id="session<%=sessionIdx%>">
+                <td><%=fdb.courseId%></td>
+                <td><%=InstructorEvalPageData
+                            .sanitizeForHtml(fdb.feedbackSessionName)%></td>
+                <td><span title="<%=InstructorEvalPageData.getInstructorHoverMessageForFeedbackSession(fdb)%>" 
+                        data-toggle="tooltip" data-placement="top">
+                        <%=InstructorEvalPageData.getInstructorStatusForFeedbackSession(fdb)%>
+                    </span>
+                </td>
+                <td
+                    class="session-response-for-test<%if (!TimeHelper.isOlderThanAYear(fdb.createdTime)) {
+                        out.print(" recent");
+                    }%>">
+                    <a oncontextmenu="return false;"
+                    href="<%=data.getFeedbackSessionStatsLink(fdb.courseId,
+                            fdb.feedbackSessionName)%>">Show</a>
+                </td>
+                <td class="no-print"><%=data.getInstructorFeedbackSessionActions(fdb,
+                            false)%></td>
+            </tr>
+            <%
+                }
+                } else {
+            %>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
             <%
                 }
             %>
-        </div>
+        </table>
+        <br> <br> <br>
+        <%
+            if (sessionIdx == -1) {
+        %>
+        <div class="align-center">No records found.</div>
+        <br> <br> <br>
+        <%
+            }
+        %>
     </div>
 
-    <div id="frameBottom">
-        <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
-    </div>
+    <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
 </body>
 </html>

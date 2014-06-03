@@ -1,243 +1,392 @@
 <!DOCTYPE html>
-<html><head>
-    <link rel="shortcut icon" href="/favicon.png">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>TEAMMATES - Instructor</title>
-    <link rel="stylesheet" href="/stylesheets/common.css" type="text/css" media="screen">
-    <link rel="stylesheet" href="/stylesheets/instructorCourseEdit.css" type="text/css" media="screen">
-    <link rel="stylesheet" href="/stylesheets/common-print.css" type="text/css" media="print">
-    <link rel="stylesheet" href="/stylesheets/instructorCourseEdit-print.css" type="text/css" media="print">
-    
-    <script src="https://ssl.google-analytics.com/ga.js" async="" type="text/javascript"></script>
-    <script type="text/javascript" src="/js/googleAnalytics.js"></script>
-    <script type="text/javascript" src="/js/jquery-minified.js"></script>
-    <script type="text/javascript" src="/js/tooltip.js"></script>
-    <script type="text/javascript" src="/js/date.js"></script>
-    <script type="text/javascript" src="/js/CalendarPopup.js"></script>
-    <script type="text/javascript" src="/js/AnchorPosition.js"></script>
-    <script type="text/javascript" src="/js/common.js"></script>
-    
-    <script type="text/javascript" src="/js/instructor.js"></script>
-    <script type="text/javascript" src="/js/instructorCourseEdit.js"></script>
-    <noscript>{*}</noscript>
-
-</head>
-
-<body onload="readyCourseEditPage(); initializetooltip();">
-    <div id="dhtmltooltip"></div>
-    <div id="frameTop">
-        
-
-
-        <div id="frameTopWrapper">
-            <div id="logo">
-                <a href="/index.html">
-                <img alt="TEAMMATES" src="/images/teammateslogo.jpg" height="47px" width="150px">
-                </a>
-            </div>            
-            <div id="contentLinks">
-                <ul id="navbar">
-                    <li><a class="nav home" data-link="instructorHome" href="/page/instructorHomePage?user=InsCrsEdit.test">Home</a></li>
-                    <li class="current"><a class="nav courses" data-link="instructorCourse" href="/page/instructorCoursesPage?user=InsCrsEdit.test">Courses</a></li>
-                    <li><a class="nav evaluations" data-link="instructorEval" href="/page/instructorEvalsPage?user=InsCrsEdit.test">Sessions</a></li>
-                    <li><a class="nav students"  data-link="instructorStudent"  href="/page/instructorStudentListPage?user=InsCrsEdit.test" >Students</a></li>
-                    <li><a class="nav help" href="/instructorHelp.html" target="_blank">Help</a></li>
-                    <li><a class="nav logout" href="/logout.jsp">Logout</a>
-                    <b>
-                            (InsCrsEdit.test)</b>
-                    </li>
-                </ul>
-            </div>
-            <div style="clear: both;"></div>
+<html>
+    <head>
+     <link href="/favicon.png"  rel="shortcut icon" />
+              <meta content="width=device-width, initial-scale=1.0"  name="viewport" />
+              <meta content="text/html; charset=UTF-8"  http-equiv="Content-Type" />
+              <title>
+        TEAMMATES - Instructor
+     </title>
+     <link href="/bootstrap/css/bootstrap.min.css"  rel="stylesheet"  type="text/css" />
+              <link href="/bootstrap/css/bootstrap-theme.min.css"  rel="stylesheet"  type="text/css" />
+              <link href="/stylesheets/teammatesCommon.css"  rel="stylesheet"  type="text/css" />
+              <script async=""  src="https://ssl.google-analytics.com/ga.js"  type="text/javascript" >
+     </script>
+     <script src="/js/googleAnalytics.js"  type="text/javascript" >
+     </script>
+     <script src="/js/jquery-minified.js"  type="text/javascript" >
+     </script>
+     <script src="/js/common.js"  type="text/javascript" >
+     </script>
+     <script src="/bootstrap/js/bootstrap.min.js"  type="text/javascript" >
+     </script>
+     <script src="/js/instructor.js"  type="text/javascript" >
+     </script>
+     <script src="/js/instructorCourseEdit.js"  type="text/javascript" >
+     </script>
+     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    </head>
+    <body onload="readyCourseEditPage();" >
+     <div class="navbar navbar-inverse navbar-fixed-top"  role="navigation" >
+        <div class="container" >
+           <div class="navbar-header" >
+              <button class="navbar-toggle"  data-target="#contentLinks"  data-toggle="collapse"  type="button" >
+                 <span class="sr-only" >
+                    Toggle navigation
+                 </span>
+                 <span class="icon-bar" >
+                 </span>
+                 <span class="icon-bar" >
+                 </span>
+                 <span class="icon-bar" >
+                 </span>
+              </button>
+              <a class="navbar-brand"  href="/index.html" >
+                 TEAMMATES
+              </a>
+           </div>
+           <div class="collapse navbar-collapse"  id="contentLinks" >
+              <ul class="nav navbar-nav" >
+                 <li class="" >
+                    <a class="nav home"  data-link="instructorHome"  href="/page/instructorHomePage?user=InsCrsEdit.test" >
+                       Home
+                    </a>
+                 </li>
+                 <li class="active" >
+                        <a class="nav courses"  data-link="instructorCourse"  href="/page/instructorCoursesPage?user=InsCrsEdit.test" >
+                           Courses
+                        </a>
+                     </li>
+                 <li class="" >
+                    <a class="nav evaluations"  data-link="instructorEval"  href="/page/instructorEvalsPage?user=InsCrsEdit.test" >
+                       Sessions
+                    </a>
+                 </li>
+                 <li class="" >
+                    <a class="nav students"  data-link="instructorStudent"  href="/page/instructorStudentListPage?user=InsCrsEdit.test" >
+                       Students
+                    </a>
+                 </li>
+                 <li>
+                    <a class="nav help"  href="/instructorHelp.html"  target="_blank" >
+                       Help
+                    </a>
+                 </li>
+              </ul>
+              <ul class="nav navbar-nav pull-right" >
+                 <li>
+                    <a class="nav logout"  href="/logout.jsp" >
+                           Logout
+                        
+                        (
+                           <span class="text-info"  data-original-title="InsCrsEdit.test"  data-placement="bottom"  data-toggle="tooltip"  title="" >
+                              InsCrsEdit.test
+                           </span>
+                           )
+                        </a>
+                 </li>
+              </ul>
+           </div>
         </div>
-
-    </div>
-
-    <div id="frameBody">
-        <div id="frameBodyWrapper">
-            <div id="topOfPage"></div>
-            <div id="headerOperation">
-                <h1>Edit Course Details</h1>
-            </div>
-                
-            <form action="/page/instructorCourseEditSave" method="post" id="formEditcourse">
-                <input name="courseid" value="InsCrsEdit.CS2104" type="hidden">
-                <input name="instructorid" value="InsCrsEdit.test" type="hidden">
-                
-                <table id="courseDetailTable" class="inputTable">
-                    <tbody><tr>
-                        <td class="label bold">Course ID:</td>
-                        <td><input class="addinput" name="courseid" id="courseid" value="InsCrsEdit.CS2104" onmouseover="ddrivetip('Identifier of the course, e.g.CS3215-Sem1.')" onmouseout="hideddrivetip()" maxlength="40" tabindex="1" disabled="disabled" type="text"></td>
-                    </tr>
-                    <tr>
-                        <td class="label bold">Course Name:</td>
-                        <td><input class="addinput" name="coursename" id="coursename" value="Programming Language Concepts" onmouseover="ddrivetip('Enter the name of the course, e.g. Software Engineering.')" onmouseout="hideddrivetip()" maxlength="64" tabindex="2" disabled="disabled" type="text"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" class="rightalign">
-                            <a href="/page/instructorCourseDelete?courseid=InsCrsEdit.CS2104&amp;next=%2Fpage%2FinstructorCoursesPage&amp;user=InsCrsEdit.test" class="color_red" id="courseDeleteLink" onmouseover="ddrivetip('Delete the course and its corresponding students and evaluations')" onmouseout="hideddrivetip()" onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('InsCrsEdit.CS2104');">Delete Course</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" class="centeralign">
-                            <input class="button" id="btnSaveCourse" name="btnSaveCourse" style="display:none;" value="Save Changes" onclick="return verifyCourseData();" type="submit">
-                        </td>
-                    </tr>
-                </tbody></table>
-
-                
-
-
-
-
-    <div id="statusMessage" style="display: block;">
-        The instructor has been deleted from the course.</div>
-    <script type="text/javascript">
-        document.getElementById( 'statusMessage' ).scrollIntoView();
-    </script>
-
-                <br>
-                
-                <br>
-                <br>
-                <input name="user" value="InsCrsEdit.test" type="hidden">
-            </form>
-            
-            
-            <form method="post" action="/page/instructorCourseInstructorEditSave" id="formEditInstructor1&gt;" name="formEditInstructors" class="formInstructor" >
-                <input name="courseid" value="InsCrsEdit.CS2104" type="hidden">
-                <input name="instructorid" value="null" type="hidden">
-                <input name="user" value="InsCrsEdit.test" type="hidden">
-                
-                <table id="instructorTable1" class="inputTable instructorTable">
-                    <tbody><tr>
-                        <td class="label bold">Instructor 1:</td>
-                        <td class="rightalign">
-                            <a class="color_blue pad_right"  href="/page/instructorCourseRemind?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.instructor%40gmail.com&user=InsCrsEdit.test" id="instrRemindLink1" onclick="hideddrivetip(); return toggleSendRegistrationKey('InsCrsEdit.CS2104','InsCrsEdit.instructor@gmail.com);" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Send invitation email to the instructor')">Resend Invite</a>
-                            <a href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&amp;instructoremail=InsCrsEdit.instructor%40gmail.com&amp;user=InsCrsEdit.test" class="color_red" id="instrDeleteLink1" onmouseover="ddrivetip('Delete the instructor from the course')" onmouseout="hideddrivetip()" onclick="hideddrivetip(); return toggleDeleteInstructorConfirmation('InsCrsEdit.CS2104','InsCrsEdit.instructor@gmail.com', false);">Delete</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="label bold">Name:</td>
-                        <td><input class="addinput" name="instructorname" id="instructorname1" value="Teammates Instructor" onmouseover="ddrivetip('Enter the name of the instructor.')" onmouseout="hideddrivetip()" maxlength="100" tabindex="4" disabled="disabled" type="text"></td>
-                    </tr>
-                    <tr>
-                        <td class="label bold">Email:</td>
-                        <td><input class="addinput" name="instructoremail" id="instructoremail1" value="InsCrsEdit.instructor@gmail.com" onmouseover="ddrivetip('Enter the name of the instructor.')" onmouseout="hideddrivetip()" maxlength="45" tabindex="5" disabled="disabled" type="text"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" class="centeralign"><input id="btnSaveInstructor1" class="button" style="display:none;" value="Save changes" tabindex="6" type="submit"></td>
-                    </tr>
-                </tbody></table>
-            </form>
-            
-            <br>
-            <br>
-            
-            <form method="post" action="/page/instructorCourseInstructorEditSave" id="formEditInstructor2&gt;" name="formEditInstructors" class="formInstructor" >
-                <input name="courseid" value="InsCrsEdit.CS2104" type="hidden">
-                <input name="instructorid" value="null" type="hidden">
-                <input name="user" value="InsCrsEdit.test" type="hidden">
-                
-                <table id="instructorTable2" class="inputTable instructorTable">
-                    <tbody><tr>
-                        <td class="label bold">Instructor 2:</td>
-                        <td class="rightalign">
-                            <a class="color_blue pad_right"  href="/page/instructorCourseRemind?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.newInstr%40gmail.com&user=InsCrsEdit.test" id="instrRemindLink2" onclick="hideddrivetip(); return toggleSendRegistrationKey('InsCrsEdit.CS2104','InsCrsEdit.newInstr@gmail.com);" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Send invitation email to the instructor')">Resend Invite</a>
-                            <a href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&amp;instructoremail=InsCrsEdit.newInstr%40gmail.com&amp;user=InsCrsEdit.test" class="color_red" id="instrDeleteLink2" onmouseover="ddrivetip('Delete the instructor from the course')" onmouseout="hideddrivetip()" onclick="hideddrivetip(); return toggleDeleteInstructorConfirmation('InsCrsEdit.CS2104','InsCrsEdit.newInstr@gmail.com', false);">Delete</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="label bold">Name:</td>
-                        <td><input class="addinput" name="instructorname" id="instructorname2" value="Teammates New Instructor" onmouseover="ddrivetip('Enter the name of the instructor.')" onmouseout="hideddrivetip()" maxlength="100" tabindex="4" disabled="disabled" type="text"></td>
-                    </tr>
-                    <tr>
-                        <td class="label bold">Email:</td>
-                        <td><input class="addinput" name="instructoremail" id="instructoremail2" value="InsCrsEdit.newInstr@gmail.com" onmouseover="ddrivetip('Enter the name of the instructor.')" onmouseout="hideddrivetip()" maxlength="45" tabindex="5" disabled="disabled" type="text"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" class="centeralign"><input id="btnSaveInstructor2" class="button" style="display:none;" value="Save changes" tabindex="6" type="submit"></td>
-                    </tr>
-                </tbody></table>
-            </form>
-            
-            <br>
-            <br>
-            
-            <form method="post" action="/page/instructorCourseInstructorEditSave" id="formEditInstructor3&gt;" name="formEditInstructors" class="formInstructor" >
-                <input name="courseid" value="InsCrsEdit.CS2104" type="hidden">
-                <input name="instructorid" value="InsCrsEdit.test" type="hidden">
-                <input name="user" value="InsCrsEdit.test" type="hidden">
-                
-                <table id="instructorTable3" class="inputTable instructorTable">
-                    <tbody><tr>
-                        <td class="label bold">Instructor 3:</td>
-                        <td class="rightalign">
-                            <a href="#" class="color_blue pad_right" id="instrEditLink3" onmouseover="ddrivetip('Edit instructor details')" onmouseout="hideddrivetip()" onclick="enableEditInstructor(3, 3)">Edit</a>
-                            <a href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&amp;instructoremail=InsCrsEdit.test%40gmail.com&amp;user=InsCrsEdit.test" class="color_red" id="instrDeleteLink3" onmouseover="ddrivetip('Delete the instructor from the course')" onmouseout="hideddrivetip()" onclick="hideddrivetip(); return toggleDeleteInstructorConfirmation('InsCrsEdit.CS2104','InsCrsEdit.test@gmail.com', true);">Delete</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="label bold">Google ID:</td>
-                        <td><input class="addinput immutable" name="instructorid" id="instructorid3" value="InsCrsEdit.test" onmouseover="ddrivetip('Enter the google id of the instructor.')" onmouseout="hideddrivetip()" maxlength="45" tabindex="3" disabled="disabled" type="text"></td>
-                    </tr>
-                    <tr>
-                        <td class="label bold">Name:</td>
-                        <td><input class="addinput" name="instructorname" id="instructorname3" value="Teammates Test" onmouseover="ddrivetip('Enter the name of the instructor.')" onmouseout="hideddrivetip()" maxlength="100" tabindex="4" disabled="disabled" type="text"></td>
-                    </tr>
-                    <tr>
-                        <td class="label bold">Email:</td>
-                        <td><input class="addinput" name="instructoremail" id="instructoremail3" value="InsCrsEdit.test@gmail.com" onmouseover="ddrivetip('Enter the name of the instructor.')" onmouseout="hideddrivetip()" maxlength="45" tabindex="5" disabled="disabled" type="text"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" class="centeralign"><input id="btnSaveInstructor3" class="button" style="display:none;" value="Save changes" tabindex="6" type="submit"></td>
-                    </tr>
-                </tbody></table>
-            </form>
-            
-            <br>
-            <br>
-            
-            
-            <div class="centeralign">
-                <input id="btnShowNewInstructorForm" class="button centeralign" value="Add New Instructor" onclick="showNewInstructorForm()">
-            </div>
-            
-            <form style="display: none;" method="post" action="/page/instructorCourseInstructorAdd" id="formAddInstructor" name="formAddInstructor" class="formInstructor" >
-                <input name="courseid" value="InsCrsEdit.CS2104" type="hidden">
-                <input name="user" value="InsCrsEdit.test" type="hidden">
-                
-                <table id="instructorAddTable" class="inputTable instructorTable">
-                    <tbody><tr>
-                        <td colspan="2" class="label bold">Instructors 4:</td>
-                    </tr>
-                    <tr>
-                        <td class="label bold">Name:</td>
-                        <td><input class="addinput" name="instructorname" id="instructorname" onmouseover="ddrivetip('Enter the name of the instructor.')" onmouseout="hideddrivetip()" maxlength="100" tabindex="8/" type="text"></td>
-                    </tr>
-                    <tr>
-                        <td class="label bold">Email:</td>
-                        <td><input class="addinput" name="instructoremail" id="instructoremail" onmouseover="ddrivetip('Enter the name of the instructor.')" onmouseout="hideddrivetip()" maxlength="45" tabindex="9/" type="text"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" class="centeralign"><input id="btnAddInstructor" class="button" value="Add Instructor" tabindex="10" type="submit"></td>
-                    </tr>
-                </tbody></table>
-            </form>
-            <br><br>
+     </div>
+     <div class="container theme-showcase"  id="frameBodyWrapper" >
+        <div id="topOfPage" >
         </div>
-    </div>
-
-    <div id="frameBottom">
-        
-
-
-
-<div id="contentFooter">
-    <span class="floatleft">[<span class="color_white">TEAMMATES </span>V{$version}]</span>
-    [for <span class="color_white">National University of Singapore</span>]
-    <span class="floatright">[Send <span class="color_white"><a href="../contact.html" target="_blank">Feedback</a></span>]</span>
-</div>
-    </div>
-
-</body></html>
+        <div id="headerOperation" >
+           <h1>
+              Edit Course Details
+           </h1>
+        </div>
+        <div class="panel panel-primary panel-narrow" >
+           <div class="panel-heading" >
+              <strong>
+                 Course:
+              </strong>
+              <a class="btn btn-primary btn-xs pull-right"  data-original-title="Delete the course and its corresponding students and evaluations"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseDelete?courseid=InsCrsEdit.CS2104&next=%2Fpage%2FinstructorCoursesPage&user=InsCrsEdit.test"  id="courseDeleteLink"  onclick="return toggleDeleteCourseConfirmation('InsCrsEdit.CS2104');"  title="" >
+                     <span class="glyphicon glyphicon-trash" >
+                     </span>
+                     Delete
+                  </a>
+           </div>
+           <div class="panel-body fill-plain" >
+              <form action="/page/instructorCourseEditSave"  class="form form-horizontal"  id="formEditcourse"  method="post" >
+                 <input name="courseid"  type="hidden"  value="InsCrsEdit.CS2104" />
+                                      <input name="instructorid"  type="hidden"  value="InsCrsEdit.test" />
+                                      <div class="form-group" >
+                    <label class="col-sm-3 control-label" >
+                       Course ID:
+                    </label>
+                    <div class="col-sm-3" >
+                       <input class="form-control"  data-original-title="Identifier of the course, e.g.CS3215-Sem1."  data-placement="top"  data-toggle="tooltip"  disabled="disabled"  id="courseid"  maxlength="40"  name="courseid"  tabindex="1"  title=""  type="text"  value="InsCrsEdit.CS2104" />
+                                               </div>
+                 </div>
+                 <div class="form-group" >
+                    <label class="col-sm-3 control-label" >
+                       Course Name:
+                    </label>
+                    <div class="col-sm-9" >
+                       <input class="form-control"  data-original-title="The name of the course, e.g. Software Engineering."  data-placement="top"  data-toggle="tooltip"  disabled="disabled"  id="coursename"  maxlength="64"  name="coursename"  tabindex="2"  title=""  type="text"  value="Programming Language Concepts" />
+                                               </div>
+                 </div>
+                 <div class="form-group" >
+                    <div class=" col-sm-12 align-center" >
+                       <input class="button"  id="btnSaveCourse"  name="btnSaveCourse"  onclick="return verifyCourseData();"  style="display:none;"  type="submit"  value="Save Changes" />
+                                               </div>
+                 </div>
+                 <input name="user"  type="hidden"  value="InsCrsEdit.test" />
+                                   </form>
+           </div>
+        </div>
+        <br/>
+                    <div class="alert alert-warning"  id="statusMessage" >
+           The instructor has been deleted from the course.
+        </div>
+        <script type="text/javascript" >
+           document.getElementById( 'statusMessage' ).scrollIntoView();
+        </script>
+        <br/>
+                    <div class="panel panel-primary panel-narrow" >
+           <div class="panel-heading" >
+              <strong>
+                 Instructor 1:
+              </strong>
+              <div class="pull-right" >
+                 <a class="btn btn-primary btn-xs"  data-original-title="Send invitation email to the instructor"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseRemind?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.instructor%40gmail.com&user=InsCrsEdit.test"  id="instrRemindLink1"  onclick="return toggleSendRegistrationKey('InsCrsEdit.CS2104','InsCrsEdit.instructor@gmail.com);"  title="" >
+                    <span class="glyphicon glyphicon-envelope" >
+                    </span>
+                    Resend Invite
+                 </a>
+                  
+                 <a class="btn btn-primary btn-xs"  data-original-title="Delete the instructor from the course"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.instructor%40gmail.com&user=InsCrsEdit.test"  id="instrDeleteLink1"  onclick="return toggleDeleteInstructorConfirmation('InsCrsEdit.CS2104','InsCrsEdit.instructor@gmail.com', false);"  title="" >
+                    <span class="glyphicon glyphicon-trash" >
+                    </span>
+                    Delete
+                 </a>
+              </div>
+           </div>
+           <div class="panel-body" >
+              <form action="/page/instructorCourseInstructorEditSave"  class="form form-horizontal"  id="formEditInstructor1>"  method="post"  name="formEditInstructors" >
+                 <input name="courseid"  type="hidden"  value="InsCrsEdit.CS2104" />
+                                      <input name="instructorid"  type="hidden"  value="null" />
+                                      <input name="user"  type="hidden"  value="InsCrsEdit.test" />
+                                      <div id="instructorTable1" >
+                    <div class="form-group" >
+                       <label class="col-sm-3 control-label" >
+                          Name:
+                       </label>
+                       <div class="col-sm-9" >
+                          <input class="form-control"  data-original-title="Enter the name of the instructor."  data-placement="top"  data-toggle="tooltip"  disabled="disabled"  id="instructorname1"  maxlength="100"  name="instructorname"  tabindex="4"  title=""  type="text"  value="Teammates Instructor" />
+                                                     </div>
+                    </div>
+                    <div class="form-group" >
+                       <label class="col-sm-3 control-label" >
+                          Email:
+                       </label>
+                       <div class="col-sm-9" >
+                          <input class="form-control"  data-original-title="Enter the Email of the instructor."  data-placement="top"  data-toggle="tooltip"  disabled="disabled"  id="instructoremail1"  maxlength="45"  name="instructoremail"  tabindex="5"  title=""  type="text"  value="InsCrsEdit.instructor@gmail.com" />
+                                                     </div>
+                    </div>
+                    <div class="form-group" >
+                       <div class="col-sm-offset-3 col-sm-9" >
+                          <input class="btn btn-primary"  id="btnSaveInstructor1"  style="display:none;"  tabindex="6"  type="submit"  value="Save changes" />
+                                                     </div>
+                    </div>
+                 </div>
+              </form>
+           </div>
+        </div>
+        <br/>
+                    <br/>
+                    <div class="panel panel-primary panel-narrow" >
+           <div class="panel-heading" >
+              <strong>
+                 Instructor 2:
+              </strong>
+              <div class="pull-right" >
+                 <a class="btn btn-primary btn-xs"  data-original-title="Send invitation email to the instructor"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseRemind?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.newInstr%40gmail.com&user=InsCrsEdit.test"  id="instrRemindLink2"  onclick="return toggleSendRegistrationKey('InsCrsEdit.CS2104','InsCrsEdit.newInstr@gmail.com);"  title="" >
+                    <span class="glyphicon glyphicon-envelope" >
+                    </span>
+                    Resend Invite
+                 </a>
+                  
+                 <a class="btn btn-primary btn-xs"  data-original-title="Delete the instructor from the course"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.newInstr%40gmail.com&user=InsCrsEdit.test"  id="instrDeleteLink2"  onclick="return toggleDeleteInstructorConfirmation('InsCrsEdit.CS2104','InsCrsEdit.newInstr@gmail.com', false);"  title="" >
+                    <span class="glyphicon glyphicon-trash" >
+                    </span>
+                    Delete
+                 </a>
+              </div>
+           </div>
+           <div class="panel-body" >
+              <form action="/page/instructorCourseInstructorEditSave"  class="form form-horizontal"  id="formEditInstructor2>"  method="post"  name="formEditInstructors" >
+                 <input name="courseid"  type="hidden"  value="InsCrsEdit.CS2104" />
+                                      <input name="instructorid"  type="hidden"  value="null" />
+                                      <input name="user"  type="hidden"  value="InsCrsEdit.test" />
+                                      <div id="instructorTable2" >
+                    <div class="form-group" >
+                       <label class="col-sm-3 control-label" >
+                          Name:
+                       </label>
+                       <div class="col-sm-9" >
+                          <input class="form-control"  data-original-title="Enter the name of the instructor."  data-placement="top"  data-toggle="tooltip"  disabled="disabled"  id="instructorname2"  maxlength="100"  name="instructorname"  tabindex="4"  title=""  type="text"  value="Teammates New Instructor" />
+                                                     </div>
+                    </div>
+                    <div class="form-group" >
+                       <label class="col-sm-3 control-label" >
+                          Email:
+                       </label>
+                       <div class="col-sm-9" >
+                          <input class="form-control"  data-original-title="Enter the Email of the instructor."  data-placement="top"  data-toggle="tooltip"  disabled="disabled"  id="instructoremail2"  maxlength="45"  name="instructoremail"  tabindex="5"  title=""  type="text"  value="InsCrsEdit.newInstr@gmail.com" />
+                                                     </div>
+                    </div>
+                    <div class="form-group" >
+                       <div class="col-sm-offset-3 col-sm-9" >
+                          <input class="btn btn-primary"  id="btnSaveInstructor2"  style="display:none;"  tabindex="6"  type="submit"  value="Save changes" />
+                                                     </div>
+                    </div>
+                 </div>
+              </form>
+           </div>
+        </div>
+        <br/>
+                    <br/>
+                    <div class="panel panel-primary panel-narrow" >
+           <div class="panel-heading" >
+              <strong>
+                 Instructor 3:
+              </strong>
+              <div class="pull-right" >
+                 <a class="btn btn-primary btn-xs"  data-original-title="Edit instructor details"  data-placement="top"  data-toggle="tooltip"  href="javascript:;"  id="instrEditLink3"  onclick="enableEditInstructor(3, 3)"  title="" >
+                    <span class="glyphicon glyphicon-pencil" >
+                    </span>
+                    Edit
+                 </a>
+                  
+                 <a class="btn btn-primary btn-xs"  data-original-title="Delete the instructor from the course"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.test%40gmail.com&user=InsCrsEdit.test"  id="instrDeleteLink3"  onclick="return toggleDeleteInstructorConfirmation('InsCrsEdit.CS2104','InsCrsEdit.test@gmail.com', true);"  title="" >
+                    <span class="glyphicon glyphicon-trash" >
+                    </span>
+                    Delete
+                 </a>
+              </div>
+           </div>
+           <div class="panel-body" >
+              <form action="/page/instructorCourseInstructorEditSave"  class="form form-horizontal"  id="formEditInstructor3>"  method="post"  name="formEditInstructors" >
+                 <input name="courseid"  type="hidden"  value="InsCrsEdit.CS2104" />
+                                      <input name="instructorid"  type="hidden"  value="InsCrsEdit.test" />
+                                      <input name="user"  type="hidden"  value="InsCrsEdit.test" />
+                                      <div id="instructorTable3" >
+                    <div class="form-group" >
+                       <label class="col-sm-3 control-label" >
+                          Google ID:
+                       </label>
+                       <div class="col-sm-9" >
+                          <input class="form-control"  data-original-title="Enter the google id of the instructor."  data-placement="top"  data-toggle="tooltip"  disabled="disabled"  id="instructorid3"  maxlength="45"  name="instructorid"  tabindex="3"  title=""  type="text"  value="InsCrsEdit.test" />
+                                                     </div>
+                    </div>
+                    <div class="form-group" >
+                       <label class="col-sm-3 control-label" >
+                          Name:
+                       </label>
+                       <div class="col-sm-9" >
+                          <input class="form-control"  data-original-title="Enter the name of the instructor."  data-placement="top"  data-toggle="tooltip"  disabled="disabled"  id="instructorname3"  maxlength="100"  name="instructorname"  tabindex="4"  title=""  type="text"  value="Teammates Test" />
+                                                     </div>
+                    </div>
+                    <div class="form-group" >
+                       <label class="col-sm-3 control-label" >
+                          Email:
+                       </label>
+                       <div class="col-sm-9" >
+                          <input class="form-control"  data-original-title="Enter the Email of the instructor."  data-placement="top"  data-toggle="tooltip"  disabled="disabled"  id="instructoremail3"  maxlength="45"  name="instructoremail"  tabindex="5"  title=""  type="text"  value="InsCrsEdit.test@gmail.com" />
+                                                     </div>
+                    </div>
+                    <div class="form-group" >
+                       <div class="col-sm-offset-3 col-sm-9" >
+                          <input class="btn btn-primary"  id="btnSaveInstructor3"  style="display:none;"  tabindex="6"  type="submit"  value="Save changes" />
+                                                     </div>
+                    </div>
+                 </div>
+              </form>
+           </div>
+        </div>
+        <br/>
+                    <br/>
+                    <div class="align-center" >
+           <input class="btn btn-primary"  id="btnShowNewInstructorForm"  onclick="showNewInstructorForm()"  value="Add New Instructor" />
+                       </div>
+        <div class="panel panel-primary panel-narrow"  id="panelAddInstructor"  style="display: none;" >
+           <div class="panel-heading" >
+              <strong>
+                 Instructors 4:
+              </strong>
+           </div>
+           <div class="panel-body fill-plain" >
+              <form action="/page/instructorCourseInstructorAdd"  class="form form-horizontal"  id="formAddInstructor"  method="post"  name="formAddInstructor" >
+                 <input name="courseid"  type="hidden"  value="InsCrsEdit.CS2104" />
+                                      <input name="user"  type="hidden"  value="InsCrsEdit.test" />
+                                      <div id="instructorAddTable" >
+                    <div class="form-group" >
+                       <label class="col-sm-3 control-label" >
+                          Name:
+                       </label>
+                       <div class="col-sm-9" >
+                          <input class="form-control"  data-original-title="Enter the name of the instructor."  data-placement="top"  data-toggle="tooltip"  id="instructorname"  maxlength="100"  name="instructorname"  tabindex="8/"  title=""  type="text" />
+                                                     </div>
+                    </div>
+                    <div class="form-group" >
+                       <label class="col-sm-3 control-label" >
+                          Email:
+                       </label>
+                       <div class="col-sm-9" >
+                          <input class="form-control"  data-original-title="Enter the Email of the instructor."  data-placement="top"  data-toggle="tooltip"  id="instructoremail"  maxlength="45"  name="instructoremail"  tabindex="9/"  title=""  type="text" />
+                                                     </div>
+                    </div>
+                    <div class="form-group" >
+                       <div class="col-sm-offset-3 col-sm-9" >
+                          <input class="btn btn-primary"  id="btnAddInstructor"  tabindex="10"  type="submit"  value="Add Instructor" />
+                                                     </div>
+                    </div>
+                 </div>
+              </form>
+           </div>
+        </div>
+        <br/>
+                    <br/>
+                 </div>
+     <div class="container-fluid"  id="footerComponent" >
+        <div class="container" >
+           <div class="row" >
+              <div class="col-md-4" >
+                 <span>
+                    [
+                    <a href="/index.html" >
+                       TEAMMATES
+                    </a>
+                    V{$version}]
+                 </span>
+              </div>
+              <div class="col-md-4" >
+                 [for
+                 <span class="highlight-white" >
+                    <span class="color_white" >
+                       National University of Singapore
+                    </span>
+                 </span>
+                 ]
+              </div>
+              <div class="col-md-4" >
+                 <span>
+                    [Send
+                    <a class="link"  href="../contact.html"  target="_blank" >
+                       Feedback
+                    </a>
+                    ]
+                 </span>
+              </div>
+           </div>
+        </div>
+     </div>
+    </body>
+</html>

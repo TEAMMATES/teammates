@@ -9,7 +9,7 @@ public class StudentHelpPage extends AppPage {
     @Override
     protected boolean containsExpectedPageContents() {
         return getPageSource().contains(
-                "TEAMMATES Online Peer Feedback System for Student Team Projects - Student Help");
+                "Help for Students");
     }
 
 }

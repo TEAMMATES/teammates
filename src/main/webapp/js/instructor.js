@@ -10,11 +10,9 @@
 
 
 window.addEventListener('load', function (){
-    initializetooltip();
     if(typeof doPageSpecificOnload !== 'undefined'){
         doPageSpecificOnload();
     };
-    initializenavbar();
 });
 
 $(document).ready(function(){
@@ -33,8 +31,9 @@ $(document).ready(function(){
     });
 });
 
-//DynamicDrive JS mouse-hover
-document.onmousemove = positiontip;
+$(function() { 
+    $("[data-toggle='tooltip']").tooltip({html: true}); 
+});
 
 //-----------------------------------------------------------------------------
 

@@ -42,7 +42,7 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
     
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        
+        //TODO: find a way to test status message from session
         String[] submissionParams = new String[]{};
         
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
@@ -68,9 +68,7 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
         RedirectResult redirectResult = getRedirectResult(archiveAction);
         
         assertEquals(
-                Const.ActionURIs.INSTRUCTOR_HOME_PAGE+"?message=The+course+idOfTypicalCourse1+has+been+archived.+It+will+not+appear+in+the+home+page+any+more."
-                +"+You+can+access+archived+courses+from+the+%27Courses%27+tab.%3Cbr%3EGo+there+to+undo+the+archiving+and+bring+the+course+back+to+the+home+page."
-                +"&error=false&user=idOfInstructor1OfCourse1", 
+                Const.ActionURIs.INSTRUCTOR_HOME_PAGE+"?error=false&user=idOfInstructor1OfCourse1", 
                 redirectResult.getDestinationWithParams());
         assertEquals(false, redirectResult.isError);
         assertEquals(String.format(Const.StatusMessages.COURSE_ARCHIVED_FROM_HOMEPAGE, courseId), redirectResult.getStatusMessage());
@@ -90,9 +88,7 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
         redirectResult = getRedirectResult(archiveAction);
         
         assertEquals(
-                Const.ActionURIs.INSTRUCTOR_HOME_PAGE+"?message=The+course+idOfTypicalCourse1+has+been+archived.+It+will+not+appear+in+the+home+page+any+more."
-                +"+You+can+access+archived+courses+from+the+%27Courses%27+tab.%3Cbr%3EGo+there+to+undo+the+archiving+and+bring+the+course+back+to+the+home+page."
-                +"&error=false&user=idOfInstructor1OfCourse1", 
+                Const.ActionURIs.INSTRUCTOR_HOME_PAGE+"?error=false&user=idOfInstructor1OfCourse1", 
                 redirectResult.getDestinationWithParams());
         assertEquals(false, redirectResult.isError);
         assertEquals(String.format(Const.StatusMessages.COURSE_ARCHIVED_FROM_HOMEPAGE, courseId), redirectResult.getStatusMessage());
@@ -112,7 +108,7 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
         redirectResult = getRedirectResult(unarchiveAction);
         
         assertEquals(
-                Const.ActionURIs.INSTRUCTOR_COURSES_PAGE+"?message=The+course+idOfTypicalCourse1+has+been+unarchived.&error=false&user=idOfInstructor1OfCourse1", 
+                Const.ActionURIs.INSTRUCTOR_COURSES_PAGE+"?error=false&user=idOfInstructor1OfCourse1", 
                 redirectResult.getDestinationWithParams());
         assertEquals(false, redirectResult.isError);
         assertEquals(String.format(Const.StatusMessages.COURSE_UNARCHIVED, courseId), redirectResult.getStatusMessage());
@@ -132,7 +128,7 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
         redirectResult = getRedirectResult(unarchiveAction);
         
         assertEquals(
-                Const.ActionURIs.INSTRUCTOR_COURSES_PAGE+"?message=The+course+idOfTypicalCourse1+has+been+unarchived.&error=false&user=idOfInstructor1OfCourse1", 
+                Const.ActionURIs.INSTRUCTOR_COURSES_PAGE+"?error=false&user=idOfInstructor1OfCourse1", 
                 redirectResult.getDestinationWithParams());
         assertEquals(false, redirectResult.isError);
         assertEquals(String.format(Const.StatusMessages.COURSE_UNARCHIVED, courseId), redirectResult.getStatusMessage());
@@ -152,7 +148,7 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
         redirectResult = getRedirectResult(archiveAction);
         
         assertEquals(
-                Const.ActionURIs.INSTRUCTOR_COURSES_PAGE+"?message=The+course+idOfTypicalCourse1+has+been+archived.+It+will+not+appear+in+the+home+page+any+more.&error=false&user=idOfInstructor1OfCourse1", 
+                Const.ActionURIs.INSTRUCTOR_COURSES_PAGE+"?error=false&user=idOfInstructor1OfCourse1", 
                 redirectResult.getDestinationWithParams());
         assertEquals(false, redirectResult.isError);
         assertEquals(String.format(Const.StatusMessages.COURSE_ARCHIVED, courseId), redirectResult.getStatusMessage());

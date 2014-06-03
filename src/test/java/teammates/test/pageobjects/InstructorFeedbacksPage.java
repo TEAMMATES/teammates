@@ -13,7 +13,6 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 
 import com.google.appengine.api.datastore.Text;
@@ -87,7 +86,7 @@ public class InstructorFeedbacksPage extends AppPage {
     @FindBy(id = "button_sortname")
     private WebElement sortByNameIcon;
     
-    @FindBy(id = "button_sortcourseid")
+    @FindBy(id = "button_sortid")
     private WebElement sortByIdIcon;
     
 
@@ -325,48 +324,48 @@ public class InstructorFeedbacksPage extends AppPage {
 
     public WebElement getViewResponseLink(String courseId, String sessionName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
-        return browser.driver.findElement(By.xpath("//tbody/tr["+(int)(sessionRowId+2)+"]/td[contains(@class,'t_session_response')]/a"));
+        return browser.driver.findElement(By.xpath("//tbody/tr["+(int)(sessionRowId+1)+"]/td[contains(@class,'session-response-for-test')]/a"));
     }
     
     public String getResponseValue(String courseId, String sessionName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
-        return browser.driver.findElement(By.xpath("//tbody/tr["+(int)(sessionRowId+2)+"]/td[contains(@class,'t_session_response')]")).getText();
+        return browser.driver.findElement(By.xpath("//tbody/tr["+(int)(sessionRowId+1)+"]/td[contains(@class,'session-response-for-test')]")).getText();
     }
     
     public WebElement getViewResultsLink(String courseId, String sessionName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
-        return getLinkAtTableRow("t_session_view", sessionRowId);
+        return getLinkAtTableRow("session-view-for-test", sessionRowId);
     }
     
     public WebElement getEditLink(String courseId, String sessionName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
-        return getLinkAtTableRow("t_session_edit", sessionRowId);
+        return getLinkAtTableRow("session-edit-for-test", sessionRowId);
     }
     
     public WebElement getDeleteLink(String courseId, String sessionName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
-        return getLinkAtTableRow("t_session_delete", sessionRowId);
+        return getLinkAtTableRow("session-delete-for-test", sessionRowId);
     }
     
     public WebElement getSubmitLink(String courseId, String sessionName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
-        return getLinkAtTableRow("t_session_submit", sessionRowId);
+        return getLinkAtTableRow("session-submit-for-test", sessionRowId);
     }
     
     public WebElement getPublishLink(String courseId, String sessionName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
-        return getLinkAtTableRow("t_session_publish", sessionRowId);
+        return getLinkAtTableRow("session-publish-for-test", sessionRowId);
     }
     
     public WebElement getUnpublishLink(String courseId, String sessionName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
-        return getLinkAtTableRow("t_session_unpublish", sessionRowId);
+        return getLinkAtTableRow("session-unpublish-for-test", sessionRowId);
     }
     
     public void verifyPublishLinkHidden(String courseId, String sessionName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
         try {
-            getLinkAtTableRow("t_session_publish", sessionRowId);
+            getLinkAtTableRow("session-publish-for-test", sessionRowId);
             Assert.fail("This element should be hidden.");
         } catch (NoSuchElementException e) {
             return;
@@ -376,7 +375,7 @@ public class InstructorFeedbacksPage extends AppPage {
     public void verifyUnpublishLinkHidden(String courseId, String sessionName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
         try {
-            getLinkAtTableRow("t_session_unpublish", sessionRowId);
+            getLinkAtTableRow("session-unpublish-for-test", sessionRowId);
             Assert.fail("This element should be hidden.");
         } catch (NoSuchElementException e) {
             return;
@@ -395,28 +394,24 @@ public class InstructorFeedbacksPage extends AppPage {
         return !browser.driver.findElement(locator).isEnabled();
     }
     
-    public boolean verifyInstructionsTextAreaIsHidden () {
-        return !browser.driver.findElement(By.xpath("(//table[@id='instructionsTable']//tr)[1]")).isDisplayed();        
-    }
-    
     public InstructorFeedbackResultsPage loadViewResultsLink (String courseId, String fsName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, fsName);
-        String className = "t_session_view";
-        return goToLinkInRow(By.xpath("//tbody/tr["+(int)(sessionRowId+2)+"]//a[contains(@class,'"+className+"')]")
+        String className = "session-view-for-test";
+        return goToLinkInRow(By.xpath("//tbody/tr["+(int)(sessionRowId+1)+"]//a[contains(@class,'"+className+"')]")
                             ,InstructorFeedbackResultsPage.class);
     }
     
     public FeedbackSubmitPage loadSubmitLink (String courseId, String fsName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, fsName);
-        String className = "t_session_submit";
-        return goToLinkInRow(By.xpath("//tbody/tr["+(int)(sessionRowId+2)+"]//a[contains(@class,'"+className+"')]")
+        String className = "session-submit-for-test";
+        return goToLinkInRow(By.xpath("//tbody/tr["+(int)(sessionRowId+1)+"]//a[contains(@class,'"+className+"')]")
                             ,FeedbackSubmitPage.class);
     }
     
     public InstructorFeedbackEditPage loadEditLink (String courseId, String fsName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, fsName);
-        String className = "t_session_edit";
-        return goToLinkInRow(By.xpath("//tbody/tr["+(int)(sessionRowId+2)+"]//a[contains(@class,'"+className+"')]")
+        String className = "session-edit-for-test";
+        return goToLinkInRow(By.xpath("//tbody/tr["+(int)(sessionRowId+1)+"]//a[contains(@class,'"+className+"')]")
                             ,InstructorFeedbackEditPage.class);
     }
     
@@ -425,7 +420,7 @@ public class InstructorFeedbacksPage extends AppPage {
     }
     
     private WebElement getLinkAtTableRow(String className, int rowIndex) {
-        return browser.driver.findElement(By.xpath("//tbody/tr["+(int)(rowIndex+2)+"]//a[contains(@class,'"+className+"')]"));
+        return browser.driver.findElement(By.xpath("//tbody/tr["+(int)(rowIndex+1)+"]//a[contains(@class,'"+className+"')]"));
     }
 
     private int getFeedbackSessionRowId(String courseId, String sessionName) {
@@ -441,15 +436,15 @@ public class InstructorFeedbacksPage extends AppPage {
     }
     
     private int getFeedbackSessionsCount() {
-        return browser.driver.findElements(By.className("sessions_row")).size();
+        return browser.driver.findElements(By.className("sessionsRow")).size();
     }
     
     private String getFeedbackSessionCourseId(int rowId) {
-        return browser.selenium.getTable("class=dataTable." + (rowId + 1) + ".0");
+        return browser.selenium.getTable("css=table[class~=table]." + (rowId + 1) + ".0");
     }
 
     private String getFeedbackSessionName(int rowId) {
-        return browser.selenium.getTable("class=dataTable." + (rowId + 1) + ".1");
+        return browser.selenium.getTable("css=table[class~=table]." + (rowId + 1) + ".1");
     }
 
     private <T extends AppPage>T goToLinkInRow(By locator, Class<T> destinationPageType) {

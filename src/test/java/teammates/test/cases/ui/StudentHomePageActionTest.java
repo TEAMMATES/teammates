@@ -48,7 +48,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
     
     @Test
     public void testExecuteAndPostProcess() throws Exception{
-        
+        //TODO: find a way to test status message from session
         String unregUserId = "unreg.user";
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         String studentId = student1InCourse1.googleId;
@@ -61,7 +61,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
         gaeSimulation.loginUser(unregUserId);
         StudentHomePageAction a = getAction(submissionParams);
         ShowPageResult r = getShowPageResult(a);
-        AssertHelper.assertContainsRegex("/jsp/studentHome.jsp?message={*}Welcome+stranger{*}&error=false&user=unreg.user", r.getDestinationWithParams());
+        AssertHelper.assertContainsRegex("/jsp/studentHome.jsp?error=false&user=unreg.user", r.getDestinationWithParams());
         assertEquals(false, r.isError);
         AssertHelper.assertContainsRegex("Welcome stranger :-){*}use the new Gmail address.",r.getStatusMessage());
         
@@ -94,7 +94,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
         gaeSimulation.loginUser(studentWithoutCourses.googleId);
         a = getAction(submissionParams);
         r = getShowPageResult(a);
-        AssertHelper.assertContainsRegex("/jsp/studentHome.jsp?message={*}Welcome+stranger{*}&error=false&user="+studentWithoutCourses.googleId, r.getDestinationWithParams());
+        AssertHelper.assertContainsRegex("/jsp/studentHome.jsp?error=false&user="+studentWithoutCourses.googleId, r.getDestinationWithParams());
         assertEquals(false, r.isError);
         AssertHelper.assertContainsRegex("Welcome stranger :-){*}use the new Gmail address.",r.getStatusMessage());
         

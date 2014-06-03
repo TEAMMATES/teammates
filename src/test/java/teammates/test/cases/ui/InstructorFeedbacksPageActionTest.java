@@ -66,7 +66,7 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
     
     @Test
     public void testExecuteAndPostProcess() throws Exception{
-        
+        //TODO: find a way to test status message from session
         String[] submissionParams = new String[]{};
         
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
@@ -132,8 +132,7 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
         r = (ShowPageResult) a.executeAndPostProcess();
         
         assertEquals(
-                Const.ViewURIs.INSTRUCTOR_FEEDBACKS+"?message=You+have+not+created+any+sessions+yet." +
-                        "+Use+the+form+above+to+create+a+session.&error=false&user=idOfInstructor1OfCourse1", 
+                Const.ViewURIs.INSTRUCTOR_FEEDBACKS+"?error=false&user=idOfInstructor1OfCourse1", 
                 r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EMPTY, 
                 r.getStatusMessage());
@@ -164,8 +163,7 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
         r = (ShowPageResult) a.executeAndPostProcess();
         
         assertEquals(
-                Const.ViewURIs.INSTRUCTOR_FEEDBACKS+"?message=You+have+not+created+any+courses+yet." +
-                        "+Go+%3Ca+href%3D%22%2Fpage%2FinstructorCoursesPage%3Fuser%3DidOfInstructor1OfCourse1%22%3Ehere%3C%2Fa%3E+to+create+one.&error=false&user=idOfInstructor1OfCourse1", 
+                Const.ViewURIs.INSTRUCTOR_FEEDBACKS+"?error=false&user=idOfInstructor1OfCourse1", 
                 r.getDestinationWithParams());
         assertEquals("You have not created any courses yet. Go <a href=\"/page/instructorCoursesPage?user=idOfInstructor1OfCourse1\">here</a> to create one.", r.getStatusMessage());
         assertEquals(false, r.isError);

@@ -18,29 +18,36 @@
 <head>
 <link rel="shortcut icon" href="/favicon.png">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>TEAMMATES - Feedback Session Results</title>
-<link rel="stylesheet" href="/stylesheets/common.css" type="text/css" media="screen">
-<link rel="stylesheet" href="/stylesheets/common-print.css" type="text/css" media="print">
-<link rel="stylesheet" href="/stylesheets/instructorFeedbacks.css" type="text/css" media="screen">
-
+<!-- Bootstrap core CSS -->
+<link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<!-- Bootstrap theme -->
+<link href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+<link rel="stylesheet" href="/stylesheets/teammatesCommon.css" type="text/css" media="screen">
 <script type="text/javascript" src="/js/googleAnalytics.js"></script>
 <script type="text/javascript" src="/js/jquery-minified.js"></script>
-<script type="text/javascript" src="/js/tooltip.js"></script>
 <script type="text/javascript" src="/js/AnchorPosition.js"></script>
 <script type="text/javascript" src="/js/common.js"></script>
+    <script type="text/javascript" src="/js/instructor.js"></script>
 <script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
 <script type="text/javascript" src="/js/feedbackResponseComments.js"></script>
 <jsp:include page="../enableJS.jsp"></jsp:include>
+<!-- Bootstrap core JavaScript ================================================== -->
+<script src="/bootstrap/js/bootstrap.min.js"></script>
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
 </head>
 
 <body>
-    <div id="dhtmltooltip"></div>
-    <div id="frameTop">
-        <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
-    </div>
+    <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
 
     <div id="frameBody">
-        <div id="frameBodyWrapper">
+        <div id="frameBodyWrapper" class="container">
             <div id="topOfPage"></div>
             <div id="headerOperation">
                 <h1>Feedback Results - Instructor</h1>
@@ -65,134 +72,130 @@
                 String mailtoStyleAttr = (firstQuestionRecipientType == FeedbackParticipantType.NONE || 
                                 firstQuestionRecipientType == FeedbackParticipantType.TEAMS)?"style=\"display:none;\"":"";
         %>
-                <div class="backgroundBlock">
-                    <h2 class="color_white">To: <%=responsesForRecipient.getKey()%>
-                        <a class="emailIdLink" href="mailTo:<%= targetEmail%> " <%=mailtoStyleAttr%>>[<%=targetEmail%>]</a>
-                    </h2>
+                <div class="panel panel-primary">
+                <div class="panel-heading">
+                    To: <strong><%=responsesForRecipient.getKey()%></strong>
+                        <a class="link-in-dark-bg" href="mailTo:<%= targetEmail%> " <%=mailtoStyleAttr%>>[<%=targetEmail%>]</a>
+                </div>
+                <div class="panel-body">
                 <%
                     int giverIndex = 0;
                     for (Map.Entry<String, List<FeedbackResponseAttributes>> responsesForRecipientFromGiver : responsesForRecipient.getValue().entrySet()) {
                         giverIndex++;
                 %>
-                        <table class="resultTable" style="width: 100%">
-                            <thead>
-                                <tr>
-                                    <th class="leftalign"><span class="bold">From: </span><%=responsesForRecipientFromGiver.getKey()%></th>
-                                </tr>
-                            </thead>
+                        <div class="row <%=giverIndex == 1? "": "border-top-gray"%>">
+                            <div class="col-md-2"><strong>From: <%=responsesForRecipientFromGiver.getKey()%></strong></div>
+                            <div class="col-md-10">
                             <%
                                 int qnIndx = 1;
                                 for (FeedbackResponseAttributes singleResponse : responsesForRecipientFromGiver.getValue()) {
                                     FeedbackQuestionAttributes question = questions.get(singleResponse.feedbackQuestionId);
                                     FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
                             %>
-                                    <tr class="resultSubheader">
-                                        <td class="multiline"><span class="bold">Question <%=question.questionNumber%>: </span><%
+                                    <div class="panel panel-info">
+                                        <div class="panel-heading">Question <%=question.questionNumber%>: <%
                                                 out.print(InstructorFeedbackResultsPageData.sanitizeForHtml(questionDetails.questionText));
                                                 out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, "giver-"+giverIndex+"-recipient-"+recipientIndex));
-                                        %></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="multiline"><span class="bold">Response: </span><%=singleResponse.getResponseDetails().getAnswerHtml()%></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <span class="bold">Comments: </span>
-                                            <table class="responseCommentTable" id="responseCommentTable-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>">
+                                        %></div>
+                                        <div class="panel-body">
+                                            <div style="clear:both; overflow: hidden">
+                                                <div class="pull-left"><%=singleResponse.getResponseDetails().getAnswerHtml()%></div>
+                                                <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" 
+                                                    onclick="showResponseCommentAddForm(<%=recipientIndex%>,<%=giverIndex%>,<%=qnIndx%>)"
+                                                    data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COMMENT_ADD%>">
+                                                    <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
+                                                </button>
+                                            </div>
+                                            <% List<FeedbackResponseCommentAttributes> responseComments = data.bundle.responseComments.get(singleResponse.getId()); %>
+                                            <ul class="list-group" id="responseCommentTable-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>"
+                                             style="<%=responseComments != null && responseComments.size() > 0? "margin-top:15px;": "display:none"%>">
                                             <%
-                                                List<FeedbackResponseCommentAttributes> responseComments = data.bundle.responseComments.get(singleResponse.getId());
-                                                if (responseComments != null) {
+                                                if (responseComments != null && responseComments.size() > 0) {
                                                     int responseCommentIndex = 1;
                                                     for (FeedbackResponseCommentAttributes comment : responseComments) {
                                             %>
-                                                        <tr id="responseCommentRow-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>">
-                                                            <td class="feedbackResponseCommentText"><%=comment.commentText.getValue()%></td>
-                                                            <td class="feedbackResponseCommentGiver"><%=comment.giverEmail%></td>
-                                                            <td class="feedbackResponseCommentTime"><%=comment.createdAt%></td>
-                                                            
-                                                        <% 
-                                                            if (comment.giverEmail.equals(data.instructor.email)) {
-                                                        %>
-                                                                <td class="rightalign">
-                                                                    <a href="#" class="color_blue" onclick="showResponseCommentEditForm(<%=recipientIndex%>,<%=giverIndex%>,<%=qnIndx%>,<%=responseCommentIndex%>)">Edit</a>
-                                                                </td>
-                                                                <td class="rightalign">
-                                                                    <form class="responseCommentDeleteForm">
-                                                                        <a href="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE%>" class="color_red pad_right">Delete</a>
-                                                                        <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID %>" value="<%=comment.getId()%>">
-                                                                        <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID %>" value="<%=singleResponse.courseId %>">
-                                                                        <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="<%=singleResponse.feedbackSessionName %>">
-                                                                        <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId %>">
-                                                                    </form>
-                                                                </td>
-                                                        <%
-                                                            }
-                                                        %>
-                                                        </tr>
-                                                        <tr id="responseCommentEditForm-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>" style="display: none;">
-                                                            <td colspan="5">
-                                                                <form class="responseCommentEditForm">
-                                                                    <textarea rows="4" name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT %>"
-                                                                        id="<%=Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT%>-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>"><%=comment.commentText.getValue()%></textarea>
-                                                                    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID %>" value="<%=comment.getId()%>">
-                                                                    <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID %>" value="<%=singleResponse.courseId %>">
-                                                                    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="<%=singleResponse.feedbackSessionName %>">
-                                                                    <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId %>">
-                                                                    <a href="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT%>" class="button floatright">Save Changes</a>
-                                                                </form>
-                                                            </td>
-                                                        </tr>
+                                        <li class="list-group-item list-group-item-warning" id="responseCommentRow-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>">
+                                            <div id="commentBar-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>">
+                                            <span class="text-muted">From: <%=comment.giverEmail%> [<%=comment.createdAt%>]</span>
+                                            <% 
+                                                if (comment.giverEmail.equals(data.instructor.email)) {
+                                            %>
+                                            <!-- frComment delete Form -->
+                                            <form class="responseCommentDeleteForm pull-right">
+                                                <a href="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE%>" type="button" id="commentdelete-<%=responseCommentIndex %>" class="btn btn-default btn-xs icon-button" 
+                                                    data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COMMENT_DELETE%>"> 
+                                                    <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
+                                                </a>
+                                                <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID %>" value="<%=comment.getId()%>">
+                                                <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID %>" value="<%=singleResponse.courseId %>">
+                                                <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="<%=singleResponse.feedbackSessionName %>">
+                                                <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId %>">
+                                            </form>
+                                            <a type="button" id="commentedit-<%=responseCommentIndex %>" class="btn btn-default btn-xs icon-button pull-right" 
+                                                onclick="showResponseCommentEditForm(<%=recipientIndex%>,<%=giverIndex%>,<%=qnIndx%>,<%=responseCommentIndex%>)"
+                                                data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COMMENT_EDIT%>">
+                                                <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
+                                            </a>
+                                            </div>
+                                            <%  } %>
+                                            <!-- frComment Content -->
+                                            <div id="plainCommentText-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>"><%=InstructorFeedbackResultsPageData.sanitizeForHtml(comment.commentText.getValue()) %></div>
+                                            <!-- frComment Edit Form -->
+                                            <form style="display:none;" id="responseCommentEditForm-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>" class="responseCommentEditForm">
+                                                <div class="form-group">
+                                                    <textarea class="form-control" rows="3" placeholder="Your comment about this response" 
+                                                    name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT %>"
+                                                    id="<%=Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT%>-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>"><%=comment.commentText.getValue() %></textarea>
+                                                </div>
+                                                <div class="col-sm-offset-5">
+                                                    <a href="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT%>" type="button" class="btn btn-primary" id="button_save_comment_for_edit-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>">
+                                                        Save 
+                                                    </a>
+                                                    <input type="button" class="btn btn-default" value="Cancel" onclick="return hideResponseCommentEditForm(<%=recipientIndex%>,<%=giverIndex%>,<%=qnIndx%>,<%=responseCommentIndex%>);">
+                                                </div>
+                                                <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID %>" value="<%=comment.getId()%>">
+                                                <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID %>" value="<%=singleResponse.courseId %>">
+                                                <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="<%=singleResponse.feedbackSessionName %>">
+                                                <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId %>">
+                                            </form>
+                                        </li>
                                             <%
                                                         responseCommentIndex++;
                                                     }
                                                 }
                                             %>
-                                                <tr id="showResponseCommentAddFormButton-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>">
-                                                    <td colspan="5">
-                                                        <div style="position:relative;" href="#" class="color_gray"
-                                                            onclick="showResponseCommentAddForm(<%=recipientIndex%>,<%=giverIndex%>,<%=qnIndx%>)">
-                                                            <textarea rows="1" disabled="disabled" style="overflow: auto; clear: both; cursor:text;">Add a comment...</textarea>
-                                                            <div style="position:absolute; left:0px; right:0px; top:0px; bottom:0px; cursor: pointer;" onclick="showResponseCommentAddForm(<%=recipientIndex%>,<%=giverIndex%>,<%=qnIndx%>)"></div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr style="display: none;"
-                                                    id="responseCommentAddForm-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>" >
-                                                    <td colspan="5">
-                                                        <form class="responseCommentAddForm">
-                                                            <textarea rows="4" name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT%>"
-                                                                id="<%=Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT%>-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>"></textarea>
-                                                            <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID %>" value="<%=singleResponse.courseId %>">
-                                                            <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="<%=singleResponse.feedbackSessionName %>">
-                                                            <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_ID %>" value="<%=singleResponse.feedbackQuestionId %>">                                            
-                                                            <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_ID %>" value="<%=singleResponse.getId() %>">
-                                                            <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId %>">
-                                                            <a href="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD%>" class="button floatright">Submit Comment</a>
-                                                        </form>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </td>
-                                    </tr>
+                                        <!-- frComment Add form -->    
+                                        <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>" style="display:none;">
+                                            <form class="responseCommentAddForm">
+                                                <div class="form-group">
+                                                    <textarea class="form-control" rows="3" placeholder="Your comment about this response" name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT%>" id="responseCommentAddForm-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>"></textarea>
+                                                </div>
+                                                <div class="col-sm-offset-5">
+                                                    <a href="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD%>" type="button" class="btn btn-primary" id="button_save_comment_for_add-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>">Add</a>
+                                                    <input type="button" class="btn btn-default" value="Cancel" onclick="hideResponseCommentAddForm(<%=recipientIndex%>,<%=giverIndex%>,<%=qnIndx%>)">
+                                                    <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID %>" value="<%=singleResponse.courseId %>">
+                                                    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="<%=singleResponse.feedbackSessionName %>">
+                                                    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_ID %>" value="<%=singleResponse.feedbackQuestionId %>">                                            
+                                                    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_ID %>" value="<%=singleResponse.getId() %>">
+                                                    <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId %>">
+                                                </div>
+                                            </form>
+                                        </li>
+                                    </ul></div></div>
                             <%
                                     qnIndx++;
                                 }
                                 if (responsesForRecipientFromGiver.getValue().isEmpty()) {
                             %>
-                            <tr>
-                                <td class="bold color_red">No feedback from this user.</td>
-                            </tr>
+                            <div class="col-sm-12" style="color:red;">No feedback from this user.</div>
                             <%
                                 }
                             %>
-                        </table>
-                        <br>
+                        </div></div>
                 <%
                     }
                 %>
-                </div>
-                <br>
-                <br>
+                </div></div><br />
         <%
             }
         %>
@@ -202,10 +205,10 @@
             FeedbackSessionResponseStatus responseStatus = data.bundle.responseStatus;
             if (!responseStatus.hasResponse.isEmpty()) {
         %>
-                <div class="backgroundBlock">
-                    <h2 class="color_white">Student Response Information</h2>
+                <div class="panel panel-info">
+                    <div class="panel-heading">Additional Information</div>
                     
-                    <table class="resultTable" style="width: 100%">
+                    <table class="table table-striped">
                         <thead>
                             <tr>
                                 <th>Students Who Did Not Respond to Any Question</th>
@@ -231,8 +234,6 @@
         </div>
     </div>
 
-    <div id="frameBottom">
-        <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
-    </div>
+    <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
 </body>
 </html>

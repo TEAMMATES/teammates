@@ -18,6 +18,7 @@ import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Utils;
 import teammates.logic.api.Logic;
 
+import com.google.appengine.api.datastore.DatastoreTimeoutException;
 import com.google.apphosting.api.DeadlineExceededException;
 /**
  * Receives requests from the Browser, executes the matching action and sends 
@@ -58,23 +59,27 @@ public class ControllerServlet extends HttpServlet {
             
         } catch (EntityDoesNotExistException e) {
             log.warning(ActivityLogEntry.generateServletActionFailureLogMessage(req, e));
+            cleanUpStatusMessageInSession(req);
             resp.sendRedirect(Const.ViewURIs.ENTITY_NOT_FOUND_PAGE);
 
         } catch (UnauthorizedAccessException e) {
             log.warning(ActivityLogEntry.generateServletActionFailureLogMessage(req, e));
+            cleanUpStatusMessageInSession(req);
             resp.sendRedirect(Const.ViewURIs.UNAUTHORIZED);
 
-        } catch (DeadlineExceededException e) {
+        } catch (DeadlineExceededException | DatastoreTimeoutException e) {
             /*This exception may not be caught because GAE kills 
               the request soon after throwing it. In that case, the error 
               message in the log will be emailed to the admin by a separate
               cron job.*/
+            cleanUpStatusMessageInSession(req);
             resp.sendRedirect(Const.ViewURIs.DEADLINE_EXCEEDED_ERROR_PAGE);
 
         //TODO: handle invalid parameters exception
         } catch (NullPostParameterException e) {
             String requestUrl = req.getRequestURL().toString();
             log.info(e.getMessage());
+            cleanUpStatusMessageInSession(req);
             if(requestUrl.contains("/instructor")) {
                 resp.sendRedirect(Const.ActionURIs.INSTRUCTOR_HOME_PAGE + Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE);
             } else if(requestUrl.contains("/student")) {
@@ -88,8 +93,13 @@ public class ControllerServlet extends HttpServlet {
                     e);
 
             log.severe(ActivityLogEntry.generateSystemErrorReportLogMessage(req, email)); 
+            cleanUpStatusMessageInSession(req);
             resp.sendRedirect(Const.ViewURIs.ERROR_PAGE);
         }  
         
+    }
+    
+    private void cleanUpStatusMessageInSession(HttpServletRequest req){
+        req.getSession().removeAttribute(Const.ParamsNames.STATUS_MESSAGE);
     }
 }

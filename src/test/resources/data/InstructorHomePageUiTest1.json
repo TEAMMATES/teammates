@@ -1,0 +1,11 @@
+{
+    "accounts":{
+        "newInstructorWithoutSampleCourse":{
+            "googleId":"{$test.instructor}",
+            "name":"Teammates Test New Instructor Without Sample",
+            "isInstructor":true,
+            "email":"{$test.instructor}@gmail.com",
+            "institute":"National University of Singapore"
+        }
+    }    
+}

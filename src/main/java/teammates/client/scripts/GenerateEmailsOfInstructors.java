@@ -3,13 +3,21 @@ package teammates.client.scripts;
 import java.io.IOException;
 import java.util.List;
 
-import teammates.client.remoteapi.RemoteApiClient;
+import javax.jdo.JDOHelper;
+import javax.jdo.PersistenceManager;
+
+import teammates.client.remoteapi.RemoteApiClient;  
 import teammates.storage.entity.Account;
 
 /**
  * Obtains email of instructors and prints to console
  */
 public class GenerateEmailsOfInstructors extends RemoteApiClient {
+    
+  //TODO: remove pm and use Datastore.initialize(); as done in GenerateFeedbackReport
+    protected static final PersistenceManager pm = JDOHelper
+            .getPersistenceManagerFactory("transactions-optional")
+            .getPersistenceManager();
     
     public static void main(String[] args) throws IOException {
         GenerateEmailsOfInstructors statistics = new GenerateEmailsOfInstructors();

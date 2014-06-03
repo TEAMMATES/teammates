@@ -275,6 +275,29 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         assertEquals(responses.size(), 1);
         
         
+        ______TS("success: Null student in response, should skip over null student");
+        fq = getQuestionFromDatastore("qn2InSession1InCourse1"); 
+        fq.showResponsesTo.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+       
+        FeedbackResponseAttributes existingResponse = getResponseFromDatastore("response1ForQ2S1C1");
+        
+        //Create a "null" response to simulate trying to get a null student's response
+        FeedbackResponseAttributes newResponse = 
+                new FeedbackResponseAttributes(
+                        existingResponse.feedbackSessionName, 
+                        "nullCourse", 
+                        existingResponse.feedbackQuestionId, 
+                        existingResponse.feedbackQuestionType, 
+                        existingResponse.giverEmail, 
+                        "nullRecipient@gmail.com", 
+                        existingResponse.responseMetaData);
+      
+        frLogic.createFeedbackResponse(newResponse);
+        student = typicalBundle.students.get("student2InCourse1");           
+        responses = frLogic.getViewableFeedbackResponsesForQuestion(fq, student.email, UserType.Role.STUDENT);
+        assertEquals(responses.size(), 4);
+        
+        
         ______TS("failure: GetViewableResponsesForQuestion invalid role");
         
         try {

@@ -53,6 +53,7 @@ public class InstructorFeedbackQuestionSubmissionEditPageActionTest extends
 
     @Test
     public void testExecuteAndPostProcess() throws Exception {
+        //TODO: find a way to test status message from session
         AccountAttributes instructorAccount = dataBundle.accounts.get("instructor1OfCourse1");
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
@@ -155,7 +156,7 @@ public class InstructorFeedbackQuestionSubmissionEditPageActionTest extends
                 "You are currently submitting as <span class=\"bold\">"
                         + instructorAccount.name + " (" + instructorAccount.googleId + ")</span>. "
                         + "Not you? Please <a href=/logout.jsp>logout</a> and try again."
-                        + "<br>You can view the questions and any submitted responses "
+                        + "<br />You can view the questions and any submitted responses "
                         + "for this feedback session but cannot submit new "
                         + "responses as the session is not currently open for submission.",
                 r.getStatusMessage());

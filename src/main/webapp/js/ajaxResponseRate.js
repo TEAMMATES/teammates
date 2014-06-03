@@ -13,14 +13,12 @@ $(document).ready(function(){
             error : function() {
                 parentOfHyperlinkObject.html("Failed. ")
                                        .append(hyperlinkObject);
+                hyperlinkObject.attr("data-toggle", "tooltip");
+                hyperlinkObject.attr("data-placement", "top");
+                hyperlinkObject.prop("title","Error occured while trying to fetch response rate. Click to retry.");
                 hyperlinkObject.html("Try again?");
+                hyperlinkObject.tooltip({html: true});
                 hyperlinkObject.click(responseRateClickHandler);
-                hyperlinkObject.mouseover(function() {
-                    ddrivetip("Error occured while trying to fetch response rate. Click to retry.");
-                });
-                hyperlinkObject.mouseout(function() {
-                    hideddrivetip();
-                });
             },
             success :function(data) {
                 setTimeout(function(){
@@ -31,9 +29,9 @@ $(document).ready(function(){
             }
         });
     };
-    $("td[class*='t_session_response'] > a").click(responseRateClickHandler);
+    $("td[class*='session-response-for-test'] > a").click(responseRateClickHandler);
     
-    $(".dataTable").each(function(idx) {
+    $(".table").each(function(idx) {
         //this is bound to current object in question
         var currentTable = $(this).has("tbody").length != 0 ? $(this).find("tbody") : $(this); 
             store = null;
@@ -54,7 +52,7 @@ $(document).ready(function(){
     });
     
     //recent class will only be appended to 'td' element with class 't_session_response'
-    $(".dataTable .recent a").each(function(idx) {
+    $(".table .recent a").each(function(idx) {
         var currentObject = $(this);
         
         currentObject.click();

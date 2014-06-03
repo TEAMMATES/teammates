@@ -75,6 +75,22 @@ function checkFeedbackQuestion(form) {
         setStatusMessage(DISPLAY_FEEDBACK_QUESTION_TEXTINVALID,true);
         return false;
     }
+    if ($(form).find('[name='+FEEDBACK_QUESTION_TYPE+']').val() == "NUMSCALE") {
+        if( $(form).find('[name='+FEEDBACK_QUESTION_NUMSCALE_MIN+']').val() == "" || 
+                $(form).find('[name='+FEEDBACK_QUESTION_NUMSCALE_MAX+']').val() == ""||
+                $(form).find('[name='+FEEDBACK_QUESTION_NUMSCALE_STEP+']').val() == "") {
+            setStatusMessage(DISPLAY_FEEDBACK_QUESTION_NUMSCALE_OPTIONSINVALID,true);
+            return false;
+        }
+        var qnNum = ($(form).attr('name')=='form_addquestions') ? -1 : parseInt($(form).find('[name='+FEEDBACK_QUESTION_NUMBER+']').val());
+        if(updateNumScalePossibleValues(qnNum)){
+            return true;
+        } else {
+            setStatusMessage(DISPLAY_FEEDBACK_QUESTION_NUMSCALE_INTERVALINVALID,true);
+            return false;
+        }
+    }
+
     return true;
 }
 
@@ -179,7 +195,6 @@ function convertDateToHHMM(date) {
 }
 
 function readyFeedbackPage (){
-
     formatSessionVisibilityGroup();
     formatResponsesVisibilityGroup();
     collapseIfPrivateSession();
@@ -243,16 +258,12 @@ function toggleDisabledAndStoreLast(id, bool) {
  */
 function collapseIfPrivateSession() {
     if ($('[name='+FEEDBACK_SESSION_SESSIONVISIBLEBUTTON+']').filter(':checked').val() == "never") {
-        $('#timeFrameTable').hide();
-        $('#instructionsTable').find('tr:first').hide();
-        if($('#instructionsTable').find(':visible').size()==0) {
-            $('#instructionsTable').hide();
-        }
-        $('#response_visible_from_row').hide();
+        $('#timeFramePanel').hide();
+        $('#instructionsRow').hide();
+        $('#responsesVisibleFromColumn').hide();
     } else {
-        $('#timeFrameTable').show();
-        $('#instructionsTable').show();
-        $('#instructionsTable').find('tr:first').show();
-        $('#response_visible_from_row').show();
+        $('#timeFramePanel').show();
+        $('#instructionsRow').show();
+        $('#responsesVisibleFromColumn').show();
     }
 }

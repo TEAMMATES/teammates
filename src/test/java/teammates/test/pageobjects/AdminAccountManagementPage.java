@@ -12,28 +12,34 @@ public class AdminAccountManagementPage extends AppPage {
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return getPageSource().contains("<h1>Instructor Account Management</h1>");
+        return getPageSource()
+                .contains(
+                        "<h1>Instructor Account Management<small id=\"instructorCount\">");
     }
 
-    public AdminAccountManagementPage clickDeleteInstructorStatus(String instructorId) {
-        browser.driver.findElement(By.id(instructorId+"_delete")).click();
+    public AdminAccountManagementPage clickDeleteInstructorStatus(
+            String instructorId) {
+        browser.driver.findElement(By.id(instructorId + "_delete")).click();
         waitForPageToLoad();
         return this;
     }
 
-    public AdminAccountDetailsPage clickViewInstructorDetails(String instructorId) {
-        browser.driver.findElement(By.id(instructorId+"_details")).click();
+    public AdminAccountDetailsPage clickViewInstructorDetails(
+            String instructorId) {
+        browser.driver.findElement(By.id(instructorId + "_details")).click();
         waitForPageToLoad();
         return changePageType(AdminAccountDetailsPage.class);
     }
 
-    public AdminAccountManagementPage clickAndCancelDeleteAccountLink(String googleId) {
+    public AdminAccountManagementPage clickAndCancelDeleteAccountLink(
+            String googleId) {
         WebElement deleteAccountLink = getDeleteAccountLink(googleId);
         clickAndCancel(deleteAccountLink);
         return this;
     }
 
-    public AdminAccountManagementPage clickAndConfirmDeleteAccountLink(String googleId) {
+    public AdminAccountManagementPage clickAndConfirmDeleteAccountLink(
+            String googleId) {
         WebElement deleteAccountLink = getDeleteAccountLink(googleId);
         clickAndConfirm(deleteAccountLink);
         waitForPageToLoad();
@@ -45,7 +51,7 @@ public class AdminAccountManagementPage extends AppPage {
     }
 
     private WebElement getDeleteAccountLink(String googleId) {
-        return browser.driver.findElement(By.id(googleId+"_deleteAccount"));
+        return browser.driver.findElement(By.id(googleId + "_deleteAccount"));
     }
 
 }

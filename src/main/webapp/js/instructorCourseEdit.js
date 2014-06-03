@@ -2,7 +2,7 @@
  * This function will be called when the instructorCourseEdit page is loaded.
  */
 function readyCourseEditPage() {
-    $("#formAddInstructor").hide();
+    $("#panelAddInstructor").hide();
 }
 
 /**
@@ -47,7 +47,7 @@ function disableFormEditInstructor(number) {
  * Show the form for adding new instructor. Hide the btnShowNewInstructorForm.
  */
 function showNewInstructorForm() {
-    $("#formAddInstructor").show();
+    $("#panelAddInstructor").show();
     $("#btnShowNewInstructorForm").hide();
     $('#frameBody').animate({scrollTop: $('#frameBody')[0].scrollHeight}, 1000);
 }

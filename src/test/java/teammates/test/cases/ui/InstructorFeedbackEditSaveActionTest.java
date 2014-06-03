@@ -47,7 +47,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
     
     @Test
     public void testExecuteAndPostProcess() throws Exception{
-        
+        //TODO: find a way to test status message from session
         InstructorAttributes instructor1ofCourse1 =
                 dataBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes session = 
@@ -77,7 +77,6 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
                         + "&fsname=First+feedback+session"
                         + "&user="
                         + instructor1ofCourse1.googleId
-                        + "&message=The+feedback+session+has+been+updated."
                         + "&error=false",
                 rr.getDestinationWithParams());
         
@@ -107,12 +106,6 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
                         + "&fsname=First+feedback+session"
                         + "&user="
                         + instructor1ofCourse1.googleId
-                        + "&message=" 
-                        + String.format(
-                                FieldValidator.TIME_FRAME_ERROR_MESSAGE, 
-                                FieldValidator.START_TIME_FIELD_NAME, 
-                                FieldValidator.FEEDBACK_SESSION_NAME, 
-                                FieldValidator.SESSION_VISIBLE_TIME_FIELD_NAME).replace(" ", "+")
                         + "&error=true",
                 rr.getDestinationWithParams());
         
@@ -136,7 +129,6 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
                         + "&fsname=First+feedback+session"
                         + "&user="
                         + instructor1ofCourse1.googleId
-                        + "&message=The+feedback+session+has+been+updated."
                         + "&error=false",
                 rr.getDestinationWithParams());
         
@@ -173,7 +165,6 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
                         + "&fsname=First+feedback+session"
                         + "&user="
                         + instructor1ofCourse1.googleId
-                        + "&message=The+feedback+session+has+been+updated."
                         + "&error=false",
                 rr.getDestinationWithParams());
         
@@ -211,7 +202,6 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
                         + "&fsname=First+feedback+session"
                         + "&user="
                         + instructor1ofCourse1.googleId
-                        + "&message=The+feedback+session+has+been+updated."
                         + "&error=false",
                 rr.getDestinationWithParams());
         

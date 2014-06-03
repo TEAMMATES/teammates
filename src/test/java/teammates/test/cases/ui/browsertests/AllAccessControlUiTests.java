@@ -269,8 +269,8 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
         assertEquals(EvalStatus.PUBLISHED, ownEvaluation.getStatus());
         backDoorOperationStatus = BackDoor.editEvaluation(ownEvaluation);
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
-        verifyPageContains(link, studentUsername + "{*}Evaluation Results{*}"
-                + ownEvaluation.name + "{*}" + ownCourse.id);
+        verifyPageContains(link, studentUsername + "{*}Evaluation Results{*}" + ownCourse.id + "{*}" + ownEvaluation.name);
+        
         deleteSpecialTestData();
     }
 

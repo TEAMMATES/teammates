@@ -1,425 +1,631 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"><head>
-    <link href="/favicon.png" rel="shortcut icon" />
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
-    <title>TEAMMATES - Instructor</title>
-    <link media="screen" type="text/css" href="/stylesheets/common.css" rel="stylesheet" />
-    <link media="screen" type="text/css" href="/stylesheets/instructorHome.css" rel="stylesheet" />
-    <link media="print" type="text/css" href="/stylesheets/common-print.css" rel="stylesheet" />
-    <link media="print" type="text/css" href="/stylesheets/instructorHome-print.css" rel="stylesheet" />
-    
-    <script type="text/javascript" async="" src="https://ssl.google-analytics.com/ga.js"></script><script src="/js/googleAnalytics.js" type="text/javascript"></script>
-    <script src="/js/jquery-minified.js" type="text/javascript"></script>
-    <script src="/js/tooltip.js" type="text/javascript"></script>
-    <script src="/js/date.js" type="text/javascript"></script>
-    <script src="/js/CalendarPopup.js" type="text/javascript"></script>
-    <script src="/js/AnchorPosition.js" type="text/javascript"></script>
-    <script src="/js/common.js" type="text/javascript"></script>
-    
-    <script src="/js/instructor.js" type="text/javascript"></script>
-    <script src="/js/instructorHome.js" type="text/javascript"></script>
-    <script src="/js/ajaxResponseRate.js"  type="text/javascript" ></script>
-    <noscript>{*}</noscript>
-
-
-
-</head>
-
-<body>
-    <div id="dhtmltooltip"></div>
-    <div id="frameTop">
-        
-
-
-        <div id="frameTopWrapper">
-            <div id="logo">
-                <a href="/index.html">
-                <img width="150px" height="47px" src="/images/teammateslogo.jpg" alt="TEAMMATES" />
-                </a>
-            </div>            
-            <div id="contentLinks">
-                <ul id="navbar">
-                    <li class="current"><a href="/page/instructorHomePage?user={$test.instructor}" data-link="instructorHome" class="nav home">Home</a></li>
-                    <li><a href="/page/instructorCoursesPage?user={$test.instructor}" data-link="instructorCourse" class="nav courses">Courses</a></li>
-                    <li><a href="/page/instructorEvalsPage?user={$test.instructor}" data-link="instructorEval" class="nav evaluations">Sessions</a></li>
-                    <li><a class="nav students"  data-link="instructorStudent"  href="/page/instructorStudentListPage?user={$test.instructor}" >Students</a></li>
-                    <li><a target="_blank" href="/instructorHelp.html" class="nav help">Help</a></li>
-                    <li><a href="/logout.jsp" class="nav logout">Logout</a>
-                    <b>
-                            ({$test.instructor})</b>
-                    </li>
-                </ul>
+   <html>
+      <head>
+         <link href="/favicon.png"  rel="shortcut icon" />
+                  <meta content="text/html; charset=UTF-8"  http-equiv="Content-Type" />
+                  <meta content="width=device-width, initial-scale=1.0"  name="viewport" />
+                  <title>
+            TEAMMATES - Instructor
+         </title>
+         <link href="/bootstrap/css/bootstrap.min.css"  rel="stylesheet"  type="text/css" />
+                  <link href="/bootstrap/css/bootstrap-theme.min.css"  rel="stylesheet"  type="text/css" />
+                  <link href="/stylesheets/teammatesCommon.css"  rel="stylesheet"  type="text/css" />
+                  <script async=""  src="https://ssl.google-analytics.com/ga.js"  type="text/javascript" >
+         </script>
+         <script src="/js/googleAnalytics.js"  type="text/javascript" >
+         </script>
+         <script src="/js/jquery-minified.js"  type="text/javascript" >
+         </script>
+         <script src="/js/date.js"  type="text/javascript" >
+         </script>
+         <script src="/js/AnchorPosition.js"  type="text/javascript" >
+         </script>
+         <script src="/js/common.js"  type="text/javascript" >
+         </script>
+         <script src="/bootstrap/js/bootstrap.min.js"  type="text/javascript" >
+         </script>
+         <script src="/js/instructor.js"  type="text/javascript" >
+         </script>
+         <script src="/js/instructorHome.js"  type="text/javascript" >
+         </script>
+         <script src="/js/ajaxResponseRate.js"  type="text/javascript" >
+         </script>
+         <noscript>{*}</noscript>
+         <!-- 
+            [if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+            <![endif]
+        -->
+      </head>
+      <body>
+         <div class="navbar navbar-inverse navbar-fixed-top"  role="navigation" >
+            <div class="container" >
+               <div class="navbar-header" >
+                  <button class="navbar-toggle"  data-target="#contentLinks"  data-toggle="collapse"  type="button" >
+                     <span class="sr-only" >
+                        Toggle navigation
+                     </span>
+                     <span class="icon-bar" >
+                     </span>
+                     <span class="icon-bar" >
+                     </span>
+                     <span class="icon-bar" >
+                     </span>
+                  </button>
+                  <a class="navbar-brand"  href="/index.html" >
+                     TEAMMATES
+                  </a>
+               </div>
+               <div class="collapse navbar-collapse"  id="contentLinks" >
+                  <ul class="nav navbar-nav" >
+                     <li class="active" >
+                        <a class="nav home"  data-link="instructorHome"  href="/page/instructorHomePage?user={$test.instructor}" >
+                           Home
+                        </a>
+                     </li>
+                     <li class="" >
+                        <a class="nav courses"  data-link="instructorCourse"  href="/page/instructorCoursesPage?user={$test.instructor}" >
+                           Courses
+                        </a>
+                     </li>
+                     <li class="" >
+                        <a class="nav evaluations"  data-link="instructorEval"  href="/page/instructorEvalsPage?user={$test.instructor}" >
+                           Sessions
+                        </a>
+                     </li>
+                     <li class="" >
+                        <a class="nav students"  data-link="instructorStudent"  href="/page/instructorStudentListPage?user={$test.instructor}" >
+                           Students
+                        </a>
+                     </li>
+                     <li>
+                        <a class="nav help"  href="/instructorHelp.html"  target="_blank" >
+                           Help
+                        </a>
+                     </li>
+                  </ul>
+                  <ul class="nav navbar-nav pull-right" >
+                     <li>
+                        <a class="nav logout"  href="/logout.jsp" >
+                           Logout
+                        
+                        (
+                           <span class="text-info"  data-original-title="{$test.instructor}"  data-placement="bottom"  data-toggle="tooltip"  title="" >
+                              {$test.instructor}
+                           </span>
+                           )
+                        </a>
+                     </li>
+                  </ul>
+               </div>
             </div>
-            <div style="clear: both;"></div>
-        </div>
-
-    </div>
-
-    <div id="frameBody">
-        <div id="frameBodyWrapper">
-            <div id="topOfPage"></div>
-            <div id="headerOperation">
-                <h1>Instructor Home</h1>
+         </div>
+         <div class="container theme-showcase"  id="frameBodyWrapper" >
+            <div id="topOfPage" >
             </div>
-            
-            
-
-
-
-
-    <div style="display: none;" id="statusMessage"></div>
-    <form action="/page/instructorStudentListPage" method="post" name="search_form">
-        <table class="inputTable" id="searchTable">
-            <tbody>
-                <tr>
-                    <td><input id="searchbox" name="searchkey"
-                        onmouseout="hideddrivetip()"
-                        onmouseover="ddrivetip('Search for student\'s name')"
-                        tabindex="1" type="text" /></td>
-                    <td><input class="button" id="button_search" tabindex="2"
-                        type="submit" value="Search" /></td>
-                </tr>
-            </tbody>
-        </table>
-        <input name="user" type="hidden" value="{$test.instructor}" />
-    </form>
-    <br /> <br />
-
-
-            <div class="backgroundBlock blockLink"  style="background: #EAEFF5;" >
-                <table class="inputTable"  id="sortingTable" >
-                    <tbody>
-                        <tr>
-                           <td>
-                              <input name="sortby"  type="radio"  value="id"  id="sortbyid"/>Sort by course ID
-                           </td>
-                           <td>
-                              <input checked="checked"  name="sortby"  type="radio"  value="name"  id="sortbyname"/>Sort by course name
-                           </td>
-                           <td>
-                              <input name="sortby"  type="radio"  value="createdAt"  id="sortbydate"/>Sort by course creation date
-                           </td>
-                           <td class="rightalign"  style="width: 400px;" >
-                              <a class="bold"  href="/page/instructorCoursesPage?user={$test.instructor}"  id="addNewCourse" >
-                                 Add New Course
-                              </a>
-                           </td>
-                        </tr>
-                    </tbody>
-                </table>
-           </div>
-
-            
-            <br />
-            <br />
-            <br />
-            
-            <div id="course0" class="backgroundBlock home_courses_div">
-                <div class="result_homeTitle">
-                    <h2 class="color_white">
-                        [CHomeUiT.CS2104] :
-                        Programming Language Concepts
-                    </h2>
-                </div>
-                <div class="result_homeLinks blockLink rightalign">
-                    <a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enroll student into the course')" href="/page/instructorCourseEnrollPage?courseid=CHomeUiT.CS2104&amp;user={$test.instructor}" class="t_course_enroll0 color_white bold"> Enroll</a>
-                    <a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View, edit and send invitation emails to the students in the course')" href="/page/instructorCourseDetailsPage?courseid=CHomeUiT.CS2104&amp;user={$test.instructor}" class="t_course_view0 color_white bold"> View</a>
-                    <a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit Course information and instructor list')" href="/page/instructorCourseEditPage?courseid=CHomeUiT.CS2104&amp;user={$test.instructor}" class="t_course_edit0 color_white bold"> Edit</a>
-                    <a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Add an evaluation for the course')" href="/page/instructorEvalsPage?user={$test.instructor}&amp;courseid=CHomeUiT.CS2104" class="t_course_add_eval0 color_white bold"> Add Session</a>        
-                    <a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Archive the course so that it will not be shown in the home page any more \(you can still access it from the \'Courses\' tab\)')" onclick="hideddrivetip(); return toggleArchiveCourseConfirmation('CHomeUiT.CS2104')" href="/page/instructorCourseArchive?courseid=CHomeUiT.CS2104&amp;archive=true&amp;next=%2Fpage%2FinstructorHomePage&amp;user={$test.instructor}" class="t_course_archive0 color_white bold"> Archive</a>
-                    <a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the course and its corresponding students and evaluations')" onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('CHomeUiT.CS2104')" href="/page/instructorCourseDelete?courseid=CHomeUiT.CS2104&amp;next=%2Fpage%2FinstructorHomePage&amp;user={$test.instructor}" class="t_course_delete0 color_white bold"> Delete</a>
-                </div>
-                <div style="clear: both;"></div>
-                <br />
-                
-                <table class="dataTable">
-                    <tbody><tr>
-                        <th class="leftalign color_white bold">Session Name</th>
-                        <th class="centeralign color_white bold">Status</th>
-                        <th class="centeralign color_white bold"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip('Number of students submitted / Class size')">Response Rate</span></th>
-                        <th class="centeralign color_white bold no-print">Action(s)</th>
-                    </tr>
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    <tr id="session0" class="home_sessions_row">
-                        <td class="t_session_name0">First Eval</td>
-                        <td class="t_session_status0 centeralign"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip('The evaluation has started and students can submit feedback until the closing time')">Open</span></td>
-                        <td class="t_session_response0 centeralign recent">
-                            4 / 4
-                        </td>
-                        <td class="centeralign no-print">
-                            <a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the current results of the evaluation')" href="/page/instructorEvalResultsPage?courseid=CHomeUiT.CS2104&amp;evaluationname=First+Eval&amp;user={$test.instructor}" class="color_green t_session_view0">View Results</a>
-                            <a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit evaluation details')" href="/page/instructorEvalEditPage?courseid=CHomeUiT.CS2104&amp;evaluationname=First+Eval&amp;user={$test.instructor}" class="color_brown t_session_edit0">Edit</a>
-                            <a class="color_brown t_session_preview0"  href="/page/instructorEvalPreview?courseid=CHomeUiT.CS2104&evaluationname=First+Eval&user={$test.instructor}"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Preview evaluation session')"  target="_blank" >Preview</a>
-                            <a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the evaluation')" onclick="hideddrivetip(); return toggleDeleteEvaluationConfirmation('CHomeUiT.CS2104','First Eval');" href="/page/instructorEvalDelete?courseid=CHomeUiT.CS2104&amp;evaluationname=First+Eval&amp;next=%2Fpage%2FinstructorHomePage%3Fuser%3D{$test.instructor}&amp;user={$test.instructor}" class="color_red t_session_delete0">Delete</a>
-                            <a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Send e-mails to remind students who have not submitted their evaluations to do so')" onclick="hideddrivetip(); return toggleRemindStudents('First Eval');" href="/page/instructorEvalRemind?courseid=CHomeUiT.CS2104&amp;evaluationname=First+Eval&amp;user={$test.instructor}" class="color_black t_session_remind0">Remind</a>
-                            <a onclick="return false" style="color: gray; text-decoration: none;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Publish evaluation results for students to view')" href="/page/instructorEvalPublish?courseid=CHomeUiT.CS2104&amp;evaluationname=First+Eval&amp;next=%2Fpage%2FinstructorHomePage%3Fuser%3D{$test.instructor}&amp;user={$test.instructor}" class="color_black t_session_publish0">Publish</a>
-                        </td>
-                    </tr>
-                    <tr id="session1" class="home_sessions_row">
-                        <td class="t_session_name0">Second Eval</td>
-                        <td class="t_session_status0 centeralign"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip('The evaluation has finished and the results have been made available to students')">Published</span></td>
-                        <td class="t_session_response0 centeralign"><a oncontextmenu="return false;" href="/page/instructorEvalStatsPage?courseid=CHomeUiT.CS2104&evaluationname=Second+Eval&user={$test.instructor}"   >
-                                 Show
-                              </a></td>
-                        <td class="centeralign no-print">
-                            <a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the current results of the evaluation')" href="/page/instructorEvalResultsPage?courseid=CHomeUiT.CS2104&amp;evaluationname=Second+Eval&amp;user={$test.instructor}" class="color_green t_session_view1">View Results</a>
-                            <a onclick="return false" style="color: gray; text-decoration: none;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit evaluation details')" href="/page/instructorEvalEditPage?courseid=CHomeUiT.CS2104&amp;evaluationname=Second+Eval&amp;user={$test.instructor}" class="color_brown t_session_edit1">Edit</a>
-                            <a class="color_brown t_session_preview1"  href="/page/instructorEvalPreview?courseid=CHomeUiT.CS2104&evaluationname=Second+Eval&user={$test.instructor}"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Preview evaluation session')"  target="_blank" >Preview</a>
-                            <a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the evaluation')" onclick="hideddrivetip(); return toggleDeleteEvaluationConfirmation('CHomeUiT.CS2104','Second Eval');" href="/page/instructorEvalDelete?courseid=CHomeUiT.CS2104&amp;evaluationname=Second+Eval&amp;next=%2Fpage%2FinstructorHomePage%3Fuser%3D{$test.instructor}&amp;user={$test.instructor}" class="color_red t_session_delete1">Delete</a>
-                            <a onclick="return false" style="color: gray; text-decoration: none;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Send e-mails to remind students who have not submitted their evaluations to do so')" href="/page/instructorEvalRemind?courseid=CHomeUiT.CS2104&amp;evaluationname=Second+Eval&amp;user={$test.instructor}" class="color_black t_session_remind1">Remind</a>
-                            <a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Make results not visible to students')" onclick="hideddrivetip(); return toggleUnpublishEvaluation('Second Eval');" href="/page/instructorEvalUnpublish?courseid=CHomeUiT.CS2104&amp;evaluationname=Second+Eval&amp;next=%2Fpage%2FinstructorHomePage%3Fuser%3D{$test.instructor}&amp;user={$test.instructor}" class="color_black t_session_unpublish1">Unpublish</a>
-                        </td>
-                    </tr><tr class="home_sessions_row"  id="session2" >
-                           <td class="t_session_name" >
-                              Second Feedback Session
-                           </td>
-                           <td class="t_session_status centeralign" >
-                              <span onmouseout="hideddrivetip()"  onmouseover="ddrivetip(' The feedback session has been created, is visible, and is waiting to open.')" >
-                                 Awaiting
-                              </span>
-                           </td>
-                           <td class="t_session_response centeralign" >
-                              <a href="/page/feedbackSessionStatsPage?courseid=CHomeUiT.CS2104&fsname=Second+Feedback+Session&user={$test.instructor}"  oncontextmenu="return false;" >
-                                 Show
-                              </a>
-                           </td>
-                           <td class="centeralign no-print" >
-                              <a class="color_green t_session_view2"  href="/page/instructorFeedbackResultsPage?courseid=CHomeUiT.CS2104&fsname=Second+Feedback+Session&user={$test.instructor}"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('View the submitted responses for this feedback session')" >
-                                 View Results
-                              </a>
-                              <a class="color_brown t_session_edit2"  href="/page/instructorFeedbackEditPage?courseid=CHomeUiT.CS2104&fsname=Second+Feedback+Session&user={$test.instructor}"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Edit feedback session details')" >
-                                 Edit
-                              </a>
-                              <a class="color_red t_session_delete2"  href="/page/instructorFeedbackDelete?courseid=CHomeUiT.CS2104&fsname=Second+Feedback+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3D{$test.instructor}&user={$test.instructor}"  onclick="hideddrivetip(); return toggleDeleteFeedbackSessionConfirmation('CHomeUiT.CS2104','Second Feedback Session');"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Delete the feedback session')" >
-                                 Delete
-                              </a>
-                              <a class="color_blue t_session_submit2"  href="/page/instructorFeedbackSubmissionEditPage?courseid=CHomeUiT.CS2104&fsname=Second+Feedback+Session&user={$test.instructor}"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Start submitting feedback')" >
-                                 Submit
-                              </a>
-                              <a class="color_black t_session_remind2"  href="/page/instructorFeedbackRemind?courseid=CHomeUiT.CS2104&fsname=Second+Feedback+Session&user={$test.instructor}"  onclick="return false"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Send e-mails to remind students and instructors who have not submitted their feedbacks to do so')"  style="color: gray; text-decoration: none;" >
-                                 Remind
-                              </a>
-                              <a class="color_black t_session_publish2"  href="/page/instructorFeedbackPublish?courseid=CHomeUiT.CS2104&fsname=Second+Feedback+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3D{$test.instructor}&user={$test.instructor}"  onclick="return false"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('This session is not yet opened')"  style="color: gray; text-decoration: none;" >
-                                 Publish
-                              </a>
-                           </td>
-                        </tr>
-                        <tr class="home_sessions_row"  id="session3" >
-                           <td class="t_session_name" >
-                              First Feedback Session
-                           </td>
-                           <td class="t_session_status centeralign" >
-                              <span onmouseout="hideddrivetip()"  onmouseover="ddrivetip(' The feedback session has been created, is visible, and is open for submissions.')" >
-                                 Open
-                              </span>
-                           </td>
-                           <td class="t_session_response centeralign" >
-                              <a href="/page/feedbackSessionStatsPage?courseid=CHomeUiT.CS2104&fsname=First+Feedback+Session&user={$test.instructor}"  oncontextmenu="return false;" >
-                                 Show
-                              </a>
-                           </td>
-                           <td class="centeralign no-print" >
-                              <a class="color_green t_session_view3"  href="/page/instructorFeedbackResultsPage?courseid=CHomeUiT.CS2104&fsname=First+Feedback+Session&user={$test.instructor}"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('View the submitted responses for this feedback session')" >
-                                 View Results
-                              </a>
-                              <a class="color_brown t_session_edit3"  href="/page/instructorFeedbackEditPage?courseid=CHomeUiT.CS2104&fsname=First+Feedback+Session&user={$test.instructor}"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Edit feedback session details')" >
-                                 Edit
-                              </a>
-                              <a class="color_red t_session_delete3"  href="/page/instructorFeedbackDelete?courseid=CHomeUiT.CS2104&fsname=First+Feedback+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3D{$test.instructor}&user={$test.instructor}"  onclick="hideddrivetip(); return toggleDeleteFeedbackSessionConfirmation('CHomeUiT.CS2104','First Feedback Session');"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Delete the feedback session')" >
-                                 Delete
-                              </a>
-                              <a class="color_blue t_session_submit3"  href="/page/instructorFeedbackSubmissionEditPage?courseid=CHomeUiT.CS2104&fsname=First+Feedback+Session&user={$test.instructor}"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Start submitting feedback')" >
-                                 Submit
-                              </a>
-                              <a class="color_black t_session_remind3"  href="/page/instructorFeedbackRemind?courseid=CHomeUiT.CS2104&fsname=First+Feedback+Session&user={$test.instructor}"  onclick="hideddrivetip(); return toggleRemindStudents('First Feedback Session');"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Send e-mails to remind students and instructors who have not submitted their feedbacks to do so')" >
-                                 Remind
-                              </a>
-                              <a class="color_black t_session_publish3"  href="/page/instructorFeedbackPublish?courseid=CHomeUiT.CS2104&fsname=First+Feedback+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3D{$test.instructor}&user={$test.instructor}"  onclick="hideddrivetip(); return togglePublishEvaluation('First Feedback Session');"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Make session responses available for viewing')" >
-                                 Publish
-                              </a>
-                           </td>
-                        </tr>
-                        <tr class="home_sessions_row"  id="session4" >
-                           <td class="t_session_name" >
-                              Fourth Feedback Session
-                           </td>
-                           <td class="t_session_status centeralign" >
-                              <span onmouseout="hideddrivetip()"  onmouseover="ddrivetip(' The feedback session has been created, is visible, and has ended.<br />The responses for this session are visible.')" >
-                                 Published
-                              </span>
-                           </td>
-                           <td class="t_session_response centeralign" >
-                              <a href="/page/feedbackSessionStatsPage?courseid=CHomeUiT.CS2104&fsname=Fourth+Feedback+Session&user={$test.instructor}"  oncontextmenu="return false;" >
-                                 Show
-                              </a>
-                           </td>
-                           <td class="centeralign no-print" >
-                              <a class="color_green t_session_view4"  href="/page/instructorFeedbackResultsPage?courseid=CHomeUiT.CS2104&fsname=Fourth+Feedback+Session&user={$test.instructor}"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('View the submitted responses for this feedback session')" >
-                                 View Results
-                              </a>
-                              <a class="color_brown t_session_edit4"  href="/page/instructorFeedbackEditPage?courseid=CHomeUiT.CS2104&fsname=Fourth+Feedback+Session&user={$test.instructor}"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Edit feedback session details')" >
-                                 Edit
-                              </a>
-                              <a class="color_red t_session_delete4"  href="/page/instructorFeedbackDelete?courseid=CHomeUiT.CS2104&fsname=Fourth+Feedback+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3D{$test.instructor}&user={$test.instructor}"  onclick="hideddrivetip(); return toggleDeleteFeedbackSessionConfirmation('CHomeUiT.CS2104','Fourth Feedback Session');"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Delete the feedback session')" >
-                                 Delete
-                              </a>
-                              <a class="color_blue t_session_submit4"  href="/page/instructorFeedbackSubmissionEditPage?courseid=CHomeUiT.CS2104&fsname=Fourth+Feedback+Session&user={$test.instructor}"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Start submitting feedback')" >
-                                 Submit
-                              </a>
-                              <a class="color_black t_session_remind4"  href="/page/instructorFeedbackRemind?courseid=CHomeUiT.CS2104&fsname=Fourth+Feedback+Session&user={$test.instructor}"  onclick="return false"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Send e-mails to remind students and instructors who have not submitted their feedbacks to do so')"  style="color: gray; text-decoration: none;" >
-                                 Remind
-                              </a>
-                              <a class="color_black t_session_unpublish4"  href="/page/instructorFeedbackUnpublish?courseid=CHomeUiT.CS2104&fsname=Fourth+Feedback+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3D{$test.instructor}&user={$test.instructor}"  onclick="hideddrivetip(); return toggleUnpublishEvaluation('Fourth Feedback Session');"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Make responses no longer visible')" >
-                                 Unpublish
-                              </a>
-                           </td>
-                        </tr>
-                        <tr class="home_sessions_row"  id="session5" >
-                           <td class="t_session_name" >
-                              Third Feedback Session
-                           </td>
-                           <td class="t_session_status centeralign" >
-                              <span onmouseout="hideddrivetip()"  onmouseover="ddrivetip(' The feedback session has been created, is visible, and has ended.')" >
-                                 Closed
-                              </span>
-                           </td>
-                           <td class="t_session_response centeralign" >
-                              <a href="/page/feedbackSessionStatsPage?courseid=CHomeUiT.CS2104&fsname=Third+Feedback+Session&user={$test.instructor}"  oncontextmenu="return false;" >
-                                 Show
-                              </a>
-                           </td>
-                           <td class="centeralign no-print" >
-                              <a class="color_green t_session_view5"  href="/page/instructorFeedbackResultsPage?courseid=CHomeUiT.CS2104&fsname=Third+Feedback+Session&user={$test.instructor}"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('View the submitted responses for this feedback session')" >
-                                 View Results
-                              </a>
-                              <a class="color_brown t_session_edit5"  href="/page/instructorFeedbackEditPage?courseid=CHomeUiT.CS2104&fsname=Third+Feedback+Session&user={$test.instructor}"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Edit feedback session details')" >
-                                 Edit
-                              </a>
-                              <a class="color_red t_session_delete5"  href="/page/instructorFeedbackDelete?courseid=CHomeUiT.CS2104&fsname=Third+Feedback+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3D{$test.instructor}&user={$test.instructor}"  onclick="hideddrivetip(); return toggleDeleteFeedbackSessionConfirmation('CHomeUiT.CS2104','Third Feedback Session');"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Delete the feedback session')" >
-                                 Delete
-                              </a>
-                              <a class="color_blue t_session_submit5"  href="/page/instructorFeedbackSubmissionEditPage?courseid=CHomeUiT.CS2104&fsname=Third+Feedback+Session&user={$test.instructor}"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Start submitting feedback')" >
-                                 Submit
-                              </a>
-                              <a class="color_black t_session_remind5"  href="/page/instructorFeedbackRemind?courseid=CHomeUiT.CS2104&fsname=Third+Feedback+Session&user={$test.instructor}"  onclick="return false"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Send e-mails to remind students and instructors who have not submitted their feedbacks to do so')"  style="color: gray; text-decoration: none;" >
-                                 Remind
-                              </a>
-                              <a class="color_black t_session_publish5"  href="/page/instructorFeedbackPublish?courseid=CHomeUiT.CS2104&fsname=Third+Feedback+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3D{$test.instructor}&user={$test.instructor}"  onclick="hideddrivetip(); return togglePublishEvaluation('Third Feedback Session');"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Make session responses available for viewing')" >
-                                 Publish
-                              </a>
-                           </td>
-                                            </tr></tbody></table>
-                
+            <div class="inner-container" >
+               <div class="row" >
+                  <div class="col-md-5" >
+                     <h1>
+                        Instructor Home
+                     </h1>
+                  </div>
+                  <div class="col-md-5 instructor-header-bar" >
+                     <form action="/page/instructorStudentListPage?user={$test.instructor}"  method="post"  name="search_form" >
+                        <div class="input-group" >
+                           <input class="form-control"  id="searchBox"  name="searchkey"  placeholder="Student Name"  title="Search for student's name"  type="text" />
+                                                      <span class="input-group-btn" >
+                              <button class="btn btn-default"  id="buttonSearch"  type="submit"  value="Search" >
+                                 Search
+                              </button>
+                           </span>
+                        </div>
+                        <input name="user"  type="hidden"  value="{$test.instructor}" />
+                                             </form>
+                  </div>
+                  <div class="col-md-2 instructor-header-bar" >
+                     <a class="btn btn-primary btn-md"  href="/page/instructorCoursesPage?user={$test.instructor}"  id="addNewCourse" >
+                        Add New Course
+                     </a>
+                  </div>
+               </div>
             </div>
-            
-            <br />
-            <br />
-            <br />
-            
-            <div id="course1" class="backgroundBlock home_courses_div">
-                <div class="result_homeTitle">
-                    <h2 class="color_white">
-                        [CHomeUiT.CS1101] :
-                        Programming Methodology
-                    </h2>
-                </div>
-                <div class="result_homeLinks blockLink rightalign">
-                    <a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Enroll student into the course')" href="/page/instructorCourseEnrollPage?courseid=CHomeUiT.CS1101&amp;user={$test.instructor}" class="t_course_enroll1 color_white bold"> Enroll</a>
-                    <a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View, edit and send invitation emails to the students in the course')" href="/page/instructorCourseDetailsPage?courseid=CHomeUiT.CS1101&amp;user={$test.instructor}" class="t_course_view1 color_white bold"> View</a>
-                    <a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit Course information and instructor list')" href="/page/instructorCourseEditPage?courseid=CHomeUiT.CS1101&amp;user={$test.instructor}" class="t_course_edit1 color_white bold"> Edit</a>
-                    <a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Add an evaluation for the course')" href="/page/instructorEvalsPage?user={$test.instructor}&amp;courseid=CHomeUiT.CS1101" class="t_course_add_eval1 color_white bold"> Add Session</a>
-                    <a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Archive the course so that it will not be shown in the home page any more \(you can still access it from the \'Courses\' tab\)')" onclick="hideddrivetip(); return toggleArchiveCourseConfirmation('CHomeUiT.CS1101')" href="/page/instructorCourseArchive?courseid=CHomeUiT.CS1101&amp;archive=true&amp;next=%2Fpage%2FinstructorHomePage&amp;user={$test.instructor}" class="t_course_archive1 color_white bold"> Archive</a>
-                    <a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the course and its corresponding students and evaluations')" onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('CHomeUiT.CS1101')" href="/page/instructorCourseDelete?courseid=CHomeUiT.CS1101&amp;next=%2Fpage%2FinstructorHomePage&amp;user={$test.instructor}" class="t_course_delete1 color_white bold"> Delete</a>
-                </div>
-                <div style="clear: both;"></div>
-                <br />
-                
-                <table class="dataTable">
-                    <tbody><tr>
-                        <th class="leftalign color_white bold">Session Name</th>
-                        <th class="centeralign color_white bold">Status</th>
-                        <th class="centeralign color_white bold"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip('Number of students submitted / Class size')">Response Rate</span></th>
-                        <th class="centeralign color_white bold no-print">Action(s)</th>
-                    </tr>
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                <tr id="session6" class="home_sessions_row">
-                        <td class="t_session_name1">Fourth Eval</td>
-                        <td class="t_session_status1 centeralign"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip('The evaluation is created but has not yet started')">Awaiting</span></td>
-                        <td class="t_session_response1 centeralign recent">
-                            0 / 4
-                            </td>
-                        <td class="centeralign no-print">
-                            <a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the current results of the evaluation')" href="/page/instructorEvalResultsPage?courseid=CHomeUiT.CS1101&amp;evaluationname=Fourth+Eval&amp;user={$test.instructor}" class="color_green t_session_view6">View Results</a>
-                            <a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit evaluation details')" href="/page/instructorEvalEditPage?courseid=CHomeUiT.CS1101&amp;evaluationname=Fourth+Eval&amp;user={$test.instructor}" class="color_brown t_session_edit6">Edit</a>
-                            <a class="color_brown t_session_preview6"  href="/page/instructorEvalPreview?courseid=CHomeUiT.CS1101&evaluationname=Fourth+Eval&user={$test.instructor}"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Preview evaluation session')"  target="_blank" >Preview</a>
-                            <a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the evaluation')" onclick="hideddrivetip(); return toggleDeleteEvaluationConfirmation('CHomeUiT.CS1101','Fourth Eval');" href="/page/instructorEvalDelete?courseid=CHomeUiT.CS1101&amp;evaluationname=Fourth+Eval&amp;next=%2Fpage%2FinstructorHomePage%3Fuser%3D{$test.instructor}&amp;user={$test.instructor}" class="color_red t_session_delete6">Delete</a>
-                            <a onclick="return false" style="color: gray; text-decoration: none;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Send e-mails to remind students who have not submitted their evaluations to do so')" href="/page/instructorEvalRemind?courseid=CHomeUiT.CS1101&amp;evaluationname=Fourth+Eval&amp;user={$test.instructor}" class="color_black t_session_remind6">Remind</a>
-                            <a onclick="return false" style="color: gray; text-decoration: none;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Publish evaluation results for students to view')" href="/page/instructorEvalPublish?courseid=CHomeUiT.CS1101&amp;evaluationname=Fourth+Eval&amp;next=%2Fpage%2FinstructorHomePage%3Fuser%3D{$test.instructor}&amp;user={$test.instructor}" class="color_black t_session_publish6">Publish</a>
-                        </td>
-                    </tr><tr id="session7" class="home_sessions_row">
-                        <td class="t_session_name1">Fifth Eval</td>
-                        <td class="t_session_status1 centeralign"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip('The evaluation has started and students can submit feedback until the closing time')">Open</span></td>
-                        <td class="t_session_response1 centeralign recent">
-                            0 / 4
-                        </td>
-                        <td class="centeralign no-print">
-                            <a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the current results of the evaluation')" href="/page/instructorEvalResultsPage?courseid=CHomeUiT.CS1101&amp;evaluationname=Fifth+Eval&amp;user={$test.instructor}" class="color_green t_session_view7">View Results</a>
-                            <a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit evaluation details')" href="/page/instructorEvalEditPage?courseid=CHomeUiT.CS1101&amp;evaluationname=Fifth+Eval&amp;user={$test.instructor}" class="color_brown t_session_edit7">Edit</a>
-                            <a class="color_brown t_session_preview7"  href="/page/instructorEvalPreview?courseid=CHomeUiT.CS1101&evaluationname=Fifth+Eval&user={$test.instructor}"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Preview evaluation session')"  target="_blank" >Preview</a>
-                            <a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the evaluation')" onclick="hideddrivetip(); return toggleDeleteEvaluationConfirmation('CHomeUiT.CS1101','Fifth Eval');" href="/page/instructorEvalDelete?courseid=CHomeUiT.CS1101&amp;evaluationname=Fifth+Eval&amp;next=%2Fpage%2FinstructorHomePage%3Fuser%3D{$test.instructor}&amp;user={$test.instructor}" class="color_red t_session_delete7">Delete</a>
-                            <a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Send e-mails to remind students who have not submitted their evaluations to do so')" onclick="hideddrivetip(); return toggleRemindStudents('Fifth Eval');" href="/page/instructorEvalRemind?courseid=CHomeUiT.CS1101&amp;evaluationname=Fifth+Eval&amp;user={$test.instructor}" class="color_black t_session_remind7">Remind</a>
-                            <a onclick="return false" style="color: gray; text-decoration: none;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Publish evaluation results for students to view')" href="/page/instructorEvalPublish?courseid=CHomeUiT.CS1101&amp;evaluationname=Fifth+Eval&amp;next=%2Fpage%2FinstructorHomePage%3Fuser%3D{$test.instructor}&amp;user={$test.instructor}" class="color_black t_session_publish7">Publish</a>
-                        </td>
-                    </tr>
-                <tr id="session8" class="home_sessions_row">
-                        <td class="t_session_name1">Third Eval</td>
-                        <td class="t_session_status1 centeralign"><span onmouseout="hideddrivetip()" onmouseover="ddrivetip('The evaluation has finished but the results have not been made available to the students')">Closed</span></td>
-                        <td class="t_session_response1 centeralign"><a oncontextmenu="return false;" href="/page/instructorEvalStatsPage?courseid=CHomeUiT.CS1101&evaluationname=Third+Eval&user={$test.instructor}" >
-                                 Show
-                              </a></td>
-                        <td class="centeralign no-print">
-                            <a onmouseout="hideddrivetip()" onmouseover="ddrivetip('View the current results of the evaluation')" href="/page/instructorEvalResultsPage?courseid=CHomeUiT.CS1101&amp;evaluationname=Third+Eval&amp;user={$test.instructor}" class="color_green t_session_view8">View Results</a>
-                            <a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit evaluation details')" href="/page/instructorEvalEditPage?courseid=CHomeUiT.CS1101&amp;evaluationname=Third+Eval&amp;user={$test.instructor}" class="color_brown t_session_edit8">Edit</a>
-                            <a class="color_brown t_session_preview8"  href="/page/instructorEvalPreview?courseid=CHomeUiT.CS1101&evaluationname=Third+Eval&user={$test.instructor}"  onmouseout="hideddrivetip()"  onmouseover="ddrivetip('Preview evaluation session')"  target="_blank" >Preview</a>
-                            <a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the evaluation')" onclick="hideddrivetip(); return toggleDeleteEvaluationConfirmation('CHomeUiT.CS1101','Third Eval');" href="/page/instructorEvalDelete?courseid=CHomeUiT.CS1101&amp;evaluationname=Third+Eval&amp;next=%2Fpage%2FinstructorHomePage%3Fuser%3D{$test.instructor}&amp;user={$test.instructor}" class="color_red t_session_delete8">Delete</a>
-                            <a onclick="return false" style="color: gray; text-decoration: none;" onmouseout="hideddrivetip()" onmouseover="ddrivetip('Send e-mails to remind students who have not submitted their evaluations to do so')" href="/page/instructorEvalRemind?courseid=CHomeUiT.CS1101&amp;evaluationname=Third+Eval&amp;user={$test.instructor}" class="color_black t_session_remind8">Remind</a>
-                            <a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Publish evaluation results for students to view')" onclick="hideddrivetip(); return togglePublishEvaluation('Third Eval');" href="/page/instructorEvalPublish?courseid=CHomeUiT.CS1101&amp;evaluationname=Third+Eval&amp;next=%2Fpage%2FinstructorHomePage%3Fuser%3D{$test.instructor}&amp;user={$test.instructor}" class="color_black t_session_publish8">Publish</a>
-                        </td>
-                    </tr>    
-                    </tbody></table>
-                
+            <br/>
+                        <div id="statusMessage"  style="display: none;" >
             </div>
-            
-        </div>    
-        <br />
-        <br />
-        <br />
-    </div>
-
-    
-    <div id="frameBottom">
-        
-
-
-
-<div id="contentFooter">
-    <span class="floatleft">[<span class="color_white">TEAMMATES </span>V{$version}]</span>
-    [for <span class="color_white">National University of Singapore</span>]
-    <span class="floatright">[Send <span class="color_white"><a target="_blank" href="../contact.html">Feedback</a></span>]</span>
-</div>
-    </div>
-
-</body></html>
+            <div class="row" >
+               <div class="col-md-5 pull-right" >
+                  <div class="row" >
+                     <div class="col-md-3 btn-group" >
+                        <h5 class="pull-right" >
+                           <strong>
+                              Sort By:
+                           </strong>
+                        </h5>
+                     </div>
+                     <div class="col-md-9" >
+                        <div class="btn-group pull-right"  data-toggle="buttons" >
+                           <label class="btn btn-default "  data="id"  id="sortById"  name="sortby" >
+                              <input type="radio" />
+                                                            Course ID
+                           </label>
+                           <label class="btn btn-default active"  data="name"  id="sortByName"  name="sortby" >
+                              <input name="sortby"  type="radio"  value="name" />
+                                                            Course Name
+                           </label>
+                           <label class="btn btn-default "  data="createdAt"  id="sortByDate"  name="sortby" >
+                              <input type="radio" />
+                                                            Creation Date
+                           </label>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <br/>
+                        <div class="panel panel-primary"  id="course0" >
+               <div class="panel-heading" >
+                  <div class="row" >
+                     <div class="col-md-6" >
+                        <strong>
+                           [CHomeUiT.CS2104] :
+                                    Programming Language Concepts
+                        </strong>
+                     </div>
+                     <div class="col-md-6" >
+                        <span class="pull-right" >
+                           <a class="btn btn-primary btn-xs btn-tm-actions course-enroll-for-test"  data-original-title="Enroll student into the course"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseEnrollPage?courseid=CHomeUiT.CS2104&user={$test.instructor}"  title="" >
+                              Enroll
+                           </a>
+                           <a class="btn btn-primary btn-xs btn-tm-actions course-view-for-test"  data-original-title="View, edit and send invitation emails to the students in the course"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseDetailsPage?courseid=CHomeUiT.CS2104&user={$test.instructor}"  title="" >
+                              View
+                           </a>
+                           <a class="btn btn-primary btn-xs btn-tm-actions course-edit-for-test"  data-original-title="Edit Course information and instructor list"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseEditPage?courseid=CHomeUiT.CS2104&user={$test.instructor}"  title="" >
+                              Edit
+                           </a>
+                           <a class="btn btn-primary btn-xs btn-tm-actions course-add-eval-for-test"  data-original-title="Add an evaluation for the course"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorEvalsPage?user={$test.instructor}&courseid=CHomeUiT.CS2104"  title="" >
+                              Add Session
+                           </a>
+                           <a class="btn btn-primary btn-xs btn-tm-actions course-archive-for-test"  data-original-title="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseArchive?courseid=CHomeUiT.CS2104&archive=true&next=%2Fpage%2FinstructorHomePage&user={$test.instructor}"  onclick="return toggleArchiveCourseConfirmation('CHomeUiT.CS2104')"  title="" >
+                              Archive
+                           </a>
+                           <a class="btn btn-primary btn-xs btn-tm-actions course-delete-for-test"  data-original-title="Delete the course and its corresponding students and evaluations"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseDelete?courseid=CHomeUiT.CS2104&next=%2Fpage%2FinstructorHomePage&user={$test.instructor}"  onclick="return toggleDeleteCourseConfirmation('CHomeUiT.CS2104')"  title="" >
+                              Delete
+                           </a>
+                        </span>
+                     </div>
+                  </div>
+               </div>
+               <table class="table-responsive table table-striped table-bordered" >
+                  <thead>
+                     <tr>
+                        <th class="button-sort-none"  id="button_sortname"  onclick="toggleSort(this,1);" >
+                           Session Name
+                           <span class="icon-sort unsorted" >
+                           </span>
+                        </th>
+                        <th>
+                           Status
+                        </th>
+                        <th>
+                           <span data-original-title="Number of students submitted / Class size"  data-placement="top"  data-toggle="tooltip"  title="" >
+                              Response Rate
+                           </span>
+                        </th>
+                        <th class="no-print" >
+                           Action(s)
+                        </th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr id="session0" >
+                        <td>
+                           First Eval
+                        </td>
+                        <td>
+                           <span data-original-title="The evaluation has started and students can submit feedback until the closing time"  data-placement="top"  data-toggle="tooltip"  title="" >
+                              Open
+                           </span>
+                        </td>
+                        <td class="session-response-for-test recent" >
+                           4 / 4
+                        </td>
+                        <td class="no-print" >
+                           <a class="btn btn-default btn-xs btn-tm-actions session-view-for-test"  data-original-title="View the current results of the evaluation"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorEvalResultsPage?courseid=CHomeUiT.CS2104&evaluationname=First+Eval&user={$test.instructor}"  title="" >
+                              View Results
+                           </a>
+                           <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test"  data-original-title="Edit evaluation details"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorEvalEditPage?courseid=CHomeUiT.CS2104&evaluationname=First+Eval&user={$test.instructor}"  title="" >
+                              Edit
+                           </a>
+                           <a class="btn btn-default btn-xs btn-tm-actions session-preview-for-test"  data-original-title="Preview evaluation session"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorEvalPreview?courseid=CHomeUiT.CS2104&evaluationname=First+Eval&user={$test.instructor}"  target="_blank"  title="" >
+                              Preview
+                           </a>
+                           <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test"  data-original-title="Delete the evaluation"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorEvalDelete?courseid=CHomeUiT.CS2104&evaluationname=First+Eval&next=%2Fpage%2FinstructorHomePage%3Fuser%3D{$test.instructor}&user={$test.instructor}"  onclick="return toggleDeleteEvaluationConfirmation('CHomeUiT.CS2104','First Eval');"  title="" >
+                              Delete
+                           </a>
+                           <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test"  data-original-title="Send e-mails to remind students who have not submitted their evaluations to do so"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorEvalRemind?courseid=CHomeUiT.CS2104&evaluationname=First+Eval&user={$test.instructor}"  onclick="return toggleRemindStudents('First Eval');"  title="" >
+                              Remind
+                           </a>
+                           <a class="btn btn-default btn-xs btn-tm-actions session-publish-for-test disabled"  data-original-title="Publish evaluation results for students to view"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorEvalPublish?courseid=CHomeUiT.CS2104&evaluationname=First+Eval&next=%2Fpage%2FinstructorHomePage%3Fuser%3D{$test.instructor}&user={$test.instructor}"  onclick="return false"  title="" >
+                              Publish
+                           </a>
+                        </td>
+                     </tr>
+                     <tr id="session1" >
+                        <td>
+                           Second Eval
+                        </td>
+                        <td>
+                           <span data-original-title="The evaluation has finished and the results have been made available to students"  data-placement="top"  data-toggle="tooltip"  title="" >
+                              Published
+                           </span>
+                        </td>
+                        <td class="session-response-for-test" >
+                           <a href="/page/instructorEvalStatsPage?courseid=CHomeUiT.CS2104&evaluationname=Second+Eval&user={$test.instructor}"  oncontextmenu="return false;" >
+                              Show
+                           </a>
+                        </td>
+                        <td class="no-print" >
+                           <a class="btn btn-default btn-xs btn-tm-actions session-view-for-test"  data-original-title="View the current results of the evaluation"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorEvalResultsPage?courseid=CHomeUiT.CS2104&evaluationname=Second+Eval&user={$test.instructor}"  title="" >
+                              View Results
+                           </a>
+                           <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test disabled"  data-original-title="Edit evaluation details"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorEvalEditPage?courseid=CHomeUiT.CS2104&evaluationname=Second+Eval&user={$test.instructor}"  onclick="return false"  title="" >
+                              Edit
+                           </a>
+                           <a class="btn btn-default btn-xs btn-tm-actions session-preview-for-test"  data-original-title="Preview evaluation session"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorEvalPreview?courseid=CHomeUiT.CS2104&evaluationname=Second+Eval&user={$test.instructor}"  target="_blank"  title="" >
+                              Preview
+                           </a>
+                           <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test"  data-original-title="Delete the evaluation"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorEvalDelete?courseid=CHomeUiT.CS2104&evaluationname=Second+Eval&next=%2Fpage%2FinstructorHomePage%3Fuser%3D{$test.instructor}&user={$test.instructor}"  onclick="return toggleDeleteEvaluationConfirmation('CHomeUiT.CS2104','Second Eval');"  title="" >
+                              Delete
+                           </a>
+                           <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test disabled"  data-original-title="Send e-mails to remind students who have not submitted their evaluations to do so"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorEvalRemind?courseid=CHomeUiT.CS2104&evaluationname=Second+Eval&user={$test.instructor}"  onclick="return false"  title="" >
+                              Remind
+                           </a>
+                           <a class="btn btn-default btn-xs btn-tm-actions session-unpublish-for-test"  data-original-title="Make results not visible to students"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorEvalUnpublish?courseid=CHomeUiT.CS2104&evaluationname=Second+Eval&next=%2Fpage%2FinstructorHomePage%3Fuser%3D{$test.instructor}&user={$test.instructor}"  onclick="return toggleUnpublishEvaluation('Second Eval');"  title="" >
+                              Unpublish
+                           </a>
+                        </td>
+                     </tr>
+                     <tr id="session2" >
+                        <td>
+                           Second Feedback Session
+                        </td>
+                        <td>
+                           <span data-original-title="The feedback session has been created, is visible, and is waiting to open."  data-placement="top"  data-toggle="tooltip"  title="" >
+                              Awaiting
+                           </span>
+                        </td>
+                        <td class="session-response-for-test" >
+                           <a href="/page/feedbackSessionStatsPage?courseid=CHomeUiT.CS2104&fsname=Second+Feedback+Session&user={$test.instructor}"  oncontextmenu="return false;" >
+                              Show
+                           </a>
+                        </td>
+                        <td class="no-print" >
+                           <a class="btn btn-default btn-xs btn-tm-actions session-view-for-test"  data-original-title="View the submitted responses for this feedback session"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorFeedbackResultsPage?courseid=CHomeUiT.CS2104&fsname=Second+Feedback+Session&user={$test.instructor}"  title="" >
+                              View Results
+                           </a>
+                           <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test"  data-original-title="Edit feedback session details"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorFeedbackEditPage?courseid=CHomeUiT.CS2104&fsname=Second+Feedback+Session&user={$test.instructor}"  title="" >
+                              Edit
+                           </a>
+                           <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test"  data-original-title="Delete the feedback session"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorFeedbackDelete?courseid=CHomeUiT.CS2104&fsname=Second+Feedback+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3D{$test.instructor}&user={$test.instructor}"  onclick="return toggleDeleteFeedbackSessionConfirmation('CHomeUiT.CS2104','Second Feedback Session');"  title="" >
+                              Delete
+                           </a>
+                           <a class="btn btn-default btn-xs btn-tm-actions session-submit-for-test"  data-original-title="Start submitting feedback"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorFeedbackSubmissionEditPage?courseid=CHomeUiT.CS2104&fsname=Second+Feedback+Session&user={$test.instructor}"  title="" >
+                              Submit
+                           </a>
+                           <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test disabled"  data-original-title="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorFeedbackRemind?courseid=CHomeUiT.CS2104&fsname=Second+Feedback+Session&user={$test.instructor}"  onclick="return false"  title="" >
+                              Remind
+                           </a>
+                           <a class="btn btn-default btn-xs btn-tm-actions session-publish-for-test disabled"  data-original-title="This session is not yet opened"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorFeedbackPublish?courseid=CHomeUiT.CS2104&fsname=Second+Feedback+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3D{$test.instructor}&user={$test.instructor}"  onclick="return false"  title="" >
+                              Publish
+                           </a>
+                        </td>
+                     </tr>
+                     <tr id="session3" >
+                        <td>
+                           First Feedback Session
+                        </td>
+                        <td>
+                           <span data-original-title="The feedback session has been created, is visible, and is open for submissions."  data-placement="top"  data-toggle="tooltip"  title="" >
+                              Open
+                           </span>
+                        </td>
+                        <td class="session-response-for-test" >
+                           <a href="/page/feedbackSessionStatsPage?courseid=CHomeUiT.CS2104&fsname=First+Feedback+Session&user={$test.instructor}"  oncontextmenu="return false;" >
+                              Show
+                           </a>
+                        </td>
+                        <td class="no-print" >
+                           <a class="btn btn-default btn-xs btn-tm-actions session-view-for-test"  data-original-title="View the submitted responses for this feedback session"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorFeedbackResultsPage?courseid=CHomeUiT.CS2104&fsname=First+Feedback+Session&user={$test.instructor}"  title="" >
+                              View Results
+                           </a>
+                           <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test"  data-original-title="Edit feedback session details"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorFeedbackEditPage?courseid=CHomeUiT.CS2104&fsname=First+Feedback+Session&user={$test.instructor}"  title="" >
+                              Edit
+                           </a>
+                           <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test"  data-original-title="Delete the feedback session"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorFeedbackDelete?courseid=CHomeUiT.CS2104&fsname=First+Feedback+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3D{$test.instructor}&user={$test.instructor}"  onclick="return toggleDeleteFeedbackSessionConfirmation('CHomeUiT.CS2104','First Feedback Session');"  title="" >
+                              Delete
+                           </a>
+                           <a class="btn btn-default btn-xs btn-tm-actions session-submit-for-test"  data-original-title="Start submitting feedback"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorFeedbackSubmissionEditPage?courseid=CHomeUiT.CS2104&fsname=First+Feedback+Session&user={$test.instructor}"  title="" >
+                              Submit
+                           </a>
+                           <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test"  data-original-title="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorFeedbackRemind?courseid=CHomeUiT.CS2104&fsname=First+Feedback+Session&user={$test.instructor}"  onclick="return toggleRemindStudents('First Feedback Session');"  title="" >
+                              Remind
+                           </a>
+                           <a class="btn btn-default btn-xs btn-tm-actions session-publish-for-test"  data-original-title="Make session responses available for viewing"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorFeedbackPublish?courseid=CHomeUiT.CS2104&fsname=First+Feedback+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3D{$test.instructor}&user={$test.instructor}"  onclick="return togglePublishEvaluation('First Feedback Session');"  title="" >
+                              Publish
+                           </a>
+                        </td>
+                     </tr>
+                     <tr id="session4" >
+                        <td>
+                           Fourth Feedback Session
+                        </td>
+                        <td>
+                           <span data-original-title="The feedback session has been created, is visible, and has ended.<br />The responses for this session are visible."  data-placement="top"  data-toggle="tooltip"  title="" >
+                              Published
+                           </span>
+                        </td>
+                        <td class="session-response-for-test" >
+                           <a href="/page/feedbackSessionStatsPage?courseid=CHomeUiT.CS2104&fsname=Fourth+Feedback+Session&user={$test.instructor}"  oncontextmenu="return false;" >
+                              Show
+                           </a>
+                        </td>
+                        <td class="no-print" >
+                           <a class="btn btn-default btn-xs btn-tm-actions session-view-for-test"  data-original-title="View the submitted responses for this feedback session"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorFeedbackResultsPage?courseid=CHomeUiT.CS2104&fsname=Fourth+Feedback+Session&user={$test.instructor}"  title="" >
+                              View Results
+                           </a>
+                           <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test"  data-original-title="Edit feedback session details"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorFeedbackEditPage?courseid=CHomeUiT.CS2104&fsname=Fourth+Feedback+Session&user={$test.instructor}"  title="" >
+                              Edit
+                           </a>
+                           <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test"  data-original-title="Delete the feedback session"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorFeedbackDelete?courseid=CHomeUiT.CS2104&fsname=Fourth+Feedback+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3D{$test.instructor}&user={$test.instructor}"  onclick="return toggleDeleteFeedbackSessionConfirmation('CHomeUiT.CS2104','Fourth Feedback Session');"  title="" >
+                              Delete
+                           </a>
+                           <a class="btn btn-default btn-xs btn-tm-actions session-submit-for-test"  data-original-title="Start submitting feedback"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorFeedbackSubmissionEditPage?courseid=CHomeUiT.CS2104&fsname=Fourth+Feedback+Session&user={$test.instructor}"  title="" >
+                              Submit
+                           </a>
+                           <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test disabled"  data-original-title="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorFeedbackRemind?courseid=CHomeUiT.CS2104&fsname=Fourth+Feedback+Session&user={$test.instructor}"  onclick="return false"  title="" >
+                              Remind
+                           </a>
+                           <a class="btn btn-default btn-xs btn-tm-actions session-unpublish-for-test"  data-original-title="Make responses no longer visible"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorFeedbackUnpublish?courseid=CHomeUiT.CS2104&fsname=Fourth+Feedback+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3D{$test.instructor}&user={$test.instructor}"  onclick="return toggleUnpublishEvaluation('Fourth Feedback Session');"  title="" >
+                              Unpublish
+                           </a>
+                        </td>
+                     </tr>
+                     <tr id="session5" >
+                        <td>
+                           Third Feedback Session
+                        </td>
+                        <td>
+                           <span data-original-title="The feedback session has been created, is visible, and has ended."  data-placement="top"  data-toggle="tooltip"  title="" >
+                              Closed
+                           </span>
+                        </td>
+                        <td class="session-response-for-test" >
+                           <a href="/page/feedbackSessionStatsPage?courseid=CHomeUiT.CS2104&fsname=Third+Feedback+Session&user={$test.instructor}"  oncontextmenu="return false;" >
+                              Show
+                           </a>
+                        </td>
+                        <td class="no-print" >
+                           <a class="btn btn-default btn-xs btn-tm-actions session-view-for-test"  data-original-title="View the submitted responses for this feedback session"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorFeedbackResultsPage?courseid=CHomeUiT.CS2104&fsname=Third+Feedback+Session&user={$test.instructor}"  title="" >
+                              View Results
+                           </a>
+                           <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test"  data-original-title="Edit feedback session details"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorFeedbackEditPage?courseid=CHomeUiT.CS2104&fsname=Third+Feedback+Session&user={$test.instructor}"  title="" >
+                              Edit
+                           </a>
+                           <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test"  data-original-title="Delete the feedback session"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorFeedbackDelete?courseid=CHomeUiT.CS2104&fsname=Third+Feedback+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3D{$test.instructor}&user={$test.instructor}"  onclick="return toggleDeleteFeedbackSessionConfirmation('CHomeUiT.CS2104','Third Feedback Session');"  title="" >
+                              Delete
+                           </a>
+                           <a class="btn btn-default btn-xs btn-tm-actions session-submit-for-test"  data-original-title="Start submitting feedback"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorFeedbackSubmissionEditPage?courseid=CHomeUiT.CS2104&fsname=Third+Feedback+Session&user={$test.instructor}"  title="" >
+                              Submit
+                           </a>
+                           <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test disabled"  data-original-title="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorFeedbackRemind?courseid=CHomeUiT.CS2104&fsname=Third+Feedback+Session&user={$test.instructor}"  onclick="return false"  title="" >
+                              Remind
+                           </a>
+                           <a class="btn btn-default btn-xs btn-tm-actions session-publish-for-test"  data-original-title="Make session responses available for viewing"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorFeedbackPublish?courseid=CHomeUiT.CS2104&fsname=Third+Feedback+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3D{$test.instructor}&user={$test.instructor}"  onclick="return togglePublishEvaluation('Third Feedback Session');"  title="" >
+                              Publish
+                           </a>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+            <br/>
+                        <div class="panel panel-primary"  id="course1" >
+               <div class="panel-heading" >
+                  <div class="row" >
+                     <div class="col-md-6" >
+                        <strong>
+                           [CHomeUiT.CS1101] :
+                                    Programming Methodology
+                        </strong>
+                     </div>
+                     <div class="col-md-6" >
+                        <span class="pull-right" >
+                           <a class="btn btn-primary btn-xs btn-tm-actions course-enroll-for-test"  data-original-title="Enroll student into the course"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseEnrollPage?courseid=CHomeUiT.CS1101&user={$test.instructor}"  title="" >
+                              Enroll
+                           </a>
+                           <a class="btn btn-primary btn-xs btn-tm-actions course-view-for-test"  data-original-title="View, edit and send invitation emails to the students in the course"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseDetailsPage?courseid=CHomeUiT.CS1101&user={$test.instructor}"  title="" >
+                              View
+                           </a>
+                           <a class="btn btn-primary btn-xs btn-tm-actions course-edit-for-test"  data-original-title="Edit Course information and instructor list"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseEditPage?courseid=CHomeUiT.CS1101&user={$test.instructor}"  title="" >
+                              Edit
+                           </a>
+                           <a class="btn btn-primary btn-xs btn-tm-actions course-add-eval-for-test"  data-original-title="Add an evaluation for the course"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorEvalsPage?user={$test.instructor}&courseid=CHomeUiT.CS1101"  title="" >
+                              Add Session
+                           </a>
+                           <a class="btn btn-primary btn-xs btn-tm-actions course-archive-for-test"  data-original-title="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseArchive?courseid=CHomeUiT.CS1101&archive=true&next=%2Fpage%2FinstructorHomePage&user={$test.instructor}"  onclick="return toggleArchiveCourseConfirmation('CHomeUiT.CS1101')"  title="" >
+                              Archive
+                           </a>
+                           <a class="btn btn-primary btn-xs btn-tm-actions course-delete-for-test"  data-original-title="Delete the course and its corresponding students and evaluations"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseDelete?courseid=CHomeUiT.CS1101&next=%2Fpage%2FinstructorHomePage&user={$test.instructor}"  onclick="return toggleDeleteCourseConfirmation('CHomeUiT.CS1101')"  title="" >
+                              Delete
+                           </a>
+                        </span>
+                     </div>
+                  </div>
+               </div>
+               <table class="table-responsive table table-striped table-bordered" >
+                  <thead>
+                     <tr>
+                        <th class="button-sort-none"  id="button_sortname"  onclick="toggleSort(this,1);" >
+                           Session Name
+                           <span class="icon-sort unsorted" >
+                           </span>
+                        </th>
+                        <th>
+                           Status
+                        </th>
+                        <th>
+                           <span data-original-title="Number of students submitted / Class size"  data-placement="top"  data-toggle="tooltip"  title="" >
+                              Response Rate
+                           </span>
+                        </th>
+                        <th class="no-print" >
+                           Action(s)
+                        </th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr id="session6" >
+                        <td>
+                           Fourth Eval
+                        </td>
+                        <td>
+                           <span data-original-title="The evaluation is created but has not yet started"  data-placement="top"  data-toggle="tooltip"  title="" >
+                              Awaiting
+                           </span>
+                        </td>
+                        <td class="session-response-for-test recent" >
+                           0 / 4
+                        </td>
+                        <td class="no-print" >
+                           <a class="btn btn-default btn-xs btn-tm-actions session-view-for-test"  data-original-title="View the current results of the evaluation"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorEvalResultsPage?courseid=CHomeUiT.CS1101&evaluationname=Fourth+Eval&user={$test.instructor}"  title="" >
+                              View Results
+                           </a>
+                           <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test"  data-original-title="Edit evaluation details"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorEvalEditPage?courseid=CHomeUiT.CS1101&evaluationname=Fourth+Eval&user={$test.instructor}"  title="" >
+                              Edit
+                           </a>
+                           <a class="btn btn-default btn-xs btn-tm-actions session-preview-for-test"  data-original-title="Preview evaluation session"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorEvalPreview?courseid=CHomeUiT.CS1101&evaluationname=Fourth+Eval&user={$test.instructor}"  target="_blank"  title="" >
+                              Preview
+                           </a>
+                           <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test"  data-original-title="Delete the evaluation"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorEvalDelete?courseid=CHomeUiT.CS1101&evaluationname=Fourth+Eval&next=%2Fpage%2FinstructorHomePage%3Fuser%3D{$test.instructor}&user={$test.instructor}"  onclick="return toggleDeleteEvaluationConfirmation('CHomeUiT.CS1101','Fourth Eval');"  title="" >
+                              Delete
+                           </a>
+                           <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test disabled"  data-original-title="Send e-mails to remind students who have not submitted their evaluations to do so"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorEvalRemind?courseid=CHomeUiT.CS1101&evaluationname=Fourth+Eval&user={$test.instructor}"  onclick="return false"  title="" >
+                              Remind
+                           </a>
+                           <a class="btn btn-default btn-xs btn-tm-actions session-publish-for-test disabled"  data-original-title="Publish evaluation results for students to view"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorEvalPublish?courseid=CHomeUiT.CS1101&evaluationname=Fourth+Eval&next=%2Fpage%2FinstructorHomePage%3Fuser%3D{$test.instructor}&user={$test.instructor}"  onclick="return false"  title="" >
+                              Publish
+                           </a>
+                        </td>
+                     </tr>
+                     <tr id="session7" >
+                        <td>
+                           Fifth Eval
+                        </td>
+                        <td>
+                           <span data-original-title="The evaluation has started and students can submit feedback until the closing time"  data-placement="top"  data-toggle="tooltip"  title="" >
+                              Open
+                           </span>
+                        </td>
+                        <td class="session-response-for-test recent" >
+                           0 / 4
+                        </td>
+                        <td class="no-print" >
+                           <a class="btn btn-default btn-xs btn-tm-actions session-view-for-test"  data-original-title="View the current results of the evaluation"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorEvalResultsPage?courseid=CHomeUiT.CS1101&evaluationname=Fifth+Eval&user={$test.instructor}"  title="" >
+                              View Results
+                           </a>
+                           <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test"  data-original-title="Edit evaluation details"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorEvalEditPage?courseid=CHomeUiT.CS1101&evaluationname=Fifth+Eval&user={$test.instructor}"  title="" >
+                              Edit
+                           </a>
+                           <a class="btn btn-default btn-xs btn-tm-actions session-preview-for-test"  data-original-title="Preview evaluation session"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorEvalPreview?courseid=CHomeUiT.CS1101&evaluationname=Fifth+Eval&user={$test.instructor}"  target="_blank"  title="" >
+                              Preview
+                           </a>
+                           <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test"  data-original-title="Delete the evaluation"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorEvalDelete?courseid=CHomeUiT.CS1101&evaluationname=Fifth+Eval&next=%2Fpage%2FinstructorHomePage%3Fuser%3D{$test.instructor}&user={$test.instructor}"  onclick="return toggleDeleteEvaluationConfirmation('CHomeUiT.CS1101','Fifth Eval');"  title="" >
+                              Delete
+                           </a>
+                           <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test"  data-original-title="Send e-mails to remind students who have not submitted their evaluations to do so"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorEvalRemind?courseid=CHomeUiT.CS1101&evaluationname=Fifth+Eval&user={$test.instructor}"  onclick="return toggleRemindStudents('Fifth Eval');"  title="" >
+                              Remind
+                           </a>
+                           <a class="btn btn-default btn-xs btn-tm-actions session-publish-for-test disabled"  data-original-title="Publish evaluation results for students to view"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorEvalPublish?courseid=CHomeUiT.CS1101&evaluationname=Fifth+Eval&next=%2Fpage%2FinstructorHomePage%3Fuser%3D{$test.instructor}&user={$test.instructor}"  onclick="return false"  title="" >
+                              Publish
+                           </a>
+                        </td>
+                     </tr>
+                     <tr id="session8" >
+                        <td>
+                           Third Eval
+                        </td>
+                        <td>
+                           <span data-original-title="The evaluation has finished but the results have not been made available to the students"  data-placement="top"  data-toggle="tooltip"  title="" >
+                              Closed
+                           </span>
+                        </td>
+                        <td class="session-response-for-test" >
+                           <a href="/page/instructorEvalStatsPage?courseid=CHomeUiT.CS1101&evaluationname=Third+Eval&user={$test.instructor}"  oncontextmenu="return false;" >
+                              Show
+                           </a>
+                        </td>
+                        <td class="no-print" >
+                           <a class="btn btn-default btn-xs btn-tm-actions session-view-for-test"  data-original-title="View the current results of the evaluation"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorEvalResultsPage?courseid=CHomeUiT.CS1101&evaluationname=Third+Eval&user={$test.instructor}"  title="" >
+                              View Results
+                           </a>
+                           <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test"  data-original-title="Edit evaluation details"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorEvalEditPage?courseid=CHomeUiT.CS1101&evaluationname=Third+Eval&user={$test.instructor}"  title="" >
+                              Edit
+                           </a>
+                           <a class="btn btn-default btn-xs btn-tm-actions session-preview-for-test"  data-original-title="Preview evaluation session"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorEvalPreview?courseid=CHomeUiT.CS1101&evaluationname=Third+Eval&user={$test.instructor}"  target="_blank"  title="" >
+                              Preview
+                           </a>
+                           <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test"  data-original-title="Delete the evaluation"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorEvalDelete?courseid=CHomeUiT.CS1101&evaluationname=Third+Eval&next=%2Fpage%2FinstructorHomePage%3Fuser%3D{$test.instructor}&user={$test.instructor}"  onclick="return toggleDeleteEvaluationConfirmation('CHomeUiT.CS1101','Third Eval');"  title="" >
+                              Delete
+                           </a>
+                           <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test disabled"  data-original-title="Send e-mails to remind students who have not submitted their evaluations to do so"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorEvalRemind?courseid=CHomeUiT.CS1101&evaluationname=Third+Eval&user={$test.instructor}"  onclick="return false"  title="" >
+                              Remind
+                           </a>
+                           <a class="btn btn-default btn-xs btn-tm-actions session-publish-for-test"  data-original-title="Publish evaluation results for students to view"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorEvalPublish?courseid=CHomeUiT.CS1101&evaluationname=Third+Eval&next=%2Fpage%2FinstructorHomePage%3Fuser%3D{$test.instructor}&user={$test.instructor}"  onclick="return togglePublishEvaluation('Third Eval');"  title="" >
+                              Publish
+                           </a>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+            <br/>
+                     </div>
+         <br/>
+                  <br/>
+                  <br/>
+                  <div class="container-fluid"  id="footerComponent" >
+            <div class="container" >
+               <div class="row" >
+                  <div class="col-md-4" >
+                     <span>
+                        [
+                        <a href="/index.html" >
+                           TEAMMATES
+                        </a>
+                        V{$version}]
+                     </span>
+                  </div>
+                  <div class="col-md-4" >
+                     [for
+                     <span class="highlight-white" >
+                        <span class="color_white" >
+                           National University of Singapore
+                        </span>
+                     </span>
+                     ]
+                  </div>
+                  <div class="col-md-4" >
+                     <span>
+                        [Send
+                        <a class="link"  href="../contact.html"  target="_blank" >
+                           Feedback
+                        </a>
+                        ]
+                     </span>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </body>
+   </html>
