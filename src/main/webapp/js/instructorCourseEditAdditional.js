@@ -9,28 +9,32 @@ function enableEditInstructor(instructorNum, totalInstructors) {
 }
 
 function enableFormEditInstructor(number) {
-    $("#instructorTable" + number).find(":input").not(".immutable").prop("disabled", false);
+    $("#instrTable" + number).find(":input").not(".immutable").prop("disabled", false);
     $("#instrEditLink" + number).hide();
     $("#accessControlEditDivForInstr" + number).show();
-    $("#btnSaveInstructor" + number).show();
+    $("#btnToSaveInstructor" + number).show();
 }
 
 function disableFormEditInstructor(number) {
-    $("#instructorTable" + number).find(":input").not(".immutable").prop("disabled", true);
+    $("#instrTable" + number).find(":input").not(".immutable").prop("disabled", true);
     $("#instrEditLink" + number).show();
     $("#accessControlEditDivForInstr" + number).hide();
-    $("#btnSaveInstructor" + number).hide();
+    $("#btnToSaveInstructor" + number).hide();
 }
 
 function toggleSessionsControlTable(number) {
-    $("#sessionsControlTableForInstr" + number).toggle();
+    $("#sessionsControlTableForInstructor" + number).toggle();
 }
 
 function toggleTunePermissionsDiv(number) {
-    $("#tunePermissionsDivForInstr" + number).toggle();
+    $("#tunePermissionsDivForInstructor" + number).toggle();
 }
 
 function showNewInstructorForm() {
-    $("#panelAddInstructor").show();
-    $("#btnShowNewInstructorForm").hide();
+    $("#panelToAddInstructor").show();
+    $("#btnToShowNewInstructorForm").hide();
 }
+
+$(function() { 
+    $("[data-toggle='tooltip']").tooltip({html: true}); 
+});
