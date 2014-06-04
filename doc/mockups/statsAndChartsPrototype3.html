@@ -321,43 +321,44 @@
         </div>
       </form>
     <div class="col-sm-offset-5">
-            <form method="post"
-                      action="/page/instructorFeedbackResultsDownload">
+        <form method="post" action="/page/instructorFeedbackResultsDownload">
             <div id="feedbackDataButtons">
-            <input id="button_download" type="submit" class="btn btn-primary"
+                <input id="button_download" type="submit" class="btn btn-primary"
                     name="fruploaddownloadbtn"
                     value="Download results">
             </div>
             <input type="hidden" name="user" value="testInstructor">
             <input type="hidden" name="fsname" value="various question types inst feedback">
             <input type="hidden" name="courseid" value="testInstructor.gma-demo">
-            </form>
+        </form>
     </div>
 </div>
 
 
-<form method="post"
-    action="/page/instructorFeedbackResultsPage">
+<form method="post" action="/page/instructorFeedbackResultsPage" class="form-horizontal" role="form">
     <div class="panel panel-info">
         <div class="panel-body">
             <div class="row">
-                <div class="col-sm-8" style="margin-top:10px;">
-                    <label class="col-sm-3">
-                        Sort Order:
-                    </label>
-                    <ul id="sortable" class="col-sm-5 list-inline">
-                        <li class="col-sm-3 text-center btn btn-default btn-xs">Giver</li>
-                        <li class="col-sm-3 text-center btn btn-default btn-xs">Question</li>
-                        <li class="col-sm-3 text-center btn btn-default btn-xs">Recipient</li>
-                    </ul>
-                    <p class="col-sm-2 small">
-                        (drag to reorder)
-                    </p>
+                <div class="col-sm-5">
+                    <div class="form-group">
+                        <label for="viewSelect" class="col-sm-2 control-label">
+                            View:
+                        </label>
+                        <div class="col-sm-10">
+                            <select id="viewSelect" class="form-control">
+                                <option>By Question</option>
+                                <option>Giver > Recipient > Question</option>
+                                <option selected="selected">Giver > Question > Recipient</option>
+                                <option>Recipient > Giver > Question</option>
+                                <option>Recipient > Question > Giver</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-sm-3 pull-right">
                     <div class="checkbox pull-right">
                         <label>
-                            <input type="checkbox"> Group by Teams
+                            <input type="checkbox" checked="checked"> Group by Teams
                         </label>
                     </div>
                 </div>
@@ -378,14 +379,33 @@
         function toggleCollapse(){
 
             if(panelsCollapsed){
-                $("div[id^='resultsPanelBody-']").collapse("show");
+                $("div[class*='panelBodyCollapse-']").collapse("show");
                 $("#collapse-panels-button").html("Collapse All");
             } else {
-                $("div[id^='resultsPanelBody-']").collapse("hide");
+                $("div[class*='panelBodyCollapse-']").collapse("hide");
                 $("#collapse-panels-button").html("Expand All");
             }
             panelsCollapsed = !panelsCollapsed;
         }
+
+        window.onload = function(){
+            var panels = $("div.panel");
+            var numPanels = 0;
+            for(var i=0 ; i<panels.length ; i++){
+                var heading = $(panels[i]).children(".panel-heading");
+                var body = $(panels[i]).children(".panel-body");
+                if(heading.length != 0 && body.length != 0){
+                    numPanels++;
+                    $(heading[0]).attr("data-toggle","collapse");
+                    $(heading[0]).attr("data-target",".panelBodyCollapse-"+numPanels);
+                    
+                    $(body[0]).addClass("collapse in panelBodyCollapse-"+numPanels);
+                    
+                }
+            }
+            console.log(numPanels);
+        };
+
     </script>
     
     <div class="row">
@@ -396,293 +416,236 @@
         </div>
     </div>
 
-    <div id="statusMessage" style="display: none;"></div>
+    <div id="statusMessage" style="display: none;">
+    </div>
 
+    <br>
 
-
-            <br>
-                <div class="panel panel-primary">
-                <div class="panel-heading" data-toggle="collapse" data-target="#resultsPanelBody-1">
+    <div class="panel panel-warning">
+        <div class="panel-heading">
+            <strong>Team 1</strong>
+        </div>
+        <div class="panel-body">
+            <h3>Team 1 Summary Statistics</h3>
+            <hr>
+            <div class="row ">
+                <div class="col-md-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <strong>Question 1:</strong> Contribution question, Please estimate the contribution of the following recipients.(To team members including self)
+                        </div>
+                        <div class="panel-body">
+                            <div class="panel panel-info">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <form class="form-horizontal col-sm-6" role="form">
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label">Average CC:</label>
+                                                <div class="col-sm-8">
+                                                    <p class="form-control-static">E+10%</p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label">Average PC:</label>
+                                                <div class="col-sm-8">
+                                                    <p class="form-control-static">E+20%</p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label">Average Diff:</label>
+                                                <div class="col-sm-8">
+                                                    <p class="form-control-static">10%</p>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        <div class="col-sm-6">
+                                            Histogram of claimed contribution goes here.
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <table class="table table-bordered table-striped" id="dataTable">
+                                                <thead class="fill-primary">
+                                                    <tr>
+                                                        <th class="button-sort-descending" id="button_sortteamname" onclick="toggleSort(this,1);">Team 
+                                                        </th>
+                                                        <th class="button-sort-none" id="button_sortname" onclick="toggleSort(this,2)">Student
+                                                        </th>
+                                                        <th class="button-sort-none" id="button_sortclaimed" onclick="toggleSort(this,3,sortByPoint)"> CC
+                                                        </th>
+                                                        <th class="button-sort-none" id="button_sortperceived" onclick="toggleSort(this,4,sortByPoint)">PC
+                                                        </th>
+                                                        <th class="button-sort-none" id="button_sortdiff" onclick="toggleSort(this,5,sortByDiff)" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title="Perceived Contribution - Claimed Contribution">Diff
+                                                        </th>
+                                                        <th class="align-center" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title="The list of points that this student received from others">Ratings Received
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                            
+                                                <tbody>
+                                                    <tr class="student_row" id="student0">
+                                                        <td>Team 1</td>
+                                                        <td id="studentname" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title="Exchange Student"> 
+                                                            Jean Wong
+                                                        </td>
+                                                        <td><span class="color_negative" data-toggle="tooltip" data-placement="top" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span>
+                                                        </td>
+                                                        <td><span class="color_negative" data-toggle="tooltip" data-placement="top" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span>
+                                                        </td>
+                                                        <td><span class="color_negative" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span>
+                                                        </td>
+                                                        <td><span class="color_negative" data-toggle="tooltip" data-placement="top" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span>, <span class="color_negative" data-toggle="tooltip" data-placement="top" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span>, <span class="color_negative" data-toggle="tooltip" data-placement="top" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="student_row" id="student3">
+                                                                <td>Team 1</td>
+                                                                <td id="studentname" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title=""> 
+                                                                    Charlie
+                                                                </td>
+                                                                <td><span class="color_negative" data-toggle="tooltip" data-placement="top" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span></td>
+                                                                <td><span class="color_negative" data-toggle="tooltip" data-placement="top" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span></td>
+                                                                <td><span class="color_negative" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span></td>
+                                                                <td><span class="color_negative" data-toggle="tooltip" data-placement="top" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span>, <span class="color_negative" data-toggle="tooltip" data-placement="top" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span>, <span class="color_negative" data-toggle="tooltip" data-placement="top" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span></td>
+                                                    </tr>
+                                                    <tr class="student_row" id="student1">
+                                                                <td>Team 1</td>
+                                                                <td id="studentname" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title=""> 
+                                                                    Alice
+                                                                </td>
+                                                                <td><span class="color_positive">E +7%</span></td>
+                                                                <td><span class="color_neutral">E</span></td>
+                                                                <td><span class="color_negative">-7%</span></td>
+                                                                <td><span class="color_neutral">E</span>, <span class="color_negative" data-toggle="tooltip" data-placement="top" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span>, <span class="color_negative" data-toggle="tooltip" data-placement="top" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span></td>
+                                                    </tr>
+                                                    <tr class="student_row" id="student2">
+                                                                <td>Team 1</td>
+                                                                <td id="studentname" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title="Test Student"> 
+                                                                    Betsy
+                                                                </td>
+                                                                <td><span class="color_positive">E +14%</span></td>
+                                                                <td><span class="color_neutral">E</span></td>
+                                                                <td><span class="color_negative">-14%</span></td>
+                                                                <td><span class="color_neutral">E</span>, <span class="color_negative" data-toggle="tooltip" data-placement="top" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span>, <span class="color_negative" data-toggle="tooltip" data-placement="top" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <strong>Question 2:</strong> Please give feedback about your team's dynamics. (To giver's team)
+                        </div>
+                        <div class="panel-body">
+                            <div class="panel panel-info">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <form class="form-horizontal col-sm-6" role="form">
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label">Average length:</label>
+                                                <div class="col-sm-8">
+                                                    <p class="form-control-static">4</p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label">Min/Max length:</label>
+                                                <div class="col-sm-8">
+                                                    <p class="form-control-static">4<b> / </b>4</p>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        <div class="col-sm-6">
+                                            Some word cloud thingy goes here.<br>
+                                            Perhaps a histogram of word length as well(?)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <strong>Question 3:</strong> Please give feedback to your team members. (To giver's team members)<br>What do you apreciate about this member? <br> What areas can this member can improve further? <br> Any other comments?
+                        </div>
+                        <div class="panel-body">
+                            <div class="panel panel-info">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <form class="form-horizontal col-sm-6" role="form">
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label">Average length:</label>
+                                                <div class="col-sm-8">
+                                                    <p class="form-control-static">25</p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label">Min/Max length:</label>
+                                                <div class="col-sm-8">
+                                                    <p class="form-control-static">12<b> / </b>50</p>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        <div class="col-sm-6">
+                                            Some word cloud thingy goes here.<br>
+                                            Perhaps a histogram of word length as well(?)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <strong>Question 4:</strong> Please give feedback about this team member. (To team members, confidential.) The answers to this question wil be kept confidential.
+                        </div>
+                        <div class="panel-body">
+                            <div class="panel panel-info">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <form class="form-horizontal col-sm-6" role="form">
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label">Average length:</label>
+                                                <div class="col-sm-8">
+                                                    <p class="form-control-static">27</p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label">Min/Max length:</label>
+                                                <div class="col-sm-8">
+                                                    <p class="form-control-static">11<b> / </b>35</p>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        <div class="col-sm-6">
+                                            Some word cloud thingy goes here.<br>
+                                            Perhaps a histogram of word length as well(?)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h3>Team 1 Response Details</h3>
+            <hr>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
                     From: <strong>Alice (Team 1)</strong>
                         <a class="link-in-dark-bg" href="mailTo:emma.f.tmms@gmail.com " >[emma.f.tmms@gmail.com]</a>
                 </div>
-                <div class="panel-body collapse in" id="resultsPanelBody-1">
-                
+                <div class="panel-body">
                     <div class="row ">
                         <div class="col-md-12">
                             <div class="panel panel-info">
-                                <div class="panel-heading"><strong>Question 1:</strong> Essay question, was the class fun?(No specific recipient)</div>
-                                <div class="panel-body collapse in" style="height: auto;">
-
-                                    <div class="panel panel-info">
-                                        <div class="panel-body">
-                                            <div class="row">
-
-                                                <form class="form-horizontal col-sm-6" role="form">
-                                                    <div class="form-group">
-                                                        <label class="col-sm-4 control-label">Average length:</label>
-                                                        <div class="col-sm-8">
-                                                            <p class="form-control-static">3</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label class="col-sm-4 control-label">Min/Max length:</label>
-                                                        <div class="col-sm-8">
-                                                            <p class="form-control-static">3<b> / </b>3</p>
-                                                        </div>
-                                                    </div>
-                                                </form>
-
-                                                <div class="col-sm-6">
-                                                    Some word cloud thingy goes here.<br>
-                                                    Perhaps a histogram of word length as well(?)
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>                        
-
-                                    <div class="panel panel-primary">
-                                        <table class="table table-striped table-bordered dataTable">
-                                            <thead class="fill-primary">
-                                                <tr>
-                                                    <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,1,null,2)" colspan="2">To<span class="sort-icon unsorted"></span></th>
-                                                    <th id="button_sortFeedback" class="button-sort-none" style="vertical-align:middle;" rowspan="2" onclick="toggleSort(this,3,null,2)">Feedback<span class="sort-icon unsorted"></span></th>
-                                                </tr>
-                                                <tr>
-                                                    <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,1,null,2)" style="width: 15%;">Name<span class="sort-icon unsorted"></span></th>
-                                                    <th id="button_sortFrom" class="button-sort-ascending" onclick="toggleSort(this,2,null,2)" style="width: 15%;">Team<span class="sort-icon unsorted"></span></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td class="middlealign">-</td>
-                                                    <td class="middlealign">-</td>
-                                                    <td class="multiline">Yes! Very fun. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                <div class="panel-heading">
+                                    <strong>Question 1:</strong> Contribution question, Please estimate the contribution of the following recipients.(To team members including self)
                                 </div>
-                            </div>
-                            <br>
-                            <div class="panel panel-info">
-                                <div class="panel-heading"><strong>Question 2:</strong> Contribution question, Please estimate the contribution of the following recipients.(To team members including self)</div>
-                                <div class="panel-body collapse in" style="height: auto;">
-
-                                    <div class="panel panel-info">
-                                        <div class="panel-body">
-                                            <div class="row">
-                                                <form class="form-horizontal col-sm-6" role="form">
-                                                    <div class="form-group">
-                                                        <label class="col-sm-4 control-label">Average CC:</label>
-                                                        <div class="col-sm-8">
-                                                            <p class="form-control-static">E+10%</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label class="col-sm-4 control-label">Average PC:</label>
-                                                        <div class="col-sm-8">
-                                                            <p class="form-control-static">E+20%</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label class="col-sm-4 control-label">Average Diff:</label>
-                                                        <div class="col-sm-8">
-                                                            <p class="form-control-static">10%</p>
-                                                        </div>
-                                                    </div>
-                                                </form>
-
-                                                <div class="col-sm-6">
-                                                    Histogram of claimed contribution goes here.
-                                                </div>
-                                            </div>
-                                            <hr>
-                                            <div class="row">
-                                                <div class="col-sm-12">
-                                                    <table class="table table-bordered table-striped" id="dataTable">
-                                                        <thead class="fill-primary">
-                                                            <tr>
-                                                                <th class="button-sort-none" id="button_sortteamname" onclick="toggleSort(this,1);">Team 
-                                                                </th>
-                                                                <th class="button-sort-none" id="button_sortname" onclick="toggleSort(this,2)">Student
-                                                                </th>
-                                                                <th class="button-sort-none" id="button_sortclaimed" onclick="toggleSort(this,3,sortByPoint)"> CC
-                                                                </th>
-                                                                <th class="button-sort-none" id="button_sortperceived" onclick="toggleSort(this,4,sortByPoint)">PC
-                                                                </th>
-                                                                <th class="button-sort-descending" id="button_sortdiff" onclick="toggleSort(this,5,sortByDiff)" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title="Perceived Contribution - Claimed Contribution">Diff
-                                                                </th>
-                                                                <th class="align-center" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title="The list of points that this student received from others">Ratings Received</th>
-                                                            </tr>
-                                                        </thead>
-                                                                    
-                                                        <tbody>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                        <tr class="student_row" id="student0">
-                                                                <td>Team 1</td>
-                                                                <td id="studentname" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title="Exchange Student"> 
-                                                                    Jean Wong
-                                                                </td>
-                                                                <td><span class="color_negative" data-toggle="tooltip" data-placement="top" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span>
-                                                                </td>
-                                                                <td><span class="color_negative" data-toggle="tooltip" data-placement="top" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span>
-                                                                </td>
-                                                                <td><span class="color_negative" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span>
-                                                                </td>
-                                                                <td><span class="color_negative" data-toggle="tooltip" data-placement="top" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span>, <span class="color_negative" data-toggle="tooltip" data-placement="top" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span>, <span class="color_negative" data-toggle="tooltip" data-placement="top" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span>
-                                                                </td>
-                                                            </tr><tr class="student_row" id="student3">
-                                                                        <td>Team 1</td>
-                                                                        <td id="studentname" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title=""> 
-                                                                            Charlie
-                                                                        </td>
-                                                                        <td><span class="color_negative" data-toggle="tooltip" data-placement="top" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span></td>
-                                                                        <td><span class="color_negative" data-toggle="tooltip" data-placement="top" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span></td>
-                                                                        <td><span class="color_negative" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span></td>
-                                                                        <td><span class="color_negative" data-toggle="tooltip" data-placement="top" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span>, <span class="color_negative" data-toggle="tooltip" data-placement="top" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span>, <span class="color_negative" data-toggle="tooltip" data-placement="top" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span></td>
-                                                            </tr><tr class="student_row" id="student1">
-                                                                        <td>Team 1</td>
-                                                                        <td id="studentname" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title=""> 
-                                                                            Alice
-                                                                        </td>
-                                                                        <td><span class="color_positive">E +7%</span></td>
-                                                                        <td><span class="color_neutral">E</span></td>
-                                                                        <td><span class="color_negative">-7%</span></td>
-                                                                        <td><span class="color_neutral">E</span>, <span class="color_negative" data-toggle="tooltip" data-placement="top" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span>, <span class="color_negative" data-toggle="tooltip" data-placement="top" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span></td>
-                                                            </tr><tr class="student_row" id="student2">
-                                                                        <td>Team 1</td>
-                                                                        <td id="studentname" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title="Test Student"> 
-                                                                            Betsy
-                                                                        </td>
-                                                                        <td><span class="color_positive">E +14%</span></td>
-                                                                        <td><span class="color_neutral">E</span></td>
-                                                                        <td><span class="color_negative">-14%</span></td>
-                                                                        <td><span class="color_neutral">E</span>, <span class="color_negative" data-toggle="tooltip" data-placement="top" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span>, <span class="color_negative" data-toggle="tooltip" data-placement="top" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span></td>
-                                                            </tr></tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>                        
-
-                                    <div class="panel panel-primary">
-                                        <table class="table table-striped table-bordered dataTable">
-                                            <thead class="fill-primary">
-                                                <tr>
-                                                    <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,1,null,2)" colspan="2">To<span class="sort-icon unsorted"></span></th>
-                                                    <th id="button_sortFeedback" class="button-sort-ascending" style="vertical-align:middle;" rowspan="2" onclick="toggleSort(this,3,null,2)">Feedback<span class="sort-icon unsorted"></span></th>
-                                                </tr>
-                                                <tr>
-                                                    <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,1,null,2)" style="width: 15%;">Name<span class="sort-icon unsorted"></span></th>
-                                                    <th id="button_sortFrom" class="button-sort-ascending" onclick="toggleSort(this,2,null,2)" style="width: 15%;">Team<span class="sort-icon unsorted"></span></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td class="middlealign">Betsy</td>
-                                                    <td class="middlealign">Team 1</td>
-                                                    <td class="multiline">E+0%</td>
-                                                </tr><tr>
-                                                    <td class="middlealign">Charlie</td>
-                                                    <td class="middlealign">Team 1</td>
-                                                    <td class="multiline">E+0%</td>
-                                                </tr><tr>
-                                                    <td class="middlealign">Alice</td>
-                                                    <td class="middlealign">Team 1</td>
-                                                    <td class="multiline">E+10%</td>
-                                                </tr><tr>
-                                                    <td class="middlealign">Jean Wong</td>
-                                                    <td class="middlealign">Team 1</td>
-                                                    <td class="multiline">E-10%</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                        </div>
-                    </div>
-                
-                </div></div><br />
-        
-                <div class="panel panel-primary">
-                <div class="panel-heading" data-toggle="collapse" data-target="#resultsPanelBody-2">
-                    From: <strong>Betsy (Team 1)</strong>
-                        <a class="link-in-dark-bg" href="mailTo:testInstructor@gmail.com " >[bbb@gmail.com]</a>
-                </div>
-                <div class="panel-body collapse in" id="resultsPanelBody-2">
-                
-                    <div class="row ">
-                        <div class="col-md-12">
-                            <div class="panel panel-info">
-                                <div class="panel-heading"><strong>Question 1:</strong> Essay question, was the class fun?(No specific recipient)</div>
-                                <div class="panel-body collapse in" style="height: auto;">
-
-                                    <div class="panel panel-info">
-                                        <div class="panel-body">
-                                            <div class="row">
-
-                                                <form class="form-horizontal col-sm-6" role="form">
-                                                    <div class="form-group">
-                                                        <label class="col-sm-4 control-label">Average length:</label>
-                                                        <div class="col-sm-8">
-                                                            <p class="form-control-static">4</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label class="col-sm-4 control-label">Min/Max length:</label>
-                                                        <div class="col-sm-8">
-                                                            <p class="form-control-static">4<b> / </b>4</p>
-                                                        </div>
-                                                    </div>
-                                                </form>
-
-                                                <div class="col-sm-6">
-                                                    Some word cloud thingy goes here.<br>
-                                                    Perhaps a histogram of word length as well(?)
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>                        
-
-                                    <div class="panel panel-primary">
-                                        <table class="table table-striped table-bordered dataTable">
-                                            <thead class="fill-primary">
-                                                <tr>
-                                                    <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,1,null,2)" colspan="2">To<span class="sort-icon unsorted"></span></th>
-                                                    <th id="button_sortFeedback" class="button-sort-none" style="vertical-align:middle;" rowspan="2" onclick="toggleSort(this,3,null,2)">Feedback<span class="sort-icon unsorted"></span></th>
-                                                </tr>
-                                                <tr>
-                                                    <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,1,null,2)" style="width: 15%;">Name<span class="sort-icon unsorted"></span></th>
-                                                    <th id="button_sortFrom" class="button-sort-ascending" onclick="toggleSort(this,2,null,2)" style="width: 15%;">Team<span class="sort-icon unsorted"></span></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td class="middlealign">-</td>
-                                                    <td class="middlealign">-</td>
-                                                    <td class="multiline">No it was boring.</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                            <br>
-                            <div class="panel panel-info">
-                                <div class="panel-heading"><strong>Question 2:</strong> Contribution question, Please estimate the contribution of the following recipients.(To team members including self)</div>
                                 <div class="panel-body">
-
                                     <div class="panel panel-info">
                                         <div class="panel-body">
                                             <div class="row">
@@ -706,7 +669,6 @@
                                                         </div>
                                                     </div>
                                                 </form>
-
                                                 <div class="col-sm-6">
                                                     Histogram of claimed contribution goes here.
                                                 </div>
@@ -730,14 +692,7 @@
                                                                 <th class="align-center" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title="The list of points that this student received from others">Ratings Received</th>
                                                             </tr>
                                                         </thead>
-                                                                    
                                                         <tbody>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
                                                         <tr class="student_row" id="student0">
                                                                 <td>Team 1</td>
                                                                 <td id="studentname" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title="Exchange Student"> 
@@ -820,57 +775,226 @@
                                     </div>
                                 </div>
                             </div>
-
-                        </div>
-                    </div>
-                
-                </div></div><br />
-        
-                <div class="panel panel-warning">
-                    <div class="panel-heading" data-toggle="collapse" data-target="#resultsPanelBody-3">
-                        <strong>Team 1 Summary</strong>
-                    </div>
-                    <div class="panel-body collapse in" id="resultsPanelBody-3">
-                        <div class="row ">
-                        <div class="col-md-12">
                             <div class="panel panel-info">
-                                <div class="panel-heading"><strong>Question 1:</strong> Essay question, was the class fun?(No specific recipient)</div>
-                                <div class="panel-body collapse in" style="height: auto;">
-
+                                <div class="panel-heading">
+                                    <strong>Question 2:</strong> Please give feedback about your team's dynamics. (To giver's team)
+                                </div>
+                                <div class="panel-body">
                                     <div class="panel panel-info">
                                         <div class="panel-body">
                                             <div class="row">
-
                                                 <form class="form-horizontal col-sm-6" role="form">
                                                     <div class="form-group">
                                                         <label class="col-sm-4 control-label">Average length:</label>
                                                         <div class="col-sm-8">
-                                                            <p class="form-control-static">4</p>
+                                                            <p class="form-control-static">10</p>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="col-sm-4 control-label">Min/Max length:</label>
                                                         <div class="col-sm-8">
-                                                            <p class="form-control-static">4<b> / </b>4</p>
+                                                            <p class="form-control-static">10<b> / </b>10</p>
                                                         </div>
                                                     </div>
                                                 </form>
-
                                                 <div class="col-sm-6">
                                                     Some word cloud thingy goes here.<br>
                                                     Perhaps a histogram of word length as well(?)
                                                 </div>
-
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="panel panel-primary">
+                                        <table class="table table-striped table-bordered dataTable">
+                                            <thead class="fill-primary">
+                                                <tr>
+                                                    <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,1,null,2)" colspan="2">
+                                                        To<span class="sort-icon unsorted"></span>
+                                                    </th>
+                                                    <th id="button_sortFeedback" class="button-sort-none" style="vertical-align:middle;" rowspan="2" onclick="toggleSort(this,3,null,2)">
+                                                        Feedback<span class="sort-icon unsorted"></span>
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,1,null,2)" style="width: 15%;">
+                                                        Name<span class="sort-icon unsorted"></span>
+                                                    </th>
+                                                    <th id="button_sortFrom" class="button-sort-ascending" onclick="toggleSort(this,2,null,2)" style="width: 15%;">
+                                                        Team<span class="sort-icon unsorted"></span>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="middlealign">-</td>
+                                                    <td class="middlealign">Team 1</td>
+                                                    <td class="multiline">This is a great team with excellent teamwork. Good Job!</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
-                            <br>
                             <div class="panel panel-info">
-                                <div class="panel-heading"><strong>Question 2:</strong> Contribution question, Please estimate the contribution of the following recipients.(To team members including self)</div>
+                                <div class="panel-heading">
+                                    <strong>Question 3:</strong> Please give feedback to your team members. (To giver's team members)
+                                                                <br>What do you apreciate about this member? 
+                                                                <br>What areas can this member can improve further? 
+                                                                <br>Any other comments?
+                                </div>
                                 <div class="panel-body">
-
+                                    <div class="panel panel-info">
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <form class="form-horizontal col-sm-6" role="form">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-4 control-label">Average length:</label>
+                                                        <div class="col-sm-8">
+                                                            <p class="form-control-static">11</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-4 control-label">Min/Max length:</label>
+                                                        <div class="col-sm-8">
+                                                            <p class="form-control-static">5<b> / </b>30</p>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                                <div class="col-sm-6">
+                                                    Some word cloud thingy goes here.<br>
+                                                    Perhaps a histogram of word length as well(?)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel panel-primary">
+                                        <table class="table table-striped table-bordered dataTable">
+                                            <thead class="fill-primary">
+                                                <tr>
+                                                    <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,1,null,2)" colspan="2">
+                                                        To<span class="sort-icon unsorted"></span>
+                                                    </th>
+                                                    <th id="button_sortFeedback" class="button-sort-none" style="vertical-align:middle;" rowspan="2" onclick="toggleSort(this,3,null,2)">
+                                                        Feedback<span class="sort-icon unsorted"></span>
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,1,null,2)" style="width: 15%;">
+                                                        Name<span class="sort-icon unsorted"></span>
+                                                    </th>
+                                                    <th id="button_sortFrom" class="button-sort-ascending" onclick="toggleSort(this,2,null,2)" style="width: 15%;">
+                                                        Team<span class="sort-icon unsorted"></span>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="middlealign">Betsy</td>
+                                                    <td class="middlealign">Team 1</td>
+                                                    <td class="multiline">Thank you for working so hard on the project! You have truly done more than expected of you!</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="middlealign">Charlie</td>
+                                                    <td class="middlealign">Team 1</td>
+                                                    <td class="multiline">Thank you for doing up the user interface! The application would not be such a success without it! =)</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="middlealign">Jean Wong</td>
+                                                    <td class="middlealign">Team 1</td>
+                                                    <td class="multiline">Good job with coordinating the team and the project! We never missed a deadline because of you.</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    <strong>Question 4:</strong> Please give feedback about this team member. (To team members, confidential.) The answers to this question wil be kept confidential.
+                                </div>
+                                <div class="panel-body">
+                                    <div class="panel panel-info">
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <form class="form-horizontal col-sm-6" role="form">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-4 control-label">Average length:</label>
+                                                        <div class="col-sm-8">
+                                                            <p class="form-control-static">11</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-4 control-label">Min/Max length:</label>
+                                                        <div class="col-sm-8">
+                                                            <p class="form-control-static">5<b> / </b>30</p>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                                <div class="col-sm-6">
+                                                    Some word cloud thingy goes here.<br>
+                                                    Perhaps a histogram of word length as well(?)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel panel-primary">
+                                        <table class="table table-striped table-bordered dataTable">
+                                            <thead class="fill-primary">
+                                                <tr>
+                                                    <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,1,null,2)" colspan="2">
+                                                        To<span class="sort-icon unsorted"></span>
+                                                    </th>
+                                                    <th id="button_sortFeedback" class="button-sort-none" style="vertical-align:middle;" rowspan="2" onclick="toggleSort(this,3,null,2)">
+                                                        Feedback<span class="sort-icon unsorted"></span>
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,1,null,2)" style="width: 15%;">
+                                                        Name<span class="sort-icon unsorted"></span>
+                                                    </th>
+                                                    <th id="button_sortFrom" class="button-sort-ascending" onclick="toggleSort(this,2,null,2)" style="width: 15%;">
+                                                        Team<span class="sort-icon unsorted"></span>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="middlealign">Betsy</td>
+                                                    <td class="middlealign">Team 1</td>
+                                                    <td class="multiline">Always late for meetings but always gets the job done.</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="middlealign">Charlie</td>
+                                                    <td class="middlealign">Team 1</td>
+                                                    <td class="multiline">No comments</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="middlealign">Jean Wong</td>
+                                                    <td class="middlealign">Team 1</td>
+                                                    <td class="multiline">Very strict with the team. A very good person to have around to push others to work harder.</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    From: <strong>Betsy (Team 1)</strong>
+                        <a class="link-in-dark-bg" href="mailTo:emma.f.tmms@gmail.com " >[emma.f.tmms@gmail.com]</a>
+                </div>
+                <div class="panel-body">
+                    <div class="row ">
+                        <div class="col-md-12">
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    <strong>Question 1:</strong> Contribution question, Please estimate the contribution of the following recipients.(To team members including self)
+                                </div>
+                                <div class="panel-body">
                                     <div class="panel panel-info">
                                         <div class="panel-body">
                                             <div class="row">
@@ -894,7 +1018,6 @@
                                                         </div>
                                                     </div>
                                                 </form>
-
                                                 <div class="col-sm-6">
                                                     Histogram of claimed contribution goes here.
                                                 </div>
@@ -918,14 +1041,7 @@
                                                                 <th class="align-center" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title="The list of points that this student received from others">Ratings Received</th>
                                                             </tr>
                                                         </thead>
-                                                                    
                                                         <tbody>
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
                                                         <tr class="student_row" id="student0">
                                                                 <td>Team 1</td>
                                                                 <td id="studentname" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title="Exchange Student"> 
@@ -951,7 +1067,7 @@
                                                             </tr><tr class="student_row" id="student1">
                                                                         <td>Team 1</td>
                                                                         <td id="studentname" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title=""> 
-                                                                            Alice
+                                                                            Betsy
                                                                         </td>
                                                                         <td><span class="color_positive">E +7%</span></td>
                                                                         <td><span class="color_neutral">E</span></td>
@@ -960,7 +1076,7 @@
                                                             </tr><tr class="student_row" id="student2">
                                                                         <td>Team 1</td>
                                                                         <td id="studentname" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title="Test Student"> 
-                                                                            Betsy
+                                                                            Alice
                                                                         </td>
                                                                         <td><span class="color_positive">E +14%</span></td>
                                                                         <td><span class="color_neutral">E</span></td>
@@ -973,15 +1089,952 @@
                                         </div>
                                     </div>                        
 
+                                    <div class="panel panel-primary">
+                                        <table class="table table-striped table-bordered dataTable">
+                                            <thead class="fill-primary">
+                                                <tr>
+                                                    <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,1,null,2)" colspan="2">To<span class="sort-icon unsorted"></span></th>
+                                                    <th id="button_sortFeedback" class="button-sort-ascending" style="vertical-align:middle;" rowspan="2" onclick="toggleSort(this,3,null,2)">Feedback<span class="sort-icon unsorted"></span></th>
+                                                </tr>
+                                                <tr>
+                                                    <th id="button_sortTo" class="button-sort-descending" onclick="toggleSort(this,1,null,2)" style="width: 15%;">Name<span class="sort-icon unsorted"></span></th>
+                                                    <th id="button_sortFrom" class="button-sort-none" onclick="toggleSort(this,2,null,2)" style="width: 15%;">Team<span class="sort-icon unsorted"></span></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                
+                                            <tr>
+                                                    <td class="middlealign">Charlie</td>
+                                                    <td class="middlealign">Team 1</td>
+                                                    <td class="multiline">E+0%</td>
+                                                </tr><tr>
+                                                    <td class="middlealign">Alice</td>
+                                                    <td class="middlealign">Team 1</td>
+                                                    <td class="multiline">E+0%</td>
+                                                </tr><tr>
+                                                    <td class="middlealign">Jean Wong</td>
+                                                    <td class="middlealign">Team 1</td>
+                                                    <td class="multiline">E-10%</td>
+                                                </tr><tr>
+                                                    <td class="middlealign">Betsy</td>
+                                                    <td class="middlealign">Team 1</td>
+                                                    <td class="multiline">E+10%</td>
+                                                </tr></tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
-
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    <strong>Question 2:</strong> Please give feedback about your team's dynamics. (To giver's team)
+                                </div>
+                                <div class="panel-body">
+                                    <div class="panel panel-info">
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <form class="form-horizontal col-sm-6" role="form">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-4 control-label">Average length:</label>
+                                                        <div class="col-sm-8">
+                                                            <p class="form-control-static">10</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-4 control-label">Min/Max length:</label>
+                                                        <div class="col-sm-8">
+                                                            <p class="form-control-static">10<b> / </b>10</p>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                                <div class="col-sm-6">
+                                                    Some word cloud thingy goes here.<br>
+                                                    Perhaps a histogram of word length as well(?)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel panel-primary">
+                                        <table class="table table-striped table-bordered dataTable">
+                                            <thead class="fill-primary">
+                                                <tr>
+                                                    <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,1,null,2)" colspan="2">
+                                                        To<span class="sort-icon unsorted"></span>
+                                                    </th>
+                                                    <th id="button_sortFeedback" class="button-sort-none" style="vertical-align:middle;" rowspan="2" onclick="toggleSort(this,3,null,2)">
+                                                        Feedback<span class="sort-icon unsorted"></span>
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,1,null,2)" style="width: 15%;">
+                                                        Name<span class="sort-icon unsorted"></span>
+                                                    </th>
+                                                    <th id="button_sortFrom" class="button-sort-ascending" onclick="toggleSort(this,2,null,2)" style="width: 15%;">
+                                                        Team<span class="sort-icon unsorted"></span>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="middlealign">-</td>
+                                                    <td class="middlealign">Team 1</td>
+                                                    <td class="multiline">This is a great team with excellent teamwork. Good Job!</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    <strong>Question 3:</strong> Please give feedback to your team members. (To giver's team members)
+                                                                <br>What do you apreciate about this member? 
+                                                                <br>What areas can this member can improve further? 
+                                                                <br>Any other comments?
+                                </div>
+                                <div class="panel-body">
+                                    <div class="panel panel-info">
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <form class="form-horizontal col-sm-6" role="form">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-4 control-label">Average length:</label>
+                                                        <div class="col-sm-8">
+                                                            <p class="form-control-static">11</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-4 control-label">Min/Max length:</label>
+                                                        <div class="col-sm-8">
+                                                            <p class="form-control-static">5<b> / </b>30</p>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                                <div class="col-sm-6">
+                                                    Some word cloud thingy goes here.<br>
+                                                    Perhaps a histogram of word length as well(?)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel panel-primary">
+                                        <table class="table table-striped table-bordered dataTable">
+                                            <thead class="fill-primary">
+                                                <tr>
+                                                    <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,1,null,2)" colspan="2">
+                                                        To<span class="sort-icon unsorted"></span>
+                                                    </th>
+                                                    <th id="button_sortFeedback" class="button-sort-none" style="vertical-align:middle;" rowspan="2" onclick="toggleSort(this,3,null,2)">
+                                                        Feedback<span class="sort-icon unsorted"></span>
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,1,null,2)" style="width: 15%;">
+                                                        Name<span class="sort-icon unsorted"></span>
+                                                    </th>
+                                                    <th id="button_sortFrom" class="button-sort-ascending" onclick="toggleSort(this,2,null,2)" style="width: 15%;">
+                                                        Team<span class="sort-icon unsorted"></span>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="middlealign">Alice</td>
+                                                    <td class="middlealign">Team 1</td>
+                                                    <td class="multiline">Thank you for working so hard on the project! You have truly done more than expected of you!</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="middlealign">Charlie</td>
+                                                    <td class="middlealign">Team 1</td>
+                                                    <td class="multiline">Thank you for doing up the user interface! The application would not be such a success without it! =)</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="middlealign">Jean Wong</td>
+                                                    <td class="middlealign">Team 1</td>
+                                                    <td class="multiline">Good job with coordinating the team and the project! We never missed a deadline because of you.</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    <strong>Question 4:</strong> Please give feedback about this team member. (To team members, confidential.) The answers to this question wil be kept confidential.
+                                </div>
+                                <div class="panel-body">
+                                    <div class="panel panel-info">
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <form class="form-horizontal col-sm-6" role="form">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-4 control-label">Average length:</label>
+                                                        <div class="col-sm-8">
+                                                            <p class="form-control-static">11</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-4 control-label">Min/Max length:</label>
+                                                        <div class="col-sm-8">
+                                                            <p class="form-control-static">5<b> / </b>30</p>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                                <div class="col-sm-6">
+                                                    Some word cloud thingy goes here.<br>
+                                                    Perhaps a histogram of word length as well(?)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel panel-primary">
+                                        <table class="table table-striped table-bordered dataTable">
+                                            <thead class="fill-primary">
+                                                <tr>
+                                                    <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,1,null,2)" colspan="2">
+                                                        To<span class="sort-icon unsorted"></span>
+                                                    </th>
+                                                    <th id="button_sortFeedback" class="button-sort-none" style="vertical-align:middle;" rowspan="2" onclick="toggleSort(this,3,null,2)">
+                                                        Feedback<span class="sort-icon unsorted"></span>
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,1,null,2)" style="width: 15%;">
+                                                        Name<span class="sort-icon unsorted"></span>
+                                                    </th>
+                                                    <th id="button_sortFrom" class="button-sort-ascending" onclick="toggleSort(this,2,null,2)" style="width: 15%;">
+                                                        Team<span class="sort-icon unsorted"></span>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="middlealign">Alice</td>
+                                                    <td class="middlealign">Team 1</td>
+                                                    <td class="multiline">Always late for meetings but always gets the job done.</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="middlealign">Charlie</td>
+                                                    <td class="middlealign">Team 1</td>
+                                                    <td class="multiline">No comments</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="middlealign">Jean Wong</td>
+                                                    <td class="middlealign">Team 1</td>
+                                                    <td class="multiline">Very strict with the team. A very good person to have around to push others to work harder.</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    From: <strong>Charlie (Team 1)</strong>
+                        <a class="link-in-dark-bg" href="mailTo:emma.f.tmms@gmail.com " >[emma.f.tmms@gmail.com]</a>
+                </div>
+                <div class="panel-body">
+                    <div class="row ">
+                        <div class="col-md-12">
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    <strong>Question 1:</strong> Contribution question, Please estimate the contribution of the following recipients.(To team members including self)
+                                </div>
+                                <div class="panel-body">
+                                    <div class="panel panel-info">
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <form class="form-horizontal col-sm-6" role="form">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-4 control-label">Average CC:</label>
+                                                        <div class="col-sm-8">
+                                                            <p class="form-control-static">E+10%</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-4 control-label">Average PC:</label>
+                                                        <div class="col-sm-8">
+                                                            <p class="form-control-static">E+20%</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-4 control-label">Average Diff:</label>
+                                                        <div class="col-sm-8">
+                                                            <p class="form-control-static">10%</p>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                                <div class="col-sm-6">
+                                                    Histogram of claimed contribution goes here.
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <table class="table table-bordered table-striped" id="dataTable">
+                                                        <thead class="fill-primary">
+                                                            <tr>
+                                                                <th class="button-sort-descending" id="button_sortteamname" onclick="toggleSort(this,1);">Team 
+                                                                </th>
+                                                                <th class="button-sort-none" id="button_sortname" onclick="toggleSort(this,2)">Student
+                                                                </th>
+                                                                <th class="button-sort-none" id="button_sortclaimed" onclick="toggleSort(this,3,sortByPoint)"> CC
+                                                                </th>
+                                                                <th class="button-sort-none" id="button_sortperceived" onclick="toggleSort(this,4,sortByPoint)">PC
+                                                                </th>
+                                                                <th class="button-sort-none" id="button_sortdiff" onclick="toggleSort(this,5,sortByDiff)" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title="Perceived Contribution - Claimed Contribution">Diff
+                                                                </th>
+                                                                <th class="align-center" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title="The list of points that this student received from others">Ratings Received</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr class="student_row" id="student0">
+                                                                <td>Team 1</td>
+                                                                <td id="studentname" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title="Exchange Student"> 
+                                                                    Jean Wong
+                                                                </td>
+                                                                <td><span class="color_negative" data-toggle="tooltip" data-placement="top" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span>
+                                                                </td>
+                                                                <td><span class="color_negative" data-toggle="tooltip" data-placement="top" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span>
+                                                                </td>
+                                                                <td><span class="color_negative" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span>
+                                                                </td>
+                                                                <td><span class="color_negative" data-toggle="tooltip" data-placement="top" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span>, <span class="color_negative" data-toggle="tooltip" data-placement="top" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span>, <span class="color_negative" data-toggle="tooltip" data-placement="top" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span>
+                                                                </td>
+                                                            </tr><tr class="student_row" id="student3">
+                                                                        <td>Team 1</td>
+                                                                        <td id="studentname" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title=""> 
+                                                                            Charlie
+                                                                        </td>
+                                                                        <td><span class="color_negative" data-toggle="tooltip" data-placement="top" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span></td>
+                                                                        <td><span class="color_negative" data-toggle="tooltip" data-placement="top" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span></td>
+                                                                        <td><span class="color_negative" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span></td>
+                                                                        <td><span class="color_negative" data-toggle="tooltip" data-placement="top" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span>, <span class="color_negative" data-toggle="tooltip" data-placement="top" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span>, <span class="color_negative" data-toggle="tooltip" data-placement="top" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span></td>
+                                                            </tr><tr class="student_row" id="student1">
+                                                                        <td>Team 1</td>
+                                                                        <td id="studentname" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title=""> 
+                                                                            Betsy
+                                                                        </td>
+                                                                        <td><span class="color_positive">E +7%</span></td>
+                                                                        <td><span class="color_neutral">E</span></td>
+                                                                        <td><span class="color_negative">-7%</span></td>
+                                                                        <td><span class="color_neutral">E</span>, <span class="color_negative" data-toggle="tooltip" data-placement="top" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span>, <span class="color_negative" data-toggle="tooltip" data-placement="top" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span></td>
+                                                            </tr><tr class="student_row" id="student2">
+                                                                        <td>Team 1</td>
+                                                                        <td id="studentname" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title="Test Student"> 
+                                                                            Alice
+                                                                        </td>
+                                                                        <td><span class="color_positive">E +14%</span></td>
+                                                                        <td><span class="color_neutral">E</span></td>
+                                                                        <td><span class="color_negative">-14%</span></td>
+                                                                        <td><span class="color_neutral">E</span>, <span class="color_negative" data-toggle="tooltip" data-placement="top" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span>, <span class="color_negative" data-toggle="tooltip" data-placement="top" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span></td>
+                                                            </tr></tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>                        
+
+                                    <div class="panel panel-primary">
+                                        <table class="table table-striped table-bordered dataTable">
+                                            <thead class="fill-primary">
+                                                <tr>
+                                                    <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,1,null,2)" colspan="2">To<span class="sort-icon unsorted"></span></th>
+                                                    <th id="button_sortFeedback" class="button-sort-ascending" style="vertical-align:middle;" rowspan="2" onclick="toggleSort(this,3,null,2)">Feedback<span class="sort-icon unsorted"></span></th>
+                                                </tr>
+                                                <tr>
+                                                    <th id="button_sortTo" class="button-sort-descending" onclick="toggleSort(this,1,null,2)" style="width: 15%;">Name<span class="sort-icon unsorted"></span></th>
+                                                    <th id="button_sortFrom" class="button-sort-none" onclick="toggleSort(this,2,null,2)" style="width: 15%;">Team<span class="sort-icon unsorted"></span></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                
+                                            <tr>
+                                                    <td class="middlealign">Charlie</td>
+                                                    <td class="middlealign">Team 1</td>
+                                                    <td class="multiline">E+0%</td>
+                                                </tr><tr>
+                                                    <td class="middlealign">Alice</td>
+                                                    <td class="middlealign">Team 1</td>
+                                                    <td class="multiline">E+0%</td>
+                                                </tr><tr>
+                                                    <td class="middlealign">Jean Wong</td>
+                                                    <td class="middlealign">Team 1</td>
+                                                    <td class="multiline">E-10%</td>
+                                                </tr><tr>
+                                                    <td class="middlealign">Betsy</td>
+                                                    <td class="middlealign">Team 1</td>
+                                                    <td class="multiline">E+10%</td>
+                                                </tr></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    <strong>Question 2:</strong> Please give feedback about your team's dynamics. (To giver's team)
+                                </div>
+                                <div class="panel-body">
+                                    <div class="panel panel-info">
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <form class="form-horizontal col-sm-6" role="form">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-4 control-label">Average length:</label>
+                                                        <div class="col-sm-8">
+                                                            <p class="form-control-static">10</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-4 control-label">Min/Max length:</label>
+                                                        <div class="col-sm-8">
+                                                            <p class="form-control-static">10<b> / </b>10</p>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                                <div class="col-sm-6">
+                                                    Some word cloud thingy goes here.<br>
+                                                    Perhaps a histogram of word length as well(?)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel panel-primary">
+                                        <table class="table table-striped table-bordered dataTable">
+                                            <thead class="fill-primary">
+                                                <tr>
+                                                    <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,1,null,2)" colspan="2">
+                                                        To<span class="sort-icon unsorted"></span>
+                                                    </th>
+                                                    <th id="button_sortFeedback" class="button-sort-none" style="vertical-align:middle;" rowspan="2" onclick="toggleSort(this,3,null,2)">
+                                                        Feedback<span class="sort-icon unsorted"></span>
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,1,null,2)" style="width: 15%;">
+                                                        Name<span class="sort-icon unsorted"></span>
+                                                    </th>
+                                                    <th id="button_sortFrom" class="button-sort-ascending" onclick="toggleSort(this,2,null,2)" style="width: 15%;">
+                                                        Team<span class="sort-icon unsorted"></span>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="middlealign">-</td>
+                                                    <td class="middlealign">Team 1</td>
+                                                    <td class="multiline">This is a great team with excellent teamwork. Good Job!</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    <strong>Question 3:</strong> Please give feedback to your team members. (To giver's team members)
+                                                                <br>What do you apreciate about this member? 
+                                                                <br>What areas can this member can improve further? 
+                                                                <br>Any other comments?
+                                </div>
+                                <div class="panel-body">
+                                    <div class="panel panel-info">
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <form class="form-horizontal col-sm-6" role="form">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-4 control-label">Average length:</label>
+                                                        <div class="col-sm-8">
+                                                            <p class="form-control-static">11</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-4 control-label">Min/Max length:</label>
+                                                        <div class="col-sm-8">
+                                                            <p class="form-control-static">5<b> / </b>30</p>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                                <div class="col-sm-6">
+                                                    Some word cloud thingy goes here.<br>
+                                                    Perhaps a histogram of word length as well(?)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel panel-primary">
+                                        <table class="table table-striped table-bordered dataTable">
+                                            <thead class="fill-primary">
+                                                <tr>
+                                                    <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,1,null,2)" colspan="2">
+                                                        To<span class="sort-icon unsorted"></span>
+                                                    </th>
+                                                    <th id="button_sortFeedback" class="button-sort-none" style="vertical-align:middle;" rowspan="2" onclick="toggleSort(this,3,null,2)">
+                                                        Feedback<span class="sort-icon unsorted"></span>
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,1,null,2)" style="width: 15%;">
+                                                        Name<span class="sort-icon unsorted"></span>
+                                                    </th>
+                                                    <th id="button_sortFrom" class="button-sort-ascending" onclick="toggleSort(this,2,null,2)" style="width: 15%;">
+                                                        Team<span class="sort-icon unsorted"></span>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="middlealign">Alice</td>
+                                                    <td class="middlealign">Team 1</td>
+                                                    <td class="multiline">Thank you for working so hard on the project! You have truly done more than expected of you!</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="middlealign">Charlie</td>
+                                                    <td class="middlealign">Team 1</td>
+                                                    <td class="multiline">Thank you for doing up the user interface! The application would not be such a success without it! =)</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="middlealign">Jean Wong</td>
+                                                    <td class="middlealign">Team 1</td>
+                                                    <td class="multiline">Good job with coordinating the team and the project! We never missed a deadline because of you.</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    <strong>Question 4:</strong> Please give feedback about this team member. (To team members, confidential.) The answers to this question wil be kept confidential.
+                                </div>
+                                <div class="panel-body">
+                                    <div class="panel panel-info">
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <form class="form-horizontal col-sm-6" role="form">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-4 control-label">Average length:</label>
+                                                        <div class="col-sm-8">
+                                                            <p class="form-control-static">11</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-4 control-label">Min/Max length:</label>
+                                                        <div class="col-sm-8">
+                                                            <p class="form-control-static">5<b> / </b>30</p>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                                <div class="col-sm-6">
+                                                    Some word cloud thingy goes here.<br>
+                                                    Perhaps a histogram of word length as well(?)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel panel-primary">
+                                        <table class="table table-striped table-bordered dataTable">
+                                            <thead class="fill-primary">
+                                                <tr>
+                                                    <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,1,null,2)" colspan="2">
+                                                        To<span class="sort-icon unsorted"></span>
+                                                    </th>
+                                                    <th id="button_sortFeedback" class="button-sort-none" style="vertical-align:middle;" rowspan="2" onclick="toggleSort(this,3,null,2)">
+                                                        Feedback<span class="sort-icon unsorted"></span>
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,1,null,2)" style="width: 15%;">
+                                                        Name<span class="sort-icon unsorted"></span>
+                                                    </th>
+                                                    <th id="button_sortFrom" class="button-sort-ascending" onclick="toggleSort(this,2,null,2)" style="width: 15%;">
+                                                        Team<span class="sort-icon unsorted"></span>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="middlealign">Alice</td>
+                                                    <td class="middlealign">Team 1</td>
+                                                    <td class="multiline">Always late for meetings but always gets the job done.</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="middlealign">Charlie</td>
+                                                    <td class="middlealign">Team 1</td>
+                                                    <td class="multiline">No comments</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="middlealign">Jean Wong</td>
+                                                    <td class="middlealign">Team 1</td>
+                                                    <td class="multiline">Very strict with the team. A very good person to have around to push others to work harder.</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+            </div>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    From: <strong>Jean Wong (Team 1)</strong>
+                        <a class="link-in-dark-bg" href="mailTo:emma.f.tmms@gmail.com " >[emma.f.tmms@gmail.com]</a>
+                </div>
+                <div class="panel-body">
+                    <div class="row ">
+                        <div class="col-md-12">
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    <strong>Question 1:</strong> Contribution question, Please estimate the contribution of the following recipients.(To team members including self)
+                                </div>
+                                <div class="panel-body">
+                                    <div class="panel panel-info">
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <form class="form-horizontal col-sm-6" role="form">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-4 control-label">Average CC:</label>
+                                                        <div class="col-sm-8">
+                                                            <p class="form-control-static">E+10%</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-4 control-label">Average PC:</label>
+                                                        <div class="col-sm-8">
+                                                            <p class="form-control-static">E+20%</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-4 control-label">Average Diff:</label>
+                                                        <div class="col-sm-8">
+                                                            <p class="form-control-static">10%</p>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                                <div class="col-sm-6">
+                                                    Histogram of claimed contribution goes here.
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <table class="table table-bordered table-striped" id="dataTable">
+                                                        <thead class="fill-primary">
+                                                            <tr>
+                                                                <th class="button-sort-descending" id="button_sortteamname" onclick="toggleSort(this,1);">Team 
+                                                                </th>
+                                                                <th class="button-sort-none" id="button_sortname" onclick="toggleSort(this,2)">Student
+                                                                </th>
+                                                                <th class="button-sort-none" id="button_sortclaimed" onclick="toggleSort(this,3,sortByPoint)"> CC
+                                                                </th>
+                                                                <th class="button-sort-none" id="button_sortperceived" onclick="toggleSort(this,4,sortByPoint)">PC
+                                                                </th>
+                                                                <th class="button-sort-none" id="button_sortdiff" onclick="toggleSort(this,5,sortByDiff)" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title="Perceived Contribution - Claimed Contribution">Diff
+                                                                </th>
+                                                                <th class="align-center" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title="The list of points that this student received from others">Ratings Received</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr class="student_row" id="student0">
+                                                                <td>Team 1</td>
+                                                                <td id="studentname" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title="Exchange Student"> 
+                                                                    Jean Wong
+                                                                </td>
+                                                                <td><span class="color_negative" data-toggle="tooltip" data-placement="top" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span>
+                                                                </td>
+                                                                <td><span class="color_negative" data-toggle="tooltip" data-placement="top" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span>
+                                                                </td>
+                                                                <td><span class="color_negative" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span>
+                                                                </td>
+                                                                <td><span class="color_negative" data-toggle="tooltip" data-placement="top" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span>, <span class="color_negative" data-toggle="tooltip" data-placement="top" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span>, <span class="color_negative" data-toggle="tooltip" data-placement="top" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span>
+                                                                </td>
+                                                            </tr><tr class="student_row" id="student3">
+                                                                        <td>Team 1</td>
+                                                                        <td id="studentname" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title=""> 
+                                                                            Charlie
+                                                                        </td>
+                                                                        <td><span class="color_negative" data-toggle="tooltip" data-placement="top" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span></td>
+                                                                        <td><span class="color_negative" data-toggle="tooltip" data-placement="top" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span></td>
+                                                                        <td><span class="color_negative" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span></td>
+                                                                        <td><span class="color_negative" data-toggle="tooltip" data-placement="top" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span>, <span class="color_negative" data-toggle="tooltip" data-placement="top" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span>, <span class="color_negative" data-toggle="tooltip" data-placement="top" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span></td>
+                                                            </tr><tr class="student_row" id="student1">
+                                                                        <td>Team 1</td>
+                                                                        <td id="studentname" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title=""> 
+                                                                            Betsy
+                                                                        </td>
+                                                                        <td><span class="color_positive">E +7%</span></td>
+                                                                        <td><span class="color_neutral">E</span></td>
+                                                                        <td><span class="color_negative">-7%</span></td>
+                                                                        <td><span class="color_neutral">E</span>, <span class="color_negative" data-toggle="tooltip" data-placement="top" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span>, <span class="color_negative" data-toggle="tooltip" data-placement="top" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span></td>
+                                                            </tr><tr class="student_row" id="student2">
+                                                                        <td>Team 1</td>
+                                                                        <td id="studentname" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title="Test Student"> 
+                                                                            Alice
+                                                                        </td>
+                                                                        <td><span class="color_positive">E +14%</span></td>
+                                                                        <td><span class="color_neutral">E</span></td>
+                                                                        <td><span class="color_negative">-14%</span></td>
+                                                                        <td><span class="color_neutral">E</span>, <span class="color_negative" data-toggle="tooltip" data-placement="top" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span>, <span class="color_negative" data-toggle="tooltip" data-placement="top" title="" data-original-title="Not Available: There is no data for this or the data is not enough">N/A</span></td>
+                                                            </tr></tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>                        
+
+                                    <div class="panel panel-primary">
+                                        <table class="table table-striped table-bordered dataTable">
+                                            <thead class="fill-primary">
+                                                <tr>
+                                                    <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,1,null,2)" colspan="2">To<span class="sort-icon unsorted"></span></th>
+                                                    <th id="button_sortFeedback" class="button-sort-ascending" style="vertical-align:middle;" rowspan="2" onclick="toggleSort(this,3,null,2)">Feedback<span class="sort-icon unsorted"></span></th>
+                                                </tr>
+                                                <tr>
+                                                    <th id="button_sortTo" class="button-sort-descending" onclick="toggleSort(this,1,null,2)" style="width: 15%;">Name<span class="sort-icon unsorted"></span></th>
+                                                    <th id="button_sortFrom" class="button-sort-none" onclick="toggleSort(this,2,null,2)" style="width: 15%;">Team<span class="sort-icon unsorted"></span></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                
+                                            <tr>
+                                                    <td class="middlealign">Charlie</td>
+                                                    <td class="middlealign">Team 1</td>
+                                                    <td class="multiline">E+0%</td>
+                                                </tr><tr>
+                                                    <td class="middlealign">Alice</td>
+                                                    <td class="middlealign">Team 1</td>
+                                                    <td class="multiline">E+0%</td>
+                                                </tr><tr>
+                                                    <td class="middlealign">Jean Wong</td>
+                                                    <td class="middlealign">Team 1</td>
+                                                    <td class="multiline">E-10%</td>
+                                                </tr><tr>
+                                                    <td class="middlealign">Betsy</td>
+                                                    <td class="middlealign">Team 1</td>
+                                                    <td class="multiline">E+10%</td>
+                                                </tr></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    <strong>Question 2:</strong> Please give feedback about your team's dynamics. (To giver's team)
+                                </div>
+                                <div class="panel-body">
+                                    <div class="panel panel-info">
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <form class="form-horizontal col-sm-6" role="form">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-4 control-label">Average length:</label>
+                                                        <div class="col-sm-8">
+                                                            <p class="form-control-static">10</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-4 control-label">Min/Max length:</label>
+                                                        <div class="col-sm-8">
+                                                            <p class="form-control-static">10<b> / </b>10</p>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                                <div class="col-sm-6">
+                                                    Some word cloud thingy goes here.<br>
+                                                    Perhaps a histogram of word length as well(?)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel panel-primary">
+                                        <table class="table table-striped table-bordered dataTable">
+                                            <thead class="fill-primary">
+                                                <tr>
+                                                    <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,1,null,2)" colspan="2">
+                                                        To<span class="sort-icon unsorted"></span>
+                                                    </th>
+                                                    <th id="button_sortFeedback" class="button-sort-none" style="vertical-align:middle;" rowspan="2" onclick="toggleSort(this,3,null,2)">
+                                                        Feedback<span class="sort-icon unsorted"></span>
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,1,null,2)" style="width: 15%;">
+                                                        Name<span class="sort-icon unsorted"></span>
+                                                    </th>
+                                                    <th id="button_sortFrom" class="button-sort-ascending" onclick="toggleSort(this,2,null,2)" style="width: 15%;">
+                                                        Team<span class="sort-icon unsorted"></span>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="middlealign">-</td>
+                                                    <td class="middlealign">Team 1</td>
+                                                    <td class="multiline">This is a great team with excellent teamwork. Good Job!</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    <strong>Question 3:</strong> Please give feedback to your team members. (To giver's team members)
+                                                                <br>What do you apreciate about this member? 
+                                                                <br>What areas can this member can improve further? 
+                                                                <br>Any other comments?
+                                </div>
+                                <div class="panel-body">
+                                    <div class="panel panel-info">
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <form class="form-horizontal col-sm-6" role="form">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-4 control-label">Average length:</label>
+                                                        <div class="col-sm-8">
+                                                            <p class="form-control-static">11</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-4 control-label">Min/Max length:</label>
+                                                        <div class="col-sm-8">
+                                                            <p class="form-control-static">5<b> / </b>30</p>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                                <div class="col-sm-6">
+                                                    Some word cloud thingy goes here.<br>
+                                                    Perhaps a histogram of word length as well(?)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel panel-primary">
+                                        <table class="table table-striped table-bordered dataTable">
+                                            <thead class="fill-primary">
+                                                <tr>
+                                                    <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,1,null,2)" colspan="2">
+                                                        To<span class="sort-icon unsorted"></span>
+                                                    </th>
+                                                    <th id="button_sortFeedback" class="button-sort-none" style="vertical-align:middle;" rowspan="2" onclick="toggleSort(this,3,null,2)">
+                                                        Feedback<span class="sort-icon unsorted"></span>
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,1,null,2)" style="width: 15%;">
+                                                        Name<span class="sort-icon unsorted"></span>
+                                                    </th>
+                                                    <th id="button_sortFrom" class="button-sort-ascending" onclick="toggleSort(this,2,null,2)" style="width: 15%;">
+                                                        Team<span class="sort-icon unsorted"></span>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="middlealign">Alice</td>
+                                                    <td class="middlealign">Team 1</td>
+                                                    <td class="multiline">Thank you for working so hard on the project! You have truly done more than expected of you!</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="middlealign">Charlie</td>
+                                                    <td class="middlealign">Team 1</td>
+                                                    <td class="multiline">Thank you for doing up the user interface! The application would not be such a success without it! =)</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="middlealign">Jean Wong</td>
+                                                    <td class="middlealign">Team 1</td>
+                                                    <td class="multiline">Good job with coordinating the team and the project! We never missed a deadline because of you.</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    <strong>Question 4:</strong> Please give feedback about this team member. (To team members, confidential.) The answers to this question wil be kept confidential.
+                                </div>
+                                <div class="panel-body">
+                                    <div class="panel panel-info">
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <form class="form-horizontal col-sm-6" role="form">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-4 control-label">Average length:</label>
+                                                        <div class="col-sm-8">
+                                                            <p class="form-control-static">11</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-4 control-label">Min/Max length:</label>
+                                                        <div class="col-sm-8">
+                                                            <p class="form-control-static">5<b> / </b>30</p>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                                <div class="col-sm-6">
+                                                    Some word cloud thingy goes here.<br>
+                                                    Perhaps a histogram of word length as well(?)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel panel-primary">
+                                        <table class="table table-striped table-bordered dataTable">
+                                            <thead class="fill-primary">
+                                                <tr>
+                                                    <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,1,null,2)" colspan="2">
+                                                        To<span class="sort-icon unsorted"></span>
+                                                    </th>
+                                                    <th id="button_sortFeedback" class="button-sort-none" style="vertical-align:middle;" rowspan="2" onclick="toggleSort(this,3,null,2)">
+                                                        Feedback<span class="sort-icon unsorted"></span>
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,1,null,2)" style="width: 15%;">
+                                                        Name<span class="sort-icon unsorted"></span>
+                                                    </th>
+                                                    <th id="button_sortFrom" class="button-sort-ascending" onclick="toggleSort(this,2,null,2)" style="width: 15%;">
+                                                        Team<span class="sort-icon unsorted"></span>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="middlealign">Alice</td>
+                                                    <td class="middlealign">Team 1</td>
+                                                    <td class="multiline">Always late for meetings but always gets the job done.</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="middlealign">Charlie</td>
+                                                    <td class="middlealign">Team 1</td>
+                                                    <td class="multiline">No comments</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="middlealign">Jean Wong</td>
+                                                    <td class="middlealign">Team 1</td>
+                                                    <td class="multiline">Very strict with the team. A very good person to have around to push others to work harder.</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+
+    <br>        
+    </div>
+</div>
 
     
 

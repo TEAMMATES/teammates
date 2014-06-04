@@ -336,23 +336,25 @@
 </div>
 
 
-<form method="post"
-    action="/page/instructorFeedbackResultsPage">
+<form method="post" action="/page/instructorFeedbackResultsPage" class="form-horizontal" role="form">
     <div class="panel panel-info">
         <div class="panel-body">
             <div class="row">
-                <div class="col-sm-8" style="margin-top:10px;">
-                    <label class="col-sm-3">
-                        Sort Order:
-                    </label>
-                    <ul id="sortable" class="col-sm-5 list-inline">
-                        <li class="col-sm-3 text-center btn btn-default btn-xs">Question</li>
-                        <li class="col-sm-3 text-center btn btn-default btn-xs">Giver</li>
-                        <li class="col-sm-3 text-center btn btn-default btn-xs">Recipient</li>
-                    </ul>
-                    <p class="col-sm-2 small">
-                        (drag to reorder)
-                    </p>
+                <div class="col-sm-5">
+                    <div class="form-group">
+                        <label for="viewSelect" class="col-sm-2 control-label">
+                            View:
+                        </label>
+                        <div class="col-sm-10">
+                            <select id="viewSelect" class="form-control">
+                                <option selected="selected">By Question</option>
+                                <option>Giver > Recipient > Question</option>
+                                <option>Giver > Question > Recipient</option>
+                                <option>Recipient > Giver > Question</option>
+                                <option>Recipient > Question > Giver</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-sm-3 pull-right">
                     <div class="checkbox pull-right">
