@@ -17,7 +17,6 @@
     <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/stylesheets/teammatesCommon.css" type="text/css">
-    <link href="/stylesheets/studentCourseJoin.css" rel="stylesheet">
 
     <script type="text/javascript" src="/js/googleAnalytics.js"></script>
     <script type="text/javascript" src="/js/jquery-minified.js"></script>
@@ -53,12 +52,12 @@
                     <br>If this is you, please confirm below to complete your registration.
                     <br>
                     <div class="align-center">
-                        <a href="<%=Const.ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED + "?regkey=" + data.regkey%>" 
-                            style="padding-right:30px;"
-                            id="button_confirm" class="btn btn-success">Yes, this is my account</a>
+                        <a href="<%=Const.ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED + "?regkey=" + data.regkey%>"                
+                            id="button_confirm" 
+                            class="btn btn-success">Yes, this is my account</a>
                         <a href="/logout.jsp" 
-                            style="padding-left:30px;"
-                            id="button_cancel" class="btn btn-danger">No, this is not my account</a>
+                            id="button_cancel" 
+                            class="btn btn-danger">No, this is not my account</a>
                     </div>
                 </p>
             </div>
