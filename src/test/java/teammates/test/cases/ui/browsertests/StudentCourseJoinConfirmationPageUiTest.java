@@ -45,59 +45,40 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
 
         ______TS("click join link then cancel");
 
-        String joinActionUrl = TestProperties.inst().TEAMMATES_URL
-                + Const.ActionURIs.STUDENT_COURSE_JOIN;
+        String joinActionUrl = TestProperties.inst().TEAMMATES_URL + Const.ActionURIs.STUDENT_COURSE_JOIN;
 
-        String joinLink = Url.addParamToUrl(
-                joinActionUrl,
-                Const.ParamsNames.REGKEY, "ThisIsAnInvalidKey");
+        String joinLink = Url.addParamToUrl(joinActionUrl, Const.ParamsNames.REGKEY, "ThisIsAnInvalidKey");
 
         browser.driver.get(joinLink);
-        confirmationPage =
-                createCorrectLoginPageType(browser.driver.getPageSource())
-                        .loginAsJoiningStudent(
-                                TestProperties.inst().TEST_STUDENT1_ACCOUNT,
-                                TestProperties.inst().TEST_STUDENT1_PASSWORD);
+        confirmationPage = createCorrectLoginPageType(browser.driver.getPageSource())
+                           .loginAsJoiningStudent(TestProperties.inst().TEST_STUDENT1_ACCOUNT,
+                                                  TestProperties.inst().TEST_STUDENT1_PASSWORD);
         confirmationPage.clickCancelButton();
-
-        assertEquals(TestProperties.inst().TEAMMATES_URL + "/index.html",
-                browser.driver.getCurrentUrl());
+        assertEquals(TestProperties.inst().TEAMMATES_URL + "/index.html", browser.driver.getCurrentUrl());
 
         ______TS("click join link then confirm: fail: invalid key");
 
         browser.driver.get(joinLink);
-        confirmationPage =
-                createCorrectLoginPageType(browser.driver.getPageSource())
-                        .loginAsJoiningStudent(
-                                TestProperties.inst().TEST_STUDENT1_ACCOUNT,
-                                TestProperties.inst().TEST_STUDENT1_PASSWORD);
+        confirmationPage = createCorrectLoginPageType(browser.driver.getPageSource())
+                           .loginAsJoiningStudent(TestProperties.inst().TEST_STUDENT1_ACCOUNT,
+                                                   TestProperties.inst().TEST_STUDENT1_PASSWORD);
         StudentHomePage studentHome = confirmationPage.clickConfirmButton();
-        String expectedMsg =
-                "You have used an invalid join link: /page/studentCourseJoin?regkey=ThisIsAnInvalidKey";
+        String expectedMsg = "You have used an invalid join link: /page/studentCourseJoin?regkey=ThisIsAnInvalidKey";     
         studentHome.verifyStatus(expectedMsg);
-        assertTrue(browser.driver.getCurrentUrl().contains(
-                TestProperties.inst().TEST_STUDENT1_ACCOUNT));
+        assertTrue(browser.driver.getCurrentUrl().contains(TestProperties.inst().TEST_STUDENT1_ACCOUNT));
         studentHome.logout();
 
         ______TS("click join link then confirm: success: valid key");
 
-        String courseId =
-                testData.courses.get("SCJConfirmationUiT.CS2104").id;
-        String studentEmail = testData.students
-                .get("alice.tmms@SCJConfirmationUiT.CS2104").email;
-
-        joinLink = Url.addParamToUrl(
-                joinActionUrl,
-                Const.ParamsNames.REGKEY,
-                BackDoor.getKeyForStudent(courseId, studentEmail));
-
+        String courseId = testData.courses.get("SCJConfirmationUiT.CS2104").id;
+        String studentEmail = testData.students.get("alice.tmms@SCJConfirmationUiT.CS2104").email;
+        joinLink = Url.addParamToUrl(joinActionUrl,Const.ParamsNames.REGKEY,
+                                     BackDoor.getKeyForStudent(courseId, studentEmail));
+        
         browser.driver.get(joinLink);
-        confirmationPage =
-                createCorrectLoginPageType(browser.driver.getPageSource())
-                        .loginAsJoiningStudent(
-                                testData.students
-                                        .get("alice.tmms@SCJConfirmationUiT.CS2104").email,
-                                "TestKey");
+        confirmationPage = createCorrectLoginPageType(browser.driver.getPageSource())
+                           .loginAsJoiningStudent(testData.students.get("alice.tmms@SCJConfirmationUiT.CS2104").email, 
+                                                  "TestKey");
 
         studentHome = confirmationPage.clickConfirmButton();
         expectedMsg = "";
@@ -108,12 +89,11 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         browser.driver.get(joinLink);
 
         studentHome = createNewPage(browser, StudentHomePage.class);
-        expectedMsg = TestProperties.inst().TEST_STUDENT1_ACCOUNT +
-                " has already joined this course";
+        expectedMsg = TestProperties.inst().TEST_STUDENT1_ACCOUNT + " has already joined this course";
         studentHome.verifyStatus(expectedMsg);
 
-        assertTrue(browser.driver.getCurrentUrl().contains(
-                Const.ParamsNames.ERROR + "=true"));
+        assertTrue(browser.driver.getCurrentUrl().contains(Const.ParamsNames.ERROR + "=true"));
+        
     }
 
     @AfterClass
@@ -132,8 +112,7 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         }
     }
 
-    private <T extends AppPage> T createNewPage(Browser browser,
-            Class<T> typeOfPage) {
+    private <T extends AppPage> T createNewPage(Browser browser, Class<T> typeOfPage) {
         Constructor<T> constructor;
         try {
             constructor = typeOfPage.getConstructor(Browser.class);
