@@ -25,8 +25,7 @@
     <script type="text/javascript"  src="/bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/js/date.js"></script>
     
-    <script type="text/javascript" src="/js/AnchorPosition.js"></script>
-    <script type="text/javascript" src="/js/common.js"></script>
+        <script type="text/javascript" src="/js/common.js"></script>
     
     <script type="text/javascript" src="/js/instructor.js"></script>
     <script type="text/javascript" src="/js/instructorCourseEnrollPage.js"></script>

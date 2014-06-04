@@ -30,8 +30,7 @@
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
     <script type="text/javascript" src="/js/date.js"></script>
     <script type="text/javascript" src="/js/datepicker.js"></script>
-    <script type="text/javascript" src="/js/AnchorPosition.js"></script>
-    <script type="text/javascript" src="/js/common.js"></script>
+        <script type="text/javascript" src="/js/common.js"></script>
     <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
 
     <script type="text/javascript" src="/js/instructor.js"></script>
