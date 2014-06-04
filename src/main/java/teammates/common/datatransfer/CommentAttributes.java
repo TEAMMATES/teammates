@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
@@ -18,7 +20,8 @@ public class CommentAttributes extends EntityAttributes{
     private Long commentId = null;
     public String courseId;
     public String giverEmail;
-    public String receiverEmail;
+    public CommentRecipientType recipientType;
+    public Set<String> recipients;
     public Text commentText;
     public Date createdAt;
     
@@ -26,10 +29,12 @@ public class CommentAttributes extends EntityAttributes{
         
     }
     
-    public CommentAttributes(String courseId, String giverEmail, String receiverEmail, Date createdAt, Text commentText){
+    public CommentAttributes(String courseId, String giverEmail, CommentRecipientType recipientType, 
+            Set<String> recipients, Date createdAt, Text commentText){
         this.courseId = courseId;
         this.giverEmail = giverEmail;
-        this.receiverEmail = receiverEmail;
+        this.recipientType = recipientType != null? recipientType: CommentRecipientType.PERSON;
+        this.recipients = recipients;
         this.commentText = commentText;
         this.createdAt = createdAt;
     }
@@ -38,7 +43,8 @@ public class CommentAttributes extends EntityAttributes{
         this.commentId = comment.getId();
         this.courseId = comment.getCourseId();
         this.giverEmail = comment.getGiverEmail();
-        this.receiverEmail = comment.getReceiverEmail();
+        this.recipientType = comment.getRecipientType() != null? comment.getRecipientType(): CommentRecipientType.PERSON;
+        this.recipients = comment.getRecipients();
         this.createdAt = comment.getCreatedAt();
         this.commentText = comment.getCommentText();
     }
@@ -64,14 +70,35 @@ public class CommentAttributes extends EntityAttributes{
         error= validator.getInvalidityInfo(FieldType.EMAIL, giverEmail);
         if(!error.isEmpty()) { errors.add(error); }
         
-        error= validator.getInvalidityInfo(FieldType.EMAIL, receiverEmail);
-        if(!error.isEmpty()) { errors.add(error); }
+        switch(recipientType){
+        case PERSON:
+            for(String recipientId : recipients){
+                error= validator.getInvalidityInfo(FieldType.EMAIL, recipientId);
+                if(!error.isEmpty()) { errors.add(error); }
+            }
+            break;
+        case TEAM:
+            for(String recipientId : recipients){
+                error= validator.getInvalidityInfo(FieldType.TEAM_NAME, recipientId);
+                if(!error.isEmpty()) { errors.add(error); }
+            }
+            break;
+        case SECTION:
+            //TODO: implement this
+            break;
+        case COURSE:
+            for(String recipientId : recipients){
+                error= validator.getInvalidityInfo(FieldType.COURSE_ID, recipientId);
+                if(!error.isEmpty()) { errors.add(error); }
+            }
+            break;
+        }
         
         return errors;
     }
 
     public Comment toEntity() {
-        return new Comment(courseId, giverEmail, receiverEmail, commentText, createdAt);
+        return new Comment(courseId, giverEmail, recipientType, recipients, commentText, createdAt);
     }
     
     @Override
@@ -79,7 +106,8 @@ public class CommentAttributes extends EntityAttributes{
         return "CommentAttributes [commentId = " + commentId +
                 ", courseId = " + courseId + 
                 ", giverEmail = " + giverEmail + 
-                ", receiverEmail = " + receiverEmail +
+                ", recipientType = " + recipientType +
+                ", receiverEmail = " + recipients +
                 ", commentText = " + commentText +
                 ", createdAt = " + createdAt + "]";
     }
@@ -100,7 +128,13 @@ public class CommentAttributes extends EntityAttributes{
         this.commentText = Sanitizer.sanitizeTextField(this.commentText);
         this.courseId = Sanitizer.sanitizeForHtml(courseId);
         this.giverEmail = Sanitizer.sanitizeForHtml(giverEmail);
-        this.receiverEmail = Sanitizer.sanitizeForHtml(receiverEmail);
+        
+        HashSet<String> sanitizedRecipients = new HashSet<String>();
+        for(String recipientId : recipients){
+            sanitizedRecipients.add(Sanitizer.sanitizeForHtml(recipientId));
+        }
+        recipients = sanitizedRecipients;
+        
         if(commentText != null) {
             this.commentText = new Text(Sanitizer.sanitizeForHtml(commentText.getValue()));
         }
