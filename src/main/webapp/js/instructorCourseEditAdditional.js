@@ -9,13 +9,28 @@ function enableEditInstructor(instructorNum, totalInstructors) {
 }
 
 function enableFormEditInstructor(number) {
-    $("#instructorTable"+number).find(":input").not(".immutable").prop("disabled", false);
-    $("#instrEditLink"+number).hide();
-    $("#btnSaveInstructor"+number).show();
+    $("#instructorTable" + number).find(":input").not(".immutable").prop("disabled", false);
+    $("#instrEditLink" + number).hide();
+    $("#accessControlEditDivForInstr" + number).show();
+    $("#btnSaveInstructor" + number).show();
 }
 
 function disableFormEditInstructor(number) {
-    $("#instructorTable"+number).find(":input").not(".immutable").prop("disabled", true);
-    $("#instrEditLink"+number).show();
-    $("#btnSaveInstructor"+number).hide();
+    $("#instructorTable" + number).find(":input").not(".immutable").prop("disabled", true);
+    $("#instrEditLink" + number).show();
+    $("#accessControlEditDivForInstr" + number).hide();
+    $("#btnSaveInstructor" + number).hide();
+}
+
+function toggleSessionsControlTable(number) {
+    $("#sessionsControlTableForInstr" + number).toggle();
+}
+
+function toggleTunePermissionsDiv(number) {
+    $("#tunePermissionsDivForInstr" + number).toggle();
+}
+
+function showNewInstructorForm() {
+    $("#panelAddInstructor").show();
+    $("#btnShowNewInstructorForm").hide();
 }
