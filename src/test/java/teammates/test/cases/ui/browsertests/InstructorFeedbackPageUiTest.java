@@ -134,7 +134,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd yyyy");
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-        cal.add(Calendar.DATE, 30);
+        cal.set(2014, 4, 16, 0, 0, 0);
         
         // fill in defaut values
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE, cal);
