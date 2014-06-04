@@ -3,6 +3,7 @@ package teammates.test.cases.ui.browsertests;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -95,20 +96,20 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
         ______TS("sort by name");
         
         evalsPage.sortByName()
-            .verifyTablePattern(1,"{*}First Eval{*}Second Eval{*}Third Eval");
+            .verifyTablePattern(1,"First Eval{*}Second Eval{*}Third Eval");
         
         evalsPage.sortByName()
-            .verifyTablePattern( 1,"{*}Third Eval{*}Second Eval{*}First Eval");
+            .verifyTablePattern( 1,"Third Eval{*}Second Eval{*}First Eval");
         
         ______TS("sort by course id");
         
         evalsPage.sortById()
-        .verifyTablePattern(0,"{*}CEvalUiT.CS1101{*}CEvalUiT.CS2104{*}CEvalUiT.CS2104");
+        .verifyTablePattern(0,"CEvalUiT.CS1101{*}CEvalUiT.CS2104{*}CEvalUiT.CS2104");
         
         evalsPage.verifyHtmlAjax("/instructorEvalById.html");
         
         evalsPage.sortById()
-            .verifyTablePattern(0,"{*}CEvalUiT.CS2104{*}CEvalUiT.CS2104{*}CEvalUiT.CS1101");
+            .verifyTablePattern(0,"CEvalUiT.CS2104{*}CEvalUiT.CS2104{*}CEvalUiT.CS1101");
     
     }
     
@@ -148,6 +149,8 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
         EvaluationAttributes eval = newEval;
         
         // Empty name, closing date
+        
+        evalsPage.waitForElementPresence(By.id("button_submit"), 15);
         evalsPage.clickSubmitButton();
         assertEquals(Const.StatusMessages.FIELDS_EMPTY, evalsPage.getStatus());
         

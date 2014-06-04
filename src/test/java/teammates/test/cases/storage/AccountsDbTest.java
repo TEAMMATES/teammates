@@ -101,6 +101,8 @@ public class AccountsDbTest extends BaseComponentTestCase {
         accountDataTest = accountsDb.getAccount(a.googleId);
         assertTrue(accountDataTest.isInstructor);
         
+        accountsDb.deleteAccount(a.googleId);
+
         // Should we not allow empty fields?
         ______TS("failure case: invalid parameter");
         a.email = "invalid email";

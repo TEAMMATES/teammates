@@ -5,6 +5,8 @@ import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
 
+import org.openqa.selenium.By;
+
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -593,16 +595,32 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.fillMaxNumScaleBox(5, -1);
         assertEquals("[Based on the above settings, acceptable responses are: 1, 2, 3, 4, 5]",
                 feedbackEditPage.getNumScalePossibleValuesString(-1));
-        feedbackEditPage.fillMinNumScaleBox(6, -1);
-        assertEquals("7",feedbackEditPage.getMaxNumScaleBox(-1));
-        feedbackEditPage.fillMaxNumScaleBox(6, -1);
-        assertEquals("7",feedbackEditPage.getMaxNumScaleBox(-1));
         
+        fillNumScaleBoxWithRecheck(true, 6, -1, "7");
+        fillNumScaleBoxWithRecheck(false, 6, -1, "7");
+            
         //Reset values
         feedbackEditPage.fillMinNumScaleBox(1, -1);
         feedbackEditPage.fillMaxNumScaleBox(5, -1);
     }
-
+    
+    private void fillNumScaleBoxWithRecheck(boolean isMinScaleBox, int scale, int qnNumber, String expected){
+        int counter = 0;
+        while(counter != 100) {
+            if(isMinScaleBox){
+                feedbackEditPage.fillMinNumScaleBox(scale, qnNumber);
+            } else {
+                feedbackEditPage.fillMaxNumScaleBox(scale, qnNumber);
+            }
+            if(expected.equals(feedbackEditPage.getMaxNumScaleBox(qnNumber))){
+                return;
+            }
+            counter++;
+            browser.driver.switchTo().window("");
+        }
+        assertEquals(expected, feedbackEditPage.getMaxNumScaleBox(qnNumber));
+    }
+    
     private void testCustomizeNumScaleOptions() {
         feedbackEditPage.fillQuestionBox("NumScale qn");
         assertEquals("[Based on the above settings, acceptable responses are: 1, 2, 3, 4, 5]",
@@ -689,7 +707,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         previewPage.closeCurrentWindowAndSwitchToParentWindow();
 
         ______TS("preview as instructor");
-
+        
+        previewPage.waitForElementPresence(By.id("button_preview_instructor"), 15);
         previewPage = feedbackEditPage.clickPreviewAsInstructorButton();
         previewPage.verifyHtml("/instructorFeedbackSubmitPagePreview.html");
         previewPage.closeCurrentWindowAndSwitchToParentWindow();
