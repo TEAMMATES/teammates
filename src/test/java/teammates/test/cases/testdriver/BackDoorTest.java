@@ -21,7 +21,6 @@ import teammates.common.exception.EnrollException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Utils;
 import teammates.test.cases.BaseTestCase;
@@ -53,24 +52,21 @@ public class BackDoorTest extends BaseTestCase {
         
         // check persisting
         dataBundle = getTypicalDataBundle();
-        while(!BackDoor.restoreDataBundle(dataBundle).equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
-            delay();
-        }
+        String status = BackDoor.restoreDataBundle(dataBundle);
         
+        assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
         verifyPresentInDatastore(jsonString);
 
         // ----------deleting Instructor entities-------------------------
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         verifyPresentInDatastore(instructor1OfCourse1);
-        while(!BackDoor.deleteInstructor(instructor1OfCourse1.courseId, instructor1OfCourse1.email).equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
-            delay();
-        }
+        status = BackDoor.deleteInstructor(instructor1OfCourse1.courseId, instructor1OfCourse1.email);
+        assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
         verifyAbsentInDatastore(instructor1OfCourse1);
         
         //try to delete again: should indicate as success because delete fails silently.
-        while(!BackDoor.deleteInstructor(instructor1OfCourse1.email, instructor1OfCourse1.courseId).equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
-            delay();
-        }
+        status = BackDoor.deleteInstructor(instructor1OfCourse1.email, instructor1OfCourse1.courseId);
+        assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
         
         // ----------deleting Evaluation entities-------------------------
 
@@ -84,20 +80,18 @@ public class BackDoorTest extends BaseTestCase {
         EvaluationAttributes evaluation1InCourse1 = dataBundle.evaluations
                 .get("evaluation1InCourse1");
         verifyPresentInDatastore(evaluation1InCourse1);
-        while(!BackDoor.deleteEvaluation(evaluation1InCourse1.courseId,
-                evaluation1InCourse1.name).equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
-            delay();
-        }
+        status = BackDoor.deleteEvaluation(evaluation1InCourse1.courseId,
+                evaluation1InCourse1.name);
+        assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
         verifyAbsentInDatastore(evaluation1InCourse1);
 
         // verify that the submission is deleted too
         verifyAbsentInDatastore(subInDeletedEvaluation);
 
         // try to delete the evaluation again, should succeed
-        while(!BackDoor.deleteEvaluation(evaluation1InCourse1.courseId,
-                evaluation1InCourse1.name).equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
-            delay();
-        }
+        status = BackDoor.deleteEvaluation(evaluation1InCourse1.courseId,
+                evaluation1InCourse1.name);
+        assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
 
         // verify that the other evaluation in the same course is intact
         EvaluationAttributes evaluation2InCourse1 = dataBundle.evaluations
@@ -109,9 +103,8 @@ public class BackDoorTest extends BaseTestCase {
         // #COURSE 2
         CourseAttributes course2 = dataBundle.courses.get("typicalCourse2");
         verifyPresentInDatastore(course2);
-        while(!BackDoor.deleteCourse(course2.id).equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS));{
-            delay();
-        }
+        status = BackDoor.deleteCourse(course2.id);
+        assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
         verifyAbsentInDatastore(course2);
 
         // check if related student entities are also deleted
@@ -127,9 +120,8 @@ public class BackDoorTest extends BaseTestCase {
         // #COURSE 1
         CourseAttributes course1 = dataBundle.courses.get("typicalCourse1");
         verifyPresentInDatastore(course1);
-        while(!BackDoor.deleteCourse(course1.id).equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
-            delay();
-        }
+        status = BackDoor.deleteCourse(course1.id);
+        assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
         verifyAbsentInDatastore(course1);
         
         // check if related student entities are also deleted
@@ -143,14 +135,14 @@ public class BackDoorTest extends BaseTestCase {
         // #COURSE NO EVALS
         CourseAttributes courseNoEvals = dataBundle.courses.get("courseNoEvals");
         verifyPresentInDatastore(courseNoEvals);
-        while(!BackDoor.deleteCourse(courseNoEvals.id).equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
-            delay();
-        }
+        status = BackDoor.deleteCourse(courseNoEvals.id);
+        assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
         verifyAbsentInDatastore(courseNoEvals);
         
         // ----------deleting Feedback Session entities-------------------------
         // TODO: do proper deletion test
         BackDoor.deleteFeedbackSessions(dataBundle);
+
     }
     
     @SuppressWarnings("unused")
@@ -160,9 +152,7 @@ public class BackDoorTest extends BaseTestCase {
     @Test
     public void testAccounts() throws Exception{
         dataBundle = getTypicalDataBundle();
-        while(!BackDoor.restoreDataBundle(dataBundle).equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
-            delay();
-        }
+        BackDoor.restoreDataBundle(dataBundle);
         
         testCreateAccount();
         testGetAccountAsJson();
@@ -172,13 +162,9 @@ public class BackDoorTest extends BaseTestCase {
     
     public void testCreateAccount() {
         AccountAttributes newAccount = dataBundle.accounts.get("instructor1OfCourse1");
-        while(!BackDoor.deleteAccount(newAccount.googleId).equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
-            delay();
-        }
+        BackDoor.deleteAccount(newAccount.googleId);
         verifyAbsentInDatastore(newAccount);
-        while(!BackDoor.createAccount(newAccount).equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
-            delay();
-        }
+        BackDoor.createAccount(newAccount);
         verifyPresentInDatastore(newAccount);
     }
     
@@ -195,22 +181,15 @@ public class BackDoorTest extends BaseTestCase {
         AccountAttributes testAccount = dataBundle.accounts.get("instructor1OfCourse1");
         verifyPresentInDatastore(testAccount);
         testAccount.name = "New name";
-        while(!BackDoor.editAccount(testAccount).equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
-            delay();
-        }
-        ThreadHelper.waitFor(1000);
+        BackDoor.editAccount(testAccount);
         verifyPresentInDatastore(testAccount);
     }
     
     public void testDeleteAccount() {
         AccountAttributes testAccount = dataBundle.accounts.get("instructor2OfCourse1");
-        while(!BackDoor.createAccount(testAccount).equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
-            delay();
-        }
+        BackDoor.createAccount(testAccount);
         verifyPresentInDatastore(testAccount);
-        while(!BackDoor.deleteAccount(testAccount.googleId).equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
-            delay();
-        }
+        BackDoor.deleteAccount(testAccount.googleId);
         verifyAbsentInDatastore(testAccount);
     }
 
@@ -235,21 +214,15 @@ public class BackDoorTest extends BaseTestCase {
         InstructorAttributes instructor = new InstructorAttributes(instructorId, courseId, name, email);
         
         // Make sure not already inside
-        while(!BackDoor.deleteInstructor(courseId, email).equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
-            delay();
-        }
+        BackDoor.deleteInstructor(courseId, email);
         verifyAbsentInDatastore(instructor);
         
         // Perform creation
-        while(!BackDoor.createInstructor(instructor).equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
-            delay();
-        }
+        BackDoor.createInstructor(instructor);
         verifyPresentInDatastore(instructor);
         
         // Clean up
-        while(!BackDoor.deleteInstructor(courseId, email).equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
-            delay();
-        }
+        BackDoor.deleteInstructor(courseId, email);
         verifyAbsentInDatastore(instructor);
     }
 
@@ -268,6 +241,8 @@ public class BackDoorTest extends BaseTestCase {
         // method not implemented
     }
 
+    
+
     @Test
     public void testGetCoursesByInstructorId() throws InvalidParametersException {
 
@@ -278,54 +253,37 @@ public class BackDoorTest extends BaseTestCase {
         // Create 2 courses for a new instructor
         String course1 = "AST.TGCBCI.course1";
         String course2 = "AST.TGCBCI.course2";
-        while(!BackDoor.deleteCourse(course1).equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
-            delay();
-        }
-        while(!BackDoor.deleteCourse(course2).equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
-            delay();
-        }
-        while(!BackDoor.createCourse(new CourseAttributes(course1, "tmapit tgcbci c1OfInstructor1")).equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
-            delay();
-        }
-        while(!BackDoor.createCourse(new CourseAttributes(course2, "tmapit tgcbci c2OfInstructor1")).equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
-            delay();
-        }
+        BackDoor.deleteCourse(course1);
+        BackDoor.deleteCourse(course2);
+        String status = BackDoor.createCourse(new CourseAttributes(course1, "tmapit tgcbci c1OfInstructor1"));
+        assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
+        status = BackDoor.createCourse(new CourseAttributes(course2, "tmapit tgcbci c2OfInstructor1"));
+        assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
         
         // create a fresh instructor with relations for the 2 courses
         String instructor1Id = "AST.TGCBCI.instructor1";
         String instructor1name = "AST TGCBCI Instructor";
         String instructor1email = "instructor1@ast.tgcbi";
-        while(!BackDoor.deleteAccount(instructor1Id).equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
-            delay();
-        }
-        while(!BackDoor.createInstructor(new InstructorAttributes(instructor1Id, course1, instructor1name, instructor1email)).equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
-            delay();
-        }
-        while(!BackDoor.createInstructor(new InstructorAttributes(instructor1Id, course2, instructor1name, instructor1email)).equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
-            delay();
-        }
+        BackDoor.deleteAccount(instructor1Id);
+        status = BackDoor.createInstructor(new InstructorAttributes(instructor1Id, course1, instructor1name, instructor1email));
+        assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
+        status = BackDoor.createInstructor(new InstructorAttributes(instructor1Id, course2, instructor1name, instructor1email));
+        assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
 
         //============================================================================
         // Don't be confused by the following: it has no relation with the above instructor/course(s)
         
         // add a course that belongs to a different instructor
         String course3 = "AST.TGCBCI.course3";
-        while(!BackDoor.deleteCourse(course3).equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
-            delay();
-        }
-        while(!BackDoor.createCourse(new CourseAttributes(course3, "tmapit tgcbci c1OfInstructor2")).equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
-            delay();
-        }
+        BackDoor.deleteCourse(course3);
+        status = BackDoor.createCourse(new CourseAttributes(course3, "tmapit tgcbci c1OfInstructor2"));
+        assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
 
         courses = BackDoor.getCoursesByInstructorId(instructor1Id);
         assertEquals("[" + course1 + ", " + course2 + "]", Arrays.toString(courses));
 
-        while(!BackDoor.deleteInstructor(instructor1email, course1).equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
-            delay();
-        }
-        while(!BackDoor.deleteInstructor(instructor1email, course2).equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
-            delay();
-        }
+        BackDoor.deleteInstructor(instructor1email, course1);
+        BackDoor.deleteInstructor(instructor1email, course2);
     }
 
     @SuppressWarnings("unused")
@@ -342,21 +300,15 @@ public class BackDoorTest extends BaseTestCase {
                 "Name of tmapitt.tcc.instructor");
         
         // Make sure not already inside
-        while(!BackDoor.deleteCourse(courseId).equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
-            delay();
-        }
+        BackDoor.deleteCourse(courseId);
         verifyAbsentInDatastore(course);
         
         // Perform creation
-        while(!BackDoor.createCourse(course).equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
-            delay();
-        }
+        BackDoor.createCourse(course);
         verifyPresentInDatastore(course);
         
         // Clean up
-        while(!BackDoor.deleteCourse(courseId).equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
-            delay();
-        }
+        BackDoor.deleteCourse(courseId);
         verifyAbsentInDatastore(course);
     }
 
@@ -399,9 +351,7 @@ public class BackDoorTest extends BaseTestCase {
     public void testGetKeyForStudent() throws EnrollException {
 
         StudentAttributes student = new StudentAttributes("t1", "name of tgsr student", "tgsr@gmail.com", "", "course1");
-        while(!BackDoor.createStudent(student).equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
-            delay();
-        }
+        BackDoor.createStudent(student);
         String key = BackDoor.getKeyForStudent(student.course, student.email); 
 
         // The following is the google app engine description about generating
@@ -422,6 +372,7 @@ public class BackDoorTest extends BaseTestCase {
 
         // clean up student as this is an orphan entity
         BackDoor.deleteStudent(student.course, student.email);
+
     }
 
     @Test
@@ -433,24 +384,20 @@ public class BackDoorTest extends BaseTestCase {
     public void testEditStudent() {
 
         // check for successful edit
-        while(!BackDoor.restoreDataBundle(getTypicalDataBundle()).equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
-            delay();
-        }
+        BackDoor.restoreDataBundle(getTypicalDataBundle());
         StudentAttributes student = dataBundle.students.get("student1InCourse1");
         String originalEmail = student.email;
         student.name = "New name";
         student.email = "new@gmail.com";
         student.comments = "new comments";
         student.team = "new team";
-        while(!BackDoor.editStudent(originalEmail, student).equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
-            delay();
-        }
-        ThreadHelper.waitFor(1000);
+        String status = BackDoor.editStudent(originalEmail, student);
+        assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
         verifyPresentInDatastore(student);
 
         // test for unsuccessful edit
         student.course = "non-existent";
-        String status = BackDoor.editStudent(originalEmail, student);
+        status = BackDoor.editStudent(originalEmail, student);
         assertTrue(status.startsWith(Const.StatusCodes.BACKDOOR_STATUS_FAILURE));
         verifyAbsentInDatastore(student);
     }
@@ -478,17 +425,11 @@ public class BackDoorTest extends BaseTestCase {
         e.endTime = TimeHelper.getDateOffsetToCurrentTime(2);
         e.timeZone = 8.0;
         e.gracePeriod = 5;
-        while(!BackDoor.deleteEvaluation(e.courseId, e.name).equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
-            delay();
-        }
+        BackDoor.deleteEvaluation(e.courseId, e.name);
         verifyAbsentInDatastore(e);
-        while(!BackDoor.createEvaluation(e).equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
-            delay();
-        }
+        BackDoor.createEvaluation(e);
         verifyPresentInDatastore(e);
-        while(!BackDoor.deleteEvaluation(e.courseId, e.name).equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
-            delay();
-        }
+        BackDoor.deleteEvaluation(e.courseId, e.name);
         verifyAbsentInDatastore(e);
     }
 
@@ -500,9 +441,7 @@ public class BackDoorTest extends BaseTestCase {
     @Test
     public void testEditEvaluation() {
 
-        while(!BackDoor.restoreDataBundle(getTypicalDataBundle()).equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
-            delay();
-        }
+        BackDoor.restoreDataBundle(getTypicalDataBundle());
 
         // check for successful edit
         EvaluationAttributes e = dataBundle.evaluations
@@ -517,10 +456,8 @@ public class BackDoorTest extends BaseTestCase {
         e.published = (!e.published);
         e.timeZone = e.timeZone + 1.0;
 
-        while(!BackDoor.editEvaluation(e).equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
-            delay();
-        }
-        ThreadHelper.waitFor(1000);
+        String status = BackDoor.editEvaluation(e);
+        assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
         verifyPresentInDatastore(e);
 
         // not testing for unsuccesful edit because this does 
@@ -550,24 +487,20 @@ public class BackDoorTest extends BaseTestCase {
     @Test
     public void testEditSubmission() {
 
-        while(!BackDoor.restoreDataBundle(getTypicalDataBundle()).equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
-            delay();
-        }
+        BackDoor.restoreDataBundle(getTypicalDataBundle());
 
         // check for successful edit
         SubmissionAttributes submission = dataBundle.submissions
                 .get("submissionFromS1C1ToS1C1");
         submission.justification = new Text(submission.justification.getValue()    + "x");
         submission.points = submission.points + 10;
-        while(!BackDoor.editSubmission(submission).equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
-            delay();
-        }
-        ThreadHelper.waitFor(1000);
+        String status = BackDoor.editSubmission(submission);
+        assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
         verifyPresentInDatastore(submission);
 
         // test for unsuccessful edit
         submission.reviewer = "non-existent@gmail.com";
-        String status = BackDoor.editSubmission(submission);
+        status = BackDoor.editSubmission(submission);
         assertTrue(status.startsWith(Const.StatusCodes.BACKDOOR_STATUS_FAILURE));
         verifyAbsentInDatastore(submission);
     }
@@ -736,10 +669,6 @@ public class BackDoorTest extends BaseTestCase {
         if ((actualInstructor.key != null)) {
             expectedInstructor.key = actualInstructor.key;
         }
-    }
-
-    private void delay(){
-        ThreadHelper.waitFor((int) Math.random() * 1000);
     }
 
     @AfterClass
