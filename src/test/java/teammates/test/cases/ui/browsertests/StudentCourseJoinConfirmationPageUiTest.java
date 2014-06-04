@@ -107,8 +107,7 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         } else if (GoogleLoginPage.containsExpectedPageContents(pageSource)) {
             return (LoginPage) createNewPage(browser, GoogleLoginPage.class);
         } else {
-            throw new IllegalStateException("Not a valid login page :"
-                    + pageSource);
+            throw new IllegalStateException("Not a valid login page :" + pageSource);
         }
     }
 
