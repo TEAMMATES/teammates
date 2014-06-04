@@ -65,6 +65,7 @@ public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTask
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+        gaeSimulation.tearDown();
         gaeSimulation.setupWithTaskQueueCallbackClass(FeedbackSessionPublishedCallback.class);
         gaeSimulation.resetDatastore();
     }
@@ -86,9 +87,20 @@ public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTask
         FeedbackSessionPublishedCallback.resetTaskCount();
         
         ______TS("3 sessions unpublished, 1 published and emails unsent");
-        fsLogic.scheduleFeedbackSessionPublishedEmails();
-        FeedbackSessionPublishedCallback.verifyTaskCount(1);
-        
+        int counter = 0;
+
+        while(counter != 10){
+            FeedbackSessionPublishedCallback.resetTaskCount();
+            fsLogic.scheduleFeedbackSessionPublishedEmails();
+            if(FeedbackSessionPublishedCallback.verifyTaskCount(1)){
+                break;
+            }
+            counter++;
+        }
+        if(counter == 10){
+            assertEquals(FeedbackSessionPublishedCallback.taskCount, 1);
+        }
+       
         ______TS("publish sessions");
         //  1 sessions unpublished, 1 published and email sent,
         //  1 published by changing publish time, 1 manually published
@@ -114,17 +126,39 @@ public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTask
             
         // Check that 3 published sessions will have emails sent as
         // Manually publish sessions have emails also added to the task queue
-        FeedbackSessionPublishedCallback.resetTaskCount();
         fsLogic.publishFeedbackSession(session2.feedbackSessionName, session2.courseId);
-        fsLogic.scheduleFeedbackSessionPublishedEmails();
-        FeedbackSessionPublishedCallback.verifyTaskCount(3);
+
+        counter = 0;
+
+        while(counter != 10){
+            FeedbackSessionPublishedCallback.resetTaskCount();
+            fsLogic.scheduleFeedbackSessionPublishedEmails();
+            if(FeedbackSessionPublishedCallback.verifyTaskCount(3)){
+                break;
+            }
+            counter++;
+        }
+        if(counter == 10){
+            assertEquals(FeedbackSessionPublishedCallback.taskCount, 3);
+        }
         
         ______TS("unpublish a session");
         fsLogic.unpublishFeedbackSession(session2.feedbackSessionName, session2.courseId);
         
-        FeedbackSessionPublishedCallback.resetTaskCount();
-        fsLogic.scheduleFeedbackSessionPublishedEmails();
-        FeedbackSessionPublishedCallback.verifyTaskCount(2);
+        counter = 0;
+
+        while(counter != 10){
+            FeedbackSessionPublishedCallback.resetTaskCount();
+            fsLogic.scheduleFeedbackSessionPublishedEmails();
+            if(FeedbackSessionPublishedCallback.verifyTaskCount(2)){
+                break;
+            }
+            counter++;
+        }
+        if(counter == 10){
+            assertEquals(FeedbackSessionPublishedCallback.taskCount, 2);
+        }
+       
     }
 
     private void testFeedbackSessionOpeningMailAction() throws Exception{
@@ -161,7 +195,9 @@ public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTask
         ______TS("testing whether no more mails are sent");
         FeedbackSessionPublishedCallback.resetTaskCount();
         fsLogic.scheduleFeedbackSessionPublishedEmails();
-        FeedbackSessionPublishedCallback.verifyTaskCount(0);
+        if(!FeedbackSessionPublishedCallback.verifyTaskCount(0)){
+            assertEquals(FeedbackSessionPublishedCallback.taskCount, 0);
+        }
     }
     
     private HashMap<String, String> createParamMapForAction(FeedbackSessionAttributes fs) {

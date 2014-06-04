@@ -17,6 +17,7 @@ import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EnrollException;
 import teammates.common.util.Const;
+import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
@@ -337,17 +338,28 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.fillResponseTextBox(14, 0, "ABCD");
         assertEquals("",submitPage.getResponseTextBoxValue(14, 0));
         
-        submitPage.fillResponseTextBox(14, 0, "0");
-        assertEquals("1",submitPage.getResponseTextBoxValue(14, 0));
+        fillResponseTextBoxWithRecheck(14, 0, "0", "1");
         
         submitPage.fillResponseTextBox(14, 0, "-1");
         assertEquals("1",submitPage.getResponseTextBoxValue(14, 0));
         
-        submitPage.fillResponseTextBox(14, 0, "6");
-        assertEquals("5",submitPage.getResponseTextBoxValue(14, 0));
+        fillResponseTextBoxWithRecheck(14, 0, "6", "5");
         
         //TODO: test for stronger validation. (step is not properly validated now)
         
+    }
+    
+    private void fillResponseTextBoxWithRecheck(int qnNumber, int responseNumber, String text, String expected) {
+        int counter = 0;
+        while(counter != 100){
+            submitPage.fillResponseTextBox(qnNumber, responseNumber, text);
+            if(expected.equals(submitPage.getResponseTextBoxValue(qnNumber, responseNumber))){
+                return;
+            }
+            counter++;
+            browser.driver.switchTo().window("");
+        }
+        assertEquals(expected ,submitPage.getResponseTextBoxValue(qnNumber, responseNumber));
     }
     
     private void testModifyData() throws EnrollException{

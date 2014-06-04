@@ -358,8 +358,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
         testData.students.get("student1InCourse1").googleId = TestProperties.inst().TEST_STUDENT1_ACCOUNT;
         testData.instructors.get("instructor1OfCourse1").googleId = TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT;
         
-        String backDoorOperationStatus = BackDoor.restoreDataBundle(testData); 
-        assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
+        restoreTestDataOnServer(testData);
     }
     
     private static void restoreSpecialTestData() {
@@ -370,8 +369,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
         testData.students.get("student1InCourse1").googleId = TestProperties.inst().TEST_STUDENT1_ACCOUNT;
         testData.instructors.get("instructor1OfCourse1").googleId = TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT;
         
-        String backDoorOperationStatus = BackDoor.restoreDataBundle(testData); 
-        assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
+        restoreTestDataOnServer(testData);
     }
 
     private void verifyCannotAccessAdminPages() {

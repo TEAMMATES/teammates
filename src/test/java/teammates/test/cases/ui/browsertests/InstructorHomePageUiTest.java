@@ -14,6 +14,7 @@ import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
@@ -55,7 +56,6 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
     public static void classSetup() throws Exception {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorHomePageUiTest1.json");
-        restoreTestDataOnServer(testData);
         browser = BrowserPool.getBrowser();
     }
     
@@ -133,12 +133,13 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         ______TS("content: new instructor, with status message HINT_FOR_NEW_INSTRUCTOR");
         
         //already logged in
+        restoreTestDataOnServer(testData);
+        homePage.clickHomeTab();
         homePage.verifyHtml("/InstructorHomeNewInstructorWithoutSampleCourse.html");
         
         testData = loadDataBundle("/InstructorHomePageUiTest2.json");
         restoreTestDataOnServer(testData);
         homePage.clickHomeTab();
-        
         homePage.verifyHtml("/InstructorHomeNewInstructorWithSampleCourse.html");
         
         
@@ -256,8 +257,9 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         ______TS("remind action: OPEN feedback session");
         
         homePage.clickAndCancel(homePage.getRemindLink(feedbackSession_OPEN.courseId, feedbackSession_OPEN.feedbackSessionName));
-        homePage.clickAndConfirm(homePage.getRemindLink(feedbackSession_OPEN.courseId, feedbackSession_OPEN.feedbackSessionName))
-            .verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT);
+        homePage.clickAndConfirm(homePage.getRemindLink(feedbackSession_OPEN.courseId, feedbackSession_OPEN.feedbackSessionName));
+        ThreadHelper.waitFor(1000);
+        homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT);
         
         //go back to previous page because 'send reminder' redirects to the 'Feedbacks' page.
         homePage.goToPreviousPage(InstructorHomePage.class);
@@ -312,6 +314,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         assertNotNull(BackDoor.getEvaluation(firstEval_OPEN.courseId, firstEval_OPEN.name));
         
         homePage.clickAndConfirm(homePage.getDeleteEvalLink(firstEval_OPEN.courseId, firstEval_OPEN.name));
+        ThreadHelper.waitFor(500);
         assertTrue(BackDoor.isEvaluationNonExistent(firstEval_OPEN.courseId, firstEval_OPEN.name));
         homePage.verifyHtmlAjax("/instructorHomeEvalDeleteSuccessful.html");
         

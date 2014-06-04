@@ -10,7 +10,7 @@ import com.google.appengine.api.taskqueue.dev.LocalTaskQueueCallback;
 @SuppressWarnings("serial")
 public abstract class BaseTaskQueueCallback implements LocalTaskQueueCallback {
 
-    protected static int taskCount;
+    public static int taskCount;
     
     @Override
     public void initialize(Map<String, String> arg0) {
@@ -21,9 +21,13 @@ public abstract class BaseTaskQueueCallback implements LocalTaskQueueCallback {
         taskCount = 0;
     }
     
-    public static void verifyTaskCount(int expectedCount) {
+    public static boolean verifyTaskCount(int expectedCount) {
         waitForTaskQueueExecution(expectedCount);
-        assertEquals(expectedCount, BaseTaskQueueCallback.taskCount);
+        if(expectedCount == BaseTaskQueueCallback.taskCount){
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public static void waitForTaskQueueExecution(int expectedNumberOfTasks) {
@@ -32,6 +36,6 @@ public abstract class BaseTaskQueueCallback implements LocalTaskQueueCallback {
          *  Wait for 1 more second to see if erroneous or unwanted tasks
          *  are added too
          */
-        ThreadHelper.waitFor((expectedNumberOfTasks + 1) * 1000);
+        ThreadHelper.waitFor((expectedNumberOfTasks + 5) * 1000);
     }
 }

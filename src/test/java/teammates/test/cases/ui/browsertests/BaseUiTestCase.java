@@ -1,8 +1,15 @@
 package teammates.test.cases.ui.browsertests;
 
 import static org.testng.AssertJUnit.assertEquals;
+import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
+import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
 import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.BackDoor;
@@ -76,13 +83,18 @@ public class BaseUiTestCase extends BaseTestCase {
      */
     protected static void restoreTestDataOnServer(DataBundle testData) {
         String backDoorOperationStatus = BackDoor.restoreDataBundle(testData);
-        assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
+        while(!backDoorOperationStatus.equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
+            ThreadHelper.waitFor((int)( Math.random() * 1000));
+            backDoorOperationStatus = BackDoor.restoreDataBundle(testData);
+        }
     }
 
     protected static AdminHomePage loginAdmin(Browser currentBrowser) {
         return loginAdminToPage(currentBrowser, createUrl(Const.ActionURIs.ADMIN_HOME_PAGE), AdminHomePage.class);
     }
-    
 
-
+    protected static void waitForElementPresent(WebDriver driver, By element, int time){
+        WebDriverWait wait = new WebDriverWait(driver, time);
+        wait.until(presenceOfElementLocated(element));
+    }
 }

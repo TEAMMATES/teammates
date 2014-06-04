@@ -3,6 +3,7 @@ package teammates.test.cases.ui.browsertests;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -148,6 +149,8 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
         EvaluationAttributes eval = newEval;
         
         // Empty name, closing date
+        
+        waitForElementPresent(browser.driver, By.id("button_submit"), 15);
         evalsPage.clickSubmitButton();
         assertEquals(Const.StatusMessages.FIELDS_EMPTY, evalsPage.getStatus());
         
