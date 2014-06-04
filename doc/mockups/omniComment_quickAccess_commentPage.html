@@ -61,7 +61,7 @@
                   <button type="button" data-toggle="tooltip" title="Add emoticon" class="btn btn-default btn-xs icon-button">
                     <span class="glyphicon glyphicon-heart"></span>
                   </button>
-                  <button type="button" data-toggle="tooltip" title="Edit in advanced editor" class="btn btn-default btn-xs icon-button pull-right">
+                  <button type="button" data-toggle="tooltip" title="Edit with advanced editor" class="btn btn-default btn-xs icon-button pull-right">
                     <span class="glyphicon glyphicon-th"></span>
                   </button>
                 </div>
@@ -94,7 +94,7 @@
       <div class="col-sm-5">
         <h1>Instructor Comments</h1>
       </div>
-      <div class="col-sm-4 instructor-header-bar">
+      <div class="col-sm-5 instructor-header-bar">
         <form method="post" action="#" name="search_form">
           <div class="input-group">
             <input type="text" name="searchkey" title="Search for comment" class="form-control" placeholder="Any info related to comments" id="searchBox">
@@ -104,8 +104,8 @@
           </div>
         </form>
       </div>
-      <div class="col-md-2 instructor-header-bar">
-        <a class="btn btn-primary btn-md" href="#">Edit Comment with Advanced Editor</a>
+      <div class="col-md-1 instructor-header-bar">
+        <a class="btn btn-primary btn-md" href="./omniComment_bulkEdit.html"> Comment in Bulk </a>
       </div>
     </div>
   </div>
@@ -299,6 +299,9 @@
                 <a type="button" id="commentdelete-0" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('0');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment"> 
                   <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
                 </a>
+                <a type="button" id="commentedit-0" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('0', '1');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment with advanced editor">
+                  <span class="glyphicon glyphicon-th glyphicon-primary"></span>
+                </a>
                 <a type="button" id="commentedit-0" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('0', '1');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment">
                   <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
                 </a>
@@ -310,6 +313,9 @@
                 <span class="text-muted">on 02 Jun 2014, 18:45</span>
                 <a type="button" id="commentdelete-0" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('0');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment"> 
                   <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
+                </a>
+                <a type="button" id="commentedit-0" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('0', '1');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment with advanced editor">
+                  <span class="glyphicon glyphicon-th glyphicon-primary"></span>
                 </a>
                 <a type="button" id="commentedit-0" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('0', '1');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment">
                   <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
@@ -330,6 +336,9 @@
                 <a type="button" id="commentdelete-0" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('0');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment"> 
                   <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
                 </a>
+                <a type="button" id="commentedit-0" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('0', '1');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment with advanced editor">
+                  <span class="glyphicon glyphicon-th glyphicon-primary"></span>
+                </a>
                 <a type="button" id="commentedit-0" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('0', '1');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment">
                   <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
                 </a>
@@ -348,6 +357,9 @@
                 <span class="text-muted">on 01 Jun 2014, 01:45</span>
                 <a type="button" id="commentdelete-0" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('0');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment"> 
                   <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
+                </a>
+                <a type="button" id="commentedit-0" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('0', '1');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment with advanced editor">
+                  <span class="glyphicon glyphicon-th glyphicon-primary"></span>
                 </a>
                 <a type="button" id="commentedit-0" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('0', '1');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment">
                   <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
@@ -397,6 +409,9 @@
                         <a type="button" id="commentdelete-0" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('0');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment"> 
                           <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
                         </a>
+                        <a type="button" id="commentedit-0" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('0', '1');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment with advanced editor">
+                          <span class="glyphicon glyphicon-th glyphicon-primary"></span>
+                        </a>
                         <a type="button" id="commentedit-0" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('0', '1');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment">
                           <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
                         </a>
@@ -408,6 +423,9 @@
                         <span class="text-muted">From <b>Instructor3</b> to giver <b>CHEN MINQI</b> (Team 1, <a href="mailto:minqi.soc@gmail.com">minqi.soc@gmail.com</a>) on 02 Jun 2014, 08:45</span>
                         <a type="button" id="commentdelete-0" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('0');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment"> 
                           <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
+                        </a>
+                        <a type="button" id="commentedit-0" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('0', '1');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment with advanced editor">
+                          <span class="glyphicon glyphicon-th glyphicon-primary"></span>
                         </a>
                         <a type="button" id="commentedit-0" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('0', '1');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment">
                           <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
@@ -445,6 +463,9 @@
                         <span class="text-muted">From <b>you</b> to recipient <b>Flash</b> (Team 3, <a href="mailto:minqi.soc@gmail.com">minqi.soc@gmail.com</a>) on 02 Jun 2014, 09:45</span>
                         <a type="button" id="commentdelete-0" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('0');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment"> 
                           <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
+                        </a>
+                        <a type="button" id="commentedit-0" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('0', '1');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment with advanced editor">
+                          <span class="glyphicon glyphicon-th glyphicon-primary"></span>
                         </a>
                         <a type="button" id="commentedit-0" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('0', '1');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment">
                           <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>

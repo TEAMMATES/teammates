@@ -79,6 +79,7 @@ public class InstructorEvalsPage extends AppPage {
     }
 
     public void clickSubmitButton(){
+        waitForPageToLoad();
         submitButton.click();
         waitForPageToLoad();
     }

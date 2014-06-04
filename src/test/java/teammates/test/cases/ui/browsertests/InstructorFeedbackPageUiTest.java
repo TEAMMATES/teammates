@@ -156,7 +156,6 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         assertEquals(sdf.format(cal.getTime()), feedbackPage.getValueOfDate(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE));
         assertEquals(sdf.format(cal.getTime()), feedbackPage.getMaxDateOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE));
-        
         assertEquals(sdf.format(cal.getTime()), feedbackPage.getMinDateOf(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE));
         
         

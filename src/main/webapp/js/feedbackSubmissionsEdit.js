@@ -80,7 +80,6 @@ function validateNumScaleAnswer(qnIdx, responseIdx) {
     var min = parseInt(answerBox.attr("min"));
     var max = parseInt(answerBox.attr("max"));
     var answer = parseInt(answerBox.val());
-    
     if (answer < min) {
         answerBox.val(answerBox.attr("min"));
     } else if (answer > max) {
