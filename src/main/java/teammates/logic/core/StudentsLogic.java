@@ -1,6 +1,8 @@
 package teammates.logic.core;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
@@ -98,6 +100,10 @@ public class StudentsLogic {
     
     public List<StudentAttributes> getStudentsForTeam(String teamName, String courseId) {
         return studentsDb.getStudentsForTeam(teamName, courseId);
+    }
+
+    public List<StudentAttributes> getStudentsForSection(String sectionName, String courseId) {
+        return studentsDb.getStudentsForSection(sectionName, courseId);
     }
 
     public List<StudentAttributes> getUnregisteredStudentsForCourse(String courseId) {
@@ -203,7 +209,7 @@ public class StudentsLogic {
             throw new InvalidParametersException(student.getInvalidityInfo());
         }
         
-        studentsDb.updateStudent(student.course, originalEmail, student.name, student.team, student.email, student.googleId, student.comments);    
+        studentsDb.updateStudent(student.course, originalEmail, student.name, student.team, student.section, student.email, student.googleId, student.comments);    
         
         // cascade email change, if any
         if (!originalEmail.equals(student.email)) {
@@ -238,14 +244,7 @@ public class StudentsLogic {
 
         StudentAttributesFactory saf = new StudentAttributesFactory(linesArray[0]);
         
-        int startLine;
-        if (saf.hasHeader()) {
-            startLine = 1;
-        } else {
-            startLine = 0;
-        }
-        
-        for (int i = startLine; i < linesArray.length; i++) {
+        for (int i = 1; i < linesArray.length; i++) {
             String line = linesArray[i];
             
             if (StringHelper.isWhiteSpace(line)) {
@@ -255,6 +254,8 @@ public class StudentsLogic {
             StudentAttributes student = saf.makeStudent(line, courseId);
             studentList.add(student);
         }
+
+        validateSections(studentList, courseId);
 
         // TODO: can we use a batch persist operation here?
         // enroll all students
@@ -297,6 +298,41 @@ public class StudentsLogic {
         }
 
         return returnList;
+    }
+
+    private void validateSections(List<StudentAttributes> studentList, String courseId) throws EntityDoesNotExistException, EnrollException {
+
+        List<StudentAttributes> mergedList = new ArrayList<StudentAttributes>();
+        List<StudentAttributes> studentsInCourse = getStudentsForCourse(courseId);
+        
+        for(StudentAttributes student : studentList) {
+            mergedList.add(student);
+        }
+
+        for(StudentAttributes student : studentsInCourse) {
+            if(!isInEnrollList(student, mergedList)){
+                mergedList.add(student);
+            }
+        }
+
+        if(mergedList.size() < 2){
+            return;
+        }
+        
+        Collections.sort(mergedList, new Comparator<StudentAttributes>() {
+            @Override
+            public int compare(StudentAttributes o1, StudentAttributes o2) {
+                return o1.team.compareTo(o2.team);
+            }
+        });
+        for(int i = 1; i < mergedList.size(); i++){
+            StudentAttributes currentStudent = mergedList.get(i);
+            StudentAttributes previousStudent = mergedList.get(i-1);
+            if(currentStudent.team.equals(previousStudent.team) && !currentStudent.section.equals(previousStudent.section)){
+                throw new EnrollException("Cannot have a team in 2 different sections");
+            }
+        }
+
     }
 
     private void scheduleSubmissionAdjustmentForFeedbackInCourse(
@@ -468,15 +504,7 @@ public class StudentsLogic {
         
         StudentAttributesFactory saf = new StudentAttributesFactory(linesArray[0]);
         
-        int startLine;
-        if (saf.hasHeader()) {
-            startLine = 1;
-            studentEmailList.add(new String());
-        } else {
-            startLine = 0;
-        }
-        
-        for (int i = startLine; i < linesArray.length; i++) {
+        for (int i = 1; i < linesArray.length; i++) {
             String line = linesArray[i];
             try {
                 if (StringHelper.isWhiteSpace(line)) {
@@ -520,7 +548,7 @@ public class StudentsLogic {
     }
     
     private boolean isInEnrollList(StudentAttributes student,
-            ArrayList<StudentAttributes> studentInfoList) {
+            List<StudentAttributes> studentInfoList) {
         for (StudentAttributes studentInfo : studentInfoList) {
             if (studentInfo.email.equalsIgnoreCase(student.email)) {
                 return true;

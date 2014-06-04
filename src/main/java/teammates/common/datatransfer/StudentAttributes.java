@@ -63,13 +63,14 @@ public class StudentAttributes extends EntityAttributes {
     public String course = null;
     public String comments = null;
     public String team = null;
+    public String section = null;
     public String key = null;
 
     public UpdateStatus updateStatus = UpdateStatus.UNKNOWN;
     
     public StudentAttributes(String id, String email, String name, String comments,
-            String courseId, String team) {
-        this(team, name, email, comments, courseId);
+            String courseId, String team, String section) {
+        this(section, team, name, email, comments, courseId);
         this.googleId = Sanitizer.sanitizeGoogleId(id);
     }
 
@@ -77,8 +78,9 @@ public class StudentAttributes extends EntityAttributes {
         
     }
     
-    public StudentAttributes(String team, String name, String email, String comment, String courseId) {
+    public StudentAttributes(String section, String team, String name, String email, String comment, String courseId) {
         this();
+        this.section = Sanitizer.sanitizeTitle(section);
         this.team = Sanitizer.sanitizeTitle(team);
         this.name = Sanitizer.sanitizeName(name);
         this.email = Sanitizer.sanitizeEmail(email);
@@ -93,6 +95,7 @@ public class StudentAttributes extends EntityAttributes {
         this.name = student.getName();
         this.comments = Sanitizer.sanitizeTextField(student.getComments());
         this.team = Sanitizer.sanitizeTitle(student.getTeamName());
+        this.section = ((student.getSectionName() == null) ? "None" : Sanitizer.sanitizeTitle(student.getSectionName()));
         // TODO: Is this supposed to be null or "" ?? Find out and standardize.
         this.googleId = ((student.getGoogleId() == null) ? "" : student.getGoogleId());
         Long keyAsLong = student.getRegistrationKey();
@@ -153,6 +156,9 @@ public class StudentAttributes extends EntityAttributes {
         error= validator.getInvalidityInfo(FieldType.TEAM_NAME, team);
         if(!error.isEmpty()) { errors.add(error); }
         
+        error= validator.getInvalidityInfo(FieldType.SECTION_NAME, section);
+        if(!error.isEmpty()) { errors.add(error); }
+        
         error= validator.getInvalidityInfo(FieldType.STUDENT_ROLE_COMMENTS, comments);
         if(!error.isEmpty()) { errors.add(error); }
         
@@ -207,7 +213,7 @@ public class StudentAttributes extends EntityAttributes {
     }
 
     public Student toEntity() {
-        return new Student(email, name, googleId, comments, course, team);
+        return new Student(email, name, googleId, comments, course, team, section);
     }
 
     public String toString() {
