@@ -26,7 +26,7 @@
 	<classpathentry kind="lib" path="src/test/resources/lib/appengine/appengine-api-stubs.jar"/>
 	<classpathentry kind="lib" path="src/test/resources/lib/appengine/appengine-api-labs.jar"/>
 	
-	<!-- other libraries used for unit testing  -->
+	<!-- other libraries used for unit testing -->
 	<classpathentry kind="lib" path="src/test/resources/lib/selenium/selenium-server-standalone-2.41.0.jar" sourcepath="src/test/resources/lib/selenium/selenium-java-2.41.0-srcs.jar"/>
 	<classpathentry kind="lib" path="src/test/resources/lib/httpunit/httpunit.jar"/>
 
