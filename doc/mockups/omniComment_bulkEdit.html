@@ -88,100 +88,45 @@
 
 <div id="frameBodyWrapper" class="container theme-showcase" role="main">
   <div id="topOfPage"></div>
-  <div id="normal-edit">
-    <h1>Instructor Comment Edit</h1>
+  <div id="bulky-edit">
+    <h1>Comment in Bulk</h1>
     <br />
-    <div class="well well-plain" style="overflow:hidden">
-      <form>
-        <div class="form-group">
-          <input class="form-control form-control-static" style="min-width: 250px;" name="recipient" id="omni-comment-recipient-rich-intput" placeholder="Comment recipient">
+    (Instructions of how-to are to put here...)
+    <div class="well well-plain">
+      <div class="panel-body fill-plain">
+        <div class="text-muted">
+          <span class="glyphicon glyphicon-exclamation-sign glyphicon-primary"></span> Recommended
+          maximum rows : <strong>250</strong> comments
         </div>
-        <div class="form-group">
-          <a id="visibility-options-trigger" class="btn btn-info"><span class="glyphicon glyphicon-eye-close"></span> Show Visibility Options</a>
-        </div>
-        <div id="visibility-options" class="panel panel-default">
-          <div class="panel-heading">Visibility Options</div>
-          <table class="table table-striped text-center" style="background:#fff;">
-            <tbody>
-              <tr>
-                <th class="text-center">User/Group</th>
-                <th class="text-center">Can see your comment</th>
-                <th class="text-center">Can see giver's name</th>
-                <th class="text-center">Can see recipient's name</th>
-              </tr>
-              <tr>
-                <td class="text-left">
-                  <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what comment recipient(s) can view">
-                    Recipient(s)
-                  </div>
-                </td>
-                <td>
-                  <input class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER" checked="checked">
-                </td>
-                <td>
-                  <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER" checked="checked">     
-                </td>
-                <td>
-                  <input class="visibilityCheckbox recipientCheckbox" name="receiverFollowerCheckbox" type="checkbox" value="RECEIVER" disabled="disabled" checked="checked">
-                </td>
-              </tr>
-              <tr>
-                <td class="text-left">
-                  <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what team members of comment recipients can view">
-                    Recipient's Team Members
-                  </div>
-                </td>
-                <td>
-                  <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="RECEIVER_TEAM_MEMBERS">
-                </td>
-                <td>
-                  <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER_TEAM_MEMBERS">
-                </td>
-                <td>
-                  <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="RECEIVER_TEAM_MEMBERS">
-                </td>
-              </tr>
-              <tr>
-                <td class="text-left">
-                  <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what other students can view">
-                    Other students
-                  </div>
-                </td>
-                <td>
-                  <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS">
-                </td>
-                <td>
-                  <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
-                </td>
-                <td>
-                  <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="STUDENTS">
-                </td>
-              </tr>
-              <tr>
-                <td class="text-left">
-                  <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what instructors can view">
-                    Instructors
-                  </div>
-                </td>
-                <td>
-                  <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS" checked="checked">
-                </td>
-                <td>
-                  <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS" checked="checked">
-                </td>
-                <td>
-                  <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="INSTRUCTORS" checked="checked">
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <textarea id="editor" class="col-sm-12" rows="6" placeholder="Enter your comment here ..."></textarea>
-        <div style="text-align: center;">
-          <input type="submit" class="btn btn-primary" id="button_save_comment" value="Save">
-          <input type="button" class="btn btn-default" value="Save as Draft" onclick="hideAddCommentBox();">
-        </div>
-      </form>
+        <br>
+        <form action="#" method="post" class="form-horizontal" role="form">
+          <div class="col-md-12" style="margin-bottom: 15px">
+            <div class="form-group">
+              <label for="instructions" class="col-sm-1 control-label">Comment data:</label>
+              <div class="col-sm-11">
+                <textarea class="form-control" id="enrollstudents" name="enrollstudents" rows="6" cols="120" style="max-width:100%;" placeholder="Paste comment data here ..."></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="text-muted">
+            <span class="glyphicon glyphicon-exclamation-sign glyphicon-primary"></span> Or you can upload comments data using an <b>Excel</b> file (only Excel 2010/2013 data are supported) or a <b>.csv</b> file.
+          </div>
+          <br />
+          <div class="col-md-12">
+            <div class="form-group">
+              <label for="instructions" class="col-sm-1 control-label">Upload:</label>
+              <div class="col-sm-11">
+                <input type="file" class="form-control" name="file" id="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+              </div>
+            </div>
+          </div>
+          <div style="text-align: center;">
+            <button type="submit" title="Enroll" id="button_enroll" name="button_enroll" class="btn btn-primary btn-md">
+              Submit
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </div>
