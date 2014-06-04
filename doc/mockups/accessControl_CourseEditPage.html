@@ -32,7 +32,7 @@
 
 <body>
   <!-- Fixed navbar -->
-  <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
       <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse"
@@ -93,386 +93,390 @@
       </div>
       <!--/.nav-collapse -->
     </div>
-  </div>
+    </div>
 
-  <div id="frameBodyWrapper" class="container theme-showcase">
-    <div id="headerOperation">
-        <h1>Edit Course Details</h1>
-    </div>
+    <div id="frameBodyWrapper" class="container theme-showcase">
+        <div id="headerOperation">
+          <h1>Edit Course Details</h1>
+        </div>
         
-    <div class="panel panel-primary">
-        <div class="panel-heading">
-            <strong>Course:</strong>
-            <a href="javascript:;" class="btn btn-primary btn-xs pull-right" id="courseDeleteLink" data-toggle="tooltip" data-placement="top" title="" onclick="return toggleDeleteCourseConfirmation('franklinguIns.goo-demo');" data-original-title="Delete the course and its corresponding students and evaluations">
-                <span class="glyphicon glyphicon-trash"></span>
-                Delete</a>
-        </div>
-        <div class="panel-body fill-plain">
-            <form action="javascript:;" method="post" id="formEditcourse" class="form form-horizontal">
-                <input type="hidden" name="courseid" value="franklinguIns.goo-demo">
-                <input type="hidden" name="instructorid" value="franklinguIns">
-                
-                <div class="form-group">
-                    <label class="col-sm-3 control-label">Course ID:</label>
-                    <div class="col-sm-3"><input type="text" class="form-control" name="courseid" id="courseid" value="franklinguIns.goo-demo" data-toggle="tooltip" data-placement="top" title="" maxlength="40" tabindex="1" disabled="disabled" data-original-title="Identifier of the course, e.g.CS3215-Sem1.">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+              <strong>Course:</strong>
+              <a href="javascript:;" class="btn btn-primary btn-xs pull-right" id="courseDeleteLink" data-toggle="tooltip" data-placement="top" title="" onclick="return toggleDeleteCourseConfirmation('franklinguIns.goo-demo');" data-original-title="Delete the course and its corresponding students and evaluations">
+                  <span class="glyphicon glyphicon-trash"></span>
+                  Delete</a>
+            </div>
+            <div class="panel-body fill-plain">
+                <form action="javascript:;" method="post" id="formEditcourse" class="form form-horizontal">
+                    <input type="hidden" name="courseid" value="franklinguIns.goo-demo">
+                    <input type="hidden" name="instructorid" value="franklinguIns">
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Course ID:</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" name="courseid" id="courseid" value="franklinguIns.goo-demo" data-toggle="tooltip" data-placement="top" title="" maxlength="40" tabindex="1" disabled="disabled" data-original-title="Identifier of the course, e.g.CS3215-Sem1.">
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label">Course Name:</label>
-                    <div class="col-sm-9"><input type="text" class="form-control" name="coursename" id="coursename" value="Sample Course 101" data-toggle="tooltip" data-placement="top" title="" maxlength="64" tabindex="2" disabled="disabled" data-original-title="The name of the course, e.g. Software Engineering.">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Course Name:</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="coursename" id="coursename" value="Sample Course 101" data-toggle="tooltip" data-placement="top" title="" maxlength="64" tabindex="2" disabled="disabled" data-original-title="The name of the course, e.g. Software Engineering.">
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <div class=" col-sm-12 align-center">
-                        <input type="submit" class="button" id="btnSaveCourse" name="btnSaveCourse" style="display:none;" value="Save Changes" onclick="return verifyCourseData();">
+                    <div class="form-group">
+                        <div class=" col-sm-12 align-center">
+                            <input type="submit" class="button" id="btnSaveCourse" name="btnSaveCourse" style="display:none;" value="Save Changes" onclick="return verifyCourseData();">
+                        </div>
                     </div>
-                </div>
-                <input type="hidden" name="user" value="franklinguIns">
-            </form>
-        </div>
-    </div>
-    <br><br>
-    <div class="panel panel-primary">
-        <div class="panel-heading">
-            <strong>Instructor 1:</strong>
-            <div class="pull-right">
-                <a href="javascript:;" id="instrEditLink1" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="" onclick="enableEditInstructor(1, 1)" data-original-title="Edit instructor details">
-                        <span class="glyphicon glyphicon-pencil"></span> Edit</a>                   
-                <a href="javascript:;" id="instrDeleteLink1" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="" onclick="return toggleDeleteInstructorConfirmation('franklinguIns.goo-demo', 'franklinguIns@google.com', true);" data-original-title="Delete the instructor from the course">
-                    <span class="glyphicon glyphicon-trash"></span> Delete</a>
+                    <input type="hidden" name="user" value="franklinguIns">
+                </form>
             </div>
         </div>
 
-        <div class="panel-body">
-            <form method="post" action="javascript:;" id="formEditInstructor1" name="formEditInstructors" class="form form-horizontal">
-                <input type="hidden" name="courseid" value="franklinguIns.goo-demo">
-                <input type="hidden" name="instructorid" value="franklinguIns">
-                <input type="hidden" name="user" value="franklinguIns">
-                
-                <div id="instructorTable1">                   
+        <br><br>
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <strong>Instructor 1:</strong>
+                <div class="pull-right">
+                    <a href="javascript:;" id="instrEditLink1" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="" onclick="enableEditInstructor(1, 1)" data-original-title="Edit instructor details">
+                        <span class="glyphicon glyphicon-pencil"></span> Edit</a>                   
+                    <a href="javascript:;" id="instrDeleteLink1" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="" onclick="return toggleDeleteInstructorConfirmation('franklinguIns.goo-demo', 'franklinguIns@google.com', true);" data-original-title="Delete the instructor from the course">
+                        <span class="glyphicon glyphicon-trash"></span> Delete</a>
+                </div>
+            </div>
+
+            <div class="panel-body">
+                <form method="post" action="javascript:;" id="formEditInstructor1" name="formEditInstructors" class="form form-horizontal">
+                    <input type="hidden" name="courseid" value="franklinguIns.goo-demo">
+                    <input type="hidden" name="instructorid" value="franklinguIns">
+                    <input type="hidden" name="user" value="franklinguIns">
+                    
+                    <div id="instructorTable1">                   
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Google ID:</label>
                             <div class="col-sm-9"><input class="form-control" type="text" name="instructorid" id="instructorid1" value="franklinguIns" data-toggle="tooltip" data-placement="top" title="" maxlength="45" tabindex="3" disabled="disabled" data-original-title="Enter the google id of the instructor.">
                             </div>
                         </div>
-                    
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Name:</label>
-                        <div class="col-sm-9"><input class="form-control" type="text" name="instructorname" id="instructorname1" value="franklinguIns" data-toggle="tooltip" data-placement="top" title="" maxlength="100" tabindex="4" disabled="disabled" data-original-title="Enter the name of the instructor.">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Email:</label>
-                        <div class="col-sm-9"><input class="form-control" type="text" name="instructoremail" id="instructoremail1" value="franklinguIns@google.com" data-toggle="tooltip" data-placement="top" title="" maxlength="45" tabindex="5" disabled="disabled" data-original-title="Enter the Email of the instructor.">
-                        </div>
-                    </div>
-                    <div id="accessControlEditDivForInstr1" style="display: none;">
-                      <div class="form-group">
-                          <label class="col-sm-3 control-label">
-                            <input type="checkbox" name="shouldDisplayInstr" value="lecturer">&nbsp;Display to student as a
-                          </label>
-                          <div class="col-sm-9">
-                            <input type="text" class="form-control" name="instructorDisplayName" placeholder="Position of the intructor">  
-                          </div>
-                      </div>
-                      <div class="form-group">
-                          <div class="col-sm-3">
-                            <label class="control-label pull-right">Access-level</label><br><br><br><br>
-                            <div class="pull-right">
-                              <a href="javascript:;" onclick="toggleTunePermissionsDiv(1)" class="small">Fine-tune permissions</a>
-                            </div>
-                          </div>
-                          <div class="col-sm-9">
-                              <input type="radio" name="accessLevelForInstr1" value="Co-owner" checked="checked">&nbsp;Co-owner:description of the role<br>
-                              <input type="radio" name="accessLevelForInstr1" value="Manager">&nbsp;Manager:description of the role<br>
-                              <input type="radio" name="accessLevelForInstr1" value="Observer">&nbsp;Observer:description of the role<br>
-                              <input type="radio" name="accessLevelForInstr1" value="Tutor">&nbsp;Tutor:description of the role<br>
-                              <input type="radio" name="accessLevelForInstr1" value="Helper">&nbsp;Helper:description of the role<br>
-                          </div>
-                      </div>
-                      <div id="tunePermissionsDivForInstr1" style="display: none;">
+                        
                         <div class="form-group">
-                            <div class="panel panel-info" style="width: 95%; margin: 0 auto;">
-                              <div class="panel-heading">
-                                <strong>Course Related</strong>
-                              </div>
-                              <div class="panel-body">
-                                <div class="col-sm-3">
-                                  <input type="checkbox" name="courseAccessControlCourseEdit1" value="true">&nbsp;Edit/Delete course
-                                </div>
-                                <div class="col-sm-3">
-                                  <input type="checkbox" name="courseAccessControlCourseDel1" value="true">&nbsp;Add/Edit/Delete instructors
-                                </div>
-                                <div class="col-sm-3">
-                                  <input type="checkbox" name="courseAccessControlInstrAdd1" value="true">&nbsp;Add/Edit/Delete owners
-                                </div>
-                                <div class="col-sm-3">
-                                  <input type="checkbox" name="courseAccessControlInstrEdit1" value="true">&nbsp;Create/edit/delete sessions
-                                </div>
-                                <div class="col-sm-3">
-                                  <input type="checkbox" name="courseAccessControlInstrDel1" value="true">&nbsp;Enroll/edit/delete students
-                                </div>
-                              </div>
+                            <label class="col-sm-3 control-label">Name:</label>
+                            <div class="col-sm-9"><input class="form-control" type="text" name="instructorname" id="instructorname1" value="franklinguIns" data-toggle="tooltip" data-placement="top" title="" maxlength="100" tabindex="4" disabled="disabled" data-original-title="Enter the name of the instructor.">
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="panel panel-info" style="width: 95%; margin: 0 auto;">
-                              <div class="panel-heading">
-                                <strong>Section Related</strong>
-                                <div class="pull-right">
-                                  <input type="checkbox" name="section1" value="true">&nbsp;Section1&nbsp;
-                                  <input type="checkbox" name="section2" value="true">&nbsp;Section2&nbsp;
-                                  <input type="checkbox" name="section3" value="true">&nbsp;Section3&nbsp;
-                                </div>
-                              </div>
-                              <div class="panel-body">
-                                <div class="col-sm-4">
-                                  <input type="checkbox" name="section1" value="true">&nbsp;View Student details
-                                </div>
-                                <div class="col-sm-4">
-                                  <input type="checkbox" name="section1" value="true">&nbsp;View others’ comments on students
-                                </div>
-                                <div class="col-sm-4">
-                                  <input type="checkbox" name="section1" value="true">&nbsp;Give comments for students
-                                </div>
-                                <div class="col-sm-4">
-                                  <input type="checkbox" name="section1" value="true">&nbsp;Edit/delete others’ comments
-                                </div>
-                                <div class="col-sm-4">
-                                  <input type="checkbox" name="section1" value="true">&nbsp;Sessions: View responses and comments
-                                </div>
-                                <div class="col-sm-4">
-                                  <input type="checkbox" name="section1" value="true">&nbsp;Sessions: Submit responses and comments
-                                </div>
-                                <div class="col-sm-4">
-                                  <input type="checkbox" name="section1" value="true">&nbsp;Sessions: Edit/delete responses/comments by others
-                                </div>
-                                </div>
-                                <div class="col-sm-4">
-                                  <a href="javascript:void;" onclick="toggleSessionsControlTable(1)" class="small">More Configuration</a>
-                                </div>
-                                <br>
-                                <table class="table table-striped" id="sessionsControlTableForInstr1" style="display: none;">
-                                  <thead>
-                                    <tr>
-                                      <td colspan="4" class="align-center fill-primary"><strong>Sessions</strong></td>
-                                    </tr>
-                                  </thead>
-                                  <tbody>
-                                    <tr>
-                                      <td></td>
-                                      <td class="align-center">View responses and comments</td>
-                                      <td class="align-center">Submit responses and comments</td>
-                                      <td class="align-center">Edit/delete responses/comments by others</td>
-                                    </tr>
-                                    <tr>
-                                      <td>Session1</td>
-                                      <td class="align-center"><input type="checkbox" name="section1" value="true"></td>
-                                      <td class="align-center"><input type="checkbox" name="section1" value="true"></td>
-                                      <td class="align-center"><input type="checkbox" name="section1" value="true"></td>
-                                    </tr>
-                                    <tr>
-                                      <td>Session2</td>
-                                      <td class="align-center"><input type="checkbox" name="section1" value="true"></td>
-                                      <td class="align-center"><input type="checkbox" name="section1" value="true"></td>
-                                      <td class="align-center"><input type="checkbox" name="section1" value="true"></td>
-                                    </tr>
-                                    <tr>
-                                      <td>Session3</td>
-                                      <td class="align-center"><input type="checkbox" name="section1" value="true"></td>
-                                      <td class="align-center"><input type="checkbox" name="section1" value="true"></td>
-                                      <td class="align-center"><input type="checkbox" name="section1" value="true"></td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                              </div>
+                            <label class="col-sm-3 control-label">Email:</label>
+                            <div class="col-sm-9"><input class="form-control" type="text" name="instructoremail" id="instructoremail1" value="franklinguIns@google.com" data-toggle="tooltip" data-placement="top" title="" maxlength="45" tabindex="5" disabled="disabled" data-original-title="Enter the Email of the instructor.">
                             </div>
                         </div>
-                      </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="align-center"><input id="btnSaveInstructor1" type="submit" class="btn btn-primary" style="display:none;" value="Save changes" tabindex="6">
+                        <div id="accessControlEditDivForInstr1" style="display: none;">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">
+                                    <input type="checkbox" name="shouldDisplayInstr" value="lecturer">&nbsp;Display to student as a
+                                </label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" name="instructorDisplayName" placeholder="Position of the intructor">  
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <label class="control-label pull-right">Access-level</label><br><br><br><br>
+                                    <div class="pull-right">
+                                        <a href="javascript:;" onclick="toggleTunePermissionsDiv(1)" class="small">Fine-tune permissions</a>
+                                    </div>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input type="radio" name="accessLevelForInstr1" value="Co-owner" checked="checked">&nbsp;Co-owner:description of the role<br>
+                                    <input type="radio" name="accessLevelForInstr1" value="Manager">&nbsp;Manager:description of the role<br>
+                                    <input type="radio" name="accessLevelForInstr1" value="Observer">&nbsp;Observer:description of the role<br>
+                                    <input type="radio" name="accessLevelForInstr1" value="Tutor">&nbsp;Tutor:description of the role<br>
+                                    <input type="radio" name="accessLevelForInstr1" value="Helper">&nbsp;Helper:description of the role<br>
+                                </div>
+                            </div>
+                            <div id="tunePermissionsDivForInstr1" style="display: none;">
+                                <div class="form-group">
+                                    <div class="panel panel-info" style="width: 95%; margin: 0 auto;">
+                                        <div class="panel-heading">
+                                            <strong>Course Related</strong>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="col-sm-3">
+                                                <input type="checkbox" name="courseAccessControlCourseEdit1" value="true">&nbsp;Edit/Delete course
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <input type="checkbox" name="courseAccessControlCourseDel1" value="true">&nbsp;Add/Edit/Delete instructors
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <input type="checkbox" name="courseAccessControlInstrAdd1" value="true">&nbsp;Add/Edit/Delete owners
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <input type="checkbox" name="courseAccessControlInstrEdit1" value="true">&nbsp;Create/edit/delete sessions
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <input type="checkbox" name="courseAccessControlInstrDel1" value="true">&nbsp;Enroll/edit/delete students
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="panel panel-info" style="width: 95%; margin: 0 auto;">
+                                        <div class="panel-heading">
+                                            <strong>Section Related</strong>
+                                            <div class="pull-right">
+                                                <input type="checkbox" name="section1" value="true">&nbsp;Section1&nbsp;
+                                                <input type="checkbox" name="section2" value="true">&nbsp;Section2&nbsp;
+                                                <input type="checkbox" name="section3" value="true">&nbsp;Section3&nbsp;
+                                            </div>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="col-sm-4">
+                                                <input type="checkbox" name="section1" value="true">&nbsp;View Student details
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <input type="checkbox" name="section1" value="true">&nbsp;View others’ comments on students
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <input type="checkbox" name="section1" value="true">&nbsp;Give comments for students
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <input type="checkbox" name="section1" value="true">&nbsp;Edit/delete others’ comments
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <input type="checkbox" name="section1" value="true">&nbsp;Sessions: View responses and comments
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <input type="checkbox" name="section1" value="true">&nbsp;Sessions: Submit responses and comments
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <input type="checkbox" name="section1" value="true">&nbsp;Sessions: Edit/delete responses/comments by others
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <a href="javascript:void;" onclick="toggleSessionsControlTable(1)" class="small">More Configuration</a>
+                                            </div>
+                                            <br>
+                                            <table class="table table-striped" id="sessionsControlTableForInstr1" style="display: none;">
+                                                <thead>
+                                                    <tr>
+                                                        <td colspan="4" class="align-center fill-primary"><strong>Sessions</strong></td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td class="align-center">View responses and comments</td>
+                                                        <td class="align-center">Submit responses and comments</td>
+                                                        <td class="align-center">Edit/delete responses/comments by others</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Session1</td>
+                                                        <td class="align-center"><input type="checkbox" name="section1" value="true"></td>
+                                                        <td class="align-center"><input type="checkbox" name="section1" value="true"></td>
+                                                        <td class="align-center"><input type="checkbox" name="section1" value="true"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Session2</td>
+                                                        <td class="align-center"><input type="checkbox" name="section1" value="true"></td>
+                                                        <td class="align-center"><input type="checkbox" name="section1" value="true"></td>
+                                                        <td class="align-center"><input type="checkbox" name="section1" value="true"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Session3</td>
+                                                        <td class="align-center"><input type="checkbox" name="section1" value="true"></td>
+                                                        <td class="align-center"><input type="checkbox" name="section1" value="true"></td>
+                                                        <td class="align-center"><input type="checkbox" name="section1" value="true"></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="align-center">
+                                <input id="btnSaveInstructor1" type="submit" class="btn btn-primary" style="display:none;" value="Save changes" tabindex="6">
+                            </div>
                         </div>
                     </div>
-                </div>
-            </form>
-    </div>       
-    <br><br>        
-    <div class="align-center">
-        <input id="btnShowNewInstructorForm" class="btn btn-primary" value="Add New Instructor" onclick="showNewInstructorForm()">
-    </div>
+                </form>
+            </div>
+        </div>      
+        <br><br>
+
+        <div class="align-center">
+            <input id="btnShowNewInstructorForm" class="btn btn-primary" value="Add New Instructor" onclick="showNewInstructorForm()">
+        </div>
     
-    <div class="panel panel-primary" id="panelAddInstructor" style="display: none;">
-        <div class="panel-heading">
-            <strong>Instructors 2:</strong>
-        </div>
+        <div class="panel panel-primary" id="panelAddInstructor" style="display: none;">
+            <div class="panel-heading">
+                <strong>Instructors 2:</strong>
+            </div>
 
-        <div class="panel-body fill-plain">
-            <form method="post" action="javascript:;" name="formAddInstructor" class="form form-horizontal" id="formAddInstructor">
-                <input type="hidden" name="courseid" value="franklinguIns.goo-demo">
-                <input type="hidden" name="user" value="franklinguIns">
-                
-                <div id="instructorAddTable">
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Name:</label>
-                        <div class="col-sm-9"><input class="form-control" type="text" name="instructorname" id="instructorname" data-toggle="tooltip" data-placement="top" title="" maxlength="100" tabindex="8/" data-original-title="Enter the name of the instructor.">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Email:</label>
-                        <div class="col-sm-9"><input class="form-control" type="text" name="instructoremail" id="instructoremail" data-toggle="tooltip" data-placement="top" title="" maxlength="45" tabindex="9/" data-original-title="Enter the Email of the instructor.">
-                        </div>
-                    </div>
-                    <div id="accessControlEditDivForInstr2">
-                      <div class="form-group">
-                          <label class="col-sm-3 control-label">
-                            <input type="checkbox" name="shouldDisplayInstr" value="lecturer">&nbsp;Display to student as a
-                          </label>
-                          <div class="col-sm-9">
-                            <input type="text" class="form-control" name="instructorDisplayName" placeholder="Position of the intructor">  
-                          </div>
-                      </div>
-                      <div class="form-group">
-                          <div class="col-sm-3">
-                            <label class="control-label pull-right">Access-level</label><br><br><br><br>
-                            <div class="pull-right">
-                              <a href="javascript:;" onclick="toggleTunePermissionsDiv(2)" class="small">Fine-tune permissions</a>
-                            </div>
-                          </div>
-                          <div class="col-sm-9">
-                              <input type="radio" name="accessLevelForInstr1" value="Co-owner" checked="checked">&nbsp;Co-owner:description of the role<br>
-                              <input type="radio" name="accessLevelForInstr1" value="Manager">&nbsp;Manager:description of the role<br>
-                              <input type="radio" name="accessLevelForInstr1" value="Observer">&nbsp;Observer:description of the role<br>
-                              <input type="radio" name="accessLevelForInstr1" value="Tutor">&nbsp;Tutor:description of the role<br>
-                              <input type="radio" name="accessLevelForInstr1" value="Helper">&nbsp;Helper:description of the role<br>
-                          </div>
-                      </div>
-                      <div id="tunePermissionsDivForInstr2" style="display: none;">
+            <div class="panel-body fill-plain">
+                <form method="post" action="javascript:;" name="formAddInstructor" class="form form-horizontal" id="formAddInstructor">
+                    <input type="hidden" name="courseid" value="franklinguIns.goo-demo">
+                    <input type="hidden" name="user" value="franklinguIns">
+                    
+                    <div id="instructorAddTable">
                         <div class="form-group">
-                            <div class="panel panel-info" style="width: 95%; margin: 0 auto;">
-                              <div class="panel-heading">
-                                <strong>Course Related</strong>
-                              </div>
-                              <div class="panel-body">
-                                <div class="col-sm-3">
-                                  <input type="checkbox" name="courseAccessControlCourseEdit1" value="true">&nbsp;Edit/Delete course
-                                </div>
-                                <div class="col-sm-3">
-                                  <input type="checkbox" name="courseAccessControlCourseDel1" value="true">&nbsp;Add/Edit/Delete instructors
-                                </div>
-                                <div class="col-sm-3">
-                                  <input type="checkbox" name="courseAccessControlInstrAdd1" value="true">&nbsp;Add/Edit/Delete owners
-                                </div>
-                                <div class="col-sm-3">
-                                  <input type="checkbox" name="courseAccessControlInstrEdit1" value="true">&nbsp;Create/edit/delete sessions
-                                </div>
-                                <div class="col-sm-3">
-                                  <input type="checkbox" name="courseAccessControlInstrDel1" value="true">&nbsp;Enroll/edit/delete students
-                                </div>
-                              </div>
+                            <label class="col-sm-3 control-label">Name:</label>
+                            <div class="col-sm-9"><input class="form-control" type="text" name="instructorname" id="instructorname" data-toggle="tooltip" data-placement="top" title="" maxlength="100" tabindex="8/" data-original-title="Enter the name of the instructor.">
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="panel panel-info" style="width: 95%; margin: 0 auto;">
-                              <div class="panel-heading">
-                                <strong>Section Related</strong>
-                                <div class="pull-right">
-                                  <input type="checkbox" name="section1" value="true">&nbsp;Section1&nbsp;
-                                  <input type="checkbox" name="section2" value="true">&nbsp;Section2&nbsp;
-                                  <input type="checkbox" name="section3" value="true">&nbsp;Section3&nbsp;
-                                </div>
-                              </div>
-                              <div class="panel-body">
-                                <div class="col-sm-4">
-                                  <input type="checkbox" name="section1" value="true">&nbsp;View Student details
-                                </div>
-                                <div class="col-sm-4">
-                                  <input type="checkbox" name="section1" value="true">&nbsp;View others’ comments on students
-                                </div>
-                                <div class="col-sm-4">
-                                  <input type="checkbox" name="section1" value="true">&nbsp;Give comments for students
-                                </div>
-                                <div class="col-sm-4">
-                                  <input type="checkbox" name="section1" value="true">&nbsp;Edit/delete others’ comments
-                                </div>
-                                <div class="col-sm-4">
-                                  <input type="checkbox" name="section1" value="true">&nbsp;Sessions: View responses and comments
-                                </div>
-                                <div class="col-sm-4">
-                                  <input type="checkbox" name="section1" value="true">&nbsp;Sessions: Submit responses and comments
-                                </div>
-                                <div class="col-sm-4">
-                                  <input type="checkbox" name="section1" value="true">&nbsp;Sessions: Edit/delete responses/comments by others
-                                </div>
-                                </div>
-                                <div class="col-sm-4">
-                                  <a href="javascript:void;" onclick="toggleSessionsControlTable(2)" class="small">More Configuration</a>
-                                </div>
-                                <br>
-                                <table class="table table-striped" id="sessionsControlTableForInstr2" style="display: none;">
-                                  <thead>
-                                    <tr>
-                                      <td colspan="4" class="align-center fill-primary"><strong>Sessions</strong></td>
-                                    </tr>
-                                  </thead>
-                                  <tbody>
-                                    <tr>
-                                      <td></td>
-                                      <td class="align-center">View responses and comments</td>
-                                      <td class="align-center">Submit responses and comments</td>
-                                      <td class="align-center">Edit/delete responses/comments by others</td>
-                                    </tr>
-                                    <tr>
-                                      <td>Session1</td>
-                                      <td class="align-center"><input type="checkbox" name="section1" value="true"></td>
-                                      <td class="align-center"><input type="checkbox" name="section1" value="true"></td>
-                                      <td class="align-center"><input type="checkbox" name="section1" value="true"></td>
-                                    </tr>
-                                    <tr>
-                                      <td>Session2</td>
-                                      <td class="align-center"><input type="checkbox" name="section1" value="true"></td>
-                                      <td class="align-center"><input type="checkbox" name="section1" value="true"></td>
-                                      <td class="align-center"><input type="checkbox" name="section1" value="true"></td>
-                                    </tr>
-                                    <tr>
-                                      <td>Session3</td>
-                                      <td class="align-center"><input type="checkbox" name="section1" value="true"></td>
-                                      <td class="align-center"><input type="checkbox" name="section1" value="true"></td>
-                                      <td class="align-center"><input type="checkbox" name="section1" value="true"></td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                              </div>
+                            <label class="col-sm-3 control-label">Email:</label>
+                            <div class="col-sm-9"><input class="form-control" type="text" name="instructoremail" id="instructoremail" data-toggle="tooltip" data-placement="top" title="" maxlength="45" tabindex="9/" data-original-title="Enter the Email of the instructor.">
                             </div>
                         </div>
-                      </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="align-center"><input id="btnAddInstructor" type="submit" class="btn btn-primary" value="Add Instructor" tabindex="10">
+                        <div id="accessControlEditDivForInstr2">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">
+                                    <input type="checkbox" name="shouldDisplayInstr" value="lecturer">&nbsp;Display to student as a
+                                </label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" name="instructorDisplayName" placeholder="Position of the intructor">  
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <label class="control-label pull-right">Access-level</label><br><br><br><br>
+                                    <div class="pull-right">
+                                        <a href="javascript:;" onclick="toggleTunePermissionsDiv(2)" class="small">Fine-tune permissions</a>
+                                    </div>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input type="radio" name="accessLevelForInstr1" value="Co-owner" checked="checked">&nbsp;Co-owner:description of the role<br>
+                                    <input type="radio" name="accessLevelForInstr1" value="Manager">&nbsp;Manager:description of the role<br>
+                                    <input type="radio" name="accessLevelForInstr1" value="Observer">&nbsp;Observer:description of the role<br>
+                                    <input type="radio" name="accessLevelForInstr1" value="Tutor">&nbsp;Tutor:description of the role<br>
+                                    <input type="radio" name="accessLevelForInstr1" value="Helper">&nbsp;Helper:description of the role<br>
+                                </div>
+                            </div>
+                            <div id="tunePermissionsDivForInstr2" style="display: none;">
+                                <div class="form-group">
+                                    <div class="panel panel-info" style="width: 95%; margin: 0 auto;">
+                                        <div class="panel-heading">
+                                            <strong>Course Related</strong>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="col-sm-3">
+                                                <input type="checkbox" name="courseAccessControlCourseEdit1" value="true">&nbsp;Edit/Delete course
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <input type="checkbox" name="courseAccessControlCourseDel1" value="true">&nbsp;Add/Edit/Delete instructors
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <input type="checkbox" name="courseAccessControlInstrAdd1" value="true">&nbsp;Add/Edit/Delete owners
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <input type="checkbox" name="courseAccessControlInstrEdit1" value="true">&nbsp;Create/edit/delete sessions
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <input type="checkbox" name="courseAccessControlInstrDel1" value="true">&nbsp;Enroll/edit/delete students
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="panel panel-info" style="width: 95%; margin: 0 auto;">
+                                        <div class="panel-heading">
+                                            <strong>Section Related</strong>
+                                            <div class="pull-right">
+                                                <input type="checkbox" name="section1" value="true">&nbsp;Section1&nbsp;
+                                                <input type="checkbox" name="section2" value="true">&nbsp;Section2&nbsp;
+                                                <input type="checkbox" name="section3" value="true">&nbsp;Section3&nbsp;
+                                            </div>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="col-sm-4">
+                                                <input type="checkbox" name="section1" value="true">&nbsp;View Student details
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <input type="checkbox" name="section1" value="true">&nbsp;View others’ comments on students
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <input type="checkbox" name="section1" value="true">&nbsp;Give comments for students
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <input type="checkbox" name="section1" value="true">&nbsp;Edit/delete others’ comments
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <input type="checkbox" name="section1" value="true">&nbsp;Sessions: View responses and comments
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <input type="checkbox" name="section1" value="true">&nbsp;Sessions: Submit responses and comments
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <input type="checkbox" name="section1" value="true">&nbsp;Sessions: Edit/delete responses/comments by others
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <a href="javascript:void;" onclick="toggleSessionsControlTable(2)" class="small">More Configuration</a>
+                                            </div>
+                                            <br>
+                                            <table class="table table-striped" id="sessionsControlTableForInstr2" style="display: none;">
+                                                <thead>
+                                                    <tr>
+                                                        <td colspan="4" class="align-center fill-primary"><strong>Sessions</strong></td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td class="align-center">View responses and comments</td>
+                                                        <td class="align-center">Submit responses and comments</td>
+                                                        <td class="align-center">Edit/delete responses/comments by others</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Session1</td>
+                                                        <td class="align-center"><input type="checkbox" name="section1" value="true"></td>
+                                                        <td class="align-center"><input type="checkbox" name="section1" value="true"></td>
+                                                        <td class="align-center"><input type="checkbox" name="section1" value="true"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Session2</td>
+                                                        <td class="align-center"><input type="checkbox" name="section1" value="true"></td>
+                                                        <td class="align-center"><input type="checkbox" name="section1" value="true"></td>
+                                                        <td class="align-center"><input type="checkbox" name="section1" value="true"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Session3</td>
+                                                        <td class="align-center"><input type="checkbox" name="section1" value="true"></td>
+                                                        <td class="align-center"><input type="checkbox" name="section1" value="true"></td>
+                                                        <td class="align-center"><input type="checkbox" name="section1" value="true"></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="align-center"><input id="btnAddInstructor" type="submit" class="btn btn-primary" value="Add Instructor" tabindex="10">
+                            </div>
                         </div>
                     </div>
+                </form>
+            </div>
+        </div>
+        <br><br>
+    </div>
+
+    <div id="footerComponent" class="container-fluid">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <span>[<a href="/index.html">TEAMMATES</a> V4.18]</span>
                 </div>
-            </form>
+                <div class="col-md-4">
+                    [for <span class="highlight-white"><span class="color_white">NUS</span></span>]
+                </div>
+                <div class="col-md-4">
+                    <span>[Send <a class="link" href="../contact.html" target="_blank">Feedback</a>]</span>
+                </div>
+            </div>
         </div>
     </div>
-    <br><br>
-  </div>
-
-  <div id="footerComponent" class="container-fluid">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-4">
-          <span>[<a href="/index.html">TEAMMATES</a> V4.18]</span>
-        </div>
-        <div class="col-md-4">
-
-          [for <span class="highlight-white"><span class="color_white">NUS</span></span>]
-
-        </div>
-        <div class="col-md-4">
-          <span>[Send <a class="link" href="../contact.html" target="_blank">Feedback</a>]</span>
-        </div>
-      </div>
-  </div>
 </body>
 </html>
