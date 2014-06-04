@@ -35,7 +35,7 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
         printTestClassHeader();
         testData = loadDataBundle("/StudentFeedbackQuestionSubmitPageUiTest.json");
         restoreTestDataOnServer(testData);
-
+        
         browser = BrowserPool.getBrowser();
     }
 
@@ -43,7 +43,6 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
     public void testAll() throws Exception {
         testContent();
         testSubmitAction();
-
         // no links to test
     }
 
@@ -51,44 +50,32 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
 
         ______TS("Awaiting session");
 
-        fq = BackDoor.getFeedbackQuestion("SFQSubmitUiT.CS2104",
-                "Awaiting Session", 1);
-        submitPage = loginToStudentFeedbackQuestionSubmitPage("Alice",
-                "Awaiting Session", fq.getId());
-        submitPage
-                .verifyHtml("/studentFeedbackQuestionSubmitPageAwaiting.html");
+        fq = BackDoor.getFeedbackQuestion("SFQSubmitUiT.CS2104", "Awaiting Session", 1);
+        submitPage = loginToStudentFeedbackQuestionSubmitPage("Alice", "Awaiting Session", fq.getId());
+        submitPage.verifyHtml("/studentFeedbackQuestionSubmitPageAwaiting.html");
 
+        
         ______TS("Open session");
 
-        fq = BackDoor.getFeedbackQuestion("SFQSubmitUiT.CS2104",
-                "Open Session", 1);
-        submitPage = loginToStudentFeedbackQuestionSubmitPage("Alice",
-                "Open Session", fq.getId());
+        fq = BackDoor.getFeedbackQuestion("SFQSubmitUiT.CS2104", "Open Session", 1);
+        submitPage = loginToStudentFeedbackQuestionSubmitPage("Alice", "Open Session", fq.getId());
         submitPage.verifyHtml("/studentFeedbackQuestionSubmitPageOpen.html");
 
         ______TS("Grace period session");
 
-        FeedbackSessionAttributes fs = BackDoor.getFeedbackSession(
-                "SFQSubmitUiT.CS2104", "Open Session");
+        FeedbackSessionAttributes fs = BackDoor.getFeedbackSession("SFQSubmitUiT.CS2104", "Open Session");
+        submitPage = loginToStudentFeedbackQuestionSubmitPage("Alice", "Open Session", fq.getId());
 
-        submitPage = loginToStudentFeedbackQuestionSubmitPage("Alice",
-                "Open Session", fq.getId());
-
-        Calendar endDate = GregorianCalendar.getInstance(TimeZone
-                .getTimeZone("UTC"));
-
+        Calendar endDate = GregorianCalendar.getInstance(TimeZone.getTimeZone("UTC"));
         fs.timeZone = 0;
         endDate.add(Calendar.MINUTE, -1);
         fs.endTime = endDate.getTime();
         fs.gracePeriod = 10;
-
         BackDoor.editFeedbackSession(fs);
 
-        submitPage = loginToStudentFeedbackQuestionSubmitPage("Alice",
-                "Open Session", fq.getId());
+        submitPage = loginToStudentFeedbackQuestionSubmitPage("Alice", "Open Session", fq.getId());
 
-        WebElement submitButton = browser.driver.findElement(By
-                .id("response_submit_button"));
+        WebElement submitButton = browser.driver.findElement(By.id("response_submit_button"));
 
         assertEquals(false, submitButton.isEnabled());
 
@@ -97,21 +84,18 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
 
         ______TS("Closed) session");
 
-        fq = BackDoor.getFeedbackQuestion("SFQSubmitUiT.CS2104",
-                "Closed Session", 1);
-        submitPage = loginToStudentFeedbackQuestionSubmitPage("Alice",
-                "Closed Session", fq.getId());
+        fq = BackDoor.getFeedbackQuestion("SFQSubmitUiT.CS2104", "Closed Session", 1);
+        submitPage = loginToStudentFeedbackQuestionSubmitPage("Alice","Closed Session", fq.getId());
         submitPage.verifyHtml("/studentFeedbackQuestionSubmitPageClosed.html");
+        
     }
 
     private void testSubmitAction() {
 
         ______TS("create new responses");
 
-        fq = BackDoor.getFeedbackQuestion("SFQSubmitUiT.CS2104",
-                "Open Session", 1);
-        submitPage = loginToStudentFeedbackQuestionSubmitPage("Alice",
-                "Open Session", fq.getId());
+        fq = BackDoor.getFeedbackQuestion("SFQSubmitUiT.CS2104", "Open Session", 1);
+        submitPage = loginToStudentFeedbackQuestionSubmitPage("Alice", "Open Session", fq.getId());
 
         submitPage.fillResponseTextBox(0, "Test Self Feedback");
         assertNull(BackDoor.getFeedbackResponse(fq.getId(),
@@ -120,48 +104,39 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
 
         submitPage.clickSubmitButton();
 
-        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
-                submitPage.getStatus());
+        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, submitPage.getStatus());
 
         assertNotNull(BackDoor.getFeedbackResponse(fq.getId(),
                 "SFQSubmitUiT.alice.b@gmail.com",
                 "SFQSubmitUiT.alice.b@gmail.com"));
-        assertEquals("Test Self Feedback",
-                BackDoor.getFeedbackResponse(fq.getId(),
-                        "SFQSubmitUiT.alice.b@gmail.com",
-                        "SFQSubmitUiT.alice.b@gmail.com").getResponseDetails()
-                        .getAnswerString());
+        
+        assertEquals("Test Self Feedback", BackDoor.getFeedbackResponse(fq.getId(),
+                        "SFQSubmitUiT.alice.b@gmail.com","SFQSubmitUiT.alice.b@gmail.com")
+                        .getResponseDetails().getAnswerString());
 
         ______TS("edit existing response");
 
         String editedResponse = "Edited self feedback.";
         submitPage.fillResponseTextBox(0, editedResponse);
-
         submitPage.clickSubmitButton();
 
-        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
-                submitPage.getStatus());
+        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, submitPage.getStatus());
         assertNotNull(BackDoor.getFeedbackResponse(fq.getId(),
                 "SFQSubmitUiT.alice.b@gmail.com",
                 "SFQSubmitUiT.alice.b@gmail.com"));
-        assertEquals(editedResponse,
-                BackDoor.getFeedbackResponse(fq.getId(),
-                        "SFQSubmitUiT.alice.b@gmail.com",
-                        "SFQSubmitUiT.alice.b@gmail.com").getResponseDetails()
-                        .getAnswerString());
-
+        
+        assertEquals(editedResponse,BackDoor.getFeedbackResponse(fq.getId(),
+                        "SFQSubmitUiT.alice.b@gmail.com", "SFQSubmitUiT.alice.b@gmail.com")
+                        .getResponseDetails().getAnswerString());
         submitPage.verifyHtml("/studentFeedbackQuestionSubmitPageFilled.html");
 
         ______TS("Grace period session,successful submission within grace period");
 
-        FeedbackSessionAttributes fs = BackDoor.getFeedbackSession(
-                "SFQSubmitUiT.CS2104", "Open Session");
+        FeedbackSessionAttributes fs = BackDoor.getFeedbackSession("SFQSubmitUiT.CS2104", "Open Session");
 
-        submitPage = loginToStudentFeedbackQuestionSubmitPage("Alice",
-                "Open Session", fq.getId());
+        submitPage = loginToStudentFeedbackQuestionSubmitPage("Alice", "Open Session", fq.getId());
 
-        Calendar endDate = GregorianCalendar.getInstance(TimeZone
-                .getTimeZone("UTC"));
+        Calendar endDate = GregorianCalendar.getInstance(TimeZone.getTimeZone("UTC"));
 
         fs.timeZone = 0;
         endDate.add(Calendar.MINUTE, -1);
@@ -169,55 +144,38 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
         fs.gracePeriod = 10;
         BackDoor.editFeedbackSession(fs);
 
-        submitPage.fillResponseTextBox(0,
-                "this is a response edited during grace period");
+        submitPage.fillResponseTextBox(0, "this is a response edited during grace period");
         submitPage.clickSubmitButton();
 
-        assertEquals("All responses submitted succesfully!",
-                submitPage.getStatus());
+        assertEquals("All responses submitted succesfully!", submitPage.getStatus());
 
         // test if the button is disabled after the response has been submitted
-        submitPage = loginToStudentFeedbackQuestionSubmitPage("Alice",
-                "Open Session", fq.getId());
-
-        WebElement submitButton = browser.driver.findElement(By
-                .id("response_submit_button"));
-
-        assertEquals(false, submitButton.isEnabled());
+        submitPage = loginToStudentFeedbackQuestionSubmitPage("Alice", "Open Session", fq.getId());
+        assertEquals(false, submitPage.getSubmitButton().isEnabled());
 
         // test the response submitted during the grace period
+        fs = BackDoor.getFeedbackSession("SFQSubmitUiT.CS2104", "Open Session");
+        fq = BackDoor.getFeedbackQuestion("SFQSubmitUiT.CS2104", "Open Session", 1);
+        
+        assertEquals("this is a response edited during grace period", BackDoor.getFeedbackResponse(
+                        fq.getId(), "SFQSubmitUiT.alice.b@gmail.com", "SFQSubmitUiT.alice.b@gmail.com")
+                        .getResponseDetails().getAnswerString());
 
-        fs = BackDoor.getFeedbackSession(
-                "SFQSubmitUiT.CS2104", "Open Session");
-        fq = BackDoor.getFeedbackQuestion("SFQSubmitUiT.CS2104",
-                "Open Session", 1);
-        assertEquals("this is a response edited during grace period",
-                BackDoor.getFeedbackResponse(fq.getId(),
-                        "SFQSubmitUiT.alice.b@gmail.com",
-                        "SFQSubmitUiT.alice.b@gmail.com").getResponseDetails()
-                        .getAnswerString());
-
-        WebElement textArea = browser.driver.findElement(By
-                .name("responsetext-1-0"));
-        assertEquals("this is a response edited during grace period",
-                textArea.getText());
+        WebElement textArea = browser.driver.findElement(By.name("responsetext-1-0"));
+        assertEquals("this is a response edited during grace period", textArea.getText());
 
         submitPage.logout();
-        testData =
-                loadDataBundle("/StudentFeedbackQuestionSubmitPageUiTest.json");
+        testData = loadDataBundle("/StudentFeedbackQuestionSubmitPageUiTest.json");
         restoreTestDataOnServer(testData);
 
         ______TS("Grace period session,submission failure after grace period");
 
-        fq = BackDoor.getFeedbackQuestion("SFQSubmitUiT.CS2104",
-                "Open Session", 1);
-        fs = BackDoor.getFeedbackSession(
-                "SFQSubmitUiT.CS2104", "Open Session");
-        endDate = GregorianCalendar.getInstance(TimeZone
-                .getTimeZone("UTC"));
+        fq = BackDoor.getFeedbackQuestion("SFQSubmitUiT.CS2104", "Open Session", 1);
+        fs = BackDoor.getFeedbackSession("SFQSubmitUiT.CS2104", "Open Session");
+        
+        endDate = GregorianCalendar.getInstance(TimeZone.getTimeZone("UTC"));
 
-        submitPage = loginToStudentFeedbackQuestionSubmitPage("Alice",
-                "Open Session", fq.getId());
+        submitPage = loginToStudentFeedbackQuestionSubmitPage("Alice", "Open Session", fq.getId());
 
         fs.timeZone = 0;
         endDate.add(Calendar.MINUTE, -20);
@@ -225,12 +183,8 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
         fs.gracePeriod = 10;
         BackDoor.editFeedbackSession(fs);
 
-        submitPage
-                .fillResponseTextBox(
-                        0,
-                        "this is a response edited during grace period,but submitted after grace period");
+        submitPage.fillResponseTextBox(0,"this is a response edited during grace period,but submitted after grace period");
         submitPage.clickSubmitButton();
-
         submitPage.verifyHtml("/deadlineExceededErrorPage.html");
 
     }
@@ -241,10 +195,9 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
                 Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE)
                 .withUserId(testData.students.get(studentName).googleId)
                 .withCourseId(testData.feedbackSessions.get(fsName).courseId)
-                .withSessionName(
-                        testData.feedbackSessions.get(fsName).feedbackSessionName)
+                .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName)
                 .withParam(Const.ParamsNames.FEEDBACK_QUESTION_ID, questionId);
-        return loginAdminToPage(browser, editUrl,
-                FeedbackQuestionSubmitPage.class);
+        
+        return loginAdminToPage(browser, editUrl,FeedbackQuestionSubmitPage.class);
     }
 }

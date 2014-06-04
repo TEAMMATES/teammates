@@ -37,7 +37,11 @@ public class FeedbackQuestionSubmitPage extends AppPage {
     }
     
     public void clickSubmitButton() {
+        getSubmitButton().click();
+    }
+    
+    public WebElement getSubmitButton(){
         WebElement button = browser.driver.findElement(By.id("response_submit_button"));
-        button.click();
+        return button;
     }
 }
