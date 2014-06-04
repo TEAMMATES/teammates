@@ -150,7 +150,7 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
         
         // Empty name, closing date
         
-        waitForElementPresent(browser.driver, By.id("button_submit"), 15);
+        evalsPage.waitForElementPresence(By.id("button_submit"), 15);
         evalsPage.clickSubmitButton();
         assertEquals(Const.StatusMessages.FIELDS_EMPTY, evalsPage.getStatus());
         

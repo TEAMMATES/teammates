@@ -93,8 +93,4 @@ public class BaseUiTestCase extends BaseTestCase {
         return loginAdminToPage(currentBrowser, createUrl(Const.ActionURIs.ADMIN_HOME_PAGE), AdminHomePage.class);
     }
 
-    protected static void waitForElementPresent(WebDriver driver, By element, int time){
-        WebDriverWait wait = new WebDriverWait(driver, time);
-        wait.until(presenceOfElementLocated(element));
-    }
 }

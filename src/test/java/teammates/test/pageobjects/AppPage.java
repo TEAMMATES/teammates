@@ -1,5 +1,6 @@
 package teammates.test.pageobjects;
 
+import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
 import static org.testng.AssertJUnit.assertEquals;
 
 import java.io.File;
@@ -26,6 +27,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 import teammates.common.util.Const;
@@ -382,6 +384,14 @@ public abstract class AppPage {
     public void clickAndCancel(WebElement elementToClick){
         respondToAlertWithRetry(elementToClick, false);
         waitForPageToLoad();
+    }
+    
+    /**
+     * Waits for the element to appear in the page, up to the timeout specified.
+     */
+    public void waitForElementPresence(By element, int timeOutInSeconds){
+        WebDriverWait wait = new WebDriverWait(browser.driver, timeOutInSeconds);
+        wait.until(presenceOfElementLocated(element));
     }
     
     @SuppressWarnings("unused")
