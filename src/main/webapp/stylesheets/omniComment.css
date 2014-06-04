@@ -14,11 +14,11 @@
 
 .omni-comment-dropdown-body {
     border: none;
-    min-width: 250px;
+    min-width: 310px;
 }
 
 #omni-comment-recipient-input {
-    min-width: 220px;
+    min-width: 280px;
 }
 
 .tt-dropdown-menu{
@@ -33,7 +33,7 @@
     -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
     -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
     box-shadow: 0 5px 10px rgba(0,0,0,.2);
-    min-width: 220px;
+    min-width: 280px;
 }
 
 .tt-suggestion {
@@ -54,7 +54,7 @@
     display: none;
 }
 
-.feedback-response-comments, .student-record-comments, .notes {
+.feedback-response-comments, .student-record-comments, .drafts {
     margin-top: 10px;
 }
 
