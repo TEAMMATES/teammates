@@ -9,7 +9,6 @@ import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -75,9 +74,7 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
 
         submitPage = loginToStudentFeedbackQuestionSubmitPage("Alice", "Open Session", fq.getId());
 
-        WebElement submitButton = browser.driver.findElement(By.id("response_submit_button"));
-
-        assertEquals(false, submitButton.isEnabled());
+        assertEquals(false, submitPage.getSubmitButton().isEnabled());
 
         testData = loadDataBundle("/StudentFeedbackQuestionSubmitPageUiTest.json");
         restoreTestDataOnServer(testData);
@@ -160,9 +157,7 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
         assertEquals("this is a response edited during grace period", BackDoor.getFeedbackResponse(
                         fq.getId(), "SFQSubmitUiT.alice.b@gmail.com", "SFQSubmitUiT.alice.b@gmail.com")
                         .getResponseDetails().getAnswerString());
-
-        WebElement textArea = browser.driver.findElement(By.name("responsetext-1-0"));
-        assertEquals("this is a response edited during grace period", textArea.getText());
+        assertEquals("this is a response edited during grace period", submitPage.getTextArea(1, 0).getText());
 
         submitPage.logout();
         testData = loadDataBundle("/StudentFeedbackQuestionSubmitPageUiTest.json");
