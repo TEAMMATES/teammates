@@ -22,13 +22,23 @@ public class HtmlHelper {
      * Verifies that two HTML files are logically 
      * equivalent e.g., ignores differences in whitespace and attribute order.
      */
-    public static void assertSameHtml(String actualString, String expectedString){
-        
-        String processedExpectedHtml = convertToStandardHtml(expectedString);
-        String processedActualHtml = convertToStandardHtml(actualString);
+    //TODO: for the following 4 methods, change the order of parameters passed in
+    //      should be expectedString, acutalString
+    public static void assertSameHtml(String actualString, String expectedString){       
+        String processedExpectedHtml = convertToStandardHtml(expectedString, false);
+        String processedActualHtml = convertToStandardHtml(actualString, false);
         
         if(!AssertHelper.isContainsRegex(processedExpectedHtml, processedActualHtml)){
             assertEquals("<expected>\n"+processedExpectedHtml+"</expected>", "<actual>\n"+processedActualHtml+"</actual>");
+        }
+    }
+    
+    public static void assertSameHtmlPart(String actualString, String expectedString) {
+        String processedExpectedHtmlPart = convertToStandardHtml(expectedString, true);
+        String processedActualHtmlPart = convertToStandardHtml(actualString, true);
+        
+        if(!AssertHelper.isContainsRegex(processedExpectedHtmlPart, processedActualHtmlPart)){
+            assertEquals("<expected>\n"+processedExpectedHtmlPart+"</expected>", "<actual>\n"+processedActualHtmlPart+"</actual>");
         }
     }
 
@@ -37,39 +47,63 @@ public class HtmlHelper {
      * equivalent e.g., ignores differences in whitespace and attribute order.
      */
     public static boolean areSameHtml(String actualString, String expectedString){
-        
-        String processedExpectedHtml = convertToStandardHtml(expectedString);
-        String processedActualHtml = convertToStandardHtml(actualString);
+        String processedExpectedHtml = convertToStandardHtml(expectedString, false);
+        String processedActualHtml = convertToStandardHtml(actualString, false);
         
         return AssertHelper.isContainsRegex(processedExpectedHtml, processedActualHtml);
     }
     
     /**
+     * Verifies that two HTML parts are logically 
+     * equivalent e.g., ignores differences in whitespace and attribute order.
+     */
+    public static boolean areSameHtmlPart(String actualString, String expectedString){
+        String processedExpectedHtml = convertToStandardHtml(expectedString, true);
+        String processedActualHtml = convertToStandardHtml(actualString, true);
+        
+        return AssertHelper.isContainsRegex(processedExpectedHtml, processedActualHtml);
+    }
+
+    /**
      * Transform the HTML text to follow a standard format. 
      * Element attributes are reordered in alphabetical order.
      * Spacing and line breaks are standardized too.
      */
-    public static String convertToStandardHtml(String rawHtml) {
+    public static String convertToStandardHtml(String rawHtml, boolean isHtmlPartPassedIn) {
         String preProcessedHtml = preProcessHtml(rawHtml);
+        
+        return convertRawHtmlString(preProcessedHtml, isHtmlPartPassedIn);
+    }
+    
+    private static String convertRawHtmlString(String preProcessedHtml, boolean isHtmlPartPassedIn) {
         try {
             Node currentNode = getNodeFromString(preProcessedHtml);
             StringBuilder currentHtml = new StringBuilder();
             String initialIndentation = "";
-            convertToStandardHtmlRecursively(currentNode, initialIndentation, currentHtml);
+            convertToStandardHtmlRecursively(currentNode, initialIndentation, currentHtml, isHtmlPartPassedIn);
             return currentHtml.toString()
-                    .replace("<#document   <html   </html>", "")
+                    .replace("<#document", "")
+                    .replace("   <html   </html>", "")
                     .replace("</#document>", ""); //remove two unnecessary tags added by DOM parser.
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-
     /**
      * Modifies the HTML to deal with wild cards (e.g., "{*}") and some other
      * inconsistencies in the HTML code produced by the DOM parser and the Browsers.
      */
     private static String preProcessHtml(String htmlString){
+        htmlString = replaceInRawHtmlString(htmlString);
+
+        if (!htmlString.contains("<!DOCTYPE")){
+            htmlString = "<!DOCTYPE html>\n" + htmlString;
+        }
+        return htmlString;
+    }
+
+    private static String replaceInRawHtmlString(String htmlString) {
         htmlString = htmlString.replace("{$version}", TestProperties.inst().TEAMMATES_VERSION);
         htmlString = htmlString.replace("{$test.student1}", TestProperties.inst().TEST_STUDENT1_ACCOUNT);
         htmlString = htmlString.replace("{$test.student2}", TestProperties.inst().TEST_STUDENT2_ACCOUNT);
@@ -78,10 +112,6 @@ public class HtmlHelper {
         htmlString = htmlString.replaceFirst("<html xmlns=\"http://www.w3.org/1999/xhtml\">", "<html>");    
         htmlString = htmlString.replaceAll("(?s)<noscript>.*</noscript>", "");
         htmlString = htmlString.replaceAll("src=\"https://ssl.google-analytics.com/ga.js\"", "async=\"\" src=\"https://ssl.google-analytics.com/ga.js\"");
-
-        if (!htmlString.contains("<!DOCTYPE")){
-            htmlString = "<!DOCTYPE html>\n" + htmlString;
-        }
         return htmlString;
     }
 
@@ -92,8 +122,9 @@ public class HtmlHelper {
         return parser.getDocument();
     }
 
-    private static void convertToStandardHtmlRecursively(Node currentNode, String indentation, StringBuilder currentHtmlText){
-            
+    private static void convertToStandardHtmlRecursively(Node currentNode, String indentation,
+        StringBuilder currentHtmlText, boolean isHtmlPartPassedIn){
+        
         if(currentNode.getNodeType() == Node.TEXT_NODE){
             String text = currentNode.getNodeValue();
             if(!text.trim().isEmpty()){
@@ -109,36 +140,53 @@ public class HtmlHelper {
         }
 
         //Add the start of opening tag
-        currentHtmlText.append(indentation + "<" + currentNode.getNodeName().toLowerCase());
-        
-        //Add the attributes of the tag
-        NamedNodeMap actualAttributeList = currentNode.getAttributes();
-        if(actualAttributeList!=null){
+        String currentNodeName = currentNode.getNodeName().toLowerCase();
+        boolean shouldIncludeCurrentNode = shouldIncludeCurrentNode(isHtmlPartPassedIn, currentNodeName);
+
+        if (shouldIncludeCurrentNode) {
+            currentHtmlText.append(indentation + "<" + currentNodeName);
             
-            List<Node> nodesList = getAttributesAsNodeList(actualAttributeList);
-            sortAttributes(nodesList);
-            
-            for (int i = 0; i < actualAttributeList.getLength(); i++){
-                Node actualAttribute = actualAttributeList.item(i);
-                currentHtmlText.append(" "+ actualAttribute.getNodeName().toLowerCase() + "=\"" + actualAttribute.getNodeValue() + "\" ");
+            //Add the attributes of the tag
+            NamedNodeMap actualAttributeList = currentNode.getAttributes();
+            if(actualAttributeList!=null){
+                
+                List<Node> nodesList = getAttributesAsNodeList(actualAttributeList);
+                sortAttributes(nodesList);
+                
+                for (int i = 0; i < actualAttributeList.getLength(); i++){
+                    Node actualAttribute = actualAttributeList.item(i);
+                    currentHtmlText.append(" "+ actualAttribute.getNodeName().toLowerCase() + "=\"" + actualAttribute.getNodeValue() + "\"");
+                }
+                //close the tag
+                currentHtmlText.append(getEndOfOpeningTag(currentNode)+"\n");
             }
-            //close the tag
-            currentHtmlText.append(getEndOfOpeningTag(currentNode)+"\n");
         }
         
         // Recursively add contents of the child nodes 
         NodeList actualChildNodes = currentNode.getChildNodes();
-        for (int i = 0; i < actualChildNodes.getLength(); i++){
-            convertToStandardHtmlRecursively(actualChildNodes.item(i), indentation + "   ", currentHtmlText);
+        int numberOfChildNodes = actualChildNodes.getLength();
+        for (int i = 0; i < numberOfChildNodes; i++){
+            if (shouldIncludeCurrentNode) {
+                convertToStandardHtmlRecursively(actualChildNodes.item(i), indentation + "   ", currentHtmlText, isHtmlPartPassedIn);
+            } else {
+                convertToStandardHtmlRecursively(actualChildNodes.item(i), indentation, currentHtmlText, isHtmlPartPassedIn);
+            }
         }
         
-        //add end tag, if any
-        if (currentNode.getNodeType() != Node.TEXT_NODE){
-            currentHtmlText.append(indentation + getEndTag(currentNode));
+        if (shouldIncludeCurrentNode) {
+            if (currentNode.getNodeType() != Node.TEXT_NODE){
+                currentHtmlText.append(indentation + getEndTag(currentNode));
+            }
         }
     
     }
 
+    private static boolean shouldIncludeCurrentNode(boolean isHtmlPartPassedIn, String currentNodeName) {
+        boolean shouldIncludeCurrentNode = !(isHtmlPartPassedIn && (currentNodeName.equals("html")
+                                                                         || currentNodeName.equals("head")
+                                                                         || currentNodeName.equals("body")));
+        return shouldIncludeCurrentNode;
+    }
 
     private static boolean isToolTip(Node currentNode) {
         
