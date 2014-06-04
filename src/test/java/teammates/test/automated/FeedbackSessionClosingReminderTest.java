@@ -64,6 +64,7 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+        gaeSimulation.tearDown();
         gaeSimulation.setupWithTaskQueueCallbackClass(FeedbackSessionClosingCallback.class);
         gaeSimulation.resetDatastore();
     }
@@ -86,7 +87,9 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
         
         ______TS("typical case, 0 sessions closing soon");
         fsLogic.scheduleFeedbackSessionClosingEmails();
-        FeedbackSessionClosingCallback.verifyTaskCount(0);
+        if(!FeedbackSessionClosingCallback.verifyTaskCount(0)){
+            assertEquals(FeedbackSessionClosingCallback.taskCount, 0);
+        }
         
         ______TS("typical case, two sessions closing soon, "
                 + "1 session closing soon with disabled closing reminder.");
@@ -123,10 +126,19 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
         fsLogic.updateFeedbackSession(session3);
         TestHelper.verifyPresentInDatastore(session3);
         
-        fsLogic.scheduleFeedbackSessionClosingEmails();
-
-        //There are only 2 sessions closing reminder to be sent
-        FeedbackSessionClosingCallback.verifyTaskCount(2);
+        int counter = 0;
+        while(counter != 10){
+            FeedbackSessionClosingCallback.resetTaskCount();
+            fsLogic.scheduleFeedbackSessionClosingEmails();
+            //There are only 2 sessions closing reminder to be sent
+            if(FeedbackSessionClosingCallback.verifyTaskCount(2)){
+                break;
+            }
+            counter++;
+        }
+        if(counter == 10){
+            assertEquals(FeedbackSessionClosingCallback.taskCount, 2);
+        }
     }
 
     private void testFeedbackSessionClosingMailAction() throws Exception{

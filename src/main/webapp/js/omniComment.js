@@ -103,13 +103,3 @@ $('#visibility-options-trigger').click(function(){
 		$('#visibility-options-trigger').html("<span class=\"glyphicon glyphicon-eye-close\"></span> Hide Visibility Options");
 	}
 });
-
-$('#bulky-edit-trigger').click(function(){
-	$('#bulky-edit').show();
-	$('#normal-edit').hide();
-});
-
-$('#normal-edit-trigger').click(function(){
-	$('#bulky-edit').hide();
-	$('#normal-edit').show();
-});
