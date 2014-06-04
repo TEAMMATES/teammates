@@ -17,7 +17,6 @@
     <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/stylesheets/teammatesCommon.css" type="text/css">
-    <link href="/stylesheets/studentCourseJoin.css" rel="stylesheet">
 
     <script type="text/javascript" src="/js/googleAnalytics.js"></script>
     <script type="text/javascript" src="/js/jquery-minified.js"></script>
