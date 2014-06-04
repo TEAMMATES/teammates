@@ -70,17 +70,20 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         
         ______TS("content: sorting");
         
-        detailsPage.sortByStatus();
-        detailsPage.verifyHtml("/InstructorCourseDetailsPageByStatus.html");
+        String patternString = "Joined{*}Joined{*}Yet to join{*}Yet to join";
+        detailsPage.sortByStatus().verifyTablePattern(0, 2, patternString);
+        patternString = "Yet to join{*}Yet to join{*}Joined{*}Joined";
+        detailsPage.sortByStatus().verifyTablePattern(0, 2, patternString);
         
+        patternString = "Alice Betsy{*}Benny Charles{*}Charlie Davis{*}Danny Engrid";
+        detailsPage.sortByName().verifyTablePattern(0, 1, patternString);
+        patternString = "Danny Engrid{*}Charlie Davis{*}Benny Charles{*}Alice Betsy";
+        detailsPage.sortByName().verifyTablePattern(0, 1, patternString);
         
-        detailsPage.sortByName();
-        detailsPage.verifyHtml("/InstructorCourseDetailsPageByName.html");
-        
-        
-        detailsPage.sortByTeam();
-        detailsPage.verifyHtml("/InstructorCourseDetailsPageByTeam.html");
-        
+        patternString = "Team 1{*}Team 1{*}Team 2{*}Team 2";
+        detailsPage.sortByTeam().verifyTablePattern(0, 0, patternString);
+        patternString = "Team 2{*}Team 2{*}Team 1{*}Team 1";
+        detailsPage.sortByTeam().verifyTablePattern(0, 0, patternString);
     }
     
     public void testLinks(){
@@ -130,8 +133,6 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         String courseId = testData.courses.get("CCDetailsUiT.CS2104").id;
         boolean isEmailEnabled = !TestProperties.inst().isDevServer();
 
-        
-
         ______TS("action: remind single student");
 
         detailsPage.clickRemindStudentAndCancel(charlie.name);
@@ -174,7 +175,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         assertNotNull(BackDoor.getStudent(courseId, studentEmail));
 
         detailsPage.clickDeleteAndConfirm(studentName)
-            .verifyHtml("/instructorCourseDetailsStudentDeleteSuccessful.html");
+            .verifyHtmlMainContent("/instructorCourseDetailsStudentDeleteSuccessful.html");
     }
     
     private boolean didStudentReceiveReminder(String courseId, String studentEmail, String studentPassword) {
@@ -187,7 +188,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
     }
 
     @AfterClass
-        public static void classTearDown() throws Exception {
-            BrowserPool.release(browser);
-        }
+    public static void classTearDown() throws Exception {
+        BrowserPool.release(browser);
+    }
 }

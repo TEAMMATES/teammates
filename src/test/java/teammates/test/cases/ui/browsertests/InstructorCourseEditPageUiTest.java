@@ -134,7 +134,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
                 .withUserId(testData.instructors.get("InsCrsEdit.test").googleId);
             
         InstructorCourseDetailsPage courseDetailsPage = courseEditPage.navigateTo(courseDetailsLink, InstructorCourseDetailsPage.class);
-        courseDetailsPage.verifyHtml("/instructorCourseDetailsAddInstructor.html" );
+        courseDetailsPage.verifyHtmlMainContent("/instructorCourseDetailsAddInstructor.html" );
     
         ______TS("failure: add an existing instructor");
         
@@ -187,7 +187,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         
         ______TS("delete instructor successfully");
         courseEditPage.clickDeleteInstructorLinkAndConfirm();
-        courseEditPage.verifyHtml("/instructorCourseEditDeleteInstructorSuccessful.html");
+        courseEditPage.verifyHtmlMainContent("/instructorCourseEditDeleteInstructorSuccessful.html");
         
         ______TS("failed to delete the last instructor");
         courseEditPage.clickDeleteInstructorLinkAndConfirm();
