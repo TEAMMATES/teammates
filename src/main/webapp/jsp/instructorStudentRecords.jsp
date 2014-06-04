@@ -36,8 +36,7 @@
     <link rel="stylesheet" href="/stylesheets/teammatesCommon.css" type="text/css" media="screen">
     <script type="text/javascript" src="/js/googleAnalytics.js"></script>
     <script type="text/javascript" src="/js/jquery-minified.js"></script>
-    <script type="text/javascript" src="/js/AnchorPosition.js"></script>
-    <script type="text/javascript" src="/js/common.js"></script>
+        <script type="text/javascript" src="/js/common.js"></script>
     
     <script type="text/javascript" src="/js/instructor.js"></script>
     <script type="text/javascript" src="/js/instructorStudentRecords.js"></script>
