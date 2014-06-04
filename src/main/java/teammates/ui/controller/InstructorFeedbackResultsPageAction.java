@@ -38,6 +38,9 @@ public class InstructorFeedbackResultsPageAction extends Action {
         }
         
         data.sortType = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE);
+        data.groupByTeam = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM);
+        boolean groupByTeamSelected = data.groupByTeam==null ? false: true;
+        
         if (data.sortType == null) {
             // default: sort by recipients
             return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT, data);

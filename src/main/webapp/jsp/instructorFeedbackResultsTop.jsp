@@ -91,7 +91,7 @@
                 <div class="col-sm-3 pull-right">
                     <div class="checkbox pull-right">
                         <label>
-                            <input type="checkbox"> Group by Teams
+                            <input type="checkbox" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM%>" onchange="this.form.submit()" <%=(data.groupByTeam==null) ? "" : "checked=\"checked\""%>> Group by Teams
                         </label>
                     </div>
                 </div>

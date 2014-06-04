@@ -10,6 +10,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     public FeedbackSessionResultsBundle bundle = null;
     public InstructorAttributes instructor = null;
     public String sortType = null;
+    public String groupByTeam = null;
     
     public InstructorFeedbackResultsPageData(AccountAttributes account) {
         super(account);
