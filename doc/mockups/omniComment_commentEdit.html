@@ -69,8 +69,8 @@
                 <div class="form-group">
                   <textarea tabindex="2" rows="5" class="form-control" placeholder="Your comment"></textarea>
                 </div>
-                <button tabindex="3" type="submit" class="btn btn-primary">Send</button>
-                <button tabindex="4" type="submit" class="btn btn-default">Save as Note</button>
+                <button tabindex="3" type="submit" class="btn btn-primary">Save</button>
+                <button tabindex="4" type="submit" class="btn btn-default">Save as Draft</button>
               </form>
             </li>
           </ul>
@@ -95,7 +95,7 @@
       <form>
         <div class="form-group">
           <div class="form-group pull-right">
-            <a type="button" id="bulky-edit-trigger" class="btn btn-default"><span class="glyphicon glyphicon-edit"></span> Open Bulky Edit</a>
+            <a type="button" id="bulky-edit-trigger" class="btn btn-default"><span class="glyphicon glyphicon-edit"></span> Comment in Bulk</a>
           </div>
           <input class="form-control form-control-static" style="min-width: 250px;" name="recipient" id="omni-comment-recipient-rich-intput" placeholder="Comment recipient">
         </div>
@@ -181,18 +181,19 @@
         </div>
         <textarea id="editor" class="col-sm-12" rows="6" placeholder="Enter your comment here ..."></textarea>
         <div style="text-align: center;">
-          <input type="submit" class="btn btn-primary" id="button_save_comment" value="Send Comment">
-          <input type="button" class="btn btn-default" value="Save as Note" onclick="hideAddCommentBox();">
+          <input type="submit" class="btn btn-primary" id="button_save_comment" value="Save">
+          <input type="button" class="btn btn-default" value="Save as Draft" onclick="hideAddCommentBox();">
         </div>
       </form>
     </div>
   </div>
   <div id="bulky-edit">
-    <h1>Bulky Comment Edit</h1>
+    <h1>Comment in Bulk</h1>
     <br />
+    (Instructions of how-to are to put here...)
     <div class="well well-plain">
       <div class="form-group pull-right">
-        <a type="button" id="normal-edit-trigger" class="btn btn-default"><span class="glyphicon glyphicon-edit"></span> Open Normal Edit
+        <a type="button" id="normal-edit-trigger" class="btn btn-default"><span class="glyphicon glyphicon-edit"></span> Advanced Comment Editor
         </a>
       </div>
       <div class="panel-body fill-plain">
@@ -200,7 +201,7 @@
           <span class="glyphicon glyphicon-exclamation-sign glyphicon-primary"></span> Recommended
           maximum rows : <strong>250</strong> comments
         </div>
-        <br><br>
+        <br>
         <form action="#" method="post" class="form-horizontal" role="form">
           <div class="col-md-12" style="margin-bottom: 15px">
             <div class="form-group">
@@ -211,20 +212,20 @@
             </div>
           </div>
           <div class="text-muted">
-            <span class="glyphicon glyphicon-exclamation-sign glyphicon-primary"></span> Or you can upload comments data through an <b>Excel</b> file (only Excel 2010/2013 data are supported)
+            <span class="glyphicon glyphicon-exclamation-sign glyphicon-primary"></span> Or you can upload comments data using an <b>Excel</b> file (only Excel 2010/2013 data are supported) or a <b>.csv</b> file.
           </div>
           <br />
           <div class="col-md-12">
             <div class="form-group">
               <label for="instructions" class="col-sm-1 control-label">Upload:</label>
               <div class="col-sm-11">
-                <input type="file" class="form-control" name="file" id="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+                <input type="file" class="form-control" name="file" id="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
               </div>
             </div>
           </div>
-          <div class="col-sm-offset-5">
+          <div style="text-align: center;">
             <button type="submit" title="Enroll" id="button_enroll" name="button_enroll" class="btn btn-primary btn-md">
-              Submit Comments
+              Submit
             </button>
           </div>
         </form>
