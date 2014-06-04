@@ -156,7 +156,6 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         assertEquals(sdf.format(cal.getTime()), feedbackPage.getValueOfDate(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE));
         assertEquals(sdf.format(cal.getTime()), feedbackPage.getMaxDateOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE));
-        
         assertEquals(sdf.format(cal.getTime()), feedbackPage.getMinDateOf(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE));
         
         
@@ -221,17 +220,17 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.verifyHtmlAjax("/instructorFeedbackAllSessionTypes.html");
 
         feedbackPage.sortByName()
-            .verifyTablePattern(1,"{*}Awaiting Session{*}First Eval{*}First Session{*}Manual Session{*}Open Session{*}Private Session");
+            .verifyTablePattern(1,"Awaiting Session{*}First Eval{*}First Session{*}Manual Session{*}Open Session{*}Private Session");
         feedbackPage.sortByName()
-            .verifyTablePattern(1,"{*}Private Session{*}Open Session{*}Manual Session{*}First Session{*}First Eval{*}Awaiting Session");
+            .verifyTablePattern(1,"Private Session{*}Open Session{*}Manual Session{*}First Session{*}First Eval{*}Awaiting Session");
         
         ______TS("sort by course id");
         
         feedbackPage.sortById()
-            .verifyTablePattern(0,"{*}CFeedbackUiT.CS1101{*}CFeedbackUiT.CS1101{*}CFeedbackUiT.CS1101"
+            .verifyTablePattern(0,"CFeedbackUiT.CS1101{*}CFeedbackUiT.CS1101{*}CFeedbackUiT.CS1101"
                     + "{*}CFeedbackUiT.CS2104{*}CFeedbackUiT.CS2104{*}CFeedbackUiT.CS2104");
         feedbackPage.sortById()
-            .verifyTablePattern(0,"{*}CFeedbackUiT.CS2104{*}CFeedbackUiT.CS2104{*}CFeedbackUiT.CS2104"
+            .verifyTablePattern(0,"CFeedbackUiT.CS2104{*}CFeedbackUiT.CS2104{*}CFeedbackUiT.CS2104"
                     + "{*}CFeedbackUiT.CS1101{*}CFeedbackUiT.CS1101{*}CFeedbackUiT.CS1101");
     
     }

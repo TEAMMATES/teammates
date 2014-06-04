@@ -187,6 +187,24 @@ public class InstructorFeedbackEditPage extends AppPage {
         fillTextBox(maxScaleBox, Integer.toString(maxScale));
     }
     
+    public void fillMinNumScaleBox(String minScale, int qnNumber) {
+        String idSuffix = qnNumber > 0 ? "-" + qnNumber : "";
+        if(qnNumber == -1){
+            idSuffix = "--1";
+        }
+        WebElement minScaleBox = browser.driver.findElement(By.id("minScaleBox" + idSuffix));
+        fillTextBox(minScaleBox, minScale);
+    }
+    
+    public void fillMaxNumScaleBox(String maxScale, int qnNumber) {
+        String idSuffix = qnNumber > 0 ? "-" + qnNumber : "";
+        if(qnNumber == -1){
+            idSuffix = "--1";
+        }
+        WebElement maxScaleBox = browser.driver.findElement(By.id("maxScaleBox" + idSuffix));
+        fillTextBox(maxScaleBox, maxScale);
+    }
+    
     public String getMaxNumScaleBox(int qnNumber) {
         String idSuffix = qnNumber > 0 ? "-" + qnNumber : "";
         if(qnNumber == -1){
@@ -203,6 +221,15 @@ public class InstructorFeedbackEditPage extends AppPage {
         }
         WebElement stepBox = browser.driver.findElement(By.id("stepBox" + idSuffix));
         fillTextBox(stepBox, StringHelper.toDecimalFormatString(step));
+    }
+    
+    public void fillStepNumScaleBox(String step, int qnNumber) {
+        String idSuffix = qnNumber > 0 ? "-" + qnNumber : "";
+        if(qnNumber == -1){
+            idSuffix = "--1";
+        }
+        WebElement stepBox = browser.driver.findElement(By.id("stepBox" + idSuffix));
+        fillTextBox(stepBox, step);
     }
     
     public String getNumScalePossibleValuesString(int qnNumber) {
@@ -512,6 +539,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
     
     public FeedbackSubmitPage clickPreviewAsInstructorButton() {
+        waitForPageToLoad();
         previewAsInstructorButton.click();
         waitForPageToLoad();
         switchToNewWindow();
