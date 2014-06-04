@@ -6,9 +6,6 @@ import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -18,7 +15,6 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
 import teammates.test.driver.AssertHelper;
@@ -600,18 +596,22 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         assertEquals("[Based on the above settings, acceptable responses are: 1, 2, 3, 4, 5]",
                 feedbackEditPage.getNumScalePossibleValuesString(-1));
         
-        fillMinNumScaleBoxWithRecheck(6, -1, "7");
-        fillMaxNumScaleBoxWithRecheck(6, -1, "7");
+        fillNumScaleBoxWithRecheck(true, 6, -1, "7");
+        fillNumScaleBoxWithRecheck(false, 6, -1, "7");
             
         //Reset values
         feedbackEditPage.fillMinNumScaleBox(1, -1);
         feedbackEditPage.fillMaxNumScaleBox(5, -1);
     }
-
-    private void fillMinNumScaleBoxWithRecheck(int minScale, int qnNumber, String expected) {
+    
+    private void fillNumScaleBoxWithRecheck(boolean isMinScaleBox, int scale, int qnNumber, String expected){
         int counter = 0;
         while(counter != 100) {
-            feedbackEditPage.fillMinNumScaleBox(minScale, qnNumber);
+            if(isMinScaleBox){
+                feedbackEditPage.fillMinNumScaleBox(scale, qnNumber);
+            } else {
+                feedbackEditPage.fillMaxNumScaleBox(scale, qnNumber);
+            }
             if(expected.equals(feedbackEditPage.getMaxNumScaleBox(qnNumber))){
                 return;
             }
@@ -620,20 +620,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         }
         assertEquals(expected, feedbackEditPage.getMaxNumScaleBox(qnNumber));
     }
-
-    private void fillMaxNumScaleBoxWithRecheck(int maxScale, int qnNumber, String expected) {
-        int counter = 0;
-        while(counter != 100) {
-            feedbackEditPage.fillMaxNumScaleBox(maxScale, qnNumber);
-            if(expected.equals(feedbackEditPage.getMaxNumScaleBox(qnNumber))){
-                return;
-            }
-            counter++;
-            browser.driver.switchTo().window("");
-        }
-        assertEquals(expected, feedbackEditPage.getMaxNumScaleBox(qnNumber));
-    }
-
+    
     private void testCustomizeNumScaleOptions() {
         feedbackEditPage.fillQuestionBox("NumScale qn");
         assertEquals("[Based on the above settings, acceptable responses are: 1, 2, 3, 4, 5]",
@@ -721,8 +708,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         ______TS("preview as instructor");
         
-        WebDriverWait wait = new WebDriverWait(browser.driver, 15);
-        wait.until(presenceOfElementLocated(By.id("button_preview_instructor")));
+        waitForElementPresent(browser.driver, By.id("button_preview_instructor"), 15);
         previewPage = feedbackEditPage.clickPreviewAsInstructorButton();
         previewPage.verifyHtml("/instructorFeedbackSubmitPagePreview.html");
         previewPage.closeCurrentWindowAndSwitchToParentWindow();

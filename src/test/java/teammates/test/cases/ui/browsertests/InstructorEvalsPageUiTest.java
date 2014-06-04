@@ -1,11 +1,9 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -152,8 +150,7 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
         
         // Empty name, closing date
         
-        WebDriverWait wait = new WebDriverWait(browser.driver, 15);
-        wait.until(presenceOfElementLocated(By.id("button_submit")));
+        waitForElementPresent(browser.driver, By.id("button_submit"), 15);
         evalsPage.clickSubmitButton();
         assertEquals(Const.StatusMessages.FIELDS_EMPTY, evalsPage.getStatus());
         
