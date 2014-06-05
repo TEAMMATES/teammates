@@ -98,13 +98,15 @@
                 <li><span class="moreInfoPointTitle">Columns</span>
                     <div class="moreInfoPointDetails">
                         <ul>
-                            <li class="moreInfoColumnInfo">Section [Optional]: section name/ID</li>
+                            <!-- <li class="moreInfoColumnInfo">Section [Optional]: section name/ID</li> -->
                             <li class="moreInfoColumnInfo">Team [Compulsory]: team name/ID
+                                <!--
                                 <div class="moreInfoPointDetails">
                                     <ul>
                                         <li class="moreInfoEmailDetails">Team must be unique within a course. A team cannot be in 2 different sections.</li>
                                     </ul>
                                 </div>
+                                -->
                             </li>
                             <li class="moreInfoColumnInfo">Name [Compulsory]: Student name</li>
                             <li class="moreInfoColumnInfo">Email [Compulsory]: The email address used to contact the student.<br>
@@ -144,6 +146,7 @@
                         </div>
                     </div>
                 </li>
+                <!--
                 <li><span class="moreInfoPointTitle">Enrolling students with assigned sections</span>
                     <div class="moreInfoPointDetails">
                         Class can be divided in more details by indicating different sections for each team such as tutorial groups, lecture groups, etc.
@@ -158,6 +161,7 @@
                         </div>
                     </div>
                 </li>
+                -->
             </ul>
         </div>
     </div>
