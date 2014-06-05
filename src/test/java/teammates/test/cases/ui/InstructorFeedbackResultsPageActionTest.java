@@ -84,7 +84,7 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
         InstructorFeedbackResultsPageAction action = getAction(paramsWithoutSortType);
         ActionResult result = action.executeAndPostProcess();
         
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT +
+        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION +
                 "?error=false&user=idOfInstructor1OfCourse1",
                 result.getDestinationWithParams());
         assertEquals("", result.getStatusMessage());
@@ -95,7 +95,7 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
         action = getAction(paramsWithSortTypeTable);
         result = action.executeAndPostProcess();
         
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_TABLE +
+        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION +
                 "?error=false&user=idOfInstructor1OfCourse1",
                 result.getDestinationWithParams());
         assertEquals("", result.getStatusMessage());
@@ -106,7 +106,7 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
         action = getAction(paramsWithSortTypeGiver);
         result = action.executeAndPostProcess();
         
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER +
+        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_RECIPIENT_QUESTION +
                 "?error=false&user=idOfInstructor1OfCourse1",
                 result.getDestinationWithParams());
         assertEquals("", result.getStatusMessage());
@@ -117,7 +117,7 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
         action = getAction(paramsWithSortTypeRecipient);
         result = action.executeAndPostProcess();
         
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT +
+        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION +
                 "?error=false&user=idOfInstructor1OfCourse1",
                 result.getDestinationWithParams());
         assertEquals("", result.getStatusMessage());
@@ -128,7 +128,7 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
         action = getAction(paramsWithSortTypeUndefined);
         result = action.executeAndPostProcess();
         
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT +
+        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION +
                 "?error=false&user=idOfInstructor1OfCourse1",
                 result.getDestinationWithParams());
         assertEquals("", result.getStatusMessage());
