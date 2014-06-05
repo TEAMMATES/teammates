@@ -49,21 +49,9 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
  
     private void testContent(){
         
-        ______TS("test instructor confirmation page content");
-        
-        String courseId = testData.courses.get("ICJConfirmationUiT.CS1101").id;
-        String instructorEmail = testData.instructors.get("ICJConfirmationUiT.instr.CS1101").email;  
-        
-        String joinActionUrl = TestProperties.inst().TEAMMATES_URL + Const.ActionURIs.INSTRUCTOR_COURSE_JOIN;
-
-        String joinLink = Url.addParamToUrl(joinActionUrl, Const.ParamsNames.REGKEY,
-                                            StringHelper.encrypt(BackDoor.getKeyForInstructor(courseId, instructorEmail)));
-        
-        browser.driver.get(joinLink);
-        confirmationPage = createCorrectLoginPageType(browser.driver.getPageSource())
-                           .loginAsJoiningInstructor(instructorEmail, "TestKey");                               
-        confirmationPage.verifyHtml("/instructorCourseJoinConfirmationHTML.html");
-        confirmationPage.logout();     
+        /*covered in testJoinConfirmation() 
+         *case: Click join link then confirm: success: valid key
+         */
     }
     
     
@@ -106,6 +94,11 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         
         browser.driver.get(joinLink);
         confirmationPage = createNewPage(browser, InstructorCourseJoinConfirmationPage.class);
+        
+        //test content here to make test finish faster
+        ______TS("test instructor confirmation page content");
+        confirmationPage.verifyHtml("/instructorCourseJoinConfirmationHTML.html");
+        
         instructorHome = confirmationPage.clickConfirmButton();
         instructorHome.verifyStatus("");
         

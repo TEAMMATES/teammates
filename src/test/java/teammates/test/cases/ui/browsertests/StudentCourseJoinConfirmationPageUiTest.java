@@ -51,20 +51,9 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
     
     private void testContent(){
         
-        ______TS("test student confirmation page content");
-        
-        String courseId = testData.courses.get("SCJConfirmationUiT.CS2104").id;
-        String studentEmail = testData.students.get("alice.tmms@SCJConfirmationUiT.CS2104").email;
-        String joinActionUrl = TestProperties.inst().TEAMMATES_URL + Const.ActionURIs.STUDENT_COURSE_JOIN;
-        String joinLink = Url.addParamToUrl(joinActionUrl,Const.ParamsNames.REGKEY,
-                                            BackDoor.getKeyForStudent(courseId, studentEmail));
-        
-        browser.driver.get(joinLink);
-        confirmationPage = createCorrectLoginPageType(browser.driver.getPageSource())
-                           .loginAsJoiningStudent(studentEmail, "TestKey");
-        
-        confirmationPage.verifyHtml("/studentCourseJoinConfirmationHTML.html");
-        confirmationPage.logout();
+        /*covered in testJoinConfirmation() 
+         *case: click join link then confirm: success: valid key
+         */
     }
      
     
@@ -106,7 +95,10 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         confirmationPage = createCorrectLoginPageType(browser.driver.getPageSource())
                            .loginAsJoiningStudent(testData.students.get("alice.tmms@SCJConfirmationUiT.CS2104").email, 
                                                   "TestKey");
-
+        //test content here to make test finish faster
+        ______TS("test student confirmation page content");
+        confirmationPage.verifyHtml("/studentCourseJoinConfirmationHTML.html");
+        
         studentHome = confirmationPage.clickConfirmButton();
         expectedMsg = "";
         studentHome.verifyStatus(expectedMsg);
