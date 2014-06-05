@@ -259,7 +259,7 @@ public class StudentAttributesTest extends BaseTestCase {
     @Test 
     public void testToEnrollmentString(){
         StudentAttributes sd = new StudentAttributes("sect 1", "team 1", "name 1", "email@email.com", "comment 1", "course1");
-        assertEquals("team 1|name 1|email@email.com|comment 1", sd.toEnrollmentString());
+        assertEquals("sect 1|team 1|name 1|email@email.com|comment 1", sd.toEnrollmentString());
     }
     
     private Student generateTypicalStudentObject() {
