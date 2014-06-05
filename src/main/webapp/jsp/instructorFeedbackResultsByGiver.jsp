@@ -55,7 +55,12 @@
             <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_TOP%>" />
             <br>
             <%
-                Map<String, Map<String, List<FeedbackResponseAttributes>>> allResponses = data.bundle.getResponsesSortedByGiver();
+                boolean groupByTeamEnabled = data.groupByTeam==null ? false : true;
+                String currentTeam = null;
+                boolean newTeam = false;
+            %>
+            <%
+                Map<String, Map<String, List<FeedbackResponseAttributes>>> allResponses = data.bundle.getResponsesSortedByGiver(groupByTeamEnabled);
                 Map<String, FeedbackQuestionAttributes> questions = data.bundle.questions;
 
                 int giverIndex = 0;
@@ -70,6 +75,28 @@
                 String targetEmailDisplay = firstResponse.giverEmail;
 
             %>
+            <%
+                if(currentTeam != null && !currentTeam.equals(data.bundle.getTeamNameForEmail(targetEmail))) {
+                    currentTeam = data.bundle.getTeamNameForEmail(targetEmail);
+                    newTeam = true;
+            %>
+                    </div>
+                </div>
+            <%
+                }
+                if(groupByTeamEnabled == true && (currentTeam==null || newTeam==true)) {
+                    currentTeam = data.bundle.getTeamNameForEmail(targetEmail);
+                    newTeam = false;
+            %>
+                    <div class="panel panel-warning">
+                        <div class="panel-heading">
+                            <strong><%=currentTeam%></strong>
+                        </div>
+                        <div class="panel-body">
+            <%
+                }
+            %>
+
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     From: <strong><%=responsesFromGiver.getKey()%></strong>
@@ -196,6 +223,16 @@
             </div>
             </div>
             <br>
+            <%
+                }
+            %>
+
+            <%
+                //close the last team panel.
+                if(groupByTeamEnabled==true) {
+            %>
+                        </div>
+                    </div>
             <%
                 }
             %>

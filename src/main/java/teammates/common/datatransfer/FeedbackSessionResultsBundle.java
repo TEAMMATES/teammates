@@ -257,13 +257,16 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
      * <br>with attributes corresponding to it's parents.
      * @return The responses in this bundle sorted by giver's name > recipient's name > question number.
      */
-    public Map<String, Map<String, List<FeedbackResponseAttributes>>> getResponsesSortedByGiver() {
+    public Map<String, Map<String, List<FeedbackResponseAttributes>>> getResponsesSortedByGiver(boolean sortByTeam) {
 
         Map<String, Map<String, List<FeedbackResponseAttributes>>> sortedMap =
                 new LinkedHashMap<String, Map<String, List<FeedbackResponseAttributes>>>();
 
         Collections.sort(responses, compareByGiverName);
-
+        if(sortByTeam == true){
+            Collections.sort(responses, compareByGiverTeamName);
+        }
+        
         String prevRecipient = null;
         String prevGiver = null;
         String recipientName = null;
@@ -387,6 +390,17 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
                 FeedbackResponseAttributes o2) {
             return getTeamNameForEmail(o1.recipientEmail).compareTo(
                     getTeamNameForEmail(o2.recipientEmail));
+        }
+    };
+    
+  //Sorts by giverTeamName
+    public final Comparator<FeedbackResponseAttributes> compareByGiverTeamName
+        = new Comparator<FeedbackResponseAttributes>() {
+        @Override
+        public int compare(FeedbackResponseAttributes o1,
+                FeedbackResponseAttributes o2) {
+            return getTeamNameForEmail(o1.giverEmail).compareTo(
+                    getTeamNameForEmail(o2.giverEmail));
         }
     };
     
