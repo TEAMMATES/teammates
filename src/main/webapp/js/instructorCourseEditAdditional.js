@@ -174,9 +174,7 @@ $(function() {
 
 $(document).ready(function() {
     var numOfInstr = $("form[id^='formEditInstructor']").length + 1;
-    for (var i = 0;i < numOfInstr;i++) {
-        tickDefaultAccessControlForOwner(i + 1);
-        tickAllSessionsForInstructor(i + 1);
-        triggerSessionChangeInSection(i + 1);
-    }
+    tickDefaultAccessControlForOwner(numOfInstr);
+    tickAllSessionsForInstructor(numOfInstr);
+    triggerSessionChangeInSection(numOfInstr);
 });
