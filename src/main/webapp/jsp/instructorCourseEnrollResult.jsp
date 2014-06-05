@@ -73,19 +73,25 @@
                 <%=data.getMessageForEnrollmentStatus(i)%>
                 </div>
                 <table class="table table-striped table-bordered">
-                <tr>
+                <tr> 
+                    <% if(data.hasSection){ %>
+                        <th>Section</th>
+                    <% } %>
+                    <th>Team</th>
                     <th>Student Name</th>
                     <th>E-mail address</th>
-                    <th>Team</th>
                     <th>Comments</th>
                 </tr>
                 <%
                     for(StudentAttributes student: students){
                 %>
                     <tr>
+                        <% if(data.hasSection) { %>
+                            <td><%=sanitizeForHtml(student.section)%></td>
+                        <% } %>
+                        <td><%=sanitizeForHtml(student.team)%></td>
                         <td><%=sanitizeForHtml(student.name)%></td>
                         <td><%=sanitizeForHtml(student.email)%></td>
-                        <td><%=sanitizeForHtml(student.team)%></td>
                         <td><%=sanitizeForHtml(student.comments)%></td>
                     </tr>
                 <%

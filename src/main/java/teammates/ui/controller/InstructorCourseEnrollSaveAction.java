@@ -34,6 +34,7 @@ public class InstructorCourseEnrollSaveAction extends Action {
             InstructorCourseEnrollResultPageData pageData = new InstructorCourseEnrollResultPageData(account);
             pageData.courseId = courseId;
             pageData.students = enrollAndProcessResultForDisplay(studentsInfo, courseId);
+            pageData.hasSection = hasSections(pageData.students);
             statusToAdmin = "Students Enrolled in Course <span class=\"bold\">[" 
                     + courseId + "]:</span><br>" + (studentsInfo).replace("\n", "<br>");
             
@@ -49,6 +50,17 @@ public class InstructorCourseEnrollSaveAction extends Action {
             
             return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, pageData);
         }
+    }
+
+    private boolean hasSections(List<StudentAttributes>[] students){
+        for(List<StudentAttributes> studentList: students){
+            for(StudentAttributes student : studentList){
+                if(!student.section.equals("None")){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private List<StudentAttributes>[] enrollAndProcessResultForDisplay(String studentsInfo, String courseId)
