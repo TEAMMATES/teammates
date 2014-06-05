@@ -111,7 +111,8 @@ public class StudentAttributes extends EntityAttributes {
         String enrollmentString = "";
         String enrollmentStringSeparator = "|";
         
-        enrollmentString = this.team + enrollmentStringSeparator;
+        enrollmentString = this.section + enrollmentStringSeparator;
+        enrollmentString += this.team + enrollmentStringSeparator;
         enrollmentString += this.name + enrollmentStringSeparator;
         enrollmentString += this.email + enrollmentStringSeparator;
         enrollmentString += this.comments;
