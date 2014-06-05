@@ -12,6 +12,8 @@ public class InstructorCourseEnrollPageAction extends Action {
     @Override
     public ActionResult execute() {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
+        String studentsInfo = getRequestParamValue(Const.ParamsNames.STUDENTS_ENROLLMENT_INFO);
+
         Assumption.assertNotNull(courseId);
         
         new GateKeeper().verifyAccessible(
@@ -21,7 +23,8 @@ public class InstructorCourseEnrollPageAction extends Action {
         /* Setup page data for 'Enroll' page of a course */
         InstructorCourseEnrollPageData pageData = new InstructorCourseEnrollPageData(account);
         pageData.courseId = courseId;
-        
+        pageData.enrollStudents = studentsInfo;
+
         statusToAdmin = "instructorCourseEnroll Page Load<br>"
                 + "Enrollment for Course <span class=\"bold\">[" + courseId + "]</span>"; 
         
