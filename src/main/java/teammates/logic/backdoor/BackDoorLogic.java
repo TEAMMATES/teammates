@@ -88,6 +88,7 @@ public class BackDoorLogic extends Logic {
         for (StudentAttributes student : students.values()) {
             log.fine("API Servlet adding student :" + student.email
                     + " to course " + student.course);
+            student.section = (student.section == null) ? "None" : student.section;
             super.createStudent(student);
         }
 

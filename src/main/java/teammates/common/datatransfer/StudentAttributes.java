@@ -210,6 +210,9 @@ public class StudentAttributes extends EntityAttributes {
         if(this.comments == null){
             this.comments = originalStudent.comments;
         }
+        if(this.section == null){
+            this.section = originalStudent.section;
+        }
     }
 
     public Student toEntity() {

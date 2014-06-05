@@ -523,7 +523,7 @@ public class StudentsLogic {
         List<String> invalidityInfo = new ArrayList<String>();
         String[] linesArray = lines.split(Const.EOL);
         ArrayList<String>  studentEmailList = new ArrayList<String>();
-        
+    
         StudentAttributesFactory saf = new StudentAttributesFactory(linesArray[0]);
         
         for (int i = 1; i < linesArray.length; i++) {
@@ -559,7 +559,7 @@ public class StudentsLogic {
     private List<String> getInvalidityInfoInDuplicatedEmail(String email,
             ArrayList<String> studentEmailList,String[] linesArray){
         List<String> info = new ArrayList<String>();
-        info.add("Same email address as the student in line \"" + linesArray[studentEmailList.indexOf(email)]+ "\"");
+        info.add("Same email address as the student in line \"" + linesArray[studentEmailList.indexOf(email) + 1]+ "\"");
         return info;
     }
     

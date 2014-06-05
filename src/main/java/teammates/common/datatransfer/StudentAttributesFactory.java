@@ -40,7 +40,7 @@ public class StudentAttributesFactory {
     private boolean hasComment;
    
     public StudentAttributesFactory() throws EnrollException {
-        this("");
+        this("section|team|name|email|comment");
     }
     
     /**
@@ -59,9 +59,7 @@ public class StudentAttributesFactory {
         
         if (fieldCount < MIN_FIELD_COUNT || !hasTeam || !hasName || !hasEmail) {
             throw new EnrollException(ERROR_HEADER_ROW_FIELD_MISSED);
-        } else if (fieldCount > MAX_FIELD_COUNT) {
-            throw new EnrollException(ERROR_HEADER_ROW_FIELD_REPEATED);
-        }
+        } 
     }
     
     /**
@@ -102,40 +100,55 @@ public class StudentAttributesFactory {
         return new StudentAttributes(paramSection, paramTeam, paramName, paramEmail, paramComment, courseId);
     }
     
-    private int locateColumnIndexes(String headerRow) {
+    private int locateColumnIndexes(String headerRow) throws EnrollException {
+        int fieldCount = 0;
         int count = 0;
+        
+        hasSection = false;
+        hasTeam = false;
+        hasName = false;
+        hasEmail = false;
+        hasComment = false;
         
         String[] columns = splitLineIntoColumns(headerRow);
         
         for (int curPos = 0; curPos < columns.length; curPos++) {
             String str = columns[curPos].trim().toLowerCase();
             
-            if(StringHelper.isMatching(str, FieldValidator.REGEX_COLUMN_SECTION) && !hasSection){
+            if(StringHelper.isMatching(str, FieldValidator.REGEX_COLUMN_SECTION)){
                 sectionColumnIndex = curPos;
                 count++;
+                fieldCount = (!hasSection) ? fieldCount + 1 : fieldCount;
                 hasSection = true;
-            } else if (StringHelper.isMatching(str, FieldValidator.REGEX_COLUMN_TEAM) && !hasTeam) {
+            } else if (StringHelper.isMatching(str, FieldValidator.REGEX_COLUMN_TEAM)) {
                 teamColumnIndex = curPos;
                 count++;
+                fieldCount = (!hasTeam) ? fieldCount + 1 : fieldCount;
                 hasTeam = true;
-            } else if (StringHelper.isMatching(str, FieldValidator.REGEX_COLUMN_NAME) && !hasName) {
+            } else if (StringHelper.isMatching(str, FieldValidator.REGEX_COLUMN_NAME)) {
                 nameColumnIndex = curPos;
                 count++;
+                fieldCount = (!hasName) ? fieldCount + 1 : fieldCount;
                 hasName = true;
-            } else if (StringHelper.isMatching(str, FieldValidator.REGEX_COLUMN_EMAIL) && !hasEmail) {
+            } else if (StringHelper.isMatching(str, FieldValidator.REGEX_COLUMN_EMAIL)) {
                 emailColumnIndex = curPos;
                 count++;
+                fieldCount = (!hasEmail) ? fieldCount + 1 : fieldCount;
                 hasEmail = true;
-            } else if (StringHelper.isMatching(str, FieldValidator.REGEX_COLUMN_COMMENT) && !hasComment) {
+            } else if (StringHelper.isMatching(str, FieldValidator.REGEX_COLUMN_COMMENT)) {
                 commentColumnIndex = curPos;
                 count++;
+                fieldCount = (!hasComment) ? fieldCount + 1 : fieldCount;
                 hasComment = true;
             } else {
                 //do nothing as it is a empty column
             }
         }
-        
-        return count;
+        if(count > fieldCount){
+            throw new EnrollException(ERROR_HEADER_ROW_FIELD_REPEATED);
+        }
+ 
+        return fieldCount;
     }
     
     private String[] splitLineIntoColumns(String line) {
