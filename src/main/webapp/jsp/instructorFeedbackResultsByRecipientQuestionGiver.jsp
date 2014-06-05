@@ -55,32 +55,8 @@
             <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_TOP%>" />
             <br>
             <%
-                boolean groupByTeamSelected = data.groupByTeam==null ? false: true;
-                String[] order = data.sortType.split("-");
+                boolean groupByTeamEnabled = data.groupByTeam==null ? false : true;
             %>
-            
-            <hr>
-
-                TEST - Order: <%=data.sortType%>
-                <%
-                    for(String str : order){
-                %>
-                        <br>
-                        <%=str%>
-                <%
-                    }
-                %>
-
-                Panels:
-                Team
-                Question
-                Giver
-                Recipient
-                Column giver/recipient
-
-                Table
-
-            <hr>
         <%
             Map<String, Map<String, List<FeedbackResponseAttributes>>> allResponses = data.bundle.getResponsesSortedByRecipient(false);
             Map<String, FeedbackQuestionAttributes> questions = data.bundle.questions;
