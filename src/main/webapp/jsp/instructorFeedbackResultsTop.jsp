@@ -7,10 +7,6 @@
     InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData)request.getAttribute("data");
 %>
 
-<!--TODO: move to a better place-->
-<script type="text/javascript" src="/js/instructorFeedbackResults.js"></script>
-<!---->
-
 <div class="well well-plain">
     <form class="form-horizontal" role="form">
         <div class="panel-heading">

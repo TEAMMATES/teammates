@@ -29,6 +29,7 @@
     <script type="text/javascript" src="/js/jquery-minified.js"></script>
         <script type="text/javascript" src="/js/common.js"></script>
     <script type="text/javascript" src="/js/instructor.js"></script>
+    <script type="text/javascript" src="/js/instructorFeedbackResults.js"></script>
     <script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
     <jsp:include page="../enableJS.jsp"></jsp:include>
     <!-- Bootstrap core JavaScript ================================================== -->
