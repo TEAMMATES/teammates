@@ -2,10 +2,12 @@ package teammates.ui.controller;
 
 
 import java.util.Date;
+import java.util.HashSet;
 
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.CommentAttributes;
+import teammates.common.datatransfer.CommentRecipientType;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -38,7 +40,7 @@ public class InstructorStudentCommentAddAction extends Action {
             logic.createComment(comment);
             statusToUser.add(Const.StatusMessages.COMMENT_ADDED);
             statusToAdmin = "Created Comment for Student:<span class=\"bold\">(" +
-                    comment.receiverEmail + ")</span> for Course <span class=\"bold\">[" +
+                    comment.recipients + ")</span> for Course <span class=\"bold\">[" +
                     comment.courseId + "]</span><br>" +
                     "<span class=\"bold\">Comment:</span> " + comment.commentText;
         } catch (EntityAlreadyExistsException e) {  // this exception should not be thrown normally unless GAE creates duplicate commentId
@@ -63,8 +65,10 @@ public class InstructorStudentCommentAddAction extends Action {
         Assumption.assertNotNull("Account trying to add comment is not an instructor of the course", instructorDetailForCourse);
         
         comment.courseId = courseId;
-        comment.giverEmail = instructorDetailForCourse.email; 
-        comment.receiverEmail = studentEmail;
+        comment.giverEmail = instructorDetailForCourse.email;
+        comment.recipientType = CommentRecipientType.PERSON;
+        comment.recipients = new HashSet<String>();
+        comment.recipients.add(studentEmail);
         comment.createdAt = new Date();
         comment.commentText = commentText;
         

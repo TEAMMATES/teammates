@@ -773,7 +773,8 @@
         "comment1":{
             "courseId":"ISR.CS2104",
             "giverEmail":"teammates.test@gmail.com",
-            "receiverEmail":"benny.c.tmms@gmail.com",
+            "recipientType":"PERSON",
+            "recipients":["benny.c.tmms@gmail.com"],
             "createdAt":"2012-05-01 08:51 AM UTC",
             "commentText":{
                 "value":"Comment 1 from ISR.CS2104 teammates.test Instructor to Benny"
@@ -783,7 +784,8 @@
         "comment2":{
             "courseId":"ISR.CS2104",
             "giverEmail":"teammates.test@gmail.com",
-            "receiverEmail":"benny.c.tmms@gmail.com",
+            "recipientType":"PERSON",
+            "recipients":["benny.c.tmms@gmail.com"],
             "createdAt":"2012-06-01 07:20 PM UTC",
             "commentText":{
                 "value":"Comment 2 from ISR.CS2104 teammates.test Instructor to Benny"

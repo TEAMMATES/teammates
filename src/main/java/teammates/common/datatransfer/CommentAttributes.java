@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
@@ -13,73 +15,113 @@ import teammates.storage.entity.Comment;
 
 import com.google.appengine.api.datastore.Text;
 
-public class CommentAttributes extends EntityAttributes{
-    
+public class CommentAttributes extends EntityAttributes {
+
     private Long commentId = null;
     public String courseId;
     public String giverEmail;
-    public String receiverEmail;
+    public CommentRecipientType recipientType;
+    public Set<String> recipients;
     public Text commentText;
     public Date createdAt;
-    
-    public CommentAttributes(){
-        
+
+    public CommentAttributes() {
+
     }
-    
-    public CommentAttributes(String courseId, String giverEmail, String receiverEmail, Date createdAt, Text commentText){
+
+    public CommentAttributes(String courseId, String giverEmail, CommentRecipientType recipientType,
+            Set<String> recipients, Date createdAt, Text commentText) {
         this.courseId = courseId;
         this.giverEmail = giverEmail;
-        this.receiverEmail = receiverEmail;
+        this.recipientType = recipientType != null ? recipientType : CommentRecipientType.PERSON;
+        this.recipients = recipients;
         this.commentText = commentText;
         this.createdAt = createdAt;
     }
-    
-    public CommentAttributes(Comment comment){
+
+    public CommentAttributes(Comment comment) {
         this.commentId = comment.getId();
         this.courseId = comment.getCourseId();
         this.giverEmail = comment.getGiverEmail();
-        this.receiverEmail = comment.getReceiverEmail();
+        this.recipientType = comment.getRecipientType() != null ? comment.getRecipientType() : CommentRecipientType.PERSON;
+        this.recipients = comment.getRecipients();
         this.createdAt = comment.getCreatedAt();
         this.commentText = comment.getCommentText();
     }
-    
-    public Long getCommentId(){
+
+    public Long getCommentId() {
         return this.commentId;
     }
-    
-    //Use only to match existing and known Comment
-    public void setCommentId(Long commentId){
+
+    // Use only to match existing and known Comment
+    public void setCommentId(Long commentId) {
         this.commentId = commentId;
     }
-    
+
     public List<String> getInvalidityInfo() {
-        
+
         FieldValidator validator = new FieldValidator();
         List<String> errors = new ArrayList<String>();
         String error;
-        
-        error= validator.getInvalidityInfo(FieldType.COURSE_ID, courseId);
-        if(!error.isEmpty()) { errors.add(error); }
-        
-        error= validator.getInvalidityInfo(FieldType.EMAIL, giverEmail);
-        if(!error.isEmpty()) { errors.add(error); }
-        
-        error= validator.getInvalidityInfo(FieldType.EMAIL, receiverEmail);
-        if(!error.isEmpty()) { errors.add(error); }
-        
+
+        error = validator.getInvalidityInfo(FieldType.COURSE_ID, courseId);
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
+
+        error = validator.getInvalidityInfo(FieldType.EMAIL, giverEmail);
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
+
+        if (recipientType != null) {
+            switch (recipientType) {
+            case PERSON:
+                for (String recipientId : recipients) {
+                    error = validator.getInvalidityInfo(FieldType.EMAIL, recipientId);
+                    if (!error.isEmpty()) {
+                        errors.add(error);
+                    }
+                }
+                break;
+            case TEAM:
+                for (String recipientId : recipients) {
+                    error = validator.getInvalidityInfo(FieldType.TEAM_NAME, recipientId);
+                    if (!error.isEmpty()) {
+                        errors.add(error);
+                    }
+                }
+                break;
+            case SECTION:
+                // TODO: implement this
+                break;
+            case COURSE:
+                for (String recipientId : recipients) {
+                    error = validator.getInvalidityInfo(FieldType.COURSE_ID, recipientId);
+                    if (!error.isEmpty()) {
+                        errors.add(error);
+                    }
+                }
+                break;
+            default:// cases for NONE or null
+                break;
+            }
+        }
+
         return errors;
     }
 
     public Comment toEntity() {
-        return new Comment(courseId, giverEmail, receiverEmail, commentText, createdAt);
+        return new Comment(courseId, giverEmail, recipientType, recipients, commentText, createdAt);
     }
-    
+
     @Override
     public String toString() {
         return "CommentAttributes [commentId = " + commentId +
-                ", courseId = " + courseId + 
-                ", giverEmail = " + giverEmail + 
-                ", receiverEmail = " + receiverEmail +
+                ", courseId = " + courseId +
+                ", giverEmail = " + giverEmail +
+                ", recipientType = " + recipientType +
+                ", receiverEmail = " + recipients +
                 ", commentText = " + commentText +
                 ", createdAt = " + createdAt + "]";
     }
@@ -100,21 +142,27 @@ public class CommentAttributes extends EntityAttributes{
         this.commentText = Sanitizer.sanitizeTextField(this.commentText);
         this.courseId = Sanitizer.sanitizeForHtml(courseId);
         this.giverEmail = Sanitizer.sanitizeForHtml(giverEmail);
-        this.receiverEmail = Sanitizer.sanitizeForHtml(receiverEmail);
-        if(commentText != null) {
+
+        HashSet<String> sanitizedRecipients = new HashSet<String>();
+        for (String recipientId : recipients) {
+            sanitizedRecipients.add(Sanitizer.sanitizeForHtml(recipientId));
+        }
+        recipients = sanitizedRecipients;
+
+        if (commentText != null) {
             this.commentText = new Text(Sanitizer.sanitizeForHtml(commentText.getValue()));
         }
     }
-    
-    public static void sortCommentsByCreationTime(List<CommentAttributes> comments){
+
+    public static void sortCommentsByCreationTime(List<CommentAttributes> comments) {
         Collections.sort(comments, new Comparator<CommentAttributes>() {
             public int compare(CommentAttributes comment1, CommentAttributes comment2) {
                 return comment1.createdAt.compareTo(comment2.createdAt);
             }
         });
     }
-    
-    public static void sortCommentsByCreationTimeDescending(List<CommentAttributes> comments){
+
+    public static void sortCommentsByCreationTimeDescending(List<CommentAttributes> comments) {
         Collections.sort(comments, new Comparator<CommentAttributes>() {
             public int compare(CommentAttributes comment1, CommentAttributes comment2) {
                 return comment2.createdAt.compareTo(comment1.createdAt);

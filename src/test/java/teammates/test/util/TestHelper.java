@@ -251,8 +251,7 @@ public class TestHelper extends BaseComponentTestCase{
     }
     
     public static void verifyAbsentInDatastore(CommentAttributes comment) {
-        assertNull(commentsDb.getComment(comment.courseId,
-                comment.giverEmail, comment.receiverEmail, comment.commentText, comment.createdAt));
+        assertNull(commentsDb.getComment(comment));
     }
     
     public static void verifyAbsentInDatastore(FeedbackResponseCommentAttributes frComment) {
@@ -343,10 +342,10 @@ public class TestHelper extends BaseComponentTestCase{
     }
     
     public static void verifyPresentInDatastore(CommentAttributes expected){
-        CommentAttributes actual = commentsDb.getComment(expected.courseId, expected.giverEmail, expected.receiverEmail, expected.commentText, expected.createdAt);
+        CommentAttributes actual = commentsDb.getComment(expected);
         assertEquals(expected.courseId, actual.courseId);
         assertEquals(expected.giverEmail, actual.giverEmail);
-        assertEquals(expected.receiverEmail, actual.receiverEmail);
+        assertEquals(expected.recipients, actual.recipients);
         assertEquals(expected.commentText, actual.commentText);
     }
     
