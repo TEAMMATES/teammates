@@ -78,9 +78,43 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
          * enroll result page is slightly different for the two cases.
          */
         
-        ______TS("enroll action: empty course, enroll lines with header containing empty columns");
-        
         String courseId = testData.courses.get("CCEnrollUiT.CS2104").id;
+
+        ______TS("enroll action: existent course, enroll lines with section field");
+
+        enrollUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE)
+            .withUserId(testData.instructors.get("CCEnrollUiT.teammates.test").googleId)
+            .withCourseId(testData.courses.get("CCEnrollUiT.CS2104").id);
+
+        enrollPage = loginAdminToPage(browser, enrollUrl, InstructorCourseEnrollPage.class);
+
+        enrollString = "Section | Team | Name | Email | Comments\n";
+        // Modify team for student within section
+        enrollString += "Section 1| Team 4 | Alice Betsy | alice.b.tmms@gmail.com | This comment has been changed\n";
+        // Modify section and team
+        enrollString += "Section 2| Team 2 | Benny Charles| benny.c.tmms@gmail.com |\n";
+        // A student with no comment
+        enrollString += "Section 3 | Team 3 |Frank Galoe | frank.g.tmms@gmail.com |\n";
+        // A new student with name containing accented characters
+        enrollString += "Section 1 | Team 1|José Gómez | jose.gomez.tmns@gmail.com | This student name contains accented characters\n";
+
+        InstructorCourseEnrollResultPage resultsPage = enrollPage.enroll(enrollString);
+        resultsPage.verifyHtml("/instructorCourseEnrollPageResult.html");
+
+        // Check 'Edit' link
+        enrollPage = resultsPage.clickEditLink();
+        enrollPage.verifyContains("Enroll Students for CCEnrollUiT.CS2104");
+        assertEquals(enrollString, enrollPage.getEnrollText());
+        
+        // Ensure students were actually enrolled
+        Url coursesPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
+            .withUserId(testData.instructors.get("CCEnrollUiT.teammates.test").googleId)
+            .withCourseId(courseId);
+        InstructorCoursesDetailsPage detailsPage = loginAdminToPage(browser, coursesPageUrl, InstructorCoursesDetailsPage.class);
+        assertEquals(6, detailsPage.getStudentCountForCourse("CCEnrollUiT.CS2104"));
+
+        ______TS("enroll action: empty course, enroll lines with header containing empty columns, no sections");
+        
         // Make the course empty
         BackDoor.deleteCourse(courseId);
         BackDoor.createCourse(testData.courses.get("CCEnrollUiT.CS2104"));
@@ -95,11 +129,11 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
         enrollString = "| Name | Email | | Team | Comments\n";
         enrollString += "|Alice Betsy | alice.b.tmms@gmail.com || Team 1 | This comment has been changed\n";
         // A student with no comment
-        enrollString += "|Frank Galoe | frank.g.tmms@gmail.com || Team 3 |\n";
+        enrollString += "|Frank Galoe | frank.g.tmms@gmail.com || Team 1 |\n";
         // A new student with name containing accented characters
         enrollString += "|José Gómez | jose.gomez.tmns@gmail.com || Team 3 | This student name contains accented characters\n";
                 
-        InstructorCourseEnrollResultPage resultsPage = enrollPage.enroll(enrollString);
+        resultsPage = enrollPage.enroll(enrollString);
         resultsPage.verifyHtml("/instructorCourseEnrollPageResultForEmptyCourse.html");
 
         // Check 'Edit' link
@@ -108,11 +142,38 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
         assertEquals(enrollString, enrollPage.getEnrollText());
         
         // Ensure students were actually enrolled
-        Url coursesPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
+        coursesPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
             .withUserId(testData.instructors.get("CCEnrollUiT.teammates.test").googleId)
             .withCourseId(courseId);
-        InstructorCoursesDetailsPage detailsPage = loginAdminToPage(browser, coursesPageUrl, InstructorCoursesDetailsPage.class);
+        detailsPage = loginAdminToPage(browser, coursesPageUrl, InstructorCoursesDetailsPage.class);
         assertEquals(3, detailsPage.getStudentCountForCourse("CCEnrollUiT.CS2104"));
+
+        ______TS("enroll action: fail to enroll as a team cannot be in 2 different sections");
+
+        enrollUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE)
+            .withUserId(testData.instructors.get("CCEnrollUiT.teammates.test").googleId)
+            .withCourseId(testData.courses.get("CCEnrollUiT.CS2104").id);
+        
+        enrollPage = loginAdminToPage(browser, enrollUrl, InstructorCourseEnrollPage.class);
+
+        enrollString = "Section | Team | Name | Email | Comments\n";
+        enrollString += "Different Section | Team 1 | Alice Betsy | alice.b.tmms@gmail.com |\n";
+
+        enrollPage.enrollUnsuccessfully(enrollString);
+        enrollPage.verifyStatus("Cannot put team \"Team 1\" in 2 different sections");
+
+        ______TS("enroll action: fail to enroll due to invalid header");
+
+        enrollString = "Section | Team | Name | Email | Comments | Section\n";
+
+        enrollPage.enrollUnsuccessfully(enrollString);
+        enrollPage.verifyStatus("The header row contains repeated fields");
+
+        enrollString = "Section | Name | Email\n";
+
+        enrollPage.enrollUnsuccessfully(enrollString);
+        enrollPage.verifyStatus("The header row misses required fields");
+
 
         ______TS("enroll action: fail to enroll as there is no input");
 
