@@ -1,6 +1,7 @@
 package teammates.logic.core;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -165,7 +166,7 @@ public class StudentsLogic {
     }
     
     public void updateStudentCascade(String originalEmail, StudentAttributes student) 
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws InvalidParametersException, EntityDoesNotExistException, EnrollException {
         StudentAttributes originalStudent = getStudentForEmail(student.course, originalEmail);
         updateStudentCascadeWithSubmissionAdjustmentScheduled(originalEmail, student);
         
@@ -191,7 +192,7 @@ public class StudentsLogic {
     
     public void updateStudentCascadeWithSubmissionAdjustmentScheduled(String originalEmail, 
             StudentAttributes student) 
-            throws EntityDoesNotExistException, InvalidParametersException {
+            throws EntityDoesNotExistException, InvalidParametersException, EnrollException {
         // Edit student uses KeepOriginal policy, where unchanged fields are set
         // as null. Hence, we can't do isValid() for student here.
         // After updateWithReferenceToExistingStudentRecord method called,
@@ -205,6 +206,8 @@ public class StudentsLogic {
         // prepare new student
         student.updateWithExistingRecord(originalStudent);
         
+        validateSections(Arrays.asList(student), student.course);
+
         if(!student.isValid()) {
             throw new InvalidParametersException(student.getInvalidityInfo());
         }
