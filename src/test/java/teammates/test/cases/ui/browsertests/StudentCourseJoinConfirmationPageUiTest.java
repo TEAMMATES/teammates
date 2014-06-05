@@ -39,9 +39,25 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         browser = BrowserPool.getBrowser();
         browser.driver.manage().deleteAllCookies();
     }
+    
 
     @Test
-    public void testJoinConfirmation() throws Exception {
+    public void testAll() throws Exception {
+        
+        testContent();
+        testJoinConfirmation();     
+    }
+    
+    
+    private void testContent(){
+        
+        /*covered in testJoinConfirmation() 
+         *case: click join link then confirm: success: valid key
+         */
+    }
+     
+    
+    private void testJoinConfirmation() throws Exception {
 
         ______TS("click join link then cancel");
 
@@ -79,7 +95,10 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         confirmationPage = createCorrectLoginPageType(browser.driver.getPageSource())
                            .loginAsJoiningStudent(testData.students.get("alice.tmms@SCJConfirmationUiT.CS2104").email, 
                                                   "TestKey");
-
+        //test content here to make test finish faster
+        ______TS("test student confirmation page content");
+        confirmationPage.verifyHtml("/studentCourseJoinConfirmationHTML.html");
+        
         studentHome = confirmationPage.clickConfirmButton();
         expectedMsg = "";
         studentHome.verifyStatus(expectedMsg);
