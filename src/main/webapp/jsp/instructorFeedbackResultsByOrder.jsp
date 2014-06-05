@@ -28,9 +28,9 @@
 <link rel="stylesheet" href="/stylesheets/teammatesCommon.css" type="text/css" media="screen">
 <script type="text/javascript" src="/js/googleAnalytics.js"></script>
 <script type="text/javascript" src="/js/jquery-minified.js"></script>
-<script type="text/javascript" src="/js/AnchorPosition.js"></script>
 <script type="text/javascript" src="/js/common.js"></script>
 <script type="text/javascript" src="/js/instructor.js"></script>
+<script type="text/javascript" src="/js/instructorFeedbackResults.js"></script>
 <script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
 <script type="text/javascript" src="/js/feedbackResponseComments.js"></script>
 <jsp:include page="../enableJS.jsp"></jsp:include>
@@ -54,6 +54,39 @@
             </div>
             <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_TOP%>" />
             <br>
+            <%
+                boolean groupByTeamSelected = data.groupByTeam==null ? false: true;
+                String[] order = data.sortType.split("-");
+            %>
+            
+            <hr>
+
+                TEST - Order: <%=data.sortType%>
+                <%
+                    for(String str : order){
+                %>
+                        <br>
+                        <%=str%>
+                <%
+                    }
+                %>
+
+                Panels:
+                Team
+                Question
+                Giver
+                Recipient
+                Column giver/recipient
+
+                Table
+
+                <%
+                    Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionResponseMap = data.bundle.getQuestionResponseMap();
+                    Map<String, Map<String, List<FeedbackResponseAttributes>>> responsesByRecipient = data.bundle.getResponsesSortedByRecipient();
+
+                %>
+
+            <hr>
         <%
             Map<String, Map<String, List<FeedbackResponseAttributes>>> allResponses = data.bundle.getResponsesSortedByRecipient();
             Map<String, FeedbackQuestionAttributes> questions = data.bundle.questions;

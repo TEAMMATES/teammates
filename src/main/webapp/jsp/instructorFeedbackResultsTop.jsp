@@ -79,14 +79,20 @@
                         </label>
                         <div class="col-sm-10">
                             <select id="viewSelect" class="form-control" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE%>" onchange="this.form.submit()">
-                                <option value="table" <%=(data.sortType!=null) ? data.sortType.equals("table") ? "selected=\"selected\"" : "" : ""%>>
+                                <option value="question" <%=(data.sortType!=null) ? data.sortType.equals("question") ? "selected=\"selected\"" : "" : ""%>>
                                     By - Question
                                 </option>
-                                <option value="giver" <%=(data.sortType!=null) ? data.sortType.equals("giver") ? "selected=\"selected\"" : "" : ""%>>
+                                <option value="giver-recipient-question" <%=(data.sortType!=null) ? data.sortType.equals("giver-recipient-question") ? "selected=\"selected\"" : "" : ""%>>
                                     Group - Giver > Recipient > Question
                                 </option>
-                                <option value="recipient" <%=(data.sortType!=null) ? data.sortType.equals("recipient") ? "selected=\"selected\"" : "" : "selected=\"selected\""%>>
+                                <option value="recipient-giver-question" <%=(data.sortType!=null) ? data.sortType.equals("recipient-giver-question") ? "selected=\"selected\"" : "" : ""%>>
                                     Group - Recipient > Giver > Question
+                                </option>
+                                <option value="giver-question-recipient" <%=(data.sortType!=null) ? data.sortType.equals("giver-question-recipient") ? "selected=\"selected\"" : "" : ""%>>
+                                    Group - Giver > Question > Recipient
+                                </option>
+                                <option value="recipient-question-giver" <%=(data.sortType!=null) ? data.sortType.equals("recipient-question-giver") ? "selected=\"selected\"" : "" : "selected=\"selected\""%>>
+                                    Group - Recipient > Question > Giver
                                 </option>
                             </select>
                         </div>
@@ -95,7 +101,7 @@
                 <div class="col-sm-3 pull-right">
                     <div class="checkbox pull-right">
                         <label>
-                            <input type="checkbox" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM%>" onchange="this.form.submit()" <%=(data.groupByTeam==null) ? "" : "checked=\"checked\""%>> Group by Teams
+                            <input type="checkbox" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM%>" onchange="this.form.submit()" <%=(data.groupByTeam==null) ? "" : "checked=\"checked\""%> <%=(data.sortType.equals("question")) ? "disabled=\"disabled\"" : "d"%>> Group by Teams
                         </label>
                     </div>
                 </div>
