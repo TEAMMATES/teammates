@@ -196,7 +196,7 @@
                                 <div class="form-group">
                                     <div class="panel panel-info" style="width: 95%; margin: 0 auto;">
                                         <div class="panel-heading">
-                                            <strong>Course Related</strong>
+                                            <strong>Course Level</strong>
                                         </div>
                                         <div class="panel-body">
                                             <div class="col-sm-3">
@@ -204,9 +204,6 @@
                                             </div>
                                             <div class="col-sm-3">
                                                 <input type="checkbox" name="canmodifyinstructor" id="canmodifyinstructor1" value="true">&nbsp;Add/Edit/Delete instructors
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <input type="checkbox" name="canmodifyowner" id="canmodifyowner1" value="true">&nbsp;Add/Edit/Delete owners
                                             </div>
                                             <div class="col-sm-3">
                                                 <input type="checkbox" name="canmodifysession" id="canmodifysession1" value="true">&nbsp;Create/edit/delete sessions
@@ -220,7 +217,7 @@
                                 <div class="form-group">
                                     <div class="panel panel-info" style="width: 95%; margin: 0 auto;">
                                         <div class="panel-heading">
-                                            <strong>Section Related</strong>
+                                            <strong>Section Level</strong>
                                             <div class="pull-right" id="sectiongroupforinstructor1">
                                                 <input type="checkbox" name="issection1selected" id="issection1selected1" value="true">&nbsp;Section1&nbsp;
                                                 <input type="checkbox" name="issection2selected" id="issection2selected1" value="true">&nbsp;Section2&nbsp;
@@ -228,28 +225,18 @@
                                             </div>
                                         </div>
                                         <div class="panel-body">
-                                            <div class="col-sm-4">
-                                                <input type="checkbox" name="canviewstudentinsection" id="canviewstudentinsection1" value="true">&nbsp;View Student details
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <input type="checkbox" name="canviewcommentinsection" id="canviewcommentinsection1" value="true">&nbsp;View others’ comments on students
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <input type="checkbox" name="cangivecommentinsection" id="cangivecommentinsection1" value="true">&nbsp;Give comments for students
-                                            </div>
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-6 border-right-gray">
+                                                <input type="checkbox" name="canviewstudentinsection" id="canviewstudentinsection1" value="true">&nbsp;View Student details<br>
+                                                <input type="checkbox" name="canviewcommentinsection" id="canviewcommentinsection1" value="true">&nbsp;View others’ comments on students<br>
+                                                <input type="checkbox" name="cangivecommentinsection" id="cangivecommentinsection1" value="true">&nbsp;Give comments for students<br>
                                                 <input type="checkbox" name="canmodifycommentinsection" id="canmodifycommentinsection1" value="true">&nbsp;Edit/delete others’ comments
                                             </div>
-                                            <div class="col-sm-4">
-                                                <input type="checkbox" name="canviewsessioninsection" id="canviewsessioninsectionforinstructor1" value="true">&nbsp;Sessions: View responses and comments
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <input type="checkbox" name="cansubmitsessioninsection" id="cansubmitsessioninsectionforinstructor1" value="true">&nbsp;Sessions: Submit responses and comments
-                                            </div>
-                                            <div class="col-sm-12">
+                                            <div class="col-sm-5 col-sm-offset-1">
+                                                <input type="checkbox" name="canviewsessioninsection" id="canviewsessioninsectionforinstructor1" value="true">&nbsp;Sessions: View responses and comments<br>
+                                                <input type="checkbox" name="cansubmitsessioninsection" id="cansubmitsessioninsectionforinstructor1" value="true">&nbsp;Sessions: Submit responses and comments<br>
                                                 <input type="checkbox" name="canmodifysessioninsection" id="canmodifysessioninsectionforinstructor1" value="true">&nbsp;Sessions: Edit/delete responses/comments by others
                                             </div>
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-12">
                                                 <a href="javascript:;" onclick="toggleSessionsControlTable(1)" class="small">More Configuration</a>
                                             </div>
                                             <br>
@@ -356,7 +343,7 @@
                                 <div class="form-group">
                                     <div class="panel panel-info" style="width: 95%; margin: 0 auto;">
                                         <div class="panel-heading">
-                                            <strong>Course Related</strong>
+                                            <strong>Course Level</strong>
                                         </div>
                                         <div class="panel-body">
                                             <div class="col-sm-3">
@@ -364,9 +351,6 @@
                                             </div>
                                             <div class="col-sm-3">
                                                 <input type="checkbox" name="canmodifyinstructor" id="canmodifyinstructor2" value="true">&nbsp;Add/Edit/Delete instructors
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <input type="checkbox" name="canmodifyowner" id="canmodifyowner2" value="true">&nbsp;Add/Edit/Delete owners
                                             </div>
                                             <div class="col-sm-3">
                                                 <input type="checkbox" name="canmodifysession" id="canmodifysession2" value="true">&nbsp;Create/edit/delete sessions
@@ -380,7 +364,7 @@
                                 <div class="form-group">
                                     <div class="panel panel-info" style="width: 95%; margin: 0 auto;">
                                         <div class="panel-heading">
-                                            <strong>Section Related</strong>
+                                            <strong>Section Level</strong>
                                             <div class="pull-right" id="sectiongroupforinstructor2">
                                                 <input type="checkbox" name="issection1selected" id="issection1selected2" value="true">&nbsp;Section1&nbsp;
                                                 <input type="checkbox" name="issection2selected" id="issection2selected2" value="true">&nbsp;Section2&nbsp;
@@ -388,28 +372,18 @@
                                             </div>
                                         </div>
                                         <div class="panel-body">
-                                            <div class="col-sm-4">
-                                                <input type="checkbox" name="canviewstudentinsection" id="canviewstudentinsection2" value="true">&nbsp;View Student details
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <input type="checkbox" name="canviewcommentinsection" id="canviewcommentinsection2" value="true">&nbsp;View others’ comments on students
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <input type="checkbox" name="cangivecommentinsection" id="cangivecommentinsection2" value="true">&nbsp;Give comments for students
-                                            </div>
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-6 border-right-gray">
+                                                <input type="checkbox" name="canviewstudentinsection" id="canviewstudentinsection2" value="true">&nbsp;View Student details<br>
+                                                <input type="checkbox" name="canviewcommentinsection" id="canviewcommentinsection2" value="true">&nbsp;View others’ comments on students<br>
+                                                <input type="checkbox" name="cangivecommentinsection" id="cangivecommentinsection2" value="true">&nbsp;Give comments for students<br>
                                                 <input type="checkbox" name="canmodifycommentinsection" id="canmodifycommentinsection2" value="true">&nbsp;Edit/delete others’ comments
                                             </div>
-                                            <div class="col-sm-4">
-                                                <input type="checkbox" name="canviewsessioninsection" id="canviewsessioninsectionforinstructor2" value="true">&nbsp;Sessions: View responses and comments
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <input type="checkbox" name="cansubmitsessioninsection" id="cansubmitsessioninsectionforinstructor2" value="true">&nbsp;Sessions: Submit responses and comments
-                                            </div>
-                                            <div class="col-sm-12">
+                                            <div class="col-sm-5 col-sm-offset-1">
+                                                <input type="checkbox" name="canviewsessioninsection" id="canviewsessioninsectionforinstructor2" value="true">&nbsp;Sessions: View responses and comments<br>
+                                                <input type="checkbox" name="cansubmitsessioninsection" id="cansubmitsessioninsectionforinstructor2" value="true">&nbsp;Sessions: Submit responses and comments<br>
                                                 <input type="checkbox" name="canmodifysessioninsection" id="canmodifysessioninsectionforinstructor2" value="true">&nbsp;Sessions: Edit/delete responses/comments by others
                                             </div>
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-12">
                                                 <a href="javascript:;" onclick="toggleSessionsControlTable(2)" class="small">More Configuration</a>
                                             </div>
                                             <br>
