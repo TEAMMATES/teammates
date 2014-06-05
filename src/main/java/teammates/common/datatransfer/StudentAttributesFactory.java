@@ -2,6 +2,7 @@ package teammates.common.datatransfer;
 
 import teammates.common.exception.EnrollException;
 import teammates.common.util.Assumption;
+import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 
@@ -94,7 +95,7 @@ public class StudentAttributesFactory {
         if(hasSection){
             paramSection = columns[sectionColumnIndex];
         } else {
-            paramSection = "None";
+            paramSection = Const.DEFAULT_SECTION;
         }
         
         return new StudentAttributes(paramSection, paramTeam, paramName, paramEmail, paramComment, courseId);

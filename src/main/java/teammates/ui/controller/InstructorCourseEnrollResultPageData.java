@@ -26,6 +26,8 @@ public class InstructorCourseEnrollResultPageData extends PageData {
     
     public boolean hasSection;
 
+    public String enrollStudents;
+
     public String getMessageForEnrollmentStatus(int enrollmentStatus) {
 
         UpdateStatus status = UpdateStatus.enumRepresentation(enrollmentStatus);

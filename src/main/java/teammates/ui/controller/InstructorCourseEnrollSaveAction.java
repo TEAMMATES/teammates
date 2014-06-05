@@ -35,9 +35,10 @@ public class InstructorCourseEnrollSaveAction extends Action {
             pageData.courseId = courseId;
             pageData.students = enrollAndProcessResultForDisplay(studentsInfo, courseId);
             pageData.hasSection = hasSections(pageData.students);
+            pageData.enrollStudents = studentsInfo;
             statusToAdmin = "Students Enrolled in Course <span class=\"bold\">[" 
                     + courseId + "]:</span><br>" + (studentsInfo).replace("\n", "<br>");
-            
+
             return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL_RESULT, pageData);
             
         } catch (EnrollException | InvalidParametersException e) {
@@ -55,7 +56,7 @@ public class InstructorCourseEnrollSaveAction extends Action {
     private boolean hasSections(List<StudentAttributes>[] students){
         for(List<StudentAttributes> studentList: students){
             for(StudentAttributes student : studentList){
-                if(!student.section.equals("None")){
+                if(!student.section.equals(Const.DEFAULT_SECTION)){
                     return true;
                 }
             }
