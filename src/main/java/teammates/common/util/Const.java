@@ -772,7 +772,11 @@ public class Const {
     
     public static final String USER_NOBODY_TEXT = "-";
     public static final String USER_UNKNOWN_TEXT = "Unknown user";
-    public static final String TEAM_OF_EMAIL_OWNER = "'s Team";    
+    public static final String TEAM_OF_EMAIL_OWNER = "'s Team";
+    
+    public static final String GENDER_MALE = "male";
+    public static final String GENDER_FEMALE = "female";
+    public static final String GENDER_OTHER = "other";
     
     public static final String INSTRUCTOR_EVALUATION_STATUS_AWAITING = "Awaiting";
     public static final String INSTRUCTOR_EVALUATION_STATUS_OPEN = "Open";
