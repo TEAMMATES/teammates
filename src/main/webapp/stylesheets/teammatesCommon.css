@@ -24,6 +24,10 @@ body {
     border-left: 1px solid #ddd;
 }
 
+.border-right-gray {
+    border-right: 1px solid #ddd;
+}
+
 .border-top-gray {
     border-top: 1px solid #ddd;
     padding-top: 10px;
@@ -33,7 +37,7 @@ body {
     color: #108627;
 }
 
-.color_negative { 
+.color-negative { 
     color: #e74c3c;
 }
 
