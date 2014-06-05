@@ -58,7 +58,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
         case "giver-question-recipient":
         case "recipient-question-giver":
             
-            return createShowPageResult("/jsp/instructorFeedbackResultsByOrder.jsp", data);
+            return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_QUESTION_GIVER, data);
         default:
             data.sortType = "recipient-giver-question";
             return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION, data);

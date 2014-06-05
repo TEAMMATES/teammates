@@ -80,15 +80,9 @@
 
                 Table
 
-                <%
-                    Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionResponseMap = data.bundle.getQuestionResponseMap();
-                    Map<String, Map<String, List<FeedbackResponseAttributes>>> responsesByRecipient = data.bundle.getResponsesSortedByRecipient();
-
-                %>
-
             <hr>
         <%
-            Map<String, Map<String, List<FeedbackResponseAttributes>>> allResponses = data.bundle.getResponsesSortedByRecipient();
+            Map<String, Map<String, List<FeedbackResponseAttributes>>> allResponses = data.bundle.getResponsesSortedByRecipient(false);
             Map<String, FeedbackQuestionAttributes> questions = data.bundle.questions;
 
             int recipientIndex = 0;
