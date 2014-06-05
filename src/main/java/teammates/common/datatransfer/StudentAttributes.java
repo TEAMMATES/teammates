@@ -111,7 +111,8 @@ public class StudentAttributes extends EntityAttributes {
         String enrollmentString = "";
         String enrollmentStringSeparator = "|";
         
-        enrollmentString = this.team + enrollmentStringSeparator;
+        enrollmentString = this.section + enrollmentStringSeparator;
+        enrollmentString += this.team + enrollmentStringSeparator;
         enrollmentString += this.name + enrollmentStringSeparator;
         enrollmentString += this.email + enrollmentStringSeparator;
         enrollmentString += this.comments;
@@ -129,7 +130,8 @@ public class StudentAttributes extends EntityAttributes {
                 && otherStudent.course.equals(this.course)
                 && otherStudent.name.equals(this.name)
                 && otherStudent.comments.equals(this.comments)
-                && otherStudent.team.equals(this.team);
+                && otherStudent.team.equals(this.team)
+                && otherStudent.section.equals(this.section);
     }
 
     public List<String> getInvalidityInfo() {
@@ -210,6 +212,9 @@ public class StudentAttributes extends EntityAttributes {
         if(this.comments == null){
             this.comments = originalStudent.comments;
         }
+        if(this.section == null){
+            this.section = originalStudent.section;
+        }
     }
 
     public Student toEntity() {
@@ -244,12 +249,14 @@ public class StudentAttributes extends EntityAttributes {
         this.course = Sanitizer.sanitizeTitle(this.course);
         this.name = Sanitizer.sanitizeName(this.name);
         this.team = Sanitizer.sanitizeTitle(this.team);
+        this.section = Sanitizer.sanitizeTitle(this.section);
         this.comments = Sanitizer.sanitizeTextField(this.comments);
         this.googleId = Sanitizer.sanitizeForHtml(this.googleId);
         this.email = Sanitizer.sanitizeForHtml(this.email);
         this.course = Sanitizer.sanitizeForHtml(this.course);
         this.name = Sanitizer.sanitizeForHtml(this.name);
         this.team = Sanitizer.sanitizeForHtml(this.team);
+        this.section = Sanitizer.sanitizeForHtml(this.section);
         this.comments = Sanitizer.sanitizeForHtml(this.comments);
     }
 }

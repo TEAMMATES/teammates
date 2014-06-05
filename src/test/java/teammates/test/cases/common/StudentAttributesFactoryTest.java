@@ -29,11 +29,48 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
         
         ______TS("fail: null parameter");
         try {
-            invokeLocateColumnIndexes(headerRow);
+            saf = new StudentAttributesFactory(headerRow);
             signalFailureToDetectException();
-        } catch (AssertionError|InvocationTargetException e) {
+        } catch (AssertionError e) {
             ignoreExpectedException();
         }
+        
+        ______TS("fail: not satisfy the minimum requirement of fields");
+        headerRow = "name \t email";
+        try {
+            saf = new StudentAttributesFactory(headerRow);
+            signalFailureToDetectException();
+        } catch (EnrollException e) {
+            assertEquals(StudentAttributesFactory.ERROR_HEADER_ROW_FIELD_MISSED, e.getMessage());
+        }
+
+        ______TS("fail: missing 'Name' field");
+        headerRow = "section \t team \t email";
+        try {
+            saf = new StudentAttributesFactory(headerRow);
+            signalFailureToDetectException();
+        } catch (EnrollException e) {
+            assertEquals(StudentAttributesFactory.ERROR_HEADER_ROW_FIELD_MISSED, e.getMessage());
+        }
+
+        ______TS("fail: missing 'Team' field");
+        headerRow = "section \t name \t email";
+        try {
+            saf = new StudentAttributesFactory(headerRow);
+            signalFailureToDetectException();
+        } catch (EnrollException e) {
+            assertEquals(StudentAttributesFactory.ERROR_HEADER_ROW_FIELD_MISSED, e.getMessage());
+        }
+
+        ______TS("fail: missing 'Email' field");
+        headerRow = "section \t team \t name";
+        try {
+            saf = new StudentAttributesFactory(headerRow);
+            signalFailureToDetectException();
+        } catch (EnrollException e) {
+            assertEquals(StudentAttributesFactory.ERROR_HEADER_ROW_FIELD_MISSED, e.getMessage());
+        }
+        
         
         ______TS("fail: repeated required columns");
         headerRow = "name \t email \t team \t comments \t name";
@@ -46,23 +83,7 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
         
         // remaining cases have been implicitly tested in testMakeStudent()
     }
-    
-    @Test
-    public void testHasHeader() throws EnrollException {
-        String headerRow = null;
-        StudentAttributesFactory saf = null;
         
-        ______TS("Typical case: Has header");
-        headerRow = "name \t email \t team \t comments";
-        saf = new StudentAttributesFactory(headerRow);
-        assertEquals(true, saf.hasHeader());
-        
-        ______TS("Typical case: No header");
-        headerRow = "team1 \t test@email.com";
-        saf = new StudentAttributesFactory(headerRow);
-        assertEquals(false, saf.hasHeader());
-    }
-    
     @Test
     public void testMakeStudent() throws EnrollException {
         StudentAttributesFactory saf = new StudentAttributesFactory();
@@ -130,17 +151,19 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
         
         ______TS("success: no header specified, assume default column order");
         saf = new StudentAttributesFactory();
-        line = "team 1|SAFT.name|SAFT@email.com|comment";
+        line = "section 1| team 1|SAFT.name|SAFT@email.com|comment";
         
         studentCreated = saf.makeStudent(line, courseId);
+        assertEquals(studentCreated.section, "section 1");
         assertEquals(studentCreated.team, "team 1");
         assertEquals(studentCreated.name, "SAFT.name");
         assertEquals(studentCreated.email, "SAFT@email.com");
         assertEquals(studentCreated.comments, "comment");
         
-        line = "team 2|SAFT.name2|SAFT2@email.com";
+        line = "section 2| team 2|SAFT.name2|SAFT2@email.com";
         
         studentCreated = saf.makeStudent(line, courseId);
+        assertEquals(studentCreated.section, "section 2");
         assertEquals(studentCreated.team, "team 2");
         assertEquals(studentCreated.name, "SAFT.name2");
         assertEquals(studentCreated.email, "SAFT2@email.com");
@@ -158,7 +181,7 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
         assertEquals(0, columnCount);
         
         ______TS("header row contains empty columns");
-        headerRow = "|team|name||email||comment";
+        headerRow = " | team | name | | email | | comment";
         columnCount = invokeLocateColumnIndexes(headerRow);
         assertEquals(4, columnCount);
         

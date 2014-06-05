@@ -55,7 +55,7 @@ public class StudentEvalEditSubmissionPageUiTest extends BaseUiTestCase {
         
         // add a new student to Team 2, and change his email
         String newGuyOriginalEmail = "old@guy.com";
-        StudentAttributes newGuy = new StudentAttributes("Team 2", "New Guy"
+        StudentAttributes newGuy = new StudentAttributes("Section 2", "Team 2", "New Guy"
                 , newGuyOriginalEmail, "", "SEvalEditUiT.CS2104");
         backDoorOperationStatus = BackDoor.createStudent(newGuy);
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);

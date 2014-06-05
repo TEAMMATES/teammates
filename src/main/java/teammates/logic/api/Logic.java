@@ -912,6 +912,13 @@ public class Logic {
         studentsLogic.deleteStudentCascade(courseId, studentEmail);
     }
 
+    public boolean hasIndicatedSections(String courseId) throws EntityDoesNotExistException {
+
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+
+        return studentsLogic.hasIndicatedSections(courseId);
+    }
+
     @SuppressWarnings("unused")
     private void ____EVALUATION_level_methods______________________________() {
     }

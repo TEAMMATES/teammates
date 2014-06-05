@@ -325,14 +325,36 @@ public class StudentsLogic {
                 return o1.team.compareTo(o2.team);
             }
         });
+
+        String errorMessage = "";
+        List<String> invalidTeamList = new ArrayList<String>();
         for(int i = 1; i < mergedList.size(); i++){
             StudentAttributes currentStudent = mergedList.get(i);
             StudentAttributes previousStudent = mergedList.get(i-1);
             if(currentStudent.team.equals(previousStudent.team) && !currentStudent.section.equals(previousStudent.section)){
-                throw new EnrollException("Cannot have a team in 2 different sections");
+                if(!invalidTeamList.contains(currentStudent.team)){
+                    invalidTeamList.add(currentStudent.team);    
+                }
             }
         }
+        for(String team : invalidTeamList){
+            errorMessage += "Cannot put team \"" + team + "\" in 2 different sections<br>";
+        }
+        if(!errorMessage.equals("")){
+            throw new EnrollException(errorMessage);
+        }
 
+    }
+
+    public boolean hasIndicatedSections(String courseId) throws EntityDoesNotExistException{
+
+        List<StudentAttributes> studentList = getStudentsForCourse(courseId);
+        for(StudentAttributes student : studentList) {
+            if(!student.section.equals("None")){
+                return true;
+            }
+        }
+        return false;
     }
 
     private void scheduleSubmissionAdjustmentForFeedbackInCourse(
@@ -501,7 +523,7 @@ public class StudentsLogic {
         List<String> invalidityInfo = new ArrayList<String>();
         String[] linesArray = lines.split(Const.EOL);
         ArrayList<String>  studentEmailList = new ArrayList<String>();
-        
+    
         StudentAttributesFactory saf = new StudentAttributesFactory(linesArray[0]);
         
         for (int i = 1; i < linesArray.length; i++) {
@@ -537,7 +559,7 @@ public class StudentsLogic {
     private List<String> getInvalidityInfoInDuplicatedEmail(String email,
             ArrayList<String> studentEmailList,String[] linesArray){
         List<String> info = new ArrayList<String>();
-        info.add("Same email address as the student in line \"" + linesArray[studentEmailList.indexOf(email)]+ "\"");
+        info.add("Same email address as the student in line \"" + linesArray[studentEmailList.indexOf(email) + 1]+ "\"");
         return info;
     }
     
