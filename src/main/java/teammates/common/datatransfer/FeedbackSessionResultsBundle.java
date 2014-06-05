@@ -64,8 +64,8 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
     
     public String getTeamNameForEmail(String email) {
         String teamName = emailTeamNameTable.get(email);
-        if (teamName == null) {
-            return "";
+        if (teamName == null || email.equals(Const.GENERAL_QUESTION) ) {
+            return Const.USER_NOBODY_TEXT;
         } else {
             return PageData.sanitizeForHtml(teamName);
         }
@@ -176,13 +176,16 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
      * <br>with attributes corresponding to it's parents.
      * @return The responses in this bundle sorted by recipient's name > giver's name > question number.
      */
-    public Map<String, Map<String, List<FeedbackResponseAttributes>>> getResponsesSortedByRecipient() {
+    public Map<String, Map<String, List<FeedbackResponseAttributes>>> getResponsesSortedByRecipient(boolean sortByTeam) {
 
         Map<String, Map<String, List<FeedbackResponseAttributes>>> sortedMap =
                 new LinkedHashMap<String, Map<String, List<FeedbackResponseAttributes>>>();
 
         Collections.sort(responses, compareByRecipientName);
-
+        if(sortByTeam == true){
+            Collections.sort(responses, compareByRecipientTeamName);
+        }
+        
         String prevGiver = null;
         String prevRecipient = null;
         String recipientName = null;
@@ -373,6 +376,17 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
             int order = compareByNames(recipientName1, recipientName2);
             order = (order == 0 ? compareByNames(giverName1, giverName2) : order);
             return order == 0 ? compareByQuestionNumber(o1, o2) : order; 
+        }
+    };
+    
+    //Sorts by recipientTeamName
+    public final Comparator<FeedbackResponseAttributes> compareByRecipientTeamName
+        = new Comparator<FeedbackResponseAttributes>() {
+        @Override
+        public int compare(FeedbackResponseAttributes o1,
+                FeedbackResponseAttributes o2) {
+            return getTeamNameForEmail(o1.recipientEmail).compareTo(
+                    getTeamNameForEmail(o2.recipientEmail));
         }
     };
     

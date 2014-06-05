@@ -30,6 +30,7 @@
 <script type="text/javascript" src="/js/jquery-minified.js"></script>
 <script type="text/javascript" src="/js/common.js"></script>
 <script type="text/javascript" src="/js/instructor.js"></script>
+<script type="text/javascript" src="/js/instructorFeedbackResults.js"></script>
 <script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
 <script type="text/javascript" src="/js/feedbackResponseComments.js"></script>
 <jsp:include page="../enableJS.jsp"></jsp:include>
@@ -53,25 +54,54 @@
             </div>
             <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_TOP%>" />
             <br>
-        <%
-            Map<String, Map<String, List<FeedbackResponseAttributes>>> allResponses = data.bundle.getResponsesSortedByRecipient();
-            Map<String, FeedbackQuestionAttributes> questions = data.bundle.questions;
+            <%
+                boolean groupByTeamEnabled = data.groupByTeam==null ? false : true;
+                String currentTeam = null;
+                boolean newTeam = false;
+            %>
 
-            int recipientIndex = 0;
-            for (Map.Entry<String, Map<String, List<FeedbackResponseAttributes>>> responsesForRecipient : allResponses.entrySet()) {
-                recipientIndex++;
-                
+            <%
+                Map<String, Map<String, List<FeedbackResponseAttributes>>> allResponses = data.bundle.getResponsesSortedByRecipient(groupByTeamEnabled);
+                Map<String, FeedbackQuestionAttributes> questions = data.bundle.questions;
 
-                Map<String, List<FeedbackResponseAttributes> > recipientData = responsesForRecipient.getValue();
-                Object[] recipientDataArray =  recipientData.keySet().toArray();
-                FeedbackResponseAttributes firstResponse = recipientData.get(recipientDataArray[0]).get(0);
-                String targetEmail = firstResponse.recipientEmail;
+                int recipientIndex = 0;
+                for (Map.Entry<String, Map<String, List<FeedbackResponseAttributes>>> responsesForRecipient : allResponses.entrySet()) {
+                    recipientIndex++;
+                    
 
-                FeedbackParticipantType firstQuestionRecipientType = questions.get(firstResponse.feedbackQuestionId).recipientType;
-                String mailtoStyleAttr = (firstQuestionRecipientType == FeedbackParticipantType.NONE || 
-                                firstQuestionRecipientType == FeedbackParticipantType.TEAMS)?"style=\"display:none;\"":"";
-        %>
-                <div class="panel panel-primary">
+                    Map<String, List<FeedbackResponseAttributes> > recipientData = responsesForRecipient.getValue();
+                    Object[] recipientDataArray =  recipientData.keySet().toArray();
+                    FeedbackResponseAttributes firstResponse = recipientData.get(recipientDataArray[0]).get(0);
+                    String targetEmail = firstResponse.recipientEmail;
+
+                    FeedbackParticipantType firstQuestionRecipientType = questions.get(firstResponse.feedbackQuestionId).recipientType;
+                    String mailtoStyleAttr = (firstQuestionRecipientType == FeedbackParticipantType.NONE || 
+                                    firstQuestionRecipientType == FeedbackParticipantType.TEAMS)?"style=\"display:none;\"":"";
+            %>
+            <%
+                if(currentTeam != null && !currentTeam.equals(data.bundle.getTeamNameForEmail(targetEmail))) {
+                    currentTeam = data.bundle.getTeamNameForEmail(targetEmail);
+                    newTeam = true;
+            %>
+                    </div>
+                </div>
+            <%
+                }
+                if(groupByTeamEnabled == true && (currentTeam==null || newTeam==true)) {
+                    currentTeam = data.bundle.getTeamNameForEmail(targetEmail);
+                    newTeam = false;
+            %>
+                    <div class="panel panel-warning">
+                        <div class="panel-heading">
+                            <strong><%=currentTeam%></strong>
+                        </div>
+                        <div class="panel-body">
+            <%
+                }
+            %>
+
+
+            <div class="panel panel-primary">
                 <div class="panel-heading">
                     To: <strong><%=responsesForRecipient.getKey()%></strong>
                         <a class="link-in-dark-bg" href="mailTo:<%= targetEmail%> " <%=mailtoStyleAttr%>>[<%=targetEmail%>]</a>
@@ -194,7 +224,19 @@
                 <%
                     }
                 %>
-                </div></div><br />
+                </div>
+            </div>
+            <br>
+        <%
+            }
+        %>
+
+        <%
+            //close the last team panel.
+            if(groupByTeamEnabled==true) {
+        %>
+                    </div>
+                </div>
         <%
             }
         %>
