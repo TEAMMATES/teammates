@@ -47,6 +47,11 @@ public class Comment {
     @Persistent
     private Set<String> recipients;
     
+    //TODO: remove this property after data migration
+    /** The receiver's email used for this comment. */
+    @Persistent
+    private String receiverEmail;
+    
     /** The creation time of this comment. */
     @Persistent
     private Date createdAt;
@@ -104,6 +109,16 @@ public class Comment {
 
     public void setRecipients(Set<String> recipients) {
         this.recipients = recipients;
+    }
+    
+    @Deprecated 
+    public String getReceiverEmail() {
+        return receiverEmail;
+    }
+
+    @Deprecated 
+    public void setReceiverEmail(String receiverEmail) {
+        this.receiverEmail = receiverEmail;
     }
     
     public Date getCreatedAt() {
