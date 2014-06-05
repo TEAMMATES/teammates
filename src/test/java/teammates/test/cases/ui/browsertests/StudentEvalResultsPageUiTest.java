@@ -11,6 +11,9 @@ import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.StudentEvalResultsPage;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 /**
  * Covers 'Evaluation Results' page for students.
  * SUT: {@link StudentEvalResultsPage}
@@ -31,6 +34,13 @@ public class StudentEvalResultsPageUiTest extends BaseUiTestCase {
     
     @Test    
     public void testAll() throws Exception{
+       
+        testContent();
+        testLink();   
+    }
+    
+    
+    private void testContent(){
         
         ______TS("content");
         
@@ -40,24 +50,26 @@ public class StudentEvalResultsPageUiTest extends BaseUiTestCase {
         
         verifyResultContent("Third Eval", "SEvalRUiT.alice.b", "/studentEvalResultsTwoMembersTypicalHTML.html");
         
-        //TODO: give more details of each extreme case. In what way is it extreme?
         //extreme case: 1
-        
+        //My view:         of me: E +100%  of others: E , 0%
+        //Teams's view:    of me: E +2%    of others: E +48% , E -50%
         verifyResultContent("Second Eval", "SEvalRUiT.charlie.d", "/studentEvalResultsExtreme1HTML.html");
 
         //extreme case: 2
-        
+        //My view:         of me: E        of others: E +10% , E
+        //Teams's view:    of me: E -48%   of others: E +53% , E +6%
         verifyResultContent("Second Eval", "SEvalRUiT.danny.e", "/studentEvalResultsExtreme2HTML.html");
 
         //extreme case: 3
-        
+        //My view:         of me: E        of others: E , E
+        //Teams's view:    of me: E +48%   of others: E +2% , E -50%
         verifyResultContent("Second Eval", "SEvalRUiT.emily.f", "/studentEvalResultsExtreme3HTML.html");
 
         //student did not submit
         
         verifyResultContent("Second Eval", "SEvalRUiT.alice.b", "/studentEvalResultsNotSubmittedHTML.html");
 
-        //teammates did not submit
+        //team mates did not submit
         
         verifyResultContent("Second Eval", "SEvalRUiT.benny.c", "/studentEvalResultsTheOtherDidn'tSubmitHTML.html");
         
@@ -65,23 +77,57 @@ public class StudentEvalResultsPageUiTest extends BaseUiTestCase {
         
         verifyResultContent("P2P Disabled Eval", "SEvalRUiT.benny.c", "/studentEvalResultsP2PDisabled.html");
         
-        ______TS("links, inputValidation, actions");
+    }
+    
+    
+    private void testLink(){
         
-        //nothing to test here.
+        ______TS("Click Result Interpret Link");
         
+        resultsPage = getResultsPage("Third Eval", "SEvalRUiT.charlie.d");
+        resultsPage.clickResultInterpretLink();  
+        resultsPage.verifyHtml("/studentEvalResultsTypicalHTML.html");
+ 
+        Url expectedUrl = createUrl(Const.ActionURIs.STUDENT_EVAL_RESULTS_PAGE)
+                          .withUserId(testData.students.get("SEvalRUiT.charlie.d").googleId)
+                          .withCourseId(testData.evaluations.get("Third Eval").courseId)
+                          .withEvalName(testData.evaluations.get("Third Eval").name);
+        
+        String expectedUrlString = expectedUrl.toString() + "#interpret";
+        String actualUrlString = browser.driver.getCurrentUrl();      
+        assertEquals(expectedUrlString, actualUrlString);
+        
+        
+        ______TS("Click Calculation Detalis Link");     
+                
+        resultsPage.clickcalculationDetaislLink();
+        
+        actualUrlString = browser.driver.getCurrentUrl();
+        String stringShouldAppear = "/dev/spec.html#supplementaryrequirements-pointcalculationscheme";
+        
+        assertTrue(actualUrlString.contains(stringShouldAppear));
+    
     }
 
     private void verifyResultContent(String evalObjectId, String studentObjectId, String filePath) {
         
-        Url resultsUrl = createUrl(Const.ActionURIs.STUDENT_EVAL_RESULTS_PAGE)
-            .withUserId(testData.students.get(studentObjectId).googleId)
-            .withCourseId(testData.evaluations.get(evalObjectId).courseId)
-            .withEvalName(testData.evaluations.get(evalObjectId).name);
-        
-        resultsPage = loginAdminToPage(browser, resultsUrl, StudentEvalResultsPage.class);
-        resultsPage.verifyHtml(filePath);
+        StudentEvalResultsPage actualResultsPage = getResultsPage(evalObjectId, studentObjectId);
+        actualResultsPage.verifyHtml(filePath);     
     }
-
+    
+    
+    private StudentEvalResultsPage getResultsPage(String evalObjectId, String studentObjectId){
+        
+        Url resultsUrl = createUrl(Const.ActionURIs.STUDENT_EVAL_RESULTS_PAGE)
+                         .withUserId(testData.students.get(studentObjectId).googleId)
+                         .withCourseId(testData.evaluations.get(evalObjectId).courseId)
+                         .withEvalName(testData.evaluations.get(evalObjectId).name);
+        
+        resultsPage = loginAdminToPage(browser, resultsUrl, StudentEvalResultsPage.class); 
+        return resultsPage;      
+    }
+    
+    
     @AfterClass
     public static void classTearDown() throws Exception {
         BrowserPool.release(browser);
