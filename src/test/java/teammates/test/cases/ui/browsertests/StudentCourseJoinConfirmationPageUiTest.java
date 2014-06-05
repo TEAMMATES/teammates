@@ -21,8 +21,9 @@ import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.DevServerLoginPage;
 import teammates.test.pageobjects.GoogleLoginPage;
 import teammates.test.pageobjects.LoginPage;
-import teammates.test.pageobjects.StudentCourseJoinConfirmationPage;
 import teammates.test.pageobjects.StudentHomePage;
+import teammates.test.pageobjects.StudentCourseJoinConfirmationPage;
+
 
 public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
     private static Browser browser;
