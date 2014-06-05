@@ -357,7 +357,7 @@
                                             title="<%=Const.Tooltips.FEEDBACK_SESSION_RESULTSVISIBLELABEL%>"
                                             data-toggle="tooltip"
                                             data-placement="top">
-                                            <label class="label-control">Responsesvisible from</label>
+                                            <label class="label-control">Responses visible from</label>
                                         </div>
                                     </div>
                                     <div class="row radio">
