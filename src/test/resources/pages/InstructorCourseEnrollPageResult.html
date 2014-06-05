@@ -29,7 +29,7 @@
 </head>
 
 <body>
-  <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+ <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <div class="container">
                <div class="navbar-header">
                   <button class="navbar-toggle" data-target="#contentLinks" data-toggle="collapse" type="button">
@@ -98,11 +98,20 @@
                </h1>
             </div>
             <div class="alert alert-success">
-               Enrollment Successful. Summary given below. Click
-               <a href="javascript:history.go(-1)" id="edit_enroll">
-                  here
-               </a>
-               to modify values and re-do the enrollment.
+               <form action="/page/instructorCourseEnrollPage?courseid=CCEnrollUiT.CS2104&user=CCEnrollUiT.teammates.test" method="post" name="goBack" role="form">
+                  Enrollment Successful. Summary given below. Click
+                  <a href="javascript:document.forms['goBack'].submit()" id="edit_enroll">
+                     here
+                  </a>
+                  to modify values and re-do the enrollment.
+                  <input name="courseid" type="hidden" value="CCEnrollUiT.CS2104"/>
+                                    <input name="enrollstudents" type="hidden" value="Section | Team | Name | Email | Comments
+Section 1| Team 4 | Alice Betsy | alice.b.tmms@gmail.com | This comment has been changed
+Section 2| Team 2 | Benny Charles| benny.c.tmms@gmail.com |
+Section 3 | Team 3 |Frank Galoe | frank.g.tmms@gmail.com |
+Section 1 | Team 1|José Gómez | jose.gomez.tmns@gmail.com | This student name contains accented characters
+"/>
+                                 </form>
             </div>
             <div class="panel panel-primary">
                <div class="panel-heading">
@@ -323,7 +332,7 @@
                   </div>
                </div>
             </div>
-         </div> 
+         </div>
 </body>
 
 </html>
