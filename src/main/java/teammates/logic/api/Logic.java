@@ -10,6 +10,7 @@ import javax.mail.internet.MimeMessage;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
+import teammates.common.datatransfer.CommentRecipientType;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.CourseSummaryBundle;
@@ -1723,26 +1724,10 @@ public class Logic {
      * @return a list of comments for the receiver.
      * @throws EntityDoesNotExistException
      */
-    public List<CommentAttributes> getCommentsForReceiver(String courseId, String receiverEmail) throws EntityDoesNotExistException{
+    public List<CommentAttributes> getCommentsForReceiver(String courseId, CommentRecipientType recipientType, String receiver) throws EntityDoesNotExistException{
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, receiverEmail);
-        return commentsLogic.getCommentsForReceiver(courseId, receiverEmail);
-    }
-    
-    /**
-     * Giver = instructors, Receiver = student
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * @return a list of comments from the giver to receiver
-     * @throws EntityDoesNotExistException
-     */
-    public List<CommentAttributes> getCommentsForGiverAndReceiver(
-            String courseId, String giverEmail, String receiverEmail)
-            throws EntityDoesNotExistException {
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, giverEmail);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, receiverEmail);
-        return commentsLogic.getCommentsForGiverAndReceiver(courseId, giverEmail, receiverEmail);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, receiver);
+        return commentsLogic.getCommentsForReceiver(courseId, recipientType, receiver);
     }
     
     @SuppressWarnings("unused")

@@ -93,8 +93,9 @@ public class CommentsDbTest extends BaseComponentTestCase {
                 c.courseId, c.recipientType, VALID_RECEIVER_EMAIL));
         
         StudentAttributes student = new StudentAttributes();
+        student.course = c.courseId;
         student.email = VALID_RECEIVER_EMAIL;
-        assertNotNull(commentsDb.getCommentsForStudent(c.courseId, student));
+        assertNotNull(commentsDb.getCommentsForStudent(student));
         
         CommentAttributes anotherRetrievedComment = commentsDb.getComment(retrievedComment.getCommentId());
         assertEquals(retrievedComment.commentText, anotherRetrievedComment.commentText);
@@ -134,7 +135,7 @@ public class CommentsDbTest extends BaseComponentTestCase {
         }
         
         try{
-            commentsDb.getCommentsForStudent(retrievedComment.courseId, null);
+            commentsDb.getCommentsForStudent(null);
         } catch (AssertionError e){
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
         }

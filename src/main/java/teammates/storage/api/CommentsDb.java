@@ -85,11 +85,10 @@ public class CommentsDb extends EntitiesDb{
         return commentAttributesList;
     }
     
-    public List<CommentAttributes> getCommentsForStudent(String courseId, StudentAttributes student){
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+    public List<CommentAttributes> getCommentsForStudent(StudentAttributes student){
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, student);
         
-        List<Comment> comments = getCommentEntitiesForStudent(courseId, student);
+        List<Comment> comments = getCommentEntitiesForStudent(student);
         List<CommentAttributes> commentAttributesList = new ArrayList<CommentAttributes>();
         
         for(Comment comment: comments){
@@ -133,47 +132,49 @@ public class CommentsDb extends EntitiesDb{
         q.declareParameters("String courseIdParam, String recipientTypeParam, String receiverParam");
         q.setFilter("courseId == courseIdParam && recipientType == recipientTypeParam && recipients.contains(receiverParam)");
         
-        String recipientTypeString = recipientType.toString();
+        String recipientTypeString = recipientType != null? recipientType.toString(): CommentRecipientType.PERSON.toString();
         @SuppressWarnings("unchecked")
         List<Comment> commentList = (List<Comment>) q.execute(courseId, recipientTypeString, recipient);
         
         return commentList;
     }
     
-    private List<Comment> getCommentEntitiesForStudent(String courseId, StudentAttributes student) {
+    private List<Comment> getCommentEntitiesForStudent(StudentAttributes student) {
         Query q = getPM().newQuery(Comment.class);
         q.declareParameters("String courseIdParam, String studentEmailParam, String teamParam");
         q.setFilter("courseId == courseIdParam "
                 + "&& (recipients.contains(studentEmailParam) || recipients.contains(teamParam) || recipients.contains(courseIdParam))");
         @SuppressWarnings("unchecked")
-        List<Comment> commentList = (List<Comment>) q.execute(courseId, student.email, student.team);
-        
+        List<Comment> queryResultList = (List<Comment>) q.execute(student.course, student.email, student.team);
+        List<Comment> commentList = new ArrayList<Comment>();
         //filter based on recipientType
-        Iterator<Comment> iter = commentList.iterator();
+        Iterator<Comment> iter = queryResultList.iterator();
         while (iter.hasNext()) {
             Comment c = iter.next();
             CommentRecipientType recipientType = c.getRecipientType();
             Set<String> recipients = c.getRecipients(); 
             switch(recipientType){
             case PERSON:
-                if(!recipients.contains(student.email)){
-                    iter.remove();
+                if(recipients.contains(student.email)){
+                    commentList.add(c);
                 }
                 break;
             case TEAM:
-                if(!recipients.contains(student.team)){
-                    iter.remove();
+                if(recipients.contains(student.team)){
+                    commentList.add(c);
                 }
                 break;
             case SECTION:
                 //TODO: impl this
                 break;
             case COURSE:
-                if(!recipients.contains(courseId)){
-                    iter.remove();
+                if(recipients.contains(student.course)){
+                    commentList.add(c);
                 }
                 break;
             default:
+                c.setRecipientType(CommentRecipientType.PERSON);
+                commentList.add(c);
                 break;
             }
         }
