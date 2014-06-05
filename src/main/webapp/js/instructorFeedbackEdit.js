@@ -299,8 +299,8 @@ function showNewQuestionFrame(type){
     $('#questionTableNew').show();
     enableNewQuestion();
     $('#addNewQuestionTable').hide();
-    $('#empty_message').hide(); 
-    $('#frameBodyWrapper').animate({scrollTop: $('#frameBodyWrapper')[0].scrollHeight}, 1000);
+    $('#empty_message').hide();
+    $('html, body').animate({scrollTop: $('#frameBodyWrapper')[0].scrollHeight}, 1000);
     copyOptions();
 }
 
