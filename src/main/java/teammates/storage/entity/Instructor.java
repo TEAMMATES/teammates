@@ -14,7 +14,7 @@ import javax.jdo.annotations.PrimaryKey;
 @PersistenceCapable
 public class Instructor {
     /**
-     * The primary key. Format: googleId%courseId e.g., adam%cs1101
+     * The primary key. Format: email%courseId e.g., adam@gmail.com%cs1101
      */
     @PrimaryKey
     @Persistent

@@ -1,21 +1,27 @@
 package teammates.storage.entity;
 
+import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 import com.google.appengine.api.datastore.Text;
 
+/**
+ * A class that represents permission for an instructor
+ *
+ */
 public class Permission {
-    /**
-     * The primary key. Format: instructorId%permission e.g., adam%cs1101%permission
-     */
     @PrimaryKey
-    @Persistent
+    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
     private String id;
     
-    /** The foreign key to locate the Instructor object. */
+    /** The email of instructor */
     @Persistent
-    private String instructorId;
+    private String instructorEmail;
+    
+    /** The Id of course */
+    @Persistent
+    private String courseId;
     
     /** The role of this instructor */
     @Persistent
@@ -23,29 +29,19 @@ public class Permission {
     
     /** The text representing of exceptions */
     @Persistent
-    private Text exceptionField;
+    private Text contradiction;
     
     /**
-     * @param instrId
-     * @param instrRole
-     * @param exception
-     */
-    public Permission(String instrId, String instrRole, Text exception) {
-        this.instructorId = instrId + "%permission";
-        this.role = instrRole;
-        this.exceptionField = exception;
-    }
-    
-    /**
-     * @param instrGoogleId
+     * @param instrEmail
      * @param courseId
      * @param instrRole
-     * @param exception
+     * @param contradiction
      */
-    public Permission(String instrGoogleId, String courseId, String instrRole, Text exception) {
-        this.instructorId = instrGoogleId + courseId + "%permission";
+    public Permission(String instrEmail, String courseId, String instrRole, Text contradiction) {
+        this.instructorEmail = instrEmail;
+        this.courseId = courseId;
         this.role = instrRole;
-        this.exceptionField = exception;
+        this.contradiction = contradiction;
     }
 
     /**
@@ -64,17 +60,31 @@ public class Permission {
     }
 
     /**
-     * @return the instructorId
+     * @return the instructorEmail
      */
-    public String getInstructorId() {
-        return instructorId;
+    public String getInstructorEmail() {
+        return instructorEmail;
     }
 
     /**
-     * @param instructorId the instructorId to set
+     * @param instructorEmail the instructorEmail to set
      */
-    public void setInstructorId(String instructorId) {
-        this.instructorId = instructorId;
+    public void setInstructorEmail(String instructorEmail) {
+        this.instructorEmail = instructorEmail;
+    }
+
+    /**
+     * @return the courseId
+     */
+    public String getCourseId() {
+        return courseId;
+    }
+
+    /**
+     * @param courseId the courseId to set
+     */
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
     }
 
     /**
@@ -94,15 +104,15 @@ public class Permission {
     /**
      * @return the exceptionField
      */
-    public Text getException() {
-        return exceptionField;
+    public Text getContradiction() {
+        return contradiction;
     }
 
     /**
      * @param exception the exception to set
      */
-    public void setException(Text exception) {
-        this.exceptionField = exception;
+    public void setContradiction(Text contradiction) {
+        this.contradiction = contradiction;
     }
 
 }
