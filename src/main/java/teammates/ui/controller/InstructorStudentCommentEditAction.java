@@ -1,9 +1,12 @@
 package teammates.ui.controller;
 
 
+import java.util.HashSet;
+
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.CommentAttributes;
+import teammates.common.datatransfer.CommentRecipientType;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -37,14 +40,14 @@ public class InstructorStudentCommentEditAction extends Action {
                 logic.updateComment(comment);
                 statusToUser.add(Const.StatusMessages.COMMENT_EDITED);
                 statusToAdmin = "Edited Comment for Student:<span class=\"bold\">(" +
-                        comment.receiverEmail + ")</span> for Course <span class=\"bold\">[" +
+                        comment.recipients + ")</span> for Course <span class=\"bold\">[" +
                         comment.courseId + "]</span><br>" +
                         "<span class=\"bold\">Comment:</span> " + comment.commentText;
             } else if(editType.equals("delete")){
                 logic.deleteComment(comment);
                 statusToUser.add(Const.StatusMessages.COMMENT_DELETED);
                 statusToAdmin = "Deleted Comment for Student:<span class=\"bold\">(" +
-                        comment.receiverEmail + ")</span> for Course <span class=\"bold\">[" +
+                        comment.recipients + ")</span> for Course <span class=\"bold\">[" +
                         comment.courseId + "]</span><br>" +
                         "<span class=\"bold\">Comment:</span> " + comment.commentText;
             }
@@ -71,7 +74,9 @@ public class InstructorStudentCommentEditAction extends Action {
         comment.setCommentId(Long.valueOf(commentId));
         comment.courseId = courseId;
         comment.giverEmail = instructorDetailForCourse.email; 
-        comment.receiverEmail = studentEmail;
+        comment.recipientType = CommentRecipientType.PERSON;
+        comment.recipients = new HashSet<String>();
+        comment.recipients.add(studentEmail);
         comment.commentText = commentText;
         
         return comment;
