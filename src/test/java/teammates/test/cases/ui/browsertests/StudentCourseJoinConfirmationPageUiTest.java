@@ -39,9 +39,36 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         browser = BrowserPool.getBrowser();
         browser.driver.manage().deleteAllCookies();
     }
+    
 
     @Test
-    public void testJoinConfirmation() throws Exception {
+    public void testAll() throws Exception {
+        
+        testContent();
+        testJoinConfirmation();     
+    }
+    
+    
+    private void testContent(){
+        
+        ______TS("test student confirmation page content");
+        
+        String courseId = testData.courses.get("SCJConfirmationUiT.CS2104").id;
+        String studentEmail = testData.students.get("alice.tmms@SCJConfirmationUiT.CS2104").email;
+        String joinActionUrl = TestProperties.inst().TEAMMATES_URL + Const.ActionURIs.STUDENT_COURSE_JOIN;
+        String joinLink = Url.addParamToUrl(joinActionUrl,Const.ParamsNames.REGKEY,
+                                            BackDoor.getKeyForStudent(courseId, studentEmail));
+        
+        browser.driver.get(joinLink);
+        confirmationPage = createCorrectLoginPageType(browser.driver.getPageSource())
+                           .loginAsJoiningStudent(studentEmail, "TestKey");
+        
+        confirmationPage.verifyHtml("/studentCourseJoinConfirmationHTML.html");
+        confirmationPage.logout();
+    }
+     
+    
+    private void testJoinConfirmation() throws Exception {
 
         ______TS("click join link then cancel");
 

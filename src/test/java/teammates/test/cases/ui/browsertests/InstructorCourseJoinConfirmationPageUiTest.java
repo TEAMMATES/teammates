@@ -38,48 +38,71 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         browser.driver.manage().deleteAllCookies();
     }
 
+    
     @Test
-    public void testJoinConfirmation() throws Exception {
+    public void testAll() throws Exception {
+        
+        testContent();
+        testJoinConfirmation();
+    }
+    
+ 
+    private void testContent(){
+        
+        ______TS("test instructor confirmation page content");
+        
+        String courseId = testData.courses.get("ICJConfirmationUiT.CS1101").id;
+        String instructorEmail = testData.instructors.get("ICJConfirmationUiT.instr.CS1101").email;  
+        
+        String joinActionUrl = TestProperties.inst().TEAMMATES_URL + Const.ActionURIs.INSTRUCTOR_COURSE_JOIN;
+
+        String joinLink = Url.addParamToUrl(joinActionUrl, Const.ParamsNames.REGKEY,
+                                            StringHelper.encrypt(BackDoor.getKeyForInstructor(courseId, instructorEmail)));
+        
+        browser.driver.get(joinLink);
+        confirmationPage = createCorrectLoginPageType(browser.driver.getPageSource())
+                           .loginAsJoiningInstructor(instructorEmail, "TestKey");                               
+        confirmationPage.verifyHtml("/instructorCourseJoinConfirmationHTML.html");
+        confirmationPage.logout();     
+    }
+    
+    
+    private void testJoinConfirmation() throws Exception {
         
         ______TS("Click join link then cancel");
         
-        String joinActionUrl = TestProperties.inst().TEAMMATES_URL
-                + Const.ActionURIs.INSTRUCTOR_COURSE_JOIN;
+        String joinActionUrl = TestProperties.inst().TEAMMATES_URL 
+                               + Const.ActionURIs.INSTRUCTOR_COURSE_JOIN;
 
-        String joinLink = Url.addParamToUrl(
-                joinActionUrl,
-                Const.ParamsNames.REGKEY, invalidEncryptedKey);
+        String joinLink = Url.addParamToUrl(joinActionUrl,
+                                            Const.ParamsNames.REGKEY, invalidEncryptedKey);
         
         browser.driver.get(joinLink);
-        confirmationPage =
-                createCorrectLoginPageType(browser.driver.getPageSource())
-                        .loginAsJoiningInstructor(
-                                TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT,
-                                TestProperties.inst().TEST_INSTRUCTOR_PASSWORD);
+        confirmationPage = createCorrectLoginPageType(browser.driver.getPageSource())
+                           .loginAsJoiningInstructor(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT,
+                                                     TestProperties.inst().TEST_INSTRUCTOR_PASSWORD);
+        
         confirmationPage.clickCancelButton();
+        
         
         ______TS("Click join link then confirm: fail: invalid key");
         
         browser.driver.get(joinLink);
-        confirmationPage =
-                createCorrectLoginPageType(browser.driver.getPageSource())
-                        .loginAsJoiningInstructor(
-                                TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT,
-                                TestProperties.inst().TEST_INSTRUCTOR_PASSWORD);
+        confirmationPage = createCorrectLoginPageType(browser.driver.getPageSource())
+                           .loginAsJoiningInstructor(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT,
+                                                     TestProperties.inst().TEST_INSTRUCTOR_PASSWORD);
+        
         InstructorHomePage instructorHome = confirmationPage.clickConfirmButton();
         instructorHome.verifyContains("You have used an invalid join link: /page/instructorCourseJoin?regkey="
-                                        + invalidEncryptedKey);
+                                      + invalidEncryptedKey);
         
         ______TS("Click join link then confirm: success: valid key");
 
         String courseId = testData.courses.get("ICJConfirmationUiT.CS1101").id;
-        String instructorEmail = testData.instructors
-                .get("ICJConfirmationUiT.instr.CS1101").email;
+        String instructorEmail = testData.instructors.get("ICJConfirmationUiT.instr.CS1101").email;
 
-        joinLink = Url.addParamToUrl(
-                joinActionUrl,
-                Const.ParamsNames.REGKEY,
-                StringHelper.encrypt(BackDoor.getKeyForInstructor(courseId, instructorEmail)));
+        joinLink = Url.addParamToUrl(joinActionUrl, Const.ParamsNames.REGKEY,
+                                     StringHelper.encrypt(BackDoor.getKeyForInstructor(courseId, instructorEmail)));
         
         browser.driver.get(joinLink);
         confirmationPage = createNewPage(browser, InstructorCourseJoinConfirmationPage.class);
@@ -104,7 +127,7 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         } else if (GoogleLoginPage.containsExpectedPageContents(pageSource)) {
             return (LoginPage) createNewPage(browser, GoogleLoginPage.class);
         } else {
-            throw new IllegalStateException("Not a valid login page :"    + pageSource);
+            throw new IllegalStateException("Not a valid login page :" + pageSource);
         }
     }
 
