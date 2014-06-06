@@ -56,9 +56,11 @@
             <br>
             <%
                 boolean groupByTeamEnabled = data.groupByTeam==null ? false : true;
+                String currentTeam = null;
+                boolean newTeam = false;
             %>
         <%
-            Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> allResponses = data.bundle.getResponsesSortedByRecipientQuestionGiver(false);
+            Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> allResponses = data.bundle.getResponsesSortedByRecipientQuestionGiver(groupByTeamEnabled);
             Map<String, FeedbackQuestionAttributes> questions = data.bundle.questions;
             int recipientIndex = 0;
             for (Map.Entry<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> responsesForRecipient : allResponses.entrySet()) {
@@ -73,6 +75,30 @@
                 String mailtoStyleAttr = (firstQuestionRecipientType == FeedbackParticipantType.NONE || 
                                 firstQuestionRecipientType == FeedbackParticipantType.TEAMS)?"style=\"display:none;\"":"";
         %>
+
+        <%
+            if(currentTeam != null && !currentTeam.equals(data.bundle.getTeamNameForEmail(targetEmail))) {
+                currentTeam = data.bundle.getTeamNameForEmail(targetEmail);
+                newTeam = true;
+        %>
+                </div>
+            </div>
+        <%
+            }
+            if(groupByTeamEnabled == true && (currentTeam==null || newTeam==true)) {
+                currentTeam = data.bundle.getTeamNameForEmail(targetEmail);
+                newTeam = false;
+        %>
+                <div class="panel panel-warning">
+                    <div class="panel-heading">
+                        <strong><%=currentTeam%></strong>
+                    </div>
+                    <div class="panel-body">
+        <%
+            }
+        %>
+
+
                 <div class="panel panel-primary">
                 <div class="panel-heading">
                     To: <strong><%=responsesForRecipient.getKey()%></strong>
@@ -85,6 +111,7 @@
                         questionIndex++;
                         FeedbackQuestionAttributes question = responsesForRecipientForQuestion.getKey();
                         FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
+                        List<FeedbackResponseAttributes> responseEntries = responsesForRecipientForQuestion.getValue();
                 %>
                         <div class="panel panel-info">
                             <div class="panel-heading">Question <%=question.questionNumber%>: <%
@@ -92,7 +119,43 @@
                                     out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, "recipient-"+recipientIndex+"-question-"+questionIndex));%>
                             </div>
                             <div class="panel-body">
-                                
+                                <table class="table table-striped table-bordered dataTable">
+                                    <thead class="fill-primary">
+                                        <tr>
+                                            <th id="button_sortTo" onclick="toggleSort(this,1,null,2)" colspan="2">
+                                                From
+                                            </th>
+                                            <th id="button_sortFeedback" onclick="toggleSort(this,3,null,2)" rowspan="2" style="vertical-align:middle;">
+                                                Feedback
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th id="button_sortFromName" onclick="toggleSort(this,1,null,2)" style="width: 15%;">
+                                                Name
+                                            </th>
+                                            <th id="button_sortFromTeam" onclick="toggleSort(this,2,null,2)" style="width: 15%;">
+                                                Team
+                                            </th>
+                                        </tr>
+                                    <thead>
+                                    <tbody>
+                                        <%
+                                            for(FeedbackResponseAttributes responseEntry: responseEntries) {
+                                        %>
+                                        <tr>
+                                        <%
+                                            String giverName = data.bundle.getGiverNameForResponse(question, responseEntry);
+                                            String giverTeamName = data.bundle.getTeamNameForEmail(responseEntry.giverEmail);
+                                        %>
+                                            <td class="middlealign"><%=giverName%></td>
+                                            <td class="middlealign"><%=giverTeamName%></td>
+                                            <td class="multiline"><%=responseEntry.getResponseDetails().getAnswerHtml()%></td>
+                                        </tr>        
+                                        <%
+                                            }
+                                        %>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                 <%
@@ -100,7 +163,16 @@
                 %>
                 </div>
             </div>
-            <br />
+        <%
+            }
+        %>
+
+        <%
+            //close the last team panel.
+            if(groupByTeamEnabled==true) {
+        %>
+                    </div>
+                </div>
         <%
             }
         %>

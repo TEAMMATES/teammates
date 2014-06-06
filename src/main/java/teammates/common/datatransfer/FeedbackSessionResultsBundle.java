@@ -149,6 +149,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         
         List<FeedbackQuestionAttributes> questionList =
                 new ArrayList<FeedbackQuestionAttributes>(questions.values());
+        
         Collections.sort(questionList);
         
         for (FeedbackQuestionAttributes question : questionList) {
@@ -159,7 +160,8 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
                     responsesForQn.add(response);
                 }
             }
-            Collections.sort(responsesForQn, compareByRecipientGiverQuesion);
+            Collections.sort(responsesForQn, compareByGiverName);
+            Collections.sort(responsesForQn, compareByGiverTeamName);
             sortedMap.put(question, responsesForQn);
         }
         
