@@ -216,6 +216,14 @@ public class Const {
         public static final String MSQ = "Multiple-choice (multiple answers)";
         public static final String NUMSCALE = "Numerical-scale question";
     }
+    
+    public class InstructorPermissionRoleNames {
+        public final static String INSTRUCTOR_PERMISSION_ROLE_COOWNER = "Co-owner";
+        public final static String INSTRUCTOR_PERMISSION_ROLE_MANAGER = "Manager";
+        public final static String INSTRUCTOR_PERMISSION_ROLE_OBSERVER = "Observer";
+        public final static String INSTRUCTOR_PERMISSION_ROLE_TUTOR = "Tutor";
+        public final static String INSTRUCTOR_PERMISSION_ROLE_HELPER = "Helper";
+    }
 
     public class ParamsNames{
         public static final String COURSE_ID = "courseid";

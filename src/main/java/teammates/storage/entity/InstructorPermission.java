@@ -10,7 +10,8 @@ import com.google.appengine.api.datastore.Text;
  * A class that represents permission for an instructor
  *
  */
-public class Permission {
+public class InstructorPermission {
+    
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
     private String id;
@@ -29,7 +30,7 @@ public class Permission {
     
     /** The text representing of exceptions */
     @Persistent
-    private Text contradiction;
+    private Text access;
     
     /**
      * @param instrEmail
@@ -37,11 +38,11 @@ public class Permission {
      * @param instrRole
      * @param contradiction
      */
-    public Permission(String instrEmail, String courseId, String instrRole, Text contradiction) {
+    public InstructorPermission(String instrEmail, String courseId, String instrRole, Text access) {
         this.instructorEmail = instrEmail;
         this.courseId = courseId;
         this.role = instrRole;
-        this.contradiction = contradiction;
+        this.access = access;
     }
 
     /**
@@ -49,14 +50,6 @@ public class Permission {
      */
     public String getUniqueId() {
         return id;
-    }
-
-    /**
-     * @param uniqueId
-     *          The unique ID of the entity (format: instructorId%permission)
-     */
-    public void setUniqueId(String uniqueId) {
-        this.id = uniqueId;
     }
 
     /**
@@ -102,17 +95,17 @@ public class Permission {
     }
 
     /**
-     * @return the exceptionField
+     * @return the access
      */
-    public Text getContradiction() {
-        return contradiction;
+    public Text getAccess() {
+        return access;
     }
 
     /**
-     * @param exception the exception to set
+     * @param access the access to set
      */
-    public void setContradiction(Text contradiction) {
-        this.contradiction = contradiction;
+    public void setAccess(Text access) {
+        this.access = access;
     }
 
 }
