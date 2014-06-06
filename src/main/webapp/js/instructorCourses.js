@@ -1,3 +1,8 @@
+$(document).ready(function(){
+    toggleSort($("#button_sortcourseid"),1);
+});
+
+
 /**
  * Pre-processes and validates the user's input.
  * @returns {Boolean} True if it is OK to proceed with the form submission.

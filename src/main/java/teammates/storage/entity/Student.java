@@ -57,6 +57,10 @@ public class Student {
     @SerializedName("teamname")
     private String teamName = null;
 
+    @Persistent
+    @SerializedName("sectionname")
+    private String sectionName = null;
+
     /**
      * 
      * @param email
@@ -72,13 +76,14 @@ public class Student {
      * @param teamName
      */
     public Student(String email, String name, String googleId, String comments,
-            String courseId, String teamName) {
+            String courseId, String teamName, String sectionName) {
         this.setEmail(email);
         this.setName(name);
         this.setGoogleId(googleId);
         this.setComments(comments);
         this.setCourseId(courseId);
         this.setTeamName(teamName);
+        this.setSectionName(sectionName);
     }
 
     public String getEmail() {
@@ -135,6 +140,14 @@ public class Student {
 
     public void setTeamName(String teamName) {
         this.teamName = (teamName == null ? null : teamName.trim());
+    }
+
+    public String getSectionName() {
+        return sectionName;
+    }
+
+    public void setSectionName(String sectionName) {
+        this.sectionName = (sectionName == null ? null : sectionName.trim());
     }
 
     public boolean isRegistered() {
