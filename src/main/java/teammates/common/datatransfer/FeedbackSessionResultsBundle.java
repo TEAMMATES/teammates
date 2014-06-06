@@ -167,22 +167,61 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
     }
     
     /**
-     * Returns responses as a Map<recipient, responses>
-     * Where the responses are sorted by question.
+     * Returns responses as a Map<recipientName, Map<question, List<response>>>
+     * Where the responses are sorted in the order of recipient, question, giver.
      * @param sortByTeam
      * @return responses sorted by Recipient > Question > Giver
      */
-    public Map<String, List<FeedbackResponseAttributes>> getResponsesSortedByRecipientQuestionGiver(boolean sortByTeam) {
+    public Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>>
+                    getResponsesSortedByRecipientQuestionGiver(boolean sortByTeam) {
         
-        Map<String, List<FeedbackResponseAttributes>> sortedMap
-             = new LinkedHashMap<String, List<FeedbackResponseAttributes>>();
+        Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedMap
+             = new LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>>();
+        Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responsesForOneRecipient = null;
+        List<FeedbackResponseAttributes> responsesForOneRecipientOneQuestion = null;
         
+        Collections.sort(responses, compareByGiverName);
         Collections.sort(responses, compareByQuestionNumber);
-        Collections.sort(responses, compareByQuestionNumber);
+        Collections.sort(responses, compareByRecipientName);
+        if(sortByTeam==true){
+            Collections.sort(responses, compareByRecipientTeamName);
+        }
         
+        String recipient = null;
+        String questionId = null;
+        String recipientName = null;
         
+        for (FeedbackResponseAttributes response : responses) {
+            if(recipient == null || !response.recipientEmail.equals(recipient)){
+                if(questionId!=null && responsesForOneRecipientOneQuestion!=null && responsesForOneRecipient!=null){
+                    responsesForOneRecipient.put(questions.get(questionId), responsesForOneRecipientOneQuestion);
+                }
+                if(recipient!=null && responsesForOneRecipient!=null){
+                    sortedMap.put(recipientName, responsesForOneRecipient);
+                }
+                responsesForOneRecipient = new LinkedHashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
+                recipient = response.recipientEmail;
+                recipientName = this.getRecipientNameForResponse(questions.get(response.feedbackQuestionId), response);
+                questionId = null;
+            }
+            if(questionId == null || !response.feedbackQuestionId.equals(questionId)){
+                if(questionId!=null && responsesForOneRecipientOneQuestion!=null){
+                    responsesForOneRecipient.put(questions.get(questionId), responsesForOneRecipientOneQuestion);
+                }
+                responsesForOneRecipientOneQuestion = new ArrayList<FeedbackResponseAttributes>();
+                questionId = response.feedbackQuestionId;
+            }
+            responsesForOneRecipientOneQuestion.add(response);
+        }
+        if(questionId!=null && responsesForOneRecipientOneQuestion!=null && responsesForOneRecipient!=null){
+            responsesForOneRecipient.put(questions.get(questionId), responsesForOneRecipientOneQuestion);
+        }
+        if(recipient!=null && responsesForOneRecipient!=null){
+
+            sortedMap.put(recipientName, responsesForOneRecipient);
+        }
         
-        return null;
+        return sortedMap;
     }
 
     
