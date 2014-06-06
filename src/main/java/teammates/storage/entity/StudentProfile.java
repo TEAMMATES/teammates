@@ -2,9 +2,9 @@ package teammates.storage.entity;
 
 import java.util.Date;
 
+import javax.jdo.annotations.EmbeddedOnly;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
 
 /**
  * Represents profile details for 
@@ -13,20 +13,17 @@ import javax.jdo.annotations.PrimaryKey;
  *
  */
 @PersistenceCapable
+@EmbeddedOnly
 public class StudentProfile {
-    @PrimaryKey
+    
     @Persistent
     private String googleId;
-
     @Persistent
     private String shortName;
-
     @Persistent
     private String email;
-
     @Persistent
     private String institute;
-    
     @Persistent
     private String country;
     
@@ -37,6 +34,9 @@ public class StudentProfile {
     @Persistent
     /* must be html sanitized before saving */
     private String moreInfo;
+    
+    @Persistent
+    private Date modifiedDate; 
     
     /**
      * Instantiates a new account. 
@@ -59,7 +59,7 @@ public class StudentProfile {
      *            Miscellaneous information, including external profile
      */
     public StudentProfile(String googleId, String shortName, String email,
-            String institute, String country, String gender, String moreInfo) {
+            String institute, String country, String gender, String moreInfo, Date modifiedDate) {
         this.setGoogleId(googleId);
         this.setShortName(shortName);
         this.setEmail(email);
@@ -67,6 +67,18 @@ public class StudentProfile {
         this.setCountry(country);
         this.setGender(gender);
         this.setMoreInfo(moreInfo);
+        this.setModifiedDate(modifiedDate);
+    }
+    
+    public StudentProfile() {
+        this.setGoogleId(null);
+        this.setShortName(null);
+        this.setEmail(null);
+        this.setInstitute(null);
+        this.setCountry(null);
+        this.setGender(null);
+        this.setMoreInfo(null);
+        this.setModifiedDate(null);
     }
     
     public String getGoogleId() {
@@ -123,6 +135,14 @@ public class StudentProfile {
     
     public void setMoreInfo(String moreInfo) {
         this.moreInfo = moreInfo;
+    }
+    
+    public Date getModifiedDate() {
+        return this.modifiedDate;
+    }
+    
+    public void setModifiedDate(Date modifiedDate) {
+        this.modifiedDate = modifiedDate;
     }
 }
     

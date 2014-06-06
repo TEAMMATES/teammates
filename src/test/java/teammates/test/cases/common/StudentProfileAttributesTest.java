@@ -4,6 +4,7 @@
 package teammates.test.cases.common;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.testng.annotations.AfterClass;
@@ -36,6 +37,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
         profile.country = "country";
         profile.gender = "female";
         profile.moreInfo = "moreInfo can have a lot more than this...";
+        profile.modifiedDate = new Date();
     }
     
     @Test
@@ -92,8 +94,9 @@ public class StudentProfileAttributesTest extends BaseTestCase {
         String country = "$invalid country ";
         String gender = "invalidGender";
         String moreInfo = "Ooops no validation for this one...";
+        Date modifiedDate = new Date();
         
-        return new StudentProfileAttributes(googleId, shortName, email, institute, country, gender, moreInfo);
+        return new StudentProfileAttributes(googleId, shortName, email, institute, country, gender, moreInfo, modifiedDate);
     }
     
     public StudentProfileAttributes getStudentProfileAttributesToSanitize() {
@@ -105,8 +108,9 @@ public class StudentProfileAttributesTest extends BaseTestCase {
         String country = "&\"invalid country &";
         String gender = "'\"'invalidGender";
         String moreInfo = "<<script> alert('hi!'); </script>";
+        Date modifiedDate = new Date();
         
-        return new StudentProfileAttributes(googleId, shortName, email, institute, country, gender, moreInfo);
+        return new StudentProfileAttributes(googleId, shortName, email, institute, country, gender, moreInfo, modifiedDate);
     }
     
     @Test
@@ -119,6 +123,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
         assertEquals(profile.country, entity.getCountry());
         assertEquals(profile.gender, entity.getGender());
         assertEquals(profile.moreInfo, entity.getMoreInfo());
+        assertEquals(profile.modifiedDate, entity.getModifiedDate());
     }
     
     @Test

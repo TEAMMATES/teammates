@@ -2,6 +2,7 @@ package teammates.storage.entity;
 
 import java.util.Date;
 
+import javax.jdo.annotations.Embedded;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -30,6 +31,10 @@ public class Account {
 
     @Persistent
     private Date createdAt;
+    
+    @Persistent
+    @Embedded
+    private StudentProfile studentProfile;
 
     /**
      * Instantiates a new account. 
@@ -44,15 +49,24 @@ public class Account {
      *            The official email of the user.
      * @param institute
      *            The university/school/institute e.g., "Abrons State University, Alaska" 
+     * @param studentProfile
+     *            It is a StudentProfile object that contains all the attributes
+     *            of a student profile
      */
     public Account(String googleId, String name, boolean isInstructor,
-            String email, String institute) {
+            String email, String institute, StudentProfile studentProfile) {
         this.setGoogleId(googleId);
         this.setName(name);
         this.setIsInstructor(isInstructor);
         this.setEmail(email);
         this.setInstitute(institute);
         this.setCreatedAt(new Date());
+        this.setStudentProfile(studentProfile);
+    }
+
+    public Account(String googleId, String name, boolean isInstructor,
+            String email, String institute) {
+        this(googleId, name, isInstructor, email, institute, new StudentProfile());
     }
 
     public String getGoogleId() {
@@ -101,5 +115,10 @@ public class Account {
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
+    }
+    
+    private void setStudentProfile(StudentProfile studentProfile) {
+        this.studentProfile = studentProfile;
+        
     }
 }
