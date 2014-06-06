@@ -775,6 +775,10 @@
             "giverEmail":"teammates.test@gmail.com",
             "recipientType":"PERSON",
             "recipients":["benny.c.tmms@gmail.com"],
+            "status": "FINAL",
+            "showCommentTo": ["PERSON"],
+            "showGiverNameTo": ["PERSON"],
+            "showRecipientNameTo": ["PERSON"],
             "receiverEmail":"benny.c.tmms@gmail.com",
             "createdAt":"2012-05-01 08:51 AM UTC",
             "commentText":{
@@ -787,6 +791,10 @@
             "giverEmail":"teammates.test@gmail.com",
             "recipientType":"PERSON",
             "recipients":["benny.c.tmms@gmail.com"],
+            "status": "FINAL",
+            "showCommentTo": ["PERSON"],
+            "showGiverNameTo": ["PERSON"],
+            "showRecipientNameTo": ["PERSON"],
             "receiverEmail":"benny.c.tmms@gmail.com",
             "createdAt":"2012-06-01 07:20 PM UTC",
             "commentText":{

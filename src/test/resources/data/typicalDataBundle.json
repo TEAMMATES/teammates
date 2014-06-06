@@ -1085,6 +1085,10 @@
             "giverEmail":"instructor1@course1.com",
             "recipientType":"PERSON",
             "recipients":["student1InCourse1@gmail.com"],
+            "status": "FINAL",
+            "showCommentTo": ["PERSON"],
+            "showGiverNameTo": ["PERSON"],
+            "showRecipientNameTo": ["PERSON"],
             "receiverEmail":"student1InCourse1@gmail.com",
             "createdAt":"2012-04-01 11:59 PM UTC",
             "commentText":{
@@ -1097,6 +1101,10 @@
             "giverEmail":"instructor1@course1.com",
             "recipientType":"PERSON",
             "recipients":["student1InCourse1@gmail.com"],
+            "status": "FINAL",
+            "showCommentTo": ["PERSON"],
+            "showGiverNameTo": ["PERSON"],
+            "showRecipientNameTo": ["PERSON"],
             "receiverEmail":"student1InCourse1@gmail.com",
             "createdAt":"2012-05-01 08:51 AM UTC",
             "commentText":{
@@ -1109,6 +1117,10 @@
             "giverEmail":"instructor3@course1.com",
             "recipientType":"PERSON",
             "recipients":["student2InCourse1@gmail.com"],
+            "status": "FINAL",
+            "showCommentTo": ["PERSON"],
+            "showGiverNameTo": ["PERSON"],
+            "showRecipientNameTo": ["PERSON"],
             "receiverEmail":"student2InCourse1@gmail.com",
             "createdAt":"2012-06-01 07:20 PM UTC",
             "commentText":{
