@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
-<%@page import="teammates.common.util.TimeHelper"%>
+<%@ page import="teammates.common.util.TimeHelper"%>
 <%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.common.datatransfer.CourseDetailsBundle"%>
+<%@ page import="teammates.common.datatransfer.SectionDetailsBundle" %>
 <%@ page import="teammates.common.datatransfer.TeamDetailsBundle"%>
 <%@ page import="teammates.common.datatransfer.StudentAttributes"%>
 <%@ page import="teammates.common.datatransfer.EvaluationAttributes"%>
@@ -130,7 +131,8 @@
                                     if((courseDetails.course.isArchived && data.displayArchive) || !courseDetails.course.isArchived){
                                         courseIdx++;
                                         int teamIdx = -1;
-                                        for(TeamDetailsBundle teamDetails: courseDetails.teams){
+                                    for(SectionDetailsBundle sectionDetails: courseDetails.sections){
+                                        for(TeamDetailsBundle teamDetails: sectionDetails.teams){
                                             teamIdx++;
                             %>
                                 <div class="checkbox">
@@ -142,6 +144,7 @@
                             <%
                                         }
                                     }
+                                }
                                 }
                             %>
                         </div>
@@ -165,13 +168,15 @@
                                             int totalCourseStudents = courseDetails.stats.studentsTotal;
                                             if(totalCourseStudents >= 1){
                                                 int studentIdx = -1;
-                                                for(TeamDetailsBundle teamDetails: courseDetails.teams){
+                                                for(SectionDetailsBundle sectionDetails : courseDetails.sections){
+                                                for(TeamDetailsBundle teamDetails: sectionDetails.teams){
                                                     for(StudentAttributes student: teamDetails.students){
                                                         studentIdx++;
                                 %>
                                         <div id="student_email-c<%=courseIdx %>.<%=studentIdx%>"><%=student.email %></div>
                                 <%
                                                     }
+                                                }
                                                 }
                                             }
                                         }
@@ -190,7 +195,7 @@
                     if((courseDetails.course.isArchived && data.displayArchive) || !courseDetails.course.isArchived){
                         courseIdx++;
                         int sortIdx = 1;
-                        int hasSection = courseDetails.stats.sectionsTotal;
+                        int numSections = courseDetails.stats.sectionsTotal;
                         int totalCourseStudents = courseDetails.stats.studentsTotal;
             %>
 
@@ -219,7 +224,7 @@
                         <table class="table table-responsive table-striped table-bordered">
                             <thead>
                                 <tr class="fill-<%=courseDetails.course.isArchived ? "default":"primary" %>">
-                                    <% if(hasSection != 0) { %>
+                                    <% if(numSections != 0) { %>
                                         <th id="button_sortsection_<%=courseDetails.course.id%>" class="button-sort-none" onclick="toggleSort(this,<%=sortIdx++%>)">
                                             Section <span class="icon-sort unsorted"></span>
                                         </th>
@@ -237,17 +242,21 @@
                                     </th>
                                 </tr>
                             </thead>
-                            <%
+                            <%  
+                                    int sectionIdx = -1;
                                     int teamIdx = -1;
                                     int studentIdx = -1;
-                                    for(TeamDetailsBundle teamDetails: courseDetails.teams){
-                                        teamIdx++;
-                                        for(StudentAttributes student: teamDetails.students){
-                                            studentIdx++;
+                                    for(SectionDetailsBundle sectionDetails : courseDetails.sections){
+                                        sectionIdx++;
+                                        for(TeamDetailsBundle teamDetails: sectionDetails.teams){
+                                            teamIdx++;
+                                            for(StudentAttributes student: teamDetails.students){
+                                                studentIdx++;
                             %>
                             <tr id="student-c<%=courseIdx %>.<%=studentIdx%>" style="display: table-row;">
-                                
-
+                                <% if(numSections != 0) { %>
+                                    <td id="studentsection-c<%=courseIdx %>.<%=sectionIdx%>"><%=PageData.sanitizeForHtml(sectionDetails.name)%></td>
+                                <% } %>
                                 <td id="studentteam-c<%=courseIdx %>.<%=teamIdx%>"><%=PageData.sanitizeForHtml(teamDetails.name)%></td>
                                 <td id="studentname-c<%=courseIdx %>.<%=studentIdx%>"><%=PageData.sanitizeForHtml(student.name)%></td>
                                 <td id="studentemail-c<%=courseIdx %>.<%=studentIdx%>"><%=PageData.sanitizeForHtml(student.email)%></td>
@@ -281,6 +290,7 @@
                             <%
                                         }
                                     }
+                                 }
                             %>
                         </table>
                         <%

@@ -213,15 +213,38 @@ public class CoursesLogic {
             
             StudentAttributes s = students.get(i);
             
-            // First team of first section
+            // First student of first section
             if(section == null) {
                 section = new SectionDetailsBundle();
                 section.name = s.section;
-                section.teams()
+                section.teams.add(new TeamDetailsBundle());
+                section.teams.get(teamIndexWithinSection).name = s.team;
+                section.teams.get(teamIndexWithinSection).students.add(s);
+            } else if(s.section.equals(section.name)){
+                if(s.team.equals(section.teams.get(teamIndexWithinSection).name)){
+                    section.teams.get(teamIndexWithinSection).students.add(s);
+                } else {
+                    teamIndexWithinSection++;
+                    section.teams.add(new TeamDetailsBundle());
+                    section.teams.get(teamIndexWithinSection).name = s.team;
+                    section.teams.get(teamIndexWithinSection).students.add(s);
+                }
+            } else { // first student of subsequent section
+                sections.add(section);
+                teamIndexWithinSection = 0;
+                section = new SectionDetailsBundle();
+                section.name = s.section;
+                section.teams.add(new TeamDetailsBundle());
+                section.teams.get(teamIndexWithinSection).name = s.team;
+                section.teams.get(teamIndexWithinSection).students.add(s);
+            }
+            
+            if(i == (students.size() -1)){
+                sections.add(section);
             }
         }
         
-        return null;
+        return sections;
     }
 
     /**
@@ -330,7 +353,7 @@ public class CoursesLogic {
         }
 
         CourseDetailsBundle cdd = new CourseDetailsBundle(cd);
-        cdd.sections= (ArrayList<SectionDetailsBundle>) getTeamsForCourse(courseId);
+        cdd.sections= (ArrayList<SectionDetailsBundle>) getSectionsForCourse(courseId);
         cdd.stats.sectionsTotal = getNumberOfSections(cd.id);
         cdd.stats.teamsTotal = getNumberOfTeams(cd.id);
         cdd.stats.studentsTotal = getTotalEnrolledInCourse(cd.id);
@@ -547,19 +570,21 @@ public class CoursesLogic {
                 Const.EOL + Const.EOL +
                 "Team" + "," + "Student Name" + "," + "Status" + "," + "Email" + Const.EOL;
         
-        for (TeamDetailsBundle team : course.teams) {
-            for(StudentAttributes student : team.students){
-                String studentStatus = null;
-                if(student.googleId == null || student.googleId.equals("")){
-                    studentStatus = Const.STUDENT_COURSE_STATUS_YET_TO_JOIN;
-                } else {
-                    studentStatus = Const.STUDENT_COURSE_STATUS_JOINED;
+        for (SectionDetailsBundle section : course.sections) {
+            for (TeamDetailsBundle team  :   section.teams) {
+                for(StudentAttributes student : team.students){
+                    String studentStatus = null;
+                    if(student.googleId == null || student.googleId.equals("")){
+                        studentStatus = Const.STUDENT_COURSE_STATUS_YET_TO_JOIN;
+                    } else {
+                        studentStatus = Const.STUDENT_COURSE_STATUS_JOINED;
+                    }
+                    
+                    export += Sanitizer.sanitizeForCsv(team.name) + "," + 
+                        Sanitizer.sanitizeForCsv(student.name) + "," +
+                        Sanitizer.sanitizeForCsv(studentStatus) + "," +
+                        Sanitizer.sanitizeForCsv(student.email) + Const.EOL;
                 }
-                
-                export += Sanitizer.sanitizeForCsv(team.name) + "," + 
-                    Sanitizer.sanitizeForCsv(student.name) + "," +
-                    Sanitizer.sanitizeForCsv(studentStatus) + "," +
-                    Sanitizer.sanitizeForCsv(student.email) + Const.EOL;
             }
         }
         return export;

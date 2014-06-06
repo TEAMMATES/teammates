@@ -179,6 +179,9 @@ public class StudentAttributes extends EntityAttributes {
 
                 // If the section name is the same, reorder by team name
                 if(sect1.compareTo(sect2) == 0){
+                    if(s1.team.compareTo(s2.team) == 0){
+                        return s1.name.compareTo(s2.name);
+                    } 
                     return s1.team.compareTo(s2.team);
                 }
                 return sect1.compareTo(sect2);
