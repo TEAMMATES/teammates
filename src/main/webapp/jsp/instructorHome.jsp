@@ -164,7 +164,9 @@
                                     </tr>
                                 </thead>
                         <%
-                            for (EvaluationAttributes edd: courseDetails.evaluations){
+                            int displayEvaluationStatsCount = 0;
+                            for (int i = courseDetails.evaluations.size()-1; i >= 0; i--){
+                                EvaluationAttributes edd = courseDetails.evaluations.get(i);
                                 sessionIdx++;
                         %>
                                 <tr id="session<%=sessionIdx%>">
@@ -174,7 +176,8 @@
                                             <%=PageData.getInstructorStatusForEval(edd)%>
                                         </span>
                                     </td>
-                                    <td class="session-response-for-test<% if(!TimeHelper.isOlderThanAYear(edd.endTime)) { out.print(" recent");} %>">
+                                    <td class="session-response-for-test<% if(edd.getStatus() == EvaluationAttributes.EvalStatus.OPEN || edd.getStatus() == EvaluationAttributes.EvalStatus.AWAITING) { out.print(" recent");} 
+                                         else if (displayEvaluationStatsCount < data.MAX_EVALUATION_STATS) { out.print(" recent"); displayEvaluationStatsCount++; }%>">
                                         <a oncontextmenu="return false;" href="<%=data.getEvaluationStatsLink(edd.courseId, edd.name)%>">Show</a>
                                     </td>
                                     <td class="no-print"><%=data.getInstructorEvaluationActions(edd, true)%>
