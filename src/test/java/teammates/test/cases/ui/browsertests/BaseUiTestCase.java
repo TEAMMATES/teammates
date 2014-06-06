@@ -90,7 +90,7 @@ public class BaseUiTestCase extends BaseTestCase {
             if(backDoorOperationStatus.equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
                 break;
             }
-            ThreadHelper.waitFor((int)( Math.random() * 1000));
+            ThreadHelper.waitFor((int)( Math.random() * 2000));
             counter++;
         }
         if(counter == 20){

@@ -45,6 +45,7 @@ public class InstructorCourseStudentDetailsEditSaveAction extends InstructorCour
         data.student.comments = Sanitizer.sanitizeTextField(data.student.comments);
         
         try {
+            data.student.updateWithExistingRecord(logic.getStudentForEmail(courseId, studentEmail));
             logic.validateSections(Arrays.asList(data.student), courseId);
             logic.updateStudent(studentEmail, data.student);
             statusToUser.add(Const.StatusMessages.STUDENT_EDITED);
