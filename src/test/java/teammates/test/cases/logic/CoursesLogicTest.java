@@ -617,6 +617,42 @@ public class CoursesLogicTest extends BaseComponentTestCase {
     }
 
     @Test 
+    public void testGetNumberOfSections() throws Exception {
+
+        ______TS("Typical case");
+
+        CourseAttributes course = dataBundle.courses.get("typicalCourse1");
+        int sectionNum = coursesLogic.getNumberOfSections(course.id);
+
+        assertEquals(2, sectionNum);
+
+        ______TS("Course with no sections");
+
+        course = dataBundle.courses.get("typicalCourse2");
+        sectionNum = coursesLogic.getNumberOfSections(course.id);
+
+        assertEquals(0, sectionNum);
+
+         ______TS("non-existent");
+
+        try {
+            coursesLogic.getNumberOfSections("non-existent-course");
+            signalFailureToDetectException();
+        } catch (EntityDoesNotExistException e) {
+            AssertHelper.assertContains("does not exist", e.getMessage());
+        }
+        
+        ______TS("null parameter");
+
+        try {
+            coursesLogic.getNumberOfSections(null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            assertEquals("Supplied parameter was null\n", e.getMessage());
+        }
+    }
+
+    @Test 
     public void testGetNumberOfTeams() throws Exception {
         
         ______TS("typical case");

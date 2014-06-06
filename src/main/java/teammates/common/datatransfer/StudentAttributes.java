@@ -8,6 +8,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import teammates.common.util.Assumption;
+import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
@@ -63,13 +64,14 @@ public class StudentAttributes extends EntityAttributes {
     public String course = null;
     public String comments = null;
     public String team = null;
+    public String section = null;
     public String key = null;
 
     public UpdateStatus updateStatus = UpdateStatus.UNKNOWN;
     
     public StudentAttributes(String id, String email, String name, String comments,
-            String courseId, String team) {
-        this(team, name, email, comments, courseId);
+            String courseId, String team, String section) {
+        this(section, team, name, email, comments, courseId);
         this.googleId = Sanitizer.sanitizeGoogleId(id);
     }
 
@@ -77,8 +79,9 @@ public class StudentAttributes extends EntityAttributes {
         
     }
     
-    public StudentAttributes(String team, String name, String email, String comment, String courseId) {
+    public StudentAttributes(String section, String team, String name, String email, String comment, String courseId) {
         this();
+        this.section = Sanitizer.sanitizeTitle(section);
         this.team = Sanitizer.sanitizeTitle(team);
         this.name = Sanitizer.sanitizeName(name);
         this.email = Sanitizer.sanitizeEmail(email);
@@ -93,6 +96,7 @@ public class StudentAttributes extends EntityAttributes {
         this.name = student.getName();
         this.comments = Sanitizer.sanitizeTextField(student.getComments());
         this.team = Sanitizer.sanitizeTitle(student.getTeamName());
+        this.section = ((student.getSectionName() == null) ? Const.DEFAULT_SECTION : Sanitizer.sanitizeTitle(student.getSectionName()));
         // TODO: Is this supposed to be null or "" ?? Find out and standardize.
         this.googleId = ((student.getGoogleId() == null) ? "" : student.getGoogleId());
         Long keyAsLong = student.getRegistrationKey();
@@ -108,7 +112,8 @@ public class StudentAttributes extends EntityAttributes {
         String enrollmentString = "";
         String enrollmentStringSeparator = "|";
         
-        enrollmentString = this.team + enrollmentStringSeparator;
+        enrollmentString = this.section + enrollmentStringSeparator;
+        enrollmentString += this.team + enrollmentStringSeparator;
         enrollmentString += this.name + enrollmentStringSeparator;
         enrollmentString += this.email + enrollmentStringSeparator;
         enrollmentString += this.comments;
@@ -126,7 +131,8 @@ public class StudentAttributes extends EntityAttributes {
                 && otherStudent.course.equals(this.course)
                 && otherStudent.name.equals(this.name)
                 && otherStudent.comments.equals(this.comments)
-                && otherStudent.team.equals(this.team);
+                && otherStudent.team.equals(this.team)
+                && otherStudent.section.equals(this.section);
     }
 
     public List<String> getInvalidityInfo() {
@@ -151,6 +157,9 @@ public class StudentAttributes extends EntityAttributes {
         if(!error.isEmpty()) { errors.add(error); }
         
         error= validator.getInvalidityInfo(FieldType.TEAM_NAME, team);
+        if(!error.isEmpty()) { errors.add(error); }
+        
+        error= validator.getInvalidityInfo(FieldType.SECTION_NAME, section);
         if(!error.isEmpty()) { errors.add(error); }
         
         error= validator.getInvalidityInfo(FieldType.STUDENT_ROLE_COMMENTS, comments);
@@ -204,10 +213,13 @@ public class StudentAttributes extends EntityAttributes {
         if(this.comments == null){
             this.comments = originalStudent.comments;
         }
+        if(this.section == null){
+            this.section = originalStudent.section;
+        }
     }
 
     public Student toEntity() {
-        return new Student(email, name, googleId, comments, course, team);
+        return new Student(email, name, googleId, comments, course, team, section);
     }
 
     public String toString() {
@@ -238,12 +250,14 @@ public class StudentAttributes extends EntityAttributes {
         this.course = Sanitizer.sanitizeTitle(this.course);
         this.name = Sanitizer.sanitizeName(this.name);
         this.team = Sanitizer.sanitizeTitle(this.team);
+        this.section = Sanitizer.sanitizeTitle(this.section);
         this.comments = Sanitizer.sanitizeTextField(this.comments);
         this.googleId = Sanitizer.sanitizeForHtml(this.googleId);
         this.email = Sanitizer.sanitizeForHtml(this.email);
         this.course = Sanitizer.sanitizeForHtml(this.course);
         this.name = Sanitizer.sanitizeForHtml(this.name);
         this.team = Sanitizer.sanitizeForHtml(this.team);
+        this.section = Sanitizer.sanitizeForHtml(this.section);
         this.comments = Sanitizer.sanitizeForHtml(this.comments);
     }
 }

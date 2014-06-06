@@ -54,6 +54,14 @@
                         <p class="form-control-static"><%=data.student.name%></p>
                     </div>
                 </div>
+                <% if(data.hasSection) { %>
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label">Section Name:</label>
+                        <div class="col-sm-11" id="<%=Const.ParamsNames.SECTION_NAME%>">
+                            <p class="form-control-static"><%=sanitizeForHtml(data.student.section)%></p>
+                        </div>
+                    </div>
+                <% } %>
                 <div class="form-group">
                     <label class="col-sm-1 control-label">Team Name:</label>
                     <div class="col-sm-11" id="<%=Const.ParamsNames.TEAM_NAME%>">

@@ -10,6 +10,7 @@ import teammates.common.util.Const;
  * <br> * The total number of unregistered students in the course.
  */
 public class CourseStats {
+	public int sectionsTotal = Const.INT_UNINITIALIZED;
     public int teamsTotal = Const.INT_UNINITIALIZED;
     public int studentsTotal = Const.INT_UNINITIALIZED;
     public int unregisteredTotal = Const.INT_UNINITIALIZED;
