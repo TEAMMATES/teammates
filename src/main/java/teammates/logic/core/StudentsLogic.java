@@ -165,7 +165,7 @@ public class StudentsLogic {
     }
     
     public void updateStudentCascade(String originalEmail, StudentAttributes student) 
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws InvalidParametersException, EntityDoesNotExistException, EnrollException {
         StudentAttributes originalStudent = getStudentForEmail(student.course, originalEmail);
         updateStudentCascadeWithSubmissionAdjustmentScheduled(originalEmail, student);
         
@@ -191,7 +191,7 @@ public class StudentsLogic {
     
     public void updateStudentCascadeWithSubmissionAdjustmentScheduled(String originalEmail, 
             StudentAttributes student) 
-            throws EntityDoesNotExistException, InvalidParametersException {
+            throws EntityDoesNotExistException, InvalidParametersException, EnrollException {
         // Edit student uses KeepOriginal policy, where unchanged fields are set
         // as null. Hence, we can't do isValid() for student here.
         // After updateWithReferenceToExistingStudentRecord method called,
@@ -300,7 +300,7 @@ public class StudentsLogic {
         return returnList;
     }
 
-    private void validateSections(List<StudentAttributes> studentList, String courseId) throws EntityDoesNotExistException, EnrollException {
+    public void validateSections(List<StudentAttributes> studentList, String courseId) throws EntityDoesNotExistException, EnrollException {
 
         List<StudentAttributes> mergedList = new ArrayList<StudentAttributes>();
         List<StudentAttributes> studentsInCourse = getStudentsForCourse(courseId);

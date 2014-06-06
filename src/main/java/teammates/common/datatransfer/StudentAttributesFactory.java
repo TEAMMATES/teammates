@@ -39,7 +39,7 @@ public class StudentAttributesFactory {
     private boolean hasName;
     private boolean hasEmail;
     private boolean hasComment;
-   
+        
     public StudentAttributesFactory() throws EnrollException {
         this("section|team|name|email|comment");
     }
@@ -76,7 +76,10 @@ public class StudentAttributesFactory {
 
         String[] columns = splitLineIntoColumns(enrollLine);
 
-        if (columns.length < MIN_FIELD_COUNT) {
+        boolean hasMissingFields = columns.length <= teamColumnIndex 
+                                || columns.length <= nameColumnIndex 
+                                || columns.length <= emailColumnIndex;
+        if (hasMissingFields) {
             throw new EnrollException(ERROR_ENROLL_LINE_TOOFEWPARTS);
         }
         
@@ -92,7 +95,7 @@ public class StudentAttributesFactory {
         }
 
         String paramSection;
-        if(hasSection){
+        if(hasSection && columns.length > sectionColumnIndex){
             paramSection = columns[sectionColumnIndex];
         } else {
             paramSection = Const.DEFAULT_SECTION;
@@ -104,7 +107,7 @@ public class StudentAttributesFactory {
     private int locateColumnIndexes(String headerRow) throws EnrollException {
         int fieldCount = 0;
         int count = 0;
-        
+
         hasSection = false;
         hasTeam = false;
         hasName = false;
