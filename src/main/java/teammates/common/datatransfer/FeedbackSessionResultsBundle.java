@@ -149,6 +149,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         
         List<FeedbackQuestionAttributes> questionList =
                 new ArrayList<FeedbackQuestionAttributes>(questions.values());
+        
         Collections.sort(questionList);
         
         for (FeedbackQuestionAttributes question : questionList) {
@@ -159,12 +160,72 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
                     responsesForQn.add(response);
                 }
             }
-            Collections.sort(responsesForQn, compareByRecipientName);
+            Collections.sort(responsesForQn, compareByGiverName);
+            Collections.sort(responsesForQn, compareByGiverTeamName);
             sortedMap.put(question, responsesForQn);
         }
         
         return sortedMap;        
     }
+    
+    /**
+     * Returns responses as a Map<recipientName, Map<question, List<response>>>
+     * Where the responses are sorted in the order of recipient, question, giver.
+     * @param sortByTeam
+     * @return responses sorted by Recipient > Question > Giver
+     */
+    public Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>>
+                    getResponsesSortedByRecipientQuestionGiver(boolean sortByTeam) {
+        
+        Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedMap
+             = new LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>>();
+        Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responsesForOneRecipient = null;
+        List<FeedbackResponseAttributes> responsesForOneRecipientOneQuestion = null;
+        
+        Collections.sort(responses, compareByGiverName);
+        Collections.sort(responses, compareByQuestionNumber);
+        Collections.sort(responses, compareByRecipientName);
+        if(sortByTeam==true){
+            Collections.sort(responses, compareByRecipientTeamName);
+        }
+        
+        String recipient = null;
+        String questionId = null;
+        String recipientName = null;
+        
+        for (FeedbackResponseAttributes response : responses) {
+            if(recipient == null || !response.recipientEmail.equals(recipient)){
+                if(questionId!=null && responsesForOneRecipientOneQuestion!=null && responsesForOneRecipient!=null){
+                    responsesForOneRecipient.put(questions.get(questionId), responsesForOneRecipientOneQuestion);
+                }
+                if(recipient!=null && responsesForOneRecipient!=null){
+                    sortedMap.put(recipientName, responsesForOneRecipient);
+                }
+                responsesForOneRecipient = new LinkedHashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
+                recipient = response.recipientEmail;
+                recipientName = this.getRecipientNameForResponse(questions.get(response.feedbackQuestionId), response);
+                questionId = null;
+            }
+            if(questionId == null || !response.feedbackQuestionId.equals(questionId)){
+                if(questionId!=null && responsesForOneRecipientOneQuestion!=null){
+                    responsesForOneRecipient.put(questions.get(questionId), responsesForOneRecipientOneQuestion);
+                }
+                responsesForOneRecipientOneQuestion = new ArrayList<FeedbackResponseAttributes>();
+                questionId = response.feedbackQuestionId;
+            }
+            responsesForOneRecipientOneQuestion.add(response);
+        }
+        if(questionId!=null && responsesForOneRecipientOneQuestion!=null && responsesForOneRecipient!=null){
+            responsesForOneRecipient.put(questions.get(questionId), responsesForOneRecipientOneQuestion);
+        }
+        if(recipient!=null && responsesForOneRecipient!=null){
+
+            sortedMap.put(recipientName, responsesForOneRecipient);
+        }
+        
+        return sortedMap;
+    }
+
     
     /**
      * Returns the responses in this bundle as a {@code Tree} structure with no base node using a {@code LinkedHashMap} implementation.
@@ -181,7 +242,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         Map<String, Map<String, List<FeedbackResponseAttributes>>> sortedMap =
                 new LinkedHashMap<String, Map<String, List<FeedbackResponseAttributes>>>();
 
-        Collections.sort(responses, compareByRecipientName);
+        Collections.sort(responses, compareByRecipientGiverQuesion);
         if(sortByTeam == true){
             Collections.sort(responses, compareByRecipientTeamName);
         }
@@ -262,7 +323,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         Map<String, Map<String, List<FeedbackResponseAttributes>>> sortedMap =
                 new LinkedHashMap<String, Map<String, List<FeedbackResponseAttributes>>>();
 
-        Collections.sort(responses, compareByGiverName);
+        Collections.sort(responses, compareByGiverRecipientQuestion);
         if(sortByTeam == true){
             Collections.sort(responses, compareByGiverTeamName);
         }
@@ -350,7 +411,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
     
     // Sorts by giverName > recipientName > qnNumber
     // General questions and team questions at the bottom.
-    public Comparator<FeedbackResponseAttributes> compareByGiverName
+    public Comparator<FeedbackResponseAttributes> compareByGiverRecipientQuestion
         = new Comparator<FeedbackResponseAttributes>() {
         @Override
         public int compare(FeedbackResponseAttributes o1,
@@ -367,7 +428,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
     };
     
     //Sorts by recipientName > giverName > qnNumber
-    public final Comparator<FeedbackResponseAttributes> compareByRecipientName
+    public final Comparator<FeedbackResponseAttributes> compareByRecipientGiverQuesion
         = new Comparator<FeedbackResponseAttributes>() {
         @Override
         public int compare(FeedbackResponseAttributes o1,
@@ -382,6 +443,39 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         }
     };
     
+
+    //Sorts by questionNumber
+    public final Comparator<FeedbackResponseAttributes> compareByQuestionNumber
+        = new Comparator<FeedbackResponseAttributes>() {
+        @Override
+        public int compare(FeedbackResponseAttributes o1,
+                FeedbackResponseAttributes o2) {
+            return compareByQuestionNumber(o1,o2);
+        }
+    };
+    
+    //Sorts by recipientName
+    public final Comparator<FeedbackResponseAttributes> compareByRecipientName
+        = new Comparator<FeedbackResponseAttributes>() {
+        @Override
+        public int compare(FeedbackResponseAttributes o1,
+                FeedbackResponseAttributes o2) {
+            return compareByNames(getNameForEmail(o1.recipientEmail),
+                                getNameForEmail(o2.recipientEmail));
+        }
+    };
+    
+    //Sorts by recipientName
+    public final Comparator<FeedbackResponseAttributes> compareByGiverName
+        = new Comparator<FeedbackResponseAttributes>() {
+        @Override
+        public int compare(FeedbackResponseAttributes o1,
+                FeedbackResponseAttributes o2) {
+            return compareByNames(getNameForEmail(o1.giverEmail),
+                                getNameForEmail(o2.giverEmail));
+        }
+    };
+    
     //Sorts by recipientTeamName
     public final Comparator<FeedbackResponseAttributes> compareByRecipientTeamName
         = new Comparator<FeedbackResponseAttributes>() {
@@ -393,7 +487,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         }
     };
     
-  //Sorts by giverTeamName
+    //Sorts by giverTeamName
     public final Comparator<FeedbackResponseAttributes> compareByGiverTeamName
         = new Comparator<FeedbackResponseAttributes>() {
         @Override
