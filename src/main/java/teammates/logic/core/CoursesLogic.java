@@ -19,6 +19,7 @@ import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.TeamDetailsBundle;
+import teammates.common.datatransfer.SectionDetailsBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -193,6 +194,36 @@ public class CoursesLogic {
         return courseDetailsList;
     }
 
+    public List<SectionDetailsBundle> getSectionsForCourse(String courseId) 
+            throws EntityDoesNotExistException {
+        
+        if (getCourse(courseId) == null) {
+            throw new EntityDoesNotExistException("Thr course " + courseId + " does not exist");
+        }
+        
+        List<StudentAttributes> students = studentsLogic.getStudentsForCourse(courseId);
+        StudentAttributes.sortBySectionName(students);
+        
+        List<SectionDetailsBundle> sections = new ArrayList<SectionDetailsBundle>();
+        
+        SectionDetailsBundle section = null;
+        int teamIndexWithinSection = 0;
+        
+        for(int i = 0; i < students.size(); i++) {
+            
+            StudentAttributes s = students.get(i);
+            
+            // First team of first section
+            if(section == null) {
+                section = new SectionDetailsBundle();
+                section.name = s.section;
+                section.teams()
+            }
+        }
+        
+        return null;
+    }
+
     /**
      * Returns Teams for a particular courseId.<br> 
      * <b>Note:</b><br>
@@ -299,7 +330,7 @@ public class CoursesLogic {
         }
 
         CourseDetailsBundle cdd = new CourseDetailsBundle(cd);
-        cdd.teams= (ArrayList<TeamDetailsBundle>) getTeamsForCourse(courseId);
+        cdd.sections= (ArrayList<SectionDetailsBundle>) getTeamsForCourse(courseId);
         cdd.stats.sectionsTotal = getNumberOfSections(cd.id);
         cdd.stats.teamsTotal = getNumberOfTeams(cd.id);
         cdd.stats.studentsTotal = getTotalEnrolledInCourse(cd.id);

@@ -25,7 +25,7 @@ public class CourseDetailsBundle {
     public CourseStats stats = new CourseStats();
     public ArrayList<EvaluationDetailsBundle> evaluations = new ArrayList<EvaluationDetailsBundle>();
     public ArrayList<FeedbackSessionDetailsBundle> feedbackSessions = new ArrayList<FeedbackSessionDetailsBundle>();
-    public ArrayList<TeamDetailsBundle> teams = new ArrayList<TeamDetailsBundle>();
+    public ArrayList<SectionDetailsBundle> sections = new ArrayList<SectionDetailsBundle>();
     //TODO: remove this as we do not allow loners anymore
     //Do not remove as we might cater for situations where there are no teams in future
     public ArrayList<StudentAttributes> loners = new ArrayList<StudentAttributes>();

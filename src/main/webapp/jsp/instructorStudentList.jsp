@@ -189,6 +189,8 @@
                 for (CourseDetailsBundle courseDetails : data.courses) {
                     if((courseDetails.course.isArchived && data.displayArchive) || !courseDetails.course.isArchived){
                         courseIdx++;
+                        int sortIdx = 1;
+                        int hasSection = courseDetails.stats.sectionsTotal;
                         int totalCourseStudents = courseDetails.stats.studentsTotal;
             %>
 
@@ -217,13 +219,18 @@
                         <table class="table table-responsive table-striped table-bordered">
                             <thead>
                                 <tr class="fill-<%=courseDetails.course.isArchived ? "default":"primary" %>">
-                                    <th id="button_sortteam" class="button-sort-ascending" onclick="toggleSort(this,1)">
-                                        Team <span class="icon-sort sorted-ascending"></span>
+                                    <% if(hasSection != 0) { %>
+                                        <th id="button_sortsection_<%=courseDetails.course.id%>" class="button-sort-none" onclick="toggleSort(this,<%=sortIdx++%>)">
+                                            Section <span class="icon-sort unsorted"></span>
+                                        </th>
+                                    <% } %>
+                                    <th id="button_sortteam_<%=courseDetails.course.id%>" class="button-sort-none" onclick="toggleSort(this,<%=sortIdx++%>)">
+                                        Team <span class="icon-sort unsorted"></span>
                                     </th>
-                                    <th id="button_sortstudentname" class="button-sort-none" onclick="toggleSort(this,2)">
+                                    <th id="button_sortstudentname_<%=courseDetails.course.id%>" class="button-sort-none" onclick="toggleSort(this,<%=sortIdx++%>)">
                                         Student Name <span class="icon-sort unsorted"></span>
                                     </th>
-                                    <th id="button_sortteam" class="button-sort-none" onclick="toggleSort(this,3)"> 
+                                    <th id="button_sortemail_<%=courseDetails.course.id%>" class="button-sort-none" onclick="toggleSort(this,<%=sortIdx++%>)"> 
                                         Email <span class="icon-sort unsorted"></span>
                                     </th>
                                     <th>Action(s)
@@ -239,6 +246,8 @@
                                             studentIdx++;
                             %>
                             <tr id="student-c<%=courseIdx %>.<%=studentIdx%>" style="display: table-row;">
+                                
+
                                 <td id="studentteam-c<%=courseIdx %>.<%=teamIdx%>"><%=PageData.sanitizeForHtml(teamDetails.name)%></td>
                                 <td id="studentname-c<%=courseIdx %>.<%=studentIdx%>"><%=PageData.sanitizeForHtml(student.name)%></td>
                                 <td id="studentemail-c<%=courseIdx %>.<%=studentIdx%>"><%=PageData.sanitizeForHtml(student.email)%></td>
