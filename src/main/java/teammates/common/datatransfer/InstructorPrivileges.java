@@ -18,11 +18,56 @@ public class InstructorPrivileges {
         this();
         switch (instrRole) {
         case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER:
-            
+            setDefaultPrivilegesForCoowner();
+            break;
+        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER:
+            setDefaultPrivilegesForManager();
+            break;
+        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER:
+            setDefaultPrivilegesForObserver();
+            break;
+        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR:
+            setDefaultPrivilegesForTutor();
+            break;
+        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_HELPER:
+            setDefaultPrivilegesForHelper();
+            break;
+        default:
+            setDefaultPrivilegesForHelper();
+            break;
         }
     }
     
     public void setDefaultPrivilegesForCoowner() {
         
     }
+    
+    public void setDefaultPrivilegesForManager() {
+        
+    }
+    
+    public void setDefaultPrivilegesForObserver() {
+        
+    }
+    
+    public void setDefaultPrivilegesForTutor() {
+        
+    }
+    
+    public void setDefaultPrivilegesForHelper() {
+        
+    }
+
+    public HashMap<String, Boolean> getCourseLevelPrivileges() {
+        return courseLevel;
+    }
+
+    public HashMap<String, Boolean> getSectionLevelPrivileges() {
+        return sectionLevel;
+    }
+
+    public HashMap<String, HashMap<String, Boolean>> getSessionLevelPrivileges() {
+        return sessionLevel;
+    }
+    
 }
