@@ -23,6 +23,7 @@ public class AccountAttributes extends EntityAttributes {
     public String email;
     public String institute;
     public Date createdAt;
+    public StudentProfileAttributes studentProfile;
     
     
     public AccountAttributes(Account a) {
@@ -32,9 +33,22 @@ public class AccountAttributes extends EntityAttributes {
         email = a.getEmail();
         institute = a.getInstitute();
         createdAt = a.getCreatedAt();
+        studentProfile = new StudentProfileAttributes(a.getStudentProfile());
     }
     
     public AccountAttributes() {
+        
+    }
+    
+    public AccountAttributes(String googleId, String name, boolean isInstructor,
+                String email, String institute, StudentProfileAttributes studentProfileAttributes) {
+        this.googleId = Sanitizer.sanitizeGoogleId(googleId);
+        this.name = Sanitizer.sanitizeName(name);
+        this.isInstructor = isInstructor;
+        this.email = Sanitizer.sanitizeEmail(email);
+        this.institute = Sanitizer.sanitizeTitle(institute);
+        this.studentProfile = studentProfileAttributes;
+        this.studentProfile.sanitizeForSaving();
         
     }
     
@@ -45,6 +59,8 @@ public class AccountAttributes extends EntityAttributes {
         this.isInstructor = isInstructor;
         this.email = Sanitizer.sanitizeEmail(email);
         this.institute = Sanitizer.sanitizeTitle(institute);
+        this.studentProfile = new StudentProfileAttributes();
+        
     }
     
     public List<String> getInvalidityInfo() {

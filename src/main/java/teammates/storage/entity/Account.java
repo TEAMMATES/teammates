@@ -2,7 +2,6 @@ package teammates.storage.entity;
 
 import java.util.Date;
 
-import javax.jdo.annotations.Embedded;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -33,7 +32,6 @@ public class Account {
     private Date createdAt;
     
     @Persistent
-    @Embedded
     private StudentProfile studentProfile;
 
     /**
@@ -117,7 +115,11 @@ public class Account {
         this.createdAt = createdAt;
     }
     
-    private void setStudentProfile(StudentProfile studentProfile) {
+    public StudentProfile getStudentProfile() {
+        return this.studentProfile;
+    }
+    
+    public void setStudentProfile(StudentProfile studentProfile) {
         this.studentProfile = studentProfile;
         
     }

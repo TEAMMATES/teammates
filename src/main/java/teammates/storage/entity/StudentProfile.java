@@ -2,9 +2,12 @@ package teammates.storage.entity;
 
 import java.util.Date;
 
-import javax.jdo.annotations.EmbeddedOnly;
+import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.PrimaryKey;
+
+import com.google.appengine.api.datastore.Key;
 
 /**
  * Represents profile details for 
@@ -13,11 +16,12 @@ import javax.jdo.annotations.Persistent;
  *
  */
 @PersistenceCapable
-@EmbeddedOnly
 public class StudentProfile {
     
-    @Persistent
-    private String googleId;
+    @PrimaryKey
+    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+    private Key key;
+    
     @Persistent
     private String shortName;
     @Persistent
@@ -58,20 +62,18 @@ public class StudentProfile {
      * @param moreInfo
      *            Miscellaneous information, including external profile
      */
-    public StudentProfile(String googleId, String shortName, String email,
-            String institute, String country, String gender, String moreInfo, Date modifiedDate) {
-        this.setGoogleId(googleId);
+    public StudentProfile(String shortName, String email,
+            String institute, String country, String gender, String moreInfo) {
         this.setShortName(shortName);
         this.setEmail(email);
         this.setInstitute(institute);
         this.setCountry(country);
         this.setGender(gender);
         this.setMoreInfo(moreInfo);
-        this.setModifiedDate(modifiedDate);
+        this.setModifiedDate(new Date());
     }
     
     public StudentProfile() {
-        this.setGoogleId(null);
         this.setShortName(null);
         this.setEmail(null);
         this.setInstitute(null);
@@ -79,14 +81,6 @@ public class StudentProfile {
         this.setGender(null);
         this.setMoreInfo(null);
         this.setModifiedDate(null);
-    }
-    
-    public String getGoogleId() {
-        return this.googleId;
-    }
-    
-    public void setGoogleId(String googleId) {
-        this.googleId = googleId;
     }
     
     public String getShortName() {
