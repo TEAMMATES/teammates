@@ -235,6 +235,19 @@ public class Const {
         public static final String STUDENTS_ENROLLMENT_INFO = "enrollstudents";
         public static final String INSTRUCTOR_IMPORT_SAMPLE = "importsample";
         
+        public static final String INSTRUCTOR_PERMISSION_MODIFY_COURSE = "canmodifycourse";
+        public static final String INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR = "canmodifyinstructor";
+        public static final String INSTRUCTOR_PERMISSION_MODIFY_SESSION = "canmodifysession";
+        public static final String INSTRUCTOR_PERMISSION_MODIFY_STUDENT = "canmodifystudent";
+        
+        public static final String INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTION = "canviewstudentinsection";
+        public static final String INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTION = "canviewcommentinsection";
+        public static final String INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTION = "cangivecommentinsection";
+        public static final String INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTION = "canmodifycommentinsection";
+        public static final String INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTION = "canviewsessioninsection";
+        public static final String INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTION = "cansubmitsessioninsection";
+        public static final String INSTRUCTOR_PERMISSION_MODIFY_SESSION_IN_SECTION = "canmodifysessioninsection";
+        
         public static final String STUDENT_RECORDS_SHOW_COMMENT_BOX = "addComment";
         
         public static final String COURSE_SORTING_CRITERIA = "sortby";

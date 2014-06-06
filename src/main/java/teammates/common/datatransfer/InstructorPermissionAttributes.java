@@ -21,8 +21,7 @@ public class InstructorPermissionAttributes extends EntityAttributes {
     private String courseId;
     private String role;
     private Text access;
-    @SuppressWarnings("rawtypes")
-    private HashMap privileges;
+    private HashMap<String, HashMap<String, HashMap<String, Boolean>>> privileges;
     
     public InstructorPermissionAttributes(String instrEmail, String courseId, String role, Text access) {
         this.instructorEmail = Sanitizer.sanitizeEmail(instrEmail);
@@ -32,8 +31,8 @@ public class InstructorPermissionAttributes extends EntityAttributes {
         this.privileges = getPrivilegesFromAccess(access);
     }
     
-    @SuppressWarnings("rawtypes")
-    public InstructorPermissionAttributes(String instrEmail, String courseId, String role, HashMap privileges) {
+    public InstructorPermissionAttributes(String instrEmail, String courseId, String role, 
+            HashMap<String, HashMap<String, HashMap<String, Boolean>>> privileges) {
         this.instructorEmail = Sanitizer.sanitizeEmail(instrEmail);
         this.courseId = Sanitizer.sanitizeTitle(courseId);
         this.role = Sanitizer.sanitizeName(role);
@@ -48,17 +47,16 @@ public class InstructorPermissionAttributes extends EntityAttributes {
         this.access = instructorPermission.getAccess();
     }
     
-    @SuppressWarnings("rawtypes")
-    private Text getAccessFromPrivileges(HashMap privileges) {
+    private Text getAccessFromPrivileges(HashMap<String, HashMap<String, HashMap<String, Boolean>>> privileges) {
         String accessString = gson.toJson(privileges);
         
         return new Text(accessString);
     }
     
-    @SuppressWarnings("rawtypes")
-    private HashMap getPrivilegesFromAccess(Text access) {
+    @SuppressWarnings("unchecked")
+    private HashMap<String, HashMap<String, HashMap<String, Boolean>>> getPrivilegesFromAccess(Text access) {
         String accessString = access.getValue();
-        HashMap privileges = gson.fromJson(accessString, HashMap.class);
+        HashMap<String, HashMap<String, HashMap<String, Boolean>>> privileges = gson.fromJson(accessString, HashMap.class);
         
         return privileges;
     }
