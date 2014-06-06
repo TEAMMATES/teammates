@@ -22,6 +22,10 @@ public class CommentAttributes extends EntityAttributes {
     public String giverEmail;
     public CommentRecipientType recipientType;
     public Set<String> recipients;
+    public CommentStatus status;
+    public List<CommentRecipientType> showCommentTo;
+    public List<CommentRecipientType> showGiverNameTo;
+    public List<CommentRecipientType> showRecipientNameTo;
     public Text commentText;
     public Date createdAt;
 
@@ -43,7 +47,11 @@ public class CommentAttributes extends EntityAttributes {
         this.commentId = comment.getId();
         this.courseId = comment.getCourseId();
         this.giverEmail = comment.getGiverEmail();
-        this.recipientType = comment.getRecipientType() != null ? comment.getRecipientType() : CommentRecipientType.PERSON;
+        this.recipientType = comment.getRecipientType();
+        this.status = comment.getStatus();
+        this.showCommentTo = comment.getShowCommentTo();
+        this.showGiverNameTo = comment.getShowGiverNameTo();
+        this.showRecipientNameTo = comment.getShowRecipientNameTo();
         this.recipients = comment.getRecipients();
         this.createdAt = comment.getCreatedAt();
         this.commentText = comment.getCommentText();
@@ -112,7 +120,11 @@ public class CommentAttributes extends EntityAttributes {
     }
 
     public Comment toEntity() {
-        return new Comment(courseId, giverEmail, recipientType, recipients, commentText, createdAt);
+        return new Comment(courseId, giverEmail, recipientType, recipients, status,
+                showCommentTo, 
+                showGiverNameTo, 
+                showRecipientNameTo, 
+                commentText, createdAt);
     }
 
     @Override
@@ -121,7 +133,11 @@ public class CommentAttributes extends EntityAttributes {
                 ", courseId = " + courseId +
                 ", giverEmail = " + giverEmail +
                 ", recipientType = " + recipientType +
-                ", receiverEmail = " + recipients +
+                ", recipient = " + recipients +
+                ", status = " + status +
+                ", showCommentTo = " + showCommentTo +
+                ", showGiverNameTo = " + showGiverNameTo +
+                ", showRecipientNameTo = " + showRecipientNameTo +
                 ", commentText = " + commentText +
                 ", createdAt = " + createdAt + "]";
     }

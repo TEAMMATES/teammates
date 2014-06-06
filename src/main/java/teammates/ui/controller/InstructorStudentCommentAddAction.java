@@ -1,6 +1,7 @@
 package teammates.ui.controller;
 
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 
@@ -8,6 +9,7 @@ import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentRecipientType;
+import teammates.common.datatransfer.CommentStatus;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -69,6 +71,13 @@ public class InstructorStudentCommentAddAction extends Action {
         comment.recipientType = CommentRecipientType.PERSON;
         comment.recipients = new HashSet<String>();
         comment.recipients.add(studentEmail);
+        comment.status = CommentStatus.FINAL;
+        comment.showCommentTo = new ArrayList<CommentRecipientType>();
+        comment.showCommentTo.add(CommentRecipientType.PERSON);
+        comment.showGiverNameTo = new ArrayList<CommentRecipientType>();
+        comment.showGiverNameTo.add(CommentRecipientType.PERSON);
+        comment.showRecipientNameTo = new ArrayList<CommentRecipientType>();
+        comment.showRecipientNameTo.add(CommentRecipientType.PERSON);
         comment.createdAt = new Date();
         comment.commentText = commentText;
         
