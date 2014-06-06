@@ -1,7 +1,6 @@
 package teammates.logic.core;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -206,8 +205,6 @@ public class StudentsLogic {
         // prepare new student
         student.updateWithExistingRecord(originalStudent);
         
-        validateSections(Arrays.asList(student), student.course);
-
         if(!student.isValid()) {
             throw new InvalidParametersException(student.getInvalidityInfo());
         }
@@ -303,7 +300,7 @@ public class StudentsLogic {
         return returnList;
     }
 
-    private void validateSections(List<StudentAttributes> studentList, String courseId) throws EntityDoesNotExistException, EnrollException {
+    public void validateSections(List<StudentAttributes> studentList, String courseId) throws EntityDoesNotExistException, EnrollException {
 
         List<StudentAttributes> mergedList = new ArrayList<StudentAttributes>();
         List<StudentAttributes> studentsInCourse = getStudentsForCourse(courseId);

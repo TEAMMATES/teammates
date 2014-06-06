@@ -1,5 +1,7 @@
 package teammates.ui.controller;
 
+import java.util.Arrays;
+
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -43,6 +45,7 @@ public class InstructorCourseStudentDetailsEditSaveAction extends InstructorCour
         data.student.comments = Sanitizer.sanitizeTextField(data.student.comments);
         
         try {
+            logic.validateSections(Arrays.asList(data.student), courseId);
             logic.updateStudent(studentEmail, data.student);
             statusToUser.add(Const.StatusMessages.STUDENT_EDITED);
             statusToAdmin = "Student <span class=\"bold\">" + studentEmail + 

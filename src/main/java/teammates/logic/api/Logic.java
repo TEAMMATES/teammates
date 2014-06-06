@@ -912,11 +912,30 @@ public class Logic {
         studentsLogic.deleteStudentCascade(courseId, studentEmail);
     }
 
+    /**
+     *  Checks if a course has sections for each team 
+     *  Preconditions: <br>
+     *  * All parameters are non-null.
+     */
     public boolean hasIndicatedSections(String courseId) throws EntityDoesNotExistException {
 
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
         return studentsLogic.hasIndicatedSections(courseId);
+    }
+
+    /**
+     * Validate if the list of modified students will not create conflicts for the sections
+     * in a course 
+     * Preconditions: <br>
+     * * All parameters are non-null
+     */
+    public void validateSections(List<StudentAttributes> studentList, String courseId) throws EntityDoesNotExistException, EnrollException {
+
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, studentList);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+
+        studentsLogic.validateSections(studentList, courseId);
     }
 
     @SuppressWarnings("unused")
