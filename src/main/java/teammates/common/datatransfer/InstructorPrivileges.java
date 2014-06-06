@@ -5,11 +5,13 @@ import teammates.common.util.Const;
 
 public final class InstructorPrivileges {
     private HashMap<String, Boolean> courseLevel;
+    private HashMap<String, Boolean> sectionRecord;
     private HashMap<String, Boolean> sectionLevel;
     private HashMap<String, HashMap<String, Boolean>> sessionLevel;
     
     public InstructorPrivileges() {
         this.courseLevel = new HashMap<String, Boolean>();
+        this.sectionRecord = new HashMap<String, Boolean>();
         this.sectionLevel = new HashMap<String, Boolean>();
         this.sessionLevel = new HashMap<String, HashMap<String, Boolean>>();
     }
@@ -106,6 +108,59 @@ public final class InstructorPrivileges {
         this.sectionLevel.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTION, Boolean.valueOf(false));
         this.sectionLevel.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTION, Boolean.valueOf(false));
         this.sectionLevel.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTION, Boolean.valueOf(false));
+    }
+    
+    public void updatePrivilegeInCourseLevel(String privilegeName, boolean isAllowed) {
+        this.courseLevel.put(privilegeName, Boolean.valueOf(isAllowed));
+    }
+    
+    /**
+     * This method will update the sectionId in sections record if sectionId exists
+     * or add sectionId to sections record
+     * @param sectionId
+     * @param isSelected
+     */
+    public void addSectionToSectionRecord(String sectionId, boolean isSelected) {
+        updateSectionInSectionRecord(sectionId, isSelected);      
+    }
+    
+    public void updateSectionInSectionRecord(String sectionId, boolean isSelected) {
+        this.sectionRecord.put(sectionId, Boolean.valueOf(isSelected));
+    }
+    
+    public void updatePrivilegeInSectionLevel(String privilegeName, boolean isAllowed) {
+        this.sectionLevel.put(privilegeName, Boolean.valueOf(isAllowed));
+    }
+    
+    /**
+     * add sessionId to sessionLevel with privileges configured in sectionLevel
+     * @param sessionId
+     */
+    public void addSessionToSessionLevel(String sessionId) {        
+        this.sessionLevel.put(sessionId, getPrivilegesForSessionsInSections());
+    }
+    
+    public void addSessionToSessionLevel(String sessionId, HashMap<String, Boolean> privileges) {
+        this.sessionLevel.put(sessionId, privileges);
+    }
+    
+    public void updateSessionPrivilegeInSessionLevel(String sessionId, String privilegeName, boolean isAllowed) {
+        if (!this.sessionLevel.containsKey(sessionId)) {
+            addSessionToSessionLevel(sessionId);
+        }
+        this.sessionLevel.get(sessionId).put(privilegeName, Boolean.valueOf(isAllowed));
+    }
+    
+    public HashMap<String, Boolean> getPrivilegesForSessionsInSections() {
+        HashMap<String, Boolean> privileges = new HashMap<String, Boolean>();
+        privileges.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTION, 
+                this.sectionLevel.get(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTION));
+        privileges.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTION, 
+                this.sectionLevel.get(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTION));
+        privileges.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTION, 
+                this.sectionLevel.get(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTION));
+        
+        return privileges;
     }
 
     public HashMap<String, Boolean> getCourseLevelPrivileges() {
