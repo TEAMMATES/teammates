@@ -66,62 +66,59 @@
                     %>
                 </div>
                 <div class="panel-body">
-                    <div class="panel panel-primary">
-                        <table class="table table-striped table-bordered dataTable">
-                            <thead class="fill-primary">
-                                <tr>
-                                    <th id="button_sortFrom" onclick="toggleSort(this,1,null,2)" colspan="2">
-                                        From
-                                    </th>
-                                    <th id="button_sortTo" onclick="toggleSort(this,3,null,2)" colspan="2">
-                                        To
-                                    </th>
-                                    <th id="button_sortFeedback" onclick="toggleSort(this,5,null,2)" rowspan="2" style="vertical-align:middle;">
-                                        Feedback
-                                    </th>
-                                </tr>
-                                <tr>
-                                    <th id="button_sortFromName" onclick="toggleSort(this,1,null,2)" style="width: 15%;">
-                                        Name
-                                    </th>
-                                    <th id="button_sortFromTeam" onclick="toggleSort(this,2,null,2)" style="width: 15%;">
-                                        Team
-                                    </th>
-                                    <th id="button_sortToName" onclick="toggleSort(this,3,null,2)" style="width: 15%;">
-                                        Name
-                                    </th>
-                                    <th id="button_sortFromTeam" class="button-sort-ascending" onclick="toggleSort(this,4,null,2)" style="width: 15%;">
-                                        Team
-                                    </th>
-                                </tr>
-                            <thead>
-                            <tbody>
-                                <%
-                                    for(FeedbackResponseAttributes responseEntry: responseEntries.getValue()) {
-                                %>
-                                <tr>
-                                <%
-                                    String giverName = data.bundle.getGiverNameForResponse(responseEntries.getKey(), responseEntry);
-                                    String giverTeamName = data.bundle.getTeamNameForEmail(responseEntry.giverEmail);
+                    <table class="table table-striped table-bordered dataTable margin-0">
+                        <thead class="fill-primary">
+                            <tr>
+                                <th id="button_sortFrom" onclick="toggleSort(this,1,null,2)" colspan="2">
+                                    From
+                                </th>
+                                <th id="button_sortTo" onclick="toggleSort(this,3,null,2)" colspan="2">
+                                    To
+                                </th>
+                                <th id="button_sortFeedback" onclick="toggleSort(this,5,null,2)" rowspan="2" style="vertical-align:middle;">
+                                    Feedback
+                                </th>
+                            </tr>
+                            <tr>
+                                <th id="button_sortFromName" onclick="toggleSort(this,1,null,2)" style="width: 15%;">
+                                    Name
+                                </th>
+                                <th id="button_sortFromTeam" onclick="toggleSort(this,2,null,2)" style="width: 15%;">
+                                    Team
+                                </th>
+                                <th id="button_sortToName" onclick="toggleSort(this,3,null,2)" style="width: 15%;">
+                                    Name
+                                </th>
+                                <th id="button_sortFromTeam" class="button-sort-ascending" onclick="toggleSort(this,4,null,2)" style="width: 15%;">
+                                    Team
+                                </th>
+                            </tr>
+                        <thead>
+                        <tbody>
+                            <%
+                                for(FeedbackResponseAttributes responseEntry: responseEntries.getValue()) {
+                            %>
+                            <tr>
+                            <%
+                                String giverName = data.bundle.getGiverNameForResponse(responseEntries.getKey(), responseEntry);
+                                String giverTeamName = data.bundle.getTeamNameForEmail(responseEntry.giverEmail);
 
-                                    String recipientName = data.bundle.getRecipientNameForResponse(responseEntries.getKey(), responseEntry);
-                                    String recipientTeamName = data.bundle.getTeamNameForEmail(responseEntry.recipientEmail);
-                                %>
-                                    <td class="middlealign"><%=giverName%></td>
-                                    <td class="middlealign"><%=giverTeamName%></td>
-                                    <td class="middlealign"><%=recipientName%></td>
-                                    <td class="middlealign"><%=recipientTeamName%></td>
-                                    <td class="multiline"><%=responseEntry.getResponseDetails().getAnswerHtml()%></td>
-                                </tr>        
-                                <%
-                                    }
-                                %>
-                            </tbody>
-                        </table>
-                    </div>
+                                String recipientName = data.bundle.getRecipientNameForResponse(responseEntries.getKey(), responseEntry);
+                                String recipientTeamName = data.bundle.getTeamNameForEmail(responseEntry.recipientEmail);
+                            %>
+                                <td class="middlealign"><%=giverName%></td>
+                                <td class="middlealign"><%=giverTeamName%></td>
+                                <td class="middlealign"><%=recipientName%></td>
+                                <td class="middlealign"><%=recipientTeamName%></td>
+                                <td class="multiline"><%=responseEntry.getResponseDetails().getAnswerHtml()%></td>
+                            </tr>        
+                            <%
+                                }
+                            %>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            <br>
             <%
                 }
             %>

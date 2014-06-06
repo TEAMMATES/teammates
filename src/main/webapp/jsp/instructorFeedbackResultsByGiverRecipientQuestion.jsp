@@ -16,12 +16,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="shortcut icon" href="/favicon.png">
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TEAMMATES - Feedback Session Results</title>
-<!-- Bootstrap core CSS -->
+    <link rel="shortcut icon" href="/favicon.png">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TEAMMATES - Feedback Session Results</title>
+    <!-- Bootstrap core CSS -->
     <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap theme -->
     <link href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
@@ -92,7 +92,7 @@
                         <div class="panel-heading">
                             <strong><%=currentTeam%></strong>
                         </div>
-                        <div class="panel-body">
+                        <div class="panel-body background-color-warning">
             <%
                 }
             %>
@@ -222,7 +222,6 @@
                 %>
             </div>
             </div>
-            <br>
             <%
                 }
             %>

@@ -93,7 +93,7 @@
                     <div class="panel-heading">
                         <strong><%=currentTeam%></strong>
                     </div>
-                    <div class="panel-body">
+                    <div class="panel-body background-color-warning">
         <%
             }
         %>
@@ -119,7 +119,7 @@
                                     out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, "recipient-"+recipientIndex+"-question-"+questionIndex));%>
                             </div>
                             <div class="panel-body">
-                                <table class="table table-striped table-bordered dataTable">
+                                <table class="table table-striped table-bordered dataTable margin-0">
                                     <thead class="fill-primary">
                                         <tr>
                                             <th id="button_sortTo" onclick="toggleSort(this,1,null,2)" colspan="2">

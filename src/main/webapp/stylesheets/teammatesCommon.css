@@ -16,6 +16,10 @@ body {
     background-color: white;
 }
 
+.background-color-warning {
+    background-color: #fcf8e3;
+}
+
 .border-gray {
     border: 1px solid #ddd;
 }
@@ -73,6 +77,10 @@ body {
 
 .inline {
     display: inline;
+}
+
+.margin-0 {
+   margin: 0;
 }
 
 .padding-0 {

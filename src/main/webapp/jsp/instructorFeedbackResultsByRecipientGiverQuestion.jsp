@@ -16,31 +16,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="shortcut icon" href="/favicon.png">
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TEAMMATES - Feedback Session Results</title>
-<!-- Bootstrap core CSS -->
-<link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<!-- Bootstrap theme -->
-<link href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
-<link rel="stylesheet" href="/stylesheets/teammatesCommon.css" type="text/css" media="screen">
-<script type="text/javascript" src="/js/googleAnalytics.js"></script>
-<script type="text/javascript" src="/js/jquery-minified.js"></script>
-<script type="text/javascript" src="/js/common.js"></script>
-<script type="text/javascript" src="/js/instructor.js"></script>
-<script type="text/javascript" src="/js/instructorFeedbackResults.js"></script>
-<script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
-<script type="text/javascript" src="/js/feedbackResponseComments.js"></script>
-<jsp:include page="../enableJS.jsp"></jsp:include>
-<!-- Bootstrap core JavaScript ================================================== -->
-<script src="/bootstrap/js/bootstrap.min.js"></script>
-<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-<!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-<![endif]-->
+    <link rel="shortcut icon" href="/favicon.png">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TEAMMATES - Feedback Session Results</title>
+    <!-- Bootstrap core CSS -->
+    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap theme -->
+    <link href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/stylesheets/teammatesCommon.css" type="text/css" media="screen">
+    <script type="text/javascript" src="/js/googleAnalytics.js"></script>
+    <script type="text/javascript" src="/js/jquery-minified.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+    <script type="text/javascript" src="/js/instructor.js"></script>
+    <script type="text/javascript" src="/js/instructorFeedbackResults.js"></script>
+    <script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
+    <script type="text/javascript" src="/js/feedbackResponseComments.js"></script>
+    <jsp:include page="../enableJS.jsp"></jsp:include>
+    <!-- Bootstrap core JavaScript ================================================== -->
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
 </head>
 
 <body>
@@ -95,7 +95,7 @@
                         <div class="panel-heading">
                             <strong><%=currentTeam%></strong>
                         </div>
-                        <div class="panel-body">
+                        <div class="panel-body background-color-warning">
             <%
                 }
             %>
@@ -226,7 +226,6 @@
                 %>
                 </div>
             </div>
-            <br>
         <%
             }
         %>

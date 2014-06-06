@@ -64,7 +64,7 @@
 %>
 
 <form method="post" action="/page/instructorFeedbackResultsPage" class="form-horizontal" role="form">
-    <div class="panel panel-info">
+    <div class="panel panel-info margin-0">
         <div class="panel-body">
             <div class="row">
                 <div class="col-sm-5">
