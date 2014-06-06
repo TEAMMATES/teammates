@@ -25,6 +25,12 @@ public class StudentEvalEditPage extends AppPage {
         fillSubmissionValues(receiverId, s.points, s.justification.getValue(), s.p2pFeedback.getValue());
     }
     
+    public void clearSubmittedData(int receiverId){
+        setPoints(receiverId, -101);
+        setJustification(receiverId, "");
+        setComments(receiverId, ""); 
+    }
+    
     public StudentHomePage submit() {
         submitButton.click();
         waitForPageToLoad();
@@ -47,6 +53,7 @@ public class StudentEvalEditPage extends AppPage {
         browser.selenium.select("id=" + Const.ParamsNames.POINTS + rowId, "value="+points);
     }
     
+    
     private void setJustification(int rowId, String justification) {
         WebElement element = browser.driver.findElement(By.id(Const.ParamsNames.JUSTIFICATION + rowId));
         fillTextBox(element, justification);
@@ -56,5 +63,6 @@ public class StudentEvalEditPage extends AppPage {
         WebElement element = browser.driver.findElement(By.id(Const.ParamsNames.COMMENTS + rowId));
         fillTextBox(element, comments);
     }
+    
 
 }
