@@ -64,6 +64,12 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label class="col-sm-3 control-label">Sections:</label>
+                    <div class="col-sm-6" id="total_sections">
+                        <p class="form-control-static"><%=data.courseDetails.stats.sectionsTotal%></p>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="col-sm-3 control-label">Teams:</label>
                     <div class="col-sm-6" id="total_teams">
                         <p class="form-control-static"><%=data.courseDetails.stats.teamsTotal%></p>
@@ -123,13 +129,20 @@
         <table class="table table-bordered table-striped">
             <thead class="fill-primary">
                 <tr>
-                    <th onclick="toggleSort(this,1);" id="button_sortstudentteam" class="button-sort-none">
+                    <%  int sortIdx = 1;
+                        boolean hasSection = data.courseDetails.stats.sectionsTotal != 0;
+                        if(hasSection) { %>
+                        <th onclick="toggleSort(this, <%=sortIdx++%>);" id="button_sortstudentsection" class="button-sort-none">
+                        Section<span class="icon-sort unsorted"></span>
+                        </th>
+                    <% } %>
+                    <th onclick="toggleSort(this, <%=sortIdx++%>);" id="button_sortstudentteam" class="button-sort-none">
                         Team<span class="icon-sort unsorted"></span>
                     </th>
-                    <th onclick="toggleSort(this,2);" id="button_sortstudentname" class="button-sort-none">
+                    <th onclick="toggleSort(this, <%=sortIdx++%>);" id="button_sortstudentname" class="button-sort-none">
                         Student Name<span class="icon-sort unsorted"></span>
                     </th>
-                    <th onclick="toggleSort(this,3);" id="button_sortstudentstatus" class="button-sort-none">
+                    <th onclick="toggleSort(this, <%=sortIdx++%>);" id="button_sortstudentstatus" class="button-sort-none">
                         Status<span class="icon-sort unsorted"></span>
                     </th>
                     <th class="align-center no-print">
@@ -142,6 +155,9 @@
                                                             for(StudentAttributes student: data.students){ idx++;
             %>
                     <tr class="student_row" id="student<%=idx%>">
+                        <% if(hasSection) { %>
+                            <td id="<%=Const.ParamsNames.SECTION_NAME%>"><%=sanitizeForHtml(student.section)%></td>
+                        <% } %>
                         <td id="<%=Const.ParamsNames.TEAM_NAME%>"><%=sanitizeForHtml(student.team)%></td>
                         <td id="<%=Const.ParamsNames.STUDENT_NAME%>"><%=sanitizeForHtml(student.name)%></td>
                         <td class="align-center"><%=data.getStudentStatus(student)%></td>

@@ -348,6 +348,8 @@ public class StudentsLogic {
 
     public boolean hasIndicatedSections(String courseId) throws EntityDoesNotExistException{
 
+        coursesLogic.verifyCourseIsPresent(courseId);
+        
         List<StudentAttributes> studentList = getStudentsForCourse(courseId);
         for(StudentAttributes student : studentList) {
             if(!student.section.equals(Const.DEFAULT_SECTION)){
