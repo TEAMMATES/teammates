@@ -67,7 +67,7 @@
     <div class="panel panel-info margin-0">
         <div class="panel-body">
             <div class="row">
-                <div class="col-sm-5">
+                <div class="col-sm-5" data-toggle="tooltip" title="View results in different formats">
                     <div class="form-group">
                         <label for="viewSelect" class="col-sm-2 control-label">
                             View:
@@ -93,7 +93,20 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-3 pull-right">
+                <div class="col-sm-5" data-toggle="tooltip" title="Search the results in the current view">
+                    <div class="form-group">
+                        <label for="viewSelect" class="col-sm-2 control-label">
+                            Search:
+                        </label>
+                        <div class="col-sm-10">
+                            <div class="input-group">
+                                <input type="text" id="results-search-box" class="form-control" placeholder="Type here to search results">
+                                <a class="input-group-addon btn btn-default"><span class="glyphicon glyphicon-search"></span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2 pull-right" data-toggle="tooltip" title="Group results in the current view by team">
                     <div class="checkbox pull-right">
                         <label>
                             <input type="checkbox" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM%>" onchange="this.form.submit()" <%=(data.groupByTeam==null) ? "" : "checked=\"checked\""%> <%=(data.sortType.equals("question")) ? "disabled=\"disabled\"" : "d"%>> Group by Teams
@@ -102,8 +115,8 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-12">
-                    <a class="btn btn-default btn-xs pull-right" id="collapse-panels-button" onclick="toggleCollapse()">
+                <div class="col-sm-7 pull-right">
+                    <a class="btn btn-default btn-xs pull-right" id="collapse-panels-button" onclick="toggleCollapse()" data-toggle="tooltip" title="Collapse or expand all panels. You can also click on the panel heading to toggle each one individually.">
                         Collapse All
                     </a>
                 </div>
