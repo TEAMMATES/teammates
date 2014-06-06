@@ -183,6 +183,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         List<FeedbackResponseAttributes> responsesForOneRecipientOneQuestion = null;
         
         Collections.sort(responses, compareByGiverName);
+        Collections.sort(responses, compareByGiverTeamName);
         Collections.sort(responses, compareByQuestionNumber);
         Collections.sort(responses, compareByRecipientName);
         if(sortByTeam==true){
@@ -305,6 +306,65 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
             sortedMap.put(recipientName, responsesToOneRecipient);
         }
 
+        return sortedMap;
+    }
+    
+    /**
+     * Returns responses as a Map<giverName, Map<question, List<response>>>
+     * Where the responses are sorted in the order of giver, question, recipient.
+     * @param sortByTeam
+     * @return responses sorted by Giver > Question > Recipient
+     */
+    public Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>>
+                    getResponsesSortedByGiverQuestionRecipient(boolean sortByTeam) {
+        
+        Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedMap
+             = new LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>>();
+        Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responsesFromOneGiver = null;
+        List<FeedbackResponseAttributes> responsesFromOneGiverOneQuestion = null;
+        
+        Collections.sort(responses, compareByRecipientName);
+        Collections.sort(responses, compareByRecipientTeamName);
+        Collections.sort(responses, compareByQuestionNumber);
+        Collections.sort(responses, compareByGiverName);
+        if(sortByTeam==true){
+            Collections.sort(responses, compareByGiverTeamName);
+        }
+        
+        String giver = null;
+        String questionId = null;
+        String giverName = null;
+        
+        for (FeedbackResponseAttributes response : responses) {
+            if(giver == null || !response.giverEmail.equals(giver)){
+                if(questionId!=null && responsesFromOneGiverOneQuestion!=null && responsesFromOneGiver!=null){
+                    responsesFromOneGiver.put(questions.get(questionId), responsesFromOneGiverOneQuestion);
+                }
+                if(giver!=null && responsesFromOneGiver!=null){
+                    sortedMap.put(giverName, responsesFromOneGiver);
+                }
+                responsesFromOneGiver = new LinkedHashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
+                giver = response.giverEmail;
+                giverName = this.getGiverNameForResponse(questions.get(response.feedbackQuestionId), response);
+                questionId = null;
+            }
+            if(questionId == null || !response.feedbackQuestionId.equals(questionId)){
+                if(questionId!=null && responsesFromOneGiverOneQuestion!=null){
+                    responsesFromOneGiver.put(questions.get(questionId), responsesFromOneGiverOneQuestion);
+                }
+                responsesFromOneGiverOneQuestion = new ArrayList<FeedbackResponseAttributes>();
+                questionId = response.feedbackQuestionId;
+            }
+            responsesFromOneGiverOneQuestion.add(response);
+        }
+        if(questionId!=null && responsesFromOneGiverOneQuestion!=null && responsesFromOneGiver!=null){
+            responsesFromOneGiver.put(questions.get(questionId), responsesFromOneGiverOneQuestion);
+        }
+        if(giver!=null && responsesFromOneGiver!=null){
+
+            sortedMap.put(giverName, responsesFromOneGiver);
+        }
+        
         return sortedMap;
     }
     
