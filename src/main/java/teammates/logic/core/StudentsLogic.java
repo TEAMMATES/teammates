@@ -341,7 +341,7 @@ public class StudentsLogic {
             }
         }
         for(String team : invalidTeamList){
-            errorMessage += "Cannot put team \"" + team + "\" in 2 different sections<br>";
+            errorMessage += String.format(Const.StatusMessages.TEAM_INVALID_SECTION_EDIT, team);
         }
         if(!errorMessage.equals("")){
             throw new EnrollException(errorMessage);
@@ -353,7 +353,7 @@ public class StudentsLogic {
 
         List<StudentAttributes> studentList = getStudentsForCourse(courseId);
         for(StudentAttributes student : studentList) {
-            if(!student.section.equals("None")){
+            if(!student.section.equals(Const.DEFAULT_SECTION)){
                 return true;
             }
         }

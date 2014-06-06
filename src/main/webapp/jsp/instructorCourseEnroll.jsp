@@ -98,13 +98,15 @@
                 <li><span class="moreInfoPointTitle">Columns</span>
                     <div class="moreInfoPointDetails">
                         <ul>
-                            <li class="moreInfoColumnInfo">Section [Optional]: section name/ID</li>
+                            <!-- <li class="moreInfoColumnInfo">Section [Optional]: section name/ID</li> -->
                             <li class="moreInfoColumnInfo">Team [Compulsory]: team name/ID
+                                <!--
                                 <div class="moreInfoPointDetails">
                                     <ul>
-                                        <li class="moreInfoEmailDetails">Team must be unique among sections. A team cannot be in 2 different sections.</li>
+                                        <li class="moreInfoEmailDetails">Team must be unique within a course. A team cannot be in 2 different sections.</li>
                                     </ul>
                                 </div>
+                                -->
                             </li>
                             <li class="moreInfoColumnInfo">Name [Compulsory]: Student name</li>
                             <li class="moreInfoColumnInfo">Email [Compulsory]: The email address used to contact the student.<br>
@@ -136,14 +138,30 @@
                         <br>Here is an example.
                         <br><br>
                         <div id="moreInfoEnrollWOSpreadSheetEg">
-                            <span class="enrollLines">Section   |   Team   |   Name   |   Email   |   Comments</span>
-                            <br><span class="enrollLines">Tutorial Group 1   |   Team 1   |   Tom Jacobs  |  tom@email.com</span>
-                            <br><span class="enrollLines">Tutorial Group 1   |   Team 1  |   Jean Wong   |   jean@email.com   |   Exchange Student</span>
-                            <br><span class="enrollLines">Tutorial Group 2   |   Team 2   |   Jack Wayne  |  jack@email.com</span>
-                            <br><span class="enrollLines">Tutorial Group 2   |   Team 3   |   Thora Parker  |  thora@email.com</span>
+                            <span class="enrollLines"><b>Team   |   Name   |   Email   |   Comments</b></span>
+                            <br><span class="enrollLines">Team 1   |   Tom Jacobs  |  tom@email.com</span>
+                            <br><span class="enrollLines">Team 1  |   Jean Wong   |   jean@email.com   |   Exchange Student</span>
+                            <br><span class="enrollLines">Team 2   |   Jack Wayne  |  jack@email.com</span>
+                            <br><span class="enrollLines">Team 3   |   Thora Parker  |  thora@email.com</span>
                         </div>
                     </div>
                 </li>
+                <!--
+                <li><span class="moreInfoPointTitle">Enrolling students with assigned sections</span>
+                    <div class="moreInfoPointDetails">
+                        Class can be divided in more details by indicating different sections for each team such as tutorial groups, lecture groups, etc.
+                        <br> Here is an example.
+                        <br><br>
+                        <div id="moreInfoEnrollWOSpreadSheetEg">
+                            <span class="enrollLines"><b>Section   |   Team   |   Name   |   Email   |   Comments</b></span>
+                            <br><span class="enrollLines">Tut Group 1   |   Team 1   |   Tom Jacobs  |  tom@email.com</span>
+                            <br><span class="enrollLines">Tut Group 1   |   Team 1  |   Jean Wong   |   jean@email.com   |   Exchange Student</span>
+                            <br><span class="enrollLines">Tut Group 1   |   Team 2   |   Jack Wayne  |  jack@email.com</span>
+                            <br><span class="enrollLines">Tut Group 2   |   Team 3   |   Thora Parker  |  thora@email.com</span>
+                        </div>
+                    </div>
+                </li>
+                -->
             </ul>
         </div>
     </div>

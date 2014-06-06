@@ -1,7 +1,3 @@
-  /******************************/
- /	Without section		/
-/******************************/
-
 Team, Name, Email, Comments
 Team 1,Tom Jacobs,tom@email.com,
 Team 1,Jean Wong,jean@email.com,Exchange Student
@@ -9,16 +5,3 @@ Team 1,Ravi Kumar,ravi@email.com,
 Team 2,Chun Ling,ling@coolmai.com,
 Team 2,Desmond Wu,desmond@email.com,
 Team 2,Harsha Silva,harsha@school.com,
-
-
-  /******************************/
- /	Including section	/
-/******************************/
-
-Section, Team, Name, Email, Comments
-Tutorial Group 1, Team 1,Tom Jacobs,tom@email.com,
-Tutorial Group 1, Team 1,Jean Wong,jean@email.com,Exchange Student
-Tutorial Group 1, Team 2,Ravi Kumar,ravi@email.com,
-Tutorial Group 2, Team 3,Chun Ling,ling@coolmai.com,
-Tutorial Group 2, Team 4,Desmond Wu,desmond@email.com,
-Tutorial Group 2, Team 4,Harsha Silva,harsha@school.com,
