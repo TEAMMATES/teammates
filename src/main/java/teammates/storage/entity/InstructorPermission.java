@@ -46,9 +46,9 @@ public class InstructorPermission {
     }
 
     /**
-     * @return The unique ID of the entity (format: instructorId%permission)
+     * @return The ID of the entity
      */
-    public String getUniqueId() {
+    public String getId() {
         return id;
     }
 

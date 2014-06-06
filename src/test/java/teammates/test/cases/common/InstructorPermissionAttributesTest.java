@@ -13,6 +13,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPermissionAttributes;
+import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.util.StringHelper;
 import teammates.test.cases.BaseTestCase;
 
@@ -29,39 +30,10 @@ public class InstructorPermissionAttributesTest extends BaseTestCase {
 
     @Test
     public void testValidate() {
-        String instrEmail = "valid@google.com";
-        String courseId = "validCourseId";
-        String role = "Co-owner";
-        String accessString = "";
-        HashMap<String, HashMap<String, HashMap<String, Boolean>>> privileges = constructBasicPrivilegesHashMap();
-        String gsonString = gson.toJson(privileges, HashMap.class);
-    }
-    
-    private HashMap<String, HashMap<String, HashMap<String, Boolean>>> constructBasicPrivilegesHashMap() {
-        HashMap<String, HashMap<String, HashMap<String, Boolean>>> privileges = new HashMap<String, HashMap<String, HashMap<String, Boolean>>>();
-        HashMap<String, HashMap<String, Boolean>> courseLevelHashMap = new HashMap<String, HashMap<String, Boolean>>();
-        HashMap<String, Boolean> courseLevelPrileges = new HashMap<String, Boolean>();
-        HashMap<String, HashMap<String, Boolean>> sectionLevelHashMap = new HashMap<String, HashMap<String, Boolean>>();
-        HashMap<String, Boolean> sectionLevelPrileges = new HashMap<String, Boolean>();
-        HashMap<String, HashMap<String, Boolean>> sessionLevelHashMap = new HashMap<String, HashMap<String, Boolean>>();
-        HashMap<String, Boolean> session1LevelPrileges = new HashMap<String, Boolean>();
-        
-        courseLevelPrileges.put("canmodifycourse", new Boolean(false));
-        courseLevelPrileges.put("canmodifyinstructor", new Boolean(false));
-        courseLevelPrileges.put("canmodifysession", new Boolean(false));
-        courseLevelPrileges.put("canmodifystudent", new Boolean(false));
-        courseLevelHashMap.put("privileges", courseLevelPrileges);
-        privileges.put("course-level", courseLevelHashMap);
-        
-        sectionLevelPrileges.put("canmodifycourse", new Boolean(false));
-        sectionLevelHashMap.put("privileges", courseLevelPrileges);
-        privileges.put("section-level", sectionLevelHashMap);
-        
-        session1LevelPrileges.put("canmodifycourse", new Boolean(false));
-        sectionLevelHashMap.put("privileges", courseLevelPrileges);
-        privileges.put("section-level", sectionLevelHashMap);
-        
-        return privileges;
+        InstructorPrivileges privileges = new InstructorPrivileges("Manager");
+        String gsonString = gson.toJson(privileges, InstructorPrivileges.class);
+        InstructorPrivileges data = gson.fromJson(gsonString, InstructorPrivileges.class);
+        assertEquals(privileges, data);
     }
     
     @AfterClass

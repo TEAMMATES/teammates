@@ -1,7 +1,6 @@
 package teammates.common.datatransfer;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import teammates.common.util.FieldValidator;
@@ -21,7 +20,7 @@ public class InstructorPermissionAttributes extends EntityAttributes {
     private String courseId;
     private String role;
     private Text access;
-    private HashMap<String, HashMap<String, HashMap<String, Boolean>>> privileges;
+    private InstructorPrivileges privileges;
     
     public InstructorPermissionAttributes(String instrEmail, String courseId, String role, Text access) {
         this.instructorEmail = Sanitizer.sanitizeEmail(instrEmail);
@@ -31,8 +30,7 @@ public class InstructorPermissionAttributes extends EntityAttributes {
         this.privileges = getPrivilegesFromAccess(access);
     }
     
-    public InstructorPermissionAttributes(String instrEmail, String courseId, String role, 
-            HashMap<String, HashMap<String, HashMap<String, Boolean>>> privileges) {
+    public InstructorPermissionAttributes(String instrEmail, String courseId, String role, InstructorPrivileges privileges) {
         this.instructorEmail = Sanitizer.sanitizeEmail(instrEmail);
         this.courseId = Sanitizer.sanitizeTitle(courseId);
         this.role = Sanitizer.sanitizeName(role);
@@ -47,16 +45,15 @@ public class InstructorPermissionAttributes extends EntityAttributes {
         this.access = instructorPermission.getAccess();
     }
     
-    private Text getAccessFromPrivileges(HashMap<String, HashMap<String, HashMap<String, Boolean>>> privileges) {
+    private Text getAccessFromPrivileges(InstructorPrivileges privileges) {
         String accessString = gson.toJson(privileges);
         
         return new Text(accessString);
     }
     
-    @SuppressWarnings("unchecked")
-    private HashMap<String, HashMap<String, HashMap<String, Boolean>>> getPrivilegesFromAccess(Text access) {
+    private InstructorPrivileges getPrivilegesFromAccess(Text access) {
         String accessString = access.getValue();
-        HashMap<String, HashMap<String, HashMap<String, Boolean>>> privileges = gson.fromJson(accessString, HashMap.class);
+        InstructorPrivileges privileges = gson.fromJson(accessString, InstructorPrivileges.class);
         
         return privileges;
     }
@@ -106,8 +103,7 @@ public class InstructorPermissionAttributes extends EntityAttributes {
         return gson.toJson(this, InstructorPermissionAttributes.class);
     }
     
-    @SuppressWarnings("rawtypes")
-    public HashMap getPrivileges() {
+    public InstructorPrivileges getPrivileges() {
         return this.privileges;
     }
 

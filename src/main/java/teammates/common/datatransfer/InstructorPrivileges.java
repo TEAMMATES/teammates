@@ -3,7 +3,7 @@ package teammates.common.datatransfer;
 import java.util.HashMap;
 import teammates.common.util.Const;
 
-public class InstructorPrivileges {
+public final class InstructorPrivileges {
     private HashMap<String, Boolean> courseLevel;
     private HashMap<String, Boolean> sectionLevel;
     private HashMap<String, HashMap<String, Boolean>> sessionLevel;
@@ -68,6 +68,20 @@ public class InstructorPrivileges {
 
     public HashMap<String, HashMap<String, Boolean>> getSessionLevelPrivileges() {
         return sessionLevel;
+    }
+    
+    public boolean equals(Object another) {
+        if (!(another instanceof InstructorPrivileges)) {
+            return false;
+        }
+        if (another == this) {
+            return true;
+        }
+        
+        InstructorPrivileges rhs = (InstructorPrivileges)another;
+        return this.getCourseLevelPrivileges().equals(rhs.getCourseLevelPrivileges()) &&
+                this.getSectionLevelPrivileges().equals(rhs.getSectionLevelPrivileges()) &&
+                this.getSessionLevelPrivileges().equals(rhs.getSessionLevelPrivileges());
     }
     
 }
