@@ -7,57 +7,62 @@
     InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData)request.getAttribute("data");
 %>
 
-<div class="well well-plain">
-    <form class="form-horizontal" role="form">
+<style>
+.nopadding {
+   padding: 0 !important;
+}
+</style>
+
+<div class="well well-plain nopadding">
+    <form class="form-horizontal" role="form" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD%>">
         <div class="panel-heading">
-          <div class="form-group">
-            <label class="col-sm-2 control-label">Course:</label>
-            <div class="col-sm-10">
-              <p class="form-control-static"><%=InstructorFeedbackResultsPageData.sanitizeForHtml(data.bundle.feedbackSession.courseId)%></p>
-            </div>
+          <div class="row">
+          <div class="col-sm-4">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">Course:</label>
+                <div class="col-sm-10">
+                  <p class="form-control-static"><%=InstructorFeedbackResultsPageData.sanitizeForHtml(data.bundle.feedbackSession.courseId)%></p>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">Session:</label>
+                <div class="col-sm-10">
+                  <p class="form-control-static"><%=InstructorFeedbackResultsPageData.sanitizeForHtml(data.bundle.feedbackSession.feedbackSessionName)%> <a
+                href="<%=data.getInstructorFeedbackSessionEditLink(data.bundle.feedbackSession.courseId, data.bundle.feedbackSession.feedbackSessionName)%>">[Edit]</a></p>
+                </div>
+              </div>
           </div>
-          <div class="form-group">
-            <label class="col-sm-2 control-label">Session:</label>
-            <div class="col-sm-10">
-              <p class="form-control-static"><%=InstructorFeedbackResultsPageData.sanitizeForHtml(data.bundle.feedbackSession.feedbackSessionName)%> <a
-            href="<%=data.getInstructorFeedbackSessionEditLink(data.bundle.feedbackSession.courseId, data.bundle.feedbackSession.feedbackSessionName)%>">[Edit]</a></p>
-            </div>
+          <div class="col-sm-6">
+              <div class="form-group">
+                <label class="col-sm-4 control-label">Session open:</label>
+                <div class="col-sm-8">
+                  <p class="form-control-static"><%=TimeHelper.formatTime(data.bundle.feedbackSession.startTime)%>&nbsp;&nbsp;&nbsp;<b>to</b>&nbsp;&nbsp;&nbsp;<%=TimeHelper.formatTime(data.bundle.feedbackSession.endTime)%></p>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-4 control-label">Results visible from:</label>
+                <div class="col-sm-8">
+                  <p class="form-control-static">
+                    <%=data.getResultsVisibleFromText()%>
+                    <%boolean noResponses = data.bundle.responses.isEmpty();%>
+                    </p>
+                </div>
+              </div>
           </div>
-          <div class="form-group">
-            <label class="col-sm-2 control-label">Opening time:</label>
-            <div class="col-sm-10">
-              <p class="form-control-static"><%=TimeHelper.formatTime(data.bundle.feedbackSession.startTime)%></p>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-sm-2 control-label">Closing time:</label>
-            <div class="col-sm-10">
-              <p class="form-control-static"><%=TimeHelper.formatTime(data.bundle.feedbackSession.endTime)%></p>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-sm-2 control-label">Results visible from:</label>
-            <div class="col-sm-10">
-              <p class="form-control-static">
-                <%=data.getResultsVisibleFromText()%>
-                <%boolean noResponses = data.bundle.responses.isEmpty();%>
-                </p>
-            </div>
+          <div class="col-sm-2">
+              <div id="feedbackDataButtons">
+                  <input id="button_download" type="submit" class="btn btn-primary pull-right"
+                      name="<%=Const.ParamsNames.FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON%>"
+                      value="Download results">
+              </div>
+              <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
+              <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.bundle.feedbackSession.feedbackSessionName%>">
+              <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.bundle.feedbackSession.courseId%>">
           </div>
         </div>
+        </div>
       </form>
-    <div class="col-sm-offset-5">
-        <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD%>">
-            <div id="feedbackDataButtons">
-                <input id="button_download" type="submit" class="btn btn-primary"
-                    name="<%=Const.ParamsNames.FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON%>"
-                    value="Download results">
-            </div>
-            <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
-            <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.bundle.feedbackSession.feedbackSessionName%>">
-            <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.bundle.feedbackSession.courseId%>">
-        </form>
-    </div>
+    
 </div>
 
 <%
@@ -102,6 +107,13 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <a class="btn btn-default btn-xs pull-right" id="collapse-panels-button" onclick="toggleCollapse()">
+                        Collapse All
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
     <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>"
@@ -115,13 +127,7 @@
     }
 %>
 
-<div class="row">
-    <div class="col-sm-12">
-        <button class="btn btn-default btn-xs pull-right" id="collapse-panels-button" onclick="toggleCollapse()">
-            Collapse All
-        </button>
-    </div>
-</div>
+
 
 <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
 
