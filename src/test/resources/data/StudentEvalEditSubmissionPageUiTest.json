@@ -64,22 +64,14 @@
       "comments": "This student's name is Benny Charles",
       "team": "Team 1"
     },
-    "ExtraGuy": {
-      "googleId": "extra.guy",
-      "email": "extra.guy@gmail.com",
+    "NewGuy": {
+      "googleId": "",
+      "email": "new@guy.com",
       "course": "SEvalEditUiT.CS2104",
-      "name": "Extra guy",
-      "comments": "This student will move to a new team after evaluation created",
-      "team": "Team 2"
-    },
-    "DropOut": {
-      "googleId": "drop.out",
-      "email": "drop.out@gmail.com",
-      "course": "SEvalEditUiT.CS2104",
-      "name": "Drop out",
-      "comments": "This student will drop out after evaluation created",
-      "team": "Team 2"
-    },
+      "name": "New Guy",
+      "comments": "",
+      "team": "Team 2" 
+    },   
     "Charlie": {
       "googleId": "SEvalEditUiT.charlie.d",
       "email": "SEvalEditUiT.charlie.d@gmail.com",
@@ -142,7 +134,7 @@
       "p2pEnabled": false,
       "published": false,
       "activated": true
-   	}
+    }
   },
   
   "submissions" : {
@@ -226,7 +218,9 @@
       "p2pFeedback" : {"value" :"This is a public comment from SEvalEditUiT.emily.f@gmail.com to SEvalEditUiT.danny.e@gmail.com"},
       "team" : "Team 2"
     },
-
+    
+    
+    
 
 
     
