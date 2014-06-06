@@ -53,22 +53,22 @@
                <div class="collapse navbar-collapse" id="contentLinks">
                   <ul class="nav navbar-nav">
                      <li class="">
-                        <a class="nav home" data-link="instructorHome" href="/page/instructorHomePage?user=CCDetailsUiT.instr">
+                        <a class="nav home" data-link="instructorHome" href="/page/instructorHomePage?user=CCDetailsUiT.instr2">
                            Home
                         </a>
                      </li>
                      <li class="active">
-                        <a class="nav courses" data-link="instructorCourse" href="/page/instructorCoursesPage?user=CCDetailsUiT.instr">
+                        <a class="nav courses" data-link="instructorCourse" href="/page/instructorCoursesPage?user=CCDetailsUiT.instr2">
                            Courses
                         </a>
                      </li>
                      <li class="">
-                        <a class="nav evaluations" data-link="instructorEval" href="/page/instructorEvalsPage?user=CCDetailsUiT.instr">
+                        <a class="nav evaluations" data-link="instructorEval" href="/page/instructorEvalsPage?user=CCDetailsUiT.instr2">
                            Sessions
                         </a>
                      </li>
                      <li class="">
-                        <a class="nav students" data-link="instructorStudent" href="/page/instructorStudentListPage?user=CCDetailsUiT.instr">
+                        <a class="nav students" data-link="instructorStudent" href="/page/instructorStudentListPage?user=CCDetailsUiT.instr2">
                            Students
                         </a>
                      </li>
@@ -84,8 +84,8 @@
                            Logout
                         
                         (
-                           <span class="text-info" data-original-title="CCDetailsUiT.instr" data-placement="bottom" data-toggle="tooltip" title="">
-                              CCDetailsUiT.instr
+                           <span class="text-info" data-original-title="CCDetailsUiT.instr2" data-placement="bottom" data-toggle="tooltip" title="">
+                              CCDetailsUiT.instr2
                            </span>
                            )
                         </a>
@@ -111,7 +111,7 @@
                      </label>
                      <div class="col-sm-6" id="courseid">
                         <p class="form-control-static">
-                           CCDetailsUiT.CS2104
+                           CCDetailsUiT.CS2103
                         </p>
                      </div>
                   </div>
@@ -121,7 +121,7 @@
                      </label>
                      <div class="col-sm-6" id="coursename">
                         <p class="form-control-static">
-                           Programming Language Concepts
+                           Software Engineering
                         </p>
                      </div>
                   </div>
@@ -131,7 +131,7 @@
                      </label>
                      <div class="col-sm-6" id="total_sections">
                         <p class="form-control-static">
-                           0
+                           2
                         </p>
                      </div>
                   </div>
@@ -151,7 +151,7 @@
                      </label>
                      <div class="col-sm-6" id="total_students">
                         <p class="form-control-static">
-                           4
+                           3
                         </p>
                      </div>
                   </div>
@@ -161,10 +161,7 @@
                      </label>
                      <div class="col-sm-6" id="instructors">
                         <div class="form-control-static">
-                           Teammates Coord (CCDetailsUiT.coord@gmail.com)
-                           <br/>
-                                                      <br/>
-                                                      Teammates Test (CCDetailsUiT.instr@gmail.com)
+                           Teammates Test 2 (CCDetailsUiT.instr2@gmail.com)
                            <br/>
                                                       <br/>
                                                    </div>
@@ -172,11 +169,11 @@
                   </div>
                   <div class="form-group">
                      <div class="align-center">
-                        <input class="btn btn-primary" data-original-title="Send invitation emails to all students yet to join the course" data-placement="top" data-toggle="tooltip" id="button_remind" onclick="if(toggleSendRegistrationKeysConfirmation('CCDetailsUiT.CS2104')) window.location.href='/page/instructorCourseRemind?courseid=CCDetailsUiT.CS2104&user=CCDetailsUiT.instr';" tabindex="1" title="" type="button" value="Remind Students to Join"/>
+                        <input class="btn btn-primary" data-original-title="Send invitation emails to all students yet to join the course" data-placement="top" data-toggle="tooltip" id="button_remind" onclick="if(toggleSendRegistrationKeysConfirmation('CCDetailsUiT.CS2103')) window.location.href='/page/instructorCourseRemind?courseid=CCDetailsUiT.CS2103&user=CCDetailsUiT.instr2';" tabindex="1" title="" type="button" value="Remind Students to Join"/>
                                                 <form action="/page/instructorCourseStudentListDownload" method="post" style="display:inline;">
                            <input class="btn btn-primary" id="button_download" name="fruploaddownloadbtn" type="submit" value=" Download Student List "/>
-                                                      <input name="user" type="hidden" value="CCDetailsUiT.instr"/>
-                                                      <input name="courseid" type="hidden" value="CCDetailsUiT.CS2104"/>
+                                                      <input name="user" type="hidden" value="CCDetailsUiT.instr2"/>
+                                                      <input name="courseid" type="hidden" value="CCDetailsUiT.CS2103"/>
                                                    </form>
                      </div>
                   </div>
@@ -189,17 +186,22 @@
                         <table class="table table-bordered table-striped">
                <thead class="fill-primary">
                   <tr>
-                     <th class="button-sort-ascending" id="button_sortstudentteam" onclick="toggleSort(this, 1);">
-                        Team
+                     <th class="button-sort-ascending" id="button_sortstudentsection" onclick="toggleSort(this, 1);">
+                        Section
                         <span class="icon-sort sorted-ascending">
                         </span>
                      </th>
-                     <th class="button-sort-none" id="button_sortstudentname" onclick="toggleSort(this, 2);">
+                     <th class="button-sort-none" id="button_sortstudentteam" onclick="toggleSort(this, 2);">
+                        Team
+                        <span class="icon-sort unsorted">
+                        </span>
+                     </th>
+                     <th class="button-sort-none" id="button_sortstudentname" onclick="toggleSort(this, 3);">
                         Student Name
                         <span class="icon-sort unsorted">
                         </span>
                      </th>
-                     <th class="button-sort-none" id="button_sortstudentstatus" onclick="toggleSort(this, 3);">
+                     <th class="button-sort-none" id="button_sortstudentstatus" onclick="toggleSort(this, 4);">
                         Status
                         <span class="icon-sort unsorted">
                         </span>
@@ -211,6 +213,9 @@
                </thead>
                <tbody>
                   <tr class="student_row" id="student0">
+                     <td id="sectionname">
+                        Tut Group 1
+                     </td>
                      <td id="teamname">
                         Team 1
                      </td>
@@ -221,21 +226,24 @@
                         Joined
                      </td>
                      <td class="align-center no-print">
-                        <a class="btn btn-default btn-xs t_student_details0" data-original-title="View the details of the student" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2104&studentemail=alice.tmms%40gmail.com&user=CCDetailsUiT.instr" title="">
+                        <a class="btn btn-default btn-xs t_student_details0" data-original-title="View the details of the student" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2103&studentemail=alice.tmms%40gmail.com&user=CCDetailsUiT.instr2" title="">
                            View
                         </a>
-                        <a class="btn btn-default btn-xs t_student_edit0" data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=CCDetailsUiT.CS2104&studentemail=alice.tmms%40gmail.com&user=CCDetailsUiT.instr" title="">
+                        <a class="btn btn-default btn-xs t_student_edit0" data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=CCDetailsUiT.CS2103&studentemail=alice.tmms%40gmail.com&user=CCDetailsUiT.instr2" title="">
                            Edit
                         </a>
-                        <a class="btn btn-default btn-xs t_student_delete0" data-original-title="Delete the student and the corresponding evaluations from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=CCDetailsUiT.CS2104&studentemail=alice.tmms%40gmail.com&user=CCDetailsUiT.instr" onclick="return toggleDeleteStudentConfirmation('Alice Betsy')" title="">
+                        <a class="btn btn-default btn-xs t_student_delete0" data-original-title="Delete the student and the corresponding evaluations from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=CCDetailsUiT.CS2103&studentemail=alice.tmms%40gmail.com&user=CCDetailsUiT.instr2" onclick="return toggleDeleteStudentConfirmation('Alice Betsy')" title="">
                            Delete
                         </a>
-                        <a class="btn btn-default btn-xs t_student_records-cCCDetailsUiT.CS2104.0" data-original-title="View all student\'s evaluations and feedbacks" data-placement="top" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=CCDetailsUiT.CS2104&studentemail=alice.tmms%40gmail.com&addComment=yes&user=CCDetailsUiT.instr" title="">
+                        <a class="btn btn-default btn-xs t_student_records-cCCDetailsUiT.CS2103.0" data-original-title="View all student\'s evaluations and feedbacks" data-placement="top" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=CCDetailsUiT.CS2103&studentemail=alice.tmms%40gmail.com&addComment=yes&user=CCDetailsUiT.instr2" title="">
                            Add Comment
                         </a>
                      </td>
                   </tr>
                   <tr class="student_row" id="student2">
+                     <td id="sectionname">
+                        Tut Group 1
+                     </td>
                      <td id="teamname">
                         Team 1
                      </td>
@@ -246,24 +254,27 @@
                         Yet to join
                      </td>
                      <td class="align-center no-print">
-                        <a class="btn btn-default btn-xs t_student_details2" data-original-title="View the details of the student" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2104&studentemail=charlie.tmms%40gmail.com&user=CCDetailsUiT.instr" title="">
+                        <a class="btn btn-default btn-xs t_student_details2" data-original-title="View the details of the student" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2103&studentemail=charlie.tmms%40gmail.com&user=CCDetailsUiT.instr2" title="">
                            View
                         </a>
-                        <a class="btn btn-default btn-xs t_student_edit2" data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=CCDetailsUiT.CS2104&studentemail=charlie.tmms%40gmail.com&user=CCDetailsUiT.instr" title="">
+                        <a class="btn btn-default btn-xs t_student_edit2" data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=CCDetailsUiT.CS2103&studentemail=charlie.tmms%40gmail.com&user=CCDetailsUiT.instr2" title="">
                            Edit
                         </a>
-                        <a class="btn btn-default btn-xs t_student_resend2" data-original-title="Send invitation email to the student" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseRemind?courseid=CCDetailsUiT.CS2104&studentemail=charlie.tmms%40gmail.com&user=CCDetailsUiT.instr" onclick="return toggleSendRegistrationKey()" title="">
+                        <a class="btn btn-default btn-xs t_student_resend2" data-original-title="Send invitation email to the student" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseRemind?courseid=CCDetailsUiT.CS2103&studentemail=charlie.tmms%40gmail.com&user=CCDetailsUiT.instr2" onclick="return toggleSendRegistrationKey()" title="">
                            Send Invite
                         </a>
-                        <a class="btn btn-default btn-xs t_student_delete2" data-original-title="Delete the student and the corresponding evaluations from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=CCDetailsUiT.CS2104&studentemail=charlie.tmms%40gmail.com&user=CCDetailsUiT.instr" onclick="return toggleDeleteStudentConfirmation('Charlie Davis')" title="">
+                        <a class="btn btn-default btn-xs t_student_delete2" data-original-title="Delete the student and the corresponding evaluations from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=CCDetailsUiT.CS2103&studentemail=charlie.tmms%40gmail.com&user=CCDetailsUiT.instr2" onclick="return toggleDeleteStudentConfirmation('Charlie Davis')" title="">
                            Delete
                         </a>
-                        <a class="btn btn-default btn-xs t_student_records-cCCDetailsUiT.CS2104.2" data-original-title="View all student\'s evaluations and feedbacks" data-placement="top" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=CCDetailsUiT.CS2104&studentemail=charlie.tmms%40gmail.com&addComment=yes&user=CCDetailsUiT.instr" title="">
+                        <a class="btn btn-default btn-xs t_student_records-cCCDetailsUiT.CS2103.2" data-original-title="View all student\'s evaluations and feedbacks" data-placement="top" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=CCDetailsUiT.CS2103&studentemail=charlie.tmms%40gmail.com&addComment=yes&user=CCDetailsUiT.instr2" title="">
                            Add Comment
                         </a>
                      </td>
                   </tr>
                   <tr class="student_row" id="student1">
+                     <td id="sectionname">
+                        Tut Group 2
+                     </td>
                      <td id="teamname">
                         Team 2
                      </td>
@@ -274,44 +285,19 @@
                         Yet to join
                      </td>
                      <td class="align-center no-print">
-                        <a class="btn btn-default btn-xs t_student_details1" data-original-title="View the details of the student" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2104&studentemail=benny.tmms%40gmail.com&user=CCDetailsUiT.instr" title="">
+                        <a class="btn btn-default btn-xs t_student_details1" data-original-title="View the details of the student" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2103&studentemail=benny.tmms%40gmail.com&user=CCDetailsUiT.instr2" title="">
                            View
                         </a>
-                        <a class="btn btn-default btn-xs t_student_edit1" data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=CCDetailsUiT.CS2104&studentemail=benny.tmms%40gmail.com&user=CCDetailsUiT.instr" title="">
+                        <a class="btn btn-default btn-xs t_student_edit1" data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=CCDetailsUiT.CS2103&studentemail=benny.tmms%40gmail.com&user=CCDetailsUiT.instr2" title="">
                            Edit
                         </a>
-                        <a class="btn btn-default btn-xs t_student_resend1" data-original-title="Send invitation email to the student" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseRemind?courseid=CCDetailsUiT.CS2104&studentemail=benny.tmms%40gmail.com&user=CCDetailsUiT.instr" onclick="return toggleSendRegistrationKey()" title="">
+                        <a class="btn btn-default btn-xs t_student_resend1" data-original-title="Send invitation email to the student" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseRemind?courseid=CCDetailsUiT.CS2103&studentemail=benny.tmms%40gmail.com&user=CCDetailsUiT.instr2" onclick="return toggleSendRegistrationKey()" title="">
                            Send Invite
                         </a>
-                        <a class="btn btn-default btn-xs t_student_delete1" data-original-title="Delete the student and the corresponding evaluations from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=CCDetailsUiT.CS2104&studentemail=benny.tmms%40gmail.com&user=CCDetailsUiT.instr" onclick="return toggleDeleteStudentConfirmation('Benny Charles')" title="">
+                        <a class="btn btn-default btn-xs t_student_delete1" data-original-title="Delete the student and the corresponding evaluations from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=CCDetailsUiT.CS2103&studentemail=benny.tmms%40gmail.com&user=CCDetailsUiT.instr2" onclick="return toggleDeleteStudentConfirmation('Benny Charles')" title="">
                            Delete
                         </a>
-                        <a class="btn btn-default btn-xs t_student_records-cCCDetailsUiT.CS2104.1" data-original-title="View all student\'s evaluations and feedbacks" data-placement="top" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=CCDetailsUiT.CS2104&studentemail=benny.tmms%40gmail.com&addComment=yes&user=CCDetailsUiT.instr" title="">
-                           Add Comment
-                        </a>
-                     </td>
-                  </tr>
-                  <tr class="student_row" id="student3">
-                     <td id="teamname">
-                        Team 2
-                     </td>
-                     <td id="studentname">
-                        Danny Engrid
-                     </td>
-                     <td class="align-center">
-                        Joined
-                     </td>
-                     <td class="align-center no-print">
-                        <a class="btn btn-default btn-xs t_student_details3" data-original-title="View the details of the student" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2104&studentemail=danny.e.tmms%40gmail.com&user=CCDetailsUiT.instr" title="">
-                           View
-                        </a>
-                        <a class="btn btn-default btn-xs t_student_edit3" data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=CCDetailsUiT.CS2104&studentemail=danny.e.tmms%40gmail.com&user=CCDetailsUiT.instr" title="">
-                           Edit
-                        </a>
-                        <a class="btn btn-default btn-xs t_student_delete3" data-original-title="Delete the student and the corresponding evaluations from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=CCDetailsUiT.CS2104&studentemail=danny.e.tmms%40gmail.com&user=CCDetailsUiT.instr" onclick="return toggleDeleteStudentConfirmation('Danny Engrid')" title="">
-                           Delete
-                        </a>
-                        <a class="btn btn-default btn-xs t_student_records-cCCDetailsUiT.CS2104.3" data-original-title="View all student\'s evaluations and feedbacks" data-placement="top" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=CCDetailsUiT.CS2104&studentemail=danny.e.tmms%40gmail.com&addComment=yes&user=CCDetailsUiT.instr" title="">
+                        <a class="btn btn-default btn-xs t_student_records-cCCDetailsUiT.CS2103.1" data-original-title="View all student\'s evaluations and feedbacks" data-placement="top" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=CCDetailsUiT.CS2103&studentemail=benny.tmms%40gmail.com&addComment=yes&user=CCDetailsUiT.instr2" title="">
                            Add Comment
                         </a>
                      </td>
