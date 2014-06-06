@@ -53,18 +53,12 @@ public class DataMigrationForComments extends RemoteApiClient {
                 c.setRecipientType(CommentRecipientType.PERSON);
                 //set default comment status to FINAL (sent/published)
                 c.setStatus(CommentStatus.FINAL);
-                //set default visibility option of showCommentTo to PERSON (recipients can view comment)
-                List<CommentRecipientType> showCommentTo = new ArrayList<CommentRecipientType>();
-                showCommentTo.add(CommentRecipientType.PERSON);
-                c.setShowCommentTo(showCommentTo);
-                //set default visibility option of showGiverNameTo to PERSON (recipients can view giver's name)
-                List<CommentRecipientType> showGiverNameTo = new ArrayList<CommentRecipientType>();
-                showGiverNameTo.add(CommentRecipientType.PERSON);
-                c.setShowGiverNameTo(showGiverNameTo);
-                //set default visibility option of showRecipientNameTo to PERSON (recipients can view their own name)
-                List<CommentRecipientType> showRecipientNameTo = new ArrayList<CommentRecipientType>();
-                showRecipientNameTo.add(CommentRecipientType.PERSON);
-                c.setShowRecipientNameTo(showRecipientNameTo);
+                //set default visibility option of showCommentTo to private
+                c.setShowCommentTo(new ArrayList<CommentRecipientType>());
+                //set default visibility option of showGiverNameTo to private
+                c.setShowGiverNameTo(new ArrayList<CommentRecipientType>());
+                //set default visibility option of showRecipientNameTo to private
+                c.setShowRecipientNameTo(new ArrayList<CommentRecipientType>());
             }
         }
         getPM().close();

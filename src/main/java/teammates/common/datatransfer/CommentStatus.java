@@ -1,5 +1,5 @@
 package teammates.common.datatransfer;
 
 public enum CommentStatus {
-    FINAL, DRAFT, TEMPLATE, UNDEFINED
+    FINAL, DRAFT, TEMPLATE
 }

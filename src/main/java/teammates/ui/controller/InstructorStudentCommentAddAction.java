@@ -73,11 +73,8 @@ public class InstructorStudentCommentAddAction extends Action {
         comment.recipients.add(studentEmail);
         comment.status = CommentStatus.FINAL;
         comment.showCommentTo = new ArrayList<CommentRecipientType>();
-        comment.showCommentTo.add(CommentRecipientType.PERSON);
         comment.showGiverNameTo = new ArrayList<CommentRecipientType>();
-        comment.showGiverNameTo.add(CommentRecipientType.PERSON);
         comment.showRecipientNameTo = new ArrayList<CommentRecipientType>();
-        comment.showRecipientNameTo.add(CommentRecipientType.PERSON);
         comment.createdAt = new Date();
         comment.commentText = commentText;
         

@@ -1,5 +1,5 @@
 package teammates.common.datatransfer;
 
 public enum CommentRecipientType {
-    PERSON, TEAM, SECTION, COURSE, UNDEFINED
+    PERSON, TEAM, SECTION, COURSE
 }
