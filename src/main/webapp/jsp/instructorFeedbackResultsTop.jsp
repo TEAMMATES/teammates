@@ -7,13 +7,7 @@
     InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData)request.getAttribute("data");
 %>
 
-<style>
-.nopadding {
-   padding: 0 !important;
-}
-</style>
-
-<div class="well well-plain nopadding">
+<div class="well well-plain padding-0">
     <form class="form-horizontal" role="form" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD%>">
         <div class="panel-heading">
           <div class="row">

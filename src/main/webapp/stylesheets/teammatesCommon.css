@@ -75,6 +75,10 @@ body {
     display: inline;
 }
 
+.padding-0 {
+   padding: 0;
+}
+
 .text-bold {
     font-weight: bold;
 }
