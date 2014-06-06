@@ -246,7 +246,7 @@ public class Const {
         public static final String INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTION = "canmodifycommentinsection";
         public static final String INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTION = "canviewsessioninsection";
         public static final String INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTION = "cansubmitsessioninsection";
-        public static final String INSTRUCTOR_PERMISSION_MODIFY_SESSION_IN_SECTION = "canmodifysessioninsection";
+        public static final String INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTION = "canmodifysessioncommentinsection";
         
         public static final String STUDENT_RECORDS_SHOW_COMMENT_BOX = "addComment";
         
