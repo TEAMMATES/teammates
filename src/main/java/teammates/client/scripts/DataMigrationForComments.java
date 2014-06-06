@@ -1,6 +1,7 @@
 package teammates.client.scripts;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -10,15 +11,16 @@ import javax.jdo.Query;
 
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.datatransfer.CommentRecipientType;
+import teammates.common.datatransfer.CommentStatus;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.logic.core.InstructorsLogic;
 import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Comment;
 
-public class DataMigrationOfReceiverEmailForComments extends RemoteApiClient {
+public class DataMigrationForComments extends RemoteApiClient {
 
     public static void main(String[] args) throws IOException {
-        DataMigrationOfReceiverEmailForComments migrator = new DataMigrationOfReceiverEmailForComments();
+        DataMigrationForComments migrator = new DataMigrationForComments();
         migrator.doOperationRemotely();
     }
 
@@ -45,8 +47,24 @@ public class DataMigrationOfReceiverEmailForComments extends RemoteApiClient {
                     recipients = new HashSet<String>();
                     recipients.add(receiverEmail);
                 }
+                //map receiverEmail to recipients
                 c.setRecipients(recipients);
+                //set default recipientType to PERSON
                 c.setRecipientType(CommentRecipientType.PERSON);
+                //set default comment status to FINAL (sent/published)
+                c.setStatus(CommentStatus.FINAL);
+                //set default visibility option of showCommentTo to PERSON (recipients can view comment)
+                List<CommentRecipientType> showCommentTo = new ArrayList<CommentRecipientType>();
+                showCommentTo.add(CommentRecipientType.PERSON);
+                c.setShowCommentTo(showCommentTo);
+                //set default visibility option of showGiverNameTo to PERSON (recipients can view giver's name)
+                List<CommentRecipientType> showGiverNameTo = new ArrayList<CommentRecipientType>();
+                showGiverNameTo.add(CommentRecipientType.PERSON);
+                c.setShowGiverNameTo(showGiverNameTo);
+                //set default visibility option of showRecipientNameTo to PERSON (recipients can view their own name)
+                List<CommentRecipientType> showRecipientNameTo = new ArrayList<CommentRecipientType>();
+                showRecipientNameTo.add(CommentRecipientType.PERSON);
+                c.setShowRecipientNameTo(showRecipientNameTo);
             }
         }
         getPM().close();
