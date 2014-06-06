@@ -75,19 +75,19 @@
                         <div class="col-sm-10">
                             <select id="viewSelect" class="form-control" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE%>" onchange="this.form.submit()">
                                 <option value="question" <%=(data.sortType!=null) ? data.sortType.equals("question") ? "selected=\"selected\"" : "" : ""%>>
-                                    By - Question
+                                    Group by - Question
                                 </option>
                                 <option value="giver-recipient-question" <%=(data.sortType!=null) ? data.sortType.equals("giver-recipient-question") ? "selected=\"selected\"" : "" : ""%>>
-                                    Group - Giver > Recipient > Question
+                                    Group by - Giver > Recipient > Question
                                 </option>
                                 <option value="recipient-giver-question" <%=(data.sortType!=null) ? data.sortType.equals("recipient-giver-question") ? "selected=\"selected\"" : "" : ""%>>
-                                    Group - Recipient > Giver > Question
+                                    Group by - Recipient > Giver > Question
                                 </option>
                                 <option value="giver-question-recipient" <%=(data.sortType!=null) ? data.sortType.equals("giver-question-recipient") ? "selected=\"selected\"" : "" : ""%>>
-                                    Group - Giver > Question > Recipient
+                                    Group by - Giver > Question > Recipient
                                 </option>
                                 <option value="recipient-question-giver" <%=(data.sortType!=null) ? data.sortType.equals("recipient-question-giver") ? "selected=\"selected\"" : "" : "selected=\"selected\""%>>
-                                    Group - Recipient > Question > Giver
+                                    Group by - Recipient > Question > Giver
                                 </option>
                             </select>
                         </div>

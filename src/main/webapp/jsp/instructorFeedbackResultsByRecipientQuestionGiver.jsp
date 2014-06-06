@@ -118,23 +118,18 @@
                                     out.print(InstructorFeedbackResultsPageData.sanitizeForHtml(questionDetails.questionText));
                                     out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, "recipient-"+recipientIndex+"-question-"+questionIndex));%>
                             </div>
-                            <div class="panel-body">
+                            <div class="panel-body padding-0">
                                 <table class="table table-striped table-bordered dataTable margin-0">
-                                    <thead class="fill-primary">
+                                    <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                         <tr>
-                                            <th id="button_sortTo" onclick="toggleSort(this,1,null,2)" colspan="2">
-                                                From
+                                            <th id="button_sortFromName" onclick="toggleSort(this,1)" style="width: 15%;">
+                                                Giver
                                             </th>
-                                            <th id="button_sortFeedback" onclick="toggleSort(this,3,null,2)" rowspan="2" style="vertical-align:middle;">
-                                                Feedback
-                                            </th>
-                                        </tr>
-                                        <tr>
-                                            <th id="button_sortFromName" onclick="toggleSort(this,1,null,2)" style="width: 15%;">
-                                                Name
-                                            </th>
-                                            <th id="button_sortFromTeam" onclick="toggleSort(this,2,null,2)" style="width: 15%;">
+                                            <th id="button_sortFromTeam" onclick="toggleSort(this,2)" style="width: 15%;">
                                                 Team
+                                            </th>
+                                            <th id="button_sortFeedback" onclick="toggleSort(this,3)">
+                                                Feedback
                                             </th>
                                         </tr>
                                     <thead>
@@ -183,14 +178,9 @@
             if (!responseStatus.hasResponse.isEmpty()) {
         %>
                 <div class="panel panel-info">
-                    <div class="panel-heading">Additional Information</div>
+                    <div class="panel-heading">Students Who Did Not Respond to Any Question</div>
                     
                     <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Students Who Did Not Respond to Any Question</th>
-                            </tr>
-                        </thead>
                         <tbody>
                         <%
                             for (String studentName : responseStatus.getStudentsWhoDidNotRespondToAnyQuestion()) {

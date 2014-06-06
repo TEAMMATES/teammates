@@ -120,6 +120,9 @@ var INSTITUTION_MAX_LENGTH = 64;
  *            The sort button
  * @param colIdx
  *            The column index (1-based) as key for the sort
+ * @param row
+ *            Row to start sorting from.
+ *            The column index (0-based) e.g. use 2 if <th> has 2 rows so that the headers are not sorted.
  */
 function toggleSort(divElement, colIdx, comparator, row) {
     row = row || 1;
@@ -165,6 +168,9 @@ function sortTable(oneOfTableCell, colIdx, comparator, ascending, row) {
     var RowList = $("tr", table);
     //Iterate through column's contents to decide which comparator to use
     for (var i = row; i < RowList.length; i++) {
+        if(RowList[i].cells[colIdx-1] == undefined || RowList[i].cells[colIdx-1] == null){
+            continue;
+        }
         var innerText = RowList[i].cells[colIdx-1].innerHTML;
         
         //Store rows together with the innerText to compare

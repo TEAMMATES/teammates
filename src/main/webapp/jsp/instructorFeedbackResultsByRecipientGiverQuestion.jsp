@@ -246,14 +246,9 @@
             if (!responseStatus.hasResponse.isEmpty()) {
         %>
                 <div class="panel panel-info">
-                    <div class="panel-heading">Additional Information</div>
+                    <div class="panel-heading">Students Who Did Not Respond to Any Question</div>
                     
                     <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Students Who Did Not Respond to Any Question</th>
-                            </tr>
-                        </thead>
                         <tbody>
                         <%
                             for (String studentName : responseStatus.getStudentsWhoDidNotRespondToAnyQuestion()) {

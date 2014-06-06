@@ -16,6 +16,10 @@ body {
     background-color: white;
 }
 
+.background-color-medium-gray {
+    background-color: #e5e5e6;
+}
+
 .background-color-warning {
     background-color: #fcf8e3;
 }
@@ -43,6 +47,14 @@ body {
 
 .color-negative { 
     color: #e74c3c;
+}
+
+/*
+Apply to thead to make headers not bold.
+*/
+.font-weight-normal,
+.font-weight-normal > tr > th{
+    font-weight: normal;
 }
 
 .fill-plain {
@@ -95,6 +107,10 @@ body {
     color: #428bca;
 }
 
+.text-color-gray {
+    color: gray;
+}
+
 .text-color-white {
     color: white;
 }
@@ -107,10 +123,6 @@ body {
         display: none;
     }
 }
-
-
-
-
 
 
 
