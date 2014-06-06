@@ -245,6 +245,23 @@ public class CoursesLogic {
         return teams;
     }
 
+    public int getNumberOfSections(String courseID) throws EntityDoesNotExistException {
+
+        verifyCourseIsPresent(courseID);
+        List<StudentAttributes> studentDataList = 
+                studentsLogic.getStudentsForCourse(courseID);
+
+        List<String> sectionNameList = new ArrayList<String>();
+
+        for(StudentAttributes sd: studentDataList) {
+            if (!sd.section.equals(Const.DEFAULT_SECTION) && !sectionNameList.contains(sd.section)) {
+                sectionNameList.add(sd.section);
+            }
+        }
+
+        return sectionNameList.size();
+    }
+
     public int getNumberOfTeams(String courseID) throws EntityDoesNotExistException {
 
         verifyCourseIsPresent(courseID);
@@ -283,6 +300,7 @@ public class CoursesLogic {
 
         CourseDetailsBundle cdd = new CourseDetailsBundle(cd);
         cdd.teams= (ArrayList<TeamDetailsBundle>) getTeamsForCourse(courseId);
+        cdd.stats.sectionsTotal = getNumberOfSections(cd.id);
         cdd.stats.teamsTotal = getNumberOfTeams(cd.id);
         cdd.stats.studentsTotal = getTotalEnrolledInCourse(cd.id);
         cdd.stats.unregisteredTotal = getTotalUnregisteredInCourse(cd.id);
