@@ -164,15 +164,19 @@ public final class InstructorPrivileges {
     }
 
     public HashMap<String, Boolean> getCourseLevelPrivileges() {
-        return courseLevel;
+        return this.courseLevel;
+    }
+    
+    public HashMap<String, Boolean> getSectionRecord() {
+        return this.sectionRecord;
     }
 
     public HashMap<String, Boolean> getSectionLevelPrivileges() {
-        return sectionLevel;
+        return this.sectionLevel;
     }
 
     public HashMap<String, HashMap<String, Boolean>> getSessionLevelPrivileges() {
-        return sessionLevel;
+        return this.sessionLevel;
     }
     
     public boolean equals(Object another) {
