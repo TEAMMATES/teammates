@@ -15,12 +15,8 @@ import com.google.appengine.api.datastore.Key;
  * an account entity 
  *
  */
-@PersistenceCapable
+@PersistenceCapable(embeddedOnly="true")
 public class StudentProfile {
-    
-    @PrimaryKey
-    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-    private Key key;
     
     @Persistent
     private String shortName;

@@ -2,9 +2,13 @@ package teammates.storage.entity;
 
 import java.util.Date;
 
+import javax.jdo.annotations.Element;
+import javax.jdo.annotations.Embedded;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
+
+import teammates.storage.entity.StudentProfile;
 
 /**
  * Represents a unique user in the system. 
@@ -32,6 +36,7 @@ public class Account {
     private Date createdAt;
     
     @Persistent
+    @Embedded
     private StudentProfile studentProfile;
 
     /**
@@ -59,6 +64,10 @@ public class Account {
         this.setEmail(email);
         this.setInstitute(institute);
         this.setCreatedAt(new Date());
+        
+        if(studentProfile.getInstitute() == "") {
+            studentProfile.setInstitute(institute);
+        }
         this.setStudentProfile(studentProfile);
     }
 
