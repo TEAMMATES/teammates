@@ -801,7 +801,7 @@ public class FieldValidator {
         Assumption.assertTrue("Non-null value expected", value != null);
         
         if (value.isEmpty()) {
-            return String.format(EMAIL_ERROR_MESSAGE, value, REASON_EMPTY);
+            return String.format(INSTRUCTOR_ROLE_ERROR_MESSAGE, value);
         }
         if (!(value.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER)
                 || value.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER)

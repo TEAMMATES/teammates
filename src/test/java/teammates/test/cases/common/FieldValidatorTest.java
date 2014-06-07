@@ -7,6 +7,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.common.util.FieldValidator.FieldType;
@@ -352,6 +353,22 @@ public class FieldValidatorTest extends BaseTestCase{
                 valueWithDisallowedChar, 
                 String.format(GOOGLE_ID_ERROR_MESSAGE, valueWithDisallowedChar, REASON_INCORRECT_FORMAT));
         
+    }
+    
+    @Test
+    public void TestGetValidityInfo_INSTRUCTOR_ROLE() {
+        
+        verifyAssertError("not null", FieldType.INTRUCTOR_ROLE, null);
+        
+        testOnce("typical case", FieldType.INTRUCTOR_ROLE, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER, "");
+        testOnce("typical case", FieldType.INTRUCTOR_ROLE, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER, "");
+        testOnce("typical case", FieldType.INTRUCTOR_ROLE, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR, "");
+        testOnce("typical case", FieldType.INTRUCTOR_ROLE, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER, "");
+        testOnce("typical case", FieldType.INTRUCTOR_ROLE, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_HELPER, "");
+        String emptyValue = "";
+        testOnce("empty value", FieldType.INTRUCTOR_ROLE, emptyValue, String.format(INSTRUCTOR_ROLE_ERROR_MESSAGE, emptyValue));
+        String invalidValue = "";
+        testOnce("invalid value", FieldType.INTRUCTOR_ROLE, invalidValue, String.format(INSTRUCTOR_ROLE_ERROR_MESSAGE, invalidValue));
     }
     
     @Test
