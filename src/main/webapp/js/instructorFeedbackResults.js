@@ -4,6 +4,52 @@
 
 */
 
+//Search functionality
+$(document).ready(function(){
+    $("#results-search-box").keyup(function(e){
+        updateResultsFilter();
+    });
+    //prevent submitting form when enter is pressed.
+    $("#results-search-box").keypress(function(e) {
+        if(e.which == 13) {
+            return false;
+        }
+    });
+});
+
+function filterResults(searchText, element){
+    var recurse = false;
+    element = element || $("#frameBodyWrapper").find("div.panel").filter(function(index){
+        var e = $("#frameBodyWrapper").find("div.panel")[index];
+        var heading = $(e).children(".panel-heading");
+        var body = $(e).children(".panel-body");
+        if(heading.length != 0 && body.length != 0){
+            recurse = true;
+            return true;
+        } else {
+            return false;
+        }
+    });
+
+    for(var i=0 ; i<element.length ; i++){
+        var elm = element[i];
+        if($(elm).text().toLowerCase().indexOf(searchText.toLowerCase()) == -1){
+            $(elm).hide();
+        } else {
+            $(elm).show();
+
+            if(recurse){
+                var childElements = $(elm).find(".panel,div.row,tbody>tr");
+                filterResults(searchText, childElements);
+            }
+        }
+    }
+}
+
+function updateResultsFilter(){
+    filterResults($("#results-search-box").val());
+}
+
 
 
 

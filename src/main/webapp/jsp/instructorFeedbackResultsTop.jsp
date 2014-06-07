@@ -100,7 +100,7 @@
                         </label>
                         <div class="col-sm-10">
                             <div class="input-group">
-                                <input type="text" id="results-search-box" class="form-control" placeholder="Type here to search results">
+                                <input type="text" id="results-search-box" class="form-control" placeholder="Type here to search results" onchange="updateResultsFilter()">
                                 <a class="input-group-addon btn btn-default"><span class="glyphicon glyphicon-search"></span></a>
                             </div>
                         </div>
@@ -108,8 +108,8 @@
                 </div>
                 <div class="col-sm-2 pull-right" data-toggle="tooltip" title="Group results in the current view by team">
                     <div class="checkbox pull-right">
-                        <label>
-                            <input type="checkbox" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM%>" onchange="this.form.submit()" <%=(data.groupByTeam==null) ? "" : "checked=\"checked\""%> <%=(data.sortType.equals("question")) ? "disabled=\"disabled\"" : "d"%>> Group by Teams
+                        <label <%=(data.sortType.equals("question")) ? "class=\"text-strike\"" : ""%>>
+                            <input type="checkbox" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM%>" onchange="this.form.submit()" <%=(data.groupByTeam==null) ? "" : "checked=\"checked\""%> <%=(data.sortType.equals("question")) ? "disabled=\"disabled\"" : ""%>> Group by Teams
                         </label>
                     </div>
                 </div>
