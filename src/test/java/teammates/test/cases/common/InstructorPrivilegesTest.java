@@ -217,6 +217,109 @@ public class InstructorPrivilegesTest extends BaseTestCase {
         assertEquals(sessionLevel, privileges.getSessionLevelPrivileges().get(sessionId2));
     }
     
+    @Test
+    public void testIsAllowedInCourseLevel() {
+        InstructorPrivileges privileges = new InstructorPrivileges();      
+        privileges.setDefaultPrivilegesForManager();
+        
+        assertEquals(false, privileges.isAllowedInCourseLevel(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
+        assertEquals(true, privileges.isAllowedInCourseLevel(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR));
+        assertEquals(true, privileges.isAllowedInCourseLevel(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION));
+        assertEquals(true, privileges.isAllowedInCourseLevel(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT));
+        
+        assertEquals(false, privileges.isAllowedInCourseLevel("invalid key"));
+    }
+    
+    @Test
+    public void testIsAllowedForSectionLevel() {
+        InstructorPrivileges privileges = new InstructorPrivileges();      
+        privileges.setDefaultPrivilegesForTutor();
+        String sectionId1 = "sectionId1";
+        privileges.addSectionToSectionRecord(sectionId1, false);
+        String sectionId2 = "sectionId2";
+        privileges.addSectionToSectionRecord(sectionId2, true);
+        
+        assertEquals(false, privileges.isAllowedForSectionLevel(sectionId1));
+        assertEquals(true, privileges.isAllowedForSectionLevel(sectionId2));
+        assertEquals(false, privileges.isAllowedForSectionLevel("invalid key"));
+    }
+    
+    @Test
+    public void testIsAllowedForSectionInSectionLevel() {
+        InstructorPrivileges privileges = new InstructorPrivileges();      
+        privileges.setDefaultPrivilegesForTutor();
+        String sectionId1 = "sectionId1";
+        privileges.addSectionToSectionRecord(sectionId1, false);
+        String sectionId2 = "sectionId2";
+        privileges.addSectionToSectionRecord(sectionId2, true);
+        
+        assertEquals(false, privileges.isAllowedForSectionInSectionLevel(sectionId1, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTION));
+        assertEquals(false, privileges.isAllowedForSectionInSectionLevel(sectionId1, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTION));
+        assertEquals(false, privileges.isAllowedForSectionInSectionLevel(sectionId1, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTION));
+        assertEquals(false, privileges.isAllowedForSectionInSectionLevel(sectionId1, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTION));
+        assertEquals(false, privileges.isAllowedForSectionInSectionLevel(sectionId1, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTION));
+        assertEquals(false, privileges.isAllowedForSectionInSectionLevel(sectionId1, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTION));
+        assertEquals(false, privileges.isAllowedForSectionInSectionLevel(sectionId1, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTION));
+        
+        assertEquals(true, privileges.isAllowedForSectionInSectionLevel(sectionId2, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTION));
+        assertEquals(false, privileges.isAllowedForSectionInSectionLevel(sectionId2, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTION));
+        assertEquals(true, privileges.isAllowedForSectionInSectionLevel(sectionId2, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTION));
+        assertEquals(false, privileges.isAllowedForSectionInSectionLevel(sectionId2, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTION));
+        assertEquals(true, privileges.isAllowedForSectionInSectionLevel(sectionId2, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTION));
+        assertEquals(true, privileges.isAllowedForSectionInSectionLevel(sectionId2, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTION));
+        assertEquals(false, privileges.isAllowedForSectionInSectionLevel(sectionId2, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTION));
+        
+        assertEquals(false, privileges.isAllowedForSectionInSectionLevel("invalid sectionId", Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTION));
+        assertEquals(false, privileges.isAllowedForSectionInSectionLevel(sectionId2, "invalid privilegeName"));
+    }
+    
+    @Test
+    public void testIsAllowedForSessionInSessionLevel() {
+        InstructorPrivileges privileges = new InstructorPrivileges();      
+        privileges.setDefaultPrivilegesForTutor();
+        String sectionId1 = "sectionId1";
+        privileges.addSectionToSectionRecord(sectionId1, false);
+        String sectionId2 = "sectionId2";
+        privileges.addSectionToSectionRecord(sectionId2, true);
+        String sessionId1 = "sessionId1";
+        privileges.addSessionToSessionLevel(sessionId1);
+        String sessionId2 = "sessionId2";
+        privileges.addSessionToSessionLevel(sessionId2);
+        privileges.updateSessionPrivilegeInSessionLevel(sessionId2, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTION, false);
+        
+        assertEquals(false, privileges.isAllowedForSessionInSessionLevel("invalid sectionId", 
+                sessionId1, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTION));
+        assertEquals(false, privileges.isAllowedForSessionInSessionLevel(sectionId1, 
+                sessionId1, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTION));
+        assertEquals(false, privileges.isAllowedForSessionInSessionLevel(sectionId1, 
+                sessionId1, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTION));
+        assertEquals(false, privileges.isAllowedForSessionInSessionLevel(sectionId1, 
+                sessionId1, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTION));
+        assertEquals(false, privileges.isAllowedForSessionInSessionLevel(sectionId1, 
+                sessionId2, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTION));
+        assertEquals(false, privileges.isAllowedForSessionInSessionLevel(sectionId1, 
+                sessionId2, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTION));
+        
+        String sessionId3 = "sessionId3";
+        assertEquals(false, privileges.isAllowedForSessionInSessionLevel(sectionId2, 
+                sessionId3, "invalid privilegeName"));
+        assertEquals(true, privileges.isAllowedForSessionInSessionLevel(sectionId2, 
+                sessionId3, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTION));
+        assertEquals(true, privileges.isAllowedForSessionInSessionLevel(sectionId2, 
+                sessionId3, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTION));
+        assertEquals(false, privileges.isAllowedForSessionInSessionLevel(sectionId2, 
+                sessionId3, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTION));
+        
+        assertEquals(false, privileges.isAllowedForSessionInSessionLevel(sectionId2, 
+                sessionId2, "invalid privilegeName"));
+        assertEquals(false, privileges.isAllowedForSessionInSessionLevel(sectionId2, 
+                sessionId2, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTION));
+        assertEquals(true, privileges.isAllowedForSessionInSessionLevel(sectionId2, 
+                sessionId2, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTION));
+        assertEquals(false, privileges.isAllowedForSessionInSessionLevel(sectionId2, 
+                sessionId2, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTION));
+    }
+    
     @AfterClass
     public static void tearDown() {
         printTestClassFooter();

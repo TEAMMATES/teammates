@@ -179,6 +179,77 @@ public final class InstructorPrivileges {
         return this.sessionLevel;
     }
     
+    /**
+     * @param privilegeName
+     * @return true if the value for privilegeName is true
+     */
+    public boolean isAllowedInCourseLevel(String privilegeName) {
+        if (!this.courseLevel.containsKey(privilegeName)) {
+            return false;
+        }
+        
+        return this.courseLevel.get(privilegeName).booleanValue();
+    }
+    
+    /**
+     * @param sectionId
+     * @return true if section is contained and the value is true
+     */
+    public boolean isAllowedForSectionLevel(String sectionId) {
+        if (!this.sectionRecord.containsKey(sectionId)) {
+            return false;
+        }
+        
+        return this.sectionRecord.get(sectionId).booleanValue();
+    }
+    
+    /**
+     * @param sectionId
+     * @param privilegeName
+     * @return true if section is contained and the value for privilegeName
+     *         is true
+     */
+    public boolean isAllowedForSectionInSectionLevel(String sectionId, String privilegeName) {
+        if (!this.sectionRecord.containsKey(sectionId) ||
+                !this.sectionRecord.get(sectionId).booleanValue()) {
+            return false;
+        }
+        if (!this.sectionLevel.containsKey(privilegeName)) {
+            return false;
+        }
+        
+        return this.sectionLevel.get(privilegeName).booleanValue();
+    }
+    
+    /**
+     * @param sectionId
+     * @param sessionId
+     * @param privilegesName
+     * @return true if section is included and session is included and the value
+     *         for the privilegeName under this session is true
+     *         or section is included and session is not included but the value for
+     *         the privilegeName under this section is true
+     */
+    public boolean isAllowedForSessionInSessionLevel(String sectionId, String sessionId, String privilegesName) {
+        if (!this.sectionRecord.containsKey(sectionId) ||
+                !this.sectionRecord.get(sectionId).booleanValue()) {
+            return false;
+        }
+        if (!this.sessionLevel.containsKey(sessionId)) {
+            if (!this.sectionLevel.containsKey(privilegesName)) {
+                return false;
+            } else {
+                return this.sectionLevel.get(privilegesName).booleanValue();
+            }
+        } else {
+            if (!this.sessionLevel.get(sessionId).containsKey(privilegesName)) {
+                return false;
+            } else {
+                return this.sessionLevel.get(sessionId).get(privilegesName).booleanValue();
+            }
+        }
+    }
+    
     public boolean equals(Object another) {
         if (!(another instanceof InstructorPrivileges)) {
             return false;
