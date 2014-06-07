@@ -64,11 +64,10 @@ function tickAllSessionsForInstructor(instrNum) {
 }
 
 function tickDefaultAccessControlForOwner(instrNum) {
-    $("#canmodifycourse" + instrNum).prop('checked', true);
-    $("#canmodifyinstructor" + instrNum).prop('checked', true);
-    $("#canmodifyowner" + instrNum).prop('checked', true);
-    $("#canmodifysession" + instrNum).prop('checked', true);
-    $("#canmodifystudent" + instrNum).prop('checked', true);
+    $("#canmodifycourseforinstructor" + instrNum).prop('checked', true);
+    $("#canmodifyinstructorforinstructor" + instrNum).prop('checked', true);
+    $("#canmodifysessionforinstructor" + instrNum).prop('checked', true);
+    $("#canmodifystudentforinstructor" + instrNum).prop('checked', true);
     $("#canviewstudentinsectionforinstructor" + instrNum).prop('checked', true);
     $("#canviewcommentinsectionforinstructor" + instrNum).prop('checked', true);
     $("#cangivecommentinsectionforinstructor" + instrNum).prop('checked', true);
@@ -79,11 +78,10 @@ function tickDefaultAccessControlForOwner(instrNum) {
 }
 
 function tickDefaultAccessControlForManager(instrNum) {
-    $("#canmodifycourse" + instrNum).prop('checked', false);
-    $("#canmodifyinstructor" + instrNum).prop('checked', true);
-    $("#canmodifyowner" + instrNum).prop('checked', false);
-    $("#canmodifysession" + instrNum).prop('checked', true);
-    $("#canmodifystudent" + instrNum).prop('checked', true);
+    $("#canmodifycourseforinstructor" + instrNum).prop('checked', false);
+    $("#canmodifyinstructorforinstructor" + instrNum).prop('checked', true);
+    $("#canmodifysessionforinstructor" + instrNum).prop('checked', true);
+    $("#canmodifystudentforinstructor" + instrNum).prop('checked', true);
     $("#canviewstudentinsectionforinstructor" + instrNum).prop('checked', true);
     $("#canviewcommentinsectionforinstructor" + instrNum).prop('checked', true);
     $("#cangivecommentinsectionforinstructor" + instrNum).prop('checked', true);
@@ -94,11 +92,10 @@ function tickDefaultAccessControlForManager(instrNum) {
 }
 
 function tickDefaultAccessControlForObserver(instrNum) {
-    $("#canmodifycourse" + instrNum).prop('checked', false);
-    $("#canmodifyinstructor" + instrNum).prop('checked', false);
-    $("#canmodifyowner" + instrNum).prop('checked', false);
-    $("#canmodifysession" + instrNum).prop('checked', false);
-    $("#canmodifystudent" + instrNum).prop('checked', false);
+    $("#canmodifycourseforinstructor" + instrNum).prop('checked', false);
+    $("#canmodifyinstructorforinstructor" + instrNum).prop('checked', false);
+    $("#canmodifysessionforinstructor" + instrNum).prop('checked', false);
+    $("#canmodifystudentforinstructor" + instrNum).prop('checked', false);
     $("#canviewstudentinsectionforinstructor" + instrNum).prop('checked', true);
     $("#canviewcommentinsectionforinstructor" + instrNum).prop('checked', true);
     $("#cangivecommentinsectionforinstructor" + instrNum).prop('checked', false);
@@ -109,11 +106,10 @@ function tickDefaultAccessControlForObserver(instrNum) {
 }
 
 function tickDefaultAccessControlForTutor(instrNum) {
-    $("#canmodifycourse" + instrNum).prop('checked', false);
-    $("#canmodifyinstructor" + instrNum).prop('checked', false);
-    $("#canmodifyowner" + instrNum).prop('checked', false);
-    $("#canmodifysession" + instrNum).prop('checked', false);
-    $("#canmodifystudent" + instrNum).prop('checked', false);
+    $("#canmodifycourseforinstructor" + instrNum).prop('checked', false);
+    $("#canmodifyinstructorforinstructor" + instrNum).prop('checked', false);
+    $("#canmodifysessionforinstructor" + instrNum).prop('checked', false);
+    $("#canmodifystudentforinstructor" + instrNum).prop('checked', false);
     $("#canviewstudentinsectionforinstructor" + instrNum).prop('checked', true);
     $("#canviewcommentinsectionforinstructor" + instrNum).prop('checked', false);
     $("#cangivecommentinsectionforinstructor" + instrNum).prop('checked', true);
@@ -124,11 +120,10 @@ function tickDefaultAccessControlForTutor(instrNum) {
 }
 
 function tickDefaultAccessControlForHelper(instrNum) {
-    $("#canmodifycourse" + instrNum).prop('checked', false);
-    $("#canmodifyinstructor" + instrNum).prop('checked', false);
-    $("#canmodifyowner" + instrNum).prop('checked', false);
-    $("#canmodifysession" + instrNum).prop('checked', false);
-    $("#canmodifystudent" + instrNum).prop('checked', false);
+    $("#canmodifycourseforinstructor" + instrNum).prop('checked', false);
+    $("#canmodifyinstructorforinstructor" + instrNum).prop('checked', false);
+    $("#canmodifysessionforinstructor" + instrNum).prop('checked', false);
+    $("#canmodifystudentforinstructor" + instrNum).prop('checked', false);
     $("#canviewstudentinsectionforinstructor" + instrNum).prop('checked', false);
     $("#canviewcommentinsectionforinstructor" + instrNum).prop('checked', false);
     $("#cangivecommentinsectionforinstructor" + instrNum).prop('checked', false);
