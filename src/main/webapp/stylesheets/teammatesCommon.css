@@ -115,6 +115,10 @@ Apply to thead to make headers not bold.
     color: white;
 }
 
+.text-strike {
+    text-decoration: line-through;
+}
+
 @media print {
     a[href]:after {
         content: none;
