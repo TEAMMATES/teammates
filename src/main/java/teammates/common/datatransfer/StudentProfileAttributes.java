@@ -6,6 +6,7 @@ import java.util.List;
 
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
+import teammates.common.util.Utils;
 import teammates.storage.entity.StudentProfile;
 
 public class StudentProfileAttributes extends EntityAttributes {
@@ -41,12 +42,12 @@ public class StudentProfileAttributes extends EntityAttributes {
     
     public StudentProfileAttributes() {
         // just a container so all can be null
-        this.shortName = null;
-        this.email = null;
-        this.institute = null;
-        this.country = null;
-        this.gender = null;
-        this.moreInfo = null;
+        this.shortName = "";
+        this.email = "";
+        this.institute = "";
+        this.country = "";
+        this.gender = "other";
+        this.moreInfo = "";
         this.modifiedDate = null;
     }
 
@@ -56,16 +57,17 @@ public class StudentProfileAttributes extends EntityAttributes {
         List<String> errors = new ArrayList<String>();
         String error;
         
-        error = validator.getInvalidityInfo(FieldValidator.FieldType.PERSON_NAME, shortName);
+        // accept null values as it means the user has not specified anything yet.
+        error = shortName == "" ? "" : validator.getInvalidityInfo(FieldValidator.FieldType.PERSON_NAME, shortName);
         if(!error.isEmpty()) { errors.add(error); }
         
-        error = validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email);
+        error = email == "" ? "" : validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email);
         if(!error.isEmpty()) { errors.add(error); }
         
         error = validator.getInvalidityInfo(FieldValidator.FieldType.INSTITUTE_NAME, institute);
         if(!error.isEmpty()) { errors.add(error); }
         
-        error = validator.getInvalidityInfo(FieldValidator.FieldType.COUNTRY, country);
+        error = country == "" ? "" : validator.getInvalidityInfo(FieldValidator.FieldType.COUNTRY, country);
         if(!error.isEmpty()) { errors.add(error); }
         
         error = validator.getInvalidityInfo(FieldValidator.FieldType.GENDER, gender);
@@ -75,6 +77,10 @@ public class StudentProfileAttributes extends EntityAttributes {
         // No validation for More Info. It will properly sanitized.
         
         return errors;
+    }
+    
+    public String toString(){
+        return Utils.getTeammatesGson().toJson(this, StudentProfileAttributes.class);
     }
 
     @Override

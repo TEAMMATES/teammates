@@ -9,6 +9,7 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.Utils;
 import teammates.storage.entity.Account;
+import teammates.storage.entity.StudentProfile;
 
 /**
  * A data transfer object for Account entities.
@@ -60,6 +61,7 @@ public class AccountAttributes extends EntityAttributes {
         this.email = Sanitizer.sanitizeEmail(email);
         this.institute = Sanitizer.sanitizeTitle(institute);
         this.studentProfile = new StudentProfileAttributes();
+        studentProfile.institute = Sanitizer.sanitizeTitle(institute);
         
     }
     
@@ -81,12 +83,14 @@ public class AccountAttributes extends EntityAttributes {
         error= validator.getInvalidityInfo(FieldValidator.FieldType.INSTITUTE_NAME, institute);
         if(!error.isEmpty()) { errors.add(error); }
         
+        errors.addAll(this.studentProfile.getInvalidityInfo());
+        
         //No validation for isInstructor and createdAt fields.
         return errors;
     }
 
     public Account toEntity() {
-        return new Account(googleId, name, isInstructor, email, institute);
+        return new Account(googleId, name, isInstructor, email, institute, (StudentProfile) studentProfile.toEntity());
     }
     
     public String toString(){
