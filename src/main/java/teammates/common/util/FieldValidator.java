@@ -126,13 +126,15 @@ public class FieldValidator {
      * Field instructor permission role
      */
     public static final String INSTRUCTOR_ROLE_ERROR_MESSAGE = 
-            "\"%s\" is not accepted to TEAMMATES as a role because it does match any defined role."+
+            "\"%s\" is not accepted to TEAMMATES as a role %s."+
                     "Role can be one of the following: " + 
                     Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER + ", " +
                     Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER + ", " +
                     Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER + ", " +
                     Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR + ", " +
                     Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_HELPER + ", ";
+    public static final String INSTRUCTOR_ROLE_ERROR_REASON_NOT_MATCHING = 
+            "it does not match the predifined roles";
     
     /*
      * =======================================================================
@@ -801,14 +803,14 @@ public class FieldValidator {
         Assumption.assertTrue("Non-null value expected", value != null);
         
         if (value.isEmpty()) {
-            return String.format(INSTRUCTOR_ROLE_ERROR_MESSAGE, value);
+            return String.format(INSTRUCTOR_ROLE_ERROR_MESSAGE, value, REASON_EMPTY);
         }
         if (!(value.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER)
                 || value.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER)
                 || value.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER)
                 || value.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR)
                 || value.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_HELPER))) {
-            return String.format(INSTRUCTOR_ROLE_ERROR_MESSAGE, value);
+            return String.format(INSTRUCTOR_ROLE_ERROR_MESSAGE, value, INSTRUCTOR_ROLE_ERROR_REASON_NOT_MATCHING);
         }
         
         return "";

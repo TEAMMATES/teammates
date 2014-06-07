@@ -39,10 +39,8 @@ public class InstructorPermissionAttributes extends EntityAttributes {
     }
     
     public InstructorPermissionAttributes(InstructorPermission instructorPermission) {
-        this.instructorEmail = instructorPermission.getInstructorEmail();
-        this.courseId = instructorPermission.getCourseId();
-        this.role = instructorPermission.getRole();
-        this.access = instructorPermission.getAccess();
+        this(instructorPermission.getInstructorEmail(), instructorPermission.getCourseId(),
+                instructorPermission.getRole(), instructorPermission.getAccess());
     }
     
     private Text getAccessFromPrivileges(InstructorPrivileges privileges) {
@@ -73,7 +71,7 @@ public class InstructorPermissionAttributes extends EntityAttributes {
         error = validator.getInvalidityInfo(FieldType.INTRUCTOR_ROLE, role);
         if (!error.isEmpty()) { errors.add(error); }
         
-        return null;
+        return errors;
     }
 
     @Override
@@ -101,6 +99,10 @@ public class InstructorPermissionAttributes extends EntityAttributes {
     
     public String toString() {
         return gson.toJson(this, InstructorPermissionAttributes.class);
+    }
+    
+    public String getAccessAsString() {
+        return this.access.getValue();
     }
     
     public InstructorPrivileges getPrivileges() {
