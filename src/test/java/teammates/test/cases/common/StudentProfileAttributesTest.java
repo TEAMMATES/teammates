@@ -52,6 +52,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
         validProfile.shortName = "";
         validProfile.email = "";
         validProfile.country = "";
+        validProfile.institute = "";
         
         assertTrue("valid: all valid info", validProfile.isValid());
         assertEquals(new ArrayList<String>(), validProfile.getInvalidityInfo());

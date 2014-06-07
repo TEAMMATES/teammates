@@ -64,7 +64,7 @@ public class StudentProfileAttributes extends EntityAttributes {
         error = email == "" ? "" : validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email);
         if(!error.isEmpty()) { errors.add(error); }
         
-        error = validator.getInvalidityInfo(FieldValidator.FieldType.INSTITUTE_NAME, institute);
+        error = institute == "" ? "" : validator.getInvalidityInfo(FieldValidator.FieldType.INSTITUTE_NAME, institute);
         if(!error.isEmpty()) { errors.add(error); }
         
         error = country == "" ? "" : validator.getInvalidityInfo(FieldValidator.FieldType.COUNTRY, country);
