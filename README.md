@@ -38,9 +38,9 @@ Here are some documents important for TEAMMATES developers:
   * The [**glossary**](http://teammatesv4.appspot.com/dev/devman.html#glossary) of terms used in the project.
   * **Coding standards** for :
     [Java](https://docs.google.com/document/pub?id=1iAESIXM0zSxEa5OY7dFURam_SgLiSMhPQtU0drQagrs&embedded=true), 
-    [JSP](http://www.oracle.com/technetwork/articles/javase/code-convention-138726.html), 
+    [JSP](http://teammatesv4.appspot.com/dev/jspstyleguide.html), 
     [JavaScript](http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml),
-    [CSS](http://make.wordpress.org/core/handbook/coding-standards/css/), 
+    [CSS](https://docs.google.com/document/d/1wA9paRA9cS7ByStGbhRRUZLEzEzimrNQjIDPVqy1ScI/pub), 
     [HTML](http://teammatesv4.appspot.com/dev/htmlstyleguide.html)
   * [**Developer Troubleshooting Guide**](https://docs.google.com/document/d/1_p7WOGryOStPfTGA_ZifE1kVlskb1zfd3HZwc4lE4QQ/pub?embedded=true)
   * **Best practices** for : 
