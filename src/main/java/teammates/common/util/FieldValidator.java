@@ -239,11 +239,11 @@ public class FieldValidator {
      * Field: Gender
      */
     private static final String GENDER_FIELD_NAME = "gender";
-    private static final List<String> GENDER_ACCEPTED_VALUES = Arrays.asList(Const.GENDER_MALE, Const.GENDER_FEMALE, Const.GENDER_OTHER);
+    private static final List<String> GENDER_ACCEPTED_VALUES = Arrays.asList(Const.GenderTypes.MALE, Const.GenderTypes.FEMALE, Const.GenderTypes.OTHER);
     public static final String GENDER_ERROR_MESSAGE = 
             "\"%s\" is not an accepted " + GENDER_FIELD_NAME + " to TEAMMATES. " +
-            "Values have to be one of: " + Const.GENDER_MALE + ", " +
-            Const.GENDER_FEMALE + ", " + Const.GENDER_OTHER + ".";
+            "Values have to be one of: " + Const.GenderTypes.MALE + ", " +
+            Const.GenderTypes.FEMALE + ", " + Const.GenderTypes.OTHER + ".";
 
     /*
      * =======================================================================
