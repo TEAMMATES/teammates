@@ -69,10 +69,10 @@ function tickDefaultAccessControlForOwner(instrNum) {
     $("#canmodifyowner" + instrNum).prop('checked', true);
     $("#canmodifysession" + instrNum).prop('checked', true);
     $("#canmodifystudent" + instrNum).prop('checked', true);
-    $("#canviewstudentinsection" + instrNum).prop('checked', true);
-    $("#canviewcommentinsection" + instrNum).prop('checked', true);
-    $("#cangivecommentinsection" + instrNum).prop('checked', true);
-    $("#canmodifycommentinsection" + instrNum).prop('checked', true);
+    $("#canviewstudentinsectionforinstructor" + instrNum).prop('checked', true);
+    $("#canviewcommentinsectionforinstructor" + instrNum).prop('checked', true);
+    $("#cangivecommentinsectionforinstructor" + instrNum).prop('checked', true);
+    $("#canmodifycommentinsectionforinstructor" + instrNum).prop('checked', true);
     $("#canviewsessioninsectionforinstructor" + instrNum).prop('checked', true);
     $("#cansubmitsessioninsectionforinstructor" + instrNum).prop('checked', true);
     $("#canmodifycommentinsectionforinstructor" + instrNum).prop('checked', true);
