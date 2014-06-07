@@ -7,8 +7,11 @@ import java.util.logging.Logger;
 import javax.jdo.JDOHelper;
 import javax.jdo.Query;
 
+import javax.jdo.Transaction;
+
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.EntityAttributes;
+import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -18,6 +21,7 @@ import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Utils;
 import teammates.storage.entity.Account;
+import teammates.storage.entity.StudentProfile;
 
 /**
  * Handles CRUD Operations for accounts.
@@ -57,16 +61,18 @@ public class AccountsDb extends EntitiesDb {
      */
     public AccountAttributes getAccount(String googleId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
-    
+        
         Account a = getAccountEntity(googleId);
     
         if (a == null) {
             return null;
         }
+        
+        AccountAttributes accAttr = new AccountAttributes(a);
+        closePM();
     
-        return new AccountAttributes(a);
+        return accAttr;
     }
-
 
     /**
      * @return {@link AccountAttribute} objects for all accounts with instructor privileges.
@@ -84,6 +90,8 @@ public class AccountsDb extends EntitiesDb {
         for (Account a : accountsList) {
             instructorsAccountData.add(new AccountAttributes(a));
         }
+        
+        closePM();
         
         return instructorsAccountData;
     }
@@ -112,8 +120,13 @@ public class AccountsDb extends EntitiesDb {
         accountToUpdate.setEmail(a.email);
         accountToUpdate.setIsInstructor(a.isInstructor);
         accountToUpdate.setInstitute(a.institute);
+        // if the student profile has changed then update the store
+        // this is to maintain integrity of the modified date.
+        if (! (new StudentProfileAttributes(accountToUpdate.getStudentProfile()).toString().equals(a.studentProfile.toString()))) {
+            accountToUpdate.setStudentProfile((StudentProfile) a.studentProfile.toEntity());
+        }
         
-        getPM().close();
+        closePM();
     }
 
     /**
@@ -133,6 +146,7 @@ public class AccountsDb extends EntitiesDb {
     
         getPM().deletePersistent(accountToDelete);
         getPM().flush();
+        closePM();
     
         // Wait for the operation to persist
         int elapsedTime = 0;
@@ -167,6 +181,17 @@ public class AccountsDb extends EntitiesDb {
         }
     
         return accountsList.get(0);
+    }
+    
+    public StudentProfileAttributes getStudentProfile(String accountGoogleId) {
+        StudentProfileAttributes spa = this.getAccount(accountGoogleId).studentProfile;
+        return spa;
+    }
+    
+    public void closePM() {
+        if (!getPM().isClosed()) {
+            getPM().close();
+        }
     }
 
     @Override
