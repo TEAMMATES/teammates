@@ -48,13 +48,21 @@ public class StudentProfileAttributesTest extends BaseTestCase {
         assertTrue("valid: all valid info", validProfile.isValid());
         assertEquals(new ArrayList<String>(), validProfile.getInvalidityInfo());
         
+        ______TS("Valid profile with empty attributes");
+        validProfile.shortName = "";
+        validProfile.email = "";
+        validProfile.country = "";
+        
+        assertTrue("valid: all valid info", validProfile.isValid());
+        assertEquals(new ArrayList<String>(), validProfile.getInvalidityInfo());
+        
         ______TS("Invalid Profile Attributes");
         assertFalse("valid: all valid info", invalidProfile.isValid());
         List<String> expectedErrorMessages = new ArrayList<String>();
 
         //tests both the constructor and the invalidity info
         
-        expectedErrorMessages.add(String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE, profile.shortName, FieldValidator.REASON_EMPTY));
+        expectedErrorMessages.add(String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE, profile.shortName, FieldValidator.REASON_CONTAINS_INVALID_CHAR));
         expectedErrorMessages.add(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, profile.email, FieldValidator.REASON_INCORRECT_FORMAT));
         expectedErrorMessages.add(String.format(FieldValidator.INSTITUTE_NAME_ERROR_MESSAGE, profile.institute, FieldValidator.REASON_TOO_LONG));
         expectedErrorMessages.add(String.format(FieldValidator.COUNTRY_ERROR_MESSAGE, profile.country, FieldValidator.REASON_START_WITH_NON_ALPHANUMERIC_CHAR));
@@ -82,9 +90,18 @@ public class StudentProfileAttributesTest extends BaseTestCase {
         assertEquals(Sanitizer.sanitizeForHtml(profileToSanitizeExpected.moreInfo), profileToSanitize.moreInfo);
     }
     
+    @Test
+    public void testToString() {
+        StudentProfileAttributes spa = new StudentProfileAttributes((StudentProfile) profile.toEntity());
+        profile.modifiedDate = spa.modifiedDate;
+        
+        // the toString must be unique to the values in the object
+        assertEquals(profile.toString(), spa.toString());
+    }
+    
     public StudentProfileAttributes getInvalidStudentProfileAttributes() {
         
-        String shortName = "";
+        String shortName = "%%";
         String email = "invalid@email@com";
         String institute = StringHelper.generateStringOfLength(FieldValidator.INSTITUTE_NAME_MAX_LENGTH+1);
         String country = "$invalid country ";
