@@ -75,7 +75,7 @@ function tickDefaultAccessControlForOwner(instrNum) {
     $("#canmodifycommentinsectionforinstructor" + instrNum).prop('checked', true);
     $("#canviewsessioninsectionforinstructor" + instrNum).prop('checked', true);
     $("#cansubmitsessioninsectionforinstructor" + instrNum).prop('checked', true);
-    $("#canmodifycommentinsectionforinstructor" + instrNum).prop('checked', true);
+    $("#canmodifysessioncommentinsectionforinstructor" + instrNum).prop('checked', true);
 }
 
 function tickDefaultAccessControlForManager(instrNum) {
@@ -84,13 +84,13 @@ function tickDefaultAccessControlForManager(instrNum) {
     $("#canmodifyowner" + instrNum).prop('checked', false);
     $("#canmodifysession" + instrNum).prop('checked', true);
     $("#canmodifystudent" + instrNum).prop('checked', true);
-    $("#canviewstudentinsection" + instrNum).prop('checked', true);
-    $("#canviewcommentinsection" + instrNum).prop('checked', true);
-    $("#cangivecommentinsection" + instrNum).prop('checked', true);
-    $("#canmodifycommentinsection" + instrNum).prop('checked', true);
+    $("#canviewstudentinsectionforinstructor" + instrNum).prop('checked', true);
+    $("#canviewcommentinsectionforinstructor" + instrNum).prop('checked', true);
+    $("#cangivecommentinsectionforinstructor" + instrNum).prop('checked', true);
+    $("#canmodifycommentinsectionforinstructor" + instrNum).prop('checked', true);
     $("#canviewsessioninsectionforinstructor" + instrNum).prop('checked', true);
     $("#cansubmitsessioninsectionforinstructor" + instrNum).prop('checked', true);
-    $("#canmodifycommentinsectionforinstructor" + instrNum).prop('checked', true);
+    $("#canmodifysessioncommentinsectionforinstructor" + instrNum).prop('checked', true);
 }
 
 function tickDefaultAccessControlForObserver(instrNum) {
@@ -99,13 +99,13 @@ function tickDefaultAccessControlForObserver(instrNum) {
     $("#canmodifyowner" + instrNum).prop('checked', false);
     $("#canmodifysession" + instrNum).prop('checked', false);
     $("#canmodifystudent" + instrNum).prop('checked', false);
-    $("#canviewstudentinsection" + instrNum).prop('checked', true);
-    $("#canviewcommentinsection" + instrNum).prop('checked', true);
-    $("#cangivecommentinsection" + instrNum).prop('checked', false);
-    $("#canmodifycommentinsection" + instrNum).prop('checked', false);
+    $("#canviewstudentinsectionforinstructor" + instrNum).prop('checked', true);
+    $("#canviewcommentinsectionforinstructor" + instrNum).prop('checked', true);
+    $("#cangivecommentinsectionforinstructor" + instrNum).prop('checked', false);
+    $("#canmodifycommentinsectionforinstructor" + instrNum).prop('checked', false);
     $("#canviewsessioninsectionforinstructor" + instrNum).prop('checked', true);
     $("#cansubmitsessioninsectionforinstructor" + instrNum).prop('checked', false);
-    $("#canmodifycommentinsectionforinstructor" + instrNum).prop('checked', false);
+    $("#canmodifysessioncommentinsectionforinstructor" + instrNum).prop('checked', false);
 }
 
 function tickDefaultAccessControlForTutor(instrNum) {
@@ -114,13 +114,13 @@ function tickDefaultAccessControlForTutor(instrNum) {
     $("#canmodifyowner" + instrNum).prop('checked', false);
     $("#canmodifysession" + instrNum).prop('checked', false);
     $("#canmodifystudent" + instrNum).prop('checked', false);
-    $("#canviewstudentinsection" + instrNum).prop('checked', true);
-    $("#canviewcommentinsection" + instrNum).prop('checked', false);
-    $("#cangivecommentinsection" + instrNum).prop('checked', true);
+    $("#canviewstudentinsectionforinstructor" + instrNum).prop('checked', true);
+    $("#canviewcommentinsectionforinstructor" + instrNum).prop('checked', false);
+    $("#cangivecommentinsectionforinstructor" + instrNum).prop('checked', true);
     $("#canmodifycommentinsection" + instrNum).prop('checked', false);
     $("#canviewsessioninsectionforinstructor" + instrNum).prop('checked', true);
     $("#cansubmitsessioninsectionforinstructor" + instrNum).prop('checked', true);
-    $("#canmodifycommentinsectionforinstructor" + instrNum).prop('checked', false);
+    $("#canmodifysessioncommentinsectionforinstructor" + instrNum).prop('checked', false);
 }
 
 function tickDefaultAccessControlForHelper(instrNum) {
@@ -129,19 +129,19 @@ function tickDefaultAccessControlForHelper(instrNum) {
     $("#canmodifyowner" + instrNum).prop('checked', false);
     $("#canmodifysession" + instrNum).prop('checked', false);
     $("#canmodifystudent" + instrNum).prop('checked', false);
-    $("#canviewstudentinsection" + instrNum).prop('checked', false);
-    $("#canviewcommentinsection" + instrNum).prop('checked', false);
-    $("#cangivecommentinsection" + instrNum).prop('checked', false);
-    $("#canmodifycommentinsection" + instrNum).prop('checked', false);
+    $("#canviewstudentinsectionforinstructor" + instrNum).prop('checked', false);
+    $("#canviewcommentinsectionforinstructor" + instrNum).prop('checked', false);
+    $("#cangivecommentinsectionforinstructor" + instrNum).prop('checked', false);
+    $("#canmodifycommentinsectionforinstructor" + instrNum).prop('checked', false);
     $("#canviewsessioninsectionforinstructor" + instrNum).prop('checked', false);
     $("#cansubmitsessioninsectionforinstructor" + instrNum).prop('checked', false);
-    $("#canmodifycommentinsectionforinstructor" + instrNum).prop('checked', false);
+    $("#canmodifysessioncommentinsectionforinstructor" + instrNum).prop('checked', false);
 }
 
 function triggerSessionChangeInSection(instrNum) {
     $("#canviewsessioninsectionforinstructor" + instrNum).change();
     $("#cansubmitsessioninsectionforinstructor" + instrNum).change();
-    $("#canmodifycommentinsectionforinstructor" + instrNum).change();
+    $("#canmodifysessioncommentinsectionforinstructor" + instrNum).change();
 }
 
 $(function() { 
@@ -166,8 +166,8 @@ $(function() {
         var instrNum = parseInt($(this).attr("id").substring(38));
         $("input[id^='cansubmitsessionforinstructor" + instrNum + "']").prop("checked", $(this).prop("checked"));
     });
-    $("input[id^='canmodifycommentinsectionforinstructor']").change(function() {
-        var instrNum = parseInt($(this).attr("id").substring(38));
+    $("input[id^='canmodifysessioncommentinsectionforinstructor']").change(function() {
+        var instrNum = parseInt($(this).attr("id").substring(45));
         $("input[id^='canmodifysessioncommentforinstructor" + instrNum + "']").prop("checked", $(this).prop("checked"));
     });
 });
