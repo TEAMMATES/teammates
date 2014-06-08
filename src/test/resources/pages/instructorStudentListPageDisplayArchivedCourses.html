@@ -26,59 +26,59 @@
          <!---->
       </head>
       <body>
-         <div class="navbar navbar-inverse navbar-fixed-top"  role="navigation" >
-            <div class="container" >
-               <div class="navbar-header" >
-                  <button class="navbar-toggle"  data-target="#contentLinks"  data-toggle="collapse"  type="button" >
-                     <span class="sr-only" >
+       <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container">
+               <div class="navbar-header">
+                  <button class="navbar-toggle" data-target="#contentLinks" data-toggle="collapse" type="button">
+                     <span class="sr-only">
                         Toggle navigation
                      </span>
-                     <span class="icon-bar" >
+                     <span class="icon-bar">
                      </span>
-                     <span class="icon-bar" >
+                     <span class="icon-bar">
                      </span>
-                     <span class="icon-bar" >
+                     <span class="icon-bar">
                      </span>
                   </button>
-                  <a class="navbar-brand"  href="/index.html" >
+                  <a class="navbar-brand" href="/index.html">
                      TEAMMATES
                   </a>
                </div>
-               <div class="collapse navbar-collapse"  id="contentLinks" >
-                  <ul class="nav navbar-nav" >
-                     <li class="" >
-                        <a class="nav home"  data-link="instructorHome"  href="/page/instructorHomePage?user=instructorOfCourse4" >
+               <div class="collapse navbar-collapse" id="contentLinks">
+                  <ul class="nav navbar-nav">
+                     <li class="">
+                        <a class="nav home" data-link="instructorHome" href="/page/instructorHomePage?user=instructorOfCourse4">
                            Home
                         </a>
                      </li>
-                     <li class="" >
-                        <a class="nav courses"  data-link="instructorCourse"  href="/page/instructorCoursesPage?user=instructorOfCourse4" >
+                     <li class="">
+                        <a class="nav courses" data-link="instructorCourse" href="/page/instructorCoursesPage?user=instructorOfCourse4">
                            Courses
                         </a>
                      </li>
-                     <li class="" >
-                        <a class="nav evaluations"  data-link="instructorEval"  href="/page/instructorEvalsPage?user=instructorOfCourse4" >
+                     <li class="">
+                        <a class="nav evaluations" data-link="instructorEval" href="/page/instructorEvalsPage?user=instructorOfCourse4">
                            Sessions
                         </a>
                      </li>
-                     <li class="active" >
-                        <a class="nav students"  data-link="instructorStudent"  href="/page/instructorStudentListPage?user=instructorOfCourse4" >
+                     <li class="active">
+                        <a class="nav students" data-link="instructorStudent" href="/page/instructorStudentListPage?user=instructorOfCourse4">
                            Students
                         </a>
                      </li>
                      <li>
-                        <a class="nav help"  href="/instructorHelp.html"  target="_blank" >
+                        <a class="nav help" href="/instructorHelp.html" target="_blank">
                            Help
                         </a>
                      </li>
                   </ul>
-                  <ul class="nav navbar-nav pull-right" >
+                  <ul class="nav navbar-nav pull-right">
                      <li>
-                        <a class="nav logout"  href="/logout.jsp" >
+                        <a class="nav logout" href="/logout.jsp">
                            Logout
                         
                         (
-                           <span class="text-info"  data-original-title="instructorOfCourse4"  data-placement="bottom"  data-toggle="tooltip"  title="" >
+                           <span class="text-info" data-original-title="instructorOfCourse4" data-placement="bottom" data-toggle="tooltip" title="">
                               instructorOfCourse4
                            </span>
                            )
@@ -88,44 +88,44 @@
                </div>
             </div>
          </div>
-         <div class="container theme-showcase"  id="frameBodyWrapper" >
-            <div id="topOfPage" >
+         <div class="container theme-showcase" id="frameBodyWrapper">
+            <div id="topOfPage">
             </div>
             <h1>
                Instructor Students List
             </h1>
-            <div class="well well-plain" >
-               <div class="row" >
-                  <div class="col-md-12" >
-                     <div class="row" >
-                        <div class="col-md-10" >
-                           <div class="form-group" >
-                              <input class="form-control"  data-original-title="Search for student's name"  data-placement="top"  data-toggle="tooltip"  id="searchbox"  placeholder="e.g. Charles Shultz"  title=""  type="text"  value="" />
+            <div class="well well-plain">
+               <div class="row">
+                  <div class="col-md-12">
+                     <div class="row">
+                        <div class="col-md-10">
+                           <div class="form-group">
+                              <input class="form-control" data-original-title="Search for student's name" data-placement="top" data-toggle="tooltip" id="searchbox" placeholder="e.g. Charles Shultz" title="" type="text" value=""/>
                                                          </div>
                         </div>
-                        <div class="col-md-2 nav" >
-                           <div class="form-group" >
-                              <button class="btn btn-primary"  id="button_search"  onclick="return applyFilters();"  type="submit"  value="Search" >
-                                 <span class="glyphicon glyphicon-search" >
+                        <div class="col-md-2 nav">
+                           <div class="form-group">
+                              <button class="btn btn-primary" id="button_search" onclick="return applyFilters();" type="submit" value="Search">
+                                 <span class="glyphicon glyphicon-search">
                                  </span>
                                  Search
                               </button>
                            </div>
                         </div>
                      </div>
-                     <div class="row" >
-                        <div class="col-md-2" >
-                           <div class="checkbox" >
-                              <input id="option_check"  type="checkbox" />
-                                                            <label for="option_check" >
+                     <div class="row">
+                        <div class="col-md-2">
+                           <div class="checkbox">
+                              <input id="option_check" type="checkbox"/>
+                                                            <label for="option_check">
                                  Show More Options
                               </label>
                            </div>
                         </div>
-                        <div class="col-md-3" >
-                           <div class="checkbox" >
-                              <input checked="checked"  id="displayArchivedCourses_check"  type="checkbox" />
-                                                            <label for="displayArchivedCourses_check" >
+                        <div class="col-md-3">
+                           <div class="checkbox">
+                              <input checked="checked" id="displayArchivedCourses_check" type="checkbox"/>
+                                                            <label for="displayArchivedCourses_check">
                                  Display Archived Courses
                               </label>
                            </div>
@@ -135,109 +135,138 @@
                </div>
             </div>
             <br/>
-                        <div class="well well-plain"  id="moreOptionsDiv"  style="display: none;" >
-               <form class="form-horizontal"  role="form" >
-                  <div class="row" >
-                     <div class="col-sm-4" >
-                        <div class="text-color-primary" >
+                        <div class="well well-plain" id="moreOptionsDiv" style="display: none;">
+               <form class="form-horizontal" role="form">
+                  <div class="row">
+                     <div class="col-sm-3">
+                        <div class="text-color-primary">
                            <strong>
                               Courses
                            </strong>
                         </div>
                         <br/>
-                                                <div class="checkbox" >
-                           <input checked="checked"  id="course_all"  type="checkbox"  value="" />
-                                                      <label for="course_all" >
+                                                <div class="checkbox">
+                           <input checked="checked" id="course_all" type="checkbox" value=""/>
+                                                      <label for="course_all">
                               <strong>
                                  Select all
                               </strong>
                            </label>
                         </div>
                         <br/>
-                                                <div class="checkbox" >
-                           <input checked="checked"  id="course_check-0"  type="checkbox" />
-                                                      <label for="course_check-0" >
+                                                <div class="checkbox">
+                           <input checked="checked" id="course_check-0" type="checkbox"/>
+                                                      <label for="course_check-0">
                               [course4] : Name of Course 4
                            </label>
                         </div>
-                        <div class="checkbox" >
-                           <input checked="checked"  id="course_check-1"  type="checkbox" />
-                                                      <label for="course_check-1" >
+                        <div class="checkbox">
+                           <input checked="checked" id="course_check-1" type="checkbox"/>
+                                                      <label for="course_check-1">
                               [course3] : Name of Course 3
                            </label>
                         </div>
-                        <div class="checkbox" >
-                           <input checked="checked"  id="course_check-2"  type="checkbox" />
-                                                      <label for="course_check-2" >
+                        <div class="checkbox">
+                           <input checked="checked" id="course_check-2" type="checkbox"/>
+                                                      <label for="course_check-2">
                               [course1] : Name of Course 1
                            </label>
                         </div>
                      </div>
-                     <div class="col-sm-4" >
-                        <div class="text-color-primary" >
+                     <div class="col-sm-3">
+                        <div class="text-color-primary">
+                           <strong>
+                              Sections
+                           </strong>
+                        </div>
+                        <br/>
+                                                <div class="checkbox">
+                           <input checked="checked" id="section_all" type="checkbox" value=""/>
+                                                      <label for="section_all">
+                              <strong>
+                                 Select all
+                              </strong>
+                           </label>
+                        </div>
+                        <br/>
+                                                <div class="checkbox">
+                           <input checked="checked" id="section_check-0-0" type="checkbox"/>
+                                                      <label for="section_check-0-0">
+                              [course4] : None
+                           </label>
+                        </div>
+                        <div class="checkbox">
+                           <input checked="checked" id="section_check-1-0" type="checkbox"/>
+                                                      <label for="section_check-1-0">
+                              [course3] : None
+                           </label>
+                        </div>
+                     </div>
+                     <div class="col-sm-3">
+                        <div class="text-color-primary">
                            <strong>
                               Teams
                            </strong>
                         </div>
                         <br/>
-                                                <div class="checkbox" >
-                           <input checked="checked"  id="team_all"  type="checkbox" />
-                                                      <label for="team_all" >
+                                                <div class="checkbox">
+                           <input checked="checked" id="team_all" type="checkbox"/>
+                                                      <label for="team_all">
                               <strong>
                                  Select All
                               </strong>
                            </label>
                         </div>
                         <br/>
-                                                <div class="checkbox" >
-                           <input checked="checked"  id="team_check-0-0"  type="checkbox" />
-                                                      <label for="team_check-0-0" >
+                                                <div class="checkbox">
+                           <input checked="checked" id="team_check-0-0-0" type="checkbox"/>
+                                                      <label for="team_check-0-0-0">
                               [course4] : Team 1
                            </label>
                         </div>
-                        <div class="checkbox" >
-                           <input checked="checked"  id="team_check-1-0"  type="checkbox" />
-                                                      <label for="team_check-1-0" >
+                        <div class="checkbox">
+                           <input checked="checked" id="team_check-1-0-0" type="checkbox"/>
+                                                      <label for="team_check-1-0-0">
                               [course3] : Team 1
                            </label>
                         </div>
-                        <div class="checkbox" >
-                           <input checked="checked"  id="team_check-1-1"  type="checkbox" />
-                                                      <label for="team_check-1-1" >
+                        <div class="checkbox">
+                           <input checked="checked" id="team_check-1-0-1" type="checkbox"/>
+                                                      <label for="team_check-1-0-1">
                               [course3] : Team 2
                            </label>
                         </div>
                      </div>
-                     <div class="col-sm-4" >
-                        <div class="text-color-primary" >
+                     <div class="col-sm-3">
+                        <div class="text-color-primary">
                            <strong>
                               Emails
                            </strong>
                         </div>
                         <br/>
-                                                <div class="checkbox" >
-                           <input checked="checked"  id="show_email"  type="checkbox" />
-                                                      <label for="show_email" >
+                                                <div class="checkbox">
+                           <input checked="checked" id="show_email" type="checkbox"/>
+                                                      <label for="show_email">
                               <strong>
                                  Show Emails
                               </strong>
                            </label>
                         </div>
                         <br/>
-                                                <div id="emails" >
-                           <div id="student_email-c0.0" >
+                                                <div id="emails">
+                           <div id="student_email-c0.0">
                               ann.tmms@gmail.com
                            </div>
-                           <div id="student_email-c1.0" >
+                           <div id="student_email-c1.0">
                               CCSDetailsUiT.alice.tmms@gmail.com
                            </div>
-                           <div id="student_email-c1.1" >
+                           <div id="student_email-c1.1">
                               benny.c.tmms@gmail.com
                            </div>
-                           <div id="student_email-c1.2" >
+                           <div id="student_email-c1.2">
                               CCSDetailsUiT.charlie.tmms@gmail.com
                            </div>
-                           <div id="student_email-c1.3" >
+                           <div id="student_email-c1.3">
                               denny.c.tmms@gmail.com
                            </div>
                         </div>
@@ -245,41 +274,41 @@
                   </div>
                </form>
             </div>
-            <div id="statusMessage"  style="display: none;" >
+            <div id="statusMessage" style="display: none;">
             </div>
-            <div class="well well-plain"  id="course-0" >
-               <div class="row" >
-                  <div class="col-md-10 text-color-default" >
+            <div class="well well-plain" id="course-0">
+               <div class="row">
+                  <div class="col-md-10 text-color-default">
                      <h4>
                         <strong>
                            [course4] : Name of Course 4
                         </strong>
                      </h4>
                   </div>
-                  <div class="col-md-2" >
-                     <a class="btn btn-default btn-xs pull-right pull-down course-enroll-for-test"  data-original-title="Enroll student into the course"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseEnrollPage?courseid=course4&user=instructorOfCourse4"  title="" >
-                        <span class="glyphicon glyphicon-list" >
+                  <div class="col-md-2">
+                     <a class="btn btn-default btn-xs pull-right pull-down course-enroll-for-test" data-original-title="Enroll student into the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseEnrollPage?courseid=course4&user=instructorOfCourse4" title="">
+                        <span class="glyphicon glyphicon-list">
                         </span>
                         Enroll
                      </a>
                   </div>
                </div>
-               <table class="table table-responsive table-striped table-bordered" >
-                  <thead>
-                     <tr class="fill-default" >
-                        <th class="button-sort-ascending"  id="button_sortteam"  onclick="toggleSort(this,1)" >
+               <table class="table table-responsive table-striped table-bordered">
+                  <thead class="fill-default">
+                     <tr>
+                        <th class="button-sort-ascending" id="button_sortteam-course4" onclick="toggleSort(this,1)">
                            Team
-                           <span class="icon-sort sorted-ascending" >
+                           <span class="icon-sort sorted-ascending">
                            </span>
                         </th>
-                        <th class="button-sort-none"  id="button_sortstudentname"  onclick="toggleSort(this,2)" >
+                        <th class="button-sort-none" id="button_sortstudentname-course4" onclick="toggleSort(this,2)">
                            Student Name
-                           <span class="icon-sort unsorted" >
+                           <span class="icon-sort unsorted">
                            </span>
                         </th>
-                        <th class="button-sort-none"  id="button_sortteam"  onclick="toggleSort(this,3)" >
+                        <th class="button-sort-none" id="button_sortemail-course4" onclick="toggleSort(this,3)">
                            Email
-                           <span class="icon-sort unsorted" >
+                           <span class="icon-sort unsorted">
                            </span>
                         </th>
                         <th>
@@ -288,27 +317,27 @@
                      </tr>
                   </thead>
                   <tbody>
-                     <tr id="student-c0.0"  style="display: table-row;" >
-                        <td id="studentteam-c0.0" >
+                     <tr id="student-c0.0" style="display: table-row;">
+                        <td id="studentteam-c0.0.0">
                            Team 1
                         </td>
-                        <td id="studentname-c0.0" >
+                        <td id="studentname-c0.0">
                            Ann
                         </td>
-                        <td id="studentemail-c0.0" >
+                        <td id="studentemail-c0.0">
                            ann.tmms@gmail.com
                         </td>
-                        <td class="no-print align-center" >
-                           <a class="btn btn-default btn-xs student-view-for-test"  data-original-title="View the details of the student"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDetailsPage?courseid=course4&studentemail=ann.tmms%40gmail.com&user=instructorOfCourse4"  title="" >
+                        <td class="no-print align-center">
+                           <a class="btn btn-default btn-xs student-view-for-test" data-original-title="View the details of the student" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsPage?courseid=course4&studentemail=ann.tmms%40gmail.com&user=instructorOfCourse4" title="">
                               View
                            </a>
-                           <a class="btn btn-default btn-xs student-edit-for-test"  data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDetailsEdit?courseid=course4&studentemail=ann.tmms%40gmail.com&user=instructorOfCourse4"  title="" >
+                           <a class="btn btn-default btn-xs student-edit-for-test" data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=course4&studentemail=ann.tmms%40gmail.com&user=instructorOfCourse4" title="">
                               Edit
                            </a>
-                           <a class="btn btn-default btn-xs student-delete-for-test"  data-original-title="Delete the student and the corresponding evaluations from the course"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDelete?courseid=course4&studentemail=ann.tmms%40gmail.com&user=instructorOfCourse4"  onclick="return toggleDeleteStudentConfirmation('course4','Ann')"  title="" >
+                           <a class="btn btn-default btn-xs student-delete-for-test" data-original-title="Delete the student and the corresponding evaluations from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=course4&studentemail=ann.tmms%40gmail.com&user=instructorOfCourse4" onclick="return toggleDeleteStudentConfirmation('course4','Ann')" title="">
                               Delete
                            </a>
-                           <a class="btn btn-default btn-xs student-records-for-test"  data-original-title="View all student\'s evaluations and feedbacks"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorStudentRecordsPage?courseid=course4&studentemail=ann.tmms%40gmail.com&user=instructorOfCourse4"  title="" >
+                           <a class="btn btn-default btn-xs student-records-for-test" data-original-title="View all student\'s evaluations and feedbacks" data-placement="top" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=course4&studentemail=ann.tmms%40gmail.com&user=instructorOfCourse4" title="">
                               All Records
                            </a>
                         </td>
@@ -316,39 +345,39 @@
                   </tbody>
                </table>
             </div>
-            <div class="well well-plain"  id="course-1" >
-               <div class="row" >
-                  <div class="col-md-10 text-color-primary" >
+            <div class="well well-plain" id="course-1">
+               <div class="row">
+                  <div class="col-md-10 text-color-primary">
                      <h4>
                         <strong>
                            [course3] : Name of Course 3
                         </strong>
                      </h4>
                   </div>
-                  <div class="col-md-2" >
-                     <a class="btn btn-default btn-xs pull-right pull-down course-enroll-for-test"  data-original-title="Enroll student into the course"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseEnrollPage?courseid=course3&user=instructorOfCourse4"  title="" >
-                        <span class="glyphicon glyphicon-list" >
+                  <div class="col-md-2">
+                     <a class="btn btn-default btn-xs pull-right pull-down course-enroll-for-test" data-original-title="Enroll student into the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseEnrollPage?courseid=course3&user=instructorOfCourse4" title="">
+                        <span class="glyphicon glyphicon-list">
                         </span>
                         Enroll
                      </a>
                   </div>
                </div>
-               <table class="table table-responsive table-striped table-bordered" >
-                  <thead>
-                     <tr class="fill-primary" >
-                        <th class="button-sort-ascending"  id="button_sortteam"  onclick="toggleSort(this,1)" >
+               <table class="table table-responsive table-striped table-bordered">
+                  <thead class="fill-primary">
+                     <tr>
+                        <th class="button-sort-ascending" id="button_sortteam-course3" onclick="toggleSort(this,1)">
                            Team
-                           <span class="icon-sort sorted-ascending" >
+                           <span class="icon-sort sorted-ascending">
                            </span>
                         </th>
-                        <th class="button-sort-none"  id="button_sortstudentname"  onclick="toggleSort(this,2)" >
+                        <th class="button-sort-none" id="button_sortstudentname-course3" onclick="toggleSort(this,2)">
                            Student Name
-                           <span class="icon-sort unsorted" >
+                           <span class="icon-sort unsorted">
                            </span>
                         </th>
-                        <th class="button-sort-none"  id="button_sortteam"  onclick="toggleSort(this,3)" >
+                        <th class="button-sort-none" id="button_sortemail-course3" onclick="toggleSort(this,3)">
                            Email
-                           <span class="icon-sort unsorted" >
+                           <span class="icon-sort unsorted">
                            </span>
                         </th>
                         <th>
@@ -357,102 +386,102 @@
                      </tr>
                   </thead>
                   <tbody>
-                     <tr id="student-c1.0"  style="display: table-row;" >
-                        <td id="studentteam-c1.0" >
+                     <tr id="student-c1.0" style="display: table-row;">
+                        <td id="studentteam-c1.0.0">
                            Team 1
                         </td>
-                        <td id="studentname-c1.0" >
+                        <td id="studentname-c1.0">
                            Alice Betsy
                         </td>
-                        <td id="studentemail-c1.0" >
+                        <td id="studentemail-c1.0">
                            CCSDetailsUiT.alice.tmms@gmail.com
                         </td>
-                        <td class="no-print align-center" >
-                           <a class="btn btn-default btn-xs student-view-for-test"  data-original-title="View the details of the student"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDetailsPage?courseid=course3&studentemail=CCSDetailsUiT.alice.tmms%40gmail.com&user=instructorOfCourse4"  title="" >
+                        <td class="no-print align-center">
+                           <a class="btn btn-default btn-xs student-view-for-test" data-original-title="View the details of the student" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsPage?courseid=course3&studentemail=CCSDetailsUiT.alice.tmms%40gmail.com&user=instructorOfCourse4" title="">
                               View
                            </a>
-                           <a class="btn btn-default btn-xs student-edit-for-test"  data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDetailsEdit?courseid=course3&studentemail=CCSDetailsUiT.alice.tmms%40gmail.com&user=instructorOfCourse4"  title="" >
+                           <a class="btn btn-default btn-xs student-edit-for-test" data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=course3&studentemail=CCSDetailsUiT.alice.tmms%40gmail.com&user=instructorOfCourse4" title="">
                               Edit
                            </a>
-                           <a class="btn btn-default btn-xs student-delete-for-test"  data-original-title="Delete the student and the corresponding evaluations from the course"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDelete?courseid=course3&studentemail=CCSDetailsUiT.alice.tmms%40gmail.com&user=instructorOfCourse4"  onclick="return toggleDeleteStudentConfirmation('course3','Alice Betsy')"  title="" >
+                           <a class="btn btn-default btn-xs student-delete-for-test" data-original-title="Delete the student and the corresponding evaluations from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=course3&studentemail=CCSDetailsUiT.alice.tmms%40gmail.com&user=instructorOfCourse4" onclick="return toggleDeleteStudentConfirmation('course3','Alice Betsy')" title="">
                               Delete
                            </a>
-                           <a class="btn btn-default btn-xs student-records-for-test"  data-original-title="View all student\'s evaluations and feedbacks"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorStudentRecordsPage?courseid=course3&studentemail=CCSDetailsUiT.alice.tmms%40gmail.com&user=instructorOfCourse4"  title="" >
+                           <a class="btn btn-default btn-xs student-records-for-test" data-original-title="View all student\'s evaluations and feedbacks" data-placement="top" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=course3&studentemail=CCSDetailsUiT.alice.tmms%40gmail.com&user=instructorOfCourse4" title="">
                               All Records
                            </a>
                         </td>
                      </tr>
-                     <tr id="student-c1.1"  style="display: table-row;" >
-                        <td id="studentteam-c1.0" >
+                     <tr id="student-c1.1" style="display: table-row;">
+                        <td id="studentteam-c1.0.0">
                            Team 1
                         </td>
-                        <td id="studentname-c1.1" >
+                        <td id="studentname-c1.1">
                            Benny Charles
                         </td>
-                        <td id="studentemail-c1.1" >
+                        <td id="studentemail-c1.1">
                            benny.c.tmms@gmail.com
                         </td>
-                        <td class="no-print align-center" >
-                           <a class="btn btn-default btn-xs student-view-for-test"  data-original-title="View the details of the student"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDetailsPage?courseid=course3&studentemail=benny.c.tmms%40gmail.com&user=instructorOfCourse4"  title="" >
+                        <td class="no-print align-center">
+                           <a class="btn btn-default btn-xs student-view-for-test" data-original-title="View the details of the student" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsPage?courseid=course3&studentemail=benny.c.tmms%40gmail.com&user=instructorOfCourse4" title="">
                               View
                            </a>
-                           <a class="btn btn-default btn-xs student-edit-for-test"  data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDetailsEdit?courseid=course3&studentemail=benny.c.tmms%40gmail.com&user=instructorOfCourse4"  title="" >
+                           <a class="btn btn-default btn-xs student-edit-for-test" data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=course3&studentemail=benny.c.tmms%40gmail.com&user=instructorOfCourse4" title="">
                               Edit
                            </a>
-                           <a class="btn btn-default btn-xs student-delete-for-test"  data-original-title="Delete the student and the corresponding evaluations from the course"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDelete?courseid=course3&studentemail=benny.c.tmms%40gmail.com&user=instructorOfCourse4"  onclick="return toggleDeleteStudentConfirmation('course3','Benny Charles')"  title="" >
+                           <a class="btn btn-default btn-xs student-delete-for-test" data-original-title="Delete the student and the corresponding evaluations from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=course3&studentemail=benny.c.tmms%40gmail.com&user=instructorOfCourse4" onclick="return toggleDeleteStudentConfirmation('course3','Benny Charles')" title="">
                               Delete
                            </a>
-                           <a class="btn btn-default btn-xs student-records-for-test"  data-original-title="View all student\'s evaluations and feedbacks"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorStudentRecordsPage?courseid=course3&studentemail=benny.c.tmms%40gmail.com&user=instructorOfCourse4"  title="" >
+                           <a class="btn btn-default btn-xs student-records-for-test" data-original-title="View all student\'s evaluations and feedbacks" data-placement="top" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=course3&studentemail=benny.c.tmms%40gmail.com&user=instructorOfCourse4" title="">
                               All Records
                            </a>
                         </td>
                      </tr>
-                     <tr id="student-c1.2"  style="display: table-row;" >
-                        <td id="studentteam-c1.1" >
+                     <tr id="student-c1.2" style="display: table-row;">
+                        <td id="studentteam-c1.0.1">
                            Team 2
                         </td>
-                        <td id="studentname-c1.2" >
+                        <td id="studentname-c1.2">
                            Charlie D
                         </td>
-                        <td id="studentemail-c1.2" >
+                        <td id="studentemail-c1.2">
                            CCSDetailsUiT.charlie.tmms@gmail.com
                         </td>
-                        <td class="no-print align-center" >
-                           <a class="btn btn-default btn-xs student-view-for-test"  data-original-title="View the details of the student"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDetailsPage?courseid=course3&studentemail=CCSDetailsUiT.charlie.tmms%40gmail.com&user=instructorOfCourse4"  title="" >
+                        <td class="no-print align-center">
+                           <a class="btn btn-default btn-xs student-view-for-test" data-original-title="View the details of the student" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsPage?courseid=course3&studentemail=CCSDetailsUiT.charlie.tmms%40gmail.com&user=instructorOfCourse4" title="">
                               View
                            </a>
-                           <a class="btn btn-default btn-xs student-edit-for-test"  data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDetailsEdit?courseid=course3&studentemail=CCSDetailsUiT.charlie.tmms%40gmail.com&user=instructorOfCourse4"  title="" >
+                           <a class="btn btn-default btn-xs student-edit-for-test" data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=course3&studentemail=CCSDetailsUiT.charlie.tmms%40gmail.com&user=instructorOfCourse4" title="">
                               Edit
                            </a>
-                           <a class="btn btn-default btn-xs student-delete-for-test"  data-original-title="Delete the student and the corresponding evaluations from the course"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDelete?courseid=course3&studentemail=CCSDetailsUiT.charlie.tmms%40gmail.com&user=instructorOfCourse4"  onclick="return toggleDeleteStudentConfirmation('course3','Charlie D')"  title="" >
+                           <a class="btn btn-default btn-xs student-delete-for-test" data-original-title="Delete the student and the corresponding evaluations from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=course3&studentemail=CCSDetailsUiT.charlie.tmms%40gmail.com&user=instructorOfCourse4" onclick="return toggleDeleteStudentConfirmation('course3','Charlie D')" title="">
                               Delete
                            </a>
-                           <a class="btn btn-default btn-xs student-records-for-test"  data-original-title="View all student\'s evaluations and feedbacks"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorStudentRecordsPage?courseid=course3&studentemail=CCSDetailsUiT.charlie.tmms%40gmail.com&user=instructorOfCourse4"  title="" >
+                           <a class="btn btn-default btn-xs student-records-for-test" data-original-title="View all student\'s evaluations and feedbacks" data-placement="top" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=course3&studentemail=CCSDetailsUiT.charlie.tmms%40gmail.com&user=instructorOfCourse4" title="">
                               All Records
                            </a>
                         </td>
                      </tr>
-                     <tr id="student-c1.3"  style="display: table-row;" >
-                        <td id="studentteam-c1.1" >
+                     <tr id="student-c1.3" style="display: table-row;">
+                        <td id="studentteam-c1.0.1">
                            Team 2
                         </td>
-                        <td id="studentname-c1.3" >
+                        <td id="studentname-c1.3">
                            Denny Charlés
                         </td>
-                        <td id="studentemail-c1.3" >
+                        <td id="studentemail-c1.3">
                            denny.c.tmms@gmail.com
                         </td>
-                        <td class="no-print align-center" >
-                           <a class="btn btn-default btn-xs student-view-for-test"  data-original-title="View the details of the student"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDetailsPage?courseid=course3&studentemail=denny.c.tmms%40gmail.com&user=instructorOfCourse4"  title="" >
+                        <td class="no-print align-center">
+                           <a class="btn btn-default btn-xs student-view-for-test" data-original-title="View the details of the student" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsPage?courseid=course3&studentemail=denny.c.tmms%40gmail.com&user=instructorOfCourse4" title="">
                               View
                            </a>
-                           <a class="btn btn-default btn-xs student-edit-for-test"  data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDetailsEdit?courseid=course3&studentemail=denny.c.tmms%40gmail.com&user=instructorOfCourse4"  title="" >
+                           <a class="btn btn-default btn-xs student-edit-for-test" data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=course3&studentemail=denny.c.tmms%40gmail.com&user=instructorOfCourse4" title="">
                               Edit
                            </a>
-                           <a class="btn btn-default btn-xs student-delete-for-test"  data-original-title="Delete the student and the corresponding evaluations from the course"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseStudentDelete?courseid=course3&studentemail=denny.c.tmms%40gmail.com&user=instructorOfCourse4"  onclick="return toggleDeleteStudentConfirmation('course3','Denny Charlés')"  title="" >
+                           <a class="btn btn-default btn-xs student-delete-for-test" data-original-title="Delete the student and the corresponding evaluations from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=course3&studentemail=denny.c.tmms%40gmail.com&user=instructorOfCourse4" onclick="return toggleDeleteStudentConfirmation('course3','Denny Charlés')" title="">
                               Delete
                            </a>
-                           <a class="btn btn-default btn-xs student-records-for-test"  data-original-title="View all student\'s evaluations and feedbacks"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorStudentRecordsPage?courseid=course3&studentemail=denny.c.tmms%40gmail.com&user=instructorOfCourse4"  title="" >
+                           <a class="btn btn-default btn-xs student-records-for-test" data-original-title="View all student\'s evaluations and feedbacks" data-placement="top" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=course3&studentemail=denny.c.tmms%40gmail.com&user=instructorOfCourse4" title="">
                               All Records
                            </a>
                         </td>
@@ -460,27 +489,27 @@
                   </tbody>
                </table>
             </div>
-            <div class="well well-plain"  id="course-2" >
-               <div class="row" >
-                  <div class="col-md-10 text-color-primary" >
+            <div class="well well-plain" id="course-2">
+               <div class="row">
+                  <div class="col-md-10 text-color-primary">
                      <h4>
                         <strong>
                            [course1] : Name of Course 1
                         </strong>
                      </h4>
                   </div>
-                  <div class="col-md-2" >
-                     <a class="btn btn-default btn-xs pull-right pull-down course-enroll-for-test"  data-original-title="Enroll student into the course"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorCourseEnrollPage?courseid=course1&user=instructorOfCourse4"  title="" >
-                        <span class="glyphicon glyphicon-list" >
+                  <div class="col-md-2">
+                     <a class="btn btn-default btn-xs pull-right pull-down course-enroll-for-test" data-original-title="Enroll student into the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseEnrollPage?courseid=course1&user=instructorOfCourse4" title="">
+                        <span class="glyphicon glyphicon-list">
                         </span>
                         Enroll
                      </a>
                   </div>
                </div>
-               <table class="table table-responsive table-striped table-bordered" >
+               <table class="table table-responsive table-striped table-bordered">
                   <thead>
-                     <tr class="fill-primary" >
-                        <th class="align-center color_white bold" >
+                     <tr class="fill-primary">
+                        <th class="align-center color_white bold">
                            There are no students in this course
                         </th>
                      </tr>
@@ -491,31 +520,31 @@
                         <br/>
                         <br/>
                      </div>
-         <div class="container-fluid"  id="footerComponent" >
-            <div class="container" >
-               <div class="row" >
-                  <div class="col-md-4" >
+         <div class="container-fluid" id="footerComponent">
+            <div class="container">
+               <div class="row">
+                  <div class="col-md-4">
                      <span>
                         [
-                        <a href="/index.html" >
+                        <a href="/index.html">
                            TEAMMATES
                         </a>
                         V{$version}]
                      </span>
                   </div>
-                  <div class="col-md-4" >
+                  <div class="col-md-4">
                      [for
-                     <span class="highlight-white" >
-                        <span class="color_white" >
+                     <span class="highlight-white">
+                        <span class="color_white">
                            MIT
                         </span>
                      </span>
                      ]
                   </div>
-                  <div class="col-md-4" >
+                  <div class="col-md-4">
                      <span>
                         [Send
-                        <a class="link"  href="../contact.html"  target="_blank" >
+                        <a class="link" href="../contact.html" target="_blank">
                            Feedback
                         </a>
                         ]

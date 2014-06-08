@@ -99,7 +99,8 @@
       "course": "course2",
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy",
-      "team": "Team 1"
+      "team": "Team 1",
+      "section": "Section A"
     },
     "Student2Course2": {
       "googleId": "",
@@ -107,7 +108,35 @@
       "course": "course2",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
-      "team": "Team 2"
+      "team": "Team 2",
+      "section": "Section B"
+    },
+     "Student3Course2": {
+      "googleId": "",
+      "email": "barney.c.tmms@gmail.com",
+      "course": "course2",
+      "name": "Barney Stinson",
+      "comments": "This student's name is Barney Stinson",
+      "team": "Team 2",
+      "section": "Section B"
+    },
+     "Student4Course2": {
+      "googleId": "",
+      "email": "ted.c.tmms@gmail.com",
+      "course": "course2",
+      "name": "Ted Mosby",
+      "comments": "This student's name is Ted Mosby",
+      "team": "Team 3",
+      "section": "Section B"
+    },
+     "Student5Course2": {
+      "googleId": "",
+      "email": "jack.c.tmms@gmail.com",
+      "course": "course2",
+      "name": "Jack Lawrence",
+      "comments": "This student's name is Jack Lawrence",
+      "team": "Team 3",
+      "section": "Section B"
     },
     "Student1Course3": {
       "googleId": "CCSDetailsUiT.alice.tmms",

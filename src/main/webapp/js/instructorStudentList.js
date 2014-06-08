@@ -48,9 +48,13 @@ $(document).ready(function(){
         if(this.checked){
             $("input[id^=section_check-"+$courseIdx+"]").prop("checked", true);
             $("input[id^=section_check-"+$courseIdx+"]").parent().show();
+            $("input[id^=team_check-"+$courseIdx+"]").prop("checked", true);
+            $("input[id^=team_check-"+$courseIdx+"]").parent().show();
         } else{
             $("input[id^=section_check-"+$courseIdx+"]").prop("checked", false);
             $("input[id^=section_check-"+$courseIdx+"]").parent().hide();
+            $("input[id^=team_check-"+$courseIdx+"]").prop("checked", false);
+            $("input[id^=team_check-"+$courseIdx+"]").parent().hide();
         }
         
         //If all the courses are selected, check the "Select All" option

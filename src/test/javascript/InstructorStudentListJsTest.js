@@ -20,54 +20,58 @@ test('filterCourse()', function(){
     equal($("#course-0").is(':hidden'), true, "Course not selected is hidden");
     equal($("#course-1").is(':visible'), true, "Course selected is visible");
     equal($("#course_all").is(":checked"), false, "Select all check should be removed");
-    equal($("#team_check-0-0").is(':hidden'), true, "Team in non-selected course should be hidden");
-    equal($("#team_check-0-1").is(':hidden'), true, "Team in non-selected course should be hidden");
-    equal($("#team_check-0-0").is(':checked'), false, "Hidden team_check should not have checked prop");
-    equal($("#team_check-0-1").is(':checked'), false, "Hidden team_check should not have checked prop");
+    equal($("#team_check-0-0-0").is(':hidden'), true, "Team in non-selected course should be hidden");
+    equal($("#team_check-0-1-0").is(':hidden'), true, "Team in non-selected course should be hidden");
+    equal($("#team_check-0-1-1").is(':hidden'), true, "Team in non-selected course should be hidden");
+    equal($("#team_check-0-0-0").is(':checked'), false, "Hidden team_check should not have checked prop");
+    equal($("#team_check-0-1-0").is(':checked'), false, "Hidden team_check should not have checked prop");
+    equal($("#team_check-0-1-1").is(':checked'), false, "Hidden team_check should not have checked prop");
     
-    equal($("[id^=student_email-c0]:hidden").length, 2, "Student in course 0 email should be hidden");
-    equal($("[id^=student_email-c1]:visible").length, 10, "Student in course 1 email should be visible");
+    equal($("[id^=student_email-c0]:hidden").length, 3, "Student in course 2 email should be hidden");
+    equal($("[id^=student_email-c1]:visible").length, 10, "Student in course 3 email should be visible");
 
     
     $("#course_all").click();
     equal($("#course-0").is(':visible'), true, "All course should be visible");
     equal($("#course-1").is(':visible'), true, "All course should be visible");
-    equal($("#course_check-0").is(":checked"), true, "Course 0 checkbox should be re-selected");
-    equal($("#team_check-0-0").is(':visible'), true, "Team in selected course should be visible");
-    equal($("#team_check-0-1").is(':visible'), true, "Team in selected course should be visible");
-    equal($("#team_check-0-0").is(':checked'), true, "All team_check should be checked after course check");
-    equal($("#team_check-0-1").is(':checked'), true, "All team_check should be checked after course check");
-    
-    equal($("[id^=student_email-c0]:visible").length, 2, "Student in course 0 email should be visible again");
-    equal($("[id^=student_email-c1]:visible").length, 9, "Student in course 1 email (minus duplicate) should be visible");
+    equal($("#course_check-0").is(":checked"), true, "Course 2 checkbox should be re-selected");
+    equal($("#team_check-0-0-0").is(':visible'), true, "Team in selected course should be visible");
+    equal($("#team_check-0-1-0").is(':visible'), true, "Team in selected course should be visible");
+    equal($("#team_check-0-1-1").is(':visible'), true, "Team in selected course should be visible");
+    equal($("#team_check-0-0-0").is(':checked'), true, "All team_check should be checked after course check");
+    equal($("#team_check-0-1-0").is(':checked'), true, "All team_check should be checked after course check");
+    equal($("#team_check-0-1-1").is(':checked'), true, "All team_check should be checked after course check");
+
+    equal($("[id^=student_email-c0]:visible").length, 3, "Student in course 2 email should be visible again");
+    equal($("[id^=student_email-c1]:visible").length, 9, "Student in course 3 email (minus duplicate) should be visible");
     
     
     //Deselect 1 course, and select back using the specific course check
     $("#course_check-1").click();
     equal($("#course-1").is(':hidden'), true, "Course not selected is hidden");
     equal($("#course_all").is(":checked"), false, "Select all check should be removed");
-    equal($("#team_check-1-0").is(':hidden'), true, "Team in non-selected course should be hidden");
-    equal($("#team_check-1-1").is(':hidden'), true, "Team in non-selected course should be hidden");
-    equal($("#team_check-1-2").is(':hidden'), true, "Team in non-selected course should be hidden");
-    equal($("#team_check-1-0").is(':checked'), false, "Hidden team_check should not have checked prop");
-    equal($("#team_check-1-1").is(':checked'), false, "Hidden team_check should not have checked prop");
-    equal($("#team_check-1-3").is(':checked'), false, "Hidden team_check should not have checked prop");
+    equal($("#team_check-1-0-0").is(':hidden'), true, "Team in non-selected course should be hidden");
+    equal($("#team_check-1-0-1").is(':hidden'), true, "Team in non-selected course should be hidden");
+    equal($("#team_check-1-0-2").is(':hidden'), true, "Team in non-selected course should be hidden");
+    equal($("#team_check-1-0-0").is(':checked'), false, "Hidden team_check should not have checked prop");
+    equal($("#team_check-1-0-1").is(':checked'), false, "Hidden team_check should not have checked prop");
+    equal($("#team_check-1-0-3").is(':checked'), false, "Hidden team_check should not have checked prop");
     
-    equal($("[id^=student_email-c0]:visible").length, 2, "Student in course 0 email should be visible");
-    equal($("[id^=student_email-c1]:hidden").length, 10, "Student in course 1 email should be hidden");
+    equal($("[id^=student_email-c0]:visible").length, 3, "Student in course 2 email should be visible");
+    equal($("[id^=student_email-c1]:hidden").length, 10, "Student in course 3 email should be hidden");
     
     $("#course_check-1").click();
     equal($("#course-1").is(':visible'), true, "Course selected is visible");
     equal($("#course_all").is(":checked"), true, "Select all check should be re-selected");
-    equal($("#team_check-1-0").is(':visible'), true, "Team in selected course should be visible");
-    equal($("#team_check-1-1").is(':visible'), true, "Team in selected course should be visible");
-    equal($("#team_check-1-2").is(':visible'), true, "Team in selected course should be visible");
-    equal($("#team_check-1-0").is(':checked'), true, "All team_check should be checked after course check");
-    equal($("#team_check-1-1").is(':checked'), true, "All team_check should be checked after course check");
-    equal($("#team_check-1-2").is(':checked'), true, "All team_check should be checked after course check");
+    equal($("#team_check-1-0-0").is(':visible'), true, "Team in selected course should be visible");
+    equal($("#team_check-1-0-1").is(':visible'), true, "Team in selected course should be visible");
+    equal($("#team_check-1-0-2").is(':visible'), true, "Team in selected course should be visible");
+    equal($("#team_check-1-0-0").is(':checked'), true, "All team_check should be checked after course check");
+    equal($("#team_check-1-0-1").is(':checked'), true, "All team_check should be checked after course check");
+    equal($("#team_check-1-0-2").is(':checked'), true, "All team_check should be checked after course check");
     
-    equal($("[id^=student_email-c0]:visible").length, 2, "Student in course 0 email should be visible");
-    equal($("[id^=student_email-c1]:visible").length, 9, "Student in course 1 email (minus duplicate) should be visible again");
+    equal($("[id^=student_email-c0]:visible").length, 3, "Student in course 2 email should be visible");
+    equal($("[id^=student_email-c1]:visible").length, 9, "Student in course 3 email (minus duplicate) should be visible again");
 });
 
 function testFilterTeam(){};
@@ -86,59 +90,66 @@ test('filterTeam()', function(){
     $(".div[id^='course-']").show();
     
     //Deselect 2 team, and select back using Select All
-    $("#team_check-0-0").click();
-    $("#team_check-1-1").click();
-    equal($("#studentteam-c0\\.0").is(':hidden'), true, "Team not selected is hidden");
-    equal($("#studentteam-c1\\.1").is(':hidden'), true, "Team not selected is hidden");
+    $("#team_check-0-0-0").click();
+    $("#team_check-1-0-0").click();
+    equal($("#studentteam-c0\\.0\\.0").is(':hidden'), true, "Team not selected is hidden");
+    equal($("#studentteam-c1\\.0\\.0").is(':hidden'), true, "Team not selected is hidden");
     equal($("#team_all").is(":checked"), false, "Select all check should be removed");
     
     equal($("#student_email-c0\\.0").is(':hidden'), true, "[Team 1]Alice Betsy's email hidden");
-    equal($("#student_email-c0\\.1").is(':visible'), true, "[Team 2]Benny Charles's email visible");
-    equal($("#student_email-c1\\.0").is(':visible'), true, "[Team 1]Alice Betsy's email visible");
-    equal($("#student_email-c1\\.1").is(':hidden'), true, "[Team 1]Duplicate Benny Charles's email should be hidden");
-    equal($("#student_email-c1\\.2").is(':visible'), true, "[Team 1]Charlie D's email visible");
-    equal($("#student_email-c1\\.3").is(':visible'), true, "[Team 1]Denny Charlés's email visible");
-    equal($("#student_email-c1\\.4").is(':hidden'), true, "[Team 2]Emma F's email hidden");
-    equal($("#student_email-c1\\.5").is(':hidden'), true, "[Team 2]Frank Gatsby's email hidden");
-    equal($("#student_email-c1\\.6").is(':hidden'), true, "[Team 2]Gabriel Hobb's email hidden");
+    equal($("#student_email-c0\\.1").is(':visible'), true, "[Team 2]Barney Stinson's email visible");
+    equal($("#student_email-c0\\.2").is(':visible'), true, "[Team 3]Benny Charles's email visible");
+    equal($("#student_email-c1\\.0").is(':hidden'), true, "[Team 1]Duplicate Benny Charles's email should be hidden");
+    equal($("#student_email-c1\\.1").is(':hidden'), true, "[Team 1]Carlos Santanna's email visible");
+    equal($("#student_email-c1\\.2").is(':hidden'), true, "[Team 1]Charlie D's email visible");
+    equal($("#student_email-c1\\.3").is(':visible'), true, "[Team 2]Denny Charlés's email visible");
+    equal($("#student_email-c1\\.4").is(':visible'), true, "[Team 2]Emma F's email hidden");
+    equal($("#student_email-c1\\.5").is(':visible'), true, "[Team 2]Frank Gatsby's email hidden");
+    equal($("#student_email-c1\\.6").is(':visible'), true, "[Team 3]Gabriel Hobb's email hidden");
     equal($("#student_email-c1\\.7").is(':visible'), true, "[Team 3]Hans Iker's email visible");
     equal($("#student_email-c1\\.8").is(':visible'), true, "[Team 3]Ian Jacobsson's email visible");
     equal($("#student_email-c1\\.9").is(':visible'), true, "[Team 3]James K's email visible");
     
     $("#team_all").click();
-    equal($("#studentteam-c0\\.0").is(':visible'), true, "All teams should be visible");
-    equal($("#studentteam-c0\\.1").is(':visible'), true, "All teams should be visible");
-    equal($("#studentteam-c1\\.0").is(':visible'), true, "All teams should be visible");
-    equal($("#studentteam-c1\\.1").is(':visible'), true, "All teams should be visible");
-    equal($("#studentteam-c1\\.2").is(':visible'), true, "All teams should be visible");
-    equal($("#team_check-0-0").is(":checked"), true, "Course 0 Team 0 checkbox should be re-selected");
-    equal($("#team_check-1-1").is(":checked"), true, "Course 1 Team 1 checkbox should be re-selected");
-    
-    equal($("[id^=student_email]:visible").length, 11, "All emails (minus duplicate) should be visible again");
+    equal($("#studentteam-c0\\.0\\.0").is(':visible'), true, "All teams should be visible");
+    equal($("#studentteam-c0\\.1\\.0").is(':visible'), true, "All teams should be visible");
+    equal($("#studentteam-c0\\.1\\.1").is(':visible'), true, "All teams should be visible");
+    equal($("#studentteam-c1\\.0\\.0").is(':visible'), true, "All teams should be visible");
+    equal($("#studentteam-c1\\.0\\.1").is(':visible'), true, "All teams should be visible");
+    equal($("#studentteam-c1\\.0\\.2").is(':visible'), true, "All teams should be visible");
+    equal($("#team_check-0-0-0").is(":checked"), true, "Course 2 Section A Team 1 checkbox should be re-selected");
+    equal($("#team_check-0-1-0").is(":checked"), true, "Course 2 Section B Team 2 checkbox should be re-selected");
+    equal($("#team_check-0-1-1").is(":checked"), true, "Course 2 Section B Team 3 checkbox should be re-selected");
+    equal($("#team_check-1-0-0").is(":checked"), true, "Course 3 Section C Team 1 checkbox should be re-selected");
+    equal($("#team_check-1-0-1").is(":checked"), true, "Course 3 Section C Team 2 checkbox should be re-selected");
+    equal($("#team_check-1-0-2").is(":checked"), true, "Course 3 Section C Team 3 checkbox should be re-selected");
+
+    equal($("[id^=student_email]:visible").length, 12, "All emails (minus duplicate) should be visible again");
     
     //Deselect 1 team, and select back using the specific course check
-    $("#team_check-1-2").click();
-    equal($("#studentteam-c1\\.2").is(':hidden'), true, "Team not selected is hidden");
+    $("#team_check-1-0-2").click();
+    equal($("#studentteam-c1\\.0\\.2").is(':hidden'), true, "Team not selected is hidden");
     equal($("#team_all").is(":checked"), false, "Select all check should be removed");
     
     equal($("#student_email-c0\\.0").is(':visible'), true, "[Team 1]Alice Betsy's email visible");
-    equal($("#student_email-c0\\.1").is(':visible'), true, "[Team 2]Benny Charles's email visible");
-    equal($("#student_email-c1\\.0").is(':visible'), true, "[Team 1]Alice Betsy's email visible");
-    equal($("#student_email-c1\\.1").is(':hidden'), true, "[Team 1]Duplicate Benny Charles's email should be hidden");
+    equal($("#student_email-c0\\.1").is(':visible'), true, "[Team 2]Barney Stinson's email visible");
+    equal($("#student_email-c0\\.2").is(':visible'), true, "[Team 3]Benny Charles's email visible");
+    equal($("#student_email-c1\\.0").is(':hidden'), true, "[Team 1]Duplicate Benny Charles's email should be hidden");
+    equal($("#student_email-c1\\.1").is(':visible'), true, "[Team 1]Carlos Santanna's email visible");
     equal($("#student_email-c1\\.2").is(':visible'), true, "[Team 1]Charlie D's email visible");
-    equal($("#student_email-c1\\.3").is(':visible'), true, "[Team 1]Denny Charlés's email visible");
+    equal($("#student_email-c1\\.3").is(':visible'), true, "[Team 2]Denny Charlés's email visible");
     equal($("#student_email-c1\\.4").is(':visible'), true, "[Team 2]Emma F's email visible");
     equal($("#student_email-c1\\.5").is(':visible'), true, "[Team 2]Frank Gatsby's email visible");
-    equal($("#student_email-c1\\.6").is(':visible'), true, "[Team 2]Gabriel Hobb's email visible");
+    equal($("#student_email-c1\\.6").is(':hidden'), true, "[Team 3]Gabriel Hobb's email hidden");
     equal($("#student_email-c1\\.7").is(':hidden'), true, "[Team 3]Hans Iker's email hidden");
     equal($("#student_email-c1\\.8").is(':hidden'), true, "[Team 3]Ian Jacobsson's email hidden");
     equal($("#student_email-c1\\.9").is(':hidden'), true, "[Team 3]James K's email hidden");
     
-    $("#team_check-1-2").click();
-    equal($("#studentteam-c1\\.2").is(':visible'), true, "Team selected is visible");
-    equal($("#team_check-1-2").is(':checked'), true, "Course 1 Team 1 checkbox should be re-selected");
+    $("#team_check-1-0-2").click();
+    equal($("#studentteam-c1\\.0\\.2").is(':visible'), true, "Team selected is visible");
+    equal($("#team_check-1-0-2").is(':checked'), true, "Course 1 Team 1 checkbox should be re-selected");
     
-    equal($("[id^=student_email]:visible").length, 11, "All emails (minus 1 duplicate) should be visible again");
+    equal($("[id^=student_email]:visible").length, 12, "All emails (minus 1 duplicate) should be visible again");
 });
 
 function testFilterBySearchWord(){};
@@ -161,9 +172,10 @@ test('filterName(key)', function(){
     filterBySearchWord("ben");
     filterEmails();
     equal($("#student-c0\\.0").is(':hidden'), true, "Alice Betsy hidden");
-    equal($("#student-c0\\.1").is(':visible'), true, "Benny Charles visible");
-    equal($("#student-c1\\.0").is(':hidden'), true, "Alice Betsy hidden");
-    equal($("#student-c1\\.1").is(':visible'), true, "Benny Charles visible");
+    equal($("#student-c0\\.1").is(':hidden'), true, "Barney Stinson hidden");
+    equal($("#student-c0\\.2").is(':visible'), true, "Benny Charles visible");
+    equal($("#student-c1\\.0").is(':visible'), true, "Benny Charles visible");
+    equal($("#student-c1\\.1").is(':hidden'), true, "Carlos Santanna hidden");
     equal($("#student-c1\\.2").is(':hidden'), true, "Charlie D hidden");
     equal($("#student-c1\\.3").is(':hidden'), true, "Denny Charlés hidden");
     equal($("#student-c1\\.4").is(':hidden'), true, "Emma F hidden");
@@ -174,9 +186,10 @@ test('filterName(key)', function(){
     equal($("#student-c1\\.9").is(':hidden'), true, "James K hidden");
     
     equal($("#student_email-c0\\.0").is(':hidden'), true, "Alice Betsy's email hidden");
-    equal($("#student_email-c0\\.1").is(':visible'), true, "Benny Charles's email visible");
-    equal($("#student_email-c1\\.0").is(':hidden'), true, "Alice Betsy's email hidden");
-    equal($("#student_email-c1\\.1").is(':hidden'), true, "The second Benny Charles's email should be hidden");
+    equal($("#student_email-c0\\.1").is(':hidden'), true, "Barney Stinson's email visible");
+    equal($("#student_email-c0\\.2").is(':visible'), true, "Benny Charles's email visible");
+    equal($("#student_email-c1\\.0").is(':hidden'), true, "The second Benny Charles's email should be hidden");
+    equal($("#student_email-c1\\.1").is(':hidden'), true, "Carlos Santanna's email hidden");
     equal($("#student_email-c1\\.2").is(':hidden'), true, "Charlie D's email hidden");
     equal($("#student_email-c1\\.3").is(':hidden'), true, "Denny Charlés's email hidden");
     equal($("#student_email-c1\\.4").is(':hidden'), true, "Emma F's email hidden");
@@ -195,8 +208,8 @@ test('filterName(key)', function(){
     filterEmails();
     equal($("#course-0").is(':hidden'), true, "Course with no student visible is hidden");
     
-    equal($("#student-c1\\.0").is(':hidden'), true, "Alice Betsy hidden");
-    equal($("#student-c1\\.1").is(':hidden'), true, "Benny Charles hidden");
+    equal($("#student-c1\\.0").is(':hidden'), true, "Benny Charles hidden");
+    equal($("#student-c1\\.1").is(':hidden'), true, "Carlos Santanna hidden");
     equal($("#student-c1\\.2").is(':hidden'), true, "Charlie D hidden");
     equal($("#student-c1\\.3").is(':hidden'), true, "Denny Charlés hidden");
     equal($("#student-c1\\.4").is(':hidden'), true, "Emma F hidden");
@@ -206,8 +219,8 @@ test('filterName(key)', function(){
     equal($("#student-c1\\.8").is(':hidden'), true, "Ian Jacobsson hidden");
     equal($("#student-c1\\.9").is(':visible'), true, "James K visible");
     
-    equal($("#student_email-c1\\.0").is(':hidden'), true, "Alice Betsy's email hidden");
-    equal($("#student_email-c1\\.1").is(':hidden'), true, "Benny Charles's email hidden");
+    equal($("#student_email-c1\\.0").is(':hidden'), true, "Benny Charles's email hidden");
+    equal($("#student_email-c1\\.1").is(':hidden'), true, "Carlos Santanna's email hidden");
     equal($("#student_email-c1\\.2").is(':hidden'), true, "Charlie D's email hidden");
     equal($("#student_email-c1\\.3").is(':hidden'), true, "Denny Charlés's email hidden");
     equal($("#student_email-c1\\.4").is(':hidden'), true, "Emma F's email hidden");
@@ -235,13 +248,13 @@ test('applyFilters()', function(){
     
     //Search for Ben, except in [Team 1] [course3]
     $("#searchbox").val("ben"); //Set searchbox value to ben
-    $("#team_check-1-0").click(); //Deselect [Team 1] in [course3]
+    $("#team_check-1-0-0").click(); //Deselect [Team 1] in [course3]
     //applyFilters() will be done automatically
     
-    equal($("#student-c0\\.1").is(':visible'), true, "Benny Charles visible");
+    equal($("#student-c0\\.2").is(':visible'), true, "Benny Charles visible");
     equal($("[id^=student-c]:visible").length, 1, "Only 1 Benny Charles should be visible");
     
-    equal($("#student_email-c0\\.1").is(':visible'), true, "Benny Charles' email visible");
+    equal($("#student_email-c0\\.2").is(':visible'), true, "Benny Charles' email visible");
     equal($("[id^=student_email-c]:visible").length, 1, "Only 1 Benny Charles' email should be visible");
     
     //Further filter the search above, remove [course2]
@@ -253,11 +266,11 @@ test('applyFilters()', function(){
     
     //Reset the filter by selecting all course
     $("#course_all").click();
-    equal($("#student-c0\\.1").is(':visible'), true, "Benny Charles visible");
-    equal($("#student-c1\\.1").is(':visible'), true, "Another Benny Charles visible");
+    equal($("#student-c0\\.2").is(':visible'), true, "Benny Charles visible");
+    equal($("#student-c1\\.0").is(':visible'), true, "Another Benny Charles visible");
     equal($("[id^=student-c]:visible").length, 2, "2 Benny Charles should be visible");
-    equal($("#student_email-c0\\.1").is(':visible'), true, "Benny Charles' email visible");
-    equal($("#student_email-c1\\.1").is(':hidden'), true, "Another Benny Charles' email should be hidden");
+    equal($("#student_email-c0\\.2").is(':visible'), true, "Benny Charles' email visible");
+    equal($("#student_email-c1\\.0").is(':hidden'), true, "Another Benny Charles' email should be hidden");
     equal($("[id^=student_email-c]:visible").length, 1, "Only 1 Benny Charles' emails should be visible");
     equal($("div[id^='course-']:visible").length, 2, "All courses should be visible");
 });
