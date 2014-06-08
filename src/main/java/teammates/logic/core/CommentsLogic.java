@@ -54,13 +54,6 @@ public class CommentsLogic {
         return commentsDb.getCommentsForReceiver(courseId, recipientType, receiverEmail);
     }
     
-    public List<CommentAttributes> getCommentsForStudent(StudentAttributes student)
-            throws EntityDoesNotExistException {
-        verifyIsStudentPresentForGetComments(student.googleId);
-        
-        return commentsDb.getCommentsForStudent(student);
-    }
-    
     public void updateComment(CommentAttributes comment)
             throws InvalidParametersException, EntityDoesNotExistException{
         commentsDb.updateComment(comment);

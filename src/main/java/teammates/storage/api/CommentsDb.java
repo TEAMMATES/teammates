@@ -85,10 +85,11 @@ public class CommentsDb extends EntitiesDb{
         return commentAttributesList;
     }
     
-    public List<CommentAttributes> getCommentsForStudent(StudentAttributes student){
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, student);
+    public List<CommentAttributes> getCommentsForVisibilityOptions(String courseId, CommentRecipientType commentViewerType){
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, commentViewerType);
         
-        List<Comment> comments = getCommentEntitiesForStudent(student);
+        List<Comment> comments = getCommentEntitiesForVisibilityOptions(courseId, commentViewerType);
         List<CommentAttributes> commentAttributesList = new ArrayList<CommentAttributes>();
         
         for(Comment comment: comments){
@@ -139,46 +140,13 @@ public class CommentsDb extends EntitiesDb{
         return commentList;
     }
     
-    private List<Comment> getCommentEntitiesForStudent(StudentAttributes student) {
+    private List<Comment> getCommentEntitiesForVisibilityOptions(String courseId, CommentRecipientType commentViewerType){
         Query q = getPM().newQuery(Comment.class);
-        q.declareParameters("String courseIdParam, String studentEmailParam, String teamParam");
+        q.declareParameters("String courseIdParam, String commentViewerTypeParam");
         q.setFilter("courseId == courseIdParam "
-                + "&& (recipients.contains(studentEmailParam) || recipients.contains(teamParam) || recipients.contains(courseIdParam))");
+                + "&& showCommentTo.contains(commentViewerTypeParam)");
         @SuppressWarnings("unchecked")
-        List<Comment> queryResultList = (List<Comment>) q.execute(student.course, student.email, student.team);
-        List<Comment> commentList = new ArrayList<Comment>();
-        //filter based on recipientType
-        Iterator<Comment> iter = queryResultList.iterator();
-        while (iter.hasNext()) {
-            Comment c = iter.next();
-            CommentRecipientType recipientType = c.getRecipientType();
-            Set<String> recipients = c.getRecipients(); 
-            switch(recipientType){
-            case PERSON:
-                if(recipients.contains(student.email)){
-                    commentList.add(c);
-                }
-                break;
-            case TEAM:
-                if(recipients.contains(student.team)){
-                    commentList.add(c);
-                }
-                break;
-            case SECTION:
-                //TODO: impl this
-                break;
-            case COURSE:
-                if(recipients.contains(student.course)){
-                    commentList.add(c);
-                }
-                break;
-            default:
-                c.setRecipientType(CommentRecipientType.PERSON);
-                commentList.add(c);
-                break;
-            }
-        }
-        
+        List<Comment> commentList = (List<Comment>) q.execute(courseId, commentViewerType.toString());
         return commentList;
     }
 

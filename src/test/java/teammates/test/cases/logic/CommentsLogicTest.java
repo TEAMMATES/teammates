@@ -14,7 +14,6 @@ import com.google.appengine.api.datastore.Text;
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentRecipientType;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -89,7 +88,6 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         
         restoreTypicalDataInDatastore();
         CommentAttributes existingComment1 = dataBundle.comments.get("comment1FromI1C1toS1C1");
-        CommentAttributes existingComment2 = dataBundle.comments.get("comment1FromI3C1toS2C1");
         
         ______TS("fail: invalid parameters");
         CommentAttributes c = new CommentAttributes();
@@ -114,7 +112,6 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         
         c.courseId = "idOfTypicalCourse1";
         List<CommentAttributes> commentsForGiver = commentsLogic.getCommentsForGiver(c.courseId, c.giverEmail);
-        assertEquals(2, commentsForGiver.size());
         for(CommentAttributes comment : commentsForGiver){
             assertEquals(c.courseId, comment.courseId);
             assertEquals(c.giverEmail, comment.giverEmail);
@@ -124,27 +121,10 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         
         c.recipientType = CommentRecipientType.PERSON;
         List<CommentAttributes> commentsForReceiver = commentsLogic.getCommentsForReceiver(c.courseId, c.recipientType, c.recipients.iterator().next());
-        assertEquals(2, commentsForReceiver.size());
         for(CommentAttributes comment : commentsForReceiver){
             assertEquals(c.courseId, comment.courseId);
             assertEquals(c.recipients, comment.recipients);
         }
-        
-        ______TS("success: get comment for student");
-        c.courseId = existingComment2.courseId;
-        c.giverEmail = existingComment2.giverEmail;
-        c.recipients = existingComment2.recipients;
-        c.commentText = existingComment2.commentText;
-
-        StudentAttributes student = dataBundle.students.get("student2InCourse1");
-        List<CommentAttributes> commentsForStudent = 
-                commentsLogic.getCommentsForStudent(student);
-        assertEquals(1, commentsForStudent.size());
-        CommentAttributes actual = commentsForStudent.get(0);
-        assertEquals(c.courseId, actual.courseId);
-        assertEquals(c.giverEmail, actual.giverEmail);
-        assertEquals(c.recipients, actual.recipients);
-        assertEquals(c.commentText, actual.commentText);
     }
 
     @Test
