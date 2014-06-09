@@ -84,7 +84,7 @@ public class InstructorPermissionAttributesTest extends BaseTestCase {
         InstructorPermissionAttributes instructorAttr = new InstructorPermissionAttributes(instrEmail, courseId, role, privileges);
         
         String privilegesString = gson.toJson(privileges);
-        assertEquals(privilegesString, instructorAttr.getAccessAsString());
+        assertEquals(privilegesString, instructorAttr.getInstructorPrivilegesAsString());
         
         instructorAttr = new InstructorPermissionAttributes(instrEmail, courseId, role, new Text(privilegesString));
         assertEquals(privileges, instructorAttr.privileges);

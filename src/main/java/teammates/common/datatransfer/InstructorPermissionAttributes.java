@@ -19,15 +19,15 @@ public class InstructorPermissionAttributes extends EntityAttributes {
     public String instructorEmail;
     public String courseId;
     public String role;
-    public Text access;
-    public InstructorPrivileges privileges;
+    public Text instructorPrivilegesAsText;
+    public transient InstructorPrivileges privileges;
     
-    public InstructorPermissionAttributes(String instrEmail, String courseId, String role, Text access) {
+    public InstructorPermissionAttributes(String instrEmail, String courseId, String role, Text instructorPrivilegesAsText) {
         this.instructorEmail = Sanitizer.sanitizeEmail(instrEmail);
         this.courseId = Sanitizer.sanitizeTitle(courseId);
         this.role = Sanitizer.sanitizeName(role);
-        this.access = Sanitizer.sanitizeTextField(access);
-        this.privileges = getPrivilegesFromAccess(access);
+        this.instructorPrivilegesAsText = Sanitizer.sanitizeTextField(instructorPrivilegesAsText);
+        this.privileges = getPrivilegesFromAccess(instructorPrivilegesAsText);
     }
     
     public InstructorPermissionAttributes(String instrEmail, String courseId, String role, InstructorPrivileges privileges) {
@@ -35,12 +35,12 @@ public class InstructorPermissionAttributes extends EntityAttributes {
         this.courseId = Sanitizer.sanitizeTitle(courseId);
         this.role = Sanitizer.sanitizeName(role);
         this.privileges = privileges;
-        this.access = getAccessFromPrivileges(privileges);
+        this.instructorPrivilegesAsText = getAccessFromPrivileges(privileges);
     }
     
     public InstructorPermissionAttributes(InstructorPermission instructorPermission) {
         this(instructorPermission.getInstructorEmail(), instructorPermission.getCourseId(),
-                instructorPermission.getRole(), instructorPermission.getAccess());
+                instructorPermission.getRole(), instructorPermission.getInstructorPrvilegesAsText());
     }
     
     private Text getAccessFromPrivileges(InstructorPrivileges privileges) {
@@ -49,8 +49,8 @@ public class InstructorPermissionAttributes extends EntityAttributes {
         return new Text(accessString);
     }
     
-    private InstructorPrivileges getPrivilegesFromAccess(Text access) {
-        String accessString = access.getValue();
+    private InstructorPrivileges getPrivilegesFromAccess(Text instructorPrivilegesAsText) {
+        String accessString = instructorPrivilegesAsText.getValue();
         InstructorPrivileges privileges = gson.fromJson(accessString, InstructorPrivileges.class);
         
         return privileges;
@@ -76,7 +76,7 @@ public class InstructorPermissionAttributes extends EntityAttributes {
 
     @Override
     public InstructorPermission toEntity() {
-        return new InstructorPermission(this.instructorEmail, this.courseId, this.role, this.access);
+        return new InstructorPermission(this.instructorEmail, this.courseId, this.role, this.instructorPrivilegesAsText);
     }
 
     @Override
@@ -94,15 +94,15 @@ public class InstructorPermissionAttributes extends EntityAttributes {
         this.instructorEmail = Sanitizer.sanitizeEmail(this.instructorEmail);
         this.courseId = Sanitizer.sanitizeTitle(this.courseId);
         this.role = Sanitizer.sanitizeName(this.role);
-        this.access = Sanitizer.sanitizeTextField(this.access);
+        this.instructorPrivilegesAsText = Sanitizer.sanitizeTextField(this.instructorPrivilegesAsText);
     }
     
     public String toString() {
         return gson.toJson(this, InstructorPermissionAttributes.class);
     }
     
-    public String getAccessAsString() {
-        return this.access.getValue();
+    public String getInstructorPrivilegesAsString() {
+        return this.instructorPrivilegesAsText.getValue();
     }
-
+    
 }
