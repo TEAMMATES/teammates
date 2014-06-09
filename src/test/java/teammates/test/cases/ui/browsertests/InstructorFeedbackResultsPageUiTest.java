@@ -63,7 +63,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("test sort types");
         
         resultsPage = loginToInstructorFeedbackSubmitPage("CFResultsUiT.instr", "Open Session", NO_STATUS_MESSAGE);
-        resultsPage.displayByGiver();
+        resultsPage.displayByGiverRecipientQuestion();
         
         assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(9,"giver-1-recipient-1"));
         assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(9,"giver-1-recipient-1"));
@@ -80,10 +80,10 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(12,"giver-1-recipient-1"));
         assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(12,"giver-1-recipient-1"));
 
-        resultsPage.verifyHtml("/instructorFeedbackResultsSortGiver.html");
+        resultsPage.verifyHtml("/instructorFeedbackResultsSortGiverRecipientQuestion.html");
         
-        resultsPage.displayByRecipient();
-        resultsPage.verifyHtml("/instructorFeedbackResultsSortRecipient.html");
+        resultsPage.displayByRecipientGiverQuestion();
+        resultsPage.verifyHtml("/instructorFeedbackResultsSortRecipientGiverQuestion.html");
 
         assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(9,"giver-1-recipient-2"));
         assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(9,"giver-1-recipient-2"));
@@ -99,10 +99,10 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(12,"giver-1-recipient-2"));
         assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(12,"giver-1-recipient-2"));
-
+        
         
         resultsPage.displayByQuestion();
-        resultsPage.verifyHtml("/instructorFeedbackResultsSortTable.html");
+        resultsPage.verifyHtml("/instructorFeedbackResultsSortQuestion.html");
         
         
         assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(9,""));
@@ -134,20 +134,32 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                 "Benny Charles",
                 "Benny Charles",
                 "Charlie Dávis");
+        
+        verifySortingOrder(By.id("button_sortFromTeam"), 
+                "Team 1",
+                "Team 1",
+                "Team 2",
+                "Team 2");
 
         verifySortingOrder(By.id("button_sortToName"), 
                 "Benny Charles", 
                 "Charlie Dávis", 
                 "Danny Engrid",
                 "Emily");
+
+        verifySortingOrder(By.id("button_sortToTeam"), 
+                "Team 2{*}Team 3",
+                "Team 1{*}Team 2",
+                "Team 1{*}Team 2",
+                "Team 1{*}Team 1");
         
-        //TODO: add sorting tests for team columns.
+        
     }
     
     public void testFeedbackResponseCommentActions() {
         
         resultsPage = loginToInstructorFeedbackSubmitPage("CFResultsUiT.instr", "Open Session", NO_STATUS_MESSAGE);
-        resultsPage.displayByRecipient();
+        resultsPage.displayByRecipientGiverQuestion();
         
         ______TS("failure: add empty feedback response comment");
         
@@ -156,7 +168,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         ______TS("action: add new feedback response comments");
         
-        resultsPage.displayByRecipient();
+        resultsPage.displayByRecipientGiverQuestion();
         resultsPage.addFeedbackResponseComment("test comment 1");
         resultsPage.addFeedbackResponseComment("test comment 2");
         resultsPage.verifyCommentRowContent("-0",
@@ -165,7 +177,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                 "test comment 2", "CFResultsUiT.instr@gmail.com");
         
         resultsPage = loginToInstructorFeedbackSubmitPage("CFResultsUiT.instr", "Open Session", NO_STATUS_MESSAGE);
-        resultsPage.displayByRecipient();
+        resultsPage.displayByRecipientGiverQuestion();
         resultsPage.verifyCommentRowContent("-1-1-1-1",
                 "test comment 1", "CFResultsUiT.instr@gmail.com");
         resultsPage.verifyCommentRowContent("-1-1-1-2",
@@ -184,13 +196,13 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.verifyRowMissing("-1-1-1-1");
         
         resultsPage = loginToInstructorFeedbackSubmitPage("CFResultsUiT.instr", "Open Session", NO_STATUS_MESSAGE);
-        resultsPage.displayByRecipient();
+        resultsPage.displayByRecipientGiverQuestion();
         resultsPage.verifyCommentRowContent("-1-1-1-1",
                 "test comment 2", "CFResultsUiT.instr@gmail.com");
         
         ______TS("action: add edit and delete successively");
         
-        resultsPage.displayByRecipient();
+        resultsPage.displayByRecipientGiverQuestion();
         resultsPage.addFeedbackResponseComment("successive action comment");
         resultsPage.verifyCommentRowContent("-0",
                 "successive action comment", "CFResultsUiT.instr@gmail.com");
@@ -204,7 +216,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.verifyRowMissing("-0");
         
         resultsPage = loginToInstructorFeedbackSubmitPage("CFResultsUiT.instr", "Open Session", NO_STATUS_MESSAGE);
-        resultsPage.displayByRecipient();
+        resultsPage.displayByRecipientGiverQuestion();
         resultsPage.verifyCommentRowContent("-1-1-1-1",
                 "test comment 2", "CFResultsUiT.instr@gmail.com");
         resultsPage.verifyRowMissing("-1-1-1-2");

@@ -54,15 +54,27 @@ public class InstructorFeedbackResultsPage extends AppPage {
         return isCorrectCourseId && isCorrectFeedbackSessionName && containsExpectedPageContents();
     }
     
-    public void displayByGiver() {
+    public void displayByGiverRecipientQuestion() {
         Select select = new Select(browser.driver.findElement(By.name(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE)));
         select.selectByVisibleText("Group by - Giver > Recipient > Question");
         waitForPageToLoad();
     }
     
-    public void displayByRecipient() {
+    public void displayByRecipientGiverQuestion() {
         Select select = new Select(browser.driver.findElement(By.name(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE)));
         select.selectByVisibleText("Group by - Recipient > Giver > Question");
+        waitForPageToLoad();
+    }
+    
+    public void displayByGiverQuestionRecipient() {
+        Select select = new Select(browser.driver.findElement(By.name(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE)));
+        select.selectByVisibleText("Group by - Giver > Question > Recipient");
+        waitForPageToLoad();
+    }
+    
+    public void displayByRecipientQuestionGiver() {
+        Select select = new Select(browser.driver.findElement(By.name(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE)));
+        select.selectByVisibleText("Group by - Recipient > Question > Giver");
         waitForPageToLoad();
     }
     
