@@ -84,6 +84,13 @@ public class InstructorFeedbackResultsPage extends AppPage {
         waitForPageToLoad();
     }
     
+    public void clickGroupByTeam() {
+        WebElement button = browser.driver.findElement(By.name(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM));
+        button.click();
+        waitForPageToLoad();
+    }
+    
+    
     public AppPage sortTableByGiver() {
         sortTableGiverButton.click();
         return this;

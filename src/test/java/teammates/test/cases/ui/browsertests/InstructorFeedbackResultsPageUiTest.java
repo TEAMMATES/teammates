@@ -108,10 +108,24 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.verifyHtml("/instructorFeedbackResultsSortRecipientQuestionGiver.html");
         
         //Sorted by team
+        resultsPage.clickGroupByTeam();
         
+        resultsPage.displayByGiverRecipientQuestion();
+        resultsPage.verifyHtml("/instructorFeedbackResultsSortGiverRecipientQuestionTeam.html");
+
+        resultsPage.displayByRecipientGiverQuestion();
+        resultsPage.verifyHtml("/instructorFeedbackResultsSortRecipientGiverQuestionTeam.html");
+        
+        resultsPage.displayByGiverQuestionRecipient();
+        resultsPage.verifyHtml("/instructorFeedbackResultsSortGiverQuestionRecipientTeam.html");
+        
+        resultsPage.displayByRecipientQuestionGiver();
+        resultsPage.verifyHtml("/instructorFeedbackResultsSortRecipientQuestionGiverTeam.html");
+        
+        
+        //By question
         resultsPage.displayByQuestion();
         resultsPage.verifyHtml("/instructorFeedbackResultsSortQuestion.html");
-        
         
         assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(9,""));
         assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(9,""));
