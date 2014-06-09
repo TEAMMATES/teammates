@@ -113,6 +113,7 @@ public class AccountAttributes extends EntityAttributes {
         this.name = Sanitizer.sanitizeForHtml(name);
         this.email = Sanitizer.sanitizeForHtml(email);
         this.institute = Sanitizer.sanitizeForHtml(institute);
+        this.studentProfile.sanitizeForSaving();
     }
     
 }

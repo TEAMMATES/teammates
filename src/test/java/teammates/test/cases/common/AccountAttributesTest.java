@@ -3,11 +3,16 @@ package teammates.test.cases.common;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
 import static org.testng.AssertJUnit.*;
 import static teammates.common.util.Const.EOL;
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
+import teammates.storage.entity.Account;
+import teammates.storage.entity.StudentProfile;
 import teammates.test.cases.BaseTestCase;
 
 public class AccountAttributesTest extends BaseTestCase {
@@ -38,23 +43,102 @@ public class AccountAttributesTest extends BaseTestCase {
     public void testIsValid(){
         //already tested in testGetInvalidStateInfo()
     }
+    
+    @Test
+    public void testGetEntityTypeAsString() {
+        AccountAttributes account = createValidAccountAttributesObject();
+        assertEquals("Account", account.getEntityTypeAsString());
+    }
+    
+    @Test
+    public void testToEntity() {
+        AccountAttributes account = createValidAccountAttributesObject();
+        Account expectedAccount = new Account(account.googleId, account.name, account.isInstructor,
+                                account.email, account.institute, (StudentProfile) new StudentProfileAttributes().toEntity());
+        Account actualAccount = new AccountAttributes(expectedAccount).toEntity();
+        
+        assertEquals(expectedAccount.getGoogleId(), actualAccount.getGoogleId());
+        assertEquals(expectedAccount.getName(), actualAccount.getName());
+        assertEquals(expectedAccount.getEmail(), actualAccount.getEmail());
+        assertEquals(expectedAccount.getInstitute(), actualAccount.getInstitute());
+        assertEquals(expectedAccount.isInstructor(), actualAccount.isInstructor());
+        assertEquals(new StudentProfileAttributes(expectedAccount.getStudentProfile()).toString(), new StudentProfileAttributes(actualAccount.getStudentProfile()).toString());
+    }
+    
+    @Test
+    public void testToString() {
+        AccountAttributes account = createValidAccountAttributesObject();
+        AccountAttributes account1 = createValidAccountAttributesObject();
+        
+        assertEquals(account.toString(), account1.toString());
+    }
+    
+    @Test
+    public void testGetIdentificationString() {
+        AccountAttributes account = createValidAccountAttributesObject();
+        assertEquals(account.googleId, account.getIdentificationString());
+    }
+    
+    @Test
+    public void testSanitizeForSaving() {
+        AccountAttributes actualAccount = createAccountAttributesToSanitize();
+        AccountAttributes expectedAccount = createAccountAttributesToSanitize();
+        actualAccount.sanitizeForSaving();
+        
+        assertEquals(Sanitizer.sanitizeForHtml(expectedAccount.googleId), actualAccount.googleId);
+        assertEquals(Sanitizer.sanitizeForHtml(expectedAccount.name), actualAccount.name);
+        assertEquals(Sanitizer.sanitizeForHtml(expectedAccount.email), actualAccount.email);
+        assertEquals(Sanitizer.sanitizeForHtml(expectedAccount.institute), actualAccount.institute);
+        expectedAccount.studentProfile.sanitizeForSaving();
+        assertEquals(expectedAccount.studentProfile.toString(), actualAccount.studentProfile.toString());
+    }
 
     private AccountAttributes createInvalidAccountAttributesObject() {
-        AccountAttributes account = new AccountAttributes();
-        account.googleId = "invalid google id";
-        account.name = ""; //invalid name
-        account.email = "invalid@email@com";
-        account.institute = StringHelper.generateStringOfLength(FieldValidator.INSTITUTE_NAME_MAX_LENGTH+1);
+        
+        String googleId = "invalid google id";
+        String name = ""; //invalid name
+        boolean isInstructor = false;
+        String email = "invalid@email@com";
+        String institute = StringHelper.generateStringOfLength(FieldValidator.INSTITUTE_NAME_MAX_LENGTH+1);
+        StudentProfileAttributes studentProfile = new StudentProfileAttributes();
+        
+        AccountAttributes account = new AccountAttributes(googleId, name, isInstructor, email, institute, studentProfile);
         return account;
     }
 
     private AccountAttributes createValidAccountAttributesObject() {
-        AccountAttributes account = new AccountAttributes();
-        account.googleId = "valid.google.id";
-        account.name = "valid name";
-        account.email = "valid@email.com";
-        account.institute = "valid institute name";
+
+        String googleId = "valid.google.id";
+        String name = "valid name";
+        boolean isInstructor = false;
+        String email = "valid@email.com";
+        String institute = "valid institute name";
+        
+        AccountAttributes account = new AccountAttributes(googleId, name, isInstructor, email, institute);
         return account;
+    }
+    
+    private AccountAttributes createAccountAttributesToSanitize() {
+        
+        AccountAttributes account = new AccountAttributes();
+        
+        account.googleId = "googleId@gmail.com";
+        account.name = "'name'";
+        account.institute = "\\/";
+        account.email = "&<email>&";
+        account.isInstructor = true;
+        
+        String shortName = "<name>";
+        String personalEmail = "'toSanitize@email.com'";
+        String profileInstitute = "institute/\"";
+        String country = "&\"invalid country &";
+        String gender = "'\"'other";
+        String moreInfo = "<<script> alert('hi!'); </script>";
+        
+        account.studentProfile = new StudentProfileAttributes(shortName, personalEmail, profileInstitute, country, gender, moreInfo);
+        
+        return account;
+        
     }
     
     @AfterClass

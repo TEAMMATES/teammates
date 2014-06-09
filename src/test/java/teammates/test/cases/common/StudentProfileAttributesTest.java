@@ -115,7 +115,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
     public StudentProfileAttributes getStudentProfileAttributesToSanitize() {
         
         String shortName = "<name>";
-        String email = " 'toSanitize@email.com'";
+        String email = "'toSanitize@email.com'";
         String institute = "institute/\"";
         String country = "&\"invalid country &";
         String gender = "'\"'invalidGender";
