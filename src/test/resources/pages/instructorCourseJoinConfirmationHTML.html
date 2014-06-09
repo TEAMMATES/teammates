@@ -73,7 +73,7 @@ ul #nav {
                 <div class="collapse navbar-collapse" id="contentLinks">
                     <ul class="nav navbar-nav">
                         <li class="">
-                            <a data-link="studentHome" href="/page/studentHomePage?user=teammates.coord">Home</a>
+                            <a data-link="studentHome" href="/page/studentHomePage?user={$test.instructor}">Home</a>
                         </li>
                         <li class="">
                             <a class="nav help" href="/studentHelp.html" target="_blank">Help</a>
@@ -82,8 +82,8 @@ ul #nav {
                     <ul class="nav navbar-nav pull-right">
                         <li><a class="nav logout" href="/logout.jsp">Logout
                                 
-                                (<span class="text-info" data-toggle="tooltip" data-placement="bottom" title="teammates.coord">
-                                        teammates.coord
+                                (<span class="text-info" data-toggle="tooltip" data-placement="bottom" title="{$test.instructor}">
+                                        {$test.instructor}
                                  </span>)
                                 
                             </a>
@@ -113,7 +113,7 @@ ul #nav {
             </div>
             <div class="panel-body">
                 <p class="lead">
-                    You are currently logged in as <span><strong>teammates.coord</strong></span>. 
+                    You are currently logged in as <span><strong>{$test.instructor}</strong></span>. 
                     <br>If this is not you please <a href="/logout.jsp">log out</a> and re-login using your own Google account.
                     <br>If this is you, please confirm below to complete your registration.
                     <br>
@@ -134,7 +134,7 @@ ul #nav {
     <div class="container">
         <div class="row">
             <div class="col-md-4">
-                <span>[<a href="/index.html">TEAMMATES</a> V4.18]</span>
+                <span>[<a href="/index.html">TEAMMATES</a> V{$version}]</span>
             </div>
             <div class="col-md-4">
                 
