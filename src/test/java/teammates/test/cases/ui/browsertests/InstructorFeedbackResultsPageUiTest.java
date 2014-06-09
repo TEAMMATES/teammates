@@ -101,6 +101,14 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(12,"giver-1-recipient-2"));
         
         
+        resultsPage.displayByGiverQuestionRecipient();
+        resultsPage.verifyHtml("/instructorFeedbackResultsSortGiverQuestionRecipient.html");
+        
+        resultsPage.displayByRecipientQuestionGiver();
+        resultsPage.verifyHtml("/instructorFeedbackResultsSortRecipientQuestionGiver.html");
+        
+        //Sorted by team
+        
         resultsPage.displayByQuestion();
         resultsPage.verifyHtml("/instructorFeedbackResultsSortQuestion.html");
         

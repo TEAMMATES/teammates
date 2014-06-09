@@ -128,7 +128,9 @@ Apply to thead to make headers not bold.
     }
 }
 
-
+td {
+    background-clip: padding-box
+}
 
 
 /*////////////////////////////////////////////////////////////
