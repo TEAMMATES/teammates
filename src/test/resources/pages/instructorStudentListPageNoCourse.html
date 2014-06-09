@@ -26,59 +26,59 @@
          <!---->
       </head>
       <body>
-         <div class="navbar navbar-inverse navbar-fixed-top"  role="navigation" >
-            <div class="container" >
-               <div class="navbar-header" >
-                  <button class="navbar-toggle"  data-target="#contentLinks"  data-toggle="collapse"  type="button" >
-                     <span class="sr-only" >
+         <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container">
+               <div class="navbar-header">
+                  <button class="navbar-toggle" data-target="#contentLinks" data-toggle="collapse" type="button">
+                     <span class="sr-only">
                         Toggle navigation
                      </span>
-                     <span class="icon-bar" >
+                     <span class="icon-bar">
                      </span>
-                     <span class="icon-bar" >
+                     <span class="icon-bar">
                      </span>
-                     <span class="icon-bar" >
+                     <span class="icon-bar">
                      </span>
                   </button>
-                  <a class="navbar-brand"  href="/index.html" >
+                  <a class="navbar-brand" href="/index.html">
                      TEAMMATES
                   </a>
                </div>
-               <div class="collapse navbar-collapse"  id="contentLinks" >
-                  <ul class="nav navbar-nav" >
-                     <li class="" >
-                        <a class="nav home"  data-link="instructorHome"  href="/page/instructorHomePage?user=instructorWithoutCourses" >
+               <div class="collapse navbar-collapse" id="contentLinks">
+                  <ul class="nav navbar-nav">
+                     <li class="">
+                        <a class="nav home" data-link="instructorHome" href="/page/instructorHomePage?user=instructorWithoutCourses">
                            Home
                         </a>
                      </li>
-                     <li class="" >
-                        <a class="nav courses"  data-link="instructorCourse"  href="/page/instructorCoursesPage?user=instructorWithoutCourses" >
+                     <li class="">
+                        <a class="nav courses" data-link="instructorCourse" href="/page/instructorCoursesPage?user=instructorWithoutCourses">
                            Courses
                         </a>
                      </li>
-                     <li class="" >
-                        <a class="nav evaluations"  data-link="instructorEval"  href="/page/instructorEvalsPage?user=instructorWithoutCourses" >
+                     <li class="">
+                        <a class="nav evaluations" data-link="instructorEval" href="/page/instructorEvalsPage?user=instructorWithoutCourses">
                            Sessions
                         </a>
                      </li>
-                     <li class="active" >
-                        <a class="nav students"  data-link="instructorStudent"  href="/page/instructorStudentListPage?user=instructorWithoutCourses" >
+                     <li class="active">
+                        <a class="nav students" data-link="instructorStudent" href="/page/instructorStudentListPage?user=instructorWithoutCourses">
                            Students
                         </a>
                      </li>
                      <li>
-                        <a class="nav help"  href="/instructorHelp.html"  target="_blank" >
+                        <a class="nav help" href="/instructorHelp.html" target="_blank">
                            Help
                         </a>
                      </li>
                   </ul>
-                  <ul class="nav navbar-nav pull-right" >
+                  <ul class="nav navbar-nav pull-right">
                      <li>
-                        <a class="nav logout"  href="/logout.jsp" >
+                        <a class="nav logout" href="/logout.jsp">
                            Logout
                         
                         (
-                           <span class="text-info"  data-original-title="instructorWithoutCourses"  data-placement="bottom"  data-toggle="tooltip"  title="" >
+                           <span class="text-info" data-original-title="instructorWithoutCourses" data-placement="bottom" data-toggle="tooltip" title="">
                               instructorWithoutCou...
                            </span>
                            )
@@ -88,44 +88,44 @@
                </div>
             </div>
          </div>
-         <div class="container theme-showcase"  id="frameBodyWrapper" >
-            <div id="topOfPage" >
+         <div class="container theme-showcase" id="frameBodyWrapper">
+            <div id="topOfPage">
             </div>
             <h1>
                Instructor Students List
             </h1>
-            <div class="well well-plain" >
-               <div class="row" >
-                  <div class="col-md-12" >
-                     <div class="row" >
-                        <div class="col-md-10" >
-                           <div class="form-group" >
-                              <input class="form-control"  data-original-title="Search for student's name"  data-placement="top"  data-toggle="tooltip"  id="searchbox"  placeholder="e.g. Charles Shultz"  title=""  type="text"  value="" />
+            <div class="well well-plain">
+               <div class="row">
+                  <div class="col-md-12">
+                     <div class="row">
+                        <div class="col-md-10">
+                           <div class="form-group">
+                              <input class="form-control" data-original-title="Search for student's name" data-placement="top" data-toggle="tooltip" id="searchbox" placeholder="e.g. Charles Shultz" title="" type="text" value=""/>
                                                          </div>
                         </div>
-                        <div class="col-md-2 nav" >
-                           <div class="form-group" >
-                              <button class="btn btn-primary"  id="button_search"  onclick="return applyFilters();"  type="submit"  value="Search" >
-                                 <span class="glyphicon glyphicon-search" >
+                        <div class="col-md-2 nav">
+                           <div class="form-group">
+                              <button class="btn btn-primary" id="button_search" onclick="return applyFilters();" type="submit" value="Search">
+                                 <span class="glyphicon glyphicon-search">
                                  </span>
                                  Search
                               </button>
                            </div>
                         </div>
                      </div>
-                     <div class="row" >
-                        <div class="col-md-2" >
-                           <div class="checkbox" >
-                              <input id="option_check"  type="checkbox" />
-                                                            <label for="option_check" >
+                     <div class="row">
+                        <div class="col-md-2">
+                           <div class="checkbox">
+                              <input id="option_check" type="checkbox"/>
+                                                            <label for="option_check">
                                  Show More Options
                               </label>
                            </div>
                         </div>
-                        <div class="col-md-3" >
-                           <div class="checkbox" >
-                              <input id="displayArchivedCourses_check"  type="checkbox" />
-                                                            <label for="displayArchivedCourses_check" >
+                        <div class="col-md-3">
+                           <div class="checkbox">
+                              <input id="displayArchivedCourses_check" type="checkbox"/>
+                                                            <label for="displayArchivedCourses_check">
                                  Display Archived Courses
                               </label>
                            </div>
@@ -135,19 +135,19 @@
                </div>
             </div>
             <br/>
-                        <div class="well well-plain"  id="moreOptionsDiv"  style="display: none;" >
-               <form class="form-horizontal"  role="form" >
-                  <div class="row" >
-                     <div class="col-sm-4" >
-                        <div class="text-color-primary" >
+                        <div class="well well-plain" id="moreOptionsDiv" style="display: none;">
+               <form class="form-horizontal" role="form">
+                  <div class="row">
+                     <div class="col-sm-3">
+                        <div class="text-color-primary">
                            <strong>
                               Courses
                            </strong>
                         </div>
                         <br/>
-                                                <div class="checkbox" >
-                           <input checked="checked"  id="course_all"  type="checkbox"  value="" />
-                                                      <label for="course_all" >
+                                                <div class="checkbox">
+                           <input checked="checked" id="course_all" type="checkbox" value=""/>
+                                                      <label for="course_all">
                               <strong>
                                  Select all
                               </strong>
@@ -155,16 +155,33 @@
                         </div>
                         <br/>
                                              </div>
-                     <div class="col-sm-4" >
-                        <div class="text-color-primary" >
+                     <div class="col-sm-3">
+                        <div class="text-color-primary">
+                           <strong>
+                              Sections
+                           </strong>
+                        </div>
+                        <br/>
+                                                <div class="checkbox">
+                           <input checked="checked" id="section_all" type="checkbox" value=""/>
+                                                      <label for="section_all">
+                              <strong>
+                                 Select all
+                              </strong>
+                           </label>
+                        </div>
+                        <br/>
+                                             </div>
+                     <div class="col-sm-3">
+                        <div class="text-color-primary">
                            <strong>
                               Teams
                            </strong>
                         </div>
                         <br/>
-                                                <div class="checkbox" >
-                           <input checked="checked"  id="team_all"  type="checkbox" />
-                                                      <label for="team_all" >
+                                                <div class="checkbox">
+                           <input checked="checked" id="team_all" type="checkbox"/>
+                                                      <label for="team_all">
                               <strong>
                                  Select All
                               </strong>
@@ -172,63 +189,63 @@
                         </div>
                         <br/>
                                              </div>
-                     <div class="col-sm-4" >
-                        <div class="text-color-primary" >
+                     <div class="col-sm-3">
+                        <div class="text-color-primary">
                            <strong>
                               Emails
                            </strong>
                         </div>
                         <br/>
-                                                <div class="checkbox" >
-                           <input checked="checked"  id="show_email"  type="checkbox" />
-                                                      <label for="show_email" >
+                                                <div class="checkbox">
+                           <input checked="checked" id="show_email" type="checkbox"/>
+                                                      <label for="show_email">
                               <strong>
                                  Show Emails
                               </strong>
                            </label>
                         </div>
                         <br/>
-                                                <div id="emails" >
+                                                <div id="emails">
                         </div>
                      </div>
                   </div>
                </form>
             </div>
-            <div class="alert alert-warning"  id="statusMessage" >
+            <div class="alert alert-warning" id="statusMessage">
                There are no course or students information to be displayed
             </div>
-            <script type="text/javascript" >
+            <script type="text/javascript">
                document.getElementById( 'statusMessage' ).scrollIntoView();
             </script>
             <br/>
                         <br/>
                         <br/>
                      </div>
-         <div class="container-fluid"  id="footerComponent" >
-            <div class="container" >
-               <div class="row" >
-                  <div class="col-md-4" >
+         <div class="container-fluid" id="footerComponent">
+            <div class="container">
+               <div class="row">
+                  <div class="col-md-4">
                      <span>
                         [
-                        <a href="/index.html" >
+                        <a href="/index.html">
                            TEAMMATES
                         </a>
                         V{$version}]
                      </span>
                   </div>
-                  <div class="col-md-4" >
+                  <div class="col-md-4">
                      [for
-                     <span class="highlight-white" >
-                        <span class="color_white" >
+                     <span class="highlight-white">
+                        <span class="color_white">
                            NTU
                         </span>
                      </span>
                      ]
                   </div>
-                  <div class="col-md-4" >
+                  <div class="col-md-4">
                      <span>
                         [Send
-                        <a class="link"  href="../contact.html"  target="_blank" >
+                        <a class="link" href="../contact.html" target="_blank">
                            Feedback
                         </a>
                         ]

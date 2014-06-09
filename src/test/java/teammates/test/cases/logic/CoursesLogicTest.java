@@ -429,9 +429,8 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         
         assertEquals(0, courseSummary.evaluations.size());
 
-        assertEquals(2, courseSummary.teams.size()); 
-        assertEquals("Team 1.1", courseSummary.teams.get(0).name);
-        assertEquals("Team 1.2", courseSummary.teams.get(1).name);
+        assertEquals(1, courseSummary.sections.get(0).teams.size()); 
+        assertEquals("Team 1.1", courseSummary.sections.get(0).teams.get(0).name);
 
         ______TS("course without students");
 
@@ -446,7 +445,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         assertEquals(0, courseSummary.stats.unregisteredTotal);
         
         assertEquals(0, courseSummary.evaluations.size());
-        assertEquals(0, courseSummary.teams.size());
+        assertEquals(0, courseSummary.sections.size());
         
         coursesLogic.deleteCourseCascade("course1");
 
@@ -481,7 +480,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         assertEquals(false, courseSummary.course.isArchived);
 
         assertEquals(0, courseSummary.evaluations.size());
-        assertEquals(0, courseSummary.teams.size()); 
+        assertEquals(0, courseSummary.sections.size()); 
        
         ______TS("course without students");
 
@@ -492,7 +491,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         assertEquals("course 1", courseSummary.course.name);
          
         assertEquals(0, courseSummary.evaluations.size());
-        assertEquals(0, courseSummary.teams.size());
+        assertEquals(0, courseSummary.sections.size());
         
         coursesLogic.deleteCourseCascade("course1");
 
@@ -534,10 +533,9 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         assertEquals("evaluation2 In Course1", courseDetails.evaluations.get(0).evaluation.name);
         assertEquals("evaluation1 In Course1", courseDetails.evaluations.get(1).evaluation.name);
 
-        assertEquals(2, courseDetails.teams.size()); 
-        assertEquals("Team 1.1", courseDetails.teams.get(0).name);
-        assertEquals("Team 1.2", courseDetails.teams.get(1).name);
-
+        assertEquals(1, courseDetails.sections.get(0).teams.size()); 
+        assertEquals("Team 1.1", courseDetails.sections.get(0).teams.get(0).name);
+        
         ______TS("course without students");
 
         AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true, "instructor@email.com", "National University Of Singapore"));
@@ -551,7 +549,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         assertEquals(0, courseDetails.stats.unregisteredTotal);
         
         assertEquals(0, courseDetails.evaluations.size());
-        assertEquals(0, courseDetails.teams.size());
+        assertEquals(0, courseDetails.sections.size());
         
         coursesLogic.deleteCourseCascade("course1");
 

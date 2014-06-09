@@ -19,6 +19,7 @@ import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.TeamDetailsBundle;
+import teammates.common.datatransfer.SectionDetailsBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -193,6 +194,59 @@ public class CoursesLogic {
         return courseDetailsList;
     }
 
+    public List<SectionDetailsBundle> getSectionsForCourse(String courseId) 
+            throws EntityDoesNotExistException {
+        
+        if (getCourse(courseId) == null) {
+            throw new EntityDoesNotExistException("Thr course " + courseId + " does not exist");
+        }
+        
+        List<StudentAttributes> students = studentsLogic.getStudentsForCourse(courseId);
+        StudentAttributes.sortBySectionName(students);
+        
+        List<SectionDetailsBundle> sections = new ArrayList<SectionDetailsBundle>();
+        
+        SectionDetailsBundle section = null;
+        int teamIndexWithinSection = 0;
+        
+        for(int i = 0; i < students.size(); i++) {
+            
+            StudentAttributes s = students.get(i);
+            
+            // First student of first section
+            if(section == null) {
+                section = new SectionDetailsBundle();
+                section.name = s.section;
+                section.teams.add(new TeamDetailsBundle());
+                section.teams.get(teamIndexWithinSection).name = s.team;
+                section.teams.get(teamIndexWithinSection).students.add(s);
+            } else if(s.section.equals(section.name)){
+                if(s.team.equals(section.teams.get(teamIndexWithinSection).name)){
+                    section.teams.get(teamIndexWithinSection).students.add(s);
+                } else {
+                    teamIndexWithinSection++;
+                    section.teams.add(new TeamDetailsBundle());
+                    section.teams.get(teamIndexWithinSection).name = s.team;
+                    section.teams.get(teamIndexWithinSection).students.add(s);
+                }
+            } else { // first student of subsequent section
+                sections.add(section);
+                teamIndexWithinSection = 0;
+                section = new SectionDetailsBundle();
+                section.name = s.section;
+                section.teams.add(new TeamDetailsBundle());
+                section.teams.get(teamIndexWithinSection).name = s.team;
+                section.teams.get(teamIndexWithinSection).students.add(s);
+            }
+            
+            if(i == (students.size() -1)){
+                sections.add(section);
+            }
+        }
+        
+        return sections;
+    }
+
     /**
      * Returns Teams for a particular courseId.<br> 
      * <b>Note:</b><br>
@@ -299,7 +353,7 @@ public class CoursesLogic {
         }
 
         CourseDetailsBundle cdd = new CourseDetailsBundle(cd);
-        cdd.teams= (ArrayList<TeamDetailsBundle>) getTeamsForCourse(courseId);
+        cdd.sections= (ArrayList<SectionDetailsBundle>) getSectionsForCourse(courseId);
         cdd.stats.sectionsTotal = getNumberOfSections(cd.id);
         cdd.stats.teamsTotal = getNumberOfTeams(cd.id);
         cdd.stats.studentsTotal = getTotalEnrolledInCourse(cd.id);
@@ -516,19 +570,21 @@ public class CoursesLogic {
                 Const.EOL + Const.EOL +
                 "Team" + "," + "Student Name" + "," + "Status" + "," + "Email" + Const.EOL;
         
-        for (TeamDetailsBundle team : course.teams) {
-            for(StudentAttributes student : team.students){
-                String studentStatus = null;
-                if(student.googleId == null || student.googleId.equals("")){
-                    studentStatus = Const.STUDENT_COURSE_STATUS_YET_TO_JOIN;
-                } else {
-                    studentStatus = Const.STUDENT_COURSE_STATUS_JOINED;
+        for (SectionDetailsBundle section : course.sections) {
+            for (TeamDetailsBundle team  :   section.teams) {
+                for(StudentAttributes student : team.students){
+                    String studentStatus = null;
+                    if(student.googleId == null || student.googleId.equals("")){
+                        studentStatus = Const.STUDENT_COURSE_STATUS_YET_TO_JOIN;
+                    } else {
+                        studentStatus = Const.STUDENT_COURSE_STATUS_JOINED;
+                    }
+                    
+                    export += Sanitizer.sanitizeForCsv(team.name) + "," + 
+                        Sanitizer.sanitizeForCsv(student.name) + "," +
+                        Sanitizer.sanitizeForCsv(studentStatus) + "," +
+                        Sanitizer.sanitizeForCsv(student.email) + Const.EOL;
                 }
-                
-                export += Sanitizer.sanitizeForCsv(team.name) + "," + 
-                    Sanitizer.sanitizeForCsv(student.name) + "," +
-                    Sanitizer.sanitizeForCsv(studentStatus) + "," +
-                    Sanitizer.sanitizeForCsv(student.email) + Const.EOL;
             }
         }
         return export;

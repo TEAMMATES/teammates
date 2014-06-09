@@ -171,6 +171,24 @@ public class StudentAttributes extends EntityAttributes {
         return errors;
     }
     
+    public static void sortBySectionName(List<StudentAttributes> students) {
+        Collections.sort(students, new Comparator<StudentAttributes>() {
+            public int compare(StudentAttributes s1, StudentAttributes s2) {
+                String sect1 = s1.section;
+                String sect2 = s2.section;
+
+                // If the section name is the same, reorder by team name
+                if(sect1.compareTo(sect2) == 0){
+                    if(s1.team.compareTo(s2.team) == 0){
+                        return s1.name.compareTo(s2.name);
+                    } 
+                    return s1.team.compareTo(s2.team);
+                }
+                return sect1.compareTo(sect2);
+            }
+        });
+    }
+
     public static void sortByTeamName(List<StudentAttributes> students) {
         Collections.sort(students, new Comparator<StudentAttributes>() {
             public int compare(StudentAttributes s1, StudentAttributes s2) {
