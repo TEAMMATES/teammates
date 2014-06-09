@@ -75,13 +75,9 @@ public class InstructorPermissionsDbTest extends BaseComponentTestCase {
     
     @Test
     public void testGetInstructorPermissionForEmail() throws InvalidParametersException, EntityAlreadyExistsException {
-        // create a new instrPermission
-        instrEmail = "newInstrPerm@gmail.com";
-        courseId = "instrPermCourseId";
-        InstructorPermissionAttributes permission = getCoownerInstructorPermissionAttr();
-        
-        instrPermissionsDb.createEntity(permission);       
-        TestHelper.verifyPresentInDatastore(permission);
+        // not going to use restoreTypicalDataInDatastore here
+        //     separate dbTest from logic implementation
+        createInstructorPermissions();
         
         ______TS("Success: get an instructorPermission");
         
@@ -106,8 +102,6 @@ public class InstructorPermissionsDbTest extends BaseComponentTestCase {
     
     @Test
     public void testGetInstructorPermissionsForEmail() throws InvalidParametersException {
-        // not going to use restoreTypicalDataInDatastore here
-        //     separate dbTest from logic implementation
         createInstructorPermissions();
         
         ______TS("Success: get an instructorPermission");
