@@ -51,23 +51,31 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
                 Const.ParamsNames.COURSE_ID, session.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName
         };
-        String[] paramsWithSortTypeTable = {
+        String[] paramsWithSortTypeQuestion = {
                 Const.ParamsNames.COURSE_ID, session.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "question"
         };
-        String[] paramsWithSortTypeGiver = {
+        String[] paramsWithSortTypeGiverRecipientQuestion = {
                 Const.ParamsNames.COURSE_ID, session.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "giver-recipient-question"
         };
-        String[] paramsWithSortTypeRecipient = {
+        String[] paramsWithSortTypeRecipientGiverQuestion = {
                 Const.ParamsNames.COURSE_ID, session.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient-giver-question"
         };
-        
-        //TODO: add params for giver-question-recipient and recipient-question-giver
+        String[] paramsWithSortTypeGiverQuestionRecipient = {
+                Const.ParamsNames.COURSE_ID, session.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "giver-question-recipient"
+        };
+        String[] paramsWithSortTypeRecipientQuestionGiver = {
+                Const.ParamsNames.COURSE_ID, session.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient-question-giver"
+        };
         
         String[] paramsWithSortTypeUndefined = {
                 Const.ParamsNames.COURSE_ID, session.courseId,
@@ -95,7 +103,7 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
         
         ______TS("Successful Case 2: sortType table");
         
-        action = getAction(paramsWithSortTypeTable);
+        action = getAction(paramsWithSortTypeQuestion);
         result = action.executeAndPostProcess();
         
         assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION +
@@ -106,7 +114,7 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
         
         ______TS("Successful Case 3: sortType giver");
         
-        action = getAction(paramsWithSortTypeGiver);
+        action = getAction(paramsWithSortTypeGiverRecipientQuestion);
         result = action.executeAndPostProcess();
         
         assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_RECIPIENT_QUESTION +
@@ -117,16 +125,32 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
         
         ______TS("Successful Case 4: sortType recipient");
         
-        action = getAction(paramsWithSortTypeRecipient);
+        action = getAction(paramsWithSortTypeRecipientGiverQuestion);
         result = action.executeAndPostProcess();
         
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION +
+        ______TS("Successful Case 5: sortType giver");
+        
+        action = getAction(paramsWithSortTypeGiverQuestionRecipient);
+        result = action.executeAndPostProcess();
+        
+        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_QUESTION_RECIPIENT +
                 "?error=false&user=idOfInstructor1OfCourse1",
                 result.getDestinationWithParams());
         assertEquals("", result.getStatusMessage());
         assertFalse(result.isError);
         
-        ______TS("Successful Case 5: sortType undefined");
+        ______TS("Successful Case 6: sortType recipient");
+        
+        action = getAction(paramsWithSortTypeRecipientQuestionGiver);
+        result = action.executeAndPostProcess();
+        
+        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_QUESTION_GIVER +
+                "?error=false&user=idOfInstructor1OfCourse1",
+                result.getDestinationWithParams());
+        assertEquals("", result.getStatusMessage());
+        assertFalse(result.isError);
+        
+        ______TS("Successful Case 7: sortType undefined");
         
         action = getAction(paramsWithSortTypeUndefined);
         result = action.executeAndPostProcess();
