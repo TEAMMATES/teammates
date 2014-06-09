@@ -1,6 +1,7 @@
 package teammates.storage.entity;
 
 import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
@@ -10,11 +11,12 @@ import com.google.appengine.api.datastore.Text;
  * Represents permission for an instructor
  *
  */
+@PersistenceCapable
 public class InstructorPermission {
     
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-    private String id;
+    private transient Long id;
     
     /** The email of instructor */
     @Persistent
@@ -30,7 +32,7 @@ public class InstructorPermission {
     
     /** The text representing of privileges */
     @Persistent
-    private Text access;
+    private Text instructorPrvilegesAsText;
     
     /**
      * @param instrEmail
@@ -42,13 +44,13 @@ public class InstructorPermission {
         this.instructorEmail = instrEmail;
         this.courseId = courseId;
         this.role = instrRole;
-        this.access = access;
+        this.instructorPrvilegesAsText = access;
     }
 
     /**
      * @return The ID of the entity
      */
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
@@ -95,17 +97,17 @@ public class InstructorPermission {
     }
 
     /**
-     * @return the access
+     * @return instructorPrvilegesAsText
      */
-    public Text getAccess() {
-        return access;
+    public Text getInstructorPrvilegesAsText() {
+        return instructorPrvilegesAsText;
     }
 
     /**
-     * @param access the access to set
+     * @param instructorPrvilegesAsText
      */
-    public void setAccess(Text access) {
-        this.access = access;
+    public void setInstructorPrvilegesAsText(Text instructorPrvilegesAsText) {
+        this.instructorPrvilegesAsText = instructorPrvilegesAsText;
     }
 
 }
