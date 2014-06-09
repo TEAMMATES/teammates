@@ -54,18 +54,21 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
         String[] paramsWithSortTypeTable = {
                 Const.ParamsNames.COURSE_ID, session.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "table"
+                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "question"
         };
         String[] paramsWithSortTypeGiver = {
                 Const.ParamsNames.COURSE_ID, session.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "giver"
+                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "giver-recipient-question"
         };
         String[] paramsWithSortTypeRecipient = {
                 Const.ParamsNames.COURSE_ID, session.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient"
+                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient-giver-question"
         };
+        
+        //TODO: add params for giver-question-recipient and recipient-question-giver
+        
         String[] paramsWithSortTypeUndefined = {
                 Const.ParamsNames.COURSE_ID, session.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName,
