@@ -38,7 +38,7 @@ public class AccountAttributes extends EntityAttributes {
     }
     
     public AccountAttributes() {
-        
+        this.studentProfile = new StudentProfileAttributes();
     }
     
     public AccountAttributes(String googleId, String name, boolean isInstructor,
@@ -49,6 +49,9 @@ public class AccountAttributes extends EntityAttributes {
         this.email = Sanitizer.sanitizeEmail(email);
         this.institute = Sanitizer.sanitizeTitle(institute);
         this.studentProfile = studentProfileAttributes;
+        if (this.studentProfile.institute == "") {
+            this.studentProfile.institute = this.institute;
+        }
         this.studentProfile.sanitizeForSaving();
         
     }
@@ -61,7 +64,7 @@ public class AccountAttributes extends EntityAttributes {
         this.email = Sanitizer.sanitizeEmail(email);
         this.institute = Sanitizer.sanitizeTitle(institute);
         this.studentProfile = new StudentProfileAttributes();
-        studentProfile.institute = Sanitizer.sanitizeTitle(institute);
+        this.studentProfile.institute = Sanitizer.sanitizeTitle(institute);
         
     }
     

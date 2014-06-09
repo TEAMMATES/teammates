@@ -7,6 +7,7 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -308,5 +309,11 @@ public class AccountsLogic {
         String frontPart = googleId.substring(0, googleId.length() / 3);
         String endPart = googleId.substring(2 * googleId.length() / 3);
         return frontPart + ".." + endPart;
+    }
+
+    public StudentProfileAttributes getStudentProfile(String googleId) {
+        Assumption.assertNotNull(googleId);
+        
+        return accountsDb.getStudentProfile(googleId);
     }
 }

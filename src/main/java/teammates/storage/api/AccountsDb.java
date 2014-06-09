@@ -184,11 +184,16 @@ public class AccountsDb extends EntitiesDb {
     }
     
     public StudentProfileAttributes getStudentProfile(String accountGoogleId) {
-        StudentProfileAttributes spa = this.getAccount(accountGoogleId).studentProfile;
-        return spa;
+        AccountAttributes account = this.getAccount(accountGoogleId);
+        if (account != null) {
+            return account.studentProfile;
+        }
+        else {
+            return null;
+        }
     }
     
-    public void closePM() {
+    private void closePM() {
         if (!getPM().isClosed()) {
             getPM().close();
         }
