@@ -94,8 +94,8 @@ public class InstructorPermissionsDb extends EntitiesDb {
         if (!oldInstrPermission.getRole().equals(updatedInstrPermission.role)) {
             oldInstrPermission.setRole(updatedInstrPermission.role);
         }
-        if (!oldInstrPermission.getAccess().equals(updatedInstrPermission.access)) {
-            oldInstrPermission.setAccess(updatedInstrPermission.access);
+        if (!oldInstrPermission.getInstructorPrvilegesAsText().equals(updatedInstrPermission.instructorPrivilegesAsText)) {
+            oldInstrPermission.setInstructorPrvilegesAsText(updatedInstrPermission.instructorPrivilegesAsText);
         }
         
         getPM().close();
