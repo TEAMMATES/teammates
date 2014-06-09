@@ -1102,7 +1102,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
     @Test
     public void testGetCourseStudentListAsCsv() throws Exception {
 
-        ______TS("Typical case");
+        ______TS("Typical case: course with section");
         
         InstructorAttributes instructor1OfCourse1 = getTypicalDataBundle().instructors.get("instructor1OfCourse1");
         
@@ -1113,13 +1113,28 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         String expectedCsvString = "Course ID,\"idOfTypicalCourse1\"" + Const.EOL  
                                  + "Course Name,\"Typical Course 1 with 2 Evals\"" + Const.EOL  
                                  + Const.EOL + Const.EOL 
-                                 + "Team,Student Name,Status,Email" + Const.EOL
-                                 + "\"Team 1.1\",\"student1 In Course1\",\"Joined\",\"student1InCourse1@gmail.com\"" + Const.EOL
-                                 + "\"Team 1.1\",\"student2 In Course1\",\"Joined\",\"student2InCourse1@gmail.com\"" + Const.EOL
-                                 + "\"Team 1.1\",\"student3 In Course1\",\"Joined\",\"student3InCourse1@gmail.com\"" + Const.EOL
-                                 + "\"Team 1.1\",\"student4 In Course1\",\"Joined\",\"student4InCourse1@gmail.com\"" + Const.EOL
-                                 + "\"Team 1.2\",\"student5 In Course1\",\"Joined\",\"student5InCourse1@gmail.com\"" + Const.EOL;
+                                 + "Section,Team,Student Name,Status,Email" + Const.EOL
+                                 + "\"Section 1\",\"Team 1.1\",\"student1 In Course1\",\"Joined\",\"student1InCourse1@gmail.com\"" + Const.EOL
+                                 + "\"Section 1\",\"Team 1.1\",\"student2 In Course1\",\"Joined\",\"student2InCourse1@gmail.com\"" + Const.EOL
+                                 + "\"Section 1\",\"Team 1.1\",\"student3 In Course1\",\"Joined\",\"student3InCourse1@gmail.com\"" + Const.EOL
+                                 + "\"Section 1\",\"Team 1.1\",\"student4 In Course1\",\"Joined\",\"student4InCourse1@gmail.com\"" + Const.EOL
+                                 + "\"Section 2\",\"Team 1.2\",\"student5 In Course1\",\"Joined\",\"student5InCourse1@gmail.com\"" + Const.EOL;
         assertEquals(expectedCsvString, csvString);
+
+        ______TS("Typical case: course without sections");
+
+        InstructorAttributes instructor1OfCourse2 = getTypicalDataBundle().instructors.get("instructor1OfCourse2");
+
+        instructorId = instructor1OfCourse2.googleId;
+        courseId = instructor1OfCourse2.courseId;
+
+        csvString = coursesLogic.getCourseStudentListAsCsv(courseId, instructorId);
+        expectedCsvString = "Course ID,\"idOfTypicalCourse1\"" + Const.EOL  
+                                 + "Course Name,\"Typical Course 1 with 2 Evals\"" + Const.EOL  
+                                 + Const.EOL + Const.EOL 
+                                 + "Team,Student Name,Status,Email" + Const.EOL
+                                 + "\"Team 2.1\",\"student1 In Course2\",\"Joined\",\"student1InCourse2@gmail.com\"" + Const.EOL
+                                 + "\"Team 2.1\",\"student2 In Course2\",\"Joined\",\"student2InCourse2@gmail.com\"" + Const.EOL;
 
         ______TS("Typical case: course with unregistered student");
 
@@ -1132,9 +1147,9 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         expectedCsvString = "Course ID,\"idOfUnregisteredCourse\"" + Const.EOL  
                                  + "Course Name,\"Unregistered Course\"" + Const.EOL  
                                  + Const.EOL + Const.EOL 
-                                 + "Team,Student Name,Status,Email" + Const.EOL
-                                 + "\"Team 1\",\"student1 In unregisteredCourse\",\"Yet to join\",\"student1InUnregisteredCourse@gmail.com\"" + Const.EOL
-                                 + "\"Team 2\",\"student2 In unregisteredCourse\",\"Yet to join\",\"student2InUnregisteredCourse@gmail.com\"" + Const.EOL;
+                                 + "Section,Team,Student Name,Status,Email" + Const.EOL
+                                 + "\"Section 1\",\"Team 1\",\"student1 In unregisteredCourse\",\"Yet to join\",\"student1InUnregisteredCourse@gmail.com\"" + Const.EOL
+                                 + "\"Section 2\",\"Team 2\",\"student2 In unregisteredCourse\",\"Yet to join\",\"student2InUnregisteredCourse@gmail.com\"" + Const.EOL;
         assertEquals(expectedCsvString, csvString);
 
         ______TS("Failure case: non existent instructor");
@@ -1165,6 +1180,40 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         } catch (AssertionError e) {
             assertEquals("Supplied parameter was null\n", e.getMessage());
         }
+    }
+
+    @Test
+    public void testHasIndicatedSections() throws Exception {
+
+        ______TS("Typical case: course with sections");
+
+        CourseAttributes typicalCourse1 = getTypicalDataBundle().courses.get("typicalCourse1");
+        assertTrue(coursesLogic.hasIndicatedSections(typicalCourse1.id));
+
+        ______TS("Typical case: course without sections");
+
+        CourseAttributes typicalCourse2 = getTypicalDataBundle().courses.get("typicalCourse2");
+        assertEquals(false, coursesLogic.hasIndicatedSections(typicalCourse2.id));
+
+        ______TS("Failure case: course does not exists");
+
+        try {
+            coursesLogic.hasIndicatedSections("non-existent-course");
+            signalFailureToDetectException();
+        } catch (EntityDoesNotExistException e){
+            AssertHelper.assertContains("does not exist",
+                                         e.getMessage());   
+        }
+
+        ______TS("Failure case: null parameter");
+
+        try {
+            coursesLogic.hasIndicatedSections(null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            assertEquals("Supplied parameter was null\n", e.getMessage());
+        }
+
     }
 
     @Test
