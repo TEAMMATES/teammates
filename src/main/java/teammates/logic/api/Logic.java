@@ -921,7 +921,7 @@ public class Logic {
 
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
-        return studentsLogic.hasIndicatedSections(courseId);
+        return coursesLogic.hasIndicatedSections(courseId);
     }
 
     /**
