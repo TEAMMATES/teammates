@@ -74,6 +74,82 @@ test('filterCourse()', function(){
     equal($("[id^=student_email-c1]:visible").length, 9, "Student in course 3 email (minus duplicate) should be visible again");
 });
 
+function testFilterSection(){};
+test('filterSection()', function(){
+    //Initialize by checking the options box and show email
+    if(!$("#option_check").is(":checked")){
+        $("#option_check").click();
+    }
+    if(!$("#show_email").is(":checked")){
+        $("#show_email").click();
+    }
+
+    //Manually reset view first
+    $("tr[id^='student-c']").show();
+    $("#emails").show();
+    $(".div[id^='course-']").show();
+
+    // Deselect 1 section and select back usin Select All
+    $("#section_check-1-0").click();
+    equal($("#studentsection-c1\\.0").is(':hidden'), true, "Section not selected is hidden");
+    equal($("#section_all").is(":checked"), false, "Select all check should be removed");
+
+    equal($("#student_email-c0\\.0").is(':visible'), true, "[Team 1]Alice Betsy's email visible");
+    equal($("#student_email-c0\\.1").is(':visible'), true, "[Team 2]Barney Stinson's email visible");
+    equal($("#student_email-c0\\.2").is(':visible'), true, "[Team 3]Benny Charles's email visible");
+    equal($("#student_email-c1\\.0").is(':hidden'), true, "[Team 1]Duplicate Benny Charles's email should be hidden");
+    equal($("#student_email-c1\\.1").is(':hidden'), true, "[Team 1]Carlos Santanna's email hidden");
+    equal($("#student_email-c1\\.2").is(':hidden'), true, "[Team 1]Charlie D's email hidden");
+    equal($("#student_email-c1\\.3").is(':hidden'), true, "[Team 2]Denny Charlés's email hidden");
+    equal($("#student_email-c1\\.4").is(':hidden'), true, "[Team 2]Emma F's email hidden");
+    equal($("#student_email-c1\\.5").is(':hidden'), true, "[Team 2]Frank Gatsby's email hidden");
+    equal($("#student_email-c1\\.6").is(':hidden'), true, "[Team 3]Gabriel Hobb's email hidden");
+    equal($("#student_email-c1\\.7").is(':hidden'), true, "[Team 3]Hans Iker's email hidden");
+    equal($("#student_email-c1\\.8").is(':hidden'), true, "[Team 3]Ian Jacobsson's email hidden");
+    equal($("#student_email-c1\\.9").is(':hidden'), true, "[Team 3]James K's email hidden");
+
+    $("#section_all").click();
+    equal($("#studentsection-c0\\.0").is(':visible'), true, "All sections should be visible");
+    equal($("#studentsection-c0\\.1").is(':visible'), true, "All sections should be visible");
+    equal($("#studentsection-c1\\.0").is(':visible'), true, "All sections should be visible");
+    equal($("#section_check-0-0").is(':checked'), true, "Course 2 Section A should be re-selected");
+    equal($("#section_check-0-1").is(':checked'), true, "Course 2 Section B should be re-selected");
+    equal($("#section_check-1-0").is(':checked'), true, "Course 3 Section C should be re-selected");
+
+    equal($("[id^=student_email]:visible").length, 12, "All emails (minus duplicate) should be visible again");
+
+     // Deselect 1 section and select back usin Select All
+    $("#section_check-0-1").click();
+    equal($("#studentsection-c0\\.1").is(':hidden'), true, "Section not selected is hidden");
+    equal($("#section_all").is(":checked"), false, "Select all check should be removed");
+
+    equal($("#student_email-c0\\.0").is(':visible'), true, "[Team 1]Alice Betsy's email visible");
+    equal($("#student_email-c0\\.1").is(':hidden'), true, "[Team 2]Barney Stinson's email hidden");
+    equal($("#student_email-c0\\.2").is(':hidden'), true, "[Team 3]Benny Charles's email hidden");
+    equal($("#student_email-c1\\.0").is(':visible'), true, "[Team 1]Duplicate Benny Charles's email should be visible");
+    equal($("#student_email-c1\\.1").is(':visible'), true, "[Team 1]Carlos Santanna's email visible");
+    equal($("#student_email-c1\\.2").is(':visible'), true, "[Team 1]Charlie D's email visible");
+    equal($("#student_email-c1\\.3").is(':visible'), true, "[Team 2]Denny Charlés's email visible");
+    equal($("#student_email-c1\\.4").is(':visible'), true, "[Team 2]Emma F's email visible");
+    equal($("#student_email-c1\\.5").is(':visible'), true, "[Team 2]Frank Gatsby's email visible");
+    equal($("#student_email-c1\\.6").is(':visible'), true, "[Team 3]Gabriel Hobb's email visible");
+    equal($("#student_email-c1\\.7").is(':visible'), true, "[Team 3]Hans Iker's email visible");
+    equal($("#student_email-c1\\.8").is(':visible'), true, "[Team 3]Ian Jacobsson's email visible");
+    equal($("#student_email-c1\\.9").is(':visible'), true, "[Team 3]James K's email visible");
+
+    $("#section_check-0-1").click();
+    equal($("#studentsection-c0\\.0").is(':visible'), true, "All sections should be visible");
+    equal($("#studentsection-c0\\.1").is(':visible'), true, "All sections should be visible");
+    equal($("#studentsection-c1\\.0").is(':visible'), true, "All sections should be visible");
+    equal($("#section_check-0-0").is(':checked'), true, "Course 2 Section A should be re-selected");
+    equal($("#section_check-0-1").is(':checked'), true, "Course 2 Section B should be re-selected");
+    equal($("#section_check-1-0").is(':checked'), true, "Course 3 Section C should be re-selected");
+
+    equal($("[id^=student_email]:visible").length, 12, "All emails (minus duplicate) should be visible again");
+
+
+});
+
 function testFilterTeam(){};
 test('filterTeam()', function(){
     //Initialize by checking the options box and show email
