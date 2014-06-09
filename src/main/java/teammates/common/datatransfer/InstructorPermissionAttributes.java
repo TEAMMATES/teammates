@@ -104,9 +104,41 @@ public class InstructorPermissionAttributes extends EntityAttributes {
     public String getAccessAsString() {
         return this.access.getValue();
     }
+
+    public String getInstructorEmail() {
+        return instructorEmail;
+    }
+
+    public void setInstructorEmail(String instructorEmail) {
+        this.instructorEmail = instructorEmail;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public Text getAccess() {
+        return access;
+    }
+
+    public void setAccess(Text access) {
+        this.access = access;
+    }
+
+    public String getCourseId() {
+        return courseId;
+    }
     
     public InstructorPrivileges getPrivileges() {
         return this.privileges;
+    }
+
+    public void setPrivileges(InstructorPrivileges privileges) {
+        this.privileges = privileges;
     }
 
 }
