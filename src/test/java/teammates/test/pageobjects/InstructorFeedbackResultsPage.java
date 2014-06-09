@@ -8,6 +8,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.Select;
 
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
@@ -54,18 +55,20 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
     
     public void displayByGiver() {
-        WebElement button = browser.driver.findElements(By.name(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE)).get(0);
-        button.click();
+        Select select = new Select(browser.driver.findElement(By.name(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE)));
+        select.selectByVisibleText("Group by - Giver > Recipient > Question");
+        waitForPageToLoad();
     }
     
     public void displayByRecipient() {
-        WebElement button = browser.driver.findElements(By.name(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE)).get(1);
-        button.click();
+        Select select = new Select(browser.driver.findElement(By.name(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE)));
+        select.selectByVisibleText("Group by - Recipient > Giver > Question");
+        waitForPageToLoad();
     }
     
-    public void displayByTable() {
-        WebElement button = browser.driver.findElements(By.name(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE)).get(2);
-        button.click();
+    public void displayByQuestion() {
+        Select select = new Select(browser.driver.findElement(By.name(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE)));
+        select.selectByVisibleText("Group by - Question");
         waitForPageToLoad();
     }
     
