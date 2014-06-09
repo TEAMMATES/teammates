@@ -28,6 +28,11 @@
                         <li class="<%=data.getClass().toString().contains("StudentHelp")?"active":""%>">
                             <a class='nav help' href="/studentHelp.html" target="_blank">Help</a>
                         </li>
+                        <li class="<%=data.getClass().toString().contains("StudentProfilePage")?"active":""%>">
+                            <a data-link="studentProfilePage" href="<%=data.getStudentProfileLink()%>">
+                                Profile<sup><span class="glyphicon-star warning"></span></sup>
+                            </a>
+                        </li>
                     </ul>
                     <ul class="nav navbar-nav pull-right">
                         <li><a class='nav logout' href="<%=Const.ViewURIs.LOGOUT%>">Logout
