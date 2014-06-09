@@ -317,7 +317,7 @@ public class StudentsLogic {
             }
         }
 
-        if(mergedList.size() < 2){
+        if(mergedList.size() < 2){ // no conflicts
             return;
         }
         
