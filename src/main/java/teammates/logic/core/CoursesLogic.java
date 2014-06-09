@@ -213,8 +213,7 @@ public class CoursesLogic {
             
             StudentAttributes s = students.get(i);
             
-            // First student of first section
-            if(section == null) {
+            if(section == null) {   // First student of first section
                 section = new SectionDetailsBundle();
                 section.name = s.section;
                 section.teams.add(new TeamDetailsBundle());
@@ -239,7 +238,8 @@ public class CoursesLogic {
                 section.teams.get(teamIndexWithinSection).students.add(s);
             }
             
-            if(i == (students.size() -1)){
+            boolean isLastStudent = i == (students.size() -1);
+            if(isLastStudent){
                 sections.add(section);
             }
         }
