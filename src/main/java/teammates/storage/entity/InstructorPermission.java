@@ -7,7 +7,7 @@ import javax.jdo.annotations.PrimaryKey;
 import com.google.appengine.api.datastore.Text;
 
 /**
- * A class that represents permission for an instructor
+ * Represents permission for an instructor
  *
  */
 public class InstructorPermission {
@@ -28,7 +28,7 @@ public class InstructorPermission {
     @Persistent
     private String role;
     
-    /** The text representing of exceptions */
+    /** The text representing of privileges */
     @Persistent
     private Text access;
     

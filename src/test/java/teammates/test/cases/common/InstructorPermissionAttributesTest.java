@@ -87,7 +87,7 @@ public class InstructorPermissionAttributesTest extends BaseTestCase {
         assertEquals(privilegesString, instructorAttr.getAccessAsString());
         
         instructorAttr = new InstructorPermissionAttributes(instrEmail, courseId, role, new Text(privilegesString));
-        assertEquals(privileges, instructorAttr.getPrivileges());
+        assertEquals(privileges, instructorAttr.privileges);
         
         InstructorPermission instrPermission = instructorAttr.toEntity();
         InstructorPermissionAttributes instrAttr = new InstructorPermissionAttributes(instrPermission);
