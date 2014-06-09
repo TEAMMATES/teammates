@@ -44,12 +44,10 @@ public class AccountsDbTest extends BaseComponentTestCase {
        ______TS("typical success case");
         AccountAttributes retrieved = accountsDb.getAccount(a.googleId);
         assertNotNull(retrieved);
-        accountsDb.closePM();
         
         ______TS("expect null for non-existent account");
         retrieved = accountsDb.getAccount("non.existent");
         assertNull(retrieved);
-        accountsDb.closePM();
         
         ______TS("failure: null parameter");
         try {
@@ -124,8 +122,6 @@ public class AccountsDbTest extends BaseComponentTestCase {
         assertTrue(accountDataTest.isInstructor);
         assertEquals(Const.GenderTypes.FEMALE, accountDataTest.studentProfile.gender);
         
-        accountsDb.closePM();
-        
         ______TS("success: modified date does not change if profile is not changed");
         
         accountDataTest = accountsDb.getAccount(a.googleId);
@@ -139,8 +135,6 @@ public class AccountsDbTest extends BaseComponentTestCase {
         assertEquals(accountDataTest.institute, a.institute);
         // ensure profile was not updated
         assertEquals(expectedModifiedDate, a.studentProfile.modifiedDate);
-
-        accountsDb.closePM();
         
         
         // Should we not allow empty fields?
@@ -210,11 +204,17 @@ public class AccountsDbTest extends BaseComponentTestCase {
 
     @Test 
     public void testGetStudentProfile() throws Exception{
+        
+        ______TS("success case");
         AccountAttributes a = createNewAccount();
         a = accountsDb.getAccount(a.googleId);
         StudentProfileAttributes spa = accountsDb.getStudentProfile(a.googleId);
         
         assertEquals(a.studentProfile.toString(), spa.toString());
+        
+        ______TS("non-existent account");
+        
+        assertNull(accountsDb.getStudentProfile("non-eXisTent"));
     }
     
     @Test

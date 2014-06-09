@@ -28,6 +28,7 @@ import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentAttributesFactory;
 import teammates.common.datatransfer.StudentEnrollDetails;
+import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -1228,6 +1229,44 @@ ______TS("invalid course id");
         } catch (AssertionError a) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
         }
+    }
+    
+    @Test
+    public void testGetStudentProfile() throws Exception {
+        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
+        String instructorId = "instructor.profile.test";
+        AccountAttributes student1 = dataBundle.accounts.get("student1InCourse1");
+        
+        ______TS("success: default profile");
+        
+        StudentProfileAttributes actualSpa = studentsLogic.getStudentProfile(student1InCourse1.googleId);
+        StudentProfileAttributes expectedSpa = new StudentProfileAttributes();
+        
+        // fill-in auto-generated and default values
+        expectedSpa.institute = actualSpa.institute;
+        expectedSpa.modifiedDate = actualSpa.modifiedDate;
+        
+        assertEquals(expectedSpa.toString(), actualSpa.toString());
+        
+        ______TS("success: edited profile");
+        
+        StudentProfileAttributes expectedStudentProfile = new StudentProfileAttributes();
+        
+        expectedStudentProfile.shortName = "short";
+        expectedStudentProfile.email = "personal@email.com";
+        expectedStudentProfile.institute = "institute";
+        expectedStudentProfile.country = "Valid Country";
+        expectedStudentProfile.gender = "female";
+        expectedStudentProfile.moreInfo = "This sentence may sound sound but it cannot make actual sound... :P";
+        
+        student1.studentProfile = expectedStudentProfile;
+        accountsLogic.updateAccount(student1);
+        
+        StudentProfileAttributes actualStudentProfile = studentsLogic.getStudentProfile(student1InCourse1.googleId);
+        expectedStudentProfile.modifiedDate = actualStudentProfile.modifiedDate;
+        assertEquals(expectedStudentProfile.toString(), actualStudentProfile.toString());
+        
+        
     }
     
     @Test

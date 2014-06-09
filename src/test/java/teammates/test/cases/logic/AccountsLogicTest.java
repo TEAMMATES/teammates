@@ -16,6 +16,7 @@ import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -73,12 +74,28 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         testGetInstructorAccounts();
         testAccountFunctions();
         testCreateAccount();
+        testGetStudentProfile();
         testCreateInstructorAccount();
         testJoinCourseForStudent();
         testJoinCourseForInstructor();
         testDeleteAccountCascade();
     }
  
+    private void testGetStudentProfile() throws Exception {
+        StudentProfileAttributes expectedSpa = new StudentProfileAttributes("shortName", "personal@email.com", 
+                "institute", "countryName", "female", "moreInfo");
+        AccountAttributes accountWithStudentProfile = new AccountAttributes("id", "name",
+                true, "test@email.com", "dev", expectedSpa);
+        
+        accountsLogic.createAccount(accountWithStudentProfile);
+        
+        StudentProfileAttributes actualSpa = accountsLogic.getStudentProfile(accountWithStudentProfile.googleId);
+        expectedSpa.modifiedDate = actualSpa.modifiedDate;
+        
+        assertEquals(expectedSpa.toString(), actualSpa.toString());
+        
+    }
+
     private void testCreateAccount() throws Exception {
 
         ______TS("typical success case");
