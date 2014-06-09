@@ -245,6 +245,74 @@ public class InstructorPermissionsDbTest extends BaseComponentTestCase {
         
     }
     
+    @Test
+    public void testDeleteInstructorPermission() throws InvalidParametersException {
+        createInstructorPermissions();
+        String instrEmailToDelete = "instructorPerm1@coursePerm1.com";
+        String courseIdToDelete = "coursePerm1";
+        InstructorPermissionAttributes permission = getCoownerInstructorPermissionAttr(); 
+        
+        ______TS("Success: delete entity");
+        
+        permission.instructorEmail = instrEmailToDelete;
+        permission.courseId = courseIdToDelete;
+        instrPermissionsDb.deleteInstructorPermission(courseIdToDelete, instrEmailToDelete);
+        TestHelper.verifyAbsentInDatastore(permission);
+        
+        ______TS("Success: delete non-exist entity");
+        
+        String nonExistEmail = "nonExistEmail@google.com";
+        instrPermissionsDb.deleteInstructorPermission(courseId, nonExistEmail);
+        
+        ______TS("Failure: null parameters");
+        
+        try {
+            instrPermissionsDb.deleteInstructorPermission(null, instrEmail);
+            signalFailureToDetectException();
+        } catch(AssertionError e) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
+        }
+        
+        try {
+            instrPermissionsDb.deleteInstructorPermission(courseId, null);
+            signalFailureToDetectException();
+        } catch(AssertionError e) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
+        }
+        
+    }
+    
+    @Test
+    public void testDeleteInstructorPermissionsForCourse() throws InvalidParametersException {
+        createInstructorPermissions();       
+        String courseIdToDelete = "coursePerm1";
+        InstructorPermissionAttributes permission = getCoownerInstructorPermissionAttr(); 
+        
+        ______TS("Success: typical case");
+        
+        instrPermissionsDb.deleteInstructorPermissionsForCourse(courseIdToDelete);
+        String instrEmail1 = "instructorPerm1@coursePerm1.com";
+        permission.instructorEmail = instrEmail1;
+        permission.courseId = courseIdToDelete;
+        TestHelper.verifyAbsentInDatastore(permission);
+        String instrEmail2 = "instructorPerm2@coursePerm1.com";
+        permission.instructorEmail = instrEmail2;
+        TestHelper.verifyAbsentInDatastore(permission);
+        String instrEmail3 = "instructorPerm3@coursePerm1.com";
+        permission.instructorEmail = instrEmail3;
+        TestHelper.verifyAbsentInDatastore(permission);
+        
+        ______TS("Failure: null parameters");
+        
+        try {
+            instrPermissionsDb.deleteInstructorPermissionsForCourse(null);
+            signalFailureToDetectException();
+        } catch(AssertionError e) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
+        }
+        
+    }
+    
     private void createInstructorPermissions() throws InvalidParametersException {
         instrEmail = "instructorPerm1@coursePerm1.com";
         courseId = "coursePerm1";

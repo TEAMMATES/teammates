@@ -228,6 +228,10 @@ public class TestHelper extends BaseComponentTestCase{
     public static void verifyAbsentInDatastore(InstructorAttributes expectedInstructor) {
         assertNull(instructorsDb.getInstructorForGoogleId(expectedInstructor.courseId, expectedInstructor.googleId));
     }
+    
+    public static void verifyAbsentInDatastore(InstructorPermissionAttributes expected) {
+        assertNull(instructorPermissionsDb.getInstructorPermissionForEmail(expected.courseId, expected.instructorEmail));
+    }
 
     public static void verifyAbsentInDatastore(CourseAttributes course) {
         assertNull(coursesDb.getCourse(course.id));
