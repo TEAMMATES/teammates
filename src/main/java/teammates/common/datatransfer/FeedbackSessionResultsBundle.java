@@ -160,8 +160,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
                     responsesForQn.add(response);
                 }
             }
-            Collections.sort(responsesForQn, compareByGiverName);
-            Collections.sort(responsesForQn, compareByGiverTeamName);
+            Collections.sort(responsesForQn, compareByRecipientGiverQuesion);
             sortedMap.put(question, responsesForQn);
         }
         
@@ -238,6 +237,10 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
      * <br>with attributes corresponding to it's parents.
      * @return The responses in this bundle sorted by recipient's name > giver's name > question number.
      */
+    public Map<String, Map<String, List<FeedbackResponseAttributes>>> getResponsesSortedByRecipient() {
+        return getResponsesSortedByRecipient(false);
+    }
+    
     public Map<String, Map<String, List<FeedbackResponseAttributes>>> getResponsesSortedByRecipient(boolean sortByTeam) {
 
         Map<String, Map<String, List<FeedbackResponseAttributes>>> sortedMap =
@@ -378,6 +381,9 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
      * <br>with attributes corresponding to it's parents.
      * @return The responses in this bundle sorted by giver's name > recipient's name > question number.
      */
+    public Map<String, Map<String, List<FeedbackResponseAttributes>>> getResponsesSortedByGiver() {
+        return getResponsesSortedByGiver(false);
+    }
     public Map<String, Map<String, List<FeedbackResponseAttributes>>> getResponsesSortedByGiver(boolean sortByTeam) {
 
         Map<String, Map<String, List<FeedbackResponseAttributes>>> sortedMap =

@@ -556,7 +556,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
     }
 
     private void testInputValidationForNumScaleQuestion() {
-        //TODO: Validate that NumScale can only be added/saved when min/max step parameters are filled and correct.
         
         ______TS("empty options");
         

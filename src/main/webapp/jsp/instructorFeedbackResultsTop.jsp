@@ -93,14 +93,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-5" data-toggle="tooltip" title="Search the results in the current view">
+                <div class="col-sm-5" data-toggle="tooltip" title="Filter the results in the current view">
                     <div class="form-group">
                         <label for="viewSelect" class="col-sm-2 control-label">
-                            Search:
+                            Filter:
                         </label>
                         <div class="col-sm-10">
                             <div class="input-group">
-                                <input type="text" id="results-search-box" class="form-control" placeholder="Type here to search results" onchange="updateResultsFilter()">
+                                <input type="text" id="results-search-box" class="form-control" placeholder="Type here to filter results" onchange="updateResultsFilter()">
                                 <a class="input-group-addon btn btn-default"><span class="glyphicon glyphicon-search"></span></a>
                             </div>
                         </div>

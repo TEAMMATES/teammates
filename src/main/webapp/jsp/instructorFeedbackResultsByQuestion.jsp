@@ -78,7 +78,7 @@
                                 <th id="button_sortToName" onclick="toggleSort(this,3)" style="width: 15%;">
                                     Recipient
                                 </th>
-                                <th id="button_sortFromTeam" class="button-sort-ascending" onclick="toggleSort(this,4)" style="width: 15%;">
+                                <th id="button_sortToTeam" class="button-sort-ascending" onclick="toggleSort(this,4)" style="width: 15%;">
                                     Team
                                 </th>
                                 <th id="button_sortFeedback" onclick="toggleSort(this,5)">
