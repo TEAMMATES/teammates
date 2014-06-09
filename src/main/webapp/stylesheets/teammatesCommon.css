@@ -126,6 +126,12 @@ body {
     width: 60%;
 }
 
+@media (max-width: 767px) {
+    .well-sm-wide {
+        width:100%;
+    }
+}
+
 .well-plain {
     background-color: #eaeff5;
     background-image: none;
