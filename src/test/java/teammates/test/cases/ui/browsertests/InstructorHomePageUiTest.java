@@ -83,7 +83,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         testHelpLink();
         testCourseLinks();
         testEvaluationLinks();
-       // testSearchAction();
+        testSearchAction();
         testSortAction();
         testRemindAction();
         testPublishUnpublishActions();

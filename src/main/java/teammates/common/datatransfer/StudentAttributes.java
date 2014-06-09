@@ -173,16 +173,16 @@ public class StudentAttributes extends EntityAttributes {
     
     public static void sortBySectionName(List<StudentAttributes> students) {
         Collections.sort(students, new Comparator<StudentAttributes>() {
-            public int compare(StudentAttributes s1, StudentAttributes s2) {
-                String sect1 = s1.section;
-                String sect2 = s2.section;
+            public int compare(StudentAttributes student1, StudentAttributes student2) {
+                String sect1 = student1.section;
+                String sect2 = student2.section;
 
                 // If the section name is the same, reorder by team name
                 if(sect1.compareTo(sect2) == 0){
-                    if(s1.team.compareTo(s2.team) == 0){
-                        return s1.name.compareTo(s2.name);
+                    if(student1.team.compareTo(student2.team) == 0){
+                        return student1.name.compareTo(student2.name);
                     } 
-                    return s1.team.compareTo(s2.team);
+                    return student1.team.compareTo(student2.team);
                 }
                 return sect1.compareTo(sect2);
             }
@@ -191,25 +191,25 @@ public class StudentAttributes extends EntityAttributes {
 
     public static void sortByTeamName(List<StudentAttributes> students) {
         Collections.sort(students, new Comparator<StudentAttributes>() {
-            public int compare(StudentAttributes s1, StudentAttributes s2) {
-                String t1 = s1.team;
-                String t2 = s2.team;
+            public int compare(StudentAttributes student1, StudentAttributes student2) {
+                String team1 = student1.team;
+                String team2 = student2.team;
             
                 //If the team name is the same, reorder by student name
-                if(t1.compareTo(t2) == 0){
-                    return s1.name.compareTo(s2.name);
+                if(team1.compareTo(team2) == 0){
+                    return student1.name.compareTo(student2.name);
                 }
-                return t1.compareTo(t2);
+                return team1.compareTo(team2);
             }
         });
     }
     
     public static void sortByNameAndThenByEmail(List<StudentAttributes> students) {
         Collections.sort(students, new Comparator<StudentAttributes>() {
-            public int compare(StudentAttributes s1, StudentAttributes s2) {
-                int result = s1.name.compareTo(s2.name);
+            public int compare(StudentAttributes student1, StudentAttributes student2) {
+                int result = student1.name.compareTo(student2.name);
                 if (result == 0)
-                    result = s1.email.compareTo(s2.email);
+                    result = student1.email.compareTo(student2.email);
                 return result;
             }
         });
