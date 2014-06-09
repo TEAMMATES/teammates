@@ -21,7 +21,7 @@ Important: When a version is specified, please install that version instead of t
 8. Install the latest [TestNG Eclipse plugin](http://testng.org/doc/eclipse.html).
 
 ##Setting up the dev server
-`Dev server` means running the server in localhost mode.
+`Dev server` means running the server in your own computer.
 
 1. Clone the source code from `https://github.com/TEAMMATES/repo`
 1. Configure Eclipse (if you worry that these settings will interfere with your 
@@ -32,7 +32,8 @@ Important: When a version is specified, please install that version instead of t
    JDK (not a JRE) is selected. One of the items in the [Troubleshooting help]
    (https://docs.google.com/document/d/1_p7WOGryOStPfTGA_ZifE1kVlskb1zfd3HZwc4lE4QQ/pub?embedded=true)
     explains how to do this.
-    * Tab behavior: In TEAMMATES, we use spaces in place of tabs. `Window → Preferences → General → Editors → Text Editors → Insert spaces for tabs` <br>
+    * Tab behavior: In TEAMMATES, we use spaces in place of tabs. 
+    `Window → Preferences → General → Editors → Text Editors → Insert spaces for tabs` <br>
     Similarly, configure `Web → CSS Files → Editor`, 
     `Web → HTML Files → Editor`, and `XML Files → Editor`
     to indent using 4 spaces instead of tabs.
@@ -40,18 +41,14 @@ Important: When a version is specified, please install that version instead of t
    content vary from developer to developer}.
    * `src/main/resources/build.properties`<br>
    Use `build.template.properties` (in the same folder) 
-   as a template (i.e. `copy → paste → rename`).
-   For dev server testing, property values can remain as they are.
+   as the template (i.e. `copy → paste → rename`).
+   For now, property values can remain as they are.
    * `src/test/resources/test.properties`<br>
    Create it using `test.template.properties`. 
-   For dev server testing, property values can remain as they are.<br>
-   If you have installed multiple versions of Firefox, you need to specify 
-   which one to use for testing, by modifying the `test.firefox.path` property 
-   (note the double slashes).<br>
-   e.g. `test.firefox.path=C:\\Program Files (x86)\\Mozilla Firefox 12.1\\firefox.exe`
+   For now, property values can remain as they are.<br>
    * `src/main/webapp/WEB-INF/appengine-web.xml`<br>
-   Create using `appengine-web.template.xml`. 
-   For dev server testing, property values can remain as they are.
+   Create it using `appengine-web.template.xml`. 
+   For now, property values can remain as they are.
 3. Download [this zip file](http://www.comp.nus.edu.sg/~seer/teammates-libs/libs.zip)
    containing the required library files and unzip it into
    your project folder. Note that this will overwrite some existing library files,
@@ -77,34 +74,39 @@ Important: When a version is specified, please install that version instead of t
       
 ##Running the test suite
 
-Before running the test suite, we need to change the time zone of the dev server to `UTC`, 
-as expected by test cases. Here is the procedure.
+
 
 1. TEAMMATES automated testing requires Firefox (works on Windows and OS-X) 
     or Chrome (Windows only). The default browser used for testing is Firefox 
     because it is faster than Chrome and it can be run in the background.
     If you plan to use Firefox for testing TEAMMATES, 
    downgrade to Firefox 21.0 from [here](https://ftp.mozilla.org/pub/mozilla.org/firefox/releases/)
-   {The web driver we use does not work with the latest Firefox.} <br>
+   {The web driver we use may not work with the latest Firefox.} <br>
    To install Firefox 21.0 while keeping the latest Firefox for
    regular use, grab Firefox 21.0 from the above link, and choose `custom 
    setup` during install, in which you will be able to specify a different path 
    for this version e.g. `C:\Program Files\Mozilla Firefox 21`) in a later step.<br>
-   Remember to disable auto-updates in Firefox. `Options → Advanced tab → Update`
+   Remember to disable auto-updates in Firefox. `Options → Advanced tab → Update`<br>
+   After that, you need to specify which version of the Firefox
+   should be used for testing, by modifying the `test.firefox.path` property 
+   (note the double slashes).<br>
+   e.g. `test.firefox.path=C:\\Program Files\\Mozilla Firefox 12\\firefox.exe`
    
-2. Stop the dev server, if it is running already.
+2. Before running the test suite, both the server and the test environment 
+   should be using the UTC time zone. Here is the procedure.
+    
+    a. Stop the dev server, if it is running already.
 
-2. Specify timezone as a VM argument: For the system to work correctly, both the 
-   server and the test environment should be using the UTC time zone.
-   * Go to the `run configuration` Eclipse created when you started the dev server
-    (`Run → Run configurations ...` and select the appropriate one).
-   * Click on the `Arguments` tab and add `-Duser.timezone=UTC` to the `VM arguments` text box.
-   * Save the configuration for future use: Go to the `Common` tab (the last one) 
-   and make sure you have selected `Save as → Local file` and 
-   `Display in favorites menu →  Run, Debug`.
+    b. Specify timezone as a VM argument: 
+       * Go to the `run configuration` Eclipse created when you started the dev server
+        (`Run → Run configurations ...` and select the appropriate one).
+       * Click on the `Arguments` tab and add `-Duser.timezone=UTC` to the `VM arguments` text box.
+       * Save the configuration for future use: Go to the `Common` tab (the last one) 
+       and make sure you have selected `Save as → Local file` and 
+       `Display in favorites menu →  Run, Debug`.
 
-3. Start the server again using the _run configuration_ you created in
-   the previous step..<br>
+    c. Start the server again using the _run configuration_ you created in
+       the previous step..<br>
    
 4. Run tests. <br>
     This can be done using the `All tests` option under the green `Run` button 
@@ -163,7 +165,7 @@ this section.
 
 **On OS-X:**
 TBD
-##Deploying to staging server
+##Deploying to a staging server
 `Staging server` is the server instance you set up on Google App Engine for hosting the app for testing purposes.
 
 1. Create your own app on GAE.
@@ -206,12 +208,15 @@ Troubleshooting instructions are given [in this document](https://docs.google.co
 * **Eclipse** IDE for EE developers [version Kepler]
 * **Google App Engine Plugin for Eclipse** [version 4.3]
 * **Google App Engine SDK** [version 1.9.4]
-* **GitHub**
-* **GitHub for Windows/Mac** or equivalent [version: latest stable]
+* **GitHub** : Used to host the repo and code reviewing.
+* **Pivotal Tracker** : Used for project management.
+* Optional: **SourceTree** or **GitHub for Windows/Mac** or 
+  equivalent [version: latest stable] to use as a GUI client for Git.
 
 ####Tools used in implementation
 * **HTML** [version 5, using latest features is discouraged due to lack of enough Browser support], JavaScript, CSS
-* **jQuery** [version 1.8.3]
+* **Bootstrap** [version 3.1.1], as the front-end UI framework
+* **jQuery** [version 1.11.1]
   jQuery is a JavaScript Library that simplifies HTML document traversing, event handling, animating, and Ajax interactions for rapid web development.
 * **JSON** (JavaScript Object Notation): JSON is a lightweight data-interchange format. It is easy for humans to read and write. It is easy for machines to parse and generate. It is based on a subset of the JavaScript.
 * **Gson** [version 2.2.2] Gson is a Java library that can be used to convert Java Objects into their JSON representation. It can also be used to convert a JSON string to an equivalent Java object.
@@ -226,13 +231,13 @@ Troubleshooting instructions are given [in this document](https://docs.google.co
 
 ####Tools used in testing
 
-* **Selenium** [version 2.26.0]
+* **Selenium** [version 2.41.0]
     Selenium automates browsers. We use it for automating our UI tests.
     We require Selenium standalone server, Chrome driver, IE driver, and Java language bindings.
 * **JavaMail** [version 1.4.5]
     The JavaMail API provides a platform-independent and protocol-independent framework to build mail and messaging applications.
     Usage: For accessing test users' email accounts to examine emails sent from TEAMMATES.
-* **TestNG** [version 6.8.1]
+* **TestNG** [latest stable]
     TestNG is a Java test automation framework.
 * **QUnit** [version 1.10.0]
     QUnit is a JavaScript unit test suite.
