@@ -101,7 +101,7 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
         assertEquals("", result.getStatusMessage());
         assertFalse(result.isError);
         
-        ______TS("Successful Case 2: sortType table");
+        ______TS("Successful Case 2: sortType question");
         
         action = getAction(paramsWithSortTypeQuestion);
         result = action.executeAndPostProcess();
@@ -112,7 +112,7 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
         assertEquals("", result.getStatusMessage());
         assertFalse(result.isError);
         
-        ______TS("Successful Case 3: sortType giver");
+        ______TS("Successful Case 3: sortType giver-recipient-question");
         
         action = getAction(paramsWithSortTypeGiverRecipientQuestion);
         result = action.executeAndPostProcess();
@@ -123,12 +123,12 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
         assertEquals("", result.getStatusMessage());
         assertFalse(result.isError);
         
-        ______TS("Successful Case 4: sortType recipient");
+        ______TS("Successful Case 4: sortType recipient-giver-question");
         
         action = getAction(paramsWithSortTypeRecipientGiverQuestion);
         result = action.executeAndPostProcess();
         
-        ______TS("Successful Case 5: sortType giver");
+        ______TS("Successful Case 5: sortType giver-question-recipient");
         
         action = getAction(paramsWithSortTypeGiverQuestionRecipient);
         result = action.executeAndPostProcess();
@@ -139,7 +139,7 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
         assertEquals("", result.getStatusMessage());
         assertFalse(result.isError);
         
-        ______TS("Successful Case 6: sortType recipient");
+        ______TS("Successful Case 6: sortType recipient-question-giver");
         
         action = getAction(paramsWithSortTypeRecipientQuestionGiver);
         result = action.executeAndPostProcess();
