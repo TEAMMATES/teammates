@@ -15,14 +15,17 @@ import teammates.common.util.ThreadHelper;
 
 public class InstructorFeedbackResultsPage extends AppPage {
 
-    @FindBy(id = "button_sortFrom")
-    private WebElement sortTableGiverButton;
+    @FindBy(id = "button_sortFromName")
+    public WebElement sortTableGiverButton;
     
-    @FindBy(id = "button_sortTo")
+    @FindBy(id = "button_sortToName")
     private WebElement sortTableRecipientButton;
     
     @FindBy(id = "button_sortFeedback")
     private WebElement sortTableAnswerButton;
+    
+    @FindBy(id = "collapse-panels-button")
+    public WebElement collapseExpandButton;
     
     @FindBy(id = "button_add_comment")
     private WebElement showResponseCommentAddFormButton;
@@ -90,6 +93,10 @@ public class InstructorFeedbackResultsPage extends AppPage {
         waitForPageToLoad();
     }
     
+    public void clickCollapseExpand() {
+        collapseExpandButton.click();
+        waitForPageToLoad();
+    }
     
     public AppPage sortTableByGiver() {
         sortTableGiverButton.click();
@@ -141,6 +148,15 @@ public class InstructorFeedbackResultsPage extends AppPage {
         fillTextBox(commentEditForm.findElement(By.name("responsecommenttext")), newCommentText);
         commentEditForm.findElement(By.tagName("a")).click();
         ThreadHelper.waitFor(1000);
+    }
+    
+    public boolean verifyAllResultsPanelBodyVisibility(boolean visible){
+        for(WebElement e : browser.driver.findElements(By.cssSelector(".panel-heading+.panel-body"))){
+            if(e.isDisplayed() != visible){
+                return false;
+            }
+        }
+        return true;
     }
     
     public void deleteFeedbackResponseComment(String commentIdSuffix) {

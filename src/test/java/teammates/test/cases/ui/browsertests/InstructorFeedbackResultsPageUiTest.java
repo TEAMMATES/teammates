@@ -2,6 +2,7 @@ package teammates.test.cases.ui.browsertests;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.assertTrue;
 
 import org.openqa.selenium.By;
 import org.testng.annotations.AfterClass;
@@ -40,6 +41,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
     public void testAll() throws Exception {
         testContent();
         testSortAction();
+        testPanelsCollapseExpand();
         testFeedbackResponseCommentActions();
         testDownloadAction();
         testLink();
@@ -175,6 +177,23 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                 "Team 1{*}Team 2",
                 "Team 1{*}Team 1");
         
+        
+    }
+    
+    public void testPanelsCollapseExpand(){
+        ______TS("panels expand/collapse");
+        
+        assertEquals(resultsPage.collapseExpandButton.getText(),"Collapse All");
+        assertTrue(resultsPage.verifyAllResultsPanelBodyVisibility(true));
+        
+        resultsPage.clickCollapseExpand();
+        assertEquals(resultsPage.collapseExpandButton.getText(),"Expand All");
+        assertTrue(resultsPage.verifyAllResultsPanelBodyVisibility(false));
+        
+
+        resultsPage.clickCollapseExpand();
+        assertEquals(resultsPage.collapseExpandButton.getText(),"Collapse All");
+        assertTrue(resultsPage.verifyAllResultsPanelBodyVisibility(true));
         
     }
     
