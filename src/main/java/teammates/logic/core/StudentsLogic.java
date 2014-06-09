@@ -43,6 +43,8 @@ public class StudentsLogic {
     //  familiar with the its code and Logic's code. Hence, no need for header 
     //  comments.
     
+    private static int SECTION_QUOTA_LIMIT = 100;
+
     private static StudentsLogic instance = null;
     private StudentsDb studentsDb = new StudentsDb();
     
@@ -319,14 +321,51 @@ public class StudentsLogic {
             return;
         }
         
-        Collections.sort(mergedList, new Comparator<StudentAttributes>() {
-            @Override
-            public int compare(StudentAttributes o1, StudentAttributes o2) {
-                return o1.team.compareTo(o2.team);
+        String errorMessage = "";
+        errorMessage += getSectionInvalidityInfo(mergedList);
+        errorMessage += getTeamInvalidityInfo(mergedList);
+
+        if(!errorMessage.equals("")){
+            throw new EnrollException(errorMessage);
+        }
+
+    }
+
+    private String getSectionInvalidityInfo(List<StudentAttributes> mergedList) {
+        
+        StudentAttributes.sortBySectionName(mergedList);
+
+        List<String> invalidSectionList = new ArrayList<String>();
+        int studentsCount = 1;
+        for(int i = 1; i < mergedList.size(); i++){
+            StudentAttributes currentStudent = mergedList.get(i);
+            StudentAttributes previousStudent = mergedList.get(i-1);
+            if(currentStudent.section.equals(previousStudent.section)){
+                studentsCount++;
+            } else {
+                if(studentsCount > SECTION_QUOTA_LIMIT){
+                    invalidSectionList.add(previousStudent.section);
+                }
+                studentsCount = 1;
             }
-        });
+
+            if(i == mergedList.size() - 1 && studentsCount > SECTION_QUOTA_LIMIT){
+                invalidSectionList.add(currentStudent.section);
+            }
+        }
 
         String errorMessage = "";
+        for(String section: invalidSectionList){
+            errorMessage += String.format(Const.StatusMessages.SECTION_QUOTA_EXCEED, section);
+        }
+
+        return errorMessage;
+    }
+
+    private String getTeamInvalidityInfo(List<StudentAttributes> mergedList) {
+
+        StudentAttributes.sortByTeamName(mergedList);
+
         List<String> invalidTeamList = new ArrayList<String>();
         for(int i = 1; i < mergedList.size(); i++){
             StudentAttributes currentStudent = mergedList.get(i);
@@ -337,13 +376,13 @@ public class StudentsLogic {
                 }
             }
         }
+
+        String errorMessage = "";
         for(String team : invalidTeamList){
             errorMessage += String.format(Const.StatusMessages.TEAM_INVALID_SECTION_EDIT, team);
         }
-        if(!errorMessage.equals("")){
-            throw new EnrollException(errorMessage);
-        }
 
+        return errorMessage;
     }
 
     private void scheduleSubmissionAdjustmentForFeedbackInCourse(

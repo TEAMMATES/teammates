@@ -597,6 +597,7 @@ public class Const {
         public static final String COURSE_ENROLL_STUDENTS_UNKNOWN = "There are %d student(s) for which the enrollment status is unknown:";
 
         public static final String TEAM_INVALID_SECTION_EDIT = "Cannot put team \"%s\" in 2 different sections<br>";
+        public static final String SECTION_QUOTA_EXCEED = "Cannot put more than 100 students in section \"%s\"<br>";
 
         public static final String COURSE_INSTRUCTOR_ADDED = "The instructor %s has been added successfully."
                 + "An email containing how to 'join' this course will be sent to %s in a few minutes.";
