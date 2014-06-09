@@ -80,7 +80,7 @@ public class InstructorPermissionsDb extends EntitiesDb {
         }
         updatedInstrPermission.sanitizeForSaving();
         
-        InstructorPermission oldInstrPermission = getInstructorPermissionEntityForEmail(updatedInstrPermission.getCourseId(),
+        InstructorPermission oldInstrPermission = getInstructorPermissionEntityForEmail(updatedInstrPermission.courseId,
                 oldInstrEmail);
         
         if (oldInstrPermission == null) {
@@ -88,14 +88,14 @@ public class InstructorPermissionsDb extends EntitiesDb {
                     + ThreadHelper.getCurrentThreadStack());
         }
         
-        if (!oldInstrEmail.equals(updatedInstrPermission.getInstructorEmail())) {
-            oldInstrPermission.setInstructorEmail(updatedInstrPermission.getInstructorEmail());
+        if (!oldInstrEmail.equals(updatedInstrPermission.instructorEmail)) {
+            oldInstrPermission.setInstructorEmail(updatedInstrPermission.instructorEmail);
         }
-        if (!oldInstrPermission.getRole().equals(updatedInstrPermission.getRole())) {
-            oldInstrPermission.setRole(updatedInstrPermission.getRole());
+        if (!oldInstrPermission.getRole().equals(updatedInstrPermission.role)) {
+            oldInstrPermission.setRole(updatedInstrPermission.role);
         }
-        if (!oldInstrPermission.getAccess().equals(updatedInstrPermission.getAccess())) {
-            oldInstrPermission.setAccess(updatedInstrPermission.getAccess());
+        if (!oldInstrPermission.getAccess().equals(updatedInstrPermission.access)) {
+            oldInstrPermission.setAccess(updatedInstrPermission.access);
         }
         
         getPM().close();
@@ -186,7 +186,7 @@ public class InstructorPermissionsDb extends EntitiesDb {
     protected Object getEntity(EntityAttributes attributes) {
         InstructorPermissionAttributes instrPermissionAttr = (InstructorPermissionAttributes)attributes;
         
-        return getInstructorPermissionEntityForEmail(instrPermissionAttr.getCourseId(), instrPermissionAttr.getInstructorEmail());
+        return getInstructorPermissionEntityForEmail(instrPermissionAttr.courseId, instrPermissionAttr.instructorEmail);
     }
 
 }
