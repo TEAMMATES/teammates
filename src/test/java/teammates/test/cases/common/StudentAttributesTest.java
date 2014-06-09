@@ -232,6 +232,17 @@ public class StudentAttributesTest extends BaseTestCase {
         assertEquals(sortedList.get(2).toEnrollmentString(), unsortedList.get(1).toEnrollmentString());
         assertEquals(sortedList.get(3).toEnrollmentString(), unsortedList.get(3).toEnrollmentString());
     }
+
+    @Test
+    public void testSortBySection(){
+        List<StudentAttributes> sortedList = generateTypicalStudentAttributesList();
+        StudentAttributes.sortBySectionName(sortedList);
+        List<StudentAttributes> unsortedList = generateTypicalStudentAttributesList();
+        assertEquals(sortedList.get(0).toEnrollmentString(), unsortedList.get(3).toEnrollmentString());
+        assertEquals(sortedList.get(1).toEnrollmentString(), unsortedList.get(0).toEnrollmentString());
+        assertEquals(sortedList.get(2).toEnrollmentString(), unsortedList.get(1).toEnrollmentString());
+        assertEquals(sortedList.get(3).toEnrollmentString(), unsortedList.get(2).toEnrollmentString());
+    }
     
     @Test 
     public void testIsRegistered() throws Exception{
@@ -270,10 +281,10 @@ public class StudentAttributesTest extends BaseTestCase {
     
     private List<StudentAttributes> generateTypicalStudentAttributesList(){
         List<StudentAttributes> list = new Vector<>();
-        list.add(new StudentAttributes("sect 1", "team 2", "name 1", "email 1", "comment 1", "courseId"));
-        list.add(new StudentAttributes("sect 1", "team 2", "name 4", "email 4", "comment 4", "courseId"));
-        list.add(new StudentAttributes("sect 2", "team 1", "name 2", "email 3", "comment 3", "courseId"));
-        list.add(new StudentAttributes("sect 3", "team 3", "name 2", "email 2", "comment 2", "courseId"));
+        list.add(new StudentAttributes("sect 2", "team 2", "name 1", "email 1", "comment 1", "courseId"));
+        list.add(new StudentAttributes("sect 2", "team 2", "name 4", "email 4", "comment 4", "courseId"));
+        list.add(new StudentAttributes("sect 3", "team 1", "name 2", "email 3", "comment 3", "courseId"));
+        list.add(new StudentAttributes("sect 1", "team 3", "name 2", "email 2", "comment 2", "courseId"));
         return list;
     }
 
