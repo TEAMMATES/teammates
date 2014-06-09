@@ -54,7 +54,7 @@ public class InstructorPermissionsDb extends EntitiesDb {
         return instrPermissionAttrList;
     }
     
-    public List<InstructorPermissionAttributes> getInstrcutroPermissionsForCourse(String courseId) {
+    public List<InstructorPermissionAttributes> getInstructorPermissionsForCourse(String courseId) {
         
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         
@@ -73,6 +73,7 @@ public class InstructorPermissionsDb extends EntitiesDb {
     public void updateInstructorPermissionByEmail(InstructorPermissionAttributes updatedInstrPermission,
             String oldInstrEmail) throws InvalidParametersException, EntityDoesNotExistException {
         
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, updatedInstrPermission);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, oldInstrEmail);
         
         if (!updatedInstrPermission.isValid()) {
@@ -91,12 +92,8 @@ public class InstructorPermissionsDb extends EntitiesDb {
         if (!oldInstrEmail.equals(updatedInstrPermission.instructorEmail)) {
             oldInstrPermission.setInstructorEmail(updatedInstrPermission.instructorEmail);
         }
-        if (!oldInstrPermission.getRole().equals(updatedInstrPermission.role)) {
-            oldInstrPermission.setRole(updatedInstrPermission.role);
-        }
-        if (!oldInstrPermission.getInstructorPrvilegesAsText().equals(updatedInstrPermission.instructorPrivilegesAsText)) {
-            oldInstrPermission.setInstructorPrvilegesAsText(updatedInstrPermission.instructorPrivilegesAsText);
-        }
+        oldInstrPermission.setRole(updatedInstrPermission.role);
+        oldInstrPermission.setInstructorPrvilegesAsText(updatedInstrPermission.instructorPrivilegesAsText);
         
         getPM().close();
     }

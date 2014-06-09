@@ -12,6 +12,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.InstructorPermissionAttributes;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.storage.api.InstructorPermissionsDb;
@@ -93,7 +94,15 @@ public class InstructorPermissionsDbTest extends BaseComponentTestCase {
         ______TS("Failure: null parameters");
         
         try {
-            instrPermissionsDb.getInstructorPermissionForEmail(null, null);
+            instrPermissionsDb.getInstructorPermissionForEmail(courseId, null);
+            signalFailureToDetectException();
+        } catch(AssertionError e) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
+        }
+        
+        try {
+            instrPermissionsDb.getInstructorPermissionForEmail(null, instrEmail);
+            signalFailureToDetectException();
         } catch(AssertionError e) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
         }
@@ -104,7 +113,7 @@ public class InstructorPermissionsDbTest extends BaseComponentTestCase {
     public void testGetInstructorPermissionsForEmail() throws InvalidParametersException {
         createInstructorPermissions();
         
-        ______TS("Success: get an instructorPermission");
+        ______TS("Success: get instructorPermissions");
         
         String emailWithMultipleCourses = "instructorPerm1@coursePerm1.com";
         List<InstructorPermissionAttributes> instrPermissions = instrPermissionsDb.getInstructorPermissionsForEmail(emailWithMultipleCourses);
@@ -115,14 +124,121 @@ public class InstructorPermissionsDbTest extends BaseComponentTestCase {
         
         ______TS("Failure: instructorPermission does not exist");
         
-        String nonexistInstrEmail = "nonExist@google.com";
-        instrPermissions = instrPermissionsDb.getInstructorPermissionsForEmail(nonexistInstrEmail);
+        String nonExistInstrEmail = "nonExist@google.com";
+        instrPermissions = instrPermissionsDb.getInstructorPermissionsForEmail(nonExistInstrEmail);
         assertEquals(0, instrPermissions.size());
         
         ______TS("Failure: null parameters");
         
         try {
             instrPermissionsDb.getInstructorPermissionsForEmail(null);
+            signalFailureToDetectException();
+        } catch(AssertionError e) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
+        }
+        
+    }
+    
+    @Test
+    public void testGetInstructorPermissionsForCourse() throws InvalidParametersException {
+        createInstructorPermissions();
+        
+        ______TS("Success: get instructorPermissions");
+        
+        String courseIdWithMultipleInstructorPermissions = "coursePerm1";
+        List<InstructorPermissionAttributes> instrPermissions = instrPermissionsDb.getInstructorPermissionsForCourse(courseIdWithMultipleInstructorPermissions);
+        assertEquals(3, instrPermissions.size());
+        assertEquals(courseIdWithMultipleInstructorPermissions, instrPermissions.get(0).courseId);
+        assertEquals(courseIdWithMultipleInstructorPermissions, instrPermissions.get(1).courseId);
+        assertEquals(courseIdWithMultipleInstructorPermissions, instrPermissions.get(2).courseId);
+        
+        ______TS("Failure: instructorPermission does not exist");
+        
+        String nonExistCourseId = "nonExistCourseId";
+        instrPermissions = instrPermissionsDb.getInstructorPermissionsForCourse(nonExistCourseId);
+        assertEquals(0, instrPermissions.size());
+        
+        ______TS("Failure: null parameters");
+        
+        try {
+            instrPermissionsDb.getInstructorPermissionsForCourse(null);
+            signalFailureToDetectException();
+        } catch(AssertionError e) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
+        }
+        
+    }
+    
+    @Test
+    public void testUpdateInstructorPermissionByEmail() throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+        // setup for this method
+        instrEmail = "updateInstrPerm@google.com";
+        courseId = "courseUpdateInstrPerm";
+        InstructorPermissionAttributes permission = getCoownerInstructorPermissionAttr();       
+        instrPermissionsDb.createEntity(permission);       
+        TestHelper.verifyPresentInDatastore(permission);
+        
+        ______TS("Success: nothing updated");
+        
+        instrPermissionsDb.updateInstructorPermissionByEmail(permission, instrEmail);
+        assertEquals(permission.instructorEmail, instrPermissionsDb.getInstructorPermissionForEmail(permission.courseId, 
+                permission.instructorEmail).instructorEmail);
+        assertEquals(permission.courseId, instrPermissionsDb.getInstructorPermissionForEmail(permission.courseId, 
+                permission.instructorEmail).courseId);
+        assertEquals(permission.role, instrPermissionsDb.getInstructorPermissionForEmail(permission.courseId, 
+                permission.instructorEmail).role);
+        assertEquals(permission.instructorPrivilegesAsText, instrPermissionsDb.getInstructorPermissionForEmail(permission.courseId, 
+                permission.instructorEmail).instructorPrivilegesAsText);
+        
+        ______TS("Success: update instructorPermission");
+        
+        String updatedRole = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_HELPER;
+        permission.role = updatedRole;
+        instrPermissionsDb.updateInstructorPermissionByEmail(permission, instrEmail);
+        assertEquals(updatedRole, instrPermissionsDb.getInstructorPermissionForEmail(permission.courseId, 
+                permission.instructorEmail).role);
+        
+        ______TS("Success: update instructorPermission with email updated");
+        
+        String updatedInstrEmail = "updatedInstrPerm@google.com";
+        permission.instructorEmail = updatedInstrEmail;
+        instrPermissionsDb.updateInstructorPermissionByEmail(permission, instrEmail);
+        assertEquals(updatedInstrEmail, instrPermissionsDb.getInstructorPermissionForEmail(permission.courseId, 
+                permission.instructorEmail).instructorEmail);
+        
+        ______TS("Failure: non-exist instructorPermission");
+        
+        String nonExistEmail = "nonExistEmail@google.com";
+        try {
+            instrPermissionsDb.updateInstructorPermissionByEmail(permission, nonExistEmail);
+            signalFailureToDetectException();
+        } catch(EntityDoesNotExistException e) {
+            AssertHelper.assertContains(nonExistEmail, e.getMessage());
+        }
+        
+        ______TS("Failure: invalid parameters");
+        
+        String invalidEmail = "invalidEmail";
+        permission.instructorEmail = invalidEmail;
+        try {
+            instrPermissionsDb.updateInstructorPermissionByEmail(permission, instrEmail); 
+            signalFailureToDetectException();
+        } catch(InvalidParametersException e) {
+            AssertHelper.assertContains("\"" + invalidEmail + "\"", e.getMessage());
+        }
+        
+        ______TS("Failure: null parameters");
+        
+        try {
+            instrPermissionsDb.updateInstructorPermissionByEmail(null, instrEmail);
+            signalFailureToDetectException();
+        } catch(AssertionError e) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
+        }
+        
+        try {
+            instrPermissionsDb.updateInstructorPermissionByEmail(permission, null);
+            signalFailureToDetectException();
         } catch(AssertionError e) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
         }
