@@ -17,6 +17,7 @@ public class InstructorHomePageData extends PageData {
     public InstructorAttributes instructor;
     public List<CourseSummaryBundle> courses;
     public String sortCriteria;
+    public static final int MAX_CLOSED_SESSION_STATS = 3;
     
     public String getInstructorEvaluationLinkForCourse(String courseID) {
         String link = super.getInstructorEvaluationLink();
