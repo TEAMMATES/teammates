@@ -42,6 +42,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         testContent();
         testSortAction();
         testPanelsCollapseExpand();
+        testSearchScript();
         testFeedbackResponseCommentActions();
         testDownloadAction();
         testLink();
@@ -194,6 +195,16 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.clickCollapseExpand();
         assertEquals(resultsPage.collapseExpandButton.getText(),"Collapse All");
         assertTrue(resultsPage.verifyAllResultsPanelBodyVisibility(true));
+        
+    }
+    
+    public void testSearchScript(){
+        ______TS("test search/filter script");
+        
+        resultsPage.fillSearchBox("alice");
+
+        resultsPage.verifyHtml("/instructorFeedbackResultsSortQuestionSearch.html");
+        
         
     }
     

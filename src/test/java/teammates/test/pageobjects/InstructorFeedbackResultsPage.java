@@ -98,6 +98,10 @@ public class InstructorFeedbackResultsPage extends AppPage {
         waitForPageToLoad();
     }
     
+    public void fillSearchBox(String s) {
+        this.fillTextBox(browser.driver.findElement(By.id("results-search-box")), s);
+    }
+    
     public AppPage sortTableByGiver() {
         sortTableGiverButton.click();
         return this;
