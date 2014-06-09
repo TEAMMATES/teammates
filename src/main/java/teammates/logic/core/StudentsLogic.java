@@ -346,19 +346,6 @@ public class StudentsLogic {
 
     }
 
-    public boolean hasIndicatedSections(String courseId) throws EntityDoesNotExistException{
-
-        coursesLogic.verifyCourseIsPresent(courseId);
-        
-        List<StudentAttributes> studentList = getStudentsForCourse(courseId);
-        for(StudentAttributes student : studentList) {
-            if(!student.section.equals(Const.DEFAULT_SECTION)){
-                return true;
-            }
-        }
-        return false;
-    }
-
     private void scheduleSubmissionAdjustmentForFeedbackInCourse(
             ArrayList<StudentEnrollDetails> enrollmentList, String courseId, String sessionName) {
         // private methods -- should I test this?

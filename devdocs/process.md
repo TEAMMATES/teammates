@@ -26,22 +26,18 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
    This can be done through Issue tracker. 
    Such a discussion reduces the chance of the fix being rejected later.
 
-3. Label the issue as `s.WorkInProgress` (short for `stauts:WorkInProgress`).
-
-0. If you do not have push permission to the contributor repo, create a fork. 
-   Add remote names for committer repo and your fork
+0. If you do not have push permission to the committer repo, create a fork. 
+   Add remote names for committer repo (let's call it `upstream`) 
+   and your fork (let's call it `myfork`)
    ```
-   git remote add committer https://github.com/TEAMMATES/repo.git
-   git remote add fork      https://github.com/your_user_name/repo.git
+   git remote add   upstream      https://github.com/TEAMMATES/repo.git
+   git remote add   myfork        https://github.com/your_user_name/repo.git
    ```
 
 4. Update your local repo (the one you created when setting up the project on your computer) 
    with the latest version of the code from the committer repo.
    ```
-   //assuming 'origin' points to the committer repo
-   git pull
-   //if 'origin' points to the fork
-   git pull committer
+   git pull upstream
    ```
 
 5. Start a new branch named `Issue{IssueNumber}`. 
@@ -68,8 +64,7 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
    to your branch
         
        ```
-       //assuming 'committer' points to the committer repo
-       git pull committer 
+       git pull upstream 
        git merge master
        git commit -a -m "your commit message"
        ```

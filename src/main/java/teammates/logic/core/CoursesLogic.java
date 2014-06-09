@@ -559,6 +559,7 @@ public class CoursesLogic {
 
         HashMap<String, CourseDetailsBundle> courses = getCourseSummariesForInstructor(googleId);
         CourseDetailsBundle course = courses.get(courseId);
+        boolean hasSection = hasIndicatedSections(courseId);
         
         if(course == null){
             throw new EntityDoesNotExistException("The required course does not exist in the list of instructor's courses");
@@ -567,8 +568,11 @@ public class CoursesLogic {
         String export = "";
         export += "Course ID" + "," + Sanitizer.sanitizeForCsv(courseId) + Const.EOL + 
                 "Course Name" + "," + Sanitizer.sanitizeForCsv(course.course.name) + Const.EOL + 
-                Const.EOL + Const.EOL +
-                "Team" + "," + "Student Name" + "," + "Status" + "," + "Email" + Const.EOL;
+                Const.EOL + Const.EOL;
+        if(hasSection){
+            export += "Section" + ",";
+        }
+        export  += "Team" + "," + "Student Name" + "," + "Status" + "," + "Email" + Const.EOL;
         
         for (SectionDetailsBundle section : course.sections) {
             for (TeamDetailsBundle team  :   section.teams) {
@@ -580,6 +584,9 @@ public class CoursesLogic {
                         studentStatus = Const.STUDENT_COURSE_STATUS_JOINED;
                     }
                     
+                    if(hasSection){
+                        export += Sanitizer.sanitizeForCsv(section.name) + ",";
+                    }
                     export += Sanitizer.sanitizeForCsv(team.name) + "," + 
                         Sanitizer.sanitizeForCsv(student.name) + "," +
                         Sanitizer.sanitizeForCsv(studentStatus) + "," +
@@ -590,4 +597,16 @@ public class CoursesLogic {
         return export;
     }
 
+    public boolean hasIndicatedSections(String courseId) throws EntityDoesNotExistException{
+
+        verifyCourseIsPresent(courseId);
+        
+        List<StudentAttributes> studentList = studentsLogic.getStudentsForCourse(courseId);
+        for(StudentAttributes student : studentList) {
+            if(!student.section.equals(Const.DEFAULT_SECTION)){
+                return true;
+            }
+        }
+        return false;
+    }
 }
