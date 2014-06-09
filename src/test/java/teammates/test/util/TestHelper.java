@@ -26,6 +26,7 @@ import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.InstructorPermissionAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.datatransfer.SubmissionAttributes;
@@ -47,6 +48,7 @@ import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.api.FeedbackSessionsDb;
+import teammates.storage.api.InstructorPermissionsDb;
 import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.StudentsDb;
 import teammates.test.cases.BaseComponentTestCase;
@@ -63,6 +65,7 @@ public class TestHelper extends BaseComponentTestCase{
 
     private static final CoursesDb coursesDb = new CoursesDb();
     private static final InstructorsDb instructorsDb = new InstructorsDb();
+    private static final InstructorPermissionsDb instructorPermissionsDb = new InstructorPermissionsDb();
     private static final EvaluationsDb evaluationsDb = new EvaluationsDb();
     private static final StudentsDb studentsDb = new StudentsDb();
     private static final FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
@@ -305,6 +308,12 @@ public class TestHelper extends BaseComponentTestCase{
         }
         equalizeIrrelevantData(expected, actual);
         assertEquals(gson.toJson(expected), gson.toJson(actual));
+    }
+    
+    public static void verifyPresentInDatastore(InstructorPermissionAttributes expected) {
+        InstructorPermissionAttributes actual = instructorPermissionsDb.getInstructorPermissionForEmail(expected.courseId, 
+                expected.instructorEmail);
+        assertEquals(expected.toString(), actual.toString());
     }
     
     public static void verifyPresentInDatastore(FeedbackSessionAttributes expected) {

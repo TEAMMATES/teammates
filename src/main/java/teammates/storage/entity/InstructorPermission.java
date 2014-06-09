@@ -1,6 +1,7 @@
 package teammates.storage.entity;
 
 import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
@@ -10,11 +11,12 @@ import com.google.appengine.api.datastore.Text;
  * Represents permission for an instructor
  *
  */
+@PersistenceCapable
 public class InstructorPermission {
     
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-    private String id;
+    private Long id;
     
     /** The email of instructor */
     @Persistent
@@ -48,7 +50,7 @@ public class InstructorPermission {
     /**
      * @return The ID of the entity
      */
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
