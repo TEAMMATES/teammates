@@ -23,7 +23,6 @@ public class CommentsLogic {
 
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
     private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
-    private static final StudentsLogic studentsLogic = StudentsLogic.inst();
 
     public static CommentsLogic inst() {
         if (instance == null)
@@ -53,6 +52,13 @@ public class CommentsLogic {
         return commentsDb.getCommentsForReceiver(courseId, recipientType, receiverEmail);
     }
     
+    public List<CommentAttributes> getCommentsForVisibilityOptions(String courseId, CommentRecipientType commentViewerType)
+            throws EntityDoesNotExistException {
+        verifyIsCoursePresentForGetComments(courseId);
+        
+        return commentsDb.getCommentsForVisibilityOptions(courseId, commentViewerType);
+    }
+    
     public void updateComment(CommentAttributes comment)
             throws InvalidParametersException, EntityDoesNotExistException{
         commentsDb.updateComment(comment);
@@ -75,13 +81,6 @@ public class CommentsLogic {
         if (!coursesLogic.isCoursePresent(courseId)) {
             throw new EntityDoesNotExistException(
                     "Trying to get comments for a course that does not exist.");
-        }
-    }
-    
-    private void verifyIsStudentPresentForGetComments(String googleId) throws EntityDoesNotExistException{
-        if(!studentsLogic.isStudentInAnyCourse(googleId)) {
-            throw new EntityDoesNotExistException(
-                    "Trying to get comments for a student that does not exist.");
         }
     }
     

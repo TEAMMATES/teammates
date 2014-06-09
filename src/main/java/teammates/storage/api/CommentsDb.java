@@ -131,7 +131,7 @@ public class CommentsDb extends EntitiesDb{
         q.declareParameters("String courseIdParam, String recipientTypeParam, String receiverParam");
         q.setFilter("courseId == courseIdParam && recipientType == recipientTypeParam && recipients.contains(receiverParam)");
         
-        String recipientTypeString = recipientType != null? recipientType.toString(): CommentRecipientType.PERSON.toString();
+        String recipientTypeString = recipientType.toString();
         @SuppressWarnings("unchecked")
         List<Comment> commentList = (List<Comment>) q.execute(courseId, recipientTypeString, recipient);
         
