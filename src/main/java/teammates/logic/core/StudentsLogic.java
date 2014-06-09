@@ -43,7 +43,7 @@ public class StudentsLogic {
     //  familiar with the its code and Logic's code. Hence, no need for header 
     //  comments.
     
-    private static int SECTION_QUOTA_LIMIT = 100;
+    private static int SECTION_SIZE_LIMIT = 100;
 
     private static StudentsLogic instance = null;
     private StudentsDb studentsDb = new StudentsDb();
@@ -343,13 +343,13 @@ public class StudentsLogic {
             if(currentStudent.section.equals(previousStudent.section)){
                 studentsCount++;
             } else {
-                if(studentsCount > SECTION_QUOTA_LIMIT){
+                if(studentsCount > SECTION_SIZE_LIMIT){
                     invalidSectionList.add(previousStudent.section);
                 }
                 studentsCount = 1;
             }
 
-            if(i == mergedList.size() - 1 && studentsCount > SECTION_QUOTA_LIMIT){
+            if(i == mergedList.size() - 1 && studentsCount > SECTION_SIZE_LIMIT){
                 invalidSectionList.add(currentStudent.section);
             }
         }

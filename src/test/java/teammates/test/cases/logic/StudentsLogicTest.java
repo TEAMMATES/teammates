@@ -210,7 +210,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         try {
             studentsLogic.validateSections(studentList, courseId);
         } catch (EnrollException e) {
-            assertEquals("Cannot put more than 100 students in section \"Section 1\"<br>", e.getMessage());
+            assertEquals(String.format(Const.StatusMessages.SECTION_QUOTA_EXCEED, "Section 1"), e.getMessage());
         }
 
         ______TS("Failure case: invalid team");
@@ -220,7 +220,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         try {
             studentsLogic.validateSections(studentList, courseId);
         } catch (EnrollException e) {
-            assertEquals("Cannot put team \"Team 1.1\" in 2 different sections<br>", e.getMessage());
+            assertEquals(String.format(Const.StatusMessages.TEAM_INVALID_SECTION_EDIT,"Team 1.1"), e.getMessage());
         }
     }
 
