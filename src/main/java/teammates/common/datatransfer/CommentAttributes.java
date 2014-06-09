@@ -15,7 +15,8 @@ import teammates.storage.entity.Comment;
 
 import com.google.appengine.api.datastore.Text;
 
-public class CommentAttributes extends EntityAttributes {
+public class CommentAttributes extends EntityAttributes 
+    implements Comparable<CommentAttributes>{
 
     private Long commentId = null;
     public String courseId;
@@ -184,5 +185,13 @@ public class CommentAttributes extends EntityAttributes {
                 return comment2.createdAt.compareTo(comment1.createdAt);
             }
         });
+    }
+    
+    @Override
+    public int compareTo(CommentAttributes o) {
+        if(o == null){
+            return 1;
+        }
+        return o.createdAt.compareTo(createdAt);
     }
 }

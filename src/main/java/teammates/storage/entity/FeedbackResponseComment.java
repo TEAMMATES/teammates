@@ -96,7 +96,7 @@ public class FeedbackResponseComment {
     }
     
     public String getFeedbackQuestionId() {
-        return feedbackSessionName;
+        return feedbackQuestionId;
     }
 
     public void setFeedbackQuestionId(String feedbackQuestionId) {

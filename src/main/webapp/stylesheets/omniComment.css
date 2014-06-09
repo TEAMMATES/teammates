@@ -1,0 +1,81 @@
+#omni-comment-dropdown-trigger {
+    color: #898989; 
+    padding-top: 16px; 
+    padding-bottom: 20px;
+}
+
+#omni-comment-dropdown-trigger:hover {
+    color: #fff;
+}
+
+.open #omni-comment-dropdown-trigger {
+    color: #428BCA;
+}
+
+.omni-comment-dropdown-body {
+    border: none;
+    min-width: 310px;
+}
+
+#omni-comment-recipient-input {
+    min-width: 280px;
+}
+
+.tt-dropdown-menu{
+    margin-top: 10px;
+    padding: 5px 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    min-width: 280px;
+}
+
+.tt-suggestion {
+  padding: 3px 12px;
+  line-height: 24px;
+}
+
+.tt-suggestion.tt-cursor {
+  color: #fff;
+  background-color: #428BCA;
+}
+
+.tt-suggestion p {
+  margin: 0;
+}
+
+#more-options {
+    display: none;
+}
+
+.feedback-response-comments, .student-record-comments, .drafts {
+    margin-top: 10px;
+}
+
+#editor {
+    margin-top: 10px;
+    margin-bottom: 15px;
+    padding: 15px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    box-shadow: 0 5px 10px rgba(0,0,0,.2);
+}
+.wysihtml5-toolbar {
+    clear: both;
+}
+
+#visibility-options {
+    display: none;
+}

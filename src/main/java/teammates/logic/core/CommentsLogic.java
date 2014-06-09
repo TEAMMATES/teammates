@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentRecipientType;
+import teammates.common.datatransfer.CommentStatus;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -44,6 +45,18 @@ public class CommentsLogic {
         
         return commentsDb.getCommentsForGiver(courseId, giverEmail);
     }
+    
+    public List<CommentAttributes> getCommentsForGiverAndStatus(String courseId, String giverEmail, CommentStatus status)
+            throws EntityDoesNotExistException {
+        verifyIsCoursePresentForGetComments(courseId);
+        
+        return commentsDb.getCommentsForGiverAndStatus(courseId, giverEmail, status);
+    }
+    
+    public List<CommentAttributes> getCommentDrafts(String giverEmail)
+            throws EntityDoesNotExistException {
+        return commentsDb.getCommentDrafts(giverEmail);
+    }
 
     public List<CommentAttributes> getCommentsForReceiver(String courseId, CommentRecipientType recipientType, String receiverEmail)
             throws EntityDoesNotExistException {
@@ -52,11 +65,11 @@ public class CommentsLogic {
         return commentsDb.getCommentsForReceiver(courseId, recipientType, receiverEmail);
     }
     
-    public List<CommentAttributes> getCommentsForVisibilityOptions(String courseId, CommentRecipientType commentViewerType)
+    public List<CommentAttributes> getCommentsForCommentViewer(String courseId, CommentRecipientType commentViewerType)
             throws EntityDoesNotExistException {
         verifyIsCoursePresentForGetComments(courseId);
         
-        return commentsDb.getCommentsForVisibilityOptions(courseId, commentViewerType);
+        return commentsDb.getCommentsForCommentViewer(courseId, commentViewerType);
     }
     
     public void updateComment(CommentAttributes comment)

@@ -13,6 +13,7 @@ import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentRecipientType;
+import teammates.common.datatransfer.CommentStatus;
 import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -69,6 +70,32 @@ public class CommentsDb extends EntitiesDb{
         return commentAttributesList;
     }
     
+    public List<CommentAttributes> getCommentsForGiverAndStatus(String courseId, String giverEmail, CommentStatus status){
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, giverEmail);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, status);
+        
+        List<Comment> comments = getCommentEntitiesForGiverAndStatus(courseId, giverEmail, status);
+        List<CommentAttributes> commentAttributesList = new ArrayList<CommentAttributes>();
+        
+        for(Comment comment: comments){
+            commentAttributesList.add(new CommentAttributes(comment));
+        }
+        return commentAttributesList;
+    }
+    
+    public List<CommentAttributes> getCommentDrafts(String giverEmail){
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, giverEmail);
+        
+        List<Comment> comments = getCommentEntitiesForDraft(giverEmail);
+        List<CommentAttributes> commentAttributesList = new ArrayList<CommentAttributes>();
+        
+        for(Comment comment: comments){
+            commentAttributesList.add(new CommentAttributes(comment));
+        }
+        return commentAttributesList;
+    }
+
     public List<CommentAttributes> getCommentsForReceiver(String courseId, CommentRecipientType recipientType, String receiverEmail){
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, recipientType);
@@ -83,11 +110,11 @@ public class CommentsDb extends EntitiesDb{
         return commentAttributesList;
     }
     
-    public List<CommentAttributes> getCommentsForVisibilityOptions(String courseId, CommentRecipientType commentViewerType){
+    public List<CommentAttributes> getCommentsForCommentViewer(String courseId, CommentRecipientType commentViewerType){
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, commentViewerType);
         
-        List<Comment> comments = getCommentEntitiesForVisibilityOptions(courseId, commentViewerType);
+        List<Comment> comments = getCommentEntitiesForCommentViewer(courseId, commentViewerType);
         List<CommentAttributes> commentAttributesList = new ArrayList<CommentAttributes>();
         
         for(Comment comment: comments){
@@ -126,19 +153,41 @@ public class CommentsDb extends EntitiesDb{
         return commentList;
     }
     
+    private List<Comment> getCommentEntitiesForGiverAndStatus(String courseId,
+            String giverEmail, CommentStatus status) {
+        Query q = getPM().newQuery(Comment.class);
+        q.declareParameters("String courseIdParam, String giverEmailParam, String statusParam");
+        q.setFilter("courseId == courseIdParam && giverEmail == giverEmailParam && status == statusParam");
+        
+        @SuppressWarnings("unchecked")
+        List<Comment> commentList = (List<Comment>) q.execute(courseId, giverEmail, status.toString());
+        
+        return commentList;
+    }
+    
+    private List<Comment> getCommentEntitiesForDraft(String giverEmail) {
+        Query q = getPM().newQuery(Comment.class);
+        q.declareParameters("String giverEmailParam, String statusParam");
+        q.setFilter("giverEmail == giverEmailParam && status == statusParam");
+        
+        @SuppressWarnings("unchecked")
+        List<Comment> commentList = (List<Comment>) q.execute(giverEmail, CommentStatus.DRAFT.toString());
+        
+        return commentList;
+    }
+    
     private List<Comment> getCommentEntitiesForReceiver(String courseId, CommentRecipientType recipientType, String recipient){
         Query q = getPM().newQuery(Comment.class);
         q.declareParameters("String courseIdParam, String recipientTypeParam, String receiverParam");
         q.setFilter("courseId == courseIdParam && recipientType == recipientTypeParam && recipients.contains(receiverParam)");
         
-        String recipientTypeString = recipientType.toString();
         @SuppressWarnings("unchecked")
-        List<Comment> commentList = (List<Comment>) q.execute(courseId, recipientTypeString, recipient);
+        List<Comment> commentList = (List<Comment>) q.execute(courseId, recipientType.toString(), recipient);
         
         return commentList;
     }
     
-    private List<Comment> getCommentEntitiesForVisibilityOptions(String courseId, CommentRecipientType commentViewerType){
+    private List<Comment> getCommentEntitiesForCommentViewer(String courseId, CommentRecipientType commentViewerType){
         Query q = getPM().newQuery(Comment.class);
         q.declareParameters("String courseIdParam, String commentViewerTypeParam");
         q.setFilter("courseId == courseIdParam "

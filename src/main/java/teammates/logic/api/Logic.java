@@ -11,6 +11,7 @@ import javax.mail.internet.MimeMessage;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentRecipientType;
+import teammates.common.datatransfer.CommentStatus;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.CourseSummaryBundle;
@@ -617,6 +618,21 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
     
         return coursesLogic.getCourseDetailsListForStudent(googleId);
+    
+    }
+    
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     * 
+     * @return Courses the instructor is in.
+     */
+    public List<CourseAttributes> getCoursesForInstructor(String googleId)
+            throws EntityDoesNotExistException {
+        
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
+    
+        return coursesLogic.getCoursesForInstructor(googleId);
     
     }
     
@@ -1246,6 +1262,17 @@ public class Logic {
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
+     */
+    public List<FeedbackSessionAttributes> getFeedbackSessionsForCourse(String courseId) {
+        
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        
+        return feedbackSessionsLogic.getFeedbackSessionsForCourse(courseId);
+    }
+    
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
      * @throws EntityDoesNotExistException 
      */
     public FeedbackSessionDetailsBundle getFeedbackSessionDetails(String feedbackSessionName, String courseId) 
@@ -1598,6 +1625,21 @@ public class Logic {
     }
     
     /**
+     * Get responses for a session.<br>
+     * Must handle the visibility options defined in its feedback questions.<br>
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     */
+    @Deprecated
+    public List<FeedbackResponseAttributes> getFeedbackResponseForSession(String feedbackSessionName, String courseId) {
+        
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+
+        return feedbackResponsesLogic.getFeedbackResponsesForSession(feedbackSessionName, courseId);
+    }
+    
+    /**
      * Preconditions: <br>
      * * All parameters are non-null.
      */
@@ -1647,6 +1689,17 @@ public class Logic {
 
         return feedbackResponseCommentsLogic.getFeedbackResponseComment(
                 responseId, giverEmail, creationDate);
+    }
+    
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     */
+    public List<FeedbackResponseCommentAttributes> getFeedbackResponseComment(String courseId, String feedbackSessionName) {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+
+        return feedbackResponseCommentsLogic.getFeedbackResponseCommentForSession(courseId, feedbackSessionName);
     }
     
     /**
@@ -1718,6 +1771,32 @@ public class Logic {
     }
     
     /**
+     * Currently giver is limited to instructors only
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     * @return a list of comments from the giver that have the specified comment status.
+     * @throws EntityDoesNotExistException
+     */
+    public List<CommentAttributes> getCommentsForGiverAndStatus(String courseId, String giverEmail, CommentStatus status) throws EntityDoesNotExistException{
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, giverEmail);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, status);
+        return commentsLogic.getCommentsForGiverAndStatus(courseId, giverEmail, status);
+    }
+    
+    /**
+     * Currently giver is limited to instructors only
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     * @return a list of comments from the giver that are drafts.
+     * @throws EntityDoesNotExistException
+     */
+    public List<CommentAttributes> getCommentDrafts(String giverEmail) throws EntityDoesNotExistException{
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, giverEmail);
+        return commentsLogic.getCommentDrafts(giverEmail);
+    }
+    
+    /**
      * Currently receiver is limited to students only
      * Preconditions: <br>
      * * All parameters are non-null.
@@ -1728,6 +1807,20 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, receiver);
         return commentsLogic.getCommentsForReceiver(courseId, recipientType, receiver);
+    }
+    
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     * @return a list of comments with the specified commentViewerType - 
+     * PERSON (recipients can view those comments), TEAM (team members can will), SECTION (students in the same section can view),
+     * COURSE (the whole class can view), INSTRUCTOR (instructor can view)
+     * @throws EntityDoesNotExistException
+     */
+    public List<CommentAttributes> getCommentsForCommentViewer(String courseId, CommentRecipientType commentViewerType) throws EntityDoesNotExistException{
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, commentViewerType);
+        return commentsLogic.getCommentsForCommentViewer(courseId, commentViewerType);
     }
     
     @SuppressWarnings("unused")
