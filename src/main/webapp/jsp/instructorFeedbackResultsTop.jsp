@@ -106,16 +106,25 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-2 pull-right" data-toggle="tooltip" title="Group results in the current view by team">
-                    <div class="checkbox pull-right">
-                        <label <%=(data.sortType.equals("question")) ? "class=\"text-strike\"" : ""%>>
-                            <input type="checkbox" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM%>" onchange="this.form.submit()" <%=(data.groupByTeam==null) ? "" : "checked=\"checked\""%> <%=(data.sortType.equals("question")) ? "disabled=\"disabled\"" : ""%>> Group by Teams
-                        </label>
-                    </div>
+                <div class="col-sm-2 pull-right">
+                  <div class="col-sm-12 margin-0" data-toggle="tooltip" title="Group results in the current view by team">
+                      <div class="checkbox">
+                          <label <%=(data.sortType.equals("question")) ? "class=\"text-strike\"" : ""%>>
+                              <input type="checkbox" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM%>" onchange="this.form.submit()" <%=(data.groupByTeam==null) ? "" : "checked=\"checked\""%> <%=(data.sortType.equals("question")) ? "disabled=\"disabled\"" : ""%>> Group by Teams
+                          </label>
+                      </div>
+                  </div>
+                  <div class="col-sm-12" data-toggle="tooltip" title="Show statistics">
+                      <div class="checkbox">
+                          <label <%=(data.sortType.equals("recipient-giver-question") || data.sortType.equals("giver-recipient-question")) ? "class=\"text-strike\"" : ""%>>
+                              <input type="checkbox" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS%>" onchange="this.form.submit()" <%=(data.showStats==null) ? "" : "checked=\"checked\""%> <%=(data.sortType.equals("recipient-giver-question") || data.sortType.equals("giver-recipient-question")) ? "disabled=\"disabled\"" : ""%>> Show Statistics
+                          </label>
+                      </div>
+                  </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-7 pull-right">
+                <div class="control-label col-sm-7 pull-right">
                     <a class="btn btn-default btn-xs pull-right" id="collapse-panels-button" onclick="toggleCollapse()" data-toggle="tooltip" title="Collapse or expand all panels. You can also click on the panel heading to toggle each one individually.">
                         Collapse All
                     </a>

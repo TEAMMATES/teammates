@@ -39,6 +39,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
         
         data.sortType = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE);
         data.groupByTeam = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM);
+        data.showStats = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS);
         
         if (data.sortType == null) {
             // default: sort by recipients

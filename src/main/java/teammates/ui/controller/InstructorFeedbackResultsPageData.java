@@ -11,6 +11,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     public InstructorAttributes instructor = null;
     public String sortType = null;
     public String groupByTeam = null;
+    public String showStats = null;
     
     public InstructorFeedbackResultsPageData(AccountAttributes account) {
         super(account);
