@@ -561,10 +561,6 @@ public class CoursesLogic {
         CourseDetailsBundle course = courses.get(courseId);
         boolean hasSection = hasIndicatedSections(courseId);
         
-        if(course == null){
-            throw new EntityDoesNotExistException("The required course does not exist in the list of instructor's courses");
-        }
-
         String export = "";
         export += "Course ID" + "," + Sanitizer.sanitizeForCsv(courseId) + Const.EOL + 
                 "Course Name" + "," + Sanitizer.sanitizeForCsv(course.course.name) + Const.EOL + 

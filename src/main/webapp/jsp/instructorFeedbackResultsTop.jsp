@@ -122,6 +122,7 @@
 <%
     }
 %>
+
 <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
 
 <% if (noResponses) { %>

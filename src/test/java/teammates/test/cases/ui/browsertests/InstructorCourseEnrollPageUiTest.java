@@ -161,7 +161,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
         enrollString += "Different Section | Team 1 | Alice Betsy | alice.b.tmms@gmail.com |\n";
 
         enrollPage.enrollUnsuccessfully(enrollString);
-        enrollPage.verifyStatus("Cannot put team \"Team 1\" in 2 different sections");
+        enrollPage.verifyStatus("The team \"Team 1\" is in multiple sections. The team ID should be unique across the entire course and a team cannot be spread across multiple sections.");
 
         ______TS("enroll action: fail to enroll due to invalid header");
 

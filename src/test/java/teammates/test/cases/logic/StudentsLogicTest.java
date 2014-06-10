@@ -33,6 +33,7 @@ import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
@@ -180,8 +181,52 @@ public class StudentsLogicTest extends BaseComponentTestCase{
     }
     
     @Test
+    public void testValidateSections() throws Exception {
+
+        restoreTypicalDataInDatastore();
+        dataBundle = getTypicalDataBundle();
+
+        CourseAttributes typicalCourse1 = dataBundle.courses.get("typicalCourse1");
+        String courseId = typicalCourse1.id;
+
+        ______TS("Typical case");
+
+        List<StudentAttributes> studentList = new ArrayList<StudentAttributes>();
+        studentList.add(new StudentAttributes("Section 3", "Team 1.3", "New Student", "emailNew@com", "", courseId));
+        studentList.add(new StudentAttributes("Section 2", "Team 1.2", "student2 In Course1", "student2InCourse1@gmail.com","",courseId));
+        try {
+            studentsLogic.validateSections(studentList, courseId);
+        } catch (EnrollException e) {
+            Assumption.fail("This exception is not expected");
+        }
+
+        ______TS("Failure case: invalid section");
+
+        studentList = new ArrayList<StudentAttributes>();
+        for(int i = 0; i < 100; i++){
+            StudentAttributes addedStudent = new StudentAttributes("Section 1", "Team " + i, "Name " + i, "email@com" + i, "cmt" + i, courseId);
+            studentList.add(addedStudent);
+        }
+        try {
+            studentsLogic.validateSections(studentList, courseId);
+        } catch (EnrollException e) {
+            assertEquals(String.format(Const.StatusMessages.SECTION_QUOTA_EXCEED, "Section 1"), e.getMessage());
+        }
+
+        ______TS("Failure case: invalid team");
+
+        studentList = new ArrayList<StudentAttributes>();
+        studentList.add(new StudentAttributes("Section 2","Team 1.1","New Student", "newemail@com", "", courseId));
+        try {
+            studentsLogic.validateSections(studentList, courseId);
+        } catch (EnrollException e) {
+            assertEquals(String.format(Const.StatusMessages.TEAM_INVALID_SECTION_EDIT,"Team 1.1"), e.getMessage());
+        }
+    }
+
+    @Test
     public void testUpdateStudentCascade() throws Exception {
-            
+        
         ______TS("typical edit");
 
         restoreTypicalDataInDatastore();
