@@ -1,7 +1,14 @@
 package teammates.ui.controller;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.SectionDetailsBundle;
+import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -9,6 +16,7 @@ import teammates.logic.api.GateKeeper;
 
 public class InstructorFeedbackResultsPageAction extends Action {
 
+    private static final String ALL_SECTION_OPTION = "All";
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
         
@@ -32,11 +40,17 @@ public class InstructorFeedbackResultsPageAction extends Action {
         InstructorFeedbackResultsPageData data = new InstructorFeedbackResultsPageData(account);
         data.selectedSection = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION);
         if(data.selectedSection == null) {
-            data.selectedSection = "All";
-        }
+            data.selectedSection = ALL_SECTION_OPTION;
+        } 
+        
+        List<String> filteredEmails = getFilteredEmails(data.selectedSection, courseId);
 
         data.instructor = instructor;
-        data.bundle = logic.getFeedbackSessionResultsForInstructor(feedbackSessionName, courseId, data.instructor.email);
+        if(data.selectedSection.equals(ALL_SECTION_OPTION)){
+            data.bundle = logic.getFeedbackSessionResultsForInstructor(feedbackSessionName, courseId, data.instructor.email);
+        } else {
+            data.bundle = logic.getFeedbackSessionResultsForInstructorInSection(feedbackSessionName, courseId, data.instructor.email, filteredEmails);
+        }
         data.sections = logic.getSectionsNameForCourse(courseId);
         if(data.bundle == null) {
             throw new EntityDoesNotExistException(
@@ -68,7 +82,22 @@ public class InstructorFeedbackResultsPageAction extends Action {
             data.sortType = "recipient-giver-question";
             return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION, data);
         }
-
     }
 
+    private List<String> getFilteredEmails(String section, String courseId) throws EntityDoesNotExistException {
+        if(section.equals(ALL_SECTION_OPTION)){
+            return null;
+        }
+
+        List<String> emails = new ArrayList<String>();
+        SectionDetailsBundle sectionDetails = logic.getSectionForCourse(section, courseId);
+        for(TeamDetailsBundle team : sectionDetails.teams){
+            emails.add(team.name);
+            for(StudentAttributes student : team.students){
+                emails.add(student.email);
+            }
+        }
+        Collections.sort(emails);
+        return emails;
+    }
 }

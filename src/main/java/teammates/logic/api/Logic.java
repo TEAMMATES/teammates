@@ -740,6 +740,20 @@ public class Logic {
     
     }
 
+     /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     * @return Empty list if none found.
+     */
+    public List<StudentAttributes> getStudentsForSection(String section, String courseId)
+            throws EntityDoesNotExistException {
+
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, section);
+
+        return studentsLogic.getStudentsForSection(section, courseId);
+    }
+
     /** 
      * Preconditions: <br>
      * * All parameters are non-null    
@@ -750,6 +764,19 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
         return coursesLogic.getSectionsNameForCourse(courseId);
+    }
+
+    /** 
+     * Preconditions: <br>
+     * * All parameters are non-null    
+     */
+    public SectionDetailsBundle getSectionForCourse(String section, String courseId)
+            throws EntityDoesNotExistException {
+
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, section);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        
+        return coursesLogic.getSectionForCourse(section, courseId);
     }
 
     /** 
@@ -1631,6 +1658,23 @@ public class Logic {
         return feedbackSessionsLogic.getFeedbackSessionResultsForInstructor(feedbackSessionName, courseId, userEmail);
     }
     
+    /**
+     * Gets a question+response bundle for questions with responses that
+     * is visible to the instructor for a feedback session.
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     */
+    public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorInSection(
+            String feedbackSessionName, String courseId, String userEmail, List<String> filteredEmails)
+                    throws UnauthorizedAccessException, EntityDoesNotExistException {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, filteredEmails);
+
+        return feedbackSessionsLogic.getFeedbackSessionResultsForInstructorInSection(feedbackSessionName, courseId, userEmail, filteredEmails);
+    }
+
     @SuppressWarnings("unused")
     private void ____FEEDBACK_RESPONSE_level_methods_____________________________() {
     }

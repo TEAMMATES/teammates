@@ -127,7 +127,7 @@
                                     All
                                 </option>
                                 <% for(String section : data.sections) { %>
-                                <option value='section_<%=section%>' <%=data.selectedSection.equals("section_" +section) ? "selected=\"selected\"" : ""%>>
+                                <option value='<%=section%>' <%=data.selectedSection.equals(section) ? "selected=\"selected\"" : ""%>>
                                     <%=section%>
                                 </option>
                                 <% } %>

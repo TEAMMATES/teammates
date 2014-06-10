@@ -72,15 +72,42 @@ public class FeedbackResponsesLogic {
             String feedbackQuestionId) {
         return frDb.getFeedbackResponsesForQuestion(feedbackQuestionId);
     }
+
+    public List<FeedbackResponseAttributes> getFeedbackResponsesForQuestionInSection(
+            String feedbackQuestionId, List<String> filteredEmails) {
+        if(filteredEmails == null){
+            return getFeedbackResponsesForQuestion(feedbackQuestionId);
+        } else {
+            return frDb.getFeedbackResponsesForQuestionInSection(feedbackQuestionId, filteredEmails);
+        }
+    }
     
     public List<FeedbackResponseAttributes> getFeedbackResponsesForReceiverForQuestion(
             String feedbackQuestionId, String userEmail) {
         return frDb.getFeedbackResponsesForReceiverForQuestion(feedbackQuestionId, userEmail);
     }
+
+    public List<FeedbackResponseAttributes> getFeedbackResponsesForReceiverForQuestionInSection(
+            String feedbackQuestionId, String userEmail, List<String> filteredEmails) {
+        if(filteredEmails == null){
+            return getFeedbackResponsesForReceiverForQuestion(feedbackQuestionId, userEmail);
+        } else {
+            return frDb.getFeedbackResponsesForReceiverForQuestionInSection(feedbackQuestionId, userEmail, filteredEmails);
+        }
+    }
     
     public List<FeedbackResponseAttributes> getFeedbackResponsesFromGiverForQuestion(
             String feedbackQuestionId, String userEmail) {
         return frDb.getFeedbackResponsesFromGiverForQuestion(feedbackQuestionId, userEmail);
+    }
+
+    public List<FeedbackResponseAttributes> getFeedbackResponsesFromGiverForQuestionInSection(
+            String feedbackQuestionId, String userEmail, List<String> filteredEmails) {
+        if(filteredEmails == null){
+            return getFeedbackResponsesFromGiverForQuestion(feedbackQuestionId, userEmail);
+        } else {
+            return frDb.getFeedbackResponsesFromGiverForQuestionInSection(feedbackQuestionId, userEmail, filteredEmails);
+        }
     }
 
     public List<FeedbackResponseAttributes> getFeedbackResponsesForReceiverForCourse(
@@ -107,8 +134,8 @@ public class FeedbackResponsesLogic {
         }
     }
 
-    public List<FeedbackResponseAttributes> getViewableFeedbackResponsesForQuestion(
-            FeedbackQuestionAttributes question, String userEmail, UserType.Role role) {
+    public List<FeedbackResponseAttributes> getViewableFeedbackResponsesForQuestionInSection(
+            FeedbackQuestionAttributes question, String userEmail, UserType.Role role, List<String> filteredEmails) {
 
         List<FeedbackResponseAttributes> viewableResponses =
                 new ArrayList<FeedbackResponseAttributes>();
@@ -116,13 +143,13 @@ public class FeedbackResponsesLogic {
         // Add responses that the user submitted himself
         addNewResponses(
                 viewableResponses,
-                frDb.getFeedbackResponsesFromGiverForQuestion(question.getId(), userEmail));
+                getFeedbackResponsesFromGiverForQuestionInSection(question.getId(), userEmail, filteredEmails));
         
         // Add responses that user is a receiver of when question is visible to receiver.
         if (question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)) {
             addNewResponses(
                     viewableResponses,
-                    frDb.getFeedbackResponsesForReceiverForQuestion(question.getId(),    userEmail));
+                    getFeedbackResponsesForReceiverForQuestionInSection(question.getId(), userEmail, filteredEmails));
         }
 
         switch (role) {
@@ -136,7 +163,7 @@ public class FeedbackResponsesLogic {
             if (question.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS)) {
                 addNewResponses(
                         viewableResponses,
-                        getFeedbackResponsesForQuestion(question.getId()));
+                        getFeedbackResponsesForQuestionInSection(question.getId(), filteredEmails));
             }
             break;
         default:

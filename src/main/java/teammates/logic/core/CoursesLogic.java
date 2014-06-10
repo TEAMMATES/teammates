@@ -213,6 +213,46 @@ public class CoursesLogic {
         return sectionNameList;
     }
 
+    public SectionDetailsBundle getSectionForCourse(String section, String courseId)
+            throws EntityDoesNotExistException {
+
+        verifyCourseIsPresent(courseId);
+        
+        List<StudentAttributes> students = studentsLogic.getStudentsForSection(section, courseId);
+        StudentAttributes.sortByTeamName(students);
+
+        SectionDetailsBundle sectionDetails = new SectionDetailsBundle();
+        TeamDetailsBundle team = null;
+        sectionDetails.name = section;
+        for(int i = 0; i < students.size(); i++){
+            StudentAttributes s = students.get(i);
+    
+            // first student of first team
+            if (team == null) {
+                team = new TeamDetailsBundle();
+                team.name = s.team;
+                team.students.add(s);
+            } 
+            // student in the same team as the previous student
+            else if (s.team.equals(team.name)) {
+                team.students.add(s);
+            } 
+            // first student of subsequent teams (not the first team)
+            else {
+                sectionDetails.teams.add(team);
+                team = new TeamDetailsBundle();
+                team.name = s.team;
+                team.students.add(s);
+            }
+    
+            // if last iteration
+            if (i == (students.size() - 1)) {
+                sectionDetails.teams.add(team);
+            }
+        }
+        return sectionDetails;
+    }
+
     public List<SectionDetailsBundle> getSectionsForCourse(String courseId) 
             throws EntityDoesNotExistException {
         

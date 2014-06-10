@@ -249,7 +249,16 @@ public class FeedbackSessionsLogic {
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructor(
             String feedbackSessionName, String courseId, String userEmail)
             throws EntityDoesNotExistException {
-        return getFeedbackSessionResultsForUser(feedbackSessionName, courseId, userEmail, UserType.Role.INSTRUCTOR);
+        return getFeedbackSessionResultsForUserInSection(feedbackSessionName, courseId, userEmail, UserType.Role.INSTRUCTOR, null);
+    }
+
+    /**
+     * Gets results of a feedback session to show to an instructor for a specific section 
+     */
+    public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorInSection(
+            String feedbackSessionName, String courseId, String userEmail, List<String> filteredEmails )
+            throws EntityDoesNotExistException {
+        return getFeedbackSessionResultsForUserInSection(feedbackSessionName, courseId, userEmail, UserType.Role.INSTRUCTOR, filteredEmails);
     }
     
     /**
@@ -258,7 +267,7 @@ public class FeedbackSessionsLogic {
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForStudent(
             String feedbackSessionName, String courseId, String userEmail)
             throws EntityDoesNotExistException {
-        return getFeedbackSessionResultsForUser(feedbackSessionName, courseId, userEmail, UserType.Role.STUDENT);
+        return getFeedbackSessionResultsForUserInSection(feedbackSessionName, courseId, userEmail, UserType.Role.STUDENT, null);
     }
     
     public String getFeedbackSessionResultsSummaryAsCsv(
@@ -707,8 +716,8 @@ public class FeedbackSessionsLogic {
         return details;
     }
     
-    private FeedbackSessionResultsBundle getFeedbackSessionResultsForUser(
-            String feedbackSessionName, String courseId, String userEmail, UserType.Role role)
+    private FeedbackSessionResultsBundle getFeedbackSessionResultsForUserInSection(
+            String feedbackSessionName, String courseId, String userEmail, UserType.Role role, List<String> filteredEmails)
             throws EntityDoesNotExistException {
     
         FeedbackSessionAttributes session = fsDb.getFeedbackSession(
@@ -761,8 +770,8 @@ public class FeedbackSessionsLogic {
             if(isPrivateSessionCreatedByThisUser) {
                 responsesForThisQn = frLogic.getFeedbackResponsesForQuestion(question.getId());
             } else {
-                responsesForThisQn = frLogic.getViewableFeedbackResponsesForQuestion(
-                        question, userEmail, role);
+                responsesForThisQn = frLogic.getViewableFeedbackResponsesForQuestionInSection(
+                        question, userEmail, role, filteredEmails);
             }
             
             boolean thisQuestionHasResponses = (!responsesForThisQn.isEmpty());
