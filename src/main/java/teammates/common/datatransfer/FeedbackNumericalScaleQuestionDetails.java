@@ -1,5 +1,6 @@
 package teammates.common.datatransfer;
 
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -128,13 +129,16 @@ public class FeedbackNumericalScaleQuestionDetails extends
         
         average = total/numResponses;
         
-        DecimalFormat df = new DecimalFormat("#.#####");
+        DecimalFormat df = new DecimalFormat();
+        df.setMinimumFractionDigits(0);
+        df.setMaximumFractionDigits(5);
+        df.setRoundingMode(RoundingMode.DOWN);
         
         html = FeedbackQuestionFormTemplates.populateTemplate(
                         FeedbackQuestionFormTemplates.NUMSCALE_RESULT_STATS,
                         "${average}", df.format(average),
-                        "${min}", (min == Integer.MAX_VALUE)? "-" : Double.toString(min),
-                        "${max}", (max == Integer.MIN_VALUE)? "-" : Double.toString(max));
+                        "${min}", (min == Integer.MAX_VALUE)? "-" : df.format(min),
+                        "${max}", (max == Integer.MIN_VALUE)? "-" : df.format(max));
         
         return html;
     }
