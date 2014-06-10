@@ -2,8 +2,10 @@ package teammates.storage.entity;
 
 import java.util.Date;
 
+import javax.jdo.annotations.Column;
 import javax.jdo.annotations.Element;
 import javax.jdo.annotations.Embedded;
+import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -36,7 +38,11 @@ public class Account {
     private Date createdAt;
     
     @Persistent
-    @Embedded
+    @Embedded(members = {
+            @Persistent(name="email", columns=@Column(name="personalEmail")),
+            @Persistent(name="institute", columns=@Column(name="originalInstitute"))
+    })
+    @Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
     private StudentProfile studentProfile;
 
     /**

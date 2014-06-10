@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import javax.jdo.FetchPlan;
 import javax.jdo.JDOHelper;
+import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
-
 import javax.jdo.Transaction;
 
 import teammates.common.datatransfer.AccountAttributes;
@@ -169,9 +170,12 @@ public class AccountsDb extends EntitiesDb {
 
     private Account getAccountEntity(String googleId) {
         
-        Query q = getPM().newQuery(Account.class);
+        PersistenceManager p = getPM();
+        Query q = p.newQuery(Account.class);
         q.declareParameters("String googleIdParam");
         q.setFilter("googleId == googleIdParam");
+        p.getFetchPlan().setGroup(FetchPlan.DEFAULT);
+        p.getFetchGroup(Account.class, FetchPlan.DEFAULT).removeMember("studentProfile");
         
         @SuppressWarnings("unchecked")
         List<Account> accountsList = (List<Account>) q.execute(googleId);
@@ -184,12 +188,18 @@ public class AccountsDb extends EntitiesDb {
     }
     
     public StudentProfileAttributes getStudentProfile(String accountGoogleId) {
-        AccountAttributes account = this.getAccount(accountGoogleId);
-        if (account != null) {
-            return account.studentProfile;
-        }
-        else {
+        Query q = getPM().newQuery(Account.class);
+        q.declareParameters("String googleIdParam");
+        q.setFilter("googleId == googleIdParam");
+        q.setResult("studentProfile");
+        
+        @SuppressWarnings("unchecked")
+        List<StudentProfile> profilesList = (List<StudentProfile>) q.execute(accountGoogleId);
+        
+        if (profilesList.isEmpty()) {
             return null;
+        } else {
+            return new StudentProfileAttributes(profilesList.get(0));
         }
     }
     

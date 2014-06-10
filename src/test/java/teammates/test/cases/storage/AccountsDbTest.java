@@ -107,7 +107,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
         AccountAttributes accountDataTest = accountsDb.getAccount(a.googleId);
         
         assertEquals(spa.shortName, accountDataTest.studentProfile.shortName);
-        // ensure that the institutes are different for now...
+        assertEquals(spa.gender, accountDataTest.studentProfile.gender);
         assertEquals(spa.institute, accountDataTest.studentProfile.institute);
         assertEquals(a.institute, accountDataTest.institute);
         assertEquals(spa.email, accountDataTest.studentProfile.email);
@@ -158,6 +158,8 @@ public class AccountsDbTest extends BaseComponentTestCase {
         } catch (AssertionError ae) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
         }
+        
+        accountsDb.deleteAccount(a.googleId);
     }
     
     @Test
@@ -166,6 +168,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
         
         ______TS("typical success case");
         a.name = "Edited name";
+        a.studentProfile.shortName = "Edite";
         accountsDb.updateAccount(a);
         
         ______TS("non-existent account");
@@ -207,6 +210,9 @@ public class AccountsDbTest extends BaseComponentTestCase {
         
         ______TS("success case");
         AccountAttributes a = createNewAccount();
+        a.studentProfile.shortName = "testShort";
+        a.studentProfile.email = "personal@email.com";
+        accountsDb.updateAccount(a);
         a = accountsDb.getAccount(a.googleId);
         StudentProfileAttributes spa = accountsDb.getStudentProfile(a.googleId);
         
@@ -222,10 +228,13 @@ public class AccountsDbTest extends BaseComponentTestCase {
         AccountAttributes a = createNewAccount();
         
         ______TS("typical success case");
+        AccountAttributes newAccount = accountsDb.getAccount(a.googleId);
+        assertNotNull(newAccount);
+        
         accountsDb.deleteAccount(a.googleId);
         
-        AccountAttributes deleted = accountsDb.getAccount(a.googleId);
-        assertNull(deleted);
+        AccountAttributes newAccountdeleted = accountsDb.getAccount(a.googleId);
+        assertNull(newAccountdeleted);
         
         ______TS("silent deletion of same account");
         accountsDb.deleteAccount(a.googleId);
