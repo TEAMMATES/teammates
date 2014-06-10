@@ -87,8 +87,8 @@ public class FeedbackTextQuestionDetails extends
                         "${minLength}", (minLength == Integer.MAX_VALUE)? "-" : Integer.toString(minLength),
                         "${maxLength}", (maxLength == Integer.MIN_VALUE)? "-" : Integer.toString(maxLength));
         
-        
-        return html;
+        //TODO: evaluate what statistics are needed for text questions later.
+        return "";
     }
     
     @Override
