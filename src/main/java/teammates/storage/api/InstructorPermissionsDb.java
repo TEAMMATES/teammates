@@ -31,7 +31,6 @@ public class InstructorPermissionsDb extends EntitiesDb {
         
         if (i == null) {
             log.info("Trying to get non-existent InstructorPermission: " + courseId +"/"+ instrEmail );
-            // should we create entity here for data migration?
             return null;
         }
         
@@ -150,6 +149,9 @@ public class InstructorPermissionsDb extends EntitiesDb {
         if (instructorPermissionList.isEmpty()
                 || JDOHelper.isDeleted(instructorPermissionList.get(0))) {
             return null;
+        }
+        if (instructorPermissionList.size() > 1) {
+            log.severe("Duplicate InstructorPermission Entity: " + courseId + "/" + instrEmail);
         }
 
         return instructorPermissionList.get(0);

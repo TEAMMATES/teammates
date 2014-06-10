@@ -171,7 +171,6 @@ public class InstructorPermissionsDbTest extends BaseComponentTestCase {
     
     @Test
     public void testUpdateInstructorPermissionByEmail() throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
-        // setup for this method
         instrEmail = "updateInstrPerm@google.com";
         courseId = "courseUpdateInstrPerm";
         InstructorPermissionAttributes permission = getCoownerInstructorPermissionAttr();       
