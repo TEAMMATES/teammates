@@ -1,218 +1,171 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.openqa.jetty.html.Comment;
-
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Collections;
-
 import teammates.common.datatransfer.CommentAttributes;
-import teammates.common.datatransfer.CommentRecipientType;
 import teammates.common.datatransfer.CommentStatus;
 import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
-import teammates.logic.api.Logic;
-import teammates.storage.entity.FeedbackResponseComment;
+import teammates.storage.api.InstructorsDb;
+import teammates.storage.api.StudentsDb;
 
 public class InstructorCommentsPageAction extends Action {
 
+    private static final String COMMENT_PAGE_DISPLAY_ARCHIVE_SESSION = "comments_page_displayarchive";
+    
     private InstructorCommentsPageData data;
+    private String courseId;
+    private String isDisplayArchivedCourseString;
+    private Boolean isDisplayArchivedCourse;
+    private Boolean isViewingDraft;
     
     @Override
     public ActionResult execute() throws EntityDoesNotExistException {
         
-        String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String isDisplayArchiveString = getRequestParamValue(Const.ParamsNames.DISPLAY_ARCHIVE);
-        InstructorAttributes instructor = null;
-        Boolean isViewingDraft = false;
-        Boolean isDisplayArchive = Boolean.parseBoolean(isDisplayArchiveString);
+        //COURSE_ID can be null, if viewed by Draft
+        courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
+        //DISPLAY_ARCHIVE can be null. Its value can be retrieved from session
+        isDisplayArchivedCourseString = getRequestParamValue(Const.ParamsNames.DISPLAY_ARCHIVE); 
+
+        verifyAccessible();
         
-        //verify permissions
-        if(courseId != null){//view by Course
-            instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
-            new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId));
-        } else {//view by Draft
-            courseId = "";
-            isViewingDraft = true;
-            new GateKeeper().verifyInstructorPrivileges(account);
-        }
-        
-        //handle whether to display archive
-        if(isDisplayArchiveString != null){
-            //TODO: make this session attr into const.java
-            session.setAttribute("comments_page_displayarchive", isDisplayArchive);
+        if(isDisplayArchivedCourseString != null){
+            putDisplayArchivedOptionToSession();
         } else {
-            Boolean isDisplayBooleanInSession = (Boolean) session.getAttribute("comments_page_displayarchive");
-            isDisplayArchive = isDisplayBooleanInSession != null? isDisplayBooleanInSession: false;
+            getDisplayArchivedOptionFromSession();
         }
         
-        //handle pagination result
-        List<CourseAttributes> courses = logic.getCoursesForInstructor(account.googleId);
-        String courseNameToView = null;
-        List<String> courseIdList = new ArrayList<String>(); 
-        for(CourseAttributes course : courses){
-            if(course.id.equals(courseId)){
-                courseNameToView = course.id + " : " + course.name;
-            }
-            if(isDisplayArchive || !course.isArchived){
-                courseIdList.add(course.id);
-            }
-        }
+        //Load details of students and instructors once and pass it to callee methods
+        //  (rather than loading them many times).
+        CourseRoster roster = new CourseRoster(
+                new StudentsDb().getStudentsForCourse(courseId),
+                new InstructorsDb().getInstructorsForCourse(courseId));
         
-        //get comments data
-        List<CommentAttributes> comments;
-        if(isViewingDraft){//for comment drafts
-            comments = logic.getCommentDrafts(account.email);
-        } else {//for normal comments
-            comments = logic.getCommentsForGiverAndStatus(courseId, account.email, CommentStatus.FINAL);
-        }
-        
-        //put student details (name/team/section) into map
-        //TODO: for this kind of map, need to describe what's its key... especially those string key
-        Map<String, StudentAttributes> studentsMap = new HashMap<String, StudentAttributes>();
-        if(!isViewingDraft){
-            List<StudentAttributes> studentList = logic.getStudentsForCourse(courseId);
-            for(StudentAttributes student : studentList){
-                studentsMap.put(student.email, student);
-            }
-        }
-        
-        //order data by recipients
-        Map<String, List<CommentAttributes>> commentsMap = new TreeMap<String, List<CommentAttributes>>();
-        for(CommentAttributes comment : comments){
-            for(String recipient : comment.recipients){
-                List<CommentAttributes> commentList = commentsMap.get(recipient);
-                if(commentList == null){
-                    commentList = new ArrayList<CommentAttributes>();
-                    commentList.add(comment);
-                    commentsMap.put(recipient, commentList);
-                } else {
-                    commentList.add(comment);
-                }
-            }
-        }
-        //sort comment by created date
-        for(String recipient : commentsMap.keySet()){
-            List<CommentAttributes> commentList = commentsMap.get(recipient);
-            //TODO: use override-compareto
-            java.util.Collections.sort(commentList);
-        }
-        
-        //get frComment 
-        //TODO: consider using getFeedbackSessionResultsForInstructor
-        Map<String, List<FeedbackQuestionAttributes>> fsNameTofeedbackQuestionsMap = new HashMap<String, List<FeedbackQuestionAttributes>>();
-        Map<String, List<FeedbackResponseAttributes>> questionIdToFeedbackResponsesMap = new HashMap<String, List<FeedbackResponseAttributes>>();
-        Map<String, List<FeedbackResponseCommentAttributes>> responseIdToFrCommentsMap = new HashMap<String, List<FeedbackResponseCommentAttributes>>();
-        if(!isViewingDraft){
-            List<FeedbackSessionAttributes> fsList = logic.getFeedbackSessionsForCourse(courseId);
-            for(FeedbackSessionAttributes fsAttributes : fsList){
-                String fsName = fsAttributes.feedbackSessionName;
-                //TODO: only get your own frComment
-                List<FeedbackResponseCommentAttributes> allFrCommentsInCourse = logic.getFeedbackResponseComment(courseId, fsName);
-                List<FeedbackQuestionAttributes> allFeedbackQuestionsOfSession = logic.getFeedbackQuestionsForSession(fsName, courseId);
-                @SuppressWarnings("deprecation")
-                List<FeedbackResponseAttributes> allFeedbackResponsesOfSession = logic.getFeedbackResponseForSession(fsName, courseId);
-                
-                Map<String, FeedbackQuestionAttributes> questionIdToFeedbackQuestionMap = new HashMap<String, FeedbackQuestionAttributes>();
-                for(FeedbackQuestionAttributes fqAttributes : allFeedbackQuestionsOfSession){
-                    questionIdToFeedbackQuestionMap.put(fqAttributes.getId(), fqAttributes);
-                }
-                Map<String, FeedbackResponseAttributes> responseIdToFeedbackResponseMap = new HashMap<String, FeedbackResponseAttributes>();
-                for(FeedbackResponseAttributes frAttributes : allFeedbackResponsesOfSession){
-                    responseIdToFeedbackResponseMap.put(frAttributes.getId(), frAttributes);
-                }
-                
-                HashSet<String> isQuestionAddedHashSet = new HashSet<String>();
-                HashSet<String> isResponseAddedHashSet = new HashSet<String>();
-                for(FeedbackResponseCommentAttributes frCommentAttributes : allFrCommentsInCourse){
-                    if(!frCommentAttributes.giverEmail.equals(account.email)) continue;//TODO: use a better way instead of 'continue'
-                    FeedbackQuestionAttributes fq = questionIdToFeedbackQuestionMap.get(frCommentAttributes.feedbackQuestionId);
-                    if(fq != null && fq.showResponsesTo != null 
-                            && fq.showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS)){
-                        FeedbackResponseAttributes fr = responseIdToFeedbackResponseMap.get(frCommentAttributes.feedbackResponseId);
-                        
-                        List<FeedbackResponseCommentAttributes> frcList = responseIdToFrCommentsMap.get(frCommentAttributes.feedbackResponseId);
-                        if(frcList == null){
-                            frcList = new ArrayList<FeedbackResponseCommentAttributes>();
-                            frcList.add(frCommentAttributes);
-                            responseIdToFrCommentsMap.put(frCommentAttributes.feedbackResponseId, frcList);
-                        } else {
-                            frcList.add(frCommentAttributes);
-                        }
-                        
-                        if(!fq.showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS)){
-                            fr.giverEmail = "Anonymous giver";
-                        }
-                        if(!fq.showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS)){
-                            fr.recipientEmail = "Anonymous recipient";
-                        }
-                        List<FeedbackResponseAttributes> frList = questionIdToFeedbackResponsesMap.get(fr.feedbackQuestionId);
-                        if(frList == null){
-                            frList = new ArrayList<FeedbackResponseAttributes>();
-                            frList.add(fr);
-                            isResponseAddedHashSet.add(fr.getId());
-                            questionIdToFeedbackResponsesMap.put(fr.feedbackQuestionId, frList);
-                        } else {
-                            if(!isResponseAddedHashSet.contains(fr.getId())){
-                                frList.add(fr);
-                                isResponseAddedHashSet.add(fr.getId());
-                            }
-                        }
-                        
-                        List<FeedbackQuestionAttributes> fqList = fsNameTofeedbackQuestionsMap.get(fsName);
-                        if(fqList == null){
-                            fqList = new ArrayList<FeedbackQuestionAttributes>();
-                            fqList.add(fq);
-                            isQuestionAddedHashSet.add(fq.getId());
-                            fsNameTofeedbackQuestionsMap.put(fsName, fqList);
-                        } else {
-                            if(!isQuestionAddedHashSet.contains(fq.getId())){
-                                fqList.add(fq);
-                                isQuestionAddedHashSet.add(fq.getId());
-                            }
-                        }
-                    }
-                }
-                List<FeedbackQuestionAttributes> fqList = fsNameTofeedbackQuestionsMap.get(fsName);
-                if(fqList != null){
-                    java.util.Collections.sort(fqList);
-                    fsNameTofeedbackQuestionsMap.put(fsName, fqList);
-                }
-            }
-        }
+        List<String> coursePaginationList = new ArrayList<String>(); 
+        String courseName = getCoursePaginationList(coursePaginationList);
+
+        Map<String, List<CommentAttributes>> recipientToCommentsMap = getRecipientToCommentsMap();
+        Map<String, FeedbackSessionResultsBundle> feedbackResultBundles = getFeedbackResultBundles(roster);
         
         data = new InstructorCommentsPageData(account);
-        //TODO: use data bundles
         data.isViewingDraft = isViewingDraft;
-        data.courseIdToView = courseId;
-        data.courseNameToView = courseNameToView;
-        data.courseIdList = courseIdList;
-        data.comments = commentsMap;
-        data.students = studentsMap;
-        data.isDisplayArchive = isDisplayArchive;
-        data.fsNameTofeedbackQuestionsMap = fsNameTofeedbackQuestionsMap;
-        data.questionIdToFeedbackResponsesMap = questionIdToFeedbackResponsesMap;
-        data.responseIdToFrCommentsMap = responseIdToFrCommentsMap;
+        data.isDisplayArchive = isDisplayArchivedCourse;
+        data.courseId = courseId;
+        data.courseName = courseName;
+        data.coursePaginationList = coursePaginationList;
+        data.comments = recipientToCommentsMap;
+        data.roster = roster;
+        data.feedbackResultBundles = feedbackResultBundles;
         
         statusToAdmin = "instructorComments Page Load<br>" + 
                 "Viewing <span class=\"bold\">" + account.googleId + "'s</span> comment records " +
                 "for Course <span class=\"bold\">[" + courseId + "]</span>";
             
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COMMENTS, data);
+    }
+
+    private void verifyAccessible() {
+        isViewingDraft = courseId == null;
+        if(!isViewingDraft){//view by Course
+            InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
+            new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId));
+        } else {//view by Draft
+            courseId = "";
+            new GateKeeper().verifyInstructorPrivileges(account);
+        }
+    }
+
+    private void getDisplayArchivedOptionFromSession() {
+        Boolean isDisplayBooleanInSession = (Boolean) session.getAttribute(COMMENT_PAGE_DISPLAY_ARCHIVE_SESSION);
+        isDisplayArchivedCourse = isDisplayBooleanInSession != null? isDisplayBooleanInSession: false;
+    }
+
+    private void putDisplayArchivedOptionToSession() {
+        isDisplayArchivedCourse = Boolean.parseBoolean(isDisplayArchivedCourseString);
+        session.setAttribute(COMMENT_PAGE_DISPLAY_ARCHIVE_SESSION, isDisplayArchivedCourse);
+    }
+
+    private String getCoursePaginationList(List<String> coursePaginationList) 
+            throws EntityDoesNotExistException {
+        String courseName = "";
+        List<CourseAttributes> courses = logic.getCoursesForInstructor(account.googleId);
+        for(CourseAttributes course : courses){
+            if(course.id.equals(courseId)){
+                courseName = course.id + " : " + course.name;
+            }
+            if(isDisplayArchivedCourse || !course.isArchived){
+                coursePaginationList.add(course.id);
+            }
+        }
+        return courseName;
+    }
+
+    private Map<String, List<CommentAttributes>> getRecipientToCommentsMap()
+            throws EntityDoesNotExistException {
+        List<CommentAttributes> comments;
+        if(isViewingDraft){//for comment drafts
+            comments = logic.getCommentDrafts(account.email);
+        } else {//for normal comments
+            comments = logic.getCommentsForGiverAndStatus(courseId, account.email, CommentStatus.FINAL);
+        }
+        //group data by recipients
+        Map<String, List<CommentAttributes>> recipientToCommentsMap = new TreeMap<String, List<CommentAttributes>>();
+        for(CommentAttributes comment : comments){
+            for(String recipient : comment.recipients){
+                List<CommentAttributes> commentList = recipientToCommentsMap.get(recipient);
+                if(commentList == null){
+                    commentList = new ArrayList<CommentAttributes>();
+                    commentList.add(comment);
+                    recipientToCommentsMap.put(recipient, commentList);
+                } else {
+                    commentList.add(comment);
+                }
+            }
+        }
+        //sort comments by created date
+        for(List<CommentAttributes> commentList : recipientToCommentsMap.values()){
+            java.util.Collections.sort(commentList);
+        }
+        return recipientToCommentsMap;
+    }
+
+    private Map<String, FeedbackSessionResultsBundle> getFeedbackResultBundles(CourseRoster roster)
+            throws EntityDoesNotExistException {
+        Map<String, FeedbackSessionResultsBundle> feedbackResultBundles = new HashMap<String, FeedbackSessionResultsBundle>();
+        if(!isViewingDraft){
+            List<FeedbackSessionAttributes> fsList = logic.getFeedbackSessionsForCourse(courseId);
+            for(FeedbackSessionAttributes fs : fsList){
+                FeedbackSessionResultsBundle bundle = 
+                        logic.getFeedbackSessionResultsForInstructor(fs.feedbackSessionName, courseId, account.email, roster);
+                if(bundle != null){
+                    removeResponsesWithoutFeedbackResponseComment(bundle);
+                    feedbackResultBundles.put(fs.feedbackSessionName, bundle);
+                }
+            }
+        }
+        return feedbackResultBundles;
+    }
+
+    private void removeResponsesWithoutFeedbackResponseComment(FeedbackSessionResultsBundle bundle) {
+        List<FeedbackResponseAttributes> responsesWithFeedbackResponseComment = new ArrayList<FeedbackResponseAttributes>();
+        for(FeedbackResponseAttributes fr: bundle.responses){
+            List<FeedbackResponseCommentAttributes> frComment = bundle.responseComments.get(fr.getId());
+            if(frComment != null && frComment.size() != 0){
+                responsesWithFeedbackResponseComment.add(fr);
+            }
+        }
+        bundle.responses = responsesWithFeedbackResponseComment;
     }
 }

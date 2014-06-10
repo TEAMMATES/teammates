@@ -253,6 +253,15 @@ public class FeedbackSessionsLogic {
     }
     
     /**
+     * Gets results of a feedback session in a roster to show to an instructor. 
+     */
+    public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructor(
+            String feedbackSessionName, String courseId, String userEmail, CourseRoster roster)
+            throws EntityDoesNotExistException {
+        return getFeedbackSessionResultsForUser(feedbackSessionName, courseId, userEmail, UserType.Role.INSTRUCTOR, roster);
+    }
+    
+    /**
      * Gets results of a feedback session to show to a student. 
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForStudent(
@@ -708,7 +717,18 @@ public class FeedbackSessionsLogic {
     }
     
     private FeedbackSessionResultsBundle getFeedbackSessionResultsForUser(
-            String feedbackSessionName, String courseId, String userEmail, UserType.Role role)
+            String feedbackSessionName, String courseId, String userEmail, UserType.Role role) 
+            throws EntityDoesNotExistException{
+        //Load details of students and instructors once and pass it to callee methods
+        //  (rather than loading them many times).
+        CourseRoster roster = new CourseRoster(
+                new StudentsDb().getStudentsForCourse(courseId),
+                new InstructorsDb().getInstructorsForCourse(courseId));
+        return getFeedbackSessionResultsForUser(feedbackSessionName, courseId, userEmail, role, roster);
+    }
+    
+    private FeedbackSessionResultsBundle getFeedbackSessionResultsForUser(
+            String feedbackSessionName, String courseId, String userEmail, UserType.Role role, CourseRoster roster)
             throws EntityDoesNotExistException {
     
         FeedbackSessionAttributes session = fsDb.getFeedbackSession(
@@ -721,12 +741,6 @@ public class FeedbackSessionsLogic {
         
         List<FeedbackQuestionAttributes> allQuestions = 
                 fqLogic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
-        
-        //Load details of students and instructors once and pass it to callee methods
-        //  (rather than loading them many times).
-        CourseRoster roster = new CourseRoster(
-                new StudentsDb().getStudentsForCourse(courseId),
-                new InstructorsDb().getInstructorsForCourse(courseId));
         
         //create empty data containers to store results
         List<FeedbackResponseAttributes> responses =
@@ -779,11 +793,14 @@ public class FeedbackSessionsLogic {
         List<FeedbackResponseCommentAttributes> allResponseComments = 
                 frcLogic.getFeedbackResponseCommentForSession(courseId, feedbackSessionName);
         for (FeedbackResponseCommentAttributes frc : allResponseComments) {
-            if (responseComments.get(frc.feedbackResponseId) == null) {
-                responseComments.put(frc.feedbackResponseId,
-                        new ArrayList<FeedbackResponseCommentAttributes>());
+            List<FeedbackResponseCommentAttributes> frcList = responseComments.get(frc.feedbackResponseId);
+            if (frcList == null) {
+                frcList = new ArrayList<FeedbackResponseCommentAttributes>();
+                frcList.add(frc);
+                responseComments.put(frc.feedbackResponseId, frcList);
+            } else {
+                frcList.add(frc);
             }
-            responseComments.get(frc.feedbackResponseId).add(frc);
         }
         
         for (List<FeedbackResponseCommentAttributes> responseCommentList : responseComments.values()) {

@@ -255,13 +255,13 @@
                     //TODO: use js to handle navigation links
                 %>
                 <li><a href="#">«</a></li>
-                <li class="<%=data.isViewingDraft ? "active" : ""%>"><a
-                    href="<%=data.getInstructorCommentsLink()%>">Drafts</a></li>
+                <!--<li class="<%=data.isViewingDraft ? "active" : ""%>"><a
+                    href="<%=data.getInstructorCommentsLink()%>">Drafts</a></li>-->
                 <%
-                    for (String courseId : data.courseIdList) {
+                    for (String courseId : data.coursePaginationList) {
                 %>
                 <li
-                    class="<%=!data.isViewingDraft && courseId.equals(data.courseIdToView) ? "active" : ""%>">
+                    class="<%=!data.isViewingDraft && courseId.equals(data.courseId) ? "active" : ""%>">
                     <a
                     href="<%=data.getInstructorCommentsLink() + "&courseid=" + courseId%>"><%=courseId%></a>
                 </li>
@@ -273,7 +273,7 @@
             <div class="well well-plain">
                 <div class="text-color-primary">
                     <h4>
-                        <strong> <%=data.isViewingDraft ? "Drafts" : data.courseNameToView%>
+                        <strong> <%=data.isViewingDraft ? "Drafts" : data.courseName%>
                         </strong>
                     </h4>
                 </div>
@@ -288,7 +288,7 @@
                             for (String recipient : data.comments.keySet()) {
                         %>
                         <%
-                            StudentAttributes student = data.students.get(recipient);
+                            StudentAttributes student = data.roster.getStudentForEmail(recipient);
                                 Boolean isRecipientStudent = student != null;
                         %>
                         <div
@@ -364,39 +364,52 @@
                         %>
                     </div>
                 </div>
-                <% for(String fsName: data.fsNameTofeedbackQuestionsMap.keySet()){//FeedbackSession loop starts %>
+                <%
+                    for (String fsName : data.feedbackResultBundles.keySet()) {//FeedbackSession loop starts
+                %>
                 <br>
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         <strong>Feedback Session: <%=fsName%></strong>
                     </div>
                     <div class="panel-body">
-                        <% List<FeedbackQuestionAttributes> fqList = data.fsNameTofeedbackQuestionsMap.get(fsName);
-                           for(FeedbackQuestionAttributes fq : fqList){//FeedbackQuestion loop starts %>
+                        <%
+                            FeedbackSessionResultsBundle bundle = data.feedbackResultBundles.get(fsName);
+
+                                for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responseEntries : bundle
+                                        .getQuestionResponseMap().entrySet()) {//FeedbackQuestion loop starts
+                                    if(responseEntries.getValue().size() == 0) continue;
+                        %>
                         <div class="panel panel-info">
                             <div class="panel-heading">
-                                <%//TODO: handle this [More] dropdown %>
-                                <b>Question <%=fq.questionNumber%>:</b> <%=fq.getQuestionDetails().questionText%> [More]
+                                <b>Question <%=responseEntries.getKey().questionNumber%></b>: <%=bundle.getQuestionText(responseEntries.getKey().getId())%>
+                                <%
+                                    Map<String, FeedbackQuestionAttributes> questions = bundle.questions;
+                                            FeedbackQuestionAttributes question = questions.get(responseEntries.getKey().getId());
+                                            FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
+                                            out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, ""));
+                                %>
                             </div>
                             <table class="table">
                                 <tbody>
-                                    <% List<FeedbackResponseAttributes> frList = data.questionIdToFeedbackResponsesMap.get(fq.getId());
-                                       for(FeedbackResponseAttributes fr : frList){//FeedbackResponse loop starts
-                                           StudentAttributes giver = data.students.get(fr.giverEmail);
-                                           String giverName = giver == null? fr.giverEmail: giver.name;
-                                           
-                                           StudentAttributes recipient = data.students.get(fr.recipientEmail);
-                                           String recipientName = recipient == null? fr.recipientEmail: recipient.name;
+                                    <%
+                                        for (FeedbackResponseAttributes responseEntry : responseEntries.getValue()) {//FeedbackResponse loop starts
+                                                    String giverName = bundle.getGiverNameForResponse(responseEntries.getKey(), responseEntry);
+                                                    String giverTeamName = bundle.getTeamNameForEmail(responseEntry.giverEmail);
+                                                    giverName = bundle.appendTeamNameToName(giverName, giverTeamName);
+
+                                                    String recipientName = bundle.getRecipientNameForResponse(responseEntries.getKey(), responseEntry);
+                                                    String recipientTeamName = bundle.getTeamNameForEmail(responseEntry.recipientEmail);
+                                                    recipientName = bundle.appendTeamNameToName(recipientName, recipientTeamName);
                                     %>
                                     <tr>
-                                        <td>
-                                            <b>From:</b> <%=giverName%> <%=giver == null? "": "(" + giver.team + ")"%>
-                                            <b>To:</b> <%=recipientName%> <%=recipient == null? "": "(" + recipient.team + ")"%>
+                                        <td><b>From:</b> <%=giverName%>
+                                            <b>To:</b> <%=recipientName%>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td><strong>Response:
-                                        </strong><%=fr.getResponseDetails().getAnswerHtml()%>
+                                        </strong><%=responseEntry.getResponseDetails().getAnswerHtml()%>
                                         </td>
                                     </tr>
                                     <tr class="active">
@@ -417,15 +430,17 @@
                                     <tr>
                                         <td>
                                             <ul class="list-group">
-                                                <% List<FeedbackResponseCommentAttributes> frcList = data.responseIdToFrCommentsMap.get(fr.getId());
-                                                   for(FeedbackResponseCommentAttributes frc : frcList){//FeedbackResponseComments loop starts
+                                                <%
+                                                    List<FeedbackResponseCommentAttributes> frcList = bundle.responseComments.get(responseEntry.getId());
+                                                                for (FeedbackResponseCommentAttributes frc : frcList) {//FeedbackResponseComments loop starts
                                                 %>
                                                 <li
                                                     class="list-group-item list-group-item-warning">
                                                     <div
                                                         id="commentBar0">
                                                         <span
-                                                            class="text-muted">on <%=TimeHelper.formatTime(frc.createdAt)%>
+                                                            class="text-muted">on
+                                                            <%=TimeHelper.formatTime(frc.createdAt)%>
                                                         </span> <a
                                                             type="button"
                                                             id="commentdelete-0"
@@ -467,18 +482,26 @@
                                                     <div
                                                         id="plainCommentText0"><%=frc.commentText.getValue()%></div>
                                                 </li>
-                                                <% }//FeedbackResponseComments loop ends %>
+                                                <%
+                                                    }//FeedbackResponseComments loop ends
+                                                %>
                                             </ul>
                                         </td>
                                     </tr>
-                                    <% }//FeedbackResponse loop ends %>
+                                    <%
+                                        }//FeedbackResponse loop ends
+                                    %>
                                 </tbody>
                             </table>
                         </div>
-                        <% }//FeedbackQuestion loop ends %>
+                        <%
+                            }//FeedbackQuestion loop ends
+                        %>
                     </div>
                 </div>
-                <% }//FeedbackSession loop ends %>
+                <%
+                    }//FeedbackSession loop ends
+                %>
             </div>
         </div>
     </div>
