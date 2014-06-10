@@ -6,6 +6,7 @@ import java.util.List;
 import teammates.common.util.Const;
 import teammates.common.util.FeedbackQuestionFormTemplates;
 import teammates.common.util.Sanitizer;
+import teammates.common.util.StringHelper;
 
 public class FeedbackTextQuestionDetails extends
         FeedbackAbstractQuestionDetails {
@@ -63,8 +64,31 @@ public class FeedbackTextQuestionDetails extends
     
     @Override
     public String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses) {
-        // TODO Auto-generated method stub
-        return "";
+        String html = "";
+        int averageLength = 0;
+        int minLength = Integer.MAX_VALUE;
+        int maxLength = Integer.MIN_VALUE;
+        int numResponses = 0;
+        int totalLength = 0;
+        
+        for(FeedbackResponseAttributes response : responses){
+            numResponses++;
+            String answerString = response.getResponseDetails().getAnswerString();
+            minLength = (StringHelper.countWords(answerString) < minLength) ? StringHelper.countWords(answerString) : minLength;
+            maxLength = (StringHelper.countWords(answerString) > maxLength) ? StringHelper.countWords(answerString) : maxLength;
+            totalLength += StringHelper.countWords(answerString);
+        }
+        
+        averageLength = totalLength/numResponses;
+        
+        html = FeedbackQuestionFormTemplates.populateTemplate(
+                        FeedbackQuestionFormTemplates.TEXT_RESULT_STATS,
+                        "${averageLength}", Integer.toString(averageLength),
+                        "${minLength}", (minLength == Integer.MAX_VALUE)? "-" : Integer.toString(minLength),
+                        "${maxLength}", (maxLength == Integer.MIN_VALUE)? "-" : Integer.toString(maxLength));
+        
+        
+        return html;
     }
     
     @Override

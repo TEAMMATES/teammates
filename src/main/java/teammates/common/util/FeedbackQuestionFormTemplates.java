@@ -4,6 +4,7 @@ public class FeedbackQuestionFormTemplates {
     public static String FEEDBACK_QUESTION_ADDITIONAL_INFO = FileHelper.readResourseFile("feedbackQuestionAdditionalInfoTemplate.html");
 
     public static String TEXT_SUBMISSION_FORM = FileHelper.readResourseFile("feedbackQuestionTextSubmissionFormTemplate.html");
+    public static String TEXT_RESULT_STATS = FileHelper.readResourseFile("feedbackQuestionTextResultStatsTemplate.html");
     
     public static String MCQ_SUBMISSION_FORM = FileHelper.readResourseFile("feedbackQuestionMcqSubmissionFormTemplate.html");
     public static String MCQ_SUBMISSION_FORM_OPTIONFRAGMENT = FileHelper.readResourseFile("feedbackQuestionMcqSubmissionFormOptionFragment.html");
