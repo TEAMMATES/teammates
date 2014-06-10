@@ -62,8 +62,7 @@ public class FeedbackTextQuestionDetails extends
     }
     
     @Override
-    public String getQuestionResultStatisticsHtml(int questionNumber,
-            List<FeedbackResponseAttributes> responses) {
+    public String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses) {
         // TODO Auto-generated method stub
         return "";
     }

@@ -67,7 +67,7 @@
                 </div>
                 <div class="panel-body padding-0">                
                     <div class="resultStatistics">
-                        <%=questionDetails.getQuestionResultStatisticsHtml(question.questionNumber, responseEntries.getValue())%>
+                        <%=questionDetails.getQuestionResultStatisticsHtml(responseEntries.getValue())%>
                     </div>
                     <table class="table table-striped table-bordered dataTable margin-0">
                         <thead class="background-color-medium-gray text-color-gray font-weight-normal">

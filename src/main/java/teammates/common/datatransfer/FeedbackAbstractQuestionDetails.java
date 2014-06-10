@@ -41,7 +41,7 @@ public abstract class FeedbackAbstractQuestionDetails {
     
     public abstract String getQuestionAdditionalInfoHtml(int questionNumber, String additionalInfoId);
     
-    public abstract String getQuestionResultStatisticsHtml(int questionNumber, List<FeedbackResponseAttributes> responses);
+    public abstract String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses);
     
     public abstract boolean isChangesRequiresResponseDeletion(FeedbackAbstractQuestionDetails newDetails);
     
