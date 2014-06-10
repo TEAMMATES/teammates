@@ -4,18 +4,17 @@
 
 */
 
+
+//Show/hide stats
+function showHideStats(){
+    if($("#show-stats-checkbox").is(":checked")){
+        $(".resultStatistics").show();
+    } else {
+        $(".resultStatistics").hide();
+    }
+}
+
 //Search functionality
-$(document).ready(function(){
-    $("#results-search-box").keyup(function(e){
-        updateResultsFilter();
-    });
-    //prevent submitting form when enter is pressed.
-    $("#results-search-box").keypress(function(e) {
-        if(e.which == 13) {
-            return false;
-        }
-    });
-});
 
 function filterResults(searchText, element){
     var recurse = false;
@@ -88,3 +87,20 @@ window.onload = function(){
         }
     }
 };
+
+//Set on ready events
+$(document).ready(function(){
+    $("#results-search-box").keyup(function(e){
+        updateResultsFilter();
+    });
+    //prevent submitting form when enter is pressed.
+    $("#results-search-box").keypress(function(e) {
+        if(e.which == 13) {
+            return false;
+        }
+    });
+
+    //Show/Hide statistics
+    showHideStats();
+    $("#show-stats-checkbox").change(showHideStats);
+});

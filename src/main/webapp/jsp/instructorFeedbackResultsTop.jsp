@@ -110,14 +110,14 @@
                   <div class="col-sm-12" data-toggle="tooltip" title="Group results in the current view by team">
                       <div class="checkbox padding-top-0 min-height-0">
                           <label <%=(data.sortType.equals("question")) ? "class=\"text-strike\"" : ""%>>
-                              <input type="checkbox" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM%>" onchange="this.form.submit()" <%=(data.groupByTeam==null) ? "" : "checked=\"checked\""%> <%=(data.sortType.equals("question")) ? "disabled=\"disabled\"" : ""%>> Group by Teams
+                              <input type="checkbox" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM%>" <%=(data.groupByTeam==null) ? "" : "checked=\"checked\""%> <%=(data.sortType.equals("question")) ? "" : "onchange=\"this.form.submit()\""%>> Group by Teams
                           </label>
                       </div>
                   </div>
                   <div class="col-sm-12" data-toggle="tooltip" title="Show statistics">
                       <div class="checkbox padding-top-0 min-height-0">
                           <label <%=(data.sortType.equals("recipient-giver-question") || data.sortType.equals("giver-recipient-question")) ? "class=\"text-strike\"" : ""%>>
-                              <input type="checkbox" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS%>" onchange="this.form.submit()" <%=(data.showStats==null) ? "" : "checked=\"checked\""%> <%=(data.sortType.equals("recipient-giver-question") || data.sortType.equals("giver-recipient-question")) ? "disabled=\"disabled\"" : ""%>> Show Statistics
+                              <input type="checkbox" id="show-stats-checkbox" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS%>" <%=(data.showStats==null) ? "" : "checked=\"checked\""%>> Show Statistics
                           </label>
                       </div>
                   </div>

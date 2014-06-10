@@ -42,7 +42,8 @@ public class InstructorFeedbackResultsPageAction extends Action {
         data.showStats = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS);
         
         if (data.sortType == null) {
-            // default: sort by recipients
+            // default: sort by recipients, stats shown.
+            data.showStats = new String("on");
             data.sortType = new String("recipient-giver-question");
             return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION, data);
         }
