@@ -8,6 +8,50 @@ public final class InstructorPrivileges {
     private HashMap<String, HashMap<String, Boolean>> sectionLevel;
     private HashMap<String, HashMap<String, HashMap<String, Boolean>>> sessionLevel;
     
+    public static boolean isPrivilegeNameValid(String privilegeName) {
+        boolean isValid = false;
+        switch(privilegeName) {
+        case Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE:
+            isValid = true;
+            break;
+        case Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR:
+            isValid = true;
+            break;
+        case Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION:
+            isValid = true;
+            break;
+        case Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT:
+            isValid = true;
+            break;
+        case Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTION:
+            isValid = true;
+            break;
+        case Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTION:
+            isValid = true;
+            break;
+        case Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTION:
+            isValid = true;
+            break;
+        case Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTION:
+            isValid = true;
+            break;
+        case Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTION:
+            isValid = true;
+            break;
+        case Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTION:
+            isValid = true;
+            break;
+        case Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTION:
+            isValid = true;
+            break;
+        default:
+            isValid = false;
+            break;
+        }
+        
+        return isValid;
+    }
+    
     public InstructorPrivileges() {
         this.courseLevel = new HashMap<String, Boolean>();
         this.sectionLevel = new HashMap<String, HashMap<String, Boolean>>();
@@ -109,33 +153,35 @@ public final class InstructorPrivileges {
     }
     
     public void updatePrivilegeInCourseLevel(String privilegeName, boolean isAllowed) {
+        if (!isPrivilegeNameValid(privilegeName)) {
+            return ;
+        }
         this.courseLevel.put(privilegeName, isAllowed);
     }
     
-    public void addPrivilegeInSectionLevel(String sectionId, String privilegeName, boolean isAllowed) {
-        updatePrivilegeInSectionLevel(sectionId, privilegeName, isAllowed);
-    }
-    
     public void updatePrivilegeInSectionLevel(String sectionId, String privilegeName, boolean isAllowed) {
+        if (!isPrivilegeNameValid(privilegeName)) {
+            return ;
+        }
         if (!this.sectionLevel.containsKey(sectionId)) {
             sectionLevel.put(sectionId, new HashMap<String, Boolean>());
         }
         sectionLevel.get(sectionId).put(privilegeName, isAllowed);
     }
     
-    public void addPrivilegesInSectionLevel(String sectionId, HashMap<String, Boolean> privileges) {
-        updatePrivilegesInSectionLevel(sectionId, privileges);
-    }
-    
     public void updatePrivilegesInSectionLevel(String sectionId, HashMap<String, Boolean> privileges) {
+        for (String privilegeName : privileges.keySet()) {
+            if (!isPrivilegeNameValid(privilegeName)) {
+                return ;
+            }
+        }
         sectionLevel.put(sectionId, privileges);
     }
     
-    public void addPrivilegeInSessionLevel(String sectionId, String sessionId, String privilegeName, boolean isAllowed) {
-        updatePrivilegeInSessionLevel(sectionId, sessionId, privilegeName, isAllowed);
-    }
-    
     public void updatePrivilegeInSessionLevel(String sectionId, String sessionId, String privilegeName, boolean isAllowed) {
+        if (!isPrivilegeNameValid(privilegeName)) {
+            return ;
+        }
         verifyExistenceOfSectionId(sectionId);
         if (!this.sessionLevel.get(sectionId).containsKey(sessionId)) {
             this.sessionLevel.get(sectionId).put(sessionId, new HashMap<String, Boolean>());
@@ -150,19 +196,16 @@ public final class InstructorPrivileges {
         }
     }
     
-    public void addPrivilegesInSessionLevel(String sectionId, String sessionId, HashMap<String, Boolean> privileges) {
-        updatePrivilegesInSessionLevel(sectionId, sessionId, privileges);
-    }
-    
     public void updatePrivilegesInSessionLevel(String sectionId, String sessionId, HashMap<String, Boolean> privileges) {
+        for (String privilegeName : privileges.keySet()) {
+            if (!isPrivilegeNameValid(privilegeName)) {
+                return ;
+            }
+        }
         verifyExistenceOfSectionId(sectionId);
         this.sessionLevel.get(sectionId).put(sessionId, privileges);
     }
     
-    /**
-     * add sectionId to sectionLevel if sectionId does not exist in sectionLevel with default privileges
-     * @param sectionId
-     */
     public void addSectionToSectionLevel(String sectionId) {
         if (this.sectionLevel.containsKey(sectionId)) {
             return ;
@@ -180,10 +223,6 @@ public final class InstructorPrivileges {
         }
     }
     
-    /**
-     * @param privilegeName
-     * @return true if the value for privilegeName is true
-     */
     public boolean isAllowedInCourseLevel(String privilegeName) {
         if (!this.courseLevel.containsKey(privilegeName)) {
             return false;
