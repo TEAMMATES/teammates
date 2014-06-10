@@ -106,6 +106,13 @@ public class FeedbackNumericalScaleQuestionDetails extends
     }
 
     @Override
+    public String getQuestionResultStatisticsHtml(int questionNumber,
+            List<FeedbackResponseAttributes> responses) {
+        // TODO Auto-generated method stub
+        return "";
+    }
+    
+    @Override
     public boolean isChangesRequiresResponseDeletion(
             FeedbackAbstractQuestionDetails newDetails) {
         FeedbackNumericalScaleQuestionDetails newNumScaleDetails = 

@@ -257,6 +257,13 @@ public class FeedbackMcqQuestionDetails extends FeedbackAbstractQuestionDetails 
     }
     
     @Override
+    public String getQuestionResultStatisticsHtml(int questionNumber,
+            List<FeedbackResponseAttributes> responses) {
+        // TODO Auto-generated method stub
+        return "";
+    }
+    
+    @Override
     public String getCsvHeader() {
         return "Feedback";
     }
@@ -292,4 +299,5 @@ public class FeedbackMcqQuestionDetails extends FeedbackAbstractQuestionDetails 
         }
         return errors;
     }
+
 }

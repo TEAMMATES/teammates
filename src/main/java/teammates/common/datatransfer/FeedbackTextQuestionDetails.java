@@ -62,6 +62,13 @@ public class FeedbackTextQuestionDetails extends
     }
     
     @Override
+    public String getQuestionResultStatisticsHtml(int questionNumber,
+            List<FeedbackResponseAttributes> responses) {
+        // TODO Auto-generated method stub
+        return "";
+    }
+    
+    @Override
     public String getCsvHeader() {
         return "Feedback";
     }
@@ -78,4 +85,5 @@ public class FeedbackTextQuestionDetails extends
         List<String> errors = new ArrayList<String>();
         return errors;
     }
+
 }
