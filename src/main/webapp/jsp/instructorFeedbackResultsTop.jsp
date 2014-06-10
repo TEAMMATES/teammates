@@ -7,109 +7,120 @@
     InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData)request.getAttribute("data");
 %>
 
-<div class="well well-plain">
-    <form class="form-horizontal" role="form">
+<div class="well well-plain padding-0">
+    <form class="form-horizontal" role="form" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD%>">
         <div class="panel-heading">
-          <div class="form-group">
-            <label class="col-sm-2 control-label">Course:</label>
-            <div class="col-sm-10">
-              <p class="form-control-static"><%=InstructorFeedbackResultsPageData.sanitizeForHtml(data.bundle.feedbackSession.courseId)%></p>
-            </div>
+          <div class="row">
+          <div class="col-sm-4">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">Course:</label>
+                <div class="col-sm-10">
+                  <p class="form-control-static"><%=InstructorFeedbackResultsPageData.sanitizeForHtml(data.bundle.feedbackSession.courseId)%></p>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">Session:</label>
+                <div class="col-sm-10">
+                  <p class="form-control-static"><%=InstructorFeedbackResultsPageData.sanitizeForHtml(data.bundle.feedbackSession.feedbackSessionName)%> <a
+                href="<%=data.getInstructorFeedbackSessionEditLink(data.bundle.feedbackSession.courseId, data.bundle.feedbackSession.feedbackSessionName)%>">[Edit]</a></p>
+                </div>
+              </div>
           </div>
-          <div class="form-group">
-            <label class="col-sm-2 control-label">Session:</label>
-            <div class="col-sm-10">
-              <p class="form-control-static"><%=InstructorFeedbackResultsPageData.sanitizeForHtml(data.bundle.feedbackSession.feedbackSessionName)%> <a
-            href="<%=data.getInstructorFeedbackSessionEditLink(data.bundle.feedbackSession.courseId, data.bundle.feedbackSession.feedbackSessionName)%>">[Edit]</a></p>
-            </div>
+          <div class="col-sm-6">
+              <div class="form-group">
+                <label class="col-sm-4 control-label">Session open:</label>
+                <div class="col-sm-8">
+                  <p class="form-control-static"><%=TimeHelper.formatTime(data.bundle.feedbackSession.startTime)%>&nbsp;&nbsp;&nbsp;<b>to</b>&nbsp;&nbsp;&nbsp;<%=TimeHelper.formatTime(data.bundle.feedbackSession.endTime)%></p>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-4 control-label">Results visible from:</label>
+                <div class="col-sm-8">
+                  <p class="form-control-static">
+                    <%=data.getResultsVisibleFromText()%>
+                    <%boolean noResponses = data.bundle.responses.isEmpty();%>
+                    </p>
+                </div>
+              </div>
           </div>
-          <div class="form-group">
-            <label class="col-sm-2 control-label">Opening time:</label>
-            <div class="col-sm-10">
-              <p class="form-control-static"><%=TimeHelper.formatTime(data.bundle.feedbackSession.startTime)%></p>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-sm-2 control-label">Closing time:</label>
-            <div class="col-sm-10">
-              <p class="form-control-static"><%=TimeHelper.formatTime(data.bundle.feedbackSession.endTime)%></p>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-sm-2 control-label">Results visible from:</label>
-            <div class="col-sm-10">
-              <p class="form-control-static"><%
-                if (data.bundle.feedbackSession.resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)) {
-                                if (data.bundle.feedbackSession.sessionVisibleFromTime.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) {
-            %>
-                        <%=TimeHelper.formatTime(data.bundle.feedbackSession.startTime)%>
-                    <%
-                        } else if (data.bundle.feedbackSession.sessionVisibleFromTime.equals(Const.TIME_REPRESENTS_NEVER)) {
-                    %>
-                        Never
-                    <%
-                        } else {
-                    %>
-                        <%=TimeHelper.formatTime(data.bundle.feedbackSession.sessionVisibleFromTime)%>
-                    <%
-                        }
-                    %>
-            <%
-                } else if (data.bundle.feedbackSession.resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_LATER)) {
-            %>
-                I want to manually publish the results.
-            <%
-                } else if (data.bundle.feedbackSession.resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_NEVER)) {
-            %>
-                Never
-            <%
-                } else {
-            %>
-                <%=TimeHelper.formatTime(data.bundle.feedbackSession.resultsVisibleFromTime)%>
-            <%
-                } 
-                        boolean noResponses = data.bundle.responses.isEmpty();
-            %></p>
-            </div>
+          <div class="col-sm-2">
+              <div id="feedbackDataButtons">
+                  <input id="button_download" type="submit" class="btn btn-primary pull-right"
+                      name="<%=Const.ParamsNames.FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON%>"
+                      value="Download results">
+              </div>
+              <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
+              <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.bundle.feedbackSession.feedbackSessionName%>">
+              <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.bundle.feedbackSession.courseId%>">
           </div>
         </div>
+        </div>
       </form>
-    <div class="col-sm-offset-5">
-            <form method="post"
-                      action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD%>">
-            <div id="feedbackDataButtons">
-            <input id="button_download" type="submit" class="btn btn-primary"
-                    name="<%=Const.ParamsNames.FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON%>"
-                    value="Download results">
-            </div>
-            <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
-            <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.bundle.feedbackSession.feedbackSessionName%>">
-            <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.bundle.feedbackSession.courseId%>">
-            </form>
-    </div>
+    
 </div>
 
 <%
     if (noResponses == false) {
 %>
-<form method="post"
-    action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>">
-    <div class="panel panel-info">
+
+<form method="post" action="/page/instructorFeedbackResultsPage" class="form-horizontal" role="form">
+    <div class="panel panel-info margin-0">
         <div class="panel-body">
-        <ul class="list-inline col-sm-offset-1" style="padding-left:45px">
-            <li class="col-sm-4 text-bold"><input type="radio"
-                name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE%>" value="giver"
-                onclick="this.form.submit()"
-                <%=(data.sortType!=null) ? data.sortType.equals("giver") ? "checked=\"checked\"" : "" : ""%>> Sort by giver</li>
-            <li class="col-sm-4 text-bold"><input type="radio"
-                name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE%>" value="recipient"
-                onclick="this.form.submit()"
-                <%=(data.sortType!=null) ? data.sortType.equals("recipient") ? "checked=\"checked\"" : "" : "checked=\"checked\""%>> Sort by recipient</li>
-            <li class="col-sm-3 text-bold"><input type="radio"
-                name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE%>" value="table"
-                onclick="this.form.submit()"
-                <%=(data.sortType!=null) ? data.sortType.equals("table") ? "checked=\"checked\"" : "" : ""%>> View as table</li>
-        </ul>
+            <div class="row">
+                <div class="col-sm-5" data-toggle="tooltip" title="View results in different formats">
+                    <div class="form-group">
+                        <label for="viewSelect" class="col-sm-2 control-label">
+                            View:
+                        </label>
+                        <div class="col-sm-10">
+                            <select id="viewSelect" class="form-control" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE%>" onchange="this.form.submit()">
+                                <option value="question" <%=(data.sortType!=null) ? data.sortType.equals("question") ? "selected=\"selected\"" : "" : ""%>>
+                                    Group by - Question
+                                </option>
+                                <option value="giver-recipient-question" <%=(data.sortType!=null) ? data.sortType.equals("giver-recipient-question") ? "selected=\"selected\"" : "" : ""%>>
+                                    Group by - Giver > Recipient > Question
+                                </option>
+                                <option value="recipient-giver-question" <%=(data.sortType!=null) ? data.sortType.equals("recipient-giver-question") ? "selected=\"selected\"" : "" : ""%>>
+                                    Group by - Recipient > Giver > Question
+                                </option>
+                                <option value="giver-question-recipient" <%=(data.sortType!=null) ? data.sortType.equals("giver-question-recipient") ? "selected=\"selected\"" : "" : ""%>>
+                                    Group by - Giver > Question > Recipient
+                                </option>
+                                <option value="recipient-question-giver" <%=(data.sortType!=null) ? data.sortType.equals("recipient-question-giver") ? "selected=\"selected\"" : "" : "selected=\"selected\""%>>
+                                    Group by - Recipient > Question > Giver
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-5" data-toggle="tooltip" title="Filter the results in the current view">
+                    <div class="form-group">
+                        <label for="viewSelect" class="col-sm-2 control-label">
+                            Filter:
+                        </label>
+                        <div class="col-sm-10">
+                            <div class="input-group">
+                                <input type="text" id="results-search-box" class="form-control" placeholder="Type here to filter results" onchange="updateResultsFilter()">
+                                <a class="input-group-addon btn btn-default"><span class="glyphicon glyphicon-search"></span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2 pull-right" data-toggle="tooltip" title="Group results in the current view by team">
+                    <div class="checkbox pull-right">
+                        <label <%=(data.sortType.equals("question")) ? "class=\"text-strike\"" : ""%>>
+                            <input type="checkbox" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM%>" onchange="this.form.submit()" <%=(data.groupByTeam==null) ? "" : "checked=\"checked\""%> <%=(data.sortType.equals("question")) ? "disabled=\"disabled\"" : ""%>> Group by Teams
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-7 pull-right">
+                    <a class="btn btn-default btn-xs pull-right" id="collapse-panels-button" onclick="toggleCollapse()" data-toggle="tooltip" title="Collapse or expand all panels. You can also click on the panel heading to toggle each one individually.">
+                        Collapse All
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
     <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>"
@@ -122,6 +133,8 @@
 <%
     }
 %>
+
+
 
 <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
 
