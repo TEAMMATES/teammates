@@ -78,7 +78,7 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
         testData = loadDataBundle("/StudentFeedbackQuestionSubmitPageUiTest.json");
         restoreTestDataOnServer(testData);
 
-        ______TS("Closed) session");
+        ______TS("Closed session");
 
         fq = BackDoor.getFeedbackQuestion("SFQSubmitUiT.CS2104", "Closed Session", 1);
         submitPage = loginToStudentFeedbackQuestionSubmitPage("Alice","Closed Session", fq.getId());
@@ -184,8 +184,13 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
 
         submitPage.fillResponseTextBox(0,"this is a response edited during grace period,but submitted after grace period");
         submitPage.clickSubmitButton();
-        submitPage.verifyHtml("/deadlineExceededErrorPage.html");
-
+        
+        //Although staging server direct straight to errorPage.jsp,
+        //local server sometimes give different error page.
+        //so reload to direct to error Page
+        submitPage.reloadPage();
+        submitPage.verifyHtml("/errorPage.html");
+        
     }
 
     private FeedbackQuestionSubmitPage loginToStudentFeedbackQuestionSubmitPage(
