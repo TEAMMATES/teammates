@@ -100,7 +100,7 @@
                             <%
                                 if(currentTeamResponses.size() > 0){
                             %>
-                                <h3><%=currentTeam%> Summary Statistics </h3>
+                                <h3><%=currentTeam%> Given Responses Statistics </h3>
                                 <hr class="margin-top-0">
                                 <%
                                     for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> teamResponseEntries : currentTeamResponses.entrySet()) {
