@@ -1,6 +1,7 @@
 package teammates.common.datatransfer;
 
 import java.util.HashMap;
+
 import teammates.common.util.Const;
 
 public final class InstructorPrivileges {
@@ -35,6 +36,58 @@ public final class InstructorPrivileges {
         case Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTION:
             isValid = true;
             break;
+        case Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTION:
+            isValid = true;
+            break;
+        case Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTION:
+            isValid = true;
+            break;
+        case Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTION:
+            isValid = true;
+            break;
+        default:
+            isValid = false;
+            break;
+        }
+        
+        return isValid;
+    }
+    
+    public static boolean isPrivilegeNameValidForSectionLevel(String privilegeName) {
+        boolean isValid = false;
+        switch(privilegeName) {
+        case Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTION:
+            isValid = true;
+            break;
+        case Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTION:
+            isValid = true;
+            break;
+        case Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTION:
+            isValid = true;
+            break;
+        case Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTION:
+            isValid = true;
+            break;
+        case Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTION:
+            isValid = true;
+            break;
+        case Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTION:
+            isValid = true;
+            break;
+        case Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTION:
+            isValid = true;
+            break;
+        default:
+            isValid = false;
+            break;
+        }
+        
+        return isValid;
+    }
+    
+    public static boolean isPrivilegeNameValidForSessionLevel(String privilegeName) {
+        boolean isValid = false;
+        switch(privilegeName) {
         case Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTION:
             isValid = true;
             break;
@@ -160,7 +213,7 @@ public final class InstructorPrivileges {
     }
     
     public void updatePrivilegeInSectionLevel(String sectionId, String privilegeName, boolean isAllowed) {
-        if (!isPrivilegeNameValid(privilegeName)) {
+        if (!isPrivilegeNameValidForSectionLevel(privilegeName)) {
             return ;
         }
         if (!this.sectionLevel.containsKey(sectionId)) {
@@ -169,17 +222,18 @@ public final class InstructorPrivileges {
         sectionLevel.get(sectionId).put(privilegeName, isAllowed);
     }
     
+    @SuppressWarnings("unchecked")
     public void updatePrivilegesInSectionLevel(String sectionId, HashMap<String, Boolean> privileges) {
         for (String privilegeName : privileges.keySet()) {
-            if (!isPrivilegeNameValid(privilegeName)) {
+            if (!isPrivilegeNameValidForSectionLevel(privilegeName)) {
                 return ;
             }
         }
-        sectionLevel.put(sectionId, privileges);
+        sectionLevel.put(sectionId, (HashMap<String, Boolean>) privileges.clone());
     }
     
     public void updatePrivilegeInSessionLevel(String sectionId, String sessionId, String privilegeName, boolean isAllowed) {
-        if (!isPrivilegeNameValid(privilegeName)) {
+        if (!isPrivilegeNameValidForSessionLevel(privilegeName)) {
             return ;
         }
         verifyExistenceOfSectionId(sectionId);
@@ -191,22 +245,23 @@ public final class InstructorPrivileges {
 
     private void verifyExistenceOfSectionId(String sectionId) {
         if (!this.sessionLevel.containsKey(sectionId)) {
-            addSectionToSectionLevel(sectionId);
+            addSectionWithDefaultPrivilegesToSectionLevel(sectionId);
             this.sessionLevel.put(sectionId, new HashMap<String, HashMap<String, Boolean>>());
         }
     }
     
+    @SuppressWarnings("unchecked")
     public void updatePrivilegesInSessionLevel(String sectionId, String sessionId, HashMap<String, Boolean> privileges) {
         for (String privilegeName : privileges.keySet()) {
-            if (!isPrivilegeNameValid(privilegeName)) {
+            if (!isPrivilegeNameValidForSessionLevel(privilegeName)) {
                 return ;
             }
         }
         verifyExistenceOfSectionId(sectionId);
-        this.sessionLevel.get(sectionId).put(sessionId, privileges);
+        this.sessionLevel.get(sectionId).put(sessionId, (HashMap<String, Boolean>) privileges.clone());
     }
     
-    public void addSectionToSectionLevel(String sectionId) {
+    public void addSectionWithDefaultPrivilegesToSectionLevel(String sectionId) {
         if (this.sectionLevel.containsKey(sectionId)) {
             return ;
         } else {
@@ -214,7 +269,7 @@ public final class InstructorPrivileges {
         }
     }
     
-    public void addSessionToSessionLevel(String sectionId, String sessionId) {
+    public void addSessionWithDefaultPrivilegesToSessionLevel(String sectionId, String sessionId) {
         verifyExistenceOfSectionId(sectionId);
         if (this.sessionLevel.get(sectionId).containsKey(sessionId)) {
             return ;
@@ -223,7 +278,19 @@ public final class InstructorPrivileges {
         }
     }
     
-    public boolean isAllowedInCourseLevel(String privilegeName) {
+    public boolean isAllowedForPrivilege(String privilegeName) {
+        return isAllowedInCourseLevel(privilegeName);
+    }
+    
+    public boolean isAllowedForPrivilege(String sectionId, String privilegeName) {
+        return isAllowedInSectionLevel(sectionId, privilegeName);
+    }
+    
+    public boolean isAllowedForPrivilege(String sectionId, String sessionId, String privilegeName) {
+        return isAllowedInSessionLevel(sectionId, sessionId, privilegeName);
+    }
+    
+    private boolean isAllowedInCourseLevel(String privilegeName) {
         if (!this.courseLevel.containsKey(privilegeName)) {
             return false;
         } else {
@@ -231,7 +298,7 @@ public final class InstructorPrivileges {
         }
     }
     
-    public boolean isAllowedInSectionLevel(String sectionId, String privilegeName) {
+    private boolean isAllowedInSectionLevel(String sectionId, String privilegeName) {
         if (!this.sectionLevel.containsKey(sectionId)) {
             return isAllowedInCourseLevel(privilegeName);
         }
@@ -242,12 +309,10 @@ public final class InstructorPrivileges {
         }
     }
     
-    public boolean isAllowedInSessionLevel(String sectionId, String sessionId, String privilegeName) {
-        if (!this.sessionLevel.containsKey(sectionId)) {
-            return isAllowedInCourseLevel(privilegeName);
-        }
-        if (!this.sessionLevel.get(sectionId).containsKey(sessionId)) {
-            isAllowedInSectionLevel(sectionId, privilegeName);
+    private boolean isAllowedInSessionLevel(String sectionId, String sessionId, String privilegeName) {
+        if (!this.sessionLevel.containsKey(sectionId)
+                || !this.sessionLevel.get(sectionId).containsKey(sessionId)) {
+            return isAllowedInSectionLevel(sectionId, privilegeName);
         }
         if (!this.sessionLevel.get(sectionId).get(sessionId).containsKey(privilegeName)) {
             return false;
@@ -256,16 +321,19 @@ public final class InstructorPrivileges {
         }
     }
     
+    @SuppressWarnings("unchecked")
     public HashMap<String, Boolean> getCourseLevelPrivileges() {
-        return courseLevel;
+        return (HashMap<String, Boolean>) courseLevel.clone();
     }
 
+    @SuppressWarnings("unchecked")
     public HashMap<String, HashMap<String, Boolean>> getSectionLevelPrivileges() {
-        return sectionLevel;
+        return (HashMap<String, HashMap<String, Boolean>>) sectionLevel.clone();
     }
 
+    @SuppressWarnings("unchecked")
     public HashMap<String, HashMap<String, HashMap<String, Boolean>>> getSessionLevelPrivileges() {
-        return sessionLevel;
+        return (HashMap<String, HashMap<String, HashMap<String, Boolean>>>) sessionLevel.clone();
     }
     
     public HashMap<String, Boolean> getSectionLevelOverallPrivileges() {
