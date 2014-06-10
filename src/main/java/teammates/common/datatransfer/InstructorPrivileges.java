@@ -205,14 +205,26 @@ public final class InstructorPrivileges {
         this.courseLevel.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTION, false);
     }
     
-    public void updatePrivilegeInCourseLevel(String privilegeName, boolean isAllowed) {
+    public void updatePrivilege(String privilegeName, boolean isAllowed) {
+        updatePrivilegeInCourseLevel(privilegeName, isAllowed);
+    }
+    
+    public void updatePrivilege(String sectionId, String privilegeName, boolean isAllowed) {
+        updatePrivilegeInSectionLevel(sectionId, privilegeName, isAllowed);
+    }
+    
+    public void updatePrivilege(String sectionId, String sessionId, String privilegeName, boolean isAllowed) {
+        updatePrivilegeInSessionLevel(sectionId, sessionId, privilegeName, isAllowed);
+    }
+    
+    private void updatePrivilegeInCourseLevel(String privilegeName, boolean isAllowed) {
         if (!isPrivilegeNameValid(privilegeName)) {
             return ;
         }
         this.courseLevel.put(privilegeName, isAllowed);
     }
     
-    public void updatePrivilegeInSectionLevel(String sectionId, String privilegeName, boolean isAllowed) {
+    private void updatePrivilegeInSectionLevel(String sectionId, String privilegeName, boolean isAllowed) {
         if (!isPrivilegeNameValidForSectionLevel(privilegeName)) {
             return ;
         }
@@ -220,6 +232,17 @@ public final class InstructorPrivileges {
             sectionLevel.put(sectionId, new HashMap<String, Boolean>());
         }
         sectionLevel.get(sectionId).put(privilegeName, isAllowed);
+    }
+    
+    private void updatePrivilegeInSessionLevel(String sectionId, String sessionId, String privilegeName, boolean isAllowed) {
+        if (!isPrivilegeNameValidForSessionLevel(privilegeName)) {
+            return ;
+        }
+        verifyExistenceOfSectionId(sectionId);
+        if (!this.sessionLevel.get(sectionId).containsKey(sessionId)) {
+            this.sessionLevel.get(sectionId).put(sessionId, new HashMap<String, Boolean>());
+        }
+        this.sessionLevel.get(sectionId).get(sessionId).put(privilegeName, isAllowed);
     }
     
     @SuppressWarnings("unchecked")
@@ -232,24 +255,6 @@ public final class InstructorPrivileges {
         sectionLevel.put(sectionId, (HashMap<String, Boolean>) privileges.clone());
     }
     
-    public void updatePrivilegeInSessionLevel(String sectionId, String sessionId, String privilegeName, boolean isAllowed) {
-        if (!isPrivilegeNameValidForSessionLevel(privilegeName)) {
-            return ;
-        }
-        verifyExistenceOfSectionId(sectionId);
-        if (!this.sessionLevel.get(sectionId).containsKey(sessionId)) {
-            this.sessionLevel.get(sectionId).put(sessionId, new HashMap<String, Boolean>());
-        }
-        this.sessionLevel.get(sectionId).get(sessionId).put(privilegeName, isAllowed);
-    }
-
-    private void verifyExistenceOfSectionId(String sectionId) {
-        if (!this.sessionLevel.containsKey(sectionId)) {
-            addSectionWithDefaultPrivilegesToSectionLevel(sectionId);
-            this.sessionLevel.put(sectionId, new HashMap<String, HashMap<String, Boolean>>());
-        }
-    }
-    
     @SuppressWarnings("unchecked")
     public void updatePrivilegesInSessionLevel(String sectionId, String sessionId, HashMap<String, Boolean> privileges) {
         for (String privilegeName : privileges.keySet()) {
@@ -259,6 +264,13 @@ public final class InstructorPrivileges {
         }
         verifyExistenceOfSectionId(sectionId);
         this.sessionLevel.get(sectionId).put(sessionId, (HashMap<String, Boolean>) privileges.clone());
+    }
+
+    private void verifyExistenceOfSectionId(String sectionId) {
+        if (!this.sessionLevel.containsKey(sectionId)) {
+            addSectionWithDefaultPrivilegesToSectionLevel(sectionId);
+            this.sessionLevel.put(sectionId, new HashMap<String, HashMap<String, Boolean>>());
+        }
     }
     
     public void addSectionWithDefaultPrivilegesToSectionLevel(String sectionId) {
@@ -336,7 +348,7 @@ public final class InstructorPrivileges {
         return (HashMap<String, HashMap<String, HashMap<String, Boolean>>>) sessionLevel.clone();
     }
     
-    public HashMap<String, Boolean> getSectionLevelOverallPrivileges() {
+    private HashMap<String, Boolean> getSectionLevelOverallPrivileges() {
         HashMap<String, Boolean> privileges = new HashMap<String, Boolean>();
         
         privileges.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTION, 
@@ -358,7 +370,7 @@ public final class InstructorPrivileges {
         return privileges;
     }
     
-    public HashMap<String, Boolean> getSessionLevelOverallPrivilegesForSection(String sectionId) {
+    private HashMap<String, Boolean> getSessionLevelOverallPrivilegesForSection(String sectionId) {
         HashMap<String, Boolean> privileges = new HashMap<String, Boolean>();
         
         privileges.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTION, 
