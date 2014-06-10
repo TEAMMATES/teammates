@@ -297,7 +297,7 @@
                                 From <b>you</b> to <b><%=isRecipientStudent ? student.name : recipient%></b>
                                 <%=isRecipientStudent ? " (" + student.team + ", <a href=\"mailto:" + student.email + "\">" + student.email + "</a>)" : ""%>
                             </div>
-                            <ul class="list-group">
+                            <ul class="list-group comments">
                                 <%
                                     for (CommentAttributes comment : data.comments.get(recipient)) {
                                 %>
@@ -313,8 +313,7 @@
                                             data-toggle="tooltip"
                                             data-placement="top"
                                             title=""
-                                            data-original-title="Delete this comment"
-                                            style="display: none;">
+                                            data-original-title="Delete this comment">
                                             <span
                                             class="glyphicon glyphicon-trash glyphicon-primary"></span>
                                         </a> <a type="button"
@@ -324,8 +323,7 @@
                                             data-toggle="tooltip"
                                             data-placement="top"
                                             title=""
-                                            data-original-title="Edit this comment with advanced editor"
-                                            style="display: none;">
+                                            data-original-title="Edit this comment with advanced editor">
                                             <span
                                             class="glyphicon glyphicon-th glyphicon-primary"></span>
                                         </a> <a type="button"
@@ -335,8 +333,7 @@
                                             data-toggle="tooltip"
                                             data-placement="top"
                                             title=""
-                                            data-original-title="Edit this comment"
-                                            style="display: none;">
+                                            data-original-title="Edit this comment">
                                             <span
                                             class="glyphicon glyphicon-pencil glyphicon-primary"></span>
                                         </a>
@@ -429,7 +426,7 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <ul class="list-group">
+                                            <ul class="list-group comments">
                                                 <%
                                                     List<FeedbackResponseCommentAttributes> frcList = bundle.responseComments.get(responseEntry.getId());
                                                                 for (FeedbackResponseCommentAttributes frc : frcList) {//FeedbackResponseComments loop starts
@@ -449,8 +446,7 @@
                                                             data-toggle="tooltip"
                                                             data-placement="top"
                                                             title=""
-                                                            data-original-title="Delete this comment"
-                                                            style="display: none;">
+                                                            data-original-title="Delete this comment">
                                                             <span
                                                             class="glyphicon glyphicon-trash glyphicon-primary"></span>
                                                         </a> <a
@@ -461,8 +457,7 @@
                                                             data-toggle="tooltip"
                                                             data-placement="top"
                                                             title=""
-                                                            data-original-title="Edit this comment with advanced editor"
-                                                            style="display: none;">
+                                                            data-original-title="Edit this comment with advanced editor">
                                                             <span
                                                             class="glyphicon glyphicon-th glyphicon-primary"></span>
                                                         </a> <a
@@ -473,8 +468,7 @@
                                                             data-toggle="tooltip"
                                                             data-placement="top"
                                                             title=""
-                                                            data-original-title="Edit this comment"
-                                                            style="display: none;">
+                                                            data-original-title="Edit this comment">
                                                             <span
                                                             class="glyphicon glyphicon-pencil glyphicon-primary"></span>
                                                         </a>

@@ -35,6 +35,7 @@ public class InstructorCommentsPageAction extends Action {
     public ActionResult execute() throws EntityDoesNotExistException {
         
         //COURSE_ID can be null, if viewed by Draft
+        //TODO: handle the default case, if it's empty, go to the newest course
         courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         //DISPLAY_ARCHIVE can be null. Its value can be retrieved from session
         isDisplayArchivedCourseString = getRequestParamValue(Const.ParamsNames.DISPLAY_ARCHIVE); 
