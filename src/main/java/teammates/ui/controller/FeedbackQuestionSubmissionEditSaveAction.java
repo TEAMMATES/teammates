@@ -44,7 +44,7 @@ public abstract class FeedbackQuestionSubmissionEditSaveAction extends Action {
         FeedbackSessionAttributes fs = logic.getFeedbackSession(feedbackSessionName, courseId);
         if (isSessionOpenForSpecificUser(fs) == false) {
             isError = true;
-            statusToUser.add(Const.StatusMessages.FEEDBACK_SUBMISSIONS_FAILED);
+            statusToUser.add(Const.StatusMessages.FEEDBACK_SUBMISSION_EXCEEDED_DEADLINE);
             getPageData(getUserEmailForCourse());
             return createSpecificShowPageResult();
         }
