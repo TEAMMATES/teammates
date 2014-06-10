@@ -1,5 +1,8 @@
 package teammates.ui.controller;
 
+import java.util.Arrays;
+
+import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
@@ -27,18 +30,23 @@ public class InstructorCourseStudentDetailsEditSaveAction extends InstructorCour
         
         data.student = logic.getStudentForEmail(courseId, studentEmail);
         data.regKey = logic.getEncryptedKeyForStudent(courseId, studentEmail);
-        
+        data.hasSection = logic.hasIndicatedSections(courseId);
+
         data.student.name = getRequestParamValue(Const.ParamsNames.STUDENT_NAME);
         data.student.email = getRequestParamValue(Const.ParamsNames.NEW_STUDENT_EMAIL);
         data.student.team = getRequestParamValue(Const.ParamsNames.TEAM_NAME);
+        data.student.section = getRequestParamValue(Const.ParamsNames.SECTION_NAME);
         data.student.comments = getRequestParamValue(Const.ParamsNames.COMMENTS);    
         
         data.student.name = Sanitizer.sanitizeName(data.student.name);
         data.student.email = Sanitizer.sanitizeEmail(data.student.email);
         data.student.team = Sanitizer.sanitizeName(data.student.team);
+        data.student.section = Sanitizer.sanitizeName(data.student.section);
         data.student.comments = Sanitizer.sanitizeTextField(data.student.comments);
         
         try {
+            data.student.updateWithExistingRecord(logic.getStudentForEmail(courseId, studentEmail));
+            logic.validateSections(Arrays.asList(data.student), courseId);
             logic.updateStudent(studentEmail, data.student);
             statusToUser.add(Const.StatusMessages.STUDENT_EDITED);
             statusToAdmin = "Student <span class=\"bold\">" + studentEmail + 
@@ -50,7 +58,7 @@ public class InstructorCourseStudentDetailsEditSaveAction extends InstructorCour
             result.addResponseParam(Const.ParamsNames.COURSE_ID, courseId);
             return result;
             
-        } catch (InvalidParametersException e) {
+        } catch (InvalidParametersException | EnrollException e) {
             setStatusForException(e);
             data.newEmail = data.student.email;
             data.student.email = studentEmail;

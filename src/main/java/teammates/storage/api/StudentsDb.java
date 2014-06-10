@@ -179,6 +179,28 @@ public class StudentsDb extends EntitiesDb {
     
         return studentDataList;
     }
+
+    /**
+     *  Preconditions: <br>
+     *  All parameters are non-null
+     *  @return an empty list if no students in this section
+     */
+    public List<StudentAttributes> getStudentsForSection(String sectionName, String courseId) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, sectionName);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+
+        List<Student> studentList = getStudentEntitiesForSection(sectionName, courseId);
+
+        List<StudentAttributes> studentDataList = new ArrayList<StudentAttributes>();
+
+        for(Student s: studentList) {
+            if(!JDOHelper.isDeleted(s)) {
+                studentDataList.add(new StudentAttributes(s));
+            }
+        }
+
+        return studentDataList;
+    }
     
     /**
      * Preconditions: <br>
@@ -222,7 +244,7 @@ public class StudentsDb extends EntitiesDb {
      * * {@code courseId} and {@code email} are non-null and correspond to an existing student. <br>
      */
     public void updateStudent(String courseId, String email, String newName,
-            String newTeamName, String newEmail, String newGoogleID,
+            String newTeamName, String newSectionName, String newEmail, String newGoogleID,
             String newComments)
             throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
@@ -244,6 +266,7 @@ public class StudentsDb extends EntitiesDb {
         student.setComments(Sanitizer.sanitizeForHtml(newComments));
         student.setGoogleId(Sanitizer.sanitizeForHtml(newGoogleID));
         student.setTeamName(Sanitizer.sanitizeForHtml(newTeamName));
+        student.setSectionName(Sanitizer.sanitizeForHtml(newSectionName));
 
         getPM().close();
     }
@@ -373,6 +396,17 @@ public class StudentsDb extends EntitiesDb {
         @SuppressWarnings("unchecked")
         List<Student> studentList = (List<Student>) q.execute(teamName, courseId);
         
+        return studentList;
+    }
+
+    private List<Student> getStudentEntitiesForSection(String sectionName, String courseId) {
+        Query q = getPM().newQuery(Student.class);
+        q.declareParameters("String sectionNameParam, String courseIDParam");
+        q.setFilter("sectionName == sectionNameParam && courseID == courseIDParam");
+
+        @SuppressWarnings("unchecked")
+        List<Student> studentList = (List<Student>) q.execute(sectionName, courseId);
+
         return studentList;
     }
 
