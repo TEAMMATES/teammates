@@ -24,6 +24,7 @@ import teammates.storage.api.StudentsDb;
 public class InstructorCommentsPageAction extends Action {
 
     private static final String COMMENT_PAGE_DISPLAY_ARCHIVE_SESSION = "comments_page_displayarchive";
+    private static final Boolean IS_INCLUDE_RESPONSE_STATUS = true;
     
     private InstructorCommentsPageData data;
     private String courseId;
@@ -149,7 +150,7 @@ public class InstructorCommentsPageAction extends Action {
             List<FeedbackSessionAttributes> fsList = logic.getFeedbackSessionsForCourse(courseId);
             for(FeedbackSessionAttributes fs : fsList){
                 FeedbackSessionResultsBundle bundle = 
-                        logic.getFeedbackSessionResultsForInstructor(fs.feedbackSessionName, courseId, account.email, roster);
+                        logic.getFeedbackSessionResultsForInstructor(fs.feedbackSessionName, courseId, account.email, roster, !IS_INCLUDE_RESPONSE_STATUS);
                 if(bundle != null){
                     removeResponsesWithoutFeedbackResponseComment(bundle);
                     feedbackResultBundles.put(fs.feedbackSessionName, bundle);
