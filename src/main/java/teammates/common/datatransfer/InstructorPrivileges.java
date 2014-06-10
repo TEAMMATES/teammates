@@ -112,24 +112,10 @@ public final class InstructorPrivileges {
         this.courseLevel.put(privilegeName, isAllowed);
     }
     
-    /**
-     * add privilege with privilegeName to sectionId if sectionId exists in record,
-     * or update the privilege with privilegeName under sectionId
-     * @param sectionId
-     * @param privilegeName
-     * @param isAllowed
-     */
     public void addPrivilegeInSectionLevel(String sectionId, String privilegeName, boolean isAllowed) {
         updatePrivilegeInSectionLevel(sectionId, privilegeName, isAllowed);
     }
     
-    /**
-     * add privilege with privilegeName to sectionId if sectionId exists in record,
-     * or update the privilege with privilegeName under sectionId
-     * @param sectionId
-     * @param privilegeName
-     * @param isAllowed
-     */
     public void updatePrivilegeInSectionLevel(String sectionId, String privilegeName, boolean isAllowed) {
         if (!this.sectionLevel.containsKey(sectionId)) {
             sectionLevel.put(sectionId, new HashMap<String, Boolean>());
@@ -150,13 +136,18 @@ public final class InstructorPrivileges {
     }
     
     public void updatePrivilegeInSessionLevel(String sectionId, String sessionId, String privilegeName, boolean isAllowed) {
-        if (!this.sessionLevel.containsKey(sectionId)) {
-            this.sessionLevel.put(sectionId, new HashMap<String, HashMap<String, Boolean>>());
-        }
+        verifyExistenceOfSectionId(sectionId);
         if (!this.sessionLevel.get(sectionId).containsKey(sessionId)) {
             this.sessionLevel.get(sectionId).put(sessionId, new HashMap<String, Boolean>());
         }
         this.sessionLevel.get(sectionId).get(sessionId).put(privilegeName, isAllowed);
+    }
+
+    private void verifyExistenceOfSectionId(String sectionId) {
+        if (!this.sessionLevel.containsKey(sectionId)) {
+            addSectionToSectionLevel(sectionId);
+            this.sessionLevel.put(sectionId, new HashMap<String, HashMap<String, Boolean>>());
+        }
     }
     
     public void addPrivilegesInSessionLevel(String sectionId, String sessionId, HashMap<String, Boolean> privileges) {
@@ -164,10 +155,29 @@ public final class InstructorPrivileges {
     }
     
     public void updatePrivilegesInSessionLevel(String sectionId, String sessionId, HashMap<String, Boolean> privileges) {
-        if (!this.sessionLevel.containsKey(sectionId)) {
-            this.sessionLevel.put(sectionId, new HashMap<String, HashMap<String, Boolean>>());
-        }
+        verifyExistenceOfSectionId(sectionId);
         this.sessionLevel.get(sectionId).put(sessionId, privileges);
+    }
+    
+    /**
+     * add sectionId to sectionLevel if sectionId does not exist in sectionLevel with default privileges
+     * @param sectionId
+     */
+    public void addSectionToSectionLevel(String sectionId) {
+        if (this.sectionLevel.containsKey(sectionId)) {
+            return ;
+        } else {
+            this.sectionLevel.put(sectionId, getSectionLevelOverallPrivileges());
+        }
+    }
+    
+    public void addSessionToSessionLevel(String sectionId, String sessionId) {
+        verifyExistenceOfSectionId(sectionId);
+        if (this.sessionLevel.get(sectionId).containsKey(sessionId)) {
+            return ;
+        } else {
+            this.sessionLevel.get(sectionId).put(sessionId, getSessionLevelOverallPrivilegesForSection(sectionId));
+        }
     }
     
     /**

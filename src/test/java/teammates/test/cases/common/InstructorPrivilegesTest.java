@@ -22,12 +22,10 @@ public class InstructorPrivilegesTest extends BaseTestCase {
     public void testSetDefault() {
         InstructorPrivileges privileges = new InstructorPrivileges();
         HashMap<String, Boolean> courseLevelMap;
-        HashMap<String, Boolean> sectionLevelMap;
         
         // co-owner: all true
         privileges.setDefaultPrivilegesForCoowner();
         courseLevelMap = privileges.getCourseLevelPrivileges();
-        sectionLevelMap = privileges.getSectionLevelPrivileges();
         assertEquals(Boolean.valueOf(true), courseLevelMap.get(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
         assertEquals(Boolean.valueOf(true), courseLevelMap.get(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR));
         assertEquals(Boolean.valueOf(true), courseLevelMap.get(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION));
@@ -41,13 +39,11 @@ public class InstructorPrivilegesTest extends BaseTestCase {
         assertEquals(Boolean.valueOf(true), sectionLevelMap.get(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTION));
         String invalidKey = "invalid key";
         assertEquals(null, courseLevelMap.get(invalidKey));
-        assertEquals(null, sectionLevelMap.get(invalidKey));
         assertEquals(true, privileges.getSessionLevelPrivileges().isEmpty());
         
         // manager: only one false
         privileges.setDefaultPrivilegesForManager();
         courseLevelMap = privileges.getCourseLevelPrivileges();
-        sectionLevelMap = privileges.getSectionLevelPrivileges();
         assertEquals(Boolean.valueOf(false), courseLevelMap.get(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
         assertEquals(Boolean.valueOf(true), courseLevelMap.get(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR));
         assertEquals(Boolean.valueOf(true), courseLevelMap.get(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION));
@@ -63,7 +59,6 @@ public class InstructorPrivilegesTest extends BaseTestCase {
         // observer: view only
         privileges.setDefaultPrivilegesForObserver();
         courseLevelMap = privileges.getCourseLevelPrivileges();
-        sectionLevelMap = privileges.getSectionLevelPrivileges();
         assertEquals(Boolean.valueOf(false), courseLevelMap.get(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
         assertEquals(Boolean.valueOf(false), courseLevelMap.get(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR));
         assertEquals(Boolean.valueOf(false), courseLevelMap.get(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION));
@@ -79,7 +74,6 @@ public class InstructorPrivilegesTest extends BaseTestCase {
         // tutor
         privileges.setDefaultPrivilegesForTutor();
         courseLevelMap = privileges.getCourseLevelPrivileges();
-        sectionLevelMap = privileges.getSectionLevelPrivileges();
         assertEquals(Boolean.valueOf(false), courseLevelMap.get(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
         assertEquals(Boolean.valueOf(false), courseLevelMap.get(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR));
         assertEquals(Boolean.valueOf(false), courseLevelMap.get(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION));
@@ -95,7 +89,6 @@ public class InstructorPrivilegesTest extends BaseTestCase {
         // helper
         privileges.setDefaultPrivilegesForHelper();
         courseLevelMap = privileges.getCourseLevelPrivileges();
-        sectionLevelMap = privileges.getSectionLevelPrivileges();
         assertEquals(Boolean.valueOf(false), courseLevelMap.get(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
         assertEquals(Boolean.valueOf(false), courseLevelMap.get(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR));
         assertEquals(Boolean.valueOf(false), courseLevelMap.get(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION));
