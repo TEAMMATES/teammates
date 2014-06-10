@@ -30,13 +30,20 @@ public class InstructorFeedbackResultsPageAction extends Action {
                 !isCreatorOnly);
         
         InstructorFeedbackResultsPageData data = new InstructorFeedbackResultsPageData(account);
+        data.selectedSection = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION);
+        if(data.selectedSection == null) {
+            data.selectedSection = "All";
+        }
+
         data.instructor = instructor;
         data.bundle = logic.getFeedbackSessionResultsForInstructor(feedbackSessionName, courseId, data.instructor.email);
+        data.sections = logic.getSectionsNameForCourse(courseId);
         if(data.bundle == null) {
             throw new EntityDoesNotExistException(
                     "Feedback session " + feedbackSessionName + " does not exist in " + courseId + ".");
         }
         
+
         data.sortType = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE);
         data.groupByTeam = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM);
         

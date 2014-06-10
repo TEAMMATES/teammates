@@ -194,12 +194,29 @@ public class CoursesLogic {
         return courseDetailsList;
     }
 
+    public List<String> getSectionsNameForCourse(String courseId) 
+            throws EntityDoesNotExistException {
+
+        verifyCourseIsPresent(courseId);
+        
+        List<StudentAttributes> studentDataList = 
+                studentsLogic.getStudentsForCourse(courseId);
+
+        List<String> sectionNameList = new ArrayList<String>();
+
+        for(StudentAttributes sd: studentDataList) {
+            if (!sd.section.equals(Const.DEFAULT_SECTION) && !sectionNameList.contains(sd.section)) {
+                sectionNameList.add(sd.section);
+            }
+        }
+
+        return sectionNameList;
+    }
+
     public List<SectionDetailsBundle> getSectionsForCourse(String courseId) 
             throws EntityDoesNotExistException {
         
-        if (getCourse(courseId) == null) {
-            throw new EntityDoesNotExistException("Thr course " + courseId + " does not exist");
-        }
+        verifyCourseIsPresent(courseId);
         
         List<StudentAttributes> students = studentsLogic.getStudentsForCourse(courseId);
         StudentAttributes.sortBySectionName(students);
@@ -301,17 +318,7 @@ public class CoursesLogic {
 
     public int getNumberOfSections(String courseID) throws EntityDoesNotExistException {
 
-        verifyCourseIsPresent(courseID);
-        List<StudentAttributes> studentDataList = 
-                studentsLogic.getStudentsForCourse(courseID);
-
-        List<String> sectionNameList = new ArrayList<String>();
-
-        for(StudentAttributes sd: studentDataList) {
-            if (!sd.section.equals(Const.DEFAULT_SECTION) && !sectionNameList.contains(sd.section)) {
-                sectionNameList.add(sd.section);
-            }
-        }
+        List<String> sectionNameList = getSectionsNameForCourse(courseID);
 
         return sectionNameList.size();
     }

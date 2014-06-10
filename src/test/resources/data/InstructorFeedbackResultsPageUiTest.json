@@ -51,7 +51,8 @@
             "course":"CFResultsUiT.CS2104",
             "name":"Alice Betsy",
             "comments":"This student's name is Alice Betsy",
-            "team":"Team 1"
+            "team":"Team 1",
+            "section":"Section A"
         },
         "Benny":{
             "googleId":"CFResultsUiT.benny.c",
@@ -59,7 +60,8 @@
             "course":"CFResultsUiT.CS2104",
             "name":"Benny Charles",
             "comments":"This student's name is Benny Charles",
-            "team":"Team 1"
+            "team":"Team 1",
+            "section":"Section A"
         },
         "ExtraGuy":{
             "googleId":"extra.guy",
@@ -67,7 +69,8 @@
             "course":"CFResultsUiT.CS2104",
             "name":"Extra guy",
             "comments":"This student will move to a new team after evaluation created",
-            "team":"Team 2"
+            "team":"Team 2",
+            "section":"Section B"
         },
         "DropOut":{
             "googleId":"drop.out",
@@ -75,7 +78,8 @@
             "course":"CFResultsUiT.CS2104",
             "name":"Drop out",
             "comments":"This student will drop out after evaluation created",
-            "team":"Team 2"
+            "team":"Team 2",
+            "section":"Section B"
         },
         "Charlie":{
             "googleId":"CFResultsUiT.charlie.d",
@@ -83,7 +87,8 @@
             "course":"CFResultsUiT.CS2104",
             "name": "Charlie Dávis",
             "comments": "This student's name is Charlie Dávis",
-            "team":"Team 2"
+            "team":"Team 2",
+            "section":"Section B"
         },
         "Danny":{
             "googleId":"CFResultsUiT.danny.e",
@@ -91,7 +96,8 @@
             "course":"CFResultsUiT.CS2104",
             "name":"Danny Engrid",
             "comments":"This student's name is Danny Engrid",
-            "team":"Team 2"
+            "team":"Team 2",
+            "section":"Section B"
         },
         "Emily":{
             "googleId":"CFResultsUiT.emily.f",
@@ -99,7 +105,8 @@
             "course":"CFResultsUiT.CS2104",
             "name":"Emily",
             "comments":"This student's name is Emily",
-            "team":"Team 3"
+            "team":"Team 3",
+            "section":"Section B"
         }
     },
     "feedbackSessions":{

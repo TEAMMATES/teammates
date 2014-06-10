@@ -115,6 +115,27 @@
                 </div>
             </div>
             <div class="row">
+                <% if(data.sections.size() != 0) { %>
+                <div class="col-sm-5" data-toggle="tooltip" title="View results in separated section">
+                    <div class="form-group">
+                        <label for="sectionSelect" class="col-sm-2 control-label">
+                            Section:
+                        </label>
+                        <div class="col-sm-10">
+                            <select id="sectionSelect" class="form-control" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION%>" onchange="this.form.submit()">
+                                <option value="All" <%=data.selectedSection.equals("All") ? "selected=\"selected\"" : ""%>>
+                                    All
+                                </option>
+                                <% for(String section : data.sections) { %>
+                                <option value='section_<%=section%>' <%=data.selectedSection.equals("section_" +section) ? "selected=\"selected\"" : ""%>>
+                                    <%=section%>
+                                </option>
+                                <% } %>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <% } %>
                 <div class="col-sm-7 pull-right">
                     <a class="btn btn-default btn-xs pull-right" id="collapse-panels-button" onclick="toggleCollapse()" data-toggle="tooltip" title="Collapse or expand all panels. You can also click on the panel heading to toggle each one individually.">
                         Collapse All
