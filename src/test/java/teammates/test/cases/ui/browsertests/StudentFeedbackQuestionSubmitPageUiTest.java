@@ -83,7 +83,7 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
         fq = BackDoor.getFeedbackQuestion("SFQSubmitUiT.CS2104", "Closed Session", 1);
         submitPage = loginToStudentFeedbackQuestionSubmitPage("Alice","Closed Session", fq.getId());
         submitPage.verifyHtml("/studentFeedbackQuestionSubmitPageClosed.html");
-        
+       
     }
 
     private void testSubmitAction() {
@@ -184,12 +184,7 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
 
         submitPage.fillResponseTextBox(0,"this is a response edited during grace period,but submitted after grace period");
         submitPage.clickSubmitButton();
-        
-        //Although staging server direct straight to errorPage.jsp,
-        //local server sometimes give different error page.
-        //so reload to direct to error Page
-        submitPage.reloadPage();
-        submitPage.verifyHtml("/errorPage.html");
+        submitPage.verifyHtml("/studentFeedbackQuestionSubmitPageDeadLineExceeded.html");
         
     }
 
