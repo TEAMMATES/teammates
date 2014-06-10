@@ -1,7 +1,11 @@
 package teammates.common.datatransfer;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import teammates.common.util.Const;
 import teammates.common.util.FeedbackQuestionFormTemplates;
@@ -107,8 +111,32 @@ public class FeedbackNumericalScaleQuestionDetails extends
 
     @Override
     public String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses) {
-        // TODO Auto-generated method stub
-        return "";
+        String html = "";
+        double average = 0;
+        double min = Integer.MAX_VALUE;
+        double max = Integer.MIN_VALUE;
+        int numResponses = 0;
+        double total = 0;
+        
+        for(FeedbackResponseAttributes response : responses){
+            numResponses++;
+            double answer = ((FeedbackNumericalScaleResponseDetails)response.getResponseDetails()).getAnswer();
+            min = (answer < min) ? answer : min;
+            max = (answer > max) ? answer : max;
+            total += answer;
+        }
+        
+        average = total/numResponses;
+        
+        DecimalFormat df = new DecimalFormat("#.#####");
+        
+        html = FeedbackQuestionFormTemplates.populateTemplate(
+                        FeedbackQuestionFormTemplates.NUMSCALE_RESULT_STATS,
+                        "${average}", df.format(average),
+                        "${min}", (min == Integer.MAX_VALUE)? "-" : Double.toString(min),
+                        "${max}", (max == Integer.MIN_VALUE)? "-" : Double.toString(max));
+        
+        return html;
     }
     
     @Override
