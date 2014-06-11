@@ -3,6 +3,8 @@ package teammates.test.cases.logic;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 
 import java.util.List;
 
@@ -14,6 +16,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.InstructorPermissionAttributes;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.logic.core.InstructorPermissionsLogic;
@@ -164,10 +167,113 @@ public class InstructorPermissionsLogicTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testUpdateInstructorPermissionByEmail() {
+    public void testUpdateInstructorPermissionByEmail() throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+        String instrEmail = "instrPermLogic1@google.com";
+        String updatedEmail = "updatedIPL@google.com";
+        String courseId = "courseIdForIPL";
+        String role = "Helper";
+        InstructorPrivileges privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_HELPER);
+        InstructorPermissionAttributes attr = new InstructorPermissionAttributes(updatedEmail, courseId, role, privileges);
+        
+        ______TS("typical case: successfully update instructorPermission");
+        
+        instructorPermissionsLogic.updateInstructorPermissionByEmail(attr, instrEmail);
+        InstructorPermissionAttributes attrFromDb = instructorPermissionsLogic.getInstructorPermissionForEmail(courseId, updatedEmail);
+        assertNotNull(attrFromDb);
+        assertEquals(role, attrFromDb.role);
+        assertEquals(privileges, attrFromDb.privileges);
+        
+        ______TS("failure: update to existent entity");
+        
+        String existentEmail = "instrPermLogic2@google.com";
+        attr.instructorEmail = existentEmail;
+        try {
+            instructorPermissionsLogic.updateInstructorPermissionByEmail(attr, updatedEmail);
+            signalFailureToDetectException();
+        } catch(EntityAlreadyExistsException e) {
+            AssertHelper.assertContains(courseId + "/" + existentEmail, e.getMessage());
+        }
+        
+        ______TS("failure: update non existing entity");
+        
+        String nonExistingEmail = "nonExisting@google.com";
+        try {
+            instructorPermissionsLogic.updateInstructorPermissionByEmail(attr, nonExistingEmail);
+            signalFailureToDetectException();
+        } catch(EntityDoesNotExistException e) {
+            AssertHelper.assertContains(courseId + "/" + nonExistingEmail, e.getMessage());
+        }
+        
+        ______TS("failure: invalid parameters");
+        
+        String invalidEmail = "invalidEmail";
+        attr.instructorEmail = invalidEmail;
+        try {
+            instructorPermissionsLogic.updateInstructorPermissionByEmail(attr, instrEmail);
+            signalFailureToDetectException();
+        } catch(InvalidParametersException e) {
+            ignoreExpectedException();
+        }       
+    }
+    
+    @Test
+    public void testDeleteInstructorPermission() {
         String instrEmail = "instrPermLogic1@google.com";
         String courseId = "courseIdForIPL";
         
+        ______TS("typical case: successfully delete instructorPermission");
+        
+        instructorPermissionsLogic.deleteInstructorPermission(courseId, instrEmail);
+        assertNull(instructorPermissionsLogic.getInstructorPermissionForEmail(courseId, instrEmail));
+        String nonAffectedEmail = "instrPermLogic2@google.com";
+        assertNotNull(instructorPermissionsLogic.getInstructorPermissionForEmail(courseId, nonAffectedEmail));
+        
+        ______TS("typical case: non-existing instructorPermission");
+        
+        instructorPermissionsLogic.deleteInstructorPermission(courseId, instrEmail);
+        assertNull(instructorPermissionsLogic.getInstructorPermissionForEmail(courseId, instrEmail));
+    }
+    
+    @Test
+    public void testDeleteInstructorPermissionsForCourse() {
+        String courseId = "courseIdForIPL";
+        
+        ______TS("typical case: successfully delete instructorPermissions");
+        
+        instructorPermissionsLogic.deleteInstructorPermissionsForCourse(courseId);
+        assertEquals(0, instructorPermissionsLogic.getInstructorPermissionsForCourse(courseId).size());
+        
+        ______TS("typical case: non-existing instructorPermission");
+        
+        instructorPermissionsLogic.deleteInstructorPermissionsForCourse(courseId);
+        assertEquals(0, instructorPermissionsLogic.getInstructorPermissionsForCourse(courseId).size());
+    }
+    
+    @Test
+    public void testIsAllowedForPrivilege() {
+        String instrEmail = "instrPermLogic2@google.com";
+        String nonExistingEmail = "nonExistingIPLPri@google.com";
+        String courseId = "courseIdForIPL";
+        String sectionId = "sectionId";
+        String sessionId = "sessionId";
+        
+        ______TS("typical case: existing instructorPermission");
+        
+        assertFalse(instructorPermissionsLogic.isAllowedForPrivilege(courseId, instrEmail, 
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
+        assertTrue(instructorPermissionsLogic.isAllowedForPrivilege(courseId, instrEmail, sectionId,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTION));
+        assertTrue(instructorPermissionsLogic.isAllowedForPrivilege(courseId, instrEmail, sectionId, sessionId,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTION));
+        
+        ______TS("typical case: non-existing instructorPermission");
+        
+        assertTrue(instructorPermissionsLogic.isAllowedForPrivilege(courseId, nonExistingEmail, 
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
+        assertTrue(instructorPermissionsLogic.isAllowedForPrivilege(courseId, nonExistingEmail, sectionId,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTION));
+        assertTrue(instructorPermissionsLogic.isAllowedForPrivilege(courseId, nonExistingEmail, sectionId, sessionId,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTION));
     }
     
     @AfterClass()
