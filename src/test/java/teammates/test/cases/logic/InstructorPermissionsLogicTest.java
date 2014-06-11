@@ -4,6 +4,8 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertNotNull;
 
+import java.util.List;
+
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -102,7 +104,7 @@ public class InstructorPermissionsLogicTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testGetInstructorPermissionForEmail() throws InvalidParametersException, EntityAlreadyExistsException {
+    public void testGetInstructorPermissionForEmail() {
         String courseId = "courseIdForIPL";
         String instrEmail = "instrPermLogic1@google.com";
         String role = "Co-owner";
@@ -125,7 +127,47 @@ public class InstructorPermissionsLogicTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testGetInstructorPermissionsForEmail() throws InvalidParametersException, EntityAlreadyExistsException {
+    public void testGetInstructorPermissionsForEmail() {
+        String instrEmail = "instrPermLogic1@google.com";
+        
+        ______TS("typical case: get multiple instructorPermissions");
+        
+        List<InstructorPermissionAttributes> attrList = instructorPermissionsLogic.getInstructorPermissionsForEmail(instrEmail);
+        assertEquals(2, attrList.size());
+        assertEquals(instrEmail, attrList.get(0).instructorEmail);
+        assertEquals(instrEmail, attrList.get(1).instructorEmail);
+        
+        ______TS("typical case: get 0 instructorPermissions");
+        
+        String nonExistingEmail = "nonExistingEmail@google.com";
+        attrList = instructorPermissionsLogic.getInstructorPermissionsForEmail(nonExistingEmail);
+        assertEquals(0, attrList.size());
+    }
+    
+    @Test
+    public void testGetInstructorPermissionsForCourse() {
+        String courseId = "courseIdForIPL";
+        
+        ______TS("typical case: get multiple instructorPermissions");
+        
+        List<InstructorPermissionAttributes> attrList = instructorPermissionsLogic.getInstructorPermissionsForCourse(courseId);
+        assertEquals(3, attrList.size());
+        assertEquals(courseId, attrList.get(0).courseId);
+        assertEquals(courseId, attrList.get(1).courseId);
+        assertEquals(courseId, attrList.get(2).courseId);
+        
+        ______TS("typical case: get 0 instructorPermissions");
+        
+        String nonExistingCourseId = "nonExistingCourseId";
+        attrList = instructorPermissionsLogic.getInstructorPermissionsForCourse(nonExistingCourseId);
+        assertEquals(0, attrList.size());
+    }
+    
+    @Test
+    public void testUpdateInstructorPermissionByEmail() {
+        String instrEmail = "instrPermLogic1@google.com";
+        String courseId = "courseIdForIPL";
+        
     }
     
     @AfterClass()
