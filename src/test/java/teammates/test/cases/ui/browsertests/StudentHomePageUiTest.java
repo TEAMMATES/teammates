@@ -4,9 +4,12 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import static org.testng.AssertJUnit.assertTrue;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
+import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AppPage;
@@ -45,15 +48,9 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
 
     @Test    
     public void allTests() throws Exception{
-        testContentAndLogin();
-        
-        testHelpLink();
-        testViewTeamLinks();
-        testSubmissionLinks();
-        
-        //no input validation in this page
-        
-        testResultsLinks();
+        testContentAndLogin();        
+        testLinks();
+        testLinkAndContentAfterDelete();
     }
 
 
@@ -66,55 +63,176 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         BackDoor.deleteAccount(unregUserId); //delete account if it exists
         
         AppPage.logout(browser);
-        studentHome = HomePage.getNewInstance(browser)
-                .clickStudentLogin()
-                .loginAsStudent(unregUserId, unregPassword);
+        studentHome = HomePage.getNewInstance(browser).clickStudentLogin()
+                                                      .loginAsStudent(unregUserId, unregPassword);
         studentHome.verifyHtml("/StudentHomeHTMLEmpty.html");
         
         ______TS("login");
         
         studentHome = HomePage.getNewInstance(browser)
-                .clickStudentLogin()
-                .loginAsStudent(
-                        TestProperties.inst().TEST_STUDENT1_ACCOUNT, 
-                        TestProperties.inst().TEST_STUDENT1_PASSWORD);
+                              .clickStudentLogin()
+                              .loginAsStudent(TestProperties.inst().TEST_STUDENT1_ACCOUNT, 
+                                              TestProperties.inst().TEST_STUDENT1_PASSWORD);
             
         ______TS("content: multiple courses");
         
         studentHome.verifyHtml("/StudentHomeHTML.html");
         
-        // TODO: test feedback session visibility
-        // (i.e, same course but no qns for student to submit or view responses => NOT VISIBLE,
-        // same course but closed, no submissions and will nvr have responses to view => NOT VISIBLE,
-        // same course, all other conditions => VISIBLE, must test links)
+        Url detailsPageUrl = createUrl(Const.ActionURIs.STUDENT_HOME_PAGE)
+                             .withUserId(testData.students.get("SHomeUiT.charlie.d@SHomeUiT.CS2104").googleId);
+
+        StudentHomePage studentHomePage = loginAdminToPage(browser, detailsPageUrl, StudentHomePage.class);
+        
+        studentHomePage.verifyHtml("/StudentHomeTypicalHTML.html");
+           
     }
+    
+    
+    private void testLinks(){
+        
+        Url detailsPageUrl = createUrl(Const.ActionURIs.STUDENT_HOME_PAGE)
+                .withUserId(testData.students.get("SHomeUiT.charlie.d@SHomeUiT.CS2104").googleId);
 
-
-    private void testHelpLink() {
+        StudentHomePage studentHomePage = loginAdminToPage(browser, detailsPageUrl, StudentHomePage.class);
+        
         
         ______TS("link: help page");
         
-        StudentHelpPage helpPage = studentHome.clickHelpLink();
+        StudentHelpPage helpPage = studentHomePage.clickHelpLink();
         helpPage.closeCurrentWindowAndSwitchToParentWindow();
+        
+        
+        ______TS("link: view team link");
+        
+        studentHomePage.clickViewTeam();
+        assertTrue(browser.driver.getCurrentUrl().contains("page/studentCourseDetailsPage?user=SHomeUiT.charlie.d&courseid=SHomeUiT.CS2104"));
+        studentHomePage.clickHomeTab();
+        
+        ______TS("link: links of pending eval");
+        
+        
+        studentHomePage.getSubmitEvalButton("Fifth Eval").click();
+        studentHomePage.reloadPage();
+        String pageSource = browser.driver.getPageSource();
+        assertTrue(pageSource.contains("SHomeUiT.CS1101"));
+        assertTrue(pageSource.contains("Fifth Eval"));
+        assertTrue(pageSource.contains("Evaluation Submission"));
+        studentHomePage.clickHomeTab();
+               
+        ______TS("link: links of closed eval");
+        
+        //results not visible yet
+        assertTrue(studentHomePage.getViewEvalResultsButton("Third Eval").getAttribute("class").contains("disabled"));
+        
+        
+        studentHomePage.getEditEvalButton("Third Eval").click();
+        studentHomePage.reloadPage();
+        pageSource = browser.driver.getPageSource();
+        assertTrue(pageSource.contains("SHomeUiT.CS1101"));
+        assertTrue(pageSource.contains("Evaluation Submission"));
+        assertTrue(pageSource.contains("This evaluation is not open at this time. You are not allowed to edit your submission."));
+        studentHomePage.clickHomeTab();
+        
+        ______TS("link: links of published eval");
+        
+        assertTrue(studentHomePage.getEditEvalButton("Second Eval").getAttribute("class").contains("disabled"));
+        
+        
+        studentHomePage.getViewEvalResultsButton("Second Eval").click();
+        studentHomePage.reloadPage();
+        pageSource = browser.driver.getPageSource();
+        assertTrue(pageSource.contains("SHomeUiT.CS2104"));
+        assertTrue(pageSource.contains("Evaluation Results"));
+        assertTrue(pageSource.contains("Second Eval"));
+        studentHomePage.clickHomeTab();
+        
+        ______TS("link: links of submitted eval");
+        
+        assertTrue(studentHomePage.getViewEvalResultsButton("First Eval").getAttribute("class").contains("disabled"));
+        
+        
+        studentHomePage.getEditEvalButton("First Eval").click();
+        studentHomePage.reloadPage();
+        pageSource = browser.driver.getPageSource();
+        assertTrue(pageSource.contains("SHomeUiT.CS2104"));
+        assertTrue(pageSource.contains("Evaluation Submission"));
+        assertTrue(pageSource.contains("First Eval"));
+        studentHomePage.clickHomeTab();
+        
+        ______TS("link: link of published feedback");
+        
+        
+        studentHomePage.getViewFeedbackButton("Closed Feedback Session").click();
+        studentHomePage.reloadPage();
+        pageSource = browser.driver.getPageSource();
+        assertTrue(pageSource.contains("Feedback Results"));
+        assertTrue(pageSource.contains("SHomeUiT.CS2104"));
+        assertTrue(pageSource.contains("Closed Feedback Session"));
+        studentHomePage.clickHomeTab();
+        
+        
+        studentHomePage.getSubmitFeedbackButton("Closed Feedback Session").click();
+        studentHomePage.reloadPage();
+        pageSource = browser.driver.getPageSource();
+        assertTrue(pageSource.contains("Submit Feedback"));
+        assertTrue(pageSource.contains("SHomeUiT.CS2104"));
+        assertTrue(pageSource.contains("Closed Feedback Session"));
+        assertTrue(pageSource.contains("You can view the questions and any submitted responses for this feedback session but cannot submit new responses as the session is not currently open for submission."));
+        studentHomePage.clickHomeTab();
+        
+        
+        ______TS("link: link of Grace period feedback");
+        
+        assertTrue(studentHomePage.getViewFeedbackButton("Graced Feedback Session").getAttribute("Class").contains("disabled"));
+        
+        
+        studentHomePage.getSubmitFeedbackButton("Graced Feedback Session").click();
+        studentHomePage.reloadPage();
+        pageSource = browser.driver.getPageSource();
+        assertTrue(pageSource.contains("Submit Feedback"));
+        assertTrue(pageSource.contains("SHomeUiT.CS2104"));
+        assertTrue(pageSource.contains("Graced Feedback Session"));
+        assertTrue(pageSource.contains("You can view the questions and any submitted responses for this feedback session but cannot submit new responses as the session is not currently open for submission."));
+        studentHomePage.clickHomeTab();
+        
+        
+        ______TS("link: link of pending feedback");
+        
+        assertTrue(studentHomePage.getViewFeedbackButton("First Feedback Session").getAttribute("Class").contains("disabled"));
+        
+        studentHomePage.getSubmitFeedbackButton("First Feedback Session").click();
+        studentHomePage.reloadPage();
+        pageSource = browser.driver.getPageSource();
+        assertTrue(pageSource.contains("Submit Feedback"));
+        assertTrue(pageSource.contains("SHomeUiT.CS2104"));
+        assertTrue(pageSource.contains("First Feedback Session"));
+        studentHomePage.clickHomeTab();
     }
+    
+    
+    private void testLinkAndContentAfterDelete(){
+        
+        Url detailsPageUrl = createUrl(Const.ActionURIs.STUDENT_HOME_PAGE)
+                             .withUserId(testData.students.get("SHomeUiT.charlie.d@SHomeUiT.CS2104").googleId);
 
-
-    private void testViewTeamLinks() {
-        // TODO: implement this
+        StudentHomePage studentHomePage = loginAdminToPage(browser, detailsPageUrl, StudentHomePage.class);
+        
+        ______TS("access the eval exactly after it is deleted");
+               
+        BackDoor.deleteEvaluation("SHomeUiT.CS1101", "Third Eval");
+        
+        studentHomePage.getEditEvalButton("Third Eval").click();
+        studentHomePage.verifyHtml("/StudentHomeEvalDeletedHTML.html");
+        studentHomePage.reloadPage();
+        
+        
+        ______TS("access the feedback session exactly after it is deleted");
+        
+        BackDoor.deleteFeedbackSession("First Feedback Session", "SHomeUiT.CS2104");     
+        studentHomePage.getSubmitFeedbackButton("First Feedback Session").click();
+        studentHomePage.verifyHtml("/StudentHomeFeedbackDeletedHTML.html");
         
     }
-
-
-    private void testSubmissionLinks() {
-        // TODO: check for disabling of links, both submit and edit links
-        
-    }
-
-    private void testResultsLinks() {
-        // TODO: Implement this. Check disabling of links too
-        
-    }
-
 
     @AfterClass
     public static void classTearDown() throws Exception {
