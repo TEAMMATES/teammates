@@ -59,7 +59,7 @@ public class BackDoorLogic extends Logic {
         for (AccountAttributes account : accounts.values()) {
             log.fine("API Servlet adding account :" + account.googleId);
             super.createAccount(account.googleId, account.name, account.isInstructor,
-                                    account.email, account.institute);
+                                    account.email, account.institute, account.studentProfile);
         }
 
         HashMap<String, CourseAttributes> courses = dataBundle.courses;

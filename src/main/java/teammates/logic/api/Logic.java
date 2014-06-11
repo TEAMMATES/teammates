@@ -134,7 +134,7 @@ public class Logic {
      * 
      */
     public void createAccount(String googleId, String name, boolean isInstructor,
-                                String email, String institute) throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+                                String email, String institute, StudentProfileAttributes studentProfile) throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, name);
@@ -142,11 +142,26 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, institute);
         
-        StudentProfileAttributes emptyStudentProfile = new StudentProfileAttributes();
-        emptyStudentProfile.googleId = googleId;
-        AccountAttributes accountToAdd = new AccountAttributes(googleId, name, isInstructor, email, institute, emptyStudentProfile);
+        if (studentProfile == null) {
+            studentProfile = new StudentProfileAttributes();
+            studentProfile.googleId = googleId;
+        }
+        AccountAttributes accountToAdd = new AccountAttributes(googleId, name, isInstructor, email, institute, studentProfile);
         
         accountsLogic.createAccount(accountToAdd);
+    }
+    
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     * This is just for legacy code that creates an Account without the profile parameter
+     */
+    public void createAccount(String googleId, String name, boolean isInstructor,
+                                String email, String institute) throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+        StudentProfileAttributes emptyStudentProfile = new StudentProfileAttributes();
+        emptyStudentProfile.googleId = googleId;
+
+        createAccount(googleId, name, isInstructor, email, institute, null);
     }
     
     /**
