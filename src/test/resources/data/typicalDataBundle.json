@@ -188,7 +188,7 @@
     },
     "instructorPermissions":{
         "instructor1OfCourse1":{
-            "instructorEmail":"instructor1@course1.com"
+            "instructorEmail":"instructor1@course1.com",
             "courseId":"idOfTypicalCourse1",
             "role":"Co-owner",
             "courseLevel":{},
@@ -196,7 +196,7 @@
             "sessionLevel":{}
         },
         "instructor2OfCourse1":{
-            "instructorEmail":"instructor2@course1.com"
+            "instructorEmail":"instructor2@course1.com",
             "courseId":"idOfTypicalCourse1",
             "role":"Co-owner",
             "courseLevel":{},
@@ -204,7 +204,7 @@
             "sessionLevel":{}
         },
         "instructor1OfCourse2":{
-            "instructorEmail":"instructor1@course2.com"
+            "instructorEmail":"instructor1@course2.com",
             "courseId":"idOfTypicalCourse2",
             "role":"Co-owner",
             "courseLevel":{},
@@ -212,7 +212,7 @@
             "sessionLevel":{}
         },
         "instructor2OfCourse2":{
-            "instructorEmail":"instructor2@course2.com"
+            "instructorEmail":"instructor2@course2.com",
             "courseId":"idOfTypicalCourse2",
             "role":"Co-owner",
             "courseLevel":{},
@@ -220,47 +220,52 @@
             "sessionLevel":{}
         },
         "instructor3OfCourse1":{
-            "googleId":"idOfInstructor3",
+            "instructorEmail":"instructor3@course1.com",
             "courseId":"idOfTypicalCourse1",
-            "name":"Instructor3 Course1",
-            "email":"instructor3@course1.com"
+            "role":"Co-owner",
+            "courseLevel":{},
+            "sectionLevel":{},
+            "sessionLevel":{}
         },
         "instructor3OfCourse2":{
-            "googleId":"idOfInstructor3",
+            "instructorEmail":"instructor3@course2.com",
             "courseId":"idOfTypicalCourse2",
-            "name":"Instructor3 Course2",
-            "email":"instructor3@course2.com"
+            "role":"Co-owner",
+            "courseLevel":{},
+            "sectionLevel":{},
+            "sessionLevel":{}
         },
         "instructor4":{
-            "googleId":"idOfInstructor4",
+            "instructorEmail":"instructor4@courseNoEvals.com",
             "courseId":"idOfCourseNoEvals",
-            "name":"Instructor4 name",
-            "email":"instructor4@courseNoEvals.com"
+            "role":"Co-owner",
+            "courseLevel":{},
+            "sectionLevel":{},
+            "sessionLevel":{}
         },
         "instructor5":{
-            "googleId":"idOfInstructor5",
+            "instructorEmail":"instructor5@courseNoRegister.com",
             "courseId":"idOfUnregisteredCourse",
-            "name":"Instructor 5 of CourseNoRegister",
-            "email":"instructor5@courseNoRegister.com"
+            "role":"Co-owner",
+            "courseLevel":{},
+            "sectionLevel":{},
+            "sessionLevel":{}
         },
         "instructorWithOnlyOneSampleCourse":{
-            "googleId":"idOfInstructorWithOnlyOneSampleCourse",
+            "instructorEmail":"iwosc@yahoo.com",
             "courseId":"idOfSampleCourse-demo",
-            "name":"Instructor With Only One Sample Course",
-            "email":"iwosc@yahoo.com"
+            "role":"Co-owner",
+            "courseLevel":{},
+            "sectionLevel":{},
+            "sessionLevel":{}
         },
         "instructorOfArchivedCourse":{
-            "googleId":"idOfInstructorOfArchivedCourse",
+            "email":"instructorOfArchiveCourse@archiveCourse.com",
             "courseId":"idOfArchivedCourse",
-            "name":"InstructorOfArchiveCourse name",
-            "email":"instructorOfArchiveCourse@archiveCourse.com"
-        },
-        "instructorNotYetJoinCourse":{
-            "googleId":null,
-            "courseId":"idOfSampleCourse-demo",
-            "name":"Instructor Not Yet Joined Course",
-            "email":"instructorNotYetJoined@email.com",
-            "key":"regKeyForInstrNotYetJoinCourse"
+            "role":"Co-owner",
+            "courseLevel":{},
+            "sectionLevel":{},
+            "sessionLevel":{}
         }
     },
     "students":{
