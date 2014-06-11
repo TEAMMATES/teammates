@@ -1,7 +1,12 @@
 package teammates.common.datatransfer;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import teammates.common.util.Const;
 import teammates.common.util.FeedbackQuestionFormTemplates;
@@ -105,6 +110,39 @@ public class FeedbackNumericalScaleQuestionDetails extends
                 "${questionAdditionalInfo}", additionalInfo);
     }
 
+    @Override
+    public String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses) {
+        String html = "";
+        double average = 0;
+        double min = Integer.MAX_VALUE;
+        double max = Integer.MIN_VALUE;
+        int numResponses = 0;
+        double total = 0;
+        
+        for(FeedbackResponseAttributes response : responses){
+            numResponses++;
+            double answer = ((FeedbackNumericalScaleResponseDetails)response.getResponseDetails()).getAnswer();
+            min = (answer < min) ? answer : min;
+            max = (answer > max) ? answer : max;
+            total += answer;
+        }
+        
+        average = total/numResponses;
+        
+        DecimalFormat df = new DecimalFormat();
+        df.setMinimumFractionDigits(0);
+        df.setMaximumFractionDigits(5);
+        df.setRoundingMode(RoundingMode.DOWN);
+        
+        html = FeedbackQuestionFormTemplates.populateTemplate(
+                        FeedbackQuestionFormTemplates.NUMSCALE_RESULT_STATS,
+                        "${average}", df.format(average),
+                        "${min}", (min == Integer.MAX_VALUE)? "-" : df.format(min),
+                        "${max}", (max == Integer.MIN_VALUE)? "-" : df.format(max));
+        
+        return html;
+    }
+    
     @Override
     public boolean isChangesRequiresResponseDeletion(
             FeedbackAbstractQuestionDetails newDetails) {

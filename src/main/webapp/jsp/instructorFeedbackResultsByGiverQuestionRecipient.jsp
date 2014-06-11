@@ -61,6 +61,7 @@
             %>
         <%
             Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> allResponses = data.bundle.getResponsesSortedByGiverQuestionRecipient(groupByTeamEnabled);
+            Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> teamResponses = data.bundle.getQuestionResponseMapByGiverTeam();
             Map<String, FeedbackQuestionAttributes> questions = data.bundle.questions;
             int giverIndex = 0;
             for (Map.Entry<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> responsesFromGiver : allResponses.entrySet()) {
@@ -88,12 +89,54 @@
             if(groupByTeamEnabled == true && (currentTeam==null || newTeam==true)) {
                 currentTeam = data.bundle.getTeamNameForEmail(giverEmail);
                 newTeam = false;
+                Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> currentTeamResponses = teamResponses.get(currentTeam);
         %>
                 <div class="panel panel-warning">
                     <div class="panel-heading">
                         <strong><%=currentTeam%></strong>
                     </div>
                     <div class="panel-body background-color-warning">
+                        <div class="resultStatistics">
+                            <%
+                                if(currentTeamResponses.size() > 0){
+                            %>
+                                <h3><%=currentTeam%> Given Responses Statistics </h3>
+                                <hr class="margin-top-0">
+                                <%
+                                    for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> teamResponseEntries : currentTeamResponses.entrySet()) {
+                                        FeedbackQuestionAttributes question = questions.get(teamResponseEntries.getKey().getId());
+                                        FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
+                                        String statsHtml = questionDetails.getQuestionResultStatisticsHtml(teamResponseEntries.getValue());
+                                        if(statsHtml != ""){
+                                %>
+                                            <div class="panel panel-info">
+                                                <div class="panel-heading">
+                                                    <strong>Question <%=teamResponseEntries.getKey().questionNumber%>: </strong><%=data.bundle.getQuestionText(teamResponseEntries.getKey().getId())%><%
+                                                        out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, ""));
+                                                    %>
+                                                </div>
+                                                <div class="panel-body padding-0">                
+                                                    <div class="resultStatistics">
+                                                        <%=statsHtml%>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                <%
+                                        }
+                                    }
+                                %>
+                            <%
+                                }
+                            %>
+                            <%
+                                if(currentTeamResponses.size() > 0){
+                            %>
+                                <h3><%=currentTeam%> Detailed Responses </h3>
+                                <hr class="margin-top-0">
+                            <%
+                                }
+                            %>
+                        </div>
         <%
             }
         %>
@@ -119,6 +162,9 @@
                                     out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, "giver-"+giverIndex+"-question-"+questionIndex));%>
                             </div>
                             <div class="panel-body padding-0">
+                                <div class="resultStatistics">
+                                    <%=questionDetails.getQuestionResultStatisticsHtml(responseEntries)%>
+                                </div>
                                 <table class="table table-striped table-bordered dataTable margin-0">
                                     <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                         <tr>
