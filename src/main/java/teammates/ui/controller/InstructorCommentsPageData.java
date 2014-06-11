@@ -15,6 +15,7 @@ public class InstructorCommentsPageData extends PageData {
     public String courseName;
     public List<String> coursePaginationList;
     public Map<String, List<CommentAttributes>> comments;
+    public String instructorEmail;
     public CourseRoster roster;
     public Map<String, FeedbackSessionResultsBundle> feedbackResultBundles;
     

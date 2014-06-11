@@ -1,14 +1,6 @@
 $(document).ready(function(){
-	//at the beginning, hide the comment's toolbar
-	$(".comments > .list-group-item > div > a[type='button']").hide();
-	
 	//show on hover for comment
-	$('.comments > .list-group-item').hover(
-		function(){
-		$("a[type='button']", this).show();
-	}, function(){
-		$("a[type='button']", this).hide();
-	});
+	commentToolBarAppearOnHover();
 	
 	//open or close show more options
 	$('#option-check').click(function(){
@@ -64,3 +56,12 @@ $(document).ready(function(){
      */
     String.prototype.contains = function(substr) { return this.indexOf(substr) != -1; };
 });
+
+function commentToolBarAppearOnHover(){
+	$('.comments > .list-group-item').hover(
+			function(){
+			$("a[type='button']", this).show();
+		}, function(){
+			$("a[type='button']", this).hide();
+		});
+}

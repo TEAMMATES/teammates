@@ -70,6 +70,7 @@ public class InstructorCommentsPageAction extends Action {
         data.comments = recipientToCommentsMap;
         data.roster = roster;
         data.feedbackResultBundles = feedbackResultBundles;
+        data.instructorEmail = account.email;
         
         statusToAdmin = "instructorComments Page Load<br>" + 
                 "Viewing <span class=\"bold\">" + account.googleId + "'s</span> comment records " +
