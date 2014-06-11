@@ -194,13 +194,46 @@ public class ActivityLogEntry {
     }
     
     public String getMessageInfo(){
+        
+        Sanitizer.sanitizeForHtml(message);
+       
         if (message.contains(Const.ACTION_RESULT_FAILURE)){
             message = message.replace(Const.ACTION_RESULT_FAILURE, "<strong><span class=\"text-danger \">" + Const.ACTION_RESULT_FAILURE + "</span></strong><br>");
         } else if (message.contains(Const.ACTION_RESULT_SYSTEM_ERROR_REPORT)){
             message = message.replace(Const.ACTION_RESULT_SYSTEM_ERROR_REPORT, "<strong><span class=\"text-danger bold\">" + Const.ACTION_RESULT_SYSTEM_ERROR_REPORT + "</span></strong><br>");
         }
+                
         return message;
     }
+    
+    public String getLogEntryPanelClass(){
+        
+        String className = "";
+        if (message.toLowerCase().contains(Const.ACTION_RESULT_FAILURE.toLowerCase())){
+            className = "panel-warning";
+        } else if (message.toLowerCase().contains(Const.ACTION_RESULT_SYSTEM_ERROR_REPORT.toLowerCase())){
+            className = "panel-danger";
+        } else {
+            className = "panel-info";
+        }
+        return className;
+   }
+    
+    
+    public String getLogEntryActionsButtonClass(){
+        
+        String className = "";
+        if (message.toLowerCase().contains(Const.ACTION_RESULT_FAILURE.toLowerCase())){
+            className = "btn-warning";
+        } else if (message.toLowerCase().contains(Const.ACTION_RESULT_SYSTEM_ERROR_REPORT.toLowerCase())){
+            className = "btn-danger";
+        } else {
+            className = "btn-info";
+        }
+        return className;
+   }
+    
+    
     
     public String getUrlToShow(){
         String urlToShow = url;

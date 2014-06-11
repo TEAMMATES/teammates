@@ -669,7 +669,7 @@
                 <%
                 	if (data.queryMessage != null) {
                 %>
-                <div class="alert alert-danger">
+                <div class="alert alert-danger" id="queryMessage">
                     <span class="glyphicon glyphicon-warning-sign"></span>
                     <%
                     	out.println(" " + data.queryMessage);
@@ -721,15 +721,71 @@
                             </tr>
                             <%
                             	} else {
+                            			int index = 0;
                             			for (ActivityLogEntry log : appLogs) {
                             %>
                             <tr>
+
                                 <td><%=log.getDateInfo()%></td>
-                                <td><%=log.getRoleInfo()%>&nbsp;&nbsp;<%=log.getPersonInfo()%>&nbsp;&nbsp;<%=log.getActionInfo()%>
-                                    <br><%=log.getMessageInfo()%></td>
+
+                                <td>
+
+                                    <form method="post"
+                                        action="<%=Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE%>">
+
+
+
+                                        <div
+                                            class="panel <%=log.getLogEntryPanelClass()%>">
+
+
+
+                                            <div class="panel-heading">
+
+
+                                                <h4
+                                                    class="list-group-item-heading">
+                                                    <%=log.getRoleInfo()%></h4>
+                                                <p
+                                                    class="list-group-item-text">
+                                                    <span
+                                                        id="personInfo_<%=index%>"><%=log.getPersonInfo()%></span>
+
+                                                    <button
+                                                        id="actionButton_<%=index%>"
+                                                        type="submit"
+                                                        class="btn <%=log.getLogEntryActionsButtonClass()%> btn-xs">
+                                                        <span
+                                                            class="glyphicon glyphicon-zoom-in"></span>
+                                                        All Actions
+                                                    </button>
+                                                    <input type="hidden"
+                                                        name="filterQuery"
+                                                        value="person:<%=log.getId()%>">
+
+                                                </p>
+
+                                            </div>
+
+                                            <ul class="list-group">
+                                                <li
+                                                    class="list-group-item"><%=log.getActionInfo()%>
+                                                </li>
+                                                <li
+                                                    class="list-group-item"><%=log.getMessageInfo()%>
+                                                </li>
+
+                                            </ul>
+                                        </div>
+
+
+                                    </form>
+                                </td>
+
                             </tr>
                             <%
-                            	}
+                            	index++;
+                            			}
                             		}
                             %>
 
