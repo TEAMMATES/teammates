@@ -81,17 +81,17 @@ public class InstructorPermissionAttributesTest extends BaseTestCase {
         String instrEmail = "instr@gmail.com";
         String courseId = "courseId";
         String role = "Co-owner";        
-        InstructorPermissionAttributes instructorAttr = new InstructorPermissionAttributes(instrEmail, courseId, role, privileges);
+        InstructorPermissionAttributes instructorPermissionAttr = new InstructorPermissionAttributes(instrEmail, courseId, role, privileges);
         
         String privilegesString = gson.toJson(privileges);
-        assertEquals(privilegesString, instructorAttr.getInstructorPrivilegesAsString());
+        assertEquals(privilegesString, instructorPermissionAttr.getInstructorPrivilegesAsString());
         
-        instructorAttr = new InstructorPermissionAttributes(instrEmail, courseId, role, new Text(privilegesString));
-        assertEquals(privileges, instructorAttr.privileges);
+        instructorPermissionAttr = new InstructorPermissionAttributes(instrEmail, courseId, role, new Text(privilegesString));
+        assertEquals(privileges, instructorPermissionAttr.privileges);
         
-        InstructorPermission instrPermission = instructorAttr.toEntity();
+        InstructorPermission instrPermission = instructorPermissionAttr.toEntity();
         InstructorPermissionAttributes instrAttr = new InstructorPermissionAttributes(instrPermission);
-        assertEquals(instructorAttr.toString(), instrAttr.toString());
+        assertEquals(instructorPermissionAttr.toString(), instrAttr.toString());
     }
     
     @AfterClass

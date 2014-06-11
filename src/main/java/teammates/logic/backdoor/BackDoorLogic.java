@@ -88,8 +88,12 @@ public class BackDoorLogic extends Logic {
         
         HashMap<String, InstructorPermissionAttributes> instructorPermissions = dataBundle.instructorPermissions;
         for (InstructorPermissionAttributes instrPermission : instructorPermissions.values()) {
-            log.fine("API Servlet adding instructor Permission:" + instrPermission.instructorEmail);
-            // TODO: finish this after logic is done!!!
+            log.fine("API Servlet adding instructorPermission:" + instrPermission.instructorEmail);
+            try {
+                super.addInstructorPermission(instrPermission);
+            } catch(EntityAlreadyExistsException e) {
+                ;
+            }
         }
 
         HashMap<String, StudentAttributes> students = dataBundle.students;
@@ -390,6 +394,10 @@ public class BackDoorLogic extends Logic {
         
         for (InstructorAttributes i : dataBundle.instructors.values()) {
             deleteInstructor(i.courseId, i.email);
+        }
+        
+        for (InstructorPermissionAttributes i : dataBundle.instructorPermissions.values()) {
+            deleteInstructorPermission(i.courseId, i.instructorEmail);
         }
         
         for (EvaluationAttributes e : dataBundle.evaluations.values()) {

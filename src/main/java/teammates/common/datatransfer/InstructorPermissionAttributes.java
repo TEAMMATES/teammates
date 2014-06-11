@@ -86,7 +86,7 @@ public class InstructorPermissionAttributes extends EntityAttributes {
 
     @Override
     public String getEntityTypeAsString() {
-        return "instructor permission";
+        return "instructorPermission";
     }
 
     @Override
@@ -99,6 +99,10 @@ public class InstructorPermissionAttributes extends EntityAttributes {
     
     public String toString() {
         return gson.toJson(this, InstructorPermissionAttributes.class);
+    }
+    
+    public void setInstructprPrivilegesFromText() {
+        this.privileges = getPrivilegesFromAccess(this.instructorPrivilegesAsText);
     }
     
     public String getInstructorPrivilegesAsString() {
