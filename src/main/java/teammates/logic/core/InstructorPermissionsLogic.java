@@ -20,6 +20,8 @@ public class InstructorPermissionsLogic {
     
     private static InstructorPermissionsLogic instance = null;
     
+    private InstructorPermissionsLogic(){}
+    
     public static InstructorPermissionsLogic inst() {
         if (instance == null) {
             instance = new InstructorPermissionsLogic();
