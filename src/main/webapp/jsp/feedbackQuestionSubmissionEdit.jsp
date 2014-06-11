@@ -52,7 +52,7 @@
             </div>
         </div>
     </div>
-    </div>
+
     <br>
     <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
     <br>
