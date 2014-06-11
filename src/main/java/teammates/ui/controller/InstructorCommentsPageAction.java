@@ -117,7 +117,7 @@ public class InstructorCommentsPageAction extends Action {
         java.util.Collections.sort(courses);
         for(int i = 0; i < courses.size(); i++){
             CourseAttributes course = courses.get(i);
-            if(isDisplayArchivedCourse || !course.isArchived){
+            if(isDisplayArchivedCourse || !course.isArchived || course.id.equals(courseId)){
                 if(courseId == ""){
                     courseId = course.id;
                 }
