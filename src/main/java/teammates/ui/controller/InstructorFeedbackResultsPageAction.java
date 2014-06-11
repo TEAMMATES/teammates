@@ -1,14 +1,7 @@
 package teammates.ui.controller;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.SectionDetailsBundle;
-import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;

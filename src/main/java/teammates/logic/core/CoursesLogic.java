@@ -3,6 +3,7 @@ package teammates.logic.core;
 import static teammates.common.util.Const.EOL;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
@@ -209,6 +210,8 @@ public class CoursesLogic {
                 sectionNameList.add(sd.section);
             }
         }
+
+        Collections.sort(sectionNameList);
 
         return sectionNameList;
     }

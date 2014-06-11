@@ -63,7 +63,7 @@
     if (noResponses == false) {
 %>
 
-<form method="post" action="/page/instructorFeedbackResultsPage" class="form-horizontal" role="form">
+<form class="form-horizontal" role="form" method="post" action="<%=data.getInstructorFeedbackSessionResultsLink(data.bundle.feedbackSession.courseId,data.bundle.feedbackSession.feedbackSessionName)%>">
     <div class="panel panel-info margin-0">
         <div class="panel-body">
             <div class="row">
