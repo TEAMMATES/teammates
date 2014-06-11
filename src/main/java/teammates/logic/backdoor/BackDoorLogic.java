@@ -81,7 +81,7 @@ public class BackDoorLogic extends Logic {
                 log.fine("API Servlet adding instructor :" + instructor.email);
                 //Hardcoding institute value because this is used for testing only
                 super.instructorsLogic.createInstructor(instructor);
-                //TODO:Issue Spotted by JUN CHAO,may need to change this
+                //TODO:may not need to access instructorsLogic here
             }
         }
 
