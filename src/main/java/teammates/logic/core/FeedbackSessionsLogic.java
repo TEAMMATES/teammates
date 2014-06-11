@@ -249,7 +249,8 @@ public class FeedbackSessionsLogic {
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructor(
             String feedbackSessionName, String courseId, String userEmail)
             throws EntityDoesNotExistException {
-        return getFeedbackSessionResultsForUserInSection(feedbackSessionName, courseId, userEmail, UserType.Role.INSTRUCTOR, null);
+        return getFeedbackSessionResultsForUserInSection(
+                    feedbackSessionName, courseId, userEmail, UserType.Role.INSTRUCTOR, null);
     }
 
     /**
@@ -258,7 +259,8 @@ public class FeedbackSessionsLogic {
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorInSection(
             String feedbackSessionName, String courseId, String userEmail, String section)
             throws EntityDoesNotExistException {
-        return getFeedbackSessionResultsForUserInSection(feedbackSessionName, courseId, userEmail, UserType.Role.INSTRUCTOR, section);
+        return getFeedbackSessionResultsForUserInSection(
+                    feedbackSessionName, courseId, userEmail, UserType.Role.INSTRUCTOR, section);
     }
     
     /**
@@ -267,7 +269,8 @@ public class FeedbackSessionsLogic {
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForStudent(
             String feedbackSessionName, String courseId, String userEmail)
             throws EntityDoesNotExistException {
-        return getFeedbackSessionResultsForUserInSection(feedbackSessionName, courseId, userEmail, UserType.Role.STUDENT, null);
+        return getFeedbackSessionResultsForUserInSection(
+                    feedbackSessionName, courseId, userEmail, UserType.Role.STUDENT, null);
     }
     
     public String getFeedbackSessionResultsSummaryAsCsv(
@@ -925,10 +928,8 @@ public class FeedbackSessionsLogic {
                 }
             } else if (question.giverType == FeedbackParticipantType.INSTRUCTORS) {
                 for (InstructorAttributes instructor : instructors) {
-                    if(!hasIndicatedSection){
-                        responded = fqLogic.isQuestionAnsweredByUser(question, instructor.email, responses);
-                        responseStatus.add(question.getId(), instructor.name, responded);
-                    }   
+                    responded = fqLogic.isQuestionAnsweredByUser(question, instructor.email, responses);
+                    responseStatus.add(question.getId(), instructor.name, responded);  
                 }
             }
         }

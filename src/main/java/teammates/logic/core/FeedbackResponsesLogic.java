@@ -151,7 +151,7 @@ public class FeedbackResponsesLogic {
             UserType.Role role, String section)
             throws EntityDoesNotExistException {
 
-        List<String> filteredEmails = getFilteredEmails(section, question.courseId);
+        List<String> filteredEmails = getParticipantsInSection(section, question.courseId);
         List<FeedbackResponseAttributes> viewableResponses =
                 new ArrayList<FeedbackResponseAttributes>();
 
@@ -588,7 +588,7 @@ public class FeedbackResponsesLogic {
         return viewableResponses;
     }
 
-    private List<String> getFilteredEmails(String section, String courseId) throws EntityDoesNotExistException {
+    private List<String> getParticipantsInSection(String section, String courseId) throws EntityDoesNotExistException {
         if(section == null){
             return null;
         }
@@ -611,6 +611,7 @@ public class FeedbackResponsesLogic {
 
         List<FeedbackResponseAttributes> filteredResponses = new ArrayList<FeedbackResponseAttributes>();
         SectionDetailsBundle sectionDetails = coursesLogic.getSectionForCourse(section, courseId);
+        
         for (FeedbackResponseAttributes response : responses) {
             String giverEmail = response.giverEmail;
             String recipientEmail = response.recipientEmail;
@@ -637,8 +638,7 @@ public class FeedbackResponsesLogic {
         return filteredResponses;
     }
 
-    private boolean isParticipantInSection(String email,
-            SectionDetailsBundle sectionDetails) {
+    private boolean isParticipantInSection(String email, SectionDetailsBundle sectionDetails) {
         for (TeamDetailsBundle teamDetails : sectionDetails.teams) {
             if (teamDetails.name.equals(email)) {
                 return true;

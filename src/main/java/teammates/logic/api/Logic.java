@@ -1639,7 +1639,8 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
         
-        return feedbackSessionsLogic.getFeedbackSessionResultsForStudent(feedbackSessionName, courseId, userEmail);
+        return feedbackSessionsLogic.getFeedbackSessionResultsForStudent(
+                                        feedbackSessionName, courseId, userEmail);
     }
     
     /**
@@ -1655,12 +1656,13 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
         
-        return feedbackSessionsLogic.getFeedbackSessionResultsForInstructor(feedbackSessionName, courseId, userEmail);
+        return feedbackSessionsLogic.getFeedbackSessionResultsForInstructor(
+                                        feedbackSessionName, courseId, userEmail);
     }
     
     /**
      * Gets a question+response bundle for questions with responses that
-     * is visible to the instructor for a feedback session.
+     * is visible to the instructor for a feedback session in a specific section.
      * Preconditions: <br>
      * * All parameters are non-null.
      */
@@ -1672,7 +1674,8 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, section);
 
-        return feedbackSessionsLogic.getFeedbackSessionResultsForInstructorInSection(feedbackSessionName, courseId, userEmail, section);
+        return feedbackSessionsLogic.getFeedbackSessionResultsForInstructorInSection(
+                                        feedbackSessionName, courseId, userEmail, section);
     }
 
     @SuppressWarnings("unused")

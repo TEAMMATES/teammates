@@ -356,7 +356,8 @@ public class FeedbackResponsesDb extends EntitiesDb {
        
         for(String email : emails){
             Query q = getPM().newQuery(FeedbackResponse.class);
-            q.setFilter("feedbackQuestionId == :p1 && giverEmail == :p2");
+            q.declareParameters("String feedbackQuestionIdParam, String giverEmailParam")
+            q.setFilter("feedbackQuestionId == feedbackQuestionIdParam && giverEmail == giverEmailParam");
             
             @SuppressWarnings("unchecked")
             List<FeedbackResponse> firstQueryResponses =
@@ -365,7 +366,8 @@ public class FeedbackResponsesDb extends EntitiesDb {
             FeedbackResponseList.addAll(firstQueryResponses);
            
             q = getPM().newQuery(FeedbackResponse.class);
-            q.setFilter("feedbackQuestionId == :p1 && receiver == :p2");
+            q.declareParameters("String feedbackQuestionIdParam, String receiverParam");
+            q.setFilter("feedbackQuestionId == feedbackQuestionIdParam && receiver == receiverParam");
             
             @SuppressWarnings("unchecked")
             List<FeedbackResponse> secondQueryResponses =
@@ -424,7 +426,9 @@ public class FeedbackResponsesDb extends EntitiesDb {
         List<FeedbackResponse> FeedbackResponseList = new ArrayList<FeedbackResponse>();
         for(String email : emails){
             Query q = getPM().newQuery(FeedbackResponse.class);
-            q.setFilter("feedbackQuestionId == :p1 && receiver == :p2 && giverEmail == :p3 ");
+            q.declareParameters("String feedbackQuestionIdParam, String receiverParam, String giverEmailParam");
+            q.setFilter("feedbackQuestionId == feedbackQuestionIdParam && receiver == receiverParam "
+                        + "&& giverEmail == giverEmailParam");
         
             @SuppressWarnings("unchecked")
             List<FeedbackResponse> responses =
@@ -455,7 +459,9 @@ public class FeedbackResponsesDb extends EntitiesDb {
         List<FeedbackResponse> FeedbackResponseList = new ArrayList<FeedbackResponse>();
         for(String email : emails){
             Query q = getPM().newQuery(FeedbackResponse.class);
-            q.setFilter("feedbackQuestionId == :p1 && giverEmail == :p2 && receiver == :p3");
+            q.declareParameters("String feedbackQuestionIdParam, String giverEmailParam, String receiverParam");
+            q.setFilter("feedbackQuestionId == feedbackQuestionIdParam && giverEmail == giverEmailParam "
+                        + "&& receiver == receiverParam");
             
             @SuppressWarnings("unchecked")
             List<FeedbackResponse> responses =
