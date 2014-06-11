@@ -92,7 +92,7 @@ public class BackDoorLogic extends Logic {
             try {
                 super.addInstructorPermission(instrPermission);
             } catch(EntityAlreadyExistsException e) {
-                ;
+                super.updateInstructorPermissionByEmail(instrPermission, instrPermission.instructorEmail);
             }
         }
 
