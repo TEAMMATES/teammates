@@ -44,31 +44,31 @@ public class InstructorFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
         
         fq = BackDoor.getFeedbackQuestion("IFQSubmitUiT.CS2104", "Awaiting Session", 1);
         submitPage = loginToInstructorFeedbackQuestionSubmitPage("IFQSubmitUiT.instr", "Awaiting Session", fq.getId());
-        submitPage.verifyHtmlMainContent("/instructorFeedbackQuestionSubmitPageAwaiting.html");
+        submitPage.verifyHtml("/instructorFeedbackQuestionSubmitPageAwaiting.html");
         
         ______TS("Open session");
         
         fq = BackDoor.getFeedbackQuestion("IFQSubmitUiT.CS2104", "Open Session", 1);
         submitPage = loginToInstructorFeedbackQuestionSubmitPage("IFQSubmitUiT.instr", "Open Session", fq.getId());
-        submitPage.verifyHtmlMainContent("/instructorFeedbackQuestionSubmitPageOpen.html");
+        submitPage.verifyHtml("/instructorFeedbackQuestionSubmitPageOpen.html");
         
         ______TS("Grace period session");
         
         fq = BackDoor.getFeedbackQuestion("IFQSubmitUiT.CS2104", "Grace Period Session", 1);
         submitPage = loginToInstructorFeedbackQuestionSubmitPage("IFQSubmitUiT.instr", "Grace Period Session", fq.getId());
-        submitPage.verifyHtmlMainContent("/instructorFeedbackQuestionSubmitPageGracePeriod.html");
+        submitPage.verifyHtml("/instructorFeedbackQuestionSubmitPageGracePeriod.html");
         
         ______TS("Closed) session");
         
         fq = BackDoor.getFeedbackQuestion("IFQSubmitUiT.CS2104", "Closed Session", 1);
         submitPage = loginToInstructorFeedbackQuestionSubmitPage("IFQSubmitUiT.instr", "Closed Session", fq.getId());
-        submitPage.verifyHtmlMainContent("/instructorFeedbackQuestionSubmitPageClosed.html");
+        submitPage.verifyHtml("/instructorFeedbackQuestionSubmitPageClosed.html");
         
         ______TS("Private session");
         
         fq = BackDoor.getFeedbackQuestion("IFQSubmitUiT.CS2104", "Private Session", 1);
         submitPage = loginToInstructorFeedbackQuestionSubmitPage("IFQSubmitUiT.instr", "Private Session", fq.getId());
-        submitPage.verifyHtmlMainContent("/instructorFeedbackQuestionSubmitPagePrivate.html");
+        submitPage.verifyHtml("/instructorFeedbackQuestionSubmitPagePrivate.html");
     
     }
     
