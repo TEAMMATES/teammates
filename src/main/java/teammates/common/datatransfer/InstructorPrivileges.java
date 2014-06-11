@@ -1,6 +1,8 @@
 package teammates.common.datatransfer;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import teammates.common.util.Const;
 
@@ -9,100 +11,43 @@ public final class InstructorPrivileges {
     private HashMap<String, HashMap<String, Boolean>> sectionLevel;
     private HashMap<String, HashMap<String, HashMap<String, Boolean>>> sessionLevel;
     
+    private static final String[] courseLevelOnlyList = new String[] {
+        Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE,
+        Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR,
+        Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION,
+        Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT
+        };
+    
+    private static final String[] sectionLevelOnlyList = new String[] {
+        Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTION,
+        Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTION,
+        Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTION,
+        Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTION
+        };
+    
+    private static final String[] sessionLevelOnlyList = new String[] {
+        Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTION,
+        Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTION,
+        Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTION
+        };
+    
+    private static final HashSet<String> COURSE_LEVEL_ONLY_PRIVILEGES = new HashSet<String>(Arrays.asList(courseLevelOnlyList));
+    private static final HashSet<String> SECTION_LEVEL_ONLY_PRIVILEGES = new HashSet<String>(Arrays.asList(sectionLevelOnlyList));
+    private static final HashSet<String> SESSION_LEVEL_ONLY_PRIVILEGES = new HashSet<String>(Arrays.asList(sessionLevelOnlyList));
+    
     public static boolean isPrivilegeNameValid(String privilegeName) {
-        boolean isValid = false;
-        switch(privilegeName) {
-        case Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE:
-            isValid = true;
-            break;
-        case Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR:
-            isValid = true;
-            break;
-        case Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION:
-            isValid = true;
-            break;
-        case Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT:
-            isValid = true;
-            break;
-        case Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTION:
-            isValid = true;
-            break;
-        case Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTION:
-            isValid = true;
-            break;
-        case Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTION:
-            isValid = true;
-            break;
-        case Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTION:
-            isValid = true;
-            break;
-        case Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTION:
-            isValid = true;
-            break;
-        case Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTION:
-            isValid = true;
-            break;
-        case Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTION:
-            isValid = true;
-            break;
-        default:
-            isValid = false;
-            break;
-        }
-        
-        return isValid;
+        return COURSE_LEVEL_ONLY_PRIVILEGES.contains(privilegeName)
+                || SECTION_LEVEL_ONLY_PRIVILEGES.contains(privilegeName)
+                || SESSION_LEVEL_ONLY_PRIVILEGES.contains(privilegeName);
     }
     
     public static boolean isPrivilegeNameValidForSectionLevel(String privilegeName) {
-        boolean isValid = false;
-        switch(privilegeName) {
-        case Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTION:
-            isValid = true;
-            break;
-        case Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTION:
-            isValid = true;
-            break;
-        case Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTION:
-            isValid = true;
-            break;
-        case Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTION:
-            isValid = true;
-            break;
-        case Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTION:
-            isValid = true;
-            break;
-        case Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTION:
-            isValid = true;
-            break;
-        case Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTION:
-            isValid = true;
-            break;
-        default:
-            isValid = false;
-            break;
-        }
-        
-        return isValid;
+        return SECTION_LEVEL_ONLY_PRIVILEGES.contains(privilegeName)
+                || SESSION_LEVEL_ONLY_PRIVILEGES.contains(privilegeName);
     }
     
     public static boolean isPrivilegeNameValidForSessionLevel(String privilegeName) {
-        boolean isValid = false;
-        switch(privilegeName) {
-        case Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTION:
-            isValid = true;
-            break;
-        case Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTION:
-            isValid = true;
-            break;
-        case Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTION:
-            isValid = true;
-            break;
-        default:
-            isValid = false;
-            break;
-        }
-        
-        return isValid;
+        return SESSION_LEVEL_ONLY_PRIVILEGES.contains(privilegeName);
     }
     
     public InstructorPrivileges() {
