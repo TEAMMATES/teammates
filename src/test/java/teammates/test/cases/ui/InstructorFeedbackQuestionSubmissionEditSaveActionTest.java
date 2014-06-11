@@ -391,7 +391,7 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         a = getAction(submissionParams);
         r = (ShowPageResult) a.executeAndPostProcess();
         
-        assertEquals(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN,
+        assertEquals(Const.StatusMessages.FEEDBACK_SUBMISSION_EXCEEDED_DEADLINE,
                 r.getStatusMessage());
         
         ______TS("private session edit answer");
