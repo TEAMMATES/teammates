@@ -114,18 +114,19 @@ public class InstructorCommentsPageAction extends Action {
             throws EntityDoesNotExistException {
         String courseName = "";
         List<CourseAttributes> courses = logic.getCoursesForInstructor(account.googleId);
+        java.util.Collections.sort(courses);
         for(int i = 0; i < courses.size(); i++){
             CourseAttributes course = courses.get(i);
-            if(course.id.equals(courseId)){
-                courseName = course.id + " : " + course.name;
-                setPreviousPageLink(courses, i);
-                setNextPageLink(courses, i);
-            }
             if(isDisplayArchivedCourse || !course.isArchived){
                 if(courseId == ""){
                     courseId = course.id;
                 }
                 coursePaginationList.add(course.id);
+            }
+            if(course.id.equals(courseId)){
+                courseName = course.id + " : " + course.name;
+                setPreviousPageLink(courses, i);
+                setNextPageLink(courses, i);
             }
         }
         return courseName;

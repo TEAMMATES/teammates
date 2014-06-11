@@ -460,6 +460,9 @@
                 </div>
                 <%
                     for (String fsName : data.feedbackResultBundles.keySet()) {//FeedbackSession loop starts
+                        FeedbackSessionResultsBundle bundle = data.feedbackResultBundles.get(fsName);
+                    if(bundle.getQuestionResponseMap().entrySet().size() == 0)
+                        continue;
                 %>
                 <br>
                 <div class="panel panel-primary">
@@ -468,8 +471,6 @@
                     </div>
                     <div class="panel-body">
                         <%
-                            FeedbackSessionResultsBundle bundle = data.feedbackResultBundles.get(fsName);
-
                                 int qnIndx = 0;
                                 for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responseEntries : bundle
                                         .getQuestionResponseMap().entrySet()) {//FeedbackQuestion loop starts
