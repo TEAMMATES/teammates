@@ -1,6 +1,7 @@
 package teammates.logic.core;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -147,9 +148,10 @@ public class FeedbackResponsesLogic {
 
     public List<FeedbackResponseAttributes> getViewableFeedbackResponsesForQuestionInSection(
             FeedbackQuestionAttributes question, String userEmail,
-            UserType.Role role, List<String> filteredEmails)
+            UserType.Role role, String section)
             throws EntityDoesNotExistException {
 
+        List<String> filteredEmails = getFilteredEmails(section, question.courseId);
         List<FeedbackResponseAttributes> viewableResponses =
                 new ArrayList<FeedbackResponseAttributes>();
 
@@ -586,6 +588,23 @@ public class FeedbackResponsesLogic {
         return viewableResponses;
     }
 
+    private List<String> getFilteredEmails(String section, String courseId) throws EntityDoesNotExistException {
+        if(section == null){
+            return null;
+        }
+
+        List<String> emails = new ArrayList<String>();
+        SectionDetailsBundle sectionDetails = coursesLogic.getSectionForCourse(section, courseId);
+        for(TeamDetailsBundle team : sectionDetails.teams){
+            emails.add(team.name);
+            for(StudentAttributes student : team.students){
+                emails.add(student.email);
+            }
+        }
+        Collections.sort(emails);
+        return emails;
+    }
+
     private List<FeedbackResponseAttributes> filterResponsesForSection(
             List<FeedbackResponseAttributes> responses,
             String section, String courseId) throws EntityDoesNotExistException {
@@ -610,10 +629,6 @@ public class FeedbackResponsesLogic {
                         .isEmailOfInstructorOfCourse(recipientEmail, courseId);
                 
                 if ((isGiverInstructor && isRecipientInSection) || (isRecipientInstructor && isGiverInSection)){
-                    filteredResponses.add(response);
-                }
-            
-                if(isGiverInstructor){
                     filteredResponses.add(response);
                 }
             }

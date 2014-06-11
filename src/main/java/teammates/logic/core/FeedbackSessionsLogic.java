@@ -256,9 +256,9 @@ public class FeedbackSessionsLogic {
      * Gets results of a feedback session to show to an instructor for a specific section 
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorInSection(
-            String feedbackSessionName, String courseId, String userEmail, List<String> filteredEmails )
+            String feedbackSessionName, String courseId, String userEmail, String section)
             throws EntityDoesNotExistException {
-        return getFeedbackSessionResultsForUserInSection(feedbackSessionName, courseId, userEmail, UserType.Role.INSTRUCTOR, filteredEmails);
+        return getFeedbackSessionResultsForUserInSection(feedbackSessionName, courseId, userEmail, UserType.Role.INSTRUCTOR, section);
     }
     
     /**
@@ -717,7 +717,7 @@ public class FeedbackSessionsLogic {
     }
     
     private FeedbackSessionResultsBundle getFeedbackSessionResultsForUserInSection(
-            String feedbackSessionName, String courseId, String userEmail, UserType.Role role, List<String> filteredEmails)
+            String feedbackSessionName, String courseId, String userEmail, UserType.Role role, String section)
             throws EntityDoesNotExistException {
     
         FeedbackSessionAttributes session = fsDb.getFeedbackSession(
@@ -751,7 +751,7 @@ public class FeedbackSessionsLogic {
         Map<String, List<FeedbackResponseCommentAttributes>> responseComments = 
                 new HashMap<String, List<FeedbackResponseCommentAttributes>>();
     
-        FeedbackSessionResponseStatus responseStatus = getFeedbackSessionResponseStatus(session);
+        FeedbackSessionResponseStatus responseStatus = getFeedbackSessionResponseStatusInSection(session, section);
         
         boolean isPrivateSessionNotCreatedByThisUser = session.isPrivateSession() && !session.isCreator(userEmail);
         if (isPrivateSessionNotCreatedByThisUser) {
@@ -771,7 +771,7 @@ public class FeedbackSessionsLogic {
                 responsesForThisQn = frLogic.getFeedbackResponsesForQuestion(question.getId());
             } else {
                 responsesForThisQn = frLogic.getViewableFeedbackResponsesForQuestionInSection(
-                        question, userEmail, role, filteredEmails);
+                        question, userEmail, role, section);
             }
             
             boolean thisQuestionHasResponses = (!responsesForThisQn.isEmpty());
@@ -894,9 +894,11 @@ public class FeedbackSessionsLogic {
         return fsInCourse;
     }
 
-    private FeedbackSessionResponseStatus getFeedbackSessionResponseStatus(
-            FeedbackSessionAttributes fsa)
+    private FeedbackSessionResponseStatus getFeedbackSessionResponseStatusInSection(
+            FeedbackSessionAttributes fsa, String section)
             throws EntityDoesNotExistException {
+
+        boolean hasIndicatedSection = section != null;
 
         List<StudentAttributes> students = studentsLogic
                 .getStudentsForCourse(fsa.courseId);
@@ -916,13 +918,17 @@ public class FeedbackSessionsLogic {
             if (question.giverType == FeedbackParticipantType.STUDENTS ||
                     question.giverType == FeedbackParticipantType.TEAMS) {
                 for (StudentAttributes student : students) {
-                    responded = fqLogic.isQuestionAnsweredByUser(question, student.email, responses);
-                    responseStatus.add(question.getId(), student.name, responded);
+                    if(!hasIndicatedSection || student.section.equals(section)){
+                        responded = fqLogic.isQuestionAnsweredByUser(question, student.email, responses);
+                        responseStatus.add(question.getId(), student.name, responded);
+                    }
                 }
             } else if (question.giverType == FeedbackParticipantType.INSTRUCTORS) {
                 for (InstructorAttributes instructor : instructors) {
-                    responded = fqLogic.isQuestionAnsweredByUser(question, instructor.email, responses);
-                    responseStatus.add(question.getId(), instructor.name, responded);
+                    if(!hasIndicatedSection){
+                        responded = fqLogic.isQuestionAnsweredByUser(question, instructor.email, responses);
+                        responseStatus.add(question.getId(), instructor.name, responded);
+                    }   
                 }
             }
         }

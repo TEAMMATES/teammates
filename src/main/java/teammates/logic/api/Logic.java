@@ -1665,14 +1665,14 @@ public class Logic {
      * * All parameters are non-null.
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorInSection(
-            String feedbackSessionName, String courseId, String userEmail, List<String> filteredEmails)
+            String feedbackSessionName, String courseId, String userEmail, String section)
                     throws UnauthorizedAccessException, EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, filteredEmails);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, section);
 
-        return feedbackSessionsLogic.getFeedbackSessionResultsForInstructorInSection(feedbackSessionName, courseId, userEmail, filteredEmails);
+        return feedbackSessionsLogic.getFeedbackSessionResultsForInstructorInSection(feedbackSessionName, courseId, userEmail, section);
     }
 
     @SuppressWarnings("unused")
