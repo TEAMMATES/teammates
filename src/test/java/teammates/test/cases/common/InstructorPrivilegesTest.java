@@ -263,7 +263,7 @@ public class InstructorPrivilegesTest extends BaseTestCase {
         privilegeMap.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTION, false);
         privilegeMap.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTION, false);
         
-        privileges.updatePrivilegesInSectionLevel(sectionId, privilegeMap);
+        privileges.updatePrivileges(sectionId, privilegeMap);
         HashMap<String, Boolean> sectionPrivileges = privileges.getSectionLevelPrivileges().get(sectionId);
         assertEquals(1, privileges.getSectionLevelPrivileges().size());
         assertTrue(privileges.getSectionLevelPrivileges().containsKey(sectionId));
@@ -273,7 +273,7 @@ public class InstructorPrivilegesTest extends BaseTestCase {
         
         String invalidPrivilegeName = "invalidPrivilegeName";
         privilegeMap.put(invalidPrivilegeName, false);
-        privileges.updatePrivilegesInSectionLevel(sectionId, privilegeMap);
+        privileges.updatePrivileges(sectionId, privilegeMap);
         sectionPrivileges = privileges.getSectionLevelPrivileges().get(sectionId);
         assertEquals(1, privileges.getSectionLevelPrivileges().size());
         assertTrue(privileges.getSectionLevelPrivileges().containsKey(sectionId));
@@ -316,7 +316,7 @@ public class InstructorPrivilegesTest extends BaseTestCase {
         
         privilegeMap.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTION, false);
         privilegeMap.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTION, false);
-        privileges.updatePrivilegesInSessionLevel(sectionId, sessionId, privilegeMap);
+        privileges.updatePrivileges(sectionId, sessionId, privilegeMap);
         assertEquals(1, privileges.getSessionLevelPrivileges().size());
         assertTrue(privileges.getSessionLevelPrivileges().containsKey(sectionId));
         assertEquals(1, privileges.getSessionLevelPrivileges().get(sectionId).size());
@@ -328,7 +328,7 @@ public class InstructorPrivilegesTest extends BaseTestCase {
         
         String invalidPrivilegeName = "invalidPrivilegeName";
         privilegeMap.put(invalidPrivilegeName, false);
-        privileges.updatePrivilegesInSessionLevel(sectionId, sessionId, privilegeMap);
+        privileges.updatePrivileges(sectionId, sessionId, privilegeMap);
         sessionPrivileges = privileges.getSessionLevelPrivileges().get(sectionId).get(sessionId);
         assertEquals(2, sessionPrivileges.size());
         assertEquals(Boolean.valueOf(false), sessionPrivileges.get(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTION));
@@ -341,13 +341,13 @@ public class InstructorPrivilegesTest extends BaseTestCase {
         String sectionId = "sectionId";
         String sectionId2 = "sectionId2";
         
-        privileges.addSectionWithDefaultPrivilegesToSectionLevel(sectionId);
+        privileges.addSectionWithDefaultPrivileges(sectionId);
         assertEquals(1, privileges.getSectionLevelPrivileges().size());
         assertTrue(privileges.getSectionLevelPrivileges().containsKey(sectionId));
-        privileges.addSectionWithDefaultPrivilegesToSectionLevel(sectionId);
+        privileges.addSectionWithDefaultPrivileges(sectionId);
         assertEquals(1, privileges.getSectionLevelPrivileges().size());
         assertTrue(privileges.getSectionLevelPrivileges().containsKey(sectionId));
-        privileges.addSectionWithDefaultPrivilegesToSectionLevel(sectionId2);
+        privileges.addSectionWithDefaultPrivileges(sectionId2);
         assertEquals(2, privileges.getSectionLevelPrivileges().size());
         assertTrue(privileges.getSectionLevelPrivileges().containsKey(sectionId));
         assertTrue(privileges.getSectionLevelPrivileges().containsKey(sectionId2));
@@ -363,10 +363,10 @@ public class InstructorPrivilegesTest extends BaseTestCase {
         String sessionId = "sessionId";
         String sessionId2 = "sessionId2";
         
-        privileges.addSessionWithDefaultPrivilegesToSessionLevel(sectionId, sessionId);
-        privileges.addSessionWithDefaultPrivilegesToSessionLevel(sectionId, sessionId);
-        privileges.addSessionWithDefaultPrivilegesToSessionLevel(sectionId, sessionId2);
-        privileges.addSessionWithDefaultPrivilegesToSessionLevel(sectionId2, sessionId);
+        privileges.addSessionWithDefaultPrivileges(sectionId, sessionId);
+        privileges.addSessionWithDefaultPrivileges(sectionId, sessionId);
+        privileges.addSessionWithDefaultPrivileges(sectionId, sessionId2);
+        privileges.addSessionWithDefaultPrivileges(sectionId2, sessionId);
         assertEquals(2, privileges.getSessionLevelPrivileges().size());
         assertTrue(privileges.getSessionLevelPrivileges().containsKey(sectionId));
         assertTrue(privileges.getSessionLevelPrivileges().containsKey(sectionId2));
@@ -391,7 +391,7 @@ public class InstructorPrivilegesTest extends BaseTestCase {
         String sessionId = "sessionId";
         String sessionId2 = "sessionId2";
         assertFalse(privileges.isAllowedForPrivilege(sectionId, sessionId, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTION));
-        privileges.addSessionWithDefaultPrivilegesToSessionLevel(sectionId, sessionId2);
+        privileges.addSessionWithDefaultPrivileges(sectionId, sessionId2);
         assertFalse(privileges.isAllowedForPrivilege(sectionId, sessionId, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTION));
         privileges.updatePrivilege(sectionId, sessionId, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTION, true);
         assertTrue(privileges.isAllowedForPrivilege(sectionId, sessionId, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTION));
