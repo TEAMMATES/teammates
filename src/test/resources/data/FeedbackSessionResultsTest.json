@@ -110,6 +110,7 @@
       "email": "FSRTest.student1InCourse1@gmail.com",
       "name": "student1 In Course1",
       "team": "Team 1.1",
+      "section": "Section A",
       "googleId": "FSRTest.student1InCourse1",
       "comments" : "comment for student1InCourse1",
       "course" : "FSRTest.idOfTypicalCourse1"
@@ -119,6 +120,7 @@
       "name": "student2 In Course1",
       "googleId": "FSRTest.student2InCourse1",
       "team": "Team 1.1",
+      "section": "Section A",
       "comments" : "",
  	  "course" : "FSRTest.idOfTypicalCourse1"
     },
@@ -127,6 +129,7 @@
       "name": "student3 In Course1",
       "googleId": "FSRTest.student3InCourse1",
       "team": "Team 1.2",
+      "section": "Section B",
       "comments" : "",
       "course" : "FSRTest.idOfTypicalCourse1"
     },
@@ -135,6 +138,7 @@
       "name": "student4 In Course1",
       "googleId": "FSRTest.student4InCourse1",
       "team": "Team 1.2",
+      "section": "Section B",
       "comments" : "",
  	  "course" : "FSRTest.idOfTypicalCourse1"
     },
@@ -143,6 +147,7 @@
       "name": "student5 In Course1",
       "googleId": "FSRTest.student5InCourse1",
       "team": "Team 1.3",
+      "section": "Section B",
       "comments" : "",
       "course" : "FSRTest.idOfTypicalCourse1"
     },
@@ -151,6 +156,7 @@
       "name": "student6 In Course1",
       "googleId": "FSRTest.student5InCourse1",
       "team": "Team 1.4",
+      "section": "Section A",
       "comments" : "same googleId as student 5",
       "course" : "FSRTest.idOfTypicalCourse1"
     }

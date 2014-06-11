@@ -192,12 +192,9 @@ public class FeedbackResponsesLogic {
                     .fail("The role of the requesting use has to be Student or Instructor");
         }
 
-        if (filteredEmails != null && !viewableResponses.isEmpty()) {
-            String courseId = viewableResponses.get(0).courseId;
-            String filteredSection = studentsLogic.getStudentForEmail(courseId,
-                    filteredEmails.get(0)).section;
+        if (section != null && !viewableResponses.isEmpty()) {
             viewableResponses = filterResponsesForSection(viewableResponses,
-                    filteredSection, courseId);
+                    section, question.courseId);
         }
 
         return viewableResponses;

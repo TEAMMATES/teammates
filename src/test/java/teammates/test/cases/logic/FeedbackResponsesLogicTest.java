@@ -29,6 +29,7 @@ import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.StudentsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
+import teammates.common.datatransfer.UserType;
 
 public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
     
@@ -236,29 +237,39 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
                 studentToUpdate.course, "new@email.com").size(), 3);
     }
     
-    /*
     @Test
-    public void testGetViewableResponsesForQuestion() throws Exception {
+    public void testGetViewableResponsesForQuestionInSection() throws Exception {
         restoreTypicalDataInDatastore();
         
         ______TS("success: GetViewableResponsesForQuestion - instructor");
         
         InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         FeedbackQuestionAttributes fq = getQuestionFromDatastore("qn3InSession1InCourse1"); 
-        List<FeedbackResponseAttributes> responses = frLogic.getViewableFeedbackResponsesForQuestion(fq, instructor.email, UserType.Role.INSTRUCTOR);
+        List<FeedbackResponseAttributes> responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, instructor.email, UserType.Role.INSTRUCTOR, null);
         
         assertEquals(responses.size(), 1);
+        
+        ______TS("success: GetViewableResponsesForQuestionInSection - instructor");
+        
+        fq = getQuestionFromDatastore("qn2InSession1InCourse1");
+        responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, instructor.email, UserType.Role.INSTRUCTOR, "Section 1");
+        
+        assertEquals(responses.size(), 3);
+        
+        responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, instructor.email, UserType.Role.INSTRUCTOR, "Section 2");
+        
+        assertEquals(responses.size(), 0);
 
         ______TS("success: GetViewableResponsesForQuestion - student");
         
         StudentAttributes student = typicalBundle.students.get("student1InCourse1");        
         fq = getQuestionFromDatastore("qn2InSession1InCourse1"); 
-        responses = frLogic.getViewableFeedbackResponsesForQuestion(fq, student.email, UserType.Role.STUDENT);
+        responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, student.email, UserType.Role.STUDENT, null);
         
         assertEquals(responses.size(), 2);
         
         fq = getQuestionFromDatastore("qn3InSession1InCourse1"); 
-        responses = frLogic.getViewableFeedbackResponsesForQuestion(fq, student.email, UserType.Role.STUDENT);
+        responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, student.email, UserType.Role.STUDENT, null);
         
         assertEquals(responses.size(), 1);
         
@@ -270,7 +281,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         fr.recipientEmail = student.email;
         frLogic.updateFeedbackResponse(fr);
         
-        responses = frLogic.getViewableFeedbackResponsesForQuestion(fq, student.email, UserType.Role.STUDENT);
+        responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, student.email, UserType.Role.STUDENT, null);
         
         assertEquals(responses.size(), 1);
         
@@ -294,20 +305,19 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
       
         frLogic.createFeedbackResponse(newResponse);
         student = typicalBundle.students.get("student2InCourse1");           
-        responses = frLogic.getViewableFeedbackResponsesForQuestion(fq, student.email, UserType.Role.STUDENT);
+        responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, student.email, UserType.Role.STUDENT, null);
         assertEquals(responses.size(), 4);
         
         
         ______TS("failure: GetViewableResponsesForQuestion invalid role");
         
         try {
-            frLogic.getViewableFeedbackResponsesForQuestion(fq, instructor.email, UserType.Role.ADMIN);
+            frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, instructor.email, UserType.Role.ADMIN, null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             assertEquals(e.getMessage(), "The role of the requesting use has to be Student or Instructor");
         }   
     }
-    */
     
     @Test
     public void testIsNameVisibleTo() throws Exception {
