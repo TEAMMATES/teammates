@@ -102,6 +102,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
     
     public StudentProfileAttributes getInvalidStudentProfileAttributes() {
         
+        String googleId = "test.googleid";
         String shortName = "%%";
         String email = "invalid@email@com";
         String institute = StringHelper.generateStringOfLength(FieldValidator.INSTITUTE_NAME_MAX_LENGTH+1);
@@ -109,11 +110,11 @@ public class StudentProfileAttributesTest extends BaseTestCase {
         String gender = "invalidGender";
         String moreInfo = "Ooops no validation for this one...";
         
-        return new StudentProfileAttributes(shortName, email, institute, country, gender, moreInfo);
+        return new StudentProfileAttributes(googleId, shortName, email, institute, country, gender, moreInfo);
     }
     
     public StudentProfileAttributes getStudentProfileAttributesToSanitize() {
-        
+        String googleId = "test.google@gmail.com";
         String shortName = "<name>";
         String email = "'toSanitize@email.com'";
         String institute = "institute/\"";
@@ -121,12 +122,12 @@ public class StudentProfileAttributesTest extends BaseTestCase {
         String gender = "'\"'invalidGender";
         String moreInfo = "<<script> alert('hi!'); </script>";
         
-        return new StudentProfileAttributes(shortName, email, institute, country, gender, moreInfo);
+        return new StudentProfileAttributes(googleId, shortName, email, institute, country, gender, moreInfo);
     }
     
     @Test
     public void testToEntity() {
-        StudentProfile expectedEntity = new StudentProfile(profile.shortName, profile.institute, profile.email, profile.country, profile.gender, profile.moreInfo);
+        StudentProfile expectedEntity = new StudentProfile(profile.googleId, profile.shortName, profile.institute, profile.email, profile.country, profile.gender, profile.moreInfo);
         StudentProfileAttributes testProfile = new StudentProfileAttributes(expectedEntity);
         StudentProfile actualEntity = (StudentProfile) testProfile.toEntity();
         assertEquals(expectedEntity.getShortName(), actualEntity.getShortName());

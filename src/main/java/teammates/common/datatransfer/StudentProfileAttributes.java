@@ -11,6 +11,7 @@ import teammates.storage.entity.StudentProfile;
 
 public class StudentProfileAttributes extends EntityAttributes {
 
+    public String googleId;
     public String shortName;
     public String email;
     public String institute;
@@ -20,8 +21,9 @@ public class StudentProfileAttributes extends EntityAttributes {
     public String moreInfo;
     public Date modifiedDate;
 
-    public StudentProfileAttributes(String shortName, String email,
+    public StudentProfileAttributes(String googleId, String shortName, String email,
             String institute, String country, String gender, String moreInfo) {
+        this.googleId = googleId;
         this.shortName = Sanitizer.sanitizeName(shortName);
         this.email = Sanitizer.sanitizeEmail(email);
         this.institute = Sanitizer.sanitizeTitle(institute);
@@ -31,6 +33,7 @@ public class StudentProfileAttributes extends EntityAttributes {
     }
     
     public StudentProfileAttributes (StudentProfile sp) {
+        this.googleId = sp.getGoogleId();
         this.shortName = sp.getShortName();
         this.email = sp.getEmail();
         this.institute = sp.getInstitute();
@@ -42,6 +45,7 @@ public class StudentProfileAttributes extends EntityAttributes {
     
     public StudentProfileAttributes() {
         // just a container so all can be null
+        this.googleId = "";
         this.shortName = "";
         this.email = "";
         this.institute = "";
@@ -57,7 +61,10 @@ public class StudentProfileAttributes extends EntityAttributes {
         List<String> errors = new ArrayList<String>();
         String error;
         
-        // accept null values as it means the user has not specified anything yet.
+        error= validator.getInvalidityInfo(FieldValidator.FieldType.GOOGLE_ID, googleId);
+        if(!error.isEmpty()) { errors.add(error); }
+        
+        // accept empty string values as it means the user has not specified anything yet.
         error = shortName == "" ? "" : validator.getInvalidityInfo(FieldValidator.FieldType.PERSON_NAME, shortName);
         if(!error.isEmpty()) { errors.add(error); }
         
@@ -85,7 +92,7 @@ public class StudentProfileAttributes extends EntityAttributes {
 
     @Override
     public Object toEntity() {
-        return new StudentProfile(shortName, email, institute, country, gender, moreInfo);
+        return new StudentProfile(googleId, shortName, email, institute, country, gender, moreInfo);
     }
 
     @Override

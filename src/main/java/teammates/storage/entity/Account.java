@@ -37,12 +37,13 @@ public class Account {
     @Persistent
     private Date createdAt;
     
-    @Persistent
+    @Persistent(dependent="true", defaultFetchGroup="false")
+    @Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
     @Embedded(members = {
+            @Persistent(name="shortName", columns=@Column(name="shortName"), extensions=@Extension(vendorName="datanucleus", key="gae.unindexed", value="true")),
             @Persistent(name="email", columns=@Column(name="personalEmail")),
             @Persistent(name="institute", columns=@Column(name="originalInstitute"))
     })
-    @Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
     private StudentProfile studentProfile;
 
     /**
@@ -79,7 +80,7 @@ public class Account {
 
     public Account(String googleId, String name, boolean isInstructor,
             String email, String institute) {
-        this(googleId, name, isInstructor, email, institute, new StudentProfile());
+        this(googleId, name, isInstructor, email, institute, new StudentProfile(googleId));
     }
 
     public String getGoogleId() {

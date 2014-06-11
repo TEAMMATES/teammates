@@ -136,7 +136,7 @@ public class AccountAttributesTest extends BaseTestCase {
         String gender = "'\"'other";
         String moreInfo = "<<script> alert('hi!'); </script>";
         
-        account.studentProfile = new StudentProfileAttributes(shortName, personalEmail, profileInstitute, country, gender, moreInfo);
+        account.studentProfile = new StudentProfileAttributes(account.googleId, shortName, personalEmail, profileInstitute, country, gender, moreInfo);
         
         return account;
         

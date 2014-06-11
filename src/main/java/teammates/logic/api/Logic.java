@@ -26,6 +26,7 @@ import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.datatransfer.StudentResultBundle;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.datatransfer.TeamDetailsBundle;
@@ -141,7 +142,9 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, institute);
         
-        AccountAttributes accountToAdd = new AccountAttributes(googleId, name, isInstructor, email, institute);
+        StudentProfileAttributes emptyStudentProfile = new StudentProfileAttributes();
+        emptyStudentProfile.googleId = googleId;
+        AccountAttributes accountToAdd = new AccountAttributes(googleId, name, isInstructor, email, institute, emptyStudentProfile);
         
         accountsLogic.createAccount(accountToAdd);
     }

@@ -92,6 +92,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
         spa.moreInfo = "this is more info";
         
         a.googleId = "test.account";
+        spa.googleId = a.googleId;
         a.name = "Test account Name";
         a.isInstructor = false;
         a.email = "fresh-account@email.com";
@@ -158,8 +159,6 @@ public class AccountsDbTest extends BaseComponentTestCase {
         } catch (AssertionError ae) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
         }
-        
-        accountsDb.deleteAccount(a.googleId);
     }
     
     @Test
@@ -170,6 +169,11 @@ public class AccountsDbTest extends BaseComponentTestCase {
         a.name = "Edited name";
         a.studentProfile.shortName = "Edite";
         accountsDb.updateAccount(a);
+        
+        AccountAttributes actualAccount = accountsDb.getAccount(a.googleId);
+        
+        assertEquals(a.name, actualAccount.name);
+        assertEquals(a.studentProfile.shortName, actualAccount.studentProfile.shortName);
         
         ______TS("non-existent account");
         
@@ -210,11 +214,11 @@ public class AccountsDbTest extends BaseComponentTestCase {
         
         ______TS("success case");
         AccountAttributes a = createNewAccount();
-        a.studentProfile.shortName = "testShort";
+        a.studentProfile.shortName = "THiSIs123UnIQue";
         a.studentProfile.email = "personal@email.com";
         accountsDb.updateAccount(a);
         a = accountsDb.getAccount(a.googleId);
-        StudentProfileAttributes spa = accountsDb.getStudentProfile(a.googleId);
+        StudentProfileAttributes spa = accountsDb.getStudentProfile(a.studentProfile.shortName);
         
         assertEquals(a.studentProfile.toString(), spa.toString());
         
@@ -257,6 +261,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
         a.email = "valid@email.com";
         a.institute = "National University of Singapore";
         a.studentProfile = new StudentProfileAttributes();
+        a.studentProfile.googleId = a.googleId;
         a.studentProfile.institute = "National University of Singapore";
         
         accountsDb.createAccount(a);

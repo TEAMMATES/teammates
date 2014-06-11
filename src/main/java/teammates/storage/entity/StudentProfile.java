@@ -2,8 +2,11 @@ package teammates.storage.entity;
 
 import java.util.Date;
 
+import javax.jdo.annotations.Extension;
+import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.PrimaryKey;
 
 
 /**
@@ -13,10 +16,22 @@ import javax.jdo.annotations.Persistent;
  *
  */
 @PersistenceCapable(embeddedOnly="true")
+@Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
 public class StudentProfile {
     
+    @PrimaryKey
+    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+    @Extension(vendorName="datanucleus", key="gae.encoded-pk", value="true")
+    private String profileId;
+    
     @Persistent
+    @Extension(vendorName="datanucleus", key="gae.pk-name", value="true")
+    private String googleId;
+    
+    @Persistent
+    @Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
     private String shortName;
+    
     @Persistent
     private String email;
     @Persistent
@@ -55,8 +70,9 @@ public class StudentProfile {
      * @param moreInfo
      *            Miscellaneous information, including external profile
      */
-    public StudentProfile(String shortName, String email,
+    public StudentProfile(String googleId, String shortName, String email,
             String institute, String country, String gender, String moreInfo) {
+        this.setGoogleId(googleId);
         this.setShortName(shortName);
         this.setEmail(email);
         this.setInstitute(institute);
@@ -65,8 +81,9 @@ public class StudentProfile {
         this.setMoreInfo(moreInfo);
         this.setModifiedDate(new Date());
     }
-    
-    public StudentProfile() {
+
+    public StudentProfile(String googleId) {
+        this.setGoogleId(googleId);
         this.setShortName(null);
         this.setEmail(null);
         this.setInstitute(null);
@@ -74,6 +91,14 @@ public class StudentProfile {
         this.setGender(null);
         this.setMoreInfo(null);
         this.setModifiedDate(null);
+    }
+    
+    public String getGoogleId() {
+        return this.googleId;
+    }
+    
+    public void setGoogleId(String googleId) {
+        this.googleId = googleId;
     }
     
     public String getShortName() {

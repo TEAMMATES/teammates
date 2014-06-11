@@ -83,7 +83,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
  
     private void testGetStudentProfile() throws Exception {
         ______TS("getSP");
-        StudentProfileAttributes expectedSpa = new StudentProfileAttributes("shortName", "personal@email.com", 
+        StudentProfileAttributes expectedSpa = new StudentProfileAttributes("id", "shortName", "personal@email.com", 
                 "institute", "countryName", "female", "moreInfo");
         AccountAttributes accountWithStudentProfile = new AccountAttributes("id", "name",
                 true, "test@email.com", "dev", expectedSpa);

@@ -8,7 +8,8 @@ import javax.jdo.FetchPlan;
 import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
-import javax.jdo.Transaction;
+
+import com.google.appengine.api.datastore.DatastoreService;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.EntityAttributes;
@@ -144,7 +145,9 @@ public class AccountsDb extends EntitiesDb {
         if (accountToDelete == null) {
             return;
         }
-    
+        
+        accountToDelete.getStudentProfile();
+        
         getPM().deletePersistent(accountToDelete);
         getPM().flush();
         closePM();
@@ -174,8 +177,6 @@ public class AccountsDb extends EntitiesDb {
         Query q = p.newQuery(Account.class);
         q.declareParameters("String googleIdParam");
         q.setFilter("googleId == googleIdParam");
-        p.getFetchPlan().setGroup(FetchPlan.DEFAULT);
-        p.getFetchGroup(Account.class, FetchPlan.DEFAULT).removeMember("studentProfile");
         
         @SuppressWarnings("unchecked")
         List<Account> accountsList = (List<Account>) q.execute(googleId);
@@ -183,23 +184,22 @@ public class AccountsDb extends EntitiesDb {
         if (accountsList.isEmpty() || JDOHelper.isDeleted(accountsList.get(0))) {
             return null;
         }
-    
+        
         return accountsList.get(0);
     }
     
     public StudentProfileAttributes getStudentProfile(String accountGoogleId) {
         Query q = getPM().newQuery(Account.class);
         q.declareParameters("String googleIdParam");
-        q.setFilter("googleId == googleIdParam");
-        q.setResult("studentProfile");
+        q.setFilter("studentProfile.shortName == googleIdParam");
         
         @SuppressWarnings("unchecked")
-        List<StudentProfile> profilesList = (List<StudentProfile>) q.execute(accountGoogleId);
+        List<Account> profilesList = (List<Account>) q.execute(accountGoogleId);
         
         if (profilesList.isEmpty()) {
             return null;
         } else {
-            return new StudentProfileAttributes(profilesList.get(0));
+            return new StudentProfileAttributes(profilesList.get(0).getStudentProfile());
         }
     }
     
