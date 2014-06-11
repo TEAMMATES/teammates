@@ -2,9 +2,6 @@ package teammates.storage.entity;
 
 import java.util.Date;
 
-import javax.jdo.annotations.Column;
-import javax.jdo.annotations.Element;
-import javax.jdo.annotations.Embedded;
 import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
@@ -39,11 +36,6 @@ public class Account {
     
     @Persistent(dependent="true", defaultFetchGroup="false")
     @Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
-    @Embedded(members = {
-            @Persistent(name="shortName", columns=@Column(name="shortName"), extensions=@Extension(vendorName="datanucleus", key="gae.unindexed", value="true")),
-            @Persistent(name="email", columns=@Column(name="personalEmail")),
-            @Persistent(name="institute", columns=@Column(name="originalInstitute"))
-    })
     private StudentProfile studentProfile;
 
     /**

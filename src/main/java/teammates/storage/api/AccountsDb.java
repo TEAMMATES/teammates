@@ -6,10 +6,13 @@ import java.util.logging.Logger;
 
 import javax.jdo.FetchPlan;
 import javax.jdo.JDOHelper;
+import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
 import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.EntityAttributes;
@@ -47,7 +50,7 @@ public class AccountsDb extends EntitiesDb {
             // We update the account instead if it already exists. This is due to how
             // adding of instructor accounts work.
             try {
-                updateAccount(accountToAdd);
+                updateAccount(accountToAdd, true);
             } catch (EntityDoesNotExistException edne) {
                 // This situation is not tested as replicating such a situation is 
                 // difficult during testing
@@ -61,19 +64,22 @@ public class AccountsDb extends EntitiesDb {
      * <br> * All parameters are non-null. 
      * @return Null if not found.
      */
-    public AccountAttributes getAccount(String googleId) {
+    public AccountAttributes getAccount(String googleId, boolean retrieveStudentProfile) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
         
-        Account a = getAccountEntity(googleId);
+        Account a = getAccountEntity(googleId, retrieveStudentProfile);
     
         if (a == null) {
             return null;
         }
+        closePM();
         
         AccountAttributes accAttr = new AccountAttributes(a);
-        closePM();
-    
         return accAttr;
+    }
+    
+    public AccountAttributes getAccount(String googleId) {
+        return getAccount(googleId, false);
     }
 
     /**
@@ -88,7 +94,7 @@ public class AccountsDb extends EntitiesDb {
         List<Account> accountsList = (List<Account>) q.execute();
         
         List<AccountAttributes> instructorsAccountData = new ArrayList<AccountAttributes>();
-        
+                
         for (Account a : accountsList) {
             instructorsAccountData.add(new AccountAttributes(a));
         }
@@ -102,7 +108,7 @@ public class AccountsDb extends EntitiesDb {
      * Preconditions: 
      * <br> * {@code accountToAdd} is not null and has valid data.
      */
-    public void updateAccount(AccountAttributes a) 
+    public void updateAccount(AccountAttributes a, boolean updateStudentProfile) 
             throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, a);
         
@@ -110,7 +116,7 @@ public class AccountsDb extends EntitiesDb {
             throw new InvalidParametersException(a.getInvalidityInfo());
         }
         
-        Account accountToUpdate = getAccountEntity(a.googleId);
+        Account accountToUpdate = getAccountEntity(a.googleId, true);
 
         if (accountToUpdate == null) {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_ACCOUNT + a.googleId
@@ -122,13 +128,22 @@ public class AccountsDb extends EntitiesDb {
         accountToUpdate.setEmail(a.email);
         accountToUpdate.setIsInstructor(a.isInstructor);
         accountToUpdate.setInstitute(a.institute);
+        
         // if the student profile has changed then update the store
         // this is to maintain integrity of the modified date.
-        if (! (new StudentProfileAttributes(accountToUpdate.getStudentProfile()).toString().equals(a.studentProfile.toString()))) {
-            accountToUpdate.setStudentProfile((StudentProfile) a.studentProfile.toEntity());
+        if (updateStudentProfile) {
+            String existingProfile = new StudentProfileAttributes(accountToUpdate.getStudentProfile()).toString();
+            if(!(existingProfile.equals(a.studentProfile.toString()))) {
+                accountToUpdate.setStudentProfile((StudentProfile) a.studentProfile.toEntity());
+            }
         }
         
         closePM();
+    }
+    
+    public void updateAccount(AccountAttributes a) 
+            throws InvalidParametersException, EntityDoesNotExistException {
+        updateAccount(a, false);
     }
 
     /**
@@ -140,7 +155,7 @@ public class AccountsDb extends EntitiesDb {
     public void deleteAccount(String googleId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
         
-        Account accountToDelete = getAccountEntity(googleId);
+        Account accountToDelete = getAccountEntity(googleId, true);
 
         if (accountToDelete == null) {
             return;
@@ -162,8 +177,9 @@ public class AccountsDb extends EntitiesDb {
             ThreadHelper.waitBriefly();
             accountCheck = getAccountEntity(googleId);
             elapsedTime += ThreadHelper.WAIT_DURATION;
+            closePM();
         }
-        if (elapsedTime == Config.PERSISTENCE_CHECK_DURATION) {
+        if (elapsedTime >= Config.PERSISTENCE_CHECK_DURATION) {
             log.severe("Operation did not persist in time: deleteAccount->"
                     + googleId);
         }
@@ -171,35 +187,59 @@ public class AccountsDb extends EntitiesDb {
         //TODO: Use the delete operation in the parent class instead.
     }
 
-    private Account getAccountEntity(String googleId) {
+    private Account getAccountEntity(String googleId, boolean retrieveStudentProfile) {
         
-        PersistenceManager p = getPM();
-        Query q = p.newQuery(Account.class);
-        q.declareParameters("String googleIdParam");
-        q.setFilter("googleId == googleIdParam");
-        
-        @SuppressWarnings("unchecked")
-        List<Account> accountsList = (List<Account>) q.execute(googleId);
-        
-        if (accountsList.isEmpty() || JDOHelper.isDeleted(accountsList.get(0))) {
+        Key key = KeyFactory.createKey(Account.class.getSimpleName(), googleId);
+        try {
+            Account account = getPM().getObjectById(Account.class, key);
+            
+            if (JDOHelper.isDeleted(account)) {
+                return null;
+            } else if (retrieveStudentProfile) {
+                account.getStudentProfile();
+            }
+            
+            return account;
+        } catch(JDOObjectNotFoundException je) {
             return null;
         }
+    }
+    
+    private Account getAccountEntity(String googleId) {
         
-        return accountsList.get(0);
+        return getAccountEntity(googleId, false);
     }
     
     public StudentProfileAttributes getStudentProfile(String accountGoogleId) {
-        Query q = getPM().newQuery(Account.class);
-        q.declareParameters("String googleIdParam");
-        q.setFilter("studentProfile.shortName == googleIdParam");
+        Key childKey = KeyFactory.createKey(Account.class.getSimpleName(), accountGoogleId)
+                .getChild(StudentProfile.class.getSimpleName(), accountGoogleId);
+        
+        try {
+            StudentProfile sp = getPM().getObjectById(StudentProfile.class, childKey);
+            if (JDOHelper.isDeleted(sp)) {
+                return null;
+            } else {
+                return new StudentProfileAttributes(sp);
+            }
+        } catch (JDOObjectNotFoundException je) {
+            return null;
+        }
+    }
+    
+    public StudentProfileAttributes getStudentProfileFromName(String shortName) {
+        
+        PersistenceManager pm = getPM();
+        Query q = pm.newQuery(StudentProfile.class);
+        q.declareParameters("String shortNameParam");
+        q.setFilter("shortName == shortNameParam");
         
         @SuppressWarnings("unchecked")
-        List<Account> profilesList = (List<Account>) q.execute(accountGoogleId);
+        List<StudentProfile> profilesList = (List<StudentProfile>) q.execute(shortName);
         
-        if (profilesList.isEmpty()) {
+        if (profilesList.isEmpty() || JDOHelper.isDeleted(profilesList.get(0))) {
             return null;
         } else {
-            return new StudentProfileAttributes(profilesList.get(0).getStudentProfile());
+            return new StudentProfileAttributes(profilesList.get(0));
         }
     }
     

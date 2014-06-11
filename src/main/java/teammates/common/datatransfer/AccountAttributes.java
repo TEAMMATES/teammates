@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import teammates.common.util.Assumption;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.Utils;
@@ -34,11 +35,11 @@ public class AccountAttributes extends EntityAttributes {
         email = a.getEmail();
         institute = a.getInstitute();
         createdAt = a.getCreatedAt();
-        studentProfile = new StudentProfileAttributes(a.getStudentProfile());
+        studentProfile = a.getStudentProfile() == null ? null : 
+            new StudentProfileAttributes(a.getStudentProfile());
     }
     
     public AccountAttributes() {
-        this.studentProfile = new StudentProfileAttributes();
     }
     
     public AccountAttributes(String googleId, String name, boolean isInstructor,
@@ -64,6 +65,7 @@ public class AccountAttributes extends EntityAttributes {
         this.email = Sanitizer.sanitizeEmail(email);
         this.institute = Sanitizer.sanitizeTitle(institute);
         this.studentProfile = new StudentProfileAttributes();
+        this.studentProfile.googleId = this.googleId;
         this.studentProfile.institute = Sanitizer.sanitizeTitle(institute);
         
     }
@@ -86,13 +88,18 @@ public class AccountAttributes extends EntityAttributes {
         error= validator.getInvalidityInfo(FieldValidator.FieldType.INSTITUTE_NAME, institute);
         if(!error.isEmpty()) { errors.add(error); }
         
-        errors.addAll(this.studentProfile.getInvalidityInfo());
+        Assumption.assertTrue("Non-null value expected for studentProfile", this.studentProfile != null);
+        // only check profile if the account is proper
+        if (errors.isEmpty()) {
+            errors.addAll(this.studentProfile.getInvalidityInfo());
+        }
         
         //No validation for isInstructor and createdAt fields.
         return errors;
     }
 
     public Account toEntity() {
+        Assumption.assertNotNull(this.studentProfile);
         return new Account(googleId, name, isInstructor, email, institute, (StudentProfile) studentProfile.toEntity());
     }
     

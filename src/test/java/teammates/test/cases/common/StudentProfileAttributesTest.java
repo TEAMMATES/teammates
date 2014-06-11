@@ -31,6 +31,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
     public static void setupClass() throws Exception {
         printTestClassHeader();
         profile = new StudentProfileAttributes();
+        profile.googleId = "valid.googleId";
         profile.shortName = "shor";
         profile.institute = "institute";
         profile.email = "valid@email.com";
@@ -62,7 +63,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
         List<String> expectedErrorMessages = new ArrayList<String>();
 
         //tests both the constructor and the invalidity info
-        
+        expectedErrorMessages.add(String.format(FieldValidator.GOOGLE_ID_ERROR_MESSAGE, profile.googleId, FieldValidator.REASON_TOO_LONG));
         expectedErrorMessages.add(String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE, profile.shortName, FieldValidator.REASON_CONTAINS_INVALID_CHAR));
         expectedErrorMessages.add(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, profile.email, FieldValidator.REASON_INCORRECT_FORMAT));
         expectedErrorMessages.add(String.format(FieldValidator.INSTITUTE_NAME_ERROR_MESSAGE, profile.institute, FieldValidator.REASON_TOO_LONG));
@@ -74,7 +75,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
     
     @Test
     public void testeGetIdentificationString() {
-        assertNull(profile.getIdentificationString());
+        assertEquals(profile.googleId, profile.getIdentificationString());
     }
     
     @Test
@@ -83,6 +84,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
         StudentProfileAttributes profileToSanitizeExpected = getStudentProfileAttributesToSanitize();
         profileToSanitize.sanitizeForSaving();
         
+        assertEquals(Sanitizer.sanitizeGoogleId(profileToSanitizeExpected.googleId), profileToSanitize.googleId);
         assertEquals(Sanitizer.sanitizeForHtml(profileToSanitizeExpected.shortName), profileToSanitize.shortName);
         assertEquals(Sanitizer.sanitizeForHtml(profileToSanitizeExpected.institute), profileToSanitize.institute);
         assertEquals(Sanitizer.sanitizeForHtml(profileToSanitizeExpected.email), profileToSanitize.email);
@@ -102,7 +104,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
     
     public StudentProfileAttributes getInvalidStudentProfileAttributes() {
         
-        String googleId = "test.googleid";
+        String googleId = StringHelper.generateStringOfLength(46);
         String shortName = "%%";
         String email = "invalid@email@com";
         String institute = StringHelper.generateStringOfLength(FieldValidator.INSTITUTE_NAME_MAX_LENGTH+1);
@@ -114,7 +116,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
     }
     
     public StudentProfileAttributes getStudentProfileAttributesToSanitize() {
-        String googleId = "test.google@gmail.com";
+        String googleId = " test.google@gmail.com ";
         String shortName = "<name>";
         String email = "'toSanitize@email.com'";
         String institute = "institute/\"";

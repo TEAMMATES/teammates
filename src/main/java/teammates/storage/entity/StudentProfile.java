@@ -15,8 +15,7 @@ import javax.jdo.annotations.PrimaryKey;
  * an account entity 
  *
  */
-@PersistenceCapable(embeddedOnly="true")
-@Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
+@PersistenceCapable
 public class StudentProfile {
     
     @PrimaryKey
@@ -33,18 +32,25 @@ public class StudentProfile {
     private String shortName;
     
     @Persistent
+    @Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
     private String email;
+    
     @Persistent
+    @Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
     private String institute;
+    
     @Persistent
+    @Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
     private String country;
     
     @Persistent
     /* only accepts "male", "female" or "other" */
+    @Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
     private String gender;
     
     @Persistent
     /* must be html sanitized before saving */
+    @Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
     private String moreInfo;
     
     @Persistent

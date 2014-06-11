@@ -97,7 +97,7 @@ public class StudentProfileAttributes extends EntityAttributes {
 
     @Override
     public String getIdentificationString() {
-        return null;
+        return this.googleId;
     }
 
     @Override
@@ -107,6 +107,7 @@ public class StudentProfileAttributes extends EntityAttributes {
 
     @Override
     public void sanitizeForSaving() {
+        this.googleId = Sanitizer.sanitizeGoogleId(this.googleId);
         this.shortName = Sanitizer.sanitizeForHtml(this.shortName);
         this.email = Sanitizer.sanitizeForHtml(this.email);
         this.institute = Sanitizer.sanitizeForHtml(this.institute);

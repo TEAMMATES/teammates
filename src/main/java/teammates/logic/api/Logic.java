@@ -154,10 +154,14 @@ public class Logic {
      * * All parameters are non-null.
      */
     public AccountAttributes getAccount(String googleId) {
+        return accountsLogic.getAccount(googleId, false);
+    }
+    
+    public AccountAttributes getAccount(String googleId, boolean retrieveStudentProfile) {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
         
-        return accountsLogic.getAccount(googleId);
+        return accountsLogic.getAccount(googleId, retrieveStudentProfile);
     }
     
     /**

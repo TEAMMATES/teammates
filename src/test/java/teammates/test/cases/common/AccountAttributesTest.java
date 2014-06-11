@@ -26,23 +26,31 @@ public class AccountAttributesTest extends BaseTestCase {
     
     @Test
     public void testGetInvalidStateInfo(){
+        ______TS("valid account");
+        
         AccountAttributes account = createValidAccountAttributesObject();
         assertTrue("all valid values", account.isValid());
+        
+        ______TS("null studentProfile");
+        
+        account.studentProfile = null;
+        try {
+            account.isValid();
+            signalFailureToDetectException(" - AssertionError");
+        } catch (AssertionError ae) {
+            assertEquals("Non-null value expected for studentProfile", ae.getMessage());
+        }
+        
+        ______TS("invalid account");
         
         account = createInvalidAccountAttributesObject();
         String expectedError = "\"\" is not acceptable to TEAMMATES as a person name because it is empty. The value of a person name should be no longer than 100 characters. It should not be empty."+ EOL +
                 "\"invalid google id\" is not acceptable to TEAMMATES as a Google ID because it is not in the correct format. A Google ID must be a valid id already registered with Google. It cannot be longer than 45 characters. It cannot be empty."+ EOL +
                 "\"invalid@email@com\" is not acceptable to TEAMMATES as an email because it is not in the correct format. An email address contains some text followed by one '@' sign followed by some more text. It cannot be longer than 45 characters. It cannot be empty and it cannot have spaces."+ EOL +
-                "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not acceptable to TEAMMATES as an institute name because it is too long. The value of an institute name should be no longer than 64 characters. It should not be empty." + EOL +
                 "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not acceptable to TEAMMATES as an institute name because it is too long. The value of an institute name should be no longer than 64 characters. It should not be empty.";
         assertEquals("all valid values",false, account.isValid());
         assertEquals("all valid values",expectedError, StringHelper.toString(account.getInvalidityInfo()));
         
-    }
-    
-    @Test
-    public void testIsValid(){
-        //already tested in testGetInvalidStateInfo()
     }
     
     @Test
@@ -63,15 +71,20 @@ public class AccountAttributesTest extends BaseTestCase {
         assertEquals(expectedAccount.getEmail(), actualAccount.getEmail());
         assertEquals(expectedAccount.getInstitute(), actualAccount.getInstitute());
         assertEquals(expectedAccount.isInstructor(), actualAccount.isInstructor());
-        assertEquals(new StudentProfileAttributes(expectedAccount.getStudentProfile()).toString(), new StudentProfileAttributes(actualAccount.getStudentProfile()).toString());
+        String expectedProfile = new StudentProfileAttributes(expectedAccount.getStudentProfile()).toString();
+        String actualProfile = new StudentProfileAttributes(actualAccount.getStudentProfile()).toString();
+        assertEquals(expectedProfile, actualProfile);
     }
     
     @Test
     public void testToString() {
         AccountAttributes account = createValidAccountAttributesObject();
         AccountAttributes account1 = createValidAccountAttributesObject();
-        
+        AccountAttributes account2 = createInvalidAccountAttributesObject();
+                
         assertEquals(account.toString(), account1.toString());
+        assertFalse("different accounts have different toString() values",
+                account1.toString().equals(account2.toString()));
     }
     
     @Test
@@ -131,7 +144,7 @@ public class AccountAttributesTest extends BaseTestCase {
         
         String shortName = "<name>";
         String personalEmail = "'toSanitize@email.com'";
-        String profileInstitute = "institute/\"";
+        String profileInstitute = "";
         String country = "&\"invalid country &";
         String gender = "'\"'other";
         String moreInfo = "<<script> alert('hi!'); </script>";

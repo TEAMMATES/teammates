@@ -41,9 +41,15 @@ public class AccountsDbTest extends BaseComponentTestCase {
     public void testGetAccount() throws Exception {
         AccountAttributes a = createNewAccount();
         
-       ______TS("typical success case");
+        ______TS("typical success case without");
         AccountAttributes retrieved = accountsDb.getAccount(a.googleId);
         assertNotNull(retrieved);
+        assertNull(retrieved.studentProfile);
+        
+        ______TS("typical success with student profile");
+        retrieved = accountsDb.getAccount(a.googleId, true);
+        assertNotNull(retrieved);
+        assertNotNull(a.studentProfile);
         
         ______TS("expect null for non-existent account");
         retrieved = accountsDb.getAccount("non.existent");
@@ -52,7 +58,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
         ______TS("failure: null parameter");
         try {
             accountsDb.getAccount(null);
-            Assert.fail();
+            signalFailureToDetectException(" - AssertionError");
         } catch (AssertionError ae) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
         }
@@ -105,7 +111,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
         accountsDb.createAccount(a);
         
         ______TS("test persistence of latest entry");
-        AccountAttributes accountDataTest = accountsDb.getAccount(a.googleId);
+        AccountAttributes accountDataTest = accountsDb.getAccount(a.googleId, true);
         
         assertEquals(spa.shortName, accountDataTest.studentProfile.shortName);
         assertEquals(spa.gender, accountDataTest.studentProfile.gender);
@@ -117,26 +123,42 @@ public class AccountsDbTest extends BaseComponentTestCase {
         // Change a field
         accountDataTest.isInstructor = true;
         accountDataTest.studentProfile.gender = Const.GenderTypes.FEMALE;
-        accountsDb.updateAccount(accountDataTest);
+        accountsDb.updateAccount(accountDataTest, true);
         // Re-retrieve
-        accountDataTest = accountsDb.getAccount(a.googleId);
+        accountDataTest = accountsDb.getAccount(a.googleId, true);
         assertTrue(accountDataTest.isInstructor);
         assertEquals(Const.GenderTypes.FEMALE, accountDataTest.studentProfile.gender);
         
-        ______TS("success: modified date does not change if profile is not changed");
+        ______TS("success: modified date does not change by default");
         
-        accountDataTest = accountsDb.getAccount(a.googleId);
-        accountDataTest.institute = "new institute";
         Date expectedModifiedDate = accountDataTest.studentProfile.modifiedDate;
         
+        String expectedCountry = accountDataTest.studentProfile.country;
+        accountDataTest.studentProfile.country = "New Country";
+        accountDataTest.institute = "newer institute";
+        
         accountsDb.updateAccount(accountDataTest);
-        a = accountsDb.getAccount(a.googleId);
+        a = accountsDb.getAccount(a.googleId, true);
         
         // ensure update was successful
         assertEquals(accountDataTest.institute, a.institute);
         // ensure profile was not updated
         assertEquals(expectedModifiedDate, a.studentProfile.modifiedDate);
+        assertEquals(expectedCountry, a.studentProfile.country);
         
+        
+        ______TS("success: modified date does not change if profile is not changed");
+        
+        accountDataTest = accountsDb.getAccount(a.googleId, true);
+        accountDataTest.institute = "new institute";
+        
+        accountsDb.updateAccount(accountDataTest, true);
+        a = accountsDb.getAccount(a.googleId, true);
+        
+        // ensure update was successful
+        assertEquals(accountDataTest.institute, a.institute);
+        // ensure profile was not updated
+        assertEquals(expectedModifiedDate, a.studentProfile.modifiedDate);
         
         // Should we not allow empty fields?
         ______TS("failure case: invalid parameter");
@@ -168,9 +190,9 @@ public class AccountsDbTest extends BaseComponentTestCase {
         ______TS("typical success case");
         a.name = "Edited name";
         a.studentProfile.shortName = "Edite";
-        accountsDb.updateAccount(a);
+        accountsDb.updateAccount(a, true);
         
-        AccountAttributes actualAccount = accountsDb.getAccount(a.googleId);
+        AccountAttributes actualAccount = accountsDb.getAccount(a.googleId, true);
         
         assertEquals(a.name, actualAccount.name);
         assertEquals(a.studentProfile.shortName, actualAccount.studentProfile.shortName);
@@ -191,6 +213,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
         a.email = "test-no-at-funny.com";
         a.name = "%asdf";
         a.institute = StringHelper.generateStringOfLength(65);
+        a.studentProfile.shortName = "??";
         
         try {
             accountsDb.updateAccount(a);
@@ -217,8 +240,8 @@ public class AccountsDbTest extends BaseComponentTestCase {
         a.studentProfile.shortName = "THiSIs123UnIQue";
         a.studentProfile.email = "personal@email.com";
         accountsDb.updateAccount(a);
-        a = accountsDb.getAccount(a.googleId);
-        StudentProfileAttributes spa = accountsDb.getStudentProfile(a.studentProfile.shortName);
+        a = accountsDb.getAccount(a.googleId, true);
+        StudentProfileAttributes spa = accountsDb.getStudentProfile(a.googleId);
         
         assertEquals(a.studentProfile.toString(), spa.toString());
         
@@ -239,6 +262,9 @@ public class AccountsDbTest extends BaseComponentTestCase {
         
         AccountAttributes newAccountdeleted = accountsDb.getAccount(a.googleId);
         assertNull(newAccountdeleted);
+        
+        StudentProfileAttributes deletedProfile = accountsDb.getStudentProfile(a.googleId);
+        assertNull(deletedProfile);
         
         ______TS("silent deletion of same account");
         accountsDb.deleteAccount(a.googleId);
