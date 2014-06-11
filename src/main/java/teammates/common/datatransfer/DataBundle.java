@@ -9,6 +9,7 @@ import java.util.HashMap;
 public class DataBundle {
     public HashMap<String, AccountAttributes> accounts = new HashMap<String, AccountAttributes>();
     public HashMap<String, InstructorAttributes> instructors = new HashMap<String, InstructorAttributes>();
+    public HashMap<String, InstructorPermissionAttributes> instructorPermissions = new HashMap<String, InstructorPermissionAttributes>();
     public HashMap<String, CourseAttributes> courses = new HashMap<String, CourseAttributes>();
     public HashMap<String, StudentAttributes> students = new HashMap<String, StudentAttributes>();
     public HashMap<String, EvaluationAttributes> evaluations = new HashMap<String, EvaluationAttributes>();
