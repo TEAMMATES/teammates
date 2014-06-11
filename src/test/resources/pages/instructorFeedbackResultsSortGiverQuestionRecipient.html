@@ -219,12 +219,22 @@
                                  </div>
                               </div>
                            </div>
-                           <div class="col-sm-2 pull-right" data-original-title="Group results in the current view by team" data-toggle="tooltip" title="">
-                              <div class="checkbox pull-right">
-                                 <label>
-                                    <input name="frgroupbyteam" onchange="this.form.submit()" type="checkbox"/>
-                                                                        Group by Teams
-                                 </label>
+                           <div class="col-sm-2 pull-right">
+                              <div class="col-sm-12" data-original-title="Group results in the current view by team" data-toggle="tooltip" title="">
+                                 <div class="checkbox padding-top-0 min-height-0">
+                                    <label>
+                                       <input name="frgroupbyteam" onchange="this.form.submit()" type="checkbox"/>
+                                                                              Group by Teams
+                                    </label>
+                                 </div>
+                              </div>
+                              <div class="col-sm-12" data-original-title="Show statistics" data-toggle="tooltip" title="">
+                                 <div class="checkbox padding-top-0 min-height-0">
+                                    <label>
+                                       <input checked="checked" id="show-stats-checkbox" name="frshowstats" type="checkbox"/>
+                                                                              Show Statistics
+                                    </label>
+                                 </div>
                               </div>
                            </div>
                         </div>
@@ -260,6 +270,8 @@
                            Question 1: Rate 3 other students' products
                         </div>
                         <div class="panel-body padding-0 collapse in panelBodyCollapse-2">
+                           <div class="resultStatistics">
+                           </div>
                            <table class="table table-striped table-bordered dataTable margin-0">
                               <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                  <tr>
@@ -297,6 +309,8 @@
                            Question 2: What is the best selling point of your product?
                         </div>
                         <div class="panel-body padding-0 collapse in panelBodyCollapse-3">
+                           <div class="resultStatistics">
+                           </div>
                            <table class="table table-striped table-bordered dataTable margin-0">
                               <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                  <tr>
@@ -357,6 +371,82 @@
                            </span>
                         </div>
                         <div class="panel-body padding-0 collapse in panelBodyCollapse-4">
+                           <div class="resultStatistics">
+                              <div class="panel-body">
+                                 <div class="row">
+                                    <div class="col-sm-4 text-color-gray">
+                                       <strong>
+                                          Response Summary
+                                       </strong>
+                                    </div>
+                                 </div>
+                                 <div class="row">
+                                    <div class="col-sm-4">
+                                       <table class="table margin-0">
+                                          <thead>
+                                             <tr>
+                                                <td>
+                                                   Choice
+                                                </td>
+                                                <td>
+                                                   Response Count
+                                                </td>
+                                                <td>
+                                                   Percentage
+                                                </td>
+                                             </tr>
+                                          </thead>
+                                          <tbody>
+                                             <tr>
+                                                <td>
+                                                   FlexiCommand
+                                                </td>
+                                                <td>
+                                                   0
+                                                </td>
+                                                <td>
+                                                   0%
+                                                </td>
+                                             </tr>
+                                             <tr>
+                                                <td>
+                                                   PowerSearch
+                                                </td>
+                                                <td>
+                                                   1
+                                                </td>
+                                                <td>
+                                                   100%
+                                                </td>
+                                             </tr>
+                                             <tr>
+                                                <td>
+                                                   GoodUI
+                                                </td>
+                                                <td>
+                                                   0
+                                                </td>
+                                                <td>
+                                                   0%
+                                                </td>
+                                             </tr>
+                                             <tr>
+                                                <td>
+                                                   Google Integration
+                                                </td>
+                                                <td>
+                                                   0
+                                                </td>
+                                                <td>
+                                                   0%
+                                                </td>
+                                             </tr>
+                                          </tbody>
+                                       </table>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
                            <table class="table table-striped table-bordered dataTable margin-0">
                               <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                  <tr>
@@ -417,6 +507,82 @@
                            </span>
                         </div>
                         <div class="panel-body padding-0 collapse in panelBodyCollapse-5">
+                           <div class="resultStatistics">
+                              <div class="panel-body">
+                                 <div class="row">
+                                    <div class="col-sm-4 text-color-gray">
+                                       <strong>
+                                          Response Summary
+                                       </strong>
+                                    </div>
+                                 </div>
+                                 <div class="row">
+                                    <div class="col-sm-4">
+                                       <table class="table margin-0">
+                                          <thead>
+                                             <tr>
+                                                <td>
+                                                   Choice
+                                                </td>
+                                                <td>
+                                                   Response Count
+                                                </td>
+                                                <td>
+                                                   Percentage
+                                                </td>
+                                             </tr>
+                                          </thead>
+                                          <tbody>
+                                             <tr>
+                                                <td>
+                                                   FlexiCommand
+                                                </td>
+                                                <td>
+                                                   0
+                                                </td>
+                                                <td>
+                                                   0%
+                                                </td>
+                                             </tr>
+                                             <tr>
+                                                <td>
+                                                   PowerSearch
+                                                </td>
+                                                <td>
+                                                   1
+                                                </td>
+                                                <td>
+                                                   50%
+                                                </td>
+                                             </tr>
+                                             <tr>
+                                                <td>
+                                                   GoodUI
+                                                </td>
+                                                <td>
+                                                   1
+                                                </td>
+                                                <td>
+                                                   50%
+                                                </td>
+                                             </tr>
+                                             <tr>
+                                                <td>
+                                                   Google Integration
+                                                </td>
+                                                <td>
+                                                   0
+                                                </td>
+                                                <td>
+                                                   0%
+                                                </td>
+                                             </tr>
+                                          </tbody>
+                                       </table>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
                            <table class="table table-striped table-bordered dataTable margin-0">
                               <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                  <tr>
@@ -472,6 +638,49 @@
                            </span>
                         </div>
                         <div class="panel-body padding-0 collapse in panelBodyCollapse-6">
+                           <div class="resultStatistics">
+                              <div class="panel-body">
+                                 <div class="row">
+                                    <div class="col-sm-4 text-color-gray">
+                                       <strong>
+                                          Response Summary
+                                       </strong>
+                                    </div>
+                                 </div>
+                                 <div class="row">
+                                    <div class="col-sm-4">
+                                       <table class="table margin-0">
+                                          <thead>
+                                             <tr>
+                                                <td>
+                                                   Choice
+                                                </td>
+                                                <td>
+                                                   Response Count
+                                                </td>
+                                                <td>
+                                                   Percentage
+                                                </td>
+                                             </tr>
+                                          </thead>
+                                          <tbody>
+                                             <tr>
+                                                <td>
+                                                   Danny
+                                                </td>
+                                                <td>
+                                                   1
+                                                </td>
+                                                <td>
+                                                   100%
+                                                </td>
+                                             </tr>
+                                          </tbody>
+                                       </table>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
                            <table class="table table-striped table-bordered dataTable margin-0">
                               <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                  <tr>
@@ -520,6 +729,49 @@
                            </span>
                         </div>
                         <div class="panel-body padding-0 collapse in panelBodyCollapse-7">
+                           <div class="resultStatistics">
+                              <div class="panel-body">
+                                 <div class="row">
+                                    <div class="col-sm-4 text-color-gray">
+                                       <strong>
+                                          Response Summary
+                                       </strong>
+                                    </div>
+                                 </div>
+                                 <div class="row">
+                                    <div class="col-sm-4">
+                                       <table class="table margin-0">
+                                          <thead>
+                                             <tr>
+                                                <td>
+                                                   Choice
+                                                </td>
+                                                <td>
+                                                   Response Count
+                                                </td>
+                                                <td>
+                                                   Percentage
+                                                </td>
+                                             </tr>
+                                          </thead>
+                                          <tbody>
+                                             <tr>
+                                                <td>
+                                                   Team 1
+                                                </td>
+                                                <td>
+                                                   1
+                                                </td>
+                                                <td>
+                                                   100%
+                                                </td>
+                                             </tr>
+                                          </tbody>
+                                       </table>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
                            <table class="table table-striped table-bordered dataTable margin-0">
                               <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                  <tr>
@@ -568,6 +820,49 @@
                            </span>
                         </div>
                         <div class="panel-body padding-0 collapse in panelBodyCollapse-8">
+                           <div class="resultStatistics">
+                              <div class="panel-body">
+                                 <div class="row">
+                                    <div class="col-sm-4 text-color-gray">
+                                       <strong>
+                                          Response Summary
+                                       </strong>
+                                    </div>
+                                 </div>
+                                 <div class="row">
+                                    <div class="col-sm-4">
+                                       <table class="table margin-0">
+                                          <thead>
+                                             <tr>
+                                                <td>
+                                                   Choice
+                                                </td>
+                                                <td>
+                                                   Response Count
+                                                </td>
+                                                <td>
+                                                   Percentage
+                                                </td>
+                                             </tr>
+                                          </thead>
+                                          <tbody>
+                                             <tr>
+                                                <td>
+                                                   Danny
+                                                </td>
+                                                <td>
+                                                   1
+                                                </td>
+                                                <td>
+                                                   100%
+                                                </td>
+                                             </tr>
+                                          </tbody>
+                                       </table>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
                            <table class="table table-striped table-bordered dataTable margin-0">
                               <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                  <tr>
@@ -620,6 +915,60 @@
                            </span>
                         </div>
                         <div class="panel-body padding-0 collapse in panelBodyCollapse-9">
+                           <div class="resultStatistics">
+                              <div class="panel-body">
+                                 <div class="row">
+                                    <div class="col-sm-4 text-color-gray">
+                                       <strong>
+                                          Response Summary
+                                       </strong>
+                                    </div>
+                                 </div>
+                                 <div class="row">
+                                    <div class="col-sm-4">
+                                       <table class="table margin-0">
+                                          <thead>
+                                             <tr>
+                                                <td>
+                                                   Choice
+                                                </td>
+                                                <td>
+                                                   Response Count
+                                                </td>
+                                                <td>
+                                                   Percentage
+                                                </td>
+                                             </tr>
+                                          </thead>
+                                          <tbody>
+                                             <tr>
+                                                <td>
+                                                   Team 1
+                                                </td>
+                                                <td>
+                                                   1
+                                                </td>
+                                                <td>
+                                                   50%
+                                                </td>
+                                             </tr>
+                                             <tr>
+                                                <td>
+                                                   Team 2
+                                                </td>
+                                                <td>
+                                                   1
+                                                </td>
+                                                <td>
+                                                   50%
+                                                </td>
+                                             </tr>
+                                          </tbody>
+                                       </table>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
                            <table class="table table-striped table-bordered dataTable margin-0">
                               <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                  <tr>
@@ -675,6 +1024,51 @@
                            </span>
                         </div>
                         <div class="panel-body padding-0 collapse in panelBodyCollapse-10">
+                           <div class="resultStatistics">
+                              <div class="panel-body">
+                                 <div class="row">
+                                    <div class="col-sm-4 text-color-gray">
+                                       <strong>
+                                          Response Summary
+                                       </strong>
+                                    </div>
+                                 </div>
+                                 <div class="row">
+                                    <form class="form-horizontal col-sm-12" role="form">
+                                       <div class="form-group margin-0">
+                                          <label class="col-sm-2 control-label font-weight-normal">
+                                             Average:
+                                          </label>
+                                          <div class="col-sm-3">
+                                             <p class="form-control-static">
+                                                3.5
+                                             </p>
+                                          </div>
+                                       </div>
+                                       <div class="form-group margin-0">
+                                          <label class="col-sm-2 control-label font-weight-normal">
+                                             Minimum:
+                                          </label>
+                                          <div class="col-sm-3">
+                                             <p class="form-control-static">
+                                                3.5
+                                             </p>
+                                          </div>
+                                       </div>
+                                       <div class="form-group margin-0">
+                                          <label class="col-sm-2 control-label font-weight-normal">
+                                             Maximum:
+                                          </label>
+                                          <div class="col-sm-3">
+                                             <p class="form-control-static">
+                                                3.5
+                                             </p>
+                                          </div>
+                                       </div>
+                                    </form>
+                                 </div>
+                              </div>
+                           </div>
                            <table class="table table-striped table-bordered dataTable margin-0">
                               <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                  <tr>
@@ -725,6 +1119,8 @@
                            Question 1: Rate 3 other students' products
                         </div>
                         <div class="panel-body padding-0 collapse in panelBodyCollapse-12">
+                           <div class="resultStatistics">
+                           </div>
                            <table class="table table-striped table-bordered dataTable margin-0">
                               <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                  <tr>
@@ -786,6 +1182,8 @@
                            Question 1: Rate 3 other students' products
                         </div>
                         <div class="panel-body padding-0 collapse in panelBodyCollapse-14">
+                           <div class="resultStatistics">
+                           </div>
                            <table class="table table-striped table-bordered dataTable margin-0">
                               <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                  <tr>
@@ -836,6 +1234,8 @@
                            Question 4: Give feedback to 3 other teams.
                         </div>
                         <div class="panel-body padding-0 collapse in panelBodyCollapse-16">
+                           <div class="resultStatistics">
+                           </div>
                            <table class="table table-striped table-bordered dataTable margin-0">
                               <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                  <tr>
@@ -885,6 +1285,8 @@
                            Question 3: My comments on the class
                         </div>
                         <div class="panel-body padding-0 collapse in panelBodyCollapse-18">
+                           <div class="resultStatistics">
+                           </div>
                            <table class="table table-striped table-bordered dataTable margin-0">
                               <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                  <tr>

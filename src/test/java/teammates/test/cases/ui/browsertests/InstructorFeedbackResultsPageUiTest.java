@@ -42,6 +42,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         testContent();
         testSortAction();
         testPanelsCollapseExpand();
+        testShowStats();
         testSearchScript();
         testFeedbackResponseCommentActions();
         testDownloadAction();
@@ -195,6 +196,23 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.clickCollapseExpand();
         assertEquals(resultsPage.collapseExpandButton.getText(),"Collapse All");
         assertTrue(resultsPage.verifyAllResultsPanelBodyVisibility(true));
+        
+    }
+    
+    public void testShowStats(){
+        ______TS("show stats");
+        
+        assertEquals(resultsPage.showStatsCheckbox.getAttribute("checked"),"true");
+        assertTrue(resultsPage.verifyAllStatsVisibility(true));
+        
+        resultsPage.clickShowStats();
+        assertEquals(resultsPage.showStatsCheckbox.getAttribute("checked"),null);
+        assertTrue(resultsPage.verifyAllStatsVisibility(false));
+        
+
+        resultsPage.clickShowStats();
+        assertEquals(resultsPage.showStatsCheckbox.getAttribute("checked"),"true");
+        assertTrue(resultsPage.verifyAllStatsVisibility(true));
         
     }
     
