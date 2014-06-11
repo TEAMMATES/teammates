@@ -44,37 +44,41 @@
         
         <div class="well well-plain well-narrow well-sm-wide">
             <h3 id="studentName"><strong><%=data.account.name %></strong></h3><br>
-            <form class="form center-block" role="form" action="page/studentProfileEditSave">
+            <form class="form center-block" role="form" method="post" 
+                action="<%=Const.ActionURIs.STUDENT_PROFILE_EDIT_SAVE %>">
                 <div class="form-group">
                     <label for="studentNickname">Shortname</label>
-                    <input id="studentNickname" class="form-control" type="text" data-actual-value="<%=data.account.studentProfile.shortName == null ? "" : data.account.studentProfile.shortName %>" value="<%=data.account.studentProfile.shortName == null ? "" : data.account.studentProfile.shortName %>" placeholder="How the instructor should call you" />
+                    <input id="studentNickname" name="<%=Const.ParamsNames.STUDENT_SHORT_NAME %>" class="form-control" type="text" data-actual-value="<%=data.account.studentProfile.shortName == null ? "" : data.account.studentProfile.shortName %>" value="<%=data.account.studentProfile.shortName == null ? "" : data.account.studentProfile.shortName %>" placeholder="How the instructor should call you" />
                 </div>
                 <div class="form-group">
                     <label for="studentInstitution">Institution</label>
-                    <input id="studentInstitution" class="form-control" type="text" data-actual-value="<%=data.account.studentProfile.institute == null ? "" : data.account.studentProfile.institute %>" value="<%=data.account.studentProfile.institute == null ? "" : data.account.studentProfile.institute %>" placeholder="Your Institution" />
+                    <input id="studentInstitution" name="<%=Const.ParamsNames.STUDENT_PROFILE_INSTITUTION %>" class="form-control" type="text" data-actual-value="<%=data.account.studentProfile.institute == null ? "" : data.account.studentProfile.institute %>" value="<%=data.account.studentProfile.institute == null ? "" : data.account.studentProfile.institute %>" placeholder="Your Institution" />
                 </div>
                 <div class="form-group">
                     <label for="studentEmail">Email</label>
-                    <input id="studentEmail" class="form-control" type="email"
+                    <input id="studentEmail" name="<%=Const.ParamsNames.STUDENT_PROFILE_EMAIL %>" class="form-control" type="email"
                            data-actual-value="<%=data.account.studentProfile.email %>" value="<%=data.account.studentProfile.email == null ? "" : data.account.studentProfile.email %>" placeholder="Long-term contact email" />
                 </div>
                 <div class="form-group">
                     <label for="studentCountry">Country</label>
-                    <input id="studentCountry" class="form-control" type="text" data-actual-value="<%=data.account.studentProfile.country == null ? "" : data.account.studentProfile.country %>" value="<%=data.account.studentProfile.country == null ? "" : data.account.studentProfile.country %>" placeholder="Country" />
+                    <input id="studentCountry" name="<%=Const.ParamsNames.STUDENT_COUNTRY %>" class="form-control" type="text" data-actual-value="<%=data.account.studentProfile.country == null ? "" : data.account.studentProfile.country %>" value="<%=data.account.studentProfile.country == null ? "" : data.account.studentProfile.country %>" placeholder="Country" />
                 </div>
                 <div class="form-group">
                     <label for="studentGender">Gender</label>
                     <div id="studentGender">
                         <label for="genderMale" class="radio-inline">
-                            <input id="genderMale" name="studentGender" class="radio" type="radio" 
+                            <input id="genderMale" name="<%=Const.ParamsNames.STUDENT_GENDER %>" class="radio" type="radio" 
+                            value="<%=Const.GenderTypes.MALE %>"
                             checked="<%=data.account.studentProfile.gender == Const.GenderTypes.MALE ? "checked" : "" %>" /> Male
                         </label>
                         <label for="genderFemale" class="radio-inline">
-                            <input id="genderFemale" name="studentGender" class="radio" type="radio"
+                            <input id="genderFemale" name="<%=Const.ParamsNames.STUDENT_GENDER %>" class="radio" type="radio"
+                            value="<%=Const.GenderTypes.FEMALE %>"
                             checked="<%=data.account.studentProfile.gender == Const.GenderTypes.FEMALE ? "checked" : "" %>" /> Female
                         </label>
                         <label class="radio-inline" for="genderOther">
-                            <input id="genderOther" name="studentGender" class="radio" type="radio"
+                            <input id="genderOther" name="<%=Const.ParamsNames.STUDENT_GENDER %>" class="radio" type="radio"
+                            value="<%=Const.GenderTypes.OTHER %>"
                             checked="<%=data.account.studentProfile.gender == Const.GenderTypes.OTHER ? "checked" : "" %>" /> Other
                         </label>
                     </div>
@@ -82,7 +86,8 @@
                 </div>
                 <div class="form-group">
                     <label for="studentCountry">More info about yourself</label>
-                    <textarea id="studentExtProfiles" name="studentExtProfiles" rows="4" class="form-control"
+                    <textarea id="studentExtProfiles"  name="<%=Const.ParamsNames.STUDENT_PROFILE_MOREINFO %>" 
+                              rows="4" class="form-control"
                               placeholder="You may wish to specify miscellaneous information as well as links to external profiles."
                               ><%=data.account.studentProfile.moreInfo == null ? "" : data.account.studentProfile.moreInfo %></textarea>
                 </div><br>

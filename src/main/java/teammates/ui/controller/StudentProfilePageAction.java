@@ -12,8 +12,9 @@ public class StudentProfilePageAction extends Action {
     protected ActionResult execute() throws EntityDoesNotExistException {
         new GateKeeper().verifyLoggedInUserPrivileges();
         
-        data = new PageData(this.account);
-        statusToAdmin = "studentProfile Page Load <br> Account: " + this.account;
+        this.account.studentProfile = logic.getStudentProfile(account.googleId); 
+        data = new PageData(account);
+        statusToAdmin = "studentProfile Page Load <br> Account: " + account.googleId;
         
         ShowPageResult response = createShowPageResult(Const.ViewURIs.STUDENT_PROFILE_PAGE, data);
         return response;

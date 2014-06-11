@@ -119,6 +119,7 @@ public class AccountsDb extends EntitiesDb {
         Account accountToUpdate = getAccountEntity(a.googleId, true);
 
         if (accountToUpdate == null) {
+            closePM();
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_ACCOUNT + a.googleId
                 + ThreadHelper.getCurrentThreadStack());
         }
@@ -216,6 +217,7 @@ public class AccountsDb extends EntitiesDb {
         
         try {
             StudentProfile sp = getPM().getObjectById(StudentProfile.class, childKey);
+            closePM();
             if (JDOHelper.isDeleted(sp)) {
                 return null;
             } else {
@@ -226,21 +228,39 @@ public class AccountsDb extends EntitiesDb {
         }
     }
     
-    public StudentProfileAttributes getStudentProfileFromName(String shortName) {
+    public void updateStudentProfile(StudentProfileAttributes newSpa) 
+            throws InvalidParametersException, EntityDoesNotExistException {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, newSpa);
         
-        PersistenceManager pm = getPM();
-        Query q = pm.newQuery(StudentProfile.class);
-        q.declareParameters("String shortNameParam");
-        q.setFilter("shortName == shortNameParam");
-        
-        @SuppressWarnings("unchecked")
-        List<StudentProfile> profilesList = (List<StudentProfile>) q.execute(shortName);
-        
-        if (profilesList.isEmpty() || JDOHelper.isDeleted(profilesList.get(0))) {
-            return null;
-        } else {
-            return new StudentProfileAttributes(profilesList.get(0));
+        if (!newSpa.isValid()) {
+            throw new InvalidParametersException(newSpa.getInvalidityInfo());
         }
+        
+        Key childKey = KeyFactory.createKey(Account.class.getSimpleName(), newSpa.googleId)
+                .getChild(StudentProfile.class.getSimpleName(), newSpa.googleId);
+        
+        try {
+            StudentProfile profileToUpdate = getPM().getObjectById(StudentProfile.class, childKey);
+
+            if (JDOHelper.isDeleted(profileToUpdate)) {
+                closePM();
+                throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_STUDENT_PROFILE + newSpa.googleId
+                        + ThreadHelper.getCurrentThreadStack());
+            }
+                        
+            newSpa.sanitizeForSaving();
+            profileToUpdate.setShortName(newSpa.shortName);
+            profileToUpdate.setEmail(newSpa.email);
+            profileToUpdate.setInstitute(newSpa.institute);
+            profileToUpdate.setCountry(newSpa.country);
+            profileToUpdate.setGender(newSpa.gender);
+            profileToUpdate.setMoreInfo(newSpa.moreInfo);
+            closePM();
+            
+        } catch (JDOObjectNotFoundException je) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_STUDENT_PROFILE + newSpa.googleId
+                    + ThreadHelper.getCurrentThreadStack());
+        }        
     }
     
     private void closePM() {
@@ -253,7 +273,5 @@ public class AccountsDb extends EntitiesDb {
     protected Object getEntity(EntityAttributes entity) {
         return getAccountEntity(((AccountAttributes)entity).googleId);
     }
-    
-
 }
 

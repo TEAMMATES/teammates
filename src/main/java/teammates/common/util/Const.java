@@ -320,6 +320,13 @@ public class Const {
         public static final String REGKEY = "regkey";
         public static final String STUDENT_EMAIL = "studentemail";
         public static final String NEW_STUDENT_EMAIL = "newstudentemail";
+        
+        public static final String STUDENT_SHORT_NAME = "studentshortname";
+        public static final String STUDENT_PROFILE_EMAIL = "studentprofileemail";
+        public static final String STUDENT_PROFILE_INSTITUTION = "studentprofileinstitute";
+        public static final String STUDENT_COUNTRY = "studentcountry";
+        public static final String STUDENT_GENDER = "studentgender";
+        public static final String STUDENT_PROFILE_MOREINFO = "studentprofilemoreinfo";        
     
         public static final String STUDENT_NAME = "studentname";
         public static final String FROM_EMAIL = "fromemail";
@@ -459,6 +466,7 @@ public class Const {
         public static final String STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_SAVE = "/page/studentFeedbackQuestionSubmissionEditSave";
         public static final String STUDENT_FEEDBACK_RESULTS_PAGE = "/page/studentFeedbackResultsPage";
         public static final String STUDENT_PROFILE_PAGE = "/page/studentProfilePage";
+        public static final String STUDENT_PROFILE_EDIT_SAVE = "/page/studentProfileEditSave";
         
         public static final String ADMIN_HOME_PAGE = "/admin/adminHomePage";
         public static final String ADMIN_INSTRUCTORACCOUNT_ADD = "/admin/adminInstructorAccountAdd";
@@ -625,6 +633,7 @@ public class Const {
         public static final String STUDENT_EDITED = "The student has been edited successfully";
         public static final String STUDENT_DELETED = "The student has been removed from the course";
         public static final String STUDENT_EMAIL_CONFLIT = "Trying to update to an email that is already used by: ";
+        public static final String STUDENT_PROFILE_EDITED = "Your profile has been edited successfully";
         
         public static final String EVALUATION_ADDED = "The evaluation has been added. If you don't see that evaluation in the list below, please refresh the page after a few moments.";
         public static final String EVALUATION_DELETED = "The evaluation has been deleted.";

@@ -102,6 +102,7 @@ public class ActionFactory {
         map(STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE, StudentFeedbackQuestionSubmissionEditPageAction.class);
         map(STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_SAVE, StudentFeedbackQuestionSubmissionEditSaveAction.class);
         map(STUDENT_PROFILE_PAGE, StudentProfilePageAction.class);
+        map(STUDENT_PROFILE_EDIT_SAVE, StudentProfileEditSaveAction.class);
         map(STUDENT_HOME_PAGE, StudentHomePageAction.class);
     }
 

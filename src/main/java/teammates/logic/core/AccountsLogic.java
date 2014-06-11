@@ -116,7 +116,8 @@ public class AccountsLogic {
         return institute;
     }
 
-    public void updateAccount(AccountAttributes account) throws InvalidParametersException, EntityDoesNotExistException {
+    public void updateAccount(AccountAttributes account)
+            throws InvalidParametersException, EntityDoesNotExistException {
         accountsDb.updateAccount(account, false);
     }
     
@@ -333,8 +334,12 @@ public class AccountsLogic {
     }
 
     public StudentProfileAttributes getStudentProfile(String googleId) {
-        Assumption.assertNotNull(googleId);
-        
         return accountsDb.getStudentProfile(googleId);
+    }
+
+
+    public void updateStudentProfile(StudentProfileAttributes newStudentProfileAttributes) 
+            throws InvalidParametersException, EntityDoesNotExistException {
+        accountsDb.updateStudentProfile(newStudentProfileAttributes);
     }
 }

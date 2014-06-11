@@ -191,6 +191,19 @@ public class Logic {
     }
     
     /**
+     * Preconditions: <br>
+     * * All parameters are non-null.<br>
+     * * {@code newAccountAttributes} represents an existing account.
+     */
+    public void updateStudentProfile(StudentProfileAttributes newStudentProfileAttributes) 
+            throws InvalidParametersException, EntityDoesNotExistException {
+        
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, newStudentProfileAttributes);
+        
+        accountsLogic.updateStudentProfile(newStudentProfileAttributes);
+    }
+    
+    /**
      * Deletes both instructor and student privileges.
      * Does not delete courses. Can result in orphan courses 
      * (to be rectified in future).
@@ -717,6 +730,18 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
     
         return studentsLogic.getStudentForCourseIdAndGoogleId(courseId, googleId);
+    }
+    
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     * 
+     * @return Null if no match found.
+     */
+    public StudentProfileAttributes getStudentProfile(String googleId) {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
+        
+        return accountsLogic.getStudentProfile(googleId);
     }
 
     /**
