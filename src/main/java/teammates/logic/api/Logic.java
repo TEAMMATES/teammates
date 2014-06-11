@@ -538,7 +538,7 @@ public class Logic {
     }
     
     public void updateInstructorPermissionByEmail(InstructorPermissionAttributes updatedInstrPermissionAttr, String oldInstrEmail)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, updatedInstrPermissionAttr);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, oldInstrEmail);

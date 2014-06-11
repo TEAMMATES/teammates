@@ -55,7 +55,7 @@ public class InstructorPermissionsLogic {
     }
     
     public void updateInstructorPermissionByEmail(InstructorPermissionAttributes updatedInstrPermissionAttr, String oldInstrEmail)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
         instructorPermissionsDb.updateInstructorPermissionByEmail(updatedInstrPermissionAttr, oldInstrEmail);
     }
     

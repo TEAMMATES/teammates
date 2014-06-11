@@ -9,6 +9,7 @@ import javax.jdo.Query;
 
 import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.datatransfer.InstructorPermissionAttributes;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
@@ -70,7 +71,7 @@ public class InstructorPermissionsDb extends EntitiesDb {
     }
     
     public void updateInstructorPermissionByEmail(InstructorPermissionAttributes updatedInstrPermission,
-            String oldInstrEmail) throws InvalidParametersException, EntityDoesNotExistException {
+            String oldInstrEmail) throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
         
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, updatedInstrPermission);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, oldInstrEmail);
@@ -84,12 +85,20 @@ public class InstructorPermissionsDb extends EntitiesDb {
                 oldInstrEmail);
         
         if (oldInstrPermission == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_ACCOUNT + oldInstrEmail
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_INSTRUCTOR_PERMISSION + 
+                    updatedInstrPermission.courseId + "/" + oldInstrEmail
                     + ThreadHelper.getCurrentThreadStack());
         }
         
         if (!oldInstrEmail.equals(updatedInstrPermission.instructorEmail)) {
             oldInstrPermission.setInstructorEmail(updatedInstrPermission.instructorEmail);
+            InstructorPermission instrPermission = getInstructorPermissionEntityForEmail(updatedInstrPermission.courseId,
+                    updatedInstrPermission.instructorEmail);
+            if (instrPermission != null) {
+                throw new EntityAlreadyExistsException(ERROR_UPDATE_TO_EXISTENT_INTRUCTOR_PERMISSION + 
+                        updatedInstrPermission.courseId + "/" + updatedInstrPermission.instructorEmail
+                        + ThreadHelper.getCurrentThreadStack());
+            }
         }
         oldInstrPermission.setRole(updatedInstrPermission.role);
         oldInstrPermission.setInstructorPrvilegesAsText(updatedInstrPermission.instructorPrivilegesAsText);

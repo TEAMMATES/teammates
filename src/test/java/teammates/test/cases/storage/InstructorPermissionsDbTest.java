@@ -176,6 +176,11 @@ public class InstructorPermissionsDbTest extends BaseComponentTestCase {
         InstructorPermissionAttributes permission = getCoownerInstructorPermissionAttr();       
         instrPermissionsDb.createEntity(permission);       
         TestHelper.verifyPresentInDatastore(permission);
+        instrEmail = "updateInstrPerm1@google.com";
+        courseId = "courseUpdateInstrPerm";
+        permission = getCoownerInstructorPermissionAttr();       
+        instrPermissionsDb.createEntity(permission);       
+        TestHelper.verifyPresentInDatastore(permission);
         
         ______TS("Success: nothing updated");
         
@@ -204,6 +209,17 @@ public class InstructorPermissionsDbTest extends BaseComponentTestCase {
         instrPermissionsDb.updateInstructorPermissionByEmail(permission, instrEmail);
         assertEquals(updatedInstrEmail, instrPermissionsDb.getInstructorPermissionForEmail(permission.courseId, 
                 permission.instructorEmail).instructorEmail);
+        
+        ______TS("Failure: update to existing instructorPermission");
+        
+        String updateToExisting = "updateInstrPerm@google.com";
+        permission.instructorEmail = updateToExisting;      
+        try {
+            instrPermissionsDb.updateInstructorPermissionByEmail(permission, updatedInstrEmail);
+            signalFailureToDetectException();
+        } catch (EntityAlreadyExistsException e) {
+            AssertHelper.assertContains(permission.courseId + "/" + permission.instructorEmail, e.getMessage());
+        }
         
         ______TS("Failure: non-exist instructorPermission");
         
