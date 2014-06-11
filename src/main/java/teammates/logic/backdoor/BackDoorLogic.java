@@ -17,6 +17,7 @@ import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.InstructorPermissionAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -82,6 +83,12 @@ public class BackDoorLogic extends Logic {
                 //Hardcoding institute value because this is used for testing only
                 super.instructorsLogic.createInstructor(instructor);
             }
+        }
+        
+        HashMap<String, InstructorPermissionAttributes> instructorPermissions = dataBundle.instructorPermissions;
+        for (InstructorPermissionAttributes instrPermission : instructorPermissions.values()) {
+            log.fine("API Servlet adding instructor Permission:" + instrPermission.instructorEmail);
+            // TODO: finish this after logic is done!!!
         }
 
         HashMap<String, StudentAttributes> students = dataBundle.students;

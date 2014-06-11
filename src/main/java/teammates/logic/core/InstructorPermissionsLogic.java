@@ -65,18 +65,39 @@ public class InstructorPermissionsLogic {
         instructorPermissionsDb.deleteInstructorPermissionsForCourse(courseId);
     }
     
-    public boolean isAllowedForCourseLevel(String courseId, String instrEmail, String privilegeName) 
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    public boolean isAllowedForPrivilege(String courseId, String instrEmail, String privilegeName) {
+        InstructorPermissionAttributes instrPermissionAttr = verifyExistenceOfInstructorPermission(courseId, instrEmail);
+        
+        return instrPermissionAttr.privileges.isAllowedForPrivilege(privilegeName);
+    }
+    
+    public boolean isAllowedForPrivilege(String courseId, String instrEmail, String sectionId, String privilegeName) {
+        InstructorPermissionAttributes instrPermissionAttr = verifyExistenceOfInstructorPermission(courseId, instrEmail);
+        
+        return instrPermissionAttr.privileges.isAllowedForPrivilege(sectionId, privilegeName);
+    }
+    
+    public boolean isAllowedForPrivilege(String courseId, String instrEmail, String sectionId, String sessionId, String privilegeName) {
+        InstructorPermissionAttributes instrPermissionAttr = verifyExistenceOfInstructorPermission(courseId, instrEmail);
+        
+        return instrPermissionAttr.privileges.isAllowedForPrivilege(sectionId, sessionId, privilegeName);
+    }
+
+    private InstructorPermissionAttributes verifyExistenceOfInstructorPermission(String courseId, String instrEmail) {
         InstructorPermissionAttributes instrPermissionAttr = instructorPermissionsDb.getInstructorPermissionForEmail(courseId, instrEmail);
         
         if (instrPermissionAttr == null) {
             InstructorPrivileges privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
             instrPermissionAttr = new InstructorPermissionAttributes(instrEmail, courseId,
                     Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER, privileges);
-            addInstructorPermission(instrPermissionAttr);          
+            try {
+                addInstructorPermission(instrPermissionAttr);
+            } catch (Exception e) {
+                log.severe("Error when migrating InstructorPermission: " + courseId + "/" + instrEmail);
+            }
         }
         
-        instrPermissionAttr.privileges.isAllowedInCourseLevel(privilegeName);
+        return instrPermissionAttr;
     }
 
 }
