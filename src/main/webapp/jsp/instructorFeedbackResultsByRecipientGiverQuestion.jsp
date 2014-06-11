@@ -106,6 +106,7 @@
                     To: <strong><%=responsesForRecipient.getKey()%></strong>
                         <a class="link-in-dark-bg" href="mailTo:<%= targetEmail%> " <%=mailtoStyleAttr%>>[<%=targetEmail%>]</a>
                 </div>
+                <div class="panel-collapse">
                 <div class="panel-body">
                 <%
                     int giverIndex = 0;
@@ -126,6 +127,7 @@
                                                 out.print(InstructorFeedbackResultsPageData.sanitizeForHtml(questionDetails.questionText));
                                                 out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, "giver-"+giverIndex+"-recipient-"+recipientIndex));
                                         %></div>
+                                        <div class="panel-collapse">
                                         <div class="panel-body">
                                             <div style="clear:both; overflow: hidden">
                                                 <div class="pull-left"><%=singleResponse.getResponseDetails().getAnswerHtml()%></div>
@@ -210,7 +212,7 @@
                                                 </div>
                                             </form>
                                         </li>
-                                    </ul></div></div>
+                                    </ul></div></div></div>
                             <%
                                     qnIndx++;
                                 }
@@ -224,6 +226,7 @@
                 <%
                     }
                 %>
+                </div>
                 </div>
             </div>
         <%

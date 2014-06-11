@@ -65,6 +65,7 @@
                         out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, ""));
                     %>
                 </div>
+                <div class="panel-collapse">
                 <div class="panel-body padding-0">
                     <table class="table table-striped table-bordered dataTable margin-0">
                         <thead class="background-color-medium-gray text-color-gray font-weight-normal">
@@ -109,6 +110,7 @@
                             %>
                         </tbody>
                     </table>
+                </div>
                 </div>
             </div>
             <%
