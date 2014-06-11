@@ -56,11 +56,27 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         
         ______TS("content: no students");
         
-        //TODO: implement this
-        
-        ______TS("content: multiple students");
-        
         Url detailsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
+        .withUserId(testData.instructors.get("CCDetailsUiT.instrForEmptyCourse").googleId)
+        .withCourseId(testData.courses.get("CCDetailsUiT.CourseWithoutStudents").id);
+
+        detailsPage = loginAdminToPage(browser, detailsPageUrl, InstructorCourseDetailsPage.class);
+
+        detailsPage.verifyHtml("/InstructorCourseDetailsPageForEmptyCourse.html");
+
+        ______TS("content: multiple students with sections");
+
+        detailsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
+        .withUserId(testData.instructors.get("CCDetailsUiT.instr2").googleId)
+        .withCourseId(testData.courses.get("CCDetailsUiT.CS2103").id);
+
+        detailsPage = loginAdminToPage(browser, detailsPageUrl, InstructorCourseDetailsPage.class);
+
+        detailsPage.verifyHtml("/InstructorCourseDetailsPageWithSections.html");
+        
+        ______TS("content: multiple students without sections");
+        
+        detailsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
         .withUserId(testData.instructors.get("CCDetailsUiT.instr").googleId)
         .withCourseId(testData.courses.get("CCDetailsUiT.CS2104").id);
         

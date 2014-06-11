@@ -71,13 +71,40 @@
                     </div>
                     <br>
                     <div class="checkbox"><input id="course_check-0" type="checkbox" checked="checked">
-                        <label for="course_check-0"> [course2] : Name of Course 2 
+                        <label for="course_check-0"> Name of Course 2 
                         
                         </label>
                     </div>
                     <div class="checkbox"><input id="course_check-1" type="checkbox" checked="checked">
-                        <label for="course_check-1"> [course3] : Name of Course 3 
+                        <label for="course_check-1"> Name of Course 3 
                         
+                        </label>
+                    </div>    
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="text-color-primary">
+                        <strong>Sections</strong>
+                    </div>
+                    <br>
+                    <div class="checkbox">
+                        <input type="checkbox" value="" id="section_all" checked="checked"> 
+                        <label for="course_all"><strong>Select all</strong></label>
+                    </div>
+                    <br>
+                    <div class="checkbox">
+                        <input id="section_check-0-0" type="checkbox" checked="checked">
+                        <label for="section_check-0-0"> [course2] : Name of Section A
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <input id="section_check-0-1" type="checkbox" checked="checked">
+                        <label for="section_check-0-1"> [course2] : Name of Section B
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <input id="section_check-1-0" type="checkbox" checked="checked">
+                        <label for="section_check-1-0"> [course3] : Name of Section C
                         </label>
                     </div>    
                 </div>
@@ -93,28 +120,33 @@
                     </div>
                     <br>
                     <div class="checkbox">
-                        <input id="team_check-0-0" type="checkbox" checked="checked">
-                        <label for="team_check-0-0">  [course2] : Team 1 
+                        <input id="team_check-0-0-0" type="checkbox" checked="checked">
+                        <label for="team_check-0-0-0">  [course2-sectionA] : Team 1 
                         </label>
                     </div>
                     <div class="checkbox">
-                        <input id="team_check-0-1" type="checkbox" checked="checked">
-                        <label for="team_check-0-1">  [course2] : Team 2 
+                        <input id="team_check-0-1-0" type="checkbox" checked="checked">
+                        <label for="team_check-0-1-0">  [course2-sectionB] : Team 2 
                         </label>
                     </div>
                     <div class="checkbox">
-                        <input id="team_check-1-0" type="checkbox" checked="checked">
-                        <label for="team_check-1-0">  [course3] : Team 1 
+                        <input id="team_check-0-1-1" type="checkbox" checked="checked">
+                        <label for="team_check-0-1-1">  [course2-sectionB] : Team 3 
                         </label>
                     </div>
                     <div class="checkbox">
-                        <input id="team_check-1-1" type="checkbox" checked="checked">
-                        <label for="team_check-1-1">  [course3] : Team 2 
+                        <input id="team_check-1-0-0" type="checkbox" checked="checked">
+                        <label for="team_check-1-0-0">  [course3-sectionC] : Team 1 
                         </label>
                     </div>
                     <div class="checkbox">
-                        <input id="team_check-1-2" type="checkbox" checked="checked">
-                        <label for="team_check-1-2">  [course3] : Team 3 
+                        <input id="team_check-1-0-1" type="checkbox" checked="checked">
+                        <label for="team_check-1-0-1">  [course3-sectionC] : Team 2 
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <input id="team_check-1-0-2" type="checkbox" checked="checked">
+                        <label for="team_check-1-0-2">  [course3-sectionC] : Team 3 
                         </label>
                     </div>
                         
@@ -131,22 +163,24 @@
                     <br>
                     <div id="emails">
                         <div id="student_email-c0.0">student1@email.com</div>
-                        <div id="student_email-c0.1">benny@email.com</div>
-                        <div id="student_email-c1.0">student3@email.com</div>
-                        <div id="student_email-c1.1">benny@email.com</div>
-                        <div id="student_email-c1.2">student5@email.com</div>
-                        <div id="student_email-c1.3">student6@email.com</div>
-                        <div id="student_email-c1.4">student7@email.com</div>
-                        <div id="student_email-c1.5">student8@email.com</div>
-                        <div id="student_email-c1.6">student9@email.com</div>
-                        <div id="student_email-c1.7">student10@email.com</div>
-                        <div id="student_email-c1.8">student11@email.com</div>
-                        <div id="student_email-c1.9">student12@email.com</div>
+                        <div id="student_email-c0.1">student2@email.com</div>
+                        <div id="student_email-c0.2">benny@email.com</div>
+                        <div id="student_email-c1.0">benny@email.com</div>
+                        <div id="student_email-c1.1">student3@email.com</div>
+                        <div id="student_email-c1.2">student4@email.com</div>
+                        <div id="student_email-c1.3">student5@email.com</div>
+                        <div id="student_email-c1.4">student6@email.com</div>
+                        <div id="student_email-c1.5">student7@email.com</div>
+                        <div id="student_email-c1.6">student8@email.com</div>
+                        <div id="student_email-c1.7">student9@email.com</div>
+                        <div id="student_email-c1.8">student10@email.com</div>
+                        <div id="student_email-c1.9">student11@email.com</div>
                     </div>
                 </div>
             </div>
         </form>
     </div>
+
     <div class="well well-plain" id="course-0">
         <div class="row">
             <div class="col-md-10 text-color-primary">
@@ -169,6 +203,7 @@
         <table class="table table-responsive table-striped table-bordered">
             <thead>
                 <tr>
+                    <th> Section </th>
                     <th> Team</th>
                     <th > Student Name</th>
                     <th > Email</th>
@@ -176,18 +211,27 @@
             </thead>
             <tbody>
                 <tr id="student-c0.0" style="display: table-row;">
-                    <td id="studentteam-c0.0">Team 1</td>
+                    <td id="studentsection-c0.0"> Section A </td>
+                    <td id="studentteam-c0.0.0">Team 1</td>
                     <td id="studentname-c0.0" >Alice Betsy</td>
                     <td id="studentemail-c0.0">student1@email.com</td>
                 </tr>
                 <tr id="student-c0.1" style="display: table-row;">
-                    <td id="studentteam-c0.1">Team 2</td>
-                    <td id="studentname-c0.1" >Benny Charles</td>
-                    <td id="studentemail-c0.1">benny@email.com</td>
+                    <td id="studentsection-c0.1"> Section B </td>
+                    <td id="studentteam-c0.1.0">Team 2</td>
+                    <td id="studentname-c0.1" >Barney Stinson</td>
+                    <td id="studentemail-c0.1">student2@email.com</td>
+                </tr>
+                <tr id="student-c0.2" style="display: table-row;">
+                    <td id="studentsection-c0.1"> Section B </td>
+                    <td id="studentteam-c0.1.1">Team 3</td>
+                    <td id="studentname-c0.2" >Benny Charles</td>
+                    <td id="studentemail-c0.2">benny@email.com</td>
                 </tr>
             </tbody>
         </table>
     </div>
+
     <div class="well well-plain" id="course-1">
         <div class="row">
             <div class="col-md-10 text-color-primary">
@@ -210,6 +254,7 @@
         <table class="table table-responsive table-striped table-bordered" >
             <thead>
                 <tr>
+                    <th> Section</th>
                     <th> Team</th>
                     <th > Student Name</th>
                     <th > Email</th>
@@ -217,54 +262,64 @@
             </thead>
             <tbody>
                 <tr id="student-c1.0" style="display: table-row;">
-                    <td id="studentteam-c1.0">Team 1</td>
-                    <td id="studentname-c1.0" >Alice Betsy</td>
-                    <td id="studentemail-c1.0">student3@email.com</td>
+                    <td id="studentsection-c1.0"> Section C </td>
+                    <td id="studentteam-c1.0.0">Team 1</td>
+                    <td id="studentname-c1.0" >Benny Charles</td>
+                    <td id="studentemail-c1.0">benny@email.com</td>
                 </tr>
                 <tr id="student-c1.1" style="display: table-row;">
-                    <td id="studentteam-c1.0">Team 1</td>
-                    <td id="studentname-c1.0" >Benny Charles</td>
-                    <td id="studentemail-c1.1">benny@email.com</td>
+                    <td id="studentsection-c1.0"> Section C </td>
+                    <td id="studentteam-c1.0.0">Team 1</td>
+                    <td id="studentname-c1.0" >Carlos Santanna</td>
+                    <td id="studentemail-c1.1">student3@email.com</td>
                 </tr>
                 <tr id="student-c1.2" style="display: table-row;">
-                    <td id="studentteam-c1.0">Team 1</td>
+                    <td id="studentsection-c1.0"> Section C </td>
+                    <td id="studentteam-c1.0.0">Team 1</td>
                     <td id="studentname-c1.2" >Charlie D</td>
-                    <td id="studentemail-c1.2">student5@email.com</td>
+                    <td id="studentemail-c1.2">student4@email.com</td>
                 </tr>
                 <tr id="student-c1.3" style="display: table-row;">
-                    <td id="studentteam-c1.0">Team 1</td>
+                    <td id="studentsection-c1.0"> Section C </td>
+                    <td id="studentteam-c1.0.1">Team 2</td>
                     <td id="studentname-c1.3" >Denny Charlés</td>
-                    <td id="studentemail-c1.3">student6@email.com</td>
+                    <td id="studentemail-c1.3">student5@email.com</td>
                 </tr>
                 <tr id="student-c1.4" style="display: table-row;">
-                    <td id="studentteam-c1.1">Team 2</td>
+                    <td id="studentsection-c1.0"> Section C </td>
+                    <td id="studentteam-c1.0.1">Team 2</td>
                     <td id="studentname-c1.4" >Emma F</td>
-                    <td id="studentemail-c1.4">student7@email.com</td>
+                    <td id="studentemail-c1.4">student6@email.com</td>
                 </tr>
                 <tr id="student-c1.5" style="display: table-row;">
-                    <td id="studentteam-c1.1">Team 2</td>
+                    <td id="studentsection-c1.0"> Section C </td>
+                    <td id="studentteam-c1.0.1">Team 2</td>
                     <td id="studentname-c1.5" >Frank Gatsby</td>
-                    <td id="studentemail-c1.5">student8@email.com</td>
+                    <td id="studentemail-c1.5">student7@email.com</td>
                 </tr>
                 <tr id="student-c1.6" style="display: table-row;">
-                    <td id="studentteam-c1.1">Team 2</td>
+                    <td id="studentsection-c1.0"> Section C </td>
+                    <td id="studentteam-c1.0.2">Team 3</td>
                     <td id="studentname-c1.6" >Gabriel Hobb</td>
-                    <td id="studentemail-c1.6">student9@email.com</td>
+                    <td id="studentemail-c1.6">student8@email.com</td>
                 </tr>
                 <tr id="student-c1.7" style="display: table-row;">
-                    <td id="studentteam-c1.2">Team 3</td>
+                    <td id="studentsection-c1.0"> Section C </td>
+                    <td id="studentteam-c1.0.2">Team 3</td>
                     <td id="studentname-c1.7" >Hans Iker</td>
-                    <td id="studentemail-c1.7">student10@email.com</td>
+                    <td id="studentemail-c1.7">student9@email.com</td>
                 </tr>
                 <tr id="student-c1.8" style="display: table-row;">
-                    <td id="studentteam-c1.2">Team 3</td>
+                    <td id="studentsection-c1.0"> Section C </td>
+                    <td id="studentteam-c1.0.2">Team 3</td>
                     <td id="studentname-c1.8" >Ian Jacobsson</td>
-                    <td id="studentemail-c1.8">student11@email.com</td>
+                    <td id="studentemail-c1.8">student10@email.com</td>
                 </tr>
                 <tr id="student-c1.9" style="display: table-row;">
-                    <td id="studentteam-c1.2">Team 3</td>
+                    <td id="studentsection-c1.0"> Section C </td>
+                    <td id="studentteam-c1.0.2">Team 3</td>
                     <td id="studentname-c1.9" >James K</td>
-                    <td id="studentemail-c1.9">student12@email.com</td>
+                    <td id="studentemail-c1.9">student11@email.com</td>
                 </tr>
             </tbody>
         </table>

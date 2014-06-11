@@ -19,6 +19,7 @@ import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
+import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -89,6 +90,7 @@ public class BackDoorLogic extends Logic {
         for (StudentAttributes student : students.values()) {
             log.fine("API Servlet adding student :" + student.email
                     + " to course " + student.course);
+            student.section = (student.section == null) ? "None" : student.section;
             super.createStudent(student);
         }
 
@@ -245,7 +247,7 @@ public class BackDoorLogic extends Logic {
     }
     
     public void editStudentAsJson(String originalEmail, String newValues)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws InvalidParametersException, EntityDoesNotExistException, EnrollException {
         StudentAttributes student = Utils.getTeammatesGson().fromJson(newValues,
                 StudentAttributes.class);
         updateStudent(originalEmail, student);
