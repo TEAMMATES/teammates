@@ -86,7 +86,7 @@ public class FeedbackResponsesLogic {
         if (filteredEmails == null) {
             return getFeedbackResponsesForQuestion(feedbackQuestionId);
         } else {
-            return frDb.getFeedbackResponsesForQuestionInSection(feedbackQuestionId, filteredEmails);
+            return frDb.getFilteredFeedbackResponsesForQuestion(feedbackQuestionId, filteredEmails);
         }
     }
 
@@ -101,7 +101,7 @@ public class FeedbackResponsesLogic {
         if (filteredEmails == null) {
             return getFeedbackResponsesForReceiverForQuestion(feedbackQuestionId, userEmail);
         } else {
-            return frDb.getFeedbackResponsesForReceiverForQuestionInSection(
+            return frDb.getFilteredFeedbackResponsesForReceiverForQuestion(
                     feedbackQuestionId, userEmail, filteredEmails);
         }
     }
@@ -117,7 +117,7 @@ public class FeedbackResponsesLogic {
             return getFeedbackResponsesFromGiverForQuestion(feedbackQuestionId,
                     userEmail);
         } else {
-            return frDb.getFeedbackResponsesFromGiverForQuestionInSection(
+            return frDb.getFilteredFeedbackResponsesFromGiverForQuestion(
                     feedbackQuestionId, userEmail, filteredEmails);
         }
     }
