@@ -251,11 +251,9 @@
                     </div>
                 </div>
             </div>
+            <% if(data.coursePaginationList.size() > 0) { %>
             <ul class="pagination">
-                <%
-                    //TODO: use js to handle navigation links
-                %>
-                <li><a href="#">«</a></li>
+                <li><a href="<%=data.previousPageLink%>">«</a></li>
                 <!--<li class="<%=data.isViewingDraft ? "active" : ""%>"><a
                     href="<%=data.getInstructorCommentsLink()%>">Drafts</a></li>-->
                 <%
@@ -269,7 +267,7 @@
                 <%
                     }
                 %>
-                <li><a href="#">»</a></li>
+                <li><a href="<%=data.nextPageLink%>">»</a></li>
             </ul>
             <div class="well well-plain">
                 <div class="text-color-primary">
@@ -286,7 +284,10 @@
                     <div class="panel-body">
                         <%=data.isViewingDraft ? "Your comments that are not finished:" : "Your comments on student in this course:"%>
                         <%
-                            for (String recipient : data.comments.keySet()) {
+                            int commentIdx = 0;
+                            int studentIdx = 0;
+                            for (String recipient : data.comments.keySet()) {//recipient loop starts
+                                studentIdx++;
                         %>
                         <%
                             StudentAttributes student = data.roster.getStudentForEmail(recipient);
@@ -297,60 +298,152 @@
                             <div class="panel-heading">
                                 From <b>you</b> to <b><%=isRecipientStudent ? student.name : recipient%></b>
                                 <%=isRecipientStudent ? " (" + student.team + ", <a href=\"mailto:" + student.email + "\">" + student.email + "</a>)" : ""%>
+                                <button type="button"
+                                    class="btn btn-default btn-xs icon-button pull-right"
+                                    id="button_add_comment_<%=studentIdx%>"
+                                    onclick="showAddCommentBox(<%=studentIdx%>);"
+                                    data-toggle="tooltip"
+                                    data-placement="top"
+                                    title="<%=Const.Tooltips.COMMENT_ADD%>">
+                                    <span
+                                        class="glyphicon glyphicon-comment glyphicon-primary"></span>
+                                </button>
                             </div>
                             <ul class="list-group comments">
                                 <%
-                                    for (CommentAttributes comment : data.comments.get(recipient)) {
+                                    for (CommentAttributes comment : data.comments.get(recipient)) {//student comments loop starts
+                                            commentIdx++;
                                 %>
                                 <li
                                     class="list-group-item list-group-item-warning">
-                                    <div id="commentBar0">
-                                        <span class="text-muted">on
-                                            <%=TimeHelper.formatTime(comment.createdAt)%></span>
-                                        <a type="button"
-                                            id="commentdelete-0"
-                                            class="btn btn-default btn-xs icon-button pull-right"
-                                            onclick="return deleteComment('0');"
-                                            data-toggle="tooltip"
-                                            data-placement="top"
-                                            title=""
-                                            data-original-title="Delete this comment"
+                                    <form method="post"
+                                        action="<%=Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_EDIT%>"
+                                        name="form_commentedit"
+                                        class="form_comment"
+                                        id="form_commentedit-<%=commentIdx%>">
+                                        <div id="commentBar-<%=commentIdx%>">
+                                            <span class="text-muted">on
+                                                <%=TimeHelper.formatTime(comment.createdAt)%></span>
+                                            <a type="button"
+                                                id="commentdelete-<%=commentIdx%>"
+                                                class="btn btn-default btn-xs icon-button pull-right"
+                                                onclick="return deleteComment('<%=commentIdx%>');"
+                                                data-toggle="tooltip"
+                                                data-placement="top"
+                                                title=""
+                                                data-original-title="<%=Const.Tooltips.COMMENT_DELETE%>"
+                                                style="display: none;">
+                                                <span
+                                                class="glyphicon glyphicon-trash glyphicon-primary"></span>
+                                            </a> <a type="button"
+                                                id="commentedit-<%=commentIdx%>"
+                                                class="btn btn-default btn-xs icon-button pull-right"
+                                                onclick="return enableEdit('<%=commentIdx%>');"
+                                                data-toggle="tooltip"
+                                                data-placement="top"
+                                                title=""
+                                                data-original-title="<%=Const.Tooltips.COMMENT_EDIT%>"
+                                                style="display: none;">
+                                                <span
+                                                class="glyphicon glyphicon-pencil glyphicon-primary"></span>
+                                            </a>
+                                        </div>
+                                        <div
+                                            id="plainCommentText<%=commentIdx%>"><%=comment.commentText.getValue()%></div>
+                                        <div
+                                            id="commentTextEdit<%=commentIdx%>"
                                             style="display: none;">
-                                            <span
-                                            class="glyphicon glyphicon-trash glyphicon-primary"></span>
-                                        </a> <a type="button"
-                                            id="commentedit-0"
-                                            class="btn btn-default btn-xs icon-button pull-right"
-                                            onclick="return enableEdit('0', '1');"
-                                            data-toggle="tooltip"
-                                            data-placement="top"
-                                            title=""
-                                            data-original-title="Edit this comment with advanced editor"
-                                            style="display: none;">
-                                            <span
-                                            class="glyphicon glyphicon-th glyphicon-primary"></span>
-                                        </a> <a type="button"
-                                            id="commentedit-0"
-                                            class="btn btn-default btn-xs icon-button pull-right"
-                                            onclick="return enableEdit('0', '1');"
-                                            data-toggle="tooltip"
-                                            data-placement="top"
-                                            title=""
-                                            data-original-title="Edit this comment"
-                                            style="display: none;">
-                                            <span
-                                            class="glyphicon glyphicon-pencil glyphicon-primary"></span>
-                                        </a>
-                                    </div>
-                                    <div id="plainCommentText0"><%=comment.commentText.getValue()%></div>
+                                            <div class="form-group">
+                                                <textarea
+                                                    class="form-control"
+                                                    rows="3"
+                                                    placeholder="Your comment about this student"
+                                                    name=<%=Const.ParamsNames.COMMENT_TEXT%>
+                                                    id="commentText<%=commentIdx%>"><%=comment.commentText.getValue()%></textarea>
+                                            </div>
+                                            <div class="col-sm-offset-5">
+                                                <input
+                                                    id="commentsave-<%=commentIdx%>"
+                                                    title="Save comment"
+                                                    onclick="return submitCommentForm('<%=commentIdx%>');"
+                                                    type="submit"
+                                                    class="btn btn-primary"
+                                                    id="button_save_comment"
+                                                    value="Save">
+                                                <input type="button"
+                                                    class="btn btn-default"
+                                                    value="Cancel"
+                                                    onclick="return disableComment('<%=commentIdx%>');">
+                                            </div>
+                                        </div>
+                                        <input type="hidden"
+                                            name=<%=Const.ParamsNames.COMMENT_EDITTYPE%>
+                                            id="<%=Const.ParamsNames.COMMENT_EDITTYPE%>-<%=commentIdx%>"
+                                            value="edit"> <input
+                                            type="hidden"
+                                            name=<%=Const.ParamsNames.COMMENT_ID%>
+                                            value="<%=comment.getCommentId()%>">
+                                        <input type="hidden"
+                                            name=<%=Const.ParamsNames.COURSE_ID%>
+                                            value="<%=data.courseId%>">
+                                        <input type="hidden"
+                                            name=<%=Const.ParamsNames.STUDENT_EMAIL%>
+                                            value="<%=recipient%>">
+                                        <input type="hidden"
+                                            name=<%=Const.ParamsNames.FROM_COMMENTS_PAGE%>
+                                            value="true"> <input
+                                            type="hidden"
+                                            name="<%=Const.ParamsNames.USER_ID%>"
+                                            value="<%=data.account.googleId%>">
+                                    </form>
                                 </li>
                                 <%
-                                    }
+                                    }//student comments loop ends
                                 %>
+                                <li
+                                    class="list-group-item list-group-item-warning"
+                                    id="comment_box_<%=studentIdx%>"
+                                    style="display: none;">
+                                    <form method="post"
+                                        action="<%=Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_ADD%>"
+                                        name="form_commentadd"
+                                        class="form_comment">
+                                        <div class="form-group">
+                                            <textarea
+                                                class="form-control"
+                                                rows="3"
+                                                placeholder="Your comment about this student"
+                                                name=<%=Const.ParamsNames.COMMENT_TEXT%>
+                                                id="commentText_<%=studentIdx%>"></textarea>
+                                        </div>
+                                        <div class="col-sm-offset-5">
+                                            <input type="submit"
+                                                class="btn btn-primary"
+                                                id="button_save_comment"
+                                                value="Add Comment">
+                                            <input type="button"
+                                                class="btn btn-default"
+                                                value="Cancel"
+                                                onclick="hideAddCommentBox(<%=studentIdx%>);">
+                                            <input type="hidden"
+                                                name=<%=Const.ParamsNames.COURSE_ID%>
+                                                value="<%=data.courseId%>">
+                                            <input type="hidden"
+                                                name=<%=Const.ParamsNames.STUDENT_EMAIL%>
+                                                value="<%=recipient%>">
+                                            <input type="hidden"
+                                                name=<%=Const.ParamsNames.FROM_COMMENTS_PAGE%> 
+                                                value="true"> 
+                                            <input type="hidden"
+                                                name="<%=Const.ParamsNames.USER_ID%>"
+                                                value="<%=data.account.googleId%>">
+                                        </div>
+                                    </form>
+                                </li>
                             </ul>
                         </div>
                         <%
-                            }
+                            }//recipient loop ends
                         %>
                         <%
                             if (data.comments.size() == 0) {
@@ -454,15 +547,16 @@
                                                     id="responseCommentRow-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>">
                                                     <div
                                                         id="commentBar-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>">
-                                                        <span 
-                                                            <% String frCommentGiver = frc.giverEmail;
-                                                               if(frc.giverEmail.equals(data.instructorEmail)){
-                                                                   frCommentGiver = "you";
-                                                               } else if (data.roster.getInstructorForEmail(frc.giverEmail) != null){
-                                                                   frCommentGiver = data.roster.getInstructorForEmail(frc.giverEmail).name;
-                                                               }
-                                                            %>
-                                                            class="text-muted">From: <b><%=frCommentGiver%></b> [<%=frc.createdAt%>]
+                                                        <span
+                                                            <%String frCommentGiver = frc.giverEmail;
+                            if (frc.giverEmail.equals(data.instructorEmail)) {
+                                frCommentGiver = "you";
+                            } else if (data.roster.getInstructorForEmail(frc.giverEmail) != null) {
+                                frCommentGiver = data.roster.getInstructorForEmail(frc.giverEmail).name;
+                            }%>
+                                                            class="text-muted">From:
+                                                            <b><%=frCommentGiver%></b>
+                                                            [<%=frc.createdAt%>]
                                                         </span>
                                                         <%
                                                             if (frc.giverEmail.equals(data.instructorEmail)) {//FeedbackResponseComment edit/delete control starts
@@ -629,6 +723,29 @@
                     }//FeedbackSession loop ends
                 %>
             </div>
+            <ul class="pagination">
+                <li><a href="<%=data.previousPageLink%>">«</a></li>
+                <!--<li class="<%=data.isViewingDraft ? "active" : ""%>"><a
+                    href="<%=data.getInstructorCommentsLink()%>">Drafts</a></li>-->
+                <%
+                    for (String courseId : data.coursePaginationList) {
+                %>
+                <li
+                    class="<%=!data.isViewingDraft && courseId.equals(data.courseId) ? "active" : ""%>">
+                    <a
+                    href="<%=data.getInstructorCommentsLink() + "&courseid=" + courseId%>"><%=courseId%></a>
+                </li>
+                <%
+                    }
+                %>
+                <li><a href="<%=data.nextPageLink%>">»</a></li>
+            </ul>
+            <% } else { %>
+            <div id="statusMessage" class="alert alert-warning">
+                There is no comment to display
+            </div>
+                
+            <% } %>
         </div>
     </div>
 

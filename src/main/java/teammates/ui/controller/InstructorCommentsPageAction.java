@@ -31,15 +31,17 @@ public class InstructorCommentsPageAction extends Action {
     private String isDisplayArchivedCourseString;
     private Boolean isDisplayArchivedCourse;
     private Boolean isViewingDraft;
+    private String previousPageLink = "javascript:;";
+    private String nextPageLink = "javascript:;";
     
     @Override
     public ActionResult execute() throws EntityDoesNotExistException {
         
         //COURSE_ID can be null, if viewed by Draft
-        //TODO: handle the default case, if it's empty, go to the newest course
         courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         //DISPLAY_ARCHIVE can be null. Its value can be retrieved from session
         isDisplayArchivedCourseString = getRequestParamValue(Const.ParamsNames.DISPLAY_ARCHIVE); 
+        //TODO: a param for draft page
 
         verifyAccessible();
         
@@ -49,17 +51,22 @@ public class InstructorCommentsPageAction extends Action {
             getDisplayArchivedOptionFromSession();
         }
         
-        //Load details of students and instructors once and pass it to callee methods
-        //  (rather than loading them many times).
-        CourseRoster roster = new CourseRoster(
-                new StudentsDb().getStudentsForCourse(courseId),
-                new InstructorsDb().getInstructorsForCourse(courseId));
-        
         List<String> coursePaginationList = new ArrayList<String>(); 
         String courseName = getCoursePaginationList(coursePaginationList);
+        
+        CourseRoster roster = null;
+        Map<String, List<CommentAttributes>> recipientToCommentsMap = null;
+        Map<String, FeedbackSessionResultsBundle> feedbackResultBundles = null;
+        if(coursePaginationList.size() > 0){
+        //Load details of students and instructors once and pass it to callee methods
+        //  (rather than loading them many times).
+            roster = new CourseRoster(
+                    new StudentsDb().getStudentsForCourse(courseId),
+                    new InstructorsDb().getInstructorsForCourse(courseId));
 
-        Map<String, List<CommentAttributes>> recipientToCommentsMap = getRecipientToCommentsMap();
-        Map<String, FeedbackSessionResultsBundle> feedbackResultBundles = getFeedbackResultBundles(roster);
+            recipientToCommentsMap = getRecipientToCommentsMap();
+            feedbackResultBundles = getFeedbackResultBundles(roster);
+        }
         
         data = new InstructorCommentsPageData(account);
         data.isViewingDraft = isViewingDraft;
@@ -71,6 +78,8 @@ public class InstructorCommentsPageAction extends Action {
         data.roster = roster;
         data.feedbackResultBundles = feedbackResultBundles;
         data.instructorEmail = account.email;
+        data.previousPageLink = previousPageLink;
+        data.nextPageLink = nextPageLink;
         
         statusToAdmin = "instructorComments Page Load<br>" + 
                 "Viewing <span class=\"bold\">" + account.googleId + "'s</span> comment records " +
@@ -88,6 +97,7 @@ public class InstructorCommentsPageAction extends Action {
             courseId = "";
             new GateKeeper().verifyInstructorPrivileges(account);
         }
+        isViewingDraft = false;//TODO: handle the draft page
     }
 
     private void getDisplayArchivedOptionFromSession() {
@@ -104,15 +114,41 @@ public class InstructorCommentsPageAction extends Action {
             throws EntityDoesNotExistException {
         String courseName = "";
         List<CourseAttributes> courses = logic.getCoursesForInstructor(account.googleId);
-        for(CourseAttributes course : courses){
+        for(int i = 0; i < courses.size(); i++){
+            CourseAttributes course = courses.get(i);
             if(course.id.equals(courseId)){
                 courseName = course.id + " : " + course.name;
+                setPreviousPageLink(courses, i);
+                setNextPageLink(courses, i);
             }
             if(isDisplayArchivedCourse || !course.isArchived){
+                if(courseId == ""){
+                    courseId = course.id;
+                }
                 coursePaginationList.add(course.id);
             }
         }
         return courseName;
+    }
+    
+    private void setPreviousPageLink(List<CourseAttributes> courses, int currentIndex){
+        for(int i = currentIndex - 1; i >= 0; i--){
+            CourseAttributes course = courses.get(i);
+            if(isDisplayArchivedCourse || !course.isArchived){
+                previousPageLink = new PageData(account).getInstructorCommentsLink() + "&courseid=" + course.id;
+                break;
+            }
+        }
+    }
+    
+    private void setNextPageLink(List<CourseAttributes> courses, int currentIndex){
+        for(int i = currentIndex + 1; i < courses.size(); i++){
+            CourseAttributes course = courses.get(i);
+            if(isDisplayArchivedCourse || !course.isArchived){
+                nextPageLink = new PageData(account).getInstructorCommentsLink() + "&courseid=" + course.id;
+                break;
+            }
+        }
     }
 
     private Map<String, List<CommentAttributes>> getRecipientToCommentsMap()

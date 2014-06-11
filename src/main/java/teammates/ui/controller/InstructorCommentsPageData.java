@@ -18,6 +18,8 @@ public class InstructorCommentsPageData extends PageData {
     public String instructorEmail;
     public CourseRoster roster;
     public Map<String, FeedbackSessionResultsBundle> feedbackResultBundles;
+    public String previousPageLink;
+    public String nextPageLink;
     
     public InstructorCommentsPageData(AccountAttributes account) {
         super(account);
