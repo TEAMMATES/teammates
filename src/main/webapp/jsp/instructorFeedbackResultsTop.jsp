@@ -63,7 +63,7 @@
     if (noResponses == false) {
 %>
 
-<form method="post" action="/page/instructorFeedbackResultsPage" class="form-horizontal" role="form">
+<form class="form-horizontal" role="form" method="post" action="<%=data.getInstructorFeedbackSessionResultsLink(data.bundle.feedbackSession.courseId,data.bundle.feedbackSession.feedbackSessionName)%>">
     <div class="panel panel-info margin-0">
         <div class="panel-body">
             <div class="row">
@@ -124,7 +124,28 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-7 pull-right">
+                <% if(data.sections.size() != 0) { %>
+                <div class="col-sm-5" data-toggle="tooltip" title="View results in separated section">
+                    <div class="form-group">
+                        <label for="sectionSelect" class="col-sm-2 control-label">
+                            Section:
+                        </label>
+                        <div class="col-sm-10">
+                            <select id="sectionSelect" class="form-control" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION%>" onchange="this.form.submit()">
+                                <option value="All" <%=data.selectedSection.equals("All") ? "selected=\"selected\"" : ""%>>
+                                    All
+                                </option>
+                                <% for(String section : data.sections) { %>
+                                <option value='<%=section%>' <%=data.selectedSection.equals(section) ? "selected=\"selected\"" : ""%>>
+                                    <%=section%>
+                                </option>
+                                <% } %>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <% } %>
+                <div class="col-sm-7 pull-right" style="padding-top:8px;">
                     <a class="btn btn-default btn-xs pull-right" id="collapse-panels-button" onclick="toggleCollapse()" data-toggle="tooltip" title="Collapse or expand all panels. You can also click on the panel heading to toggle each one individually.">
                         Collapse All
                     </a>
