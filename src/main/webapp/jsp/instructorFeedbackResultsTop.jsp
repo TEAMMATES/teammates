@@ -63,7 +63,7 @@
     if (noResponses == false) {
 %>
 
-<form class="form-horizontal" role="form" method="post" action="<%=data.getInstructorFeedbackSessionResultsLink(data.bundle.feedbackSession.courseId,data.bundle.feedbackSession.feedbackSessionName)%>">
+<form method="post" action="/page/instructorFeedbackResultsPage" class="form-horizontal" role="form">
     <div class="panel panel-info margin-0">
         <div class="panel-body">
             <div class="row">
@@ -106,36 +106,24 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-2 pull-right" data-toggle="tooltip" title="Group results in the current view by team">
-                    <div class="checkbox pull-right">
-                        <label <%=(data.sortType.equals("question")) ? "class=\"text-strike\"" : ""%>>
-                            <input type="checkbox" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM%>" onchange="this.form.submit()" <%=(data.groupByTeam==null) ? "" : "checked=\"checked\""%> <%=(data.sortType.equals("question")) ? "disabled=\"disabled\"" : ""%>> Group by Teams
-                        </label>
-                    </div>
+                <div class="col-sm-2 pull-right">
+                  <div class="col-sm-12" data-toggle="tooltip" title="Group results in the current view by team">
+                      <div class="checkbox padding-top-0 min-height-0">
+                          <label <%=(data.sortType.equals("question")) ? "class=\"text-strike\"" : ""%>>
+                              <input type="checkbox" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM%>" <%=(data.groupByTeam==null) ? "" : "checked=\"checked\""%> <%=(data.sortType.equals("question")) ? "" : "onchange=\"this.form.submit()\""%>> Group by Teams
+                          </label>
+                      </div>
+                  </div>
+                  <div class="col-sm-12" data-toggle="tooltip" title="Show statistics">
+                      <div class="checkbox padding-top-0 min-height-0">
+                          <label <%=(data.sortType.equals("recipient-giver-question") || data.sortType.equals("giver-recipient-question")) ? "class=\"text-strike\"" : ""%>>
+                              <input type="checkbox" id="show-stats-checkbox" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS%>" <%=(data.showStats==null) ? "" : "checked=\"checked\""%>> Show Statistics
+                          </label>
+                      </div>
+                  </div>
                 </div>
             </div>
             <div class="row">
-                <% if(data.sections.size() != 0) { %>
-                <div class="col-sm-5" data-toggle="tooltip" title="View results in separated section">
-                    <div class="form-group">
-                        <label for="sectionSelect" class="col-sm-2 control-label">
-                            Section:
-                        </label>
-                        <div class="col-sm-10">
-                            <select id="sectionSelect" class="form-control" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION%>" onchange="this.form.submit()">
-                                <option value="All" <%=data.selectedSection.equals("All") ? "selected=\"selected\"" : ""%>>
-                                    All
-                                </option>
-                                <% for(String section : data.sections) { %>
-                                <option value='<%=section%>' <%=data.selectedSection.equals(section) ? "selected=\"selected\"" : ""%>>
-                                    <%=section%>
-                                </option>
-                                <% } %>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <% } %>
                 <div class="col-sm-7 pull-right">
                     <a class="btn btn-default btn-xs pull-right" id="collapse-panels-button" onclick="toggleCollapse()" data-toggle="tooltip" title="Collapse or expand all panels. You can also click on the panel heading to toggle each one individually.">
                         Collapse All
@@ -154,8 +142,6 @@
 <%
     }
 %>
-
-
 
 <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
 

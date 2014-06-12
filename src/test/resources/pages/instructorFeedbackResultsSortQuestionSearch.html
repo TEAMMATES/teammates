@@ -217,12 +217,22 @@
                                  </div>
                               </div>
                            </div>
-                           <div class="col-sm-2 pull-right" data-original-title="Group results in the current view by team" data-toggle="tooltip" title="">
-                              <div class="checkbox pull-right">
-                                 <label class="text-strike">
-                                    <input checked="checked" disabled="disabled" name="frgroupbyteam" onchange="this.form.submit()" type="checkbox"/>
-                                                                        Group by Teams
-                                 </label>
+                           <div class="col-sm-2 pull-right">
+                              <div class="col-sm-12" data-original-title="Group results in the current view by team" data-toggle="tooltip" title="">
+                                 <div class="checkbox padding-top-0 min-height-0">
+                                    <label class="text-strike">
+                                       <input checked="checked" name="frgroupbyteam" type="checkbox"/>
+                                                                              Group by Teams
+                                    </label>
+                                 </div>
+                              </div>
+                              <div class="col-sm-12" data-original-title="Show statistics" data-toggle="tooltip" title="">
+                                 <div class="checkbox padding-top-0 min-height-0">
+                                    <label>
+                                       <input checked="checked" id="show-stats-checkbox" name="frshowstats" type="checkbox"/>
+                                                                              Show Statistics
+                                    </label>
+                                 </div>
                               </div>
                            </div>
                         </div>
@@ -250,99 +260,103 @@
                      Rate 3 other students' products
                   </div>
                   <div class="panel-body padding-0 panelBodyCollapse-1 collapse in" style="height: auto;">
-                     <table class="table table-striped table-bordered dataTable margin-0">
-                        <thead class="background-color-medium-gray text-color-gray font-weight-normal">
-                           <tr>
-                              <th class="button-sort-descending" id="button_sortFromName" onclick="toggleSort(this,1)" style="width: 15%;">
-                                 Giver
-                              </th>
-                              <th class="button-sort-descending" id="button_sortFromTeam" onclick="toggleSort(this,2)" style="width: 15%;">
-                                 Team
-                              </th>
-                              <th class="button-sort-descending" id="button_sortToName" onclick="toggleSort(this,3)" style="width: 15%;">
-                                 Recipient
-                              </th>
-                              <th class="button-sort-ascending" id="button_sortToTeam" onclick="toggleSort(this,4)" style="width: 15%;">
-                                 Team
-                              </th>
-                              <th class="button-sort-descending" id="button_sortFeedback" onclick="toggleSort(this,5)">
-                                 Feedback
-                              </th>
-                           </tr>
-                        </thead>
-                        <thead>
-                        </thead>
-                        <tbody>
-                           <tr>
-                              <td class="middlealign">
-                                 Alice Betsy
-                              </td>
-                              <td class="middlealign">
-                                 Team 1
-                              </td>
-                              <td class="middlealign">
-                                 Benny Charles
-                              </td>
-                              <td class="middlealign">
-                                 Team 1
-                              </td>
-                              <td class="multiline">
-                                 2 Response to Benny.
-                              </td>
-                           </tr>
-                           <tr style="display: none;">
-                              <td class="middlealign">
-                                 Benny Charles
-                              </td>
-                              <td class="middlealign">
-                                 Team 1
-                              </td>
-                              <td class="middlealign">
-                                 Danny Engrid
-                              </td>
-                              <td class="middlealign">
-                                 Team 2
-                              </td>
-                              <td class="multiline">
-                                 1 Response to Danny.
-                              </td>
-                           </tr>
-                           <tr style="display: none;">
-                              <td class="middlealign">
-                                 Benny Charles
-                              </td>
-                              <td class="middlealign">
-                                 Team 1
-                              </td>
-                              <td class="middlealign">
-                                 Charlie Dávis
-                              </td>
-                              <td class="middlealign">
-                                 Team 2
-                              </td>
-                              <td class="multiline">
-                                 4 Response to Charlie.
-                              </td>
-                           </tr>
-                           <tr style="display: none;">
-                              <td class="middlealign">
-                                 Charlie Dávis
-                              </td>
-                              <td class="middlealign">
-                                 Team 2
-                              </td>
-                              <td class="middlealign">
-                                 Emily
-                              </td>
-                              <td class="middlealign">
-                                 Team 3
-                              </td>
-                              <td class="multiline">
-                                 3 Response to Emily.
-                              </td>
-                           </tr>
-                        </tbody>
-                     </table>
+                     <div class="resultStatistics" style="display: block;">
+                     </div>
+                     <div class="table-responsive">
+                        <table class="table table-striped table-bordered dataTable margin-0">
+                           <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                              <tr>
+                                 <th class="button-sort-descending" id="button_sortFromName" onclick="toggleSort(this,1)" style="width: 15%;">
+                                    Giver
+                                 </th>
+                                 <th class="button-sort-descending" id="button_sortFromTeam" onclick="toggleSort(this,2)" style="width: 15%;">
+                                    Team
+                                 </th>
+                                 <th class="button-sort-descending" id="button_sortToName" onclick="toggleSort(this,3)" style="width: 15%;">
+                                    Recipient
+                                 </th>
+                                 <th class="button-sort-ascending" id="button_sortToTeam" onclick="toggleSort(this,4)" style="width: 15%;">
+                                    Team
+                                 </th>
+                                 <th class="button-sort-descending" id="button_sortFeedback" onclick="toggleSort(this,5)">
+                                    Feedback
+                                 </th>
+                              </tr>
+                           </thead>
+                           <thead>
+                           </thead>
+                           <tbody>
+                              <tr>
+                                 <td class="middlealign">
+                                    Alice Betsy
+                                 </td>
+                                 <td class="middlealign">
+                                    Team 1
+                                 </td>
+                                 <td class="middlealign">
+                                    Benny Charles
+                                 </td>
+                                 <td class="middlealign">
+                                    Team 1
+                                 </td>
+                                 <td class="multiline">
+                                    2 Response to Benny.
+                                 </td>
+                              </tr>
+                              <tr style="display: none;">
+                                 <td class="middlealign">
+                                    Benny Charles
+                                 </td>
+                                 <td class="middlealign">
+                                    Team 1
+                                 </td>
+                                 <td class="middlealign">
+                                    Danny Engrid
+                                 </td>
+                                 <td class="middlealign">
+                                    Team 2
+                                 </td>
+                                 <td class="multiline">
+                                    1 Response to Danny.
+                                 </td>
+                              </tr>
+                              <tr style="display: none;">
+                                 <td class="middlealign">
+                                    Benny Charles
+                                 </td>
+                                 <td class="middlealign">
+                                    Team 1
+                                 </td>
+                                 <td class="middlealign">
+                                    Charlie Dávis
+                                 </td>
+                                 <td class="middlealign">
+                                    Team 2
+                                 </td>
+                                 <td class="multiline">
+                                    4 Response to Charlie.
+                                 </td>
+                              </tr>
+                              <tr style="display: none;">
+                                 <td class="middlealign">
+                                    Charlie Dávis
+                                 </td>
+                                 <td class="middlealign">
+                                    Team 2
+                                 </td>
+                                 <td class="middlealign">
+                                    Emily
+                                 </td>
+                                 <td class="middlealign">
+                                    Team 3
+                                 </td>
+                                 <td class="multiline">
+                                    3 Response to Emily.
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </div>
                   </div>
                </div>
                <div class="panel panel-info">
@@ -353,48 +367,52 @@
                      What is the best selling point of your product?
                   </div>
                   <div class="panel-body padding-0 panelBodyCollapse-2 collapse in" style="height: auto;">
-                     <table class="table table-striped table-bordered dataTable margin-0">
-                        <thead class="background-color-medium-gray text-color-gray font-weight-normal">
-                           <tr>
-                              <th id="button_sortFromName" onclick="toggleSort(this,1)" style="width: 15%;">
-                                 Giver
-                              </th>
-                              <th id="button_sortFromTeam" onclick="toggleSort(this,2)" style="width: 15%;">
-                                 Team
-                              </th>
-                              <th id="button_sortToName" onclick="toggleSort(this,3)" style="width: 15%;">
-                                 Recipient
-                              </th>
-                              <th class="button-sort-ascending" id="button_sortToTeam" onclick="toggleSort(this,4)" style="width: 15%;">
-                                 Team
-                              </th>
-                              <th id="button_sortFeedback" onclick="toggleSort(this,5)">
-                                 Feedback
-                              </th>
-                           </tr>
-                        </thead>
-                        <thead>
-                        </thead>
-                        <tbody>
-                           <tr>
-                              <td class="middlealign">
-                                 Alice Betsy
-                              </td>
-                              <td class="middlealign">
-                                 Team 1
-                              </td>
-                              <td class="middlealign">
-                                 Alice Betsy
-                              </td>
-                              <td class="middlealign">
-                                 Team 1
-                              </td>
-                              <td class="multiline">
-                                 Alice self feedback.
-                              </td>
-                           </tr>
-                        </tbody>
-                     </table>
+                     <div class="resultStatistics" style="display: block;">
+                     </div>
+                     <div class="table-responsive">
+                        <table class="table table-striped table-bordered dataTable margin-0">
+                           <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                              <tr>
+                                 <th id="button_sortFromName" onclick="toggleSort(this,1)" style="width: 15%;">
+                                    Giver
+                                 </th>
+                                 <th id="button_sortFromTeam" onclick="toggleSort(this,2)" style="width: 15%;">
+                                    Team
+                                 </th>
+                                 <th id="button_sortToName" onclick="toggleSort(this,3)" style="width: 15%;">
+                                    Recipient
+                                 </th>
+                                 <th class="button-sort-ascending" id="button_sortToTeam" onclick="toggleSort(this,4)" style="width: 15%;">
+                                    Team
+                                 </th>
+                                 <th id="button_sortFeedback" onclick="toggleSort(this,5)">
+                                    Feedback
+                                 </th>
+                              </tr>
+                           </thead>
+                           <thead>
+                           </thead>
+                           <tbody>
+                              <tr>
+                                 <td class="middlealign">
+                                    Alice Betsy
+                                 </td>
+                                 <td class="middlealign">
+                                    Team 1
+                                 </td>
+                                 <td class="middlealign">
+                                    Alice Betsy
+                                 </td>
+                                 <td class="middlealign">
+                                    Team 1
+                                 </td>
+                                 <td class="multiline">
+                                    Alice self feedback.
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </div>
                   </div>
                </div>
                <div class="panel panel-info" style="display: none;">
@@ -405,48 +423,52 @@
                      My comments on the class
                   </div>
                   <div class="panel-body padding-0 panelBodyCollapse-3 collapse in" style="height: auto;">
-                     <table class="table table-striped table-bordered dataTable margin-0">
-                        <thead class="background-color-medium-gray text-color-gray font-weight-normal">
-                           <tr>
-                              <th id="button_sortFromName" onclick="toggleSort(this,1)" style="width: 15%;">
-                                 Giver
-                              </th>
-                              <th id="button_sortFromTeam" onclick="toggleSort(this,2)" style="width: 15%;">
-                                 Team
-                              </th>
-                              <th id="button_sortToName" onclick="toggleSort(this,3)" style="width: 15%;">
-                                 Recipient
-                              </th>
-                              <th class="button-sort-ascending" id="button_sortToTeam" onclick="toggleSort(this,4)" style="width: 15%;">
-                                 Team
-                              </th>
-                              <th id="button_sortFeedback" onclick="toggleSort(this,5)">
-                                 Feedback
-                              </th>
-                           </tr>
-                        </thead>
-                        <thead>
-                        </thead>
-                        <tbody>
-                           <tr>
-                              <td class="middlealign">
-                                 Teammates Test
-                              </td>
-                              <td class="middlealign">
-                                 Instructors
-                              </td>
-                              <td class="middlealign">
-                                 -
-                              </td>
-                              <td class="middlealign">
-                                 -
-                              </td>
-                              <td class="multiline">
-                                 This is for nobody specific.
-                              </td>
-                           </tr>
-                        </tbody>
-                     </table>
+                     <div class="resultStatistics" style="display: block;">
+                     </div>
+                     <div class="table-responsive">
+                        <table class="table table-striped table-bordered dataTable margin-0">
+                           <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                              <tr>
+                                 <th id="button_sortFromName" onclick="toggleSort(this,1)" style="width: 15%;">
+                                    Giver
+                                 </th>
+                                 <th id="button_sortFromTeam" onclick="toggleSort(this,2)" style="width: 15%;">
+                                    Team
+                                 </th>
+                                 <th id="button_sortToName" onclick="toggleSort(this,3)" style="width: 15%;">
+                                    Recipient
+                                 </th>
+                                 <th class="button-sort-ascending" id="button_sortToTeam" onclick="toggleSort(this,4)" style="width: 15%;">
+                                    Team
+                                 </th>
+                                 <th id="button_sortFeedback" onclick="toggleSort(this,5)">
+                                    Feedback
+                                 </th>
+                              </tr>
+                           </thead>
+                           <thead>
+                           </thead>
+                           <tbody>
+                              <tr>
+                                 <td class="middlealign">
+                                    Teammates Test
+                                 </td>
+                                 <td class="middlealign">
+                                    Instructors
+                                 </td>
+                                 <td class="middlealign">
+                                    -
+                                 </td>
+                                 <td class="middlealign">
+                                    -
+                                 </td>
+                                 <td class="multiline">
+                                    This is for nobody specific.
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </div>
                   </div>
                </div>
                <div class="panel panel-info">
@@ -457,46 +479,50 @@
                      Give feedback to 3 other teams.
                   </div>
                   <div class="panel-body padding-0 panelBodyCollapse-4 collapse in" style="height: auto;">
-                     <table class="table table-striped table-bordered dataTable margin-0">
-                        <thead class="background-color-medium-gray text-color-gray font-weight-normal">
-                           <tr>
-                              <th id="button_sortFromName" onclick="toggleSort(this,1)" style="width: 15%;">
-                                 Giver
-                              </th>
-                              <th id="button_sortFromTeam" onclick="toggleSort(this,2)" style="width: 15%;">
-                                 Team
-                              </th>
-                              <th id="button_sortToName" onclick="toggleSort(this,3)" style="width: 15%;">
-                                 Recipient
-                              </th>
-                              <th class="button-sort-ascending" id="button_sortToTeam" onclick="toggleSort(this,4)" style="width: 15%;">
-                                 Team
-                              </th>
-                              <th id="button_sortFeedback" onclick="toggleSort(this,5)">
-                                 Feedback
-                              </th>
-                           </tr>
-                        </thead>
-                        <thead>
-                        </thead>
-                        <tbody>
-                           <tr>
-                              <td class="middlealign">
-                                 Team 1
-                              </td>
-                              <td class="middlealign">
-                              </td>
-                              <td class="middlealign">
-                                 Team 2
-                              </td>
-                              <td class="middlealign">
-                              </td>
-                              <td class="multiline">
-                                 Response from team 1 (by alice) to team 2.
-                              </td>
-                           </tr>
-                        </tbody>
-                     </table>
+                     <div class="resultStatistics" style="display: block;">
+                     </div>
+                     <div class="table-responsive">
+                        <table class="table table-striped table-bordered dataTable margin-0">
+                           <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                              <tr>
+                                 <th id="button_sortFromName" onclick="toggleSort(this,1)" style="width: 15%;">
+                                    Giver
+                                 </th>
+                                 <th id="button_sortFromTeam" onclick="toggleSort(this,2)" style="width: 15%;">
+                                    Team
+                                 </th>
+                                 <th id="button_sortToName" onclick="toggleSort(this,3)" style="width: 15%;">
+                                    Recipient
+                                 </th>
+                                 <th class="button-sort-ascending" id="button_sortToTeam" onclick="toggleSort(this,4)" style="width: 15%;">
+                                    Team
+                                 </th>
+                                 <th id="button_sortFeedback" onclick="toggleSort(this,5)">
+                                    Feedback
+                                 </th>
+                              </tr>
+                           </thead>
+                           <thead>
+                           </thead>
+                           <tbody>
+                              <tr>
+                                 <td class="middlealign">
+                                    Team 1
+                                 </td>
+                                 <td class="middlealign">
+                                 </td>
+                                 <td class="middlealign">
+                                    Team 2
+                                 </td>
+                                 <td class="middlealign">
+                                 </td>
+                                 <td class="multiline">
+                                    Response from team 1 (by alice) to team 2.
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </div>
                   </div>
                </div>
                <div class="panel panel-info">
@@ -530,48 +556,126 @@
                      </span>
                   </div>
                   <div class="panel-body padding-0 panelBodyCollapse-5 collapse in" style="height: auto;">
-                     <table class="table table-striped table-bordered dataTable margin-0">
-                        <thead class="background-color-medium-gray text-color-gray font-weight-normal">
-                           <tr>
-                              <th id="button_sortFromName" onclick="toggleSort(this,1)" style="width: 15%;">
-                                 Giver
-                              </th>
-                              <th id="button_sortFromTeam" onclick="toggleSort(this,2)" style="width: 15%;">
-                                 Team
-                              </th>
-                              <th id="button_sortToName" onclick="toggleSort(this,3)" style="width: 15%;">
-                                 Recipient
-                              </th>
-                              <th class="button-sort-ascending" id="button_sortToTeam" onclick="toggleSort(this,4)" style="width: 15%;">
-                                 Team
-                              </th>
-                              <th id="button_sortFeedback" onclick="toggleSort(this,5)">
-                                 Feedback
-                              </th>
-                           </tr>
-                        </thead>
-                        <thead>
-                        </thead>
-                        <tbody>
-                           <tr>
-                              <td class="middlealign">
-                                 Alice Betsy
-                              </td>
-                              <td class="middlealign">
-                                 Team 1
-                              </td>
-                              <td class="middlealign">
-                                 Alice Betsy
-                              </td>
-                              <td class="middlealign">
-                                 Team 1
-                              </td>
-                              <td class="multiline">
-                                 PowerSearch
-                              </td>
-                           </tr>
-                        </tbody>
-                     </table>
+                     <div class="resultStatistics" style="display: block;">
+                        <div class="panel-body">
+                           <div class="row">
+                              <div class="col-sm-4 text-color-gray">
+                                 <strong>
+                                    Response Summary
+                                 </strong>
+                              </div>
+                           </div>
+                           <div class="row">
+                              <div class="col-sm-4">
+                                 <table class="table margin-0">
+                                    <thead>
+                                       <tr>
+                                          <td>
+                                             Choice
+                                          </td>
+                                          <td>
+                                             Response Count
+                                          </td>
+                                          <td>
+                                             Percentage
+                                          </td>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                       <tr>
+                                          <td>
+                                             FlexiCommand
+                                          </td>
+                                          <td>
+                                             0
+                                          </td>
+                                          <td>
+                                             0%
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td>
+                                             PowerSearch
+                                          </td>
+                                          <td>
+                                             1
+                                          </td>
+                                          <td>
+                                             100%
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td>
+                                             GoodUI
+                                          </td>
+                                          <td>
+                                             0
+                                          </td>
+                                          <td>
+                                             0%
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td>
+                                             Google Integration
+                                          </td>
+                                          <td>
+                                             0
+                                          </td>
+                                          <td>
+                                             0%
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="table-responsive">
+                        <table class="table table-striped table-bordered dataTable margin-0">
+                           <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                              <tr>
+                                 <th id="button_sortFromName" onclick="toggleSort(this,1)" style="width: 15%;">
+                                    Giver
+                                 </th>
+                                 <th id="button_sortFromTeam" onclick="toggleSort(this,2)" style="width: 15%;">
+                                    Team
+                                 </th>
+                                 <th id="button_sortToName" onclick="toggleSort(this,3)" style="width: 15%;">
+                                    Recipient
+                                 </th>
+                                 <th class="button-sort-ascending" id="button_sortToTeam" onclick="toggleSort(this,4)" style="width: 15%;">
+                                    Team
+                                 </th>
+                                 <th id="button_sortFeedback" onclick="toggleSort(this,5)">
+                                    Feedback
+                                 </th>
+                              </tr>
+                           </thead>
+                           <thead>
+                           </thead>
+                           <tbody>
+                              <tr>
+                                 <td class="middlealign">
+                                    Alice Betsy
+                                 </td>
+                                 <td class="middlealign">
+                                    Team 1
+                                 </td>
+                                 <td class="middlealign">
+                                    Alice Betsy
+                                 </td>
+                                 <td class="middlealign">
+                                    Team 1
+                                 </td>
+                                 <td class="multiline">
+                                    PowerSearch
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </div>
                   </div>
                </div>
                <div class="panel panel-info">
@@ -605,55 +709,133 @@
                      </span>
                   </div>
                   <div class="panel-body padding-0 panelBodyCollapse-6 collapse in" style="height: auto;">
-                     <table class="table table-striped table-bordered dataTable margin-0">
-                        <thead class="background-color-medium-gray text-color-gray font-weight-normal">
-                           <tr>
-                              <th id="button_sortFromName" onclick="toggleSort(this,1)" style="width: 15%;">
-                                 Giver
-                              </th>
-                              <th id="button_sortFromTeam" onclick="toggleSort(this,2)" style="width: 15%;">
-                                 Team
-                              </th>
-                              <th id="button_sortToName" onclick="toggleSort(this,3)" style="width: 15%;">
-                                 Recipient
-                              </th>
-                              <th class="button-sort-ascending" id="button_sortToTeam" onclick="toggleSort(this,4)" style="width: 15%;">
-                                 Team
-                              </th>
-                              <th id="button_sortFeedback" onclick="toggleSort(this,5)">
-                                 Feedback
-                              </th>
-                           </tr>
-                        </thead>
-                        <thead>
-                        </thead>
-                        <tbody>
-                           <tr>
-                              <td class="middlealign">
-                                 Alice Betsy
-                              </td>
-                              <td class="middlealign">
-                                 Team 1
-                              </td>
-                              <td class="middlealign">
-                                 Alice Betsy
-                              </td>
-                              <td class="middlealign">
-                                 Team 1
-                              </td>
-                              <td class="multiline">
-                                 <ul class="selectedOptionsList">
-                                    <li>
-                                       PowerSearch
-                                    </li>
-                                    <li>
-                                       GoodUI
-                                    </li>
-                                 </ul>
-                              </td>
-                           </tr>
-                        </tbody>
-                     </table>
+                     <div class="resultStatistics" style="display: block;">
+                        <div class="panel-body">
+                           <div class="row">
+                              <div class="col-sm-4 text-color-gray">
+                                 <strong>
+                                    Response Summary
+                                 </strong>
+                              </div>
+                           </div>
+                           <div class="row">
+                              <div class="col-sm-4">
+                                 <table class="table margin-0">
+                                    <thead>
+                                       <tr>
+                                          <td>
+                                             Choice
+                                          </td>
+                                          <td>
+                                             Response Count
+                                          </td>
+                                          <td>
+                                             Percentage
+                                          </td>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                       <tr>
+                                          <td>
+                                             FlexiCommand
+                                          </td>
+                                          <td>
+                                             0
+                                          </td>
+                                          <td>
+                                             0%
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td>
+                                             PowerSearch
+                                          </td>
+                                          <td>
+                                             1
+                                          </td>
+                                          <td>
+                                             50%
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td>
+                                             GoodUI
+                                          </td>
+                                          <td>
+                                             1
+                                          </td>
+                                          <td>
+                                             50%
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td>
+                                             Google Integration
+                                          </td>
+                                          <td>
+                                             0
+                                          </td>
+                                          <td>
+                                             0%
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="table-responsive">
+                        <table class="table table-striped table-bordered dataTable margin-0">
+                           <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                              <tr>
+                                 <th id="button_sortFromName" onclick="toggleSort(this,1)" style="width: 15%;">
+                                    Giver
+                                 </th>
+                                 <th id="button_sortFromTeam" onclick="toggleSort(this,2)" style="width: 15%;">
+                                    Team
+                                 </th>
+                                 <th id="button_sortToName" onclick="toggleSort(this,3)" style="width: 15%;">
+                                    Recipient
+                                 </th>
+                                 <th class="button-sort-ascending" id="button_sortToTeam" onclick="toggleSort(this,4)" style="width: 15%;">
+                                    Team
+                                 </th>
+                                 <th id="button_sortFeedback" onclick="toggleSort(this,5)">
+                                    Feedback
+                                 </th>
+                              </tr>
+                           </thead>
+                           <thead>
+                           </thead>
+                           <tbody>
+                              <tr>
+                                 <td class="middlealign">
+                                    Alice Betsy
+                                 </td>
+                                 <td class="middlealign">
+                                    Team 1
+                                 </td>
+                                 <td class="middlealign">
+                                    Alice Betsy
+                                 </td>
+                                 <td class="middlealign">
+                                    Team 1
+                                 </td>
+                                 <td class="multiline">
+                                    <ul class="selectedOptionsList">
+                                       <li>
+                                          PowerSearch
+                                       </li>
+                                       <li>
+                                          GoodUI
+                                       </li>
+                                    </ul>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </div>
                   </div>
                </div>
                <div class="panel panel-info">
@@ -675,48 +857,93 @@
                      </span>
                   </div>
                   <div class="panel-body padding-0 panelBodyCollapse-7 collapse in" style="height: auto;">
-                     <table class="table table-striped table-bordered dataTable margin-0">
-                        <thead class="background-color-medium-gray text-color-gray font-weight-normal">
-                           <tr>
-                              <th id="button_sortFromName" onclick="toggleSort(this,1)" style="width: 15%;">
-                                 Giver
-                              </th>
-                              <th id="button_sortFromTeam" onclick="toggleSort(this,2)" style="width: 15%;">
-                                 Team
-                              </th>
-                              <th id="button_sortToName" onclick="toggleSort(this,3)" style="width: 15%;">
-                                 Recipient
-                              </th>
-                              <th class="button-sort-ascending" id="button_sortToTeam" onclick="toggleSort(this,4)" style="width: 15%;">
-                                 Team
-                              </th>
-                              <th id="button_sortFeedback" onclick="toggleSort(this,5)">
-                                 Feedback
-                              </th>
-                           </tr>
-                        </thead>
-                        <thead>
-                        </thead>
-                        <tbody>
-                           <tr>
-                              <td class="middlealign">
-                                 Alice Betsy
-                              </td>
-                              <td class="middlealign">
-                                 Team 1
-                              </td>
-                              <td class="middlealign">
-                                 Alice Betsy
-                              </td>
-                              <td class="middlealign">
-                                 Team 1
-                              </td>
-                              <td class="multiline">
-                                 Danny
-                              </td>
-                           </tr>
-                        </tbody>
-                     </table>
+                     <div class="resultStatistics" style="display: block;">
+                        <div class="panel-body">
+                           <div class="row">
+                              <div class="col-sm-4 text-color-gray">
+                                 <strong>
+                                    Response Summary
+                                 </strong>
+                              </div>
+                           </div>
+                           <div class="row">
+                              <div class="col-sm-4">
+                                 <table class="table margin-0">
+                                    <thead>
+                                       <tr>
+                                          <td>
+                                             Choice
+                                          </td>
+                                          <td>
+                                             Response Count
+                                          </td>
+                                          <td>
+                                             Percentage
+                                          </td>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                       <tr>
+                                          <td>
+                                             Danny
+                                          </td>
+                                          <td>
+                                             1
+                                          </td>
+                                          <td>
+                                             100%
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="table-responsive">
+                        <table class="table table-striped table-bordered dataTable margin-0">
+                           <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                              <tr>
+                                 <th id="button_sortFromName" onclick="toggleSort(this,1)" style="width: 15%;">
+                                    Giver
+                                 </th>
+                                 <th id="button_sortFromTeam" onclick="toggleSort(this,2)" style="width: 15%;">
+                                    Team
+                                 </th>
+                                 <th id="button_sortToName" onclick="toggleSort(this,3)" style="width: 15%;">
+                                    Recipient
+                                 </th>
+                                 <th class="button-sort-ascending" id="button_sortToTeam" onclick="toggleSort(this,4)" style="width: 15%;">
+                                    Team
+                                 </th>
+                                 <th id="button_sortFeedback" onclick="toggleSort(this,5)">
+                                    Feedback
+                                 </th>
+                              </tr>
+                           </thead>
+                           <thead>
+                           </thead>
+                           <tbody>
+                              <tr>
+                                 <td class="middlealign">
+                                    Alice Betsy
+                                 </td>
+                                 <td class="middlealign">
+                                    Team 1
+                                 </td>
+                                 <td class="middlealign">
+                                    Alice Betsy
+                                 </td>
+                                 <td class="middlealign">
+                                    Team 1
+                                 </td>
+                                 <td class="multiline">
+                                    Danny
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </div>
                   </div>
                </div>
                <div class="panel panel-info">
@@ -738,48 +965,93 @@
                      </span>
                   </div>
                   <div class="panel-body padding-0 panelBodyCollapse-8 collapse in" style="height: auto;">
-                     <table class="table table-striped table-bordered dataTable margin-0">
-                        <thead class="background-color-medium-gray text-color-gray font-weight-normal">
-                           <tr>
-                              <th id="button_sortFromName" onclick="toggleSort(this,1)" style="width: 15%;">
-                                 Giver
-                              </th>
-                              <th id="button_sortFromTeam" onclick="toggleSort(this,2)" style="width: 15%;">
-                                 Team
-                              </th>
-                              <th id="button_sortToName" onclick="toggleSort(this,3)" style="width: 15%;">
-                                 Recipient
-                              </th>
-                              <th class="button-sort-ascending" id="button_sortToTeam" onclick="toggleSort(this,4)" style="width: 15%;">
-                                 Team
-                              </th>
-                              <th id="button_sortFeedback" onclick="toggleSort(this,5)">
-                                 Feedback
-                              </th>
-                           </tr>
-                        </thead>
-                        <thead>
-                        </thead>
-                        <tbody>
-                           <tr>
-                              <td class="middlealign">
-                                 Alice Betsy
-                              </td>
-                              <td class="middlealign">
-                                 Team 1
-                              </td>
-                              <td class="middlealign">
-                                 Alice Betsy
-                              </td>
-                              <td class="middlealign">
-                                 Team 1
-                              </td>
-                              <td class="multiline">
-                                 Team 1
-                              </td>
-                           </tr>
-                        </tbody>
-                     </table>
+                     <div class="resultStatistics" style="display: block;">
+                        <div class="panel-body">
+                           <div class="row">
+                              <div class="col-sm-4 text-color-gray">
+                                 <strong>
+                                    Response Summary
+                                 </strong>
+                              </div>
+                           </div>
+                           <div class="row">
+                              <div class="col-sm-4">
+                                 <table class="table margin-0">
+                                    <thead>
+                                       <tr>
+                                          <td>
+                                             Choice
+                                          </td>
+                                          <td>
+                                             Response Count
+                                          </td>
+                                          <td>
+                                             Percentage
+                                          </td>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                       <tr>
+                                          <td>
+                                             Team 1
+                                          </td>
+                                          <td>
+                                             1
+                                          </td>
+                                          <td>
+                                             100%
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="table-responsive">
+                        <table class="table table-striped table-bordered dataTable margin-0">
+                           <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                              <tr>
+                                 <th id="button_sortFromName" onclick="toggleSort(this,1)" style="width: 15%;">
+                                    Giver
+                                 </th>
+                                 <th id="button_sortFromTeam" onclick="toggleSort(this,2)" style="width: 15%;">
+                                    Team
+                                 </th>
+                                 <th id="button_sortToName" onclick="toggleSort(this,3)" style="width: 15%;">
+                                    Recipient
+                                 </th>
+                                 <th class="button-sort-ascending" id="button_sortToTeam" onclick="toggleSort(this,4)" style="width: 15%;">
+                                    Team
+                                 </th>
+                                 <th id="button_sortFeedback" onclick="toggleSort(this,5)">
+                                    Feedback
+                                 </th>
+                              </tr>
+                           </thead>
+                           <thead>
+                           </thead>
+                           <tbody>
+                              <tr>
+                                 <td class="middlealign">
+                                    Alice Betsy
+                                 </td>
+                                 <td class="middlealign">
+                                    Team 1
+                                 </td>
+                                 <td class="middlealign">
+                                    Alice Betsy
+                                 </td>
+                                 <td class="middlealign">
+                                    Team 1
+                                 </td>
+                                 <td class="multiline">
+                                    Team 1
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </div>
                   </div>
                </div>
                <div class="panel panel-info">
@@ -801,52 +1073,97 @@
                      </span>
                   </div>
                   <div class="panel-body padding-0 panelBodyCollapse-9 collapse in" style="height: auto;">
-                     <table class="table table-striped table-bordered dataTable margin-0">
-                        <thead class="background-color-medium-gray text-color-gray font-weight-normal">
-                           <tr>
-                              <th id="button_sortFromName" onclick="toggleSort(this,1)" style="width: 15%;">
-                                 Giver
-                              </th>
-                              <th id="button_sortFromTeam" onclick="toggleSort(this,2)" style="width: 15%;">
-                                 Team
-                              </th>
-                              <th id="button_sortToName" onclick="toggleSort(this,3)" style="width: 15%;">
-                                 Recipient
-                              </th>
-                              <th class="button-sort-ascending" id="button_sortToTeam" onclick="toggleSort(this,4)" style="width: 15%;">
-                                 Team
-                              </th>
-                              <th id="button_sortFeedback" onclick="toggleSort(this,5)">
-                                 Feedback
-                              </th>
-                           </tr>
-                        </thead>
-                        <thead>
-                        </thead>
-                        <tbody>
-                           <tr>
-                              <td class="middlealign">
-                                 Alice Betsy
-                              </td>
-                              <td class="middlealign">
-                                 Team 1
-                              </td>
-                              <td class="middlealign">
-                                 Alice Betsy
-                              </td>
-                              <td class="middlealign">
-                                 Team 1
-                              </td>
-                              <td class="multiline">
-                                 <ul class="selectedOptionsList">
-                                    <li>
-                                       Danny
-                                    </li>
-                                 </ul>
-                              </td>
-                           </tr>
-                        </tbody>
-                     </table>
+                     <div class="resultStatistics" style="display: block;">
+                        <div class="panel-body">
+                           <div class="row">
+                              <div class="col-sm-4 text-color-gray">
+                                 <strong>
+                                    Response Summary
+                                 </strong>
+                              </div>
+                           </div>
+                           <div class="row">
+                              <div class="col-sm-4">
+                                 <table class="table margin-0">
+                                    <thead>
+                                       <tr>
+                                          <td>
+                                             Choice
+                                          </td>
+                                          <td>
+                                             Response Count
+                                          </td>
+                                          <td>
+                                             Percentage
+                                          </td>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                       <tr>
+                                          <td>
+                                             Danny
+                                          </td>
+                                          <td>
+                                             1
+                                          </td>
+                                          <td>
+                                             100%
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="table-responsive">
+                        <table class="table table-striped table-bordered dataTable margin-0">
+                           <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                              <tr>
+                                 <th id="button_sortFromName" onclick="toggleSort(this,1)" style="width: 15%;">
+                                    Giver
+                                 </th>
+                                 <th id="button_sortFromTeam" onclick="toggleSort(this,2)" style="width: 15%;">
+                                    Team
+                                 </th>
+                                 <th id="button_sortToName" onclick="toggleSort(this,3)" style="width: 15%;">
+                                    Recipient
+                                 </th>
+                                 <th class="button-sort-ascending" id="button_sortToTeam" onclick="toggleSort(this,4)" style="width: 15%;">
+                                    Team
+                                 </th>
+                                 <th id="button_sortFeedback" onclick="toggleSort(this,5)">
+                                    Feedback
+                                 </th>
+                              </tr>
+                           </thead>
+                           <thead>
+                           </thead>
+                           <tbody>
+                              <tr>
+                                 <td class="middlealign">
+                                    Alice Betsy
+                                 </td>
+                                 <td class="middlealign">
+                                    Team 1
+                                 </td>
+                                 <td class="middlealign">
+                                    Alice Betsy
+                                 </td>
+                                 <td class="middlealign">
+                                    Team 1
+                                 </td>
+                                 <td class="multiline">
+                                    <ul class="selectedOptionsList">
+                                       <li>
+                                          Danny
+                                       </li>
+                                    </ul>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </div>
                   </div>
                </div>
                <div class="panel panel-info">
@@ -868,55 +1185,111 @@
                      </span>
                   </div>
                   <div class="panel-body padding-0 panelBodyCollapse-10 collapse in" style="height: auto;">
-                     <table class="table table-striped table-bordered dataTable margin-0">
-                        <thead class="background-color-medium-gray text-color-gray font-weight-normal">
-                           <tr>
-                              <th id="button_sortFromName" onclick="toggleSort(this,1)" style="width: 15%;">
-                                 Giver
-                              </th>
-                              <th id="button_sortFromTeam" onclick="toggleSort(this,2)" style="width: 15%;">
-                                 Team
-                              </th>
-                              <th id="button_sortToName" onclick="toggleSort(this,3)" style="width: 15%;">
-                                 Recipient
-                              </th>
-                              <th class="button-sort-ascending" id="button_sortToTeam" onclick="toggleSort(this,4)" style="width: 15%;">
-                                 Team
-                              </th>
-                              <th id="button_sortFeedback" onclick="toggleSort(this,5)">
-                                 Feedback
-                              </th>
-                           </tr>
-                        </thead>
-                        <thead>
-                        </thead>
-                        <tbody>
-                           <tr>
-                              <td class="middlealign">
-                                 Alice Betsy
-                              </td>
-                              <td class="middlealign">
-                                 Team 1
-                              </td>
-                              <td class="middlealign">
-                                 Alice Betsy
-                              </td>
-                              <td class="middlealign">
-                                 Team 1
-                              </td>
-                              <td class="multiline">
-                                 <ul class="selectedOptionsList">
-                                    <li>
-                                       Team 1
-                                    </li>
-                                    <li>
-                                       Team 2
-                                    </li>
-                                 </ul>
-                              </td>
-                           </tr>
-                        </tbody>
-                     </table>
+                     <div class="resultStatistics" style="display: block;">
+                        <div class="panel-body">
+                           <div class="row">
+                              <div class="col-sm-4 text-color-gray">
+                                 <strong>
+                                    Response Summary
+                                 </strong>
+                              </div>
+                           </div>
+                           <div class="row">
+                              <div class="col-sm-4">
+                                 <table class="table margin-0">
+                                    <thead>
+                                       <tr>
+                                          <td>
+                                             Choice
+                                          </td>
+                                          <td>
+                                             Response Count
+                                          </td>
+                                          <td>
+                                             Percentage
+                                          </td>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                       <tr>
+                                          <td>
+                                             Team 1
+                                          </td>
+                                          <td>
+                                             1
+                                          </td>
+                                          <td>
+                                             50%
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td>
+                                             Team 2
+                                          </td>
+                                          <td>
+                                             1
+                                          </td>
+                                          <td>
+                                             50%
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="table-responsive">
+                        <table class="table table-striped table-bordered dataTable margin-0">
+                           <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                              <tr>
+                                 <th id="button_sortFromName" onclick="toggleSort(this,1)" style="width: 15%;">
+                                    Giver
+                                 </th>
+                                 <th id="button_sortFromTeam" onclick="toggleSort(this,2)" style="width: 15%;">
+                                    Team
+                                 </th>
+                                 <th id="button_sortToName" onclick="toggleSort(this,3)" style="width: 15%;">
+                                    Recipient
+                                 </th>
+                                 <th class="button-sort-ascending" id="button_sortToTeam" onclick="toggleSort(this,4)" style="width: 15%;">
+                                    Team
+                                 </th>
+                                 <th id="button_sortFeedback" onclick="toggleSort(this,5)">
+                                    Feedback
+                                 </th>
+                              </tr>
+                           </thead>
+                           <thead>
+                           </thead>
+                           <tbody>
+                              <tr>
+                                 <td class="middlealign">
+                                    Alice Betsy
+                                 </td>
+                                 <td class="middlealign">
+                                    Team 1
+                                 </td>
+                                 <td class="middlealign">
+                                    Alice Betsy
+                                 </td>
+                                 <td class="middlealign">
+                                    Team 1
+                                 </td>
+                                 <td class="multiline">
+                                    <ul class="selectedOptionsList">
+                                       <li>
+                                          Team 1
+                                       </li>
+                                       <li>
+                                          Team 2
+                                       </li>
+                                    </ul>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </div>
                   </div>
                </div>
                <div class="panel panel-info">
@@ -938,48 +1311,95 @@
                      </span>
                   </div>
                   <div class="panel-body padding-0 panelBodyCollapse-11 collapse in" style="height: auto;">
-                     <table class="table table-striped table-bordered dataTable margin-0">
-                        <thead class="background-color-medium-gray text-color-gray font-weight-normal">
-                           <tr>
-                              <th id="button_sortFromName" onclick="toggleSort(this,1)" style="width: 15%;">
-                                 Giver
-                              </th>
-                              <th id="button_sortFromTeam" onclick="toggleSort(this,2)" style="width: 15%;">
-                                 Team
-                              </th>
-                              <th id="button_sortToName" onclick="toggleSort(this,3)" style="width: 15%;">
-                                 Recipient
-                              </th>
-                              <th class="button-sort-ascending" id="button_sortToTeam" onclick="toggleSort(this,4)" style="width: 15%;">
-                                 Team
-                              </th>
-                              <th id="button_sortFeedback" onclick="toggleSort(this,5)">
-                                 Feedback
-                              </th>
-                           </tr>
-                        </thead>
-                        <thead>
-                        </thead>
-                        <tbody>
-                           <tr>
-                              <td class="middlealign">
-                                 Alice Betsy
-                              </td>
-                              <td class="middlealign">
-                                 Team 1
-                              </td>
-                              <td class="middlealign">
-                                 Alice Betsy
-                              </td>
-                              <td class="middlealign">
-                                 Team 1
-                              </td>
-                              <td class="multiline">
-                                 3.5
-                              </td>
-                           </tr>
-                        </tbody>
-                     </table>
+                     <div class="resultStatistics" style="display: block;">
+                        <div class="panel-body">
+                           <div class="row">
+                              <div class="col-sm-4 text-color-gray">
+                                 <strong>
+                                    Response Summary
+                                 </strong>
+                              </div>
+                           </div>
+                           <div class="row">
+                              <form class="form-horizontal col-sm-12" role="form">
+                                 <div class="form-group margin-0">
+                                    <label class="col-sm-2 control-label font-weight-normal">
+                                       Average:
+                                    </label>
+                                    <div class="col-sm-3">
+                                       <p class="form-control-static">
+                                          3.5
+                                       </p>
+                                    </div>
+                                 </div>
+                                 <div class="form-group margin-0">
+                                    <label class="col-sm-2 control-label font-weight-normal">
+                                       Minimum:
+                                    </label>
+                                    <div class="col-sm-3">
+                                       <p class="form-control-static">
+                                          3.5
+                                       </p>
+                                    </div>
+                                 </div>
+                                 <div class="form-group margin-0">
+                                    <label class="col-sm-2 control-label font-weight-normal">
+                                       Maximum:
+                                    </label>
+                                    <div class="col-sm-3">
+                                       <p class="form-control-static">
+                                          3.5
+                                       </p>
+                                    </div>
+                                 </div>
+                              </form>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="table-responsive">
+                        <table class="table table-striped table-bordered dataTable margin-0">
+                           <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                              <tr>
+                                 <th id="button_sortFromName" onclick="toggleSort(this,1)" style="width: 15%;">
+                                    Giver
+                                 </th>
+                                 <th id="button_sortFromTeam" onclick="toggleSort(this,2)" style="width: 15%;">
+                                    Team
+                                 </th>
+                                 <th id="button_sortToName" onclick="toggleSort(this,3)" style="width: 15%;">
+                                    Recipient
+                                 </th>
+                                 <th class="button-sort-ascending" id="button_sortToTeam" onclick="toggleSort(this,4)" style="width: 15%;">
+                                    Team
+                                 </th>
+                                 <th id="button_sortFeedback" onclick="toggleSort(this,5)">
+                                    Feedback
+                                 </th>
+                              </tr>
+                           </thead>
+                           <thead>
+                           </thead>
+                           <tbody>
+                              <tr>
+                                 <td class="middlealign">
+                                    Alice Betsy
+                                 </td>
+                                 <td class="middlealign">
+                                    Team 1
+                                 </td>
+                                 <td class="middlealign">
+                                    Alice Betsy
+                                 </td>
+                                 <td class="middlealign">
+                                    Team 1
+                                 </td>
+                                 <td class="multiline">
+                                    3.5
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </div>
                   </div>
                </div>
                <div class="panel panel-info">

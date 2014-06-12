@@ -65,52 +65,55 @@
                         out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, ""));
                     %>
                 </div>
-                <div class="panel-collapse">
-                <div class="panel-body padding-0">
-                    <table class="table table-striped table-bordered dataTable margin-0">
-                        <thead class="background-color-medium-gray text-color-gray font-weight-normal">
-                            <tr>
-                                <th id="button_sortFromName" onclick="toggleSort(this,1)" style="width: 15%;">
-                                    Giver
-                                </th>
-                                <th id="button_sortFromTeam" onclick="toggleSort(this,2)" style="width: 15%;">
-                                    Team
-                                </th>
-                                <th id="button_sortToName" onclick="toggleSort(this,3)" style="width: 15%;">
-                                    Recipient
-                                </th>
-                                <th id="button_sortToTeam" class="button-sort-ascending" onclick="toggleSort(this,4)" style="width: 15%;">
-                                    Team
-                                </th>
-                                <th id="button_sortFeedback" onclick="toggleSort(this,5)">
-                                    Feedback
-                                </th>
-                            </tr>
-                        <thead>
-                        <tbody>
-                            <%
-                                for(FeedbackResponseAttributes responseEntry: responseEntries.getValue()) {
-                            %>
-                            <tr>
-                            <%
-                                String giverName = data.bundle.getGiverNameForResponse(responseEntries.getKey(), responseEntry);
-                                String giverTeamName = data.bundle.getTeamNameForEmail(responseEntry.giverEmail);
+                <div class="panel-body padding-0">                
+                    <div class="resultStatistics">
+                        <%=questionDetails.getQuestionResultStatisticsHtml(responseEntries.getValue())%>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered dataTable margin-0">
+                            <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                                <tr>
+                                    <th id="button_sortFromName" onclick="toggleSort(this,1)" style="width: 15%;">
+                                        Giver
+                                    </th>
+                                    <th id="button_sortFromTeam" onclick="toggleSort(this,2)" style="width: 15%;">
+                                        Team
+                                    </th>
+                                    <th id="button_sortToName" onclick="toggleSort(this,3)" style="width: 15%;">
+                                        Recipient
+                                    </th>
+                                    <th id="button_sortToTeam" class="button-sort-ascending" onclick="toggleSort(this,4)" style="width: 15%;">
+                                        Team
+                                    </th>
+                                    <th id="button_sortFeedback" onclick="toggleSort(this,5)">
+                                        Feedback
+                                    </th>
+                                </tr>
+                            <thead>
+                            <tbody>
+                                <%
+                                    for(FeedbackResponseAttributes responseEntry: responseEntries.getValue()) {
+                                %>
+                                <tr>
+                                <%
+                                    String giverName = data.bundle.getGiverNameForResponse(responseEntries.getKey(), responseEntry);
+                                    String giverTeamName = data.bundle.getTeamNameForEmail(responseEntry.giverEmail);
 
-                                String recipientName = data.bundle.getRecipientNameForResponse(responseEntries.getKey(), responseEntry);
-                                String recipientTeamName = data.bundle.getTeamNameForEmail(responseEntry.recipientEmail);
-                            %>
-                                <td class="middlealign"><%=giverName%></td>
-                                <td class="middlealign"><%=giverTeamName%></td>
-                                <td class="middlealign"><%=recipientName%></td>
-                                <td class="middlealign"><%=recipientTeamName%></td>
-                                <td class="multiline"><%=responseEntry.getResponseDetails().getAnswerHtml()%></td>
-                            </tr>        
-                            <%
-                                }
-                            %>
-                        </tbody>
-                    </table>
-                </div>
+                                    String recipientName = data.bundle.getRecipientNameForResponse(responseEntries.getKey(), responseEntry);
+                                    String recipientTeamName = data.bundle.getTeamNameForEmail(responseEntry.recipientEmail);
+                                %>
+                                    <td class="middlealign"><%=giverName%></td>
+                                    <td class="middlealign"><%=giverTeamName%></td>
+                                    <td class="middlealign"><%=recipientName%></td>
+                                    <td class="middlealign"><%=recipientTeamName%></td>
+                                    <td class="multiline"><%=responseEntry.getResponseDetails().getAnswerHtml()%></td>
+                                </tr>        
+                                <%
+                                    }
+                                %>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
             <%

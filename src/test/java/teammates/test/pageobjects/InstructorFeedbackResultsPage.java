@@ -27,6 +27,9 @@ public class InstructorFeedbackResultsPage extends AppPage {
     @FindBy(id = "collapse-panels-button")
     public WebElement collapseExpandButton;
     
+    @FindBy(id = "show-stats-checkbox")
+    public WebElement showStatsCheckbox;
+    
     @FindBy(id = "button_add_comment")
     private WebElement showResponseCommentAddFormButton;
     
@@ -98,6 +101,10 @@ public class InstructorFeedbackResultsPage extends AppPage {
         waitForPageToLoad();
     }
     
+    public void clickShowStats() {
+        showStatsCheckbox.click();
+    }
+    
     public void fillSearchBox(String s) {
         this.fillTextBox(browser.driver.findElement(By.id("results-search-box")), s);
     }
@@ -156,6 +163,15 @@ public class InstructorFeedbackResultsPage extends AppPage {
     
     public boolean verifyAllResultsPanelBodyVisibility(boolean visible){
         for(WebElement e : browser.driver.findElements(By.cssSelector(".panel-heading+.panel-body"))){
+            if(e.isDisplayed() != visible){
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    public boolean verifyAllStatsVisibility(boolean visible){
+        for(WebElement e : browser.driver.findElements(By.cssSelector(".resultStatistics"))){
             if(e.isDisplayed() != visible){
                 return false;
             }
