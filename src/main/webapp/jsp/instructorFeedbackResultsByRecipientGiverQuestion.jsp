@@ -84,6 +84,7 @@
                     newTeam = true;
             %>
                     </div>
+                    </div>
                 </div>
             <%
                 }
@@ -95,6 +96,7 @@
                         <div class="panel-heading">
                             <strong><%=currentTeam%></strong>
                         </div>
+                        <div class="panel-collapse">
                         <div class="panel-body background-color-warning">
             <%
                 }
@@ -237,6 +239,7 @@
             //close the last team panel.
             if(groupByTeamEnabled==true) {
         %>
+                    </div>
                     </div>
                 </div>
         <%

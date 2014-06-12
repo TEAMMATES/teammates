@@ -83,6 +83,7 @@
                 newTeam = true;
         %>
                 </div>
+                </div>
             </div>
         <%
             }
@@ -95,6 +96,7 @@
                     <div class="panel-heading">
                         <strong><%=currentTeam%></strong>
                     </div>
+                    <div class="panel-collapse">
                     <div class="panel-body background-color-warning">
                         <div class="resultStatistics">
                             <%
@@ -115,10 +117,12 @@
                                                         out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, ""));
                                                     %>
                                                 </div>
+                                                <div class="panel-collapse">
                                                 <div class="panel-body padding-0">                
                                                     <div class="resultStatistics">
                                                         <%=statsHtml%>
                                                     </div>
+                                                </div>
                                                 </div>
                                             </div>
                                 <%
@@ -216,6 +220,7 @@
             //close the last team panel.
             if(groupByTeamEnabled==true) {
         %>
+                    </div>
                     </div>
                 </div>
         <%
