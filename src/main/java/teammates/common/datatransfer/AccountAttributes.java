@@ -50,9 +50,6 @@ public class AccountAttributes extends EntityAttributes {
         this.email = Sanitizer.sanitizeEmail(email);
         this.institute = Sanitizer.sanitizeTitle(institute);
         this.studentProfile = studentProfileAttributes;
-        if (this.studentProfile.institute == "") {
-            this.studentProfile.institute = this.institute;
-        }
         this.studentProfile.sanitizeForSaving();
         
     }

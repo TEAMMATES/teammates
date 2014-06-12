@@ -63,10 +63,6 @@ public class Account {
         this.setEmail(email);
         this.setInstitute(institute);
         this.setCreatedAt(new Date());
-        
-        if(studentProfile.getInstitute() == "") {
-            studentProfile.setInstitute(institute);
-        }
         this.setStudentProfile(studentProfile);
     }
 
