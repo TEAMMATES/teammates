@@ -60,7 +60,7 @@ public class StudentProfilePageActionTest extends BaseActionTest {
         
         String expectedLogMessage = "TEAMMATESLOG|||studentProfilePage|||studentProfilePage" +
                 "|||true|||Student|||"+ student.name +"|||" + student.googleId + "|||" + student.email +
-                "|||studentProfile Page Load <br> Account: " + student.googleId + "|||/page/studentProfilePage" ;
+                "|||studentProfile Page Load <br> Profile: " + student.studentProfile.toString() + "|||/page/studentProfilePage" ;
         assertEquals(expectedLogMessage, a.getLogMessage());
         
         ______TS("masquerade mode");
@@ -80,7 +80,7 @@ public class StudentProfilePageActionTest extends BaseActionTest {
         
         expectedLogMessage = "TEAMMATESLOG|||studentProfilePage|||studentProfilePage" +
                 "|||true|||Student(M)|||"+ student.name +"|||" + student.googleId + "|||" + student.email +
-                "|||studentProfile Page Load <br> Account: " + student.googleId + "|||/page/studentProfilePage" ;
+                "|||studentProfile Page Load <br> Profile: " + student.studentProfile.toString() + "|||/page/studentProfilePage" ;
         assertEquals(expectedLogMessage, a.getLogMessage());
         
         ______TS("unregistered user");

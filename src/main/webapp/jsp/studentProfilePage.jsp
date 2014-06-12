@@ -13,7 +13,7 @@
     <link rel="shortcut icon" href="/favicon.png">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TEAMMATES - Student</title>
+    <title>TEAMMATES - Student Profile</title>
     <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" type="text/css">
     <link rel="stylesheet" href="/bootstrap/css/bootstrap-theme.min.css" type="text/css">
     <link rel="stylesheet" href="/stylesheets/teammatesCommon.css" type="text/css">
@@ -27,7 +27,7 @@
     <script src="/bootstrap/js/bootstrap.min.js"></script>
 
     <script type="text/javascript" src="/js/student.js"></script>
-    <script type="text/javascript" src="/js/studentHome.js"></script>
+    <script type="text/javascript" src="/js/studentProfile.js"></script>
     <!-- [if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
@@ -44,8 +44,7 @@
         <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
         <br>
         
-        <div class="well well-plain well-narrow well-sm-wide">
-            <sup class="pull-right text-color-disclaimer">*This profile will be visible to all your Instructors and Classmates by default</sup>
+        <div id="editProfileDiv" class="well well-plain well-narrow well-sm-wide">
             <h3 id="studentName"><strong><%=data.account.name %></strong></h3><br>
             <form class="form center-block" role="form" method="post" 
                 action="<%=Const.ActionURIs.STUDENT_PROFILE_EDIT_SAVE %>">
@@ -72,17 +71,17 @@
                         <label for="genderMale" class="radio-inline">
                             <input id="genderMale" name="<%=Const.ParamsNames.STUDENT_GENDER %>" class="radio" type="radio" 
                             value="<%=Const.GenderTypes.MALE %>"
-                            checked="<%=data.account.studentProfile.gender == Const.GenderTypes.MALE ? "checked" : "" %>" /> Male
+                            <%=data.account.studentProfile.gender.equals(Const.GenderTypes.MALE) ? "checked=\"checked\"" : "" %> /> Male
                         </label>
                         <label for="genderFemale" class="radio-inline">
                             <input id="genderFemale" name="<%=Const.ParamsNames.STUDENT_GENDER %>" class="radio" type="radio"
                             value="<%=Const.GenderTypes.FEMALE %>"
-                            checked="<%=data.account.studentProfile.gender == Const.GenderTypes.FEMALE ? "checked" : "" %>" /> Female
+                            <%=data.account.studentProfile.gender.equals(Const.GenderTypes.FEMALE) ? "checked=\"checked\"" : "" %> /> Female
                         </label>
                         <label class="radio-inline" for="genderOther">
                             <input id="genderOther" name="<%=Const.ParamsNames.STUDENT_GENDER %>" class="radio" type="radio"
                             value="<%=Const.GenderTypes.OTHER %>"
-                            checked="<%=data.account.studentProfile.gender == Const.GenderTypes.OTHER ? "checked" : "" %>" /> Undisclosed
+                            <%=data.account.studentProfile.gender.equals(Const.GenderTypes.OTHER) ? "checked=\"checked\"" : "" %> /> Undisclosed
                         </label>
                     </div>
     
@@ -94,7 +93,9 @@
                               placeholder="You may wish to specify miscellaneous information as well as links to external profiles."
                               ><%=data.account.studentProfile.moreInfo == null ? "" : data.account.studentProfile.moreInfo %></textarea>
                 </div><br>
-                <button type="submit" id="profileEditSubmit" class="btn btn-primary center-block">Save</button>
+                <button type="submit" id="profileEditSubmit" class="btn btn-primary center-block">Save Profile</button>
+                <br>
+                <p class="text-muted text-color-disclaimer"> <i>* This profile will be visible to all your Instructors and Classmates by default</i></p>
             </form>
         </div>
     </div>

@@ -19,7 +19,7 @@ public class StudentProfilePageAction extends Action {
         
         account.studentProfile = logic.getStudentProfile(account.googleId); 
         data = new PageData(account);
-        statusToAdmin = "studentProfile Page Load <br> Account: " + account.googleId;
+        statusToAdmin = "studentProfile Page Load <br> Profile: " + account.studentProfile.toString();
         
         ShowPageResult response = createShowPageResult(Const.ViewURIs.STUDENT_PROFILE_PAGE, data);
         return response;
