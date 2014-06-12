@@ -52,17 +52,17 @@ public class Instructor {
     private String displayedName;
     
     @Persistent
-    private Text instructorPrivilegeAsText;
+    private Text instructorPrivilegesAsText;
     
     public Instructor(String instructorGoogleId, String courseId, String instructorName, String instructorEmail,
-            String role, String displayedName, Text instructorPrivilegeAsText) {
+            String role, String displayedName, String instructorPrivilegesAsText) {
         this.setGoogleId(instructorGoogleId);
         this.setCourseId(courseId);
         this.setName(instructorName);
         this.setEmail(instructorEmail);
         this.setRole(role);
         this.setDisplayedName(displayedName);
-        this.setInstructorPrivilegeAsText(instructorPrivilegeAsText);
+        this.setInstructorPrivilegeAsText(instructorPrivilegesAsText);
         // setId should be called after setting email and courseId
         this.setUniqueId(this.getEmail() + '%' + this.getCourseId());
         this.setRegistrationKey(generateRegistrationKey());
@@ -72,14 +72,14 @@ public class Instructor {
      * Constructor used for testing purpose only.
      */
     public Instructor(String instructorGoogleId, String courseId, String instructorName, String instructorEmail, 
-            String role, String displayedName, Text instructorPrivilegeAsText, String key) {
+            String key, String role, String displayedName, String instructorPrivilegesAsText) {
         this.setGoogleId(instructorGoogleId);
         this.setCourseId(courseId);
         this.setName(instructorName);
         this.setEmail(instructorEmail);
         this.setRole(role);
         this.setDisplayedName(displayedName);
-        this.setInstructorPrivilegeAsText(instructorPrivilegeAsText);
+        this.setInstructorPrivilegeAsText(instructorPrivilegesAsText);
         // setId should be called after setting email and courseId
         this.setUniqueId(this.getEmail() + '%' + this.getCourseId());
         this.setRegistrationKey(key);
@@ -170,11 +170,11 @@ public class Instructor {
         this.displayedName = displayedName;
     }
 
-    public Text getInstructorPrivilegeAsText() {
-        return instructorPrivilegeAsText;
+    public String getInstructorPrivilegesAsText() {
+        return instructorPrivilegesAsText.getValue();
     }
 
-    public void setInstructorPrivilegeAsText(Text instructorPrivilegeAsText) {
-        this.instructorPrivilegeAsText = instructorPrivilegeAsText;
+    public void setInstructorPrivilegeAsText(String instructorPrivilegesAsText) {
+        this.instructorPrivilegesAsText = new Text(instructorPrivilegesAsText);
     }
 }
