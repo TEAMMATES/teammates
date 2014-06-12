@@ -371,7 +371,6 @@
                                                     onclick="return submitCommentForm('<%=commentIdx%>');"
                                                     type="submit"
                                                     class="btn btn-primary"
-                                                    id="button_save_comment"
                                                     value="Save">
                                                 <input type="button"
                                                     class="btn btn-default"
@@ -422,7 +421,7 @@
                                         <div class="col-sm-offset-5">
                                             <input type="submit"
                                                 class="btn btn-primary"
-                                                id="button_save_comment"
+                                                id="button_save_comment<%=studentIdx%>"
                                                 value="Add Comment">
                                             <input type="button"
                                                 class="btn btn-default"
@@ -462,10 +461,10 @@
                     </div>
                 </div>
                 <%
+                    int fsIndx = 0;
                     for (String fsName : data.feedbackResultBundles.keySet()) {//FeedbackSession loop starts
                         FeedbackSessionResultsBundle bundle = data.feedbackResultBundles.get(fsName);
-                    if(bundle.getQuestionResponseMap().entrySet().size() == 0)
-                        continue;
+                        fsIndx++;
                 %>
                 <br>
                 <div class="panel panel-primary">
@@ -473,12 +472,21 @@
                         <strong>Feedback Session: <%=fsName%></strong>
                     </div>
                     <div class="panel-body">
+                        <% if(bundle
+                                .getQuestionResponseMap().entrySet().size() == 0){ %>
+                        <div
+                            class="panel panel-warning student-record-comments">
+                            <div class="panel-heading">You don't
+                                have any comment here.</div>
+                        </div>
+                        <% } %>
                         <%
                                 int qnIndx = 0;
                                 for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responseEntries : bundle
                                         .getQuestionResponseMap().entrySet()) {//FeedbackQuestion loop starts
-                                    if (responseEntries.getValue().size() == 0)
+                                    if (responseEntries.getValue().size() == 0){
                                         continue;
+                                    }
                                     qnIndx++;
                         %>
                         <div class="panel panel-info">
@@ -495,11 +503,9 @@
                             <table class="table">
                                 <tbody>
                                     <%
-                                        int giverIndex = 0;
-                                                int recipientIndex = 0;
+                                                int responseIndex = 0;
                                                 for (FeedbackResponseAttributes responseEntry : responseEntries.getValue()) {//FeedbackResponse loop starts
-                                                    giverIndex++;
-                                                    recipientIndex++;
+                                                    responseIndex++;
                                                     String giverName = bundle.getGiverNameForResponse(responseEntries.getKey(), responseEntry);
                                                     String giverTeamName = bundle.getTeamNameForEmail(responseEntry.giverEmail);
                                                     giverName = bundle.appendTeamNameToName(giverName, giverTeamName);
@@ -522,8 +528,8 @@
                                         <td>Comment:
                                             <button type="button"
                                                 class="btn btn-default btn-xs icon-button pull-right"
-                                                id="button_add_comment"
-                                                onclick="showResponseCommentAddForm(<%=recipientIndex%>,<%=giverIndex%>,<%=qnIndx%>)"
+                                                id="button_add_comment-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>"
+                                                onclick="showResponseCommentAddForm(<%=fsIndx%>,<%=qnIndx%>,<%=responseIndex%>)"
                                                 data-toggle="tooltip"
                                                 data-placement="top"
                                                 title="<%=Const.Tooltips.COMMENT_ADD%>">
@@ -539,7 +545,7 @@
                                             %>
                                             <ul
                                                 class="list-group comments"
-                                                id="responseCommentTable-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>"
+                                                id="responseCommentTable-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>"
                                                 style="<%=frcList != null && frcList.size() > 0 ? "" : "display:none"%>">
                                                 <%
                                                     int responseCommentIndex = 0;
@@ -548,9 +554,9 @@
                                                 %>
                                                 <li
                                                     class="list-group-item list-group-item-warning"
-                                                    id="responseCommentRow-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>">
+                                                    id="responseCommentRow-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>">
                                                     <div
-                                                        id="commentBar-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>">
+                                                        id="commentBar-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>">
                                                         <span
                                                             <%String frCommentGiver = frc.giverEmail;
                             if (frc.giverEmail.equals(data.instructorEmail)) {
@@ -570,7 +576,7 @@
                                                             <a
                                                                 href="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE%>"
                                                                 type="button"
-                                                                id="commentdelete-<%=responseCommentIndex%>"
+                                                                id="commentdelete-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>"
                                                                 class="btn btn-default btn-xs icon-button"
                                                                 data-toggle="tooltip"
                                                                 data-placement="top"
@@ -596,9 +602,9 @@
                                                                 value="<%=data.account.googleId%>">
                                                         </form>
                                                         <a type="button"
-                                                            id="commentedit-<%=responseCommentIndex%>"
+                                                            id="commentedit-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>"
                                                             class="btn btn-default btn-xs icon-button pull-right"
-                                                            onclick="showResponseCommentEditForm(<%=recipientIndex%>,<%=giverIndex%>,<%=qnIndx%>,<%=responseCommentIndex%>)"
+                                                            onclick="showResponseCommentEditForm(<%=fsIndx%>,<%=qnIndx%>,<%=responseIndex%>,<%=responseCommentIndex%>)"
                                                             data-toggle="tooltip"
                                                             data-placement="top"
                                                             title="<%=Const.Tooltips.COMMENT_EDIT%>"
@@ -611,11 +617,11 @@
                                                         %>
                                                     </div> <!-- frComment Content -->
                                                     <div
-                                                        id="plainCommentText-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>"><%=InstructorCommentsPageData.sanitizeForHtml(frc.commentText.getValue())%></div>
+                                                        id="plainCommentText-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>"><%=InstructorCommentsPageData.sanitizeForHtml(frc.commentText.getValue())%></div>
                                                     <!-- frComment Edit Form -->
                                                     <form
                                                         style="display: none;"
-                                                        id="responseCommentEditForm-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>"
+                                                        id="responseCommentEditForm-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>"
                                                         class="responseCommentEditForm">
                                                         <div
                                                             class="form-group">
@@ -624,19 +630,19 @@
                                                                 rows="3"
                                                                 placeholder="Your comment about this response"
                                                                 name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT%>"
-                                                                id="<%=Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT%>-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>"><%=frc.commentText.getValue()%></textarea>
+                                                                id="<%=Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT%>-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>"><%=frc.commentText.getValue()%></textarea>
                                                         </div>
                                                         <div
                                                             class="col-sm-offset-5">
                                                             <a
                                                                 href="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT%>"
                                                                 class="btn btn-primary"
-                                                                id="button_save_comment_for_edit-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>">
+                                                                id="button_save_comment_for_edit-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>">
                                                                 Save </a> <input
                                                                 type="button"
                                                                 class="btn btn-default"
                                                                 value="Cancel"
-                                                                onclick="return hideResponseCommentEditForm(<%=recipientIndex%>,<%=giverIndex%>,<%=qnIndx%>,<%=responseCommentIndex%>);">
+                                                                onclick="return hideResponseCommentEditForm(<%=fsIndx%>,<%=qnIndx%>,<%=responseIndex%>,<%=responseCommentIndex%>);">
                                                         </div>
                                                         <input
                                                             type="hidden"
@@ -662,7 +668,7 @@
                                                 <!-- frComment Add form -->
                                                 <li
                                                     class="list-group-item list-group-item-warning"
-                                                    id="showResponseCommentAddForm-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>"
+                                                    id="showResponseCommentAddForm-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>"
                                                     style="display: none;">
                                                     <form
                                                         class="responseCommentAddForm">
@@ -673,19 +679,19 @@
                                                                 rows="3"
                                                                 placeholder="Your comment about this response"
                                                                 name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT%>"
-                                                                id="responseCommentAddForm-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>"></textarea>
+                                                                id="responseCommentAddForm-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>"></textarea>
                                                         </div>
                                                         <div
                                                             class="col-sm-offset-5">
                                                             <a
                                                                 href="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD%>"
                                                                 class="btn btn-primary"
-                                                                id="button_save_comment_for_add-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>">Add</a>
+                                                                id="button_save_comment_for_add-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>">Add</a>
                                                             <input
                                                                 type="button"
                                                                 class="btn btn-default"
                                                                 value="Cancel"
-                                                                onclick="hideResponseCommentAddForm(<%=recipientIndex%>,<%=giverIndex%>,<%=qnIndx%>)">
+                                                                onclick="hideResponseCommentAddForm(<%=fsIndx%>,<%=qnIndx%>,<%=responseIndex%>)">
                                                             <input
                                                                 type="hidden"
                                                                 name="<%=Const.ParamsNames.COURSE_ID%>"
