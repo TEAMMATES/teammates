@@ -98,9 +98,9 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
 
         ______TS("Masquerade mode: Send emails to all unregistered student to remind registering for the course");
         gaeSimulation.loginAsAdmin(adminUserId);
-        StudentAttributes unregisteredStudent1 = new StudentAttributes("Team Unregistered", "Unregistered student 1",
+        StudentAttributes unregisteredStudent1 = new StudentAttributes("Section 1", "Team Unregistered", "Unregistered student 1",
                                                                            "unregistered1@email.com", "", courseId);
-        StudentAttributes unregisteredStudent2 = new StudentAttributes("Team Unregistered", "Unregistered student 2",
+        StudentAttributes unregisteredStudent2 = new StudentAttributes("Section 1", "Team Unregistered", "Unregistered student 2",
                                                                            "unregistered2@email.com", "", courseId);
         StudentsLogic.inst().createStudentCascade(unregisteredStudent1);
         StudentsLogic.inst().createStudentCascade(unregisteredStudent2);

@@ -141,7 +141,7 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
     private void createStudentInTypicalDataBundleForCourseWithNoSession() throws EntityAlreadyExistsException, 
     InvalidParametersException, EntityDoesNotExistException {
         Logic logic = new Logic();
-        StudentAttributes student = new StudentAttributes("team", "nameOfStudent", "emailTemp@gmail.com", "No comment", "idOfCourseNoEvals");
+        StudentAttributes student = new StudentAttributes("section", "team", "nameOfStudent", "emailTemp@gmail.com", "No comment", "idOfCourseNoEvals");
         logic.createStudent(student);
     }
     
