@@ -252,7 +252,7 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, name);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
 
-        instructorsLogic.addInstructor(courseId, name, email);
+        instructorsLogic.createInstructor(null, courseId, name, email);
     }
 
     /**

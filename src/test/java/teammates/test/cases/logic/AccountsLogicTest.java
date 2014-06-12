@@ -442,7 +442,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         
         AccountAttributes nonInstrAccount = dataBundle.accounts.get("student1InCourse1");
         
-        instructorsLogic.addInstructor(instructor.courseId, nonInstrAccount.name, nonInstrAccount.email);
+        instructorsLogic.createInstructor(null, instructor.courseId, nonInstrAccount.name, nonInstrAccount.email);
         key = instructorsLogic.getKeyForInstructor(instructor.courseId, nonInstrAccount.email);
         encryptedKey = StringHelper.encrypt(key);
         
@@ -457,14 +457,14 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         
         instructor = dataBundle.instructors.get("instructor4");
         
-        instructorsLogic.addInstructor(instructor.courseId, "anInstructorWithoutGoogleId", "anInstructorWithoutGoogleId@gmail.com");  
+        instructorsLogic.createInstructor(null, instructor.courseId, "anInstructorWithoutGoogleId", "anInstructorWithoutGoogleId@gmail.com");  
         
         nonInstrAccount = dataBundle.accounts.get("student2InCourse1");
         nonInstrAccount.email = "newInstructor@gmail.com";
         nonInstrAccount.name = " newInstructor";
         nonInstrAccount.googleId = "newInstructorGoogleId";
        
-        instructorsLogic.addInstructor(instructor.courseId, nonInstrAccount.name, nonInstrAccount.email);
+        instructorsLogic.createInstructor(null, instructor.courseId, nonInstrAccount.name, nonInstrAccount.email);
         key = instructorsLogic.getKeyForInstructor(instructor.courseId, nonInstrAccount.email);
         encryptedKey = StringHelper.encrypt(key);
         

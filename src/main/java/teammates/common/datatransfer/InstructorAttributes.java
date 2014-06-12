@@ -3,6 +3,9 @@ package teammates.common.datatransfer;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.Gson;
+
+import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.FieldValidator.FieldType;
@@ -14,6 +17,8 @@ import teammates.storage.entity.Instructor;
  */
 public class InstructorAttributes extends EntityAttributes {
     
+    private static Gson gson = Utils.getTeammatesGson();
+    
     //Note: be careful when changing these variables as their names are used in *.json files.
     public String googleId;
     public String name;
@@ -24,6 +29,12 @@ public class InstructorAttributes extends EntityAttributes {
     public String displayedName;
     public String instructorPrivilegesAsText;
     public transient InstructorPrivileges privileges;
+    
+    public InstructorAttributes(String googleId, String courseId, String name, String email) {
+        this(googleId, courseId, name, email, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER));
+    }
 
     public InstructorAttributes(String googleId, String courseId, String name, String email, String role,
             String displayedName, String instructorPrivilegesAsText) {        
@@ -34,6 +45,19 @@ public class InstructorAttributes extends EntityAttributes {
         this.role = Sanitizer.sanitizeName(role);
         this.displayedName = Sanitizer.sanitizeName(displayedName);
         this.instructorPrivilegesAsText = Sanitizer.sanitizeTextField(instructorPrivilegesAsText);
+        this.privileges = this.getInstructorPrivilegesFromText();
+    }
+    
+    public InstructorAttributes(String googleId, String courseId, String name, String email, String role,
+            String displayedName, InstructorPrivileges privileges) {        
+        this.googleId = Sanitizer.sanitizeGoogleId(googleId);
+        this.courseId = Sanitizer.sanitizeTitle(courseId);
+        this.name = Sanitizer.sanitizeName(name);
+        this.email = Sanitizer.sanitizeEmail(email);
+        this.role = Sanitizer.sanitizeName(role);
+        this.displayedName = Sanitizer.sanitizeName(displayedName);
+        this.privileges = privileges;
+        this.instructorPrivilegesAsText = this.getTextFromInstructorPrivileges();     
     }
     
     public InstructorAttributes(Instructor instructor) {
@@ -45,6 +69,15 @@ public class InstructorAttributes extends EntityAttributes {
         this.role = instructor.getRole();
         this.displayedName = instructor.getDisplayedName();
         this.instructorPrivilegesAsText = instructor.getInstructorPrivilegesAsText();
+        this.privileges = this.getInstructorPrivilegesFromText();
+    }
+    
+    public String getTextFromInstructorPrivileges() {
+        return gson.toJson(privileges, InstructorPrivileges.class);
+    }
+    
+    public InstructorPrivileges getInstructorPrivilegesFromText() {
+        return gson.fromJson(instructorPrivilegesAsText, InstructorPrivileges.class);
     }
 
     public InstructorAttributes() {
