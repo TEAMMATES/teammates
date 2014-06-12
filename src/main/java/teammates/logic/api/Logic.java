@@ -1642,21 +1642,6 @@ public class Logic {
     }
     
     /**
-     * Get responses for a session.<br>
-     * Must handle the visibility options defined in its feedback questions.<br>
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     */
-    @Deprecated
-    public List<FeedbackResponseAttributes> getFeedbackResponseForSession(String feedbackSessionName, String courseId) {
-        
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-
-        return feedbackResponsesLogic.getFeedbackResponsesForSession(feedbackSessionName, courseId);
-    }
-    
-    /**
      * Preconditions: <br>
      * * All parameters are non-null.
      */
@@ -1706,17 +1691,6 @@ public class Logic {
 
         return feedbackResponseCommentsLogic.getFeedbackResponseComment(
                 responseId, giverEmail, creationDate);
-    }
-    
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     */
-    public List<FeedbackResponseCommentAttributes> getFeedbackResponseComment(String courseId, String feedbackSessionName) {
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
-
-        return feedbackResponseCommentsLogic.getFeedbackResponseCommentForSession(courseId, feedbackSessionName);
     }
     
     /**
