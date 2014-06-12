@@ -701,7 +701,7 @@
                     <strong>Activity Log</strong>
                 </div>
                 <div class="table-responsive">
-                    <table class="table table-striped dataTable">
+                    <table class="table table-condensed"dataTable">
 
                         <thead>
                             <tr>
@@ -733,23 +733,12 @@
                                     <form method="post"
                                         action="<%=Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE%>">
 
-
-
-                                        <div
-                                            class="panel <%=log.getLogEntryPanelClass()%>">
-
-
-
-                                            <div class="panel-heading">
-
-
-                                                <h4
-                                                    class="list-group-item-heading">
-                                                    <%=log.getRoleInfo()%></h4>
-                                                <p
-                                                    class="list-group-item-text">
+                                        <div class="panel-heading">
+                                            <h4
+                                                class="list-group-item-heading">
+                                                <%=log.getRoleInfo()%><small>
                                                     <span
-                                                        id="personInfo_<%=index%>"><%=log.getPersonInfo()%></span>
+                                                    id="personInfo_<%=index%>"><%=log.getPersonInfo()%></span>
 
                                                     <button
                                                         id="actionButton_<%=index%>"
@@ -757,26 +746,25 @@
                                                         class="btn <%=log.getLogEntryActionsButtonClass()%> btn-xs">
                                                         <span
                                                             class="glyphicon glyphicon-zoom-in"></span>
-                                                        All Actions
-                                                    </button>
-                                                    <input type="hidden"
-                                                        name="filterQuery"
-                                                        value="person:<%=log.getId()%>">
 
-                                                </p>
+                                                    </button> <input
+                                                    type="hidden"
+                                                    name="filterQuery"
+                                                    value="person:<%=log.getId()%>">
 
-                                            </div>
+                                                </small>
+                                            </h4>
 
-                                            <ul class="list-group">
-                                                <li
-                                                    class="list-group-item"><%=log.getActionInfo()%>
-                                                </li>
-                                                <li
-                                                    class="list-group-item"><%=log.getMessageInfo()%>
-                                                </li>
-
-                                            </ul>
                                         </div>
+
+                                        <ul class="list-group">
+                                            <li class="list-group-item"><%=log.getActionInfo()%>
+                                            </li>
+                                            <li class="list-group-item"><%=log.getMessageInfo()%>
+                                            </li>
+
+                                        </ul>
+
 
 
                                     </form>
