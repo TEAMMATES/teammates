@@ -15,6 +15,49 @@ $(document).ready(function(){
 		}
 	});
 	
+	//Binding for "Display All" panel option
+	$('#panel_all').click(function(){
+		//use panel_all checkbox to control its children checkboxes.
+		if($('#panel_all').is(':checked')){
+			$("input[id^=panel_check]").prop("checked", true);
+		} else {
+			$("input[id^=panel_check]").prop("checked", false);
+		}
+		
+		filterPanel();
+	});
+	
+	//Binding for changes in the panel checkboxes.
+    $("input[id^=panel_check]").change(function(){
+    	//based on the selected panel_check checkboxes, check/uncheck panel_all checkbox
+    	if($("input[id^='panel_check']:checked").length == $("input[id^='panel_check']").length){
+        	$("#panel_all").prop("checked", true);
+    	} else{
+        	$("#panel_all").prop("checked", false);
+    	}
+    	
+    	filterPanel();
+    });
+	
+	function filterPanel(){
+		//if no panel_check checkboxes are checked, show the no-comment box to user
+		if($("input[id^='panel_check']:checked").length == 0){
+    		$('#no-comment-panel').show();
+    	} else {
+    		$('#no-comment-panel').hide();
+    	}
+		
+		//hide the panel accordingly based on panel_check checkbox
+	    $("input[id^=panel_check]").each(function(){
+	        var $courseIdx = $(this).attr("id").split('-')[1];
+	        if(this.checked){
+	            $("#panel_display-" + $courseIdx).show();
+	        } else{
+	            $("#panel_display-" + $courseIdx).hide();
+	        }
+	    });
+	}
+	
 	//Binding for "Display Archived Courses" check box.
     $("#displayArchivedCourses_check").change(function(){
         var urlToGo = $('#displayArchivedCourses_link > a').attr('href');

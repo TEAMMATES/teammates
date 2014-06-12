@@ -132,39 +132,36 @@
                                     </div>
                                     <br>
                                     <div class="checkbox">
-                                        <input id="team_all"
+                                        <input id="panel_all"
                                             type="checkbox"
                                             checked="checked"> <label
-                                            for="team_all"><strong>Display
+                                            for="panel_all"><strong>Display
                                                 All</strong></label>
                                     </div>
                                     <br>
-
+                                    <% int panelIdx = 0; %>
+                                    <% if(data.comments.keySet().size() != 0){ 
+                                           panelIdx++;
+                                    %>
                                     <div class="checkbox">
-                                        <input id="team_check-0-0"
+                                        <input id="panel_check-<%=panelIdx%>"
                                             type="checkbox"
                                             checked="checked"> <label
-                                            for="team_check-0-0">
-                                            Drafts </label>
+                                            for="panel_check-<%=panelIdx%>">
+                                            Comments on students </label>
                                     </div>
-
+                                    <% } %>
+                                    <% for(String fsName : data.feedbackResultBundles.keySet()){ 
+                                           panelIdx++;
+                                    %>
                                     <div class="checkbox">
-                                        <input id="team_check-0-1"
+                                        <input id="panel_check-<%=panelIdx%>"
                                             type="checkbox"
                                             checked="checked"> <label
-                                            for="team_check-0-1">
-                                            Comments about students </label>
+                                            for="panel_check-<%=panelIdx%>">
+                                            <%=fsName%> </label>
                                     </div>
-
-                                    <div class="checkbox">
-                                        <input id="team_check-0-2"
-                                            type="checkbox"
-                                            checked="checked"> <label
-                                            for="team_check-0-2">
-                                            Comments in Feedback
-                                            Session: the First Feedback
-                                            Session </label>
-                                    </div>
+                                    <% } %>
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="text-color-primary">
@@ -279,19 +276,23 @@
                         </strong>
                     </h4>
                 </div>
-                <% if(data.comments.keySet().size() == 0 && data.feedbackResultBundles.keySet().size() == 0){//if no comment %>
-                <br>
-                <div class="panel">
-                    <div class="panel-body">
-                        You don't have any comment in this course.
+                <div id="no-comment-panel" style="<%=data.comments.keySet().size() == 0 && data.feedbackResultBundles.keySet().size() == 0?"":"display:none;"%>">
+                    <br>
+                    <div class="panel">
+                        <div class="panel-body">
+                            You don't have any comment in this course.
+                        </div>
                     </div>
                 </div>
-                <% } %>
-                <% if(data.comments.keySet().size() != 0){// check student comments starts %>
+                <%  panelIdx = 0;
+                    if(data.comments.keySet().size() != 0){// check student comments starts 
+                        panelIdx++;
+                %>
+                <div id="panel_display-<%=panelIdx%>">
                 <br>
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <strong><%=data.isViewingDraft ? "Comment drafts" : "Comments about students"%></strong>
+                        <strong><%=data.isViewingDraft ? "Comment drafts" : "Comments on students"%></strong>
                     </div>
                     <div class="panel-body">
                         <%=data.isViewingDraft ? "Your comments that are not finished:" : "Your comments on student in this course:"%>
@@ -458,16 +459,16 @@
                         %>
                     </div>
                 </div>
+                </div>
                 <% }// check student comments ends %>
                 <%
                     int fsIndx = 0;
                     for (String fsName : data.feedbackResultBundles.keySet()) {//FeedbackSession loop starts
                         FeedbackSessionResultsBundle bundle = data.feedbackResultBundles.get(fsName);
-                        if (bundle.getQuestionResponseMap().entrySet().size() == 0){
-                            continue;
-                        }
                         fsIndx++;
+                        panelIdx++;
                 %>
+                <div id="panel_display-<%=panelIdx%>">
                 <br>
                 <div class="panel panel-primary">
                     <div class="panel-heading">
@@ -478,9 +479,6 @@
                                 int qnIndx = 0;
                                 for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responseEntries : bundle
                                         .getQuestionResponseMap().entrySet()) {//FeedbackQuestion loop starts
-                                    if (responseEntries.getValue().size() == 0){
-                                        continue;
-                                    }
                                     qnIndx++;
                         %>
                         <div class="panel panel-info">
@@ -722,6 +720,7 @@
                             }//FeedbackQuestion loop ends
                         %>
                     </div>
+                </div>
                 </div>
                 <%
                     }//FeedbackSession loop ends
