@@ -30,7 +30,7 @@
                         </li>
                         <li class="<%=data.getClass().toString().contains("StudentProfilePage")?"active":""%>">
                             <a data-link="studentProfilePage" href="<%=data.getStudentProfileLink()%>">
-                                Profile<sup><span class="glyphicon-star warning"></span></sup>
+                                Profile<sup><span class="glyphicon glyphicon-star glyphicon-warning"></span></sup>
                             </a>
                         </li>
                     </ul>

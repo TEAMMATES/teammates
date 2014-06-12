@@ -67,6 +67,10 @@ body {
     color: red;
 }
 
+.glyphicon-warning {
+    color: #ffd700;
+}
+
 .highlight-white {
     color: white;
 }
@@ -85,6 +89,10 @@ body {
 
 .text-color-white {
     color: white;
+}
+
+.text-color-disclaimer {
+    color: red;
 }
 
 @media print {
