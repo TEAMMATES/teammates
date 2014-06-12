@@ -1,7 +1,10 @@
 package teammates.logic.core;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
+
+import javax.mail.internet.MimeMessage;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
@@ -50,6 +53,31 @@ public class AccountsLogic {
         
         accountsDb.createAccount(accountData);
     }
+    
+    
+    public MimeMessage sendJoinLinkToNewInstructor(String googleId) throws EntityDoesNotExistException{
+        
+        AccountAttributes instructorData = getAccount(googleId);
+        
+        if(instructorData == null){
+            throw new EntityDoesNotExistException("Account does not exist [" + googleId + "]");
+        }
+        
+        Emails emailMgr = new Emails();
+        
+        try {
+            MimeMessage email = emailMgr.generateNewInstructorAccountJoinEmail(instructorData);
+            emailMgr.sendEmail(email);
+            return email;
+         
+        } catch (EntityDoesNotExistException e) {
+            Assumption
+                    .fail("Unexpected EntitiyDoesNotExistException thrown when sending registration email"
+                            + TeammatesException.toStringWithStackTrace(e));
+        }
+     
+        return emailsSent;
+    } 
     
     /**
      * <b>Note: Now used for the purpose of testing only.</b><br>
@@ -304,6 +332,8 @@ public class AccountsLogic {
         accountsDb.createAccount(account);
     }
 
+    
+    
     private String truncateGoogleId(String googleId) {
         String frontPart = googleId.substring(0, googleId.length() / 3);
         String endPart = googleId.substring(2 * googleId.length() / 3);

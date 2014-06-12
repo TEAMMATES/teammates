@@ -17,6 +17,7 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
@@ -703,7 +704,25 @@ public class Emails {
         message.setContent(emailBody, "text/html");
         return message;
     }
+    
+    public MimeMessage generateNewInstructorAccountJoinEmail(
+            AccountAttributes instructorData) throws AddressException,
+            MessagingException, UnsupportedEncodingException {
+        
+        MimeMessage message = getEmptyEmailAddressedToEmail(instructor.email);
+        message.setSubject(String.format(SUBJECT_PREFIX_INSTRUCTOR_COURSE_JOIN
+                + " [%s][Course ID: %s]", course.name, course.id));
 
+        String emailBody = EmailTemplates.USER_COURSE_JOIN;
+        emailBody = fillUpInstructorJoinFragment(instructor, emailBody);
+        emailBody = emailBody.replace("${userName}", instructor.name);
+        emailBody = emailBody.replace("${courseName}", course.name);
+
+        message.setContent(emailBody, "text/html");
+        return message;
+
+    }
+    
     public MimeMessage generateInstructorCourseJoinEmail(
             CourseAttributes course, InstructorAttributes instructor) 
                     throws AddressException, MessagingException, UnsupportedEncodingException {

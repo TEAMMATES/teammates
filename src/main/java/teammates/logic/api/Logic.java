@@ -839,6 +839,17 @@ public class Logic {
         return studentsLogic.enrollStudents(enrollLines.trim(), courseId);
     
     }
+    
+    
+    public MimeMessage sendJoinLinkToNewInstructor(String googleId) throws InvalidParametersException, EntityDoesNotExistException{
+        
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER,googleId);
+        
+        return accountsLogic.sendJoinLinkToNewInstructor(googleId);
+        
+    }
+    
+    
 
     /**
      * Sends the registration invite to unregistered students in the course.
