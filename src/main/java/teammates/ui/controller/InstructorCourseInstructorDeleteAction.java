@@ -27,6 +27,7 @@ public class InstructorCourseInstructorDeleteAction extends Action {
         /* Process deleting an instructor and setup status to be shown to user and admin */
         if (numberOfInstructorsForCourse != 1) {
             logic.deleteInstructor(courseId, instructorEmail);
+            logic.deleteInstructorPermission(courseId, instructorEmail);
             
             statusToUser.add(Const.StatusMessages.COURSE_INSTRUCTOR_DELETED);
             statusToAdmin = "Instructor <span class=\"bold\"> " + instructorEmail + "</span>"

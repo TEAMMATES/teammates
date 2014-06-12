@@ -49,7 +49,7 @@
         <br>
         
         
-        <div class="well well-plain well-narrow" id="courseInformationHeader">
+        <div class="well well-plain" id="courseInformationHeader">
             <div class="form form-horizontal">
                 <div class="form-group">
                     <label class="col-sm-3 control-label">Course ID:</label>
@@ -89,6 +89,17 @@
                         for (int i = 0; i < data.instructors.size(); i++){
                             InstructorAttributes instructor = data.instructors.get(i);
                             String instructorInfo = instructor.name + " (" + instructor.email + ")";
+                            boolean isRoleFound = false;
+                            for (int j = 0; j < data.instructorPermissions.size(); j++) {
+                            	if (data.instructorPermissions.get(j).instructorEmail.equals(instructor.email)) {
+                                    instructorInfo = data.instructorPermissions.get(j).role + ": " + instructorInfo;
+                                    isRoleFound = true;
+                                    break;
+                                }
+                            }
+                            if (!isRoleFound) {
+                            	instructorInfo = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER + ": " + instructorInfo;   
+                            }
                     %>
                         <%=sanitizeForHtml(instructorInfo)%><br><br>
                     <%

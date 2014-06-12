@@ -27,6 +27,7 @@ public class InstructorCourseDetailsPageAction extends Action {
         data.courseDetails = logic.getCourseDetails(courseId);
         data.students = logic.getStudentsForCourse(courseId);
         data.instructors = logic.getInstructorsForCourse(courseId);
+        data.instructorPermissions = logic.getInstructorPermissionsForCourse(courseId);
 
         StudentAttributes.sortByNameAndThenByEmail(data.students);
         

@@ -22,6 +22,7 @@ public class StringHelperTest extends BaseTestCase {
     @Test
     public void testIsWhiteSpace() {
         
+        assertEquals("", StringHelper.encrypt("franklinguIns3@google.com%testCourse-1180002611"));
         assertEquals(true, StringHelper.isWhiteSpace(""));
         assertEquals(true, StringHelper.isWhiteSpace("       "));
         assertEquals(true, StringHelper.isWhiteSpace("\t\n\t"));

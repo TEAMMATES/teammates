@@ -49,7 +49,11 @@
                 <a href="<%=data.getInstructorCourseDeleteLink(data.course.id, false)%>"
                     class="btn btn-primary btn-xs pull-right" id="courseDeleteLink"
                     data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_DELETE%>"
-                    onclick="return toggleDeleteCourseConfirmation('<%=data.course.id%>');">
+                    onclick="return toggleDeleteCourseConfirmation('<%=data.course.id%>');"
+                    <% if (!data.instructorPermission.privileges.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE)) {%>
+                        style="display: none;"
+                    <% } %>
+                        >
                     <span class="glyphicon glyphicon-trash"></span>
                     Delete</a>
             </div>
@@ -160,6 +164,19 @@
                                 disabled="disabled">
                             </div>
                         </div>
+                        <div id="accessControlEditDivForInstr<%=index%>" style="display: none;">
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <label class="control-label pull-right">Access-level</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=index%>"
+                                     value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER%>">&nbsp;Co-owner: can do everything<br>
+                                    <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=index%>"
+                                     value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER%>">&nbsp;Manager: same as Co-owner except for deleting the course<br>
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <div class="col-sm-offset-3 col-sm-9"><input id="btnSaveInstructor<%=index%>" type="submit" class="btn btn-primary"
                                 style="display:none;" value="Save changes" tabindex="6">
@@ -207,6 +224,19 @@
                                 name="<%=Const.ParamsNames.INSTRUCTOR_EMAIL%>" id="<%=Const.ParamsNames.INSTRUCTOR_EMAIL%>"
                                 data-toggle="tooltip" data-placement="top" title="Enter the Email of the instructor."
                                 maxlength=<%=FieldValidator.EMAIL_MAX_LENGTH%> tabindex=9/>
+                            </div>
+                        </div>
+                        <div id="accessControlEditDivForInstr<%=data.instructorList.size()+1%>">
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <label class="control-label pull-right">Access-level</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=data.instructorList.size()+1%>"
+                                     value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER%>">&nbsp;Co-owner: can do everything<br>
+                                    <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=data.instructorList.size()+1%>"
+                                     value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER%>">&nbsp;Manager: same as Co-owner except for deleting the course<br>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">

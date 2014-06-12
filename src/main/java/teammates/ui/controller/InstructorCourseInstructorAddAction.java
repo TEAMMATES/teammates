@@ -1,5 +1,6 @@
 package teammates.ui.controller;
 
+import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -22,6 +23,8 @@ public class InstructorCourseInstructorAddAction extends Action {
         Assumption.assertNotNull(instructorName);
         String instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
         Assumption.assertNotNull(instructorEmail);
+        String instructorRole = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ROLE_NAME);
+        Assumption.assertNotNull(instructorRole);
         
         new GateKeeper().verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, account.googleId),
@@ -29,11 +32,14 @@ public class InstructorCourseInstructorAddAction extends Action {
         
         instructorName = Sanitizer.sanitizeName(instructorName);
         instructorEmail = Sanitizer.sanitizeEmail(instructorEmail);
+        instructorRole = Sanitizer.sanitizeName(instructorRole);
         
         /* Process adding the instructor and setup status to be shown to user and admin */
         try {
             logic.addInstructor(courseId, instructorName, instructorEmail);
             logic.sendRegistrationInviteToInstructor(courseId, instructorEmail);
+            InstructorPrivileges privileges = new InstructorPrivileges(instructorRole);
+            logic.addInstructorPermission(courseId, instructorEmail, instructorRole, privileges);
             
             statusToUser.add(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_ADDED,
                     instructorName, instructorEmail));
