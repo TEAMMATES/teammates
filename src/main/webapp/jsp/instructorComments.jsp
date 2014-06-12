@@ -74,7 +74,7 @@
                     <div class="col-sm-5">
                         <h1>Instructor Comments</h1>
                     </div>
-                    <div class="col-sm-5 instructor-header-bar">
+                    <!-- <div class="col-sm-5 instructor-header-bar">
                         <form method="post" action="#"
                             name="search_form">
                             <div class="input-group">
@@ -95,7 +95,7 @@
                         <a class="btn btn-primary btn-md"
                             href="./omniComment_bulkEdit.html">
                             Comment in Bulk </a>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <br>
