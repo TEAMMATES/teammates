@@ -698,7 +698,8 @@
             %>
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <strong>Activity Log</strong>
+                    <strong>Activity Log <span>
+                            Instructor </strong>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-condensed"dataTable">
@@ -706,8 +707,8 @@
                         <thead>
                             <tr>
                                 <th width="10%">Date</th>
-                                <th>[Role][Google
-                                    ID][Name][Email][Action]</th>
+                                <th>[Role][Action][Google
+                                    ID][Name][Email]</th>
                             </tr>
 
                         </thead>
@@ -725,44 +726,42 @@
                             			for (ActivityLogEntry log : appLogs) {
                             %>
                             <tr>
-                                
-                                <td style="vertical-align:middle;"><%=log.getDateInfo()%></td>
+
+                                <td style="vertical-align: middle;"><%=log.getDateInfo()%></td>
 
                                 <td>
 
                                     <form method="post"
                                         action="<%=Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE%>">
 
-                                        <div class="panel-heading">
-                                            <h4
-                                                class="list-group-item-heading">
-                                                <%=log.getRoleInfo()%><small>
+
+                                        <h4
+                                            class="list-group-item-heading">
+                                            <%=log.getRoleInfo()%>
+                                            <%=log.getActionInfo()%>
+                                            <small> <span
+                                                id="personInfo_<%=index%>"><%=log.getPersonInfo()%></span>
+
+                                                <button
+                                                    id="actionButton_<%=index%>"
+                                                    type="submit"
+                                                    class="btn <%=log.getLogEntryActionsButtonClass()%> btn-xs">
                                                     <span
-                                                    id="personInfo_<%=index%>"><%=log.getPersonInfo()%></span>
+                                                        class="glyphicon glyphicon-zoom-in"></span>
 
-                                                    <button
-                                                        id="actionButton_<%=index%>"
-                                                        type="submit"
-                                                        class="btn <%=log.getLogEntryActionsButtonClass()%> btn-xs">
-                                                        <span
-                                                            class="glyphicon glyphicon-zoom-in"></span>
+                                                </button> <input type="hidden"
+                                                name="filterQuery"
+                                                value="person:<%=log.getId()%>">
 
-                                                    </button> <input
-                                                    type="hidden"
-                                                    name="filterQuery"
-                                                    value="person:<%=log.getId()%>">
+                                            </small>
 
-                                                </small> <span class="pull-right"><%=log.getActionInfo()%></span>
-                                            </h4>
+                                        </h4>
+
+                                        <div>
+                                            <%=log.getMessageInfo()%>
 
                                         </div>
 
-                                        <ul class="list-group">
-
-                                            <li class="list-group-item"><%=log.getMessageInfo()%>
-                                            </li>
-
-                                        </ul>
 
 
 

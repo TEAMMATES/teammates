@@ -97,7 +97,11 @@ public class ActivityLogEntry {
             googleId = "Unknown";
             email = "Unknown";
         } else {
-            role = acc.isInstructor ? "Instructor" : "Student"; 
+            role = acc.isInstructor ? "<span class = \"glyphicon glyphicon-user\" style=\"color:#39b3d7;\"></span>"
+                                    : "<span class = \"glyphicon glyphicon-user\" style=\"color:#FFBB13;\"></span>";
+            if (servletName.toLowerCase().startsWith("admin")) {
+                role = "<span class = \"glyphicon glyphicon-user\"></span>";
+            }
             name = acc.name;
             googleId = acc.googleId;
             email = acc.email;
@@ -118,8 +122,12 @@ public class ActivityLogEntry {
             googleId = "Unknown";
             email = "Unknown";
         } else {
-            role = userAccount.isInstructor ? "Instructor" : "Student"; 
-            role = role + (isMasquerade? "(M)" : "");
+            role = userAccount.isInstructor ? "<span class = \"glyphicon glyphicon-user\" style=\"color:#39b3d7;\"></span>"
+                                            : "<span class = \"glyphicon glyphicon-user\" style=\"color:#FFBB13;\"></span>";
+            role = role + (isMasquerade ? "-<span class = \"glyphicon glyphicon-eye-open\" ></span>- ": "");
+            if (servletName.toLowerCase().startsWith("admin")) {
+                role = "<span class = \"glyphicon glyphicon-user\"></span>";
+            }
             name = userAccount.name;
             googleId = userAccount.googleId;
             email = userAccount.email;
