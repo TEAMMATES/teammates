@@ -512,7 +512,9 @@
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"TEXT",
             "giverEmail":"CFResultsUiT.alice.b@gmail.com",
+            "giverSection":"Section A",
             "recipientEmail":"CFResultsUiT.alice.b@gmail.com",
+            "recipientSection":"Section A",
             "responseMetaData":{
                 "value":"Alice self feedback."
             }
@@ -526,7 +528,9 @@
             "recipientEmail":"CFResultsUiT.benny.c@gmail.com",
             "responseMetaData":{
                 "value":"2 Response to Benny."
-            }
+            },
+            "giverSection":"Section A",
+            "recipientSection":"Section A"
         },
         "response3":{
             "feedbackSessionName":"First Session",
@@ -537,7 +541,9 @@
             "recipientEmail":"CFResultsUiT.danny.e@gmail.com",
             "responseMetaData":{
                 "value":"1 Response to Danny."
-            }
+            },
+            "giverSection":"Section A",
+            "recipientSection":"Section B"
         },
         "response4":{
             "feedbackSessionName":"First Session",
@@ -548,7 +554,9 @@
             "recipientEmail":"CFResultsUiT.emily.f@gmail.com",
             "responseMetaData":{
                 "value":"3 Response to Emily."
-            }
+            },
+            "giverSection":"Section B",
+            "recipientSection":"Section B"
         },
         "response5":{
             "feedbackSessionName":"First Session",
@@ -559,7 +567,9 @@
             "recipientEmail":"CFResultsUiT.charlie.d@gmail.com",
             "responseMetaData":{
                 "value":"4 Response to Charlie."
-            }
+            },
+            "giverSection":"Section A",
+            "recipientSection":"Section B"
         },
         "response6":{
             "feedbackSessionName":"First Session",
@@ -570,7 +580,9 @@
             "recipientEmail":"CFResultsUiT.alice.b@gmail.com",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"MCQ\", \"answer\" : \"PowerSearch\", \"otherFieldContent\" : \"\"}"
-            }
+            },
+            "giverSection":"Section A",
+            "recipientSection":"Section A"
         },
         "response7":{
             "feedbackSessionName":"First Session",
@@ -581,7 +593,9 @@
             "recipientEmail":"CFResultsUiT.alice.b@gmail.com",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"MSQ\", \"answers\" : [\"PowerSearch\",\"GoodUI\"]}"
-            }
+            },
+            "giverSection":"Section A",
+            "recipientSection":"Section A"
         },
         "response8":{
             "feedbackSessionName":"First Session",
@@ -592,7 +606,9 @@
             "recipientEmail":"CFResultsUiT.alice.b@gmail.com",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"MCQ\", \"answer\" : \"Danny\", \"otherFieldContent\" : \"\"}"
-            }
+            },
+            "giverSection":"Section A",
+            "recipientSection":"Section A"
         },
         "response9":{
             "feedbackSessionName":"First Session",
@@ -603,7 +619,9 @@
             "recipientEmail":"CFResultsUiT.alice.b@gmail.com",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"MCQ\", \"answer\" : \"Team 1\", \"otherFieldContent\" : \"\"}"
-            }
+            },
+            "giverSection":"Section A",
+            "recipientSection":"Section A"
         },
         "response10":{
             "feedbackSessionName":"First Session",
@@ -614,7 +632,9 @@
             "recipientEmail":"CFResultsUiT.alice.b@gmail.com",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"MSQ\", \"answers\" : [\"Danny\"], \"otherFieldContent\" : \"\"}"
-            }
+            },
+            "giverSection":"Section A",
+            "recipientSection":"Section A"
         },
         "response11":{
             "feedbackSessionName":"First Session",
@@ -625,7 +645,9 @@
             "recipientEmail":"CFResultsUiT.alice.b@gmail.com",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"MSQ\", \"answers\" : [\"Team 1\",\"Team 2\"], \"otherFieldContent\" : \"\"}"
-            }
+            },
+            "giverSection":"Section A",
+            "recipientSection":"Section A"
         },
         "response12":{
             "feedbackSessionName":"First Session",
@@ -636,7 +658,9 @@
             "recipientEmail":"CFResultsUiT.alice.b@gmail.com",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"NUMSCALE\", \"answer\" : 3.5}"
-            }
+            },
+            "giverSection":"Section A",
+            "recipientSection":"Section A"
         },
         "response13":{
             "feedbackSessionName":"First Session",
@@ -647,7 +671,9 @@
             "recipientEmail":"%GENERAL%",
             "responseMetaData":{
                 "value":"This is for nobody specific."
-            }
+            },
+            "giverSection":"None",
+            "recipientSection":"None"
         },
         "response14":{
             "feedbackSessionName":"First Session",
@@ -658,7 +684,9 @@
             "recipientEmail":"Team 2",
             "responseMetaData":{
                 "value":"Response from team 1 (by alice) to team 2."
-            }
+            },
+            "giverSection":"Section A",
+            "recipientSection":"Section B"
         }
     }
 }

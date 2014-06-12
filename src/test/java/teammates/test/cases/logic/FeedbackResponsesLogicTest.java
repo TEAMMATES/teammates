@@ -122,8 +122,10 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
                         responseToUpdate.courseId, 
                         responseToUpdate.feedbackQuestionId, 
                         responseToUpdate.feedbackQuestionType, 
-                        responseToUpdate.giverEmail, 
-                        "student3InCourse1@gmail.com", 
+                        responseToUpdate.giverEmail,
+                        "Section 1",
+                        "student3InCourse1@gmail.com",
+                        "Section 1",
                         responseToUpdate.responseMetaData);
         
         frLogic.createFeedbackResponse(existingResponse);
@@ -183,8 +185,8 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         // Add one more non-team response 
         FeedbackResponseAttributes responseToAdd = new FeedbackResponseAttributes("First feedback session",
                                                         "idOfTypicalCourse1", getQuestionFromDatastore("qn1InSession1InCourse1").getId(),
-                                                        FeedbackQuestionType.TEXT, studentToUpdate.email,
-                                                        studentToUpdate.email, new Text("New Response to self"));
+                                                        FeedbackQuestionType.TEXT, studentToUpdate.email, "Section 1",
+                                                        studentToUpdate.email, "Section 1", new Text("New Response to self"));
         frLogic.createFeedbackResponse(responseToAdd);
         
         // All these responses should be gone after he changes teams
@@ -299,8 +301,10 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
                         "nullCourse", 
                         existingResponse.feedbackQuestionId, 
                         existingResponse.feedbackQuestionType, 
-                        existingResponse.giverEmail, 
+                        existingResponse.giverEmail,
+                        "Section 1",
                         "nullRecipient@gmail.com", 
+                        "Section 1",
                         existingResponse.responseMetaData);
       
         frLogic.createFeedbackResponse(newResponse);

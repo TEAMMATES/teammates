@@ -1,7 +1,6 @@
 package teammates.logic.core;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -82,12 +81,11 @@ public class FeedbackResponsesLogic {
     }
 
     public List<FeedbackResponseAttributes> getFeedbackResponsesForQuestionInSection(
-            String feedbackQuestionId, List<String> filteredEmails) {
-        if (filteredEmails == null) {
+            String feedbackQuestionId, String section) {
+        if(section == null){
             return getFeedbackResponsesForQuestion(feedbackQuestionId);
-        } else {
-            return frDb.getFilteredFeedbackResponsesForQuestion(feedbackQuestionId, filteredEmails);
         }
+        return frDb.getFeedbackResponsesForQuestionInSection(feedbackQuestionId, section);
     }
 
     public List<FeedbackResponseAttributes> getFeedbackResponsesForReceiverForQuestion(
@@ -96,14 +94,13 @@ public class FeedbackResponsesLogic {
     }
 
     public List<FeedbackResponseAttributes> getFeedbackResponsesForReceiverForQuestionInSection(
-            String feedbackQuestionId, String userEmail, List<String> filteredEmails) {
+            String feedbackQuestionId, String userEmail, String section) {
         
-        if (filteredEmails == null) {
+        if(section == null){
             return getFeedbackResponsesForReceiverForQuestion(feedbackQuestionId, userEmail);
-        } else {
-            return frDb.getFilteredFeedbackResponsesForReceiverForQuestion(
-                    feedbackQuestionId, userEmail, filteredEmails);
         }
+        return frDb.getFeedbackResponsesForReceiverForQuestionInSection(
+                    feedbackQuestionId, userEmail, section);
     }
 
     public List<FeedbackResponseAttributes> getFeedbackResponsesFromGiverForQuestion(
@@ -112,14 +109,13 @@ public class FeedbackResponsesLogic {
     }
 
     public List<FeedbackResponseAttributes> getFeedbackResponsesFromGiverForQuestionInSection(
-            String feedbackQuestionId, String userEmail, List<String> filteredEmails) {
-        if (filteredEmails == null) {
-            return getFeedbackResponsesFromGiverForQuestion(feedbackQuestionId,
-                    userEmail);
-        } else {
-            return frDb.getFilteredFeedbackResponsesFromGiverForQuestion(
-                    feedbackQuestionId, userEmail, filteredEmails);
+            String feedbackQuestionId, String userEmail, String section) {
+        
+        if(section == null){
+            return getFeedbackResponsesFromGiverForQuestion(feedbackQuestionId, userEmail);
         }
+        return frDb.getFeedbackResponsesFromGiverForQuestionInSection(
+                    feedbackQuestionId, userEmail, section);
     }
 
     public List<FeedbackResponseAttributes> getFeedbackResponsesForReceiverForCourse(
@@ -151,7 +147,6 @@ public class FeedbackResponsesLogic {
             UserType.Role role, String section)
             throws EntityDoesNotExistException {
 
-        List<String> filteredEmails = getParticipantsInSection(section, question.courseId);
         List<FeedbackResponseAttributes> viewableResponses =
                 new ArrayList<FeedbackResponseAttributes>();
 
@@ -159,7 +154,7 @@ public class FeedbackResponsesLogic {
         addNewResponses(
                 viewableResponses,
                 getFeedbackResponsesFromGiverForQuestionInSection(
-                        question.getId(), userEmail, filteredEmails));
+                        question.getId(), userEmail, section));
 
         // Add responses that user is a receiver of when question is visible to
         // receiver.
@@ -167,7 +162,7 @@ public class FeedbackResponsesLogic {
             addNewResponses(
                     viewableResponses,
                     getFeedbackResponsesForReceiverForQuestionInSection(
-                            question.getId(), userEmail, filteredEmails));
+                            question.getId(), userEmail, section));
         }
 
         switch (role) {
@@ -184,7 +179,7 @@ public class FeedbackResponsesLogic {
                 addNewResponses(
                         viewableResponses,
                         getFeedbackResponsesForQuestionInSection(
-                                question.getId(), filteredEmails));
+                                question.getId(), section));
             }
             break;
         default:
@@ -583,23 +578,6 @@ public class FeedbackResponsesLogic {
         }
 
         return viewableResponses;
-    }
-
-    private List<String> getParticipantsInSection(String section, String courseId) throws EntityDoesNotExistException {
-        if(section == null){
-            return null;
-        }
-
-        List<String> emails = new ArrayList<String>();
-        SectionDetailsBundle sectionDetails = coursesLogic.getSectionForCourse(section, courseId);
-        for(TeamDetailsBundle team : sectionDetails.teams){
-            emails.add(team.name);
-            for(StudentAttributes student : team.students){
-                emails.add(student.email);
-            }
-        }
-        Collections.sort(emails);
-        return emails;
     }
 
     private List<FeedbackResponseAttributes> filterResponsesForSection(
