@@ -165,85 +165,30 @@
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="text-color-primary">
-                                        <strong>Teams</strong>
+                                        <strong>Comment Givers</strong>
                                     </div>
                                     <br>
                                     <div class="checkbox">
                                         <input type="checkbox" value=""
-                                            id="course_all"
+                                            id="giver_all"
                                             checked="checked"> <label
-                                            for="course_all"><strong>Display
+                                            for="giver_all"><strong>Display
                                                 all</strong></label>
                                     </div>
                                     <br>
                                     <div class="checkbox">
-                                        <input id="course_check-0"
+                                        <input id="giver_check-by-you"
                                             type="checkbox"
                                             checked="checked"> <label
-                                            for="course_check-0">
-                                            [CS2103 Aug 2013] : Team 0 </label>
+                                            for="giver_check-by-you">
+                                            By you </label>
                                     </div>
                                     <div class="checkbox">
-                                        <input id="course_check-1"
+                                        <input id="giver_check-by-others"
                                             type="checkbox"
                                             checked="checked"> <label
-                                            for="course_check-1">
-                                            [CS2103 Aug 2013] : Team 1 </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <input id="course_check-2"
-                                            type="checkbox"
-                                            checked="checked"> <label
-                                            for="course_check-2">
-                                            [CS2103 Aug 2013] : Team 2 </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <input id="course_check-3"
-                                            type="checkbox"
-                                            checked="checked"> <label
-                                            for="course_check-3">
-                                            [CS2103 Aug 2013] : Team 3 </label>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="text-color-primary">
-                                        <strong>Emails</strong>
-                                    </div>
-                                    <br>
-                                    <div class="checkbox">
-                                        <input id="show_email"
-                                            type="checkbox"> <label
-                                            for="show_email"><strong>Show
-                                                Emails</strong></label>
-                                    </div>
-                                    <br>
-                                    <div id="emails"
-                                        style="display: none;">
-
-                                        <div id="student_email-c0.0"
-                                            style="display: block;">alice.b.tmms@gmail.com</div>
-
-                                        <div id="student_email-c0.1"
-                                            style="display: block;">benny.c.tmms@gmail.com</div>
-
-                                        <div id="student_email-c0.2"
-                                            style="display: block;">danny.e.tmms@gmail.com</div>
-
-                                        <div id="student_email-c0.3"
-                                            style="display: block;">emma.f.tmms@gmail.com</div>
-
-                                        <div id="student_email-c0.4"
-                                            style="display: block;">charlie.d.tmms@gmail.com</div>
-
-                                        <div id="student_email-c0.5"
-                                            style="display: block;">francis.g.tmms@gmail.com</div>
-
-                                        <div id="student_email-c0.6"
-                                            style="display: block;">gene.h.tmms@gmail.com</div>
-
-                                        <div id="student_email-c0.7"
-                                            style="display: block;">Kai@Kai</div>
-
+                                            for="giver_check-by-others">
+                                            By others </label>
                                     </div>
                                 </div>
                             </div>
@@ -305,9 +250,10 @@
                         <%
                             StudentAttributes student = data.roster.getStudentForEmail(recipient);
                                 Boolean isRecipientStudent = student != null;
+                                //TODO: handle student comments given by other instructor, but visible to all instructors.
                         %>
                         <div
-                            class="panel panel-info student-record-comments">
+                            class="panel panel-info student-record-comments giver_display-by-you">
                             <div class="panel-heading">
                                 From <b>you</b> to <b><%=isRecipientStudent ? student.name : recipient%></b>
                                 <%=isRecipientStudent ? " (" + student.team + ", <a href=\"mailto:" + student.email + "\">" + student.email + "</a>)" : ""%>
@@ -432,7 +378,7 @@
                                             <input type="submit"
                                                 class="btn btn-primary"
                                                 id="button_save_comment<%=studentIdx%>"
-                                                value="Add Comment">
+                                                value="Add">
                                             <input type="button"
                                                 class="btn btn-default"
                                                 value="Cancel"
@@ -543,20 +489,19 @@
                                                     int responseCommentIndex = 0;
                                                                 for (FeedbackResponseCommentAttributes frc : frcList) {//FeedbackResponseComments loop starts
                                                                     responseCommentIndex++;
+                                                                    String frCommentGiver = frc.giverEmail;
+                                                                    if (frc.giverEmail.equals(data.instructorEmail)) {
+                                                                        frCommentGiver = "you";
+                                                                    } else if (data.roster.getInstructorForEmail(frc.giverEmail) != null) {
+                                                                        frCommentGiver = data.roster.getInstructorForEmail(frc.giverEmail).name;
+                                                                    }
                                                 %>
                                                 <li
-                                                    class="list-group-item list-group-item-warning"
+                                                    class="list-group-item list-group-item-warning <%=frCommentGiver.equals("you")?"giver_display-by-you":"giver_display-by-others"%>"
                                                     id="responseCommentRow-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>">
                                                     <div
                                                         id="commentBar-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>">
-                                                        <span
-                                                            <%String frCommentGiver = frc.giverEmail;
-                            if (frc.giverEmail.equals(data.instructorEmail)) {
-                                frCommentGiver = "you";
-                            } else if (data.roster.getInstructorForEmail(frc.giverEmail) != null) {
-                                frCommentGiver = data.roster.getInstructorForEmail(frc.giverEmail).name;
-                            }%>
-                                                            class="text-muted">From:
+                                                        <span class="text-muted">From:
                                                             <b><%=frCommentGiver%></b>
                                                             [<%=frc.createdAt%>]
                                                         </span>

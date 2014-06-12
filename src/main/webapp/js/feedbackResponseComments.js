@@ -163,9 +163,12 @@ function generateNewCommentRow(data) {
 	var indexOfYear = commentDateStr.indexOf(thisYear, 0);
 	var formattedDate = commentDateStr.substring(0, indexOfYear - 1);
 	
+	var classNameForRow = $(location).attr('href').indexOf('instructorCommentsPage') != -1? "list-group-item list-group-item-warning giver_display-by-you":
+			"list-group-item list-group-item-warning";
+	
     var newRow =
     // Comment Row
-	"<li class=\"list-group-item list-group-item-warning\" id=\"responseCommentRow-" + addCount + "\">"
+	"<li class=\"" + classNameForRow + "\" id=\"responseCommentRow-" + addCount + "\">"
 	+ "<div id=\"commentBar-" + addCount + "\">"
     + "<span class=\"text-muted\">From: <b>you</b> [" + formattedDate + "]</span>"
 	// Delete form

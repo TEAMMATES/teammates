@@ -27,6 +27,139 @@ $(document).ready(function(){
 		filterPanel();
 	});
 	
+	//Binding for "Display All" giver option
+	$('#giver_all').click(function(){
+		//use giver_all checkbox to control its children checkboxes.
+		if($('#giver_all').is(':checked')){
+			$("input[id^=giver_check]").prop("checked", true);
+		} else {
+			$("input[id^=giver_check]").prop("checked", false);
+		}
+		
+		filterGiver();
+	});
+	
+	//Binding for changes in the giver checkboxes.
+    $("input[id^=giver_check]").change(function(){
+    	//based on the selected checkboxes, check/uncheck giver_all checkbox
+    	if($("input[id^='giver_check']:checked").length == $("input[id^='giver_check']").length){
+        	$("#giver_all").prop("checked", true);
+    	} else{
+        	$("#giver_all").prop("checked", false);
+    	}
+    	
+    	filterGiver();
+    });
+    
+    function filterGiver(){
+		//hide the panel accordingly based on panel_check checkbox
+	    $("input[id=giver_check-by-you]").each(function(){
+	        if(this.checked){
+	            $(".giver_display-by-you").each(function(){showCommentAndItsPanel(this);});
+	        } else{
+	            $(".giver_display-by-you").each(function(){hideCommentAndItsPanel(this);});
+	        }
+	    });
+	    
+	    $("input[id=giver_check-by-others]").each(function(){
+	        if(this.checked){
+	            $(".giver_display-by-others").each(function(){showCommentAndItsPanel(this);});
+	        } else{
+	            $(".giver_display-by-others").each(function(){hideCommentAndItsPanel(this);});
+	        }
+	    });
+	}
+    
+    function showCommentAndItsPanel(comment){
+    	var classNameForCommentsInFeedbackResponse = "list-group-item list-group-item-warning giver_display-by";
+    	var classNameForCommentsInStudentRecords = "panel panel-info student-record-comments giver_display-by";
+    	
+    	$(comment).show();
+    	
+    	//to show feedback question + feedback session panel
+    	//if not all list elements are hidden within fbQuestion, then show fbQuestion
+    	if($(comment).prop("class").toString().contains(classNameForCommentsInFeedbackResponse)){
+            if($(comment).parent().find('li[style*="display:none"]').length != $(comment).parent().find('li').length){
+            	var commentListRegionForFeedbackResponse = $(comment).parent().parent().parent();
+            	//a response in instructorCommentsPage (html) is made up of 4 rows as the followings
+            	commentListRegionForFeedbackResponse.show();
+            	commentListRegionForFeedbackResponse.prev().show();
+            	commentListRegionForFeedbackResponse.prev().prev().show();
+            	commentListRegionForFeedbackResponse.prev().prev().prev().show();
+            	
+            	var feedbackQuestion = commentListRegionForFeedbackResponse.parent().parent().parent();
+            	if(feedbackQuestion.find('tr[style*="display:none"]').length != feedbackQuestion.find('tr').length){
+            		feedbackQuestion.show();
+            		
+            		//if not all questions are hidden within fbSession, then show the fbsession
+            		var feedbackSessionPanel = feedbackQuestion.parent().parent().parent();
+            		if(feedbackSessionPanel.find('div[class="panel panel-info"][style*="display:none"]').length != feedbackSessionPanel.find('div[class="panel panel-info"]').length){
+            			feedbackSessionPanel.show();
+            		}
+            	}
+            }
+    	}
+        //to show student comments
+        if ($(comment).prop("class").toString().contains(classNameForCommentsInStudentRecords)){
+        	var studentCommentRowParent = $(comment).parent().parent().parent();
+        	//if not all student comments are hidden, then show the student comments panel
+        	if(studentCommentRowParent.find('div[class*="giver_display-by"][style*="display:none"]').length != studentCommentRowParent.find('div[class*="giver_display-by"]').length)
+    		{
+        		studentCommentRowParent.show();
+    		}
+        }
+        //if not everything is hidden, hide no-commnet-panel
+        if ($("div[id^='panel_display'][style*='display:none']").length != $("div[id^='panel_display']").length){
+        	$('#no-comment-panel').hide();
+        }
+    }
+    
+    function hideCommentAndItsPanel(comment){
+    	var classNameForCommentsInFeedbackResponse = "list-group-item list-group-item-warning giver_display-by";
+    	var classNameForCommentsInStudentRecords = "panel panel-info student-record-comments giver_display-by";
+    	
+    	$(comment).hide();
+    	//hide comment's add form in commentListRegionForFeedbackResponse
+    	$("li[id^='showResponseCommentAddForm']").hide();
+    	
+    	//to hide feedback question + feedback session panel
+    	//if all list elements are hidden within fbQuestion, then hide fbQuestion
+    	if($(comment).prop("class").toString().contains(classNameForCommentsInFeedbackResponse)){
+            if($(comment).parent().find('li:hidden').length == $(comment).parent().find('li').length){
+            	var commentListRegionForFeedbackResponse = $(comment).parent().parent().parent();
+            	//a response in instructorCommentsPage (html) is made up of 4 rows as the followings
+            	commentListRegionForFeedbackResponse.hide();
+            	commentListRegionForFeedbackResponse.prev().hide();
+            	commentListRegionForFeedbackResponse.prev().prev().hide();
+            	commentListRegionForFeedbackResponse.prev().prev().prev().hide();
+            	
+            	var feedbackQuestion = commentListRegionForFeedbackResponse.parent().parent().parent();
+            	if(feedbackQuestion.find('tr:hidden').length == feedbackQuestion.find('tr').length){
+            		feedbackQuestion.hide();
+            		
+            		//if all questions are hidden within fbSession, then hide the fbsession
+            		var feedbackSessionPanel = feedbackQuestion.parent().parent().parent();
+            		if(feedbackSessionPanel.find('div[class="panel panel-info"]:hidden').length == feedbackSessionPanel.find('div[class="panel panel-info"]').length){
+            			feedbackSessionPanel.hide();
+            		}
+            	}
+            }
+    	}
+    	//to hide student comments
+    	if ($(comment).prop("class").toString().contains(classNameForCommentsInStudentRecords)){
+        	var studentCommentRowParent = $(comment).parent().parent().parent();
+        	//if all student comments are hidden, then hide the student comments panel
+        	if(studentCommentRowParent.find('div[class*="giver_display-by"]:hidden').length == studentCommentRowParent.find('div[class*="giver_display-by"]').length)
+    		{
+        		studentCommentRowParent.hide();
+    		}
+        }
+    	//if everything is hidden, display no-commnet-panel
+    	if ($("div[id^=panel_display]:hidden").length == $("div[id^=panel_display]").length){
+    		$('#no-comment-panel').show();
+    	}
+    }
+	
 	//Binding for changes in the panel checkboxes.
     $("input[id^=panel_check]").change(function(){
     	//based on the selected panel_check checkboxes, check/uncheck panel_all checkbox
@@ -48,7 +181,7 @@ $(document).ready(function(){
     	}
 		
 		//hide the panel accordingly based on panel_check checkbox
-	    $("input[id^=panel_check]").each(function(){
+	    $("input[id^='panel_check']").each(function(){
 	        var $courseIdx = $(this).attr("id").split('-')[1];
 	        if(this.checked){
 	            $("#panel_display-" + $courseIdx).show();
