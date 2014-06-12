@@ -280,17 +280,6 @@
                     </h4>
                 </div>
                 <br>
-                <%
-                    if (data.comments.size() == 0) {//comment size check starts
-                %>
-                <div
-                    class="panel student-record-comments">
-                    <div class="panel-heading">You don't
-                        have any comment in this course.</div>
-                </div>
-                <%
-                    } else {
-                %>
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         <strong><%=data.isViewingDraft ? "Comment drafts" : "Comments about students"%></strong>
@@ -459,9 +448,19 @@
                         <%
                             }//recipient loop ends
                         %>
+                        <%
+                            if (data.comments.size() == 0) {
+                        %>
+                        <div
+                            class="panel panel-warning student-record-comments">
+                            <div class="panel-heading">You don't
+                                have any comment here.</div>
+                        </div>
+                        <%
+                            }
+                        %>
                     </div>
                 </div>
-                <% }//comment size check ends %>
                 <%
                     for (String fsName : data.feedbackResultBundles.keySet()) {//FeedbackSession loop starts
                         FeedbackSessionResultsBundle bundle = data.feedbackResultBundles.get(fsName);
