@@ -8,6 +8,8 @@ import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.FeedbackAbstractQuestionDetails;
 import teammates.common.datatransfer.FeedbackAbstractResponseDetails;
+import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionType;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
@@ -18,6 +20,8 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
+import teammates.logic.core.FeedbackQuestionsLogic;
+import teammates.logic.core.StudentsLogic;
 
 public abstract class FeedbackSubmissionEditSaveAction extends Action {
     protected String courseId;
@@ -34,6 +38,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         verifyAccesibleForSpecificUser();
         
         String userEmailForCourse = getUserEmailForCourse();
+        String userSectionForCourse = getUserSectionForCourse();
         data = new FeedbackSubmissionEditPageData(account);
         data.bundle = getDataBundle(userEmailForCourse);        
         Assumption.assertNotNull("Feedback session " + feedbackSessionName + " does not exist in " + courseId + ".", data.bundle);
@@ -65,6 +70,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                     saveResponse(response);
                 } else {
                     response.giverEmail = userEmailForCourse;
+                    response.giverSection = userSectionForCourse;
                     responsesForQuestion.add(response);
                 }
             }
@@ -115,7 +121,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         }
     }
     
-    private static FeedbackResponseAttributes extractFeedbackResponseData(
+    private FeedbackResponseAttributes extractFeedbackResponseData(
             Map<String, String[]> requestParameters, int questionIndx, int responseIndx, 
             FeedbackAbstractQuestionDetails questionDetails) {
         FeedbackResponseAttributes response = new FeedbackResponseAttributes();
@@ -151,6 +157,18 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         Assumption.assertNotNull("Null feedbackQuestionType", feedbackQuestionType);
         response.feedbackQuestionType = FeedbackQuestionType.valueOf(feedbackQuestionType);
         
+        FeedbackQuestionAttributes question = FeedbackQuestionsLogic.inst().getFeedbackQuestion(response.feedbackQuestionId);
+        FeedbackParticipantType recipientType = question.recipientType;
+        if(recipientType == FeedbackParticipantType.INSTRUCTORS || recipientType == FeedbackParticipantType.NONE){
+            response.recipientSection = Const.DEFAULT_SECTION;
+        } else if(recipientType == FeedbackParticipantType.TEAMS){
+            response.recipientSection = StudentsLogic.inst().getSectionForTeam(courseId, response.recipientEmail);
+        } else if(recipientType == FeedbackParticipantType.STUDENTS){
+            response.recipientSection = logic.getStudentForEmail(courseId, response.recipientEmail).section;
+        } else {
+            response.recipientSection = getUserSectionForCourse();
+        }
+        
         //This field can be null if the question is skipped
         String[] answer = HttpRequestHelper.getValuesFromParamMap(
                 requestParameters, 
@@ -173,6 +191,8 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
     protected abstract void verifyAccesibleForSpecificUser();
 
     protected abstract String getUserEmailForCourse();
+    
+    protected abstract String getUserSectionForCourse();
 
     protected abstract FeedbackSessionQuestionsBundle getDataBundle(String userEmailForCourse) throws EntityDoesNotExistException;
 

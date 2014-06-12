@@ -414,7 +414,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         StudentAttributes student2InCourse1 = dataBundle.students.get("student2InCourse1");
         ArrayList<StudentEnrollDetails> enrollmentList = new ArrayList<StudentEnrollDetails>();
         StudentEnrollDetails studentDetails1 = new StudentEnrollDetails(StudentAttributes.UpdateStatus.MODIFIED,
-                course1Id, student1InCourse1.email, student1InCourse1.team, student1InCourse1.team + "tmp");
+                course1Id, student1InCourse1.email, student1InCourse1.team, student1InCourse1.team + "tmp", student1InCourse1.section, student1InCourse1.section + "tmp");
         enrollmentList.add(studentDetails1);
         
         FeedbackResponseAttributes feedbackResponse1InBundle = dataBundle.feedbackResponses.get("response1ForQ2S2C1");
@@ -438,7 +438,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         
         enrollmentList = new ArrayList<StudentEnrollDetails>();
         studentDetails1 = new StudentEnrollDetails(StudentAttributes.UpdateStatus.UNMODIFIED,
-                course1Id, student1InCourse1.email, student1InCourse1.team, student1InCourse1.team + "tmp");
+                course1Id, student1InCourse1.email, student1InCourse1.team, student1InCourse1.team + "tmp", student1InCourse1.section, student1InCourse1.section + "tmp");
         enrollmentList.add(studentDetails1);
         
         feedbackQuestionInDb = fqLogic.getFeedbackQuestion(feedbackResponse1InBundle.feedbackSessionName, 
@@ -459,7 +459,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         ______TS("adjust feedback response: delete after adjustment");
         
         studentDetails1 = new StudentEnrollDetails(StudentAttributes.UpdateStatus.MODIFIED,
-                course1Id, student2InCourse1.email, student1InCourse1.team, student1InCourse1.team + "tmp");
+                course1Id, student2InCourse1.email, student1InCourse1.team, student1InCourse1.team + "tmp", student1InCourse1.section, student1InCourse1.section + "tmp");
         enrollmentList = new ArrayList<StudentEnrollDetails>();
         enrollmentList.add(studentDetails1);
         

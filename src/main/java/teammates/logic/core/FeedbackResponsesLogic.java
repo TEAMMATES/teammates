@@ -306,6 +306,12 @@ public class FeedbackResponsesLogic {
         if (newResponse.recipientEmail == null) {
             newResponse.recipientEmail = oldResponse.recipientEmail;
         }
+        if (newResponse.giverSection == null) {
+            newResponse.giverSection = oldResponse.giverSection;
+        }
+        if (newResponse.recipientSection == null) {
+            newResponse.recipientSection = oldResponse.recipientSection;
+        }
 
         if (!newResponse.recipientEmail.equals(oldResponse.recipientEmail) ||
                 !newResponse.giverEmail.equals(oldResponse.giverEmail)) {
@@ -367,6 +373,28 @@ public class FeedbackResponsesLogic {
         }
     }
 
+    public void updateFeedbackResponsesForChangingSection(
+            String courseId, String userEmail, String oldSection, String newSection)
+            throws EntityDoesNotExistException, InvalidParametersException {
+
+        List<FeedbackResponseAttributes> responsesFromUser =
+                getFeedbackResponsesFromGiverForCourse(courseId, userEmail);
+
+        for (FeedbackResponseAttributes response : responsesFromUser) {
+            response.giverSection = newSection;
+            frDb.updateFeedbackResponse(response);
+        }
+
+        List<FeedbackResponseAttributes> responsesToUser =
+                getFeedbackResponsesForReceiverForCourse(courseId, userEmail);
+
+        for (FeedbackResponseAttributes response : responsesToUser) {
+            response.recipientSection = newSection;
+            frDb.updateFeedbackResponse(response);
+        }
+
+    }
+
     public void updateFeedbackResponseForChangingTeam(
             StudentEnrollDetails enrollment,
             FeedbackResponseAttributes response) {
@@ -389,6 +417,27 @@ public class FeedbackResponsesLogic {
 
         if (shouldDeleteResponse) {
             frDb.deleteEntity(response);
+        }
+    }
+    
+    public void updateFeedbackResponseForChangingSection(
+            StudentEnrollDetails enrollment,
+            FeedbackResponseAttributes response) throws InvalidParametersException, EntityDoesNotExistException {
+
+        boolean isGiverSameForResponseAndEnrollment = response.giverEmail
+                .equals(enrollment.email);
+        boolean isReceiverSameForResponseAndEnrollment = response.recipientEmail
+                .equals(enrollment.email);
+
+        if(isGiverSameForResponseAndEnrollment){
+            response.giverSection = enrollment.newSection;
+        }
+        if(isReceiverSameForResponseAndEnrollment){
+            response.recipientSection = enrollment.newSection;
+        }
+        
+        if(isGiverSameForResponseAndEnrollment || isReceiverSameForResponseAndEnrollment){
+            frDb.updateFeedbackResponse(response);
         }
     }
 

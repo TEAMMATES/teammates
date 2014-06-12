@@ -305,6 +305,8 @@ public class FeedbackResponsesDb extends EntitiesDb {
         
         fr.setAnswer(newAttributes.responseMetaData);
         fr.setRecipientEmail(newAttributes.recipientEmail);
+        fr.setGiverSection(newAttributes.giverSection);
+        fr.setReceiverSection(newAttributes.recipientSection);
                 
         getPM().close();
     }
