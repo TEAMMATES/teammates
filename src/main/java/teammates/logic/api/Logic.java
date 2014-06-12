@@ -254,6 +254,10 @@ public class Logic {
 
         instructorsLogic.createInstructor(null, courseId, name, email);
     }
+    
+    public void createInstructor(InstructorAttributes instructor) throws InvalidParametersException, EntityAlreadyExistsException {
+        instructorsLogic.createInstructor(instructor);
+    }
 
     /**
      * Preconditions: <br>
