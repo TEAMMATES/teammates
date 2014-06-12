@@ -22,6 +22,10 @@ public class InstructorPermissionAttributes extends EntityAttributes {
     public Text instructorPrivilegesAsText;
     public transient InstructorPrivileges privileges;
     
+    public InstructorPermissionAttributes(){
+        
+    }
+    
     public InstructorPermissionAttributes(String instrEmail, String courseId, String role, Text instructorPrivilegesAsText) {
         this.instructorEmail = Sanitizer.sanitizeEmail(instrEmail);
         this.courseId = Sanitizer.sanitizeTitle(courseId);
