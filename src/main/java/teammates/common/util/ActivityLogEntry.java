@@ -179,19 +179,15 @@ public class ActivityLogEntry {
     
     public String getActionInfo(){
         String style = "";
-        String isBoldStart = "";
-        String isBoldEnd = "";
-
+        
         if (message.toLowerCase().contains(Const.ACTION_RESULT_FAILURE.toLowerCase())
            || message.toLowerCase().contains(Const.ACTION_RESULT_SYSTEM_ERROR_REPORT.toLowerCase())) {
             
-                style = "text-danger";
-                isBoldStart = "<strong>";
-                isBoldEnd = "</strong>";        
+                style = "text-danger";      
         } else {
             style = "text-success bold";
         }
-        return isBoldStart+"<a href=\""+getUrlToShow()+"\" class=\""+style+"\" target=\"_blank\">"+servletName+"</a>" + isBoldEnd;
+        return "<a href=\""+getUrlToShow()+"\" class=\""+style+"\" target=\"_blank\">"+servletName+"</a>";
     }
     
     public String getMessageInfo(){

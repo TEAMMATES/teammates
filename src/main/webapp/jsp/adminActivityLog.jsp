@@ -752,14 +752,13 @@
                                                     name="filterQuery"
                                                     value="person:<%=log.getId()%>">
 
-                                                </small>
+                                                </small> <span class="pull-right"><%=log.getActionInfo()%></span>
                                             </h4>
 
                                         </div>
 
                                         <ul class="list-group">
-                                            <li class="list-group-item"><%=log.getActionInfo()%>
-                                            </li>
+
                                             <li class="list-group-item"><%=log.getMessageInfo()%>
                                             </li>
 
