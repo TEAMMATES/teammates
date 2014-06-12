@@ -37,7 +37,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
     public FeedbackResponseAttributes(String feedbackSessionName,
             String courseId, String feedbackQuestionId,
             FeedbackQuestionType feedbackQuestionType, String giverEmail, String giverSection,
-            String recipientSection, String recipientEmail, Text responseMetaData) {
+            String recipientEmail, String recipientSection, Text responseMetaData) {
         this.feedbackSessionName = Sanitizer.sanitizeTitle(feedbackSessionName);
         this.courseId = Sanitizer.sanitizeTitle(courseId);
         this.feedbackQuestionId = feedbackQuestionId;

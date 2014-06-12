@@ -10,10 +10,8 @@ import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.SectionDetailsBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentEnrollDetails;
-import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -28,10 +26,7 @@ public class FeedbackResponsesLogic {
     private static final Logger log = Utils.getLogger();
 
     private static FeedbackResponsesLogic instance = null;
-    private static final InstructorsLogic instructorsLogic = InstructorsLogic
-            .inst();
     private static final StudentsLogic studentsLogic = StudentsLogic.inst();
-    private static final CoursesLogic coursesLogic = CoursesLogic.inst();
     private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic
             .inst();
     private static final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
@@ -68,6 +63,7 @@ public class FeedbackResponsesLogic {
 
     public FeedbackResponseAttributes getFeedbackResponse(
             String feedbackQuestionId, String giverEmail, String recipient) {
+        log.warning(feedbackQuestionId);
         return frDb.getFeedbackResponse(feedbackQuestionId, giverEmail, recipient);
     }
 
@@ -185,11 +181,6 @@ public class FeedbackResponsesLogic {
         default:
             Assumption
                     .fail("The role of the requesting use has to be Student or Instructor");
-        }
-
-        if (section != null && !viewableResponses.isEmpty()) {
-            viewableResponses = filterResponsesForSection(viewableResponses,
-                    section, question.courseId);
         }
 
         return viewableResponses;
@@ -395,7 +386,7 @@ public class FeedbackResponsesLogic {
 
     }
 
-    public void updateFeedbackResponseForChangingTeam(
+    public boolean updateFeedbackResponseForChangingTeam(
             StudentEnrollDetails enrollment,
             FeedbackResponseAttributes response) {
 
@@ -418,6 +409,8 @@ public class FeedbackResponsesLogic {
         if (shouldDeleteResponse) {
             frDb.deleteEntity(response);
         }
+        
+        return shouldDeleteResponse;
     }
     
     public void updateFeedbackResponseForChangingSection(
@@ -627,53 +620,5 @@ public class FeedbackResponsesLogic {
         }
 
         return viewableResponses;
-    }
-
-    private List<FeedbackResponseAttributes> filterResponsesForSection(
-            List<FeedbackResponseAttributes> responses,
-            String section, String courseId) throws EntityDoesNotExistException {
-
-        List<FeedbackResponseAttributes> filteredResponses = new ArrayList<FeedbackResponseAttributes>();
-        SectionDetailsBundle sectionDetails = coursesLogic.getSectionForCourse(section, courseId);
-        
-        for (FeedbackResponseAttributes response : responses) {
-            String giverEmail = response.giverEmail;
-            String recipientEmail = response.recipientEmail;
-
-            boolean isGiverInSection = isParticipantInSection(giverEmail,
-                    sectionDetails);
-            boolean isRecipientInSection = isParticipantInSection(
-                    recipientEmail, sectionDetails);
-
-            if (isGiverInSection && isRecipientInSection) {
-                filteredResponses.add(response);
-            } else {
-                boolean isGiverInstructor = instructorsLogic
-                        .isEmailOfInstructorOfCourse(giverEmail, courseId);
-                boolean isRecipientInstructor = instructorsLogic
-                        .isEmailOfInstructorOfCourse(recipientEmail, courseId);
-                
-                if ((isGiverInstructor && isRecipientInSection) || (isRecipientInstructor && isGiverInSection)){
-                    filteredResponses.add(response);
-                }
-            }
-        }
-
-        return filteredResponses;
-    }
-
-    private boolean isParticipantInSection(String email, SectionDetailsBundle sectionDetails) {
-        for (TeamDetailsBundle teamDetails : sectionDetails.teams) {
-            if (teamDetails.name.equals(email)) {
-                return true;
-            }
-            for (StudentAttributes student : teamDetails.students) {
-                if (student.email.equals(email)) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
     }
 }

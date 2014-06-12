@@ -4,7 +4,6 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.testng.annotations.AfterClass;
@@ -488,7 +487,9 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         fra.courseId = "testCourse";
         fra.feedbackQuestionType = FeedbackQuestionType.TEXT;
         fra.giverEmail = "giver@email.com";
+        fra.giverSection = "None";
         fra.recipientEmail = "recipient@email.com";
+        fra.recipientSection = "None";
         fra.feedbackQuestionId = "testFeedbackQuestionId";
         
         FeedbackAbstractResponseDetails responseDetails = new FeedbackTextResponseDetails("Text response");

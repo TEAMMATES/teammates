@@ -57,7 +57,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
                 getFeedbackResponseEntity(feedbackQuestionId, giverEmail, receiverEmail);
         
         if (fr == null) {
-            log.info("Trying to get non-existent response: " +
+            log.warning("Trying to get non-existent response: " +
                     feedbackQuestionId + "/" + "from: " +
                     giverEmail + " to: " + receiverEmail );
             return null;
@@ -306,7 +306,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         fr.setAnswer(newAttributes.responseMetaData);
         fr.setRecipientEmail(newAttributes.recipientEmail);
         fr.setGiverSection(newAttributes.giverSection);
-        fr.setReceiverSection(newAttributes.recipientSection);
+        fr.setRecipientSection(newAttributes.recipientSection);
                 
         getPM().close();
     }

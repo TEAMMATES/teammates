@@ -14,6 +14,7 @@ import teammates.common.datatransfer.FeedbackQuestionType;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -164,7 +165,8 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         } else if(recipientType == FeedbackParticipantType.TEAMS){
             response.recipientSection = StudentsLogic.inst().getSectionForTeam(courseId, response.recipientEmail);
         } else if(recipientType == FeedbackParticipantType.STUDENTS){
-            response.recipientSection = logic.getStudentForEmail(courseId, response.recipientEmail).section;
+            StudentAttributes student = logic.getStudentForEmail(courseId, response.recipientEmail);
+            response.recipientSection = (student == null) ? Const.DEFAULT_SECTION : student.section;
         } else {
             response.recipientSection = getUserSectionForCourse();
         }

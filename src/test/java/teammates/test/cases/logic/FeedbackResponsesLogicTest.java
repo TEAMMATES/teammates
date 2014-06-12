@@ -115,7 +115,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
 
         restoreTypicalDataInDatastore();        
         responseToUpdate = getResponseFromDatastore("response1ForQ2S1C1");
-        
+  
         FeedbackResponseAttributes existingResponse = 
                 new FeedbackResponseAttributes(
                         responseToUpdate.feedbackSessionName, 
@@ -123,9 +123,9 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
                         responseToUpdate.feedbackQuestionId, 
                         responseToUpdate.feedbackQuestionType, 
                         responseToUpdate.giverEmail,
-                        "Section 1",
+                        responseToUpdate.giverSection,
                         "student3InCourse1@gmail.com",
-                        "Section 1",
+                        responseToUpdate.recipientSection,
                         responseToUpdate.responseMetaData);
         
         frLogic.createFeedbackResponse(existingResponse);

@@ -1022,23 +1022,7 @@ public class FeedbackSessionsLogic {
         }
         return true;
     }
-    
-    private boolean isFeedbackSessionFullyCompletedByTeam(String feedbackSessionName,
-            String courseId, String teamName)
-            throws EntityDoesNotExistException {
-
-        if (isFeedbackSessionExists(feedbackSessionName, courseId) == false) {
-            throw new EntityDoesNotExistException(
-                    "Trying to check a feedback session that does not exist.");
-        }
-
-        List<FeedbackQuestionAttributes> questions =
-                fqLogic.getFeedbackQuestionsForTeam(
-                        feedbackSessionName, courseId, teamName);
         
-        return questions.isEmpty();
-    }
-    
     /**
      * This method returns a list of feedback sessions which are relevant for a user.
      */
