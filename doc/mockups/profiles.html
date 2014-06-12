@@ -88,9 +88,7 @@
             height:170px;
         }
 
-            #studentProfile .row:nth-of-type(2n) {
-                background-color: #eaeff5;
-            }
+
 
         #studentName {
             margin-top: 0;
@@ -164,8 +162,24 @@
 
 <div id="frameBodyWrapper" class="container">
 <div id="topOfPage"></div>
-<h1>Student Records</h1>
+<h1>Emma Farrell's Records</h1>
 <br>
+<div class="modal fade" id="studentMoreInfo" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Emma's Profile - More Info</h4>
+            </div>
+            <div class="modal-body">
+                <p>One fine body&hellip;<br><br> Maybe a few links here. A few things there...</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 <div class="container-fluid">
 <div class="row">
@@ -176,7 +190,8 @@
     </div>
     <div class="col-lg-6 col-md-8 col-sm-10 col-xs-10">
         <div class="container-fluid">
-            <div class="row">
+
+            <div class="row hidden">
                 <div class="col-md-12">
                     <h3 id="studentName">Emma Farrell</h3>
                 </div>
@@ -184,28 +199,10 @@
 
             <div class="row">
                 <div class="profile-attribute col-md-4 col-sm-4 col-xs-4">
-                    Class/Major
+                    Shortname
                 </div>
-                <div class="profile-value col-md-8 col-sm-8 col-xs-8">
-                    Computer Science
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="profile-attribute col-md-4 col-sm-4 col-xs-4">
-                    Gender
-                </div>
-                <div class="profile-value col-md-8 col-sm-8 col-xs-8">
-                    Female
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="profile-attribute col-md-4 col-sm-4 col-xs-4">
-                    Country
-                </div>
-                <div class="profile-value col-md-8 col-sm-8 col-xs-8">
-                    Croatia
+                <div class="profile-value col-md-8 col-sm-8 col-xs-8 border-left-gray">
+                    Emm
                 </div>
             </div>
 
@@ -213,23 +210,48 @@
                 <div class="profile-attribute col-md-4 col-sm-4 col-xs-4">
                     Email
                 </div>
-                <div class="profile-value col-md-8 col-sm-8 col-xs-8">
+                <div class="profile-value col-md-8 col-sm-8 col-xs-8 border-left-gray">
                     emma.farrel@gmail.com
                 </div>
             </div>
 
             <div class="row">
                 <div class="profile-attribute col-md-4 col-sm-4 col-xs-4">
-                    Ext Profile Page
+                    Institution
                 </div>
-                <div class="profile-value col-md-8 col-sm-8 col-xs-8">
-                    <a class="link" href="http://www.ExternalProfile.com/emma">
-                        http://www.ExternalProfile.com/emma
-                    </a>
+                <div class="profile-value col-md-8 col-sm-8 col-xs-8 border-left-gray">
+                    Nanyang Tech University
                 </div>
             </div>
 
             <div class="row">
+                <div class="profile-attribute col-md-4 col-sm-4 col-xs-4">
+                    Country
+                </div>
+                <div class="profile-value col-md-8 col-sm-8 col-xs-8 border-left-gray">
+                    Croatia
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="profile-attribute col-md-4 col-sm-4 col-xs-4">
+                    Gender
+                </div>
+                <div class="profile-value col-md-8 col-sm-8 col-xs-8 border-left-gray">
+                    Female
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <br>
+                    <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#studentMoreInfo">
+                        MoreInfo
+                    </a>
+                </div>
+                <br><br>
+            </div>
+
+            <div class="row" style="display:none">
                 <div class="profile-attribute col-md-4 col-sm-4 col-xs-4" title="Only from Teammates">
                     Past Courses*
                 </div>
@@ -262,10 +284,10 @@
                     </div>
                 </div>
             </div>
-            <br><br>
         </div>
     </div>
 </div>
+
 <div class="row">
 <div class="col-md-12">
     <div class="panel panel-info">
