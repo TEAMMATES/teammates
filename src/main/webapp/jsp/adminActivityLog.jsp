@@ -725,8 +725,8 @@
                             			for (ActivityLogEntry log : appLogs) {
                             %>
                             <tr>
-
-                                <td><%=log.getDateInfo()%></td>
+                                
+                                <td style="vertical-align:middle;"><%=log.getDateInfo()%></td>
 
                                 <td>
 
