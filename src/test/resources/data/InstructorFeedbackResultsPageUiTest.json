@@ -70,7 +70,7 @@
             "name":"Extra guy",
             "comments":"This student will move to a new team after evaluation created",
             "team":"Team 2",
-            "section":"Section B"
+            "section":"Section A"
         },
         "DropOut":{
             "googleId":"drop.out",
@@ -79,7 +79,7 @@
             "name":"Drop out",
             "comments":"This student will drop out after evaluation created",
             "team":"Team 2",
-            "section":"Section B"
+            "section":"Section A"
         },
         "Charlie":{
             "googleId":"CFResultsUiT.charlie.d",
@@ -88,7 +88,7 @@
             "name": "Charlie Dávis",
             "comments": "This student's name is Charlie Dávis",
             "team":"Team 2",
-            "section":"Section B"
+            "section":"Section A"
         },
         "Danny":{
             "googleId":"CFResultsUiT.danny.e",
@@ -555,7 +555,7 @@
             "responseMetaData":{
                 "value":"3 Response to Emily."
             },
-            "giverSection":"Section B",
+            "giverSection":"Section A",
             "recipientSection":"Section B"
         },
         "response5":{
@@ -569,7 +569,7 @@
                 "value":"4 Response to Charlie."
             },
             "giverSection":"Section A",
-            "recipientSection":"Section B"
+            "recipientSection":"Section A"
         },
         "response6":{
             "feedbackSessionName":"First Session",
@@ -686,7 +686,7 @@
                 "value":"Response from team 1 (by alice) to team 2."
             },
             "giverSection":"Section A",
-            "recipientSection":"Section B"
+            "recipientSection":"Section A"
         }
     }
 }

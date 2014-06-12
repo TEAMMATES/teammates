@@ -21,7 +21,7 @@ function filterResults(searchText, element){
     element = element || $("#frameBodyWrapper").find("div.panel").filter(function(index){
         var e = $("#frameBodyWrapper").find("div.panel")[index];
         var heading = $(e).children(".panel-heading");
-        var body = $(e).children(".panel-body");
+        var body = $(e).children(".panel-collapse").children(".panel-body");
         if(heading.length != 0 && body.length != 0){
             recurse = true;
             return true;

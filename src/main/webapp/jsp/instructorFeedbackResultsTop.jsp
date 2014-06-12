@@ -60,7 +60,7 @@
 </div>
 
 <%
-    if (noResponses == false) {
+    if (noResponses == false || !data.selectedSection.equals("All")) {
 %>
 
 <form class="form-horizontal" role="form" method="post" action="<%=data.getInstructorFeedbackSessionResultsLink(data.bundle.feedbackSession.courseId,data.bundle.feedbackSession.feedbackSessionName)%>">
