@@ -268,7 +268,7 @@ public class FeedbackSessionsLogic {
                 getFeedbackSessionResultsForInstructor(feedbackSessionName, courseId, userEmail);
         
         // sort responses by giver > recipient > qnNumber
-        Collections.sort(results.responses, results.compareByGiverName);
+        Collections.sort(results.responses, results.compareByGiverRecipientQuestion);
         
         String export = "";
         

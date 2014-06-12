@@ -2,6 +2,7 @@ package teammates.test.cases.ui.browsertests;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.assertTrue;
 
 import org.openqa.selenium.By;
 import org.testng.annotations.AfterClass;
@@ -40,6 +41,9 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
     public void testAll() throws Exception {
         testContent();
         testSortAction();
+        testPanelsCollapseExpand();
+        testShowStats();
+        testSearchScript();
         testFeedbackResponseCommentActions();
         testDownloadAction();
         testLink();
@@ -63,7 +67,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("test sort types");
         
         resultsPage = loginToInstructorFeedbackSubmitPage("CFResultsUiT.instr", "Open Session", NO_STATUS_MESSAGE);
-        resultsPage.displayByGiver();
+        resultsPage.displayByGiverRecipientQuestion();
         
         assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(9,"giver-1-recipient-1"));
         assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(9,"giver-1-recipient-1"));
@@ -80,26 +84,10 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(12,"giver-1-recipient-1"));
         assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(12,"giver-1-recipient-1"));
 
-        resultsPage.verifyHtml("/instructorFeedbackResultsSortGiver.html");
+        resultsPage.verifyHtml("/instructorFeedbackResultsSortGiverRecipientQuestion.html");
         
-        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(9,"giver-1-recipient-1"));
-        assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(9,"giver-1-recipient-1"));
-        assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(9,"giver-1-recipient-1"));
-        assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(9,"giver-1-recipient-1"));
-        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(9,"giver-1-recipient-1"));
-
-        assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(10,"giver-1-recipient-1"));
-        assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(10,"giver-1-recipient-1"));
-
-        assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(11,"giver-1-recipient-1"));
-        assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(11,"giver-1-recipient-1"));
-
-        assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(12,"giver-1-recipient-1"));
-        assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(12,"giver-1-recipient-1"));
-
-        
-        resultsPage.displayByRecipient();
-        resultsPage.verifyHtml("/instructorFeedbackResultsSortRecipient.html");
+        resultsPage.displayByRecipientGiverQuestion();
+        resultsPage.verifyHtml("/instructorFeedbackResultsSortRecipientGiverQuestion.html");
 
         assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(9,"giver-1-recipient-2"));
         assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(9,"giver-1-recipient-2"));
@@ -115,11 +103,33 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(12,"giver-1-recipient-2"));
         assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(12,"giver-1-recipient-2"));
+        
+        
+        resultsPage.displayByGiverQuestionRecipient();
+        resultsPage.verifyHtml("/instructorFeedbackResultsSortGiverQuestionRecipient.html");
+        
+        resultsPage.displayByRecipientQuestionGiver();
+        resultsPage.verifyHtml("/instructorFeedbackResultsSortRecipientQuestionGiver.html");
+        
+        //Sorted by team
+        resultsPage.clickGroupByTeam();
+        
+        resultsPage.displayByGiverRecipientQuestion();
+        resultsPage.verifyHtml("/instructorFeedbackResultsSortGiverRecipientQuestionTeam.html");
 
+        resultsPage.displayByRecipientGiverQuestion();
+        resultsPage.verifyHtml("/instructorFeedbackResultsSortRecipientGiverQuestionTeam.html");
         
-        resultsPage.displayByTable();
-        resultsPage.verifyHtml("/instructorFeedbackResultsSortTable.html");
+        resultsPage.displayByGiverQuestionRecipient();
+        resultsPage.verifyHtml("/instructorFeedbackResultsSortGiverQuestionRecipientTeam.html");
         
+        resultsPage.displayByRecipientQuestionGiver();
+        resultsPage.verifyHtml("/instructorFeedbackResultsSortRecipientQuestionGiverTeam.html");
+        
+        
+        //By question
+        resultsPage.displayByQuestion();
+        resultsPage.verifyHtml("/instructorFeedbackResultsSortQuestion.html");
         
         assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(9,""));
         assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(9,""));
@@ -145,23 +155,81 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                 "3 Response to Emily.", 
                 "4 Response to Charlie.");
 
-        verifySortingOrder(By.id("button_sortFrom"), 
-                "Alice Betsy (Team 1)", 
-                "Benny Charles (Team 1)", 
-                "Benny Charles (Team 1)", 
-                "Charlie Dávis (Team 2)");
+        verifySortingOrder(By.id("button_sortFromName"), 
+                "Alice Betsy",
+                "Benny Charles",
+                "Benny Charles",
+                "Charlie Dávis");
+        
+        verifySortingOrder(By.id("button_sortFromTeam"), 
+                "Team 1",
+                "Team 1",
+                "Team 2",
+                "Team 2");
 
-        verifySortingOrder(By.id("button_sortTo"), 
-                "Benny Charles (Team 1)", 
-                "Charlie Dávis (Team 2)", 
-                "Danny Engrid (Team 2)" ,
-                "Emily (Team 3)");
+        verifySortingOrder(By.id("button_sortToName"), 
+                "Benny Charles", 
+                "Charlie Dávis", 
+                "Danny Engrid",
+                "Emily");
+
+        verifySortingOrder(By.id("button_sortToTeam"), 
+                "Team 2{*}Team 3",
+                "Team 1{*}Team 2",
+                "Team 1{*}Team 2",
+                "Team 1{*}Team 1");
+        
+        
+    }
+    
+    public void testPanelsCollapseExpand(){
+        ______TS("panels expand/collapse");
+        
+        assertEquals(resultsPage.collapseExpandButton.getText(),"Collapse All");
+        assertTrue(resultsPage.verifyAllResultsPanelBodyVisibility(true));
+        
+        resultsPage.clickCollapseExpand();
+        assertEquals(resultsPage.collapseExpandButton.getText(),"Expand All");
+        assertTrue(resultsPage.verifyAllResultsPanelBodyVisibility(false));
+        
+
+        resultsPage.clickCollapseExpand();
+        assertEquals(resultsPage.collapseExpandButton.getText(),"Collapse All");
+        assertTrue(resultsPage.verifyAllResultsPanelBodyVisibility(true));
+        
+    }
+    
+    public void testShowStats(){
+        ______TS("show stats");
+        
+        assertEquals(resultsPage.showStatsCheckbox.getAttribute("checked"),"true");
+        assertTrue(resultsPage.verifyAllStatsVisibility(true));
+        
+        resultsPage.clickShowStats();
+        assertEquals(resultsPage.showStatsCheckbox.getAttribute("checked"),null);
+        assertTrue(resultsPage.verifyAllStatsVisibility(false));
+        
+
+        resultsPage.clickShowStats();
+        assertEquals(resultsPage.showStatsCheckbox.getAttribute("checked"),"true");
+        assertTrue(resultsPage.verifyAllStatsVisibility(true));
+        
+    }
+    
+    public void testSearchScript(){
+        ______TS("test search/filter script");
+        
+        resultsPage.fillSearchBox("alice");
+
+        resultsPage.verifyHtml("/instructorFeedbackResultsSortQuestionSearch.html");
+        
+        
     }
     
     public void testFeedbackResponseCommentActions() {
         
         resultsPage = loginToInstructorFeedbackSubmitPage("CFResultsUiT.instr", "Open Session", NO_STATUS_MESSAGE);
-        resultsPage.displayByRecipient();
+        resultsPage.displayByRecipientGiverQuestion();
         
         ______TS("failure: add empty feedback response comment");
         
@@ -170,7 +238,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         ______TS("action: add new feedback response comments");
         
-        resultsPage.displayByRecipient();
+        resultsPage.displayByRecipientGiverQuestion();
         resultsPage.addFeedbackResponseComment("test comment 1");
         resultsPage.addFeedbackResponseComment("test comment 2");
         resultsPage.verifyCommentRowContent("-0",
@@ -178,7 +246,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.verifyCommentRowContent("-1",
                 "test comment 2", "CFResultsUiT.instr@gmail.com");
         
-        resultsPage.displayByRecipient();
+        resultsPage = loginToInstructorFeedbackSubmitPage("CFResultsUiT.instr", "Open Session", NO_STATUS_MESSAGE);
+        resultsPage.displayByRecipientGiverQuestion();
         resultsPage.verifyCommentRowContent("-1-1-1-1",
                 "test comment 1", "CFResultsUiT.instr@gmail.com");
         resultsPage.verifyCommentRowContent("-1-1-1-2",
@@ -196,13 +265,14 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.deleteFeedbackResponseComment("-1-1-1-1");
         resultsPage.verifyRowMissing("-1-1-1-1");
         
-        resultsPage.displayByRecipient();
+        resultsPage = loginToInstructorFeedbackSubmitPage("CFResultsUiT.instr", "Open Session", NO_STATUS_MESSAGE);
+        resultsPage.displayByRecipientGiverQuestion();
         resultsPage.verifyCommentRowContent("-1-1-1-1",
                 "test comment 2", "CFResultsUiT.instr@gmail.com");
         
         ______TS("action: add edit and delete successively");
         
-        resultsPage.displayByRecipient();
+        resultsPage.displayByRecipientGiverQuestion();
         resultsPage.addFeedbackResponseComment("successive action comment");
         resultsPage.verifyCommentRowContent("-0",
                 "successive action comment", "CFResultsUiT.instr@gmail.com");
@@ -215,7 +285,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.deleteFeedbackResponseComment("-0");
         resultsPage.verifyRowMissing("-0");
         
-        resultsPage.displayByRecipient();
+        resultsPage = loginToInstructorFeedbackSubmitPage("CFResultsUiT.instr", "Open Session", NO_STATUS_MESSAGE);
+        resultsPage.displayByRecipientGiverQuestion();
         resultsPage.verifyCommentRowContent("-1-1-1-1",
                 "test comment 2", "CFResultsUiT.instr@gmail.com");
         resultsPage.verifyRowMissing("-1-1-1-2");

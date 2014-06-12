@@ -51,9 +51,11 @@
                                 <li><a href="#instructorFeedbackPreviewAsInstructorPage">Instructor Feedback Preview as Instructor Page</a></li>
                                 <li><a href="#instructorFeedbackSubmitPage">Instructor Feedback Submit Page</a></li>
                                 <li><a href="#instructorFeedbackQuestionSubmitPage">Instructor Feedback Question Submit Page</a></li>
-                                <li><a href="#instructorFeedbackResultsPageByGiver">Instructor Feedback Results Page (By giver)</a></li>
-                                <li><a href="#instructorFeedbackResultsPageByRecipient">Instructor Feedback Results Page (By recipient)</a></li>
-                                <li><a href="#instructorFeedbackResultsPageByTable">Instructor Feedback Results Page (By table)</a></li>                        
+                                <li><a href="#instructorFeedbackResultsPageByGiverRecipientQuestion">Instructor Feedback Results Page (By giver-recipient-question)</a></li>
+                                <li><a href="#instructorFeedbackResultsPageByRecipientGiverQuestion">Instructor Feedback Results Page (By recipient-giver-question)</a></li>
+                                <li><a href="#instructorFeedbackResultsPageByGiverQuestionRecipient">Instructor Feedback Results Page (By giver-question-recipient)</a></li>
+                                <li><a href="#instructorFeedbackResultsPageByRecipientQuestionGiver">Instructor Feedback Results Page (By recipient-question-giver)</a></li>
+                                <li><a href="#instructorFeedbackResultsPageByQuestion">Instructor Feedback Results Page (By question)</a></li>                        
                             </ul>
                         </td>
                         <td>
@@ -190,16 +192,24 @@
                 <div id="instructorFeedbackQuestionSubmitPage"></div>
                 <br><hr class="hr-bold"><br>
                 
-                <div class="pageinfo">Instructor Feedback Results Page (By giver)</div>
-                <div id="instructorFeedbackResultsPageByGiver"></div>
+                <div class="pageinfo">Instructor Feedback Results Page (By giver-recipient-question)</div>
+                <div id="instructorFeedbackResultsPageByGiverRecipientQuestion"></div>
                 <br><hr class="hr-bold"><br>        
                 
-                <div class="pageinfo">Instructor Feedback Results Page (By recipient)</div>
-                <div id="instructorFeedbackResultsPageByRecipient"></div>
+                <div class="pageinfo">Instructor Feedback Results Page (By recipient-giver-question)</div>
+                <div id="instructorFeedbackResultsPageByRecipientGiverQuestion"></div>
+                <br><hr class="hr-bold"><br>
+
+                <div class="pageinfo">Instructor Feedback Results Page (By giver-question-recipient)</div>
+                <div id="instructorFeedbackResultsPageByGiverQuestionRecipient"></div>
+                <br><hr class="hr-bold"><br>        
+                
+                <div class="pageinfo">Instructor Feedback Results Page (By recipient-question-giver)</div>
+                <div id="instructorFeedbackResultsPageByRecipientQuestionGiver"></div>
                 <br><hr class="hr-bold"><br>
                 
-                <div class="pageinfo">Instructor Feedback Results Page (By table)</div>
-                <div id="instructorFeedbackResultsPageByTable"></div>
+                <div class="pageinfo">Instructor Feedback Results Page (By question)</div>
+                <div id="instructorFeedbackResultsPageByQuestion"></div>
                 <br></br>
                 <br></br>
                 <br></br>
@@ -407,15 +417,23 @@
                 function (response, status, xml) {
                     $("[data-toggle='tooltip']").tooltip({html: true}); 
                 });
-            $('#instructorFeedbackResultsPageByGiver').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&frsorttype=giver #frameBodyWrapper",
+            $('#instructorFeedbackResultsPageByGiverRecipientQuestion').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&frsorttype=giver-recipient-question #frameBodyWrapper",
                 function (response, status, xml) {
                     $("[data-toggle='tooltip']").tooltip({html: true}); 
                 });
-            $('#instructorFeedbackResultsPageByRecipient').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&frsorttype=recipient #frameBodyWrapper",
+            $('#instructorFeedbackResultsPageByRecipientGiverQuestion').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&frsorttype=recipient-giver-question #frameBodyWrapper",
                 function (response, status, xml) {
                     $("[data-toggle='tooltip']").tooltip({html: true}); 
                 });
-            $('#instructorFeedbackResultsPageByTable').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&frsorttype=table #frameBodyWrapper",
+            $('#instructorFeedbackResultsPageByGiverQuestionRecipient').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&frsorttype=giver-question-recipient #frameBodyWrapper",
+                function (response, status, xml) {
+                    $("[data-toggle='tooltip']").tooltip({html: true}); 
+                });
+            $('#instructorFeedbackResultsPageByRecipientQuestionGiver').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&frsorttype=recipient-question-giver #frameBodyWrapper",
+                function (response, status, xml) {
+                    $("[data-toggle='tooltip']").tooltip({html: true}); 
+                });
+            $('#instructorFeedbackResultsPageByQuestion').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&frsorttype=question #frameBodyWrapper",
                 function (response, status, xml) {
                     $("[data-toggle='tooltip']").tooltip({html: true}); 
                 });
