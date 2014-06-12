@@ -308,7 +308,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
 
         // Create correct student with original@email.com
         StudentAttributes studentData = new StudentAttributes(null,
-                originalEmail, "name", "", courseId, "teamName");
+                originalEmail, "name", "", courseId, "teamName", "sectionName");
         logic.createStudent(studentData);
         studentData = StudentsLogic.inst().getStudentForEmail(courseId,
                 originalEmail);
@@ -341,7 +341,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         
         String existingId = "AccLogicT.existing.studentId";
         StudentAttributes existingStudent = new StudentAttributes(existingId,
-                "differentEmail@email.com", "name", "", courseId, "teamName");
+                "differentEmail@email.com", "name", "", courseId, "teamName", "sectionName");
         logic.createStudent(existingStudent);
         
         try {
@@ -402,7 +402,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         
         originalEmail = "email2@gmail.com";
         studentData = new StudentAttributes(null, originalEmail, "name", "",
-                courseId, "teamName");
+                courseId, "teamName", "sectionName");
         logic.createStudent(studentData);
         studentData = StudentsLogic.inst().getStudentForEmail(courseId,
                 originalEmail);
@@ -587,7 +587,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
 
         // Make instructor account id a student too.
         StudentAttributes student = new StudentAttributes("googleId",
-                "email@com", "name", "", course1Id, "team");
+                "email@com", "name", "", course1Id, "team", "section");
         logic.createStudent(student);
         TestHelper.verifyPresentInDatastore(account);
         TestHelper.verifyPresentInDatastore(instructor);

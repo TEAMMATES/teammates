@@ -41,7 +41,7 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         if (commentText.trim().isEmpty()) {
             data.errorMessage = Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY;
             data.isError = true;
-            return createAjaxResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT, data);
+            return createAjaxResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION, data);
         }
         String feedbackQuestionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
         Assumption.assertNotNull("null feedback question id", feedbackQuestionId);
@@ -94,6 +94,6 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
                     + feedbackResponseComment.createdAt);
         }
         
-        return createAjaxResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT, data);
+        return createAjaxResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION, data);
     }
 }

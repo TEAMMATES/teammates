@@ -317,6 +317,8 @@ public class Const {
         
         public static final String FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON = "fruploaddownloadbtn";
         public static final String FEEDBACK_RESULTS_SORTTYPE = "frsorttype";
+        public static final String FEEDBACK_RESULTS_GROUPBYTEAM = "frgroupbyteam";
+        public static final String FEEDBACK_RESULTS_SHOWSTATS = "frshowstats";
         
         public static final String PREVIEWAS = "previewas";
         
@@ -336,6 +338,7 @@ public class Const {
         public static final String STUDENT_NAME = "studentname";
         public static final String FROM_EMAIL = "fromemail";
         public static final String TO_EMAIL = "toemail";
+        public static final String SECTION_NAME = "sectionname";
         public static final String TEAM_NAME = "teamname";
         public static final String POINTS = "points";
         public static final String JUSTIFICATION = "justification";
@@ -525,9 +528,11 @@ public class Const {
         public static final String INSTRUCTOR_FEEDBACKS = "/jsp/instructorFeedbacks.jsp";
         public static final String INSTRUCTOR_FEEDBACK_EDIT = "/jsp/instructorFeedbackEdit.jsp";
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_TOP = "/jsp/instructorFeedbackResultsTop.jsp";
-        public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER = "/jsp/instructorFeedbackResultsByGiver.jsp";
-        public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT = "/jsp/instructorFeedbackResultsByRecipient.jsp"; 
-        public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_TABLE = "/jsp/instructorFeedbackResultsByTable.jsp"; 
+        public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_RECIPIENT_QUESTION = "/jsp/instructorFeedbackResultsByGiverRecipientQuestion.jsp";
+        public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION = "/jsp/instructorFeedbackResultsByRecipientGiverQuestion.jsp"; 
+        public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_QUESTION_RECIPIENT = "/jsp/instructorFeedbackResultsByGiverQuestionRecipient.jsp";
+        public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_QUESTION_GIVER = "/jsp/instructorFeedbackResultsByRecipientQuestionGiver.jsp";
+        public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION = "/jsp/instructorFeedbackResultsByQuestion.jsp"; 
         public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT = "/jsp/instructorFeedbackSubmissionEdit.jsp"; 
         public static final String INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT = "/jsp/instructorFeedbackQuestionSubmissionEdit.jsp"; 
         public static final String INSTRUCTOR_FEEDBACK_STATS = "/jsp/instructorFeedbackStats.jsp";
@@ -616,6 +621,8 @@ public class Const {
         public static final String COURSE_ENROLL_STUDENTS_NOT_IN_LIST = "There are %d other student(s) previously in the course:";
         public static final String COURSE_ENROLL_STUDENTS_UNKNOWN = "There are %d student(s) for which the enrollment status is unknown:";
 
+        public static final String TEAM_INVALID_SECTION_EDIT = "The team \"%s\" is in multiple sections. The team ID should be unique across the entire course and a team cannot be spread across multiple sections.<br>";
+        public static final String SECTION_QUOTA_EXCEED = "You are trying enroll more than 100 students in section \"%s\". To avoid performance problems, please do not enroll more than 100 students in a single section.<br>";
 
         public static final String COURSE_INSTRUCTOR_ADDED = "The instructor %s has been added successfully."
                 + "An email containing how to 'join' this course will be sent to %s in a few minutes.";
@@ -686,6 +693,7 @@ public class Const {
         public static final String FEEDBACK_RESPONSE_COMMENT_DELETED = "Your comment has been deleted successfully";
         
         public static final String FEEDBACK_SUBMISSIONS_NOT_OPEN = "You can view the questions and any submitted responses for this feedback session but cannot submit new responses as the session is not currently open for submission.";
+        public static final String FEEDBACK_SUBMISSION_EXCEEDED_DEADLINE = "<strong>Submission Failure!</strong> You have exceeded the submission deadline.";
         
         public static final String FEEDBACK_RESULTS_SOMETHINGNEW = "You have received feedback from others. Please see below.";
         public static final String FEEDBACK_RESULTS_NOTHINGNEW = "You have not received any new feedback but you may review your own submissions below.";
@@ -831,6 +839,7 @@ public class Const {
     public static final String SORT_BY_COURSE_CREATION_DATE = "createdAt"; 
     public static final String DEFAULT_SORT_CRITERIA = SORT_BY_COURSE_CREATION_DATE;
 
+    public static final String DEFAULT_SECTION = "None";
     /* These constants are used as variable values to mean that the variable 
      * is in a 'special' state.
      */

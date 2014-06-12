@@ -12,7 +12,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
-import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.Url;
@@ -21,8 +20,6 @@ import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.StudentEvalEditPage;
 import teammates.test.pageobjects.StudentHomePage;
-
-import com.google.appengine.api.datastore.Text;
 
 /**
  * Tests 'Edit Evaluation' view of students.

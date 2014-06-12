@@ -6,6 +6,9 @@ import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
 
+import java.util.Calendar;
+import java.util.TimeZone;
+
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -14,6 +17,8 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackMsqResponseDetails;
 import teammates.common.datatransfer.FeedbackNumericalScaleResponseDetails;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.FeedbackResponseAttributes;
+import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EnrollException;
 import teammates.common.util.Const;
@@ -28,6 +33,7 @@ import teammates.test.pageobjects.FeedbackSubmitPage;
  * SUT: {@link StudentFeedbackSubmitPage}.
  */
 public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
+    
     private static DataBundle testData;
     private static Browser browser;
     private FeedbackSubmitPage submitPage;
@@ -37,7 +43,6 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         printTestClassHeader();
         testData = loadDataBundle("/StudentFeedbackSubmitPageUiTest.json");
         restoreTestDataOnServer(testData);
-
         browser = BrowserPool.getBrowser();        
     }
     
@@ -45,6 +50,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
     public void testAll() throws Exception {
         testContent();
         testSubmitAction();
+        testInputValidation();
         testModifyData();
         // No links to test
     }
@@ -63,9 +69,17 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         
         ______TS("Grace period session");
         
-        //TODO implement this
-        //Session should look like closed session
+        FeedbackSessionAttributes fs = BackDoor.getFeedbackSession("SFSubmitUiT.CS2104", 
+                                                                   "Grace Period Session");
         
+        Calendar endDate = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        endDate.add(Calendar.MINUTE, -1);
+        fs.gracePeriod = 10;
+        fs.endTime = endDate.getTime();
+        BackDoor.editFeedbackSession(fs);
+        submitPage = loginToStudentFeedbackSubmitPage("Alice", "Grace Period Session");
+        submitPage.verifyHtml("/studentFeedbackSubmitPageGracePeriod.html");      
+       
         ______TS("Closed session");
         
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Closed Session");
@@ -84,13 +98,14 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
         
         submitPage.fillResponseTextBox(1, 0, "Test Self Feedback");
+        submitPage.selectRecipient(2,0,"Benny Charles");
         submitPage.fillResponseTextBox(2, 0, "Response to Benny.");
         submitPage.selectRecipient(2, 1, "Drop out");
         submitPage.fillResponseTextBox(2, 1, "Response to student who is going to drop out.");
         submitPage.selectRecipient(2, 2, "Extra guy");
         submitPage.fillResponseTextBox(2, 2, "Response to extra guy.");
         submitPage.fillResponseTextBox(14, 0, "1");
-        
+       
         // Test partial response for question        
         submitPage.fillResponseTextBox(4, 1, "Feedback to team 3");
         submitPage.chooseMcqOption(7, 0, "Algo");
@@ -98,38 +113,33 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.toggleMsqOption(9, 0, "Design");
         
         // Just check that some of the responses persisted.
-        FeedbackQuestionAttributes fq =
-                BackDoor.getFeedbackQuestion("SFSubmitUiT.CS2104",
-                        "First Session", 2);
-        FeedbackQuestionAttributes fqPartial =
-                BackDoor.getFeedbackQuestion("SFSubmitUiT.CS2104",
-                        "First Session", 4);
-        FeedbackQuestionAttributes fqMcq =
-                BackDoor.getFeedbackQuestion("SFSubmitUiT.CS2104",
-                        "First Session", 8);
-        FeedbackQuestionAttributes fqMsq =
-                BackDoor.getFeedbackQuestion("SFSubmitUiT.CS2104",
-                        "First Session", 10);
-        FeedbackQuestionAttributes fqNumscale =
-                BackDoor.getFeedbackQuestion("SFSubmitUiT.CS2104",
-                        "First Session", 15);
+        FeedbackQuestionAttributes fq = BackDoor.getFeedbackQuestion("SFSubmitUiT.CS2104",
+                                                                     "First Session", 2);
+        FeedbackQuestionAttributes fqPartial = BackDoor.getFeedbackQuestion("SFSubmitUiT.CS2104",
+                                                                            "First Session", 4);
+        FeedbackQuestionAttributes fqMcq = BackDoor.getFeedbackQuestion("SFSubmitUiT.CS2104",
+                                                                        "First Session", 8);
+        FeedbackQuestionAttributes fqMsq = BackDoor.getFeedbackQuestion("SFSubmitUiT.CS2104",
+                                                                        "First Session", 10);
+        FeedbackQuestionAttributes fqNumscale = BackDoor.getFeedbackQuestion("SFSubmitUiT.CS2104",
+                                                                             "First Session", 15);
         
         assertNull(BackDoor.getFeedbackResponse(fq.getId(),
-                "SFSubmitUiT.alice.b@gmail.com",
-                "SFSubmitUiT.benny.c@gmail.com"));
+                                                "SFSubmitUiT.alice.b@gmail.com",
+                                                "SFSubmitUiT.benny.c@gmail.com"));
         assertNull(BackDoor.getFeedbackResponse(fqPartial.getId(),
-                "SFSubmitUiT.alice.b@gmail.com",
-                "Team 3"));
+                                                "SFSubmitUiT.alice.b@gmail.com",
+                                                "Team 3"));
         assertNull(BackDoor.getFeedbackResponse(fqMcq.getId(),
-                "SFSubmitUiT.alice.b@gmail.com",
-                "Team 2"));
+                                                "SFSubmitUiT.alice.b@gmail.com",
+                                                "Team 2"));
         assertNull(BackDoor.getFeedbackResponse(fqMsq.getId(),
-                "SFSubmitUiT.alice.b@gmail.com",
-                "Team 2"));
+                                                "SFSubmitUiT.alice.b@gmail.com",
+                                                "Team 2"));
         assertNull(BackDoor.getFeedbackResponse(fqNumscale.getId(),
-                "SFSubmitUiT.alice.b@gmail.com",
-                "SFSubmitUiT.alice.b@gmail.com"));
-
+                                                "SFSubmitUiT.alice.b@gmail.com",
+                                                "SFSubmitUiT.alice.b@gmail.com"));
+        
 
         submitPage.clickSubmitButton();
 
@@ -137,25 +147,26 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
                 submitPage.getStatus());
         
         assertNotNull(BackDoor.getFeedbackResponse(fq.getId(),
-                "SFSubmitUiT.alice.b@gmail.com",
-                "SFSubmitUiT.benny.c@gmail.com"));
+                                                   "SFSubmitUiT.alice.b@gmail.com",
+                                                   "SFSubmitUiT.benny.c@gmail.com"));
         assertNotNull(BackDoor.getFeedbackResponse(fqPartial.getId(),
-                "SFSubmitUiT.alice.b@gmail.com",
-                "Team 3"));
+                                                   "SFSubmitUiT.alice.b@gmail.com",
+                                                   "Team 3"));
         assertNotNull(BackDoor.getFeedbackResponse(fqMcq.getId(),
-                "SFSubmitUiT.alice.b@gmail.com",
-                "Team 2"));
+                                                   "SFSubmitUiT.alice.b@gmail.com",
+                                                   "Team 2"));
         assertNotNull(BackDoor.getFeedbackResponse(fqMsq.getId(),
-                "SFSubmitUiT.alice.b@gmail.com",
-                "Team 2"));
+                                                   "SFSubmitUiT.alice.b@gmail.com",
+                                                   "Team 2"));
         assertNotNull(BackDoor.getFeedbackResponse(fqNumscale.getId(),
-                "SFSubmitUiT.alice.b@gmail.com",
-                "SFSubmitUiT.alice.b@gmail.com"));
+                                                   "SFSubmitUiT.alice.b@gmail.com",
+                                                   "SFSubmitUiT.alice.b@gmail.com"));
+        
 
         
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
         submitPage.verifyHtml("/studentFeedbackSubmitPagePartiallyFilled.html");
-        
+       
         ______TS("edit existing response");        
         
         // Test editing an existing response 
@@ -197,47 +208,103 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.toggleMsqOption(17, 0, "Teammates Test3");
         
         // Just check the edited responses, and one new response.
-        assertNull(BackDoor.getFeedbackResponse(fq.getId(),
-                "SFSubmitUiT.alice.b@gmail.com",
-                "Team 2"));
+        assertNull(BackDoor.getFeedbackResponse(fqPartial.getId(),
+                                                "SFSubmitUiT.alice.b@gmail.com",
+                                                "Team 2"));
         
         submitPage.clickSubmitButton();
-
-        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
-                submitPage.getStatus());
-        assertEquals(editedResponse,
-                BackDoor.getFeedbackResponse(fq.getId(),
-                    "SFSubmitUiT.alice.b@gmail.com",
-                    "SFSubmitUiT.benny.c@gmail.com").responseMetaData.getValue());
-        fq = BackDoor.getFeedbackQuestion(
-                "SFSubmitUiT.CS2104",
-                "First Session", 4);
-        assertNotNull(BackDoor.getFeedbackResponse(fq.getId(),
-                "SFSubmitUiT.alice.b@gmail.com",
-                "Team 2"));
         
-        assertEquals("UI",
-                BackDoor.getFeedbackResponse(fqMcq.getId(),
-                    "SFSubmitUiT.alice.b@gmail.com",
-                    "Team 2").getResponseDetails().getAnswerString());
+        //check new response
+        fqPartial = BackDoor.getFeedbackQuestion("SFSubmitUiT.CS2104", "First Session", 4);
+        assertNotNull(BackDoor.getFeedbackResponse(fqPartial.getId(), "SFSubmitUiT.alice.b@gmail.com", "Team 2"));
         
-        FeedbackMsqResponseDetails frMsq = 
-                (FeedbackMsqResponseDetails) BackDoor.getFeedbackResponse(fqMsq.getId(),
-                        "SFSubmitUiT.alice.b@gmail.com",
-                        "Team 2").getResponseDetails();
+        //check edited
+        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, submitPage.getStatus());     
+        assertEquals(editedResponse,BackDoor.getFeedbackResponse(fq.getId(),
+                                                                 "SFSubmitUiT.alice.b@gmail.com",
+                                                                 "SFSubmitUiT.benny.c@gmail.com").responseMetaData.getValue());
+          
+        assertEquals("UI", BackDoor.getFeedbackResponse(fqMcq.getId(),
+                                                        "SFSubmitUiT.alice.b@gmail.com",
+                                                        "Team 2").getResponseDetails().getAnswerString());
+        
+        FeedbackMsqResponseDetails frMsq = (FeedbackMsqResponseDetails) BackDoor.getFeedbackResponse(fqMsq.getId(),
+                                                                                                     "SFSubmitUiT.alice.b@gmail.com",
+                                                                                                     "Team 2").getResponseDetails();
         assertFalse(frMsq.contains("UI"));
         assertTrue(frMsq.contains("Algo"));
         assertFalse(frMsq.contains("Design"));
         
-        FeedbackNumericalScaleResponseDetails frNumscale = 
-                (FeedbackNumericalScaleResponseDetails) BackDoor.getFeedbackResponse(fqNumscale.getId(),
-                        "SFSubmitUiT.alice.b@gmail.com",
-                        "SFSubmitUiT.alice.b@gmail.com").getResponseDetails();
+        FeedbackNumericalScaleResponseDetails frNumscale = (FeedbackNumericalScaleResponseDetails) BackDoor
+                                                           .getFeedbackResponse(fqNumscale.getId(),
+                                                                                "SFSubmitUiT.alice.b@gmail.com",
+                                                                                "SFSubmitUiT.alice.b@gmail.com").getResponseDetails();
         assertEquals("5", frNumscale.getAnswerString());
         
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
         submitPage.verifyHtml("/studentFeedbackSubmitPageFullyFilled.html");
+        
     }
+    
+    
+    private void testInputValidation() throws Exception{
+        
+        
+        ______TS("Test InputValidation lower than Min value");
+        //this should not give any error since the value will be automatically adjusted before the form is submitted
+        //adjusted value should be 1
+        submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
+        submitPage.fillResponseTextBox(14, 0, "0");
+        submitPage.clickSubmitButton();        
+        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, submitPage.getStatus());
+        
+        FeedbackQuestionAttributes fqNumscale = BackDoor.getFeedbackQuestion("SFSubmitUiT.CS2104", "First Session", 15);
+        
+        FeedbackResponseAttributes frNumscale = BackDoor.getFeedbackResponse(fqNumscale.getId(),
+                                                                             "SFSubmitUiT.alice.b@gmail.com",
+                                                                             "SFSubmitUiT.alice.b@gmail.com");  
+        
+        assertEquals("1",frNumscale.getResponseDetails().getAnswerString());
+        
+        ______TS("Test InputValidation Over Max value");
+        
+        //this should not give any error since the value will be automatically adjusted before the form is submitted
+        //adjusted value should be 5 
+        submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
+        submitPage.fillResponseTextBox(14, 0, "50000");
+        submitPage.clickSubmitButton();        
+        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, submitPage.getStatus());
+        
+        fqNumscale = BackDoor.getFeedbackQuestion("SFSubmitUiT.CS2104", "First Session", 15);
+        
+        frNumscale = BackDoor.getFeedbackResponse(fqNumscale.getId(),
+                                                  "SFSubmitUiT.alice.b@gmail.com",
+                                                  "SFSubmitUiT.alice.b@gmail.com");  
+        
+        assertEquals("5",frNumscale.getResponseDetails().getAnswerString());
+        
+
+        
+        ______TS("Test InputValidation extreme negative value");
+        /*Attention: in safari, negative sign "-" can be input so the result will be adjusted to 1          
+         *           However, in firefox, the sign "-" can not be typed into the text box so no negative 
+         *           value can be input
+         */
+        submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
+        submitPage.fillResponseTextBox(14, 0, "-99999");
+        submitPage.clickSubmitButton();        
+        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, submitPage.getStatus());
+        
+        fqNumscale = BackDoor.getFeedbackQuestion("SFSubmitUiT.CS2104", "First Session", 15);
+        
+        frNumscale = BackDoor.getFeedbackResponse(fqNumscale.getId(),
+                                                  "SFSubmitUiT.alice.b@gmail.com",
+                                                  "SFSubmitUiT.alice.b@gmail.com");  
+        
+        assertEquals("5",frNumscale.getResponseDetails().getAnswerString());
+     
+    }
+    
     
     private void testModifyData() throws EnrollException{
         
@@ -262,7 +329,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
                 dropOutGuy.email);
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
 
-        // move Benny out of team 1 into team 2 and change his email
+        // move Benny out of team 1 into team 2 and change her email
         // This should cause the team mates question to disappear completely as 
         // no one else is in Team 1, but other responses to Benny should remain.
         StudentAttributes Benny = testData.students.get("Benny");
@@ -271,18 +338,24 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
         submitPage.verifyHtml("/studentFeedbackSubmitPageModified.html");
         
+        restoreTestDataOnServer(testData);
+        submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
+        
     }
+    
 
-    private FeedbackSubmitPage loginToStudentFeedbackSubmitPage(
-            String studentName, String fsName) {
+    private FeedbackSubmitPage loginToStudentFeedbackSubmitPage(String studentName, String fsName) {
+        
         Url editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
-                .withUserId(testData.students.get(studentName).googleId)
-                .withCourseId(testData.feedbackSessions.get(fsName).courseId)
-                .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
+                      .withUserId(testData.students.get(studentName).googleId)
+                      .withCourseId(testData.feedbackSessions.get(fsName).courseId)
+                      .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
+        
         return loginAdminToPage(browser, editUrl, FeedbackSubmitPage.class);
     }
 
     private void moveToTeam(StudentAttributes student, String newTeam) {
+        
         String backDoorOperationStatus;
         student.team = newTeam;
         backDoorOperationStatus = BackDoor.editStudent(student.email, student);

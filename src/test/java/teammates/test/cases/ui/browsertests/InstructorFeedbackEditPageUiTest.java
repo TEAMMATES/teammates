@@ -556,7 +556,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
     }
 
     private void testInputValidationForNumScaleQuestion() {
-        //TODO: Validate that NumScale can only be added/saved when min/max step parameters are filled and correct.
         
         ______TS("empty options");
         
@@ -565,7 +564,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.fillStepNumScaleBox("", -1);
         feedbackEditPage.fillMaxNumScaleBox("", -1);
         
-        assertEquals("[The interval NaN - NaN is not divisible by the specified increment.]",
+        assertEquals("[Please enter valid numbers for all the options.]",
                 feedbackEditPage.getNumScalePossibleValuesString(-1));
         
         feedbackEditPage.clickAddQuestionButton();
@@ -578,6 +577,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.fillQuestionBox("NumScale qn");
         feedbackEditPage.fillMinNumScaleBox("1", -1);
         feedbackEditPage.fillStepNumScaleBox("0.3", -1);
+        feedbackEditPage.fillMaxNumScaleBox("", -1);
         feedbackEditPage.fillMaxNumScaleBox("5", -1);
         
         assertEquals("[The interval 1 - 5 is not divisible by the specified increment.]",

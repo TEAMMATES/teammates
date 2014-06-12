@@ -523,6 +523,11 @@ function updateNumScalePossibleValues(questionNumber) {
     if (Math.round(largestValueInRange*1000)/1000 != max) {
         $("#numScalePossibleValues"+idSuffix).css("color","red");
         possibleValuesString = "[The interval " + min.toString() + " - " + max.toString() + " is not divisible by the specified increment.]";
+
+        if(min.toString() == "NaN" || max.toString() == "NaN" || step.toString() == "NaN"){
+            possibleValuesString = "[Please enter valid numbers for all the options.]"
+        }
+
         $("#numScalePossibleValues"+idSuffix).text(possibleValuesString);
         return false;
     } else {

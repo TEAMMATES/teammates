@@ -93,7 +93,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
     }
     
     private void testShowFeedbackStatsLink() {
-        WebElement viewResponseLink = homePage.getViewResponseLink("CHomeUiT.CS2104", "First Feedback Session");
+        WebElement viewResponseLink = homePage.getViewResponseLink("CHomeUiT.CS2104", "Fourth Feedback Session");
         
         String currentValidUrl = viewResponseLink.getAttribute("href");
         
@@ -103,12 +103,12 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.verifyHtmlAjax("/InstructorHomeHTMLResponseRateFail.html");
         
         ______TS("test case: fail to fetch response rate again, check consistency of fail message");
-        viewResponseLink = homePage.getViewResponseLink("CHomeUiT.CS2104", "First Feedback Session");
+        viewResponseLink = homePage.getViewResponseLink("CHomeUiT.CS2104", "Fourth Feedback Session");
         viewResponseLink.click();
         homePage.verifyHtmlAjax("/InstructorHomeHTMLResponseRateFail.html");
         
         ______TS("test case: pass with valid url after multiple fails");
-        viewResponseLink = homePage.getViewResponseLink("CHomeUiT.CS2104", "First Feedback Session");
+        viewResponseLink = homePage.getViewResponseLink("CHomeUiT.CS2104", "Fourth Feedback Session");
         homePage.setViewResponseLinkValue(viewResponseLink, currentValidUrl);
         viewResponseLink.click();
         homePage.verifyHtmlAjax("/instructorHomeHTMLResponseRatePass.html");
@@ -373,6 +373,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
     public void testSearchAction() throws Exception{
         ______TS("search student");
         homePage.searchForStudent("Alice").verifySearchKey("Alice");
+        //Use {$test.instructor}
         homePage.verifyHtml("/instructorHomeSearchStudent.html");
         
         //go back to previous page because 'search' redirects to the 'StudentList' page.

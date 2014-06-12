@@ -164,7 +164,8 @@
                                     </tr>
                                 </thead>
                         <%
-                            for (EvaluationAttributes edd: courseDetails.evaluations){
+                            int displayEvaluationStatsCount = 0;
+                            for (EvaluationAttributes edd : courseDetails.evaluations){
                                 sessionIdx++;
                         %>
                                 <tr id="session<%=sessionIdx%>">
@@ -174,7 +175,13 @@
                                             <%=PageData.getInstructorStatusForEval(edd)%>
                                         </span>
                                     </td>
-                                    <td class="session-response-for-test<% if(!TimeHelper.isOlderThanAYear(edd.endTime)) { out.print(" recent");} %>">
+                                    <td class="session-response-for-test<% 
+                                        if(edd.getStatus() == EvaluationAttributes.EvalStatus.OPEN || edd.getStatus() == EvaluationAttributes.EvalStatus.AWAITING) { 
+                                            out.print(" recent");
+                                        } else if (displayEvaluationStatsCount < data.MAX_CLOSED_SESSION_STATS && !TimeHelper.isOlderThanAYear(edd.endTime)) { 
+                                            out.print(" recent"); 
+                                            displayEvaluationStatsCount++; 
+                                        }%>">
                                         <a oncontextmenu="return false;" href="<%=data.getEvaluationStatsLink(edd.courseId, edd.name)%>">Show</a>
                                     </td>
                                     <td class="no-print"><%=data.getInstructorEvaluationActions(edd, true)%>
@@ -182,6 +189,7 @@
                                 </tr>
                         <%
                             }
+                            int displayFeedbackStatsCount = 0;
                             for(FeedbackSessionAttributes fdb: courseDetails.feedbackSessions) {
                                 sessionIdx++;
                         %>
@@ -193,7 +201,13 @@
                                             <%=PageData.getInstructorStatusForFeedbackSession(fdb)%>
                                         </span>
                                     </td>
-                                    <td class="session-response-for-test<% if(!TimeHelper.isOlderThanAYear(fdb.createdTime)) { out.print(" recent");} %>">
+                                    <td class="session-response-for-test<% 
+                                        if(fdb.isOpened() || fdb.isWaitingToOpen()) { 
+                                            out.print(" recent");
+                                        } else if (displayFeedbackStatsCount < data.MAX_CLOSED_SESSION_STATS && !TimeHelper.isOlderThanAYear(fdb.createdTime)) { 
+                                            out.print(" recent"); 
+                                            displayFeedbackStatsCount++; 
+                                        }%>">
                                         <a oncontextmenu="return false;" href="<%=data.getFeedbackSessionStatsLink(fdb.courseId, fdb.feedbackSessionName)%>">Show</a>
                                     </td>
                                     <td class="no-print"><%=data.getInstructorFeedbackSessionActions(

@@ -1,6 +1,8 @@
 package teammates.logic.core;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
@@ -42,6 +44,8 @@ public class StudentsLogic {
     //  familiar with the its code and Logic's code. Hence, no need for header 
     //  comments.
     
+    private static int SECTION_SIZE_LIMIT = 100;
+
     private static StudentsLogic instance = null;
     private StudentsDb studentsDb = new StudentsDb();
     
@@ -100,6 +104,10 @@ public class StudentsLogic {
     
     public List<StudentAttributes> getStudentsForTeam(String teamName, String courseId) {
         return studentsDb.getStudentsForTeam(teamName, courseId);
+    }
+
+    public List<StudentAttributes> getStudentsForSection(String sectionName, String courseId) {
+        return studentsDb.getStudentsForSection(sectionName, courseId);
     }
 
     public List<StudentAttributes> getUnregisteredStudentsForCourse(String courseId) {
@@ -167,7 +175,7 @@ public class StudentsLogic {
     }
     
     public void updateStudentCascade(String originalEmail, StudentAttributes student) 
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws InvalidParametersException, EntityDoesNotExistException, EnrollException {
         StudentAttributes originalStudent = getStudentForEmail(student.course, originalEmail);
         updateStudentCascadeWithSubmissionAdjustmentScheduled(originalEmail, student);
         
@@ -193,7 +201,7 @@ public class StudentsLogic {
     
     public void updateStudentCascadeWithSubmissionAdjustmentScheduled(String originalEmail, 
             StudentAttributes student) 
-            throws EntityDoesNotExistException, InvalidParametersException {
+            throws EntityDoesNotExistException, InvalidParametersException, EnrollException {
         // Edit student uses KeepOriginal policy, where unchanged fields are set
         // as null. Hence, we can't do isValid() for student here.
         // After updateWithReferenceToExistingStudentRecord method called,
@@ -211,7 +219,7 @@ public class StudentsLogic {
             throw new InvalidParametersException(student.getInvalidityInfo());
         }
         
-        studentsDb.updateStudent(student.course, originalEmail, student.name, student.team, student.email, student.googleId, student.comments);    
+        studentsDb.updateStudent(student.course, originalEmail, student.name, student.team, student.section, student.email, student.googleId, student.comments);    
         
         // cascade email change, if any
         if (!originalEmail.equals(student.email)) {
@@ -246,14 +254,7 @@ public class StudentsLogic {
 
         StudentAttributesFactory saf = new StudentAttributesFactory(linesArray[0]);
         
-        int startLine;
-        if (saf.hasHeader()) {
-            startLine = 1;
-        } else {
-            startLine = 0;
-        }
-        
-        for (int i = startLine; i < linesArray.length; i++) {
+        for (int i = 1; i < linesArray.length; i++) {
             String line = linesArray[i];
             
             if (StringHelper.isWhiteSpace(line)) {
@@ -263,6 +264,8 @@ public class StudentsLogic {
             StudentAttributes student = saf.makeStudent(line, courseId);
             studentList.add(student);
         }
+
+        validateSections(studentList, courseId);
 
         // TODO: can we use a batch persist operation here?
         // enroll all students
@@ -305,6 +308,89 @@ public class StudentsLogic {
         }
 
         return returnList;
+    }
+
+    public void validateSections(List<StudentAttributes> studentList, String courseId) throws EntityDoesNotExistException, EnrollException {
+
+        List<StudentAttributes> mergedList = new ArrayList<StudentAttributes>();
+        List<StudentAttributes> studentsInCourse = getStudentsForCourse(courseId);
+        
+        for(StudentAttributes student : studentList) {
+            mergedList.add(student);
+        }
+
+        for(StudentAttributes student : studentsInCourse) {
+            if(!isInEnrollList(student, mergedList)){
+                mergedList.add(student);
+            }
+        }
+
+        if(mergedList.size() < 2){ // no conflicts
+            return;
+        }
+        
+        String errorMessage = "";
+        errorMessage += getSectionInvalidityInfo(mergedList);
+        errorMessage += getTeamInvalidityInfo(mergedList);
+
+        if(!errorMessage.equals("")){
+            throw new EnrollException(errorMessage);
+        }
+
+    }
+
+    private String getSectionInvalidityInfo(List<StudentAttributes> mergedList) {
+        
+        StudentAttributes.sortBySectionName(mergedList);
+
+        List<String> invalidSectionList = new ArrayList<String>();
+        int studentsCount = 1;
+        for(int i = 1; i < mergedList.size(); i++){
+            StudentAttributes currentStudent = mergedList.get(i);
+            StudentAttributes previousStudent = mergedList.get(i-1);
+            if(currentStudent.section.equals(previousStudent.section)){
+                studentsCount++;
+            } else {
+                if(studentsCount > SECTION_SIZE_LIMIT){
+                    invalidSectionList.add(previousStudent.section);
+                }
+                studentsCount = 1;
+            }
+
+            if(i == mergedList.size() - 1 && studentsCount > SECTION_SIZE_LIMIT){
+                invalidSectionList.add(currentStudent.section);
+            }
+        }
+
+        String errorMessage = "";
+        for(String section: invalidSectionList){
+            errorMessage += String.format(Const.StatusMessages.SECTION_QUOTA_EXCEED, section);
+        }
+
+        return errorMessage;
+    }
+
+    private String getTeamInvalidityInfo(List<StudentAttributes> mergedList) {
+
+        StudentAttributes.sortByTeamName(mergedList);
+
+        List<String> invalidTeamList = new ArrayList<String>();
+        for(int i = 1; i < mergedList.size(); i++){
+            StudentAttributes currentStudent = mergedList.get(i);
+            StudentAttributes previousStudent = mergedList.get(i-1);
+            if(currentStudent.team.equals(previousStudent.team) && !currentStudent.section.equals(previousStudent.section)){
+                if(!invalidTeamList.contains(currentStudent.team)){
+                    invalidTeamList.add(currentStudent.team);    
+                }
+            }
+        }
+
+        String errorMessage = "";
+        for(String team : invalidTeamList){
+            errorMessage += String.format(Const.StatusMessages.TEAM_INVALID_SECTION_EDIT, team);
+        }
+
+        return errorMessage;
     }
 
     private void scheduleSubmissionAdjustmentForFeedbackInCourse(
@@ -473,18 +559,10 @@ public class StudentsLogic {
         List<String> invalidityInfo = new ArrayList<String>();
         String[] linesArray = lines.split(Const.EOL);
         ArrayList<String>  studentEmailList = new ArrayList<String>();
-        
+    
         StudentAttributesFactory saf = new StudentAttributesFactory(linesArray[0]);
         
-        int startLine;
-        if (saf.hasHeader()) {
-            startLine = 1;
-            studentEmailList.add(new String());
-        } else {
-            startLine = 0;
-        }
-        
-        for (int i = startLine; i < linesArray.length; i++) {
+        for (int i = 1; i < linesArray.length; i++) {
             String line = linesArray[i];
             try {
                 if (StringHelper.isWhiteSpace(line)) {
@@ -517,7 +595,7 @@ public class StudentsLogic {
     private List<String> getInvalidityInfoInDuplicatedEmail(String email,
             ArrayList<String> studentEmailList,String[] linesArray){
         List<String> info = new ArrayList<String>();
-        info.add("Same email address as the student in line \"" + linesArray[studentEmailList.indexOf(email)]+ "\"");
+        info.add("Same email address as the student in line \"" + linesArray[studentEmailList.indexOf(email) + 1]+ "\"");
         return info;
     }
     
@@ -528,7 +606,7 @@ public class StudentsLogic {
     }
     
     private boolean isInEnrollList(StudentAttributes student,
-            ArrayList<StudentAttributes> studentInfoList) {
+            List<StudentAttributes> studentInfoList) {
         for (StudentAttributes studentInfo : studentInfoList) {
             if (studentInfo.email.equalsIgnoreCase(student.email)) {
                 return true;

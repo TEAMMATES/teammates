@@ -110,7 +110,7 @@ public class LogicTest extends BaseComponentTestCase {
         gaeSimulation.loginAsAdmin(instructor.googleId);
         // also make this user a student of another course
         StudentAttributes instructorAsStudent = new StudentAttributes(
-                "Team 1", "Instructor As Student", "instructorasstudent@yahoo.com", "", course2Id);
+                "Section 1", "Team 1", "Instructor As Student", "instructorasstudent@yahoo.com", "", course2Id);
         instructorAsStudent.googleId = instructor.googleId;
         logic.createStudent(instructorAsStudent);
 

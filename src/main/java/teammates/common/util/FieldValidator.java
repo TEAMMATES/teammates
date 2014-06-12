@@ -32,6 +32,7 @@ public class FieldValidator {
         /** Comments entered when enrolling a student in a course */
         STUDENT_ROLE_COMMENTS,
         TEAM_NAME,
+        SECTION_NAME,
         START_TIME,
         END_TIME,
         SESSION_VISIBLE_TIME,
@@ -292,6 +293,16 @@ public class FieldValidator {
                     "The value of "+TEAM_NAME_FIELD_NAME+" should be no longer than "+
                     TEAM_NAME_MAX_LENGTH+" characters. It should not be empty.";
     
+    /*
+     * =======================================================================
+     * Field: Section name
+     */
+    private static final String SECTION_NAME_FIELD_NAME = "a section name";
+    public static final int SECTION_NAME_MAX_LENGTH = 60;
+    public static final String SECTION_NAME_ERROR_MESSAGE =
+            "\"%s\" is not acceptable to TEAMMATES as "+SECTION_NAME_FIELD_NAME+" because it %s. " +
+                    "The value of "+SECTION_NAME_FIELD_NAME+" should be no longer than "+
+                    SECTION_NAME_MAX_LENGTH+" characters. It should not be empty.";
 
     // ////////////////////////////////////////////////////////////////////////
     // ///////////////////End of field type info //////////////////////////////
@@ -345,6 +356,7 @@ public class FieldValidator {
      * =======================================================================
      * Regex used for checking header column name in enroll lines
      */
+    public static final String REGEX_COLUMN_SECTION = "sections?";
     public static final String REGEX_COLUMN_TEAM = "teams?";
     public static final String REGEX_COLUMN_NAME = "names?";
     public static final String REGEX_COLUMN_EMAIL = "emails?";
@@ -455,6 +467,10 @@ public class FieldValidator {
         case TEAM_NAME:
             returnValue = getValidityInfoForAllowedName(
             TEAM_NAME_FIELD_NAME, TEAM_NAME_MAX_LENGTH, (String)value);
+            break;
+        case SECTION_NAME:
+            returnValue = getValidityInfoForAllowedName(
+            SECTION_NAME_FIELD_NAME, SECTION_NAME_MAX_LENGTH, (String)value);
             break;
         case GOOGLE_ID:
             returnValue = getInvalidInfoForGoogleId((String)value);

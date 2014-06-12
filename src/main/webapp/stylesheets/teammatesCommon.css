@@ -16,6 +16,14 @@ body {
     background-color: white;
 }
 
+.background-color-medium-gray {
+    background-color: #e5e5e6;
+}
+
+.background-color-warning {
+    background-color: #fcf8e3;
+}
+
 .border-gray {
     border: 1px solid #ddd;
 }
@@ -39,6 +47,14 @@ body {
 
 .color-negative { 
     color: #e74c3c;
+}
+
+/*
+Apply to thead to make headers not bold.
+*/
+.font-weight-normal,
+.font-weight-normal > tr > th{
+    font-weight: normal;
 }
 
 .fill-plain {
@@ -79,12 +95,38 @@ body {
     display: inline;
 }
 
+.margin-0 {
+   margin: 0;
+}
+
+.min-height-0.checkbox,
+.min-height-0 {
+   min-height: 0;
+}
+
+.margin-top-0 {
+   margin-top: 0;
+}
+
+.padding-0 {
+   padding: 0;
+}
+
+.padding-top-0.checkbox,
+.padding-top-0 {
+   padding-top: 0;
+}
+
 .text-bold {
     font-weight: bold;
 }
 
 .text-color-primary {
     color: #428bca;
+}
+
+.text-color-gray {
+    color: gray;
 }
 
 .text-color-white {
@@ -95,6 +137,10 @@ body {
     color: red;
 }
 
+.text-strike {
+    text-decoration: line-through;
+}
+
 @media print {
     a[href]:after {
         content: none;
@@ -103,13 +149,6 @@ body {
         display: none;
     }
 }
-
-
-
-
-
-
-
 
 /*////////////////////////////////////////////////////////////
 ///////////////////////// NavBar ////////////////////////////

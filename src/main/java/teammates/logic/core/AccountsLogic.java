@@ -8,6 +8,7 @@ import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
+import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -137,7 +138,7 @@ public class AccountsLogic {
         student.googleId = googleId;
         try {
             StudentsLogic.inst().updateStudentCascade(student.email, student);
-        } catch (EntityDoesNotExistException e) {
+        } catch (EnrollException | EntityDoesNotExistException e) {
             Assumption.fail("Student disappered while trying to register " + TeammatesException.toStringWithStackTrace(e));
         } catch (InvalidParametersException e) {
             throw new JoinCourseException(e.getMessage());

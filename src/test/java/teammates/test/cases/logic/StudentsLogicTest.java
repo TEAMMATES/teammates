@@ -34,6 +34,7 @@ import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
@@ -98,7 +99,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
 
         ______TS("add student into empty course");
 
-        StudentAttributes student1 = new StudentAttributes("t1", "n", "e@g", "c", instructorCourse);
+        StudentAttributes student1 = new StudentAttributes("sect 1", "t1", "n", "e@g", "c", instructorCourse);
 
         // check if the course is empty
         assertEquals(0, studentsLogic.getStudentsForCourse(instructorCourse).size());
@@ -119,15 +120,15 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         assertEquals(1, studentsLogic.getStudentsForCourse(instructorCourse).size());
 
         ______TS("add student into non-empty course");
-        StudentAttributes student2 = new StudentAttributes("t1", "n2", "e2@g", "c", instructorCourse);
+        StudentAttributes student2 = new StudentAttributes("sect 1", "t1", "n2", "e2@g", "c", instructorCourse);
         enrollmentResult = invokeEnrollStudent(student2);
         TestHelper.verifyEnrollmentDetailsForStudent(student2, null, enrollmentResult,
                 StudentAttributes.UpdateStatus.NEW);
         
         //add some more students to the same course (we add more than one 
         //  because we can use them for testing cascade logic later in this test case)
-        invokeEnrollStudent(new StudentAttributes("t2", "n3", "e3@g", "c", instructorCourse));
-        invokeEnrollStudent(new StudentAttributes("t2", "n4", "e4@g", "", instructorCourse));
+        invokeEnrollStudent(new StudentAttributes("sect 2", "t2", "n3", "e3@g", "c", instructorCourse));
+        invokeEnrollStudent(new StudentAttributes("sect 2", "t2", "n4", "e4@g", "", instructorCourse));
         assertEquals(4, studentsLogic.getStudentsForCourse(instructorCourse).size());
         
         ______TS("modify info of existing student");
@@ -174,7 +175,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
 
         ______TS("error during enrollment");
 
-        StudentAttributes student5 = new StudentAttributes("", "n6", "e6@g@", "", instructorCourse);
+        StudentAttributes student5 = new StudentAttributes("sect 1", "", "n6", "e6@g@", "", instructorCourse);
         enrollmentResult = invokeEnrollStudent(student5);
         assertEquals (StudentAttributes.UpdateStatus.ERROR, enrollmentResult.updateStatus);
         assertEquals(4, studentsLogic.getStudentsForCourse(instructorCourse).size());
@@ -221,8 +222,52 @@ public class StudentsLogicTest extends BaseComponentTestCase{
     }
     
     @Test
+    public void testValidateSections() throws Exception {
+
+        restoreTypicalDataInDatastore();
+        dataBundle = getTypicalDataBundle();
+
+        CourseAttributes typicalCourse1 = dataBundle.courses.get("typicalCourse1");
+        String courseId = typicalCourse1.id;
+
+        ______TS("Typical case");
+
+        List<StudentAttributes> studentList = new ArrayList<StudentAttributes>();
+        studentList.add(new StudentAttributes("Section 3", "Team 1.3", "New Student", "emailNew@com", "", courseId));
+        studentList.add(new StudentAttributes("Section 2", "Team 1.2", "student2 In Course1", "student2InCourse1@gmail.com","",courseId));
+        try {
+            studentsLogic.validateSections(studentList, courseId);
+        } catch (EnrollException e) {
+            Assumption.fail("This exception is not expected");
+        }
+
+        ______TS("Failure case: invalid section");
+
+        studentList = new ArrayList<StudentAttributes>();
+        for(int i = 0; i < 100; i++){
+            StudentAttributes addedStudent = new StudentAttributes("Section 1", "Team " + i, "Name " + i, "email@com" + i, "cmt" + i, courseId);
+            studentList.add(addedStudent);
+        }
+        try {
+            studentsLogic.validateSections(studentList, courseId);
+        } catch (EnrollException e) {
+            assertEquals(String.format(Const.StatusMessages.SECTION_QUOTA_EXCEED, "Section 1"), e.getMessage());
+        }
+
+        ______TS("Failure case: invalid team");
+
+        studentList = new ArrayList<StudentAttributes>();
+        studentList.add(new StudentAttributes("Section 2","Team 1.1","New Student", "newemail@com", "", courseId));
+        try {
+            studentsLogic.validateSections(studentList, courseId);
+        } catch (EnrollException e) {
+            assertEquals(String.format(Const.StatusMessages.TEAM_INVALID_SECTION_EDIT,"Team 1.1"), e.getMessage());
+        }
+    }
+
+    @Test
     public void testUpdateStudentCascade() throws Exception {
-            
+        
         ______TS("typical edit");
 
         restoreTypicalDataInDatastore();
@@ -354,9 +399,9 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         ______TS("typical case: send invite to one student");
         
         String courseId = dataBundle.courses.get("typicalCourse1").id;
-        StudentAttributes newsStudent0Info = new StudentAttributes("team", "n0", "e0@google.com", "", courseId);
-        StudentAttributes newsStudent1Info = new StudentAttributes("team", "n1", "e1@google.com", "", courseId);
-        StudentAttributes newsStudent2Info = new StudentAttributes("team", "n2", "e2@google.com", "", courseId);
+        StudentAttributes newsStudent0Info = new StudentAttributes("sect", "team", "n0", "e0@google.com", "", courseId);
+        StudentAttributes newsStudent1Info = new StudentAttributes("sect", "team", "n1", "e1@google.com", "", courseId);
+        StudentAttributes newsStudent2Info = new StudentAttributes("sect", "team", "n2", "e2@google.com", "", courseId);
         invokeEnrollStudent(newsStudent0Info);
         invokeEnrollStudent(newsStudent1Info);
         invokeEnrollStudent(newsStudent2Info);
@@ -486,6 +531,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         String invalidTeamName = StringHelper.generateStringOfLength(FieldValidator.TEAM_NAME_MAX_LENGTH + 1);
         String invalidStudentName = StringHelper.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH + 1);
         
+        String headerLine = "Team  | Name | Email";
         String lineWithInvalidTeamName = invalidTeamName + "| John | john@email.com";
         String lineWithInvalidStudentName = "Team 1 |" + invalidStudentName + 
                 "| student@email.com";
@@ -497,13 +543,13 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         String lineWithInvalidTeamNameAndStudentNameAndEmail = invalidTeamName + "|" + 
                 invalidStudentName + "|" + "invalid_email.com";
         
-        enrollLines = lineWithInvalidTeamName + Const.EOL + lineWithInvalidStudentName + Const.EOL +
+        enrollLines = headerLine + Const.EOL + lineWithInvalidTeamName + Const.EOL + lineWithInvalidStudentName + Const.EOL +
                     lineWithInvalidEmail + Const.EOL + lineWithInvalidStudentNameAndEmail + Const.EOL +
                     lineWithInvalidTeamNameAndEmail + Const.EOL + lineWithInvalidTeamNameAndStudentNameAndEmail;
         
         invalidInfo = invokeGetInvalidityInfoInEnrollLines(enrollLines, courseId);
 
-        StudentAttributesFactory saf = new StudentAttributesFactory();
+        StudentAttributesFactory saf = new StudentAttributesFactory(headerLine);
         expectedInvalidInfo.clear();
         info = StringHelper.toString(saf.makeStudent(lineWithInvalidTeamName, courseId).getInvalidityInfo(), 
                 "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
@@ -534,7 +580,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         String lineWithExtraParameters = "Team 4 | StudentWithExtraParameters | " + 
                " studentWithExtraParameters@email.com | comment | extra_parameter";
         
-        enrollLines = lineWithNoEmailInput + Const.EOL + lineWithExtraParameters;
+        enrollLines = headerLine + Const.EOL + lineWithNoEmailInput + Const.EOL + lineWithExtraParameters;
         
         invalidInfo = invokeGetInvalidityInfoInEnrollLines(enrollLines, courseId);
 
@@ -547,11 +593,12 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         }
         
         ______TS("enrollLines with some empty fields");
+       
         String lineWithTeamNameEmpty = "    | StudentWithTeamFieldEmpty | student@email.com";
         String lineWithStudentNameEmpty = "Team 5 |  | no_name@email.com";
         String lineWithEmailEmpty = "Team 5 | StudentWithEmailFieldEmpty | |";
         
-        enrollLines = lineWithTeamNameEmpty + Const.EOL + lineWithStudentNameEmpty + Const.EOL + lineWithEmailEmpty;
+        enrollLines = headerLine + Const.EOL + lineWithTeamNameEmpty + Const.EOL + lineWithStudentNameEmpty + Const.EOL + lineWithEmailEmpty;
 
         invalidInfo = invokeGetInvalidityInfoInEnrollLines(enrollLines, courseId);
         expectedInvalidInfo.clear();
@@ -570,10 +617,11 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         }
 
         ______TS("enrollLines with correct input");
+        headerLine = "Team | Name | Email | Comment";
         String lineWithCorrectInput = "Team 3 | Mary | mary@email.com";
         String lineWithCorrectInputWithComment = "Team 4 | Benjamin | benjamin@email.com | Foreign student";
         
-        enrollLines = lineWithCorrectInput + Const.EOL + lineWithCorrectInputWithComment;
+        enrollLines = headerLine + Const.EOL + lineWithCorrectInput + Const.EOL + lineWithCorrectInputWithComment;
         
         invalidInfo = invokeGetInvalidityInfoInEnrollLines(enrollLines, courseId);
 
@@ -585,7 +633,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         
         ______TS("enrollLines with duplicate emails");
         
-        enrollLines = lineWithCorrectInput + Const.EOL + lineWithCorrectInput;
+        enrollLines = headerLine + Const.EOL + lineWithCorrectInput + Const.EOL + lineWithCorrectInput;
         
         invalidInfo = invokeGetInvalidityInfoInEnrollLines(enrollLines, courseId);
 
@@ -593,7 +641,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         
         
         ______TS("enrollLines with a mix of all above cases");
-        enrollLines = lineWithInvalidTeamName + Const.EOL + lineWithInvalidTeamNameAndStudentNameAndEmail + 
+        enrollLines = headerLine + Const.EOL + lineWithInvalidTeamName + Const.EOL + lineWithInvalidTeamNameAndStudentNameAndEmail + 
                 Const.EOL + lineWithExtraParameters + Const.EOL +
                 lineWithTeamNameEmpty + Const.EOL + lineWithCorrectInput + Const.EOL + "\t";
 
@@ -643,17 +691,18 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         
         ______TS("all valid students, but contains blank lines");
         
+        String headerLine = "team | name | email | comment";
         String line0 = "t1|n1|e1@g|c1";
         String line1 = " t2|  n2|  e2@g|  c2";
         String line2 = "t3|n3|e3@g|c3  ";
         String line3 = "t4|n4|  e4@g|c4";
         String line4 = "t5|n5|e5@g  |c5";
-        String lines = line0 + EOL + line1 + EOL + line2 + EOL
+        String lines = headerLine + EOL + line0 + EOL + line1 + EOL + line2 + EOL
                     + "  \t \t \t \t           " + EOL + line3 + EOL + EOL + line4
                     + EOL + "    " + EOL + EOL;
         List<StudentAttributes> enrollResults = studentsLogic.enrollStudents(lines, courseIdForEnrollTest);
         
-        StudentAttributesFactory saf = new StudentAttributesFactory();
+        StudentAttributesFactory saf = new StudentAttributesFactory(headerLine);
         assertEquals(5, enrollResults.size());
         assertEquals(5, studentsLogic.getStudentsForCourse(courseIdForEnrollTest).size());
         TestHelper.verifyEnrollmentResultForStudent(saf.makeStudent(line0, courseIdForEnrollTest), 
@@ -671,7 +720,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         
         String line0_1 = "t3|modified name|e3@g|c3";
         String line5 = "t6|n6|e6@g|c6";
-        lines = line0 + EOL + line0_1 + EOL + line1 + EOL + line5;
+        lines = headerLine + EOL + line0 + EOL + line0_1 + EOL + line1 + EOL + line5;
         enrollResults = studentsLogic.enrollStudents(lines, courseIdForEnrollTest);
         assertEquals(6, enrollResults.size());
         assertEquals(6, studentsLogic.getStudentsForCourse(courseIdForEnrollTest).size());
@@ -693,7 +742,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         
         // no changes should be done to the database
         String incorrectLine = "incorrectly formatted line";
-        lines = "t7|n7|e7@g|c7" + EOL + incorrectLine + EOL + line2 + EOL
+        lines = headerLine + EOL +"t7|n7|e7@g|c7" + EOL + incorrectLine + EOL + line2 + EOL
                 + line3;
         try {
             enrollResults = studentsLogic.enrollStudents(lines, courseIdForEnrollTest);
@@ -722,19 +771,19 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         accountsLogic.createAccount(accountToAdd);
         coursesLogic.createCourseAndInstructor("tes.instructor", "tes.course", "TES Course");
             
-        String line = "t8|n8|e8@g|c1" ;
+        String line = headerLine + EOL + "t8|n8|e8@g|c1" ;
         enrollResults = studentsLogic.enrollStudents(line, "tes.course");
         assertEquals(1, enrollResults.size());
         assertEquals(StudentAttributes.UpdateStatus.NEW,
                 enrollResults.get(0).updateStatus);
             
-        line = "t8|n8a|e8@g|c1";
+        line = headerLine + EOL + "t8|n8a|e8@g|c1";
         enrollResults = studentsLogic.enrollStudents(line, "tes.course");
         assertEquals(1, enrollResults.size());
         assertEquals(StudentAttributes.UpdateStatus.MODIFIED,
                 enrollResults.get(0).updateStatus);
             
-        line = "t8|n8a|e8@g|c1";
+        line = headerLine + EOL + "t8|n8a|e8@g|c1";
         enrollResults = studentsLogic.enrollStudents(line, "tes.course");
         assertEquals(1, enrollResults.size());
         assertEquals(StudentAttributes.UpdateStatus.UNMODIFIED,
@@ -744,17 +793,18 @@ public class StudentsLogicTest extends BaseComponentTestCase{
             
         String line_t9 = "t9|n9|e9@g|c9";
         String line_t10 = "t10|n10|e9@g|c10";
+        lines = headerLine + EOL + line_t9 + EOL + line_t10;
         try {
-            studentsLogic.enrollStudents(line_t9 + EOL + line_t10, "tes.course");
+            studentsLogic.enrollStudents(lines, "tes.course");
         } catch (EnrollException e) {
             assertTrue(e.getMessage().contains(line_t10));
-            assertTrue(e.getMessage().contains("Same email address as the student in line \""+line_t9+"\""));    
+            AssertHelper.assertContains("Same email address as the student in line \""+line_t9+"\"", e.getMessage());    
         }
         
         
-______TS("invalid course id");
+        ______TS("invalid course id");
         
-        String enrollLines = "";
+        String enrollLines = headerLine + EOL + "";
         String invalidCourseId = "invalidCourseId";
         try {
             studentsLogic.enrollStudents(enrollLines, invalidCourseId);
@@ -767,7 +817,7 @@ ______TS("invalid course id");
         ______TS("empty enroll line");
         
         try {
-            studentsLogic.enrollStudents(enrollLines, courseIdForEnrollTest);
+            studentsLogic.enrollStudents("", courseIdForEnrollTest);
             signalFailureToDetectException();
         } catch (EnrollException e) {
             ignoreExpectedException();
@@ -776,7 +826,7 @@ ______TS("invalid course id");
         
         ______TS("invalidity info in enroll line");
         
-        enrollLines = "invalidline0\ninvalidline1\n";
+        enrollLines = headerLine + EOL + "invalidline0\ninvalidline1\n";
         try {
             studentsLogic.enrollStudents(enrollLines, courseIdForEnrollTest);
             signalFailureToDetectException();

@@ -200,6 +200,7 @@
             "email":"student1InCourse1@gmail.com",
             "name":"student1 In Course1",
             "team":"Team 1.1",
+            "section":"Section 1",
             "googleId":"student1InCourse1",
             "comments":"comment for student1InCourse1",
             "course":"idOfTypicalCourse1"
@@ -209,6 +210,7 @@
             "name":"student2 In Course1",
             "googleId":"student2InCourse1",
             "team":"Team 1.1",
+            "section":"Section 1",
             "comments":"",
             "course":"idOfTypicalCourse1"
         },
@@ -217,6 +219,7 @@
             "name":"student3 In Course1",
             "googleId":"student3InCourse1",
             "team":"Team 1.1",
+            "section":"Section 1",
             "comments":"",
             "course":"idOfTypicalCourse1"
         },
@@ -225,6 +228,7 @@
             "name":"student4 In Course1",
             "googleId":"student4InCourse1",
             "team":"Team 1.1",
+            "section":"Section 1",
             "comments":"",
             "course":"idOfTypicalCourse1"
         },
@@ -233,6 +237,7 @@
             "name":"student5 In Course1",
             "googleId":"student5InCourse1",
             "team":"Team 1.2",
+            "section":"Section 2",
             "comments":"",
             "course":"idOfTypicalCourse1"
         },
@@ -241,6 +246,7 @@
             "name":"student1 In Course2",
             "googleId":"student1InCourse2",
             "team":"Team 2.1",
+            "section":"None",
             "comments":"",
             "course":"idOfTypicalCourse2"
         },
@@ -250,6 +256,7 @@
             "googleId":"student2InCourse1",
             "comments":"#####This is the same student as student2InCourse1 but using different name and email #####",
             "team":"Team 2.1",
+            "section":"None",
             "comments":"",
             "course":"idOfTypicalCourse2"
         },
@@ -258,6 +265,7 @@
             "name":"student1 In unregisteredCourse",
             "googleId":null,
             "team":"Team 1",
+            "section":"Section 1",
             "comments":"",
             "course":"idOfUnregisteredCourse",
             "key":"regKeyForStuNotYetJoinCourse"
@@ -267,6 +275,7 @@
             "name":"student2 In unregisteredCourse",
             "googleId":"",
             "team":"Team 2",
+            "section":"Section 2",
             "comments":"",
             "course":"idOfUnregisteredCourse",
             "key":"regKey2ForStuNotYetJoinCourse"

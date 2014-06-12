@@ -120,21 +120,25 @@ var INSTITUTION_MAX_LENGTH = 64;
  *            The sort button
  * @param colIdx
  *            The column index (1-based) as key for the sort
+ * @param row
+ *            Row to start sorting from.
+ *            The column index (0-based) e.g. use 2 if <th> has 2 rows so that the headers are not sorted.
  */
-function toggleSort(divElement, colIdx, comparator) {
+function toggleSort(divElement, colIdx, comparator, row) {
+    row = row || 1;
     if ($(divElement).attr("class") == "button-sort-none") {
-        sortTable(divElement, colIdx, comparator, true);
+        sortTable(divElement, colIdx, comparator, true, row);
         $(divElement).parent().find(".button-sort-ascending").attr("class", "button-sort-none");
         $(divElement).parent().find(".button-sort-descending").attr("class", "button-sort-none");
         $(divElement).parent().find(".icon-sort").attr("class", "icon-sort unsorted");
         $(divElement).attr("class", "button-sort-ascending");
         $(divElement).find(".icon-sort").attr("class", "icon-sort sorted-ascending");
     } else if ($(divElement).attr("class") == "button-sort-ascending") {
-        sortTable(divElement, colIdx, comparator, false);
+        sortTable(divElement, colIdx, comparator, false, row);
         $(divElement).attr("class", "button-sort-descending");
         $(divElement).find(".icon-sort").attr("class", "icon-sort sorted-descending");
     } else {
-        sortTable(divElement, colIdx, comparator, true);
+        sortTable(divElement, colIdx, comparator, true, row);
         $(divElement).attr("class", "button-sort-ascending");
         $(divElement).find(".icon-sort").attr("class", "icon-sort sorted-ascending");
     }
@@ -152,7 +156,7 @@ function toggleSort(divElement, colIdx, comparator) {
  * @param ascending
  * 			  if this is true, it will be ascending order, else it will be descending order
  */
-function sortTable(oneOfTableCell, colIdx, comparator, ascending) {
+function sortTable(oneOfTableCell, colIdx, comparator, ascending, row) {
     //Get the table
     var table = $(oneOfTableCell);
     if (!table.is("table")){
@@ -163,7 +167,10 @@ function sortTable(oneOfTableCell, colIdx, comparator, ascending) {
     var store = [];
     var RowList = $("tr", table);
     //Iterate through column's contents to decide which comparator to use
-    for (var i = 1; i < RowList.length; i++) {
+    for (var i = row; i < RowList.length; i++) {
+        if(RowList[i].cells[colIdx-1] == undefined || RowList[i].cells[colIdx-1] == null){
+            continue;
+        }
         var innerText = RowList[i].cells[colIdx-1].innerHTML;
         
         //Store rows together with the innerText to compare
