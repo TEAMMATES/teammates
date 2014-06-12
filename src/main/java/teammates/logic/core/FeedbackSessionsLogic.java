@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import javax.mail.internet.MimeMessage;
@@ -26,6 +28,7 @@ import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.UserType;
+import teammates.common.datatransfer.UserType.Role;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -250,6 +253,15 @@ public class FeedbackSessionsLogic {
             String feedbackSessionName, String courseId, String userEmail)
             throws EntityDoesNotExistException {
         return getFeedbackSessionResultsForUser(feedbackSessionName, courseId, userEmail, UserType.Role.INSTRUCTOR);
+    }
+    
+    /**
+     * Gets results of a feedback session in a roster to show to an instructor. 
+     */
+    public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructor(
+            String feedbackSessionName, String courseId, String userEmail, CourseRoster roster, Boolean isIncludeResponseStatus)
+            throws EntityDoesNotExistException {
+        return getFeedbackSessionResultsForUser(feedbackSessionName, courseId, userEmail, UserType.Role.INSTRUCTOR, roster, isIncludeResponseStatus);
     }
     
     /**
@@ -708,7 +720,19 @@ public class FeedbackSessionsLogic {
     }
     
     private FeedbackSessionResultsBundle getFeedbackSessionResultsForUser(
-            String feedbackSessionName, String courseId, String userEmail, UserType.Role role)
+            String feedbackSessionName, String courseId, String userEmail, UserType.Role role) 
+            throws EntityDoesNotExistException{
+        //Load details of students and instructors once and pass it to callee methods
+        //  (rather than loading them many times).
+        CourseRoster roster = new CourseRoster(
+                new StudentsDb().getStudentsForCourse(courseId),
+                new InstructorsDb().getInstructorsForCourse(courseId));
+        return getFeedbackSessionResultsForUser(feedbackSessionName, courseId, userEmail, role, roster, true);
+    }
+    
+    private FeedbackSessionResultsBundle getFeedbackSessionResultsForUser(
+            String feedbackSessionName, String courseId, String userEmail, UserType.Role role, 
+            CourseRoster roster, Boolean isIncludeResponseStatus)
             throws EntityDoesNotExistException {
     
         FeedbackSessionAttributes session = fsDb.getFeedbackSession(
@@ -721,12 +745,6 @@ public class FeedbackSessionsLogic {
         
         List<FeedbackQuestionAttributes> allQuestions = 
                 fqLogic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
-        
-        //Load details of students and instructors once and pass it to callee methods
-        //  (rather than loading them many times).
-        CourseRoster roster = new CourseRoster(
-                new StudentsDb().getStudentsForCourse(courseId),
-                new InstructorsDb().getInstructorsForCourse(courseId));
         
         //create empty data containers to store results
         List<FeedbackResponseAttributes> responses =
@@ -741,8 +759,8 @@ public class FeedbackSessionsLogic {
                 new HashMap<String, boolean[]>();
         Map<String, List<FeedbackResponseCommentAttributes>> responseComments = 
                 new HashMap<String, List<FeedbackResponseCommentAttributes>>();
-    
-        FeedbackSessionResponseStatus responseStatus = getFeedbackSessionResponseStatus(session);
+        
+        FeedbackSessionResponseStatus responseStatus = isIncludeResponseStatus? getFeedbackSessionResponseStatus(session): null;
         
         boolean isPrivateSessionNotCreatedByThisUser = session.isPrivateSession() && !session.isCreator(userEmail);
         if (isPrivateSessionNotCreatedByThisUser) {
@@ -753,37 +771,63 @@ public class FeedbackSessionsLogic {
                     visibilityTable, responseStatus, responseComments);
         }
                 
-        for (FeedbackQuestionAttributes question : allQuestions) {
-            
-            List<FeedbackResponseAttributes> responsesForThisQn;
-    
-            boolean isPrivateSessionCreatedByThisUser = session.isCreator(userEmail) && session.isPrivateSession();
-            if(isPrivateSessionCreatedByThisUser) {
-                responsesForThisQn = frLogic.getFeedbackResponsesForQuestion(question.getId());
-            } else {
-                responsesForThisQn = frLogic.getViewableFeedbackResponsesForQuestion(
-                        question, userEmail, role);
+        Map<String, FeedbackQuestionAttributes> allQuestionsMap = new HashMap<String, FeedbackQuestionAttributes>();
+        for(FeedbackQuestionAttributes qn : allQuestions){
+            allQuestionsMap.put(qn.getId(), qn);
+        }
+        List<FeedbackResponseAttributes> allResponses = frLogic.getFeedbackResponsesForSession(feedbackSessionName, courseId);
+        StudentAttributes student = null;
+        Set<String> studentsEmailInTeam  = new HashSet<String>();
+        if(role == Role.STUDENT){
+            student = studentsLogic.getStudentForEmail(courseId, userEmail);
+            List<StudentAttributes> studentsInTeam = studentsLogic.getStudentsForTeam(student.team, courseId);
+            for(StudentAttributes teammates : studentsInTeam){
+                studentsEmailInTeam.add(teammates.email);
             }
-            
-            boolean thisQuestionHasResponses = (!responsesForThisQn.isEmpty());
-            if (thisQuestionHasResponses) {
-                relevantQuestions.put(question.getId(), question);
-                responses.addAll(responsesForThisQn);
-                addEmailNamePairsToTable(emailNameTable, responsesForThisQn, question, roster);
-                addEmailTeamNamePairsToTable(emailTeamNameTable, responsesForThisQn, question, roster);
-                addVisibilityToTable( visibilityTable, question, responsesForThisQn, userEmail, roster);
+        }
+        for(FeedbackResponseAttributes response : allResponses){
+            FeedbackQuestionAttributes relatedQuestion = allQuestionsMap.get(response.feedbackQuestionId);
+            if(relatedQuestion != null){
+                //TODO: refactor these. you may refer to FeedbackResponseLogic.getViewableFeedbackResponsesForQuestion
+                Boolean isVisibleResponse = false;
+                if(response.giverEmail.equals(userEmail)
+                        || (response.recipientEmail.equals(userEmail) && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER))
+                        || (role == Role.INSTRUCTOR && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS))
+                        || (role == Role.STUDENT && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.STUDENTS))){
+                    isVisibleResponse = true;
+                } else if (role == Role.STUDENT && 
+                        ((relatedQuestion.recipientType == FeedbackParticipantType.TEAMS 
+                        && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER) 
+                        && response.recipientEmail.equals(student.team))
+                        || ((relatedQuestion.giverType == FeedbackParticipantType.TEAMS 
+                        || relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS))
+                        && studentsEmailInTeam.contains(response.giverEmail))
+                        || (relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
+                        && studentsEmailInTeam.contains(response.recipientEmail)))){
+                    isVisibleResponse = true;
+                }
+                if(isVisibleResponse){
+                    responses.add(response);
+                    relevantQuestions.put(relatedQuestion.getId(), relatedQuestion);
+                    addEmailNamePairsToTable(emailNameTable, response, relatedQuestion, roster);
+                    addEmailTeamNamePairsToTable(emailTeamNameTable, response, relatedQuestion, roster);
+                    addVisibilityToTable( visibilityTable, relatedQuestion, response, userEmail, roster);
+                }
+                isVisibleResponse = false;
             }
-            
         }
         
         List<FeedbackResponseCommentAttributes> allResponseComments = 
                 frcLogic.getFeedbackResponseCommentForSession(courseId, feedbackSessionName);
         for (FeedbackResponseCommentAttributes frc : allResponseComments) {
-            if (responseComments.get(frc.feedbackResponseId) == null) {
-                responseComments.put(frc.feedbackResponseId,
-                        new ArrayList<FeedbackResponseCommentAttributes>());
+            List<FeedbackResponseCommentAttributes> frcList = responseComments.get(frc.feedbackResponseId);
+            if (frcList == null) {
+                frcList = new ArrayList<FeedbackResponseCommentAttributes>();
+                frcList.add(frc);
+                responseComments.put(frc.feedbackResponseId, frcList);
+            } else {
+                frcList.add(frc);
             }
-            responseComments.get(frc.feedbackResponseId).add(frc);
         }
         
         for (List<FeedbackResponseCommentAttributes> responseCommentList : responseComments.values()) {
@@ -810,51 +854,45 @@ public class FeedbackSessionsLogic {
 
     private void addVisibilityToTable(Map<String, boolean[]> visibilityTable,
             FeedbackQuestionAttributes question,
-            List<FeedbackResponseAttributes> responses,
+            FeedbackResponseAttributes response,
             String userEmail,
             CourseRoster roster) {
-        for (FeedbackResponseAttributes response  : responses) {
-            boolean[] visibility = new boolean[2];
-            visibility[Const.VISIBILITY_TABLE_GIVER] = frLogic.isNameVisibleTo(question, response, userEmail, true, roster);
-            visibility[Const.VISIBILITY_TABLE_RECIPIENT] = frLogic.isNameVisibleTo(question, response, userEmail, false, roster);
-            visibilityTable.put(response.getId(), visibility);
-        }
+        boolean[] visibility = new boolean[2];
+        visibility[Const.VISIBILITY_TABLE_GIVER] = frLogic.isNameVisibleTo(question, response, userEmail, true, roster);
+        visibility[Const.VISIBILITY_TABLE_RECIPIENT] = frLogic.isNameVisibleTo(question, response, userEmail, false, roster);
+        visibilityTable.put(response.getId(), visibility);
     }
 
     private void addEmailNamePairsToTable(Map<String, String> emailNameTable,
-            List<FeedbackResponseAttributes> responsesForThisQn,
+            FeedbackResponseAttributes response,
             FeedbackQuestionAttributes question, CourseRoster roster) throws EntityDoesNotExistException {
-        addEmailNamePairsToTable(emailNameTable, responsesForThisQn, question, roster, EMAIL_NAME_PAIR);
+        addEmailNamePairsToTable(emailNameTable, response, question, roster, EMAIL_NAME_PAIR);
     }
     
     private void addEmailTeamNamePairsToTable(Map<String, String> emailTeamNameTable,
-            List<FeedbackResponseAttributes> responsesForThisQn,
+            FeedbackResponseAttributes response,
             FeedbackQuestionAttributes question, CourseRoster roster) throws EntityDoesNotExistException {
-        addEmailNamePairsToTable(emailTeamNameTable, responsesForThisQn, question, roster, EMAIL_TEAMNAME_PAIR);
+        addEmailNamePairsToTable(emailTeamNameTable, response, question, roster, EMAIL_TEAMNAME_PAIR);
     }
     
-    private void addEmailNamePairsToTable(Map<String, String> emailNameTable,
-            List<FeedbackResponseAttributes> responsesForThisQn,
-            FeedbackQuestionAttributes question, CourseRoster roster, int pairType) throws EntityDoesNotExistException {
-    
-        for (FeedbackResponseAttributes response : responsesForThisQn) {
-            if (question.giverType == FeedbackParticipantType.TEAMS){
-                if (emailNameTable.containsKey(response.giverEmail + Const.TEAM_OF_EMAIL_OWNER) == false) {
-                    emailNameTable.put(
-                            response.giverEmail + Const.TEAM_OF_EMAIL_OWNER,
-                            getNameTeamNamePairForEmail(question.giverType, response.giverEmail, roster)[pairType]);
-                }
-            } else if(emailNameTable.containsKey(response.giverEmail) == false) {
+    private void addEmailNamePairsToTable(Map<String, String> emailNameTable, FeedbackResponseAttributes response,
+        FeedbackQuestionAttributes question, CourseRoster roster, int pairType) throws EntityDoesNotExistException {
+        if (question.giverType == FeedbackParticipantType.TEAMS){
+            if (emailNameTable.containsKey(response.giverEmail + Const.TEAM_OF_EMAIL_OWNER) == false) {
                 emailNameTable.put(
-                        response.giverEmail,
+                        response.giverEmail + Const.TEAM_OF_EMAIL_OWNER,
                         getNameTeamNamePairForEmail(question.giverType, response.giverEmail, roster)[pairType]);
             }
+        } else if(emailNameTable.containsKey(response.giverEmail) == false) {
+            emailNameTable.put(
+                    response.giverEmail,
+                    getNameTeamNamePairForEmail(question.giverType, response.giverEmail, roster)[pairType]);
+        }
             
-            if(emailNameTable.containsKey(response.recipientEmail) == false) {
-                emailNameTable.put(
-                        response.recipientEmail,
-                        getNameTeamNamePairForEmail(question.recipientType, response.recipientEmail, roster)[pairType]);
-            }
+        if(emailNameTable.containsKey(response.recipientEmail) == false) {
+            emailNameTable.put(
+                    response.recipientEmail,
+                    getNameTeamNamePairForEmail(question.recipientType, response.recipientEmail, roster)[pairType]);
         }
     }
         

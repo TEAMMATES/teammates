@@ -22,7 +22,6 @@ import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentRecipientType;
-import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -92,11 +91,6 @@ public class CommentsDbTest extends BaseComponentTestCase {
         assertNotNull(commentsDb.getCommentsForReceiver(
                 c.courseId, c.recipientType, VALID_RECEIVER_EMAIL));
         
-        StudentAttributes student = new StudentAttributes();
-        student.course = c.courseId;
-        student.email = VALID_RECEIVER_EMAIL;
-        assertNotNull(commentsDb.getCommentsForStudent(student));
-        
         CommentAttributes anotherRetrievedComment = commentsDb.getComment(retrievedComment.getCommentId());
         assertEquals(retrievedComment.commentText, anotherRetrievedComment.commentText);
         assertEquals(retrievedComment.giverEmail, anotherRetrievedComment.giverEmail);
@@ -130,12 +124,6 @@ public class CommentsDbTest extends BaseComponentTestCase {
         retrievedComment.recipients = null;
         try{
             commentsDb.getCommentsForReceiver(retrievedComment.courseId, retrievedComment.recipientType, retrievedComment.giverEmail);
-        } catch (AssertionError e){
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
-        }
-        
-        try{
-            commentsDb.getCommentsForStudent(null);
         } catch (AssertionError e){
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
         }

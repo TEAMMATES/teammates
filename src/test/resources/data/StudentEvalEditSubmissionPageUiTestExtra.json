@@ -1,0 +1,88 @@
+{ 
+  "submissions" : {
+   
+    "CharlieCharlie": {
+      "reviewer" : "SEvalEditUiT.charlie.d@gmail.com",
+      "reviewee" : "SEvalEditUiT.charlie.d@gmail.com",
+      "course" : "SEvalEditUiT.CS2104",
+      "evaluation" : "First Eval",
+      "points" : 100,
+      "justification" : {"value" : "This is a justification from SEvalEditUiT.charlie.d@gmail.com to SEvalEditUiT.charlie.d@gmail.com"},
+      "p2pFeedback" : {"value" :"This is a public comment from SEvalEditUiT.charlie.d@gmail.com to SEvalEditUiT.charlie.d@gmail.com"},
+      "team" : "Team 2"
+    },   
+    "CharlieDanny": {
+      "reviewer" : "SEvalEditUiT.charlie.d@gmail.com",
+      "reviewee" : "SEvalEditUiT.danny.e@gmail.com",
+      "course" : "SEvalEditUiT.CS2104",
+      "evaluation" : "First Eval",
+      "points" : 100,
+      "justification" : {"value" : "This is a justification from SEvalEditUiT.charlie.d@gmail.com to SEvalEditUiT.danny.e@gmail.com"},
+      "p2pFeedback" : {"value" :"This is a public comment from SEvalEditUiT.charlie.d@gmail.com to SEvalEditUiT.danny.e@gmail.com"},
+      "team" : "Team 2"
+    },
+     "CharlieEmily": {
+      "reviewer" : "SEvalEditUiT.charlie.d@gmail.com",
+      "reviewee" : "SEvalEditUiT.emily.f@gmail.com",
+      "course" : "SEvalEditUiT.CS2104",
+      "evaluation" : "First Eval",
+      "points" : 100,
+      "justification" : {"value" : "This is a justification from SEvalEditUiT.charlie.d@gmail.com to SEvalEditUiT.emily.f@gmail.com"},
+      "p2pFeedback" : {"value" :"This is a public comment from SEvalEditUiT.charlie.d@gmail.com to SEvalEditUiT.emily.f@gmail.com"},
+      "team" : "Team 2"
+    },
+    "CharlieNewGuy": {
+      "reviewer" : "SEvalEditUiT.charlie.d@gmail.com",
+      "reviewee" : "new@guy.com",
+      "course" : "SEvalEditUiT.CS2104",
+      "evaluation" : "First Eval",
+      "points" : 100,
+      "justification" : {"value" : "This is a justification from SEvalEditUiT.charlie.d@gmail.com to new@guy.com"},
+      "p2pFeedback" : {"value" :"This is a public comment from SEvalEditUiT.charlie.d@gmail.com to new@guy.com"},
+      "team" : "Team 2"
+    },
+    "DannyDannyNew": {
+      "reviewer" : "SEvalEditUiT.danny.e@gmail.com",
+      "reviewee" : "SEvalEditUiT.danny.e@gmail.com",
+      "course" : "SEvalEditUiT.CS2104",
+      "evaluation" : "First Eval",
+      "points" : 90,
+      "justification" : {"value" : "This is a New justification from SEvalEditUiT.danny.e@gmail.com to SEvalEditUiT.danny.e@gmail.com"},
+      "p2pFeedback" : {"value" :"This is a New public comment from SEvalEditUiT.danny.e@gmail.com to SEvalEditUiT.danny.e@gmail.com"},
+      "team" : "Team 2"
+    },
+    "DannyCharlieNew": {
+      "reviewer" : "SEvalEditUiT.danny.e@gmail.com",
+      "reviewee" : "SEvalEditUiT.charlie.d@gmail.com",
+      "course" : "SEvalEditUiT.CS2104",
+      "evaluation" : "First Eval",
+      "points" : 100,
+      "justification" : {"value" : "This is a New justification from SEvalEditUiT.danny.e@gmail.com to SEvalEditUiT.charlie.d@gmail.com"},
+      "p2pFeedback" : {"value" :"This is a New public comment from SEvalEditUiT.danny.e@gmail.com to SEvalEditUiT.charlie.d@gmail.com"},
+      "team" : "Team 2"
+    },
+    "DannyEmilyNew": {
+      "reviewer" : "SEvalEditUiT.danny.e@gmail.com",
+      "reviewee" : "SEvalEditUiT.emily.f@gmail.com",
+      "course" : "SEvalEditUiT.CS2104",
+      "evaluation" : "First Eval",
+      "points" : 90,
+      "justification" : {"value" : "This is a New justification from SEvalEditUiT.danny.e@gmail.com to SEvalEditUiT.emily.f@gmail.com"},
+      "p2pFeedback" : {"value" :"This is a New public comment from SEvalEditUiT.danny.e@gmail.com to SEvalEditUiT.emily.f@gmail.com"},
+      "team" : "Team 2"
+    },  
+    "DannyNewGuy":{
+      "reviewer" : "SEvalEditUiT.danny.e@gmail.com",
+      "reviewee" : "new@guy.com",
+      "course" : "SEvalEditUiT.CS2104",
+      "evaluation" : "First Eval",
+      "points" : 80,
+      "justification" : {"value" : "This is a New justification from SEvalEditUiT.danny.e@gmail.com to new@guy.com"},
+      "p2pFeedback" : {"value" :"This is a New public comment from SEvalEditUiT.danny.e@gmail.com to new@guy.com"},
+      "team" : "Team 2"
+    }
+    
+    
+ 
+  }
+}

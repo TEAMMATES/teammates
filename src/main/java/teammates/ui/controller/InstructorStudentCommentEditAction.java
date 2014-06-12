@@ -27,6 +27,8 @@ public class InstructorStudentCommentEditAction extends Action {
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL); 
         Assumption.assertNotNull(studentEmail);
         
+        Boolean isFromCommentPage = getRequestParamAsBoolean(Const.ParamsNames.FROM_COMMENTS_PAGE);
+        
         String commentId = getRequestParamValue(Const.ParamsNames.COMMENT_ID);
         Assumption.assertNotNull(commentId);
         
@@ -60,7 +62,8 @@ public class InstructorStudentCommentEditAction extends Action {
             isError = true;
         }
         
-        return createRedirectResult(new PageData(account).getInstructorStudentRecordsLink(courseId,studentEmail));
+        return !isFromCommentPage? createRedirectResult(new PageData(account).getInstructorStudentRecordsLink(courseId,studentEmail)):
+            createRedirectResult((new PageData(account).getInstructorCommentsLink()) + "&" + Const.ParamsNames.COURSE_ID + "=" + courseId);
     }
 
     private CommentAttributes extractCommentData() {

@@ -5,8 +5,8 @@ import java.util.logging.Logger;
 
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentRecipientType;
+import teammates.common.datatransfer.CommentStatus;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -24,7 +24,6 @@ public class CommentsLogic {
 
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
     private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
-    private static final StudentsLogic studentsLogic = StudentsLogic.inst();
 
     public static CommentsLogic inst() {
         if (instance == null)
@@ -46,6 +45,18 @@ public class CommentsLogic {
         
         return commentsDb.getCommentsForGiver(courseId, giverEmail);
     }
+    
+    public List<CommentAttributes> getCommentsForGiverAndStatus(String courseId, String giverEmail, CommentStatus status)
+            throws EntityDoesNotExistException {
+        verifyIsCoursePresentForGetComments(courseId);
+        
+        return commentsDb.getCommentsForGiverAndStatus(courseId, giverEmail, status);
+    }
+    
+    public List<CommentAttributes> getCommentDrafts(String giverEmail)
+            throws EntityDoesNotExistException {
+        return commentsDb.getCommentDrafts(giverEmail);
+    }
 
     public List<CommentAttributes> getCommentsForReceiver(String courseId, CommentRecipientType recipientType, String receiverEmail)
             throws EntityDoesNotExistException {
@@ -54,11 +65,11 @@ public class CommentsLogic {
         return commentsDb.getCommentsForReceiver(courseId, recipientType, receiverEmail);
     }
     
-    public List<CommentAttributes> getCommentsForStudent(StudentAttributes student)
+    public List<CommentAttributes> getCommentsForCommentViewer(String courseId, CommentRecipientType commentViewerType)
             throws EntityDoesNotExistException {
-        verifyIsStudentPresentForGetComments(student.googleId);
+        verifyIsCoursePresentForGetComments(courseId);
         
-        return commentsDb.getCommentsForStudent(student);
+        return commentsDb.getCommentsForCommentViewer(courseId, commentViewerType);
     }
     
     public void updateComment(CommentAttributes comment)
@@ -83,13 +94,6 @@ public class CommentsLogic {
         if (!coursesLogic.isCoursePresent(courseId)) {
             throw new EntityDoesNotExistException(
                     "Trying to get comments for a course that does not exist.");
-        }
-    }
-    
-    private void verifyIsStudentPresentForGetComments(String googleId) throws EntityDoesNotExistException{
-        if(!studentsLogic.isStudentInAnyCourse(googleId)) {
-            throw new EntityDoesNotExistException(
-                    "Trying to get comments for a student that does not exist.");
         }
     }
     
