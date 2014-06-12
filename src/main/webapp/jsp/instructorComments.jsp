@@ -279,6 +279,15 @@
                         </strong>
                     </h4>
                 </div>
+                <% if(data.comments.keySet().size() == 0 && data.feedbackResultBundles.keySet().size() == 0){//if no comment %>
+                <br>
+                <div class="panel">
+                    <div class="panel-body">
+                        You don't have any comment in this course.
+                    </div>
+                </div>
+                <% } %>
+                <% if(data.comments.keySet().size() != 0){// check student comments starts %>
                 <br>
                 <div class="panel panel-primary">
                     <div class="panel-heading">
@@ -447,23 +456,16 @@
                         <%
                             }//recipient loop ends
                         %>
-                        <%
-                            if (data.comments.size() == 0) {
-                        %>
-                        <div
-                            class="panel panel-warning student-record-comments">
-                            <div class="panel-heading">You don't
-                                have any comment here.</div>
-                        </div>
-                        <%
-                            }
-                        %>
                     </div>
                 </div>
+                <% }// check student comments ends %>
                 <%
                     int fsIndx = 0;
                     for (String fsName : data.feedbackResultBundles.keySet()) {//FeedbackSession loop starts
                         FeedbackSessionResultsBundle bundle = data.feedbackResultBundles.get(fsName);
+                        if (bundle.getQuestionResponseMap().entrySet().size() == 0){
+                            continue;
+                        }
                         fsIndx++;
                 %>
                 <br>
@@ -472,14 +474,6 @@
                         <strong>Feedback Session: <%=fsName%></strong>
                     </div>
                     <div class="panel-body">
-                        <% if(bundle
-                                .getQuestionResponseMap().entrySet().size() == 0){ %>
-                        <div
-                            class="panel panel-warning student-record-comments">
-                            <div class="panel-heading">You don't
-                                have any comment here.</div>
-                        </div>
-                        <% } %>
                         <%
                                 int qnIndx = 0;
                                 for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responseEntries : bundle

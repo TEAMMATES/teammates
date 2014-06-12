@@ -10,6 +10,7 @@ import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentStatus;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseRoster;
+import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
@@ -190,15 +191,17 @@ public class InstructorCommentsPageAction extends Action {
                 FeedbackSessionResultsBundle bundle = 
                         logic.getFeedbackSessionResultsForInstructor(fs.feedbackSessionName, courseId, account.email, roster, !IS_INCLUDE_RESPONSE_STATUS);
                 if(bundle != null){
-                    removeResponsesWithoutFeedbackResponseComment(bundle);
-                    feedbackResultBundles.put(fs.feedbackSessionName, bundle);
+                    removeQuestionsAndResponsesWithoutFeedbackResponseComment(bundle);
+                    if(bundle.questions.size() != 0){
+                        feedbackResultBundles.put(fs.feedbackSessionName, bundle);
+                    }
                 }
             }
         }
         return feedbackResultBundles;
     }
 
-    private void removeResponsesWithoutFeedbackResponseComment(FeedbackSessionResultsBundle bundle) {
+    private void removeQuestionsAndResponsesWithoutFeedbackResponseComment(FeedbackSessionResultsBundle bundle) {
         List<FeedbackResponseAttributes> responsesWithFeedbackResponseComment = new ArrayList<FeedbackResponseAttributes>();
         for(FeedbackResponseAttributes fr: bundle.responses){
             List<FeedbackResponseCommentAttributes> frComment = bundle.responseComments.get(fr.getId());
@@ -206,6 +209,14 @@ public class InstructorCommentsPageAction extends Action {
                 responsesWithFeedbackResponseComment.add(fr);
             }
         }
+        Map<String, FeedbackQuestionAttributes> questionsWithFeedbackResponseComment = new HashMap<String, FeedbackQuestionAttributes>();
+        for(FeedbackResponseAttributes fr: responsesWithFeedbackResponseComment){
+            FeedbackQuestionAttributes qn = bundle.questions.get(fr.feedbackQuestionId);
+            if(questionsWithFeedbackResponseComment.get(qn.getId()) == null){
+                questionsWithFeedbackResponseComment.put(qn.getId(), qn);
+            }
+        }
+        bundle.questions = questionsWithFeedbackResponseComment;
         bundle.responses = responsesWithFeedbackResponseComment;
     }
 }
