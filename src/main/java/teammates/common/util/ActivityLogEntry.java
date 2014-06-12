@@ -126,6 +126,37 @@ public class ActivityLogEntry {
         }
     }
     
+    public String getIconRoleForShow(){
+        String iconRole="";
+        
+        if (role.contains("Instructor")){   
+           
+            if(role.contains("(M)")){
+                iconRole = "<span class = \"glyphicon glyphicon-user\" style=\"color:#39b3d7;\"></span>";
+                iconRole = iconRole + "-<span class = \"glyphicon glyphicon-eye-open\" ></span>- ";
+            }else{
+                iconRole = "<span class = \"glyphicon glyphicon-user\" style=\"color:#39b3d7;\"></span>";
+            }
+        }else if(role.contains("Student")){
+            
+            if(role.contains("(M)")){
+                iconRole = "<span class = \"glyphicon glyphicon-user\" style=\"color:#FFBB13;\"></span>";
+                iconRole = iconRole + "-<span class = \"glyphicon glyphicon-eye-open\" ></span>- ";
+            }else{
+                iconRole = "<span class = \"glyphicon glyphicon-user\" style=\"color:#FFBB13;\"></span>";
+            }
+        }else{
+            iconRole = role;
+        }
+
+        if (servletName.toLowerCase().startsWith("admin")) {
+            iconRole = "<span class = \"glyphicon glyphicon-user\"></span>";
+        }
+            
+        
+        return iconRole;
+    }
+    
     /**
      * Assumption: the {@code requestUrl} is in the format "/something/actionName" 
      *   possibly followed by "?something" e.g., "/page/studentHome?user=abc"
@@ -179,28 +210,47 @@ public class ActivityLogEntry {
     
     public String getActionInfo(){
         String style = "";
-        String isBoldStart = "";
-        String isBoldEnd = "";
         
-        if(action.equals(Const.ACTION_RESULT_FAILURE) || action.equals(Const.ACTION_RESULT_SYSTEM_ERROR_REPORT)) {
-            style = "text-danger";
-            isBoldStart = "<strong>";
-            isBoldEnd = "</strong>";
+        if (message.toLowerCase().contains(Const.ACTION_RESULT_FAILURE.toLowerCase())
+           || message.toLowerCase().contains(Const.ACTION_RESULT_SYSTEM_ERROR_REPORT.toLowerCase())) {
             
+                style = "text-danger";      
         } else {
             style = "text-success bold";
         }
-        return isBoldStart+"<a href=\""+getUrlToShow()+"\" class=\""+style+"\" target=\"_blank\">"+servletName+"</a>" + isBoldEnd;
+        return "<a href=\""+getUrlToShow()+"\" class=\""+style+"\" target=\"_blank\">"+servletName+"</a>";
     }
     
     public String getMessageInfo(){
-        if (message.contains(Const.ACTION_RESULT_FAILURE)){
-            message = message.replace(Const.ACTION_RESULT_FAILURE, "<strong><span class=\"text-danger \">" + Const.ACTION_RESULT_FAILURE + "</span></strong><br>");
-        } else if (message.contains(Const.ACTION_RESULT_SYSTEM_ERROR_REPORT)){
-            message = message.replace(Const.ACTION_RESULT_SYSTEM_ERROR_REPORT, "<strong><span class=\"text-danger bold\">" + Const.ACTION_RESULT_SYSTEM_ERROR_REPORT + "</span></strong><br>");
+        
+        Sanitizer.sanitizeForHtml(message);
+        
+        if (message.toLowerCase().contains(Const.ACTION_RESULT_FAILURE.toLowerCase())){
+            message = message.replace(Const.ACTION_RESULT_FAILURE, "<span class=\"text-danger\"><strong>" + Const.ACTION_RESULT_FAILURE + "</strong><br>");
+            message = message + "</span><br>";
+        } else if (message.toLowerCase().contains(Const.ACTION_RESULT_SYSTEM_ERROR_REPORT.toLowerCase())){
+            message = message.replace(Const.ACTION_RESULT_SYSTEM_ERROR_REPORT, "<span class=\"text-danger\"><strong>" + Const.ACTION_RESULT_SYSTEM_ERROR_REPORT + "</strong><br>");
+            message = message + "</span><br>";
         }
+                
         return message;
     }
+    
+    
+    public String getLogEntryActionsButtonClass(){
+        
+        String className = "";
+        if (message.toLowerCase().contains(Const.ACTION_RESULT_FAILURE.toLowerCase())){
+            className = "btn-warning";
+        } else if (message.toLowerCase().contains(Const.ACTION_RESULT_SYSTEM_ERROR_REPORT.toLowerCase())){
+            className = "btn-danger";
+        } else {
+            className = "btn-info";
+        }
+        return className;
+   }
+    
+    
     
     public String getUrlToShow(){
         String urlToShow = url;

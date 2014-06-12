@@ -14,6 +14,7 @@ import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.AdminAccountDetailsPage;
 import teammates.test.pageobjects.AdminAccountManagementPage;
+import teammates.test.pageobjects.AdminActivityLogPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 
@@ -62,6 +63,16 @@ public class AdminAccountManagementPageUiTest extends BaseUiTestCase{
         AdminAccountDetailsPage detailsPage = accountsPage.clickViewInstructorDetails(instructorId);
         detailsPage.verifyIsCorrectPage(instructorId);
         detailsPage.goToPreviousPage(AdminAccountManagementPage.class);
+    }
+    
+    public void testViewRecentActionsLink() {
+
+        ______TS("link: view recent actions");
+        
+        String instructorId = "AAMgtUiT.instr1";
+        AdminActivityLogPage logPage = accountsPage.clickViewRecentActions(instructorId);
+        logPage.verifyIsCorrectPage();
+        logPage.goToPreviousPage(AdminAccountManagementPage.class);
     }
 
     public void testDeleteInstructorStatusAction(){
