@@ -373,6 +373,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
     public void testSearchAction() throws Exception{
         ______TS("search student");
         homePage.searchForStudent("Alice").verifySearchKey("Alice");
+        //Use {$test.instructor}
         homePage.verifyHtml("/instructorHomeSearchStudent.html");
         
         //go back to previous page because 'search' redirects to the 'StudentList' page.
