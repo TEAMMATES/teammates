@@ -7,8 +7,8 @@
 <%@ page import="teammates.ui.controller.AdminActivityLogPageData"%>
 
 <%
-	AdminActivityLogPageData data = (AdminActivityLogPageData) request
-			.getAttribute("data");
+    AdminActivityLogPageData data = (AdminActivityLogPageData) request
+            .getAttribute("data");
 %>
 <!DOCTYPE html>
 <html>
@@ -667,16 +667,16 @@
                 </div>
 
                 <%
-                	if (data.queryMessage != null) {
+                    if (data.queryMessage != null) {
                 %>
                 <div class="alert alert-danger" id="queryMessage">
                     <span class="glyphicon glyphicon-warning-sign"></span>
                     <%
-                    	out.println(" " + data.queryMessage);
+                        out.println(" " + data.queryMessage);
                     %>
                 </div>
                 <%
-                	}
+                    }
                 %>
 
 
@@ -693,8 +693,8 @@
 
 
             <%
-            	List<ActivityLogEntry> appLogs = data.logs;
-            	if (appLogs != null) {
+                List<ActivityLogEntry> appLogs = data.logs;
+                if (appLogs != null) {
             %>
             <div class="panel panel-primary">
                 <div class="panel-heading">
@@ -714,16 +714,16 @@
                         </thead>
                         <tbody>
                             <%
-                            	if (appLogs.isEmpty()) {
+                                if (appLogs.isEmpty()) {
                             %>
                             <tr>
                                 <td colspan='2'><i>No
                                         application logs found</i></td>
                             </tr>
                             <%
-                            	} else {
-                            			int index = 0;
-                            			for (ActivityLogEntry log : appLogs) {
+                                } else {
+                                        int index = 0;
+                                        for (ActivityLogEntry log : appLogs) {
                             %>
                             <tr>
 
@@ -737,7 +737,7 @@
 
                                         <h4
                                             class="list-group-item-heading">
-                                            <%=log.getRoleInfo()%>
+                                            <%=log.getIconRoleForShow()%>
                                             <%=log.getActionInfo()%>
                                             <small> <span
                                                 id="personInfo_<%=index%>"><%=log.getPersonInfo()%></span>
@@ -770,9 +770,9 @@
 
                             </tr>
                             <%
-                            	index++;
-                            			}
-                            		}
+                                index++;
+                                        }
+                                    }
                             %>
 
                         </tbody>
@@ -781,7 +781,7 @@
 
             </div>
             <%
-            	}
+                }
             %>
 
             <jsp:include

@@ -97,11 +97,7 @@ public class ActivityLogEntry {
             googleId = "Unknown";
             email = "Unknown";
         } else {
-            role = acc.isInstructor ? "<span class = \"glyphicon glyphicon-user\" style=\"color:#39b3d7;\"></span>"
-                                    : "<span class = \"glyphicon glyphicon-user\" style=\"color:#FFBB13;\"></span>";
-            if (servletName.toLowerCase().startsWith("admin")) {
-                role = "<span class = \"glyphicon glyphicon-user\"></span>";
-            }
+            role = acc.isInstructor ? "Instructor" : "Student"; 
             name = acc.name;
             googleId = acc.googleId;
             email = acc.email;
@@ -122,16 +118,43 @@ public class ActivityLogEntry {
             googleId = "Unknown";
             email = "Unknown";
         } else {
-            role = userAccount.isInstructor ? "<span class = \"glyphicon glyphicon-user\" style=\"color:#39b3d7;\"></span>"
-                                            : "<span class = \"glyphicon glyphicon-user\" style=\"color:#FFBB13;\"></span>";
-            role = role + (isMasquerade ? "-<span class = \"glyphicon glyphicon-eye-open\" ></span>- ": "");
-            if (servletName.toLowerCase().startsWith("admin")) {
-                role = "<span class = \"glyphicon glyphicon-user\"></span>";
-            }
+            role = userAccount.isInstructor ? "Instructor" : "Student"; 
+            role = role + (isMasquerade? "(M)" : "");
             name = userAccount.name;
             googleId = userAccount.googleId;
             email = userAccount.email;
         }
+    }
+    
+    public String getIconRoleForShow(){
+        String iconRole="";
+        
+        if (role.contains("Instructor")){   
+           
+            if(role.contains("(M)")){
+                iconRole = "<span class = \"glyphicon glyphicon-user\" style=\"color:#39b3d7;\"></span>";
+                iconRole = iconRole + "-<span class = \"glyphicon glyphicon-eye-open\" ></span>- ";
+            }else{
+                iconRole = "<span class = \"glyphicon glyphicon-user\" style=\"color:#39b3d7;\"></span>";
+            }
+        }else if(role.contains("Student")){
+            
+            if(role.contains("(M)")){
+                iconRole = "<span class = \"glyphicon glyphicon-user\" style=\"color:#FFBB13;\"></span>";
+                iconRole = iconRole + "-<span class = \"glyphicon glyphicon-eye-open\" ></span>- ";
+            }else{
+                iconRole = "<span class = \"glyphicon glyphicon-user\" style=\"color:#FFBB13;\"></span>";
+            }
+        }else{
+            iconRole = role;
+        }
+
+        if (servletName.toLowerCase().startsWith("admin")) {
+            iconRole = "<span class = \"glyphicon glyphicon-user\"></span>";
+        }
+            
+        
+        return iconRole;
     }
     
     /**
