@@ -66,9 +66,22 @@ public class InstructorAttributes extends EntityAttributes {
         this.name = instructor.getName();
         this.email = instructor.getEmail();
         this.key = instructor.getRegistrationKey();
-        this.role = instructor.getRole();
-        this.displayedName = instructor.getDisplayedName();
-        this.instructorPrivilegesAsText = instructor.getInstructorPrivilegesAsText();
+        if (instructor.getRole() == null) {
+            this.role = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+        } else {
+            this.role = instructor.getRole();
+        }
+        if (instructor.getDisplayedName() == null) {
+            this.displayedName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+        } else {
+            this.displayedName = instructor.getDisplayedName();
+        }
+        if (instructor.getInstructorPrivilegesAsText() == null) {
+            this.privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+            this.instructorPrivilegesAsText = this.getTextFromInstructorPrivileges();
+        } else {
+            this.instructorPrivilegesAsText = instructor.getInstructorPrivilegesAsText();
+        }
         this.privileges = this.getInstructorPrivilegesFromText();
     }
     

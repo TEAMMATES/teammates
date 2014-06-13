@@ -1,6 +1,7 @@
 package teammates.ui.controller;
 
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
@@ -24,15 +25,16 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
         Assumption.assertNotNull(instructorName);
         String instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
         Assumption.assertNotNull(instructorEmail);
+        String instructorRole = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ROLE_NAME);
+        Assumption.assertNotNull(instructorRole);
         
-        new GateKeeper().verifyAccessible(
-                logic.getInstructorForGoogleId(courseId, account.googleId),
-                logic.getCourse(courseId));
+        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
+        new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId));
 
         /* Process saving editing changes and setup status to be shown to user and admin */
-        InstructorAttributes instructorToEdit = logic.getInstructorForGoogleId(courseId, instructorId);
-        instructorToEdit.name = Sanitizer.sanitizeName(instructorName);
-        instructorToEdit.email = Sanitizer.sanitizeEmail(instructorEmail);
+        InstructorAttributes instructorToEdit = updateInstructorAttributes(
+                courseId, instructorId, instructorName, instructorEmail,
+                instructorRole);
         
         try {
             logic.updateInstructorByGoogleId(instructorId, instructorToEdit);
@@ -49,5 +51,19 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
         RedirectResult result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE);
         result.addResponseParam(Const.ParamsNames.COURSE_ID, courseId);
         return result;
+    }
+
+    private InstructorAttributes updateInstructorAttributes(String courseId,
+            String instructorId, String instructorName, String instructorEmail,
+            String instructorRole) {
+        InstructorAttributes instructorToEdit = logic.getInstructorForGoogleId(courseId, instructorId);
+        instructorToEdit.name = Sanitizer.sanitizeName(instructorName);
+        instructorToEdit.email = Sanitizer.sanitizeEmail(instructorEmail);
+        instructorToEdit.role = Sanitizer.sanitizeName(instructorRole);
+        // TODO: remove this hard-coded thing!
+        instructorToEdit.displayedName = "Co-owner";
+        instructorToEdit.privileges = new InstructorPrivileges(instructorRole);
+        instructorToEdit.instructorPrivilegesAsText = instructorToEdit.getTextFromInstructorPrivileges();
+        return instructorToEdit;
     }
 }

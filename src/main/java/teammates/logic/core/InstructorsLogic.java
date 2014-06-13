@@ -179,12 +179,8 @@ public class InstructorsLogic {
 
         coursesLogic.verifyCourseIsPresent(instructor.courseId);        
         verifyIsGoogleIdOfInstructorOfCourse(googleId, instructor.courseId);
-
-        InstructorAttributes instructorToUpdate = getInstructorForGoogleId(instructor.courseId, googleId);
-        instructorToUpdate.name = instructor.name;
-        instructorToUpdate.email = instructor.email;
         
-        instructorsDb.updateInstructorByGoogleId(instructorToUpdate);
+        instructorsDb.updateInstructorByGoogleId(instructor);
     }
     
     /**
