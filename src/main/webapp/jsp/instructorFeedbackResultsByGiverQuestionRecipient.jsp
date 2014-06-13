@@ -78,9 +78,12 @@
         %>
 
         <%
-            if(currentTeam != null && !currentTeam.equals(data.bundle.getTeamNameForEmail(giverEmail))) {
+            if(currentTeam != null && !(data.bundle.getTeamNameForEmail(giverEmail)=="" ? currentTeam.equals(giverEmail): currentTeam.equals(data.bundle.getTeamNameForEmail(giverEmail)))) {
                 currentTeam = data.bundle.getTeamNameForEmail(giverEmail);
                 newTeam = true;
+                if(currentTeam.equals("")){
+                    currentTeam = giverEmail;
+                }
         %>
                 </div>
             </div>
@@ -88,6 +91,9 @@
             }
             if(groupByTeamEnabled == true && (currentTeam==null || newTeam==true)) {
                 currentTeam = data.bundle.getTeamNameForEmail(giverEmail);
+                if(currentTeam.equals("")){
+                    currentTeam = giverEmail;
+                }
                 newTeam = false;
                 Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> currentTeamResponses = teamResponses.get(currentTeam);
         %>
@@ -128,7 +134,7 @@
                                     }
                                     if(numStatsShown == 0){
                                 %>
-                                        <p class="text-color-gray"><i>No statistics available.<i></p>
+                                        <p class="text-color-gray"><i>No statistics available.</i></p>
                             <%
                                     }
                                 }

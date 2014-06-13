@@ -647,8 +647,10 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         @Override
         public int compare(FeedbackResponseAttributes o1,
                 FeedbackResponseAttributes o2) {
-            return getTeamNameForEmail(o1.recipientEmail).compareTo(
-                    getTeamNameForEmail(o2.recipientEmail));
+            String t1 = getTeamNameForEmail(o1.recipientEmail).equals("")?o1.recipientEmail:getTeamNameForEmail(o1.recipientEmail);
+            String t2 = getTeamNameForEmail(o2.recipientEmail).equals("")?o2.recipientEmail:getTeamNameForEmail(o2.recipientEmail);
+            
+            return t1.compareTo(t2);
         }
     };
     
@@ -658,8 +660,10 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         @Override
         public int compare(FeedbackResponseAttributes o1,
                 FeedbackResponseAttributes o2) {
-            return getTeamNameForEmail(o1.giverEmail).compareTo(
-                    getTeamNameForEmail(o2.giverEmail));
+            String t1 = getTeamNameForEmail(o1.giverEmail).equals("")?o1.giverEmail:getTeamNameForEmail(o1.giverEmail);
+            String t2 = getTeamNameForEmail(o2.giverEmail).equals("")?o2.giverEmail:getTeamNameForEmail(o2.giverEmail);
+            
+            return t1.compareTo(t2);
         }
     };
     
