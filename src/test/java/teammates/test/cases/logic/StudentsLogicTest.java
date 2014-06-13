@@ -28,6 +28,7 @@ import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentAttributesFactory;
 import teammates.common.datatransfer.StudentEnrollDetails;
+import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -92,7 +93,8 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         //create fresh test data
         accountsLogic.createAccount(
                 new AccountAttributes(instructorId, "ICET Instr Name", true,
-                        "instructor@icet.com", "National University of Singapore"));
+                        "instructor@icet.com", "National University of Singapore",
+                        new StudentProfileAttributes(instructorId, "ICET", "", "", "", "other", "")));
         coursesLogic.createCourseAndInstructor(instructorId, instructorCourse, "Course for Enroll Testing");
 
         ______TS("add student into empty course");
@@ -177,7 +179,46 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         enrollmentResult = invokeEnrollStudent(student5);
         assertEquals (StudentAttributes.UpdateStatus.ERROR, enrollmentResult.updateStatus);
         assertEquals(4, studentsLogic.getStudentsForCourse(instructorCourse).size());
+    }
+    
+    @Test
+    public void testGetStudentProfile() throws Exception {
+        restoreTypicalDataInDatastore();
+        dataBundle = getTypicalDataBundle();
+
+        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
+        AccountAttributes student1 = dataBundle.accounts.get("student1InCourse1");
         
+        ______TS("success: default profile");
+        
+        StudentProfileAttributes actualSpa = studentsLogic.getStudentProfile(student1InCourse1.googleId);
+        StudentProfileAttributes expectedSpa = new StudentProfileAttributes(student1InCourse1.googleId,
+                "Stud1", "i.m.stud1@gmail.com", "Georgia Tech", "U.S.A", "male", "I am just a student :P");
+        
+        // fill-in auto-generated and default values
+        expectedSpa.institute = actualSpa.institute;
+        expectedSpa.modifiedDate = actualSpa.modifiedDate;
+        
+        assertEquals(expectedSpa.toString(), actualSpa.toString());
+        
+        ______TS("success: edited profile");
+        
+        StudentProfileAttributes expectedStudentProfile = new StudentProfileAttributes();
+        
+        expectedStudentProfile.googleId = student1.googleId;
+        expectedStudentProfile.shortName = "short";
+        expectedStudentProfile.email = "personal@email.com";
+        expectedStudentProfile.institute = "institute";
+        expectedStudentProfile.country = "Valid Country";
+        expectedStudentProfile.gender = "female";
+        expectedStudentProfile.moreInfo = "This sentence may sound sound but it cannot make actual sound... :P";
+        
+        student1.studentProfile = expectedStudentProfile;
+        accountsLogic.updateAccount(student1, true);
+        
+        StudentProfileAttributes actualStudentProfile = studentsLogic.getStudentProfile(student1InCourse1.googleId);
+        expectedStudentProfile.modifiedDate = actualStudentProfile.modifiedDate;
+        assertEquals(expectedStudentProfile.toString(), actualStudentProfile.toString());
     }
     
     @Test
@@ -634,7 +675,9 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         String instructorEmail = "instructor@email.com";      
         String EOL = Const.EOL;
         AccountAttributes accountToAdd = new AccountAttributes(instructorId, 
-                "Instructor 1", true, instructorEmail, "National University Of Singapore");
+                "Instructor 1", true, instructorEmail, "National University Of Singapore",
+                new StudentProfileAttributes(instructorId, "Ins1", "", "", "", "male", ""));
+        
         accountsLogic.createAccount(accountToAdd);
         coursesLogic.createCourseAndInstructor(instructorId, courseIdForEnrollTest, "Course for Enroll Testing");
         FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
@@ -723,7 +766,8 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         ______TS("same student added, modified and unmodified");
         
         accountToAdd = new AccountAttributes("tes.instructor", 
-                "Instructor 1", true, "instructor@email.com", "National University Of Singapore");
+                "Instructor 1", true, "instructor@email.com", "National University Of Singapore",
+                new StudentProfileAttributes("tes.instructor", "Ins 1", "", "", "", "male", ""));
         accountsLogic.createAccount(accountToAdd);
         coursesLogic.createCourseAndInstructor("tes.instructor", "tes.course", "TES Course");
             
