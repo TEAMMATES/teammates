@@ -53,7 +53,8 @@
                                 <li><a href="#instructorFeedbackQuestionSubmitPage">Instructor Feedback Question Submit Page</a></li>
                                 <li><a href="#instructorFeedbackResultsPageByGiver">Instructor Feedback Results Page (By giver)</a></li>
                                 <li><a href="#instructorFeedbackResultsPageByRecipient">Instructor Feedback Results Page (By recipient)</a></li>
-                                <li><a href="#instructorFeedbackResultsPageByTable">Instructor Feedback Results Page (By table)</a></li>                        
+                                <li><a href="#instructorFeedbackResultsPageByTable">Instructor Feedback Results Page (By table)</a></li>
+                                <li><a href="#instructorCommentsPage">Instructor Comments Page</a></li>                        
                             </ul>
                         </td>
                         <td>
@@ -200,6 +201,10 @@
                 
                 <div class="pageinfo">Instructor Feedback Results Page (By table)</div>
                 <div id="instructorFeedbackResultsPageByTable"></div>
+                <br><hr class="hr-bold"><br>
+                
+                <div class="pageinfo">Instructor Comments Page</div>
+                <div id="instructorCommentsPage"></div>
                 <br></br>
                 <br></br>
                 <br></br>
@@ -419,6 +424,10 @@
                 function (response, status, xml) {
                     $("[data-toggle='tooltip']").tooltip({html: true}); 
                 });
+            $('#instructorCommentsPage').load("<%=Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE%>?user=teammates.test&courseid=CS2104 #frameBodyWrapper",
+                    function (response, status, xml) {
+                        $("[data-toggle='tooltip']").tooltip({html: true}); 
+                    });
             
             $('#studentHomePage').load("<%=Const.ActionURIs.STUDENT_HOME_PAGE%>?user=teammates.test #frameBodyWrapper",
                 function (response, status, xml) {
