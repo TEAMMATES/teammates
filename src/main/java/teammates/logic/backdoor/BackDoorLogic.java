@@ -17,7 +17,6 @@ import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.InstructorPermissionAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EnrollException;
@@ -76,24 +75,16 @@ public class BackDoorLogic extends Logic {
             if (instructor.googleId != null) {
                 log.fine("API Servlet adding instructor :" + instructor.googleId);
                 AccountAttributes existingAccount = getAccount(instructor.googleId);
-                //Hardcoding institute value because this is used for testing only
-                super.createInstructorAccount(instructor.googleId, instructor.courseId, 
-                        instructor.name, instructor.email, existingAccount==null? "National University of Singapore" : existingAccount.institute);
+                if (existingAccount != null) {
+                    super.createInstructor(instructor);
+                } else {
+                    super.createInstructorAccount(instructor.googleId, instructor.courseId, 
+                            instructor.name, instructor.email, existingAccount==null? "National University of Singapore" : existingAccount.institute);
+                    super.updateInstructorByGoogleId(instructor.googleId, instructor);
+                }
             } else {
                 log.fine("API Servlet adding instructor :" + instructor.email);
-                //Hardcoding institute value because this is used for testing only
-                super.instructorsLogic.createInstructor(instructor);
-                //TODO:may not need to access instructorsLogic here
-            }
-        }
-        
-        HashMap<String, InstructorPermissionAttributes> instructorPermissions = dataBundle.instructorPermissions;
-        for (InstructorPermissionAttributes instrPermission : instructorPermissions.values()) {
-            log.fine("API Servlet adding instructorPermission:" + instrPermission.instructorEmail);
-            try {
-                super.addInstructorPermission(instrPermission);
-            } catch(EntityAlreadyExistsException e) {
-                super.updateInstructorPermissionByEmail(instrPermission, instrPermission.instructorEmail);
+                super.createInstructor(instructor);
             }
         }
 
@@ -396,10 +387,6 @@ public class BackDoorLogic extends Logic {
         
         for (InstructorAttributes i : dataBundle.instructors.values()) {
             deleteInstructor(i.courseId, i.email);
-        }
-        
-        for (InstructorPermissionAttributes i : dataBundle.instructorPermissions.values()) {
-            deleteInstructorPermission(i.courseId, i.instructorEmail);
         }
         
         for (EvaluationAttributes e : dataBundle.evaluations.values()) {

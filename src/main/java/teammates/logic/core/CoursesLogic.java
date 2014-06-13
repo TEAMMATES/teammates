@@ -94,11 +94,7 @@ public class CoursesLogic {
         createCourse(courseId, courseName);
         
         /* Create the initial instructor for the course */
-        InstructorAttributes instructor = new InstructorAttributes();
-        instructor.googleId = instructorGoogleId;
-        instructor.courseId = courseId;
-        instructor.email = courseCreator.email;
-        instructor.name = courseCreator.name;
+        InstructorAttributes instructor = new InstructorAttributes(instructorGoogleId, courseId, courseCreator.name, courseCreator.email);
         
         try {
             instructorsLogic.createInstructor(instructor);

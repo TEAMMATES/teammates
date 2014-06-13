@@ -13,6 +13,7 @@ import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
+import teammates.test.pageobjects.InstructorCourseDetailsPage;
 import teammates.test.pageobjects.InstructorCourseEnrollPage;
 import teammates.test.pageobjects.InstructorCourseStudentDetailsEditPage;
 import teammates.test.pageobjects.InstructorCourseStudentDetailsViewPage;
@@ -156,8 +157,10 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         viewPage.clickDeleteAndCancel(courseId, studentName);
         assertNotNull(BackDoor.getStudent(courseId, studentEmail));
 
-        viewPage.clickDeleteAndConfirm(courseId, studentName)
-            .verifyHtml("/instructorStudentListDeleteSuccessful.html");
+        String expectedStatus = "The student has been removed from the course";
+        viewPage.clickDeleteAndConfirm(courseId, studentName);
+        InstructorCourseDetailsPage courseDetailsPage = viewPage.changePageType(InstructorCourseDetailsPage.class);
+        courseDetailsPage.verifyStatus(expectedStatus);
     }
     
     private void testSearchScript() {

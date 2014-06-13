@@ -25,7 +25,6 @@ import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.InstructorPermissionAttributes;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentResultBundle;
@@ -50,7 +49,6 @@ import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponseCommentsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
-import teammates.logic.core.InstructorPermissionsLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.logic.core.SubmissionsLogic;
@@ -79,7 +77,6 @@ public class Logic {
     protected static AccountsLogic accountsLogic = AccountsLogic.inst();
     protected static StudentsLogic studentsLogic = StudentsLogic.inst();
     protected static InstructorsLogic instructorsLogic = InstructorsLogic.inst();
-    protected static InstructorPermissionsLogic instructorPermissionsLogic = InstructorPermissionsLogic.inst();
     protected static CoursesLogic coursesLogic = CoursesLogic.inst();
     protected static CommentsLogic commentsLogic = CommentsLogic.inst();
     protected static EvaluationsLogic evaluationsLogic = EvaluationsLogic.inst();
@@ -245,14 +242,20 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public void addInstructor(String courseId, String name, String email) 
+    public void addInstructor(String courseId, String name, String email, String role) 
             throws InvalidParametersException, EntityAlreadyExistsException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, name);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
+        
+        InstructorAttributes instructor = new InstructorAttributes(null, courseId, name, email, role, role, new InstructorPrivileges(role));
 
-        instructorsLogic.addInstructor(courseId, name, email);
+        instructorsLogic.createInstructor(instructor);
+    }
+    
+    public void createInstructor(InstructorAttributes instructor) throws InvalidParametersException, EntityAlreadyExistsException {
+        instructorsLogic.createInstructor(instructor);
     }
 
     /**
@@ -490,105 +493,6 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
 
         instructorsLogic.deleteInstructor(courseId, email);
-    }
-    
-    @SuppressWarnings("unused")
-    private void ____INSTRUCTORPERMISSION_level_methods__________________________________() {
-    }
-    
-    public void addInstructorPermission(String courseId, String instrEmail, String role, InstructorPrivileges privileges)
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, instrEmail);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, role);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, privileges);
-        
-        instructorPermissionsLogic.addInstructorPermission(courseId, instrEmail, role, privileges);
-    }
-    
-    public void addInstructorPermission(InstructorPermissionAttributes instrPermissionAttr) 
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, instrPermissionAttr);
-        
-        instructorPermissionsLogic.addInstructorPermission(instrPermissionAttr);
-    }
-    
-    public InstructorPermissionAttributes getInstructorPermissionForEmail(String courseId, String instrEmail) {
-        
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, instrEmail);
-        
-        return instructorPermissionsLogic.getInstructorPermissionForEmail(courseId, instrEmail);
-    }
-    
-    public List<InstructorPermissionAttributes> getInstructorPermissionsForEmail(String instrEmail) {
-        
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, instrEmail);
-        
-        return instructorPermissionsLogic.getInstructorPermissionsForEmail(instrEmail);
-    }
-    
-    public List<InstructorPermissionAttributes> getInstructorPermissionsForCourse(String courseId) {
-        
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        
-        return instructorPermissionsLogic.getInstructorPermissionsForCourse(courseId);
-    }
-    
-    public void updateInstructorPermissionByEmail(InstructorPermissionAttributes updatedInstrPermissionAttr, String oldInstrEmail)
-            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
-        
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, updatedInstrPermissionAttr);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, oldInstrEmail);
-        
-        instructorPermissionsLogic.updateInstructorPermissionByEmail(updatedInstrPermissionAttr, oldInstrEmail);
-    }
-    
-    public void deleteInstructorPermission(String courseId, String instrEmail) {
-        
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, instrEmail);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, instrEmail);
-        
-        instructorPermissionsLogic.deleteInstructorPermission(courseId, instrEmail);
-    }
-    
-    public void deleteInstructorPermissionsForCourse(String courseId) {
-        
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        
-        instructorPermissionsLogic.deleteInstructorPermissionsForCourse(courseId);
-    }
-    
-    public boolean isAllowedForPrivilege(String courseId, String instrEmail, String privilegeName) {
-        
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, instrEmail);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, privilegeName);
-        
-        return instructorPermissionsLogic.isAllowedForPrivilege(courseId, instrEmail, privilegeName);
-    }
-    
-    public boolean isAllowedForPrivilege(String courseId, String instrEmail, String sectionId, String privilegeName) {
-        
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, instrEmail);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, sectionId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, privilegeName);
-        
-        return instructorPermissionsLogic.isAllowedForPrivilege(courseId, instrEmail, sectionId, privilegeName);
-    }
-
-    public boolean isAllowedForPrivilege(String courseId, String instrEmail, String sectionId, String sessionId, String privilegeName) {
-    
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, instrEmail);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, sectionId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, sessionId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, privilegeName);
-    
-        return instructorPermissionsLogic.isAllowedForPrivilege(courseId, instrEmail, sectionId, sessionId, privilegeName);
     }
 
     @SuppressWarnings("unused")

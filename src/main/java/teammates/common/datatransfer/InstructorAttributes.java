@@ -3,8 +3,9 @@ package teammates.common.datatransfer;
 import java.util.ArrayList;
 import java.util.List;
 
-import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Assumption;
+import com.google.gson.Gson;
+
+import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.FieldValidator.FieldType;
@@ -16,22 +17,47 @@ import teammates.storage.entity.Instructor;
  */
 public class InstructorAttributes extends EntityAttributes {
     
+    private static Gson gson = Utils.getTeammatesGson();
+    
     //Note: be careful when changing these variables as their names are used in *.json files.
     public String googleId;
     public String name;
     public String email;
     public String courseId;
     public String key;
+    public String role;
+    public String displayedName;
+    public String instructorPrivilegesAsText;
+    public transient InstructorPrivileges privileges;
     
-    //TODO: remove these after implementing more user friendly way of adding instructors
-    public static final String ERROR_INSTRUCTOR_LINE_NULL = "Instructor line was null";
-    public static final String ERROR_INFORMATION_INCORRECT = "Please enter information in the format: GoogleID | Name | Email\n";
+    public InstructorAttributes(String googleId, String courseId, String name, String email) {
+        this(googleId, courseId, name, email, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER));
+    }
 
-    public InstructorAttributes(String id, String courseId, String name, String email) {        
-        this.googleId = Sanitizer.sanitizeGoogleId(id);
+    public InstructorAttributes(String googleId, String courseId, String name, String email, String role,
+            String displayedName, String instructorPrivilegesAsText) {        
+        this.googleId = Sanitizer.sanitizeGoogleId(googleId);
         this.courseId = Sanitizer.sanitizeTitle(courseId);
         this.name = Sanitizer.sanitizeName(name);
         this.email = Sanitizer.sanitizeEmail(email);
+        this.role = Sanitizer.sanitizeName(role);
+        this.displayedName = Sanitizer.sanitizeName(displayedName);
+        this.instructorPrivilegesAsText = Sanitizer.sanitizeTextField(instructorPrivilegesAsText);
+        this.privileges = this.getInstructorPrivilegesFromText();
+    }
+    
+    public InstructorAttributes(String googleId, String courseId, String name, String email, String role,
+            String displayedName, InstructorPrivileges privileges) {        
+        this.googleId = Sanitizer.sanitizeGoogleId(googleId);
+        this.courseId = Sanitizer.sanitizeTitle(courseId);
+        this.name = Sanitizer.sanitizeName(name);
+        this.email = Sanitizer.sanitizeEmail(email);
+        this.role = Sanitizer.sanitizeName(role);
+        this.displayedName = Sanitizer.sanitizeName(displayedName);
+        this.privileges = privileges;
+        this.instructorPrivilegesAsText = this.getTextFromInstructorPrivileges();     
     }
     
     public InstructorAttributes(Instructor instructor) {
@@ -40,28 +66,36 @@ public class InstructorAttributes extends EntityAttributes {
         this.name = instructor.getName();
         this.email = instructor.getEmail();
         this.key = instructor.getRegistrationKey();
+        if (instructor.getRole() == null) {
+            this.role = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+        } else {
+            this.role = instructor.getRole();
+        }
+        if (instructor.getDisplayedName() == null) {
+            this.displayedName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+        } else {
+            this.displayedName = instructor.getDisplayedName();
+        }
+        if (instructor.getInstructorPrivilegesAsText() == null) {
+            this.privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+            this.instructorPrivilegesAsText = this.getTextFromInstructorPrivileges();
+        } else {
+            this.instructorPrivilegesAsText = instructor.getInstructorPrivilegesAsText();
+        }
+        this.privileges = this.getInstructorPrivilegesFromText();
     }
-
+    
+    @Deprecated
     public InstructorAttributes() {
         
     }
     
-    //TODO: remove these after implementing more user friendly way of adding instructors
-    public InstructorAttributes(String courseId, String enrolLine) throws InvalidParametersException {
-        Assumption.assertNotNull(ERROR_INSTRUCTOR_LINE_NULL, enrolLine);
-        
-        String[] parts = enrolLine.replace("|", "\t").split("\t");
-        
-        if (parts.length != 3) {
-            throw new InvalidParametersException(ERROR_INFORMATION_INCORRECT);
-        }
-        
-        this.googleId = Sanitizer.sanitizeGoogleId(parts[0]);
-        Assumption.assertIsEmpty(new FieldValidator().getInvalidityInfo(FieldType.GOOGLE_ID, googleId));
-
-        this.courseId = courseId;
-        this.name = parts[1].trim();
-        this.email = parts[2].trim();
+    public String getTextFromInstructorPrivileges() {
+        return gson.toJson(privileges, InstructorPrivileges.class);
+    }
+    
+    public InstructorPrivileges getInstructorPrivilegesFromText() {
+        return gson.fromJson(instructorPrivilegesAsText, InstructorPrivileges.class);
     }
     
     public boolean isRegistered() {
@@ -70,9 +104,9 @@ public class InstructorAttributes extends EntityAttributes {
 
     public Instructor toEntity() {
         if (key != null) {
-            return new Instructor(googleId, courseId, name, email, key);
+            return new Instructor(googleId, courseId, name, email, key, role, displayedName, instructorPrivilegesAsText);
         } else {
-            return new Instructor(googleId, courseId, name, email);
+            return new Instructor(googleId, courseId, name, email, role, displayedName, instructorPrivilegesAsText);
         }
     }
 
@@ -101,13 +135,12 @@ public class InstructorAttributes extends EntityAttributes {
     }
     
     public String toString(){
-        return Utils.getTeammatesGson().toJson(this,InstructorAttributes.class);
+        return gson.toJson(this,InstructorAttributes.class);
     }
 
     @Override
     public String getIdentificationString() {
-        //TODO: consider changing to the same format as the one in StudentAttributes
-        return this.email + ", " + this.courseId;
+        return this.courseId + "/" + this.email;
     }
 
     @Override
@@ -121,9 +154,36 @@ public class InstructorAttributes extends EntityAttributes {
         this.name = Sanitizer.sanitizeName(this.name);
         this.email = Sanitizer.sanitizeEmail(this.email);
         this.courseId = Sanitizer.sanitizeTitle(this.courseId);
-        this.googleId = Sanitizer.sanitizeForHtml(this.googleId);
-        this.name = Sanitizer.sanitizeForHtml(this.name);
-        this.email = Sanitizer.sanitizeForHtml(this.email);
-        this.courseId = Sanitizer.sanitizeForHtml(this.courseId);
+        if (this.role == null) {
+            this.role = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+        }
+        if (this.displayedName == null) {
+            this.displayedName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+        }
+        if (this.instructorPrivilegesAsText == null) {
+            this.privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+            this.instructorPrivilegesAsText = this.getTextFromInstructorPrivileges();
+        }
+    }
+    
+    public boolean isAllowedForPrivilege(String privilegeName) {
+        if (this.privileges == null) {
+            this.privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+        }
+        return this.privileges.isAllowedForPrivilege(privilegeName);
+    }
+    
+    public boolean isAllowedForPrivilege(String sectionId, String privilegeName) {
+        if (this.privileges == null) {
+            this.privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+        }
+        return this.privileges.isAllowedForPrivilege(sectionId, privilegeName);
+    }
+    
+    public boolean isAllowedForPrivilege(String sectionId, String sessionId, String privilegeName) {
+        if (this.privileges == null) {
+            this.privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+        }
+        return this.privileges.isAllowedForPrivilege(sectionId, sessionId, privilegeName);
     }
 }
