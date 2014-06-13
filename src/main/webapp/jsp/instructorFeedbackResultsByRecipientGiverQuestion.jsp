@@ -79,8 +79,11 @@
                                     firstQuestionRecipientType == FeedbackParticipantType.TEAMS)?"style=\"display:none;\"":"";
             %>
             <%
-                if(currentTeam != null && !currentTeam.equals(data.bundle.getTeamNameForEmail(targetEmail))) {
+                if(currentTeam != null && !(data.bundle.getTeamNameForEmail(targetEmail)=="" ? currentTeam.equals(data.bundle.getNameForEmail(targetEmail)): currentTeam.equals(data.bundle.getTeamNameForEmail(targetEmail)))) {
                     currentTeam = data.bundle.getTeamNameForEmail(targetEmail);
+                    if(currentTeam.equals("")){
+                        currentTeam = data.bundle.getNameForEmail(targetEmail);
+                    }
                     newTeam = true;
             %>
                     </div>
@@ -89,6 +92,9 @@
                 }
                 if(groupByTeamEnabled == true && (currentTeam==null || newTeam==true)) {
                     currentTeam = data.bundle.getTeamNameForEmail(targetEmail);
+                    if(currentTeam.equals("")){
+                        currentTeam = data.bundle.getNameForEmail(targetEmail);
+                    }
                     newTeam = false;
             %>
                     <div class="panel panel-warning">
