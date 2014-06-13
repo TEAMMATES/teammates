@@ -1015,5 +1015,40 @@
                 "value":"Other instructor's comment to student self feedback"	
             }
         }
+    },
+    "comments":{
+        "comment1FromI1C1toS1C1":{
+            "courseId":"CS2104",
+            "giverEmail":"teammates.test@gmail.com",
+            "recipientType":"PERSON",
+            "recipients":["alice.b.tmms@gmail.com"],
+            "status": "FINAL",
+            "showCommentTo": [],
+            "showGiverNameTo": [],
+            "showRecipientNameTo": [],
+            "receiverEmail":"alice.b.tmms@gmail.com",
+            "createdAt":"2016-04-01 11:59 PM UTC",
+            "commentText":{
+                "value":"Comment 1 from Instructor to Alice in course CS2104"
+            }
+            
+        },
+        "comment2FromI1C1toS1C1":{
+            "courseId":"CS2104",
+            "giverEmail":"teammates.test@gmail.com",
+            "recipientType":"PERSON",
+            "recipients":["benny.c.tmms@gmail.com"],
+            "status": "FINAL",
+            "showCommentTo": [],
+            "showGiverNameTo": [],
+            "showRecipientNameTo": [],
+            "receiverEmail":"benny.c.tmms@gmail.com",
+            "createdAt":"2016-05-01 08:51 AM UTC",
+            "commentText":{
+                "value":"Comment 2 from Instructor to Benny in course CS2104"
+            }
+            
+        }
+        
     }
 }
