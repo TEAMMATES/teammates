@@ -5,7 +5,6 @@ import java.util.List;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.InstructorPermissionAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.Url;
 
@@ -17,9 +16,7 @@ public class InstructorCourseEditPageData extends PageData {
     }
     
     public CourseAttributes course;
-    public InstructorPermissionAttributes instructorPermission;
     public List<InstructorAttributes> instructorList;
-    public List<InstructorPermissionAttributes> instructorPermissions;
 
     public String getInstructorCourseInstructorEditLink(String courseId, String instructorId) {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_EDIT_SAVE;

@@ -39,7 +39,6 @@ public class InstructorCourseInstructorAddAction extends Action {
             logic.addInstructor(courseId, instructorName, instructorEmail);
             logic.sendRegistrationInviteToInstructor(courseId, instructorEmail);
             InstructorPrivileges privileges = new InstructorPrivileges(instructorRole);
-            logic.addInstructorPermission(courseId, instructorEmail, instructorRole, privileges);
             
             statusToUser.add(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_ADDED,
                     instructorName, instructorEmail));

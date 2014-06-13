@@ -5,7 +5,6 @@ import java.util.List;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.InstructorPermissionAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.Url;
@@ -22,7 +21,6 @@ public class InstructorCourseDetailsPageData extends PageData {
     public CourseDetailsBundle courseDetails;
     public List<StudentAttributes> students;
     public List<InstructorAttributes> instructors;
-    public List<InstructorPermissionAttributes> instructorPermissions;
     
     
     public String getInstructorCourseRemindLink(){
