@@ -72,6 +72,11 @@ public class InstructorAttributes extends EntityAttributes {
         this.privileges = this.getInstructorPrivilegesFromText();
     }
     
+    @Deprecated
+    public InstructorAttributes() {
+        
+    }
+    
     public String getTextFromInstructorPrivileges() {
         return gson.toJson(privileges, InstructorPrivileges.class);
     }
