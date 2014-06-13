@@ -206,12 +206,12 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         ______TS("no courses");
         
         feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithoutCourses").googleId);
-        feedbackPage.verifyHtml("/instructorFeedbackEmptyAll.html");
+        feedbackPage.verifyHtmlMainContent("/instructorFeedbackEmptyAll.html");
         
         ______TS("no sessions");
         
         feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithoutSessions").googleId);
-        feedbackPage.verifyHtml("/instructorFeedbackEmptySession.html");
+        feedbackPage.verifyHtmlMainContent("/instructorFeedbackEmptySession.html");
 
         ______TS("typical case, sort by name");
         
@@ -344,7 +344,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         //  in that case, rerun in Chrome.
         assertEquals(newSession.toString(), savedSession.toString());
         // Check that we are redirected to the edit page.
-        feedbackPage.verifyHtml("/instructorFeedbackAddSuccess.html");
+        feedbackPage.verifyHtmlMainContent("/instructorFeedbackAddSuccess.html");
 
 
         ______TS("failure case: session exists already");

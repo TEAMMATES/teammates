@@ -64,7 +64,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         ______TS("page load");
         
         courseEditPage = getCourseEditPage();
-        courseEditPage.verifyHtml("/instructorCourseEdit.html" );
+        courseEditPage.verifyHtmlMainContent("/instructorCourseEdit.html" );
     }
     
     private void testEditInstructorLink() {

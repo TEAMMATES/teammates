@@ -62,7 +62,7 @@ public class InstructorEvalSubmissionEditPageUiTest extends BaseUiTestCase{
             .withEvalName(p2pDisabledEval.name)
             .withStudentEmail(testData.students.get("Charlie").email);
         editPage = loginAdminToPage(browser, editUrl, InstructorEvalSubmissionEditPage.class);
-        editPage.verifyHtml("/instructorEvalSubmissionP2PDisabled.html");
+        editPage.verifyHtmlMainContent("/instructorEvalSubmissionP2PDisabled.html");
         
         
         ______TS("content: typical edit page, reached via resulst page");
@@ -73,7 +73,7 @@ public class InstructorEvalSubmissionEditPageUiTest extends BaseUiTestCase{
             .withEvalName(eval.name);
         InstructorEvalResultsPage resultsPage = loginAdminToPage(browser, resultsUrl, InstructorEvalResultsPage.class);
         editPage = resultsPage.clickEditLinkForStudent("Charlie");
-        editPage.verifyHtml("/instructorEvalSubmissionEdit.html");
+        editPage.verifyHtmlMainContent("/instructorEvalSubmissionEdit.html");
         
     }
 

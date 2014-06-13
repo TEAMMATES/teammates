@@ -12,7 +12,7 @@ import teammates.storage.entity.Course;
 /**
  * The data transfer object for Course entities.
  */
-public class CourseAttributes extends EntityAttributes {
+public class CourseAttributes extends EntityAttributes implements Comparable<CourseAttributes> {
     
     //Note: be careful when changing these variables as their names are used in *.json files.
     public String id;
@@ -86,5 +86,13 @@ public class CourseAttributes extends EntityAttributes {
     public void sanitizeForSaving() {
         this.id = Sanitizer.sanitizeForHtml(id);
         this.name = Sanitizer.sanitizeForHtml(name);
+    }
+
+    @Override
+    public int compareTo(CourseAttributes o) {
+        if(o == null){
+            return 0;
+        }
+        return o.createdAt.compareTo(createdAt);
     }
 }
