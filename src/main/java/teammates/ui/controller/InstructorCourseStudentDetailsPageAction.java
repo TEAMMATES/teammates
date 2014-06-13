@@ -25,7 +25,7 @@ public class InstructorCourseStudentDetailsPageAction extends InstructorCoursesP
         
         data.student = logic.getStudentForEmail(courseId, studentEmail);
         data.regKey = logic.getEncryptedKeyForStudent(courseId, studentEmail);
-        
+        data.hasSection = logic.hasIndicatedSections(courseId);
         
         statusToAdmin = "instructorCourseStudentDetails Page Load<br>" + 
                 "Viewing details for Student <span class=\"bold\">" + studentEmail + 

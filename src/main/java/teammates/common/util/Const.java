@@ -194,6 +194,11 @@ public class Const {
         public static final String FEEDBACK_RESPONSE_SAVE = "You can submit your responses at any time and come back later to continue " +
                 "before the session closes.";
         
+        public static final String STUDENT_PROFILE_SHORTNAME = "This is the name you prefer to be called by";
+        public static final String STUDENT_PROFILE_EMAIL = "This is a long term contact email";
+        public static final String STUDENT_PROFILE_INSTITUTION = "This is the institution that you represent in the current course";
+        public static final String STUDENT_PROFILE_COUNTRY = "This is the country you represent in the current course";
+        public static final String STUDENT_PROFILE_MOREINFO = "Miscellaneous information to show the instructor. It can include links to external portfolios.";
         
         public static final String VISIBILITY_OPTIONS_RECIPIENT = "Control what feedback recipient(s) can view";
         public static final String VISIBILITY_OPTIONS_GIVER_TEAM_MEMBERS = "Control what team members of feedback giver can view";
@@ -215,6 +220,12 @@ public class Const {
         public static final String MCQ = "Multiple-choice (single answer)";
         public static final String MSQ = "Multiple-choice (multiple answers)";
         public static final String NUMSCALE = "Numerical-scale question";
+    }
+    
+    public class GenderTypes{
+        public static final String MALE = "male";
+        public static final String FEMALE = "female";
+        public static final String OTHER = "other";
     }
 
     public class ParamsNames{
@@ -306,6 +317,9 @@ public class Const {
         
         public static final String FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON = "fruploaddownloadbtn";
         public static final String FEEDBACK_RESULTS_SORTTYPE = "frsorttype";
+        public static final String FEEDBACK_RESULTS_GROUPBYTEAM = "frgroupbyteam";
+        public static final String FEEDBACK_RESULTS_GROUPBYSECTION = "frgroupbysection";
+        public static final String FEEDBACK_RESULTS_SHOWSTATS = "frshowstats";
         
         public static final String PREVIEWAS = "previewas";
         
@@ -315,10 +329,18 @@ public class Const {
         public static final String STUDENT_EMAIL = "studentemail";
         public static final String FROM_COMMENTS_PAGE = "commentpage";
         public static final String NEW_STUDENT_EMAIL = "newstudentemail";
+        
+        public static final String STUDENT_SHORT_NAME = "studentshortname";
+        public static final String STUDENT_PROFILE_EMAIL = "studentprofileemail";
+        public static final String STUDENT_PROFILE_INSTITUTION = "studentprofileinstitute";
+        public static final String STUDENT_COUNTRY = "studentcountry";
+        public static final String STUDENT_GENDER = "studentgender";
+        public static final String STUDENT_PROFILE_MOREINFO = "studentprofilemoreinfo";        
     
         public static final String STUDENT_NAME = "studentname";
         public static final String FROM_EMAIL = "fromemail";
         public static final String TO_EMAIL = "toemail";
+        public static final String SECTION_NAME = "sectionname";
         public static final String TEAM_NAME = "teamname";
         public static final String POINTS = "points";
         public static final String JUSTIFICATION = "justification";
@@ -455,6 +477,8 @@ public class Const {
         public static final String STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE = "/page/studentFeedbackQuestionSubmissionEditPage";
         public static final String STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_SAVE = "/page/studentFeedbackQuestionSubmissionEditSave";
         public static final String STUDENT_FEEDBACK_RESULTS_PAGE = "/page/studentFeedbackResultsPage";
+        public static final String STUDENT_PROFILE_PAGE = "/page/studentProfilePage";
+        public static final String STUDENT_PROFILE_EDIT_SAVE = "/page/studentProfileEditSave";
         
         public static final String ADMIN_HOME_PAGE = "/admin/adminHomePage";
         public static final String ADMIN_INSTRUCTORACCOUNT_ADD = "/admin/adminInstructorAccountAdd";
@@ -509,9 +533,11 @@ public class Const {
         public static final String INSTRUCTOR_FEEDBACKS = "/jsp/instructorFeedbacks.jsp";
         public static final String INSTRUCTOR_FEEDBACK_EDIT = "/jsp/instructorFeedbackEdit.jsp";
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_TOP = "/jsp/instructorFeedbackResultsTop.jsp";
-        public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER = "/jsp/instructorFeedbackResultsByGiver.jsp";
-        public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT = "/jsp/instructorFeedbackResultsByRecipient.jsp"; 
-        public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_TABLE = "/jsp/instructorFeedbackResultsByTable.jsp"; 
+        public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_RECIPIENT_QUESTION = "/jsp/instructorFeedbackResultsByGiverRecipientQuestion.jsp";
+        public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION = "/jsp/instructorFeedbackResultsByRecipientGiverQuestion.jsp"; 
+        public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_QUESTION_RECIPIENT = "/jsp/instructorFeedbackResultsByGiverQuestionRecipient.jsp";
+        public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_QUESTION_GIVER = "/jsp/instructorFeedbackResultsByRecipientQuestionGiver.jsp";
+        public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION = "/jsp/instructorFeedbackResultsByQuestion.jsp"; 
         public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT = "/jsp/instructorFeedbackSubmissionEdit.jsp"; 
         public static final String INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT = "/jsp/instructorFeedbackQuestionSubmissionEdit.jsp"; 
         public static final String INSTRUCTOR_FEEDBACK_STATS = "/jsp/instructorFeedbackStats.jsp";
@@ -525,7 +551,8 @@ public class Const {
         public static final String STUDENT_EVAL_RESULTS = "/jsp/studentEvalResults.jsp"; 
         public static final String STUDENT_FEEDBACK_SUBMISSION_EDIT = "/jsp/studentFeedbackSubmissionEdit.jsp"; 
         public static final String STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT = "/jsp/studentFeedbackQuestionSubmissionEdit.jsp"; 
-        public static final String STUDENT_FEEDBACK_RESULTS = "/jsp/studentFeedbackResults.jsp"; 
+        public static final String STUDENT_FEEDBACK_RESULTS = "/jsp/studentFeedbackResults.jsp";
+        public static final String STUDENT_PROFILE_PAGE = "/jsp/studentProfilePage.jsp";
             
         public static final String ADMIN_HOME = "/jsp/adminHome.jsp";
         public static final String ADMIN_ACCOUNT_MANAGEMENT = "/jsp/adminAccountManagement.jsp";
@@ -599,6 +626,8 @@ public class Const {
         public static final String COURSE_ENROLL_STUDENTS_NOT_IN_LIST = "There are %d other student(s) previously in the course:";
         public static final String COURSE_ENROLL_STUDENTS_UNKNOWN = "There are %d student(s) for which the enrollment status is unknown:";
 
+        public static final String TEAM_INVALID_SECTION_EDIT = "The team \"%s\" is in multiple sections. The team ID should be unique across the entire course and a team cannot be spread across multiple sections.<br>";
+        public static final String SECTION_QUOTA_EXCEED = "You are trying enroll more than 100 students in section \"%s\". To avoid performance problems, please do not enroll more than 100 students in a single section.<br>";
 
         public static final String COURSE_INSTRUCTOR_ADDED = "The instructor %s has been added successfully."
                 + "An email containing how to 'join' this course will be sent to %s in a few minutes.";
@@ -621,6 +650,7 @@ public class Const {
         public static final String STUDENT_EDITED = "The student has been edited successfully";
         public static final String STUDENT_DELETED = "The student has been removed from the course";
         public static final String STUDENT_EMAIL_CONFLIT = "Trying to update to an email that is already used by: ";
+        public static final String STUDENT_PROFILE_EDITED = "Your profile has been edited successfully";
         
         public static final String EVALUATION_ADDED = "The evaluation has been added. If you don't see that evaluation in the list below, please refresh the page after a few moments.";
         public static final String EVALUATION_DELETED = "The evaluation has been deleted.";
@@ -668,6 +698,7 @@ public class Const {
         public static final String FEEDBACK_RESPONSE_COMMENT_DELETED = "Your comment has been deleted successfully";
         
         public static final String FEEDBACK_SUBMISSIONS_NOT_OPEN = "You can view the questions and any submitted responses for this feedback session but cannot submit new responses as the session is not currently open for submission.";
+        public static final String FEEDBACK_SUBMISSION_EXCEEDED_DEADLINE = "<strong>Submission Failure!</strong> You have exceeded the submission deadline.";
         
         public static final String FEEDBACK_RESULTS_SOMETHINGNEW = "You have received feedback from others. Please see below.";
         public static final String FEEDBACK_RESULTS_NOTHINGNEW = "You have not received any new feedback but you may review your own submissions below.";
@@ -776,7 +807,7 @@ public class Const {
     
     public static final String USER_NOBODY_TEXT = "-";
     public static final String USER_UNKNOWN_TEXT = "Unknown user";
-    public static final String TEAM_OF_EMAIL_OWNER = "'s Team";    
+    public static final String TEAM_OF_EMAIL_OWNER = "'s Team";
     
     public static final String INSTRUCTOR_EVALUATION_STATUS_AWAITING = "Awaiting";
     public static final String INSTRUCTOR_EVALUATION_STATUS_OPEN = "Open";
@@ -813,6 +844,7 @@ public class Const {
     public static final String SORT_BY_COURSE_CREATION_DATE = "createdAt"; 
     public static final String DEFAULT_SORT_CRITERIA = SORT_BY_COURSE_CREATION_DATE;
 
+    public static final String DEFAULT_SECTION = "None";
     /* These constants are used as variable values to mean that the variable 
      * is in a 'special' state.
      */

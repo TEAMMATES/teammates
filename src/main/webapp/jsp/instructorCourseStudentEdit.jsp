@@ -58,6 +58,16 @@
                                      value="<%=sanitizeForHtml(data.student.name)%>">
                          </div>
                      </div>
+                     <% if(data.hasSection) { %>
+                    <div class="form-group">
+                         <label class="col-sm-1 control-label">Section Name:</label>
+                         <div class="col-sm-11">
+                             <input class="form-control" name="<%=Const.ParamsNames.SECTION_NAME%>" 
+                                     id="<%=Const.ParamsNames.SECTION_NAME%>"
+                                     value="<%=sanitizeForHtml(data.student.section)%>">
+                         </div>
+                     </div>
+                     <% } %>
                      <div class="form-group">
                          <label class="col-sm-1 control-label">Team Name:</label>
                          <div class="col-sm-11">

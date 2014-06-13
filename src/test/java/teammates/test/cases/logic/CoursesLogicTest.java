@@ -22,6 +22,7 @@ import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.datatransfer.EvaluationDetailsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -129,6 +130,8 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         a.email = i.email;
         a.institute = "NUS";
         a.isInstructor = false;
+        a.studentProfile = new StudentProfileAttributes();
+        a.studentProfile.googleId = i.googleId;
         accountsDb.createAccount(a);
         try {
             coursesLogic.createCourseAndInstructor(i.googleId, c.id, c.name);
@@ -429,13 +432,15 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         
         assertEquals(0, courseSummary.evaluations.size());
 
-        assertEquals(2, courseSummary.teams.size()); 
-        assertEquals("Team 1.1", courseSummary.teams.get(0).name);
-        assertEquals("Team 1.2", courseSummary.teams.get(1).name);
+        assertEquals(1, courseSummary.sections.get(0).teams.size()); 
+        assertEquals("Team 1.1", courseSummary.sections.get(0).teams.get(0).name);
 
         ______TS("course without students");
 
-        AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true, "instructor@email.com", "National University Of Singapore"));
+        StudentProfileAttributes spa = new StudentProfileAttributes();
+        spa.googleId = "instructor1";
+        AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true, 
+                "instructor@email.com", "National University Of Singapore", spa));
         coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1");
         courseSummary = coursesLogic.getCourseSummary("course1");
         assertEquals("course1", courseSummary.course.id);
@@ -446,7 +451,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         assertEquals(0, courseSummary.stats.unregisteredTotal);
         
         assertEquals(0, courseSummary.evaluations.size());
-        assertEquals(0, courseSummary.teams.size());
+        assertEquals(0, courseSummary.sections.size());
         
         coursesLogic.deleteCourseCascade("course1");
 
@@ -481,18 +486,22 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         assertEquals(false, courseSummary.course.isArchived);
 
         assertEquals(0, courseSummary.evaluations.size());
-        assertEquals(0, courseSummary.teams.size()); 
+        assertEquals(0, courseSummary.sections.size()); 
        
         ______TS("course without students");
-
-        AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true, "instructor@email.com", "National University Of Singapore"));
+        
+        StudentProfileAttributes spa = new StudentProfileAttributes();
+        spa.googleId = "instructor1";
+        
+        AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true,
+                "instructor@email.com", "National University Of Singapore", spa));
         coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1");
         courseSummary = coursesLogic.getCourseSummaryWithoutStats("course1");
         assertEquals("course1", courseSummary.course.id);
         assertEquals("course 1", courseSummary.course.name);
          
         assertEquals(0, courseSummary.evaluations.size());
-        assertEquals(0, courseSummary.teams.size());
+        assertEquals(0, courseSummary.sections.size());
         
         coursesLogic.deleteCourseCascade("course1");
 
@@ -534,13 +543,16 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         assertEquals("evaluation2 In Course1", courseDetails.evaluations.get(0).evaluation.name);
         assertEquals("evaluation1 In Course1", courseDetails.evaluations.get(1).evaluation.name);
 
-        assertEquals(2, courseDetails.teams.size()); 
-        assertEquals("Team 1.1", courseDetails.teams.get(0).name);
-        assertEquals("Team 1.2", courseDetails.teams.get(1).name);
-
+        assertEquals(1, courseDetails.sections.get(0).teams.size()); 
+        assertEquals("Team 1.1", courseDetails.sections.get(0).teams.get(0).name);
+        
         ______TS("course without students");
 
-        AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true, "instructor@email.com", "National University Of Singapore"));
+        StudentProfileAttributes spa = new StudentProfileAttributes();
+        spa.googleId = "instructor1";
+        
+        AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true, 
+                "instructor@email.com", "National University Of Singapore", spa));
         coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1");
         courseDetails = coursesLogic.getCourseDetails("course1");
         assertEquals("course1", courseDetails.course.id);
@@ -551,7 +563,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         assertEquals(0, courseDetails.stats.unregisteredTotal);
         
         assertEquals(0, courseDetails.evaluations.size());
-        assertEquals(0, courseDetails.teams.size());
+        assertEquals(0, courseDetails.sections.size());
         
         coursesLogic.deleteCourseCascade("course1");
 
@@ -589,7 +601,11 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
         ______TS("course without students");
 
-        AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true, "instructor@email.com", "National University Of Singapore"));
+        StudentProfileAttributes spa = new StudentProfileAttributes();
+        spa.googleId = "instructor1";
+        
+        AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true, 
+                "instructor@email.com", "National University Of Singapore", spa));
         coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1");
         teams = coursesLogic.getTeamsForCourse("course1");
 
@@ -617,6 +633,42 @@ public class CoursesLogicTest extends BaseComponentTestCase {
     }
 
     @Test 
+    public void testGetNumberOfSections() throws Exception {
+
+        ______TS("Typical case");
+
+        CourseAttributes course = dataBundle.courses.get("typicalCourse1");
+        int sectionNum = coursesLogic.getNumberOfSections(course.id);
+
+        assertEquals(2, sectionNum);
+
+        ______TS("Course with no sections");
+
+        course = dataBundle.courses.get("typicalCourse2");
+        sectionNum = coursesLogic.getNumberOfSections(course.id);
+
+        assertEquals(0, sectionNum);
+
+         ______TS("non-existent");
+
+        try {
+            coursesLogic.getNumberOfSections("non-existent-course");
+            signalFailureToDetectException();
+        } catch (EntityDoesNotExistException e) {
+            AssertHelper.assertContains("does not exist", e.getMessage());
+        }
+        
+        ______TS("null parameter");
+
+        try {
+            coursesLogic.getNumberOfSections(null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            assertEquals("Supplied parameter was null\n", e.getMessage());
+        }
+    }
+
+    @Test 
     public void testGetNumberOfTeams() throws Exception {
         
         ______TS("typical case");
@@ -628,7 +680,11 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
         ______TS("course without students");
 
-        AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true, "instructor@email.com", "National University Of Singapore"));
+        StudentProfileAttributes spa = new StudentProfileAttributes();
+        spa.googleId = "instructor1";
+        
+        AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true, 
+                "instructor@email.com", "National University Of Singapore", spa));
         coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1");
         teamNum = coursesLogic.getNumberOfTeams("course1");
 
@@ -667,7 +723,11 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
         ______TS("course without students");
 
-        AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true, "instructor@email.com", "National University Of Singapore"));
+        StudentProfileAttributes spa = new StudentProfileAttributes();
+        spa.googleId = "instructor1";
+        
+        AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true, 
+                "instructor@email.com", "National University Of Singapore", spa));
         coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1");
         enrolledNum = coursesLogic.getTotalEnrolledInCourse("course1");
 
@@ -706,7 +766,11 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
         ______TS("course without students");
 
-        AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true, "instructor@email.com", "National University Of Singapore"));
+        StudentProfileAttributes spa = new StudentProfileAttributes();
+        spa.googleId = "instructor1";
+        
+        AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true, 
+                "instructor@email.com", "National University Of Singapore", spa));
         coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1");
         unregisteredNum = coursesLogic.getTotalUnregisteredInCourse("course1");
 
@@ -1068,7 +1132,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
     @Test
     public void testGetCourseStudentListAsCsv() throws Exception {
 
-        ______TS("Typical case");
+        ______TS("Typical case: course with section");
         
         InstructorAttributes instructor1OfCourse1 = getTypicalDataBundle().instructors.get("instructor1OfCourse1");
         
@@ -1079,13 +1143,28 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         String expectedCsvString = "Course ID,\"idOfTypicalCourse1\"" + Const.EOL  
                                  + "Course Name,\"Typical Course 1 with 2 Evals\"" + Const.EOL  
                                  + Const.EOL + Const.EOL 
-                                 + "Team,Student Name,Status,Email" + Const.EOL
-                                 + "\"Team 1.1\",\"student1 In Course1\",\"Joined\",\"student1InCourse1@gmail.com\"" + Const.EOL
-                                 + "\"Team 1.1\",\"student2 In Course1\",\"Joined\",\"student2InCourse1@gmail.com\"" + Const.EOL
-                                 + "\"Team 1.1\",\"student3 In Course1\",\"Joined\",\"student3InCourse1@gmail.com\"" + Const.EOL
-                                 + "\"Team 1.1\",\"student4 In Course1\",\"Joined\",\"student4InCourse1@gmail.com\"" + Const.EOL
-                                 + "\"Team 1.2\",\"student5 In Course1\",\"Joined\",\"student5InCourse1@gmail.com\"" + Const.EOL;
+                                 + "Section,Team,Student Name,Status,Email" + Const.EOL
+                                 + "\"Section 1\",\"Team 1.1\",\"student1 In Course1\",\"Joined\",\"student1InCourse1@gmail.com\"" + Const.EOL
+                                 + "\"Section 1\",\"Team 1.1\",\"student2 In Course1\",\"Joined\",\"student2InCourse1@gmail.com\"" + Const.EOL
+                                 + "\"Section 1\",\"Team 1.1\",\"student3 In Course1\",\"Joined\",\"student3InCourse1@gmail.com\"" + Const.EOL
+                                 + "\"Section 1\",\"Team 1.1\",\"student4 In Course1\",\"Joined\",\"student4InCourse1@gmail.com\"" + Const.EOL
+                                 + "\"Section 2\",\"Team 1.2\",\"student5 In Course1\",\"Joined\",\"student5InCourse1@gmail.com\"" + Const.EOL;
         assertEquals(expectedCsvString, csvString);
+
+        ______TS("Typical case: course without sections");
+
+        InstructorAttributes instructor1OfCourse2 = getTypicalDataBundle().instructors.get("instructor1OfCourse2");
+
+        instructorId = instructor1OfCourse2.googleId;
+        courseId = instructor1OfCourse2.courseId;
+
+        csvString = coursesLogic.getCourseStudentListAsCsv(courseId, instructorId);
+        expectedCsvString = "Course ID,\"idOfTypicalCourse1\"" + Const.EOL  
+                                 + "Course Name,\"Typical Course 1 with 2 Evals\"" + Const.EOL  
+                                 + Const.EOL + Const.EOL 
+                                 + "Team,Student Name,Status,Email" + Const.EOL
+                                 + "\"Team 2.1\",\"student1 In Course2\",\"Joined\",\"student1InCourse2@gmail.com\"" + Const.EOL
+                                 + "\"Team 2.1\",\"student2 In Course2\",\"Joined\",\"student2InCourse2@gmail.com\"" + Const.EOL;
 
         ______TS("Typical case: course with unregistered student");
 
@@ -1098,9 +1177,9 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         expectedCsvString = "Course ID,\"idOfUnregisteredCourse\"" + Const.EOL  
                                  + "Course Name,\"Unregistered Course\"" + Const.EOL  
                                  + Const.EOL + Const.EOL 
-                                 + "Team,Student Name,Status,Email" + Const.EOL
-                                 + "\"Team 1\",\"student1 In unregisteredCourse\",\"Yet to join\",\"student1InUnregisteredCourse@gmail.com\"" + Const.EOL
-                                 + "\"Team 2\",\"student2 In unregisteredCourse\",\"Yet to join\",\"student2InUnregisteredCourse@gmail.com\"" + Const.EOL;
+                                 + "Section,Team,Student Name,Status,Email" + Const.EOL
+                                 + "\"Section 1\",\"Team 1\",\"student1 In unregisteredCourse\",\"Yet to join\",\"student1InUnregisteredCourse@gmail.com\"" + Const.EOL
+                                 + "\"Section 2\",\"Team 2\",\"student2 In unregisteredCourse\",\"Yet to join\",\"student2InUnregisteredCourse@gmail.com\"" + Const.EOL;
         assertEquals(expectedCsvString, csvString);
 
         ______TS("Failure case: non existent instructor");
@@ -1131,6 +1210,40 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         } catch (AssertionError e) {
             assertEquals("Supplied parameter was null\n", e.getMessage());
         }
+    }
+
+    @Test
+    public void testHasIndicatedSections() throws Exception {
+
+        ______TS("Typical case: course with sections");
+
+        CourseAttributes typicalCourse1 = getTypicalDataBundle().courses.get("typicalCourse1");
+        assertTrue(coursesLogic.hasIndicatedSections(typicalCourse1.id));
+
+        ______TS("Typical case: course without sections");
+
+        CourseAttributes typicalCourse2 = getTypicalDataBundle().courses.get("typicalCourse2");
+        assertEquals(false, coursesLogic.hasIndicatedSections(typicalCourse2.id));
+
+        ______TS("Failure case: course does not exists");
+
+        try {
+            coursesLogic.hasIndicatedSections("non-existent-course");
+            signalFailureToDetectException();
+        } catch (EntityDoesNotExistException e){
+            AssertHelper.assertContains("does not exist",
+                                         e.getMessage());   
+        }
+
+        ______TS("Failure case: null parameter");
+
+        try {
+            coursesLogic.hasIndicatedSections(null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            assertEquals("Supplied parameter was null\n", e.getMessage());
+        }
+
     }
 
     @Test

@@ -97,7 +97,7 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         
         //test content here to make test finish faster
         ______TS("test instructor confirmation page content");
-        confirmationPage.verifyHtml("/instructorCourseJoinConfirmationHTML.html");
+        confirmationPage.verifyHtmlMainContent("/instructorCourseJoinConfirmationHTML.html");
         
         instructorHome = confirmationPage.clickConfirmButton();
         instructorHome.verifyStatus("");

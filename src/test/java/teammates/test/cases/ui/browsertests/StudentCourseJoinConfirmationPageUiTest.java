@@ -93,8 +93,8 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         
         browser.driver.get(joinLink);
         confirmationPage = createCorrectLoginPageType(browser.driver.getPageSource())
-                           .loginAsJoiningStudent(testData.students.get("alice.tmms@SCJConfirmationUiT.CS2104").email, 
-                                                  "TestKey");
+                           .loginAsJoiningStudent(TestProperties.inst().TEST_STUDENT1_ACCOUNT,
+                                                  TestProperties.inst().TEST_STUDENT1_PASSWORD);
         //test content here to make test finish faster
         ______TS("test student confirmation page content");
         confirmationPage.verifyHtml("/studentCourseJoinConfirmationHTML.html");

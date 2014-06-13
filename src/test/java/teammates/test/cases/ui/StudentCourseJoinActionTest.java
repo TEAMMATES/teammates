@@ -96,6 +96,7 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
         accountsDb.createAccount(accountToAdd);
         
         StudentAttributes newStudentData = new StudentAttributes(
+                student1InCourse1.section,
                 student1InCourse1.team,
                 "nameOfNewStudent", "newStudent@course1.com",
                 "This is a new student", student1InCourse1.course);

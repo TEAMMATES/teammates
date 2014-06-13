@@ -146,6 +146,24 @@
             "feedbackSessionType":"STANDARD",
             "sentOpenEmail":true,
             "sentPublishedEmail":false
+        },       
+        "Grace Period Session":{
+            "feedbackSessionName":"Grace Period Session",
+            "courseId":"SFSubmitUiT.CS2104",
+            "creatorEmail":"SFSubmitUiT.instr@gmail.com",
+            "instructions":{
+                "value":"This going to be a grace period session"
+            },
+            "createdTime":"2012-04-01 11:59 PM UTC",
+            "startTime":"2012-04-01 11:59 PM UTC",
+            "endTime":"2016-04-30 11:59 PM UTC",
+            "sessionVisibleFromTime":"2012-04-01 11:59 PM UTC",
+            "resultsVisibleFromTime":"2016-05-01 11:59 PM UTC",
+            "timeZone":8.0,
+            "gracePeriod":10,
+            "feedbackSessionType":"STANDARD",
+            "sentOpenEmail":true,
+            "sentPublishedEmail":false
         },
         "Closed Session":{
             "feedbackSessionName":"Second Session",
@@ -734,6 +752,53 @@
             "giverType":"STUDENTS",
             "recipientType":"INSTRUCTORS",
             "numberOfEntitiesToGiveFeedbackTo":-100,
+            "showResponsesTo":[
+                "RECEIVER"
+            ],
+            "showGiverNameTo":[
+                "RECEIVER"
+            ],
+            "showRecipientNameTo":[
+                "RECEIVER"
+            ]
+        },
+        "qn1InGracePeriodSession":{
+            "feedbackSessionName":"Grace Period Session",
+            "courseId":"SFSubmitUiT.CS2104",
+            "creatorEmail":"SFSubmitUiT.instr@gmail.com",
+            "questionMetaData":{
+                "value":"{\"questionType\":\"NUMSCALE\",\"questionText\":\"Rate your product\",\"minScale\":1,\"maxScale\":5,\"step\":0.5}"
+            },
+            "questionNumber":"15",
+            "questionType":"NUMSCALE",
+            "giverType":"STUDENTS",
+            "recipientType":"SELF",
+            "numberOfEntitiesToGiveFeedbackTo":1,
+            "showResponsesTo":[
+                "RECEIVER",
+                "OWN_TEAM_MEMBERS",
+                "STUDENTS",
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo":[
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "INSTRUCTORS"
+            ]
+        },
+        "qn2InGracePeriodSession":{
+            "feedbackSessionName":"Grace Period Session",
+            "courseId":"SFSubmitUiT.CS2104",
+            "creatorEmail":"SFSubmitUiT.instr@gmail.com",
+            "questionMetaData":{
+                "value":"{\"questionType\":\"NUMSCALE\",\"questionText\":\"Rate others' product\",\"minScale\":1,\"maxScale\":5,\"step\":0.5}"
+            },
+            "questionNumber":"16",
+            "questionType":"NUMSCALE",
+            "giverType":"TEAMS",
+            "recipientType":"TEAMS",
+            "numberOfEntitiesToGiveFeedbackTo":3,
             "showResponsesTo":[
                 "RECEIVER"
             ],

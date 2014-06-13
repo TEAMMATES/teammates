@@ -136,18 +136,19 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         CommentAttributes c = new CommentAttributes();
         c.courseId = "invalid course name";
         c.giverEmail = existingComment.giverEmail;
+        c.recipientType = CommentRecipientType.PERSON;
         c.recipients = existingComment.recipients;
         c.createdAt = existingComment.createdAt;
         c.commentText = existingComment.commentText;
         
         verifyExceptionThrownFromUpdateComment(c, 
-                "not acceptable to TEAMMATES as a Course ID");
+                "Trying to update comments for a course that does not exist.");
         
         ______TS("fail: non existent entity");
         c.courseId = "no-such-course";
         
         verifyExceptionThrownFromUpdateComment(c, 
-                "Trying to update non-existent Comment");
+                "Trying to update comments for a course that does not exist.");
         
         ______TS("typical success case");
         c.courseId = existingComment.courseId;
