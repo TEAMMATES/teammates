@@ -55,7 +55,8 @@
                                 <li><a href="#instructorFeedbackResultsPageByRecipientGiverQuestion">Instructor Feedback Results Page (By recipient-giver-question)</a></li>
                                 <li><a href="#instructorFeedbackResultsPageByGiverQuestionRecipient">Instructor Feedback Results Page (By giver-question-recipient)</a></li>
                                 <li><a href="#instructorFeedbackResultsPageByRecipientQuestionGiver">Instructor Feedback Results Page (By recipient-question-giver)</a></li>
-                                <li><a href="#instructorFeedbackResultsPageByQuestion">Instructor Feedback Results Page (By question)</a></li>                        
+                                <li><a href="#instructorFeedbackResultsPageByQuestion">Instructor Feedback Results Page (By question)</a></li>
+                                <li><a href="#instructorCommentsPage">Instructor Comments Page</a></li>
                             </ul>
                         </td>
                         <td>
@@ -210,6 +211,10 @@
                 
                 <div class="pageinfo">Instructor Feedback Results Page (By question)</div>
                 <div id="instructorFeedbackResultsPageByQuestion"></div>
+                <br><hr class="hr-bold"><br>
+                
+                <div class="pageinfo">Instructor Comments Page</div>
+                <div id="instructorCommentsPage"></div>
                 <br></br>
                 <br></br>
                 <br></br>
@@ -442,6 +447,10 @@
                 function (response, status, xml) {
                     $("[data-toggle='tooltip']").tooltip({html: true}); 
                 });
+            $('#instructorCommentsPage').load("<%=Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE%>?user=teammates.test&courseid=CS2104 #frameBodyWrapper",
+                    function (response, status, xml) {
+                        $("[data-toggle='tooltip']").tooltip({html: true}); 
+                    });
             
             $('#studentHomePage').load("<%=Const.ActionURIs.STUDENT_HOME_PAGE%>?user=teammates.test #frameBodyWrapper",
                 function (response, status, xml) {
