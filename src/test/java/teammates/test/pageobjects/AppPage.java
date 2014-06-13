@@ -79,10 +79,13 @@ public abstract class AppPage {
     @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[2]/li[1]/a")
     protected WebElement instructorLogoutLink;
     
-    @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[1]/a")
+    @FindBy(id = "studentHomeLink")
     protected WebElement studentHomeTab;
     
-    @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[2]/a")
+    @FindBy(id = "studentProfileLink")
+    protected WebElement studentProfileTab;
+    
+    @FindBy(id = "studentHelpLink")
     protected WebElement studentHelpTab;
     
     @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[2]/li[1]/a")
@@ -237,6 +240,16 @@ public abstract class AppPage {
      */
     public AppPage loadEvaluationsTab() {
         instructorEvaluationsTab.click();
+        waitForPageToLoad();
+        return this;
+    }
+    
+    /**
+     * Equivalent of clicking the 'Profile' tab on the top menu of the page.
+     * @return the loaded page
+     */
+    public AppPage loadProfileTab() {
+        studentProfileTab.click();
         waitForPageToLoad();
         return this;
     }

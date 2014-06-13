@@ -6,6 +6,7 @@
         <classes>
             <class name="teammates.test.cases.BaseTestCaseTest" />
             <class name="teammates.test.cases.common.AccountAttributesTest" />
+            <class name="teammates.test.cases.common.StudentProfileAttributesTest" />
             <class name="teammates.test.cases.common.BuildPropertiesTest" />
             <class name="teammates.test.cases.common.CourseAttributesTest" />
             <class name="teammates.test.cases.common.CourseRosterTest" />

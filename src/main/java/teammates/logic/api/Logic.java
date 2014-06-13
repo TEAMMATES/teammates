@@ -27,6 +27,7 @@ import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.SectionDetailsBundle;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.datatransfer.StudentResultBundle;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.datatransfer.TeamDetailsBundle;
@@ -134,7 +135,7 @@ public class Logic {
      * 
      */
     public void createAccount(String googleId, String name, boolean isInstructor,
-                                String email, String institute) throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+                                String email, String institute, StudentProfileAttributes studentProfile) throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, name);
@@ -142,7 +143,11 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, institute);
         
-        AccountAttributes accountToAdd = new AccountAttributes(googleId, name, isInstructor, email, institute);
+        if (studentProfile == null) {
+            studentProfile = new StudentProfileAttributes();
+            studentProfile.googleId = googleId;
+        }
+        AccountAttributes accountToAdd = new AccountAttributes(googleId, name, isInstructor, email, institute, studentProfile);
         
         accountsLogic.createAccount(accountToAdd);
     }
@@ -150,12 +155,29 @@ public class Logic {
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
+     * This is just for legacy code that creates an Account without the profile parameter
+     */
+    public void createAccount(String googleId, String name, boolean isInstructor,
+                                String email, String institute) throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+        StudentProfileAttributes emptyStudentProfile = new StudentProfileAttributes();
+        emptyStudentProfile.googleId = googleId;
+
+        createAccount(googleId, name, isInstructor, email, institute, null);
+    }
+    
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
      */
     public AccountAttributes getAccount(String googleId) {
+        return accountsLogic.getAccount(googleId, false);
+    }
+    
+    public AccountAttributes getAccount(String googleId, boolean retrieveStudentProfile) {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
         
-        return accountsLogic.getAccount(googleId);
+        return accountsLogic.getAccount(googleId, retrieveStudentProfile);
     }
     
     /**
@@ -182,6 +204,19 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, newAccountAttributes);
         
         accountsLogic.updateAccount(newAccountAttributes);
+    }
+    
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.<br>
+     * * {@code newAccountAttributes} represents an existing account.
+     */
+    public void updateStudentProfile(StudentProfileAttributes newStudentProfileAttributes) 
+            throws InvalidParametersException, EntityDoesNotExistException {
+        
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, newStudentProfileAttributes);
+        
+        accountsLogic.updateStudentProfile(newStudentProfileAttributes);
     }
     
     /**
@@ -711,6 +746,18 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
     
         return studentsLogic.getStudentForCourseIdAndGoogleId(courseId, googleId);
+    }
+    
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     * 
+     * @return Null if no match found.
+     */
+    public StudentProfileAttributes getStudentProfile(String googleId) {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
+        
+        return accountsLogic.getStudentProfile(googleId);
     }
 
     /**

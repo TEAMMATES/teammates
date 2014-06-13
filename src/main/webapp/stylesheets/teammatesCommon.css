@@ -83,6 +83,10 @@ Apply to thead to make headers not bold.
     color: red;
 }
 
+.glyphicon-gold {
+    color: #ffd700;
+}
+
 .highlight-white {
     color: white;
 }
@@ -129,6 +133,10 @@ Apply to thead to make headers not bold.
     color: white;
 }
 
+.text-color-disclaimer {
+    color: red;
+}
+
 .text-strike {
     text-decoration: line-through;
 }
@@ -163,6 +171,12 @@ Apply to thead to make headers not bold.
 .well-narrow {
     margin: 0 auto;
     width: 60%;
+}
+
+@media (max-width: 767px) {
+    .well-sm-wide {
+        width:100%;
+    }
 }
 
 .well-plain {
