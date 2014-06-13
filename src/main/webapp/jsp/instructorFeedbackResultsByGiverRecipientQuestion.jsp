@@ -76,10 +76,10 @@
 
             %>
             <%
-                if(currentTeam != null && !(data.bundle.getTeamNameForEmail(targetEmail)=="" ? currentTeam.equals(targetEmail): currentTeam.equals(data.bundle.getTeamNameForEmail(targetEmail)))) {
+                if(currentTeam != null && !(data.bundle.getTeamNameForEmail(targetEmail)=="" ? currentTeam.equals(data.bundle.getNameForEmail(targetEmail)): currentTeam.equals(data.bundle.getTeamNameForEmail(targetEmail)))) {
                     currentTeam = data.bundle.getTeamNameForEmail(targetEmail);
                     if(currentTeam.equals("")){
-                        currentTeam = targetEmail;
+                        currentTeam = data.bundle.getNameForEmail(targetEmail);
                     }
                     newTeam = true;
             %>
@@ -90,7 +90,7 @@
                 if(groupByTeamEnabled == true && (currentTeam==null || newTeam==true)) {
                     currentTeam = data.bundle.getTeamNameForEmail(targetEmail);
                     if(currentTeam.equals("")){
-                        currentTeam = targetEmail;
+                        currentTeam = data.bundle.getNameForEmail(targetEmail);
                     }
                     newTeam = false;
             %>

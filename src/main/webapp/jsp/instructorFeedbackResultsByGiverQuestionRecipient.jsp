@@ -78,11 +78,11 @@
         %>
 
         <%
-            if(currentTeam != null && !(data.bundle.getTeamNameForEmail(giverEmail)=="" ? currentTeam.equals(giverEmail): currentTeam.equals(data.bundle.getTeamNameForEmail(giverEmail)))) {
+            if(currentTeam != null && !(data.bundle.getTeamNameForEmail(giverEmail)=="" ? currentTeam.equals(data.bundle.getNameForEmail(giverEmail)): currentTeam.equals(data.bundle.getTeamNameForEmail(giverEmail)))) {
                 currentTeam = data.bundle.getTeamNameForEmail(giverEmail);
                 newTeam = true;
                 if(currentTeam.equals("")){
-                    currentTeam = giverEmail;
+                    currentTeam = data.bundle.getNameForEmail(giverEmail);
                 }
         %>
                 </div>
@@ -92,7 +92,7 @@
             if(groupByTeamEnabled == true && (currentTeam==null || newTeam==true)) {
                 currentTeam = data.bundle.getTeamNameForEmail(giverEmail);
                 if(currentTeam.equals("")){
-                    currentTeam = giverEmail;
+                    currentTeam = data.bundle.getNameForEmail(giverEmail);
                 }
                 newTeam = false;
                 Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> currentTeamResponses = teamResponses.get(currentTeam);
