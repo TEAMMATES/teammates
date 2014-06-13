@@ -165,36 +165,13 @@ public class AccountsDb extends EntitiesDb {
     public void deleteAccount(String googleId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
         
-        Account accountToDelete = getAccountEntity(googleId, true);
+        AccountAttributes accountToDelete = getAccount(googleId, false);
 
         if (accountToDelete == null) {
             return;
         }
         
-        accountToDelete.getStudentProfile();
-        
-        getPM().deletePersistent(accountToDelete);
-        getPM().flush();
-        closePM();
-    
-        // Wait for the operation to persist
-        int elapsedTime = 0;
-        Account accountCheck = getAccountEntity(googleId);
-        // the following while loop is not tested as 
-        // replicating a persistence delay is difficult during testing
-        while ((accountCheck != null)
-                && (elapsedTime < Config.PERSISTENCE_CHECK_DURATION)) {
-            ThreadHelper.waitBriefly();
-            accountCheck = getAccountEntity(googleId);
-            elapsedTime += ThreadHelper.WAIT_DURATION;
-            closePM();
-        }
-        if (elapsedTime >= Config.PERSISTENCE_CHECK_DURATION) {
-            log.severe("Operation did not persist in time: deleteAccount->"
-                    + googleId);
-        }
-        
-        //TODO: Use the delete operation in the parent class instead.
+        deleteEntity(accountToDelete);
     }
 
     private Account getAccountEntity(String googleId, boolean retrieveStudentProfile) {
