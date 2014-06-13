@@ -557,7 +557,7 @@ public class EmailsTest extends BaseComponentTestCase {
         
         InstructorAttributes i1 = new InstructorAttributes("googleId", "courseId1", "name", "instructor1@course1.com");
         
-        InstructorAttributes i2 = new InstructorAttributes("googleId", "courseId1", "name", "instructor1@course1.com");
+        InstructorAttributes i2 = new InstructorAttributes("googleId", "courseId1", "name", "instructor2@course1.com");
         
         ______TS("feedback session opening emails");
 
