@@ -14,10 +14,7 @@ import static teammates.logic.core.TeamEvalResult.NSB;
 import static teammates.logic.core.TeamEvalResult.NSU;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletException;

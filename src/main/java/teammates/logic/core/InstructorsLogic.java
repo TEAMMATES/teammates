@@ -40,16 +40,6 @@ public class InstructorsLogic {
         return instance;
     }
     
-    public void addInstructor(String courseId, String name, String email, String role, String displayedName, 
-            String instructorPrivilegesAsText) 
-            throws InvalidParametersException, EntityAlreadyExistsException {
-                
-        InstructorAttributes instructorToAdd = new InstructorAttributes(null, courseId, name, email, role, displayedName,
-                instructorPrivilegesAsText);
-        
-        createInstructor(instructorToAdd);
-    }
-    
     public void createInstructor(String googleId, String courseId, String name, String email) 
             throws InvalidParametersException, EntityAlreadyExistsException {
         InstructorAttributes instructorToAdd = new InstructorAttributes(googleId, courseId, name, email);
