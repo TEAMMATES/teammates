@@ -186,7 +186,8 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         String questionId = null;
         
         for (FeedbackResponseAttributes response : responses) {
-            if(recipientTeam == null || !getTeamNameForEmail(response.recipientEmail).equals(recipientTeam)){
+            if(recipientTeam == null ||
+                    !(getTeamNameForEmail(response.recipientEmail).equals("")? getNameForEmail(response.recipientEmail).equals(recipientTeam): getTeamNameForEmail(response.recipientEmail).equals(recipientTeam))){
                 if(questionId!=null && responsesForOneRecipientOneQuestion!=null && responsesForOneRecipient!=null){
                     responsesForOneRecipient.put(questions.get(questionId), responsesForOneRecipientOneQuestion);
                 }
@@ -195,6 +196,9 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
                 }
                 responsesForOneRecipient = new LinkedHashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
                 recipientTeam = getTeamNameForEmail(response.recipientEmail);
+                if(recipientTeam == ""){
+                    recipientTeam = getNameForEmail(response.recipientEmail);
+                }
                 questionId = null;
             }
             if(questionId == null || !response.feedbackQuestionId.equals(questionId)){
@@ -236,7 +240,8 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         String questionId = null;
         
         for (FeedbackResponseAttributes response : responses) {
-            if(giverTeam == null || !getTeamNameForEmail(response.giverEmail).equals(giverTeam)){
+            if(giverTeam == null || 
+                    !(getTeamNameForEmail(response.giverEmail).equals("")? getNameForEmail(response.giverEmail).equals(giverTeam) : getTeamNameForEmail(response.giverEmail).equals(giverTeam))){
                 if(questionId!=null && responsesFromOneGiverOneQuestion!=null && responsesFromOneGiver!=null){
                     responsesFromOneGiver.put(questions.get(questionId), responsesFromOneGiverOneQuestion);
                 }
@@ -245,6 +250,9 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
                 }
                 responsesFromOneGiver = new LinkedHashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
                 giverTeam = getTeamNameForEmail(response.giverEmail);
+                if(giverTeam == ""){
+                    giverTeam = getNameForEmail(response.giverEmail);
+                }
                 questionId = null;
             }
             if(questionId == null || !response.feedbackQuestionId.equals(questionId)){
@@ -647,8 +655,10 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         @Override
         public int compare(FeedbackResponseAttributes o1,
                 FeedbackResponseAttributes o2) {
-            return getTeamNameForEmail(o1.recipientEmail).compareTo(
-                    getTeamNameForEmail(o2.recipientEmail));
+            String t1 = getTeamNameForEmail(o1.recipientEmail).equals("")?getNameForEmail(o1.recipientEmail):getTeamNameForEmail(o1.recipientEmail);
+            String t2 = getTeamNameForEmail(o2.recipientEmail).equals("")?getNameForEmail(o2.recipientEmail):getTeamNameForEmail(o2.recipientEmail);
+            
+            return t1.compareTo(t2);
         }
     };
     
@@ -658,8 +668,10 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         @Override
         public int compare(FeedbackResponseAttributes o1,
                 FeedbackResponseAttributes o2) {
-            return getTeamNameForEmail(o1.giverEmail).compareTo(
-                    getTeamNameForEmail(o2.giverEmail));
+            String t1 = getTeamNameForEmail(o1.giverEmail).equals("")?getNameForEmail(o1.giverEmail):getTeamNameForEmail(o1.giverEmail);
+            String t2 = getTeamNameForEmail(o2.giverEmail).equals("")?getNameForEmail(o2.giverEmail):getTeamNameForEmail(o2.giverEmail);
+            
+            return t1.compareTo(t2);
         }
     };
     

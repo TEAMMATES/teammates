@@ -78,16 +78,23 @@
         %>
 
         <%
-            if(currentTeam != null && !currentTeam.equals(data.bundle.getTeamNameForEmail(giverEmail))) {
+            if(currentTeam != null && !(data.bundle.getTeamNameForEmail(giverEmail)=="" ? currentTeam.equals(data.bundle.getNameForEmail(giverEmail)): currentTeam.equals(data.bundle.getTeamNameForEmail(giverEmail)))) {
                 currentTeam = data.bundle.getTeamNameForEmail(giverEmail);
                 newTeam = true;
+                if(currentTeam.equals("")){
+                    currentTeam = data.bundle.getNameForEmail(giverEmail);
+                }
         %>
+                </div>
                 </div>
             </div>
         <%
             }
             if(groupByTeamEnabled == true && (currentTeam==null || newTeam==true)) {
                 currentTeam = data.bundle.getTeamNameForEmail(giverEmail);
+                if(currentTeam.equals("")){
+                    currentTeam = data.bundle.getNameForEmail(giverEmail);
+                }
                 newTeam = false;
                 Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> currentTeamResponses = teamResponses.get(currentTeam);
         %>
@@ -95,6 +102,7 @@
                     <div class="panel-heading">
                         <strong><%=currentTeam%></strong>
                     </div>
+                    <div class="panel-collapse">
                     <div class="panel-body background-color-warning">
                         <div class="resultStatistics">
                             <%
@@ -103,11 +111,13 @@
                                 <h3><%=currentTeam%> Given Responses Statistics </h3>
                                 <hr class="margin-top-0">
                                 <%
+                                    int numStatsShown = 0;
                                     for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> teamResponseEntries : currentTeamResponses.entrySet()) {
                                         FeedbackQuestionAttributes question = questions.get(teamResponseEntries.getKey().getId());
                                         FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
                                         String statsHtml = questionDetails.getQuestionResultStatisticsHtml(teamResponseEntries.getValue());
                                         if(statsHtml != ""){
+                                            numStatsShown++;
                                 %>
                                             <div class="panel panel-info">
                                                 <div class="panel-heading">
@@ -115,17 +125,22 @@
                                                         out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, ""));
                                                     %>
                                                 </div>
+                                                <div class="panel-collapse">
                                                 <div class="panel-body padding-0">                
                                                     <div class="resultStatistics">
                                                         <%=statsHtml%>
                                                     </div>
                                                 </div>
+                                                </div>
                                             </div>
                                 <%
                                         }
                                     }
+                                    if(numStatsShown == 0){
                                 %>
+                                        <p class="text-color-gray"><i>No statistics available.</i></p>
                             <%
+                                    }
                                 }
                             %>
                             <%
@@ -147,6 +162,7 @@
                     From: <strong><%=responsesFromGiver.getKey()%></strong>
                         <a class="link-in-dark-bg" href="mailTo:<%= giverEmail%> " <%=mailtoStyleAttr%>>[<%=giverEmail%>]</a>
                 </div>
+                <div class="panel-collapse">
                 <div class="panel-body">
                 <%
                     int questionIndex = 0;
@@ -161,6 +177,7 @@
                                     out.print(InstructorFeedbackResultsPageData.sanitizeForHtml(questionDetails.questionText));
                                     out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, "giver-"+giverIndex+"-question-"+questionIndex));%>
                             </div>
+                            <div class="panel-collapse">
                             <div class="panel-body padding-0">
                                 <div class="resultStatistics">
                                     <%=questionDetails.getQuestionResultStatisticsHtml(responseEntries)%>
@@ -198,10 +215,12 @@
                                     </tbody>
                                 </table>
                             </div>
+                            </div>
                         </div>
                 <%
                     }
                 %>
+                </div>
                 </div>
             </div>
         <%
@@ -212,6 +231,7 @@
             //close the last team panel.
             if(groupByTeamEnabled==true) {
         %>
+                    </div>
                     </div>
                 </div>
         <%
