@@ -40,6 +40,7 @@ public class InstructorStudentRecordsPageAction extends Action {
         try {
             data.courseId = courseId;
             data.student = logic.getStudentForEmail(courseId, studentEmail);
+            data.studentProfile = logic.getStudentProfile(data.student.googleId);
             Assumption.assertNotNull(data.student);
             data.showCommentBox = showCommentBox;
             data.comments = logic.getCommentsForGiverAndReceiver(courseId, instructor.email, studentEmail);
