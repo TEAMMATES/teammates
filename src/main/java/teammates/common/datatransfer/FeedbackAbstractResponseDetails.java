@@ -50,6 +50,14 @@ public abstract class FeedbackAbstractResponseDetails {
                 responseDetails = null;
             }
             break;
+        case CONSTSUM:
+            try{
+                int constSumAnswer = Integer.parseInt(answer[0]);
+                responseDetails = new FeedbackConstantSumResponseDetails(constSumAnswer);
+            } catch (NumberFormatException e) {
+                responseDetails = null;
+            }
+            break;
         default:
             Assumption.fail("Question type not supported");
             break;

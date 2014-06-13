@@ -136,6 +136,42 @@ public abstract class FeedbackAbstractQuestionDetails {
             questionDetails = 
                     new FeedbackNumericalScaleQuestionDetails(questionText, minScale, maxScale, step);
             break;
+        case CONSTSUM:
+            int numOfConstSumOptions = 0;
+            List<String> constSumOptions = new LinkedList<String>();
+            String distributeToRecipientsString = null;
+            String pointsPerOptionString = null;
+            String pointsString = null;
+            boolean distributeToRecipients = false;
+            boolean pointsPerOption = false;
+            int points = 0;
+            
+            distributeToRecipientsString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS);
+            pointsPerOptionString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION);
+            pointsString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS);
+            Assumption.assertNotNull("Null points", pointsString);
+            
+            distributeToRecipients = (distributeToRecipientsString == null) ? false : true;
+            pointsPerOption = (pointsPerOptionString == null) ? false : true;
+            points = Integer.parseInt(pointsString);
+            
+            if (!distributeToRecipients) {
+                String numConstSumOptionsCreatedString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED);
+                Assumption.assertNotNull("Null number of choice for ConstSum", numConstSumOptionsCreatedString);
+                int numConstSumOptionsCreated = Integer.parseInt(numConstSumOptionsCreatedString);
+                
+                for(int i = 0; i < numConstSumOptionsCreated; i++) {
+                    String constSumOption = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION + "-" + i);
+                    if(constSumOption != null && !constSumOption.trim().isEmpty()) {
+                        constSumOptions.add(constSumOption);
+                        numOfConstSumOptions++;
+                    }
+                }
+                questionDetails = new FeedbackConstantSumQuestionDetails(questionText, numOfConstSumOptions, constSumOptions, pointsPerOption, points);
+            } else {
+                questionDetails = new FeedbackConstantSumQuestionDetails(questionText, pointsPerOption, points);
+            }
+            break;
         default:
             Assumption.fail("Question type not supported by FeedbackAbstractQuestionDetails");
             break;
