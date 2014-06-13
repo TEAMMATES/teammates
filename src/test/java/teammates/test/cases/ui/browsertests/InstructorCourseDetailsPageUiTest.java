@@ -71,7 +71,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         .withCourseId(testData.courses.get("CCDetailsUiT.CS2103").id);
 
         detailsPage = loginAdminToPage(browser, detailsPageUrl, InstructorCourseDetailsPage.class);
-
+        //Use {$test.student1} etc.
         detailsPage.verifyHtml("/InstructorCourseDetailsPageWithSections.html");
         
         ______TS("content: multiple students without sections");
@@ -81,7 +81,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         .withCourseId(testData.courses.get("CCDetailsUiT.CS2104").id);
         
         detailsPage = loginAdminToPage(browser, detailsPageUrl, InstructorCourseDetailsPage.class);
-        
+        //Use {$test.student1} etc.
         detailsPage.verifyHtml("/InstructorCourseDetailsPage.html");
         
         ______TS("content: sorting");
@@ -190,6 +190,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         detailsPage.clickDeleteAndCancel(studentName);
         assertNotNull(BackDoor.getStudent(courseId, studentEmail));
 
+        //Use {$test.student1} etc. 
         detailsPage.clickDeleteAndConfirm(studentName)
             .verifyHtmlMainContent("/instructorCourseDetailsStudentDeleteSuccessful.html");
     }

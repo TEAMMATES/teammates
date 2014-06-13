@@ -78,12 +78,12 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
         testData = loadDataBundle("/StudentFeedbackQuestionSubmitPageUiTest.json");
         restoreTestDataOnServer(testData);
 
-        ______TS("Closed) session");
+        ______TS("Closed session");
 
         fq = BackDoor.getFeedbackQuestion("SFQSubmitUiT.CS2104", "Closed Session", 1);
         submitPage = loginToStudentFeedbackQuestionSubmitPage("Alice","Closed Session", fq.getId());
         submitPage.verifyHtml("/studentFeedbackQuestionSubmitPageClosed.html");
-        
+       
     }
 
     private void testSubmitAction() {
@@ -127,7 +127,7 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
                                                   "SFQSubmitUiT.alice.b@gmail.com", 
                                                   "SFQSubmitUiT.alice.b@gmail.com").getResponseDetails().getAnswerString());
         
-        submitPage.verifyHtml("/studentFeedbackQuestionSubmitPageFilled.html");
+        submitPage.verifyHtmlMainContent("/studentFeedbackQuestionSubmitPageFilled.html");
 
         ______TS("Grace period session,successful submission within grace period");
 
@@ -184,8 +184,8 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
 
         submitPage.fillResponseTextBox(0,"this is a response edited during grace period,but submitted after grace period");
         submitPage.clickSubmitButton();
-        submitPage.verifyHtml("/deadlineExceededErrorPage.html");
-
+        submitPage.verifyHtmlMainContent("/studentFeedbackQuestionSubmitPageDeadLineExceeded.html");
+        
     }
 
     private FeedbackQuestionSubmitPage loginToStudentFeedbackQuestionSubmitPage(

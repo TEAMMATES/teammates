@@ -1019,7 +1019,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         assertEquals(exportLines[21], "");
         assertEquals(exportLines[22], "Team,Giver,Recipient's Team,Recipient,Feedback");
         // checking comma inside cell
-        assertEquals(exportLines[23], "\"Instructors\",\"Instructor1 Course1\",\"\",\"-\",\"Good work, keep it up!\"");
+        assertEquals(exportLines[23], "\"Instructors\",\"Instructor1 Course1\",\"-\",\"-\",\"Good work, keep it up!\"");
         
         ______TS("MCQ results");
         

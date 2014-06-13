@@ -306,6 +306,8 @@ public class Const {
         
         public static final String FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON = "fruploaddownloadbtn";
         public static final String FEEDBACK_RESULTS_SORTTYPE = "frsorttype";
+        public static final String FEEDBACK_RESULTS_GROUPBYTEAM = "frgroupbyteam";
+        public static final String FEEDBACK_RESULTS_SHOWSTATS = "frshowstats";
         
         public static final String PREVIEWAS = "previewas";
         
@@ -506,9 +508,11 @@ public class Const {
         public static final String INSTRUCTOR_FEEDBACKS = "/jsp/instructorFeedbacks.jsp";
         public static final String INSTRUCTOR_FEEDBACK_EDIT = "/jsp/instructorFeedbackEdit.jsp";
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_TOP = "/jsp/instructorFeedbackResultsTop.jsp";
-        public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER = "/jsp/instructorFeedbackResultsByGiver.jsp";
-        public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT = "/jsp/instructorFeedbackResultsByRecipient.jsp"; 
-        public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_TABLE = "/jsp/instructorFeedbackResultsByTable.jsp"; 
+        public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_RECIPIENT_QUESTION = "/jsp/instructorFeedbackResultsByGiverRecipientQuestion.jsp";
+        public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION = "/jsp/instructorFeedbackResultsByRecipientGiverQuestion.jsp"; 
+        public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_QUESTION_RECIPIENT = "/jsp/instructorFeedbackResultsByGiverQuestionRecipient.jsp";
+        public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_QUESTION_GIVER = "/jsp/instructorFeedbackResultsByRecipientQuestionGiver.jsp";
+        public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION = "/jsp/instructorFeedbackResultsByQuestion.jsp"; 
         public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT = "/jsp/instructorFeedbackSubmissionEdit.jsp"; 
         public static final String INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT = "/jsp/instructorFeedbackQuestionSubmissionEdit.jsp"; 
         public static final String INSTRUCTOR_FEEDBACK_STATS = "/jsp/instructorFeedbackStats.jsp";
@@ -667,6 +671,7 @@ public class Const {
         public static final String FEEDBACK_RESPONSE_COMMENT_DELETED = "Your comment has been deleted successfully";
         
         public static final String FEEDBACK_SUBMISSIONS_NOT_OPEN = "You can view the questions and any submitted responses for this feedback session but cannot submit new responses as the session is not currently open for submission.";
+        public static final String FEEDBACK_SUBMISSION_EXCEEDED_DEADLINE = "<strong>Submission Failure!</strong> You have exceeded the submission deadline.";
         
         public static final String FEEDBACK_RESULTS_SOMETHINGNEW = "You have received feedback from others. Please see below.";
         public static final String FEEDBACK_RESULTS_NOTHINGNEW = "You have not received any new feedback but you may review your own submissions below.";

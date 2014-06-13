@@ -29,6 +29,7 @@
     <script type="text/javascript" src="/js/jquery-minified.js"></script>
         <script type="text/javascript" src="/js/common.js"></script>
     <script type="text/javascript" src="/js/instructor.js"></script>
+    <script type="text/javascript" src="/js/instructorFeedbackResults.js"></script>
     <script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
     <jsp:include page="../enableJS.jsp"></jsp:include>
     <!-- Bootstrap core JavaScript ================================================== -->
@@ -55,46 +56,66 @@
                 for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responseEntries : data.bundle
                         .getQuestionResponseMap().entrySet()) {
             %>
-            <div class="well well-default">
-                    <h4>Question <%=responseEntries.getKey().questionNumber%>:<br><%=data.bundle.getQuestionText(responseEntries.getKey().getId())%><%
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <strong>Question <%=responseEntries.getKey().questionNumber%>: </strong><%=data.bundle.getQuestionText(responseEntries.getKey().getId())%><%
                         Map<String, FeedbackQuestionAttributes> questions = data.bundle.questions;
                         FeedbackQuestionAttributes question = questions.get(responseEntries.getKey().getId());
                         FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
                         out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, ""));
-                    %></h4>
-                    <div class="panel panel-primary">
-                    <table class="table table-striped table-bordered dataTable">
-                    <thead class="fill-primary">
-                        <tr>
-                            <th id="button_sortFrom" class="button-sort-ascending" onclick="toggleSort(this,1)" style="width: 25%;">From<span class="icon-sort unsorted"></span></th>
-                            <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 25%;">To<span class="icon-sort unsorted"></span></th>
-                            <th id="button_sortFeedback" class="button-sort-none" onclick="toggleSort(this,3)" style="width: 50%;">Feedback<span class="icon-sort unsorted"></span></th>
-                        </tr>
-                    <thead>
-                    <tbody>
-                        <%
-                            for(FeedbackResponseAttributes responseEntry: responseEntries.getValue()) {
-                        %>
-                        <tr>
-                        <%
-                            String giverName = data.bundle.getGiverNameForResponse(responseEntries.getKey(), responseEntry);
-                            String giverTeamName = data.bundle.getTeamNameForEmail(responseEntry.giverEmail);
-                            giverName = data.bundle.appendTeamNameToName(giverName, giverTeamName);
-
-                            String recipientName = data.bundle.getRecipientNameForResponse(responseEntries.getKey(), responseEntry);
-                            String recipientTeamName = data.bundle.getTeamNameForEmail(responseEntry.recipientEmail);
-                            recipientName = data.bundle.appendTeamNameToName(recipientName, recipientTeamName);
-                        %>
-                            <td class="middlealign"><%=giverName%></td>
-                            <td class="middlealign"><%=recipientName%></td>
-                            <td class="multiline"><%=responseEntry.getResponseDetails().getAnswerHtml()%></td>
-                        </tr>        
-                        <%
-                            }
-                        %></tbody>
-                    </table></div>
+                    %>
                 </div>
-            <br>
+                <div class="panel-body padding-0">                
+                    <div class="resultStatistics">
+                        <%=questionDetails.getQuestionResultStatisticsHtml(responseEntries.getValue())%>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered dataTable margin-0">
+                            <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                                <tr>
+                                    <th id="button_sortFromName" onclick="toggleSort(this,1)" style="width: 15%;">
+                                        Giver
+                                    </th>
+                                    <th id="button_sortFromTeam" onclick="toggleSort(this,2)" style="width: 15%;">
+                                        Team
+                                    </th>
+                                    <th id="button_sortToName" onclick="toggleSort(this,3)" style="width: 15%;">
+                                        Recipient
+                                    </th>
+                                    <th id="button_sortToTeam" class="button-sort-ascending" onclick="toggleSort(this,4)" style="width: 15%;">
+                                        Team
+                                    </th>
+                                    <th id="button_sortFeedback" onclick="toggleSort(this,5)">
+                                        Feedback
+                                    </th>
+                                </tr>
+                            <thead>
+                            <tbody>
+                                <%
+                                    for(FeedbackResponseAttributes responseEntry: responseEntries.getValue()) {
+                                %>
+                                <tr>
+                                <%
+                                    String giverName = data.bundle.getGiverNameForResponse(responseEntries.getKey(), responseEntry);
+                                    String giverTeamName = data.bundle.getTeamNameForEmail(responseEntry.giverEmail);
+
+                                    String recipientName = data.bundle.getRecipientNameForResponse(responseEntries.getKey(), responseEntry);
+                                    String recipientTeamName = data.bundle.getTeamNameForEmail(responseEntry.recipientEmail);
+                                %>
+                                    <td class="middlealign"><%=giverName%></td>
+                                    <td class="middlealign"><%=giverTeamName%></td>
+                                    <td class="middlealign"><%=recipientName%></td>
+                                    <td class="middlealign"><%=recipientTeamName%></td>
+                                    <td class="multiline"><%=responseEntry.getResponseDetails().getAnswerHtml()%></td>
+                                </tr>        
+                                <%
+                                    }
+                                %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
             <%
                 }
             %>
@@ -105,14 +126,9 @@
             if (!responseStatus.hasResponse.isEmpty()) {
         %>
                 <div class="panel panel-info">
-                    <div class="panel-heading">Additional Information</div>
+                    <div class="panel-heading">Students Who Did Not Respond to Any Question</div>
                     
                     <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Students Who Did Not Respond to Any Question</th>
-                            </tr>
-                        </thead>
                         <tbody>
                         <%
                             for (String studentName : responseStatus.getStudentsWhoDidNotRespondToAnyQuestion()) {
