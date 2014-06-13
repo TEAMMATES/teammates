@@ -62,7 +62,11 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
         instructorToEdit.role = Sanitizer.sanitizeName(instructorRole);
         // TODO: remove this hard-coded thing!
         instructorToEdit.displayedName = "Co-owner";
+        boolean isOnlyOneInstructorLeft = logic.getInstructorsForCourse(courseId).size() == 1;
         instructorToEdit.privileges = new InstructorPrivileges(instructorRole);
+        if (!isOnlyOneInstructorLeft) {
+            instructorToEdit.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, true);
+        }
         instructorToEdit.instructorPrivilegesAsText = instructorToEdit.getTextFromInstructorPrivileges();
         return instructorToEdit;
     }

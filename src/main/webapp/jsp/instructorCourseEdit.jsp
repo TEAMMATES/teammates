@@ -164,6 +164,14 @@
                                 disabled="disabled">
                             </div>
                         </div>
+                        <div id="accessControlInfoForInstr<%=index%>">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Role:</label>
+                                <div class="col-sm-9">
+                                    <p class="form-control-static"><%=instructor.role%></p>
+                                </div>
+                            </div>
+                        </div>
                         <div id="accessControlEditDivForInstr<%=index%>" style="display: none;">
                             <div class="form-group">
                                 <div class="col-sm-3">

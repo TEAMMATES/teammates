@@ -19,7 +19,7 @@ public class InstructorCourseDeleteAction extends InstructorCoursesPageAction {
         
         new GateKeeper().verifyAccessible(
                 logic.getInstructorForGoogleId(idOfCourseToDelete, account.googleId), 
-                logic.getCourse(idOfCourseToDelete));
+                logic.getCourse(idOfCourseToDelete), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
 
         /* Delete the course and setup status to be shown to user and admin */
         logic.deleteCourse(idOfCourseToDelete);
