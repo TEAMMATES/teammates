@@ -132,6 +132,8 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         // Here we create another INSTRUCTOR for testing our createInstructor() method
         String googleIdWithGmailDomain = instructor2.googleId+"@GMAIL.COM"; //to check if "@GMAIL.COM" is stripped out correctly
         accountsLogic.createInstructorAccount(googleIdWithGmailDomain, instructor2.courseId, instructor2.name, instructor2.email, "National University of Singapore");
+        InstructorsLogic.inst().updateInstructorByGoogleId(instructor2.googleId, instructor2);
+        
         
         // `instructor` here is created with NAME and EMAIL field obtain from his AccountData
         AccountAttributes creator = dataBundle.accounts.get("instructor1OfCourse1");
