@@ -27,6 +27,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
@@ -35,6 +36,7 @@ import teammates.common.datatransfer.EvaluationDetailsBundle;
 import teammates.common.datatransfer.EvaluationResultsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.datatransfer.StudentResultBundle;
 import teammates.common.datatransfer.SubmissionAttributes;
@@ -108,7 +110,7 @@ public class LogicTest extends BaseComponentTestCase {
         gaeSimulation.loginAsAdmin(instructor.googleId);
         // also make this user a student of another course
         StudentAttributes instructorAsStudent = new StudentAttributes(
-                "Team 1", "Instructor As Student", "instructorasstudent@yahoo.com", "", course2Id);
+                "Section 1", "Team 1", "Instructor As Student", "instructorasstudent@yahoo.com", "", course2Id);
         instructorAsStudent.googleId = instructor.googleId;
         logic.createStudent(instructorAsStudent);
 
@@ -185,6 +187,21 @@ public class LogicTest extends BaseComponentTestCase {
     @Test
     public void testCreateSubmission() {
         // method not implemented
+    }
+    
+    @Test
+    public void testGetStudentProfile() throws Exception {
+        String googleId = "test.googleId";
+        StudentProfileAttributes expectedProfile = new StudentProfileAttributes(googleId, 
+                "", "", "", "", "other", "");
+        
+        logic.createAccount(googleId, "Name", false, "email@gmail.com", "NUS");
+        
+        StudentProfileAttributes actualAttributes = logic.getStudentProfile(googleId);
+        actualAttributes.modifiedDate = null;
+        
+        assertEquals(expectedProfile.toString(), actualAttributes.toString());
+        
     }
 
 

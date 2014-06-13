@@ -8,6 +8,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
@@ -82,10 +83,18 @@ public class BaseUiTestCase extends BaseTestCase {
      * Deletes are recreates the given data on the datastore.
      */
     protected static void restoreTestDataOnServer(DataBundle testData) {
-        String backDoorOperationStatus = BackDoor.restoreDataBundle(testData);
-        while(!backDoorOperationStatus.equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
-            ThreadHelper.waitFor((int)( Math.random() * 1000));
-            backDoorOperationStatus = BackDoor.restoreDataBundle(testData);
+
+        int counter = 0;
+        while(counter != 20){
+            String backDoorOperationStatus = BackDoor.restoreDataBundle(testData);
+            if(backDoorOperationStatus.equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
+                break;
+            }
+            ThreadHelper.waitFor((int)( Math.random() * 2000));
+            counter++;
+        }
+        if(counter == 20){
+            Assumption.fail("Fail to restore data");
         }
     }
 

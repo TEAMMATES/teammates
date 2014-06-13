@@ -167,6 +167,7 @@
             "email":"student1InCourse1@gmail.com",
             "name":"student1 In Course1",
             "team":"Team 1.1",
+            "section":"None",
             "googleId":"student1InCourse1",
             "comments":"comment for student1InCourse1",
             "course":"idOfTypicalCourse1"
@@ -176,6 +177,7 @@
             "name":"student2 In Course1",
             "googleId":"student2InCourse1",
             "team":"Team 1.1",
+            "section":"None",
             "comments":"",
             "course":"idOfTypicalCourse1"
         },
@@ -184,6 +186,7 @@
             "name":"student3 In Course1",
             "googleId":"student3InCourse1",
             "team":"Team 1.1",
+            "section":"None",
             "comments":"",
             "course":"idOfTypicalCourse1"
         },
@@ -192,6 +195,7 @@
             "name":"student4 In Course1",
             "googleId":"student4InCourse1",
             "team":"Team 1.1",
+            "section":"None",
             "comments":"",
             "course":"idOfTypicalCourse1"
         },
@@ -200,6 +204,7 @@
             "name":"student5 In Course1",
             "googleId":"student5InCourse1",
             "team":"Team 1.2",
+            "section":"None",
             "comments":"",
             "course":"idOfTypicalCourse1"
         },
@@ -208,6 +213,7 @@
             "name":"student1 In Course2",
             "googleId":"student1InCourse2",
             "team":"Team 2.1",
+            "section":"None",
             "comments":"",
             "course":"idOfTypicalCourse2"
         },
@@ -217,6 +223,7 @@
             "googleId":"student2InCourse1",
             "comments":"#####This is the same student as student2InCourse1 but using different name and email #####",
             "team":"Team 2.1",
+            "section":"None",
             "comments":"",
             "course":"idOfTypicalCourse2"
         }

@@ -114,7 +114,7 @@ public class InstructorFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
                     "IFQSubmitUiT.instr@gmail.com",
                     "IFQSubmitUiT.instr@gmail.com").getResponseDetails().getAnswerString());
         
-        submitPage.verifyHtml("/instructorFeedbackQuestionSubmitPageFilled.html");
+        submitPage.verifyHtmlMainContent("/instructorFeedbackQuestionSubmitPageFilled.html");
     }
     
     private FeedbackQuestionSubmitPage loginToInstructorFeedbackQuestionSubmitPage(

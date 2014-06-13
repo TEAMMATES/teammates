@@ -8,20 +8,27 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.Select;
 
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 
 public class InstructorFeedbackResultsPage extends AppPage {
 
-    @FindBy(id = "button_sortFrom")
-    private WebElement sortTableGiverButton;
+    @FindBy(id = "button_sortFromName")
+    public WebElement sortTableGiverButton;
     
-    @FindBy(id = "button_sortTo")
+    @FindBy(id = "button_sortToName")
     private WebElement sortTableRecipientButton;
     
     @FindBy(id = "button_sortFeedback")
     private WebElement sortTableAnswerButton;
+    
+    @FindBy(id = "collapse-panels-button")
+    public WebElement collapseExpandButton;
+    
+    @FindBy(id = "show-stats-checkbox")
+    public WebElement showStatsCheckbox;
     
     @FindBy(id = "button_add_comment")
     private WebElement showResponseCommentAddFormButton;
@@ -53,20 +60,53 @@ public class InstructorFeedbackResultsPage extends AppPage {
         return isCorrectCourseId && isCorrectFeedbackSessionName && containsExpectedPageContents();
     }
     
-    public void displayByGiver() {
-        WebElement button = browser.driver.findElements(By.name(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE)).get(0);
-        button.click();
+    public void displayByGiverRecipientQuestion() {
+        Select select = new Select(browser.driver.findElement(By.name(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE)));
+        select.selectByVisibleText("Group by - Giver > Recipient > Question");
+        waitForPageToLoad();
     }
     
-    public void displayByRecipient() {
-        WebElement button = browser.driver.findElements(By.name(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE)).get(1);
-        button.click();
+    public void displayByRecipientGiverQuestion() {
+        Select select = new Select(browser.driver.findElement(By.name(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE)));
+        select.selectByVisibleText("Group by - Recipient > Giver > Question");
+        waitForPageToLoad();
     }
     
-    public void displayByTable() {
-        WebElement button = browser.driver.findElements(By.name(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE)).get(2);
+    public void displayByGiverQuestionRecipient() {
+        Select select = new Select(browser.driver.findElement(By.name(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE)));
+        select.selectByVisibleText("Group by - Giver > Question > Recipient");
+        waitForPageToLoad();
+    }
+    
+    public void displayByRecipientQuestionGiver() {
+        Select select = new Select(browser.driver.findElement(By.name(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE)));
+        select.selectByVisibleText("Group by - Recipient > Question > Giver");
+        waitForPageToLoad();
+    }
+    
+    public void displayByQuestion() {
+        Select select = new Select(browser.driver.findElement(By.name(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE)));
+        select.selectByVisibleText("Group by - Question");
+        waitForPageToLoad();
+    }
+    
+    public void clickGroupByTeam() {
+        WebElement button = browser.driver.findElement(By.name(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM));
         button.click();
         waitForPageToLoad();
+    }
+    
+    public void clickCollapseExpand() {
+        collapseExpandButton.click();
+        waitForPageToLoad();
+    }
+    
+    public void clickShowStats() {
+        showStatsCheckbox.click();
+    }
+    
+    public void fillSearchBox(String s) {
+        this.fillTextBox(browser.driver.findElement(By.id("results-search-box")), s);
     }
     
     public AppPage sortTableByGiver() {
@@ -119,6 +159,24 @@ public class InstructorFeedbackResultsPage extends AppPage {
         fillTextBox(commentEditForm.findElement(By.name("responsecommenttext")), newCommentText);
         commentEditForm.findElement(By.tagName("a")).click();
         ThreadHelper.waitFor(1000);
+    }
+    
+    public boolean verifyAllResultsPanelBodyVisibility(boolean visible){
+        for(WebElement e : browser.driver.findElements(By.cssSelector(".panel-heading+.panel-body"))){
+            if(e.isDisplayed() != visible){
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    public boolean verifyAllStatsVisibility(boolean visible){
+        for(WebElement e : browser.driver.findElements(By.cssSelector(".resultStatistics"))){
+            if(e.isDisplayed() != visible){
+                return false;
+            }
+        }
+        return true;
     }
     
     public void deleteFeedbackResponseComment(String commentIdSuffix) {

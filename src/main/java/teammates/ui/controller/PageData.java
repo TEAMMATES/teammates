@@ -275,6 +275,16 @@ public class PageData {
         return link;
     }
     
+    /**
+     * @return The relative path to the student profile page. 
+     * The user Id is encoded in the url as a parameter.
+     */
+    public String getStudentProfileLink() {
+        String link = Const.ActionURIs.STUDENT_PROFILE_PAGE;
+        link = addUserIdToUrl(link);
+        return link;
+    }
+    
     @SuppressWarnings("unused")
     private void ___________methods_to_generate_instructor_links(){
     //========================================================================    

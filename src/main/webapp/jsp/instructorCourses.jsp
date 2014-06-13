@@ -94,6 +94,9 @@
                         Course Name<span class="icon-sort unsorted"></span>
                     </th>
                     <th>
+                        Sections
+                    </th>
+                    <th>
                         Teams
                     </th>
                     <th>
@@ -114,6 +117,7 @@
                 <tr>
                     <td id="courseid<%=idx%>"><%=sanitizeForHtml(courseDetails.course.id)%></td>
                     <td id="coursename<%=idx%>"><%=sanitizeForHtml(courseDetails.course.name)%></td>
+                    <td class="align-center"><%=courseDetails.stats.sectionsTotal%></td>
                     <td class="t_course_teams align-center"><%=courseDetails.stats.teamsTotal%></td>
                     <td class="align-center"><%=courseDetails.stats.studentsTotal%></td>
                     <td class="align-center"><%=courseDetails.stats.unregisteredTotal%></td>
