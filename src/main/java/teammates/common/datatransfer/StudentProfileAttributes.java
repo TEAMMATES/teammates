@@ -65,16 +65,16 @@ public class StudentProfileAttributes extends EntityAttributes {
         if(!error.isEmpty()) { errors.add(error); }
         
         // accept empty string values as it means the user has not specified anything yet.
-        error = shortName == "" ? "" : validator.getInvalidityInfo(FieldValidator.FieldType.PERSON_NAME, shortName);
+        error = shortName.isEmpty() ? "" : validator.getInvalidityInfo(FieldValidator.FieldType.PERSON_NAME, shortName);
         if(!error.isEmpty()) { errors.add(error); }
         
-        error = email == "" ? "" : validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email);
+        error = email.isEmpty() ? "" : validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email);
         if(!error.isEmpty()) { errors.add(error); }
         
-        error = institute == "" ? "" : validator.getInvalidityInfo(FieldValidator.FieldType.INSTITUTE_NAME, institute);
+        error = institute.isEmpty() ? "" : validator.getInvalidityInfo(FieldValidator.FieldType.INSTITUTE_NAME, institute);
         if(!error.isEmpty()) { errors.add(error); }
         
-        error = country == "" ? "" : validator.getInvalidityInfo(FieldValidator.FieldType.COUNTRY, country);
+        error = country.isEmpty() ? "" : validator.getInvalidityInfo(FieldValidator.FieldType.COUNTRY, country);
         if(!error.isEmpty()) { errors.add(error); }
         
         error = validator.getInvalidityInfo(FieldValidator.FieldType.GENDER, gender);

@@ -46,7 +46,7 @@ public class AccountsDb extends EntitiesDb {
         // TODO: use createEntity once there is a proper way to add instructor accounts.
         try {
             // this is for legacy code to be handled
-            if (accountToAdd.studentProfile == null) {
+            if (accountToAdd != null && accountToAdd.studentProfile == null) {
                 accountToAdd.studentProfile = new StudentProfileAttributes();
                 accountToAdd.studentProfile.googleId = accountToAdd.googleId;
             }
@@ -149,7 +149,7 @@ public class AccountsDb extends EntitiesDb {
     
     public void updateAccount(AccountAttributes a) 
             throws InvalidParametersException, EntityDoesNotExistException {
-        if (a.studentProfile == null) {
+        if (a != null && a.studentProfile == null) {
             a.studentProfile = new StudentProfileAttributes();
             a.studentProfile.googleId = a.googleId;
         }
