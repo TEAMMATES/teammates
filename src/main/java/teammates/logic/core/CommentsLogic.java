@@ -74,6 +74,7 @@ public class CommentsLogic {
     
     public void updateComment(CommentAttributes comment)
             throws InvalidParametersException, EntityDoesNotExistException{
+        verifyIsCoursePresentForUpdateComments(comment.courseId);
         commentsDb.updateComment(comment);
     }
     
@@ -94,6 +95,14 @@ public class CommentsLogic {
         if (!coursesLogic.isCoursePresent(courseId)) {
             throw new EntityDoesNotExistException(
                     "Trying to get comments for a course that does not exist.");
+        }
+    }
+    
+    private void verifyIsCoursePresentForUpdateComments(String courseId)
+            throws EntityDoesNotExistException {
+        if (!coursesLogic.isCoursePresent(courseId)) {
+            throw new EntityDoesNotExistException(
+                    "Trying to update comments for a course that does not exist.");
         }
     }
     

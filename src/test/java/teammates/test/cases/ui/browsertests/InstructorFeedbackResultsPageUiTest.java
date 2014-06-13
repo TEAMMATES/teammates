@@ -188,12 +188,12 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("filter by section A");
 
         resultsPage.filterResponsesForSection("Section A");
-        resultsPage.verifyHtml("/instructorFeedbackResultsFilteredBySectionA.html");
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsFilteredBySectionA.html");
         
         ______TS("filter by section B, no responses");
         
         resultsPage.filterResponsesForSection("Section B");
-        resultsPage.verifyHtml("/instructorFeedbackResultsFilteredBySectionB.html");
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsFilteredBySectionB.html");
         
         resultsPage.filterResponsesForAllSections();
         
