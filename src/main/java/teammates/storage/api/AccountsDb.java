@@ -235,7 +235,13 @@ public class AccountsDb extends EntitiesDb {
                 return new StudentProfileAttributes(sp);
             }
         } catch (JDOObjectNotFoundException je) {
-            return null;
+            
+            Account a = getAccountEntity(accountGoogleId, true);
+            if (a == null) {
+                return null;
+            } else {
+                return new StudentProfileAttributes(a.getStudentProfile());
+            }
         }
     }
     

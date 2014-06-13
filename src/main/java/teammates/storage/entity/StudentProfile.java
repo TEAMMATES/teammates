@@ -90,13 +90,13 @@ public class StudentProfile {
 
     public StudentProfile(String googleId) {
         this.setGoogleId(googleId);
-        this.setShortName(null);
-        this.setEmail(null);
-        this.setInstitute(null);
-        this.setCountry(null);
-        this.setGender(null);
-        this.setMoreInfo(null);
-        this.setModifiedDate(null);
+        this.setShortName("");
+        this.setEmail("");
+        this.setInstitute("");
+        this.setCountry("");
+        this.setGender("other");
+        this.setMoreInfo("");
+        this.setModifiedDate(new Date());
     }
     
     public String getGoogleId() {
