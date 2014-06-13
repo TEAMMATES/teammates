@@ -249,10 +249,8 @@ public class FeedbackResponsesLogic {
                     break;
                 }
             default:
-                Assumption
-                        .fail("Invalid FeedbackPariticipantType for showNameTo in "
-                                +
-                                "FeedbackResponseLogic.isNameVisible()");
+                Assumption.fail("Invalid FeedbackPariticipantType for showNameTo in "
+                                + "FeedbackResponseLogic.isNameVisible()");
                 break;
             }
         }
@@ -262,7 +260,7 @@ public class FeedbackResponsesLogic {
     /**
      * Updates a {@link FeedbackResponse} based on it's {@code id}.<br>
      * If the giver/recipient field is changed, the {@link FeedbackResponse} is
-     * updated by by recreating the response<br>
+     * updated by recreating the response<br>
      * in order to prevent an id clash if the previous email is reused later on.
      */
     public void updateFeedbackResponse(
@@ -313,11 +311,8 @@ public class FeedbackResponsesLogic {
                 frDb.deleteEntity(oldResponse);
             } catch (EntityAlreadyExistsException e) {
                 log.warning("Trying to update an existing response to one that already exists.");
-                throw new EntityAlreadyExistsException(
-                        e.getMessage()
-                                + Const.EOL
-                                +
-                                "Trying to update recipient for response to one that already exists for this giver.");
+                throw new EntityAlreadyExistsException(e.getMessage() + Const.EOL
+                            + "Trying to update recipient for response to one that already exists for this giver.");
             }
         } else {
             frDb.updateFeedbackResponse(newResponse);
@@ -451,8 +446,7 @@ public class FeedbackResponsesLogic {
             } catch (EntityAlreadyExistsException e) {
                 Assumption
                         .fail("Feedback response failed to update successfully"
-                                +
-                                "as email was already in use.");
+                            + "as email was already in use.");
             }
         }
 
@@ -466,8 +460,7 @@ public class FeedbackResponsesLogic {
             } catch (EntityAlreadyExistsException e) {
                 Assumption
                         .fail("Feedback response failed to update successfully"
-                                +
-                                "as email was already in use.");
+                            + "as email was already in use.");
             }
         }
     }

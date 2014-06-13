@@ -28,10 +28,8 @@ public class InstructorFeedbackResultsPageAction extends Action {
         FeedbackSessionAttributes session = logic.getFeedbackSession(
                 feedbackSessionName, courseId);
         boolean isCreatorOnly = true;
-        new GateKeeper().verifyAccessible(
-                instructor,
-                session,
-                !isCreatorOnly);
+        
+        new GateKeeper().verifyAccessible(instructor, session, !isCreatorOnly);
 
         InstructorFeedbackResultsPageData data = new InstructorFeedbackResultsPageData(
                 account);
@@ -64,24 +62,29 @@ public class InstructorFeedbackResultsPageAction extends Action {
             data.showStats = new String("on");
             data.sortType = new String("recipient-giver-question");
             return createShowPageResult(
-                    Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION,
-                    data);
+                    Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION, data);
         }
 
         switch (data.sortType) {
         case "question":
-            return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION, data);
+            return createShowPageResult(
+                    Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION, data);
         case "recipient-giver-question":
-            return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION, data);
+            return createShowPageResult(
+                    Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION, data);
         case "giver-recipient-question":
-            return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_RECIPIENT_QUESTION, data);
+            return createShowPageResult(
+                    Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_RECIPIENT_QUESTION, data);
         case "recipient-question-giver":
-            return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_QUESTION_GIVER, data);
+            return createShowPageResult(
+                    Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_QUESTION_GIVER, data);
         case "giver-question-recipient":
-            return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_QUESTION_RECIPIENT, data);
+            return createShowPageResult(
+                    Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_QUESTION_RECIPIENT, data);
         default:
             data.sortType = "recipient-giver-question";
-            return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION, data);
+            return createShowPageResult(
+                    Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION, data);
         }
     }
 }
