@@ -94,7 +94,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         expectedSpa.modifiedDate = actualSpa.modifiedDate;
         
         assertEquals(expectedSpa.toString(), actualSpa.toString());
-        
+        accountsLogic.deleteAccountCascade("id");
     }
 
     private void testCreateAccount() throws Exception {
@@ -114,6 +114,8 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         
         accountsLogic.createAccount(accountToCreate);
         TestHelper.verifyPresentInDatastore(accountToCreate);
+        
+        accountsLogic.deleteAccountCascade("id");
         
         ______TS("invalid parameters exception case");
 
@@ -293,6 +295,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         
         accountsLogic.makeAccountInstructor("student2InCourse1");
         assertTrue(accountsLogic.isAccountAnInstructor("student2InCourse1"));
+        accountsLogic.downgradeInstructorToStudentCascade("student2InCourse1");
         
         accountsLogic.makeAccountInstructor("id-does-not-exist");
         assertFalse(accountsLogic.isAccountPresent("id-does-not-exist"));
@@ -440,6 +443,8 @@ public class AccountsLogicTest extends BaseComponentTestCase {
 
         // check if still instructor
         assertTrue(logic.isInstructor(correctStudentId));
+        
+        accountsLogic.deleteAccountCascade(correctStudentId);
     }
     
     private void testJoinCourseForInstructor() throws Exception {
@@ -486,6 +491,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         accountCreated = accountsLogic.getAccount(loggedInGoogleId);
         Assumption.assertNotNull(accountCreated);
         
+        accountsLogic.deleteAccountCascade(loggedInGoogleId);
         
         ______TS("success: instructor joined but account already exists");
         
@@ -525,6 +531,8 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         
         AccountAttributes instructorAccount = accountsLogic.getAccount(nonInstrAccount.googleId);
         assertEquals("National University of Singapore", instructorAccount.institute);
+        
+        accountsLogic.deleteAccountCascade(nonInstrAccount.googleId);
         
         
         ______TS("failure: instructor already joined");
