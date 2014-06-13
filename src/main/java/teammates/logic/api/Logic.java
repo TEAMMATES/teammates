@@ -28,6 +28,7 @@ import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.SectionDetailsBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.datatransfer.StudentResultBundle;
@@ -802,6 +803,57 @@ public class Logic {
     
         return studentsLogic.getStudentsForCourse(courseId);
     
+    }
+
+     /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     * @return Empty list if none found.
+     */
+    public List<StudentAttributes> getStudentsForSection(String section, String courseId)
+            throws EntityDoesNotExistException {
+
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, section);
+
+        return studentsLogic.getStudentsForSection(section, courseId);
+    }
+
+    /** 
+     * Preconditions: <br>
+     * * All parameters are non-null    
+     */
+    public List<String> getSectionsNameForCourse(String courseId)
+            throws EntityDoesNotExistException {
+
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+
+        return coursesLogic.getSectionsNameForCourse(courseId);
+    }
+
+    /** 
+     * Preconditions: <br>
+     * * All parameters are non-null    
+     */
+    public SectionDetailsBundle getSectionForCourse(String section, String courseId)
+            throws EntityDoesNotExistException {
+
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, section);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        
+        return coursesLogic.getSectionForCourse(section, courseId);
+    }
+
+    /** 
+     * Preconditions: <br>
+     * * All parameters are non-null    
+     */
+    public List<SectionDetailsBundle> getSectionsForCourse(String courseId)
+            throws EntityDoesNotExistException {
+
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+
+        return coursesLogic.getSectionsForCourse(courseId);
     }
 
     /**
@@ -1663,7 +1715,8 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
         
-        return feedbackSessionsLogic.getFeedbackSessionResultsForStudent(feedbackSessionName, courseId, userEmail);
+        return feedbackSessionsLogic.getFeedbackSessionResultsForStudent(
+                                        feedbackSessionName, courseId, userEmail);
     }
     
     /**
@@ -1679,7 +1732,8 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
         
-        return feedbackSessionsLogic.getFeedbackSessionResultsForInstructor(feedbackSessionName, courseId, userEmail);
+        return feedbackSessionsLogic.getFeedbackSessionResultsForInstructor(
+                                        feedbackSessionName, courseId, userEmail);
     }
     
     /**
@@ -1694,10 +1748,27 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
-        
+
         return feedbackSessionsLogic.getFeedbackSessionResultsForInstructor(feedbackSessionName, courseId, userEmail, roster, isIncludeResponseStatus);
     }
-    
+    /**
+     * Gets a question+response bundle for questions with responses that
+     * is visible to the instructor for a feedback session in a specific section.
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     */
+    public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorInSection(
+            String feedbackSessionName, String courseId, String userEmail, String section)
+                    throws UnauthorizedAccessException, EntityDoesNotExistException {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, section);
+
+        return feedbackSessionsLogic.getFeedbackSessionResultsForInstructorInSection(
+                                        feedbackSessionName, courseId, userEmail, section);
+    }
+
     @SuppressWarnings("unused")
     private void ____FEEDBACK_RESPONSE_level_methods_____________________________() {
     }

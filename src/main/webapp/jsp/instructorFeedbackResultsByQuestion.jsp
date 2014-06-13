@@ -65,6 +65,7 @@
                         out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, ""));
                     %>
                 </div>
+                <div class="panel-collapse">
                 <div class="panel-body padding-0">                
                     <div class="resultStatistics">
                         <%=questionDetails.getQuestionResultStatisticsHtml(responseEntries.getValue())%>
@@ -114,6 +115,7 @@
                             </tbody>
                         </table>
                     </div>
+                </div>
                 </div>
             </div>
             <%

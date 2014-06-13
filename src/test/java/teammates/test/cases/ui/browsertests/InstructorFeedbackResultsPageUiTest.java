@@ -41,6 +41,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
     public void testAll() throws Exception {
         testContent();
         testSortAction();
+        testFilterAction();
         testPanelsCollapseExpand();
         testShowStats();
         testSearchScript();
@@ -179,6 +180,22 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                 "Team 1{*}Team 2",
                 "Team 1{*}Team 1");
         
+        
+    }
+
+    public void testFilterAction() {
+
+        ______TS("filter by section A");
+
+        resultsPage.filterResponsesForSection("Section A");
+        resultsPage.verifyHtml("/instructorFeedbackResultsFilteredBySectionA.html");
+        
+        ______TS("filter by section B, no responses");
+        
+        resultsPage.filterResponsesForSection("Section B");
+        resultsPage.verifyHtml("/instructorFeedbackResultsFilteredBySectionB.html");
+        
+        resultsPage.filterResponsesForAllSections();
         
     }
     
