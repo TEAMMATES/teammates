@@ -19,6 +19,7 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentAttributesFactory;
 import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
+import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -51,6 +52,7 @@ public class StudentsLogic {
     private CoursesLogic coursesLogic = CoursesLogic.inst();
     private EvaluationsLogic evaluationsLogic = EvaluationsLogic.inst();
     private FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
+    private AccountsLogic accLogic = AccountsLogic.inst();
     
     private static Logger log = Utils.getLogger();
     
@@ -110,6 +112,12 @@ public class StudentsLogic {
 
     public List<StudentAttributes> getUnregisteredStudentsForCourse(String courseId) {
         return studentsDb.getUnregisteredStudentsForCourse(courseId);
+    }
+    
+    public StudentProfileAttributes getStudentProfile(String googleId) {
+        Assumption.assertNotNull(googleId);
+        
+        return accLogic.getStudentProfile(googleId);
     }
     
     public String getKeyForStudent(String courseId, String email) throws EntityDoesNotExistException {
