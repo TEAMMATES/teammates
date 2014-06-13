@@ -13,6 +13,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.Action;
@@ -58,6 +59,30 @@ public class BaseActionTest extends BaseComponentTestCase {
             list.add(s);
         }
         return list.toArray(new String[list.size()]);
+    }
+    
+    protected String[] createValidParamsForProfile() {
+        String[] submissionParams = new String[]{
+                Const.ParamsNames.STUDENT_SHORT_NAME, "short",
+                Const.ParamsNames.STUDENT_PROFILE_EMAIL, "e@email.com",
+                Const.ParamsNames.STUDENT_PROFILE_INSTITUTION, "NUS",
+                Const.ParamsNames.STUDENT_COUNTRY, "Switzerland",
+                Const.ParamsNames.STUDENT_GENDER, "other",
+                Const.ParamsNames.STUDENT_PROFILE_MOREINFO, "This is more info on me"
+        };
+        return submissionParams;
+    }
+    
+    protected String[] createInvalidParamsForProfile() {
+        String[] submissionParams = new String[]{
+                Const.ParamsNames.STUDENT_SHORT_NAME, "$$short",
+                Const.ParamsNames.STUDENT_PROFILE_EMAIL, "invalid.email",
+                Const.ParamsNames.STUDENT_PROFILE_INSTITUTION, "institute",
+                Const.ParamsNames.STUDENT_COUNTRY, "USA",
+                Const.ParamsNames.STUDENT_GENDER, "female",
+                Const.ParamsNames.STUDENT_PROFILE_MOREINFO, "This is more info on me"
+        };
+        return submissionParams;
     }
 
     protected String[] createParamsForTypicalEval(String courseId, String evalName) {
@@ -200,6 +225,13 @@ public class BaseActionTest extends BaseComponentTestCase {
      */
     @SuppressWarnings("unused")
     private void __________high_level_access_controll_checks(){};
+    
+    protected void verifyAnyRegisteredUserCanAccess(String[] submissionParams) throws Exception {
+        verifyUnaccessibleWithoutLogin(submissionParams);
+        verifyUnaccessibleForUnregisteredUsers(submissionParams);
+        verifyAccessibleForStudents(submissionParams);
+        verifyAccessibleForAdminToMasqueradeAsStudent(submissionParams);
+    }
     
     protected void verifyOnlyAdminsCanAccess(String[] submissionParams) throws Exception {
         verifyUnaccessibleWithoutLogin(submissionParams);
