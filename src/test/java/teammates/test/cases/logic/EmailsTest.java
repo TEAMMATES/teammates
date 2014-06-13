@@ -107,9 +107,7 @@ public class EmailsTest extends BaseComponentTestCase {
         s.key = "skxxxxxxxxxks";
         s.email = "student@email.com";
         
-        InstructorAttributes i = new InstructorAttributes();
-        i.name = "Instructor Name";
-        i.email = "instructr@email.com";
+        InstructorAttributes i = new InstructorAttributes("googleId2", "courseId3", "name", "instructr@email.com");
 
         ______TS("generic template, student yet to join");
 
@@ -263,9 +261,7 @@ public class EmailsTest extends BaseComponentTestCase {
         s.key = "skxxxxxxxxxks";
         s.email = "student@email.com";
         
-        InstructorAttributes i = new InstructorAttributes();
-        i.name = "Instructor Name";
-        i.email = "instructr@email.com";
+        InstructorAttributes i = new InstructorAttributes("googleId1", "courseId2", "name", "instructr@email.com");
 
         ______TS("generic template, student yet to join");
 
@@ -485,14 +481,10 @@ public class EmailsTest extends BaseComponentTestCase {
         s2.email = "student2@email.com";
         students.add(s2);
         
-        InstructorAttributes i1 = new InstructorAttributes();
-        i1.name = "Instructor1 Name";
-        i1.email = "instructor1@email.com";
+        InstructorAttributes i1 = new InstructorAttributes("googleId", "CourseId", "Instructor1 Name", "instructor1@email.com");
         instructors.add(i1);
         
-        InstructorAttributes i2 = new InstructorAttributes();
-        i2.name = "Instructor2 Name";
-        i2.email = "instructor2@email.com";
+        InstructorAttributes i2 = new InstructorAttributes("anotherId", "courseId2",  "Instructor2 Name",  "instructor2@email.com");
         instructors.add(i2);
         
         ______TS("evaluation opening emails");
@@ -563,11 +555,9 @@ public class EmailsTest extends BaseComponentTestCase {
         StudentAttributes s3 = new StudentAttributes();
         s3.email = "student3InCourse1@gmail.com";
         
-        InstructorAttributes i1 = new InstructorAttributes();
-        i1.email = "instructor1@course1.com";
+        InstructorAttributes i1 = new InstructorAttributes("googleId", "courseId1", "name", "instructor1@course1.com");
         
-        InstructorAttributes i2 = new InstructorAttributes();
-        i2.email = "instructor2@course1.com";
+        InstructorAttributes i2 = new InstructorAttributes("googleId", "courseId1", "name", "instructor1@course1.com");
         
         ______TS("feedback session opening emails");
 

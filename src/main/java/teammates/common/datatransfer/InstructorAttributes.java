@@ -79,10 +79,6 @@ public class InstructorAttributes extends EntityAttributes {
     public InstructorPrivileges getInstructorPrivilegesFromText() {
         return gson.fromJson(instructorPrivilegesAsText, InstructorPrivileges.class);
     }
-
-    public InstructorAttributes() {
-        
-    }
     
     public boolean isRegistered() {
         return googleId != null;
@@ -121,7 +117,7 @@ public class InstructorAttributes extends EntityAttributes {
     }
     
     public String toString(){
-        return Utils.getTeammatesGson().toJson(this,InstructorAttributes.class);
+        return gson.toJson(this,InstructorAttributes.class);
     }
 
     @Override
@@ -140,6 +136,15 @@ public class InstructorAttributes extends EntityAttributes {
         this.name = Sanitizer.sanitizeName(this.name);
         this.email = Sanitizer.sanitizeEmail(this.email);
         this.courseId = Sanitizer.sanitizeTitle(this.courseId);
-        
+        if (this.role == null) {
+            this.role = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+        }
+        if (this.displayedName == null) {
+            this.displayedName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+        }
+        if (this.instructorPrivilegesAsText == null) {
+            this.privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+            this.instructorPrivilegesAsText = this.getTextFromInstructorPrivileges();
+        }
     }
 }
