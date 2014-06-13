@@ -260,6 +260,10 @@ public class TestHelper extends BaseComponentTestCase{
                 frComment.giverEmail, frComment.createdAt));
     }
     
+    /**
+     * Only checks if the entity exists
+     * @param expectedAccount
+     */
     public static void verifyPresentInDatastore(AccountAttributes expectedAccount) {
         AccountAttributes actualAccount = logic.getAccount(expectedAccount.googleId);
         // Account when created by createInstructor may take up different values in NAME and EMAIL

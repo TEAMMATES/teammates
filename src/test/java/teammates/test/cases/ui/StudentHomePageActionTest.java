@@ -12,6 +12,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.logic.core.EvaluationsLogic;
@@ -87,6 +88,8 @@ public class StudentHomePageActionTest extends BaseActionTest {
         studentWithoutCourses.email = "googleId.without.courses@email.com";
         studentWithoutCourses.institute = "NUS";
         studentWithoutCourses.isInstructor = false;
+        studentWithoutCourses.studentProfile = new StudentProfileAttributes();
+        studentWithoutCourses.studentProfile.googleId = studentWithoutCourses.googleId;
         AccountsDb accountsDb = new AccountsDb();
         accountsDb.createAccount(studentWithoutCourses);
         assertNotNull(accountsDb.getAccount(studentWithoutCourses.googleId));
