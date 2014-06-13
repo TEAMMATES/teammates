@@ -135,12 +135,12 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         //already logged in
         restoreTestDataOnServer(testData);
         homePage.clickHomeTab();
-        homePage.verifyHtml("/InstructorHomeNewInstructorWithoutSampleCourse.html");
+        homePage.verifyHtmlMainContent("/InstructorHomeNewInstructorWithoutSampleCourse.html");
         
         testData = loadDataBundle("/InstructorHomePageUiTest2.json");
         restoreTestDataOnServer(testData);
         homePage.clickHomeTab();
-        homePage.verifyHtml("/InstructorHomeNewInstructorWithSampleCourse.html");
+        homePage.verifyHtmlMainContent("/InstructorHomeNewInstructorWithSampleCourse.html");
         
         
         ______TS("content: multiple courses");
@@ -366,7 +366,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         BackDoor.deleteCourse(courseId);
         
         homePage.clickHomeTab();
-        homePage.verifyHtml("/InstructorHomeHTMLEmpty.html");
+        homePage.verifyHtmlMainContent("/InstructorHomeHTMLEmpty.html");
         
     }
     
@@ -374,7 +374,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         ______TS("search student");
         homePage.searchForStudent("Alice").verifySearchKey("Alice");
         //Use {$test.instructor}
-        homePage.verifyHtml("/instructorHomeSearchStudent.html");
+        homePage.verifyHtmlMainContent("/instructorHomeSearchStudent.html");
         
         //go back to previous page because 'search' redirects to the 'StudentList' page.
         homePage.goToPreviousPage(InstructorHomePage.class);

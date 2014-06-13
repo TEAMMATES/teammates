@@ -54,12 +54,12 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("standard session results");
         
         resultsPage = loginToInstructorFeedbackSubmitPage("CFResultsUiT.instr", "Open Session", NO_STATUS_MESSAGE);
-        resultsPage.verifyHtml("/instructorFeedbackResultsPageOpen.html");
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageOpen.html");
         
         ______TS("empty session");
         
         resultsPage = loginToInstructorFeedbackSubmitPage("CFResultsUiT.instr", "Empty Session", NO_STATUS_MESSAGE);
-        resultsPage.verifyHtml("/instructorFeedbackResultsPageEmpty.html");
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageEmpty.html");
     }
     
     public void testSortAction(){
@@ -84,10 +84,10 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(12,"giver-1-recipient-1"));
         assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(12,"giver-1-recipient-1"));
 
-        resultsPage.verifyHtml("/instructorFeedbackResultsSortGiverRecipientQuestion.html");
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortGiverRecipientQuestion.html");
         
         resultsPage.displayByRecipientGiverQuestion();
-        resultsPage.verifyHtml("/instructorFeedbackResultsSortRecipientGiverQuestion.html");
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortRecipientGiverQuestion.html");
 
         assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(9,"giver-1-recipient-2"));
         assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(9,"giver-1-recipient-2"));
@@ -106,30 +106,30 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         
         resultsPage.displayByGiverQuestionRecipient();
-        resultsPage.verifyHtml("/instructorFeedbackResultsSortGiverQuestionRecipient.html");
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortGiverQuestionRecipient.html");
         
         resultsPage.displayByRecipientQuestionGiver();
-        resultsPage.verifyHtml("/instructorFeedbackResultsSortRecipientQuestionGiver.html");
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortRecipientQuestionGiver.html");
         
         //Sorted by team
         resultsPage.clickGroupByTeam();
         
         resultsPage.displayByGiverRecipientQuestion();
-        resultsPage.verifyHtml("/instructorFeedbackResultsSortGiverRecipientQuestionTeam.html");
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortGiverRecipientQuestionTeam.html");
 
         resultsPage.displayByRecipientGiverQuestion();
-        resultsPage.verifyHtml("/instructorFeedbackResultsSortRecipientGiverQuestionTeam.html");
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortRecipientGiverQuestionTeam.html");
         
         resultsPage.displayByGiverQuestionRecipient();
-        resultsPage.verifyHtml("/instructorFeedbackResultsSortGiverQuestionRecipientTeam.html");
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortGiverQuestionRecipientTeam.html");
         
         resultsPage.displayByRecipientQuestionGiver();
-        resultsPage.verifyHtml("/instructorFeedbackResultsSortRecipientQuestionGiverTeam.html");
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortRecipientQuestionGiverTeam.html");
         
         
         //By question
         resultsPage.displayByQuestion();
-        resultsPage.verifyHtml("/instructorFeedbackResultsSortQuestion.html");
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortQuestion.html");
         
         assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(9,""));
         assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(9,""));
@@ -221,7 +221,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         resultsPage.fillSearchBox("alice");
 
-        resultsPage.verifyHtml("/instructorFeedbackResultsSortQuestionSearch.html");
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortQuestionSearch.html");
         
         
     }

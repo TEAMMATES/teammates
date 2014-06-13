@@ -59,32 +59,32 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         ______TS("Awaiting session");
         
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Awaiting Session");
-        submitPage.verifyHtml("/instructorFeedbackSubmitPageAwaiting.html");
+        submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPageAwaiting.html");
         
         ______TS("Open session");
         
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
-        submitPage.verifyHtml("/instructorFeedbackSubmitPageOpen.html");
+        submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPageOpen.html");
         
         ______TS("Grace period session");
         
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Grace Period Session");
-        submitPage.verifyHtml("/instructorFeedbackSubmitPageGracePeriod.html");
+        submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPageGracePeriod.html");
         
         ______TS("Closed session");
         
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Closed Session");
-        submitPage.verifyHtml("/instructorFeedbackSubmitPageClosed.html");
+        submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPageClosed.html");
         
         ______TS("Empty session");
         
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Empty Session");                
-        submitPage.verifyHtml("/instructorFeedbackSubmitPageEmpty.html");
+        submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPageEmpty.html");
     
         ______TS("Private session");
         
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Private Session");
-        submitPage.verifyHtml("/instructorFeedbackSubmitPagePrivate.html");
+        submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPagePrivate.html");
     
     }
     
@@ -173,7 +173,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
                 "IFSubmitUiT.instr@gmail.com"));
         
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
-        submitPage.verifyHtml("/instructorFeedbackSubmitPagePartiallyFilled.html");
+        submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPagePartiallyFilled.html");
                 
         ______TS("edit existing response");        
         
@@ -259,7 +259,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertEquals("5", frNumscale.getAnswerString());
         
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
-        submitPage.verifyHtml("/instructorFeedbackSubmitPageFullyFilled.html");
+        submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPageFullyFilled.html");
     }
     
     /**
@@ -382,7 +382,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
 
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
-        submitPage.verifyHtml("/instructorFeedbackSubmitPageModified.html");
+        submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPageModified.html");
     }
 
     private FeedbackSubmitPage loginToInstructorFeedbackSubmitPage(
