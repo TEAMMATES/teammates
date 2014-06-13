@@ -78,9 +78,12 @@
         %>
 
         <%
-            if(currentTeam != null && !currentTeam.equals(data.bundle.getTeamNameForEmail(giverEmail))) {
+            if(currentTeam != null && !(data.bundle.getTeamNameForEmail(giverEmail)=="" ? currentTeam.equals(data.bundle.getNameForEmail(giverEmail)): currentTeam.equals(data.bundle.getTeamNameForEmail(giverEmail)))) {
                 currentTeam = data.bundle.getTeamNameForEmail(giverEmail);
                 newTeam = true;
+                if(currentTeam.equals("")){
+                    currentTeam = data.bundle.getNameForEmail(giverEmail);
+                }
         %>
                 </div>
                 </div>
@@ -89,6 +92,9 @@
             }
             if(groupByTeamEnabled == true && (currentTeam==null || newTeam==true)) {
                 currentTeam = data.bundle.getTeamNameForEmail(giverEmail);
+                if(currentTeam.equals("")){
+                    currentTeam = data.bundle.getNameForEmail(giverEmail);
+                }
                 newTeam = false;
                 Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> currentTeamResponses = teamResponses.get(currentTeam);
         %>
@@ -105,11 +111,13 @@
                                 <h3><%=currentTeam%> Given Responses Statistics </h3>
                                 <hr class="margin-top-0">
                                 <%
+                                    int numStatsShown = 0;
                                     for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> teamResponseEntries : currentTeamResponses.entrySet()) {
                                         FeedbackQuestionAttributes question = questions.get(teamResponseEntries.getKey().getId());
                                         FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
                                         String statsHtml = questionDetails.getQuestionResultStatisticsHtml(teamResponseEntries.getValue());
                                         if(statsHtml != ""){
+                                            numStatsShown++;
                                 %>
                                             <div class="panel panel-info">
                                                 <div class="panel-heading">
@@ -128,8 +136,11 @@
                                 <%
                                         }
                                     }
+                                    if(numStatsShown == 0){
                                 %>
+                                        <p class="text-color-gray"><i>No statistics available.</i></p>
                             <%
+                                    }
                                 }
                             %>
                             <%
