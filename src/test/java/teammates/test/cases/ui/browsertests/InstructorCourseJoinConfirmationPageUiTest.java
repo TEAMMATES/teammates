@@ -95,8 +95,9 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         browser.driver.get(joinLink);
         confirmationPage = createNewPage(browser, InstructorCourseJoinConfirmationPage.class);
         
-        //test content here to make test finish faster
+        // test content here to make test finish faster
         ______TS("test instructor confirmation page content");
+        // this test uses accounts from test.properties
         confirmationPage.verifyHtml("/instructorCourseJoinConfirmationHTML.html");
         
         instructorHome = confirmationPage.clickConfirmButton();
