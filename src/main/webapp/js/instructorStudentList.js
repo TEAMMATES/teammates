@@ -203,15 +203,8 @@ $(document).ready(function(){
     });
 
     $("th[id^=button_sortteam-]").each(function(){
-        var splitStr = $(this).attr("id").split('-');
-        var courseIdx = "";
-        for(var i = 1; i < splitStr.length; i++){
-            courseIdx += splitStr[i];
-            if(i < splitStr.length - 1){
-                courseIdx += '-';
-            } 
-        }
-        if(!$("#button_sortsection-" + courseIdx).length){
+        var col = $(this).parent().children().index($(this));
+        if(col == 0){
             toggleSort($(this), 1);
         }
     });

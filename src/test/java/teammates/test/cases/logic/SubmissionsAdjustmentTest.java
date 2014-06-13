@@ -277,6 +277,7 @@ public class SubmissionsAdjustmentTest extends
         StudentAttributes newStudent = new StudentAttributes();
         newStudent.section = "None";
         newStudent.team = "Team 1.1";
+        newStudent.section = "Section1";
         newStudent.course = "idOfTypicalCourse1";
         newStudent.email = "random@g";
         newStudent.name = "someName";
@@ -292,7 +293,7 @@ public class SubmissionsAdjustmentTest extends
         studentsLogic.createStudentCascadeWithSubmissionAdjustmentScheduled(newStudent);
         
         StudentEnrollDetails enrollDetails = new StudentEnrollDetails
-                (UpdateStatus.NEW, newStudent.course, newStudent.email, "", newStudent.team);
+                (UpdateStatus.NEW, newStudent.course, newStudent.email, "", newStudent.team, "", newStudent.section);
         
         ArrayList<StudentEnrollDetails> enrollList = new ArrayList<StudentEnrollDetails>();
         enrollList.add(enrollDetails);
@@ -328,11 +329,13 @@ public class SubmissionsAdjustmentTest extends
         assertTrue(oldNumberOfResponsesForSession != 0);
         
         String oldTeam = student.team;
+        String oldSection = student.section;
         String newTeam = "Team 1.2";
+        String newSection = "Section 2";
         student.team = newTeam;
         
         enrollDetails = new StudentEnrollDetails
-                (UpdateStatus.MODIFIED, student.course, student.email, oldTeam, newTeam);
+                (UpdateStatus.MODIFIED, student.course, student.email, oldTeam, newTeam, oldSection, newSection);
         enrollList = new ArrayList<StudentEnrollDetails>();
         enrollList.add(enrollDetails);
         enrollString = gsonBuilder.toJson(enrollList);
