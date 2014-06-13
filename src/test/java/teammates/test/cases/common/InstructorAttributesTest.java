@@ -12,6 +12,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
+import teammates.storage.entity.Instructor;
 import teammates.test.cases.BaseTestCase;
 
 public class InstructorAttributesTest extends BaseTestCase {
@@ -57,6 +58,36 @@ public class InstructorAttributesTest extends BaseTestCase {
                 instructor.role, instructor.displayedName, instructor.instructorPrivilegesAsText);
         
         assertEquals(privileges, instructor1.privileges);
+        
+        InstructorAttributes instructor2 = new InstructorAttributes(instructor.googleId, instructor.courseId, instructor.name, instructor.email,
+                instructor.role, instructor.displayedName, instructor1.privileges);
+        
+        assertEquals(instructor1.privileges, instructor2.privileges);
+        
+        Instructor entity = instructor2.toEntity();
+        InstructorAttributes instructor3 = new InstructorAttributes(entity);
+        
+        assertEquals(instructor2.googleId, instructor3.googleId);
+        assertEquals(instructor2.courseId, instructor3.courseId);
+        assertEquals(instructor2.name, instructor3.name);
+        assertEquals(instructor2.email, instructor3.email);
+        assertEquals(instructor2.role, instructor3.role);
+        assertEquals(instructor2.displayedName, instructor3.displayedName);
+        assertEquals(instructor2.privileges, instructor3.privileges);
+        
+        entity.setRole(null);
+        entity.setDisplayedName(null);
+        entity.setInstructorPrivilegeAsText(null);
+        InstructorAttributes instructor4 = new InstructorAttributes(entity);
+        
+        assertEquals(instructor2.googleId, instructor3.googleId);
+        assertEquals(instructor2.courseId, instructor3.courseId);
+        assertEquals(instructor2.name, instructor3.name);
+        assertEquals(instructor2.email, instructor3.email);
+        // default values for these
+        assertEquals(instructor2.role, instructor3.role);
+        assertEquals(instructor2.displayedName, instructor3.displayedName);
+        assertEquals(instructor2.privileges, instructor3.privileges);
     }
     
     @Test
@@ -66,6 +97,23 @@ public class InstructorAttributesTest extends BaseTestCase {
         
         instructor.googleId = null;
         assertFalse(instructor.isRegistered());     
+    }
+    
+    @Test
+    public void testToEntity() {
+        String googleId = "valid.googleId";
+        String courseId = "courseId";
+        String name = "name";
+        String email = "email@google.com";
+        String roleName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+        String displayedName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+        InstructorPrivileges privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+        InstructorAttributes instructor = new InstructorAttributes(googleId, courseId, name, email, roleName, displayedName, privileges);
+        String key = "randomKey";
+        instructor.key = key;
+        
+        Instructor entity = instructor.toEntity();
+        assertEquals(key, entity.getRegistrationKey());
     }
     
     @AfterClass
