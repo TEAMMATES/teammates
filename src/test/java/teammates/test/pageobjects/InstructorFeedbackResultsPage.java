@@ -83,6 +83,18 @@ public class InstructorFeedbackResultsPage extends AppPage {
         select.selectByVisibleText("Group by - Recipient > Question > Giver");
         waitForPageToLoad();
     }
+
+    public void filterResponsesForSection(String section) {
+        Select select = new Select(browser.driver.findElement(By.name(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION)));
+        select.selectByVisibleText(section);
+        waitForPageToLoad();
+    }
+
+    public void filterResponsesForAllSections() {
+        Select select = new Select(browser.driver.findElement(By.name(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION)));
+        select.selectByVisibleText("All");
+        waitForPageToLoad();
+    }
     
     public void displayByQuestion() {
         Select select = new Select(browser.driver.findElement(By.name(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE)));
