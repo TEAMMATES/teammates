@@ -1,6 +1,5 @@
 package teammates.ui.controller;
 
-import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -36,9 +35,8 @@ public class InstructorCourseInstructorAddAction extends Action {
         
         /* Process adding the instructor and setup status to be shown to user and admin */
         try {
-            logic.addInstructor(courseId, instructorName, instructorEmail);
+            logic.addInstructor(courseId, instructorName, instructorEmail, instructorRole);
             logic.sendRegistrationInviteToInstructor(courseId, instructorEmail);
-            InstructorPrivileges privileges = new InstructorPrivileges(instructorRole);
             
             statusToUser.add(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_ADDED,
                     instructorName, instructorEmail));

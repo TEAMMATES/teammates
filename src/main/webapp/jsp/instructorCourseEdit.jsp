@@ -50,7 +50,7 @@
                     class="btn btn-primary btn-xs pull-right" id="courseDeleteLink"
                     data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_DELETE%>"
                     onclick="return toggleDeleteCourseConfirmation('<%=data.course.id%>');"
-                    <% if (!data.instructorPermission.privileges.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE)) {%>
+                    <% if (!data.currentInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE)) {%>
                         style="display: none;"
                     <% } %>
                         >

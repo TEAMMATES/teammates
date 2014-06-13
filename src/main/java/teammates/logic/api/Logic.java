@@ -242,14 +242,16 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public void addInstructor(String courseId, String name, String email) 
+    public void addInstructor(String courseId, String name, String email, String role) 
             throws InvalidParametersException, EntityAlreadyExistsException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, name);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
+        
+        InstructorAttributes instructor = new InstructorAttributes(null, courseId, name, email, role, role, new InstructorPrivileges(role));
 
-        instructorsLogic.createInstructor(null, courseId, name, email);
+        instructorsLogic.createInstructor(instructor);
     }
     
     public void createInstructor(InstructorAttributes instructor) throws InvalidParametersException, EntityAlreadyExistsException {

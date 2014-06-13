@@ -152,4 +152,25 @@ public class InstructorAttributes extends EntityAttributes {
             this.instructorPrivilegesAsText = this.getTextFromInstructorPrivileges();
         }
     }
+    
+    public boolean isAllowedForPrivilege(String privilegeName) {
+        if (this.privileges == null) {
+            this.privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+        }
+        return this.privileges.isAllowedForPrivilege(privilegeName);
+    }
+    
+    public boolean isAllowedForPrivilege(String sectionId, String privilegeName) {
+        if (this.privileges == null) {
+            this.privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+        }
+        return this.privileges.isAllowedForPrivilege(sectionId, privilegeName);
+    }
+    
+    public boolean isAllowedForPrivilege(String sectionId, String sessionId, String privilegeName) {
+        if (this.privileges == null) {
+            this.privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+        }
+        return this.privileges.isAllowedForPrivilege(sectionId, sessionId, privilegeName);
+    }
 }

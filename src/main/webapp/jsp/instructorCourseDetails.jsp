@@ -88,18 +88,8 @@
                     <%
                         for (int i = 0; i < data.instructors.size(); i++){
                             InstructorAttributes instructor = data.instructors.get(i);
-                            String instructorInfo = instructor.name + " (" + instructor.email + ")";
-                            boolean isRoleFound = false;
-                            for (int j = 0; j < data.instructorPermissions.size(); j++) {
-                            	if (data.instructorPermissions.get(j).instructorEmail.equals(instructor.email)) {
-                                    instructorInfo = data.instructorPermissions.get(j).role + ": " + instructorInfo;
-                                    isRoleFound = true;
-                                    break;
-                                }
-                            }
-                            if (!isRoleFound) {
-                            	instructorInfo = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER + ": " + instructorInfo;   
-                            }
+                            String instructorRole = instructor.role == null ? Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER : instructor.role;
+                            String instructorInfo = instructorRole + ": " + instructor.name + " (" + instructor.email + ")";
                     %>
                         <%=sanitizeForHtml(instructorInfo)%><br><br>
                     <%
