@@ -45,6 +45,11 @@ public class AccountsDb extends EntitiesDb {
             throws InvalidParametersException {
         // TODO: use createEntity once there is a proper way to add instructor accounts.
         try {
+            // this is for legacy code to be handled
+            if (accountToAdd.studentProfile == null) {
+                accountToAdd.studentProfile = new StudentProfileAttributes();
+                accountToAdd.studentProfile.googleId = accountToAdd.googleId;
+            }
             createEntity(accountToAdd);
         } catch (EntityAlreadyExistsException e) {
             // We update the account instead if it already exists. This is due to how
@@ -144,6 +149,10 @@ public class AccountsDb extends EntitiesDb {
     
     public void updateAccount(AccountAttributes a) 
             throws InvalidParametersException, EntityDoesNotExistException {
+        if (a.studentProfile == null) {
+            a.studentProfile = new StudentProfileAttributes();
+            a.studentProfile.googleId = a.googleId;
+        }
         updateAccount(a, false);
     }
 
@@ -197,7 +206,9 @@ public class AccountsDb extends EntitiesDb {
             if (JDOHelper.isDeleted(account)) {
                 return null;
             } else if (retrieveStudentProfile) {
-                account.getStudentProfile();
+                if (account.getStudentProfile() == null) {
+                    account.setStudentProfile(new StudentProfile(account.getGoogleId()));
+                }
             }
             
             return account;
