@@ -193,7 +193,7 @@ public class LogicTest extends BaseComponentTestCase {
     public void testGetStudentProfile() throws Exception {
         String googleId = "test.googleId";
         StudentProfileAttributes expectedProfile = new StudentProfileAttributes(googleId, 
-                "", "", "NUS", "", "other", "");
+                "", "", "", "", "other", "");
         
         logic.createAccount(googleId, "Name", false, "email@gmail.com", "NUS");
         

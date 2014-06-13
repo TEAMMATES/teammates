@@ -156,7 +156,7 @@ public class BackDoorLogic extends Logic {
     }
 
     public String getAccountAsJson(String googleId) {
-        AccountAttributes accountData = getAccount(googleId);
+        AccountAttributes accountData = getAccount(googleId, true);
         return Utils.getTeammatesGson().toJson(accountData);
     }
     

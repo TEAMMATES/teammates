@@ -193,7 +193,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         
         StudentProfileAttributes actualSpa = studentsLogic.getStudentProfile(student1InCourse1.googleId);
         StudentProfileAttributes expectedSpa = new StudentProfileAttributes(student1InCourse1.googleId,
-                "", "", "", "", "other", "");
+                "Stud1", "i.m.stud1@gmail.com", "Georgia Tech", "U.S.A", "male", "I am just a student :P");
         
         // fill-in auto-generated and default values
         expectedSpa.institute = actualSpa.institute;

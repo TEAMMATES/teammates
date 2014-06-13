@@ -116,7 +116,7 @@ public class AccountsDb extends EntitiesDb {
             throw new InvalidParametersException(a.getInvalidityInfo());
         }
         
-        Account accountToUpdate = getAccountEntity(a.googleId, true);
+        Account accountToUpdate = getAccountEntity(a.googleId, updateStudentProfile);
 
         if (accountToUpdate == null) {
             closePM();
