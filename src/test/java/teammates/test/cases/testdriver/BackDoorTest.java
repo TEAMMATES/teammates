@@ -16,6 +16,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.InvalidParametersException;
@@ -181,6 +182,7 @@ public class BackDoorTest extends BaseTestCase {
         AccountAttributes testAccount = dataBundle.accounts.get("instructor1OfCourse1");
         verifyPresentInDatastore(testAccount);
         testAccount.name = "New name";
+        testAccount.institute = "NTU";
         BackDoor.editAccount(testAccount);
         verifyPresentInDatastore(testAccount);
     }
@@ -635,6 +637,12 @@ public class BackDoorTest extends BaseTestCase {
         AccountAttributes actualAccount = gson.fromJson(accountJsonString, AccountAttributes.class);
         // Ignore time field as it is stamped at the time of creation in testing
         actualAccount.createdAt = expectedAccount.createdAt;
+        
+        if (expectedAccount.studentProfile == null) {
+            expectedAccount.studentProfile = new StudentProfileAttributes();
+            expectedAccount.studentProfile.googleId = expectedAccount.googleId;
+        }
+        expectedAccount.studentProfile.modifiedDate = actualAccount.studentProfile.modifiedDate;
         assertEquals(gson.toJson(expectedAccount), gson.toJson(actualAccount));
     }
     

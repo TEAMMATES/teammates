@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import teammates.common.datatransfer.AccountAttributes;
@@ -60,7 +61,7 @@ public class BackDoorLogic extends Logic {
         for (AccountAttributes account : accounts.values()) {
             log.fine("API Servlet adding account :" + account.googleId);
             super.createAccount(account.googleId, account.name, account.isInstructor,
-                                    account.email, account.institute);
+                                    account.email, account.institute, account.studentProfile);
         }
 
         HashMap<String, CourseAttributes> courses = dataBundle.courses;
@@ -158,7 +159,7 @@ public class BackDoorLogic extends Logic {
     }
 
     public String getAccountAsJson(String googleId) {
-        AccountAttributes accountData = getAccount(googleId);
+        AccountAttributes accountData = getAccount(googleId, true);
         return Utils.getTeammatesGson().toJson(accountData);
     }
     

@@ -249,7 +249,18 @@ public class FeedbackSessionsLogic {
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructor(
             String feedbackSessionName, String courseId, String userEmail)
             throws EntityDoesNotExistException {
-        return getFeedbackSessionResultsForUser(feedbackSessionName, courseId, userEmail, UserType.Role.INSTRUCTOR);
+        return getFeedbackSessionResultsForUserInSection(
+                    feedbackSessionName, courseId, userEmail, UserType.Role.INSTRUCTOR, null);
+    }
+
+    /**
+     * Gets results of a feedback session to show to an instructor for a specific section 
+     */
+    public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorInSection(
+            String feedbackSessionName, String courseId, String userEmail, String section)
+            throws EntityDoesNotExistException {
+        return getFeedbackSessionResultsForUserInSection(
+                    feedbackSessionName, courseId, userEmail, UserType.Role.INSTRUCTOR, section);
     }
     
     /**
@@ -258,7 +269,8 @@ public class FeedbackSessionsLogic {
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForStudent(
             String feedbackSessionName, String courseId, String userEmail)
             throws EntityDoesNotExistException {
-        return getFeedbackSessionResultsForUser(feedbackSessionName, courseId, userEmail, UserType.Role.STUDENT);
+        return getFeedbackSessionResultsForUserInSection(
+                    feedbackSessionName, courseId, userEmail, UserType.Role.STUDENT, null);
     }
     
     public String getFeedbackSessionResultsSummaryAsCsv(
@@ -707,8 +719,8 @@ public class FeedbackSessionsLogic {
         return details;
     }
     
-    private FeedbackSessionResultsBundle getFeedbackSessionResultsForUser(
-            String feedbackSessionName, String courseId, String userEmail, UserType.Role role)
+    private FeedbackSessionResultsBundle getFeedbackSessionResultsForUserInSection(
+            String feedbackSessionName, String courseId, String userEmail, UserType.Role role, String section)
             throws EntityDoesNotExistException {
     
         FeedbackSessionAttributes session = fsDb.getFeedbackSession(
@@ -742,7 +754,7 @@ public class FeedbackSessionsLogic {
         Map<String, List<FeedbackResponseCommentAttributes>> responseComments = 
                 new HashMap<String, List<FeedbackResponseCommentAttributes>>();
     
-        FeedbackSessionResponseStatus responseStatus = getFeedbackSessionResponseStatus(session);
+        FeedbackSessionResponseStatus responseStatus = getFeedbackSessionResponseStatusInSection(session, section);
         
         boolean isPrivateSessionNotCreatedByThisUser = session.isPrivateSession() && !session.isCreator(userEmail);
         if (isPrivateSessionNotCreatedByThisUser) {
@@ -761,8 +773,8 @@ public class FeedbackSessionsLogic {
             if(isPrivateSessionCreatedByThisUser) {
                 responsesForThisQn = frLogic.getFeedbackResponsesForQuestion(question.getId());
             } else {
-                responsesForThisQn = frLogic.getViewableFeedbackResponsesForQuestion(
-                        question, userEmail, role);
+                responsesForThisQn = frLogic.getViewableFeedbackResponsesForQuestionInSection(
+                        question, userEmail, role, section);
             }
             
             boolean thisQuestionHasResponses = (!responsesForThisQn.isEmpty());
@@ -885,9 +897,11 @@ public class FeedbackSessionsLogic {
         return fsInCourse;
     }
 
-    private FeedbackSessionResponseStatus getFeedbackSessionResponseStatus(
-            FeedbackSessionAttributes fsa)
+    private FeedbackSessionResponseStatus getFeedbackSessionResponseStatusInSection(
+            FeedbackSessionAttributes fsa, String section)
             throws EntityDoesNotExistException {
+
+        boolean hasIndicatedSection = section != null;
 
         List<StudentAttributes> students = studentsLogic
                 .getStudentsForCourse(fsa.courseId);
@@ -907,13 +921,15 @@ public class FeedbackSessionsLogic {
             if (question.giverType == FeedbackParticipantType.STUDENTS ||
                     question.giverType == FeedbackParticipantType.TEAMS) {
                 for (StudentAttributes student : students) {
-                    responded = fqLogic.isQuestionAnsweredByUser(question, student.email, responses);
-                    responseStatus.add(question.getId(), student.name, responded);
+                    if(!hasIndicatedSection || student.section.equals(section)){
+                        responded = fqLogic.isQuestionAnsweredByUser(question, student.email, responses);
+                        responseStatus.add(question.getId(), student.name, responded);
+                    }
                 }
             } else if (question.giverType == FeedbackParticipantType.INSTRUCTORS) {
                 for (InstructorAttributes instructor : instructors) {
                     responded = fqLogic.isQuestionAnsweredByUser(question, instructor.email, responses);
-                    responseStatus.add(question.getId(), instructor.name, responded);
+                    responseStatus.add(question.getId(), instructor.name, responded);  
                 }
             }
         }
@@ -1006,23 +1022,7 @@ public class FeedbackSessionsLogic {
         }
         return true;
     }
-    
-    private boolean isFeedbackSessionFullyCompletedByTeam(String feedbackSessionName,
-            String courseId, String teamName)
-            throws EntityDoesNotExistException {
-
-        if (isFeedbackSessionExists(feedbackSessionName, courseId) == false) {
-            throw new EntityDoesNotExistException(
-                    "Trying to check a feedback session that does not exist.");
-        }
-
-        List<FeedbackQuestionAttributes> questions =
-                fqLogic.getFeedbackQuestionsForTeam(
-                        feedbackSessionName, courseId, teamName);
         
-        return questions.isEmpty();
-    }
-    
     /**
      * This method returns a list of feedback sessions which are relevant for a user.
      */

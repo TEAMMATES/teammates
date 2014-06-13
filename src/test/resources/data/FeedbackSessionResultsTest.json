@@ -122,6 +122,7 @@
       "email": "FSRTest.student1InCourse1@gmail.com",
       "name": "student1 In Course1",
       "team": "Team 1.1",
+      "section": "Section A",
       "googleId": "FSRTest.student1InCourse1",
       "comments" : "comment for student1InCourse1",
       "course" : "FSRTest.idOfTypicalCourse1"
@@ -131,6 +132,7 @@
       "name": "student2 In Course1",
       "googleId": "FSRTest.student2InCourse1",
       "team": "Team 1.1",
+      "section": "Section A",
       "comments" : "",
  	  "course" : "FSRTest.idOfTypicalCourse1"
     },
@@ -139,6 +141,7 @@
       "name": "student3 In Course1",
       "googleId": "FSRTest.student3InCourse1",
       "team": "Team 1.2",
+      "section": "Section B",
       "comments" : "",
       "course" : "FSRTest.idOfTypicalCourse1"
     },
@@ -147,6 +150,7 @@
       "name": "student4 In Course1",
       "googleId": "FSRTest.student4InCourse1",
       "team": "Team 1.2",
+      "section": "Section B",
       "comments" : "",
  	  "course" : "FSRTest.idOfTypicalCourse1"
     },
@@ -155,6 +159,7 @@
       "name": "student5 In Course1",
       "googleId": "FSRTest.student5InCourse1",
       "team": "Team 1.3",
+      "section": "Section B",
       "comments" : "",
       "course" : "FSRTest.idOfTypicalCourse1"
     },
@@ -163,6 +168,7 @@
       "name": "student6 In Course1",
       "googleId": "FSRTest.student5InCourse1",
       "team": "Team 1.4",
+      "section": "Section A",
       "comments" : "same googleId as student 5",
       "course" : "FSRTest.idOfTypicalCourse1"
     }
@@ -354,7 +360,9 @@
         "feedbackQuestionType" : "TEXT",
         "giverEmail" : "FSRTest.student1InCourse1@gmail.com",
         "recipientEmail" : "FSRTest.student1InCourse1@gmail.com",
-        "responseMetaData" : {"value" : "student self feedback."}
+        "responseMetaData" : {"value" : "student self feedback."},
+        "giverSection":"Section A",
+        "recipientSection":"Section A"
     },
     "qn2.resp1": {
         "feedbackSessionName" : "Standard feedback session",
@@ -363,7 +371,9 @@
         "feedbackQuestionType" : "TEXT",
         "giverEmail" : "FSRTest.student1InCourse1@gmail.com",
         "recipientEmail" : "FSRTest.student2InCourse1@gmail.com",
-        "responseMetaData" : {"value" : "student 1 feedback to student 2."}
+        "responseMetaData" : {"value" : "student 1 feedback to student 2."},
+        "giverSection":"Section A",
+        "recipientSection":"Section A"
     }, 
     "qn2.resp2": {
         "feedbackSessionName" : "Standard feedback session",
@@ -372,7 +382,9 @@
         "feedbackQuestionType" : "TEXT",
         "giverEmail" : "FSRTest.student6InCourse1@gmail.com",
         "recipientEmail" : "FSRTest.student3InCourse1@gmail.com",
-        "responseMetaData" : {"value" : "student 6 feedback to student 3."}
+        "responseMetaData" : {"value" : "student 6 feedback to student 3."},
+        "giverSection":"Section A",
+        "recipientSection":"Section B"
     }, 
     "qn2.resp3": {
         "feedbackSessionName" : "Standard feedback session",
@@ -381,7 +393,9 @@
         "feedbackQuestionType" : "TEXT",
         "giverEmail" : "FSRTest.student2InCourse1@gmail.com",
         "recipientEmail" : "FSRTest.student1InCourse1@gmail.com",
-        "responseMetaData" : {"value" : "student 2 feedback to student 1."}
+        "responseMetaData" : {"value" : "student 2 feedback to student 1."},
+        "giverSection":"Section A",
+        "recipientSection":"Section A"
     }, 
     "qn3.resp1": {
         "feedbackSessionName" : "Standard feedback session",
@@ -390,7 +404,9 @@
         "feedbackQuestionType" : "TEXT",
         "giverEmail" : "FSRTest.student1InCourse1@gmail.com",
         "recipientEmail" : "FSRTest.instr1@course1.com",
-        "responseMetaData" : {"value" : "student 1 feedback to instr 1."}
+        "responseMetaData" : {"value" : "student 1 feedback to instr 1."},
+        "giverSection":"Section A",
+        "recipientSection":"None"
     }, 
     "qn3.resp2": {
         "feedbackSessionName" : "Standard feedback session",
@@ -399,7 +415,9 @@
         "feedbackQuestionType" : "TEXT",
         "giverEmail" : "FSRTest.student3InCourse1@gmail.com",
         "recipientEmail" : "FSRTest.instr2@course1.com",
-        "responseMetaData" : {"value" : "student 3 feedback to instr 2."}
+        "responseMetaData" : {"value" : "student 3 feedback to instr 2."},
+        "giverSection":"Section B",
+        "recipientSection":"None"
     },
     "qn4.resp1": {
         "feedbackSessionName" : "Standard feedback session",
@@ -408,7 +426,9 @@
         "feedbackQuestionType" : "TEXT",
         "giverEmail" : "FSRTest.student5InCourse1@gmail.com",
         "recipientEmail" : "Team 1.2",
-        "responseMetaData" : {"value" : "student 5 feedback to Team 1.2."}
+        "responseMetaData" : {"value" : "student 5 feedback to Team 1.2."},
+        "giverSection":"Section B",
+        "recipientSection":"Section B"
     },
     "qn4.resp2": {
         "feedbackSessionName" : "Standard feedback session",
@@ -417,7 +437,9 @@
         "feedbackQuestionType" : "TEXT",
         "giverEmail" : "FSRTest.student1InCourse1@gmail.com",
         "recipientEmail" : "Team 1.3",
-        "responseMetaData" : {"value" : "student 1 feedback to Team 1.3."}
+        "responseMetaData" : {"value" : "student 1 feedback to Team 1.3."},
+        "giverSection":"Section A",
+        "recipientSection":"Section B"
     },
     "qn4.resp3": {
         "feedbackSessionName" : "Standard feedback session",
@@ -426,7 +448,9 @@
         "feedbackQuestionType" : "TEXT",
         "giverEmail" : "FSRTest.student2InCourse1@gmail.com",
         "recipientEmail" : "Team 1.4",
-        "responseMetaData" : {"value" : "extra response to Team 1.4."}
+        "responseMetaData" : {"value" : "extra response to Team 1.4."},
+        "giverSection":"Section A",
+        "recipientSection":"Section A"
     },
     "qn5.resp1": {
         "feedbackSessionName" : "Standard feedback session",
@@ -435,7 +459,9 @@
         "feedbackQuestionType" : "TEXT",
         "giverEmail" : "FSRTest.student2InCourse1@gmail.com",
         "recipientEmail" : "FSRTest.student4InCourse1@gmail.com",
-        "responseMetaData" : {"value" : "standard stu>stu, diff teams"}
+        "responseMetaData" : {"value" : "standard stu>stu, diff teams"},
+        "giverSection":"Section A",
+        "recipientSection":"Section B"
     },
     "qn6.resp1": {
         "feedbackSessionName" : "Standard feedback session",
@@ -444,7 +470,9 @@
         "feedbackQuestionType" : "TEXT",
         "giverEmail" : "FSRTest.instr1@course1.com",
         "recipientEmail" : "%GENERAL%",
-        "responseMetaData" : {"value" : "instr > all"}
+        "responseMetaData" : {"value" : "instr > all"},
+        "giverSection":"None",
+        "recipientSection":"None"
     },
     "qn7.resp1": {
         "feedbackSessionName" : "Standard feedback session",
@@ -453,7 +481,9 @@
         "feedbackQuestionType" : "TEXT",
         "giverEmail" : "FSRTest.student1InCourse1@gmail.com",
         "recipientEmail" : "FSRTest.student2InCourse1@gmail.com",
-        "responseMetaData" : {"value" : "team 1.1 > student (in own team)"}
+        "responseMetaData" : {"value" : "team 1.1 > student (in own team)"},
+        "giverSection":"Section A",
+        "recipientSection":"Section A"
     },
     "qn7.resp2": {
         "feedbackSessionName" : "Standard feedback session",
@@ -462,7 +492,9 @@
         "feedbackQuestionType" : "TEXT",
         "giverEmail" : "FSRTest.student2InCourse1@gmail.com",
         "recipientEmail" : "FSRTest.student4InCourse1@gmail.com",
-        "responseMetaData" : {"value" : "team 1.1 > student (in Team 1.2)"}
+        "responseMetaData" : {"value" : "team 1.1 > student (in Team 1.2)"},
+        "giverSection":"Section A",
+        "recipientSection":"Section B"
     },
     "qn8.resp1": {
         "feedbackSessionName" : "Standard feedback session",
@@ -471,7 +503,9 @@
         "feedbackQuestionType" : "TEXT",
         "giverEmail" : "FSRTest.student1InCourse1@gmail.com",
         "recipientEmail" : "Team 1.2",
-        "responseMetaData" : {"value" : "team 1.1 > team 1.2"}
+        "responseMetaData" : {"value" : "team 1.1 > team 1.2"},
+        "giverSection":"Section A",
+        "recipientSection":"Section B"
     },
     "qn8.resp2": {
         "feedbackSessionName" : "Standard feedback session",
@@ -480,7 +514,9 @@
         "feedbackQuestionType" : "TEXT",
         "giverEmail" : "FSRTest.student4InCourse1@gmail.com",
         "recipientEmail" : "Team 1.1",
-        "responseMetaData" : {"value" : "team 1.2 > team 1.1"}
+        "responseMetaData" : {"value" : "team 1.2 > team 1.1"},
+        "giverSection":"Section B",
+        "recipientSection":"Section A"
     },
     "p.qn1.resp1": {
         "feedbackSessionName" : "Private feedback session",
@@ -489,7 +525,9 @@
         "feedbackQuestionType" : "TEXT",
         "giverEmail" : "FSRTest.instr1@course1.com",
         "recipientEmail" : "FSRTest.instr1@course1.com",
-        "responseMetaData" : {"value" : "creator self feedback"}
+        "responseMetaData" : {"value" : "creator self feedback"},
+        "giverSection":"None",
+        "recipientSection":"None"
     },
     "p.qn2.resp1": {
         "feedbackSessionName" : "Private feedback session",
@@ -498,7 +536,9 @@
         "feedbackQuestionType" : "TEXT",
         "giverEmail" : "FSRTest.student1InCourse1@gmail.com",
         "recipientEmail" : "Team 1.2",
-        "responseMetaData" : {"value" : "feedback created before session became private"}
+        "responseMetaData" : {"value" : "feedback created before session became private"},
+        "giverSection":"Section A",
+        "recipientSection":"Section B"
     }
    }
    

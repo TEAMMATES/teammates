@@ -33,10 +33,16 @@ public class FeedbackResponse {
     
     @Persistent
     private String giverEmail;
-        
+    
+    @Persistent
+    private String giverSection;
+
     @Persistent
     private String receiver; //TODO: rename to receiverEmail, will require database conversion
     
+    @Persistent
+    private String receiverSection;
+
     @Persistent
     private Text answer; //TODO: rename to responseMetaData, will require database conversion
 
@@ -89,12 +95,28 @@ public class FeedbackResponse {
         this.giverEmail = giverEmail;
     }
 
+    public String getGiverSection() {
+        return giverSection;
+    }
+
+    public void setGiverSection(String giverSection) {
+        this.giverSection = giverSection;
+    }
+
     public String getRecipientEmail() {
         return receiver;
     }
 
     public void setRecipientEmail(String receiverEmail) {
         this.receiver = receiverEmail;
+    }
+
+    public String getRecipientSection() {
+        return receiverSection;
+    }
+
+    public void setRecipientSection(String recipientSection) {
+        this.receiverSection = recipientSection;
     }
 
     public Text getResponseMetaData() {
@@ -107,13 +129,15 @@ public class FeedbackResponse {
 
     public FeedbackResponse(String feedbackSessionName, String courseId,
             String feedbackQuestionId, FeedbackQuestionType feedbackQuestionType,
-            String giverEmail, String recipient, Text answer) {
+            String giverEmail, String giverSection, String recipient, String recipientSection, Text answer) {
         this.feedbackSessionName = feedbackSessionName;
         this.courseId = courseId;
         this.feedbackQuestionId = feedbackQuestionId;
         this.feedbackQuestionType = feedbackQuestionType;
         this.giverEmail = giverEmail;
+        this.giverSection = giverSection;
         this.receiver = recipient;
+        this.receiverSection = recipientSection;
         this.answer = answer;
                 
         this.feedbackResponseId = feedbackQuestionId + "%" + giverEmail + "%" + receiver;                                

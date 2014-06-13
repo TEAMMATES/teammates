@@ -23,10 +23,15 @@
                 <div class="collapse navbar-collapse" id="contentLinks">
                     <ul class="nav navbar-nav">
                         <li class="<%=data.getClass().toString().contains("StudentHome")?"active":""%>">
-                            <a data-link="studentHome" href="<%=data.getStudentHomeLink()%>">Home</a>
+                            <a id="studentHomeLink" data-link="studentHome" href="<%=data.getStudentHomeLink()%>">Home</a>
+                        </li>
+                        <li class="<%=data.getClass().toString().contains("StudentProfilePage")?"active":""%>">
+                            <a id="studentProfileLink" data-link="studentProfilePage" href="<%=data.getStudentProfileLink()%>">
+                                Profile<sup><span class="glyphicon glyphicon-star glyphicon-gold"></span></sup>
+                            </a>
                         </li>
                         <li class="<%=data.getClass().toString().contains("StudentHelp")?"active":""%>">
-                            <a class='nav help' href="/studentHelp.html" target="_blank">Help</a>
+                            <a id="studentHelpLink" class='nav' href="/studentHelp.html" target="_blank">Help</a>
                         </li>
                     </ul>
                     <ul class="nav navbar-nav pull-right">

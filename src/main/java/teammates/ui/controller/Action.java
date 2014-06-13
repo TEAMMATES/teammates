@@ -34,6 +34,9 @@ public abstract class Action {
     
     protected Logic logic;
     
+    /** This is used to ensure unregistered users don't access certain pages in the system */
+    public boolean isUnregistered = false;
+    
     /** This will be the admin user if the application is running under the masquerade mode. */
     public AccountAttributes loggedInUser;
     
@@ -86,6 +89,7 @@ public abstract class Action {
         loggedInUser = logic.getAccount(loggedInUserType.id);
         
         if(loggedInUser==null){ //Unregistered user
+            isUnregistered = true;
             loggedInUser = new AccountAttributes();
             loggedInUser.googleId = loggedInUserType.id;
         }
@@ -99,6 +103,7 @@ public abstract class Action {
         
         } else if (loggedInUserType.isAdmin) {
             //Allowing admin to masquerade as another user
+            isUnregistered = false;
             account = logic.getAccount(paramRequestedUserId);
             if(account==null){ //Unregistered user
                 account = new AccountAttributes();

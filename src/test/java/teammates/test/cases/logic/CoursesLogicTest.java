@@ -22,6 +22,7 @@ import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.datatransfer.EvaluationDetailsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -124,6 +125,8 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         a.email = i.email;
         a.institute = "NUS";
         a.isInstructor = false;
+        a.studentProfile = new StudentProfileAttributes();
+        a.studentProfile.googleId = i.googleId;
         accountsDb.createAccount(a);
         try {
             coursesLogic.createCourseAndInstructor(i.googleId, c.id, c.name);
@@ -429,7 +432,10 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
         ______TS("course without students");
 
-        AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true, "instructor@email.com", "National University Of Singapore"));
+        StudentProfileAttributes spa = new StudentProfileAttributes();
+        spa.googleId = "instructor1";
+        AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true, 
+                "instructor@email.com", "National University Of Singapore", spa));
         coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1");
         courseSummary = coursesLogic.getCourseSummary("course1");
         assertEquals("course1", courseSummary.course.id);
@@ -478,8 +484,12 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         assertEquals(0, courseSummary.sections.size()); 
        
         ______TS("course without students");
-
-        AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true, "instructor@email.com", "National University Of Singapore"));
+        
+        StudentProfileAttributes spa = new StudentProfileAttributes();
+        spa.googleId = "instructor1";
+        
+        AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true,
+                "instructor@email.com", "National University Of Singapore", spa));
         coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1");
         courseSummary = coursesLogic.getCourseSummaryWithoutStats("course1");
         assertEquals("course1", courseSummary.course.id);
@@ -533,7 +543,11 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         
         ______TS("course without students");
 
-        AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true, "instructor@email.com", "National University Of Singapore"));
+        StudentProfileAttributes spa = new StudentProfileAttributes();
+        spa.googleId = "instructor1";
+        
+        AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true, 
+                "instructor@email.com", "National University Of Singapore", spa));
         coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1");
         courseDetails = coursesLogic.getCourseDetails("course1");
         assertEquals("course1", courseDetails.course.id);
@@ -582,7 +596,11 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
         ______TS("course without students");
 
-        AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true, "instructor@email.com", "National University Of Singapore"));
+        StudentProfileAttributes spa = new StudentProfileAttributes();
+        spa.googleId = "instructor1";
+        
+        AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true, 
+                "instructor@email.com", "National University Of Singapore", spa));
         coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1");
         teams = coursesLogic.getTeamsForCourse("course1");
 
@@ -657,7 +675,11 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
         ______TS("course without students");
 
-        AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true, "instructor@email.com", "National University Of Singapore"));
+        StudentProfileAttributes spa = new StudentProfileAttributes();
+        spa.googleId = "instructor1";
+        
+        AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true, 
+                "instructor@email.com", "National University Of Singapore", spa));
         coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1");
         teamNum = coursesLogic.getNumberOfTeams("course1");
 
@@ -696,7 +718,11 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
         ______TS("course without students");
 
-        AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true, "instructor@email.com", "National University Of Singapore"));
+        StudentProfileAttributes spa = new StudentProfileAttributes();
+        spa.googleId = "instructor1";
+        
+        AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true, 
+                "instructor@email.com", "National University Of Singapore", spa));
         coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1");
         enrolledNum = coursesLogic.getTotalEnrolledInCourse("course1");
 
@@ -735,7 +761,11 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
         ______TS("course without students");
 
-        AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true, "instructor@email.com", "National University Of Singapore"));
+        StudentProfileAttributes spa = new StudentProfileAttributes();
+        spa.googleId = "instructor1";
+        
+        AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true, 
+                "instructor@email.com", "National University Of Singapore", spa));
         coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1");
         unregisteredNum = coursesLogic.getTotalUnregisteredInCourse("course1");
 

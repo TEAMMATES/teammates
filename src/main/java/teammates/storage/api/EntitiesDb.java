@@ -20,6 +20,7 @@ public abstract class EntitiesDb {
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Entity: ";
     public static final String ERROR_UPDATE_NON_EXISTENT_ACCOUNT = "Trying to update non-existent Account: ";
     public static final String ERROR_UPDATE_NON_EXISTENT_STUDENT = "Trying to update non-existent Student: ";
+    public static final String ERROR_UPDATE_NON_EXISTENT_STUDENT_PROFILE = "Trying to update non-existent Student Profile: ";
     public static final String ERROR_UPDATE_NON_EXISTENT_COURSE = "Trying to update non-existent Course: ";
     public static final String ERROR_UPDATE_NON_EXISTENT_INSTRUCTOR_PERMISSION = "Trying to update non-existing InstructorPermission: ";
     public static final String ERROR_UPDATE_TO_EXISTENT_INTRUCTOR_PERMISSION = "Trying to update to existent IntructorPermission: ";

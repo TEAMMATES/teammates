@@ -139,6 +139,8 @@ public class FieldValidatorTest extends BaseTestCase{
     @Test
     public void testGetValidityInfoForAllowedName() {
         
+        ______TS("null value");
+        
         String typicalFieldName = "name field";
         int typicalLength = 25;
         
@@ -149,6 +151,8 @@ public class FieldValidatorTest extends BaseTestCase{
             ignoreExpectedException(); 
         }
         
+        ______TS("typical success case");
+        
         int maxLength = 50;
         assertEquals("valid: typical length with valid characters", 
                 "",
@@ -156,6 +160,8 @@ public class FieldValidatorTest extends BaseTestCase{
                         typicalFieldName, 
                         maxLength, 
                         "Ýàn-B. s/o O'br, &2\t\n(~!@#$^*+_={}[]\\:;\"<>?)"));
+        
+        ______TS("failure: invalid characters");
         
         String nameContainInvalidChars = "Dr. Amy-Bén s/o O'&|% 2\t\n (~!@#$^*+_={}[]\\:;\"<>?)";
         assertEquals("invalid: typical length with invalid characters", 
@@ -167,6 +173,8 @@ public class FieldValidatorTest extends BaseTestCase{
                         maxLength, 
                         nameContainInvalidChars));
         
+        ______TS("failure: starts with non-alphanumeric character");
+        
         String nameStartedWithNonAlphaNumChar = "!Amy-Bén s/o O'&|% 2\t\n (~!@#$^*+_={}[]\\:;\"<>?)";
         assertEquals("invalid: typical length started with non-alphanumeric character", 
                 String.format(
@@ -177,12 +185,16 @@ public class FieldValidatorTest extends BaseTestCase{
                         maxLength, 
                         nameStartedWithNonAlphaNumChar));
         
+        ______TS("success: max length");
+        
         assertEquals("valid: max length", 
                 "",
                 validator.getValidityInfoForAllowedName(
                         typicalFieldName, 
                         maxLength, 
                         StringHelper.generateStringOfLength(maxLength)));
+        
+        ______TS("failure: too long");
         
         String tooLongName = StringHelper.generateStringOfLength(maxLength+1);
         assertEquals("invalid: too long", 
@@ -194,6 +206,8 @@ public class FieldValidatorTest extends BaseTestCase{
                         maxLength, 
                         tooLongName));
         
+        ______TS("failure: empty string");
+        
         String emptyValue = "";
         assertEquals("invalid: empty", 
                 String.format(
@@ -203,6 +217,8 @@ public class FieldValidatorTest extends BaseTestCase{
                         typicalFieldName, 
                         maxLength, 
                         emptyValue));
+        
+        ______TS("failure: untrimmed value");
         
         String untrimmedValue = " abc ";
         assertEquals("invalid: untrimmed", 
@@ -282,6 +298,39 @@ public class FieldValidatorTest extends BaseTestCase{
                 STUDENT_ROLE_COMMENTS_MAX_LENGTH, 
                 STUDENT_ROLE_COMMENTS_ERROR_MESSAGE, 
                 true);
+    }
+    
+    @Test
+    public void testGetValidityInfo_COUNTRY() {
+        runGenericTestCasesForCappedSizeStringTypeField(
+                FieldType.COUNTRY,
+                COUNTRY_MAX_LENGTH,
+                COUNTRY_ERROR_MESSAGE,
+                false);
+    }
+    
+    @Test
+    public void testGetValidityInfo_GENDER() {
+        verifyAssertError("null value", FieldType.GENDER, null);
+        
+        String validInput = "male";
+        String invalidInput = "random_value";
+        String emptyInput = "";
+        
+        testOnce("valid: accepted gender value",
+                FieldType.GENDER,
+                validInput,
+                "");
+        
+        testOnce("invalid: randomn gender value",
+                FieldType.GENDER,
+                invalidInput,
+                String.format(FieldValidator.GENDER_ERROR_MESSAGE, invalidInput));
+        
+        testOnce("invalid: empty string",
+                FieldType.GENDER,
+                emptyInput,
+                String.format(FieldValidator.GENDER_ERROR_MESSAGE, emptyInput));
     }
 
 
