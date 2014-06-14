@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import teammates.common.datatransfer.AccountAttributes;
@@ -76,14 +75,16 @@ public class BackDoorLogic extends Logic {
             if (instructor.googleId != null) {
                 log.fine("API Servlet adding instructor :" + instructor.googleId);
                 AccountAttributes existingAccount = getAccount(instructor.googleId);
-                //Hardcoding institute value because this is used for testing only
-                super.createInstructorAccount(instructor.googleId, instructor.courseId, 
-                        instructor.name, instructor.email, existingAccount==null? "National University of Singapore" : existingAccount.institute);
+                if (existingAccount != null) {
+                    super.createInstructor(instructor);
+                } else {
+                    super.createInstructorAccount(instructor.googleId, instructor.courseId, 
+                            instructor.name, instructor.email, existingAccount==null? "National University of Singapore" : existingAccount.institute);
+                    super.updateInstructorByGoogleId(instructor.googleId, instructor);
+                }
             } else {
                 log.fine("API Servlet adding instructor :" + instructor.email);
-                //Hardcoding institute value because this is used for testing only
-                super.instructorsLogic.createInstructor(instructor);
-                //TODO:may not need to access instructorsLogic here
+                super.createInstructor(instructor);
             }
         }
 

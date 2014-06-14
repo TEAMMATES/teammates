@@ -27,6 +27,7 @@ public class InstructorCourseEditPageAction extends Action {
         InstructorCourseEditPageData data = new InstructorCourseEditPageData(account);
         data.course = courseToEdit;
         data.instructorList = logic.getInstructorsForCourse(courseId);
+        data.currentInstructor = instructor;
         
         statusToAdmin = "instructorCourseEdit Page Load<br>"
                 + "Editing information for Course <span class=\"bold\">["
