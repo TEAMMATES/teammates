@@ -201,7 +201,11 @@ public class InstructorFeedbackResultsPage extends AppPage {
     public void verifyCommentRowContent(String commentRowIdSuffix, String commentText, String giverName) {
         WebElement commentRow = browser.driver.findElement(By.id("responseCommentRow" + commentRowIdSuffix));
         assertEquals(commentText, commentRow.findElement(By.id("plainCommentText" + commentRowIdSuffix)).getText());
-        assertTrue(commentRow.findElement(By.className("text-muted")).getText().contains(giverName));
+        try{
+            assertTrue(commentRow.findElement(By.className("text-muted")).getText().contains(giverName));
+        } catch (AssertionError e){
+            assertTrue(commentRow.findElement(By.className("text-muted")).getText().contains("you"));
+        }
     }
     
     public void verifyCommentFormErrorMessage(String commentTableIdSuffix, String errorMessage) {

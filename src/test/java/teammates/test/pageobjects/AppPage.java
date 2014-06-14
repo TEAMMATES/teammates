@@ -7,6 +7,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.io.StringReader;
 import java.lang.reflect.Constructor;
 import java.net.URL;
 
@@ -18,6 +20,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.params.ClientPNames;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.HttpParams;
+import org.cyberneko.html.parsers.DOMParser;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -29,6 +32,12 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.w3c.dom.NamedNodeMap;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+
+import com.gargoylesoftware.htmlunit.javascript.host.Document;
+import com.gargoylesoftware.htmlunit.javascript.host.Element;
 
 import teammates.common.util.Const;
 import teammates.common.util.FileHelper;
@@ -73,7 +82,7 @@ public abstract class AppPage {
     @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[4]/a")
     protected WebElement instructorStudentsTab;
     
-    @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[5]/a")
+    @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[6]/a")
     protected WebElement instructorHelpTab;
     
     @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[2]/li[1]/a")
@@ -572,12 +581,31 @@ public abstract class AppPage {
         }
         try {
             String actual = element.getAttribute("outerHTML");
-            String expected = FileHelper.readFile(filePath);
+            String expected = extractHtmlPartFromFile(by, filePath);
+            
             HtmlHelper.assertSameHtmlPart(actual, expected);            
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
         return this;
+    }
+
+    private String extractHtmlPartFromFile(By by, String filePath)
+            throws SAXException, IOException {
+        String byId = by.toString().split(":")[1].trim();
+        
+        DOMParser parser = new DOMParser();
+        parser.parse(new InputSource(filePath));
+        org.w3c.dom.Document htmlDoc = parser.getDocument();
+        org.w3c.dom.Element expectedElement = htmlDoc.getElementById(byId);
+        StringBuilder expectedHtml = new StringBuilder();
+        HtmlHelper.convertToStandardHtmlRecursively(expectedElement, "", expectedHtml, true);
+        
+        return expectedHtml.toString().replace("%20", " ")
+                .replace("%27", "'")
+                .replace("<#document", "")
+                .replace("   <html   </html>", "")
+                .replace("</#document>", "");
     }
     
     /**
@@ -615,9 +643,13 @@ public abstract class AppPage {
         String expectedString = "";
         
         try {
-            expectedString = FileHelper.readFile(filePath);
+            expectedString = extractHtmlPartFromFile(By.id("frameBodyWrapper"), filePath);
         } catch (FileNotFoundException e1) {
             e1.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         
         for(int i =0; i < maxRetryCount; i++) {
@@ -634,7 +666,7 @@ public abstract class AppPage {
         }
         
         
-        return verifyHtml(filePath);
+        return verifyHtmlMainContent(filePath);
     }
     
     /**
