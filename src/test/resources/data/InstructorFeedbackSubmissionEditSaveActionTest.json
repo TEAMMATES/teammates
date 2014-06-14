@@ -72,7 +72,7 @@
             "team":"Team 1.1",
             "googleId":"student1InCourse1",
             "comments":"comment for student1InCourse1",
-            "course":"idOfTypicalCourse1"
+            "course":"idOfCourse1"
         }
     },
     "feedbackSessions":{

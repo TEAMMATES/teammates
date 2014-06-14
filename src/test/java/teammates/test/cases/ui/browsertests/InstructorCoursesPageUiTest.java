@@ -115,7 +115,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         Url coursesUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE)
             .withUserId(testData.accounts.get("instructorWithoutCourses").googleId);
         coursesPage = loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
-        coursesPage.verifyHtml("/instructorCourseEmpty.html");
+        coursesPage.verifyHtmlMainContent("/instructorCourseEmpty.html");
         
         ______TS("multiple course");
         

@@ -9,6 +9,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Url;
@@ -58,7 +59,8 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         account.email = "AHPUiT.instr1@gmail.com";
         account.institute = "Institution";
         account.isInstructor = true;
-        
+        account.studentProfile = new StudentProfileAttributes();
+        account.studentProfile.googleId = account.googleId;
         BackDoor.deleteAccount(account.googleId);
         
         ______TS("action success : create instructor account with demo course");
@@ -85,6 +87,8 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         demoCourseId = account.googleId + "-demo";
         BackDoor.deleteAccount(account.googleId);
         
+        account.studentProfile = new StudentProfileAttributes();
+        account.studentProfile.googleId = account.googleId;
         homePage.createInstructor(account, false)
             .verifyStatus("Instructor AHPUiT Instrúctör has been successfully created");
         verifyAccountCreated(account);
@@ -104,6 +108,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         AccountAttributes actual = BackDoor.getAccountWithRetry(expected.googleId);
         assertNotNull(actual);
         expected.createdAt = actual.createdAt;
+        expected.studentProfile.modifiedDate = actual.studentProfile.modifiedDate;
         assertEquals(expected.toString(), actual.toString());
     }
 

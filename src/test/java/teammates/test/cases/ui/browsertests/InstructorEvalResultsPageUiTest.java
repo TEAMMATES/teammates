@@ -46,7 +46,7 @@ public class InstructorEvalResultsPageUiTest extends BaseUiTestCase {
         String evalName = testData.evaluations.get("First Eval").name;
         resultsPage = loginToResultsPage(instructorId, courseId, evalName);
         
-        resultsPage.verifyHtml("/instructorEvalResultsOpenEval.html");
+        resultsPage.verifyHtmlMainContent("/instructorEvalResultsOpenEval.html");
         
         //sort by name"
         
@@ -87,10 +87,10 @@ public class InstructorEvalResultsPageUiTest extends BaseUiTestCase {
         ______TS("contents: detailed views");
         
         resultsPage.showDetailsByReviewer()
-            .verifyHtml("/instructorEvalResultsOpenEvalByReviewer.html");
+            .verifyHtmlMainContent("/instructorEvalResultsOpenEvalByReviewer.html");
         
         resultsPage.showDetailsByReviewee()
-                .verifyHtml("/instructorEvalResultsOpenEvalByReviewee.html");
+                .verifyHtmlMainContent("/instructorEvalResultsOpenEvalByReviewee.html");
         
         //TODO: check 'To Top' link
         
@@ -135,7 +135,7 @@ public class InstructorEvalResultsPageUiTest extends BaseUiTestCase {
         
         ______TS("contents: summary view");
         
-        resultsPage.verifyHtml("/instructorEvalResultsPublishedEval.html");
+        resultsPage.verifyHtmlMainContent("/instructorEvalResultsPublishedEval.html");
         
         ______TS("action: download report");
         
@@ -149,7 +149,7 @@ public class InstructorEvalResultsPageUiTest extends BaseUiTestCase {
         ______TS("action: unpublish");
         
         resultsPage.unpublishAndCancel()
-            .verifyHtml("/instructorEvalResultsPublishedEval.html");
+            .verifyHtmlMainContent("/instructorEvalResultsPublishedEval.html");
         assertEquals(true, BackDoor.getEvaluation(courseId, evalName).published);
         
         InstructorEvalsPage evalsPage = resultsPage.unpublishAndConfirm();
@@ -171,12 +171,12 @@ public class InstructorEvalResultsPageUiTest extends BaseUiTestCase {
         
         ______TS("contents: summary view");
         
-        resultsPage.verifyHtml("/instructorEvalResultsClosedEval.html");
+        resultsPage.verifyHtmlMainContent("/instructorEvalResultsClosedEval.html");
         
         ______TS("action: publishing");
         
         resultsPage.publishAndCancel()
-            .verifyHtml("/instructorEvalResultsClosedEval.html");
+            .verifyHtmlMainContent("/instructorEvalResultsClosedEval.html");
         assertEquals(false, BackDoor.getEvaluation(courseId, evalName).published);
         
         InstructorEvalsPage evalsPage = resultsPage.publishAndConfirm();
@@ -198,15 +198,15 @@ public class InstructorEvalResultsPageUiTest extends BaseUiTestCase {
         
         ______TS("contents: summary view");
         
-        resultsPage.verifyHtml("/instructorEvalResultsP2PDisabled.html");
+        resultsPage.verifyHtmlMainContent("/instructorEvalResultsP2PDisabled.html");
         
         ______TS("contents: detailed views");
         
         resultsPage.showDetailsByReviewer()
-            .verifyHtml("/instructorEvalResultsP2PDisabledByReviewer.html");
+            .verifyHtmlMainContent("/instructorEvalResultsP2PDisabledByReviewer.html");
         
         resultsPage.showDetailsByReviewee()
-                .verifyHtml("/instructorEvalResultsP2PDisabledByReviewee.html");
+                .verifyHtmlMainContent("/instructorEvalResultsP2PDisabledByReviewee.html");
         
         //other content checking, link checking and action checking were 
         //  omitted because they were checked previously.

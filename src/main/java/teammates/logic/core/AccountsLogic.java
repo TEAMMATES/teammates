@@ -7,6 +7,7 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -64,7 +65,9 @@ public class AccountsLogic {
 
         // Create the Account if it does not exist
         if (accountsDb.getAccount(googleId) == null) {
-            AccountAttributes accountToAdd = new AccountAttributes(googleId, name, true, email, institute);
+            StudentProfileAttributes spa = new StudentProfileAttributes();
+            spa.googleId = googleId;
+            AccountAttributes accountToAdd = new AccountAttributes(googleId, name, true, email, institute, spa);
             createAccount(accountToAdd);
         } else {
             makeAccountInstructor(googleId);
@@ -72,7 +75,11 @@ public class AccountsLogic {
     }
 
     public AccountAttributes getAccount(String googleId) {
-        return accountsDb.getAccount(googleId);
+        return getAccount(googleId, false);
+    }
+
+    public AccountAttributes getAccount(String googleId, boolean retrieveStudentProfile) {
+        return accountsDb.getAccount(googleId, retrieveStudentProfile);
     }
     
     public boolean isAccountPresent(String googleId) {
@@ -111,8 +118,14 @@ public class AccountsLogic {
         return institute;
     }
 
-    public void updateAccount(AccountAttributes account) throws InvalidParametersException, EntityDoesNotExistException {
-        accountsDb.updateAccount(account);
+    public void updateAccount(AccountAttributes account)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        accountsDb.updateAccount(account, false);
+    }
+    
+    public void updateAccount(AccountAttributes account, boolean updateStudentProfile) 
+            throws InvalidParametersException, EntityDoesNotExistException {
+        accountsDb.updateAccount(account, updateStudentProfile);
     }
     
     public void joinCourseForStudent(String registrationKey, String googleId) 
@@ -247,7 +260,7 @@ public class AccountsLogic {
     }
 
     public void makeAccountNonInstructor(String googleId) {
-        AccountAttributes account = accountsDb.getAccount(googleId);
+        AccountAttributes account = accountsDb.getAccount(googleId, true);
         if (account != null) {
             account.isInstructor = false;
             try {
@@ -263,7 +276,7 @@ public class AccountsLogic {
 
     public void makeAccountInstructor(String googleId) {
         
-        AccountAttributes account = accountsDb.getAccount(googleId);
+        AccountAttributes account = accountsDb.getAccount(googleId, true);
         
         if (account != null) {
             account.isInstructor = true;
@@ -293,6 +306,11 @@ public class AccountsLogic {
         account.name = student.name;
         account.isInstructor = false;
         account.institute = getCourseInstitute(student.course);
+        
+        StudentProfileAttributes spa = new StudentProfileAttributes();
+        spa.googleId = student.googleId;
+        spa.institute = account.institute;
+        account.studentProfile = spa;
         accountsDb.createAccount(account);
     }
     
@@ -303,6 +321,11 @@ public class AccountsLogic {
         account.name = instructor.name;
         account.isInstructor = true;
         account.institute = getCourseInstitute(instructor.courseId);
+        
+        StudentProfileAttributes spa = new StudentProfileAttributes();
+        spa.googleId = instructor.googleId;
+        spa.institute = account.institute;
+        account.studentProfile = spa;
         accountsDb.createAccount(account);
     }
 
@@ -310,5 +333,15 @@ public class AccountsLogic {
         String frontPart = googleId.substring(0, googleId.length() / 3);
         String endPart = googleId.substring(2 * googleId.length() / 3);
         return frontPart + ".." + endPart;
+    }
+
+    public StudentProfileAttributes getStudentProfile(String googleId) {
+        return accountsDb.getStudentProfile(googleId);
+    }
+
+
+    public void updateStudentProfile(StudentProfileAttributes newStudentProfileAttributes) 
+            throws InvalidParametersException, EntityDoesNotExistException {
+        accountsDb.updateStudentProfile(newStudentProfileAttributes);
     }
 }

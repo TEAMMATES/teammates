@@ -64,7 +64,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         ______TS("page load");
         
         courseEditPage = getCourseEditPage();
-        courseEditPage.verifyHtml("/instructorCourseEdit.html" );
+        courseEditPage.verifyHtmlMainContent("/instructorCourseEdit.html" );
     }
     
     private void testEditInstructorLink() {
@@ -187,7 +187,8 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         
         ______TS("delete instructor successfully");
         courseEditPage.clickDeleteInstructorLinkAndConfirm();
-        courseEditPage.verifyHtmlMainContent("/instructorCourseEditDeleteInstructorSuccessful.html");
+        String expectedMsg = "The instructor has been deleted from the course.";
+        courseEditPage.verifyStatus(expectedMsg);
         
         ______TS("failed to delete the last instructor");
         courseEditPage.clickDeleteInstructorLinkAndConfirm();

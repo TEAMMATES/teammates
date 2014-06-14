@@ -19,7 +19,6 @@ import teammates.common.datatransfer.FeedbackQuestionType;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.logic.core.FeedbackQuestionsLogic;
@@ -30,6 +29,7 @@ import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.StudentsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
+import teammates.common.datatransfer.UserType;
 
 public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
     
@@ -115,15 +115,17 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
 
         restoreTypicalDataInDatastore();        
         responseToUpdate = getResponseFromDatastore("response1ForQ2S1C1");
-        
+  
         FeedbackResponseAttributes existingResponse = 
                 new FeedbackResponseAttributes(
                         responseToUpdate.feedbackSessionName, 
                         responseToUpdate.courseId, 
                         responseToUpdate.feedbackQuestionId, 
                         responseToUpdate.feedbackQuestionType, 
-                        responseToUpdate.giverEmail, 
-                        "student3InCourse1@gmail.com", 
+                        responseToUpdate.giverEmail,
+                        responseToUpdate.giverSection,
+                        "student3InCourse1@gmail.com",
+                        responseToUpdate.recipientSection,
                         responseToUpdate.responseMetaData);
         
         frLogic.createFeedbackResponse(existingResponse);
@@ -183,8 +185,8 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         // Add one more non-team response 
         FeedbackResponseAttributes responseToAdd = new FeedbackResponseAttributes("First feedback session",
                                                         "idOfTypicalCourse1", getQuestionFromDatastore("qn1InSession1InCourse1").getId(),
-                                                        FeedbackQuestionType.TEXT, studentToUpdate.email,
-                                                        studentToUpdate.email, new Text("New Response to self"));
+                                                        FeedbackQuestionType.TEXT, studentToUpdate.email, "Section 1",
+                                                        studentToUpdate.email, "Section 1", new Text("New Response to self"));
         frLogic.createFeedbackResponse(responseToAdd);
         
         // All these responses should be gone after he changes teams
@@ -238,27 +240,38 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testGetViewableResponsesForQuestion() throws Exception {
+    public void testGetViewableResponsesForQuestionInSection() throws Exception {
         restoreTypicalDataInDatastore();
         
         ______TS("success: GetViewableResponsesForQuestion - instructor");
         
         InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         FeedbackQuestionAttributes fq = getQuestionFromDatastore("qn3InSession1InCourse1"); 
-        List<FeedbackResponseAttributes> responses = frLogic.getViewableFeedbackResponsesForQuestion(fq, instructor.email, UserType.Role.INSTRUCTOR);
+        List<FeedbackResponseAttributes> responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, instructor.email, UserType.Role.INSTRUCTOR, null);
         
         assertEquals(responses.size(), 1);
+        
+        ______TS("success: GetViewableResponsesForQuestionInSection - instructor");
+        
+        fq = getQuestionFromDatastore("qn2InSession1InCourse1");
+        responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, instructor.email, UserType.Role.INSTRUCTOR, "Section 1");
+        
+        assertEquals(responses.size(), 3);
+        
+        responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, instructor.email, UserType.Role.INSTRUCTOR, "Section 2");
+        
+        assertEquals(responses.size(), 0);
 
         ______TS("success: GetViewableResponsesForQuestion - student");
         
         StudentAttributes student = typicalBundle.students.get("student1InCourse1");        
         fq = getQuestionFromDatastore("qn2InSession1InCourse1"); 
-        responses = frLogic.getViewableFeedbackResponsesForQuestion(fq, student.email, UserType.Role.STUDENT);
+        responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, student.email, UserType.Role.STUDENT, null);
         
         assertEquals(responses.size(), 2);
         
         fq = getQuestionFromDatastore("qn3InSession1InCourse1"); 
-        responses = frLogic.getViewableFeedbackResponsesForQuestion(fq, student.email, UserType.Role.STUDENT);
+        responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, student.email, UserType.Role.STUDENT, null);
         
         assertEquals(responses.size(), 1);
         
@@ -270,7 +283,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         fr.recipientEmail = student.email;
         frLogic.updateFeedbackResponse(fr);
         
-        responses = frLogic.getViewableFeedbackResponsesForQuestion(fq, student.email, UserType.Role.STUDENT);
+        responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, student.email, UserType.Role.STUDENT, null);
         
         assertEquals(responses.size(), 1);
         
@@ -288,27 +301,26 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
                         "nullCourse", 
                         existingResponse.feedbackQuestionId, 
                         existingResponse.feedbackQuestionType, 
-                        existingResponse.giverEmail, 
+                        existingResponse.giverEmail,
+                        "Section 1",
                         "nullRecipient@gmail.com", 
+                        "Section 1",
                         existingResponse.responseMetaData);
       
         frLogic.createFeedbackResponse(newResponse);
         student = typicalBundle.students.get("student2InCourse1");           
-        responses = frLogic.getViewableFeedbackResponsesForQuestion(fq, student.email, UserType.Role.STUDENT);
+        responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, student.email, UserType.Role.STUDENT, null);
         assertEquals(responses.size(), 4);
         
         
         ______TS("failure: GetViewableResponsesForQuestion invalid role");
         
         try {
-            frLogic.getViewableFeedbackResponsesForQuestion(fq, instructor.email, UserType.Role.ADMIN);
+            frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, instructor.email, UserType.Role.ADMIN, null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             assertEquals(e.getMessage(), "The role of the requesting use has to be Student or Instructor");
-        }
-        
-        
-        
+        }   
     }
     
     @Test

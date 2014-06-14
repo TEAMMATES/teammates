@@ -785,6 +785,12 @@
         "comment1":{
             "courseId":"ISR.CS2104",
             "giverEmail":"teammates.test@gmail.com",
+            "recipientType":"PERSON",
+            "recipients":["benny.c.tmms@gmail.com"],
+            "status": "FINAL",
+            "showCommentTo": [],
+            "showGiverNameTo": [],
+            "showRecipientNameTo": [],
             "receiverEmail":"benny.c.tmms@gmail.com",
             "createdAt":"2012-05-01 08:51 AM UTC",
             "commentText":{
@@ -795,6 +801,12 @@
         "comment2":{
             "courseId":"ISR.CS2104",
             "giverEmail":"teammates.test@gmail.com",
+            "recipientType":"PERSON",
+            "recipients":["benny.c.tmms@gmail.com"],
+            "status": "FINAL",
+            "showCommentTo": [],
+            "showGiverNameTo": [],
+            "showRecipientNameTo": [],
             "receiverEmail":"benny.c.tmms@gmail.com",
             "createdAt":"2012-06-01 07:20 PM UTC",
             "commentText":{

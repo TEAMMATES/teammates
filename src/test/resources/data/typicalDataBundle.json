@@ -75,7 +75,16 @@
             "name":"Student 1 in course 1",
             "isInstructor":false,
             "email":"sudent1inCourse1@gmail.com",
-            "institute":"National University of Singapore"
+            "institute":"National University of Singapore",
+            "studentProfile":{
+                "googleId":"student1InCourse1",
+                "shortName":"Stud1",
+                "email":"i.m.stud1@gmail.com",
+                "institute":"Georgia Tech",
+                "country":"U.S.A",
+                "gender":"male",
+                "moreInfo":"I am just a student :P"
+            }
         },
         "student2InCourse1":{
             "googleId":"student2InCourse1",
@@ -930,8 +939,9 @@
             "recipientEmail":"student1InCourse1@gmail.com",
             "responseMetaData":{
                 "value":"Student 1 self feedback."
-            }
-            
+            },
+            "giverSection":"Section 1",
+            "recipientSection":"Section 1" 
         },
         "response2ForQ1S1C1":{
             "feedbackSessionName":"First feedback session",
@@ -942,7 +952,9 @@
             "recipientEmail":"student2InCourse1@gmail.com",
             "responseMetaData":{
                 "value":"I'm cool'"
-            }
+            },
+            "giverSection":"Section 1",
+            "recipientSection":"Section 1" 
             
         },
         "response1ForQ2S1C1":{
@@ -954,7 +966,9 @@
             "recipientEmail":"student1InCourse1@gmail.com",
             "responseMetaData":{
                 "value":"Response from student 2 to student 1."
-            }
+            },
+            "giverSection":"Section 1",
+            "recipientSection":"Section 1" 
             
         },
         "response2ForQ2S1C1":{
@@ -966,7 +980,9 @@
             "recipientEmail":"student2InCourse1@gmail.com",
             "responseMetaData":{
                 "value":"Response from student 1 to student 2."
-            }
+            },
+            "giverSection":"Section 1",
+            "recipientSection":"Section 1" 
             
         },
         "response3ForQ2S1C1":{
@@ -978,7 +994,9 @@
             "recipientEmail":"student2InCourse1@gmail.com",
             "responseMetaData":{
                 "value":"Response from student 3 \"to\" student 2.\r\nMultiline test."
-            }
+            },
+            "giverSection":"Section 1",
+            "recipientSection":"Section 1" 
             
         },
         "response1ForQ3S1C1":{
@@ -990,7 +1008,9 @@
             "recipientEmail":"%GENERAL%",
             "responseMetaData":{
                 "value":"Good work, keep it up!"
-            }
+            },
+            "giverSection":"None",
+            "recipientSection":"None" 
             
         },
         "response1ForQ1S2C1":{
@@ -1002,7 +1022,9 @@
             "recipientEmail":"Team 1.2",
             "responseMetaData":{
                 "value":"Response from team 1 by (student 4) to team 1.2."
-            }
+            },
+            "giverSection":"Section 1",
+            "recipientSection":"Section 2" 
             
         },
         "response1GracePeriodFeedback":{
@@ -1014,7 +1036,9 @@
             "recipientEmail":"Team 1.2",
             "responseMetaData":{
                 "value":"Response from team 1 by (student 4) to team 1.2."
-            }
+            },
+            "giverSection":"Section 1",
+            "recipientSection":"Section 2" 
             
         },
         "response1Q2GracePeriodFeedback":{
@@ -1026,7 +1050,9 @@
             "recipientEmail":"instructor1@course1.com",
             "responseMetaData":{
                 "value":"Response from instructor to self."
-            }
+            },
+            "giverSection":"None",
+            "recipientSection":"None" 
             
         },
         "response1Q1ClosedPeriodFeedback":{
@@ -1038,7 +1064,9 @@
             "recipientEmail":"instructor1@course1.com",
             "responseMetaData":{
                 "value":"Response from Inst1 to self."
-            }
+            },
+            "giverSection":"None",
+            "recipientSection":"None" 
             
         },
         "response1ForQ2S2C1":{
@@ -1050,7 +1078,9 @@
             "recipientEmail":"student2InCourse1@gmail.com",
             "responseMetaData":{
                 "value":"Response from student 4 to team member (student 2)."
-            }
+            },
+            "giverSection":"Section 1",
+            "recipientSection":"Section 1" 
             
         },
         "response2ForQ2S2C1":{
@@ -1062,7 +1092,9 @@
             "recipientEmail":"student4InCourse1@gmail.com",
             "responseMetaData":{
                 "value":"Response from student 1 to team member (student 4)."
-            }
+            },
+            "giverSection":"Section 1",
+            "recipientSection":"Section 1" 
             
         },
         "response1ForQ1S2C2":{
@@ -1074,7 +1106,9 @@
             "recipientEmail":"Team 2.1",
             "responseMetaData":{
                 "value":"Response from instr to Team 2.1"
-            }
+            },
+            "giverSection":"None",
+            "recipientSection":"None" 
             
         },
         "response1ForQ1S1C2":{
@@ -1086,7 +1120,9 @@
             "recipientEmail":"student1InCourse2@gmail.com",
             "responseMetaData":{
                 "value":"Response from instr1InC2 to student1InC2."
-            }
+            },
+            "giverSection":"None",
+            "recipientSection":"None" 
             
         }
     },
@@ -1129,6 +1165,12 @@
         "comment1FromI1C1toS1C1":{
             "courseId":"idOfTypicalCourse1",
             "giverEmail":"instructor1@course1.com",
+            "recipientType":"PERSON",
+            "recipients":["student1InCourse1@gmail.com"],
+            "status": "FINAL",
+            "showCommentTo": [],
+            "showGiverNameTo": [],
+            "showRecipientNameTo": [],
             "receiverEmail":"student1InCourse1@gmail.com",
             "createdAt":"2012-04-01 11:59 PM UTC",
             "commentText":{
@@ -1139,6 +1181,12 @@
         "comment2FromI1C1toS1C1":{
             "courseId":"idOfTypicalCourse1",
             "giverEmail":"instructor1@course1.com",
+            "recipientType":"PERSON",
+            "recipients":["student1InCourse1@gmail.com"],
+            "status": "FINAL",
+            "showCommentTo": [],
+            "showGiverNameTo": [],
+            "showRecipientNameTo": [],
             "receiverEmail":"student1InCourse1@gmail.com",
             "createdAt":"2012-05-01 08:51 AM UTC",
             "commentText":{
@@ -1149,6 +1197,12 @@
         "comment1FromI3C1toS2C1":{
             "courseId":"idOfTypicalCourse1",
             "giverEmail":"instructor3@course1.com",
+            "recipientType":"PERSON",
+            "recipients":["student2InCourse1@gmail.com"],
+            "status": "FINAL",
+            "showCommentTo": [],
+            "showGiverNameTo": [],
+            "showRecipientNameTo": [],
             "receiverEmail":"student2InCourse1@gmail.com",
             "createdAt":"2012-06-01 07:20 PM UTC",
             "commentText":{
