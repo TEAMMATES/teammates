@@ -30,6 +30,7 @@ public class InstructorAttributes extends EntityAttributes {
     public String instructorPrivilegesAsText;
     public transient InstructorPrivileges privileges;
     
+    @Deprecated
     public InstructorAttributes(String googleId, String courseId, String name, String email) {
         this(googleId, courseId, name, email, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
                 Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
@@ -135,9 +136,9 @@ public class InstructorAttributes extends EntityAttributes {
     }
     
     public String toString(){
-        return gson.toJson(this,InstructorAttributes.class);
+        return gson.toJson(this, InstructorAttributes.class);
     }
-
+ 
     @Override
     public String getIdentificationString() {
         return this.courseId + "/" + this.email;
@@ -185,5 +186,19 @@ public class InstructorAttributes extends EntityAttributes {
             this.privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         }
         return this.privileges.isAllowedForPrivilege(sectionId, sessionId, privilegeName);
+    }
+    
+    /**
+     * pre-condition: instructorPrivilegesAsText and privileges should be non-null
+     * @param instructor
+     * @return
+     */
+    public boolean isEqualToAnotherInstructor(InstructorAttributes instructor) {
+        if (gson.toJson(this).equals(gson.toJson(instructor))){
+            return true;
+        } else {
+            return !this.instructorPrivilegesAsText.equals(instructor.instructorPrivilegesAsText)
+                    && this.privileges.equals(instructor.privileges);
+        }
     }
 }

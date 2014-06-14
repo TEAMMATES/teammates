@@ -371,6 +371,13 @@ public class Logic {
         return instructorsLogic.getInstructorsForCourse(courseId);
     }
     
+    public List<InstructorAttributes> getInstructorsWhoCanDeleteCourse(String courseId) {
+        
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        
+        return instructorsLogic.getInstructorsWhoCanDeleteCourse(courseId);
+    }
+    
     /**
      * Get the decrypted registration key for the instructor.
      * Preconditions: <br>
@@ -459,24 +466,6 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, instr);
             
         instructorsLogic.updateInstructorByGoogleId(googleId, instr);
-    }
-    
-    /**
-     * Update the Google ID and name of an instructor with the specific email.
-     * Preconditions: <br>
-     * * All parameters are non-null. 
-     * @param email
-     * @param instr InstructorAttributes object containing the details to be updated
-     * @throws InvalidParametersException
-     * @throws EntityDoesNotExistException
-     */
-    public void updateInstructorByEmail(String email, InstructorAttributes instr) 
-            throws InvalidParametersException, EntityDoesNotExistException {
-        
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, instr);
-        
-        instructorsLogic.updateInstructorByEmail(email, instr);
     }
     
     /**

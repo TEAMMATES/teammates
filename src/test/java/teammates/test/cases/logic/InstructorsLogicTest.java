@@ -1,8 +1,10 @@
 package teammates.test.cases.logic;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNull;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNull;
+import static org.testng.Assert.assertTrue;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.mail.internet.MimeMessage;
@@ -14,9 +16,11 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.InstructorsLogic;
@@ -50,8 +54,14 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         
         ______TS("success: add an instructor");
         
-        InstructorAttributes instr = new InstructorAttributes(
-                null, "test-course", "New Instructor", "ILT.instr@email.com");
+        String googleId = null;
+        String courseId = "test-course";
+        String name = "New Instructor";
+        String email = "ILT.instr@email.com";
+        String role = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+        String displayedName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+        InstructorPrivileges privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);      
+        InstructorAttributes instr = new InstructorAttributes(googleId, courseId, name, email, role, displayedName, privileges);
         
         instructorsLogic.createInstructor(null, instr.courseId, instr.name, instr.email);
         
@@ -217,13 +227,20 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(courseId);
         assertEquals(3, instructors.size());
         
-        InstructorAttributes instructor1 = instructorsDb.getInstructorForGoogleId(courseId, "idOfInstructor1OfCourse1");
-        InstructorAttributes instructor2 = instructorsDb.getInstructorForGoogleId(courseId, "idOfInstructor2OfCourse1");
-        InstructorAttributes instructor3 = instructorsDb.getInstructorForGoogleId(courseId, "idOfInstructor3");
+        HashMap<String, Boolean> idMap = new HashMap<String, Boolean>();
+        idMap.put("idOfInstructor1OfCourse1", false);
+        idMap.put("idOfInstructor2OfCourse1", false);
+        idMap.put("idOfInstructor3", false);
         
-        verifySameInstructor(instructor1, instructors.get(0));
-        verifySameInstructor(instructor2, instructors.get(1));
-        verifySameInstructor(instructor3, instructors.get(2));
+        for (InstructorAttributes i : instructors) {
+            if (idMap.containsKey(i.googleId)) {
+                idMap.put(i.googleId, true);
+            }
+        }
+        
+        assertTrue(idMap.get("idOfInstructor1OfCourse1").booleanValue());
+        assertTrue(idMap.get("idOfInstructor2OfCourse1").booleanValue());
+        assertTrue(idMap.get("idOfInstructor3").booleanValue());
         
         ______TS("failure: no instructors for a given course");
         
@@ -241,6 +258,39 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         } catch (AssertionError e){
             AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
         }
+    }
+    
+    @Test
+    public void testGetInstructorsWhoCanDeleteTheCourese() throws InvalidParametersException, EntityAlreadyExistsException {
+       
+        ______TS("success: get all instructors who can delete the course");
+
+        String googleId = "valid.fresh.id";
+        String courseId = "idOfTypicalCourse1";
+        String name = "valid.name";
+        String email = "valid@email.com";
+        String role = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER;
+        String displayedName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER;
+        InstructorPrivileges privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER);
+        InstructorAttributes instructorToAdd = new InstructorAttributes(googleId, courseId, name, email, role, displayedName, privileges);
+        
+        instructorsLogic.createInstructor(instructorToAdd);
+        
+        List<InstructorAttributes> instructors = instructorsLogic.getInstructorsWhoCanDeleteCourse(courseId);
+        assertEquals(2, instructors.size());
+        
+        HashMap<String, Boolean> idMap = new HashMap<String, Boolean>();
+        idMap.put("idOfInstructor1OfCourse1", false);
+        idMap.put("idOfInstructor3", false);
+        
+        for (InstructorAttributes i : instructors) {
+            if (idMap.containsKey(i.googleId)) {
+                idMap.put(i.googleId, true);
+            }
+        }
+        
+        assertTrue(idMap.get("idOfInstructor1OfCourse1").booleanValue());
+        assertTrue(idMap.get("idOfInstructor3").booleanValue());
     }
 
     @Test

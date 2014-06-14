@@ -51,7 +51,7 @@
                     data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_DELETE%>"
                     onclick="return toggleDeleteCourseConfirmation('<%=data.course.id%>');"
                     <% if (!data.currentInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE)) {%>
-                        style="display: none;"
+                        disabled="disabled"
                     <% } %>
                         >
                     <span class="glyphicon glyphicon-trash"></span>
