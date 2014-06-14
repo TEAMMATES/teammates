@@ -15,6 +15,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -42,7 +43,14 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         
         ______TS("Success: create an instructor");
         
-        InstructorAttributes i = new InstructorAttributes("valid.fresh.id", "valid.course.Id", "valid.name", "valid@email.com");
+        String googleId = "valid.fresh.id";
+        String courseId = "valid.course.Id";
+        String name = "valid.name";
+        String email = "valid@email.com";
+        String role = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+        String displayedName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+        InstructorPrivileges privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+        InstructorAttributes i = new InstructorAttributes(googleId, courseId, name, email, role, displayedName, privileges);
         
         instructorsDb.deleteEntity(i);
         instructorsDb.createEntity(i);
@@ -458,13 +466,19 @@ public class InstructorsDbTest extends BaseComponentTestCase {
     
     private InstructorAttributes createNewInstructor() throws InvalidParametersException {
         
-        InstructorAttributes i = new InstructorAttributes("InstrDbT.valid.id", "InstrDbT.valid.course", "InstrDbT.valid.name", "InstrDbT.valid@email.com");
+        String googleId = "valid.fresh.id";
+        String courseId = "valid.course.Id";
+        String name = "valid.name";
+        String email = "valid@email.com";
+        String role = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+        String displayedName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+        InstructorPrivileges privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+        InstructorAttributes i = new InstructorAttributes(googleId, courseId, name, email, role, displayedName, privileges);
         i.key = "InstrDbT.validKey";
         
         try {
             instructorsDb.createEntity(i);
         } catch (EntityAlreadyExistsException e) {
-            // Okay if it already exists
             ignoreExpectedException();
         }
         
