@@ -21,27 +21,6 @@ public class InstructorAttributesTest extends BaseTestCase {
     public static void setupClass() throws Exception {
         printTestClassHeader();
     }
-
-    @Test
-    public void testValidate() {
-        
-        InstructorAttributes i = new InstructorAttributes("valid.google.id", "valid-course-id", "valid name", "valid@email.com");
-        
-        assertEquals(true, i.isValid());
-        
-        i.googleId = "invalid@google@id";
-        i.name = "";
-        i.email = "invalid email";
-        i.courseId = "";
-        
-        assertEquals("invalid value", false, i.isValid());
-        String errorMessage = 
-                String.format(GOOGLE_ID_ERROR_MESSAGE, i.googleId, REASON_INCORRECT_FORMAT) + EOL 
-                + String.format(COURSE_ID_ERROR_MESSAGE, i.courseId, REASON_EMPTY) + EOL 
-                + String.format(PERSON_NAME_ERROR_MESSAGE, i.name, REASON_EMPTY)+ EOL
-                + String.format(EMAIL_ERROR_MESSAGE, i.email, REASON_INCORRECT_FORMAT);  
-        assertEquals("invalid value", errorMessage, StringHelper.toString(i.getInvalidityInfo()));
-    }
     
     @Test
     public void testConstructor() {
@@ -114,6 +93,37 @@ public class InstructorAttributesTest extends BaseTestCase {
         
         Instructor entity = instructor.toEntity();
         assertEquals(key, entity.getRegistrationKey());
+    }
+    
+    @Test
+    public void testGetInvalidityInfo() {
+        
+        InstructorAttributes i = new InstructorAttributes("valid.google.id", "valid-course-id", "valid name", "valid@email.com");
+        
+        assertEquals(true, i.isValid());
+        
+        i.googleId = "invalid@google@id";
+        i.name = "";
+        i.email = "invalid email";
+        i.courseId = "";
+        
+        assertEquals("invalid value", false, i.isValid());
+        String errorMessage = 
+                String.format(GOOGLE_ID_ERROR_MESSAGE, i.googleId, REASON_INCORRECT_FORMAT) + EOL 
+                + String.format(COURSE_ID_ERROR_MESSAGE, i.courseId, REASON_EMPTY) + EOL 
+                + String.format(PERSON_NAME_ERROR_MESSAGE, i.name, REASON_EMPTY)+ EOL
+                + String.format(EMAIL_ERROR_MESSAGE, i.email, REASON_INCORRECT_FORMAT);  
+        assertEquals("invalid value", errorMessage, StringHelper.toString(i.getInvalidityInfo()));
+        
+        i.googleId = null;
+        
+        assertEquals("invalid value", false, i.isValid());
+        errorMessage = 
+                String.format(COURSE_ID_ERROR_MESSAGE, i.courseId, REASON_EMPTY) + EOL 
+                + String.format(PERSON_NAME_ERROR_MESSAGE, i.name, REASON_EMPTY)+ EOL
+                + String.format(EMAIL_ERROR_MESSAGE, i.email, REASON_INCORRECT_FORMAT);  
+        assertEquals("invalid value", errorMessage, StringHelper.toString(i.getInvalidityInfo()));
+        
     }
     
     @AfterClass
