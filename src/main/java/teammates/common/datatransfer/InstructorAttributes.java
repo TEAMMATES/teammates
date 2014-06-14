@@ -189,7 +189,7 @@ public class InstructorAttributes extends EntityAttributes {
     }
     
     /**
-     * pre-condition: all properties should be non-null with exception of key
+     * pre-condition: instructorPrivilegesAsText and privileges should be non-null
      * @param instructor
      * @return
      */
@@ -197,16 +197,8 @@ public class InstructorAttributes extends EntityAttributes {
         if (gson.toJson(this).equals(gson.toJson(instructor))){
             return true;
         } else {
-            boolean areOtherAttrSame = this.googleId.equals(instructor.googleId) &&
-                    this.courseId.equals(instructor.courseId) &&
-                    this.name.equals(instructor.name) &&
-                    this.email.equals(instructor.email) &&
-                    this.role.equals(instructor.role) &&
-                    this.displayedName.equals(instructor.displayedName) &&
-                    this.privileges.equals(instructor.privileges);
-            boolean areKeySame = (this.key == null && instructor.key == null) || (!(this.key == null)) || (this.key.equals(instructor.key));
-            
-            return areOtherAttrSame && areKeySame;
+            return !this.instructorPrivilegesAsText.equals(instructor.instructorPrivilegesAsText)
+                    && this.privileges.equals(instructor.privileges);
         }
     }
 }
