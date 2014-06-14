@@ -286,16 +286,6 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         assertEquals(instructorToEdit.name, instructorUpdated.name);
         assertEquals(instructorToEdit.email, instructorUpdated.email);
         
-        ______TS("Success: update an instructor");
-
-        instructorToEdit.name = "New Name";
-        instructorToEdit.email = "InstrDbT.new-email@email.com";
-        instructorsDb.updateInstructorByGoogleId(instructorToEdit);
-        
-        instructorUpdated = instructorsDb.getInstructorForGoogleId(instructorToEdit.courseId, instructorToEdit.googleId);
-        assertEquals(instructorToEdit.name, instructorUpdated.name);
-        assertEquals(instructorToEdit.email, instructorUpdated.email);
-        
         ______TS("Failure: invalid parameters");
         
         instructorToEdit.name = "";
@@ -369,9 +359,9 @@ public class InstructorsDbTest extends BaseComponentTestCase {
 
         instructorToEdit.googleId = "idOfInstructor4";
         instructorToEdit.name = "New Name 2";
-        instructorToEdit.email = "InstrDbT.new-email2@email.com";
+        instructorToEdit.email = "newEmail@email.com";
         try {
-            instructorsDb.updateInstructorByGoogleId(instructorToEdit);
+            instructorsDb.updateInstructorByEmail(instructorToEdit);
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
             AssertHelper.assertContains(
