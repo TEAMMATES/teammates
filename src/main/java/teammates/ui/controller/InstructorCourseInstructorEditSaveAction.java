@@ -1,5 +1,7 @@
 package teammates.ui.controller;
 
+import java.util.List;
+
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -62,9 +64,11 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
         instructorToEdit.role = Sanitizer.sanitizeName(instructorRole);
         // TODO: remove this hard-coded thing!
         instructorToEdit.displayedName = "Co-owner";
-        boolean isOnlyOneInstructorLeft = logic.getInstructorsForCourse(courseId).size() == 1;
+        List<InstructorAttributes> instructors = logic.getInstructorsWhoCanDeleteCourse(courseId);
+        boolean thisOneIsOnlyInstructorCanDelete = instructors.size() == 1 
+                && instructors.get(0).googleId.equals(instructorToEdit.googleId);
         instructorToEdit.privileges = new InstructorPrivileges(instructorRole);
-        if (isOnlyOneInstructorLeft) {
+        if (thisOneIsOnlyInstructorCanDelete) {
             instructorToEdit.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, true);
         }
         instructorToEdit.instructorPrivilegesAsText = instructorToEdit.getTextFromInstructorPrivileges();

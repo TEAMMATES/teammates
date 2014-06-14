@@ -1,5 +1,6 @@
 package teammates.logic.core;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -11,6 +12,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
+import teammates.common.util.Const;
 import teammates.common.util.Utils;
 import teammates.storage.api.InstructorsDb;
 
@@ -83,6 +85,19 @@ public class InstructorsLogic {
     public List<InstructorAttributes> getInstructorsForCourse(String courseId) {
         
         return instructorsDb.getInstructorsForCourse(courseId);
+    }
+    
+    public List<InstructorAttributes> getInstructorsWhoCanDeleteCourse(String courseId) {
+        List<InstructorAttributes> instructorsForCourse = this.getInstructorsForCourse(courseId);
+        List<InstructorAttributes> instructorsCanDelete = new ArrayList<InstructorAttributes>();
+        
+        for (InstructorAttributes instructor : instructorsForCourse) {
+            if (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE)) {
+                instructorsCanDelete.add(instructor);
+            }
+        }
+        
+        return instructorsCanDelete;
     }
 
     public List<InstructorAttributes> getInstructorsForGoogleId(String googleId) {
