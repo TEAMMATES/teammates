@@ -24,6 +24,8 @@ public class InstructorCourseJoinAction extends Action {
     public ActionResult execute() throws EntityDoesNotExistException {
         
         String key = getRequestParamValue(Const.ParamsNames.REGKEY);
+        String institute = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
+        
         Assumption.assertNotNull(key);
 
         new GateKeeper().verifyLoggedInUserPrivileges();
@@ -45,6 +47,12 @@ public class InstructorCourseJoinAction extends Action {
         
         pageData = new InstructorCourseJoinConfirmationPageData(account);
         pageData.regkey = key;
+        
+        if(institute!=null){
+            pageData.institute = institute;
+        }else{
+            pageData.institute = "";
+        }
         
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_JOIN_CONFIRMATION, pageData);
     }

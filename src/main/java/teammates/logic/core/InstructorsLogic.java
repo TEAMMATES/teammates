@@ -13,6 +13,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Utils;
 import teammates.storage.api.InstructorsDb;
+import teammates.ui.controller.AdminHomePageData;
 
 /**
  * Handles  operations related to instructor roles.
@@ -234,7 +235,34 @@ public class InstructorsLogic {
         }
         
     }
+    
+    public MimeMessage sendJoinLinkToNewInstructor(InstructorAttributes instructor, AdminHomePageData data) throws EntityDoesNotExistException {
+        
+        InstructorAttributes instructorData = getInstructorForEmail(instructor.courseId, instructor.email);                                             
+        
+        if (instructorData == null) {
+            throw new EntityDoesNotExistException(
+                    "Instructor [" + data.instructorEmail + "] does not exist in course [" + instructor.courseId + "]");
+        }
+        
+        Emails emailMgr = new Emails();
 
+        try {
+            MimeMessage email = emailMgr.generateNewInstructorAccountJoinEmail(instructor.courseId, 
+                                                                               instructorData,
+                                                                               data.instructorShortName,
+                                                                               data.instructorInstitution);
+            
+            emailMgr.sendEmail(email);
+            return email;
+
+        } catch (Exception e) {
+            throw new RuntimeException("Unexpected error while sending email",e);
+        }
+
+    }
+    
+    
     public void deleteInstructor(String courseId, String email) {
         
         instructorsDb.deleteInstructor(courseId, email);

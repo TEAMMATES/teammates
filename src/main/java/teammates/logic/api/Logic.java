@@ -51,6 +51,7 @@ import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.logic.core.SubmissionsLogic;
+import teammates.ui.controller.AdminHomePageData;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -448,6 +449,15 @@ public class Logic {
         accountsLogic.joinCourseForInstructor(encryptedKey, googleId);
     }
 
+    
+    public void createAccountForNewInstructor(String encryptedKey, String googleId, String institute) throws JoinCourseException{
+        
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, encryptedKey);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, institute);
+        
+        accountsLogic.createAccountForNewInstructor(encryptedKey, googleId, institute);
+    }
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
@@ -841,11 +851,12 @@ public class Logic {
     }
     
     
-    public MimeMessage sendJoinLinkToNewInstructor(String googleId) throws InvalidParametersException, EntityDoesNotExistException{
+    public MimeMessage sendJoinLinkToNewInstructor(InstructorAttributes instructor, AdminHomePageData data) throws InvalidParametersException, EntityDoesNotExistException{
         
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER,googleId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, data);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructor);
         
-        return accountsLogic.sendJoinLinkToNewInstructor(googleId);
+        return instructorsLogic.sendJoinLinkToNewInstructor(instructor, data);
         
     }
     

@@ -1,13 +1,18 @@
 package teammates.logic.core;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.logging.Logger;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
-import javax.mail.internet.MimeMessage;
+import com.google.gson.Gson;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -17,8 +22,12 @@ import teammates.common.exception.JoinCourseException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.FileHelper;
+import teammates.common.util.Config;
 import teammates.common.util.Utils;
+import teammates.logic.backdoor.BackDoorLogic;
 import teammates.storage.api.AccountsDb;
+
 
 /**
  * Handles the logic related to accounts.
@@ -53,31 +62,6 @@ public class AccountsLogic {
         
         accountsDb.createAccount(accountData);
     }
-    
-    
-    public MimeMessage sendJoinLinkToNewInstructor(String googleId) throws EntityDoesNotExistException{
-        
-        AccountAttributes instructorData = getAccount(googleId);
-        
-        if(instructorData == null){
-            throw new EntityDoesNotExistException("Account does not exist [" + googleId + "]");
-        }
-        
-        Emails emailMgr = new Emails();
-        
-        try {
-            MimeMessage email = emailMgr.generateNewInstructorAccountJoinEmail(instructorData);
-            emailMgr.sendEmail(email);
-            return email;
-         
-        } catch (EntityDoesNotExistException e) {
-            Assumption
-                    .fail("Unexpected EntitiyDoesNotExistException thrown when sending registration email"
-                            + TeammatesException.toStringWithStackTrace(e));
-        }
-     
-        return emailsSent;
-    } 
     
     /**
      * <b>Note: Now used for the purpose of testing only.</b><br>
@@ -167,6 +151,80 @@ public class AccountsLogic {
         }
     }
     
+    
+    public void createAccountForNewInstructor(String encryptedKey, String googleId, String institute) throws JoinCourseException {
+        
+        verifyInstructorJoinCourseRequest(encryptedKey, googleId);
+        
+        InstructorAttributes instructor = InstructorsLogic.inst().getInstructorForRegistrationKey(encryptedKey);
+                
+        try {
+
+            AccountAttributes accountToAdd = new AccountAttributes(googleId,
+                                                                   instructor.name,
+                                                                   true,
+                                                                   instructor.email,
+                                                                   institute);
+            createAccount(accountToAdd);
+            importDemoData(instructor.email, instructor.name, googleId, instructor.courseId);
+
+        } catch (Exception e) {
+           // setStatusForException(e);
+          //  return createShowPageResult(Const.ViewURIs.ADMIN_HOME, data);
+        }
+
+//        instructor.googleId = googleId;
+//        try {
+//            InstructorsLogic.inst().updateInstructorByEmail(instructor.email, instructor);
+//        } catch (InvalidParametersException | EntityDoesNotExistException e) {
+//            throw new JoinCourseException(e.getMessage());
+//        }
+        
+    }
+    
+    private void importDemoData(String email, String name, String id, String courseId)
+                 throws EntityAlreadyExistsException,
+                        InvalidParametersException, EntityDoesNotExistException {
+
+        String jsonString;
+        jsonString = FileHelper.readStream(Config.class.getClassLoader()
+                .getResourceAsStream("InstructorSampleData.json"));
+
+        // replace email
+        jsonString = jsonString.replaceAll(
+                "teammates.demo.instructor@demo.course",
+                email);
+        // replace name
+        jsonString = jsonString.replaceAll("Demo_Instructor",
+                name);
+        // replace id
+        jsonString = jsonString.replaceAll("teammates.demo.instructor",
+                id);
+        // replace course
+        jsonString = jsonString.replaceAll("demo.course", courseId);
+
+        // update evaluation time
+        Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        c.set(Calendar.AM_PM, Calendar.PM);
+        c.set(Calendar.HOUR, 11);
+        c.set(Calendar.MINUTE, 59);
+        c.set(Calendar.YEAR, c.get(Calendar.YEAR) + 1);
+        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm a Z");
+
+        jsonString = jsonString.replace("2013-04-01 11:59 PM UTC",
+                formatter.format(c.getTime()));
+
+        Gson gson = Utils.getTeammatesGson();
+        DataBundle data = gson.fromJson(jsonString, DataBundle.class);
+
+        BackDoorLogic backdoor = new BackDoorLogic();
+        
+       
+        backdoor.persistDataBundle(data);
+       
+    }
+    
+    
     public void joinCourseForInstructor(String encryptedKey, String googleId)
             throws JoinCourseException {
         
@@ -203,6 +261,7 @@ public class AccountsLogic {
             
             throw new JoinCourseException(Const.StatusCodes.INVALID_KEY,
                     "You have used an invalid join link: " + joinUrl);
+            
         } else if (instructorRole.isRegistered()) {
             if (instructorRole.googleId.equals(googleId)) {
                 AccountAttributes account = accountsDb.getAccount(googleId);

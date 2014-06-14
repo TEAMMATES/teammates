@@ -34,6 +34,7 @@ import teammates.common.util.EmailTemplates;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
 import teammates.common.util.Utils;
+import teammates.ui.controller.AdminHomePageData;
 
 /**
  * Handles operations related to sending e-mails.
@@ -53,6 +54,7 @@ public class Emails {
     public static final String SUBJECT_PREFIX_STUDENT_COURSE_JOIN = "TEAMMATES: Invitation to join course";
     public static final String SUBJECT_PREFIX_INSTRUCTOR_COURSE_JOIN = "TEAMMATES: Invitation to join course as an instructor";
     public static final String SUBJECT_PREFIX_ADMIN_SYSTEM_ERROR = "TEAMMATES (%s): New System Exception: %s";
+    public static final String SUBJECT_PREFIX_NEW_INSTRUCTOR_ACCOUNT = "TEAMMATES:Welcome to TEAMMATES!";
             
     public static enum EmailType {
         EVAL_CLOSING,
@@ -705,19 +707,36 @@ public class Emails {
         return message;
     }
     
-    public MimeMessage generateNewInstructorAccountJoinEmail(
-            AccountAttributes instructorData) throws AddressException,
-            MessagingException, UnsupportedEncodingException {
-        
+    public MimeMessage generateNewInstructorAccountJoinEmail(String sampleCourseId, InstructorAttributes instructor,
+                                                             String shortName, String institute) throws AddressException,
+                                                                                      MessagingException,
+                                                                                      UnsupportedEncodingException {
+
         MimeMessage message = getEmptyEmailAddressedToEmail(instructor.email);
-        message.setSubject(String.format(SUBJECT_PREFIX_INSTRUCTOR_COURSE_JOIN
-                + " [%s][Course ID: %s]", course.name, course.id));
+        
+        message.setSubject(String.format(SUBJECT_PREFIX_NEW_INSTRUCTOR_ACCOUNT));
 
-        String emailBody = EmailTemplates.USER_COURSE_JOIN;
-        emailBody = fillUpInstructorJoinFragment(instructor, emailBody);
-        emailBody = emailBody.replace("${userName}", instructor.name);
-        emailBody = emailBody.replace("${courseName}", course.name);
-
+        String emailBody = EmailTemplates.NEW_INSTRCUTOR_ACCOUNT_WELCOME;
+        emailBody = emailBody.replace("${UserName}", shortName);
+        
+        String joinUrl = "";
+        if (instructor != null) {
+            String key;
+            key = StringHelper.encrypt(instructor.key);
+            joinUrl = Config.APP_URL + Const.ActionURIs.INSTRUCTOR_COURSE_JOIN;
+            joinUrl = Url.addParamToUrl(joinUrl, Const.ParamsNames.REGKEY, key);
+            joinUrl = Url.addParamToUrl(joinUrl, Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
+        }
+        
+        
+        System.out.println("****************************************************************\n");
+        System.out.println("****************************************************************\n");
+        
+        System.out.println(joinUrl+"\n");
+        
+        System.out.println("****************************************************************\n");
+        
+        emailBody = emailBody.replace("${confimationUrl}",joinUrl);
         message.setContent(emailBody, "text/html");
         return message;
 

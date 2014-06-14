@@ -22,11 +22,19 @@ public class InstructorCourseJoinAuthenticatedAction extends Action {
         String key = getRequestParamValue(Const.ParamsNames.REGKEY);
         Assumption.assertNotNull(key);
         
+        String institute = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
+  
         new GateKeeper().verifyLoggedInUserPrivileges();
         
         /* Process authentication for the instructor to join course */
         try {
-            logic.joinCourseForInstructor(key, account.googleId);
+            
+            if(institute.trim().length() == 0){
+                logic.joinCourseForInstructor(key, account.googleId);
+            }else{
+                logic.createAccountForNewInstructor(key,account.googleId,institute);
+            }
+            
         } catch (JoinCourseException e) {
             // Does not sanitize for html to allow insertion of mailto link
             setStatusForException(e, e.getMessage());

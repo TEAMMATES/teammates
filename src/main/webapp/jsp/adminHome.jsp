@@ -48,8 +48,8 @@
             <div class="well well-plain">
                 <form method="post" action="<%=Const.ActionURIs.ADMIN_INSTRUCTORACCOUNT_ADD%>" name="form_addinstructoraccount">
                     <div>
-                        <label class="label-control">Google ID:</label>
-                       <input class="form-control" type="text" name="<%=Const.ParamsNames.INSTRUCTOR_ID%>" value="<%=sanitizeForHtml(data.instructorId)%>">
+                        <label class="label-control">Short Name:</label>
+                       <input class="form-control" type="text" name="<%=Const.ParamsNames.INSTRUCTOR_SHORT_NAME%>" value="<%=sanitizeForHtml(data.instructorShortName)%>">
                     </div><br />
                     <div>
                         <label class="label-control">Name:</label>
