@@ -212,12 +212,8 @@ public class InstructorsLogic {
 
         coursesLogic.verifyCourseIsPresent(instructor.courseId);        
         verifyIsEmailOfInstructorOfCourse(email, instructor.courseId);
-
-        InstructorAttributes instructorToUpdate = getInstructorForEmail(instructor.courseId, email);
-        instructorToUpdate.googleId = instructor.googleId;
-        instructorToUpdate.name = instructor.name;
         
-        instructorsDb.updateInstructorByEmail(instructorToUpdate);
+        instructorsDb.updateInstructorByEmail(instructor);
     }
     
     public MimeMessage sendRegistrationInviteToInstructor(String courseId, String instructorEmail) 

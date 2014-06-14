@@ -32,8 +32,6 @@ public class InstructorsDb extends EntitiesDb{
     private static final Logger log = Utils.getLogger();
         
     /**
-     * Preconditions: <br>
-     *  * All parameters are non-null.
      * @return null if no matching objects. 
      */
     public InstructorAttributes getInstructorForEmail(String courseId, String email) {
@@ -53,8 +51,6 @@ public class InstructorsDb extends EntitiesDb{
 
     
     /**
-     * Preconditions: <br>
-     *  * All parameters are non-null.
      * @return null if no matching objects. 
      */
     public InstructorAttributes getInstructorForGoogleId(String courseId, String googleId) {
@@ -73,8 +69,6 @@ public class InstructorsDb extends EntitiesDb{
     }
     
     /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
      * @return null if no matching instructor.
      */
     public InstructorAttributes getInstructorForRegistrationKey(String encryptedKey){
@@ -175,8 +169,6 @@ public class InstructorsDb extends EntitiesDb{
 
     /**
      * Updates the instructor. Cannot modify Course ID or google id.
-     * Updates only name and email.<br>
-     * Does not follow the 'keep existing' policy <br> 
      * @throws InvalidParametersException 
      * @throws EntityDoesNotExistException 
      */
@@ -217,7 +209,6 @@ public class InstructorsDb extends EntitiesDb{
             instructorToUpdate.setInstructorPrivilegeAsText(instructorAttributesToUpdate.getTextFromInstructorPrivileges());
         }
         
-        //TODO: update institute name
         //TODO: make courseId+email the non-modifiable values
         
         getPM().close();
@@ -225,11 +216,11 @@ public class InstructorsDb extends EntitiesDb{
     
     /**
      * Updates the instructor. Cannot modify Course ID or email.
-     * Updates only Google ID and name.<br>
-     * Does not follow the 'keep existing' policy <br> 
      * @throws InvalidParametersException 
+     * @throws EntityDoesNotExistException
      */
-    public void updateInstructorByEmail(InstructorAttributes instructorAttributesToUpdate) throws InvalidParametersException, EntityDoesNotExistException {
+    public void updateInstructorByEmail(InstructorAttributes instructorAttributesToUpdate) 
+            throws InvalidParametersException, EntityDoesNotExistException {
         
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, instructorAttributesToUpdate);
         
@@ -266,17 +257,11 @@ public class InstructorsDb extends EntitiesDb{
             instructorToUpdate.setInstructorPrivilegeAsText(instructorAttributesToUpdate.getTextFromInstructorPrivileges());
         }
         
-        //TODO: update institute name
         //TODO: make courseId+email the non-modifiable values
         
         getPM().close();
     }
     
-    /**
-     * Fails silently if no such instructor. <br>
-     * Preconditions: <br>
-     *  * All parameters are non-null.
-     */
     public void deleteInstructor(String courseId, String email) {
 
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
@@ -308,11 +293,6 @@ public class InstructorsDb extends EntitiesDb{
         //TODO: reuse the method in the parent class instead
     }
     
-    /**
-     * Fails silently if no such instructor. <br>
-     * Preconditions: <br>
-     *  * All parameters are non-null.
-     */
     public void deleteInstructorsForGoogleId(String googleId) {
         
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
@@ -323,11 +303,6 @@ public class InstructorsDb extends EntitiesDb{
         getPM().flush();
     }
     
-    /**
-     * Fails silently if no such instructor. <br>
-     * Preconditions: <br>
-     *  * All parameters are non-null.
-     */
     public void deleteInstructorsForCourse(String courseId) {
         
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
