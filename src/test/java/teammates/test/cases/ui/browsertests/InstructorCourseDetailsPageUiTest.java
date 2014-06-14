@@ -62,7 +62,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
 
         detailsPage = loginAdminToPage(browser, detailsPageUrl, InstructorCourseDetailsPage.class);
 
-        detailsPage.verifyHtml("/InstructorCourseDetailsPageForEmptyCourse.html");
+        detailsPage.verifyHtmlMainContent("/InstructorCourseDetailsPageForEmptyCourse.html");
 
         ______TS("content: multiple students with sections");
 
@@ -72,7 +72,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
 
         detailsPage = loginAdminToPage(browser, detailsPageUrl, InstructorCourseDetailsPage.class);
         //Use {$test.student1} etc.
-        detailsPage.verifyHtml("/InstructorCourseDetailsPageWithSections.html");
+        detailsPage.verifyHtmlMainContent("/InstructorCourseDetailsPageWithSections.html");
         
         ______TS("content: multiple students without sections");
         
@@ -82,7 +82,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         
         detailsPage = loginAdminToPage(browser, detailsPageUrl, InstructorCourseDetailsPage.class);
         //Use {$test.student1} etc.
-        detailsPage.verifyHtml("/InstructorCourseDetailsPage.html");
+        detailsPage.verifyHtmlMainContent("/InstructorCourseDetailsPage.html");
         
         ______TS("content: sorting");
         

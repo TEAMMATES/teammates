@@ -57,14 +57,14 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
         .withCourseId(testData.courses.get("CCEnrollUiT.CS2104").id);
         
         enrollPage = loginAdminToPage(browser, enrollUrl, InstructorCourseEnrollPage.class);
-        enrollPage.verifyHtml("/InstructorCourseEnrollPage.html");
+        enrollPage.verifyHtmlMainContent("/InstructorCourseEnrollPage.html");
     }
 
     private void testSampleLink() throws Exception {
         
         ______TS("link for the sample spreadsheet");
-        String expectedShaHexForWindows = "515BED94E8F664E870BC7A9BC2F0BBBAEF0D6756";
-        String expectedShaHexForUnix = "b51ddfb3d3a5dd0c5f5bb2944f6bb2c2efb117a8";
+        String expectedShaHexForWindows = "98df8d0e8285a8192ed88183380947ca1c36ca68";
+        String expectedShaHexForUnix = "e02099ef19b16a5d30e8d09e6d22f179fa123272";
 
         
         try{
@@ -100,7 +100,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
         enrollString += "Section 1 | Team 1|José Gómez | jose.gomez.tmns@gmail.com | This student name contains accented characters\n";
 
         InstructorCourseEnrollResultPage resultsPage = enrollPage.enroll(enrollString);
-        resultsPage.verifyHtml("/instructorCourseEnrollPageResult.html");
+        resultsPage.verifyHtmlMainContent("/instructorCourseEnrollPageResult.html");
 
         // Check 'Edit' link
         enrollPage = resultsPage.clickEditLink();
@@ -135,7 +135,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
         enrollString += "|José Gómez | jose.gomez.tmns@gmail.com || Team 3 | This student name contains accented characters\n";
                 
         resultsPage = enrollPage.enroll(enrollString);
-        resultsPage.verifyHtml("/instructorCourseEnrollPageResultForEmptyCourse.html");
+        resultsPage.verifyHtmlMainContent("/instructorCourseEnrollPageResultForEmptyCourse.html");
 
         // Check 'Edit' link
         enrollPage = resultsPage.clickEditLink();
@@ -204,7 +204,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
                         + " | longname@email.com | This student name is too long\n";
                         
         enrollPage.enrollUnsuccessfully(enrollString);
-        enrollPage.verifyHtml("/instructorCourseEnrollError.html");
+        enrollPage.verifyHtmlMainContent("/instructorCourseEnrollError.html");
     }
 
     @AfterClass
