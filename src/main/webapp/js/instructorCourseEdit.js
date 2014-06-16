@@ -27,9 +27,11 @@ function enableEditInstructor(instructorNum, totalInstructors) {
  * @param number
  */
 function enableFormEditInstructor(number) {
-    $("#instructorTable"+number).find(":input").not(".immutable").prop("disabled", false);
-    $("#instrEditLink"+number).hide();
-    $("#btnSaveInstructor"+number).show();
+    $("#instructorTable" + number).find(":input").not(".immutable").prop("disabled", false);
+    $("#instrEditLink" + number).hide();
+    $("#accessControlInfoForInstr" + number).hide();
+    $("#accessControlEditDivForInstr" + number).show();
+    $("#btnSaveInstructor" + number).show();
 }
 
 /**
@@ -38,9 +40,11 @@ function enableFormEditInstructor(number) {
  * @param number
  */
 function disableFormEditInstructor(number) {
-    $("#instructorTable"+number).find(":input").not(".immutable").prop("disabled", true);
-    $("#instrEditLink"+number).show();
-    $("#btnSaveInstructor"+number).hide();
+    $("#instructorTable" + number).find(":input").not(".immutable").prop("disabled", true);
+    $("#instrEditLink" + number).show();
+    $("#accessControlInfoForInstr" + number).show();
+    $("#accessControlEditDivForInstr" + number).hide();
+    $("#btnSaveInstructor" + number).hide();
 }
 
 /**

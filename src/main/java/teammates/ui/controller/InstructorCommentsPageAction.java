@@ -56,8 +56,8 @@ public class InstructorCommentsPageAction extends Action {
         String courseName = getCoursePaginationList(coursePaginationList);
         
         CourseRoster roster = null;
-        Map<String, List<CommentAttributes>> recipientToCommentsMap = null;
-        Map<String, FeedbackSessionResultsBundle> feedbackResultBundles = null;
+        Map<String, List<CommentAttributes>> recipientToCommentsMap = new HashMap<String, List<CommentAttributes>>();
+        Map<String, FeedbackSessionResultsBundle> feedbackResultBundles = new HashMap<String, FeedbackSessionResultsBundle>();
         if(coursePaginationList.size() > 0){
         //Load details of students and instructors once and pass it to callee methods
         //  (rather than loading them many times).

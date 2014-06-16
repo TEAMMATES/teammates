@@ -11,6 +11,7 @@ import javax.jdo.Query;
 
 import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
@@ -199,6 +200,22 @@ public class InstructorsDb extends EntitiesDb{
 
         instructorToUpdate.setName(instructorAttributesToUpdate.name);
         instructorToUpdate.setEmail(instructorAttributesToUpdate.email);
+        if (instructorAttributesToUpdate.role != null) {
+            instructorToUpdate.setRole(instructorAttributesToUpdate.role);
+        } else {
+            instructorToUpdate.setRole(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+        }
+        if (instructorAttributesToUpdate.displayedName != null) {
+            instructorToUpdate.setDisplayedName(instructorAttributesToUpdate.displayedName);
+        } else {
+            instructorToUpdate.setDisplayedName(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+        }
+        if (instructorAttributesToUpdate.instructorPrivilegesAsText != null) {
+            instructorToUpdate.setInstructorPrivilegeAsText(instructorAttributesToUpdate.instructorPrivilegesAsText);
+        } else {
+            instructorAttributesToUpdate.privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+            instructorToUpdate.setInstructorPrivilegeAsText(instructorAttributesToUpdate.getTextFromInstructorPrivileges());
+        }
         
         //TODO: update institute name
         //TODO: make courseId+email the non-modifiable values
@@ -232,6 +249,22 @@ public class InstructorsDb extends EntitiesDb{
         
         instructorToUpdate.setGoogleId(instructorAttributesToUpdate.googleId);
         instructorToUpdate.setName(instructorAttributesToUpdate.name);
+        if (instructorAttributesToUpdate.role != null) {
+            instructorToUpdate.setRole(instructorAttributesToUpdate.role);
+        } else {
+            instructorToUpdate.setRole(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+        }
+        if (instructorAttributesToUpdate.displayedName != null) {
+            instructorToUpdate.setDisplayedName(instructorAttributesToUpdate.displayedName);
+        } else {
+            instructorToUpdate.setDisplayedName(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+        }
+        if (instructorAttributesToUpdate.instructorPrivilegesAsText != null) {
+            instructorToUpdate.setInstructorPrivilegeAsText(instructorAttributesToUpdate.instructorPrivilegesAsText);
+        } else {
+            instructorAttributesToUpdate.privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+            instructorToUpdate.setInstructorPrivilegeAsText(instructorAttributesToUpdate.getTextFromInstructorPrivileges());
+        }
         
         //TODO: update institute name
         //TODO: make courseId+email the non-modifiable values

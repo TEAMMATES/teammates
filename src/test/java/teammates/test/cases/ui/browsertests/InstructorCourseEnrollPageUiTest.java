@@ -64,7 +64,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
         
         ______TS("link for the sample spreadsheet");
         String expectedShaHexForWindows = "98df8d0e8285a8192ed88183380947ca1c36ca68";
-        String expectedShaHexForUnix = "98df8d0e8285a8192ed88183380947ca1c36ca68";
+        String expectedShaHexForUnix = "e02099ef19b16a5d30e8d09e6d22f179fa123272";
 
         
         try{

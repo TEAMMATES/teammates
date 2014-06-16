@@ -13,6 +13,7 @@ import javax.jdo.Query;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.EntityAttributes;
@@ -104,8 +105,6 @@ public class AccountsDb extends EntitiesDb {
             instructorsAccountData.add(new AccountAttributes(a));
         }
         
-        closePM();
-        
         return instructorsAccountData;
     }
 
@@ -124,7 +123,6 @@ public class AccountsDb extends EntitiesDb {
         Account accountToUpdate = getAccountEntity(a.googleId, updateStudentProfile);
 
         if (accountToUpdate == null) {
-            closePM();
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_ACCOUNT + a.googleId
                 + ThreadHelper.getCurrentThreadStack());
         }
@@ -165,36 +163,14 @@ public class AccountsDb extends EntitiesDb {
     public void deleteAccount(String googleId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
         
-        Account accountToDelete = getAccountEntity(googleId, true);
+        AccountAttributes accountToDelete = getAccount(googleId, false);
 
         if (accountToDelete == null) {
             return;
         }
         
-        accountToDelete.getStudentProfile();
-        
-        getPM().deletePersistent(accountToDelete);
-        getPM().flush();
+        deleteEntity(accountToDelete);
         closePM();
-    
-        // Wait for the operation to persist
-        int elapsedTime = 0;
-        Account accountCheck = getAccountEntity(googleId);
-        // the following while loop is not tested as 
-        // replicating a persistence delay is difficult during testing
-        while ((accountCheck != null)
-                && (elapsedTime < Config.PERSISTENCE_CHECK_DURATION)) {
-            ThreadHelper.waitBriefly();
-            accountCheck = getAccountEntity(googleId);
-            elapsedTime += ThreadHelper.WAIT_DURATION;
-            closePM();
-        }
-        if (elapsedTime >= Config.PERSISTENCE_CHECK_DURATION) {
-            log.severe("Operation did not persist in time: deleteAccount->"
-                    + googleId);
-        }
-        
-        //TODO: Use the delete operation in the parent class instead.
     }
 
     private Account getAccountEntity(String googleId, boolean retrieveStudentProfile) {
@@ -228,7 +204,7 @@ public class AccountsDb extends EntitiesDb {
         
         try {
             StudentProfile sp = getPM().getObjectById(StudentProfile.class, childKey);
-            closePM();
+            
             if (JDOHelper.isDeleted(sp)) {
                 return null;
             } else {
@@ -260,18 +236,17 @@ public class AccountsDb extends EntitiesDb {
             StudentProfile profileToUpdate = getPM().getObjectById(StudentProfile.class, childKey);
 
             if (JDOHelper.isDeleted(profileToUpdate)) {
-                closePM();
                 throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_STUDENT_PROFILE + newSpa.googleId
                         + ThreadHelper.getCurrentThreadStack());
             }
-                        
+
             newSpa.sanitizeForSaving();
             profileToUpdate.setShortName(newSpa.shortName);
             profileToUpdate.setEmail(newSpa.email);
             profileToUpdate.setInstitute(newSpa.institute);
             profileToUpdate.setCountry(newSpa.country);
             profileToUpdate.setGender(newSpa.gender);
-            profileToUpdate.setMoreInfo(newSpa.moreInfo);
+            profileToUpdate.setMoreInfo(new Text(newSpa.moreInfo));
             closePM();
             
         } catch (JDOObjectNotFoundException je) {

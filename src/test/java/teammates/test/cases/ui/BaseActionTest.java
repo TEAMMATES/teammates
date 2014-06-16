@@ -409,6 +409,16 @@ public class BaseActionTest extends BaseComponentTestCase {
         
     }
     
+    protected void verifyUnaccessibleWithoutCoownerPrivileges(String[] submissionParams) throws Exception {
+        
+        ______TS("non-coowner cannot access");
+        
+        InstructorAttributes instructor2OfCourse1 = data.instructors.get("instructor2OfCourse1");
+        
+        gaeSimulation.loginAsInstructor(instructor2OfCourse1.googleId);
+        verifyCannotAccess(submissionParams);
+    }
+    
     protected void verifyUnaccessibleForStudents(String[] submissionParams) throws Exception {
         
         ______TS("students cannot access");

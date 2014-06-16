@@ -22,6 +22,8 @@ public abstract class EntitiesDb {
     public static final String ERROR_UPDATE_NON_EXISTENT_STUDENT = "Trying to update non-existent Student: ";
     public static final String ERROR_UPDATE_NON_EXISTENT_STUDENT_PROFILE = "Trying to update non-existent Student Profile: ";
     public static final String ERROR_UPDATE_NON_EXISTENT_COURSE = "Trying to update non-existent Course: ";
+    public static final String ERROR_UPDATE_NON_EXISTENT_INSTRUCTOR_PERMISSION = "Trying to update non-existing InstructorPermission: ";
+    public static final String ERROR_UPDATE_TO_EXISTENT_INTRUCTOR_PERMISSION = "Trying to update to existent IntructorPermission: ";
     public static final String ERROR_CREATE_INSTRUCTOR_ALREADY_EXISTS = "Trying to create a Instructor that exists: ";
     public static final String ERROR_TRYING_TO_MAKE_NON_EXISTENT_ACCOUNT_AN_INSTRUCTOR = "Trying to make an non-existent account an Instructor :";
 
@@ -134,7 +136,7 @@ public abstract class EntitiesDb {
 
         getPM().deletePersistent(entity);
         getPM().flush();
-
+        
         // wait for the operation to persist
         int elapsedTime = 0;
         Object entityCheck = getEntity(entityToDelete);
@@ -152,7 +154,6 @@ public abstract class EntitiesDb {
                     + entityToDelete.getEntityTypeAsString() + "->"
                     + entityToDelete.getIdentificationString());
         }
-
     }
     
     /**

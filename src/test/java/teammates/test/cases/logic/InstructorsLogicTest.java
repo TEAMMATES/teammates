@@ -53,14 +53,14 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         InstructorAttributes instr = new InstructorAttributes(
                 null, "test-course", "New Instructor", "ILT.instr@email.com");
         
-        instructorsLogic.addInstructor(instr.courseId, instr.name, instr.email);
+        instructorsLogic.createInstructor(null, instr.courseId, instr.name, instr.email);
         
         TestHelper.verifyPresentInDatastore(instr);
         
         ______TS("failure: instructor already exists");
         
         try {
-            instructorsLogic.addInstructor(instr.courseId, instr.name, instr.email);
+            instructorsLogic.createInstructor(null, instr.courseId, instr.name, instr.email);
             signalFailureToDetectException();
         } catch (EntityAlreadyExistsException e) {
             AssertHelper.assertContains("Trying to create a Instructor that exists", e.getMessage());
@@ -71,7 +71,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         instr.email = "invalidEmail.com";
         
         try {
-            instructorsLogic.addInstructor(instr.courseId, instr.name, instr.email);
+            instructorsLogic.createInstructor(null, instr.courseId, instr.name, instr.email);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains("\""+instr.email+"\" is not acceptable to TEAMMATES as an email",
@@ -81,21 +81,21 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         ______TS("failure: null parameters");
         
         try {
-            instructorsLogic.addInstructor(null, instr.name, instr.email);
+            instructorsLogic.createInstructor(null, null, instr.name, instr.email);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains("Non-null value expected", e.getMessage());
         }
         
         try {
-            instructorsLogic.addInstructor(instr.courseId, null, instr.email);
+            instructorsLogic.createInstructor(null, instr.courseId, null, instr.email);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains("Non-null value expected", e.getMessage());
         }
         
         try {
-            instructorsLogic.addInstructor(instr.courseId, instr.name, null);
+            instructorsLogic.createInstructor(null, instr.courseId, instr.name, null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains("Non-null value expected", e.getMessage());
