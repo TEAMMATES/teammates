@@ -751,29 +751,17 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
             actualStrings.add(recipientName);
         }
         Collections.addAll(expectedStrings,
-                "student2 In Course1 (Team 1.1)",
                 "Anonymous student 670710946",
-                "Team 1.1",
+                "student1 In Course1 (Team 1.1)",
                 "student2 In Course1 (Team 1.1)",
-                "Team 1.1",
                 "student4 In Course1 (Team 1.2)",
-                "student1 In Course1 (Team 1.1)",
-                "student1 In Course1 (Team 1.1)",
-                "student1 In Course1 (Team 1.1)",
-                "student2 In Course1 (Team 1.1)",
-                "student2 In Course1 (Team 1.1)",
-                "student1 In Course1 (Team 1.1)",
-                "student1 In Course1 (Team 1.1)",
                 "Instructor1 Course1 (Instructors)",
-                "student1 In Course1 (Team 1.1)",
-                "Team 1.3",
                 "Anonymous student 412545508",
-                "Team 1.4",
                 "Team 1.1",
                 "Team 1.2",
-                "Team 1.2",
-                "Team 1.1");
-        assertEquals(expectedStrings.toString(), actualStrings.toString());
+                "Team 1.3",
+                "Team 1.4");
+        AssertHelper.assertContains(expectedStrings, actualStrings.toString());
         
         // Test 'Append TeamName to Name' for display purposes with Special Cases
         expectedStrings.clear();
@@ -834,57 +822,51 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         mapString = results.emailNameTable.toString();
         expectedStrings.clear();
         Collections.addAll(expectedStrings,
+                "%GENERAL%=%NOBODY%",
                 "FSRTest.student1InCourse1@gmail.com=student1 In Course1",
-                "Anonymous student 283462789@@Anonymous student 283462789.com=Anonymous student 283462789",
-                "FSRTest.student5InCourse1@gmail.com=student5 In Course1",
-                "Anonymous student 928876384@@Anonymous student 928876384.com=Anonymous student 928876384",
-                "Anonymous  283462789@@Anonymous  283462789.com=Anonymous  283462789",
-                "Anonymous  412545508@@Anonymous  412545508.com=Anonymous  412545508",
-                "FSRTest.instr2@course1.com=Instructor2 Course1",
-                "FSRTest.instr1@course1.com=Instructor1 Course1",
-                "Anonymous  541628227@@Anonymous  541628227.com=Anonymous  541628227",
+                "FSRTest.student2InCourse1@gmail.com=student2 In Course1",
+                "FSRTest.student3InCourse1@gmail.com=student3 In Course1",
                 "FSRTest.student4InCourse1@gmail.com=student4 In Course1",
+                "FSRTest.student5InCourse1@gmail.com=student5 In Course1",
+                "FSRTest.student6InCourse1@gmail.com=student6 In Course1",
+                "FSRTest.instr1@course1.com=Instructor1 Course1",
+                "FSRTest.instr2@course1.com=Instructor2 Course1",
+                "Anonymous student 283462789@@Anonymous student 283462789.com=Anonymous student 283462789",
+                "Anonymous student 928876384@@Anonymous student 928876384.com=Anonymous student 928876384",
                 "Anonymous student 412545508@@Anonymous student 412545508.com=Anonymous student 412545508",
                 "Anonymous student 541628227@@Anonymous student 541628227.com=Anonymous student 541628227",
                 "Anonymous instructor 1805393227@@Anonymous instructor 1805393227.com=Anonymous instructor 1805393227",
-                "FSRTest.student6InCourse1@gmail.com=student6 In Course1",
                 "Anonymous instructor 682119606@@Anonymous instructor 682119606.com=Anonymous instructor 682119606",
-                "FSRTest.student2InCourse1@gmail.com=student2 In Course1",
-                "%GENERAL%=%NOBODY%",
-                "FSRTest.student3InCourse1@gmail.com=student3 In Course1",
-                "Team 1.3=Team 1.3",
                 "Team 1.2=Team 1.2",
+                "Team 1.3=Team 1.3",
                 "Team 1.4=Team 1.4");
         AssertHelper.assertContains(expectedStrings, mapString);
-        assertEquals(21, results.emailNameTable.size());
+        assertEquals(18, results.emailNameTable.size());
         
         // Test the user email-teamName maps used for display purposes
         mapString = results.emailTeamNameTable.toString();
         expectedStrings.clear();
         Collections.addAll(expectedStrings,
+                "%GENERAL%=",
                 "FSRTest.student1InCourse1@gmail.com=Team 1.1",
-                "Anonymous student 283462789@@Anonymous student 283462789.com=Anonymous student 283462789's Team",
+                "FSRTest.student2InCourse1@gmail.com=Team 1.1",
+                "FSRTest.student3InCourse1@gmail.com=Team 1.2",
+                "FSRTest.student4InCourse1@gmail.com=Team 1.2",
                 "FSRTest.student5InCourse1@gmail.com=Team 1.3",
-                "Anonymous student 928876384@@Anonymous student 928876384.com=Anonymous student 928876384's Team",
-                "Anonymous  283462789@@Anonymous  283462789.com=Anonymous  283462789's Team",
-                "Anonymous  412545508@@Anonymous  412545508.com=Anonymous  412545508's Team",
+                "FSRTest.student6InCourse1@gmail.com=Team 1.4",
                 "FSRTest.instr2@course1.com=Instructors",
                 "FSRTest.instr1@course1.com=Instructors",
-                "Anonymous  541628227@@Anonymous  541628227.com=Anonymous  541628227's Team",
-                "FSRTest.student4InCourse1@gmail.com=Team 1.2",
-                "Anonymous student 412545508@@Anonymous student 412545508.com=Anonymous student 412545508's Team",
+                "Anonymous student 283462789@@Anonymous student 283462789.com=Anonymous student 283462789's Team",
+                "Anonymous student 928876384@@Anonymous student 928876384.com=Anonymous student 928876384's Team",
                 "Anonymous student 541628227@@Anonymous student 541628227.com=Anonymous student 541628227's Team",
+                "Anonymous student 412545508@@Anonymous student 412545508.com=Anonymous student 412545508's Team",
                 "Anonymous instructor 1805393227@@Anonymous instructor 1805393227.com=Anonymous instructor 1805393227's Team",
-                "FSRTest.student6InCourse1@gmail.com=Team 1.4",
                 "Anonymous instructor 682119606@@Anonymous instructor 682119606.com=Anonymous instructor 682119606's Team",
-                "FSRTest.student2InCourse1@gmail.com=Team 1.1",
-                "%GENERAL%=",
-                "FSRTest.student3InCourse1@gmail.com=Team 1.2",
                 "Team 1.3=",
                 "Team 1.2=",
                 "Team 1.4=");
         AssertHelper.assertContains(expectedStrings, mapString);
-        assertEquals(21, results.emailTeamNameTable.size());
+        assertEquals(18, results.emailTeamNameTable.size());
 
         // Test the generated response visibilityTable for userNames.        
         mapString = tableToString(results.visibilityTable);
@@ -919,15 +901,13 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         Collections.addAll(expectedStrings,
                 "FSRTest.student1InCourse1@gmail.com=student1 In Course1",
                 "Anonymous student 283462789@@Anonymous student 283462789.com=Anonymous student 283462789",
-                "Anonymous student 412545508@@Anonymous student 412545508.com=Anonymous student 412545508",
-                "Anonymous  283462789@@Anonymous  283462789.com=Anonymous  283462789",
                 "Anonymous instructor 682119606@@Anonymous instructor 682119606.com=Anonymous instructor 682119606",
-                "Anonymous  412545508@@Anonymous  412545508.com=Anonymous  412545508",
+                "Anonymous student 412545508@@Anonymous student 412545508.com=Anonymous student 412545508",
                 "FSRTest.student2InCourse1@gmail.com=student2 In Course1",
                 "Team 1.4=Team 1.4",
                 "FSRTest.instr1@course1.com=Instructor1 Course1");
         AssertHelper.assertContains(expectedStrings, mapString);
-        assertEquals(9, results.emailNameTable.size());
+        assertEquals(7, results.emailNameTable.size());
         
         // Test the user email-teamName maps used for display purposes
         mapString = results.emailTeamNameTable.toString();
@@ -936,14 +916,12 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
                 "FSRTest.student1InCourse1@gmail.com=Team 1.1",
                 "Anonymous student 283462789@@Anonymous student 283462789.com=Anonymous student 283462789's Team",
                 "Anonymous student 412545508@@Anonymous student 412545508.com=Anonymous student 412545508's Team",
-                "Anonymous  283462789@@Anonymous  283462789.com=Anonymous  283462789's Team",
                 "Anonymous instructor 682119606@@Anonymous instructor 682119606.com=Anonymous instructor 682119606's Team",
-                "Anonymous  412545508@@Anonymous  412545508.com=Anonymous  412545508's Team",
                 "FSRTest.student2InCourse1@gmail.com=Team 1.1",
                 "Team 1.4=",
                 "FSRTest.instr1@course1.com=Instructors");
         AssertHelper.assertContains(expectedStrings, mapString);
-        assertEquals(9, results.emailTeamNameTable.size());
+        assertEquals(7, results.emailTeamNameTable.size());
 
         // Test the generated response visibilityTable for userNames.        
         mapString = tableToString(results.visibilityTable);

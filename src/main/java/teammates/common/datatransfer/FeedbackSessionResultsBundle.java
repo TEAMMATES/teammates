@@ -85,10 +85,6 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
                 String hash = Integer.toString(Math.abs(name.hashCode()));
                 name = type.toSingularFormString();
                 
-                if(type == FeedbackParticipantType.OWN_TEAM_MEMBERS){
-                    name = "";
-                }
-                
                 name = "Anonymous " + name + " " + hash;
                 
                 String anonEmail = name+"@@"+name+".com";
@@ -105,10 +101,6 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
                     type != FeedbackParticipantType.SELF) {
                 String hash = Integer.toString(Math.abs(name.hashCode()));
                 name = type.toSingularFormString();
-                
-                if(type == FeedbackParticipantType.OWN_TEAM_MEMBERS){
-                    name = "";
-                }
                 
                 name = "Anonymous " + name + " " + hash;
                 
