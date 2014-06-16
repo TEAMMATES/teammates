@@ -6,6 +6,7 @@ import static org.testng.AssertJUnit.assertEquals;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringReader;
@@ -595,7 +596,7 @@ public abstract class AppPage {
         String byId = by.toString().split(":")[1].trim();
         
         DOMParser parser = new DOMParser();
-        parser.parse(new InputSource(filePath));
+        parser.parse(new InputSource(new FileReader(filePath)));
         org.w3c.dom.Document htmlDoc = parser.getDocument();
         org.w3c.dom.Element expectedElement = htmlDoc.getElementById(byId);
         StringBuilder expectedHtml = new StringBuilder();
