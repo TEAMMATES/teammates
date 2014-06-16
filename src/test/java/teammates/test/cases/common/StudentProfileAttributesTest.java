@@ -10,11 +10,12 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.google.appengine.api.datastore.Text;
+
 import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNull;
-
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
@@ -129,7 +130,8 @@ public class StudentProfileAttributesTest extends BaseTestCase {
     
     @Test
     public void testToEntity() {
-        StudentProfile expectedEntity = new StudentProfile(profile.googleId, profile.shortName, profile.institute, profile.email, profile.country, profile.gender, profile.moreInfo);
+        StudentProfile expectedEntity = new StudentProfile(profile.googleId, profile.shortName, profile.institute, profile.email, 
+                profile.country, profile.gender, new Text(profile.moreInfo));
         StudentProfileAttributes testProfile = new StudentProfileAttributes(expectedEntity);
         StudentProfile actualEntity = (StudentProfile) testProfile.toEntity();
         assertEquals(expectedEntity.getShortName(), actualEntity.getShortName());
