@@ -1,4 +1,62 @@
-  {  
+  {
+    "accounts":{
+        "alice.b.tmms":{
+        "googleId": "alice.b.tmms",
+        "name": "Alice Betsy",
+        "isInstructor":false,
+        "email":"alice.b.tmms@gmail.com",
+        "institute":"NTU",      
+        "studentProfile":{
+            "googleId": "alice.b.tmms",
+            "shortName": "Alice",
+            "email":"alice@gmail.com",
+            "institute":"NUS",
+            "country": "China",
+            "gender":"female",
+            "moreInfo":"This is more info about me"
+        }
+        },
+        "benny.c.tmms":{
+            "googleId": "benny.c.tmms",
+            "name": "Benny Charles",
+            "isInstructor":false,
+            "email":"benny.c.tmms@gmail.com",
+            "institute":"NUS"
+        },
+        "danny.e.tmms": {
+            "googleId": "danny.e.tmms",
+            "name": "Danny Engrid",
+            "isInstructor":false,
+            "email":"danny.e.tmms@gmail.com",
+            "institute":"SIM",      
+            "studentProfile":{
+                "googleId": "danny.e.tmms",
+                "shortName": "Danny",
+                "email": "danny.e.tmms@gmail.com",
+                "institute":"NTU",
+                "country":"Singapore",
+                "gender":"male",
+                "moreInfo":"lorem ipsum might be suitable here :P"
+            }
+        },
+        "emma.f.tmms": {
+            "googleId": "emma.f.tmms",
+            "name": "Emma Farrell",
+            "isInstructor":false,
+            "email":"emma.f.tmms@gmail.com",
+            "institute":"NUS",      
+            "studentProfile":{
+                "googleId": "emma.f.tmms",
+                "shortName": "Emm",
+                "email": "emma@gmail.com",
+                "institute":"SIT",
+                "country":"India",
+                "gender":"female",
+                "moreInfo":"This student's name is Emma Farrell"
+            }
+        }
+    },
+    
     "instructors":{
      "teammates.demo.instructor@demo.course":{
      	"googleId": "teammates.demo.instructor",
@@ -47,9 +105,7 @@
       "name": "Emma Farrell",
       "comments": "This student's name is Emma Farrell",
       "team": "Team 1"
-    },
-    
-    
+    },    
     "charlie.d.tmms@demo.course": {
       "googleId": "charlie.d.tmms",
       "email": "charlie.d.tmms@gmail.com",

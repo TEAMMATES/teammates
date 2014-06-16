@@ -82,6 +82,8 @@ public class HtmlHelper {
             String initialIndentation = "";
             convertToStandardHtmlRecursively(currentNode, initialIndentation, currentHtml, isHtmlPartPassedIn);
             return currentHtml.toString()
+                    .replace("%20", " ")
+                    .replace("%27", "'")
                     .replace("<#document", "")
                     .replace("   <html   </html>", "")
                     .replace("</#document>", ""); //remove two unnecessary tags added by DOM parser.

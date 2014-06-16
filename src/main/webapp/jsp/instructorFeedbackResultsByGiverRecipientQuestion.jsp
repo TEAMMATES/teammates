@@ -73,6 +73,7 @@
                 FeedbackResponseAttributes firstResponse = giverData.get(giverDataArray[0]).get(0);
                 String targetEmail = firstResponse.giverEmail.replace(Const.TEAM_OF_EMAIL_OWNER,"");
                 String targetEmailDisplay = firstResponse.giverEmail;
+                String mailtoStyleAttr = (targetEmailDisplay.contains("@@"))?"style=\"display:none;\"":"";
 
             %>
             <%
@@ -108,7 +109,7 @@
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     From: <strong><%=responsesFromGiver.getKey()%></strong>
-                        <a class="link-in-dark-bg" href="mailTo:<%= targetEmail%> " >[<%=targetEmailDisplay%>]</a>
+                        <a class="link-in-dark-bg" href="mailTo:<%= targetEmail%> " <%=mailtoStyleAttr%>>[<%=targetEmailDisplay%>]</a>
                 </div>
                 <div class="panel-collapse">
                 <div class="panel-body">
