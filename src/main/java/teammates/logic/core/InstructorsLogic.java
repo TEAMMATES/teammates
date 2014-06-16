@@ -236,25 +236,27 @@ public class InstructorsLogic {
         
     }
     
-    public MimeMessage sendJoinLinkToNewInstructor(InstructorAttributes instructor, AdminHomePageData data) throws EntityDoesNotExistException {
+    public void sendJoinLinkToNewInstructor(InstructorAttributes instructor, AdminHomePageData data, boolean isSampleDataImported) 
+           throws EntityDoesNotExistException {
         
         InstructorAttributes instructorData = getInstructorForEmail(instructor.courseId, instructor.email);                                             
         
         if (instructorData == null) {
-            throw new EntityDoesNotExistException(
-                    "Instructor [" + data.instructorEmail + "] does not exist in course [" + instructor.courseId + "]");
+            throw new EntityDoesNotExistException("Instructor [" 
+                                                  + data.instructorEmail 
+                                                  + "] does not exist in course ["
+                                                  + instructor.courseId + "]");
         }
         
         Emails emailMgr = new Emails();
 
         try {
-            MimeMessage email = emailMgr.generateNewInstructorAccountJoinEmail(instructor.courseId, 
+            List<MimeMessage> emails = emailMgr.generateNewInstructorAccountJoinEmail(isSampleDataImported, 
                                                                                instructorData,
                                                                                data.instructorShortName,
                                                                                data.instructorInstitution);
-            
-            emailMgr.sendEmail(email);
-            return email;
+            emailMgr.sendEmail(emails.get(0));
+            emailMgr.sendEmail(emails.get(1));
 
         } catch (Exception e) {
             throw new RuntimeException("Unexpected error while sending email",e);

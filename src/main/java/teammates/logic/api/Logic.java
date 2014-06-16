@@ -450,13 +450,16 @@ public class Logic {
     }
 
     
-    public void createAccountForNewInstructor(String encryptedKey, String googleId, String institute) throws JoinCourseException{
-        
+    public void createAccountForNewInstructor(String encryptedKey, String googleId, String institute, boolean isSampleDataImported) 
+                throws JoinCourseException, InvalidParametersException{
+
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, encryptedKey);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, institute);
-        
-        accountsLogic.createAccountForNewInstructor(encryptedKey, googleId, institute);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, isSampleDataImported);
+      
+        accountsLogic.createAccountForNewInstructor(encryptedKey, googleId, institute, isSampleDataImported);
+               
     }
     /**
      * Preconditions: <br>
@@ -851,12 +854,14 @@ public class Logic {
     }
     
     
-    public MimeMessage sendJoinLinkToNewInstructor(InstructorAttributes instructor, AdminHomePageData data) throws InvalidParametersException, EntityDoesNotExistException{
+    public void sendJoinLinkToNewInstructor(InstructorAttributes instructor, AdminHomePageData data, boolean isSampleDataImported)
+           throws InvalidParametersException, EntityDoesNotExistException{
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, data);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructor);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, isSampleDataImported);
         
-        return instructorsLogic.sendJoinLinkToNewInstructor(instructor, data);
+        instructorsLogic.sendJoinLinkToNewInstructor(instructor, data, isSampleDataImported);
         
     }
     

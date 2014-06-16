@@ -25,6 +25,7 @@ public class InstructorCourseJoinAction extends Action {
         
         String key = getRequestParamValue(Const.ParamsNames.REGKEY);
         String institute = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
+        String isSampleDataImported = getRequestParamValue(Const.ParamsNames.IS_SAMPLE_DATA_IMPORTED);
         
         Assumption.assertNotNull(key);
 
@@ -36,17 +37,23 @@ public class InstructorCourseJoinAction extends Action {
                 + "<br/>Key: " + key;
         
         InstructorAttributes instructor = logic.getInstructorForRegistrationKey(key);
+
         if (instructor != null && instructor.isRegistered()) {
             // Bypass confirmation if instructor is already registered
-            String redirectUrl = Url.addParamToUrl(
-                    Const.ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED,
-                    Const.ParamsNames.REGKEY, key);
+            String redirectUrl = Url.addParamToUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED,
+                                                   Const.ParamsNames.REGKEY, key);
+
+            if (institute != null) {
+                Assumption.assertNotNull(isSampleDataImported);
+                redirectUrl = Url.addParamToUrl(redirectUrl, Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
+                redirectUrl = Url.addParamToUrl(redirectUrl, Const.ParamsNames.IS_SAMPLE_DATA_IMPORTED, isSampleDataImported);
+            }
             
             return createRedirectResult(redirectUrl);
         } 
-        
         pageData = new InstructorCourseJoinConfirmationPageData(account);
         pageData.regkey = key;
+        pageData.isSampleDataImported = isSampleDataImported;
         
         if(institute!=null){
             pageData.institute = institute;

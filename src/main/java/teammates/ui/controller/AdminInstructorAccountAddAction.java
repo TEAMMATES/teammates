@@ -40,7 +40,7 @@ public class AdminInstructorAccountAddAction extends Action {
         data.instructorInstitution = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
         Assumption.assertNotNull(data.instructorInstitution);
         
-        //String importSampleData = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_IMPORT_SAMPLE);
+        String importSampleData = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_IMPORT_SAMPLE);
 
         
         data.instructorShortName = data.instructorShortName.trim();
@@ -48,108 +48,84 @@ public class AdminInstructorAccountAddAction extends Action {
         data.instructorEmail = data.instructorEmail.trim();
         data.instructorInstitution = data.instructorInstitution.trim();
         
-        
-//        if (!data.instructorId.isEmpty() && logic.isInstructor(data.instructorId)) {
+//        if(data.instructorShortName.length() == 0){
 //            isError = true;
-//            String errorMessage = "The Google ID " + data.instructorId
-//                    + " is already registered as an instructor";
+//            String errorMessage = "Short Name cannot be empty";
 //            statusToUser.add(errorMessage);
 //            statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + errorMessage;
 //            return createShowPageResult(Const.ViewURIs.ADMIN_HOME, data);
 //        }
-
-//        try {
-//            logic.createAccount(data.instructorId,
-//                    data.instructorName, true,
-//                    data.instructorEmail,
-//                    data.instructorInstitution);
-//
-//            if (importSampleData != null) {
-//                importDemoData(data);
-//            }
-//
-//        } catch (Exception e) {
-//            setStatusForException(e);
-//            return createShowPageResult(Const.ViewURIs.ADMIN_HOME, data);
-//        }
         
-        try {             
+        
+        try {
+            BackDoorLogic backDoor = new BackDoorLogic();
+            String CourseId = importDemoData(data);              
+            InstructorAttributes instructor = backDoor.getInstructorsForCourse(CourseId).get(0);   
             
-            InstructorAttributes instructor = new InstructorAttributes(null, generateDemoCourseId(data.instructorEmail), data.instructorName, data.instructorEmail);          
-            InstructorsLogic.inst().createInstructor(instructor);
-            logic.sendJoinLinkToNewInstructor(instructor, data);
-            
+            if(importSampleData !=null){            
+                logic.sendJoinLinkToNewInstructor(instructor, data, true);
+            }else{            
+                logic.sendJoinLinkToNewInstructor(instructor, data, false);
+            }
+
         } catch (Exception e) {
             setStatusForException(e);
             return createShowPageResult(Const.ViewURIs.ADMIN_HOME, data);
         }
 
-//        statusToUser.add("Instructor " + data.instructorName
-//                + " has been successfully created");
-//        statusToAdmin = "A New Instructor <span class=\"bold\">"
-//                + data.instructorName + "</span> has been created.<br>"
-//                + "<span class=\"bold\">Id: </span>" + data.instructorId
-//                + "<br>"
-//                + "<span class=\"bold\">Email: </span>" + data.instructorEmail
-//                + "<span class=\"bold\">Institution: </span>"
-//                + data.instructorInstitution;
-        
         statusToUser.add("Instructor " + data.instructorName
                 + " has been successfully created");
         statusToAdmin = "A New Instructor <span class=\"bold\">"
                 + data.instructorName + "</span> has been created.<br>"
-                + "<span class=\"bold\">Id: </span>" + "Waiting for Uesr Confirmation"
+                + "<span class=\"bold\">Id: </span>" + "Id will be assigned when the verification link was clicked and confirmed"
                 + "<br>"
                 + "<span class=\"bold\">Email: </span>" + data.instructorEmail
                 + "<span class=\"bold\">Institution: </span>"
                 + data.instructorInstitution;
+ 
         
         return createRedirectResult(Const.ActionURIs.ADMIN_HOME_PAGE);
     }
 
-//    private String importDemoData(AdminHomePageData helper)
-//            throws EntityAlreadyExistsException,
-//            InvalidParametersException, EntityDoesNotExistException {
-//
-//        String jsonString;
-//        String courseId = generateDemoCourseId(helper.instructorEmail); 
-//
-//        jsonString = FileHelper.readStream(Config.class.getClassLoader()
-//                .getResourceAsStream("InstructorSampleData.json"));
-//
-//        // replace email
-//        jsonString = jsonString.replaceAll(
-//                "teammates.demo.instructor@demo.course",
-//                helper.instructorEmail);
-//        // replace name
-//        jsonString = jsonString.replaceAll("Demo_Instructor",
-//                helper.instructorName);
-//        // replace id
-//        jsonString = jsonString.replaceAll("teammates.demo.instructor",
-//                "teammates.demo.instructor");
-//        // replace course
-//        jsonString = jsonString.replaceAll("demo.course", courseId);
-//
-//        // update evaluation time
-//        Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-//        c.set(Calendar.AM_PM, Calendar.PM);
-//        c.set(Calendar.HOUR, 11);
-//        c.set(Calendar.MINUTE, 59);
-//        c.set(Calendar.YEAR, c.get(Calendar.YEAR) + 1);
-//        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm a Z");
-//
-//        jsonString = jsonString.replace("2013-04-01 11:59 PM UTC",
-//                formatter.format(c.getTime()));
-//
-//        Gson gson = Utils.getTeammatesGson();
-//        DataBundle data = gson.fromJson(jsonString, DataBundle.class);
-//        
-//        BackDoorLogic backdoor = new BackDoorLogic();
-//        backdoor.persistDataBundle(data);        
-//        
-//        return courseId;
-//
-//    }
+    private String importDemoData(AdminHomePageData helper)
+            throws EntityAlreadyExistsException,
+            InvalidParametersException, EntityDoesNotExistException {
+
+        String jsonString;
+        String courseId = generateDemoCourseId(helper.instructorEmail); 
+
+        jsonString = FileHelper.readStream(Config.class.getClassLoader()
+                .getResourceAsStream("InstructorSampleData.json"));
+
+        // replace email
+        jsonString = jsonString.replaceAll(
+                "teammates.demo.instructor@demo.course",
+                helper.instructorEmail);
+        // replace name
+        jsonString = jsonString.replaceAll("Demo_Instructor",
+                helper.instructorName);
+        // replace course
+        jsonString = jsonString.replaceAll("demo.course", courseId);
+        // update evaluation time
+        Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        c.set(Calendar.AM_PM, Calendar.PM);
+        c.set(Calendar.HOUR, 11);
+        c.set(Calendar.MINUTE, 59);
+        c.set(Calendar.YEAR, c.get(Calendar.YEAR) + 1);
+        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm a Z");
+
+        jsonString = jsonString.replace("2013-04-01 11:59 PM UTC",
+                formatter.format(c.getTime()));
+
+        Gson gson = Utils.getTeammatesGson();
+        DataBundle data = gson.fromJson(jsonString, DataBundle.class);
+        
+        BackDoorLogic backdoor = new BackDoorLogic();
+        backdoor.persistDataBundle(data);        
+        
+        return courseId;
+
+    }
 
     /**
     * Strategy to Generate New Demo Course Id:

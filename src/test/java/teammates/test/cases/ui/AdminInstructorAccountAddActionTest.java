@@ -110,7 +110,6 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
         assertEquals(Const.ViewURIs.ADMIN_HOME + "?error=true&user=" + adminUserId, rForAlreadyExistingInstructor.getDestinationWithParams());
         AdminHomePageData pageData = (AdminHomePageData)rForAlreadyExistingInstructor.data;
         assertEquals(email, pageData.instructorEmail);
-        assertEquals(newInstructorId, pageData.instructorId);
         assertEquals(institute, pageData.instructorInstitution);
         assertEquals(name, pageData.instructorName);
 
@@ -134,7 +133,6 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
         
         pageData = (AdminHomePageData) rInvalidParam.data;
         assertEquals(email, pageData.instructorEmail);
-        assertEquals(anotherNewInstructorId, pageData.instructorId);
         assertEquals(institute, pageData.instructorInstitution);
         assertEquals(invalidName, pageData.instructorName);
         

@@ -68,7 +68,9 @@
                     		ref = Const.ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED
                     				+ "?regkey=" + data.regkey + "&"
                     				+ Const.ParamsNames.INSTRUCTOR_INSTITUTION + "="
-                    				+ data.institute;
+                    				+ data.institute + "&"
+                                    + Const.ParamsNames.IS_SAMPLE_DATA_IMPORTED + "="
+                                    + data.isSampleDataImported;
                     	}
                     %>
                     <a href="<%=ref%>" id="button_confirm"

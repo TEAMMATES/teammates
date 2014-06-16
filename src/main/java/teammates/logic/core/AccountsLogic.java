@@ -152,76 +152,79 @@ public class AccountsLogic {
     }
     
     
-    public void createAccountForNewInstructor(String encryptedKey, String googleId, String institute) throws JoinCourseException {
-        
-        verifyInstructorJoinCourseRequest(encryptedKey, googleId);
-        
+    public void createAccountForNewInstructor(String encryptedKey, String googleId, String institute, boolean isSampleDataImported) 
+                throws JoinCourseException, InvalidParametersException{
+            
+        verifyNewInstructorAccountRequest(encryptedKey, googleId);
+     
         InstructorAttributes instructor = InstructorsLogic.inst().getInstructorForRegistrationKey(encryptedKey);
-                
+        AccountAttributes accountToAdd = new AccountAttributes(googleId,
+                                                               instructor.name,
+                                                               true,
+                                                               instructor.email,
+                                                               institute);        
         try {
-
-            AccountAttributes accountToAdd = new AccountAttributes(googleId,
-                                                                   instructor.name,
-                                                                   true,
-                                                                   instructor.email,
-                                                                   institute);
             createAccount(accountToAdd);
-            importDemoData(instructor.email, instructor.name, googleId, instructor.courseId);
-
-        } catch (Exception e) {
-           // setStatusForException(e);
-          //  return createShowPageResult(Const.ViewURIs.ADMIN_HOME, data);
+        } catch (InvalidParametersException e) {
+            throw e;
         }
 
-//        instructor.googleId = googleId;
-//        try {
-//            InstructorsLogic.inst().updateInstructorByEmail(instructor.email, instructor);
-//        } catch (InvalidParametersException | EntityDoesNotExistException e) {
-//            throw new JoinCourseException(e.getMessage());
-//        }
+        instructor.googleId = googleId;
+        try {           
+            InstructorsLogic.inst().updateInstructorByEmail(instructor.email, instructor);
+            if(!isSampleDataImported){
+                BackDoorLogic backDoor = new BackDoorLogic();
+                backDoor.deleteInstructor(instructor.courseId, instructor.email);
+                backDoor.deleteInstructor(instructor.courseId, instructor.email);
+                backDoor.deleteCourse(instructor.courseId);           
+            }
+        } catch (InvalidParametersException | EntityDoesNotExistException e) {
+            throw new JoinCourseException(e.getMessage());
+        }
         
     }
     
-    private void importDemoData(String email, String name, String id, String courseId)
-                 throws EntityAlreadyExistsException,
-                        InvalidParametersException, EntityDoesNotExistException {
-
-        String jsonString;
-        jsonString = FileHelper.readStream(Config.class.getClassLoader()
-                .getResourceAsStream("InstructorSampleData.json"));
-
-        // replace email
-        jsonString = jsonString.replaceAll(
-                "teammates.demo.instructor@demo.course",
-                email);
-        // replace name
-        jsonString = jsonString.replaceAll("Demo_Instructor",
-                name);
-        // replace id
-        jsonString = jsonString.replaceAll("teammates.demo.instructor",
-                id);
-        // replace course
-        jsonString = jsonString.replaceAll("demo.course", courseId);
-
-        // update evaluation time
-        Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        c.set(Calendar.AM_PM, Calendar.PM);
-        c.set(Calendar.HOUR, 11);
-        c.set(Calendar.MINUTE, 59);
-        c.set(Calendar.YEAR, c.get(Calendar.YEAR) + 1);
-        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm a Z");
-
-        jsonString = jsonString.replace("2013-04-01 11:59 PM UTC",
-                formatter.format(c.getTime()));
-
-        Gson gson = Utils.getTeammatesGson();
-        DataBundle data = gson.fromJson(jsonString, DataBundle.class);
-
-        BackDoorLogic backdoor = new BackDoorLogic();
+    private void verifyNewInstructorAccountRequest(String encryptedKey, String googleId) 
+                 throws JoinCourseException {
         
-       
-        backdoor.persistDataBundle(data);
-       
+        InstructorAttributes instructorRole = InstructorsLogic.inst().getInstructorForRegistrationKey(encryptedKey);
+        
+        if (instructorRole == null) {
+            String joinUrl = Const.ActionURIs.INSTRUCTOR_COURSE_JOIN + "?regkey=" + encryptedKey;
+            
+            throw new JoinCourseException(Const.StatusCodes.INVALID_KEY,
+                    "You have used an invalid join link: " + joinUrl);
+            
+        } else if (instructorRole.isRegistered()) {
+            if (instructorRole.googleId.equals(googleId)) {
+                AccountAttributes account = accountsDb.getAccount(googleId);
+                if(account == null) {
+                    try {
+                        createInstructorAccount(instructorRole);
+                        return;
+                    } catch (InvalidParametersException e) {
+                        throw new JoinCourseException(e.getMessage());
+                    }
+                } else {
+                    throw new JoinCourseException(Const.StatusCodes.ALREADY_JOINED,
+                                                  "You has already verified your google account");
+                }
+                
+            } else {
+                throw new JoinCourseException(Const.StatusCodes.KEY_BELONGS_TO_DIFFERENT_USER,
+                        String.format(Const.StatusMessages.JOIN_COURSE_KEY_BELONGS_TO_DIFFERENT_USER,
+                                truncateGoogleId(instructorRole.googleId)));
+            }
+        }
+    
+        InstructorAttributes existingInstructor =
+                InstructorsLogic.inst().getInstructorForGoogleId(instructorRole.courseId, googleId);
+        
+        if (existingInstructor != null) {
+            throw new JoinCourseException(
+                    String.format(Const.StatusMessages.JOIN_COURSE_GOOGLE_ID_BELONGS_TO_DIFFERENT_USER,
+                            googleId));
+        }
     }
     
     

@@ -13,6 +13,7 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
+import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AdminHomePage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
@@ -53,58 +54,42 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         
         account = new AccountAttributes();
         
-        account.googleId = "AHPUiT.instr1";
         account.name =  "AHPUiT Instrúctör";
-        account.email = "AHPUiT.instr1@gmail.com";
+        account.email = TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT + "@gmail.com";
         account.institute = "Institution";
         account.isInstructor = true;
+        String shorName = "shorName";
         
-        BackDoor.deleteAccount(account.googleId);
-        
-        ______TS("action success : create instructor account with demo course");
+        ______TS("action success : create instructor with demo course");
         
         String demoCourseId = "AHPUiT.instr1.gma-demo";
         BackDoor.deleteCourse(demoCourseId);
         
         //with sample course
-        homePage.createInstructor(account, true)
-            .verifyStatus("Instructor AHPUiT Instrúctör has been successfully created");
+        homePage.createInstructor(account, shorName,true)
+                .verifyStatus("Instructor AHPUiT Instrúctör has been successfully created");
 
-        verifyAccountCreated(account);
         assertNotNull(BackDoor.getCourse(demoCourseId));
 
-        ______TS("action failure : trying to create duplicate instructor account");
-        
-        homePage.navigateTo(createUrl(Const.ActionURIs.ADMIN_HOME_PAGE));
-        homePage.createInstructor(account, false)
-            .verifyStatus("The Google ID AHPUiT.instr1 is already registered as an instructor");
         
         ______TS("action success : create instructor account without demo course");
-        
-        account.googleId = "AHPUiT.instr2";
+       
         demoCourseId = account.googleId + "-demo";
-        BackDoor.deleteAccount(account.googleId);
+        BackDoor.deleteCourse(demoCourseId);
         
-        homePage.createInstructor(account, false)
-            .verifyStatus("Instructor AHPUiT Instrúctör has been successfully created");
-        verifyAccountCreated(account);
-        assertNull(BackDoor.getCourse(demoCourseId));
+        homePage.createInstructor(account,shorName,false)
+                .verifyStatus("Instructor AHPUiT Instrúctör has been successfully created");
+        
+        //we actually first create the demo course then after the Account is verified, the course will be deleted 
+        assertNotNull(BackDoor.getCourse(demoCourseId));
         
         ______TS("action failure : invalid parameter");
 
         account.email = "AHPUiT.email.com";
-        BackDoor.deleteAccount(account.googleId);
         
-        homePage.createInstructor(account, false)
-            .verifyStatus(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, account.email, FieldValidator.REASON_INCORRECT_FORMAT));
+        homePage.createInstructor(account, shorName, false)
+                .verifyStatus(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, account.email, FieldValidator.REASON_INCORRECT_FORMAT));
         
-    }
-
-    private void verifyAccountCreated(AccountAttributes expected) {
-        AccountAttributes actual = BackDoor.getAccountWithRetry(expected.googleId);
-        assertNotNull(actual);
-        expected.createdAt = actual.createdAt;
-        assertEquals(expected.toString(), actual.toString());
     }
 
     @AfterClass
