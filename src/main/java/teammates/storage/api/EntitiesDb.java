@@ -75,8 +75,6 @@ public abstract class EntitiesDb {
                     + entityToAdd.getEntityTypeAsString() + "->"
                     + entityToAdd.getIdentificationString());
         }
-        
-        getPM().close();
     }
     
     /**
@@ -118,8 +116,6 @@ public abstract class EntitiesDb {
                     + entityToAdd.getEntityTypeAsString() + "->"
                     + entityToAdd.getIdentificationString());
         }
-        
-        getPM().close();
     }
     
     // TODO: use this method for subclasses.
@@ -158,9 +154,6 @@ public abstract class EntitiesDb {
                     + entityToDelete.getEntityTypeAsString() + "->"
                     + entityToDelete.getIdentificationString());
         }
-        
-        getPM().close();
-
     }
     
     /**
