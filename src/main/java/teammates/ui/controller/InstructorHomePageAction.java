@@ -6,6 +6,7 @@ import java.util.HashMap;
 import teammates.common.datatransfer.CourseSummaryBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.common.util.Const.StatusMessages;
@@ -45,10 +46,13 @@ public class InstructorHomePageAction extends Action {
                 throw new RuntimeException("Invalid course sorting criteria.");
         }
         
-        for(CourseSummaryBundle course: data.courses){
+        data.instructors = new HashMap<String, InstructorAttributes>();
+        
+        for(CourseSummaryBundle course: data.courses) {
+            InstructorAttributes instructor = logic.getInstructorForGoogleId(course.course.id, account.googleId);
+            data.instructors.put(course.course.id, instructor);
+            
             EvaluationAttributes.sortEvaluationsByDeadlineDescending(course.evaluations);
-        }
-        for(CourseSummaryBundle course: data.courses){
             FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(course.feedbackSessions);
         }
         

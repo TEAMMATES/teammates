@@ -2,6 +2,7 @@
 
 <%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.common.datatransfer.CourseAttributes"%>
+<%@ page import="teammates.common.datatransfer.InstructorAttributes" %>
 <%@ page import="teammates.common.util.FieldValidator"%>
 <%@ page import="teammates.common.datatransfer.CourseDetailsBundle"%>
 <%@ page import="static teammates.ui.controller.PageData.sanitizeForHtml"%>
@@ -137,7 +138,12 @@
                         <a class="btn btn-default btn-xs t_course_delete<%=idx%>"
                             href="<%=data.getInstructorCourseDeleteLink(courseDetails.course.id,false)%>"
                             onclick="return toggleDeleteCourseConfirmation('<%=courseDetails.course.id%>');"
-                            data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_DELETE%>">
+                            data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_DELETE%>"
+                            <% InstructorAttributes instructor = data.instructors.get(courseDetails.course.id);
+                               if (!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE)) {%>
+                                   disabled="disabled"
+                            <% } %>
+                            >
                             Delete</a>
                         <a class="btn btn-default btn-xs t_course_archive<%=idx%>"
                             href="<%=data.getInstructorCourseArchiveLink(courseDetails.course.id, true, false)%>"
@@ -204,7 +210,12 @@
                         <a class="btn btn-default btn-xs" id="t_course_delete<%=idx%>"
                             href="<%=data.getInstructorCourseDeleteLink(course.id,false)%>"
                             onclick="return toggleDeleteCourseConfirmation('<%=course.id%>');"
-                            data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_DELETE%>">
+                            data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_DELETE%>"
+                            <% InstructorAttributes instructor = data.instructors.get(course.id);
+                               if (!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE)) {%>
+                                   disabled="disabled"
+                            <% } %>
+                            >
                             Delete</a>
                         <a class="btn btn-default btn-xs" id="t_course_unarchive<%=idx%>"
                             href="<%=data.getInstructorCourseArchiveLink(course.id, false, false)%>">

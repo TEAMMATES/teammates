@@ -2,6 +2,7 @@
 
 <%@page import="teammates.common.util.TimeHelper"%>
 <%@ page import="teammates.common.util.Const" %>
+<%@ page import="teammates.common.datatransfer.InstructorAttributes" %>
 <%@ page import="teammates.common.datatransfer.CourseSummaryBundle"%>
 <%@ page import="teammates.common.datatransfer.EvaluationAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackSessionAttributes"%>
@@ -141,7 +142,12 @@
                                      <a class="btn btn-primary btn-xs btn-tm-actions course-delete-for-test"
                                         href="<%=data.getInstructorCourseDeleteLink(courseDetails.course.id,true)%>"
                                         title="<%=Const.Tooltips.COURSE_DELETE%>" data-toggle="tooltip" data-placement="top"
-                                        onclick="return toggleDeleteCourseConfirmation('<%=courseDetails.course.id%>')"> Delete</a>
+                                        onclick="return toggleDeleteCourseConfirmation('<%=courseDetails.course.id%>')"
+                                        <% InstructorAttributes instructor = data.instructors.get(courseDetails.course.id);
+                                           if (!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE)) {%>
+                                            disabled="disabled"
+                                        <% } %>
+                                        > Delete</a>
                                 </span>
                             </div>
                         </div>
