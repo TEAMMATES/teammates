@@ -68,7 +68,8 @@
                     </div>
                     <div class="modal-body">
                         <br>
-                        <pre class="pre-plain"><%=data.studentProfile.moreInfo %></pre>
+                        <pre class="pre-plain height-fixed-md"><%=data.studentProfile.moreInfo.isEmpty() ? 
+                                            "<i class='text-muted'>" + Const.STUDENT_PROFILE_FIELD_NOT_FILLED + "</i>" : data.studentProfile.moreInfo%></pre>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
@@ -94,19 +95,21 @@
                                 <tbody>
                                     <tr>
                                         <td class="text-bold">Shortname (Gender)</td>
-                                        <td><%=data.studentProfile.shortName %> (<%=data.studentProfile.gender %>)</td>
+                                        <td><%=data.studentProfile.shortName.isEmpty() ? "<i class='text-muted'>" + Const.STUDENT_PROFILE_FIELD_NOT_FILLED + "</i>" : data.studentProfile.shortName %> 
+                                        (<%=data.studentProfile.gender.equals(Const.GenderTypes.OTHER) ?
+                                        		"<i  class='text-muted'>" + Const.STUDENT_PROFILE_FIELD_NOT_FILLED + "</i>" : data.studentProfile.gender %>)</td>
                                     </tr>
                                     <tr>
                                         <td class="text-bold">Email</td>
-                                        <td><%=data.studentProfile.email %></td>
+                                        <td><%=data.studentProfile.email.isEmpty() ? "<i  class='text-muted'>" + Const.STUDENT_PROFILE_FIELD_NOT_FILLED + "</i>" : data.studentProfile.email %></td>
                                     </tr>
                                     <tr>
                                         <td class="text-bold">Institution</td>
-                                        <td><%=data.studentProfile.institute %></td>
+                                        <td><%=data.studentProfile.institute.isEmpty() ? "<i  class='text-muted'>" + Const.STUDENT_PROFILE_FIELD_NOT_FILLED + "</i>" : data.studentProfile.institute %></td>
                                     </tr>
                                     <tr>
                                         <td class="text-bold">Country</td>
-                                        <td><%=data.studentProfile.country %></td>
+                                        <td><%=data.studentProfile.country.isEmpty() ? "<i  class='text-muted'>" + Const.STUDENT_PROFILE_FIELD_NOT_FILLED + "</i>" : data.studentProfile.country %></td>
                                     </tr>                                
                                 </tbody>
                             </table>
@@ -119,7 +122,8 @@
                                 <span data-toggle="modal" data-target="#studentProfileMoreInfo" 
                                       class="text-muted pull-right glyphicon glyphicon-resize-full cursor-pointer"></span>
                                     <h5>More Info </h5>                                    
-                                    <pre class="pre-plain height-fixed-md"><%=data.studentProfile.moreInfo%></pre>
+                                    <pre class="pre-plain height-fixed-md"><%=data.studentProfile.moreInfo.isEmpty() ? 
+                                            "<i class='text-muted'>" + Const.STUDENT_PROFILE_FIELD_NOT_FILLED + "</i>" : data.studentProfile.moreInfo%></pre>
                                 </div>
                             </div>
                         </div>
