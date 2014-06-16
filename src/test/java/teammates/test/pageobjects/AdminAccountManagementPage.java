@@ -30,6 +30,13 @@ public class AdminAccountManagementPage extends AppPage {
         waitForPageToLoad();
         return changePageType(AdminAccountDetailsPage.class);
     }
+    
+    public AdminActivityLogPage clickViewRecentActions(
+            String instructorId) {
+        browser.driver.findElement(By.id(instructorId + "_recentActions")).click();
+        waitForPageToLoad();
+        return changePageType(AdminActivityLogPage.class);
+    }
 
     public AdminAccountManagementPage clickAndCancelDeleteAccountLink(
             String googleId) {

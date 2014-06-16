@@ -94,7 +94,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         expectedSpa.modifiedDate = actualSpa.modifiedDate;
         
         assertEquals(expectedSpa.toString(), actualSpa.toString());
-        
+        accountsLogic.deleteAccountCascade("id");
     }
 
     private void testCreateAccount() throws Exception {
@@ -114,6 +114,8 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         
         accountsLogic.createAccount(accountToCreate);
         TestHelper.verifyPresentInDatastore(accountToCreate);
+        
+        accountsLogic.deleteAccountCascade("id");
         
         ______TS("invalid parameters exception case");
 
@@ -159,6 +161,8 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         // Here we create another INSTRUCTOR for testing our createInstructor() method
         String googleIdWithGmailDomain = instructor2.googleId+"@GMAIL.COM"; //to check if "@GMAIL.COM" is stripped out correctly
         accountsLogic.createInstructorAccount(googleIdWithGmailDomain, instructor2.courseId, instructor2.name, instructor2.email, "National University of Singapore");
+        InstructorsLogic.inst().updateInstructorByGoogleId(instructor2.googleId, instructor2);
+        
         
         // `instructor` here is created with NAME and EMAIL field obtain from his AccountData
         AccountAttributes creator = dataBundle.accounts.get("instructor1OfCourse1");
@@ -293,6 +297,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         
         accountsLogic.makeAccountInstructor("student2InCourse1");
         assertTrue(accountsLogic.isAccountAnInstructor("student2InCourse1"));
+        accountsLogic.downgradeInstructorToStudentCascade("student2InCourse1");
         
         accountsLogic.makeAccountInstructor("id-does-not-exist");
         assertFalse(accountsLogic.isAccountPresent("id-does-not-exist"));
@@ -440,6 +445,8 @@ public class AccountsLogicTest extends BaseComponentTestCase {
 
         // check if still instructor
         assertTrue(logic.isInstructor(correctStudentId));
+        
+        accountsLogic.deleteAccountCascade(correctStudentId);
     }
     
     private void testJoinCourseForInstructor() throws Exception {
@@ -486,12 +493,13 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         accountCreated = accountsLogic.getAccount(loggedInGoogleId);
         Assumption.assertNotNull(accountCreated);
         
+        accountsLogic.deleteAccountCascade(loggedInGoogleId);
         
         ______TS("success: instructor joined but account already exists");
         
         AccountAttributes nonInstrAccount = dataBundle.accounts.get("student1InCourse1");
         
-        instructorsLogic.addInstructor(instructor.courseId, nonInstrAccount.name, nonInstrAccount.email);
+        instructorsLogic.createInstructor(null, instructor.courseId, nonInstrAccount.name, nonInstrAccount.email);
         key = instructorsLogic.getKeyForInstructor(instructor.courseId, nonInstrAccount.email);
         encryptedKey = StringHelper.encrypt(key);
         
@@ -506,14 +514,14 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         
         instructor = dataBundle.instructors.get("instructor4");
         
-        instructorsLogic.addInstructor(instructor.courseId, "anInstructorWithoutGoogleId", "anInstructorWithoutGoogleId@gmail.com");  
+        instructorsLogic.createInstructor(null, instructor.courseId, "anInstructorWithoutGoogleId", "anInstructorWithoutGoogleId@gmail.com");  
         
         nonInstrAccount = dataBundle.accounts.get("student2InCourse1");
         nonInstrAccount.email = "newInstructor@gmail.com";
         nonInstrAccount.name = " newInstructor";
         nonInstrAccount.googleId = "newInstructorGoogleId";
        
-        instructorsLogic.addInstructor(instructor.courseId, nonInstrAccount.name, nonInstrAccount.email);
+        instructorsLogic.createInstructor(null, instructor.courseId, nonInstrAccount.name, nonInstrAccount.email);
         key = instructorsLogic.getKeyForInstructor(instructor.courseId, nonInstrAccount.email);
         encryptedKey = StringHelper.encrypt(key);
         
@@ -525,6 +533,8 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         
         AccountAttributes instructorAccount = accountsLogic.getAccount(nonInstrAccount.googleId);
         assertEquals("National University of Singapore", instructorAccount.institute);
+        
+        accountsLogic.deleteAccountCascade(nonInstrAccount.googleId);
         
         
         ______TS("failure: instructor already joined");

@@ -89,6 +89,7 @@ public class ActionFactory {
         
         map(INSTRUCTOR_STUDENT_COMMENT_ADD, InstructorStudentCommentAddAction.class);
         map(INSTRUCTOR_STUDENT_COMMENT_EDIT, InstructorStudentCommentEditAction.class);
+        map(INSTRUCTOR_COMMENTS_PAGE, InstructorCommentsPageAction.class);
 
         map(STUDENT_COURSE_DETAILS_PAGE, StudentCourseDetailsPageAction.class);
         map(STUDENT_COURSE_JOIN, StudentCourseJoinAction.class);

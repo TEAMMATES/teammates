@@ -65,6 +65,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         AppPage.logout(browser);
         studentHome = HomePage.getNewInstance(browser).clickStudentLogin()
                                                       .loginAsStudent(unregUserId, unregPassword);
+        // this test uses the accounts from test.properties
         studentHome.verifyHtml("/StudentHomeHTMLEmpty.html");
         
         ______TS("login");
@@ -76,6 +77,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
             
         ______TS("content: multiple courses");
         
+        // this test uses the accounts from test.properties
         studentHome.verifyHtml("/StudentHomeHTML.html");
         
         Url detailsPageUrl = createUrl(Const.ActionURIs.STUDENT_HOME_PAGE)

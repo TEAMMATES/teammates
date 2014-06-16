@@ -42,11 +42,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         
         ______TS("Success: create an instructor");
         
-        InstructorAttributes i = new InstructorAttributes();
-        i.googleId = "valid.fresh.id";
-        i.courseId = "valid.course.Id";
-        i.name = "valid.name";
-        i.email = "valid@email.com";
+        InstructorAttributes i = new InstructorAttributes("valid.fresh.id", "valid.course.Id", "valid.name", "valid@email.com");
         
         instructorsDb.deleteEntity(i);
         instructorsDb.createEntity(i);
@@ -462,11 +458,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
     
     private InstructorAttributes createNewInstructor() throws InvalidParametersException {
         
-        InstructorAttributes i = new InstructorAttributes();
-        i.googleId = "InstrDbT.valid.id";
-        i.courseId = "InstrDbT.valid.course";
-        i.name = "InstrDbT.valid.name";
-        i.email = "InstrDbT.valid@email.com";
+        InstructorAttributes i = new InstructorAttributes("InstrDbT.valid.id", "InstrDbT.valid.course", "InstrDbT.valid.name", "InstrDbT.valid@email.com");
         i.key = "InstrDbT.validKey";
         
         try {

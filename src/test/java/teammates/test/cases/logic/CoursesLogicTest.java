@@ -106,12 +106,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         c.id = "fresh-course-tccai";
         c.name = "Fresh course for tccai";
         
-        InstructorAttributes i = new InstructorAttributes();
-        i.googleId = "instructor-for-tccai";
-        i.courseId = c.id;
-        i.name = "Instructor for tccai";
-        i.email = "ins.for.iccai@gmail.com";
-        
+        InstructorAttributes i = new InstructorAttributes("instructor-for-tccai", c.id, "Instructor for tccai", "ins.for.iccai@gmail.com");       
         
         try {
             coursesLogic.createCourseAndInstructor(i.googleId, c.id, c.name);

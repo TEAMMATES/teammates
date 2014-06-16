@@ -9,6 +9,8 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.test.cases.BaseTestCase;
 
@@ -22,13 +24,9 @@ public class InstructorAttributesTest extends BaseTestCase {
     @Test
     public void testValidate() {
         
-        InstructorAttributes i = new InstructorAttributes();
-        i.googleId = "valid.google.id";
-        i.name = "valid name";
-        i.email = "valid@email.com";
-        i.courseId = "valid-course-id";
+        InstructorAttributes i = new InstructorAttributes("valid.google.id", "valid-course-id", "valid name", "valid@email.com");
         
-        assertEquals("valid value", true, i.isValid());
+        assertEquals(true, i.isValid());
         
         i.googleId = "invalid@google@id";
         i.name = "";
@@ -43,20 +41,31 @@ public class InstructorAttributesTest extends BaseTestCase {
                 + String.format(EMAIL_ERROR_MESSAGE, i.email, REASON_INCORRECT_FORMAT);  
         assertEquals("invalid value", errorMessage, StringHelper.toString(i.getInvalidityInfo()));
     }
-
+    
     @Test
-    public void testGetValidityInfo(){
-        //already tested in testValidate() above
+    public void testConstructor() {
+        InstructorAttributes instructor = new InstructorAttributes("valid.google.id", "valid-course-id", "valid name", "valid@email.com");
+        String roleName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+        String displayedName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+        InstructorPrivileges privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+        
+        assertEquals(roleName, instructor.role);
+        assertEquals(displayedName, instructor.displayedName);
+        assertEquals(privileges, instructor.privileges);
+        
+        InstructorAttributes instructor1 = new InstructorAttributes(instructor.googleId, instructor.courseId, instructor.name, instructor.email,
+                instructor.role, instructor.displayedName, instructor.instructorPrivilegesAsText);
+        
+        assertEquals(privileges, instructor1.privileges);
     }
     
     @Test
-    public void testIsValid(){
-        //already tested in testValidate() above
-    }
-    
-    @Test
-    public void testToString(){
-        //TODO:implement this
+    public void testIsRegistered() {
+        InstructorAttributes instructor = new InstructorAttributes("valid.google.id", "valid-course-id", "valid name", "valid@email.com");       
+        assertTrue(instructor.isRegistered());
+        
+        instructor.googleId = null;
+        assertFalse(instructor.isRegistered());     
     }
     
     @AfterClass
