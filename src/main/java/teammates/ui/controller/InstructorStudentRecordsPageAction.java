@@ -2,9 +2,11 @@ package teammates.ui.controller;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import teammates.common.datatransfer.CommentAttributes;
+import teammates.common.datatransfer.CommentRecipientType;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -43,7 +45,14 @@ public class InstructorStudentRecordsPageAction extends Action {
             data.studentProfile = logic.getStudentProfile(data.student.googleId);
             Assumption.assertNotNull(data.student);
             data.showCommentBox = showCommentBox;
-            data.comments = logic.getCommentsForGiverAndReceiver(courseId, instructor.email, studentEmail);
+            data.comments = logic.getCommentsForReceiver(courseId, CommentRecipientType.PERSON, studentEmail);
+            Iterator<CommentAttributes> iterator = data.comments.iterator();
+            while(iterator.hasNext()){
+                CommentAttributes c = iterator.next();
+                if(!c.giverEmail.equals(instructor.email)){
+                    iterator.remove();
+                }
+            }
             List<EvaluationAttributes> evals = logic.getEvaluationsListForInstructor(account.googleId);
             List<FeedbackSessionAttributes> feedbacks = logic.getFeedbackSessionsListForInstructor(account.googleId);
             

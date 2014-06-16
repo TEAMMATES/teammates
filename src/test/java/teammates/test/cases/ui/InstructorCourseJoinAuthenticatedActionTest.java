@@ -121,7 +121,7 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
         ______TS("Typical case: authenticate for new instructor with corresponding key");
         
         instructor = new InstructorAttributes("ICJAAT.instr", instructor.courseId, "New Instructor", "ICJAAT.instr@email.com");
-        InstructorsLogic.inst().addInstructor(instructor.courseId, instructor.name, instructor.email);
+        InstructorsLogic.inst().createInstructor(null, instructor.courseId, instructor.name, instructor.email);
         
         AccountAttributes newInstructorAccount = new AccountAttributes(
                 instructor.googleId, instructor.name, false,
@@ -157,7 +157,7 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
         
         String currentLoginId = instructor.googleId;
         instructor = new InstructorAttributes("ICJAAT2.instr", instructor.courseId, "New Instructor 2", "ICJAAT2.instr@email.com");
-        InstructorsLogic.inst().addInstructor(instructor.courseId, instructor.name, instructor.email);
+        InstructorsLogic.inst().createInstructor(null, instructor.courseId, instructor.name, instructor.email);
         
         newInstructorAccount = new AccountAttributes(
                 instructor.googleId, instructor.name, false,

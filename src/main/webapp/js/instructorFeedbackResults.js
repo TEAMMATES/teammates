@@ -21,7 +21,7 @@ function filterResults(searchText, element){
     element = element || $("#frameBodyWrapper").find("div.panel").filter(function(index){
         var e = $("#frameBodyWrapper").find("div.panel")[index];
         var heading = $(e).children(".panel-heading");
-        var body = $(e).children(".panel-body");
+        var body = $(e).children(".panel-collapse").children(".panel-body");
         if(heading.length != 0 && body.length != 0){
             recurse = true;
             return true;
@@ -80,14 +80,15 @@ window.onload = function(){
     var numPanels = 0;
     for(var i=0 ; i<panels.length ; i++){
         var heading = $(panels[i]).children(".panel-heading");
-        var body = $(panels[i]).children(".panel-body");
-        if(heading.length != 0 && body.length != 0){
+        var bodyCollapse = $(panels[i]).children(".panel-collapse");
+        if(heading.length != 0 && bodyCollapse.length != 0){
             numPanels++;
             //$(heading[0]).attr("data-toggle","collapse");
             //Use this instead of the data-toggle attribute to let [more/less] be clicked without collapsing panel
             $(heading[0]).click(toggleSingleCollapse);
             $(heading[0]).attr("data-target",".panelBodyCollapse-"+numPanels);
-            $(body[0]).addClass("collapse in panelBodyCollapse-"+numPanels);
+            $(heading[0]).css("cursor", "pointer");
+            $(bodyCollapse[0]).addClass("collapse in panelBodyCollapse-"+numPanels);
         }
     }
 };

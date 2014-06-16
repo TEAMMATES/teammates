@@ -160,6 +160,8 @@ public class AccountsDbTest extends BaseComponentTestCase {
         // ensure profile was not updated
         assertEquals(expectedModifiedDate, a.studentProfile.modifiedDate);
         
+        accountsDb.deleteAccount(a.googleId);
+
         // Should we not allow empty fields?
         ______TS("failure case: invalid parameter");
         a.email = "invalid email";

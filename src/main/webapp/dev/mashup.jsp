@@ -55,7 +55,8 @@
                                 <li><a href="#instructorFeedbackResultsPageByRecipientGiverQuestion">Instructor Feedback Results Page (By recipient-giver-question)</a></li>
                                 <li><a href="#instructorFeedbackResultsPageByGiverQuestionRecipient">Instructor Feedback Results Page (By giver-question-recipient)</a></li>
                                 <li><a href="#instructorFeedbackResultsPageByRecipientQuestionGiver">Instructor Feedback Results Page (By recipient-question-giver)</a></li>
-                                <li><a href="#instructorFeedbackResultsPageByQuestion">Instructor Feedback Results Page (By question)</a></li>                        
+                                <li><a href="#instructorFeedbackResultsPageByQuestion">Instructor Feedback Results Page (By question)</a></li>
+                                <li><a href="#instructorCommentsPage">Instructor Comments Page</a></li>
                             </ul>
                         </td>
                         <td>
@@ -210,6 +211,10 @@
                 
                 <div class="pageinfo">Instructor Feedback Results Page (By question)</div>
                 <div id="instructorFeedbackResultsPageByQuestion"></div>
+                <br><hr class="hr-bold"><br>
+                
+                <div class="pageinfo">Instructor Comments Page</div>
+                <div id="instructorCommentsPage"></div>
                 <br></br>
                 <br></br>
                 <br></br>
@@ -411,12 +416,17 @@
                     $("[data-toggle='tooltip']").tooltip({html: true}); 
                 });
             <%
-                String instrQuestionId = FeedbackQuestionsLogic.inst().getFeedbackQuestion("First feedback session", "CS2104", 3).getId();
+                String instrQuestionId = null;
+                if(FeedbackQuestionsLogic.inst().getFeedbackQuestion("First feedback session", "CS2104", 3)!=null){
+                    instrQuestionId = FeedbackQuestionsLogic.inst().getFeedbackQuestion("First feedback session", "CS2104", 3).getId();
             %>
             $('#instructorFeedbackQuestionSubmitPage').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&questionid=<%=instrQuestionId%> #frameBodyWrapper",
                 function (response, status, xml) {
                     $("[data-toggle='tooltip']").tooltip({html: true}); 
                 });
+            <%
+                }
+            %>
             $('#instructorFeedbackResultsPageByGiverRecipientQuestion').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&frsorttype=giver-recipient-question #frameBodyWrapper",
                 function (response, status, xml) {
                     $("[data-toggle='tooltip']").tooltip({html: true}); 
@@ -437,18 +447,27 @@
                 function (response, status, xml) {
                     $("[data-toggle='tooltip']").tooltip({html: true}); 
                 });
+            $('#instructorCommentsPage').load("<%=Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE%>?user=teammates.test&courseid=CS2104 #frameBodyWrapper",
+                    function (response, status, xml) {
+                        $("[data-toggle='tooltip']").tooltip({html: true}); 
+                    });
             
             $('#studentHomePage').load("<%=Const.ActionURIs.STUDENT_HOME_PAGE%>?user=teammates.test #frameBodyWrapper",
                 function (response, status, xml) {
                     $("[data-toggle='tooltip']").tooltip({html: true}); 
                 });
             <%
-                String regkey = StringHelper.encrypt(new Logic().getStudentForEmail("CS4215", "teammates.test@gmail.com").key);
+                String regkey = null;
+                if(new Logic().getStudentForEmail("CS4215", "teammates.test@gmail.com")!=null){
+                    regkey = StringHelper.encrypt(new Logic().getStudentForEmail("CS4215", "teammates.test@gmail.com").key);
             %>
             $('#studentCourseJoinConfirmationPage').load("<%=Const.ActionURIs.STUDENT_COURSE_JOIN%>?regkey=<%=regkey%> #frameBodyWrapper",
                 function (response, status, xml) {
                     $("[data-toggle='tooltip']").tooltip({html: true}); 
                 });
+            <%
+                }
+            %>
             $('#studentCourseDetailsPage').load("<%=Const.ActionURIs.STUDENT_COURSE_DETAILS_PAGE%>?user=teammates.test&courseid=CS2104 #frameBodyWrapper",
                 function (response, status, xml) {
                     $("[data-toggle='tooltip']").tooltip({html: true}); 
@@ -466,12 +485,17 @@
                     $("[data-toggle='tooltip']").tooltip({html: true}); 
                 });
             <%
-                String studentQuestionId = FeedbackQuestionsLogic.inst().getFeedbackQuestion("First feedback session", "CS2104", 1).getId();
+                String studentQuestionId = null;
+                if(FeedbackQuestionsLogic.inst().getFeedbackQuestion("First feedback session", "CS2104", 1)!=null){
+                    studentQuestionId = FeedbackQuestionsLogic.inst().getFeedbackQuestion("First feedback session", "CS2104", 1).getId();
             %>
             $('#studentFeedbackQuestionSubmitPage').load("<%=Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&questionid=<%=studentQuestionId%> #frameBodyWrapper",
                 function (response, status, xml) {
                     $("[data-toggle='tooltip']").tooltip({html: true}); 
                 });
+            <%
+                }
+            %>
             $('#studentFeedbackResultsPage').load("<%=Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session #frameBodyWrapper",
                 function (response, status, xml) {
                     $("[data-toggle='tooltip']").tooltip({html: true}); 

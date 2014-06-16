@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.TimeZone;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.util.Const;
 
 /**
  * Used to handle the data validation aspect e.g. validate emails, names, etc.
@@ -29,6 +30,7 @@ public class FieldValidator {
         GOOGLE_ID, 
         INSTITUTE_NAME, 
         PERSON_NAME, 
+        INTRUCTOR_ROLE,
         /** Comments entered when enrolling a student in a course */
         STUDENT_ROLE_COMMENTS,
         TEAM_NAME,
@@ -134,6 +136,21 @@ public class FieldValidator {
                     "A Course ID can contain letters, numbers, fullstops, hyphens, underscores, and dollar signs. " +
                     "It cannot be longer than "+COURSE_ID_MAX_LENGTH+" characters. " +
                     "It cannot be empty or contain spaces.";  
+    /*
+     * =======================================================================
+     * Field instructor permission role
+     */
+    public static final String INSTRUCTOR_ROLE_ERROR_MESSAGE = 
+            "\"%s\" is not accepted to TEAMMATES as a role %s."+
+                    "Role can be one of the following: " + 
+                    Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER + ", " +
+                    Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER + ", " +
+                    Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER + ", " +
+                    Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR + ", " +
+                    Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_HELPER + ", ";
+    public static final String INSTRUCTOR_ROLE_ERROR_REASON_NOT_MATCHING = 
+            "it does not match the predifined roles";
+    
     /*
      * =======================================================================
      * Field Course Instructor Name
@@ -480,6 +497,9 @@ public class FieldValidator {
             break;
         case EMAIL:
             returnValue = getValidityInfoForEmail((String)value);
+            break;
+        case INTRUCTOR_ROLE:
+            returnValue = getValidityInfoForInstructorRole((String)value);
             break;
         default:
             throw new AssertionError("Unrecognized field type : " + fieldType);
@@ -832,6 +852,24 @@ public class FieldValidator {
         if (!GENDER_ACCEPTED_VALUES.contains(value)) {
             return String.format(GENDER_ERROR_MESSAGE, value);
         }
+        return "";
+    }
+    
+    private String getValidityInfoForInstructorRole(String value) {
+        
+        Assumption.assertTrue("Non-null value expected", value != null);
+        
+        if (value.isEmpty()) {
+            return String.format(INSTRUCTOR_ROLE_ERROR_MESSAGE, value, REASON_EMPTY);
+        }
+        if (!(value.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER)
+                || value.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER)
+                || value.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER)
+                || value.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR)
+                || value.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_HELPER))) {
+            return String.format(INSTRUCTOR_ROLE_ERROR_MESSAGE, value, INSTRUCTOR_ROLE_ERROR_REASON_NOT_MATCHING);
+        }
+        
         return "";
     }
 

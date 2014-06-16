@@ -7,8 +7,8 @@
 <%@ page import="teammates.ui.controller.AdminActivityLogPageData"%>
 
 <%
-	AdminActivityLogPageData data = (AdminActivityLogPageData) request
-			.getAttribute("data");
+    AdminActivityLogPageData data = (AdminActivityLogPageData) request
+            .getAttribute("data");
 %>
 <!DOCTYPE html>
 <html>
@@ -667,16 +667,16 @@
                 </div>
 
                 <%
-                	if (data.queryMessage != null) {
+                    if (data.queryMessage != null) {
                 %>
-                <div class="alert alert-danger">
+                <div class="alert alert-danger" id="queryMessage">
                     <span class="glyphicon glyphicon-warning-sign"></span>
                     <%
-                    	out.println(" " + data.queryMessage);
+                        out.println(" " + data.queryMessage);
                     %>
                 </div>
                 <%
-                	}
+                    }
                 %>
 
 
@@ -693,44 +693,86 @@
 
 
             <%
-            	List<ActivityLogEntry> appLogs = data.logs;
-            	if (appLogs != null) {
+                List<ActivityLogEntry> appLogs = data.logs;
+                if (appLogs != null) {
             %>
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <strong>Activity Log</strong>
+                    <strong>Activity Log <span>
+                            Instructor </strong>
                 </div>
                 <div class="table-responsive">
-                    <table class="table table-striped dataTable">
+                    <table class="table table-condensed"dataTable">
 
                         <thead>
                             <tr>
                                 <th width="10%">Date</th>
-                                <th>[Role][Google
-                                    ID][Name][Email][Action]</th>
+                                <th>[Role][Action][Google
+                                    ID][Name][Email]</th>
                             </tr>
 
                         </thead>
                         <tbody>
                             <%
-                            	if (appLogs.isEmpty()) {
+                                if (appLogs.isEmpty()) {
                             %>
                             <tr>
                                 <td colspan='2'><i>No
                                         application logs found</i></td>
                             </tr>
                             <%
-                            	} else {
-                            			for (ActivityLogEntry log : appLogs) {
+                                } else {
+                                        int index = 0;
+                                        for (ActivityLogEntry log : appLogs) {
                             %>
                             <tr>
-                                <td><%=log.getDateInfo()%></td>
-                                <td><%=log.getRoleInfo()%>&nbsp;&nbsp;<%=log.getPersonInfo()%>&nbsp;&nbsp;<%=log.getActionInfo()%>
-                                    <br><%=log.getMessageInfo()%></td>
+
+                                <td style="vertical-align: middle;"><%=log.getDateInfo()%></td>
+
+                                <td>
+
+                                    <form method="post"
+                                        action="<%=Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE%>">
+
+
+                                        <h4
+                                            class="list-group-item-heading">
+                                            <%=log.getIconRoleForShow()%>
+                                            <%=log.getActionInfo()%>
+                                            <small> <span
+                                                id="personInfo_<%=index%>"><%=log.getPersonInfo()%></span>
+
+                                                <button
+                                                    id="actionButton_<%=index%>"
+                                                    type="submit"
+                                                    class="btn <%=log.getLogEntryActionsButtonClass()%> btn-xs">
+                                                    <span
+                                                        class="glyphicon glyphicon-zoom-in"></span>
+
+                                                </button> <input type="hidden"
+                                                name="filterQuery"
+                                                value="person:<%=log.getId()%>">
+
+                                            </small>
+
+                                        </h4>
+
+                                        <div>
+                                            <%=log.getMessageInfo()%>
+
+                                        </div>
+
+
+
+
+                                    </form>
+                                </td>
+
                             </tr>
                             <%
-                            	}
-                            		}
+                                index++;
+                                        }
+                                    }
                             %>
 
                         </tbody>
@@ -739,7 +781,7 @@
 
             </div>
             <%
-            	}
+                }
             %>
 
             <jsp:include

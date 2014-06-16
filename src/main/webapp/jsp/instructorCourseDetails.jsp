@@ -49,7 +49,7 @@
         <br>
         
         
-        <div class="well well-plain well-narrow" id="courseInformationHeader">
+        <div class="well well-plain" id="courseInformationHeader">
             <div class="form form-horizontal">
                 <div class="form-group">
                     <label class="col-sm-3 control-label">Course ID:</label>
@@ -88,7 +88,8 @@
                     <%
                         for (int i = 0; i < data.instructors.size(); i++){
                             InstructorAttributes instructor = data.instructors.get(i);
-                            String instructorInfo = instructor.name + " (" + instructor.email + ")";
+                            String instructorRole = instructor.role == null ? Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER : instructor.role;
+                            String instructorInfo = instructorRole + ": " + instructor.name + " (" + instructor.email + ")";
                     %>
                         <%=sanitizeForHtml(instructorInfo)%><br><br>
                     <%

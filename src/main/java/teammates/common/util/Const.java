@@ -222,6 +222,14 @@ public class Const {
         public static final String NUMSCALE = "Numerical-scale question";
     }
     
+    public class InstructorPermissionRoleNames {
+        public final static String INSTRUCTOR_PERMISSION_ROLE_COOWNER = "Co-owner";
+        public final static String INSTRUCTOR_PERMISSION_ROLE_MANAGER = "Manager";
+        public final static String INSTRUCTOR_PERMISSION_ROLE_OBSERVER = "Observer";
+        public final static String INSTRUCTOR_PERMISSION_ROLE_TUTOR = "Tutor";
+        public final static String INSTRUCTOR_PERMISSION_ROLE_HELPER = "Helper";
+    }
+    
     public class GenderTypes{
         public static final String MALE = "male";
         public static final String FEMALE = "female";
@@ -237,6 +245,25 @@ public class Const {
         public static final String INSTRUCTOR_NAME = "instructorname";
         public static final String STUDENTS_ENROLLMENT_INFO = "enrollstudents";
         public static final String INSTRUCTOR_IMPORT_SAMPLE = "importsample";
+        
+        public static final String INSTRUCTOR_ROLE_NAME = "instructorrole";
+        public static final String INSTRUCTOR_PERMISSION_MODIFY_COURSE = "canmodifycourse";
+        public static final String INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR = "canmodifyinstructor";
+        public static final String INSTRUCTOR_PERMISSION_MODIFY_SESSION = "canmodifysession";
+        public static final String INSTRUCTOR_PERMISSION_MODIFY_STUDENT = "canmodifystudent";
+        
+        public static final String INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTION = "canviewstudentinsection";
+        public static final String INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTION = "canviewcommentinsection";
+        public static final String INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTION = "cangivecommentinsection";
+        public static final String INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTION = "canmodifycommentinsection";
+        public static final String INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTION = "canviewsessioninsection";
+        public static final String INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTION = "cansubmitsessioninsection";
+        public static final String INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTION = "canmodifysessioncommentinsection";
+        
+        public static final String INSTRUCTOR_PERMISSION_SELECT_SESSION_PART = "selected%s";
+        public static final String INSTRUCTOR_PERMISSION_VIEW_SESSION_FOR_SESSION_PART = "canviewsessionfor%s";
+        public static final String INSTRUCTOR_PERMISSION_SUBMIT_SESSION_FOR_SESSION_PART = "cansubmitsessionfor%s";
+        public static final String INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_FOR_SESSION_PART = "canmodifysessioncommentfor%s";
         
         public static final String STUDENT_RECORDS_SHOW_COMMENT_BOX = "addComment";
         
@@ -318,6 +345,7 @@ public class Const {
         public static final String FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON = "fruploaddownloadbtn";
         public static final String FEEDBACK_RESULTS_SORTTYPE = "frsorttype";
         public static final String FEEDBACK_RESULTS_GROUPBYTEAM = "frgroupbyteam";
+        public static final String FEEDBACK_RESULTS_GROUPBYSECTION = "frgroupbysection";
         public static final String FEEDBACK_RESULTS_SHOWSTATS = "frshowstats";
         
         public static final String PREVIEWAS = "previewas";
@@ -326,6 +354,7 @@ public class Const {
         
         public static final String REGKEY = "regkey";
         public static final String STUDENT_EMAIL = "studentemail";
+        public static final String FROM_COMMENTS_PAGE = "commentpage";
         public static final String NEW_STUDENT_EMAIL = "newstudentemail";
         
         public static final String STUDENT_SHORT_NAME = "studentshortname";
@@ -433,6 +462,8 @@ public class Const {
         public static final String INSTRUCTOR_STUDENT_COMMENT_ADD = "/page/instructorStudentCommentAdd";
         public static final String INSTRUCTOR_STUDENT_COMMENT_EDIT = "/page/instructorStudentCommentEdit";
         
+        public static final String INSTRUCTOR_COMMENTS_PAGE = "/page/instructorCommentsPage";
+        
         public static final String INSTRUCTOR_FEEDBACKS_PAGE = "/page/instructorFeedbacksPage";
         public static final String INSTRUCTOR_FEEDBACK_ADD = "/page/instructorFeedbackAdd";
         public static final String INSTRUCTOR_FEEDBACK_DELETE = "/page/instructorFeedbackDelete";
@@ -511,6 +542,7 @@ public class Const {
         /* We omit adding the 'page' prefix to views because all of them are "pages" */
     
         public static final String INSTRUCTOR_HOME = "/jsp/instructorHome.jsp"; 
+        public static final String INSTRUCTOR_COMMENTS = "/jsp/instructorComments.jsp";
         public static final String INSTRUCTOR_COURSES = "/jsp/instructorCourses.jsp"; 
         public static final String INSTRUCTOR_COURSE_EDIT = "/jsp/instructorCourseEdit.jsp"; 
         public static final String INSTRUCTOR_COURSE_DETAILS = "/jsp/instructorCourseDetails.jsp"; 
