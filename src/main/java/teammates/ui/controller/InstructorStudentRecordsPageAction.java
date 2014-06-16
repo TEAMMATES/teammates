@@ -42,8 +42,8 @@ public class InstructorStudentRecordsPageAction extends Action {
         try {
             data.courseId = courseId;
             data.student = logic.getStudentForEmail(courseId, studentEmail);
-            data.studentProfile = logic.getStudentProfile(data.student.googleId);
             Assumption.assertNotNull(data.student);
+            data.studentProfile = logic.getStudentProfile(data.student.googleId);
             data.showCommentBox = showCommentBox;
             data.comments = logic.getCommentsForReceiver(courseId, CommentRecipientType.PERSON, studentEmail);
             Iterator<CommentAttributes> iterator = data.comments.iterator();
@@ -96,7 +96,8 @@ public class InstructorStudentRecordsPageAction extends Action {
             statusToAdmin = "instructorStudentRecords Page Load<br>" + 
                     "Viewing <span class=\"bold\">" + studentEmail + "'s</span> records " +
                     "for Course <span class=\"bold\">[" + courseId + "]</span><br>" +
-                    "Number of sessions: " + data.sessions.size();
+                    "Number of sessions: " + data.sessions.size() + "<br>" +
+                    "Student Profile: " + data.studentProfile.toString();
             
             return createShowPageResult(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS, data);
             
