@@ -74,7 +74,8 @@
 
                 FeedbackParticipantType firstQuestionRecipientType = questions.get(firstResponse.feedbackQuestionId).recipientType;
                 String mailtoStyleAttr = (firstQuestionRecipientType == FeedbackParticipantType.NONE || 
-                                firstQuestionRecipientType == FeedbackParticipantType.TEAMS)?"style=\"display:none;\"":"";
+                                firstQuestionRecipientType == FeedbackParticipantType.TEAMS || 
+                                targetEmail.contains("@@"))?"style=\"display:none;\"":"";
         %>
 
         <%

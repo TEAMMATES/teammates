@@ -50,6 +50,66 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
                 response.giverEmail += Const.TEAM_OF_EMAIL_OWNER;
             }
         }
+        
+        hideResponsesGiverRecipient(responses, questions, emailNameTable,
+                emailTeamNameTable, visibilityTable);
+        
+    }
+
+    /**
+     * Hides response names/emails and teams that are not visible to the current user.
+     * Replaces the giver/recipient email in responses to an email with two "@@"s, to
+     * indicate it is invalid and should not be displayed.
+     * 
+     * @param responses
+     * @param questions
+     * @param emailNameTable
+     * @param emailTeamNameTable
+     * @param visibilityTable
+     */
+    private void hideResponsesGiverRecipient(
+            List<FeedbackResponseAttributes> responses,
+            Map<String, FeedbackQuestionAttributes> questions,
+            Map<String, String> emailNameTable,
+            Map<String, String> emailTeamNameTable,
+            Map<String, boolean[]> visibilityTable) {
+        
+        //
+        for (FeedbackResponseAttributes response : responses) {
+            FeedbackQuestionAttributes question = questions.get(response.feedbackQuestionId);
+            FeedbackParticipantType type = question.recipientType;
+            
+            //Recipient
+            String name = emailNameTable.get(response.recipientEmail);
+            if (visibilityTable.get(response.getId())[1] == false &&
+                    type != FeedbackParticipantType.SELF) {
+                String hash = Integer.toString(Math.abs(name.hashCode()));
+                name = type.toSingularFormString();
+                name = "Anonymous " + name + " " + hash;
+                
+                String anonEmail = name+"@@"+name+".com";
+                emailNameTable.put(anonEmail, name);
+                emailTeamNameTable.put(anonEmail, name + Const.TEAM_OF_EMAIL_OWNER);
+                
+                response.recipientEmail = anonEmail;
+            }
+
+            //Giver
+            name = emailNameTable.get(response.giverEmail);
+            type = question.giverType;
+            if (visibilityTable.get(response.getId())[0] == false &&
+                    type != FeedbackParticipantType.SELF) {
+                String hash = Integer.toString(Math.abs(name.hashCode()));
+                name = type.toSingularFormString();
+                name = "Anonymous " + name + " " + hash;
+                
+                String anonEmail = name+"@@"+name+".com";
+                emailNameTable.put(anonEmail, name);
+                emailTeamNameTable.put(anonEmail, name + Const.TEAM_OF_EMAIL_OWNER);
+                
+                response.giverEmail = anonEmail;
+            }
+        }
     }
     
     public String getNameForEmail(String email) {
@@ -80,13 +140,6 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         } else if (name.equals(Const.USER_IS_NOBODY)) {
             return Const.USER_NOBODY_TEXT;
         } else {
-            FeedbackParticipantType type = question.recipientType;
-            if (visibilityTable.get(response.getId())[1] == false &&
-                    type != FeedbackParticipantType.SELF) {
-                String hash = Integer.toString(Math.abs(name.hashCode()));
-                name = type.toSingularFormString();
-                name = "Anonymous " + name + " " + hash;
-            }
             return PageData.sanitizeForHtml(name);
         }
     }
@@ -99,13 +152,6 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         } else if (name.equals(Const.USER_IS_NOBODY)) {
             return Const.USER_NOBODY_TEXT;
         } else {
-            FeedbackParticipantType type = question.giverType;
-            if (visibilityTable.get(response.getId())[0] == false &&
-                    type != FeedbackParticipantType.SELF) {
-                String hash = Integer.toString(Math.abs(name.hashCode()));
-                name = type.toSingularFormString();
-                name = "Anonymous " + name + " " + hash;
-            }
             return PageData.sanitizeForHtml(name);
         }
     }
