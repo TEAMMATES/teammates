@@ -88,8 +88,6 @@
             height:170px;
         }
 
-
-
         #studentName {
             margin-top: 0;
         }
@@ -189,109 +187,38 @@
         <img style="width:100px; height: 130px;" src="pictures/profile_pic.png" class="center-block profile-pic">
     </div>
     <div class="col-lg-6 col-md-8 col-sm-10 col-xs-10">
-        <div class="container-fluid">
-
-            <div class="row hidden">
-                <div class="col-md-12">
-                    <h3 id="studentName">Emma Farrell</h3>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="profile-attribute col-md-4 col-sm-4 col-xs-4">
-                    Shortname
-                </div>
-                <div class="profile-value col-md-8 col-sm-8 col-xs-8 border-left-gray">
-                    Emm
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="profile-attribute col-md-4 col-sm-4 col-xs-4">
-                    Email
-                </div>
-                <div class="profile-value col-md-8 col-sm-8 col-xs-8 border-left-gray">
-                    emma.farrel@gmail.com
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="profile-attribute col-md-4 col-sm-4 col-xs-4">
-                    Institution
-                </div>
-                <div class="profile-value col-md-8 col-sm-8 col-xs-8 border-left-gray">
-                    Nanyang Tech University
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="profile-attribute col-md-4 col-sm-4 col-xs-4">
-                    Country
-                </div>
-                <div class="profile-value col-md-8 col-sm-8 col-xs-8 border-left-gray">
-                    Croatia
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="profile-attribute col-md-4 col-sm-4 col-xs-4">
-                    Gender
-                </div>
-                <div class="profile-value col-md-8 col-sm-8 col-xs-8 border-left-gray">
-                    Female
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <br>
-                    <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#studentMoreInfo">
-                        MoreInfo
-                    </a>
-                </div>
-                <br><br>
-            </div>
-
-            <div class="row" style="display:none">
-                <div class="profile-attribute col-md-4 col-sm-4 col-xs-4" title="Only from Teammates">
-                    Past Courses*
-                </div>
-                <div class="profile-value col-md-8 col-sm-8 col-xs-8">
-                    <div class="dropdown">
-                        <a href="#" class="link dropdown-toggle" role="button" id="countOfCourses" data-toggle="dropdown">
-                            3 Courses in Teammates <span class="glyphicon-arrow-down"></span>
-                        </a>
-
-                        <ul class="dropdown-menu" style="width:100%" role="menu" aria-labelledby="countOfCourses">
-                            <li role="presentation">
-                                <a class="other-courses" href="#courseOther1Comments" role="menuitem">
-                                    CS2103: Software Engineering
-                                    <span class="badge pull-right">2</span>
-                                </a>
-                            </li>
-                            <li role="presentation">
-                                <a class="other-courses" href="#courseOther2Comments" role="menuitem">
-                                    FX331B2: Some Random M...
-                                    <span class="badge pull-right">1</span>
-                                </a>
-                            </li>
-                            <li role="presentation" tabindex="-1">
-                                <a class="other-courses" href="#courseOther3Comments" role="menuitem">
-                                    Math1: Class VIII Math
-                                    <span class="badge pull-right"></span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+        <table class="table table-striped">
+			<tbody>
+				<tr>
+					<td class="text-bold">Shortname (Gender)</td>
+					<td>Emm (F)</td>
+				</tr>
+				<tr>
+					<td class="text-bold">Email</td>
+					<td>emma.farrel@gmail.com</td>
+				</tr>
+				<tr>
+					<td class="text-bold">Institution</td>
+					<td>Nanyang Tech University</td>
+				</tr>
+				<tr>
+					<td class="text-bold">Country</td>
+					<td>Croatia</td>
+				</tr>
+				<tr class="hidden">
+					<td class="text-bold">Gender</td>
+					<td>Female</td>
+				</tr>
+				
+			</tbody>
+		</table>
+	</div>           
 </div>
 
 <div class="row">
 <div class="col-md-12">
     <div class="panel panel-info">
-    <div id="studentComments" class="panel-heading">Student Records Comments</div>
+    <div id="studentComments" class="panel-heading">Comments</div>
         <div class="panel-body">
             <h5 id="currentInstructorComments">Your comments on this student:</h5>
             <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment"
@@ -776,3 +703,114 @@
     });
 
 </script>
+<!--
+<div class="row">
+	<div class="profile-attribute col-md-4 col-sm-4 col-xs-4">
+		Shortname
+	</div>
+	<div class="profile-value col-md-8 col-sm-8 col-xs-8 border-left-gray">
+		Emm
+	</div>
+</div>
+
+<div class="row">
+	<div class="profile-attribute col-md-4 col-sm-4 col-xs-4">
+		Email
+	</div>
+	<div class="profile-value col-md-8 col-sm-8 col-xs-8 border-left-gray">
+		emma.farrel@gmail.com
+	</div>
+</div>
+
+<div class="row">
+	<div class="profile-attribute col-md-4 col-sm-4 col-xs-4">
+		Institution
+	</div>
+	<div class="profile-value col-md-8 col-sm-8 col-xs-8 border-left-gray">
+		Nanyang Tech University
+	</div>
+</div>
+
+<div class="row">
+	<div class="profile-attribute col-md-4 col-sm-4 col-xs-4">
+		Country
+	</div>
+	<div class="profile-value col-md-8 col-sm-8 col-xs-8 border-left-gray">
+		Croatia
+	</div>
+</div>
+
+<div class="row">
+	<div class="profile-attribute col-md-4 col-sm-4 col-xs-4">
+		Gender
+	</div>
+	<div class="profile-value col-md-8 col-sm-8 col-xs-8 border-left-gray">
+		Female
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-4">
+		<br>
+		<a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#studentMoreInfo">
+			MoreInfo
+		</a>
+	</div>
+	<br><br>
+</div>-->
+<!--
+<div class="container-fluid">                
+	<div class="row">
+		<div class="text-bold col-md-4 col-sm-4 col-xs-4">
+			Shortname (Gender)
+		</div>
+		<div class="profile-value col-md-8 col-sm-8 col-xs-8">
+			<%=data.studentProfile.shortName %>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="text-bold col-md-4 col-sm-4 col-xs-4">
+			Email
+		</div>
+		<div class="profile-value col-md-8 col-sm-8 col-xs-8">
+			<%=data.studentProfile.email %>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="text-bold col-md-4 col-sm-4 col-xs-4">
+			Institution
+		</div>
+		<div class="profile-value col-md-8 col-sm-8 col-xs-8">
+			<%=data.studentProfile.institute %>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="text-bold col-md-4 col-sm-4 col-xs-4">
+			Country
+		</div>
+		<div class="profile-value col-md-8 col-sm-8 col-xs-8">
+			<%=data.studentProfile.country %>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="text-bold col-md-4 col-sm-4 col-xs-4">
+			Gender
+		</div>
+		<div class="profile-value col-md-8 col-sm-8 col-xs-8">
+			<%=data.studentProfile.gender %>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-4">
+			<br>
+			<a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#studentMoreInfo">
+				MoreInfo
+			</a>
+		</div>
+		<br><br>
+	</div>
+</div>
+						-->

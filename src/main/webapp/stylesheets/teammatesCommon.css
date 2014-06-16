@@ -49,6 +49,11 @@ body {
     color: #e74c3c;
 }
 
+.cursor-pointer {
+    cursor: pointer;
+    cursor: hand;
+}
+
 /*
 Apply to thead to make headers not bold.
 */
@@ -85,6 +90,11 @@ Apply to thead to make headers not bold.
 
 .glyphicon-gold {
     color: #ffd700;
+}
+
+.height-fixed-md {
+    height: 150px;
+    overflow: auto;
 }
 
 .highlight-white {
@@ -232,6 +242,63 @@ Apply to thead to make headers not bold.
 
 
 
+/*////////////////////////////////////////////////////////////
+///////////////////////// Affix /////////////////////////////
+//////////////////////////////////////////////////////////*/
+
+.affix {
+            position: fixed;
+            top: 100px;
+        }
+
+            .affix > li > a {
+                color: gray;
+                padding-top: 5px;
+                padding-bottom: 5px;
+            }
+
+                .affix > li.active > a {
+                    color: #31708f;
+                    font-weight: 700;
+                    border-left: 2px solid #31708f;
+                }
+
+            .affix > li > .nav {
+                font-size: 12px;
+            }
+
+                .affix > li > .nav > li > a {
+                    color: gray;
+                    padding-top: 1px;
+                    padding-bottom: 1px;
+                    padding-left: 30px;
+                }
+
+                .affix > li.active > .nav {
+                    display: block;
+                    width: 100%;
+                }
+
+                    .affix > li > .nav > li.active > a {
+                        color: #31708f;
+                        font-weight: 700;
+                        border-left: 2px solid #31708f;
+                    }
+
+                .affix > li:not(.active) > .nav {
+                    display: none;
+                }
+
+        .affix-top {
+            position: relative;
+        }
+
+        .affix-bottom {
+            position: absolute;
+        }
+
+
+
 
 /*////////////////////////////////////////////////////////////
 /////////////////////// Main Content ////////////////////////
@@ -310,6 +377,11 @@ Apply to thead to make headers not bold.
     width: 12px;
 }
 
+.profile-pic {
+    width:130px; 
+    height: 130px;
+}
+
 .unsorted {
     background: url(../images/sortSideButton.png);
 }
@@ -327,8 +399,6 @@ Apply to thead to make headers not bold.
 .button-sort-descending:hover {
     cursor: pointer;
 }
-
-
 
 
 
