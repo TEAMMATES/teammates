@@ -273,7 +273,7 @@ public class FeedbackSessionsLogic {
             String feedbackSessionName, String courseId, String userEmail, CourseRoster roster, Boolean isIncludeResponseStatus)
             throws EntityDoesNotExistException {
         return getFeedbackSessionResultsForUserInSection(feedbackSessionName, courseId, userEmail, 
-                UserType.Role.INSTRUCTOR, Const.DEFAULT_SECTION, roster, isIncludeResponseStatus);
+                UserType.Role.INSTRUCTOR, null, roster, isIncludeResponseStatus);
     }
     
     /**
@@ -773,8 +773,8 @@ public class FeedbackSessionsLogic {
         Map<String, List<FeedbackResponseCommentAttributes>> responseComments = 
                 new HashMap<String, List<FeedbackResponseCommentAttributes>>();
 
-        FeedbackSessionResponseStatus responseStatus = isIncludeResponseStatus? getFeedbackSessionResponseStatusInSection(session, section): null;
-        
+        FeedbackSessionResponseStatus responseStatus = new FeedbackSessionResponseStatus();
+
         boolean isPrivateSessionNotCreatedByThisUser = session.isPrivateSession() && !session.isCreator(userEmail);
         if (isPrivateSessionNotCreatedByThisUser) {
             //return empty result set
@@ -788,7 +788,10 @@ public class FeedbackSessionsLogic {
         for(FeedbackQuestionAttributes qn : allQuestions){
             allQuestionsMap.put(qn.getId(), qn);
         }
-        List<FeedbackResponseAttributes> allResponses = frLogic.getFeedbackResponsesForSession(feedbackSessionName, courseId);
+        List<FeedbackResponseAttributes> allResponses = frLogic.getFeedbackResponsesForSessionInSection(feedbackSessionName, courseId, section);
+
+        responseStatus = isIncludeResponseStatus? getFeedbackSessionResponseStatusInSection(session, section, roster, allQuestions, allResponses): null;
+
         StudentAttributes student = null;
         Set<String> studentsEmailInTeam  = new HashSet<String>();
         if(role == Role.STUDENT){
@@ -939,24 +942,16 @@ public class FeedbackSessionsLogic {
     }
 
     private FeedbackSessionResponseStatus getFeedbackSessionResponseStatusInSection(
-            FeedbackSessionAttributes fsa, String section)
+            FeedbackSessionAttributes fsa, String section, CourseRoster roster, 
+            List<FeedbackQuestionAttributes> questions, List<FeedbackResponseAttributes> responses)
             throws EntityDoesNotExistException {
 
         boolean hasIndicatedSection = section != null;
 
-        List<StudentAttributes> students = studentsLogic
-                .getStudentsForCourse(fsa.courseId);
-        List<InstructorAttributes> instructors = instructorsLogic
-                .getInstructorsForCourse(fsa.courseId);
-        List<FeedbackResponseAttributes> responses = frLogic
-                .getFeedbackResponsesForSession(fsa.feedbackSessionName,
-                        fsa.courseId);
-        List<FeedbackQuestionAttributes> questions = fqLogic
-                .getFeedbackQuestionsForSession(fsa.feedbackSessionName,
-                        fsa.courseId);
-
         FeedbackSessionResponseStatus responseStatus = new FeedbackSessionResponseStatus();
-
+        List<StudentAttributes> students = roster.getStudents();
+        List<InstructorAttributes> instructors = roster.getInstructors();
+        
         for (FeedbackQuestionAttributes question : questions) {
             boolean responded = false;
             if (question.giverType == FeedbackParticipantType.STUDENTS ||
