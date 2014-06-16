@@ -53,14 +53,12 @@
                 <p class="lead">
                     You are currently logged in as <span><strong><%=data.account.googleId%></strong></span>.
                     <br>If this is not you please <a
-                        href="/logout.jsp">log out</a> and re-login
-                    using your own Google account. <br>If this is
-                    you, please confirm below to complete your
-                    registration. <br>
+                        href="/logout.jsp">log out</a> and re-login using your own Google account. 
+                        <br>If this is you, please confirm below to complete your registration. <br>
                 <div class="align-center">
                     <%
                     	String ref = "";
-                    	if (data.institute.trim().length() == 0) {
+                    	if (data.institute.trim().length() == 0 || data.institute == null) {
 
                     		ref = Const.ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED
                     				+ "?regkey=" + data.regkey;
@@ -69,15 +67,13 @@
                     				+ "?regkey=" + data.regkey + "&"
                     				+ Const.ParamsNames.INSTRUCTOR_INSTITUTION + "="
                     				+ data.institute + "&"
-                                    + Const.ParamsNames.IS_SAMPLE_DATA_IMPORTED + "="
-                                    + data.isSampleDataImported;
+                    				+ Const.ParamsNames.IS_SAMPLE_DATA_IMPORTED + "="
+                    				+ data.isSampleDataImported;
                     	}
                     %>
                     <a href="<%=ref%>" id="button_confirm"
-                        class="btn btn-success">Yes, this is my
-                        account</a> <a href="/logout.jsp" id="button_cancel"
-                        class="btn btn-danger">No, this is not my
-                        account</a>
+                        class="btn btn-success">Yes, this is my account</a> <a href="/logout.jsp" id="button_cancel"
+                        class="btn btn-danger">No, this is not my account</a>
                 </div>
                 </p>
             </div>

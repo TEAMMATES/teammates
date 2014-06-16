@@ -1,5 +1,6 @@
 package teammates.logic.core;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -11,6 +12,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
+import teammates.common.util.FieldValidator;
 import teammates.common.util.Utils;
 import teammates.storage.api.InstructorsDb;
 import teammates.ui.controller.AdminHomePageData;
@@ -239,6 +241,7 @@ public class InstructorsLogic {
     public void sendJoinLinkToNewInstructor(InstructorAttributes instructor, AdminHomePageData data, boolean isSampleDataImported) 
            throws EntityDoesNotExistException {
         
+        
         InstructorAttributes instructorData = getInstructorForEmail(instructor.courseId, instructor.email);                                             
         
         if (instructorData == null) {
@@ -263,6 +266,7 @@ public class InstructorsLogic {
         }
 
     }
+    
     
     
     public void deleteInstructor(String courseId, String email) {

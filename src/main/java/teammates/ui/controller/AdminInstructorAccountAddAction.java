@@ -18,7 +18,6 @@ import teammates.common.util.Utils;
 import teammates.common.util.FieldValidator;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.backdoor.BackDoorLogic;
-import teammates.logic.core.InstructorsLogic;
 
 import com.google.gson.Gson;
 
@@ -58,6 +57,9 @@ public class AdminInstructorAccountAddAction extends Action {
         
         
         try {
+            
+            logic.verifyInputForAdminHomePage(data);
+            
             BackDoorLogic backDoor = new BackDoorLogic();
             String CourseId = importDemoData(data);              
             InstructorAttributes instructor = backDoor.getInstructorsForCourse(CourseId).get(0);   

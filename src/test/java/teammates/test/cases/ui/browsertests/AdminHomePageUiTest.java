@@ -62,7 +62,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         
         ______TS("action success : create instructor with demo course");
         
-        String demoCourseId = "AHPUiT.instr1.gma-demo";
+        String demoCourseId = TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT+".gma-demo";
         BackDoor.deleteCourse(demoCourseId);
         
         //with sample course
@@ -74,7 +74,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         
         ______TS("action success : create instructor account without demo course");
        
-        demoCourseId = account.googleId + "-demo";
+        demoCourseId = TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT+".gma-demo";
         BackDoor.deleteCourse(demoCourseId);
         
         homePage.createInstructor(account,shorName,false)

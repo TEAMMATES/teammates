@@ -38,6 +38,7 @@ import teammates.common.exception.JoinCourseException;
 import teammates.common.exception.NotImplementedException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
+import teammates.common.util.FieldValidator;
 import teammates.common.util.Utils;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CommentsLogic;
@@ -451,7 +452,7 @@ public class Logic {
 
     
     public void createAccountForNewInstructor(String encryptedKey, String googleId, String institute, boolean isSampleDataImported) 
-                throws JoinCourseException, InvalidParametersException{
+                throws JoinCourseException, InvalidParametersException {
 
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, encryptedKey);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
@@ -855,7 +856,7 @@ public class Logic {
     
     
     public void sendJoinLinkToNewInstructor(InstructorAttributes instructor, AdminHomePageData data, boolean isSampleDataImported)
-           throws InvalidParametersException, EntityDoesNotExistException{
+           throws EntityDoesNotExistException{
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, data);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructor);
@@ -865,6 +866,36 @@ public class Logic {
         
     }
     
+    public void verifyInputForAdminHomePage(AdminHomePageData data) throws InvalidParametersException{
+        
+        List<String> invalidityInfo = getInvalidityInfoForNewInstructorData(data);
+        
+        if (!invalidityInfo.isEmpty()) {
+            throw new InvalidParametersException(invalidityInfo);
+        }
+    }
+    
+    private List<String> getInvalidityInfoForNewInstructorData(AdminHomePageData data) {
+        
+        FieldValidator validator = new FieldValidator();
+        List<String> errors = new ArrayList<String>();
+        String error;
+        
+        error= validator.getInvalidityInfo(FieldValidator.FieldType.PERSON_NAME, data.instructorShortName);
+        if(!error.isEmpty()) { errors.add(error); }
+        
+        error= validator.getInvalidityInfo(FieldValidator.FieldType.PERSON_NAME, data.instructorName);
+        if(!error.isEmpty()) { errors.add(error); }
+        
+        error= validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, data.instructorEmail);
+        if(!error.isEmpty()) { errors.add(error); }
+        
+        error= validator.getInvalidityInfo(FieldValidator.FieldType.INSTITUTE_NAME, data.instructorInstitution);
+        if(!error.isEmpty()) { errors.add(error); }
+        
+        //No validation for isInstructor and createdAt fields.
+        return errors;
+    }
     
 
     /**

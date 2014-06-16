@@ -153,7 +153,7 @@ public class AccountsLogic {
     
     
     public void createAccountForNewInstructor(String encryptedKey, String googleId, String institute, boolean isSampleDataImported) 
-                throws JoinCourseException, InvalidParametersException{
+                throws JoinCourseException, InvalidParametersException {
             
         verifyNewInstructorAccountRequest(encryptedKey, googleId);
      

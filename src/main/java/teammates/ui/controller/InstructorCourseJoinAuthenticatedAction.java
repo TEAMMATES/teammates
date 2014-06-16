@@ -25,29 +25,31 @@ public class InstructorCourseJoinAuthenticatedAction extends Action {
         
         String institute = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
         String isSampleDataImported = getRequestParamValue(Const.ParamsNames.IS_SAMPLE_DATA_IMPORTED);
-  
+        
         new GateKeeper().verifyLoggedInUserPrivileges();
         
         /* Process authentication for the instructor to join course */
         try {
             
-            if(institute.trim().length() == 0){
-                logic.joinCourseForInstructor(key, account.googleId);
-            }else{
+            if(institute !=null && !institute.isEmpty()){               
                 Assumption.assertNotNull(isSampleDataImported);
                 boolean isSampleImportedBool = true;
                 if(isSampleDataImported.toLowerCase().contains("false")){
                     isSampleImportedBool = false;
-                }
-                
-                logic.createAccountForNewInstructor(key, account.googleId, institute, isSampleImportedBool);
+                }                
+                logic.createAccountForNewInstructor(key, account.googleId, institute, isSampleImportedBool);              
+            }else{
+                logic.joinCourseForInstructor(key, account.googleId);
             }
             
-        } catch (JoinCourseException | InvalidParametersException e) {
+        } catch (JoinCourseException e) {
             // Does not sanitize for html to allow insertion of mailto link
             setStatusForException(e, e.getMessage());
             log.info(e.getMessage());
             
+        } catch (InvalidParametersException e) {
+            setStatusForException(e, e.getMessage());
+            log.info(e.getMessage());
         } 
         
         /* Set status to be shown to admin */
