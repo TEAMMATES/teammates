@@ -40,18 +40,19 @@ public class InstructorsLogic {
         return instance;
     }
     
-    public void addInstructor(String courseId, String name, String email) 
+    public void createInstructor(String googleId, String courseId, String name, String email) 
             throws InvalidParametersException, EntityAlreadyExistsException {
-                
-        InstructorAttributes instructorToAdd = new InstructorAttributes(null, courseId, name, email);
+        InstructorAttributes instructorToAdd = new InstructorAttributes(googleId, courseId, name, email);
         
         createInstructor(instructorToAdd);
     }
 
-    public void createInstructor(String googleId, String courseId, String name, String email) 
+    public void createInstructor(String googleId, String courseId, String name, String email, String role, String displayedName,
+            String instructorPrivilegesAsText) 
             throws InvalidParametersException, EntityAlreadyExistsException {
                 
-        InstructorAttributes instructorToAdd = new InstructorAttributes(googleId, courseId, name, email);
+        InstructorAttributes instructorToAdd = new InstructorAttributes(googleId, courseId, name, email, role, displayedName,
+                instructorPrivilegesAsText);
         
         createInstructor(instructorToAdd);
     }
@@ -178,12 +179,8 @@ public class InstructorsLogic {
 
         coursesLogic.verifyCourseIsPresent(instructor.courseId);        
         verifyIsGoogleIdOfInstructorOfCourse(googleId, instructor.courseId);
-
-        InstructorAttributes instructorToUpdate = getInstructorForGoogleId(instructor.courseId, googleId);
-        instructorToUpdate.name = instructor.name;
-        instructorToUpdate.email = instructor.email;
         
-        instructorsDb.updateInstructorByGoogleId(instructorToUpdate);
+        instructorsDb.updateInstructorByGoogleId(instructor);
     }
     
     /**

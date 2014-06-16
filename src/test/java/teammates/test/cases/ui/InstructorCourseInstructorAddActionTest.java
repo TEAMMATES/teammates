@@ -41,7 +41,9 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
                 Const.ParamsNames.COURSE_ID, "idOfTypicalCourse1",
                 Const.ParamsNames.INSTRUCTOR_ID, "ICIAAT.instructorId",
                 Const.ParamsNames.INSTRUCTOR_NAME, "Instructor Name",
-                Const.ParamsNames.INSTRUCTOR_EMAIL, "instructor@email.com"};
+                Const.ParamsNames.INSTRUCTOR_EMAIL, "instructor@email.com",
+                Const.ParamsNames.INSTRUCTOR_ROLE_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER
+                };
         
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
     }
@@ -64,7 +66,9 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.INSTRUCTOR_NAME, newInstructorName,
-                Const.ParamsNames.INSTRUCTOR_EMAIL, newInstructorEmail};
+                Const.ParamsNames.INSTRUCTOR_EMAIL, newInstructorEmail,
+                Const.ParamsNames.INSTRUCTOR_ROLE_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER
+                };
         
         Action addAction = getAction(submissionParams);
         RedirectResult redirectResult = (RedirectResult) addAction.executeAndPostProcess();
@@ -97,7 +101,7 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
 
         expectedLogSegment = "TEAMMATESLOG|||instructorCourseInstructorAdd|||instructorCourseInstructorAdd"
                 + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1"
-                + "|||instr1@course1.com|||Servlet Action Failure : Trying to create a Instructor that exists: ICIAAT.newInstructor@email.com, idOfTypicalCourse1"
+                + "|||instr1@course1.com|||Servlet Action Failure : Trying to create a Instructor that exists: idOfTypicalCourse1/ICIAAT.newInstructor@email.com"
                 + "|||/page/instructorCourseInstructorAdd";
         assertEquals(expectedLogSegment, addAction.getLogMessage());
         
@@ -106,7 +110,9 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.INSTRUCTOR_NAME, newInstructorName,
-                Const.ParamsNames.INSTRUCTOR_EMAIL, newInvalidInstructorEmail};
+                Const.ParamsNames.INSTRUCTOR_EMAIL, newInvalidInstructorEmail,
+                Const.ParamsNames.INSTRUCTOR_ROLE_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER
+                };
         
         addAction = getAction(submissionParams);
         redirectResult = (RedirectResult) addAction.executeAndPostProcess();
@@ -131,7 +137,9 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.INSTRUCTOR_NAME, newInstructorName,
-                Const.ParamsNames.INSTRUCTOR_EMAIL, newInstructorEmail};
+                Const.ParamsNames.INSTRUCTOR_EMAIL, newInstructorEmail,
+                Const.ParamsNames.INSTRUCTOR_ROLE_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER
+                };
         addAction = getAction(addUserIdToParams(instructorId, submissionParams));
         redirectResult = (RedirectResult) addAction.executeAndPostProcess();
         

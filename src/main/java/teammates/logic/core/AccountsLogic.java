@@ -56,6 +56,7 @@ public class AccountsLogic {
     /**
      * <b>Note: Now used for the purpose of testing only.</b><br>
      */
+    // TODO: remove this method!!!!!!!!!!!!!!!!!!!!!!!!!!
     public void createInstructorAccount(String googleId, String courseId,
             String name, String email, String institute)
                     throws InvalidParametersException, EntityAlreadyExistsException {
