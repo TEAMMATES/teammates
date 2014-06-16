@@ -70,6 +70,18 @@ function toggleTunePermissionsDiv(number) {
     $("#tunePermissionsDivForInstructor" + number).toggle();
 }
 
+function checkTheRoleThatApplies(instrNum) {
+	var instrRole = $("#accessControlInfoForInstr"+instrNum+" div div p").html();
+	$("input[id='instructorroleforinstructor" + instrNum + "']").filter("[value='" + instrRole + "']").prop("checked", true);
+}
+
+$(function(){
+	var numOfInstr = $("form[id^='formEditInstructor']").length;
+	for (var i=0; i<numOfInstr;i++) {
+		checkTheRoleThatApplies(i+1);
+	}
+});
+
 /**
  * Function that shows confirmation dialog for deleting a instructor
  * @param courseID

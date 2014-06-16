@@ -188,7 +188,8 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Display to students as:</label>
                                 <div class="col-sm-9">
-                                    <input class="form-control" type="text" name="<%=Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME%>" />
+                                    <input class="form-control" type="text" name="<%=Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME%>" 
+                                    placeholder="E.g.Co-lecturer, Teaching Asistant" value="<%=instructor.displayedName%>"/>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -272,8 +273,8 @@
             </div>
 
             <div class="panel-body fill-plain">
-                <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_ADD%>" name="formAddInstructor" class="form form-horizontal" 
-                    id="formAddInstructor">
+                <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_ADD%>" name="formAddInstructor" 
+                class="form form-horizontal" id="formAddInstructor">
                     <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.course.id%>">
                     <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
                     
@@ -298,7 +299,8 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Display to students as:</label>
                                 <div class="col-sm-9">
-                                    <input class="form-control" type="text" name="<%=Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME%>" />
+                                    <input class="form-control" type="text" name="<%=Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME%>" 
+                                    placeholder="E.g.Co-lecturer, Teaching Asistant"/>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -306,20 +308,31 @@
                                     <label class="control-label pull-right">Access-level</label>
                                     <br><br><br><br>
                                     <div class="pull-right">
-                                        <a href="javascript:;" onclick="toggleTunePermissionsDiv(<%=data.instructorList.size()+1%>)" class="small">Fine-tune permissions</a>
+                                        <a href="javascript:;" onclick="toggleTunePermissionsDiv(<%=data.instructorList.size()+1%>)" class="small">
+                                        Fine-tune permissions</a>
                                     </div>
                                 </div>
                                 <div class="col-sm-9">
-                                    <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=data.instructorList.size()+1%>"
-                                     value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER%>" checked="checked">&nbsp;Co-owner: can do everything<br>
-                                    <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=data.instructorList.size()+1%>"
-                                     value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER%>">&nbsp;Manager: can do everything except for deleting the course<br>
-                                    <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=data.instructorList.size()+1%>"
-                                     value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER%>">&nbsp;Observer: can only view courses<br>
-                                    <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=data.instructorList.size()+1%>"
-                                     value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR%>">&nbsp;Tutor: manage section(s)<br>
-                                    <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=data.instructorList.size()+1%>"
-                                     value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_HELPER%>">&nbsp;Helper: helping out<br>
+                                    <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" 
+                                    id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=data.instructorList.size()+1%>"
+                                     value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER%>" 
+                                     checked="checked">&nbsp;Co-owner: can do everything<br>
+                                    <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" 
+                                    id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=data.instructorList.size()+1%>"
+                                     value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER%>"
+                                     >&nbsp;Manager: can do everything except for deleting the course<br>
+                                    <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" 
+                                    id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=data.instructorList.size()+1%>"
+                                     value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER%>"
+                                     >&nbsp;Observer: can only view courses<br>
+                                    <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" 
+                                    id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=data.instructorList.size()+1%>"
+                                     value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR%>"
+                                     >&nbsp;Tutor: manage section(s)<br>
+                                    <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" 
+                                    id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=data.instructorList.size()+1%>"
+                                     value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_HELPER%>"
+                                     >&nbsp;Helper: helping out<br>
                                 </div>
                             </div>
                             <div id="tunePermissionsDivForInstructor<%=data.instructorList.size()+1%>" style="display: none;">
@@ -332,19 +345,23 @@
                                             <div class="panel-body">
                                                 <div class="col-sm-3">
                                                     <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE%>"
-                                                    id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE%>forinstructor<%=data.instructorList.size()+1%>" value="true" /> Edit/Delete course
+                                                    id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE%>forinstructor<%=data.instructorList.size()+1%>"
+                                                    value="true" /> Edit/Delete course
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR%>"
-                                                    id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR%>forinstructor<%=data.instructorList.size()+1%>" value="true" /> Add/Edit/Delete instructors
+                                                    id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR%>forinstructor<%=data.instructorList.size()+1%>"
+                                                    value="true" /> Add/Edit/Delete instructors
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION%>"
-                                                    id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION%>forinstructor<%=data.instructorList.size()+1%>" value="true" /> Create/edit/delete sessions
+                                                    id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION%>forinstructor<%=data.instructorList.size()+1%>"
+                                                    value="true" /> Create/edit/delete sessions
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT%>"
-                                                    id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT%>forinstructor<%=data.instructorList.size()+1%>" value="true" /> Enroll/edit/delete students
+                                                    id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT%>forinstructor<%=data.instructorList.size()+1%>"
+                                                    value="true" /> Enroll/edit/delete students
                                                 </div>
                                             </div>
                                         </div>
