@@ -6,7 +6,6 @@ import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import teammates.common.util.Const;
 import teammates.ui.controller.PageData;
@@ -74,7 +73,6 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
             Map<String, String> emailTeamNameTable,
             Map<String, boolean[]> visibilityTable) {
         
-        //
         for (FeedbackResponseAttributes response : responses) {
             FeedbackQuestionAttributes question = questions.get(response.feedbackQuestionId);
             FeedbackParticipantType type = question.recipientType;
