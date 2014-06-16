@@ -3,6 +3,7 @@ package teammates.logic.core;
 import static teammates.common.util.Const.EOL;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
@@ -94,11 +95,7 @@ public class CoursesLogic {
         createCourse(courseId, courseName);
         
         /* Create the initial instructor for the course */
-        InstructorAttributes instructor = new InstructorAttributes();
-        instructor.googleId = instructorGoogleId;
-        instructor.courseId = courseId;
-        instructor.email = courseCreator.email;
-        instructor.name = courseCreator.name;
+        InstructorAttributes instructor = new InstructorAttributes(instructorGoogleId, courseId, courseCreator.name, courseCreator.email);
         
         try {
             instructorsLogic.createInstructor(instructor);
@@ -194,12 +191,71 @@ public class CoursesLogic {
         return courseDetailsList;
     }
 
+    public List<String> getSectionsNameForCourse(String courseId) 
+            throws EntityDoesNotExistException {
+
+        verifyCourseIsPresent(courseId);
+        
+        List<StudentAttributes> studentDataList = 
+                studentsLogic.getStudentsForCourse(courseId);
+
+        List<String> sectionNameList = new ArrayList<String>();
+
+        for(StudentAttributes sd: studentDataList) {
+            if (!sd.section.equals(Const.DEFAULT_SECTION) && !sectionNameList.contains(sd.section)) {
+                sectionNameList.add(sd.section);
+            }
+        }
+
+        Collections.sort(sectionNameList);
+
+        return sectionNameList;
+    }
+
+    public SectionDetailsBundle getSectionForCourse(String section, String courseId)
+            throws EntityDoesNotExistException {
+
+        verifyCourseIsPresent(courseId);
+        
+        List<StudentAttributes> students = studentsLogic.getStudentsForSection(section, courseId);
+        StudentAttributes.sortByTeamName(students);
+
+        SectionDetailsBundle sectionDetails = new SectionDetailsBundle();
+        TeamDetailsBundle team = null;
+        sectionDetails.name = section;
+        for(int i = 0; i < students.size(); i++){
+            StudentAttributes s = students.get(i);
+    
+            // first student of first team
+            if (team == null) {
+                team = new TeamDetailsBundle();
+                team.name = s.team;
+                team.students.add(s);
+            } 
+            // student in the same team as the previous student
+            else if (s.team.equals(team.name)) {
+                team.students.add(s);
+            } 
+            // first student of subsequent teams (not the first team)
+            else {
+                sectionDetails.teams.add(team);
+                team = new TeamDetailsBundle();
+                team.name = s.team;
+                team.students.add(s);
+            }
+    
+            // if last iteration
+            if (i == (students.size() - 1)) {
+                sectionDetails.teams.add(team);
+            }
+        }
+        return sectionDetails;
+    }
+
     public List<SectionDetailsBundle> getSectionsForCourse(String courseId) 
             throws EntityDoesNotExistException {
         
-        if (getCourse(courseId) == null) {
-            throw new EntityDoesNotExistException("Thr course " + courseId + " does not exist");
-        }
+        verifyCourseIsPresent(courseId);
         
         List<StudentAttributes> students = studentsLogic.getStudentsForCourse(courseId);
         StudentAttributes.sortBySectionName(students);
@@ -301,17 +357,7 @@ public class CoursesLogic {
 
     public int getNumberOfSections(String courseID) throws EntityDoesNotExistException {
 
-        verifyCourseIsPresent(courseID);
-        List<StudentAttributes> studentDataList = 
-                studentsLogic.getStudentsForCourse(courseID);
-
-        List<String> sectionNameList = new ArrayList<String>();
-
-        for(StudentAttributes sd: studentDataList) {
-            if (!sd.section.equals(Const.DEFAULT_SECTION) && !sectionNameList.contains(sd.section)) {
-                sectionNameList.add(sd.section);
-            }
-        }
+        List<String> sectionNameList = getSectionsNameForCourse(courseID);
 
         return sectionNameList.size();
     }

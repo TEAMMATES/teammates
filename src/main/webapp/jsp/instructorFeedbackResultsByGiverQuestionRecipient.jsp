@@ -86,6 +86,7 @@
                 }
         %>
                 </div>
+                </div>
             </div>
         <%
             }
@@ -101,6 +102,7 @@
                     <div class="panel-heading">
                         <strong><%=currentTeam%></strong>
                     </div>
+                    <div class="panel-collapse">
                     <div class="panel-body background-color-warning">
                         <div class="resultStatistics">
                             <%
@@ -123,10 +125,12 @@
                                                         out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, ""));
                                                     %>
                                                 </div>
+                                                <div class="panel-collapse">
                                                 <div class="panel-body padding-0">                
                                                     <div class="resultStatistics">
                                                         <%=statsHtml%>
                                                     </div>
+                                                </div>
                                                 </div>
                                             </div>
                                 <%
@@ -158,6 +162,7 @@
                     From: <strong><%=responsesFromGiver.getKey()%></strong>
                         <a class="link-in-dark-bg" href="mailTo:<%= giverEmail%> " <%=mailtoStyleAttr%>>[<%=giverEmail%>]</a>
                 </div>
+                <div class="panel-collapse">
                 <div class="panel-body">
                 <%
                     int questionIndex = 0;
@@ -172,6 +177,7 @@
                                     out.print(InstructorFeedbackResultsPageData.sanitizeForHtml(questionDetails.questionText));
                                     out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, "giver-"+giverIndex+"-question-"+questionIndex));%>
                             </div>
+                            <div class="panel-collapse">
                             <div class="panel-body padding-0">
                                 <div class="resultStatistics">
                                     <%=questionDetails.getQuestionResultStatisticsHtml(responseEntries)%>
@@ -209,10 +215,12 @@
                                     </tbody>
                                 </table>
                             </div>
+                            </div>
                         </div>
                 <%
                     }
                 %>
+                </div>
                 </div>
             </div>
         <%
@@ -223,6 +231,7 @@
             //close the last team panel.
             if(groupByTeamEnabled==true) {
         %>
+                    </div>
                     </div>
                 </div>
         <%

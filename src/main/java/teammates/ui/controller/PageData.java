@@ -179,7 +179,7 @@ public class PageData {
         if(!enabled){
             return "<span style=\"font-style: italic;\">Disabled</span>";
         }
-        if(str.equals("") || str == null){
+        if(str == null || str.equals("")){
             return "N/A";
         }
         return str.replace("&lt;&lt;What I appreciate about you as a team member&gt;&gt;:", "<strong>What I appreciate about you as a team member:</strong>")
@@ -540,6 +540,12 @@ public class PageData {
         String link = Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = Url.addParamToUrl(link, Const.ParamsNames.STUDENT_EMAIL, studentEmail);
+        link = addUserIdToUrl(link);
+        return link;
+    }
+    
+    public String getInstructorCommentsLink(){
+        String link = Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE;
         link = addUserIdToUrl(link);
         return link;
     }

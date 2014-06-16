@@ -815,7 +815,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         assertEquals(11, results.visibilityTable.size());
         
         
-        /*** Test result bundle for instructor1 ***/
+        /*** Test result bundle for instructor1 within a course ***/
         InstructorAttributes instructor =
                 responseBundle.instructors.get("instructor1OfCourse1");        
         results = fsLogic.getFeedbackSessionResultsForInstructor(
@@ -881,6 +881,47 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         AssertHelper.assertContains(expectedStrings, mapString);
         assertEquals(10, results.visibilityTable.size());
         
+        /*** Test result bundle for instructor1 within a section ***/
+        
+        results = fsLogic.getFeedbackSessionResultsForInstructorInSection(
+                session.feedbackSessionName, 
+                session.courseId, instructor.email, "Section A");
+        
+        // Instructor can see responses: q2r1-3, q3r1-2, q4r1-3, q5r1, q6r1
+        assertEquals(4, results.responses.size());
+        assertEquals(3, results.questions.size());
+        
+        // Test the user email-name maps used for display purposes
+        mapString = results.emailNameTable.toString();
+        expectedStrings.clear();
+        Collections.addAll(expectedStrings,
+                "FSRTest.student1InCourse1@gmail.com=student1 In Course1", 
+                "FSRTest.student2InCourse1@gmail.com=student2 In Course1", 
+                "Team 1.4=Team 1.4", "FSRTest.instr1@course1.com=Instructor1 Course1");
+        AssertHelper.assertContains(expectedStrings, mapString);
+        assertEquals(4, results.emailNameTable.size());
+        
+        // Test the user email-teamName maps used for display purposes
+        mapString = results.emailTeamNameTable.toString();
+        expectedStrings.clear();
+        Collections.addAll(expectedStrings,
+                "FSRTest.student1InCourse1@gmail.com=Team 1.1",
+                "FSRTest.student2InCourse1@gmail.com=Team 1.1", 
+                "Team 1.4=", 
+                "FSRTest.instr1@course1.com=Instructors");
+        AssertHelper.assertContains(expectedStrings, mapString);
+        assertEquals(4, results.emailTeamNameTable.size());
+
+        // Test the generated response visibilityTable for userNames.        
+        mapString = tableToString(results.visibilityTable);
+        expectedStrings.clear();
+        Collections.addAll(expectedStrings,
+                getResponseId("qn3.resp1",responseBundle)+"={true,false}",
+                getResponseId("qn4.resp3",responseBundle)+"={true,true}",
+                getResponseId("qn2.resp3",responseBundle)+"={false,false}",
+                getResponseId("qn2.resp1",responseBundle)+"={false,false}");
+        AssertHelper.assertContains(expectedStrings, mapString);
+        assertEquals(4, results.visibilityTable.size());
         // TODO: test student2 too.
         
         ______TS("private session");

@@ -1,8 +1,6 @@
 package teammates.logic.core;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
@@ -197,6 +195,10 @@ public class StudentsLogic {
             evaluationsLogic.adjustSubmissionsForChangingTeam(student.course, finalEmail, student.team);
             frLogic.updateFeedbackResponsesForChangingTeam(student.course, finalEmail, originalStudent.team, student.team);
         }
+
+        if(isSectionChanged(originalStudent.section, student.section)) {
+            frLogic.updateFeedbackResponsesForChangingSection(student.course, finalEmail, originalStudent.section, student.section);
+        }
     }
     
     public void updateStudentCascadeWithSubmissionAdjustmentScheduled(String originalEmail, 
@@ -337,6 +339,16 @@ public class StudentsLogic {
             throw new EnrollException(errorMessage);
         }
 
+    }
+
+    public String getSectionForTeam(String courseId, String teamName){
+
+        List<StudentAttributes> students = getStudentsForTeam(teamName, courseId);
+        if(students.isEmpty()){
+            return Const.DEFAULT_SECTION;
+        } else {
+            return students.get(0).section;
+        }
     }
 
     private String getSectionInvalidityInfo(List<StudentAttributes> mergedList) {
@@ -508,9 +520,15 @@ public class StudentsLogic {
             ArrayList<StudentEnrollDetails> enrollmentList,
             FeedbackResponseAttributes response) throws InvalidParametersException, EntityDoesNotExistException {
         for(StudentEnrollDetails enrollment : enrollmentList) {
+            boolean isResponseDeleted = false;
             if(enrollment.updateStatus == UpdateStatus.MODIFIED &&
                     isTeamChanged(enrollment.oldTeam, enrollment.newTeam)) {
-                frLogic.updateFeedbackResponseForChangingTeam(enrollment, response);
+                isResponseDeleted = frLogic.updateFeedbackResponseForChangingTeam(enrollment, response);
+            }
+        
+            if(!isResponseDeleted && enrollment.updateStatus == UpdateStatus.MODIFIED &&
+                    isSectionChanged(enrollment.oldSection, enrollment.newSection)){
+                frLogic.updateFeedbackResponseForChangingSection(enrollment, response);
             }
         }
     }
@@ -523,7 +541,8 @@ public class StudentsLogic {
         enrollmentDetails.course = validStudentAttributes.course;
         enrollmentDetails.email = validStudentAttributes.email;
         enrollmentDetails.newTeam = validStudentAttributes.team;
-        
+        enrollmentDetails.newSection = validStudentAttributes.section;
+
         try {
             if (validStudentAttributes.isEnrollInfoSameAs(originalStudentAttributes)) {
                 enrollmentDetails.updateStatus = UpdateStatus.UNMODIFIED;
@@ -533,6 +552,9 @@ public class StudentsLogic {
                 
                 if(!originalStudentAttributes.team.equals(validStudentAttributes.team)) {
                     enrollmentDetails.oldTeam = originalStudentAttributes.team;
+                }
+                if(!originalStudentAttributes.section.equals(validStudentAttributes.section)) {
+                    enrollmentDetails.oldSection = originalStudentAttributes.section;
                 }
             } else {
                 createStudentCascadeWithSubmissionAdjustmentScheduled(validStudentAttributes);
@@ -618,6 +640,11 @@ public class StudentsLogic {
     private boolean isTeamChanged(String originalTeam, String newTeam) {
         return (newTeam != null) && (originalTeam != null)
                 && (!originalTeam.equals(newTeam));
+    }
+
+    private boolean isSectionChanged(String originalSection, String newSection) {
+        return (newSection != null) && (originalSection != null)
+                && (!originalSection.equals(newSection));
     }
     
 }

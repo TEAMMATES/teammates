@@ -83,6 +83,18 @@ public class InstructorFeedbackResultsPage extends AppPage {
         select.selectByVisibleText("Group by - Recipient > Question > Giver");
         waitForPageToLoad();
     }
+
+    public void filterResponsesForSection(String section) {
+        Select select = new Select(browser.driver.findElement(By.name(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION)));
+        select.selectByVisibleText(section);
+        waitForPageToLoad();
+    }
+
+    public void filterResponsesForAllSections() {
+        Select select = new Select(browser.driver.findElement(By.name(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION)));
+        select.selectByVisibleText("All");
+        waitForPageToLoad();
+    }
     
     public void displayByQuestion() {
         Select select = new Select(browser.driver.findElement(By.name(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE)));
@@ -189,7 +201,11 @@ public class InstructorFeedbackResultsPage extends AppPage {
     public void verifyCommentRowContent(String commentRowIdSuffix, String commentText, String giverName) {
         WebElement commentRow = browser.driver.findElement(By.id("responseCommentRow" + commentRowIdSuffix));
         assertEquals(commentText, commentRow.findElement(By.id("plainCommentText" + commentRowIdSuffix)).getText());
-        assertTrue(commentRow.findElement(By.className("text-muted")).getText().contains(giverName));
+        try{
+            assertTrue(commentRow.findElement(By.className("text-muted")).getText().contains(giverName));
+        } catch (AssertionError e){
+            assertTrue(commentRow.findElement(By.className("text-muted")).getText().contains("you"));
+        }
     }
     
     public void verifyCommentFormErrorMessage(String commentTableIdSuffix, String errorMessage) {

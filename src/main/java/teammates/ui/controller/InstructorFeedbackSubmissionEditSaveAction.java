@@ -23,6 +23,11 @@ public class InstructorFeedbackSubmissionEditSaveAction extends FeedbackSubmissi
     protected String getUserEmailForCourse() {
         return logic.getInstructorForGoogleId(courseId, account.googleId).email;
     }
+    
+    @Override
+    protected String getUserSectionForCourse() {
+        return Const.DEFAULT_SECTION;
+    }
 
     @Override
     protected FeedbackSessionQuestionsBundle getDataBundle(String userEmailForCourse)

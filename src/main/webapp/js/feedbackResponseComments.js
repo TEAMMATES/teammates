@@ -25,13 +25,22 @@ $(document).ready(function(){
                 setTimeout(function(){
                     if (!data.isError) {
                         // Inject new comment row
-                    	addFormRow.parent().attr("class", "list-group comment-list");
+                    	addFormRow.parent().attr("class", "list-group");
                         addFormRow.before(generateNewCommentRow(data));
                         var newCommentRow = addFormRow.prev();
                         newCommentRow.find("form[class*='responseCommentEditForm'] > div > a").click(editCommentHandler);
                         newCommentRow.find("form[class*='responseCommentDeleteForm'] > a").click(deleteCommentHandler);
                         addCount++;
-                        $("[data-toggle='tooltip']").tooltip({html: true});
+                        newCommentRow.find("[data-toggle='tooltip']").tooltip({html: true});
+                        if($(location).attr('href').indexOf('instructorCommentsPage') != -1){
+                        	newCommentRow.find("a[type='button']").hide();
+                        	newCommentRow.hover(
+                        		function(){
+                    			$("a[type='button']", this).show();
+                    		}, function(){
+                    			$("a[type='button']", this).hide();
+                    		});
+                        }
                         
                         // Reset add comment form
                         formObject.find("textarea").prop("disabled", false);
@@ -99,10 +108,10 @@ $(document).ready(function(){
     var deleteCommentHandler = function(e) {
         var submitButton = $(this);
         var formObject = $(this).parent();
-        var deletedCommentRow = $(this).parent().parent();
+        var deletedCommentRow = $(this).parent().parent().parent();
         var formData = formObject.serialize();
         var editForm = submitButton.parent().next().next().next();
-    	var frCommentList = submitButton.parent().parent().parent();
+    	var frCommentList = submitButton.parent().parent().parent().parent();
         
         e.preventDefault();
         
@@ -126,6 +135,9 @@ $(document).ready(function(){
                     	var numberOfItemInFrCommentList = deletedCommentRow.parent().children('li');
                         if(numberOfItemInFrCommentList.length <= 2){
                         	deletedCommentRow.parent().hide();
+                        }
+                        if(frCommentList.find("li").length <= 1){
+                        	frCommentList.hide();
                         }
                         deletedCommentRow.remove();
                         frCommentList.parent().find("div.delete_error_msg").remove();
@@ -151,11 +163,14 @@ function generateNewCommentRow(data) {
 	var indexOfYear = commentDateStr.indexOf(thisYear, 0);
 	var formattedDate = commentDateStr.substring(0, indexOfYear - 1);
 	
+	var classNameForRow = $(location).attr('href').indexOf('instructorCommentsPage') != -1? "list-group-item list-group-item-warning giver_display-by-you":
+			"list-group-item list-group-item-warning";
+	
     var newRow =
     // Comment Row
-	"<li class=\"list-group-item list-group-item-warning\" id=\"responseCommentRow-" + addCount + "\">"
+	"<li class=\"" + classNameForRow + "\" id=\"responseCommentRow-" + addCount + "\">"
 	+ "<div id=\"commentBar-" + addCount + "\">"
-    + "<span class=\"text-muted\">From: " + data.comment.giverEmail + " [" + formattedDate + "]</span>"
+    + "<span class=\"text-muted\">From: <b>you</b> [" + formattedDate + "]</span>"
 	// Delete form
     + "<form class=\"responseCommentDeleteForm pull-right\">"
     + 		"<a href=\"/page/instructorFeedbackResponseCommentDelete\" type=\"button\" id=\"commentdelete-" + data.comment.feedbackResponseCommentId + "\" class=\"btn btn-default btn-xs icon-button\"" 

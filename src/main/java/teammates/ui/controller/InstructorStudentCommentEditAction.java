@@ -1,9 +1,14 @@
 package teammates.ui.controller;
 
 
+import java.util.ArrayList;
+import java.util.HashSet;
+
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.CommentAttributes;
+import teammates.common.datatransfer.CommentRecipientType;
+import teammates.common.datatransfer.CommentStatus;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -22,6 +27,8 @@ public class InstructorStudentCommentEditAction extends Action {
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL); 
         Assumption.assertNotNull(studentEmail);
         
+        Boolean isFromCommentPage = getRequestParamAsBoolean(Const.ParamsNames.FROM_COMMENTS_PAGE);
+        
         String commentId = getRequestParamValue(Const.ParamsNames.COMMENT_ID);
         Assumption.assertNotNull(commentId);
         
@@ -37,14 +44,14 @@ public class InstructorStudentCommentEditAction extends Action {
                 logic.updateComment(comment);
                 statusToUser.add(Const.StatusMessages.COMMENT_EDITED);
                 statusToAdmin = "Edited Comment for Student:<span class=\"bold\">(" +
-                        comment.receiverEmail + ")</span> for Course <span class=\"bold\">[" +
+                        comment.recipients + ")</span> for Course <span class=\"bold\">[" +
                         comment.courseId + "]</span><br>" +
                         "<span class=\"bold\">Comment:</span> " + comment.commentText;
             } else if(editType.equals("delete")){
                 logic.deleteComment(comment);
                 statusToUser.add(Const.StatusMessages.COMMENT_DELETED);
                 statusToAdmin = "Deleted Comment for Student:<span class=\"bold\">(" +
-                        comment.receiverEmail + ")</span> for Course <span class=\"bold\">[" +
+                        comment.recipients + ")</span> for Course <span class=\"bold\">[" +
                         comment.courseId + "]</span><br>" +
                         "<span class=\"bold\">Comment:</span> " + comment.commentText;
             }
@@ -55,7 +62,8 @@ public class InstructorStudentCommentEditAction extends Action {
             isError = true;
         }
         
-        return createRedirectResult(new PageData(account).getInstructorStudentRecordsLink(courseId,studentEmail));
+        return !isFromCommentPage? createRedirectResult(new PageData(account).getInstructorStudentRecordsLink(courseId,studentEmail)):
+            createRedirectResult((new PageData(account).getInstructorCommentsLink()) + "&" + Const.ParamsNames.COURSE_ID + "=" + courseId);
     }
 
     private CommentAttributes extractCommentData() {
@@ -71,7 +79,13 @@ public class InstructorStudentCommentEditAction extends Action {
         comment.setCommentId(Long.valueOf(commentId));
         comment.courseId = courseId;
         comment.giverEmail = instructorDetailForCourse.email; 
-        comment.receiverEmail = studentEmail;
+        comment.recipientType = CommentRecipientType.PERSON;
+        comment.recipients = new HashSet<String>();
+        comment.recipients.add(studentEmail);
+        comment.status = CommentStatus.FINAL;
+        comment.showCommentTo = new ArrayList<CommentRecipientType>();
+        comment.showGiverNameTo = new ArrayList<CommentRecipientType>();
+        comment.showRecipientNameTo = new ArrayList<CommentRecipientType>();
         comment.commentText = commentText;
         
         return comment;

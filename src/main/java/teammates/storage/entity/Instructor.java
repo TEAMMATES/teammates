@@ -6,6 +6,8 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+import com.google.appengine.api.datastore.Text;
+
 
 /**
  * An association class that represents the association Account
@@ -14,7 +16,7 @@ import javax.jdo.annotations.PrimaryKey;
 @PersistenceCapable
 public class Instructor {
     /**
-     * The primary key. Format: googleId%courseId e.g., adam%cs1101
+     * The primary key. Format: email%courseId e.g., adam@gmail.com%cs1101
      */
     @PrimaryKey
     @Persistent
@@ -43,18 +45,24 @@ public class Instructor {
     @Persistent
     private String registrationKey;
     
-    /**
-     * @param instructorGoogleId
-     * @param courseId
-     * @param instructorName
-     * @param instructorEmail
-     */
-    public Instructor(String instructorGoogleId, String courseId,
-            String instructorName, String instructorEmail) {
+    @Persistent
+    private String role;
+    
+    @Persistent
+    private String displayedName;
+    
+    @Persistent
+    private Text instructorPrivilegesAsText;
+    
+    public Instructor(String instructorGoogleId, String courseId, String instructorName, String instructorEmail,
+            String role, String displayedName, String instructorPrivilegesAsText) {
         this.setGoogleId(instructorGoogleId);
         this.setCourseId(courseId);
         this.setName(instructorName);
         this.setEmail(instructorEmail);
+        this.setRole(role);
+        this.setDisplayedName(displayedName);
+        this.setInstructorPrivilegeAsText(instructorPrivilegesAsText);
         // setId should be called after setting email and courseId
         this.setUniqueId(this.getEmail() + '%' + this.getCourseId());
         this.setRegistrationKey(generateRegistrationKey());
@@ -63,12 +71,15 @@ public class Instructor {
     /**
      * Constructor used for testing purpose only.
      */
-    public Instructor(String instructorGoogleId, String courseId, String instructorName,
-            String instructorEmail, String key) {
+    public Instructor(String instructorGoogleId, String courseId, String instructorName, String instructorEmail, 
+            String key, String role, String displayedName, String instructorPrivilegesAsText) {
         this.setGoogleId(instructorGoogleId);
         this.setCourseId(courseId);
         this.setName(instructorName);
         this.setEmail(instructorEmail);
+        this.setRole(role);
+        this.setDisplayedName(displayedName);
+        this.setInstructorPrivilegeAsText(instructorPrivilegesAsText);
         // setId should be called after setting email and courseId
         this.setUniqueId(this.getEmail() + '%' + this.getCourseId());
         this.setRegistrationKey(key);
@@ -141,5 +152,33 @@ public class Instructor {
         String key = uniqueId + prng.nextInt();
         
         return key;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getDisplayedName() {
+        return displayedName;
+    }
+
+    public void setDisplayedName(String displayedName) {
+        this.displayedName = displayedName;
+    }
+
+    public String getInstructorPrivilegesAsText() {
+        if (instructorPrivilegesAsText == null) {
+            return null;
+        } else {
+            return instructorPrivilegesAsText.getValue();
+        }
+    }
+
+    public void setInstructorPrivilegeAsText(String instructorPrivilegesAsText) {
+        this.instructorPrivilegesAsText = new Text(instructorPrivilegesAsText);
     }
 }
