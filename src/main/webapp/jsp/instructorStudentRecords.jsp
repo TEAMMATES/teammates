@@ -68,7 +68,7 @@
                     </div>
                     <div class="modal-body">
                         <br>
-                        <p><%=data.studentProfile.moreInfo %></p>
+                        <pre class="pre-plain"><%=data.studentProfile.moreInfo %></pre>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
@@ -118,8 +118,8 @@
                                 <div class="panel-body">
                                 <span data-toggle="modal" data-target="#studentProfileMoreInfo" 
                                       class="text-muted pull-right glyphicon glyphicon-resize-full cursor-pointer"></span>
-                                    <h4>More Info </h4>                                    
-                                    <p class="height-fixed-md"><%=data.studentProfile.moreInfo%></p>
+                                    <h5>More Info </h5>                                    
+                                    <pre class="pre-plain height-fixed-md"><%=data.studentProfile.moreInfo%></pre>
                                 </div>
                             </div>
                         </div>
