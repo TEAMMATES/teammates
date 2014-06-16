@@ -48,7 +48,7 @@ import teammates.storage.entity.FeedbackResponse;
 public class FeedbackSessionsLogic {
 
     private static FeedbackSessionsLogic instance = null;
-    @SuppressWarnings("unused")
+    
     private static Logger log = Utils.getLogger();
     //Used by the FeedbackSessionsLogicTest for logging
 
@@ -788,10 +788,12 @@ public class FeedbackSessionsLogic {
         for(FeedbackQuestionAttributes qn : allQuestions){
             allQuestionsMap.put(qn.getId(), qn);
         }
+        long startTime = System.currentTimeMillis();
         List<FeedbackResponseAttributes> allResponses = frLogic.getFeedbackResponsesForSessionInSection(feedbackSessionName, courseId, section);
+        log.warning("The elapsed time to get all responses is " + (System.currentTimeMillis() - startTime));
 
-        responseStatus = isIncludeResponseStatus? getFeedbackSessionResponseStatusInSection(session, section, roster, allQuestions, allResponses): null;
-
+        responseStatus = (section == null && isIncludeResponseStatus) ? getFeedbackSessionResponseStatus(session, roster, allQuestions, allResponses): null;
+       
         StudentAttributes student = null;
         Set<String> studentsEmailInTeam  = new HashSet<String>();
         if(role == Role.STUDENT){
@@ -801,6 +803,8 @@ public class FeedbackSessionsLogic {
                 studentsEmailInTeam.add(teammates.email);
             }
         }
+
+        
         for(FeedbackResponseAttributes response : allResponses){
             FeedbackQuestionAttributes relatedQuestion = allQuestionsMap.get(response.feedbackQuestionId);
             if(relatedQuestion != null){
@@ -834,7 +838,7 @@ public class FeedbackSessionsLogic {
                 isVisibleResponse = false;
             }
         }
-        
+       
         List<FeedbackResponseCommentAttributes> allResponseComments = 
                 frcLogic.getFeedbackResponseCommentForSession(courseId, feedbackSessionName);
         for (FeedbackResponseCommentAttributes frc : allResponseComments) {
@@ -941,34 +945,57 @@ public class FeedbackSessionsLogic {
         return fsInCourse;
     }
 
-    private FeedbackSessionResponseStatus getFeedbackSessionResponseStatusInSection(
-            FeedbackSessionAttributes fsa, String section, CourseRoster roster, 
+    private FeedbackSessionResponseStatus getFeedbackSessionResponseStatus(
+            FeedbackSessionAttributes fsa, CourseRoster roster, 
             List<FeedbackQuestionAttributes> questions, List<FeedbackResponseAttributes> responses)
             throws EntityDoesNotExistException {
 
-        boolean hasIndicatedSection = section != null;
-
+        long startTime = System.currentTimeMillis();
+     
         FeedbackSessionResponseStatus responseStatus = new FeedbackSessionResponseStatus();
         List<StudentAttributes> students = roster.getStudents();
         List<InstructorAttributes> instructors = roster.getInstructors();
-        
-        for (FeedbackQuestionAttributes question : questions) {
+        List<FeedbackQuestionAttributes> studentQns = fqLogic.getFeedbackQuestionsForStudents(questions);
+            
+        for (StudentAttributes student : students) {
+            if (studentQns.isEmpty()) {
+                continue;   
+            }
+            responseStatus.addExpected(student.name);
             boolean responded = false;
-            if (question.giverType == FeedbackParticipantType.STUDENTS ||
-                    question.giverType == FeedbackParticipantType.TEAMS) {
-                for (StudentAttributes student : students) {
-                    if(!hasIndicatedSection || student.section.equals(section)){
-                        responded = fqLogic.isQuestionAnsweredByUser(question, student.email, responses);
-                        responseStatus.add(question.getId(), student.name, responded);
-                    }
-                }
-            } else if (question.giverType == FeedbackParticipantType.INSTRUCTORS) {
-                for (InstructorAttributes instructor : instructors) {
-                    responded = fqLogic.isQuestionAnsweredByUser(question, instructor.email, responses);
-                    responseStatus.add(question.getId(), instructor.name, responded);  
+            for (FeedbackQuestionAttributes question : studentQns) {
+                if(fqLogic.isQuestionAnsweredByUser(question, student.email, responses)) {
+                    responseStatus.addUserWithResponses(student.name);
+                    responded = true;
+                    break;
                 }
             }
+            if(!responded){
+                responseStatus.addUserWithNoResponses(student.name);
+            }
         }
+
+        for (InstructorAttributes instructor : instructors) {
+            List<FeedbackQuestionAttributes> instructorQns = fqLogic
+                    .getFeedbackQuestionsForInstructor(questions, fsa.isCreator(instructor.email));
+            if (instructorQns.isEmpty()) {
+                continue;
+            }
+            responseStatus.addExpected(instructor.name);
+            boolean responded = false;
+            for (FeedbackQuestionAttributes question : instructorQns) {
+                if(fqLogic.isQuestionAnsweredByUser(question, instructor.email, responses)) {
+                    responseStatus.addUserWithResponses(instructor.name);
+                    responded = true;
+                    break;
+                }
+            }
+            if(!responded){
+                responseStatus.addUserWithNoResponses(instructor.name);
+            }
+        }
+
+        log.warning("The elapsed time for getting response status is " + (System.currentTimeMillis() - startTime));
 
         return responseStatus;
     }

@@ -255,15 +255,16 @@
         <%
             // Only output the list of students who haven't responded when there are responses.
             FeedbackSessionResponseStatus responseStatus = data.bundle.responseStatus;
-            if (!responseStatus.hasResponse.isEmpty()) {
+            if (data.selectedSection.equals("All") && !responseStatus.noResponse.isEmpty()) {
         %>
                 <div class="panel panel-info">
                     <div class="panel-heading">Students Who Did Not Respond to Any Question</div>
                     
                     <table class="table table-striped">
                         <tbody>
-                        <%
-                            for (String studentName : responseStatus.getStudentsWhoDidNotRespondToAnyQuestion()) {
+                        <%  
+                            List<String> students = responseStatus.getStudentsWhoDidNotRespondToAnyQuestion();
+                            for (String studentName : students) {
                         %>
                                 <tr>
                                     <td><%=studentName%></td>
