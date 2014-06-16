@@ -7,8 +7,6 @@ import java.util.Scanner;
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.logic.api.Logic;
 import teammates.storage.datastore.Datastore;
 
@@ -34,18 +32,20 @@ public class ModifyInstituteOfStudentsInCourse extends RemoteApiClient {
             List<StudentAttributes> students = logic.getStudentsForCourse(courseId);
             
             for(StudentAttributes student : students) {
-                AccountAttributes account = logic.getAccount(student.googleId);
                 
                 //Account might be null if student was enrolled but not joined yet
-                if(account == null) {
+                if(student.googleId == null || student.googleId.isEmpty()) {
                     continue;
                 }
                 
+                AccountAttributes account = logic.getAccount(student.googleId);
+                
+                System.out.println("changed for "+account.email + " from "+account.institute + " to "+ institute);
                 account.institute = institute;
                 logic.updateAccount(account);
             }
             
-        } catch (EntityDoesNotExistException | InvalidParametersException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         
