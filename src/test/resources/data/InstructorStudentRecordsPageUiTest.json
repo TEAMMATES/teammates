@@ -20,6 +20,93 @@
             "isInstructor":true,
             "email":"teammates.norecord@gmail.com",
             "institute":"National University of Singapore"
+        },
+        "teammates.test@ISR.CS2104":{
+            "googleId":"ISR.teammates.test",
+            "name":"Teammates Test",
+            "isInstructor":false,
+            "email":"teammates.test@gmail.com",
+            "institute":"Random"
+        },
+        "benny.c.tmms@ISR.CS2104":{
+            "googleId":"ISR.benny.c.tmms",
+            "name":"Benny Charlés",
+            "isInstructor":false,
+            "email":"benny.c.tmms@gmail.com",
+            "institute":"NUS",
+            "studentProfile":{
+                "googleId":"ISR.benny.c.tmms",
+                "shortName":"Ben",
+                "email":"",
+                "institute":"NTU",
+                "country":"Singapore",
+                "gender":"male",
+                "moreInfo":"This is a lot of info!"
+            }
+        },
+        "charlie.d.tmms@ISR.CS2104":{
+            "googleId":"ISR.charlie.d.tmms",
+            "email":"charlie.d.tmms@gmail.com",
+            "course":"ISR.CS2104",
+            "name":"Charlie Davis",
+            "comments":"This student's name is Charlie Davis",
+            "team":"Team 1"
+        },
+        "alice.b.tmms@ISR.CS2104":{
+            "googleId":"ISR.alice.b.tmms",
+            "email":"alice.b.tmms@gmail.com",
+            "course":"ISR.CS2104",
+            "name":"Alice Betsy",
+            "comments":"This student's name is Alice Betsy",
+            "team":"Team 2"
+        },
+        "danny.e.tmms@ISR.CS2104":{
+            "googleId":"ISR.danny.e.tmms",
+            "email":"danny.e.tmms@gmail.com",
+            "course":"ISR.CS2104",
+            "name":"Danny Engrid",
+            "comments":"This student's name is Danny Engrid",
+            "team":"Team 2"
+        },
+        "teammates.test@ISR.CS1101":{
+            "googleId":"ISR.teammates.test",
+            "email":"teammates.test@gmail.com",
+            "course":"ISR.CS1101",
+            "name":"Teammates Test",
+            "comments":"This student's name is Teammates Test",
+            "team":"Team 1"
+        },
+        "benny.c.tmms@ISR.CS1101":{
+            "googleId":"ISR.benny.c.tmms",
+            "email":"benny.c.tmms@gmail.com",
+            "course":"ISR.CS1101",
+            "name":"Benny Charlés",
+            "comments":"This student's name is Benny Charlés",
+            "team":"Team 1"
+        },
+        "charlie.d.tmms@ISR.CS1101":{
+            "googleId":"ISR.charlie.d.tmms",
+            "email":"charlie.d.tmms@gmail.com",
+            "course":"ISR.CS1101",
+            "name":"Charlie Davis",
+            "comments":"This student's name is Charlie Davis",
+            "team":"Team 2"
+        },
+        "danny.e.tmms@ISR.CS1101":{
+            "googleId":"ISR.danny.e.tmms",
+            "email":"danny.e.tmms@gmail.com",
+            "course":"ISR.CS1101",
+            "name":"Danny Engrid",
+            "comments":"This student's name is Danny Engrid",
+            "team":"Team 2"
+        },
+        "alice.b.tmms@ISR.NoEval":{
+            "googleId":"ISR.alice.b.tmms",
+            "email":"alice.b.tmms@gmail.com",
+            "course":"ISR.NoEval",
+            "name":"Alice Betsy",
+            "comments":"This student's name is Alice Betsy",
+            "team":"Team 1"
         }
     },
     "courses":{
