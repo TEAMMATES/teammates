@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.Utils;
@@ -39,7 +41,7 @@ public class StudentProfileAttributes extends EntityAttributes {
         this.institute = sp.getInstitute();
         this.country = sp.getCountry();
         this.gender = sp.getGender();
-        this.moreInfo = sp.getMoreInfo();
+        this.moreInfo = sp.getMoreInfo().getValue();
         this.modifiedDate = sp.getModifiedDate();
     }
     
@@ -92,7 +94,7 @@ public class StudentProfileAttributes extends EntityAttributes {
 
     @Override
     public Object toEntity() {
-        return new StudentProfile(googleId, shortName, email, institute, country, gender, moreInfo);
+        return new StudentProfile(googleId, shortName, email, institute, country, gender, new Text(moreInfo));
     }
 
     @Override
