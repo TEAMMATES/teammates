@@ -80,9 +80,15 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
             //Recipient
             String name = emailNameTable.get(response.recipientEmail);
             if (visibilityTable.get(response.getId())[1] == false &&
-                    type != FeedbackParticipantType.SELF) {
+                    type != FeedbackParticipantType.SELF &&
+                    type != FeedbackParticipantType.NONE) {
                 String hash = Integer.toString(Math.abs(name.hashCode()));
                 name = type.toSingularFormString();
+                
+                if(type == FeedbackParticipantType.OWN_TEAM_MEMBERS){
+                    name = "";
+                }
+                
                 name = "Anonymous " + name + " " + hash;
                 
                 String anonEmail = name+"@@"+name+".com";
@@ -99,6 +105,11 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
                     type != FeedbackParticipantType.SELF) {
                 String hash = Integer.toString(Math.abs(name.hashCode()));
                 name = type.toSingularFormString();
+                
+                if(type == FeedbackParticipantType.OWN_TEAM_MEMBERS){
+                    name = "";
+                }
+                
                 name = "Anonymous " + name + " " + hash;
                 
                 String anonEmail = name+"@@"+name+".com";
