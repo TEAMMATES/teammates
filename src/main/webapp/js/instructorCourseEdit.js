@@ -66,6 +66,10 @@ function toggleSendRegistrationKey(courseID, email) {
     return confirm("Do you wish to re-send the invitation email to this instructor now?");
 }
 
+function toggleTunePermissionsDiv(number) {
+    $("#tunePermissionsDivForInstructor" + number).toggle();
+}
+
 /**
  * Function that shows confirmation dialog for deleting a instructor
  * @param courseID
