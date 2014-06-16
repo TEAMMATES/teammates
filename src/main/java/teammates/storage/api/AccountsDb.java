@@ -13,6 +13,7 @@ import javax.jdo.Query;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.EntityAttributes;
@@ -104,8 +105,6 @@ public class AccountsDb extends EntitiesDb {
             instructorsAccountData.add(new AccountAttributes(a));
         }
         
-        closePM();
-        
         return instructorsAccountData;
     }
 
@@ -124,7 +123,6 @@ public class AccountsDb extends EntitiesDb {
         Account accountToUpdate = getAccountEntity(a.googleId, updateStudentProfile);
 
         if (accountToUpdate == null) {
-            closePM();
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_ACCOUNT + a.googleId
                 + ThreadHelper.getCurrentThreadStack());
         }
@@ -172,6 +170,7 @@ public class AccountsDb extends EntitiesDb {
         }
         
         deleteEntity(accountToDelete);
+        closePM();
     }
 
     private Account getAccountEntity(String googleId, boolean retrieveStudentProfile) {
@@ -205,7 +204,7 @@ public class AccountsDb extends EntitiesDb {
         
         try {
             StudentProfile sp = getPM().getObjectById(StudentProfile.class, childKey);
-            closePM();
+            
             if (JDOHelper.isDeleted(sp)) {
                 return null;
             } else {
@@ -237,18 +236,17 @@ public class AccountsDb extends EntitiesDb {
             StudentProfile profileToUpdate = getPM().getObjectById(StudentProfile.class, childKey);
 
             if (JDOHelper.isDeleted(profileToUpdate)) {
-                closePM();
                 throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_STUDENT_PROFILE + newSpa.googleId
                         + ThreadHelper.getCurrentThreadStack());
             }
-                        
+
             newSpa.sanitizeForSaving();
             profileToUpdate.setShortName(newSpa.shortName);
             profileToUpdate.setEmail(newSpa.email);
             profileToUpdate.setInstitute(newSpa.institute);
             profileToUpdate.setCountry(newSpa.country);
             profileToUpdate.setGender(newSpa.gender);
-            profileToUpdate.setMoreInfo(newSpa.moreInfo);
+            profileToUpdate.setMoreInfo(new Text(newSpa.moreInfo));
             closePM();
             
         } catch (JDOObjectNotFoundException je) {
