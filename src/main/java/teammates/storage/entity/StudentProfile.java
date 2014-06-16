@@ -8,6 +8,8 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+import com.google.appengine.api.datastore.Text;
+
 
 /**
  * Represents profile details for 
@@ -51,7 +53,7 @@ public class StudentProfile {
     @Persistent
     /* must be html sanitized before saving */
     @Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
-    private String moreInfo;
+    private Text moreInfo;
     
     @Persistent
     private Date modifiedDate; 
@@ -77,7 +79,7 @@ public class StudentProfile {
      *            Miscellaneous information, including external profile
      */
     public StudentProfile(String googleId, String shortName, String email,
-            String institute, String country, String gender, String moreInfo) {
+            String institute, String country, String gender, Text moreInfo) {
         this.setGoogleId(googleId);
         this.setShortName(shortName);
         this.setEmail(email);
@@ -95,7 +97,7 @@ public class StudentProfile {
         this.setInstitute("");
         this.setCountry("");
         this.setGender("other");
-        this.setMoreInfo("");
+        this.setMoreInfo(new Text(""));
         this.setModifiedDate(new Date());
     }
     
@@ -147,11 +149,11 @@ public class StudentProfile {
         this.gender = gender;
     }
     
-    public String getMoreInfo() {
+    public Text getMoreInfo() {
         return this.moreInfo;
     }
     
-    public void setMoreInfo(String moreInfo) {
+    public void setMoreInfo(Text moreInfo) {
         this.moreInfo = moreInfo;
     }
     
