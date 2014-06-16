@@ -108,7 +108,11 @@
                         <a href="<%=data.getInstructorCourseInstructorRemindLink(instructor.courseId, instructor.email)%>" id="instrRemindLink<%=index%>"
                             class="btn btn-primary btn-xs"
                             data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_INSTRUCTOR_REMIND%>"
-                            onclick="return toggleSendRegistrationKey('<%=instructor.courseId%>','<%=instructor.email%>);">
+                            onclick="return toggleSendRegistrationKey('<%=instructor.courseId%>','<%=instructor.email%>);"
+                            <% if (!data.currentInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR)) {%>
+                                disabled="disabled"
+                            <% } %>
+                            >
                             <span class="glyphicon glyphicon-envelope"></span> Resend Invite</a>
                     <% } else { %>
                         <a href="javascript:;" id="instrEditLink<%=index%>" class="btn btn-primary btn-xs"
@@ -119,7 +123,11 @@
                     <a href="<%=data.getInstructorCourseInstructorDeleteLink(instructor.courseId, instructor.email)%>" id="instrDeleteLink<%=index%>"
                         class="btn btn-primary btn-xs"
                         data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_INSTRUCTOR_DELETE%>"
-                        onclick="return toggleDeleteInstructorConfirmation('<%=instructor.courseId%>','<%=instructor.email%>', <%=instructor.email.equals(data.account.email)%>);">
+                        onclick="return toggleDeleteInstructorConfirmation('<%=instructor.courseId%>','<%=instructor.email%>', <%=instructor.email.equals(data.account.email)%>);"
+                        <% if (!data.currentInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR)) {%>
+                             disabled="disabled"
+                        <% } %>
+                        >
                         <span class="glyphicon glyphicon-trash"></span> Delete</a>
                 </div>
             </div>
@@ -172,7 +180,13 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="accessControlEditDivForInstr<%=index%>" style="display: none;">
+                        <div id="accessControlEditDivForInstr<%=index%>" style="display:none;">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Display to students as:</label>
+                                <div class="col-sm-9">
+                                    <input class="form-control" type="text" name="<%=Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME%>" />
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <div class="col-sm-3">
                                     <label class="control-label pull-right">Access-level</label>
@@ -236,9 +250,13 @@
                         </div>
                         <div id="accessControlEditDivForInstr<%=data.instructorList.size()+1%>">
                             <div class="form-group">
-                                <div class="col-sm-3">
-                                    <label class="control-label pull-right">Access-level</label>
+                                <label class="col-sm-3 control-label">Display to students as:</label>
+                                <div class="col-sm-9">
+                                    <input class="form-control" type="text" name="<%=Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME%>" />
                                 </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Access-level</label>
                                 <div class="col-sm-9">
                                     <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=data.instructorList.size()+1%>"
                                      value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER%>" checked="checked">&nbsp;Co-owner: can do everything<br>

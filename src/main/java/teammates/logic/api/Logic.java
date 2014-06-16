@@ -248,6 +248,7 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
+    @Deprecated
     public void createInstructorAccount(String googleId, String courseId, String name, String email, String institute)
             throws EntityAlreadyExistsException, InvalidParametersException {
         
@@ -265,6 +266,7 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
+    @Deprecated
     public void createInstructor(String googleId, String courseId, String name, String email) 
             throws InvalidParametersException, EntityAlreadyExistsException {
         
@@ -281,6 +283,7 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
+    @Deprecated
     public void addInstructor(String courseId, String name, String email, String role) 
             throws InvalidParametersException, EntityAlreadyExistsException {
         

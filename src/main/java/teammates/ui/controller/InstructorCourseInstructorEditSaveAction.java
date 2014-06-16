@@ -29,14 +29,16 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
         Assumption.assertNotNull(instructorEmail);
         String instructorRole = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ROLE_NAME);
         Assumption.assertNotNull(instructorRole);
+        String displayedName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME);
+        displayedName = (displayedName == null || displayedName.isEmpty()) ?
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER : displayedName;
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId));
 
         /* Process saving editing changes and setup status to be shown to user and admin */
-        InstructorAttributes instructorToEdit = updateInstructorAttributes(
-                courseId, instructorId, instructorName, instructorEmail,
-                instructorRole);
+        InstructorAttributes instructorToEdit = updateInstructorAttributes(courseId, instructorId, instructorName, instructorEmail,
+                instructorRole, displayedName);
         
         try {
             logic.updateInstructorByGoogleId(instructorId, instructorToEdit);
@@ -57,13 +59,12 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
 
     private InstructorAttributes updateInstructorAttributes(String courseId,
             String instructorId, String instructorName, String instructorEmail,
-            String instructorRole) {
+            String instructorRole, String displayedName) {
         InstructorAttributes instructorToEdit = logic.getInstructorForGoogleId(courseId, instructorId);
         instructorToEdit.name = Sanitizer.sanitizeName(instructorName);
         instructorToEdit.email = Sanitizer.sanitizeEmail(instructorEmail);
         instructorToEdit.role = Sanitizer.sanitizeName(instructorRole);
-        // TODO: remove this hard-coded thing!
-        instructorToEdit.displayedName = "Co-owner";
+        instructorToEdit.displayedName = Sanitizer.sanitizeName(displayedName);
         List<InstructorAttributes> instructors = logic.getInstructorsWhoCanDeleteCourse(courseId);
         boolean thisOneIsOnlyInstructorCanDelete = instructors.size() == 1 
                 && instructors.get(0).googleId.equals(instructorToEdit.googleId);
