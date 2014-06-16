@@ -96,8 +96,10 @@
                                     <tr>
                                         <td class="text-bold">Shortname (Gender)</td>
                                         <td><%=data.studentProfile.shortName.isEmpty() ? "<i class='text-muted'>" + Const.STUDENT_PROFILE_FIELD_NOT_FILLED + "</i>" : data.studentProfile.shortName %> 
-                                        (<%=data.studentProfile.gender.equals(Const.GenderTypes.OTHER) ?
-                                        		"<i  class='text-muted'>" + Const.STUDENT_PROFILE_FIELD_NOT_FILLED + "</i>" : data.studentProfile.gender %>)</td>
+                                        (<i>
+                                            <%=data.studentProfile.gender.equals(Const.GenderTypes.OTHER) ?
+                                        		"<span class='text-muted'>" + Const.STUDENT_PROFILE_FIELD_NOT_FILLED + "</span>" : data.studentProfile.gender %>
+                                        </i>)</td>
                                     </tr>
                                     <tr>
                                         <td class="text-bold">Email</td>
