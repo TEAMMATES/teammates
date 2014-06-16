@@ -104,7 +104,9 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
                 String anonEmail = name+"@@"+name+".com";
                 emailNameTable.put(anonEmail, name);
                 emailTeamNameTable.put(anonEmail, name + Const.TEAM_OF_EMAIL_OWNER);
-                
+                if(type == FeedbackParticipantType.TEAMS){
+                    emailTeamNameTable.put(anonEmail, name);
+                }
                 response.giverEmail = anonEmail;
             }
         }
