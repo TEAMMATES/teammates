@@ -49,7 +49,11 @@
                 <a href="<%=data.getInstructorCourseDeleteLink(data.course.id, false)%>"
                     class="btn btn-primary btn-xs pull-right" id="courseDeleteLink"
                     data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_DELETE%>"
-                    onclick="return toggleDeleteCourseConfirmation('<%=data.course.id%>');">
+                    onclick="return toggleDeleteCourseConfirmation('<%=data.course.id%>');"
+                    <% if (!data.currentInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE)) {%>
+                        style="display: none;"
+                    <% } %>
+                        >
                     <span class="glyphicon glyphicon-trash"></span>
                     Delete</a>
             </div>
@@ -105,12 +109,12 @@
                             class="btn btn-primary btn-xs"
                             data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_INSTRUCTOR_REMIND%>"
                             onclick="return toggleSendRegistrationKey('<%=instructor.courseId%>','<%=instructor.email%>);">
-                            <span class="glyphicon glyphicon-envelope"></span> Resend Invite</a>&nbsp;
+                            <span class="glyphicon glyphicon-envelope"></span> Resend Invite</a>
                     <% } else { %>
                         <a href="javascript:;" id="instrEditLink<%=index%>" class="btn btn-primary btn-xs"
                             data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_INSTRUCTOR_EDIT%>"
                             onclick="enableEditInstructor(<%=index%>, <%=data.instructorList.size()%>)">
-                            <span class="glyphicon glyphicon-pencil"></span> Edit</a>&nbsp;
+                            <span class="glyphicon glyphicon-pencil"></span> Edit</a>
                     <% } %>
                     <a href="<%=data.getInstructorCourseInstructorDeleteLink(instructor.courseId, instructor.email)%>" id="instrDeleteLink<%=index%>"
                         class="btn btn-primary btn-xs"
@@ -160,6 +164,27 @@
                                 disabled="disabled">
                             </div>
                         </div>
+                        <div id="accessControlInfoForInstr<%=index%>">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Access Level:</label>
+                                <div class="col-sm-9">
+                                    <p class="form-control-static"><%=instructor.role%></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="accessControlEditDivForInstr<%=index%>" style="display: none;">
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <label class="control-label pull-right">Access-level</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=index%>"
+                                     value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER%>" checked="checked">&nbsp;Co-owner: can do everything<br>
+                                    <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=index%>"
+                                     value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER%>">&nbsp;Manager: can do everything except for deleting the course<br>
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <div class="col-sm-offset-3 col-sm-9"><input id="btnSaveInstructor<%=index%>" type="submit" class="btn btn-primary"
                                 style="display:none;" value="Save changes" tabindex="6">
@@ -207,6 +232,19 @@
                                 name="<%=Const.ParamsNames.INSTRUCTOR_EMAIL%>" id="<%=Const.ParamsNames.INSTRUCTOR_EMAIL%>"
                                 data-toggle="tooltip" data-placement="top" title="Enter the Email of the instructor."
                                 maxlength=<%=FieldValidator.EMAIL_MAX_LENGTH%> tabindex=9/>
+                            </div>
+                        </div>
+                        <div id="accessControlEditDivForInstr<%=data.instructorList.size()+1%>">
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <label class="control-label pull-right">Access-level</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=data.instructorList.size()+1%>"
+                                     value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER%>" checked="checked">&nbsp;Co-owner: can do everything<br>
+                                    <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=data.instructorList.size()+1%>"
+                                     value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER%>">&nbsp;Manager: can do everything except for deleting the course<br>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">

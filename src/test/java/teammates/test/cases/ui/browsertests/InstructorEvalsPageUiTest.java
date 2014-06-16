@@ -81,12 +81,12 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
         ______TS("no courses");
         
         evalsPage = getEvalsPageForInstructor(testData.accounts.get("instructorWithoutCourses").googleId);
-        evalsPage.verifyHtml("/instructorEvalEmptyAll.html");
+        evalsPage.verifyHtmlMainContent("/instructorEvalEmptyAll.html");
         
         ______TS("no evaluations");
         
         evalsPage = getEvalsPageForInstructor(testData.accounts.get("instructorWithoutEvals").googleId);
-        evalsPage.verifyHtml("/instructorEvalEmptyEval.html");
+        evalsPage.verifyHtmlMainContent("/instructorEvalEmptyEval.html");
 
         ______TS("typical view, sort by deadline (default)");
         
@@ -138,7 +138,7 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
         String evalName = "First Eval";
         
         StudentEvalEditPage previewPage = evalsPage.loadPreviewLink(courseId, evalName);
-        previewPage.verifyHtml("/studentEvalEditPagePreview.html");
+        previewPage.verifyHtmlMainContent("/studentEvalEditPagePreview.html");
         previewPage.closeCurrentWindowAndSwitchToParentWindow();
     }
     

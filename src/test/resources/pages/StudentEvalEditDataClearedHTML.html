@@ -75,11 +75,24 @@ ul #nav {
                 <div class="collapse navbar-collapse" id="contentLinks">
                     <ul class="nav navbar-nav">
                         <li class="">
-                            <a data-link="studentHome" href="/page/studentHomePage?user=SEvalEditUiT.danny.e">Home</a>
-                        </li>
-                        <li class="">
-                            <a class="nav help" href="/studentHelp.html" target="_blank">Help</a>
-                        </li>
+                            <a data-link="studentHome" href="/page/studentHomePage?user=SEvalEditUiT.danny.e" id="studentHomeLink">
+                               Home
+                            </a>
+                         </li>
+                         <li class="">
+                            <a data-link="studentProfilePage" href="/page/studentProfilePage?user=SEvalEditUiT.danny.e" id="studentProfileLink">
+                               Profile
+                               <sup>
+                                  <span class="glyphicon glyphicon-star glyphicon-gold">
+                                  </span>
+                               </sup>
+                            </a>
+                         </li>
+                         <li class="">
+                            <a class="nav" href="/studentHelp.html" id="studentHelpLink" target="_blank">
+                               Help
+                            </a>
+                         </li>
                     </ul>
                     <ul class="nav navbar-nav pull-right">
                         <li><a class="nav logout" href="/logout.jsp">Logout

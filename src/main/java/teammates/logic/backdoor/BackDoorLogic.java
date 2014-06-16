@@ -60,7 +60,7 @@ public class BackDoorLogic extends Logic {
         for (AccountAttributes account : accounts.values()) {
             log.fine("API Servlet adding account :" + account.googleId);
             super.createAccount(account.googleId, account.name, account.isInstructor,
-                                    account.email, account.institute);
+                                    account.email, account.institute, account.studentProfile);
         }
 
         HashMap<String, CourseAttributes> courses = dataBundle.courses;
@@ -75,14 +75,16 @@ public class BackDoorLogic extends Logic {
             if (instructor.googleId != null) {
                 log.fine("API Servlet adding instructor :" + instructor.googleId);
                 AccountAttributes existingAccount = getAccount(instructor.googleId);
-                //Hardcoding institute value because this is used for testing only
-                super.createInstructorAccount(instructor.googleId, instructor.courseId, 
-                        instructor.name, instructor.email, existingAccount==null? "National University of Singapore" : existingAccount.institute);
+                if (existingAccount != null) {
+                    super.createInstructor(instructor);
+                } else {
+                    super.createInstructorAccount(instructor.googleId, instructor.courseId, 
+                            instructor.name, instructor.email, existingAccount==null? "National University of Singapore" : existingAccount.institute);
+                    super.updateInstructorByGoogleId(instructor.googleId, instructor);
+                }
             } else {
                 log.fine("API Servlet adding instructor :" + instructor.email);
-                //Hardcoding institute value because this is used for testing only
-                super.instructorsLogic.createInstructor(instructor);
-                //TODO:may not need to access instructorsLogic here
+                super.createInstructor(instructor);
             }
         }
 
@@ -148,7 +150,7 @@ public class BackDoorLogic extends Logic {
         HashMap<String, CommentAttributes> comments = dataBundle.comments;
         for(CommentAttributes comment : comments.values()){
             log.fine("API Servlet adding comment :" + comment.getCommentId() + " from "
-                    + comment.giverEmail + " to " + comment.receiverEmail + " in course " + comment.courseId);
+                    + comment.giverEmail + " to " + comment.recipientType + ":" + comment.recipients + " in course " + comment.courseId);
             this.createComment(comment);
         }
         
@@ -156,7 +158,7 @@ public class BackDoorLogic extends Logic {
     }
 
     public String getAccountAsJson(String googleId) {
-        AccountAttributes accountData = getAccount(googleId);
+        AccountAttributes accountData = getAccount(googleId, true);
         return Utils.getTeammatesGson().toJson(accountData);
     }
     

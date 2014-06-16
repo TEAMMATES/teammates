@@ -194,6 +194,11 @@ public class Const {
         public static final String FEEDBACK_RESPONSE_SAVE = "You can submit your responses at any time and come back later to continue " +
                 "before the session closes.";
         
+        public static final String STUDENT_PROFILE_SHORTNAME = "This is the name you prefer to be called by";
+        public static final String STUDENT_PROFILE_EMAIL = "This is a long term contact email";
+        public static final String STUDENT_PROFILE_INSTITUTION = "This is the institution that you represent in the current course";
+        public static final String STUDENT_PROFILE_COUNTRY = "This is the country you represent in the current course";
+        public static final String STUDENT_PROFILE_MOREINFO = "Miscellaneous information to show the instructor. It can include links to external portfolios.";
         
         public static final String VISIBILITY_OPTIONS_RECIPIENT = "Control what feedback recipient(s) can view";
         public static final String VISIBILITY_OPTIONS_GIVER_TEAM_MEMBERS = "Control what team members of feedback giver can view";
@@ -218,6 +223,20 @@ public class Const {
         public static final String CONSTSUM_OPTION = "Distribute points (among options) question";
         public static final String CONSTSUM_RECIPIENT = "Distribute points (among recipients) question";
     }
+    
+    public class InstructorPermissionRoleNames {
+        public final static String INSTRUCTOR_PERMISSION_ROLE_COOWNER = "Co-owner";
+        public final static String INSTRUCTOR_PERMISSION_ROLE_MANAGER = "Manager";
+        public final static String INSTRUCTOR_PERMISSION_ROLE_OBSERVER = "Observer";
+        public final static String INSTRUCTOR_PERMISSION_ROLE_TUTOR = "Tutor";
+        public final static String INSTRUCTOR_PERMISSION_ROLE_HELPER = "Helper";
+    }
+    
+    public class GenderTypes{
+        public static final String MALE = "male";
+        public static final String FEMALE = "female";
+        public static final String OTHER = "other";
+    }
 
     public class ParamsNames{
         public static final String COURSE_ID = "courseid";
@@ -228,6 +247,25 @@ public class Const {
         public static final String INSTRUCTOR_NAME = "instructorname";
         public static final String STUDENTS_ENROLLMENT_INFO = "enrollstudents";
         public static final String INSTRUCTOR_IMPORT_SAMPLE = "importsample";
+        
+        public static final String INSTRUCTOR_ROLE_NAME = "instructorrole";
+        public static final String INSTRUCTOR_PERMISSION_MODIFY_COURSE = "canmodifycourse";
+        public static final String INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR = "canmodifyinstructor";
+        public static final String INSTRUCTOR_PERMISSION_MODIFY_SESSION = "canmodifysession";
+        public static final String INSTRUCTOR_PERMISSION_MODIFY_STUDENT = "canmodifystudent";
+        
+        public static final String INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTION = "canviewstudentinsection";
+        public static final String INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTION = "canviewcommentinsection";
+        public static final String INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTION = "cangivecommentinsection";
+        public static final String INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTION = "canmodifycommentinsection";
+        public static final String INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTION = "canviewsessioninsection";
+        public static final String INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTION = "cansubmitsessioninsection";
+        public static final String INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTION = "canmodifysessioncommentinsection";
+        
+        public static final String INSTRUCTOR_PERMISSION_SELECT_SESSION_PART = "selected%s";
+        public static final String INSTRUCTOR_PERMISSION_VIEW_SESSION_FOR_SESSION_PART = "canviewsessionfor%s";
+        public static final String INSTRUCTOR_PERMISSION_SUBMIT_SESSION_FOR_SESSION_PART = "cansubmitsessionfor%s";
+        public static final String INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_FOR_SESSION_PART = "canmodifysessioncommentfor%s";
         
         public static final String STUDENT_RECORDS_SHOW_COMMENT_BOX = "addComment";
         
@@ -313,6 +351,7 @@ public class Const {
         public static final String FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON = "fruploaddownloadbtn";
         public static final String FEEDBACK_RESULTS_SORTTYPE = "frsorttype";
         public static final String FEEDBACK_RESULTS_GROUPBYTEAM = "frgroupbyteam";
+        public static final String FEEDBACK_RESULTS_GROUPBYSECTION = "frgroupbysection";
         public static final String FEEDBACK_RESULTS_SHOWSTATS = "frshowstats";
         
         public static final String PREVIEWAS = "previewas";
@@ -321,7 +360,15 @@ public class Const {
         
         public static final String REGKEY = "regkey";
         public static final String STUDENT_EMAIL = "studentemail";
+        public static final String FROM_COMMENTS_PAGE = "commentpage";
         public static final String NEW_STUDENT_EMAIL = "newstudentemail";
+        
+        public static final String STUDENT_SHORT_NAME = "studentshortname";
+        public static final String STUDENT_PROFILE_EMAIL = "studentprofileemail";
+        public static final String STUDENT_PROFILE_INSTITUTION = "studentprofileinstitute";
+        public static final String STUDENT_COUNTRY = "studentcountry";
+        public static final String STUDENT_GENDER = "studentgender";
+        public static final String STUDENT_PROFILE_MOREINFO = "studentprofilemoreinfo";        
     
         public static final String STUDENT_NAME = "studentname";
         public static final String FROM_EMAIL = "fromemail";
@@ -421,6 +468,8 @@ public class Const {
         public static final String INSTRUCTOR_STUDENT_COMMENT_ADD = "/page/instructorStudentCommentAdd";
         public static final String INSTRUCTOR_STUDENT_COMMENT_EDIT = "/page/instructorStudentCommentEdit";
         
+        public static final String INSTRUCTOR_COMMENTS_PAGE = "/page/instructorCommentsPage";
+        
         public static final String INSTRUCTOR_FEEDBACKS_PAGE = "/page/instructorFeedbacksPage";
         public static final String INSTRUCTOR_FEEDBACK_ADD = "/page/instructorFeedbackAdd";
         public static final String INSTRUCTOR_FEEDBACK_DELETE = "/page/instructorFeedbackDelete";
@@ -461,6 +510,8 @@ public class Const {
         public static final String STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE = "/page/studentFeedbackQuestionSubmissionEditPage";
         public static final String STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_SAVE = "/page/studentFeedbackQuestionSubmissionEditSave";
         public static final String STUDENT_FEEDBACK_RESULTS_PAGE = "/page/studentFeedbackResultsPage";
+        public static final String STUDENT_PROFILE_PAGE = "/page/studentProfilePage";
+        public static final String STUDENT_PROFILE_EDIT_SAVE = "/page/studentProfileEditSave";
         
         public static final String ADMIN_HOME_PAGE = "/admin/adminHomePage";
         public static final String ADMIN_INSTRUCTORACCOUNT_ADD = "/admin/adminInstructorAccountAdd";
@@ -497,6 +548,7 @@ public class Const {
         /* We omit adding the 'page' prefix to views because all of them are "pages" */
     
         public static final String INSTRUCTOR_HOME = "/jsp/instructorHome.jsp"; 
+        public static final String INSTRUCTOR_COMMENTS = "/jsp/instructorComments.jsp";
         public static final String INSTRUCTOR_COURSES = "/jsp/instructorCourses.jsp"; 
         public static final String INSTRUCTOR_COURSE_EDIT = "/jsp/instructorCourseEdit.jsp"; 
         public static final String INSTRUCTOR_COURSE_DETAILS = "/jsp/instructorCourseDetails.jsp"; 
@@ -532,7 +584,8 @@ public class Const {
         public static final String STUDENT_EVAL_RESULTS = "/jsp/studentEvalResults.jsp"; 
         public static final String STUDENT_FEEDBACK_SUBMISSION_EDIT = "/jsp/studentFeedbackSubmissionEdit.jsp"; 
         public static final String STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT = "/jsp/studentFeedbackQuestionSubmissionEdit.jsp"; 
-        public static final String STUDENT_FEEDBACK_RESULTS = "/jsp/studentFeedbackResults.jsp"; 
+        public static final String STUDENT_FEEDBACK_RESULTS = "/jsp/studentFeedbackResults.jsp";
+        public static final String STUDENT_PROFILE_PAGE = "/jsp/studentProfilePage.jsp";
             
         public static final String ADMIN_HOME = "/jsp/adminHome.jsp";
         public static final String ADMIN_ACCOUNT_MANAGEMENT = "/jsp/adminAccountManagement.jsp";
@@ -630,6 +683,7 @@ public class Const {
         public static final String STUDENT_EDITED = "The student has been edited successfully";
         public static final String STUDENT_DELETED = "The student has been removed from the course";
         public static final String STUDENT_EMAIL_CONFLIT = "Trying to update to an email that is already used by: ";
+        public static final String STUDENT_PROFILE_EDITED = "Your profile has been edited successfully";
         
         public static final String EVALUATION_ADDED = "The evaluation has been added. If you don't see that evaluation in the list below, please refresh the page after a few moments.";
         public static final String EVALUATION_DELETED = "The evaluation has been deleted.";
@@ -786,7 +840,7 @@ public class Const {
     
     public static final String USER_NOBODY_TEXT = "-";
     public static final String USER_UNKNOWN_TEXT = "Unknown user";
-    public static final String TEAM_OF_EMAIL_OWNER = "'s Team";    
+    public static final String TEAM_OF_EMAIL_OWNER = "'s Team";
     
     public static final String INSTRUCTOR_EVALUATION_STATUS_AWAITING = "Awaiting";
     public static final String INSTRUCTOR_EVALUATION_STATUS_OPEN = "Open";

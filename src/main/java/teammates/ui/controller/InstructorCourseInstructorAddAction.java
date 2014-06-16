@@ -22,6 +22,8 @@ public class InstructorCourseInstructorAddAction extends Action {
         Assumption.assertNotNull(instructorName);
         String instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
         Assumption.assertNotNull(instructorEmail);
+        String instructorRole = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ROLE_NAME);
+        Assumption.assertNotNull(instructorRole);
         
         new GateKeeper().verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, account.googleId),
@@ -29,10 +31,11 @@ public class InstructorCourseInstructorAddAction extends Action {
         
         instructorName = Sanitizer.sanitizeName(instructorName);
         instructorEmail = Sanitizer.sanitizeEmail(instructorEmail);
+        instructorRole = Sanitizer.sanitizeName(instructorRole);
         
         /* Process adding the instructor and setup status to be shown to user and admin */
         try {
-            logic.addInstructor(courseId, instructorName, instructorEmail);
+            logic.addInstructor(courseId, instructorName, instructorEmail, instructorRole);
             logic.sendRegistrationInviteToInstructor(courseId, instructorEmail);
             
             statusToUser.add(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_ADDED,

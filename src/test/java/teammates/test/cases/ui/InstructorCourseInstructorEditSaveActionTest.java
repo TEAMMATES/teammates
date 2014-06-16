@@ -42,7 +42,8 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
                 Const.ParamsNames.COURSE_ID, instructor.courseId,
                 Const.ParamsNames.INSTRUCTOR_ID, instructor.googleId,
                 Const.ParamsNames.INSTRUCTOR_NAME, instructor.name,
-                Const.ParamsNames.INSTRUCTOR_EMAIL, "newEmail@email.com"
+                Const.ParamsNames.INSTRUCTOR_EMAIL, "newEmail@email.com",
+                Const.ParamsNames.INSTRUCTOR_ROLE_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER
         };
         
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
@@ -68,7 +69,8 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.INSTRUCTOR_ID, instructorId,
                 Const.ParamsNames.INSTRUCTOR_NAME, newInstructorName,
-                Const.ParamsNames.INSTRUCTOR_EMAIL, newInstructorEmail
+                Const.ParamsNames.INSTRUCTOR_EMAIL, newInstructorEmail,
+                Const.ParamsNames.INSTRUCTOR_ROLE_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER
         };
         Action saveAction = getAction(submissionParams);
         RedirectResult redirectResult = (RedirectResult) saveAction.executeAndPostProcess();
@@ -96,7 +98,8 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.INSTRUCTOR_ID, instructorId,
                 Const.ParamsNames.INSTRUCTOR_NAME, instructorToEdit.name,
-                Const.ParamsNames.INSTRUCTOR_EMAIL, invalidEmail
+                Const.ParamsNames.INSTRUCTOR_EMAIL, invalidEmail,
+                Const.ParamsNames.INSTRUCTOR_ROLE_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER
         };
         
         saveAction = getAction(submissionParams);
@@ -122,7 +125,8 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.INSTRUCTOR_ID, instructorId,
                 Const.ParamsNames.INSTRUCTOR_NAME, newInstructorName,
-                Const.ParamsNames.INSTRUCTOR_EMAIL, newInstructorEmail
+                Const.ParamsNames.INSTRUCTOR_EMAIL, newInstructorEmail,
+                Const.ParamsNames.INSTRUCTOR_ROLE_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER
         };
         
         saveAction = getAction(addUserIdToParams(instructorId, submissionParams));
