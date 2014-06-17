@@ -788,9 +788,8 @@ public class FeedbackSessionsLogic {
         for(FeedbackQuestionAttributes qn : allQuestions){
             allQuestionsMap.put(qn.getId(), qn);
         }
-        long startTime = System.currentTimeMillis();
+        
         List<FeedbackResponseAttributes> allResponses = frLogic.getFeedbackResponsesForSessionInSection(feedbackSessionName, courseId, section);
-        log.warning("The elapsed time to get all responses is " + (System.currentTimeMillis() - startTime));
 
         responseStatus = (section == null && isIncludeResponseStatus) ? getFeedbackSessionResponseStatus(session, roster, allQuestions, allResponses): null;
        
@@ -949,9 +948,7 @@ public class FeedbackSessionsLogic {
             FeedbackSessionAttributes fsa, CourseRoster roster, 
             List<FeedbackQuestionAttributes> questions, List<FeedbackResponseAttributes> responses)
             throws EntityDoesNotExistException {
-
-        long startTime = System.currentTimeMillis();
-     
+    
         FeedbackSessionResponseStatus responseStatus = new FeedbackSessionResponseStatus();
         List<StudentAttributes> students = roster.getStudents();
         List<InstructorAttributes> instructors = roster.getInstructors();
@@ -994,8 +991,6 @@ public class FeedbackSessionsLogic {
                 responseStatus.addUserWithNoResponses(instructor.name);
             }
         }
-
-        log.warning("The elapsed time for getting response status is " + (System.currentTimeMillis() - startTime));
 
         return responseStatus;
     }
