@@ -54,7 +54,7 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
         verifyUnaccessibleForStudents(submissionParams);
         verifyUnaccessibleForInstructorsOfOtherCourses(submissionParams);
         verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
-        verifyUnaccessibleWithoutCoownerPrivileges(submissionParams);
+        verifyUnaccessibleWithoutModifyCoursePrivilege(submissionParams);
 
         /* Test access for admin in masquerade mode */
         CoursesLogic.inst().createCourseAndInstructor(

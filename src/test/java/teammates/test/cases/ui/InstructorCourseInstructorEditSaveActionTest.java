@@ -43,10 +43,16 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
                 Const.ParamsNames.INSTRUCTOR_ID, instructor.googleId,
                 Const.ParamsNames.INSTRUCTOR_NAME, instructor.name,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, "newEmail@email.com",
-                Const.ParamsNames.INSTRUCTOR_ROLE_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER
+                Const.ParamsNames.INSTRUCTOR_ROLE_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true"
         };
         
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+        verifyUnaccessibleWithoutModifyInstructorPrivilege(submissionParams);
     }
     
     @Test
@@ -70,7 +76,12 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
                 Const.ParamsNames.INSTRUCTOR_ID, instructorId,
                 Const.ParamsNames.INSTRUCTOR_NAME, newInstructorName,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, newInstructorEmail,
-                Const.ParamsNames.INSTRUCTOR_ROLE_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER
+                Const.ParamsNames.INSTRUCTOR_ROLE_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true"
         };
         Action saveAction = getAction(submissionParams);
         RedirectResult redirectResult = (RedirectResult) saveAction.executeAndPostProcess();
@@ -99,7 +110,12 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
                 Const.ParamsNames.INSTRUCTOR_ID, instructorId,
                 Const.ParamsNames.INSTRUCTOR_NAME, instructorToEdit.name,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, invalidEmail,
-                Const.ParamsNames.INSTRUCTOR_ROLE_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER
+                Const.ParamsNames.INSTRUCTOR_ROLE_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true"
         };
         
         saveAction = getAction(submissionParams);
@@ -126,7 +142,12 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
                 Const.ParamsNames.INSTRUCTOR_ID, instructorId,
                 Const.ParamsNames.INSTRUCTOR_NAME, newInstructorName,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, newInstructorEmail,
-                Const.ParamsNames.INSTRUCTOR_ROLE_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER
+                Const.ParamsNames.INSTRUCTOR_ROLE_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true"
         };
         
         saveAction = getAction(addUserIdToParams(instructorId, submissionParams));
