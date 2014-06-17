@@ -431,7 +431,7 @@
                                                                 <div data-toggle="tooltip"
                                                                     data-placement="top" title=""
                                                                     data-original-title="Control what other students in this course can view">
-                                                                    Other students in this course</div>
+                                                                    <%=comment.recipientType == CommentRecipientType.COURSE? "Students in this course" : "Other students in this course" %></div>
                                                             </td>
                                                             <td><input
                                                                 class="visibilityCheckbox answerCheckbox"
@@ -627,7 +627,7 @@
                                                                 <div data-toggle="tooltip"
                                                                     data-placement="top" title=""
                                                                     data-original-title="Control what other students in this course can view">
-                                                                    Other students in this course</div>
+                                                                    <%=recipientTypeForThisRecipient == CommentRecipientType.COURSE? "Students in this course" : "Other students in this course" %></div>
                                                             </td>
                                                             <td><input
                                                                 class="visibilityCheckbox answerCheckbox"

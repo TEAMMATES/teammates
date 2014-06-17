@@ -4,6 +4,7 @@ $(document).ready(function(){
 			$('#commentArea').hide();
 		} else {
 			$('#commentArea').show();
+			$('#commentText').focus();
 		}
 	});
 	
