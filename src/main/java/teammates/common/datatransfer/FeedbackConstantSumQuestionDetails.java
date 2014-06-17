@@ -203,13 +203,11 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackAbstractQuestion
             String additionalInfoId) {
         StringBuilder optionListHtml = new StringBuilder();
         String optionFragmentTemplate = FeedbackQuestionFormTemplates.MSQ_ADDITIONAL_INFO_FRAGMENT;
+        String additionalInfo = "";
         
-        if(this.distributeToRecipients){
-            return "";
-        }
-        
-        //Using msq template.
-        if(numOfConstSumOptions > 0){
+        if(this.distributeToRecipients) {
+            additionalInfo = this.getQuestionTypeDisplayName() + "<br>";
+        } else if(numOfConstSumOptions > 0) {
             optionListHtml.append("<ul style=\"list-style-type: disc;margin-left: 20px;\" >");
             for(int i = 0; i < numOfConstSumOptions; i++) {
                 String optionFragment = 
@@ -219,18 +217,22 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackAbstractQuestion
                 optionListHtml.append(optionFragment);
             }
             optionListHtml.append("</ul>");
-        }
-        
-        String additionalInfo = FeedbackQuestionFormTemplates.populateTemplate(
+            additionalInfo = FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.MSQ_ADDITIONAL_INFO,
                 "${questionTypeName}", this.getQuestionTypeDisplayName(),
                 "${msqAdditionalInfoFragments}", optionListHtml.toString());
+        
+        }
+        //Point information
+        additionalInfo += pointsPerOption? "Points per "+(distributeToRecipients?"recipient":"option")+": " + points : "Total points: " + points;
+
         
         String html = FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
                 "${questionNumber}", Integer.toString(questionNumber),
                 "${additionalInfoId}", additionalInfoId,
                 "${questionAdditionalInfo}", additionalInfo);
+        
         
         return html;
     }
