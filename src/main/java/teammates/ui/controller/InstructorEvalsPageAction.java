@@ -26,7 +26,7 @@ public class InstructorEvalsPageAction extends Action {
         
         new GateKeeper().verifyInstructorPrivileges(account);
         
-        if (courseIdForNewEvaluation!=null){
+        if (courseIdForNewEvaluation!=null) {
             new GateKeeper().verifyAccessible(
                     logic.getInstructorForGoogleId(courseIdForNewEvaluation, account.googleId), 
                     logic.getCourse(courseIdForNewEvaluation), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
