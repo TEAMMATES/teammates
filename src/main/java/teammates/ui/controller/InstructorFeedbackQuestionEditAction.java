@@ -35,7 +35,6 @@ public class InstructorFeedbackQuestionEditAction extends Action {
         Assumption.assertNotNull("Null editType", editType);
         
         FeedbackQuestionAttributes updatedQuestion = extractFeedbackQuestionData(requestParameters);
-        
         try {
             if(editType.equals("edit")) {
                 editQuestion(updatedQuestion);
@@ -62,8 +61,14 @@ public class InstructorFeedbackQuestionEditAction extends Action {
     private void editQuestion(FeedbackQuestionAttributes updatedQuestion)
             throws InvalidParametersException, EntityDoesNotExistException {
         if(updatedQuestion.questionNumber != 0){ //Question number was updated
-            logic.updateFeedbackQuestionNumber(updatedQuestion);
-            statusToUser.add(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+            List<String> questionDetailsErrors = updatedQuestion.getQuestionDetails().validateQuestionDetails();
+            if(!questionDetailsErrors.isEmpty()){
+                statusToUser.addAll(questionDetailsErrors);
+                isError = true;
+            } else {
+                logic.updateFeedbackQuestionNumber(updatedQuestion);
+                statusToUser.add(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+            }
         } else{
             List<String> questionDetailsErrors = updatedQuestion.getQuestionDetails().validateQuestionDetails();
             if(!questionDetailsErrors.isEmpty()){
