@@ -138,7 +138,7 @@
                         <% } %>
                     </select>
                     <a id="visibility-options-trigger"
-                        class="btn btn-info pull-right"><span
+                        class="btn btn-sm btn-info pull-right"><span
                         class="glyphicon glyphicon-eye-close"></span>
                         Show Visibility Options</a>
                 </div>
