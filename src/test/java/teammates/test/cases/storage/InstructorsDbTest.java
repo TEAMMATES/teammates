@@ -3,12 +3,15 @@ package teammates.test.cases.storage;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
+import static org.testng.Assert.fail;
+
 import static teammates.common.util.FieldValidator.EMAIL_ERROR_MESSAGE;
 import static teammates.common.util.FieldValidator.GOOGLE_ID_ERROR_MESSAGE;
 import static teammates.common.util.FieldValidator.PERSON_NAME_ERROR_MESSAGE;
 import static teammates.common.util.FieldValidator.REASON_EMPTY;
 import static teammates.common.util.FieldValidator.REASON_INCORRECT_FORMAT;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.testng.annotations.BeforeClass;
@@ -253,15 +256,21 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         String courseId = "idOfTypicalCourse1";
         
         List<InstructorAttributes> retrieved = instructorsDb.getInstructorsForCourse(courseId);
-        assertEquals(3, retrieved.size());
+        assertEquals(4, retrieved.size());
         
-        InstructorAttributes instructor1 = retrieved.get(0);
-        InstructorAttributes instructor2 = retrieved.get(1);
-        InstructorAttributes instructor3 = retrieved.get(2);
+        HashMap<String, Boolean> idMap = new HashMap<String, Boolean>();
+        idMap.put("idOfInstructor1OfCourse1", false);
+        idMap.put("idOfInstructor2OfCourse1", false);
+        idMap.put("idOfInstructor3", false);
+        idMap.put("idOfHelperOfCourse1", false);
         
-        assertEquals("idOfInstructor1OfCourse1", instructor1.googleId);
-        assertEquals("idOfInstructor2OfCourse1", instructor2.googleId);
-        assertEquals("idOfInstructor3", instructor3.googleId);
+        for (InstructorAttributes instructor : retrieved) {
+            if (idMap.containsKey(instructor.googleId)) {
+                idMap.put(instructor.googleId, true);
+            } else {
+                fail();
+            }
+        }
         
         ______TS("Failure: no instructors for a course");
         
