@@ -16,6 +16,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Url;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorStudentCommentAddAction extends Action {
@@ -26,13 +27,15 @@ public class InstructorStudentCommentAddAction extends Action {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull(courseId);
         
-        String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL); 
+        String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
         Assumption.assertNotNull(studentEmail);
         
         Boolean isFromCommentsPage = getRequestParamAsBoolean(Const.ParamsNames.FROM_COMMENTS_PAGE);
+        Boolean isFromStudentDetailsPage = getRequestParamAsBoolean(Const.ParamsNames.FROM_STUDENT_DETAILS_PAGE);
         
         String commentText = getRequestParamValue(Const.ParamsNames.COMMENT_TEXT); 
         Assumption.assertNotNull(commentText);
+        Assumption.assertNotEmpty(commentText);
         
         new GateKeeper().verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, account.googleId),
@@ -56,31 +59,80 @@ public class InstructorStudentCommentAddAction extends Action {
             isError = true;
         }
         
-        return !isFromCommentsPage? createRedirectResult(new PageData(account).getInstructorStudentRecordsLink(courseId,studentEmail)):
-            createRedirectResult((new PageData(account).getInstructorCommentsLink()) + "&" + Const.ParamsNames.COURSE_ID + "=" + courseId);
+        if(isFromCommentsPage){
+            return createRedirectResult((new PageData(account).getInstructorCommentsLink()) + "&" + Const.ParamsNames.COURSE_ID + "=" + courseId);
+        } else if(isFromStudentDetailsPage){
+            return createRedirectResult(getCourseStudentDetailsLink(courseId, studentEmail));
+        } else {
+            return createRedirectResult(new PageData(account).getInstructorStudentRecordsLink(courseId, studentEmail));
+        }
     }
 
     private CommentAttributes extractCommentData() {
         CommentAttributes comment = new CommentAttributes();
         
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
-        Text commentText = new Text(getRequestParamValue(Const.ParamsNames.COMMENT_TEXT));
+        
         InstructorAttributes instructorDetailForCourse = logic.getInstructorForGoogleId(courseId, account.googleId);
         Assumption.assertNotNull("Account trying to add comment is not an instructor of the course", instructorDetailForCourse);
         
+        String recipientType = getRequestParamValue(Const.ParamsNames.RECIPIENT_TYPE);
+        String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
+        String recipients = getRequestParamValue(Const.ParamsNames.RECIPIENTS);
+        String showCommentTo = getRequestParamValue(Const.ParamsNames.COMMENTS_SHOWCOMMENTSTO);
+        String showGiverTo = getRequestParamValue(Const.ParamsNames.COMMENTS_SHOWGIVERTO);
+        String showRecipientTo = getRequestParamValue(Const.ParamsNames.COMMENTS_SHOWRECIPIENTTO);
+        Text commentText = new Text(getRequestParamValue(Const.ParamsNames.COMMENT_TEXT));
+        
         comment.courseId = courseId;
         comment.giverEmail = instructorDetailForCourse.email;
-        comment.recipientType = CommentRecipientType.PERSON;
+        comment.recipientType = recipientType == null ? CommentRecipientType.PERSON : CommentRecipientType.valueOf(recipientType);
         comment.recipients = new HashSet<String>();
-        comment.recipients.add(studentEmail);
+        if(recipients != null && !recipients.isEmpty()){
+            String[] recipientsArray = recipients.split(",");
+            for(String recipient : recipientsArray){
+                comment.recipients.add(recipient.trim());
+            }
+        } else {
+            comment.recipients.add(studentEmail);
+        }
         comment.status = CommentStatus.FINAL;
+        
         comment.showCommentTo = new ArrayList<CommentRecipientType>();
+        if(showCommentTo != null && !showCommentTo.isEmpty()){
+            String[] showCommentToArray = showCommentTo.split(",");
+            for(String sct : showCommentToArray){
+                comment.showCommentTo.add(CommentRecipientType.valueOf(sct));
+            }
+        }
+        
         comment.showGiverNameTo = new ArrayList<CommentRecipientType>();
+        if(showGiverTo != null && !showGiverTo.isEmpty()){
+            String[] showGiverToArray = showGiverTo.split(",");
+            for(String sgt : showGiverToArray){
+                comment.showGiverNameTo.add(CommentRecipientType.valueOf(sgt));
+            }
+        }
+        
         comment.showRecipientNameTo = new ArrayList<CommentRecipientType>();
+        if(showRecipientTo != null && !showRecipientTo.isEmpty()){
+            String[] showRecipientToArray = showRecipientTo.split(",");
+            for(String srt : showRecipientToArray){
+                comment.showRecipientNameTo.add(CommentRecipientType.valueOf(srt));
+            }
+        }
+        
         comment.createdAt = new Date();
         comment.commentText = commentText;
         
         return comment;
+    }
+    
+    public String getCourseStudentDetailsLink(String courseId, String studentEmail){
+        String link = Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE;
+        link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID, courseId);
+        link = Url.addParamToUrl(link,Const.ParamsNames.STUDENT_EMAIL, studentEmail);
+        link = new PageData(account).addUserIdToUrl(link);
+        return link;
     }
 }
