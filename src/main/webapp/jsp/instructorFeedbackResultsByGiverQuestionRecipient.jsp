@@ -12,6 +12,7 @@
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%
     InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData) request.getAttribute("data");
+    boolean shouldCollapsed = data.bundle.responses.size() > 1000;
 %>
 <!DOCTYPE html>
 <html>
@@ -102,7 +103,7 @@
                     <div class="panel-heading">
                         <strong><%=currentTeam%></strong>
                     </div>
-                    <div class="panel-collapse">
+                    <div class="panel-collapse collapse <%= !shouldCollapsed ? "in" : "" %>">
                     <div class="panel-body background-color-warning">
                         <div class="resultStatistics">
                             <%
@@ -125,12 +126,10 @@
                                                         out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, ""));
                                                     %>
                                                 </div>
-                                                <div class="panel-collapse">
                                                 <div class="panel-body padding-0">                
                                                     <div class="resultStatistics">
                                                         <%=statsHtml%>
                                                     </div>
-                                                </div>
                                                 </div>
                                             </div>
                                 <%
@@ -162,7 +161,7 @@
                     From: <strong><%=responsesFromGiver.getKey()%></strong>
                         <a class="link-in-dark-bg" href="mailTo:<%= giverEmail%> " <%=mailtoStyleAttr%>>[<%=giverEmail%>]</a>
                 </div>
-                <div class="panel-collapse">
+                <div class="panel-collapse collapse <%= !shouldCollapsed ? "in" : "" %>">
                 <div class="panel-body">
                 <%
                     int questionIndex = 0;
@@ -177,7 +176,6 @@
                                     out.print(InstructorFeedbackResultsPageData.sanitizeForHtml(questionDetails.questionText));
                                     out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, "giver-"+giverIndex+"-question-"+questionIndex));%>
                             </div>
-                            <div class="panel-collapse">
                             <div class="panel-body padding-0">
                                 <div class="resultStatistics">
                                     <%=questionDetails.getQuestionResultStatisticsHtml(responseEntries)%>
@@ -214,7 +212,6 @@
                                         %>
                                     </tbody>
                                 </table>
-                            </div>
                             </div>
                         </div>
                 <%

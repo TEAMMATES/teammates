@@ -53,17 +53,21 @@ function updateResultsFilter(){
     filterResults($("#results-search-box").val());
 }
 
-
-
-
 //This section is used to enable all panels to be collapsible.
 var panelsCollapsed = false;
+var isCollapsingAll = false;
+var isExpandingAll = false;
+
 function toggleCollapse(){
     if(panelsCollapsed){
-        $("div[class*='panelBodyCollapse-']").collapse("show");
+        var panels = $("div.panel-collapse");
+        isExpandingAll = true;
+        $(panels[0]).collapse("show");
         $("#collapse-panels-button").html("Collapse All");
     } else {
-        $("div[class*='panelBodyCollapse-']").collapse("hide");
+        var panels = $("div.panel-collapse");
+        isCollapsingAll = true;
+        $(panels[0]).collapse("hide");
         $("#collapse-panels-button").html("Expand All");
     }
     panelsCollapsed = !panelsCollapsed;
@@ -89,6 +93,31 @@ window.onload = function(){
             $(heading[0]).attr("data-target",".panelBodyCollapse-"+numPanels);
             $(heading[0]).css("cursor", "pointer");
             $(bodyCollapse[0]).addClass("panelBodyCollapse-"+numPanels);
+            
+            $(bodyCollapse[0]).on('hidden.bs.collapse', function(){
+                if(isCollapsingAll){
+                    var nextElement = $(this).parent().next().find('.panel-collapse');
+                    if(nextElement.length){
+                        console.log("Success");
+                        $(nextElement).collapse('hide');
+                    } else {
+                        console.log("Fail");
+                        isCollapsingAll = false;
+                    }
+                }
+            });
+            $(bodyCollapse[0]).on('shown.bs.collapse', function(){
+                if(isExpandingAll){
+                    var nextElement = $(this).parent().next().find('.panel-collapse');
+                    if(nextElement.length){
+                        console.log("Success");
+                        $(nextElement).collapse('show');
+                    } else {
+                        console.log("Fail");
+                        isExpandingAll = false;
+                    }
+                }
+            });
         }
     }
 };

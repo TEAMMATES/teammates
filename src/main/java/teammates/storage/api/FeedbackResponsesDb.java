@@ -419,7 +419,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         Query q = getPM().newQuery(FeedbackResponse.class);
         q.declareParameters("String feedbackSessionNameParam, String courseIdParam");
         q.setFilter("feedbackSessionName == feedbackSessionNameParam && courseId == courseIdParam");
-        
+
         @SuppressWarnings("unchecked")
         List<FeedbackResponse> FeedbackResponseList =
             (List<FeedbackResponse>) q.execute(feedbackSessionName, courseId);

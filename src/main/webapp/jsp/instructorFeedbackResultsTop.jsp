@@ -5,6 +5,7 @@
 <%@ page import="teammates.ui.controller.InstructorFeedbackResultsPageData"%>
 <%
     InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData)request.getAttribute("data");
+    boolean shouldCollapsed = data.bundle.responses.size() > 1000;
 %>
 
 <div class="well well-plain padding-0">
@@ -146,9 +147,17 @@
                 </div>
                 <% } %>
                 <div class="col-sm-7 pull-right" style="padding-top:8px;">
+                    <% if(shouldCollapsed){ %>
+                    <div class="pull-right" data-toggle="tooltip" title="Cannot expand or collapse all panels as it will freeze the session due to large amount of responses" style="display:inline-block;">
+                    <a class="btn btn-default btn-xs pull-right" id="collapse-panels-button" onclick="toggleCollapse()" disabled="disabled">
+                        Expand All
+                    </a>
+                    </div>
+                    <% } else { %>
                     <a class="btn btn-default btn-xs pull-right" id="collapse-panels-button" onclick="toggleCollapse()" data-toggle="tooltip" title="Collapse or expand all panels. You can also click on the panel heading to toggle each one individually.">
                         Collapse All
                     </a>
+                    <% } %>
                 </div>
             </div>
         </div>

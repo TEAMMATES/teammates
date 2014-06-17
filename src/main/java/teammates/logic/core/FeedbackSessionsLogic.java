@@ -726,33 +726,34 @@ public class FeedbackSessionsLogic {
             List<FeedbackQuestionAttributes> studentQns = fqLogic
                     .getFeedbackQuestionsForStudents(questions);
 
-            for (StudentAttributes student : students) {
-                if (!studentQns.isEmpty()) {
+            Map<String, String> emailNameTable = new HashMap<String, String>();
+        
+            boolean hasStudentQuestion = !studentQns.isEmpty();
+            for(StudentAttributes student : students){
+                if(hasStudentQuestion){
                     details.stats.expectedTotal += 1;
-                }
-                for (FeedbackQuestionAttributes question : studentQns) {
-                    if (fqLogic.isQuestionAnsweredByUser(question,
-                            student.email, responses)) {
-                        details.stats.submittedTotal += 1;
-                        break;
-                    }
-                }
+                    emailNameTable.put(student.email, student.name);
+                }                
             }
+
             for (InstructorAttributes instructor : instructors) {
                 List<FeedbackQuestionAttributes> instructorQns = fqLogic
                         .getFeedbackQuestionsForInstructor(questions,
                                 fsa.isCreator(instructor.email));
                 if (!instructorQns.isEmpty()) {
                     details.stats.expectedTotal += 1;
-                }
-                for (FeedbackQuestionAttributes question : instructorQns) {
-                    if (fqLogic.isQuestionAnsweredByUser(question,
-                            instructor.email, responses)) {
-                        details.stats.submittedTotal += 1;
-                        break;
-                    }
+                    emailNameTable.put(instructor.email, instructor.name);
                 }
             }
+
+            int notSubmittedTotal = 0;
+            for(FeedbackResponseAttributes response : responses){
+                if(emailNameTable.get(response.giverEmail) == null){
+                    notSubmittedTotal += 1;
+                }
+            }
+            details.stats.submittedTotal = details.stats.expectedTotal - notSubmittedTotal;
+
             break;
 
         case PRIVATE:
@@ -1137,22 +1138,10 @@ public class FeedbackSessionsLogic {
         List<FeedbackQuestionAttributes> studentQns = fqLogic
                 .getFeedbackQuestionsForStudents(questions);
 
-        for (StudentAttributes student : students) {
-            if (studentQns.isEmpty()) {
-                continue;
-            }
-            responseStatus.addExpected(student.name);
-            boolean responded = false;
-            for (FeedbackQuestionAttributes question : studentQns) {
-                if (fqLogic.isQuestionAnsweredByUser(question, student.email,
-                        responses)) {
-                    responseStatus.addUserWithResponses(student.name);
-                    responded = true;
-                    break;
-                }
-            }
-            if (!responded) {
-                responseStatus.addUserWithNoResponses(student.name);
+        if(!studentQns.isEmpty()){
+            for(StudentAttributes student : students){
+                responseStatus.noResponse.add(student.name);
+                responseStatus.emailNameTable.put(student.email, student.name);
             }
         }
 
@@ -1160,21 +1149,18 @@ public class FeedbackSessionsLogic {
             List<FeedbackQuestionAttributes> instructorQns = fqLogic
                     .getFeedbackQuestionsForInstructor(questions,
                             fsa.isCreator(instructor.email));
-            if (instructorQns.isEmpty()) {
-                continue;
+            if (!instructorQns.isEmpty()) {
+                responseStatus.noResponse.add(instructor.name);
+                responseStatus.emailNameTable.put(instructor.email, instructor.name);
             }
-            responseStatus.addExpected(instructor.name);
-            boolean responded = false;
-            for (FeedbackQuestionAttributes question : instructorQns) {
-                if (fqLogic.isQuestionAnsweredByUser(question,
-                        instructor.email, responses)) {
-                    responseStatus.addUserWithResponses(instructor.name);
-                    responded = true;
-                    break;
-                }
-            }
-            if (!responded) {
-                responseStatus.addUserWithNoResponses(instructor.name);
+        }
+
+        for(FeedbackResponseAttributes response : responses){
+            String giverName = responseStatus.emailNameTable.get(response.giverEmail);
+            if(giverName != null){
+                responseStatus.noResponse.remove(giverName);
+                responseStatus.hasResponse.add(giverName);
+                responseStatus.emailNameTable.remove(response.giverEmail);
             }
         }
 
