@@ -548,7 +548,7 @@
                                         <div class="form-group">
                                             <div class="form-group form-inline">
                                                 <div class="form-group text-muted">
-                                                    You may change comment's visibility using the visibility options on the right hand side.
+                                                    The default visibility for your comment is private. You may change it using the visibility options.
                                                 </div>
                                                 <a id="visibility-options-trigger<%=commentIdx%>"
                                                     class="btn btn-sm btn-info pull-right">
