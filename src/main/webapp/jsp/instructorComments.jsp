@@ -256,7 +256,7 @@
                         <div
                             class="panel panel-info student-record-comments giver_display-by-you">
                             <div class="panel-heading">
-                                From <b>you</b> to <b><%=isRecipientStudent ? student.name : recipient%></b>
+                                From <b>you</b> to <b><%=data.courseId.equals(recipient)?"this course ":""%><%=isRecipientStudent ? student.name : recipient%></b>
                                 <%=isRecipientStudent ? " (" + student.team + ", <a href=\"mailto:" + student.email + "\">" + student.email + "</a>)" : ""%>
                                 <button type="button"
                                     class="btn btn-default btn-xs icon-button pull-right"

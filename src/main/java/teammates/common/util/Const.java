@@ -355,6 +355,7 @@ public class Const {
         public static final String REGKEY = "regkey";
         public static final String STUDENT_EMAIL = "studentemail";
         public static final String FROM_COMMENTS_PAGE = "commentpage";
+        public static final String FROM_COURSE_DETAILS_PAGE = "coursedetailspage";
         public static final String FROM_STUDENT_DETAILS_PAGE = "studentdetailspage";
         public static final String NEW_STUDENT_EMAIL = "newstudentemail";
         

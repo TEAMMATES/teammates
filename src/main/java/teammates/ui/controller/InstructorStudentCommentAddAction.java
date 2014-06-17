@@ -27,11 +27,12 @@ public class InstructorStudentCommentAddAction extends Action {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull(courseId);
         
+        //used to redirect to studentDetailsPage or studentRecordsPage
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
-        Assumption.assertNotNull(studentEmail);
         
         Boolean isFromCommentsPage = getRequestParamAsBoolean(Const.ParamsNames.FROM_COMMENTS_PAGE);
         Boolean isFromStudentDetailsPage = getRequestParamAsBoolean(Const.ParamsNames.FROM_STUDENT_DETAILS_PAGE);
+        Boolean isFromCourseDetailsPage = getRequestParamAsBoolean(Const.ParamsNames.FROM_COURSE_DETAILS_PAGE);
         
         String commentText = getRequestParamValue(Const.ParamsNames.COMMENT_TEXT); 
         Assumption.assertNotNull(commentText);
@@ -63,7 +64,9 @@ public class InstructorStudentCommentAddAction extends Action {
             return createRedirectResult((new PageData(account).getInstructorCommentsLink()) + "&" + Const.ParamsNames.COURSE_ID + "=" + courseId);
         } else if(isFromStudentDetailsPage){
             return createRedirectResult(getCourseStudentDetailsLink(courseId, studentEmail));
-        } else {
+        } else if(isFromCourseDetailsPage){
+            return createRedirectResult(new PageData(account).getInstructorCourseDetailsLink(courseId));
+        } else {//studentRecordsPage by default
             return createRedirectResult(new PageData(account).getInstructorStudentRecordsLink(courseId, studentEmail));
         }
     }
