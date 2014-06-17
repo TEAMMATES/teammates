@@ -170,6 +170,7 @@ public class AccountsDb extends EntitiesDb {
         }
         
         deleteEntity(accountToDelete);
+        closePM();
     }
 
     private Account getAccountEntity(String googleId, boolean retrieveStudentProfile) {
