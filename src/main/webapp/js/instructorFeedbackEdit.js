@@ -151,8 +151,10 @@ function enableQuestion(number){
 
     if($("#constSumToRecipients-"+number).val() == "true"){
         $("#constSumOptionTable-"+number).hide();
+        $("#constSumOption_Option-"+number).hide();
     } else {
         $("#constSumOptionTable-"+number).show();
+        $("#constSumOption_Recipient-"+number).hide();
     }
     
     $('#'+FEEDBACK_QUESTION_EDITTEXT+'-'+number).hide();
@@ -237,6 +239,7 @@ function formatNumberBoxes(){
     disallowNonNumericEntries($('input.minScaleBox'), false, true);
     disallowNonNumericEntries($('input.maxScaleBox'), false, true);
     disallowNonNumericEntries($('input.stepBox'), true, false);
+    disallowNonNumericEntries($('input.pointsBox'), false, false);
     
     // Binds onChange of recipientType to modify numEntityBox visibility
     $("select[name="+FEEDBACK_QUESTION_RECIPIENTTYPE+"]").each(function(){
@@ -320,7 +323,7 @@ function prepareQuestionForm(type) {
         $('#constSumForm').hide();
         break;
     case "MCQ":
-        $("#"+FEEDBACK_QUESTION_NUMBEROFCHOICECREATED).val(2);
+        $("#"+FEEDBACK_QUESTION_NUMBEROFCHOICECREATED+"--1").val(2);
         $("#questionTypeHeader").append(FEEDBACK_QUESTION_TYPENAME_MCQ);
         $('#mcqForm').show();
         $('#msqForm').hide();
@@ -328,7 +331,7 @@ function prepareQuestionForm(type) {
         $('#constSumForm').hide();
         break;
     case "MSQ":
-        $("#"+FEEDBACK_QUESTION_NUMBEROFCHOICECREATED).val(2);
+        $("#"+FEEDBACK_QUESTION_NUMBEROFCHOICECREATED+"--1").val(2);
         $("#questionTypeHeader").append(FEEDBACK_QUESTION_TYPENAME_MSQ);
         $('#mcqForm').hide();
         $('#msqForm').show();
@@ -344,19 +347,36 @@ function prepareQuestionForm(type) {
         $('#constSumForm').hide();
         break;
     case "CONSTSUM_OPTION":
-        $("#"+FEEDBACK_QUESTION_NUMBEROFCHOICECREATED).val(2);
+        $("#"+FEEDBACK_QUESTION_NUMBEROFCHOICECREATED+"--1").val(2);
+        $("#"+FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS+"--1").val("false");
+        $("#constSumOption_Recipient"+"--1").hide();
         $("#questionTypeHeader").append(FEEDBACK_QUESTION_TYPENAME_CONSTSUM_OPTION);
         $('#mcqForm').hide();
         $('#msqForm').hide();
         $('#numScaleForm').hide();
         $('#constSumForm').show();
+        $('#questionTypeChoice').val('CONSTSUM');
+        break;
     case "CONSTSUM_RECIPIENT":
+        $("#"+FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS+"--1").val("true");
+        $("#constSumOption_Option"+"--1").hide();
+        hideConstSumOptionTable(-1);
         $("#questionTypeHeader").append(FEEDBACK_QUESTION_TYPENAME_CONSTSUM_RECIPIENT);
         $('#mcqForm').hide();
         $('#msqForm').hide();
         $('#numScaleForm').hide();
         $('#constSumForm').show();
+        $('#questionTypeChoice').val('CONSTSUM');
+        break;
     }
+}
+
+function hideConstSumOptionTable(questionNumber){
+    var idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
+    if(questionNumber == -1){
+        idSuffix = "--1";
+    }
+    $("#"+FEEDBACK_QUESTION_CONSTSUMOPTIONTABLE+idSuffix).hide();
 }
 
 function addMcqOption(questionNumber) {
@@ -618,6 +638,16 @@ function updateNumScalePossibleValues(questionNumber) {
         possibleValuesString += "]";
         $("#numScalePossibleValues"+idSuffix).text(possibleValuesString);
         return true;
+    }
+}
+
+function updateConstSumPointsValue(questionNumber){
+    var idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
+    if(questionNumber == -1){
+        idSuffix = "--1";
+    }
+    if($("#"+FEEDBACK_QUESTION_CONSTSUMPOINTS+idSuffix).val() < 1){
+        $("#"+FEEDBACK_QUESTION_CONSTSUMPOINTS+idSuffix).val(1);
     }
 }
 

@@ -60,14 +60,14 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackAbstractQuestion
             boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId,
             FeedbackAbstractResponseDetails existingResponseDetails) {
         // TODO Auto-generated method stub
-        return null;
+        return "";
     }
 
     @Override
     public String getQuestionWithoutExistingResponseSubmissionFormHtml(
             boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId) {
         // TODO Auto-generated method stub
-        return null;
+        return "";
     }
 
     @Override
@@ -91,7 +91,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackAbstractQuestion
                 "${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}", Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED,
                 "${numOfConstSumOptions}", Integer.toString(numOfConstSumOptions),
                 "${constSumToRecipientsValue}", (distributeToRecipients == true) ? "true" : "false",
-                "${checkedConstSumPointsPerOption}", (pointsPerOption == true) ? "checked=\"checked\"" : "",
+                "${selectedConstSumPointsPerOption}", (pointsPerOption == true) ? "selected=\"selected\"" : "",
+                "${constSumOptionTableVisibility}", (distributeToRecipients == true) ? "style=\"display:none\"" : "",
                 "${constSumPoints}", (points == 0) ? "100" : new Integer(points).toString(),
                 "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS,
                 "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION,

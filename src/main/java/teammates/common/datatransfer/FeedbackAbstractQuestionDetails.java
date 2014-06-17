@@ -151,8 +151,8 @@ public abstract class FeedbackAbstractQuestionDetails {
             pointsString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS);
             Assumption.assertNotNull("Null points", pointsString);
             
-            distributeToRecipients = (distributeToRecipientsString == null) ? false : true;
-            pointsPerOption = (pointsPerOptionString == null) ? false : true;
+            distributeToRecipients = (distributeToRecipientsString == null) ? false : (distributeToRecipientsString.equals("true")? true : false);
+            pointsPerOption = (pointsPerOptionString == null) ? false : pointsPerOptionString.equals("true") ? true : false;
             points = Integer.parseInt(pointsString);
             
             if (!distributeToRecipients) {

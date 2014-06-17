@@ -141,6 +141,11 @@ Apply to thead to make headers not bold.
     text-decoration: line-through;
 }
 
+.form-control.width-100-pc,
+.width-100-pc {
+    width: 100%;
+}
+
 @media print {
     a[href]:after {
         content: none;
