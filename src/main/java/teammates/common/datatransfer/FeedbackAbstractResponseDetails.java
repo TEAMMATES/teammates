@@ -53,16 +53,18 @@ public abstract class FeedbackAbstractResponseDetails {
             }
             break;
         case CONSTSUM:
-            try{
-                List<Integer> constSumAnswer = new ArrayList<Integer>();
-                for(int i=0 ; i<answer.length ; i++){
+            
+            List<Integer> constSumAnswer = new ArrayList<Integer>();
+            for(int i=0 ; i<answer.length ; i++){
+                try{
                     constSumAnswer.add(Integer.parseInt(answer[i]));
+                } catch (NumberFormatException e) {
+                    constSumAnswer.add(0);
                 }
-                
-                responseDetails = new FeedbackConstantSumResponseDetails(constSumAnswer);
-            } catch (NumberFormatException e) {
-                responseDetails = null;
             }
+            
+            responseDetails = new FeedbackConstantSumResponseDetails(constSumAnswer);
+            
             break;
         default:
             Assumption.fail("Question type not supported");

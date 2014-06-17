@@ -1,6 +1,7 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -176,7 +177,16 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 requestParameters, 
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + questionIndx + "-" + responseIndx);
         
-        if(answer != null && !answer[0].trim().isEmpty()) {
+        boolean allAnswersEmpty = true;
+        if(answer!=null){
+            for(int i=0 ; i<answer.length ; i++){
+                if(!answer[i].trim().isEmpty()){
+                    allAnswersEmpty = false;
+                }
+            }
+        }
+        
+        if(answer != null && !allAnswersEmpty) {
             FeedbackAbstractResponseDetails responseDetails = 
                     FeedbackAbstractResponseDetails.createResponseDetails(
                             answer,

@@ -121,6 +121,10 @@ Apply to thead to make headers not bold.
     font-weight: bold;
 }
 
+.text-color-blue {
+    color: blue;
+}
+
 .text-color-primary {
     color: #428bca;
 }

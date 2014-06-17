@@ -15,6 +15,10 @@ public class FeedbackConstantSumResponseDetails extends
         this.answers = answers;
     }
     
+    public List<Integer> getAnswerList() {
+        return answers;
+    }
+    
     @Override
     public String getAnswerString() {
         String listString = answers.toString();//[1, 2, 3] format
