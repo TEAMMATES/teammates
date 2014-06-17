@@ -259,39 +259,6 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
             AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
         }
     }
-    
-    @Test
-    public void testGetInstructorsWhoCanDeleteTheCourese() throws InvalidParametersException, EntityAlreadyExistsException {
-       
-        ______TS("success: get all instructors who can delete the course");
-
-        String googleId = "valid.fresh.id";
-        String courseId = "idOfTypicalCourse1";
-        String name = "valid.name";
-        String email = "valid@email.com";
-        String role = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER;
-        String displayedName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER;
-        InstructorPrivileges privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER);
-        InstructorAttributes instructorToAdd = new InstructorAttributes(googleId, courseId, name, email, role, displayedName, privileges);
-        
-        instructorsLogic.createInstructor(instructorToAdd);
-        
-        List<InstructorAttributes> instructors = instructorsLogic.getInstructorsWhoCanDeleteCourse(courseId);
-        assertEquals(2, instructors.size());
-        
-        HashMap<String, Boolean> idMap = new HashMap<String, Boolean>();
-        idMap.put("idOfInstructor1OfCourse1", false);
-        idMap.put("idOfInstructor3", false);
-        
-        for (InstructorAttributes i : instructors) {
-            if (idMap.containsKey(i.googleId)) {
-                idMap.put(i.googleId, true);
-            }
-        }
-        
-        assertTrue(idMap.get("idOfInstructor1OfCourse1").booleanValue());
-        assertTrue(idMap.get("idOfInstructor3").booleanValue());
-    }
 
     @Test
     public void testGetInstructorsForGoogleId() throws Exception {

@@ -374,13 +374,6 @@ public class Logic {
         return instructorsLogic.getInstructorsForCourse(courseId);
     }
     
-    public List<InstructorAttributes> getInstructorsWhoCanDeleteCourse(String courseId) {
-        
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        
-        return instructorsLogic.getInstructorsWhoCanDeleteCourse(courseId);
-    }
-    
     /**
      * Get the decrypted registration key for the instructor.
      * Preconditions: <br>

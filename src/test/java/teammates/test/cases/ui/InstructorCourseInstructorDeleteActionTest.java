@@ -38,10 +38,11 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
         InstructorAttributes instructor = dataBundle.instructors.get("instructor2OfCourse1");
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, instructor.courseId,
-                Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.email,
+                Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.email
         };
         
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+        verifyUnaccessibleWithoutModifyInstructorPrivilege(submissionParams);
     }
     
     @Test

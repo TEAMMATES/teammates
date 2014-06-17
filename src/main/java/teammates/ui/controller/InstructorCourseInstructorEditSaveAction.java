@@ -3,7 +3,6 @@ package teammates.ui.controller;
 import java.util.List;
 
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
@@ -43,11 +42,9 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
         /* Process saving editing changes and setup status to be shown to user and admin */
         InstructorAttributes instructorToEdit = updateInstructorAttributes(courseId, instructorId, instructorName, instructorEmail,
                 instructorRole, displayedName);
-        instructorToEdit.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, isModifyCourseChecked);
-        instructorToEdit.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, isModifyInstructorChecked);
-        instructorToEdit.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, isModifySessionChecked);
-        instructorToEdit.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, isModifyStudentChecked);
-        instructorToEdit.instructorPrivilegesAsText = instructorToEdit.getTextFromInstructorPrivileges();
+        updateInstructorPrivileges(isModifyCourseChecked,
+                isModifyInstructorChecked, isModifySessionChecked, isModifyStudentChecked, instructorToEdit);
+        updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToEdit);
         
         try {
             logic.updateInstructorByGoogleId(instructorId, instructorToEdit);
@@ -65,6 +62,36 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
         result.addResponseParam(Const.ParamsNames.COURSE_ID, courseId);
         return result;
     }
+    
+    private void updateToEnsureValidityOfInstructorsForTheCourse(String courseId, InstructorAttributes instructorToEdit) {
+        List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
+        int numOfInstrCanModifyInstructor = 0;
+        InstructorAttributes instrCanModifyInstructor = null;
+        for (InstructorAttributes instructor : instructors) {
+            if (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR)) {
+                numOfInstrCanModifyInstructor++;
+                instrCanModifyInstructor = instructor;
+            }
+        }
+        boolean lastCanModifyInstructor = (numOfInstrCanModifyInstructor <= 1) && 
+                ((instrCanModifyInstructor != null && instrCanModifyInstructor.googleId == null) ||
+                (instrCanModifyInstructor != null && instrCanModifyInstructor.googleId != null &&
+                instrCanModifyInstructor.googleId.equals(instructorToEdit.googleId)));
+        if (lastCanModifyInstructor) {
+            instructorToEdit.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, true);
+        }
+        instructorToEdit.instructorPrivilegesAsText = instructorToEdit.getTextFromInstructorPrivileges();
+    }
+
+    private void updateInstructorPrivileges(boolean isModifyCourseChecked,
+            boolean isModifyInstructorChecked, boolean isModifySessionChecked,
+            boolean isModifyStudentChecked, InstructorAttributes instructorToEdit) {
+        instructorToEdit.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, isModifyCourseChecked);
+        instructorToEdit.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, isModifyInstructorChecked);
+        instructorToEdit.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, isModifySessionChecked);
+        instructorToEdit.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, isModifyStudentChecked);
+        instructorToEdit.instructorPrivilegesAsText = instructorToEdit.getTextFromInstructorPrivileges();
+    }
 
     private InstructorAttributes updateInstructorAttributes(String courseId,
             String instructorId, String instructorName, String instructorEmail,
@@ -74,13 +101,6 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
         instructorToEdit.email = Sanitizer.sanitizeEmail(instructorEmail);
         instructorToEdit.role = Sanitizer.sanitizeName(instructorRole);
         instructorToEdit.displayedName = Sanitizer.sanitizeName(displayedName);
-        List<InstructorAttributes> instructors = logic.getInstructorsWhoCanDeleteCourse(courseId);
-        boolean thisOneIsOnlyInstructorCanDelete = instructors.size() == 1 
-                && instructors.get(0).googleId.equals(instructorToEdit.googleId);
-        instructorToEdit.privileges = new InstructorPrivileges(instructorRole);
-        if (thisOneIsOnlyInstructorCanDelete) {
-            instructorToEdit.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, true);
-        }
         instructorToEdit.instructorPrivilegesAsText = instructorToEdit.getTextFromInstructorPrivileges();
         return instructorToEdit;
     }

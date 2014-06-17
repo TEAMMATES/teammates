@@ -77,19 +77,6 @@ public class InstructorsLogic {
         
         return instructorsDb.getInstructorsForCourse(courseId);
     }
-    
-    public List<InstructorAttributes> getInstructorsWhoCanDeleteCourse(String courseId) {
-        List<InstructorAttributes> instructorsForCourse = this.getInstructorsForCourse(courseId);
-        List<InstructorAttributes> instructorsCanDelete = new ArrayList<InstructorAttributes>();
-        
-        for (InstructorAttributes instructor : instructorsForCourse) {
-            if (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE)) {
-                instructorsCanDelete.add(instructor);
-            }
-        }
-        
-        return instructorsCanDelete;
-    }
 
     public List<InstructorAttributes> getInstructorsForGoogleId(String googleId) {
         
