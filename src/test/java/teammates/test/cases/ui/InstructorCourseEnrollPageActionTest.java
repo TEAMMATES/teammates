@@ -38,6 +38,7 @@ public class InstructorCourseEnrollPageActionTest extends BaseActionTest {
         };
         
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+        verifyUnaccessbleWithoutModifyStudentPrivilege(submissionParams);
     }
     
     @Test
