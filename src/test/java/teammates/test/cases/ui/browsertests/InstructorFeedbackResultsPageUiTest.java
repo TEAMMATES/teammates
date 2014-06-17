@@ -31,7 +31,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
     @BeforeClass
     public static void classSetup() throws Exception {
         printTestClassHeader();
-        testData = loadDataBundle("/LargeScaleTest.json");
+        testData = loadDataBundle("/InstructorFeedbackResultsPageUiTest.json");
         restoreTestDataOnServer(testData);
 
         browser = BrowserPool.getBrowser();        
@@ -220,16 +220,16 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("show stats");
         
         assertEquals(resultsPage.showStatsCheckbox.getAttribute("checked"),"true");
-        assertTrue(resultsPage.verifyAllStatsVisibility(true));
+        assertTrue(resultsPage.verifyAllStatsVisibility());
         
         resultsPage.clickShowStats();
         assertEquals(resultsPage.showStatsCheckbox.getAttribute("checked"),null);
-        assertTrue(resultsPage.verifyAllStatsVisibility(false));
+        assertFalse(resultsPage.verifyAllStatsVisibility());
         
 
         resultsPage.clickShowStats();
         assertEquals(resultsPage.showStatsCheckbox.getAttribute("checked"),"true");
-        assertTrue(resultsPage.verifyAllStatsVisibility(true));
+        assertTrue(resultsPage.verifyAllStatsVisibility());
         
     }
     

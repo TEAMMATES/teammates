@@ -182,9 +182,9 @@ public class InstructorFeedbackResultsPage extends AppPage {
         return true;
     }
     
-    public boolean verifyAllStatsVisibility(boolean visible){
-        for(WebElement e : browser.driver.findElements(By.cssSelector(".resultStatistics"))){
-            if(e.isDisplayed() != visible){
+    public boolean verifyAllStatsVisibility(){
+        for(WebElement e : browser.driver.findElements(By.className("resultStatistics"))){
+            if(e.getCssValue("display").equals("none")){
                 return false;
             }
         }
