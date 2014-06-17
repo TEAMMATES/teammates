@@ -1,3 +1,4 @@
+<%@page import="teammates.common.datatransfer.CommentRecipientType"%>
 <%@page import="teammates.common.datatransfer.FeedbackSessionAttributes"%>
 <%@page import="teammates.common.datatransfer.StudentAttributes"%>
 <%@page import="teammates.common.datatransfer.CommentStatus"%>
@@ -270,8 +271,10 @@
                             </div>
                             <ul class="list-group comments">
                                 <%
+                                    CommentRecipientType recipientTypeForThisRecipient = CommentRecipientType.PERSON;//default value is PERSON
                                     for (CommentAttributes comment : data.comments.get(recipient)) {//student comments loop starts
                                             commentIdx++;
+                                            recipientTypeForThisRecipient = comment.recipientType;
                                 %>
                                 <li
                                     class="list-group-item list-group-item-warning">
@@ -337,8 +340,8 @@
                                         <input type="hidden"
                                             name=<%=Const.ParamsNames.COMMENT_EDITTYPE%>
                                             id="<%=Const.ParamsNames.COMMENT_EDITTYPE%>-<%=commentIdx%>"
-                                            value="edit"> <input
-                                            type="hidden"
+                                            value="edit">
+                                        <input type="hidden"
                                             name=<%=Const.ParamsNames.COMMENT_ID%>
                                             value="<%=comment.getCommentId()%>">
                                         <input type="hidden"
@@ -349,8 +352,23 @@
                                             value="<%=recipient%>">
                                         <input type="hidden"
                                             name=<%=Const.ParamsNames.FROM_COMMENTS_PAGE%>
-                                            value="true"> <input
-                                            type="hidden"
+                                            value="true"> 
+                                        <input type="hidden" 
+                                            name=<%=Const.ParamsNames.RECIPIENT_TYPE%> 
+                                            value="<%=comment.recipientType%>">
+                                        <input type="hidden" 
+                                            name=<%=Const.ParamsNames.RECIPIENTS%> 
+                                            value="<%=data.removeBracketsForArrayString(comment.recipients.toString())%>">
+                                        <input type="hidden" 
+                                            name=<%=Const.ParamsNames.COMMENTS_SHOWCOMMENTSTO%> 
+                                            value="<%=data.removeBracketsForArrayString(comment.showCommentTo.toString())%>">
+                                        <input type="hidden" 
+                                            name=<%=Const.ParamsNames.COMMENTS_SHOWGIVERTO%> 
+                                            value="<%=data.removeBracketsForArrayString(comment.showGiverNameTo.toString())%>">
+                                        <input type="hidden" 
+                                            name=<%=Const.ParamsNames.COMMENTS_SHOWRECIPIENTTO%> 
+                                            value="<%=data.removeBracketsForArrayString(comment.showRecipientNameTo.toString())%>">
+                                        <input type="hidden"
                                             name="<%=Const.ParamsNames.USER_ID%>"
                                             value="<%=data.account.googleId%>">
                                     </form>
@@ -392,6 +410,9 @@
                                             <input type="hidden"
                                                 name=<%=Const.ParamsNames.FROM_COMMENTS_PAGE%> 
                                                 value="true"> 
+                                            <input type="hidden" 
+                                                name=<%=Const.ParamsNames.RECIPIENT_TYPE%> 
+                                                value="<%=recipientTypeForThisRecipient%>">
                                             <input type="hidden"
                                                 name="<%=Const.ParamsNames.USER_ID%>"
                                                 value="<%=data.account.googleId%>">
