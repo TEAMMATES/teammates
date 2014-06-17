@@ -223,22 +223,38 @@
                                             <div class="panel-body">
                                                 <div class="col-sm-3">
                                                     <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE%>"
-                                                    id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE%>forinstructor<%=index%>" value="true" /> 
+                                                    id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE%>forinstructor<%=index%>" value="true" 
+                                                    <% if (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE)) { %>
+                                                        checked="checked"
+                                                    <% } %>
+                                                    />
                                                     Edit/Delete course
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR%>"
-                                                    id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR%>forinstructor<%=index%>" value="true" /> 
+                                                    id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR%>forinstructor<%=index%>" value="true"
+                                                    <% if (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR)) { %>
+                                                        checked="checked"
+                                                    <% } %>
+                                                    /> 
                                                     Add/Edit/Delete instructors
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION%>"
-                                                    id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION%>forinstructor<%=index%>" value="true" /> 
+                                                    id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION%>forinstructor<%=index%>" value="true"
+                                                    <% if (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION)) { %>
+                                                        checked="checked"
+                                                    <% } %>
+                                                    /> 
                                                     Create/edit/delete sessions
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT%>"
-                                                    id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT%>forinstructor<%=index%>" value="true" /> 
+                                                    id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT%>forinstructor<%=index%>" value="true"
+                                                    <% if (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT)) { %>
+                                                        checked="checked"
+                                                    <% } %>
+                                                    /> 
                                                     Enroll/edit/delete students
                                                 </div>
                                             </div>
@@ -350,22 +366,22 @@
                                                 <div class="col-sm-3">
                                                     <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE%>"
                                                     id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE%>forinstructor<%=data.instructorList.size()+1%>"
-                                                    value="true" /> Edit/Delete course
+                                                    value="true" checked="checked" /> Edit/Delete course
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR%>"
                                                     id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR%>forinstructor<%=data.instructorList.size()+1%>"
-                                                    value="true" /> Add/Edit/Delete instructors
+                                                    value="true" checked="checked" /> Add/Edit/Delete instructors
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION%>"
                                                     id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION%>forinstructor<%=data.instructorList.size()+1%>"
-                                                    value="true" /> Create/edit/delete sessions
+                                                    value="true" checked="checked" /> Create/edit/delete sessions
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT%>"
                                                     id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT%>forinstructor<%=data.instructorList.size()+1%>"
-                                                    value="true" /> Enroll/edit/delete students
+                                                    value="true" checked="checked" /> Enroll/edit/delete students
                                                 </div>
                                             </div>
                                         </div>

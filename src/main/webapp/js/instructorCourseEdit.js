@@ -11,7 +11,6 @@ function readyCourseEditPage() {
  * @param totalInstructors
  */
 function enableEditInstructor(instructorNum, totalInstructors) {
-
     for (var i=1; i<=totalInstructors; i++) {
         if (i == instructorNum) {
             enableFormEditInstructor(i);
@@ -19,6 +18,7 @@ function enableEditInstructor(instructorNum, totalInstructors) {
             disableFormEditInstructor(i);
         }
     }
+    hideNewInstructorForm();
 }
 
 /**
@@ -47,13 +47,15 @@ function disableFormEditInstructor(number) {
     $("#btnSaveInstructor" + number).hide();
 }
 
-/**
- * Show the form for adding new instructor. Hide the btnShowNewInstructorForm.
- */
 function showNewInstructorForm() {
     $("#panelAddInstructor").show();
     $("#btnShowNewInstructorForm").hide();
     $('html, body').animate({scrollTop: $('#frameBodyWrapper')[0].scrollHeight}, 1000);
+}
+
+function hideNewInstructorForm() {
+	$("#panelAddInstructor").hide();
+    $("#btnShowNewInstructorForm").show();
 }
 
 /**
@@ -75,13 +77,6 @@ function checkTheRoleThatApplies(instrNum) {
 	$("input[id='instructorroleforinstructor" + instrNum + "']").filter("[value='" + instrRole + "']").prop("checked", true);
 }
 
-$(function(){
-	var numOfInstr = $("form[id^='formEditInstructor']").length;
-	for (var i=0; i<numOfInstr;i++) {
-		checkTheRoleThatApplies(i+1);
-	}
-});
-
 /**
  * Function that shows confirmation dialog for deleting a instructor
  * @param courseID
@@ -98,3 +93,10 @@ function toggleDeleteInstructorConfirmation(courseID, instructorName, isDeleteOw
             "He/she will not be able to access the course anymore.");
     }
 }
+
+$(function(){
+	var numOfInstr = $("form[id^='formEditInstructor']").length;
+	for (var i=0; i<numOfInstr;i++) {
+		checkTheRoleThatApplies(i+1);
+	}
+});
