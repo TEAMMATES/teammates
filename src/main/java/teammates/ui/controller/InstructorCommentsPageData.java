@@ -24,4 +24,8 @@ public class InstructorCommentsPageData extends PageData {
     public InstructorCommentsPageData(AccountAttributes account) {
         super(account);
     }
+    
+    public String removeBracketsForArrayString(String arrayString){
+        return arrayString.substring(1, arrayString.length() - 1).replace(" ", "");
+    }
 }

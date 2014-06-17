@@ -138,6 +138,9 @@ public class CommentsDb extends EntitiesDb{
         }
         
         comment.setCommentText(newAttributes.commentText);
+        comment.setShowCommentTo(newAttributes.showCommentTo);
+        comment.setShowGiverNameTo(newAttributes.showGiverNameTo);
+        comment.setShowRecipientNameTo(newAttributes.showRecipientNameTo);
         
         getPM().close();
     }

@@ -355,6 +355,8 @@ public class Const {
         public static final String REGKEY = "regkey";
         public static final String STUDENT_EMAIL = "studentemail";
         public static final String FROM_COMMENTS_PAGE = "commentpage";
+        public static final String FROM_COURSE_DETAILS_PAGE = "coursedetailspage";
+        public static final String FROM_STUDENT_DETAILS_PAGE = "studentdetailspage";
         public static final String NEW_STUDENT_EMAIL = "newstudentemail";
         
         public static final String STUDENT_SHORT_NAME = "studentshortname";
@@ -365,6 +367,11 @@ public class Const {
         public static final String STUDENT_PROFILE_MOREINFO = "studentprofilemoreinfo";        
     
         public static final String STUDENT_NAME = "studentname";
+        public static final String RECIPIENT_TYPE = "recipienttype";
+        public static final String RECIPIENTS = "recipients";
+        public static final String COMMENTS_SHOWCOMMENTSTO = "showcommentsto";
+        public static final String COMMENTS_SHOWGIVERTO = "showgiverto";
+        public static final String COMMENTS_SHOWRECIPIENTTO = "showrecipientto";
         public static final String FROM_EMAIL = "fromemail";
         public static final String TO_EMAIL = "toemail";
         public static final String SECTION_NAME = "sectionname";
@@ -774,7 +781,7 @@ public class Const {
         public static final String INSTRUCTOR_NO_COURSE_AND_STUDENTS = "There are no course or students information to be displayed";
         public static final String INSTRUCTOR_NO_STUDENT_RECORDS = "No records were found for this student";
         
-        public static final String COMMENT_ADDED = "New comment has been added for this student";
+        public static final String COMMENT_ADDED = "New comment has been added";
         public static final String COMMENT_EDITED = "Comment edited";
         public static final String COMMENT_DELETED = "Comment deleted";
         public static final String COMMENT_DUPLICATE = "An existing comment with the same content is found, comment not added";
