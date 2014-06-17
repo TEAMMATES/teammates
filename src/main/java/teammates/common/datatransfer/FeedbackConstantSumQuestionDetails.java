@@ -267,11 +267,23 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackAbstractQuestion
         return "Feedback";
     }
 
+    final int MIN_NUM_OF_CONST_SUM_OPTIONS = 2;
+    final int MIN_NUM_OF_CONST_SUM_POINTS = 1;
+    final String ERROR_NOT_ENOUGH_CONST_SUM_OPTIONS = "Too little options for "+ this.getQuestionTypeDisplayName()+". Minimum number of options is: ";
+    final String ERROR_NOT_ENOUGH_CONST_SUM_POINTS = "Too little points for "+ this.getQuestionTypeDisplayName()+". Minimum number of points is: ";
+    
     @Override
     public List<String> validateQuestionDetails() {
-        // TODO Auto-generated method stub
+        List<String> errors = new ArrayList<String>();
+        if(!distributeToRecipients && numOfConstSumOptions < MIN_NUM_OF_CONST_SUM_OPTIONS){
+            errors.add(ERROR_NOT_ENOUGH_CONST_SUM_OPTIONS + MIN_NUM_OF_CONST_SUM_OPTIONS+".");
+        }
         
-        return new ArrayList<String>();
+        if(points < MIN_NUM_OF_CONST_SUM_POINTS){
+            errors.add(ERROR_NOT_ENOUGH_CONST_SUM_POINTS + MIN_NUM_OF_CONST_SUM_POINTS+".");
+        }
+        
+        return errors;
     }
 
     @Override
