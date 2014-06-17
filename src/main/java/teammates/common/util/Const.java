@@ -322,6 +322,7 @@ public class Const {
         public static final String FEEDBACK_QUESTION_MSQCHOICE = "msqOption";
         public static final String FEEDBACK_QUESTION_CONSTSUMOPTION = "constSumOption";
         public static final String FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS = "constSumToRecipients";
+        public static final String FEEDBACK_QUESTION_CONSTSUMNUMOPTION = "constSumNumOption";
         public static final String FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION = "constSumPointsPerOption";
         public static final String FEEDBACK_QUESTION_CONSTSUMPOINTS = "constSumPoints";
         public static final String FEEDBACK_QUESTION_GENERATEDOPTIONS = "generatedOptions";

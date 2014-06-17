@@ -26,6 +26,8 @@ public class FeedbackQuestionFormTemplates {
     public static String NUMSCALE_SUBMISSION_FORM = FileHelper.readResourseFile("feedbackQuestionNumScaleSubmissionFormTemplate.html");
     public static String NUMSCALE_RESULT_STATS = FileHelper.readResourseFile("feedbackQuestionNumScaleResultStatsTemplate.html");
     
+    public static String CONSTSUM_SUBMISSION_FORM = FileHelper.readResourseFile("feedbackQuestionConstSumSubmissionFormTemplate.html");
+    public static String CONSTSUM_SUBMISSION_FORM_OPTIONFRAGMENT = FileHelper.readResourseFile("feedbackQuestionConstSumSubmissionFormOptionFragment.html");
     public static String CONSTSUM_EDIT_FORM = FileHelper.readResourseFile("feedbackQuestionConstSumEditFormTemplate.html");
     public static String CONSTSUM_EDIT_FORM_OPTIONFRAGMENT = FileHelper.readResourseFile("feedbackQuestionConstSumEditFormOptionFragment.html");
     

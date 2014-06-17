@@ -60,14 +60,62 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackAbstractQuestion
             boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId,
             FeedbackAbstractResponseDetails existingResponseDetails) {
         // TODO Auto-generated method stub
-        return "";
+        return "HELLO";
     }
 
     @Override
     public String getQuestionWithoutExistingResponseSubmissionFormHtml(
             boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId) {
-        // TODO Auto-generated method stub
-        return "";
+        
+        StringBuilder optionListHtml = new StringBuilder();
+        String optionFragmentTemplate = FeedbackQuestionFormTemplates.CONSTSUM_SUBMISSION_FORM_OPTIONFRAGMENT;
+        
+        if(distributeToRecipients){
+            String optionFragment = 
+                    FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
+                            "${qnIdx}", Integer.toString(qnIdx),
+                            "${responseIdx}", Integer.toString(responseIdx),
+                            "${optionIdx}", "0",
+                            "${disabled}", sessionIsOpen ? "" : "disabled=\"disabled\"",
+                            "${constSumOptionVisibility}", "style=\"display:none\"",
+                            "${constSumOptionPoint}", "",
+                            "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                            "${constSumOptionValue}", "");
+            optionListHtml.append(optionFragment + Const.EOL);
+        } else {
+            for(int i = 0; i < constSumOptions.size(); i++) {
+                String optionFragment = 
+                        FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
+                                "${qnIdx}", Integer.toString(qnIdx),
+                                "${responseIdx}", Integer.toString(responseIdx),
+                                "${optionIdx}", Integer.toString(i),
+                                "${disabled}", sessionIsOpen ? "" : "disabled=\"disabled\"",
+                                "${constSumOptionVisibility}", "",
+                                "${constSumOptionPoint}", "",
+                                "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                                "${constSumOptionValue}", constSumOptions.get(i));
+                optionListHtml.append(optionFragment + Const.EOL);
+            }
+        }
+        
+        
+        String html = FeedbackQuestionFormTemplates.populateTemplate(
+                FeedbackQuestionFormTemplates.CONSTSUM_SUBMISSION_FORM,
+                "${constSumSubmissionFormOptionFragments}", optionListHtml.toString(),
+                "${qnIdx}", Integer.toString(qnIdx),
+                "${responseIdx}", Integer.toString(responseIdx),
+                "${constSumOptionVisibility}", distributeToRecipients? "style=\"display:none\"" : "",
+                "${constSumToRecipientsValue}", (distributeToRecipients == true) ? "true" : "false",
+                "${constSumPointsPerOptionValue}", (pointsPerOption == true) ? "true" : "false",
+                "${constSumNumOptionValue}", Integer.toString(constSumOptions.size()),
+                "${constSumPointsValue}", Integer.toString(points),
+                "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS,
+                "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION,
+                "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMNUMOPTION}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMNUMOPTION,
+                "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS
+                );
+        
+        return html;
     }
 
     @Override

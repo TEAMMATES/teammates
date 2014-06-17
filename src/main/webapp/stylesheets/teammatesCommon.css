@@ -129,6 +129,14 @@ Apply to thead to make headers not bold.
     color: gray;
 }
 
+.text-color-green {
+    color: green;
+}
+
+.text-color-red {
+    color: red;
+}
+
 .text-color-white {
     color: white;
 }

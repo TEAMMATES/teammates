@@ -1,6 +1,8 @@
 package teammates.common.datatransfer;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import teammates.common.util.Assumption;
 
@@ -52,7 +54,11 @@ public abstract class FeedbackAbstractResponseDetails {
             break;
         case CONSTSUM:
             try{
-                int constSumAnswer = Integer.parseInt(answer[0]);
+                List<Integer> constSumAnswer = new ArrayList<Integer>();
+                for(int i=0 ; i<answer.length ; i++){
+                    constSumAnswer.add(Integer.parseInt(answer[i]));
+                }
+                
                 responseDetails = new FeedbackConstantSumResponseDetails(constSumAnswer);
             } catch (NumberFormatException e) {
                 responseDetails = null;

@@ -1,6 +1,7 @@
 jQuery.fn.reverse = [].reverse;
 
 var FEEDBACK_RESPONSE_RECIPIENT = "responserecipient";
+var FEEDBACK_RESPONSE_TEXT = "responsetext";
 
 // On body load event
 $(document).ready(function () {
@@ -19,7 +20,129 @@ $(document).ready(function () {
     });
     
     disallowNonNumericEntries($('input[type=number]'), true, true);
+    $('input.pointsBox').off();
+    disallowNonNumericEntries($('input.pointsBox'), false, false);
+
+    formatConstSumQuestions();
+    updateConstSumMessages();
 });
+
+//Ready constant sum questions for submission
+function formatConstSumQuestions(){
+    var constSumQuestionNums = getConstSumQuestionNums();
+
+    for(var i=0 ; i<constSumQuestionNums.length ; i++){
+        var qnNum = constSumQuestionNums[i];
+
+        //const sum to recipients
+        if( $("#constSumToRecipients-"+qnNum).val() === "true" ){
+            var numResponses = $("[name='questionresponsetotal-"+qnNum+"']").val();
+            numResponses = parseInt(numResponses);
+            $("#constSumInfo-"+qnNum+"-"+(numResponses-1)).show();
+        }
+    }
+
+}
+
+function getConstSumQuestionNums(){
+    var constSumQuestions = $("input[name^='questiontype-']").filter(function( index ) {
+                                    return $(this).val() === "CONSTSUM";
+                                });
+    var constSumQuestionNums = [];
+    for(var i=0 ; i<constSumQuestions.length ; i++){
+        constSumQuestionNums[i] = constSumQuestions[i].name.substring('questiontype-'.length,constSumQuestions[i].name.length);
+    }
+    return constSumQuestionNums;
+}
+
+//Updates all const sum messages
+function updateConstSumMessages(){
+    var constSumQuestionNums = getConstSumQuestionNums();
+    for(var i=0 ; i<constSumQuestionNums.length ; i++){
+        var qnNum = constSumQuestionNums[i];
+        updateConstSumMessageQn(qnNum);
+    }
+}
+
+function updateConstSumMessageQn(qnNum){
+    var points = parseInt($("#constSumPoints-"+qnNum).val());
+    var distributeToRecipients = $("#constSumToRecipients-"+qnNum).val() === "true" ? true : false;
+    var pointsPerOption = $("#constSumPointsPerOption-"+qnNum).val() === "true" ? true : false;
+    var numOptions = 0;
+    var numRecipients = parseInt($("[name='questionresponsetotal-"+qnNum+"']").val());
+
+    if(distributeToRecipients){
+        numOptions = numRecipients;
+    } else {
+        numOptions = parseInt($("#constSumNumOption-"+qnNum).val());
+    }
+
+    if(pointsPerOption){
+        points *= numOptions;
+    }
+
+    if(distributeToRecipients){
+        var messageElement = $("#constSumMessage-"+qnNum+"-"+(numOptions-1));
+        
+        var sum = 0;
+        for(var i=0 ; i<numOptions ; i++){
+            var p = parseInt($("[name='"+FEEDBACK_RESPONSE_TEXT+"-"+qnNum+"-"+i+"-0"+"']").val());
+            if(!isNumber(p))
+                p = 0;
+            sum += p;
+        }
+
+        var remainingPoints = points - sum;
+        var message = "";
+        if(remainingPoints === 0){
+            message = "All points distributed!";
+            $(messageElement).addClass("text-color-green");
+            $(messageElement).removeClass("text-color-red");
+        } else if(remainingPoints > 0){
+            message = remainingPoints + " points left to distribute.";
+            $(messageElement).addClass("text-color-red");
+            $(messageElement).removeClass("text-color-green");
+        } else {
+            message = "Over allocated " + (-remainingPoints) + " points";
+            $(messageElement).addClass("text-color-red");
+            $(messageElement).removeClass("text-color-green");
+        }
+
+        $(messageElement).text(message);
+    } else {
+        for(var j=0 ; j<numRecipients ; j++){
+            var messageElement = $("#constSumMessage-"+qnNum+"-"+j);
+            
+            var sum = 0;
+            for(var i=0 ; i<numOptions ; i++){
+                var p = parseInt($("[name='"+FEEDBACK_RESPONSE_TEXT+"-"+qnNum+"-"+j+"-"+i+"']").val());
+                if(!isNumber(p))
+                    p = 0;
+                sum += p;
+            }
+
+            var remainingPoints = points - sum;
+            var message = "";
+            if(remainingPoints === 0){
+                message = "All points distributed!";
+                $(messageElement).addClass("text-color-green");
+                $(messageElement).removeClass("text-color-red");
+            } else if(remainingPoints > 0){
+                message = remainingPoints + " points left to distribute.";
+                $(messageElement).addClass("text-color-red");
+                $(messageElement).removeClass("text-color-green");
+            } else {
+                message = "Over allocated " + (-remainingPoints) + " points";
+                $(messageElement).addClass("text-color-red");
+                $(messageElement).removeClass("text-color-green");
+            }
+
+            $(messageElement).text(message);
+
+
+        }
+    }
+}
 
 /**
  * Removes already selected options for recipients

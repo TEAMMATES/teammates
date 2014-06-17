@@ -1,21 +1,24 @@
 package teammates.common.datatransfer;
 
+import java.util.List;
+
 public class FeedbackConstantSumResponseDetails extends
         FeedbackAbstractResponseDetails {
-    private int answer;
+    private List<Integer> answers;    
 
     public FeedbackConstantSumResponseDetails() {
         super(FeedbackQuestionType.CONSTSUM);
     }
     
-    public FeedbackConstantSumResponseDetails(int answer) {
+    public FeedbackConstantSumResponseDetails(List<Integer> answers) {
         super(FeedbackQuestionType.CONSTSUM);
-        this.answer = answer;
+        this.answers = answers;
     }
     
     @Override
     public String getAnswerString() {
-        return Integer.toString(answer);
+        String listString = answers.toString();//[1, 2, 3] format
+        return listString.substring(1, listString.length()-1);//remove []
     }
 
     @Override

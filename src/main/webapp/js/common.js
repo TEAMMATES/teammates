@@ -533,7 +533,7 @@ function isInstitutionValid(institution) {
  * [Source: http://stackoverflow.com/questions/995183/how-to-allow-only-numeric-0-9-in-html-inputbox-using-jquery]
  */
 function disallowNonNumericEntries(element, decimalPointAllowed, negativeAllowed) {
-    element.keydown(function(event){
+    element.on('keydown', function(event){
         var key = event.which;
         // Allow: backspace, delete, tab, escape, and enter
         if ( key == 46 || key == 8 || key == 9 || key == 27 || key == 13 || 
