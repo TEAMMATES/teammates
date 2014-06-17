@@ -127,7 +127,7 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
         
         expectedLogSegment = "Instructor <span class=\"bold\"> " + instructorEmailToDelete + "</span>"
                 + " in Course <span class=\"bold\">[" + courseId + "]</span> could not be deleted "
-                + "as there is only one instructor left.<br>";
+                + "as there is only one instructor left to be able to modify instructors.<br>";
         AssertHelper.assertContains(expectedLogSegment, deleteAction.getLogMessage());
     }
     
