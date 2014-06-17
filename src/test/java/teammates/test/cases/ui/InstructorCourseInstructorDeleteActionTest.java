@@ -41,8 +41,8 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
                 Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.email
         };
         
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
         verifyUnaccessibleWithoutModifyInstructorPrivilege(submissionParams);
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
     }
     
     @Test
