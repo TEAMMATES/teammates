@@ -88,7 +88,7 @@ window.onload = function(){
             $(heading[0]).click(toggleSingleCollapse);
             $(heading[0]).attr("data-target",".panelBodyCollapse-"+numPanels);
             $(heading[0]).css("cursor", "pointer");
-            $(bodyCollapse[0]).addClass("collapse in panelBodyCollapse-"+numPanels);
+            $(bodyCollapse[0]).addClass("panelBodyCollapse-"+numPanels);
         }
     }
 };
