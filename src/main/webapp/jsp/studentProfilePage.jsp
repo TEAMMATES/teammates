@@ -46,7 +46,7 @@
         
         <div id="editProfileDiv" class="well well-plain well-narrow well-sm-wide">
             <h3 id="studentName"><strong><%=data.account.name %></strong></h3><br>
-            <form class="form center-block" role="form" method="post" 
+            <form class="form center-block" role="form" method="post" enctype="multipart/form-data"
                 action="<%=Const.ActionURIs.STUDENT_PROFILE_EDIT_SAVE %>">
                 <div class="form-group" title="<%=Const.Tooltips.STUDENT_PROFILE_SHORTNAME %>" data-toggle="tooltip" data-placement="top">
                     <label for="studentNickname">Shortname</label>
@@ -93,6 +93,10 @@
                               placeholder="You may wish to specify miscellaneous information as well as links to external profiles."
                               ><%=data.account.studentProfile.moreInfo == null ? "" : data.account.studentProfile.moreInfo %></textarea>
                 </div><br>
+                <div class="form-group" title="Upload a close-up of your face " data-toggle="tooltip" data-placement="top">
+                    <label for="studentPhoto">Your Photo</label>
+                    <input id="studentPhoto" type="file" name="studentprofilephoto" />
+                </div>
                 <button type="submit" id="profileEditSubmit" class="btn btn-primary center-block">Save Profile</button>
                 <br>
                 <p class="text-muted text-color-disclaimer"> <i>* This profile will be visible to all your Instructors and Classmates by default</i></p>
