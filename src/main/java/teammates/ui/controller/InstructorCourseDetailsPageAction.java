@@ -1,5 +1,6 @@
 package teammates.ui.controller;
 
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
@@ -17,13 +18,14 @@ public class InstructorCourseDetailsPageAction extends Action {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull(courseId);
         
+        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         new GateKeeper().verifyAccessible(
-                logic.getInstructorForGoogleId(courseId, account.googleId),
-                logic.getCourse(courseId));
+                instructor, logic.getCourse(courseId));
         
         /* Setup page data for the "Course Details" page */
         InstructorCourseDetailsPageData data = new InstructorCourseDetailsPageData(account);
 
+        data.currentInstructor = instructor;
         data.courseDetails = logic.getCourseDetails(courseId);
         data.students = logic.getStudentsForCourse(courseId);
         data.instructors = logic.getInstructorsForCourse(courseId);

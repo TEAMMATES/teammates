@@ -125,7 +125,12 @@
                     <td class="align-center no-print">
                         <a class="btn btn-default btn-xs t_course_enroll<%=idx%>"
                             href="<%=data.getInstructorCourseEnrollLink(courseDetails.course.id)%>"
-                            data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_ENROLL%>">
+                            data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_ENROLL%>"
+                            <% InstructorAttributes instructor = data.instructors.get(courseDetails.course.id);
+                               if (!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT)) {%>
+                                   disabled="disabled"
+                            <% } %>
+                            >
                             Enroll</a>
                         <a class="btn btn-default btn-xs t_course_view<%=idx%>"
                             href="<%=data.getInstructorCourseDetailsLink(courseDetails.course.id)%>"
@@ -139,8 +144,7 @@
                             href="<%=data.getInstructorCourseDeleteLink(courseDetails.course.id,false)%>"
                             onclick="return toggleDeleteCourseConfirmation('<%=courseDetails.course.id%>');"
                             data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_DELETE%>"
-                            <% InstructorAttributes instructor = data.instructors.get(courseDetails.course.id);
-                               if (!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE)) {%>
+                            <% if (!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE)) {%>
                                    disabled="disabled"
                             <% } %>
                             >

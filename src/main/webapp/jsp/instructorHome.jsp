@@ -120,7 +120,12 @@
                                 <span class="pull-right">
                                      <a class="btn btn-primary btn-xs btn-tm-actions course-enroll-for-test"
                                         href="<%=data.getInstructorCourseEnrollLink(courseDetails.course.id)%>"
-                                        title="<%=Const.Tooltips.COURSE_ENROLL%>" data-toggle="tooltip" data-placement="top"> Enroll</a>
+                                        title="<%=Const.Tooltips.COURSE_ENROLL%>" data-toggle="tooltip" data-placement="top"
+                                        <% InstructorAttributes instructor = data.instructors.get(courseDetails.course.id);
+                                           if (!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT)) {%>
+                                            disabled="disabled"
+                                        <% } %>
+                                        > Enroll</a>
                                          
                                      <a class="btn btn-primary btn-xs btn-tm-actions course-view-for-test"
                                         href="<%=data.getInstructorCourseDetailsLink(courseDetails.course.id)%>"
@@ -132,7 +137,11 @@
                                         
                                      <a class="btn btn-primary btn-xs btn-tm-actions course-add-eval-for-test"
                                         href="<%=data.getInstructorEvaluationLinkForCourse(courseDetails.course.id)%>"
-                                        title="<%=Const.Tooltips.COURSE_ADD_EVALUATION%>" data-toggle="tooltip" data-placement="top"> Add Session</a>
+                                        title="<%=Const.Tooltips.COURSE_ADD_EVALUATION%>" data-toggle="tooltip" data-placement="top"
+                                        <% if (!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION)) {%>
+                                            disabled="disabled"
+                                        <% } %>
+                                        > Add Session</a>
                                      
                                      <a class="btn btn-primary btn-xs btn-tm-actions course-archive-for-test"
                                         href="<%=data.getInstructorCourseArchiveLink(courseDetails.course.id, true, true)%>"
@@ -143,8 +152,7 @@
                                         href="<%=data.getInstructorCourseDeleteLink(courseDetails.course.id,true)%>"
                                         title="<%=Const.Tooltips.COURSE_DELETE%>" data-toggle="tooltip" data-placement="top"
                                         onclick="return toggleDeleteCourseConfirmation('<%=courseDetails.course.id%>')"
-                                        <% InstructorAttributes instructor = data.instructors.get(courseDetails.course.id);
-                                           if (!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE)) {%>
+                                        <% if (!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE)) {%>
                                             disabled="disabled"
                                         <% } %>
                                         > Delete</a>
