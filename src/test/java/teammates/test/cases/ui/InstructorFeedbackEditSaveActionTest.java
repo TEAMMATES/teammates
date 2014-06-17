@@ -2,8 +2,6 @@ package teammates.test.cases.ui;
 
 import static org.testng.AssertJUnit.assertEquals;
 
-import java.security.InvalidParameterException;
-
 import org.apache.commons.lang3.ArrayUtils;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -12,12 +10,9 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.common.util.FieldValidator;
 import teammates.ui.controller.InstructorFeedbackEditSaveAction;
 import teammates.ui.controller.RedirectResult;
-import teammates.ui.controller.ShowPageResult;
 
 public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
 
@@ -42,7 +37,8 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
         String[] submissionParams =
                 createParamsForTypicalFeedbackSession(fs.courseId, fs.feedbackSessionName);
         
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);        
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+        verifyUnaccessibleWithoutModifyCoursePrivilege(submissionParams);
     }
     
     @Test
