@@ -84,7 +84,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
     private void testGetStudentProfile() throws Exception {
         ______TS("getSP");
         StudentProfileAttributes expectedSpa = new StudentProfileAttributes("id", "shortName", "personal@email.com", 
-                "institute", "countryName", "female", "moreInfo");
+                "institute", "countryName", "female", "moreInfo", "");
         AccountAttributes accountWithStudentProfile = new AccountAttributes("id", "name",
                 true, "test@email.com", "dev", expectedSpa);
         
@@ -360,7 +360,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         ______TS("success: without encryption and account already exists");
 
         StudentProfileAttributes spa = new StudentProfileAttributes(correctStudentId,
-                "ABC", "personal@gmail.com", "nus", "Singapore", "male", "");
+                "ABC", "personal@gmail.com", "nus", "Singapore", "male", "", "");
         
         AccountAttributes accountData = new AccountAttributes(correctStudentId,
                 "nameABC", false, "real@gmail.com", "nus", spa);

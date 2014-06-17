@@ -66,7 +66,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         
         StudentProfileAttributes spa = new StudentProfileAttributes("valid.id", "$$short.name", 
                 "e@email.com", " inst  ", StringHelper.generateStringOfLength(54), 
-                "male", "this is enough!$%&*</>");
+                "male", "this is enough!$%&*</>", "");
         profilePage.editProfileThourghUi(spa.shortName, spa.email, spa.institute, 
                 spa.country, spa.gender, spa.moreInfo);
         

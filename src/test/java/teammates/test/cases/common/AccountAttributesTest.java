@@ -148,8 +148,10 @@ public class AccountAttributesTest extends BaseTestCase {
         String country = "&\"invalid country &";
         String gender = "'\"'other";
         String moreInfo = "<<script> alert('hi!'); </script>";
+        String pictureKey = "";
         
-        account.studentProfile = new StudentProfileAttributes(account.googleId, shortName, personalEmail, profileInstitute, country, gender, moreInfo);
+        account.studentProfile = new StudentProfileAttributes(account.googleId, shortName, personalEmail, 
+                profileInstitute, country, gender, moreInfo, pictureKey);
         
         return account;
         

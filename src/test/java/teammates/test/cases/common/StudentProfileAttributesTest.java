@@ -10,6 +10,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.datastore.Text;
 
 import static org.testng.AssertJUnit.assertTrue;
@@ -39,6 +40,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
         profile.country = "country";
         profile.gender = "female";
         profile.moreInfo = "moreInfo can have a lot more than this...";
+        profile.pictureKey = "profile Pic Key";
     }
     
     @Test
@@ -112,8 +114,10 @@ public class StudentProfileAttributesTest extends BaseTestCase {
         String country = "$invalid country ";
         String gender = "invalidGender";
         String moreInfo = "Ooops no validation for this one...";
+        String pictureKey = "";
         
-        return new StudentProfileAttributes(googleId, shortName, email, institute, country, gender, moreInfo);
+        return new StudentProfileAttributes(googleId, shortName, email, institute, 
+                country, gender, moreInfo, pictureKey);
     }
     
     public StudentProfileAttributes getStudentProfileAttributesToSanitize() {
@@ -124,14 +128,16 @@ public class StudentProfileAttributesTest extends BaseTestCase {
         String country = "&\"invalid country &";
         String gender = "'\"'invalidGender";
         String moreInfo = "<<script> alert('hi!'); </script>";
+        String pictureKey = "testPictureKey";
         
-        return new StudentProfileAttributes(googleId, shortName, email, institute, country, gender, moreInfo);
+        return new StudentProfileAttributes(googleId, shortName, email, institute, 
+                country, gender, moreInfo, pictureKey);
     }
     
     @Test
     public void testToEntity() {
         StudentProfile expectedEntity = new StudentProfile(profile.googleId, profile.shortName, profile.institute, profile.email, 
-                profile.country, profile.gender, new Text(profile.moreInfo));
+                profile.country, profile.gender, new Text(profile.moreInfo), new BlobKey(profile.pictureKey));
         StudentProfileAttributes testProfile = new StudentProfileAttributes(expectedEntity);
         StudentProfile actualEntity = (StudentProfile) testProfile.toEntity();
         assertEquals(expectedEntity.getShortName(), actualEntity.getShortName());
@@ -141,6 +147,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
         assertEquals(expectedEntity.getGender(), actualEntity.getGender());
         assertEquals(expectedEntity.getMoreInfo(), actualEntity.getMoreInfo());
         assertEquals(expectedEntity.getModifiedDate(), actualEntity.getModifiedDate());
+        assertEquals(expectedEntity.getPictureKey(), actualEntity.getPictureKey());
     }
     
     @Test
