@@ -38,7 +38,7 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
         boolean isModifyStudentChecked = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT) != null;
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
-        new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId));
+        new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
 
         /* Process saving editing changes and setup status to be shown to user and admin */
         InstructorAttributes instructorToEdit = updateInstructorAttributes(courseId, instructorId, instructorName, instructorEmail,

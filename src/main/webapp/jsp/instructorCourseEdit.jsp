@@ -202,7 +202,7 @@
                                 </div>
                                 <div class="col-sm-9">
                                     <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=index%>"
-                                     value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER%>" checked="checked">&nbsp;Co-owner: can do everything<br>
+                                     value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER%>">&nbsp;Co-owner: can do everything<br>
                                     <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=index%>"
                                      value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER%>">&nbsp;Manager: can do everything except for deleting the course<br>
                                     <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=index%>"
@@ -223,19 +223,23 @@
                                             <div class="panel-body">
                                                 <div class="col-sm-3">
                                                     <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE%>"
-                                                    id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE%>forinstructor<%=index%>" value="true" /> Edit/Delete course
+                                                    id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE%>forinstructor<%=index%>" value="true" /> 
+                                                    Edit/Delete course
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR%>"
-                                                    id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR%>forinstructor<%=index%>" value="true" /> Add/Edit/Delete instructors
+                                                    id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR%>forinstructor<%=index%>" value="true" /> 
+                                                    Add/Edit/Delete instructors
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION%>"
-                                                    id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION%>forinstructor<%=index%>" value="true" /> Create/edit/delete sessions
+                                                    id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION%>forinstructor<%=index%>" value="true" /> 
+                                                    Create/edit/delete sessions
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT%>"
-                                                    id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT%>forinstructor<%=index%>" value="true" /> Enroll/edit/delete students
+                                                    id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT%>forinstructor<%=index%>" value="true" /> 
+                                                    Enroll/edit/delete students
                                                 </div>
                                             </div>
                                         </div>
