@@ -38,7 +38,7 @@ public class InstructorCourseStudentDeleteActionTest extends BaseActionTest {
         };
         
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
-        
+        verifyUnaccessibleWithoutModifyStudentPrivilege(submissionParams);
     }
     
     @Test

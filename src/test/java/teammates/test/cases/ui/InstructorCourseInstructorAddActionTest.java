@@ -42,10 +42,16 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
                 Const.ParamsNames.INSTRUCTOR_ID, "ICIAAT.instructorId",
                 Const.ParamsNames.INSTRUCTOR_NAME, "Instructor Name",
                 Const.ParamsNames.INSTRUCTOR_EMAIL, "instructor@email.com",
-                Const.ParamsNames.INSTRUCTOR_ROLE_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER
+                Const.ParamsNames.INSTRUCTOR_ROLE_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true"
                 };
         
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+        verifyUnaccessibleWithoutModifyInstructorPrivilege(submissionParams);
     }
     
     @Test
@@ -67,7 +73,12 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.INSTRUCTOR_NAME, newInstructorName,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, newInstructorEmail,
-                Const.ParamsNames.INSTRUCTOR_ROLE_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER
+                Const.ParamsNames.INSTRUCTOR_ROLE_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true"
                 };
         
         Action addAction = getAction(submissionParams);
@@ -138,7 +149,12 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.INSTRUCTOR_NAME, newInstructorName,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, newInstructorEmail,
-                Const.ParamsNames.INSTRUCTOR_ROLE_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER
+                Const.ParamsNames.INSTRUCTOR_ROLE_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true"
                 };
         addAction = getAction(addUserIdToParams(instructorId, submissionParams));
         redirectResult = (RedirectResult) addAction.executeAndPostProcess();

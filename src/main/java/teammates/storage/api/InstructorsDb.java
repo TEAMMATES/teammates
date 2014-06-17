@@ -191,7 +191,7 @@ public class InstructorsDb extends EntitiesDb{
 
         instructorToUpdate.setName(instructorAttributesToUpdate.name);
         instructorToUpdate.setEmail(instructorAttributesToUpdate.email);
-        instructorToUpdate.setRole(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+        instructorToUpdate.setRole(instructorAttributesToUpdate.role);
         instructorToUpdate.setDisplayedName(instructorAttributesToUpdate.displayedName);
         instructorToUpdate.setInstructorPrivilegeAsText(instructorAttributesToUpdate.instructorPrivilegesAsText);
         

@@ -3,7 +3,6 @@ package teammates.ui.controller;
 import java.util.List;
 
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
@@ -29,14 +28,23 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
         Assumption.assertNotNull(instructorEmail);
         String instructorRole = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ROLE_NAME);
         Assumption.assertNotNull(instructorRole);
+        String displayedName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME);
+        displayedName = (displayedName == null || displayedName.isEmpty()) ?
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER : displayedName;
+        boolean isModifyCourseChecked = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE) != null;
+        boolean isModifyInstructorChecked = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR) != null;
+        boolean isModifySessionChecked = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) != null;
+        boolean isModifyStudentChecked = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT) != null;
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
-        new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId));
+        new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
 
         /* Process saving editing changes and setup status to be shown to user and admin */
-        InstructorAttributes instructorToEdit = updateInstructorAttributes(
-                courseId, instructorId, instructorName, instructorEmail,
-                instructorRole);
+        InstructorAttributes instructorToEdit = updateInstructorAttributes(courseId, instructorId, instructorName, instructorEmail,
+                instructorRole, displayedName);
+        updateInstructorPrivileges(isModifyCourseChecked,
+                isModifyInstructorChecked, isModifySessionChecked, isModifyStudentChecked, instructorToEdit);
+        updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToEdit);
         
         try {
             logic.updateInstructorByGoogleId(instructorId, instructorToEdit);
@@ -54,23 +62,45 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
         result.addResponseParam(Const.ParamsNames.COURSE_ID, courseId);
         return result;
     }
+    
+    private void updateToEnsureValidityOfInstructorsForTheCourse(String courseId, InstructorAttributes instructorToEdit) {
+        List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
+        int numOfInstrCanModifyInstructor = 0;
+        InstructorAttributes instrCanModifyInstructor = null;
+        for (InstructorAttributes instructor : instructors) {
+            if (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR)) {
+                numOfInstrCanModifyInstructor++;
+                instrCanModifyInstructor = instructor;
+            }
+        }
+        boolean lastCanModifyInstructor = (numOfInstrCanModifyInstructor <= 1) && 
+                ((instrCanModifyInstructor != null && instrCanModifyInstructor.googleId == null) ||
+                (instrCanModifyInstructor != null && instrCanModifyInstructor.googleId != null &&
+                instrCanModifyInstructor.googleId.equals(instructorToEdit.googleId)));
+        if (lastCanModifyInstructor) {
+            instructorToEdit.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, true);
+        }
+        instructorToEdit.instructorPrivilegesAsText = instructorToEdit.getTextFromInstructorPrivileges();
+    }
+
+    private void updateInstructorPrivileges(boolean isModifyCourseChecked,
+            boolean isModifyInstructorChecked, boolean isModifySessionChecked,
+            boolean isModifyStudentChecked, InstructorAttributes instructorToEdit) {
+        instructorToEdit.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, isModifyCourseChecked);
+        instructorToEdit.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, isModifyInstructorChecked);
+        instructorToEdit.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, isModifySessionChecked);
+        instructorToEdit.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, isModifyStudentChecked);
+        instructorToEdit.instructorPrivilegesAsText = instructorToEdit.getTextFromInstructorPrivileges();
+    }
 
     private InstructorAttributes updateInstructorAttributes(String courseId,
             String instructorId, String instructorName, String instructorEmail,
-            String instructorRole) {
+            String instructorRole, String displayedName) {
         InstructorAttributes instructorToEdit = logic.getInstructorForGoogleId(courseId, instructorId);
         instructorToEdit.name = Sanitizer.sanitizeName(instructorName);
         instructorToEdit.email = Sanitizer.sanitizeEmail(instructorEmail);
         instructorToEdit.role = Sanitizer.sanitizeName(instructorRole);
-        // TODO: remove this hard-coded thing!
-        instructorToEdit.displayedName = "Co-owner";
-        List<InstructorAttributes> instructors = logic.getInstructorsWhoCanDeleteCourse(courseId);
-        boolean thisOneIsOnlyInstructorCanDelete = instructors.size() == 1 
-                && instructors.get(0).googleId.equals(instructorToEdit.googleId);
-        instructorToEdit.privileges = new InstructorPrivileges(instructorRole);
-        if (thisOneIsOnlyInstructorCanDelete) {
-            instructorToEdit.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, true);
-        }
+        instructorToEdit.displayedName = Sanitizer.sanitizeName(displayedName);
         instructorToEdit.instructorPrivilegesAsText = instructorToEdit.getTextFromInstructorPrivileges();
         return instructorToEdit;
     }

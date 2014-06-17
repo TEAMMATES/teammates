@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.common.util.Utils;
@@ -25,10 +26,10 @@ public class InstructorEvalsPageAction extends Action {
         
         new GateKeeper().verifyInstructorPrivileges(account);
         
-        if(courseIdForNewEvaluation!=null){
+        if (courseIdForNewEvaluation!=null) {
             new GateKeeper().verifyAccessible(
                     logic.getInstructorForGoogleId(courseIdForNewEvaluation, account.googleId), 
-                    logic.getCourse(courseIdForNewEvaluation));
+                    logic.getCourse(courseIdForNewEvaluation), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         }
 
         InstructorEvalPageData data = new InstructorEvalPageData(account);
@@ -78,10 +79,17 @@ public class InstructorEvalsPageAction extends Action {
             throws EntityDoesNotExistException {
         HashMap<String, CourseDetailsBundle> summary = 
                 logic.getCourseSummariesForInstructor(userId);
-        List<CourseDetailsBundle>courses = new ArrayList<CourseDetailsBundle>(summary.values());
-        CourseDetailsBundle.sortDetailedCoursesByCourseId(courses);
+        List<CourseDetailsBundle> courses = new ArrayList<CourseDetailsBundle>(summary.values());
+        List<CourseDetailsBundle> allowedCourses = new ArrayList<CourseDetailsBundle>();
+        for (CourseDetailsBundle courseDetails : courses) {
+            InstructorAttributes instructor = logic.getInstructorForGoogleId(courseDetails.course.id, account.googleId);
+            if (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION)) {
+                allowedCourses.add(courseDetails);
+            }
+        }
+        CourseDetailsBundle.sortDetailedCoursesByCourseId(allowedCourses);
         
-        return courses;
+        return allowedCourses;
     }
 
 }
