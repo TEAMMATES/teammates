@@ -17,13 +17,11 @@ function showHideStats(){
 //Search functionality
 
 function filterResults(searchText, element){
-    var recurse = false;
+    var isFirstBatch = false;
     element = element || $("#frameBodyWrapper").find("div.panel").filter(function(index){
-        var e = $("#frameBodyWrapper").find("div.panel")[index];
-        var heading = $(e).children(".panel-heading");
-        var body = $(e).children(".panel-collapse").children(".panel-body");
-        if(heading.length != 0 && body.length != 0){
-            recurse = true;
+        isFirstBatch = true;
+        var containerParent = $(this).parent('.container');
+        if(containerParent.length){
             return true;
         } else {
             return false;
@@ -34,17 +32,37 @@ function filterResults(searchText, element){
         return;
     }
 
-    for(var i=0 ; i<element.length ; i++){
+    for(var i = 0 ; i < element.length ; i++){
         var elm = element[i];
+        $(elm).removeClass('whole');
         if($(elm).text().toLowerCase().indexOf(searchText.toLowerCase()) == -1){
-            $(elm).hide();
+            if(!$(elm).parents('.whole').length){
+                $(elm).hide();
+            }
         } else {
             $(elm).show();
-
-            if(recurse){
-                var childElements = $(elm).find(".panel,div.row,tbody>tr");
-                filterResults(searchText, childElements);
+        }
+        var elmClass = $(elm).attr('class');
+        var elmTagName = $(elm).prop('tagName').toLowerCase();
+        if(elmTagName.indexOf('tr') != -1){
+            if($(elm).text().toLowerCase().indexOf(searchText.toLowerCase()) != -1){
+                $(elm).addClass('whole');
             }
+        } else if(typeof elmClass !== 'undefined' && elmClass.indexOf('panel') != -1){
+            var heading = $(elm).children('.panel-heading');
+            if($(heading[0]).text().toLowerCase().indexOf(searchText.toLowerCase()) != -1){
+                $(elm).addClass('whole');
+            }
+        } else if(typeof elmClass !== 'undefined' && elmClass.indexOf('row') != -1){
+            var info = $(elm).children('.col-md-2');
+            if($(info[0]).text().toLowerCase().indexOf(searchText.toLowerCase()) != -1){
+                $(elm).addClass('whole');
+            }
+        }
+        
+        if(isFirstBatch){
+            var childElements = $(elm).find(".panel, div.row, tbody>tr");
+            filterResults(searchText, childElements);
         }
     }
 }
@@ -79,6 +97,12 @@ function toggleSingleCollapse(e){
     }
 }
 
+function getNextId(e){
+    var id = $(e).attr('id');
+    var nextId = "#panelBodyCollapse-" + (parseInt(id.split('-')[1]) + 1);
+    return nextId;
+}
+
 window.onload = function(){
     var panels = $("div.panel");
     var numPanels = 0;
@@ -90,30 +114,34 @@ window.onload = function(){
             //$(heading[0]).attr("data-toggle","collapse");
             //Use this instead of the data-toggle attribute to let [more/less] be clicked without collapsing panel
             $(heading[0]).click(toggleSingleCollapse);
-            $(heading[0]).attr("data-target",".panelBodyCollapse-"+numPanels);
+            $(heading[0]).attr("data-target","#panelBodyCollapse-"+numPanels);
             $(heading[0]).css("cursor", "pointer");
-            $(bodyCollapse[0]).addClass("panelBodyCollapse-"+numPanels);
+            $(bodyCollapse[0]).attr('id', "panelBodyCollapse-"+numPanels);
             
             $(bodyCollapse[0]).on('hidden.bs.collapse', function(){
                 if(isCollapsingAll){
-                    var nextElement = $(this).parent().next().find('.panel-collapse');
-                    if(nextElement.length){
-                        console.log("Success");
-                        $(nextElement).collapse('hide');
+                    var id = $(this).attr('id');
+                    var nextId = '';
+                    do{
+                        nextId = getNextId(this);
+                    } while($(nextId).length && $('#' + id + ' ' + nextId).length);
+                    if($(nextId).length){
+                        $(nextId).collapse('hide');
                     } else {
-                        console.log("Fail");
                         isCollapsingAll = false;
                     }
                 }
             });
             $(bodyCollapse[0]).on('shown.bs.collapse', function(){
                 if(isExpandingAll){
-                    var nextElement = $(this).parent().next().find('.panel-collapse');
-                    if(nextElement.length){
-                        console.log("Success");
-                        $(nextElement).collapse('show');
+                    var id = $(this).attr('id');
+                    var nextId = '';
+                    do{
+                        nextId = getNextId(this);
+                    } while($(nextId).length && $('#' + id + ' ' + nextId).length);
+                    if($(nextId).length){
+                        $(nextId).collapse('show');
                     } else {
-                        console.log("Fail");
                         isExpandingAll = false;
                     }
                 }

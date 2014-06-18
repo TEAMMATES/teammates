@@ -726,33 +726,27 @@ public class FeedbackSessionsLogic {
             List<FeedbackQuestionAttributes> studentQns = fqLogic
                     .getFeedbackQuestionsForStudents(questions);
 
-            Map<String, String> emailNameTable = new HashMap<String, String>();
+            Map<String, String> emailsResponseTable = new HashMap<String, String>();
         
-            boolean hasStudentQuestion = !studentQns.isEmpty();
-            for(StudentAttributes student : students){
-                if(hasStudentQuestion){
-                    details.stats.expectedTotal += 1;
-                    emailNameTable.put(student.email, student.name);
-                }                
+            if(!studentQns.isEmpty()){
+                details.stats.expectedTotal += students.size();
             }
-
+        
             for (InstructorAttributes instructor : instructors) {
                 List<FeedbackQuestionAttributes> instructorQns = fqLogic
                         .getFeedbackQuestionsForInstructor(questions,
                                 fsa.isCreator(instructor.email));
                 if (!instructorQns.isEmpty()) {
                     details.stats.expectedTotal += 1;
-                    emailNameTable.put(instructor.email, instructor.name);
                 }
             }
 
-            int notSubmittedTotal = 0;
             for(FeedbackResponseAttributes response : responses){
-                if(emailNameTable.get(response.giverEmail) == null){
-                    notSubmittedTotal += 1;
+                if(emailsResponseTable.get(response.giverEmail) == null){
+                    details.stats.submittedTotal += 1;
+                    emailsResponseTable.put(response.giverEmail, "Responded");
                 }
             }
-            details.stats.submittedTotal = details.stats.expectedTotal - notSubmittedTotal;
 
             break;
 
