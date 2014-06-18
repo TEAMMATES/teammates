@@ -35,9 +35,10 @@ public class InstructorEvalsPageAction extends Action {
         InstructorEvalPageData data = new InstructorEvalPageData(account);
         data.courseIdForNewEvaluation = courseIdForNewEvaluation;
         // This indicates that an empty form to be shown (except possibly the course value filled in)
-        data.newEvaluationToBeCreated = null; 
-
-        data.courses = loadCoursesList(account.googleId);
+        data.newEvaluationToBeCreated = null;
+        
+        data.instructors = new HashMap<String, InstructorAttributes>();
+        data.courses = loadCoursesListAndInstructors(account.googleId, data.instructors);
         if (data.courses.size() == 0) {
             statusToUser.add(Const.StatusMessages.COURSE_EMPTY_IN_EVALUATION.replace("${user}", "?user="+account.googleId));
             data.existingEvalSessions = new ArrayList<EvaluationAttributes>();
@@ -75,20 +76,21 @@ public class InstructorEvalsPageAction extends Action {
         return evaluations;
     }
     
-    protected List<CourseDetailsBundle> loadCoursesList(String userId)
+    protected List<CourseDetailsBundle> loadCoursesListAndInstructors(String userId,
+            HashMap<String, InstructorAttributes> instructors)
             throws EntityDoesNotExistException {
         HashMap<String, CourseDetailsBundle> summary = 
                 logic.getCourseSummariesForInstructor(userId);
-        List<CourseDetailsBundle> courses = new ArrayList<CourseDetailsBundle>(summary.values());
+        List<CourseDetailsBundle> allCourses = new ArrayList<CourseDetailsBundle>(summary.values());
         List<CourseDetailsBundle> allowedCourses = new ArrayList<CourseDetailsBundle>();
-        for (CourseDetailsBundle courseDetails : courses) {
+        for (CourseDetailsBundle courseDetails : allCourses) {
             InstructorAttributes instructor = logic.getInstructorForGoogleId(courseDetails.course.id, account.googleId);
+            instructors.put(courseDetails.course.id, instructor);
             if (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION)) {
                 allowedCourses.add(courseDetails);
             }
         }
-        CourseDetailsBundle.sortDetailedCoursesByCourseId(allowedCourses);
-        
+        CourseDetailsBundle.sortDetailedCoursesByCourseId(allowedCourses);       
         return allowedCourses;
     }
 
