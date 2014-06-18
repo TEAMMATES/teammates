@@ -1,7 +1,11 @@
 package teammates.common.datatransfer;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import teammates.common.util.Const;
 import teammates.common.util.FeedbackQuestionFormTemplates;
@@ -242,9 +246,53 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackAbstractQuestion
 
     @Override
     public String getQuestionResultStatisticsHtml(
-            List<FeedbackResponseAttributes> responses) {
-        // TODO Auto-generated method stub
-        return "";
+            List<FeedbackResponseAttributes> responses,
+            FeedbackSessionResultsBundle bundle) {
+        if(responses.size() == 0){
+            return "";
+        }
+        
+        String html = "";
+        String fragments = "";
+        List<String> options;
+        List<Integer> optionPoints = new ArrayList<Integer>();
+        Map<String, Integer[]> optionTotalCount = new LinkedHashMap<String, Integer[]>();
+                
+        //Prepare options
+        if(distributeToRecipients){
+            return "";
+        } else {
+            options = constSumOptions;
+            for(int i=0 ; i<options.size() ; i++){
+                optionPoints.add(0);
+            }
+            
+            for(FeedbackResponseAttributes response : responses){
+                FeedbackConstantSumResponseDetails frd = (FeedbackConstantSumResponseDetails)response.getResponseDetails(); 
+                for(int i=0 ; i<frd.getAnswerList().size(); i++){
+                    optionPoints.set(i, optionPoints.get(i)+frd.getAnswerList().get(i));
+                }
+            }
+            
+            for(int i=0 ; i<options.size() ; i++){
+                optionTotalCount.put(options.get(i), new Integer[]{optionPoints.get(i),responses.size()});
+            }
+        }
+        
+        DecimalFormat df = new DecimalFormat("#.##");
+        
+        for(Entry<String, Integer[]> entry : optionTotalCount.entrySet() ){
+            double average = entry.getValue()[0]/entry.getValue()[1];
+            fragments += FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.CONSTSUM_RESULT_STATS_OPTIONFRAGMENT,
+                                "${constSumOptionValue}", entry.getKey(),
+                                "${averagePoints}", df.format(average));
+        }
+        
+        html = FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.CONSTSUM_RESULT_STATS,
+                "${optionRecipientDisplayName}", distributeToRecipients? "Recipient":"Option",
+                "${fragments}", fragments);
+        
+        return html;
     }
 
     @Override
