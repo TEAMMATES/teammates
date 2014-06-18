@@ -3,10 +3,7 @@ package teammates.common.datatransfer;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import teammates.common.util.Const;
 import teammates.common.util.FeedbackQuestionFormTemplates;
@@ -219,7 +216,8 @@ public class FeedbackNumericalScaleQuestionDetails extends
     
     @Override
     public List<String> validateResponseAttributes(
-            List<FeedbackResponseAttributes> responses) {
+            List<FeedbackResponseAttributes> responses,
+            int numRecipients) {
         List<String> errors = new ArrayList<String>();
         for(FeedbackResponseAttributes response : responses){
             FeedbackNumericalScaleResponseDetails frd = (FeedbackNumericalScaleResponseDetails) response.getResponseDetails();

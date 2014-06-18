@@ -105,7 +105,8 @@ public class FeedbackTextQuestionDetails extends
 
     @Override
     public List<String> validateResponseAttributes(
-            List<FeedbackResponseAttributes> responses) {
+            List<FeedbackResponseAttributes> responses,
+            int numRecipients) {
         List<String> errors = new ArrayList<String>();
         return errors;
     }

@@ -348,7 +348,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackAbstractQuestion
     
     @Override
     public List<String> validateResponseAttributes(
-            List<FeedbackResponseAttributes> responses) {
+            List<FeedbackResponseAttributes> responses,
+            int numRecipients) {
         List<String> errors = new ArrayList<String>();
         
         if(responses.size() < 1){
@@ -360,7 +361,14 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackAbstractQuestion
         FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
         FeedbackQuestionAttributes fqa = fqLogic.getFeedbackQuestion(fqId);
         
-        int numRecipients = fqa.numberOfEntitiesToGiveFeedbackTo;
+        int numOfResponseSpecific = fqa.numberOfEntitiesToGiveFeedbackTo;
+        int maxResponsesPossible = numRecipients;
+        if (numOfResponseSpecific == Const.MAX_POSSIBLE_RECIPIENTS ||
+                numOfResponseSpecific > maxResponsesPossible) {
+            numOfResponseSpecific = maxResponsesPossible;
+        }
+        numRecipients = numOfResponseSpecific;
+        
         int numOptions = distributeToRecipients? numRecipients : constSumOptions.size();
         int totalPoints = pointsPerOption? points*numOptions: points;
         int sum = 0;
@@ -390,7 +398,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackAbstractQuestion
             }
         }
         if(distributeToRecipients && sum != totalPoints){
-            errors.add(ERROR_CONST_SUM_MISMATCH);
+            errors.add(ERROR_CONST_SUM_MISMATCH + sum + "/" + totalPoints);
             return errors;
         }
         return errors;

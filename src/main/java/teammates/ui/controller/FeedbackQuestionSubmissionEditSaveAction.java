@@ -74,7 +74,7 @@ public abstract class FeedbackQuestionSubmissionEditSaveAction extends Action {
             }
         }
         
-        List<String> errors = questionDetails.validateResponseAttributes(responsesForQuestion);
+        List<String> errors = questionDetails.validateResponseAttributes(responsesForQuestion, data.bundle.recipientList.size());
         
         if(errors.isEmpty()) {
             for(FeedbackResponseAttributes response : responsesForQuestion) {

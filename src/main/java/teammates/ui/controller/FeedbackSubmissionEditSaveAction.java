@@ -63,6 +63,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             List<FeedbackResponseAttributes> responsesForQuestion = new ArrayList<FeedbackResponseAttributes>();
             FeedbackAbstractQuestionDetails questionDetails = data.bundle.getSortedQuestions().get(questionIndx - 1).getQuestionDetails();
             int numOfResponsesToGet = Integer.parseInt(totalResponsesForQuestion);  
+            String qnId = "";
             
             for(int responseIndx = 0; responseIndx < numOfResponsesToGet; responseIndx++) {
                 FeedbackResponseAttributes response = extractFeedbackResponseData(requestParameters, questionIndx, responseIndx, questionDetails);
@@ -74,9 +75,10 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                     response.giverSection = userSectionForCourse;
                     responsesForQuestion.add(response);
                 }
+                qnId = response.feedbackQuestionId;
             }
             
-            List<String> errors = questionDetails.validateResponseAttributes(responsesForQuestion);
+            List<String> errors = questionDetails.validateResponseAttributes(responsesForQuestion, data.bundle.recipientList.get(qnId).size());
             
             if(errors.isEmpty()) {
                 for(FeedbackResponseAttributes response : responsesForQuestion) {
