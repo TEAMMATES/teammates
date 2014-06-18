@@ -320,6 +320,14 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackAbstractQuestion
             return true;
         }
         
+        if(this.points != newConstSumDetails.points){
+            return true;
+        }
+        
+        if(this.pointsPerOption != newConstSumDetails.pointsPerOption){
+            return true;
+        }
+        
         return false;
     }
 
