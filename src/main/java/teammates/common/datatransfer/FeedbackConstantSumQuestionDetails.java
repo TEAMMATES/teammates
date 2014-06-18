@@ -5,6 +5,7 @@ import java.util.List;
 
 import teammates.common.util.Const;
 import teammates.common.util.FeedbackQuestionFormTemplates;
+import teammates.logic.core.FeedbackQuestionsLogic;
 
 public class FeedbackConstantSumQuestionDetails extends FeedbackAbstractQuestionDetails {
     public int numOfConstSumOptions;
@@ -286,11 +287,58 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackAbstractQuestion
         return errors;
     }
 
+    final String ERROR_CONST_SUM_MISMATCH = "Please distribute all the points for distribution questions. To skip a distribution question, leave the boxes blank.";
+    final String ERROR_CONST_SUM_NEGATIVE = "Points given must be 0 or more.";
+    
+    
     @Override
     public List<String> validateResponseAttributes(
             List<FeedbackResponseAttributes> responses) {
-        // TODO Auto-generated method stub
-        return new ArrayList<String>();
+        List<String> errors = new ArrayList<String>();
+        
+        if(responses.size() < 1){
+            //No responses, no errors.
+            return errors;
+        }
+        
+        String fqId = responses.get(0).feedbackQuestionId;
+        FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
+        FeedbackQuestionAttributes fqa = fqLogic.getFeedbackQuestion(fqId);
+        
+        int numRecipients = fqa.numberOfEntitiesToGiveFeedbackTo;
+        int numOptions = distributeToRecipients? numRecipients : constSumOptions.size();
+        int totalPoints = pointsPerOption? points*numOptions: points;
+        int sum = 0;
+        for(FeedbackResponseAttributes response : responses){
+            FeedbackConstantSumResponseDetails frd = (FeedbackConstantSumResponseDetails) response.getResponseDetails();
+            
+            //Check that all response points are >= 0
+            for(Integer i : frd.getAnswerList()){
+                if(i < 0){
+                    errors.add(ERROR_CONST_SUM_NEGATIVE);
+                    return errors;
+                }
+            }
+            
+            //Check that points sum up properly
+            if(distributeToRecipients){
+                sum += frd.getAnswerList().get(0);
+            } else {
+                sum = 0;
+                for(Integer i : frd.getAnswerList()){
+                    sum += i;
+                }
+                if(sum != totalPoints){
+                    errors.add(ERROR_CONST_SUM_MISMATCH);
+                    return errors;
+                }
+            }
+        }
+        if(distributeToRecipients && sum != totalPoints){
+            errors.add(ERROR_CONST_SUM_MISMATCH);
+            return errors;
+        }
+        return errors;
     }
 
 
