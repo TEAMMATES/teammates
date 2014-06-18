@@ -350,6 +350,15 @@ public class Logic {
         return instructorsLogic.getAllInstructors();
     }
     
+    /**
+     * @deprecated Not scalable. Don't use unless in admin features.
+     */
+    @Deprecated
+    public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions() {
+        
+        return feedbackSessionsLogic.getAllOpenFeedbackSessions();
+    }
+    
     
     
     /**

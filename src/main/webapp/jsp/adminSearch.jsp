@@ -32,7 +32,7 @@
 <link rel="shortcut icon" href="/favicon.png" />
 <meta http-equiv="X-UA-Compatible" content="IE=8" />
 <title>TEAMMATES - Administrator</title>
-<link rel=stylesheet href="/stylesheets/common.css" type="text/css" />
+<!-- <link rel=stylesheet href="/stylesheets/common.css" type="text/css" /> -->
 <link rel=stylesheet href="/stylesheets/adminSearch.css" type="text/css" />
 <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
@@ -53,41 +53,39 @@
     <div id="dhtmltooltip"></div>
     <jsp:include page="<%=Const.ViewURIs.ADMIN_HEADER%>" />
 
-    <div id="frameBody">
-        <div id="frameBodyWrapper">
-            <div id="topOfPage"></div>
-            <div id="headerOperation">
 
-                <form name="search" action="" method="get">
-                    <select name="limit">
-                        <option <%="5".equals(limit) ? "selected" : ""%>>5</option>
-                        <option
-                            <%="10".equals(limit) ? "selected" : ""%>>10</option>
-                        <option
-                            <%="15".equals(limit) ? "selected" : ""%>>15</option>
-                        <option
-                            <%="20".equals(limit) ? "selected" : ""%>>20</option>
-                        <option
-                            <%="50".equals(limit) ? "selected" : ""%>>50</option>
-                    </select> <input placeholder="Search" style="width: 500px;"
-                        type="search" name="query" id="query"
-                        value='<%=query%>' /> <input name="search"
-                        type="submit" name="search" value="Search"
-                        style="" /> <input name="build_doc"
-                        type="submit" value="Rebuild Document" style="" />
+    <div class="container theme-showcase" id="frameBodyWrapper">
+        <div id="topOfPage"></div>
+        <div id="headerOperation">
 
-                </form>
-                <br>
-                <hr />
-                <br>
-                <%
-                	List<Document> found = data.results;
-                	if (found != null) {
-                %>
-                <form name="delete" action="" method="get">
-                    <!-- repeated so that we can execute a search after deletion -->
-                    <input type="hidden" name="query" value="<%=query%>" />
-                    <table class="dataTable">
+            <form name="search" action="" method="get">
+                <select name="limit">
+                    <option <%="5".equals(limit) ? "selected" : ""%>>5</option>
+                    <option <%="10".equals(limit) ? "selected" : ""%>>10</option>
+                    <option <%="15".equals(limit) ? "selected" : ""%>>15</option>
+                    <option <%="20".equals(limit) ? "selected" : ""%>>20</option>
+                    <option <%="50".equals(limit) ? "selected" : ""%>>50</option>
+                </select> <input placeholder="Search" style="width: 500px;"
+                    type="search" name="query" id="query"
+                    value='<%=query%>' /> <input name="search"
+                    type="submit" name="search" value="Search" style="" />
+                <input name="build_doc" type="submit"
+                    value="Rebuild Document" style="" />
+
+            </form>
+            <br>
+            <hr />
+            <br>
+            <%
+            	List<Document> found = data.results;
+            	if (found != null) {
+            %>
+            <form name="delete" action="" method="get">
+                <!-- repeated so that we can execute a search after deletion -->
+                <input type="hidden" name="query" value="<%=query%>" />
+
+                <div class="table-responsive">
+                    <table class="table table-striped dataTable">
                         <tr>
                             <!--
           <th>
@@ -130,14 +128,15 @@
                         		}
                         %>
                     </table>
-                </form>
-                <%
-                	}
-                %>
-            </div>
-            <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
+                </div>
+            </form>
+            <%
+            	}
+            %>
         </div>
+        <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
     </div>
+
 
 
     <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />

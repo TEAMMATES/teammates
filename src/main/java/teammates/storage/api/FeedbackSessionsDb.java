@@ -1,7 +1,12 @@
 package teammates.storage.api;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.logging.Logger;
 
 import javax.jdo.JDOHelper;
@@ -10,6 +15,7 @@ import javax.jdo.Query;
 import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionType;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
@@ -21,7 +27,58 @@ public class FeedbackSessionsDb extends EntitiesDb {
     
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Feedback Session : ";
     private static final Logger log = Utils.getLogger();
+    
+    
+    
+    /**
+     * Not scalable. Don't use unless for admin features.
+     * @return {@code InstructorAttributes} objects for all instructor 
+     * roles in the system.
+     */
+    @Deprecated
+    public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions() {
 
+        List<FeedbackSessionAttributes> list = new LinkedList<FeedbackSessionAttributes>();
+        List<FeedbackSession> entities = getFeedbackSessionEntities();
+        Iterator<FeedbackSession> it = entities.iterator();
+
+        Date now = Calendar.getInstance(TimeZone.getTimeZone("UTC")).getTime();
+
+        while (it.hasNext()) {
+
+            FeedbackSessionAttributes fs = new FeedbackSessionAttributes(
+                    it.next());
+            Date startDate = fs.getSessionStartTime();
+            Date endDate = fs.getSessionEndTime();
+
+            if (startDate != null && endDate != null) {
+                if (now.getTime() > startDate.getTime()
+                        && now.getTime() < endDate.getTime()) {
+                    list.add(fs);
+                    System.out
+                            .println("****************************************\n");
+                    System.out.println(fs.getSessionName() + "\n");
+                    System.out.println(fs.getSessionStartTime() + "\n");
+                    System.out.println(fs.getSessionEndTime() + "\n");
+
+                }
+            }
+        }
+        
+        return list;
+    }
+
+    private List<FeedbackSession> getFeedbackSessionEntities() {
+
+        String query = "select from " + FeedbackSession.class.getName();
+
+        @SuppressWarnings("unchecked")
+        List<FeedbackSession> allFeedbackSessionsList = (List<FeedbackSession>) getPM()
+                .newQuery(query).execute();
+
+        return allFeedbackSessionsList;
+    }
+    
     /**
      * Preconditions: <br>
      * * All parameters are non-null. 

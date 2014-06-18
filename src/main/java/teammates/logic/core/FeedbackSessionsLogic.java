@@ -72,6 +72,17 @@ public class FeedbackSessionsLogic {
         fsDb.createEntity(fsa);
     }
 
+    
+    
+    /**
+     * @deprecated Not scalable. Use only for admin features.
+     */
+    @Deprecated 
+    public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions() {
+        
+        return fsDb.getAllOpenFeedbackSessions();
+    }
+    
     /**
      *  This method returns a single feedback session. Returns null if not found.
      */
