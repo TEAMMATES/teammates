@@ -501,6 +501,7 @@ public class Const {
         public static final String STUDENT_HOME_PAGE = "/page/studentHomePage";
         public static final String STUDENT_COURSE_JOIN = "/page/studentCourseJoin";
         public static final String STUDENT_COURSE_JOIN_AUTHENTICATED = "/page/studentCourseJoinAuthenticated";
+        public static final String STUDENT_COMMENTS_PAGE = "/page/studentCommentsPage";
         public static final String STUDENT_COURSE_DETAILS_PAGE = "/page/studentCourseDetailsPage";
         public static final String STUDENT_EVAL_SUBMISSION_EDIT_PAGE = "/page/studentEvalSubmissionEditPage";
         public static final String STUDENT_EVAL_SUBMISSION_EDIT_SAVE = "/page/studentEvalSubmissionEditSave";
@@ -581,6 +582,7 @@ public class Const {
         public static final String STUDENT_HOME = "/jsp/studentHome.jsp";
         public static final String STUDENT_COURSE_JOIN_CONFIRMATION = "/jsp/studentCourseJoinConfirmation.jsp";
         public static final String STUDENT_COURSE_DETAILS = "/jsp/studentCourseDetails.jsp"; 
+        public static final String STUDENT_COMMENTS = "/jsp/studentComments.jsp"; 
         public static final String STUDENT_EVAL_SUBMISSION_EDIT = "/jsp/studentEvalEdit.jsp"; 
         public static final String STUDENT_EVAL_RESULTS = "/jsp/studentEvalResults.jsp"; 
         public static final String STUDENT_FEEDBACK_SUBMISSION_EDIT = "/jsp/studentFeedbackSubmissionEdit.jsp"; 
