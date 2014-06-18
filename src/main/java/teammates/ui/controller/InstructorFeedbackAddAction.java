@@ -3,6 +3,7 @@ package teammates.ui.controller;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import teammates.common.datatransfer.EvaluationAttributes;
@@ -70,7 +71,8 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
         } 
         
         // if isError == true,
-        data.courses = loadCoursesList(account.googleId);
+        data.instructors = new HashMap<String, InstructorAttributes>();
+        data.courses = loadCoursesList(account.googleId, data.instructors);
         data.existingEvalSessions = loadEvaluationsList(account.googleId);
         data.existingFeedbackSessions = loadFeedbackSessionsList(account.googleId);
         
