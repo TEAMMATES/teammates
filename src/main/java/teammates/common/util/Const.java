@@ -265,7 +265,7 @@ public class Const {
         public static final String INSTRUCTOR_PERMISSION_SUBMIT_SESSION_FOR_SESSION_PART = "cansubmitsessionfor%s";
         public static final String INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_FOR_SESSION_PART = "canmodifysessioncommentfor%s";
         
-        public static final String STUDENT_RECORDS_SHOW_COMMENT_BOX = "addComment";
+        public static final String SHOW_COMMENT_BOX = "addComment";
         
         public static final String COURSE_SORTING_CRITERIA = "sortby";
         

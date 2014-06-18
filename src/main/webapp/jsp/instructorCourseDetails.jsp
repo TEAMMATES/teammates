@@ -36,6 +36,9 @@
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]--> 
+<script type="text/javascript">
+    var isShowCommentBox = false;
+</script>
 </head>
 
 <body>
@@ -289,6 +292,19 @@
                                     href="<%=data.getStudentRecordsLinkWithAddComment(data.courseDetails.course.id, student)%>"
                                     data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_STUDENT_RECORDS%>"> 
                                     Add Comment</a>
+                            <div class="dropdown" style="display:inline;">
+                              <a class="btn btn-default btn-xs t_student_records-c<%=data.courseDetails.course.id %>.<%=idx%> dropdown-toggle" 
+                                href="javascript:;"
+                                data-toggle="dropdown"> Add Comment</a>
+                              <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" style="text-align:left;">
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="<%=data.getCourseStudentDetailsLink(student)
+                                    +"&"+Const.ParamsNames.SHOW_COMMENT_BOX+"=student"%>">
+                                    Comment on <%=sanitizeForHtml(student.name)%></a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="<%=data.getCourseStudentDetailsLink(student)
+                                    +"&"+Const.ParamsNames.SHOW_COMMENT_BOX+"=team"%>">
+                                    Comment on <%=sanitizeForHtml(student.team)%></a></li>
+                              </ul>
+                            </div>
                         </td>
                      </tr>
                  <%

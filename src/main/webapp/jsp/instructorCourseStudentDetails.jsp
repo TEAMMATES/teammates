@@ -40,6 +40,10 @@
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+<script type="text/javascript">
+    var isShowCommentBox = <%=data.commentRecipient != null && (data.commentRecipient.equals("student") || data.commentRecipient.equals("team"))%>;
+    var commentRecipient = "<%=data.commentRecipient != null? data.commentRecipient: ""%>";
+</script>
 </head>
 
 
@@ -123,7 +127,6 @@
                 </div>
             </div>
         </div>
-        <br>
         <div id="commentArea" class="well well-plain"
             style="display: none;">
             <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_ADD%>" name="form_commentadd">

@@ -39,7 +39,9 @@ $(document).ready(function(){
 		$('#commentArea').hide();
 	});
 	
-	$('#comment_recipient_select').change(function(){
+	$('#comment_recipient_select').change(commentRecipientSelect_changeHandler);
+	
+	function commentRecipientSelect_changeHandler(){
 		//TODO: replace PERSON/TEAM/SECTION etc with constants in common.js
 		var selectedValue = $('#comment_recipient_select option:selected').val();
 		if(selectedValue == 'PERSON'){
@@ -65,7 +67,7 @@ $(document).ready(function(){
 			$('#recipient-person').hide();
 			$('#recipient-team').hide();
 		}
-	});
+	}
 	
 	$("input[type=checkbox]").on( "click", visibilityOptionsHandler);
 	
@@ -87,5 +89,13 @@ $(document).ready(function(){
 			visibilityOptions.push($(this).val());
 	    });
 	    $("input[name='showrecipientto']").val(visibilityOptions.toString());
+	}
+	
+	if(isShowCommentBox){
+		$('#button_add_comment').click();
+		if(commentRecipient == "team"){
+			$('#comment_recipient_select').val('TEAM');
+			commentRecipientSelect_changeHandler();
+		}
 	}
 });
