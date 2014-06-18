@@ -25,14 +25,11 @@ function filterResults(searchText){
 
     for(var i = 0 ; i < element.length ; i++){
         var elm = element[i];
-        var elmClass = $(elm).attr('class');
-        if(typeof elmClass !== 'undefined' && elmClass.indexOf('panel') != -1){
-            var heading = $(elm).children('.panel-heading');
-            if($(heading[0]).text().toLowerCase().indexOf(searchText.toLowerCase()) != -1){
-               $(elm).show();
-            } else {
-                $(elm).hide();
-            }
+        var heading = $(elm).children('.panel-heading');
+        if($(heading[0]).text().toLowerCase().indexOf(searchText.toLowerCase()) != -1){
+           $(elm).show();
+        } else {
+           $(elm).hide();
         } 
     }
 }
