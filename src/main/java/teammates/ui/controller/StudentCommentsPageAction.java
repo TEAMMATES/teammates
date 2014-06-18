@@ -2,6 +2,7 @@ package teammates.ui.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -133,19 +134,20 @@ public class StudentCommentsPageAction extends Action {
         List<String> teammatesEmails = getTeammatesEmails(teammates);
         
         List<CommentAttributes> comments = new ArrayList<CommentAttributes>();
+        HashSet<String> commentsVisitedSet = new HashSet<String>();
         
         List<CommentAttributes> commentsForStudent = logic.getCommentsForReceiver(courseId, CommentRecipientType.PERSON, student.email);
         removeNonVisibleCommentsForStudent(commentsForStudent);
-        appendCommentsFrom(commentsForStudent, comments);
+        appendCommentsFrom(commentsForStudent, comments, commentsVisitedSet);
         
         List<CommentAttributes> commentsForTeam = logic.getCommentsForCommentViewer(courseId, CommentRecipientType.TEAM);
         removeNonVisibleCommentsForTeam(commentsForTeam, student, teammatesEmails);
-        appendCommentsFrom(commentsForTeam, comments);
+        appendCommentsFrom(commentsForTeam, comments, commentsVisitedSet);
         
         //TODO: handle comments for section
         List<CommentAttributes> commentsForCourse = logic.getCommentsForCommentViewer(courseId, CommentRecipientType.COURSE);
         removeNonVisibleCommentsForCourse(commentsForCourse, student);
-        appendCommentsFrom(commentsForTeam, comments);
+        appendCommentsFrom(commentsForCourse, comments, commentsVisitedSet);
         
         //group data by recipients
         Map<String, List<CommentAttributes>> recipientToCommentsMap = new TreeMap<String, List<CommentAttributes>>();
@@ -219,9 +221,12 @@ public class StudentCommentsPageAction extends Action {
         }
     }
     
-    private void appendCommentsFrom(List<CommentAttributes> thisCommentList, List<CommentAttributes> thatCommentList){
+    private void appendCommentsFrom(List<CommentAttributes> thisCommentList, List<CommentAttributes> thatCommentList, HashSet<String> commentsVisitedSet){
         for(CommentAttributes c : thisCommentList){
-            thatCommentList.add(c);
+            if(!commentsVisitedSet.contains(c.getCommentId().toString())){
+                thatCommentList.add(c);
+                commentsVisitedSet.add(c.getCommentId().toString());
+            }
         }
     }
 }

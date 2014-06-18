@@ -6,6 +6,7 @@ import java.util.Map;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CourseRoster;
+import teammates.common.util.Const;
 
 public class StudentCommentsPageData extends PageData {
 
@@ -22,4 +23,9 @@ public class StudentCommentsPageData extends PageData {
         // TODO Auto-generated constructor stub
     }
 
+    public String getStudentCommentsLink(){
+        String link = Const.ActionURIs.STUDENT_COMMENTS_PAGE;
+        link = addUserIdToUrl(link);
+        return link;
+    }
 }
