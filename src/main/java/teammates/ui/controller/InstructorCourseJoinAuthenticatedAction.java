@@ -33,10 +33,7 @@ public class InstructorCourseJoinAuthenticatedAction extends Action {
             
             if(institute !=null && !institute.isEmpty()){               
                 Assumption.assertNotNull(isSampleDataImported);
-                boolean isSampleImportedBool = true;
-                if(isSampleDataImported.toLowerCase().contains("false")){
-                    isSampleImportedBool = false;
-                }                
+                boolean isSampleImportedBool = Boolean.valueOf(isSampleDataImported);              
                 logic.createAccountForNewInstructor(key, account.googleId, institute, isSampleImportedBool);              
             }else{
                 logic.joinCourseForInstructor(key, account.googleId);

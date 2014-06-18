@@ -475,6 +475,50 @@ public class Logic {
         return instructorsLogic.sendRegistrationInviteToInstructor(courseId, instructorEmail);
     }
     
+    
+    public void sendJoinLinkToNewInstructor(InstructorAttributes instructor, AdminHomePageData data, boolean isSampleDataImported)
+            throws EntityDoesNotExistException{
+         
+         Assumption.assertNotNull(ERROR_NULL_PARAMETER, data);
+         Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructor);
+         Assumption.assertNotNull(ERROR_NULL_PARAMETER, isSampleDataImported);
+         
+         instructorsLogic.sendJoinLinkToNewInstructor(instructor, data, isSampleDataImported);
+         
+     }
+     
+     public void verifyInputForAdminHomePage(AdminHomePageData data) throws InvalidParametersException{
+         
+         List<String> invalidityInfo = getInvalidityInfoForNewInstructorData(data);
+         
+         if (!invalidityInfo.isEmpty()) {
+             throw new InvalidParametersException(invalidityInfo);
+         }
+     }
+     
+     private List<String> getInvalidityInfoForNewInstructorData(AdminHomePageData data) {
+         
+         FieldValidator validator = new FieldValidator();
+         List<String> errors = new ArrayList<String>();
+         String error;
+         
+         error= validator.getInvalidityInfo(FieldValidator.FieldType.PERSON_NAME, data.instructorShortName);
+         if(!error.isEmpty()) { errors.add(error); }
+         
+         error= validator.getInvalidityInfo(FieldValidator.FieldType.PERSON_NAME, data.instructorName);
+         if(!error.isEmpty()) { errors.add(error); }
+         
+         error= validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, data.instructorEmail);
+         if(!error.isEmpty()) { errors.add(error); }
+         
+         error= validator.getInvalidityInfo(FieldValidator.FieldType.INSTITUTE_NAME, data.instructorInstitution);
+         if(!error.isEmpty()) { errors.add(error); }
+         
+         //No validation for isInstructor and createdAt fields.
+         return errors;
+     }
+    
+    
     /**
      * Removes instructor access but does not delete the account. 
      * The account will continue to have student access. <br>
@@ -855,47 +899,7 @@ public class Logic {
     }
     
     
-    public void sendJoinLinkToNewInstructor(InstructorAttributes instructor, AdminHomePageData data, boolean isSampleDataImported)
-           throws EntityDoesNotExistException{
-        
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, data);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructor);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, isSampleDataImported);
-        
-        instructorsLogic.sendJoinLinkToNewInstructor(instructor, data, isSampleDataImported);
-        
-    }
     
-    public void verifyInputForAdminHomePage(AdminHomePageData data) throws InvalidParametersException{
-        
-        List<String> invalidityInfo = getInvalidityInfoForNewInstructorData(data);
-        
-        if (!invalidityInfo.isEmpty()) {
-            throw new InvalidParametersException(invalidityInfo);
-        }
-    }
-    
-    private List<String> getInvalidityInfoForNewInstructorData(AdminHomePageData data) {
-        
-        FieldValidator validator = new FieldValidator();
-        List<String> errors = new ArrayList<String>();
-        String error;
-        
-        error= validator.getInvalidityInfo(FieldValidator.FieldType.PERSON_NAME, data.instructorShortName);
-        if(!error.isEmpty()) { errors.add(error); }
-        
-        error= validator.getInvalidityInfo(FieldValidator.FieldType.PERSON_NAME, data.instructorName);
-        if(!error.isEmpty()) { errors.add(error); }
-        
-        error= validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, data.instructorEmail);
-        if(!error.isEmpty()) { errors.add(error); }
-        
-        error= validator.getInvalidityInfo(FieldValidator.FieldType.INSTITUTE_NAME, data.instructorInstitution);
-        if(!error.isEmpty()) { errors.add(error); }
-        
-        //No validation for isInstructor and createdAt fields.
-        return errors;
-    }
     
 
     /**

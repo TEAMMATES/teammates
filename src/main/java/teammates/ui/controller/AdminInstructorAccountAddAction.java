@@ -45,16 +45,7 @@ public class AdminInstructorAccountAddAction extends Action {
         data.instructorShortName = data.instructorShortName.trim();
         data.instructorName = data.instructorName.trim();
         data.instructorEmail = data.instructorEmail.trim();
-        data.instructorInstitution = data.instructorInstitution.trim();
-        
-//        if(data.instructorShortName.length() == 0){
-//            isError = true;
-//            String errorMessage = "Short Name cannot be empty";
-//            statusToUser.add(errorMessage);
-//            statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + errorMessage;
-//            return createShowPageResult(Const.ViewURIs.ADMIN_HOME, data);
-//        }
-        
+        data.instructorInstitution = data.instructorInstitution.trim();        
         
         try {
             

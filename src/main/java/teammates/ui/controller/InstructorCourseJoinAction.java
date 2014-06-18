@@ -33,8 +33,8 @@ public class InstructorCourseJoinAction extends Action {
         
         /* Process confirmation for instructor if needed and setup status to be shown to admin */
         statusToAdmin = "Action Instructor Clicked Join Link"
-                + "<br/>Google ID: " + account.googleId
-                + "<br/>Key: " + key;
+                        + "<br/>Google ID: " + account.googleId
+                        + "<br/>Key: " + key;
         
         InstructorAttributes instructor = logic.getInstructorForRegistrationKey(key);
 
@@ -55,7 +55,7 @@ public class InstructorCourseJoinAction extends Action {
         pageData.regkey = key;
         pageData.isSampleDataImported = isSampleDataImported;
         
-        if(institute!=null){
+        if(institute != null){
             pageData.institute = institute;
         }else{
             pageData.institute = "";
