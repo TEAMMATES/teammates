@@ -586,7 +586,7 @@ public class Logic {
      * * All parameters are non-null.
      */
     public List<CourseAttributes> getCoursesForStudentAccount(String googleId)
-            throws EntityDoesNotExistException, InvalidParametersException {
+            throws EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
     
@@ -824,6 +824,20 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, section);
 
         return studentsLogic.getStudentsForSection(section, courseId);
+    }
+    
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     * @return Empty list if none found.
+     */
+    public List<StudentAttributes> getStudentsForTeam(String team, String courseId)
+            throws EntityDoesNotExistException {
+
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, team);
+
+        return studentsLogic.getStudentsForTeam(team, courseId);
     }
 
     /** 
