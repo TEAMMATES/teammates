@@ -21,7 +21,9 @@ public class InstructorEvalResultsPageAction extends Action {
         
         new GateKeeper().verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, account.googleId),
-                logic.getEvaluation(courseId, evalName));
+                logic.getEvaluation(courseId, evalName), Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS);
+        //TODO: add more data here
+        //TODO: reconsider about the implementation here? show empty page?
         
         InstructorEvalResultsPageData data = new InstructorEvalResultsPageData(account);
         

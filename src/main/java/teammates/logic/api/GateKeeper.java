@@ -267,6 +267,23 @@ public class GateKeeper {
         }
     }
     
+    public void verifyAccessible(InstructorAttributes instructor, EvaluationAttributes evaluation, String sectionId, String sessionId, String privilegeName) {
+        verifyNotNull(instructor, "instructor");
+        verifyNotNull(instructor.courseId, "instructor's course ID");
+        verifyNotNull(evaluation, "evaluation");
+        verifyNotNull(evaluation.courseId, "course ID in the evaluation");
+        if (!instructor.courseId.equals(evaluation.courseId)) {
+            throw new UnauthorizedAccessException(
+                    "Evaluation [" + evaluation.name + 
+                    "] is not accessible to instructor ["+ instructor.email+ "]");
+        }
+        if (!instructor.isAllowedForPrivilege(sectionId, sessionId, privilegeName)) {
+            throw new UnauthorizedAccessException(
+                    "Evaluation [" + evaluation.name + 
+                    "] is not accessible to instructor ["+ instructor.email+ "]");
+        }
+    }
+    
     public void verifyAccessible(InstructorAttributes instructor, 
             FeedbackSessionAttributes feedbacksession, boolean creatorOnly){
         verifyNotNull(instructor, "instructor");
