@@ -21,14 +21,9 @@ public class InstructorCourseStudentDetailsPageAction extends InstructorCoursesP
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
-        // this is because of the implementation of enrollment where "None" will be considered as no section
-        if (student.section.equals(Const.DEFAULT_SECTION)) {
-            new GateKeeper().verifyAccessible(
-                    instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS);
-        } else {
-            new GateKeeper().verifyAccessible(
-                    instructor, logic.getCourse(courseId), student.section, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS);
-        }
+        // although "None" means "no section", yet in the intructorPrivilege sectionLevel, "None" will also never be a key
+        new GateKeeper().verifyAccessible(
+                instructor, logic.getCourse(courseId), student.section, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS);
         
         InstructorCourseStudentDetailsPageData data = new InstructorCourseStudentDetailsPageData(account);
         
