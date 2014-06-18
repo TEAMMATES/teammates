@@ -63,7 +63,7 @@ public class FeedbackConstantSumResponseDetails extends
             if(!distributeToRecipients){
                 csvBuilder.append(",");
             }
-            csvBuilder.append(Sanitizer.sanitizeForCsv(Integer.toString(answers.get(i))));
+            csvBuilder.append(answers.get(i));
         }
 
         return csvBuilder.toString();
