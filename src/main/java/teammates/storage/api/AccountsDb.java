@@ -252,11 +252,10 @@ public class AccountsDb extends EntitiesDb {
             profileToUpdate.setCountry(newSpa.country);
             profileToUpdate.setGender(newSpa.gender);
             profileToUpdate.setMoreInfo(new Text(newSpa.moreInfo));
-            profileToUpdate.setPictureKey(new BlobKey(newSpa.pictureKey));
+            if (newSpa.pictureKey != "") {
+                profileToUpdate.setPictureKey(new BlobKey(newSpa.pictureKey));
+            }
             closePM();
-            StudentProfileAttributes test = getStudentProfile(newSpa.googleId);
-            
-            log.info("Key after update: " + test.pictureKey);
             
         } catch (JDOObjectNotFoundException je) {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_STUDENT_PROFILE + newSpa.googleId
