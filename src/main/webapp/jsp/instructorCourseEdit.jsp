@@ -460,7 +460,8 @@
                              </div>
                         </div>
                         <div class="form-group">
-                            <div class="col-sm-offset-3 col-sm-9"><input id="btnAddInstructor" type="submit" class="btn btn-primary"
+                            <div class="align-center">
+                                <input id="btnAddInstructor" type="submit" class="btn btn-primary"
                                 value="Add Instructor" tabindex="10">
                             </div>
                         </div>

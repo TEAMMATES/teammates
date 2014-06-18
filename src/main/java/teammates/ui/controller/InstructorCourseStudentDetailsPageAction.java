@@ -1,5 +1,7 @@
 package teammates.ui.controller;
 
+import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -17,13 +19,20 @@ public class InstructorCourseStudentDetailsPageAction extends InstructorCoursesP
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
         Assumption.assertNotNull(studentEmail);
         
-        new GateKeeper().verifyAccessible(
-                logic.getInstructorForGoogleId(courseId, account.googleId),
-                logic.getCourse(courseId));
+        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
+        StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
+        // this is because of the implementation of enrollment where "None" will be considered as no section
+        if (student.section.equals(Const.DEFAULT_SECTION)) {
+            new GateKeeper().verifyAccessible(
+                    instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS);
+        } else {
+            new GateKeeper().verifyAccessible(
+                    instructor, logic.getCourse(courseId), student.section, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS);
+        }
         
         InstructorCourseStudentDetailsPageData data = new InstructorCourseStudentDetailsPageData(account);
         
-        data.student = logic.getStudentForEmail(courseId, studentEmail);
+        data.student = student;
         data.regKey = logic.getEncryptedKeyForStudent(courseId, studentEmail);
         data.hasSection = logic.hasIndicatedSections(courseId);
         
