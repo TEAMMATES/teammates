@@ -258,9 +258,19 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackAbstractQuestion
         List<Integer> optionPoints = new ArrayList<Integer>();
         Map<String, Integer[]> optionTotalCount = new LinkedHashMap<String, Integer[]>();
                 
-        //Prepare options
         if(distributeToRecipients){
-            return "";
+            for(FeedbackResponseAttributes response : responses){
+                FeedbackConstantSumResponseDetails frd = (FeedbackConstantSumResponseDetails)response.getResponseDetails(); 
+                String recipientEmail = response.recipientEmail;
+                String recipientName = bundle.getNameForEmail(recipientEmail);
+                Integer[] pointCount = optionTotalCount.get(recipientName);
+                if(pointCount == null){
+                    pointCount = new Integer[]{0,0};
+                }
+                pointCount[0] += frd.getAnswerList().get(0);
+                pointCount[1] += 1;
+                optionTotalCount.put(recipientName, pointCount);
+            }
         } else {
             options = constSumOptions;
             for(int i=0 ; i<options.size() ; i++){
