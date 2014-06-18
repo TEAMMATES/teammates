@@ -10,6 +10,7 @@ import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
+import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
@@ -205,6 +206,10 @@ public class AccountsDb extends EntitiesDb {
         try {
             StudentProfile sp = getPM().getObjectById(StudentProfile.class, childKey);
             
+            if (sp.getPictureKey() == null) {
+                sp.setPictureKey(new BlobKey(""));
+            }
+            
             if (JDOHelper.isDeleted(sp)) {
                 return null;
             } else {
@@ -247,12 +252,16 @@ public class AccountsDb extends EntitiesDb {
             profileToUpdate.setCountry(newSpa.country);
             profileToUpdate.setGender(newSpa.gender);
             profileToUpdate.setMoreInfo(new Text(newSpa.moreInfo));
+            profileToUpdate.setPictureKey(new BlobKey(newSpa.pictureKey));
             closePM();
+            StudentProfileAttributes test = getStudentProfile(newSpa.googleId);
+            
+            log.info("Key after update: " + test.pictureKey);
             
         } catch (JDOObjectNotFoundException je) {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_STUDENT_PROFILE + newSpa.googleId
                     + ThreadHelper.getCurrentThreadStack());
-        }        
+        }
     }
     
     private void closePM() {

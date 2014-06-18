@@ -1,5 +1,12 @@
 package teammates.ui.controller;
 
+import java.util.List;
+import java.util.Map;
+
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.blobstore.BlobstoreService;
+import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
+
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -50,6 +57,14 @@ public class StudentProfileEditSaveAction extends Action {
         editedProfile.country = getRequestParamValue(Const.ParamsNames.STUDENT_COUNTRY);
         editedProfile.gender = getRequestParamValue(Const.ParamsNames.STUDENT_GENDER);
         editedProfile.moreInfo = getRequestParamValue(Const.ParamsNames.STUDENT_PROFILE_MOREINFO);
+        
+        BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
+        Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
+        List<BlobKey> keys = blobs.get(Const.ParamsNames.STUDENT_PROFILE_PIC);
+        
+        if(keys != null && keys.size() > 0) {
+            editedProfile.pictureKey = keys.get(0).getKeyString();
+        }
         
         validatePostParameters(editedProfile);
         

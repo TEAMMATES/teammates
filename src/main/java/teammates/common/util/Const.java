@@ -237,6 +237,8 @@ public class Const {
     }
 
     public class ParamsNames{
+        public static final String BLOB_KEY = "blob-key";
+        
         public static final String COURSE_ID = "courseid";
         public static final String COURSE_NAME = "coursename";
         public static final String INSTRUCTOR_ID = "instructorid";
@@ -362,7 +364,8 @@ public class Const {
         public static final String STUDENT_PROFILE_INSTITUTION = "studentprofileinstitute";
         public static final String STUDENT_COUNTRY = "studentcountry";
         public static final String STUDENT_GENDER = "studentgender";
-        public static final String STUDENT_PROFILE_MOREINFO = "studentprofilemoreinfo";        
+        public static final String STUDENT_PROFILE_MOREINFO = "studentprofilemoreinfo"; 
+        public static final String STUDENT_PROFILE_PIC = "studentprofilephoto";
     
         public static final String STUDENT_NAME = "studentname";
         public static final String FROM_EMAIL = "fromemail";
@@ -506,6 +509,7 @@ public class Const {
         public static final String STUDENT_FEEDBACK_RESULTS_PAGE = "/page/studentFeedbackResultsPage";
         public static final String STUDENT_PROFILE_PAGE = "/page/studentProfilePage";
         public static final String STUDENT_PROFILE_EDIT_SAVE = "/page/studentProfileEditSave";
+        public static final String STUDENT_PROFILE_PICTURE = "/page/studentProfilePic";
         
         public static final String ADMIN_HOME_PAGE = "/admin/adminHomePage";
         public static final String ADMIN_INSTRUCTORACCOUNT_ADD = "/admin/adminInstructorAccountAdd";
@@ -831,6 +835,8 @@ public class Const {
     private void _______repeated_phrases___________________________________(){}
     
     public static final String EOL = System.getProperty("line.separator");
+    
+    public static final String GCS_BUCKET_NAME = "teammates";
     
     public static final String USER_NOBODY_TEXT = "-";
     public static final String USER_UNKNOWN_TEXT = "Unknown user";

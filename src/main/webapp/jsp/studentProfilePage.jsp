@@ -2,9 +2,20 @@
 
 <%@ page import="teammates.ui.controller.PageData" %>
 <%@ page import="teammates.common.util.Const" %>
+<%@ page import="com.google.appengine.api.blobstore.BlobstoreService" %>
+<%@ page import="com.google.appengine.api.blobstore.BlobstoreServiceFactory" %>
+<%@ page import="com.google.appengine.api.blobstore.UploadOptions" %>
 
 <%
     PageData data = (PageData) request.getAttribute("data");
+    BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
+    UploadOptions uploadOptions = UploadOptions.Builder.withDefaults().googleStorageBucketName(Const.GCS_BUCKET_NAME);
+    String postUrl = blobstoreService.createUploadUrl(Const.ActionURIs.STUDENT_PROFILE_EDIT_SAVE, uploadOptions);
+    
+    String pictureUrl = Const.ActionURIs.STUDENT_PROFILE_PICTURE + "?blob-key=" + data.account.studentProfile.pictureKey;
+    if (data.account.studentProfile.pictureKey == "") {
+    	pictureUrl = "/images/teammembers/damith.png";
+    }
 %>
 
 <!DOCTYPE html>
@@ -47,7 +58,17 @@
         <div id="editProfileDiv" class="well well-plain well-narrow well-sm-wide">
             <h3 id="studentName"><strong><%=data.account.name %></strong></h3><br>
             <form class="form center-block" role="form" method="post" enctype="multipart/form-data"
-                action="<%=Const.ActionURIs.STUDENT_PROFILE_EDIT_SAVE %>">
+                action="<%=postUrl %>">
+                <div class="form-group row" title="Upload a close-up of your face " data-toggle="tooltip" data-placement="top">
+                    <div class="col-xs-4">
+                        <img src="<%=pictureUrl %>" 
+                        height="130px" width="130px" />
+                    </div>
+                    <div class="col-xs-6">
+                        <label for="studentPhoto">Your Photo</label>
+                        <input id="studentPhoto" type="file" name="<%=Const.ParamsNames.STUDENT_PROFILE_PIC %>" />
+                    </div>
+                </div>
                 <div class="form-group" title="<%=Const.Tooltips.STUDENT_PROFILE_SHORTNAME %>" data-toggle="tooltip" data-placement="top">
                     <label for="studentNickname">Shortname</label>
                     <input id="studentShortname" name="<%=Const.ParamsNames.STUDENT_SHORT_NAME %>" class="form-control" type="text" data-actual-value="<%=data.account.studentProfile.shortName == null ? "" : data.account.studentProfile.shortName %>" value="<%=data.account.studentProfile.shortName == null ? "" : data.account.studentProfile.shortName %>" placeholder="How the instructor should call you" />
@@ -93,10 +114,6 @@
                               placeholder="You may wish to specify miscellaneous information as well as links to external profiles."
                               ><%=data.account.studentProfile.moreInfo == null ? "" : data.account.studentProfile.moreInfo %></textarea>
                 </div><br>
-                <div class="form-group" title="Upload a close-up of your face " data-toggle="tooltip" data-placement="top">
-                    <label for="studentPhoto">Your Photo</label>
-                    <input id="studentPhoto" type="file" name="studentprofilephoto" />
-                </div>
                 <button type="submit" id="profileEditSubmit" class="btn btn-primary center-block">Save Profile</button>
                 <br>
                 <p class="text-muted text-color-disclaimer"> <i>* This profile will be visible to all your Instructors and Classmates by default</i></p>
