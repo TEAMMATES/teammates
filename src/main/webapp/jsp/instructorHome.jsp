@@ -198,7 +198,7 @@
                                         }%>">
                                         <a oncontextmenu="return false;" href="<%=data.getEvaluationStatsLink(edd.courseId, edd.name)%>">Show</a>
                                     </td>
-                                    <td class="no-print"><%=data.getInstructorEvaluationActions(edd, true)%>
+                                    <td class="no-print"><%=data.getInstructorEvaluationActions(edd, true, instructor)%>
                                     </td>
                                 </tr>
                         <%
@@ -224,8 +224,7 @@
                                         }%>">
                                         <a oncontextmenu="return false;" href="<%=data.getFeedbackSessionStatsLink(fdb.courseId, fdb.feedbackSessionName)%>">Show</a>
                                     </td>
-                                    <td class="no-print"><%=data.getInstructorFeedbackSessionActions(
-                                            fdb, false)%></td>
+                                    <td class="no-print"><%=data.getInstructorFeedbackSessionActions(fdb, false, instructor)%></td>
                                 </tr>
                         <%
                             }
