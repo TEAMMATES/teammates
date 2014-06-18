@@ -266,7 +266,7 @@
                                                     <%if (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS)) {%>
                                                         checked="checked"
                                                     <%}%>
-                                                    /> View Comments on Students<br>
+                                                    /> View Others' Comments on Students<br>
                                                     <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS%>"
                                                     id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS%>forinstructor<%=index%>" value="true"
                                                     <%if (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS)) {%>
@@ -278,7 +278,7 @@
                                                     <%if (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS)) {%>
                                                         checked="checked"
                                                     <%}%>
-                                                    /> Edit/Delete Others' Comments<br>
+                                                    /> Edit/Delete Others' Comments on Students<br>
                                                 </div>
                                                 <div class="col-sm-5 col-sm-offset-1">
                                                     <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS%>"
@@ -434,13 +434,13 @@
                                                     value="true" checked="checked" /> View Students' Details<br>
                                                     <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS%>"
                                                     id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS%>forinstructor<%=data.instructorList.size()+1%>"
-                                                    value="true" checked="checked" /> View Comments on Students<br>
+                                                    value="true" checked="checked" /> View Others' Comments on Students<br>
                                                     <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS%>"
                                                     id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS%>forinstructor<%=data.instructorList.size()+1%>"
                                                     value="true" checked="checked" /> Give Comments for Students<br>
                                                     <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS%>"
                                                     id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS%>forinstructor<%=data.instructorList.size()+1%>"
-                                                    value="true" checked="checked" /> Edit/Delete Others' Comments<br>
+                                                    value="true" checked="checked" /> Edit/Delete Others' Comments on Students<br>
                                                 </div>
                                                 <div class="col-sm-5 col-sm-offset-1">
                                                     <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS%>"
