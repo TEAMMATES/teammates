@@ -1,7 +1,12 @@
 package teammates.ui.controller;
 
+import java.util.Iterator;
+import java.util.Map.Entry;
 import java.util.logging.Logger;
 
+import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.StudentResultBundle;
+import teammates.common.datatransfer.TeamResultBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -19,15 +24,27 @@ public class InstructorEvalResultsPageAction extends Action {
         String evalName = getRequestParamValue(Const.ParamsNames.EVALUATION_NAME);
         Assumption.assertNotNull(evalName);
         
+        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         new GateKeeper().verifyAccessible(
-                logic.getInstructorForGoogleId(courseId, account.googleId),
-                logic.getEvaluation(courseId, evalName), Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS);
-        //TODO: add more data here
-        //TODO: reconsider about the implementation here? show empty page?
+                instructor, logic.getEvaluation(courseId, evalName));
         
         InstructorEvalResultsPageData data = new InstructorEvalResultsPageData(account);
         
         data.evaluationResults = logic.getEvaluationResult(courseId, evalName);
+        Iterator<Entry<String, TeamResultBundle>> iter = data.evaluationResults.teamResults.entrySet().iterator();
+        while (iter.hasNext()) {
+            boolean shouldDisplayTeam = true;
+            for (StudentResultBundle studentBundle : iter.next().getValue().studentResults) {
+                if (!instructor.isAllowedForPrivilege(studentBundle.student.section, evalName,
+                        Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)) {
+                    shouldDisplayTeam = false;
+                    break;
+                }
+            }
+            if (!shouldDisplayTeam) {
+                iter.remove();
+            }
+        }
         data.evaluationResults.sortForReportToInstructor();
                 
         statusToUser.add(Const.StatusMessages.LOADING);
