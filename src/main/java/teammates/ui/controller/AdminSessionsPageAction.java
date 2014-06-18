@@ -49,6 +49,11 @@ public class AdminSessionsPageAction extends Action {
           
                 AccountAttributes account = logic.getAccount(instructor.googleId);
                 
+                if(account == null){                   
+                    putIntoUnknownList(map,fs);
+                    data.hasUnknown = true;
+                    continue;
+                }
                 
                 if (map.get(account.institute) == null) {
                     List<FeedbackSessionAttributes> newList = new ArrayList<FeedbackSessionAttributes>();
@@ -58,16 +63,8 @@ public class AdminSessionsPageAction extends Action {
                     map.get(account.institute).add(fs);
                 }
             
-            }else{
-                
-                if (map.get("Unknown") == null) {
-                    List<FeedbackSessionAttributes> newList = new ArrayList<FeedbackSessionAttributes>();
-                    newList.add(fs);
-                    map.put("Unknown", newList);
-                }else{
-                    map.get("Unknown").add(fs);
-                }
-                
+            }else{             
+                putIntoUnknownList(map,fs);
                 data.hasUnknown = true;
             }
         }
@@ -115,6 +112,18 @@ public class AdminSessionsPageAction extends Action {
         statusToAdmin = "Admin Sessions Page Load";
         
         return createShowPageResult(Const.ViewURIs.ADMIN_SESSIONS, data);
+    }
+    
+    
+    private void putIntoUnknownList(HashMap<String, List<FeedbackSessionAttributes>> map, FeedbackSessionAttributes fs){
+        
+        if (map.get("Unknown") == null) {
+            List<FeedbackSessionAttributes> newList = new ArrayList<FeedbackSessionAttributes>();
+            newList.add(fs);
+            map.put("Unknown", newList);
+        }else{
+            map.get("Unknown").add(fs);
+        }
     }
 
 }
