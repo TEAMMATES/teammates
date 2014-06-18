@@ -149,7 +149,7 @@
                 <div class="col-sm-7 pull-right" style="padding-top:8px;">
                     <% if(shouldCollapsed){ %>
                     <div class="pull-right" data-toggle="tooltip" title="Cannot expand or collapse all panels as it will freeze the session due to large amount of responses" style="display:inline-block;">
-                    <a class="btn btn-default btn-xs pull-right" id="collapse-panels-button" onclick="toggleCollapse()" disabled="disabled">
+                    <a class="btn btn-default btn-xs pull-right" id="collapse-panels-button" onclick="toggleCollapse()">
                         Expand All
                     </a>
                     </div>

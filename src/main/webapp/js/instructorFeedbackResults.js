@@ -94,6 +94,8 @@ function toggleCollapse(){
 function toggleSingleCollapse(e){
     if(e.target == e.currentTarget){
         $($(e.target).attr('data-target')).collapse('toggle');
+        isCollapsingAll = false;
+        isExpandingAll = false;
     }
 }
 
@@ -121,10 +123,11 @@ window.onload = function(){
             $(bodyCollapse[0]).on('hidden.bs.collapse', function(){
                 if(isCollapsingAll){
                     var id = $(this).attr('id');
-                    var nextId = '';
+                    var nextId = this;
                     do{
-                        nextId = getNextId(this);
+                        nextId = getNextId(nextId);
                     } while($(nextId).length && $('#' + id + ' ' + nextId).length);
+                    
                     if($(nextId).length){
                         $(nextId).collapse('hide');
                     } else {
@@ -135,10 +138,11 @@ window.onload = function(){
             $(bodyCollapse[0]).on('shown.bs.collapse', function(){
                 if(isExpandingAll){
                     var id = $(this).attr('id');
-                    var nextId = '';
+                    var nextId = this;
                     do{
-                        nextId = getNextId(this);
+                        nextId = getNextId(nextId);
                     } while($(nextId).length && $('#' + id + ' ' + nextId).length);
+                    
                     if($(nextId).length){
                         $(nextId).collapse('show');
                     } else {
@@ -147,6 +151,12 @@ window.onload = function(){
                 }
             });
         }
+    }
+
+    if($("#collapse-panels-button").html().indexOf("Expand All") != -1){
+        panelsCollapsed = true;
+    } else {
+        panelsCollapsed = false;
     }
 };
 
