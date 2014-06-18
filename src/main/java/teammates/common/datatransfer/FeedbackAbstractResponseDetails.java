@@ -63,7 +63,9 @@ public abstract class FeedbackAbstractResponseDetails {
                 }
             }
             
-            responseDetails = new FeedbackConstantSumResponseDetails(constSumAnswer);
+            FeedbackConstantSumQuestionDetails constSumQd = (FeedbackConstantSumQuestionDetails) questionDetails;
+            
+            responseDetails = new FeedbackConstantSumResponseDetails(constSumAnswer, constSumQd.constSumOptions, constSumQd.distributeToRecipients);
             
             break;
         default:

@@ -5,6 +5,8 @@ import java.util.List;
 
 import teammates.common.util.Const;
 import teammates.common.util.FeedbackQuestionFormTemplates;
+import teammates.common.util.Sanitizer;
+import teammates.common.util.StringHelper;
 import teammates.logic.core.FeedbackQuestionsLogic;
 
 public class FeedbackConstantSumQuestionDetails extends FeedbackAbstractQuestionDetails {
@@ -265,7 +267,12 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackAbstractQuestion
 
     @Override
     public String getCsvHeader() {
-        return "Feedback";
+        if(distributeToRecipients){
+            return "Feedback";
+        } else {
+            List<String> sanitizedOptions = Sanitizer.sanitizeListForCsv(constSumOptions);
+            return "Feedbacks:," + StringHelper.toString(sanitizedOptions, ",");
+        }
     }
 
     final int MIN_NUM_OF_CONST_SUM_OPTIONS = 2;
@@ -328,7 +335,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackAbstractQuestion
                 for(Integer i : frd.getAnswerList()){
                     sum += i;
                 }
-                if(sum != totalPoints){
+                if(sum != totalPoints || frd.getAnswerList().size() != constSumOptions.size()){
                     errors.add(ERROR_CONST_SUM_MISMATCH);
                     return errors;
                 }
