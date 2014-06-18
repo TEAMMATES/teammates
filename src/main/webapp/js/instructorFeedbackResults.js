@@ -16,17 +16,8 @@ function showHideStats(){
 
 //Search functionality
 
-function filterResults(searchText, element){
-    var isFirstBatch = false;
-    element = element || $("#frameBodyWrapper").find("div.panel").filter(function(index){
-        isFirstBatch = true;
-        var containerParent = $(this).parent('.container');
-        if(containerParent.length){
-            return true;
-        } else {
-            return false;
-        }
-    });
+function filterResults(searchText){
+    var element = $("#frameBodyWrapper").children("div.panel");
 
     if($(element).parents(".resultStatistics").length){
         return;
@@ -34,36 +25,15 @@ function filterResults(searchText, element){
 
     for(var i = 0 ; i < element.length ; i++){
         var elm = element[i];
-        $(elm).removeClass('whole');
-        if($(elm).text().toLowerCase().indexOf(searchText.toLowerCase()) == -1){
-            if(!$(elm).parents('.whole').length){
-                $(elm).hide();
-            }
-        } else {
-            $(elm).show();
-        }
         var elmClass = $(elm).attr('class');
-        var elmTagName = $(elm).prop('tagName').toLowerCase();
-        if(elmTagName.indexOf('tr') != -1){
-            if($(elm).text().toLowerCase().indexOf(searchText.toLowerCase()) != -1){
-                $(elm).addClass('whole');
-            }
-        } else if(typeof elmClass !== 'undefined' && elmClass.indexOf('panel') != -1){
+        if(typeof elmClass !== 'undefined' && elmClass.indexOf('panel') != -1){
             var heading = $(elm).children('.panel-heading');
             if($(heading[0]).text().toLowerCase().indexOf(searchText.toLowerCase()) != -1){
-                $(elm).addClass('whole');
+               $(elm).show();
+            } else {
+                $(elm).hide();
             }
-        } else if(typeof elmClass !== 'undefined' && elmClass.indexOf('row') != -1){
-            var info = $(elm).children('.col-md-2');
-            if($(info[0]).text().toLowerCase().indexOf(searchText.toLowerCase()) != -1){
-                $(elm).addClass('whole');
-            }
-        }
-        
-        if(isFirstBatch){
-            var childElements = $(elm).find(".panel, div.row, tbody>tr");
-            filterResults(searchText, childElements);
-        }
+        } 
     }
 }
 
