@@ -7,6 +7,7 @@ import java.util.List;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
@@ -21,10 +22,10 @@ public class InstructorFeedbacksPageAction extends Action {
         
         new GateKeeper().verifyInstructorPrivileges(account);
                 
-        if(courseIdForNewSession!=null){
+        if (courseIdForNewSession!=null) {
             new GateKeeper().verifyAccessible(
                     logic.getInstructorForGoogleId(courseIdForNewSession, account.googleId), 
-                    logic.getCourse(courseIdForNewSession));
+                    logic.getCourse(courseIdForNewSession), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         }
 
         InstructorFeedbacksPageData data = new InstructorFeedbacksPageData(account);
@@ -76,9 +77,16 @@ public class InstructorFeedbacksPageAction extends Action {
         HashMap<String, CourseDetailsBundle> summary = 
                 logic.getCourseSummariesForInstructor(userId);
         List<CourseDetailsBundle>courses = new ArrayList<CourseDetailsBundle>(summary.values());
-        CourseDetailsBundle.sortDetailedCoursesByCourseId(courses);
+        List<CourseDetailsBundle> allowedCourses = new ArrayList<CourseDetailsBundle>();
+        for (CourseDetailsBundle courseDetails : courses) {
+            InstructorAttributes instructor = logic.getInstructorForGoogleId(courseDetails.course.id, account.googleId);
+            if (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION)) {
+                allowedCourses.add(courseDetails);
+            }
+        }
+        CourseDetailsBundle.sortDetailedCoursesByCourseId(allowedCourses);
         
-        return courses;
+        return allowedCourses;
     }
 
 }

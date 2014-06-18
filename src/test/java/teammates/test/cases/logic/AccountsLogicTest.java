@@ -246,7 +246,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
             ______TS(aa.toString());
         }
         
-        assertEquals(10, accountsLogic.getInstructorAccounts().size());
+        assertEquals(11, accountsLogic.getInstructorAccounts().size());
         
         ______TS("test updateAccount");
         

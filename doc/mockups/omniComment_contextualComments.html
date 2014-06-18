@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="shortcut icon" href="/favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>TEAMMATES - Instructor</title>
+    <link rel="stylesheet" href="../../src/main/webapp/bootstrap/css/bootstrap.min.css" type="text/css"/>
+    <link rel="stylesheet" href="../../src/main/webapp/bootstrap/css/bootstrap-theme.min.css" type="text/css"/>
+    <link rel="stylesheet" href="../../src/main/webapp/stylesheets/teammatesCommon.css" type="text/css"/>
+
+    <script type="text/javascript" src="../../src/main/webapp/js/googleAnalytics.js"></script>
+    <script type="text/javascript" src="../../src/main/webapp/js/jquery-minified.js"></script>
+    <script type="text/javascript" src="../../src/main/webapp/js/common.js"></script>
+    <script type="text/javascript" src="../../src/main/webapp/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../src/main/webapp/js/instructor.js"></script>
+    <script type="text/javascript" src="./omniComment_contextualComments.js"></script>
+    <noscript>
+        <style>
+        /* remove display of original page*/
+        #frameBody, #frameTop, #frameBottom{display:none;}
+
+/*Some styles for link, might need it as the css from common.css isn't that nice.
+ul #nav {
+    margin: 0;
+    padding: 0;
+}
+
+#nav li {
+    display: inline;
+    padding: 0;
+    margin: 0;
+}
+
+#nav a:link,#nav a:visited {
+    color: #000;
+    padding: 10px;
+    background: #aaa;
+    text-decoration: none;
+}
+
+#nav a:hover {
+    background: #222;
+    color: #fff;
+}
+*/
+</style>
+
+<div id="noscript-warning">
+    <h1>
+        TEAMMATES works best with JavaScript enabled. <br> You may
+        enable it in your browser by following steps below.
+    </h1>
+
+    <div>
+        <ul id="nav">
+            <li><a href="#ie">Internet Explorer</a></li>
+            <li><a href="#firefox">Mozilla Firefox</a></li>
+            <li><a href="#safari">Safari</a></li>
+            <li><a href="#opera">Opera</a></li>
+            <li><a href="#chrome">Chrome</a></li>
+        </ul>
+    </div>
+
+    <div id=content>
+        <div id=ie>
+            <h1>Internet Explorer</h1>
+            Please complete the following instructions to activate and enable
+            JavaScript in Internet Explorer.
+
+            <h3>PC</h3>
+            <ol>
+                <li>In the Tools drop-down menu, select Internet Options.</li>
+                <li>Next, select the Security tab.</li>
+                <li>Then, select the earth (Internet) icon.</li>
+                <li>Then select the Custom Level button.</li>
+                <li>Locate Scripting near the bottom of the list.</li>
+                <li>Under Active Scripting, select Enable, then hit OK.</li>
+                <li>Answer yes to the following conformation box.</li>
+                <li>Hit OK to close the Internet Options window.</li>
+                <li>Finally, hit refresh on your browser window to enjoy the
+                    javascript.</li>
+                </ol>
+            </div>
+
+            <div id=firefox>
+                <h1>Firefox</h1>
+                Please complete the following instructions to activate and enable
+                JavaScript in Firefox
+
+                <h3>PC</h3>
+                <ol>
+                    <li>In the Tools drop-down menu, select Options.</li>
+                    <li>Next, select the Content icon/tab at the top on the
+                        window.</li>
+                        <li>Then, check the Enable JavaScript checkbox under the Web
+                            Content category.</li>
+                            <li>Hit OK to close the Options window and save your changes.</li>
+                            <li>Finally, Refresh your browser.</li>
+                        </ol>
+                        <h3>MAC</h3>
+                        <ol>
+                            <li>Select the Firefox menu item from the Apple/System bar at
+                                the top of the screen.</li>
+                                <li>From the drop-down menu, select Preferences...</li>
+                                <li>Select the Content icon/tab at the top on the window.</li>
+                                <li>Then, check the Enable JavaScript checkbox.</li>
+                                <li>Close the Options window to save your changes.</li>
+                                <li>Finally, refresh your browser.</li>
+                            </ol>
+                        </div>
+
+                        <div id=safari>
+                            <h1>Safari</h1>
+                            Please complete the following instructions to activate and enable
+                            JavaScript in Safari.
+
+                            <h3>PC</h3>
+                            <ol>
+                                <li>In the Edit drop-down menu at the top of the window,
+                                    select Preferences...</li>
+                                    <li>Select the Security icon/tab at the top on the window.</li>
+                                    <li>Then, check the Enable JavaScript checkbox.</li>
+                                    <li>Close the window to save your changes.</li>
+                                    <li>Finally, Refresh your browser.</li>
+                                </ol>
+                                <h3>MAC</h3>
+                                <ol>
+                                    <li>Select the Safari menu item from the Apple/System bar at
+                                        the top of the screen.</li>
+                                        <li>From the drop-down menu, select Preferences.</li>
+                                        <li>Select the Content icon/tab at the top of the window.</li>
+                                        <li>Then, check the Enable JavaScript checkbox.</li>
+                                        <li>Close the window to save your changes.</li>
+                                        <li>Finally, refresh your browser.</li>
+                                    </ol>
+                                </div>
+
+                                <div id=opera>
+                                    <h1>Opera</h1>
+                                    Please complete the following instructions to activate and enable
+                                    JavaScript in Opera.
+
+                                    <h3>PC</h3>
+                                    <ol>
+                                        <li>In the Tools drop-down menu at the top of the window,
+                                            select Preferences...</li>
+                                            <li>Select the Advanced tab at the top on the Preferences
+                                                window.</li>
+                                                <li>Find the Content item in the list on the left-side of the
+                                                    window and select it.</li>
+                                                    <li>Then, check the Enable JavaScript checkbox.</li>
+                                                    <li>Click OK to save your changes and close the Preferences
+                                                        window. Finally, Refresh your browser.</li>
+                                                    </ol>
+                                                    <h3>MAC</h3>
+                                                    <ol>
+                                                        <li>Select the Safari menu item from the Apple/System bar at
+                                                            the top of the screen.</li>
+                                                            <li>From the drop-down menu, select Preferences.</li>
+                                                            <li>Select the Content icon/tab at the top of the Preferences
+                                                                window.</li>
+                                                                <li>Then, check the Enable JavaScript checkbox.</li>
+                                                                <li>Click OK to save your changes and close the Preferences
+                                                                    window.</li>
+                                                                    <li>Finally, refresh your browser.</li>
+                                                                </ol>
+                                                            </div>
+
+                                                            <div id=chrome>
+                                                                <h1>Chrome</h1>
+                                                                Please complete the following instructions to activate and enable
+                                                                JavaScript in Chrome.
+
+                                                                <h3>PC</h3>
+                                                                <ol>
+                                                                    <li>Select Customize and control Google Chrome (wrench Icon)
+                                                                        to the right of the address bar.</li>
+                                                                        <li>From the drop-down menu, select Options Select the Under
+                                                                            the Hood tab at the top of the window.</li>
+                                                                            <li>Under the Privacy heading, select the Content settings
+                                                                                button.</li>
+                                                                                <li>On the left, under the features heading, select
+                                                                                    JavaScript.</li>
+                                                                                    <li>Select the Allow all sites to run JavaScript radio button.</li>
+                                                                                    <li>Finally, close both preference windows, and refresh the
+                                                                                        browser.</li>
+                                                                                    </ol>
+                                                                                    <h3>MAC</h3>
+                                                                                    <ol>
+                                                                                        <li>Select the Chrome menu item from the Apple/System bar at
+                                                                                            the top of the screen.</li>
+                                                                                            <li>From the drop-down menu, select Preferences...</li>
+                                                                                            <li>Select the Under the Hood tab at the top of the window.</li>
+                                                                                            <li>Under the Privacy heading, select the Content settings
+                                                                                                button.</li>
+                                                                                                <li>On the left, under the features heading, select
+                                                                                                    JavaScript.</li>
+                                                                                                    <li>Select the Allow all sites to run JavaScript radio button.</li>
+                                                                                                    <li>Finally, close both preference windows, and refresh the
+                                                                                                        browser.</li>
+                                                                                                    </ol>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <p>
+                                                                                                As taken from:  
+                                                                                                <ol>
+                                                                                                    <li><a href="http://activatejavascript.org/en/instructions/">http://activatejavascript.org/en/instructions/</a></li>
+                                                                                                    <li><a href="http://support.mozilla.org/en-US/kb/javascript-settings-for-interactive-web-pages">
+                                                                                                     http://support.mozilla.org/en-US/kb/javascript-settings-for-interactive-web-page</a></li>
+                                                                                                 </ol>
+
+                                                                                             </p>
+                                                                                         </div>
+                                                                                     </noscript>
+
+
+
+                                                                                     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+      <![endif]--> 
+  </head>
+
+
+  <body>
+
+
+
+
+
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#contentLinks">
+                 <span class="sr-only">Toggle navigation</span>
+                 <span class="icon-bar"></span>
+                 <span class="icon-bar"></span>
+                 <span class="icon-bar"></span>
+             </button>
+             <a class="navbar-brand" href="/index.html">TEAMMATES</a>
+         </div>
+         <div class="collapse navbar-collapse" id="contentLinks">
+            <ul class="nav navbar-nav">
+                <li class="">
+                    <a class='nav home' data-link="instructorHome" href="/page/instructorHomePage?user=testEval">Home</a>
+                </li>
+                <li class="">
+                    <a class='nav courses' data-link="instructorCourse" href="/page/instructorCoursesPage?user=testEval">Courses</a>
+                </li>
+                <li class="">
+                    <a class='nav evaluations' data-link="instructorEval" href="/page/instructorEvalsPage?user=testEval">Sessions</a>
+                </li>
+                <li class="active">
+                    <a class='nav students' data-link="instructorStudent" href="/page/instructorStudentListPage?user=testEval">Students</a>
+                </li>
+                <li class="">
+                    <a class='nav comments' data-link="instructorComments" href="/page/instructorCommentsPage?user=testEval">Comments</a>
+                </li>
+                <li>
+                    <a class='nav help' href="/instructorHelp.html" target="_blank">Help</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav pull-right">
+                <li><a class='nav logout' href="/logout.jsp">Logout
+
+                    (<span class="text-info" data-toggle="tooltip" data-placement="bottom" 
+                    title="testEval">
+                    testEval
+                </span>)
+
+            </a>
+        </li>
+    </ul>            
+</div>
+</div>
+</div>
+
+<div class="container theme-showcase" id="frameBodyWrapper">
+    <div id="topOfPage"></div>
+    <div id="headerOperation">
+        <h1>Student Details</h1>
+    </div>
+
+
+
+
+
+
+    <div id="statusMessage" style="display: none;"></div>
+
+
+    <div class="well well-plain">
+        <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" data-toggle="tooltip" data-placement="top" title="" data-original-title="Add comment">
+            <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
+        </button>
+        <div class="form form-horizontal" id="studentInfomationTable">
+            <div class="form-group">
+                <label class="col-sm-1 control-label">Student Name:</label>
+                <div class="col-sm-11" id="studentname">
+                    <p class="form-control-static">Emma Farrell</p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-1 control-label">Team Name:</label>
+                <div class="col-sm-11" id="teamname">
+                    <p class="form-control-static">Team 1</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-1 control-label">E-mail Address:</label>
+                <div class="col-sm-11" id="studentemail">
+                    <p class="form-control-static">emma.f.tmms@gmail.com</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-1 control-label">Join Link:</label>
+                <div class="col-sm-11">
+                    <input id="regkey" value="http:&#x2f;&#x2f;teammates-kai.appspot.com&#x2f;page&#x2f;studentCourseJoin?regkey=23E34DF21C4722D990CE85C65653C409154666AD6CF6563B3EAF70B1A1F2EE7E251CFF392008DB0A35DFE11E015472FF5F6EFAEF220F6550D1DE48F74618E7FC" class="form-control" readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-1 control-label">Comments:</label>
+                <div class="col-sm-11" id="comments">
+                    <p class="form-control-static">This student&#39;s name is Emma Farrell</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div id="commentArea" class="well well-plain" style="display:none;">
+      <form>
+        <div class="form-group form-inline">
+          <label style="margin-right: 24px;">Recipient: </label>
+          <select class="form-control">
+              <option>Emma Farrell</option>
+              <option>Team 1</option>
+          </select>
+      </div>
+      <div class="form-group">
+          <a id="visibility-options-trigger" class="btn btn-info"><span class="glyphicon glyphicon-eye-close"></span> Show Visibility Options</a>
+      </div>
+      <div id="visibility-options" class="panel panel-default" style="display: none;">
+          <div class="panel-heading">Visibility Options</div>
+          <table class="table table-striped text-center" style="background:#fff;">
+            <tbody>
+              <tr>
+                <th class="text-center">User/Group</th>
+                <th class="text-center">Can see your comment</th>
+                <th class="text-center">Can see giver's name</th>
+                <th class="text-center">Can see recipient's name</th>
+            </tr>
+            <tr>
+                <td class="text-left">
+                  <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what comment recipient(s) can view">
+                    Recipient(s)
+                </div>
+            </td>
+            <td>
+              <input class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER">
+          </td>
+          <td>
+              <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER">     
+          </td>
+          <td>
+              <input class="visibilityCheckbox recipientCheckbox" name="receiverFollowerCheckbox" type="checkbox" value="RECEIVER" disabled="disabled">
+          </td>
+      </tr>
+      <tr>
+        <td class="text-left">
+          <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what team members of comment recipients can view">
+            Recipient's Team Members
+        </div>
+    </td>
+    <td>
+      <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="RECEIVER_TEAM_MEMBERS">
+  </td>
+  <td>
+      <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER_TEAM_MEMBERS">
+  </td>
+  <td>
+      <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="RECEIVER_TEAM_MEMBERS">
+  </td>
+</tr>
+<tr>
+    <td class="text-left">
+      <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what other students can view">
+        Other students in this course
+    </div>
+</td>
+<td>
+  <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS">
+</td>
+<td>
+  <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
+</td>
+<td>
+  <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="STUDENTS">
+</td>
+</tr>
+<tr>
+    <td class="text-left">
+      <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what instructors can view">
+        Instructors
+    </div>
+</td>
+<td>
+  <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS" checked="checked">
+</td>
+<td>
+  <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS" checked="checked">
+</td>
+<td>
+  <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="INSTRUCTORS" checked="checked">
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<textarea id="editor" class="col-sm-12 form-control" rows="6" placeholder="Enter your comment here ..." style="margin-bottom: 15px;"></textarea>
+<div style="text-align: center;">
+  <input type="submit" class="btn btn-primary" id="button_save_comment" value="Save">
+  <input type="button" class="btn btn-default" id="button_cancel_comment" value="Cancel">
+</div>
+</form>
+</div>
+</div>
+
+
+
+<script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
+<div id="footerComponent" class="container-fluid">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <span>[<a href="/index.html">TEAMMATES</a> V4.18]</span>
+            </div>
+            <div class="col-md-4">
+
+                [for <span class="highlight-white"><span class="color_white">NUS</span></span>]
+                
+            </div>
+            <div class="col-md-4">
+                <span>[Send <a class="link" href="../contact.html" target="_blank">Feedback</a>]</span>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

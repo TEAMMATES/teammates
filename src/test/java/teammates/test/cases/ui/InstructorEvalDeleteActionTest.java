@@ -40,6 +40,7 @@ public class InstructorEvalDeleteActionTest extends BaseActionTest {
         verifyUnaccessibleForUnregisteredUsers(submissionParams);
         verifyUnaccessibleForStudents(submissionParams);
         verifyUnaccessibleForInstructorsOfOtherCourses(submissionParams);
+        verifyUnaccessibleWithoutModifySessionPrivilege(submissionParams);
         verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
         
         //recreate the evaluation
