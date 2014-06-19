@@ -24,6 +24,35 @@ public class InstructorCourseInstructorAddAction extends Action {
         Assumption.assertNotNull(instructorName);
         String instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
         Assumption.assertNotNull(instructorEmail);
+        
+        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
+        new GateKeeper().verifyAccessible(
+                instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
+        
+        InstructorAttributes instructorToAdd = extractCompleteInstructor(
+                courseId, instructorName, instructorEmail);
+        
+        /* Process adding the instructor and setup status to be shown to user and admin */
+        try {
+            logic.createInstructor(instructorToAdd);
+            logic.sendRegistrationInviteToInstructor(courseId, instructorEmail);
+            
+            statusToUser.add(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_ADDED,
+                    instructorName, instructorEmail));
+            statusToAdmin = "New instructor (<span class=\"bold\"> " + instructorEmail + "</span>)"
+                    + " for Course <span class=\"bold\">[" + courseId + "]</span> created.<br>";
+        } catch (EntityAlreadyExistsException e) {
+            setStatusForException(e, Const.StatusMessages.COURSE_INSTRUCTOR_EXISTS);
+        } catch (InvalidParametersException e) {
+            setStatusForException(e);
+        }
+        
+        RedirectResult redirectResult = createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE);
+        redirectResult.addResponseParam(Const.ParamsNames.COURSE_ID, courseId);
+        return redirectResult;
+    }
+    
+    private InstructorAttributes extractCompleteInstructor(String courseId, String instructorName, String instructorEmail) {
         String instructorRole = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ROLE_NAME);
         Assumption.assertNotNull(instructorRole);
         String displayedName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME);
@@ -44,13 +73,9 @@ public class InstructorCourseInstructorAddAction extends Action {
         boolean isSubmitSessionInSectionsChecked = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS) != null;
         boolean isModifySessionInSectionsChecked = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS) != null;
         
-        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
-        new GateKeeper().verifyAccessible(
-                instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
-        
-        InstructorAttributes instructorToAdd = constructorNewInstructor(
-                courseId, instructorName, instructorEmail, instructorRole, displayedName);
-        
+        InstructorAttributes instructorToAdd = constructorNewInstructor(courseId, instructorName, instructorEmail,
+                instructorRole, displayedName);
+            
         instructorToAdd.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, isModifyCourseChecked);
         instructorToAdd.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, isModifyInstructorChecked);
         instructorToAdd.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, isModifySessionChecked);
@@ -65,26 +90,11 @@ public class InstructorCourseInstructorAddAction extends Action {
         instructorToAdd.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS, isSubmitSessionInSectionsChecked);
         instructorToAdd.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS, isModifySessionInSectionsChecked);
         
+        instructorToAdd.privileges.validatePrivileges();
+        
         instructorToAdd.instructorPrivilegesAsText = instructorToAdd.getTextFromInstructorPrivileges();
         
-        /* Process adding the instructor and setup status to be shown to user and admin */
-        try {
-            logic.createInstructor(instructorToAdd);
-            logic.sendRegistrationInviteToInstructor(courseId, instructorEmail);
-            
-            statusToUser.add(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_ADDED,
-                    instructorName, instructorEmail));
-            statusToAdmin = "New instructor (<span class=\"bold\"> " + instructorEmail + "</span>)"
-                    + " for Course <span class=\"bold\">[" + courseId + "]</span> created.<br>";
-        } catch (EntityAlreadyExistsException e) {
-            setStatusForException(e, Const.StatusMessages.COURSE_INSTRUCTOR_EXISTS);
-        } catch (InvalidParametersException e) {
-            setStatusForException(e);
-        }
-        
-        RedirectResult redirectResult = createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE);
-        redirectResult.addResponseParam(Const.ParamsNames.COURSE_ID, courseId);
-        return redirectResult;
+        return instructorToAdd;
     }
 
     private InstructorAttributes constructorNewInstructor(String courseId,
