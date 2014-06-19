@@ -101,7 +101,7 @@
       </div>
       <div id="headerOperation">
          <h1>
-            Feedback Results - Instructor
+            Session Results
          </h1>
       </div>
       <div class="well well-plain padding-0">
@@ -136,7 +136,7 @@
                   <div class="col-sm-6">
                      <div class="form-group">
                         <label class="col-sm-4 control-label">
-                           Session open:
+                           Session duration:
                         </label>
                         <div class="col-sm-8">
                            <p class="form-control-static">
@@ -208,7 +208,7 @@
                         </label>
                         <div class="col-sm-10">
                            <div class="input-group">
-                              <input class="form-control" id="results-search-box" onchange="updateResultsFilter()" placeholder="Type here to filter results" type="text"/>
+                              <input class="form-control" id="results-search-box" onchange="updateResultsFilter()" placeholder="Type a student/team name to filter results" type="text"/>
                                                             <a class="input-group-addon btn btn-default">
                                  <span class="glyphicon glyphicon-search">
                                  </span>
@@ -273,13 +273,15 @@
       </div>
       <br/>
             <div class="panel panel-info">
-         <div class="panel-heading" data-target=".panelBodyCollapse-1" style="cursor: pointer;">
+         <div class="panel-heading" data-target="#panelBodyCollapse-1" style="cursor: pointer;">
+            <span class="glyphicon glyphicon-chevron-up pull-right">
+            </span>
             <strong>
                Question 1:
             </strong>
             Rate 3 other students' products
          </div>
-         <div class="panel-collapse panelBodyCollapse-1 collapse in" style="height: auto;">
+         <div class="panel-collapse collapse in" id="panelBodyCollapse-1" style="height: auto;">
             <div class="panel-body padding-0">
                <div class="resultStatistics" style="display: block;">
                </div>
@@ -324,7 +326,7 @@
                               2 Response to Benny.
                            </td>
                         </tr>
-                        <tr style="display: none;">
+                        <tr>
                            <td class="middlealign">
                               Benny Charles
                            </td>
@@ -341,7 +343,7 @@
                               4 Response to Charlie.
                            </td>
                         </tr>
-                        <tr style="display: none;">
+                        <tr>
                            <td class="middlealign">
                               Benny Charles
                            </td>
@@ -358,7 +360,7 @@
                               1 Response to Danny.
                            </td>
                         </tr>
-                        <tr style="display: none;">
+                        <tr>
                            <td class="middlealign">
                               Charlie Dávis
                            </td>
@@ -381,14 +383,16 @@
             </div>
          </div>
       </div>
-      <div class="panel panel-info">
-         <div class="panel-heading" data-target=".panelBodyCollapse-2" style="cursor: pointer;">
+      <div class="panel panel-info" style="display: none;">
+         <div class="panel-heading" data-target="#panelBodyCollapse-2" style="cursor: pointer;">
+            <span class="glyphicon glyphicon-chevron-up pull-right">
+            </span>
             <strong>
                Question 2:
             </strong>
             What is the best selling point of your product?
          </div>
-         <div class="panel-collapse panelBodyCollapse-2 collapse in" style="height: auto;">
+         <div class="panel-collapse collapse in" id="panelBodyCollapse-2" style="height: auto;">
             <div class="panel-body padding-0">
                <div class="resultStatistics" style="display: block;">
                </div>
@@ -440,13 +444,15 @@
          </div>
       </div>
       <div class="panel panel-info" style="display: none;">
-         <div class="panel-heading" data-target=".panelBodyCollapse-3" style="cursor: pointer;">
+         <div class="panel-heading" data-target="#panelBodyCollapse-3" style="cursor: pointer;">
+            <span class="glyphicon glyphicon-chevron-up pull-right">
+            </span>
             <strong>
                Question 3:
             </strong>
             My comments on the class
          </div>
-         <div class="panel-collapse panelBodyCollapse-3 collapse in" style="height: auto;">
+         <div class="panel-collapse collapse in" id="panelBodyCollapse-3" style="height: auto;">
             <div class="panel-body padding-0">
                <div class="resultStatistics" style="display: block;">
                </div>
@@ -497,14 +503,16 @@
             </div>
          </div>
       </div>
-      <div class="panel panel-info">
-         <div class="panel-heading" data-target=".panelBodyCollapse-4" style="cursor: pointer;">
+      <div class="panel panel-info" style="display: none;">
+         <div class="panel-heading" data-target="#panelBodyCollapse-4" style="cursor: pointer;">
+            <span class="glyphicon glyphicon-chevron-up pull-right">
+            </span>
             <strong>
                Question 4:
             </strong>
             Give feedback to 3 other teams.
          </div>
-         <div class="panel-collapse panelBodyCollapse-4 collapse in" style="height: auto;">
+         <div class="panel-collapse collapse in" id="panelBodyCollapse-4" style="height: auto;">
             <div class="panel-body padding-0">
                <div class="resultStatistics" style="display: block;">
                </div>
@@ -553,8 +561,10 @@
             </div>
          </div>
       </div>
-      <div class="panel panel-info">
-         <div class="panel-heading" data-target=".panelBodyCollapse-5" style="cursor: pointer;">
+      <div class="panel panel-info" style="display: none;">
+         <div class="panel-heading" data-target="#panelBodyCollapse-5" style="cursor: pointer;">
+            <span class="glyphicon glyphicon-chevron-up pull-right">
+            </span>
             <strong>
                Question 7:
             </strong>
@@ -583,7 +593,7 @@
                </span>
             </span>
          </div>
-         <div class="panel-collapse panelBodyCollapse-5 collapse in" style="height: auto;">
+         <div class="panel-collapse collapse in" id="panelBodyCollapse-5" style="height: auto;">
             <div class="panel-body padding-0">
                <div class="resultStatistics" style="display: block;">
                   <div class="panel-body">
@@ -708,8 +718,10 @@
             </div>
          </div>
       </div>
-      <div class="panel panel-info">
-         <div class="panel-heading" data-target=".panelBodyCollapse-6" style="cursor: pointer;">
+      <div class="panel panel-info" style="display: none;">
+         <div class="panel-heading" data-target="#panelBodyCollapse-6" style="cursor: pointer;">
+            <span class="glyphicon glyphicon-chevron-up pull-right">
+            </span>
             <strong>
                Question 8:
             </strong>
@@ -738,7 +750,7 @@
                </span>
             </span>
          </div>
-         <div class="panel-collapse panelBodyCollapse-6 collapse in" style="height: auto;">
+         <div class="panel-collapse collapse in" id="panelBodyCollapse-6" style="height: auto;">
             <div class="panel-body padding-0">
                <div class="resultStatistics" style="display: block;">
                   <div class="panel-body">
@@ -870,8 +882,10 @@
             </div>
          </div>
       </div>
-      <div class="panel panel-info">
-         <div class="panel-heading" data-target=".panelBodyCollapse-7" style="cursor: pointer;">
+      <div class="panel panel-info" style="display: none;">
+         <div class="panel-heading" data-target="#panelBodyCollapse-7" style="cursor: pointer;">
+            <span class="glyphicon glyphicon-chevron-up pull-right">
+            </span>
             <strong>
                Question 9:
             </strong>
@@ -888,7 +902,7 @@
                </span>
             </span>
          </div>
-         <div class="panel-collapse panelBodyCollapse-7 collapse in" style="height: auto;">
+         <div class="panel-collapse collapse in" id="panelBodyCollapse-7" style="height: auto;">
             <div class="panel-body padding-0">
                <div class="resultStatistics" style="display: block;">
                   <div class="panel-body">
@@ -981,7 +995,9 @@
          </div>
       </div>
       <div class="panel panel-info">
-         <div class="panel-heading" data-target=".panelBodyCollapse-8" style="cursor: pointer;">
+         <div class="panel-heading" data-target="#panelBodyCollapse-8" style="cursor: pointer;">
+            <span class="glyphicon glyphicon-chevron-up pull-right">
+            </span>
             <strong>
                Question 10:
             </strong>
@@ -998,7 +1014,7 @@
                </span>
             </span>
          </div>
-         <div class="panel-collapse panelBodyCollapse-8 collapse in" style="height: auto;">
+         <div class="panel-collapse collapse in" id="panelBodyCollapse-8" style="height: auto;">
             <div class="panel-body padding-0">
                <div class="resultStatistics" style="display: block;">
                   <div class="panel-body">
@@ -1091,7 +1107,9 @@
          </div>
       </div>
       <div class="panel panel-info">
-         <div class="panel-heading" data-target=".panelBodyCollapse-9" style="cursor: pointer;">
+         <div class="panel-heading" data-target="#panelBodyCollapse-9" style="cursor: pointer;">
+            <span class="glyphicon glyphicon-chevron-up pull-right">
+            </span>
             <strong>
                Question 11:
             </strong>
@@ -1108,7 +1126,7 @@
                </span>
             </span>
          </div>
-         <div class="panel-collapse panelBodyCollapse-9 collapsing" style="height: 209px;">
+         <div class="panel-collapse collapse in" id="panelBodyCollapse-9" style="height: auto;">
             <div class="panel-body padding-0">
                <div class="resultStatistics" style="display: block;">
                   <div class="panel-body">
@@ -1205,7 +1223,9 @@
          </div>
       </div>
       <div class="panel panel-info">
-         <div class="panel-heading" data-target=".panelBodyCollapse-10" style="cursor: pointer;">
+         <div class="panel-heading" data-target="#panelBodyCollapse-10" style="cursor: pointer;">
+            <span class="glyphicon glyphicon-chevron-up pull-right">
+            </span>
             <strong>
                Question 12:
             </strong>
@@ -1222,7 +1242,7 @@
                </span>
             </span>
          </div>
-         <div class="panel-collapse panelBodyCollapse-10 collapse" style="height: 0px;">
+         <div class="panel-collapse collapse in" id="panelBodyCollapse-10" style="height: auto;">
             <div class="panel-body padding-0">
                <div class="resultStatistics" style="display: block;">
                   <div class="panel-body">
@@ -1333,7 +1353,9 @@
          </div>
       </div>
       <div class="panel panel-info">
-         <div class="panel-heading" data-target=".panelBodyCollapse-11" style="cursor: pointer;">
+         <div class="panel-heading" data-target="#panelBodyCollapse-11" style="cursor: pointer;">
+            <span class="glyphicon glyphicon-chevron-up pull-right">
+            </span>
             <strong>
                Question 13:
             </strong>
@@ -1350,7 +1372,7 @@
                </span>
             </span>
          </div>
-         <div class="panel-collapse panelBodyCollapse-11 collapsing" style="height: 0px;">
+         <div class="panel-collapse collapse in" id="panelBodyCollapse-11" style="height: auto;">
             <div class="panel-body padding-0">
                <div class="resultStatistics" style="display: block;">
                   <div class="panel-body">
@@ -1444,9 +1466,9 @@
             </div>
          </div>
       </div>
-      <div class="panel panel-info">
+      <div class="panel panel-info" style="display: none;">
          <div class="panel-heading">
-            Students Who Did Not Respond to Any Question
+            Participants who did not respond to any question
          </div>
          <table class="table table-striped">
             <tbody>

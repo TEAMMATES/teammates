@@ -103,7 +103,7 @@
       </div>
       <div id="headerOperation">
          <h1>
-            Feedback Results - Instructor
+            Session Results
          </h1>
       </div>
       <div class="well well-plain padding-0">
@@ -138,7 +138,7 @@
                   <div class="col-sm-6">
                      <div class="form-group">
                         <label class="col-sm-4 control-label">
-                           Session open:
+                           Session duration:
                         </label>
                         <div class="col-sm-8">
                            <p class="form-control-static">
@@ -210,7 +210,7 @@
                         </label>
                         <div class="col-sm-10">
                            <div class="input-group">
-                              <input class="form-control" id="results-search-box" onchange="updateResultsFilter()" placeholder="Type here to filter results" type="text"/>
+                              <input class="form-control" id="results-search-box" onchange="updateResultsFilter()" placeholder="Type a student/team name to filter results" type="text"/>
                                                             <a class="input-group-addon btn btn-default">
                                  <span class="glyphicon glyphicon-search">
                                  </span>
@@ -275,12 +275,14 @@
       </div>
       <br/>
             <div class="panel panel-warning">
-         <div class="panel-heading" data-target=".panelBodyCollapse-1" style="cursor: pointer;">
+         <div class="panel-heading" data-target="#panelBodyCollapse-1" style="cursor: pointer;">
             <strong>
                -
             </strong>
+            <span class="glyphicon glyphicon-chevron-up pull-right">
+            </span>
          </div>
-         <div class="panel-collapse collapse in panelBodyCollapse-1">
+         <div class="panel-collapse collapse in" id="panelBodyCollapse-1">
             <div class="panel-body background-color-warning">
                <div class="resultStatistics">
                   <h3>
@@ -298,7 +300,7 @@
                   <hr class="margin-top-0"/>
                                  </div>
                <div class="panel panel-primary">
-                  <div class="panel-heading" data-target=".panelBodyCollapse-2" style="cursor: pointer;">
+                  <div class="panel-heading" data-target="#panelBodyCollapse-2" style="cursor: pointer;">
                      To:
                      <strong>
                         -
@@ -306,8 +308,10 @@
                      <a class="link-in-dark-bg" href="mailTo:%GENERAL% " style="display:none;">
                         [%GENERAL%]
                      </a>
+                     <span class="glyphicon glyphicon-chevron-up pull-right">
+                     </span>
                   </div>
-                  <div class="panel-collapse collapse in panelBodyCollapse-2">
+                  <div class="panel-collapse collapse in" id="panelBodyCollapse-2">
                      <div class="panel-body">
                         <div class="panel panel-info">
                            <div class="panel-heading">
@@ -355,12 +359,14 @@
          </div>
       </div>
       <div class="panel panel-warning">
-         <div class="panel-heading" data-target=".panelBodyCollapse-3" style="cursor: pointer;">
+         <div class="panel-heading" data-target="#panelBodyCollapse-3" style="cursor: pointer;">
             <strong>
                Team 1
             </strong>
+            <span class="glyphicon glyphicon-chevron-up pull-right">
+            </span>
          </div>
-         <div class="panel-collapse collapse in panelBodyCollapse-3">
+         <div class="panel-collapse collapse in" id="panelBodyCollapse-3">
             <div class="panel-body background-color-warning">
                <div class="resultStatistics">
                   <h3>
@@ -924,7 +930,7 @@
                   <hr class="margin-top-0"/>
                                  </div>
                <div class="panel panel-primary">
-                  <div class="panel-heading" data-target=".panelBodyCollapse-4" style="cursor: pointer;">
+                  <div class="panel-heading" data-target="#panelBodyCollapse-4" style="cursor: pointer;">
                      To:
                      <strong>
                         Alice Betsy
@@ -932,8 +938,10 @@
                      <a class="link-in-dark-bg" href="mailTo:CFResultsUiT.alice.b@gmail.com ">
                         [CFResultsUiT.alice.b@gmail.com]
                      </a>
+                     <span class="glyphicon glyphicon-chevron-up pull-right">
+                     </span>
                   </div>
-                  <div class="panel-collapse collapse in panelBodyCollapse-4">
+                  <div class="panel-collapse collapse in" id="panelBodyCollapse-4">
                      <div class="panel-body">
                         <div class="panel panel-info">
                            <div class="panel-heading">
@@ -1736,7 +1744,7 @@
                   </div>
                </div>
                <div class="panel panel-primary">
-                  <div class="panel-heading" data-target=".panelBodyCollapse-5" style="cursor: pointer;">
+                  <div class="panel-heading" data-target="#panelBodyCollapse-5" style="cursor: pointer;">
                      To:
                      <strong>
                         Benny Charles
@@ -1744,8 +1752,10 @@
                      <a class="link-in-dark-bg" href="mailTo:CFResultsUiT.benny.c@gmail.com ">
                         [CFResultsUiT.benny.c@gmail.com]
                      </a>
+                     <span class="glyphicon glyphicon-chevron-up pull-right">
+                     </span>
                   </div>
-                  <div class="panel-collapse collapse in panelBodyCollapse-5">
+                  <div class="panel-collapse collapse in" id="panelBodyCollapse-5">
                      <div class="panel-body">
                         <div class="panel panel-info">
                            <div class="panel-heading">
@@ -1793,12 +1803,14 @@
          </div>
       </div>
       <div class="panel panel-warning">
-         <div class="panel-heading" data-target=".panelBodyCollapse-6" style="cursor: pointer;">
+         <div class="panel-heading" data-target="#panelBodyCollapse-6" style="cursor: pointer;">
             <strong>
                Team 2
             </strong>
+            <span class="glyphicon glyphicon-chevron-up pull-right">
+            </span>
          </div>
-         <div class="panel-collapse collapse in panelBodyCollapse-6">
+         <div class="panel-collapse collapse in" id="panelBodyCollapse-6">
             <div class="panel-body background-color-warning">
                <div class="resultStatistics">
                   <h3>
@@ -1816,7 +1828,7 @@
                   <hr class="margin-top-0"/>
                                  </div>
                <div class="panel panel-primary">
-                  <div class="panel-heading" data-target=".panelBodyCollapse-7" style="cursor: pointer;">
+                  <div class="panel-heading" data-target="#panelBodyCollapse-7" style="cursor: pointer;">
                      To:
                      <strong>
                         Charlie Dávis
@@ -1824,8 +1836,10 @@
                      <a class="link-in-dark-bg" href="mailTo:CFResultsUiT.charlie.d@gmail.com ">
                         [CFResultsUiT.charlie.d@gmail.com]
                      </a>
+                     <span class="glyphicon glyphicon-chevron-up pull-right">
+                     </span>
                   </div>
-                  <div class="panel-collapse collapse in panelBodyCollapse-7">
+                  <div class="panel-collapse collapse in" id="panelBodyCollapse-7">
                      <div class="panel-body">
                         <div class="panel panel-info">
                            <div class="panel-heading">
@@ -1870,7 +1884,7 @@
                   </div>
                </div>
                <div class="panel panel-primary">
-                  <div class="panel-heading" data-target=".panelBodyCollapse-8" style="cursor: pointer;">
+                  <div class="panel-heading" data-target="#panelBodyCollapse-8" style="cursor: pointer;">
                      To:
                      <strong>
                         Danny Engrid
@@ -1878,8 +1892,10 @@
                      <a class="link-in-dark-bg" href="mailTo:CFResultsUiT.danny.e@gmail.com ">
                         [CFResultsUiT.danny.e@gmail.com]
                      </a>
+                     <span class="glyphicon glyphicon-chevron-up pull-right">
+                     </span>
                   </div>
-                  <div class="panel-collapse collapse in panelBodyCollapse-8">
+                  <div class="panel-collapse collapse in" id="panelBodyCollapse-8">
                      <div class="panel-body">
                         <div class="panel panel-info">
                            <div class="panel-heading">
@@ -1924,7 +1940,7 @@
                   </div>
                </div>
                <div class="panel panel-primary">
-                  <div class="panel-heading" data-target=".panelBodyCollapse-9" style="cursor: pointer;">
+                  <div class="panel-heading" data-target="#panelBodyCollapse-9" style="cursor: pointer;">
                      To:
                      <strong>
                         Team 2
@@ -1932,8 +1948,10 @@
                      <a class="link-in-dark-bg" href="mailTo:Team 2 " style="display:none;">
                         [Team 2]
                      </a>
+                     <span class="glyphicon glyphicon-chevron-up pull-right">
+                     </span>
                   </div>
-                  <div class="panel-collapse collapse in panelBodyCollapse-9">
+                  <div class="panel-collapse collapse in" id="panelBodyCollapse-9">
                      <div class="panel-body">
                         <div class="panel panel-info">
                            <div class="panel-heading">
@@ -1980,12 +1998,14 @@
          </div>
       </div>
       <div class="panel panel-warning">
-         <div class="panel-heading" data-target=".panelBodyCollapse-10" style="cursor: pointer;">
+         <div class="panel-heading" data-target="#panelBodyCollapse-10" style="cursor: pointer;">
             <strong>
                Team 3
             </strong>
+            <span class="glyphicon glyphicon-chevron-up pull-right">
+            </span>
          </div>
-         <div class="panel-collapse collapse in panelBodyCollapse-10">
+         <div class="panel-collapse collapse in" id="panelBodyCollapse-10">
             <div class="panel-body background-color-warning">
                <div class="resultStatistics">
                   <h3>
@@ -2003,7 +2023,7 @@
                   <hr class="margin-top-0"/>
                                  </div>
                <div class="panel panel-primary">
-                  <div class="panel-heading" data-target=".panelBodyCollapse-11" style="cursor: pointer;">
+                  <div class="panel-heading" data-target="#panelBodyCollapse-11" style="cursor: pointer;">
                      To:
                      <strong>
                         Emily
@@ -2011,8 +2031,10 @@
                      <a class="link-in-dark-bg" href="mailTo:CFResultsUiT.emily.f@gmail.com ">
                         [CFResultsUiT.emily.f@gmail.com]
                      </a>
+                     <span class="glyphicon glyphicon-chevron-up pull-right">
+                     </span>
                   </div>
-                  <div class="panel-collapse collapse in panelBodyCollapse-11">
+                  <div class="panel-collapse collapse in" id="panelBodyCollapse-11">
                      <div class="panel-body">
                         <div class="panel panel-info">
                            <div class="panel-heading">
@@ -2061,7 +2083,7 @@
       </div>
       <div class="panel panel-info">
          <div class="panel-heading">
-            Students Who Did Not Respond to Any Question
+            Participants who did not respond to any question
          </div>
          <table class="table table-striped">
             <tbody>
