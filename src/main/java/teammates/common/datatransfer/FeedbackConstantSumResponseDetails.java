@@ -21,7 +21,7 @@ public class FeedbackConstantSumResponseDetails extends
         this.distributeToRecipients = distributeToRecipients;
         if(!this.distributeToRecipients){
             this.constSumOptions = constSumOptions;
-            Assumption.assertEquals("ConstSum num response does not match num of options.", answers.size(), constSumOptions.size());
+            Assumption.assertEquals("ConstSum num response does not match num of options. "+ answers.size() + "/" + constSumOptions.size(), answers.size(), constSumOptions.size());
         }
     }
     
