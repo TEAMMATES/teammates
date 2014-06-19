@@ -30,6 +30,11 @@
                                 Profile<sup><span class="glyphicon glyphicon-star glyphicon-gold"></span></sup>
                             </a>
                         </li>
+                        <li class="<%=data.getClass().toString().contains("StudentComments")?"active":""%>">
+                            <a id="studentCommentsLink" data-link="studentCommentsPage" href="<%=data.getStudentCommentsLink()%>">
+                                Comments
+                            </a>
+                        </li>
                         <li class="<%=data.getClass().toString().contains("StudentHelp")?"active":""%>">
                             <a id="studentHelpLink" class='nav' href="/studentHelp.html" target="_blank">Help</a>
                         </li>

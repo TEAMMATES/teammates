@@ -285,6 +285,16 @@ public class PageData {
         return link;
     }
     
+    /**
+     * @return The relative path to the student comments page. 
+     * The user Id is encoded in the url as a parameter.
+     */
+    public String getStudentCommentsLink() {
+        String link = Const.ActionURIs.STUDENT_COMMENTS_PAGE;
+        link = addUserIdToUrl(link);
+        return link;
+    }
+    
     @SuppressWarnings("unused")
     private void ___________methods_to_generate_instructor_links(){
     //========================================================================    

@@ -3,7 +3,7 @@ var COMMENT_EDITTYPE = "commentedittype";
 var DISPLAY_COMMENT_BLANK = "Please enter a valid comment. The comment can't be empty.";
 
 $(document).ready(function(){
-	$('a[id^="visibility-options-trigger"').click(function(){
+	$('a[id^="visibility-options-trigger"]').click(function(){
     	var visibilityOptions = $(this).parent().next();
 		if(visibilityOptions.is(':visible')){
 			visibilityOptions.hide();
