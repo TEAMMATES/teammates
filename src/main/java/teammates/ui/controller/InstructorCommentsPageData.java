@@ -2,11 +2,15 @@ package teammates.ui.controller;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
+import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.util.Const;
 
 public class InstructorCommentsPageData extends PageData {
     public Boolean isViewingDraft;
@@ -27,5 +31,47 @@ public class InstructorCommentsPageData extends PageData {
     
     public String removeBracketsForArrayString(String arrayString){
         return arrayString.substring(1, arrayString.length() - 1).replace(" ", "");
+    }
+    
+    public String getGiverName(String giverEmail){
+        InstructorAttributes instructor = roster.getInstructorForEmail(giverEmail);
+        String giverDisplay = giverEmail;
+        if(giverEmail.equals(instructorEmail)){
+            giverDisplay = "you";
+        } else if(instructor != null){
+            String title = instructor.displayedName;
+            if(!title.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR) &&
+                    !title.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_HELPER)){
+                title = "Instructor";
+            }
+            giverDisplay = title + " " + instructor.name;
+        }
+        return giverDisplay;
+    }
+    
+    public String getRecipientNames(Set<String> recipients){
+        StringBuilder namesStringBuilder = new StringBuilder();
+        int i = 0;
+        for(String recipient : recipients){
+            if(i == recipients.size() - 1 && recipients.size() > 1){
+                namesStringBuilder.append("and ");
+            }
+            StudentAttributes student = roster.getStudentForEmail(recipient);
+            if(courseId.equals(recipient)){ 
+                namesStringBuilder.append("All Students In This Course, ");
+            } else if(student != null){
+                if(recipients.size() == 1){
+                    namesStringBuilder.append(student.name 
+                            + " (" + student.team + ", <a href=\"mailto:" + student.email + "\">" + student.email + "</a>), ");
+                } else {
+                    namesStringBuilder.append(student.name + ", ");
+                }
+            } else {
+                namesStringBuilder.append(recipient + ", ");
+            }
+            i++;
+        }
+        String namesString = namesStringBuilder.toString();
+        return removeEndComma(namesString);
     }
 }

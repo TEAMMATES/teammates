@@ -24,8 +24,7 @@ public class InstructorStudentCommentEditAction extends Action {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull(courseId);
         
-        String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL); 
-        Assumption.assertNotNull(studentEmail);
+        String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
         
         Boolean isFromCommentPage = getRequestParamAsBoolean(Const.ParamsNames.FROM_COMMENTS_PAGE);
         

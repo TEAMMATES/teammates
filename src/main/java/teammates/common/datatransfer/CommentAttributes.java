@@ -178,6 +178,7 @@ public class CommentAttributes extends EntityAttributes
         switch(recipientType){
         case PERSON:
             removeCommentRecipientTypeIn(showRecipientNameTo, CommentRecipientType.PERSON);
+            break;
         case TEAM:
             removeCommentRecipientTypeInVisibilityOptions(CommentRecipientType.PERSON);
             removeCommentRecipientTypeIn(showRecipientNameTo, CommentRecipientType.TEAM);

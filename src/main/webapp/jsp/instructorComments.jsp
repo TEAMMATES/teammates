@@ -246,34 +246,18 @@
                         <%
                             int commentIdx = 0;
                             int studentIdx = 0;
-                            for (String recipient : data.comments.keySet()) {//recipient loop starts
+                            for (String giverEmail : data.comments.keySet()) {//recipient loop starts
                                 studentIdx++;
-                        %>
-                        <%
-                            StudentAttributes student = data.roster.getStudentForEmail(recipient);
-                                Boolean isRecipientStudent = student != null;
-                                //TODO: handle student comments given by other instructor, but visible to all instructors.
                         %>
                         <div
                             class="panel panel-info student-record-comments giver_display-by-you">
                             <div class="panel-heading">
-                                To <b><%=data.courseId.equals(recipient)?"all students in this course ":""%><%=isRecipientStudent ? student.name : recipient%></b>
-                                <%=isRecipientStudent ? " (" + student.team + ", <a href=\"mailto:" + student.email + "\">" + student.email + "</a>)" : ""%>
-                                <button type="button"
-                                    class="btn btn-default btn-xs icon-button pull-right"
-                                    id="button_add_comment_<%=studentIdx%>"
-                                    onclick="showAddCommentBox(<%=studentIdx%>);"
-                                    data-toggle="tooltip"
-                                    data-placement="top"
-                                    title="<%=Const.Tooltips.COMMENT_ADD%>">
-                                    <span
-                                        class="glyphicon glyphicon-comment glyphicon-primary"></span>
-                                </button>
+                                From <b><%=data.getGiverName(giverEmail)%></b>
                             </div>
                             <ul class="list-group comments">
                                 <%
                                     CommentRecipientType recipientTypeForThisRecipient = CommentRecipientType.PERSON;//default value is PERSON
-                                    for (CommentAttributes comment : data.comments.get(recipient)) {//student comments loop starts
+                                    for (CommentAttributes comment : data.comments.get(giverEmail)) {//student comments loop starts
                                             commentIdx++;
                                             recipientTypeForThisRecipient = comment.recipientType;
                                 %>
@@ -285,22 +269,8 @@
                                         class="form_comment"
                                         id="form_commentedit-<%=commentIdx%>">
                                         <div id="commentBar-<%=commentIdx%>">
-                                            <% InstructorAttributes instructor = data.roster.getInstructorForEmail(comment.giverEmail);
-                                               String giverDisplay = comment.giverEmail;
-                                               if(comment.giverEmail.equals(data.instructorEmail)){
-                                                   giverDisplay = "you";
-                                               } else if(instructor != null){
-                                                   String title = instructor.displayedName;
-                                                   if(!title.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR) &&
-                                                           !title.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_HELPER)){
-                                                       title = "Instructor";
-                                                   }
-                                                   giverDisplay = title + " " + instructor.name;
-                                               } else {
-                                                   giverDisplay = comment.giverEmail;
-                                               }
-                                            %>
-                                            <span class="text-muted">From <b><%=giverDisplay%></b> on
+                                            
+                                            <span class="text-muted">To <b><%=data.getRecipientNames(comment.recipients)%></b> on
                                                 <%=TimeHelper.formatTime(comment.createdAt)%></span>
                                             <%
                                                if (comment.giverEmail.equals(data.instructorEmail)) {//comment edit/delete control starts
@@ -539,9 +509,6 @@
                                             name=<%=Const.ParamsNames.COURSE_ID%>
                                             value="<%=data.courseId%>">
                                         <input type="hidden"
-                                            name=<%=Const.ParamsNames.STUDENT_EMAIL%>
-                                            value="<%=recipient%>">
-                                        <input type="hidden"
                                             name=<%=Const.ParamsNames.FROM_COMMENTS_PAGE%>
                                             value="true"> 
                                         <input type="hidden" 
@@ -568,181 +535,6 @@
                                 <%
                                     }//student comments loop ends
                                 %>
-                                <li
-                                    class="list-group-item list-group-item-warning"
-                                    id="comment_box_<%=studentIdx%>"
-                                    style="display: none;">
-                                    <form method="post"
-                                        action="<%=Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_ADD%>"
-                                        name="form_commentadd"
-                                        class="form_comment">
-                                        <div class="form-group">
-                                            <div class="form-group form-inline">
-                                                <div class="form-group text-muted">
-                                                    The default visibility for your comment is private. You may change it using the visibility options.
-                                                </div>
-                                                <a id="visibility-options-trigger<%=commentIdx%>"
-                                                    class="btn btn-sm btn-info pull-right">
-                                                    <span class="glyphicon glyphicon-eye-close"></span>
-                                                    Show Visibility Options
-                                                </a>
-                                            </div>
-                                            <div id="visibility-options<%=commentIdx%>" class="panel panel-default"
-                                                style="display: none;">
-                                                <div class="panel-heading">Visibility Options</div>
-                                                <table class="table text-center" style="color:#000;"
-                                                    style="background: #fff;">
-                                                    <tbody>
-                                                        <tr>
-                                                            <th class="text-center">User/Group</th>
-                                                            <th class="text-center">Can see
-                                                                your comment</th>
-                                                            <th class="text-center">Can see
-                                                                giver's name</th>
-                                                            <th class="text-center">Can see
-                                                                recipient's name</th>
-                                                        </tr>
-                                                        <% if(recipientTypeForThisRecipient == CommentRecipientType.PERSON){ %>
-                                                        <tr id="recipient-person<%=commentIdx%>">
-                                                            <td class="text-left">
-                                                                <div data-toggle="tooltip"
-                                                                    data-placement="top" title=""
-                                                                    data-original-title="Control what comment recipient(s) can view">
-                                                                    Recipient(s)</div>
-                                                            </td>
-                                                            <td><input
-                                                                class="visibilityCheckbox answerCheckbox centered"
-                                                                name="receiverLeaderCheckbox"
-                                                                type="checkbox" value="<%=CommentRecipientType.PERSON%>">
-                                                            </td>
-                                                            <td><input
-                                                                class="visibilityCheckbox giverCheckbox"
-                                                                type="checkbox" value="<%=CommentRecipientType.PERSON%>">
-                                                            </td>
-                                                            <td><input
-                                                                class="visibilityCheckbox recipientCheckbox"
-                                                                name="receiverFollowerCheckbox"
-                                                                type="checkbox" value="<%=CommentRecipientType.PERSON%>"
-                                                                disabled="disabled"></td>
-                                                        </tr>
-                                                        <% } %>
-                                                        <% if(recipientTypeForThisRecipient == CommentRecipientType.PERSON
-                                                                || recipientTypeForThisRecipient == CommentRecipientType.TEAM){ %>
-                                                        <tr id="recipient-team<%=commentIdx%>">
-                                                            <td class="text-left">
-                                                                <div data-toggle="tooltip"
-                                                                    data-placement="top" title=""
-                                                                    data-original-title="Control what team members of comment recipients can view">
-                                                                    <%=recipientTypeForThisRecipient == CommentRecipientType.TEAM? "Recipient Team" : "Recipient's Team" %></div>
-                                                            </td>
-                                                            <td><input
-                                                                class="visibilityCheckbox answerCheckbox"
-                                                                type="checkbox"
-                                                                value="<%=CommentRecipientType.TEAM%>">
-                                                            </td>
-                                                            <td><input
-                                                                class="visibilityCheckbox giverCheckbox"
-                                                                type="checkbox"
-                                                                value="<%=CommentRecipientType.TEAM%>">
-                                                            </td>
-                                                            <td><input
-                                                                class="visibilityCheckbox recipientCheckbox"
-                                                                type="checkbox"
-                                                                value="<%=CommentRecipientType.TEAM%>"
-                                                                <%=recipientTypeForThisRecipient == CommentRecipientType.TEAM? "disabled=\"disabled\"" : "" %>>
-                                                            </td>
-                                                        </tr>
-                                                        <% } %>
-                                                        <tr id="recipient-course<%=commentIdx%>">
-                                                            <td class="text-left">
-                                                                <div data-toggle="tooltip"
-                                                                    data-placement="top" title=""
-                                                                    data-original-title="Control what other students in this course can view">
-                                                                    <%=recipientTypeForThisRecipient == CommentRecipientType.COURSE? "Students in this course" : "Other students in this course" %></div>
-                                                            </td>
-                                                            <td><input
-                                                                class="visibilityCheckbox answerCheckbox"
-                                                                type="checkbox" value="<%=CommentRecipientType.COURSE%>">
-                                                            </td>
-                                                            <td><input
-                                                                class="visibilityCheckbox giverCheckbox"
-                                                                type="checkbox" value="<%=CommentRecipientType.COURSE%>">
-                                                            </td>
-                                                            <td><input
-                                                                class="visibilityCheckbox recipientCheckbox"
-                                                                type="checkbox" value="<%=CommentRecipientType.COURSE%>"
-                                                                <%=recipientTypeForThisRecipient == CommentRecipientType.COURSE? "disabled=\"disabled\"" : "" %>>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="text-left">
-                                                                <div data-toggle="tooltip"
-                                                                    data-placement="top" title=""
-                                                                    data-original-title="Control what instructors can view">
-                                                                    Instructors</div>
-                                                        </td>
-                                                        <td><input
-                                                            class="visibilityCheckbox answerCheckbox"
-                                                            type="checkbox" value="<%=CommentRecipientType.INSTRUCTOR%>">
-                                                        </td>
-                                                        <td><input
-                                                            class="visibilityCheckbox giverCheckbox"
-                                                            type="checkbox" value="<%=CommentRecipientType.INSTRUCTOR%>">
-                                                        </td>
-                                                            <td><input
-                                                                class="visibilityCheckbox recipientCheckbox"
-                                                                type="checkbox" value="<%=CommentRecipientType.INSTRUCTOR%>">
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                            <textarea
-                                                class="form-control"
-                                                rows="3"
-                                                placeholder="Your comment about this student"
-                                                name=<%=Const.ParamsNames.COMMENT_TEXT%>
-                                                id="commentText_<%=studentIdx%>"></textarea>
-                                        </div>
-                                        <div class="col-sm-offset-5">
-                                            <input type="submit"
-                                                class="btn btn-primary"
-                                                id="button_save_comment<%=studentIdx%>"
-                                                value="Add">
-                                            <input type="button"
-                                                class="btn btn-default"
-                                                value="Cancel"
-                                                onclick="hideAddCommentBox(<%=studentIdx%>);">
-                                            <input type="hidden"
-                                                name=<%=Const.ParamsNames.COURSE_ID%>
-                                                value="<%=data.courseId%>">
-                                            <input type="hidden"
-                                                name=<%=Const.ParamsNames.STUDENT_EMAIL%>
-                                                value="<%=recipient%>">
-                                            <input type="hidden"
-                                                name=<%=Const.ParamsNames.FROM_COMMENTS_PAGE%> 
-                                                value="true"> 
-                                            <input type="hidden" 
-                                                name=<%=Const.ParamsNames.RECIPIENT_TYPE%> 
-                                                value="<%=recipientTypeForThisRecipient%>">
-                                            <input type="hidden" 
-                                                name=<%=Const.ParamsNames.RECIPIENTS%> 
-                                                value="<%=recipient%>">
-                                            <input type="hidden" 
-                                                name=<%=Const.ParamsNames.COMMENTS_SHOWCOMMENTSTO%> 
-                                                value="">
-                                            <input type="hidden" 
-                                                name=<%=Const.ParamsNames.COMMENTS_SHOWGIVERTO%> 
-                                                value="">
-                                            <input type="hidden" 
-                                                name=<%=Const.ParamsNames.COMMENTS_SHOWRECIPIENTTO%> 
-                                                value="">
-                                            <input type="hidden"
-                                                name="<%=Const.ParamsNames.USER_ID%>"
-                                                value="<%=data.account.googleId%>">
-                                        </div>
-                                    </form>
-                                </li>
                             </ul>
                         </div>
                         <%
