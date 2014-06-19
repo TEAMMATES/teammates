@@ -11,6 +11,9 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
 import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.blobstore.BlobstoreFailureException;
+import com.google.appengine.api.blobstore.BlobstoreService;
+import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
@@ -230,6 +233,9 @@ public class AccountsDb extends EntitiesDb {
             throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, newSpa);
         
+        // TODO: update the profile with the valid values regardless of the validity of 
+        //       the entire profile attributes entity
+        
         if (!newSpa.isValid()) {
             throw new InvalidParametersException(newSpa.getInvalidityInfo());
         }
@@ -253,13 +259,30 @@ public class AccountsDb extends EntitiesDb {
             profileToUpdate.setGender(newSpa.gender);
             profileToUpdate.setMoreInfo(new Text(newSpa.moreInfo));
             if (newSpa.pictureKey != "") {
-                profileToUpdate.setPictureKey(new BlobKey(newSpa.pictureKey));
+                try {
+                    if (profileToUpdate.getPictureKey() != new BlobKey("")) {
+                        deleteProfilePicFromGcs(profileToUpdate.getPictureKey());
+                        profileToUpdate.setPictureKey(new BlobKey(newSpa.pictureKey));
+                    }
+                } finally {
+                    closePM();
+                }
             }
             closePM();
             
         } catch (JDOObjectNotFoundException je) {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_STUDENT_PROFILE + newSpa.googleId
                     + ThreadHelper.getCurrentThreadStack());
+        }
+    }
+    
+    public void deleteProfilePicFromGcs(BlobKey key) throws BlobstoreFailureException {
+        try {
+            BlobstoreServiceFactory.getBlobstoreService().delete(key);
+        } catch (RuntimeException re) {
+            if (re.getClass().equals(BlobstoreFailureException.class)) {
+                throw re;
+            }
         }
     }
     

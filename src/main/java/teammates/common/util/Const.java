@@ -15,6 +15,7 @@ public class Const {
 
         public static final String ENCODING = "UTF8";
         public static final int NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT = 24;
+        public static final int MAX_PROFILE_PIC_SIZE = 200000;
         /** e.g. "2014-04-01 11:59 PM UTC" */
         public static final String DEFAULT_DATE_TIME_FORMAT = "yyyy-MM-dd h:mm a Z";
         /** Number to trim the Google ID when displaying to the user*/
@@ -682,6 +683,10 @@ public class Const {
         public static final String STUDENT_DELETED = "The student has been removed from the course";
         public static final String STUDENT_EMAIL_CONFLIT = "Trying to update to an email that is already used by: ";
         public static final String STUDENT_PROFILE_EDITED = "Your profile has been edited successfully";
+        public static final String STUDENT_PROFILE_PIC_TOO_LARGE = "The uploaded profile picture was too large. "
+                + "Please try again with a smaller picture.";
+        public static final String STUDENT_PROFILE_PIC_SERVICE_DOWN = "We were unable to upload your picture at this time. "
+                + "Please try again after some time";
         
         public static final String EVALUATION_ADDED = "The evaluation has been added. If you don't see that evaluation in the list below, please refresh the page after a few moments.";
         public static final String EVALUATION_DELETED = "The evaluation has been deleted.";

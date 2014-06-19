@@ -3,8 +3,9 @@ package teammates.ui.controller;
 import java.util.List;
 import java.util.Map;
 
+import com.google.appengine.api.blobstore.BlobInfo;
 import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.blobstore.BlobstoreService;
+import com.google.appengine.api.blobstore.BlobstoreFailureException;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 
 import teammates.common.datatransfer.StudentProfileAttributes;
@@ -29,11 +30,28 @@ public class StudentProfileEditSaveAction extends Action {
         
         try {
             logic.updateStudentProfile(account.studentProfile);
-            statusToUser.add(Const.StatusMessages.STUDENT_PROFILE_EDITED);
+            if (statusToUser.isEmpty()) {
+                statusToUser.add(Const.StatusMessages.STUDENT_PROFILE_EDITED);
+            }
             statusToAdmin = "Student Profile for <span class=\"bold\">(" + account.googleId + ")</span> edited.<br>" +
                     account.studentProfile.toString();
         } catch (InvalidParametersException ipe) {
             setStatusForException(ipe);
+        } catch (BlobstoreFailureException bfe) {
+            // This branch is not tested as recreating such a scenario is difficult in the 
+            // dev server for testing purposes.
+            
+            // delete the newly uploaded picture
+            deletePicture(new BlobKey(account.studentProfile.pictureKey));
+            statusToAdmin += Const.ACTION_RESULT_FAILURE 
+                    + " : Could not delete profile picture of profile for account ("
+                    + account.googleId 
+                    + ")";
+            statusToUser.add(Const.StatusMessages.STUDENT_PROFILE_PIC_SERVICE_DOWN);
+            isError = true;
+        } catch (Exception e) {
+            deletePicture(new BlobKey(account.studentProfile.pictureKey));
+            throw e;
         }
         
         return createRedirectResult(Const.ActionURIs.STUDENT_PROFILE_PAGE);
@@ -57,18 +75,49 @@ public class StudentProfileEditSaveAction extends Action {
         editedProfile.country = getRequestParamValue(Const.ParamsNames.STUDENT_COUNTRY);
         editedProfile.gender = getRequestParamValue(Const.ParamsNames.STUDENT_GENDER);
         editedProfile.moreInfo = getRequestParamValue(Const.ParamsNames.STUDENT_PROFILE_MOREINFO);
-        
-        BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
-        Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
-        List<BlobKey> keys = blobs.get(Const.ParamsNames.STUDENT_PROFILE_PIC);
-        
-        if(keys != null && keys.size() > 0) {
-            editedProfile.pictureKey = keys.get(0).getKeyString();
-        }
+        String fileName = getRequestParamValue(Const.ParamsNames.STUDENT_PROFILE_PIC);
         
         validatePostParameters(editedProfile);
         
+        if (fileName != "") {
+            Map<String, List<BlobInfo>> blobsMap = BlobstoreServiceFactory.getBlobstoreService().getBlobInfos(request);
+            List<BlobInfo> blobs = blobsMap.get(Const.ParamsNames.STUDENT_PROFILE_PIC);
+            
+            if(blobs != null && blobs.size() > 0) {
+                BlobInfo profilePic = blobs.get(0);
+                log.info(profilePic.toString());
+                validateAndStorePictureKey(editedProfile, profilePic);
+            }
+        }
+        
         return editedProfile;
+    }
+
+    private void validateAndStorePictureKey(
+            StudentProfileAttributes editedProfile, BlobInfo profilePic) {
+        if (profilePic.getSize() > Const.SystemParams.MAX_PROFILE_PIC_SIZE) {
+            deletePicture(profilePic.getBlobKey());
+            isError = true;
+            statusToUser.add(Const.StatusMessages.STUDENT_PROFILE_PIC_TOO_LARGE);
+        } else {
+            editedProfile.pictureKey = profilePic.getBlobKey().getKeyString();
+        }
+        
+    }
+
+    private void deletePicture(BlobKey blobKey) {
+        try {
+            logic.deleteProfilePicture(blobKey);
+        } catch (BlobstoreFailureException bfe) {
+            // This branch is not tested as recreating such a scenario is difficult in the 
+            // dev server for testing purposes.
+            
+            statusToAdmin = Const.ACTION_RESULT_FAILURE 
+                    + " : Unable to delete profile picture (possible unused picture with key: "
+                    + blobKey.getKeyString()
+                    + " || Error Message: "
+                    + bfe.getMessage() + Const.EOL;
+        }
     }
 
 }
