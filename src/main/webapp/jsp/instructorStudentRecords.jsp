@@ -89,6 +89,13 @@
                         data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COMMENT_EDIT%>">
                             <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
                         </a>
+                        <% if(comment.showCommentTo.size() > 0){ 
+                               String peopleCanSee = data.getTypeOfPeopleCanViewComment(comment);
+                        %>
+                        <span class="glyphicon glyphicon-eye-open" data-toggle="tooltip" style="margin-left: 5px;"
+                            data-placement="top"
+                            title="This comment is public to <%=peopleCanSee%>"></span>
+                        <% } %>
                     </div>
                     <div id="plainCommentText<%=commentIdx %>"><%=comment.commentText.getValue() %></div>
                     <div id="commentTextEdit<%=commentIdx %>" style="display:none;">
