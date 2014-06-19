@@ -1,11 +1,12 @@
 package teammates.ui.controller;
 
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CourseRoster;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
 
 public class StudentCommentsPageData extends PageData {
@@ -13,10 +14,11 @@ public class StudentCommentsPageData extends PageData {
     public String courseId;
     public String courseName;
     public List<String> coursePaginationList;
-    public Map<String, List<CommentAttributes>> comments;
+    public List<CommentAttributes> comments;
     public CourseRoster roster;
     public String previousPageLink;
     public String nextPageLink;
+    public String studentEmail;
     
     public StudentCommentsPageData(AccountAttributes account) {
         super(account);
@@ -27,5 +29,28 @@ public class StudentCommentsPageData extends PageData {
         String link = Const.ActionURIs.STUDENT_COMMENTS_PAGE;
         link = addUserIdToUrl(link);
         return link;
+    }
+    
+    public String getRecipientNames(Set<String> recipients){
+        StringBuilder namesStringBuilder = new StringBuilder();
+        int i = 0;
+        for(String recipient : recipients){
+            if(i == recipients.size() - 1 && recipients.size() > 1){
+                namesStringBuilder.append("and ");
+            }
+            StudentAttributes student = roster.getStudentForEmail(recipient);
+            if(recipient.equals(studentEmail)){
+                namesStringBuilder.append("you, ");
+            } else if(courseId.equals(recipient)){ 
+                namesStringBuilder.append("All Students In This Course, ");
+            } else if(student != null){
+                namesStringBuilder.append(student.name + ", ");
+            } else {
+                namesStringBuilder.append(recipient + ", ");
+            }
+            i++;
+        }
+        String namesString = namesStringBuilder.toString();
+        return removeEndComma(namesString);
     }
 }

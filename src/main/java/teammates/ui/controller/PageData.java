@@ -882,7 +882,7 @@ public class PageData {
         return removeEndComma(peopleCanViewString);
     }
     
-    private String removeEndComma(String str){
+    protected String removeEndComma(String str){
         return str.substring(0, str.length() - 2);
     }
 

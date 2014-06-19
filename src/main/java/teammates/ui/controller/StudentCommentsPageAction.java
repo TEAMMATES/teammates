@@ -1,15 +1,9 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 import teammates.common.datatransfer.CommentAttributes;
-import teammates.common.datatransfer.CommentRecipientType;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.StudentAttributes;
@@ -26,6 +20,7 @@ public class StudentCommentsPageAction extends Action {
     private String courseId;
     private String previousPageLink = "javascript:;";
     private String nextPageLink = "javascript:;";
+    private List<CommentAttributes> comments = new ArrayList<CommentAttributes>();
     
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
@@ -49,23 +44,24 @@ public class StudentCommentsPageAction extends Action {
         verifyAccessible();
         
         CourseRoster roster = null;
-        Map<String, List<CommentAttributes>> recipientToCommentsMap = new HashMap<String, List<CommentAttributes>>();
         if(coursePaginationList.size() > 0){
             roster = new CourseRoster(
                     new StudentsDb().getStudentsForCourse(courseId),
                     new InstructorsDb().getInstructorsForCourse(courseId));
 
-            recipientToCommentsMap = getRecipientToCommentsMap();
+            StudentAttributes student = logic.getStudentForEmail(courseId, account.email);
+            comments = logic.getCommentsForStudent(student);
         }
         
         data = new StudentCommentsPageData(account);
         data.courseId = courseId;
         data.courseName = courseName;
         data.coursePaginationList = coursePaginationList;
-        data.comments = recipientToCommentsMap;
+        data.comments = comments;
         data.roster = roster;
         data.previousPageLink = previousPageLink;
         data.nextPageLink = nextPageLink;
+        data.studentEmail = account.email;
         
         statusToAdmin = "studentComments Page Load<br>" + 
                 "Viewing <span class=\"bold\">" + account.googleId + "'s</span> comment records " +
@@ -124,109 +120,6 @@ public class StudentCommentsPageAction extends Action {
         if(currentIndex + 1 < courses.size()){
             CourseAttributes course = courses.get(currentIndex + 1);
             nextPageLink = new PageData(account).getStudentCommentsLink() + "&courseid=" + course.id;
-        }
-    }
-
-    private Map<String, List<CommentAttributes>> getRecipientToCommentsMap()
-            throws EntityDoesNotExistException {
-        StudentAttributes student = logic.getStudentForEmail(courseId, account.email);
-        List<StudentAttributes> teammates = logic.getStudentsForTeam(student.team, courseId);
-        List<String> teammatesEmails = getTeammatesEmails(teammates);
-        
-        List<CommentAttributes> comments = new ArrayList<CommentAttributes>();
-        HashSet<String> commentsVisitedSet = new HashSet<String>();
-        
-        List<CommentAttributes> commentsForStudent = logic.getCommentsForReceiver(courseId, CommentRecipientType.PERSON, student.email);
-        removeNonVisibleCommentsForStudent(commentsForStudent);
-        appendCommentsFrom(commentsForStudent, comments, commentsVisitedSet);
-        
-        List<CommentAttributes> commentsForTeam = logic.getCommentsForCommentViewer(courseId, CommentRecipientType.TEAM);
-        removeNonVisibleCommentsForTeam(commentsForTeam, student, teammatesEmails);
-        appendCommentsFrom(commentsForTeam, comments, commentsVisitedSet);
-        
-        //TODO: handle comments for section
-        List<CommentAttributes> commentsForCourse = logic.getCommentsForCommentViewer(courseId, CommentRecipientType.COURSE);
-        removeNonVisibleCommentsForCourse(commentsForCourse, student);
-        appendCommentsFrom(commentsForCourse, comments, commentsVisitedSet);
-        
-        //group data by recipients
-        Map<String, List<CommentAttributes>> recipientToCommentsMap = new TreeMap<String, List<CommentAttributes>>();
-        for(CommentAttributes comment : comments){
-            for(String recipient : comment.recipients){
-                List<CommentAttributes> commentList = recipientToCommentsMap.get(recipient);
-                if(commentList == null){
-                    commentList = new ArrayList<CommentAttributes>();
-                    commentList.add(comment);
-                    recipientToCommentsMap.put(recipient, commentList);
-                } else {
-                    commentList.add(comment);
-                }
-            }
-        }
-        //sort comments by created date
-        for(List<CommentAttributes> commentList : recipientToCommentsMap.values()){
-            java.util.Collections.sort(commentList);
-        }
-        return recipientToCommentsMap;
-    }
-    
-    private List<String> getTeammatesEmails(List<StudentAttributes> teammates) {
-        List<String> teammatesEmails = new ArrayList<String>();
-        for(StudentAttributes teammate : teammates){
-            teammatesEmails.add(teammate.email);
-        }
-        return teammatesEmails;
-    }
-
-    private void removeNonVisibleCommentsForCourse(
-            List<CommentAttributes> comments, StudentAttributes student) {
-        Iterator<CommentAttributes> iter = comments.iterator();
-        while(iter.hasNext()){
-            CommentAttributes c = iter.next();
-            if(!c.courseId.equals(student.course)){
-                iter.remove();
-            }
-        }
-    }
-    
-    private void removeNonVisibleCommentsForTeam(List<CommentAttributes> comments,
-            StudentAttributes student, List<String> teammates) {
-        Iterator<CommentAttributes> iter = comments.iterator();
-        while(iter.hasNext()){
-            CommentAttributes c = iter.next();
-            if(c.recipientType == CommentRecipientType.PERSON){
-                boolean isToRemove = true;
-                for(String recipient : c.recipients){
-                    if(teammates.contains(recipient)){
-                        isToRemove = false;
-                        break;
-                    }
-                }
-                if(isToRemove){
-                    iter.remove();
-                }
-            } else if(c.recipientType == CommentRecipientType.TEAM && !c.recipients.contains(student.team)){
-                iter.remove();
-            }
-        }
-    }
-
-    private void removeNonVisibleCommentsForStudent(List<CommentAttributes> comments){
-        Iterator<CommentAttributes> iter = comments.iterator();
-        while(iter.hasNext()){
-            CommentAttributes c = iter.next();
-            if(!c.showCommentTo.contains(CommentRecipientType.PERSON)){
-                iter.remove();
-            }
-        }
-    }
-    
-    private void appendCommentsFrom(List<CommentAttributes> thisCommentList, List<CommentAttributes> thatCommentList, HashSet<String> commentsVisitedSet){
-        for(CommentAttributes c : thisCommentList){
-            if(!commentsVisitedSet.contains(c.getCommentId().toString())){
-                thatCommentList.add(c);
-                commentsVisitedSet.add(c.getCommentId().toString());
-            }
         }
     }
 }

@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import teammates.common.datatransfer.CommentAttributes;
-import teammates.common.datatransfer.CommentStatus;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
@@ -34,6 +33,7 @@ public class InstructorCommentsPageAction extends Action {
     private Boolean isViewingDraft;
     private String previousPageLink = "javascript:;";
     private String nextPageLink = "javascript:;";
+    private InstructorAttributes instructor;
     
     @Override
     public ActionResult execute() throws EntityDoesNotExistException {
@@ -92,7 +92,7 @@ public class InstructorCommentsPageAction extends Action {
     private void verifyAccessible() {
         isViewingDraft = courseId == null;
         if(!isViewingDraft){//view by Course
-            InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
+            instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
             new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId));
         } else {//view by Draft
             courseId = "";
@@ -121,6 +121,7 @@ public class InstructorCommentsPageAction extends Action {
             if(isDisplayArchivedCourse || !course.isArchived || course.id.equals(courseId)){
                 if(courseId == ""){
                     courseId = course.id;
+                    instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
                 }
                 coursePaginationList.add(course.id);
             }
@@ -159,7 +160,7 @@ public class InstructorCommentsPageAction extends Action {
         if(isViewingDraft){//for comment drafts
             comments = logic.getCommentDrafts(account.email);
         } else {//for normal comments
-            comments = logic.getCommentsForGiverAndStatus(courseId, account.email, CommentStatus.FINAL);
+            comments = logic.getCommentsForInstructor(instructor);
         }
         //group data by recipients
         Map<String, List<CommentAttributes>> recipientToCommentsMap = new TreeMap<String, List<CommentAttributes>>();
