@@ -45,36 +45,48 @@ function sessionToggleSort(divElement, colIdx, comparator) {
 	if ($(divElement).attr("class") == "non-sorted-alpha") {
 		sortTable(divElement, colIdx, comparator, true);
 		$(divElement).attr("class", "ascending-alpha");
+		$(divElement).parent().find('span').attr("class",
+				"glyphicon glyphicon-sort");
 		$(divElement).find('span').attr("class",
 				"glyphicon glyphicon-sort-by-alphabet");
 
 	} else if ($(divElement).attr("class") == "ascending-alpha") {
 		sortTable(divElement, colIdx, comparator, false);
 		$(divElement).attr("class", "descending-alpha");
+		$(divElement).parent().find('span').attr("class",
+				"glyphicon glyphicon-sort");
 		$(divElement).find('span').attr("class",
 				"glyphicon glyphicon-sort-by-alphabet-alt");
 
 	} else if ($(divElement).attr("class") == "descending-alpha") {
 		sortTable(divElement, colIdx, comparator, true);
 		$(divElement).attr("class", "ascending-alpha");
+		$(divElement).parent().find('span').attr("class",
+				"glyphicon glyphicon-sort");
 		$(divElement).find('span').attr("class",
 				"glyphicon glyphicon-sort-by-alphabet");
 
 	} else if ($(divElement).attr("class") == "non-sorted") {
 		sortTable(divElement, colIdx, comparator, true);
 		$(divElement).attr("class", "ascending");
+		$(divElement).parent().find('span').attr("class",
+				"glyphicon glyphicon-sort");
 		$(divElement).find('span').attr("class",
 				"glyphicon glyphicon-sort-by-attributes");
 
 	} else if ($(divElement).attr("class") == "ascending") {
 		sortTable(divElement, colIdx, comparator, false);
 		$(divElement).attr("class", "descending");
+		$(divElement).parent().find('span').attr("class",
+				"glyphicon glyphicon-sort");
 		$(divElement).find('span').attr("class",
 				"glyphicon glyphicon-sort-by-attributes-alt");
 
 	} else {
 		sortTable(divElement, colIdx, comparator, true);
 		$(divElement).attr("class", "ascending");
+		$(divElement).parent().find('span').attr("class",
+				"glyphicon glyphicon-sort");
 		$(divElement).find('span').attr("class",
 				"glyphicon glyphicon-sort-by-attributes");
 	}
@@ -97,12 +109,17 @@ jQuery(document).ready(function() {
 
 	function(event) {
 
-		event.preventDefault();
-		jQuery('.hoverMenu1').animate({
-			"left" : "0em",
-			backgroundColor : "rgba(235, 235, 235, 0.80)"
-		}, duration);
+		var leftMargin = jQuery('.hoverMenu1').css("left");
 
+		if (!jQuery('.hoverMenu1').is(':animated')) {
+
+			event.preventDefault();
+			jQuery('.hoverMenu1').animate({
+				"left" : "0em",
+				backgroundColor : "rgba(235, 235, 235, 0.80)"
+			}, duration);
+
+		}
 		return false;
 	},
 
@@ -124,12 +141,14 @@ jQuery(document).ready(function() {
 
 	function(event) {
 
-		event.preventDefault();
-		jQuery('.hoverMenu2').animate({
-			"left" : "0em",
-			backgroundColor : "rgba(235, 235, 235, 0.80)"
-		}, duration);
+		if (!jQuery('.hoverMenu2').is(':animated')) {
 
+			event.preventDefault();
+			jQuery('.hoverMenu2').animate({
+				"left" : "0em",
+				backgroundColor : "rgba(235, 235, 235, 0.80)"
+			}, duration);
+		}
 		return false;
 	},
 

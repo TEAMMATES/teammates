@@ -19,109 +19,83 @@ public class AdminSessionsPageAction extends Action {
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
-        
+
         Logic logic = new Logic();
 
         new GateKeeper().verifyAdminPrivileges(account);
-        
+
         AdminSessionsPageData data = new AdminSessionsPageData(account);
 
         @SuppressWarnings("deprecation")
         // This method is deprecated to prevent unintended usage. This is an
         // intended usage.
-        List<FeedbackSessionAttributes> allOpenFeedbackSessionsList = logic
-                .getAllOpenFeedbackSessions();
-        
+        List<FeedbackSessionAttributes> allOpenFeedbackSessionsList = logic.getAllOpenFeedbackSessions();
+
+        HashMap<String, List<FeedbackSessionAttributes>> map = new HashMap<String, List<FeedbackSessionAttributes>>();
+
+        if (allOpenFeedbackSessionsList.isEmpty()) {
+
+            isError = false;
+            statusToUser.add("Currently No Ongoing Sessions");
+            statusToAdmin = "Admin Sessions Page Load<br>" +
+                            "<span class=\"bold\"> No Ongoing Sessions</span>";
+
+            data.map = map;
+            data.totalOngoingSessions = 0;
+            data.hasUnknown = false;
+
+            return createShowPageResult(Const.ViewURIs.ADMIN_SESSIONS, data);
+        }
+
         data.totalOngoingSessions = allOpenFeedbackSessionsList.size();
-       
-        HashMap<String,List<FeedbackSessionAttributes>> map = new HashMap<String,List<FeedbackSessionAttributes>>();
-        
         data.hasUnknown = false;
-       
+
         for (FeedbackSessionAttributes fs : allOpenFeedbackSessionsList) {
 
-            List<InstructorAttributes> instructors = logic.getInstructorsForCourse(
-                    fs.courseId);
-            
-            if(!instructors.isEmpty()){
-                
+            List<InstructorAttributes> instructors = logic.getInstructorsForCourse(fs.courseId);
+
+            if (!instructors.isEmpty()) {
+
                 InstructorAttributes instructor = instructors.get(0);
-          
+               
                 AccountAttributes account = logic.getAccount(instructor.googleId);
-                
-                if(account == null){                   
-                    putIntoUnknownList(map,fs);
+
+                if (account == null) {
+                    putIntoUnknownList(map, fs);
                     data.hasUnknown = true;
                     continue;
                 }
-                
+
                 if (map.get(account.institute) == null) {
                     List<FeedbackSessionAttributes> newList = new ArrayList<FeedbackSessionAttributes>();
                     newList.add(fs);
                     map.put(account.institute, newList);
-                }else{
+                } else {
                     map.get(account.institute).add(fs);
                 }
-            
-            }else{             
-                putIntoUnknownList(map,fs);
+
+            } else {
+                putIntoUnknownList(map, fs);
                 data.hasUnknown = true;
             }
         }
-        
-        
-        //System.out.print(map.toString());
-        System.out.print(map.keySet().size());
-        
-        for (String key : map.keySet()){
-            System.out.print(key);
-        }
-        
-        
+
         data.map = map;
-        
-        
-        // data.instructorCoursesTable = new HashMap<String,
-        // ArrayList<InstructorAttributes>>();
-        // data.instructorAccountsTable = new HashMap<String,
-        // AccountAttributes>();
-        //
-        // for(AccountAttributes acc : allInstructorAccountsList){
-        // data.instructorAccountsTable.put(acc.googleId, acc);
-        // }
-        //
-        // for(InstructorAttributes instructor : allInstructorsList){
-        // ArrayList<InstructorAttributes> courseList =
-        // data.instructorCoursesTable.get(instructor.googleId);
-        // if (courseList == null){
-        // courseList = new ArrayList<InstructorAttributes>();
-        // data.instructorCoursesTable.put(instructor.googleId, courseList);
-        // }
-        // courseList.add(instructor);
-        // }
-        //
-        // statusToAdmin = "Admin Account Management Page Load<br>" +
-        // "<span class=\"bold\">Total Instructors:</span> " +
-        // data.instructorAccountsTable.size();
-        //
-        // return createShowPageResult(Const.ViewURIs.ADMIN_ACCOUNT_MANAGEMENT,
-        // data);
-        //
-        //
-        //
-        statusToAdmin = "Admin Sessions Page Load";
-        
+        statusToAdmin = "Admin Sessions Page Load<br>" +
+                "<span class=\"bold\">Total Ongoing Sessions:</span> " +
+                data.totalOngoingSessions;
+
         return createShowPageResult(Const.ViewURIs.ADMIN_SESSIONS, data);
     }
-    
-    
-    private void putIntoUnknownList(HashMap<String, List<FeedbackSessionAttributes>> map, FeedbackSessionAttributes fs){
-        
+
+    private void putIntoUnknownList(HashMap<String, List<FeedbackSessionAttributes>> map,
+                                    FeedbackSessionAttributes fs) {
+
         if (map.get("Unknown") == null) {
             List<FeedbackSessionAttributes> newList = new ArrayList<FeedbackSessionAttributes>();
             newList.add(fs);
             map.put("Unknown", newList);
-        }else{
+        } else {
             map.get("Unknown").add(fs);
         }
     }

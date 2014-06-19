@@ -56,8 +56,10 @@
             <h1 id="headTitle">
                 Ongoing Sessions<small> Total: <%=data.totalOngoingSessions%></small>
             </h1>
-            <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
+            
         </div>
+        
+        <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
 
         <%
         	int tableIndex = 1;
