@@ -1216,6 +1216,56 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         assertEquals(exportLines[14], "\"Instructors\",\"Instructor1 Course1\",\"Instructors\",\"Instructor1 Course1\",4.5");
         assertEquals(exportLines[15], "\"Instructors\",\"Instructor2 Course1\",\"Instructors\",\"Instructor2 Course1\",1");
         
+        
+        ______TS("CONSTSUM results");
+        
+        session = dataBundle.feedbackSessions.get("constSumSession");
+        instructor = dataBundle.instructors.get("instructor1OfCourse1");
+        
+        export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
+                session.feedbackSessionName, session.courseId, instructor.email);
+        
+        System.out.println(export);
+        
+        /*This is how the export should look like
+        =======================================
+        Course,"FSQTT.idOfTypicalCourse1"
+        Session Name,"CONSTSUM Session"
+        
+        
+        Question 1,"How important are the following factors to you? Give points accordingly."
+        
+        Team,Giver,Recipient's Team,Recipient,Feedbacks:,"Grades","Fun"
+        "Team 1.1","student1 In Course1","Team 1.1","student1 In Course1",,20,80
+        "Team 1.1","student2 In Course1","Team 1.1","student2 In Course1",,80,20
+        
+        
+        Question 2,"Split points among the teams"
+        
+        Team,Giver,Recipient's Team,Recipient,Feedback
+        "Instructors","Instructor1 Course1","","Team 1.1",80
+        "Instructors","Instructor2 Course1","","Team 1.2",20
+        */
+        
+        exportLines = export.split(Const.EOL);
+        assertEquals(exportLines[0], "Course,\"" + session.courseId + "\"");
+        assertEquals(exportLines[1], "Session Name,\"" + session.feedbackSessionName + "\"");
+        assertEquals(exportLines[2], "");
+        assertEquals(exportLines[3], "");
+        assertEquals(exportLines[4], "Question 1,\"How important are the following factors to you? Give points accordingly.\"");
+        assertEquals(exportLines[5], "");
+        assertEquals(exportLines[6], "Team,Giver,Recipient's Team,Recipient,Feedbacks:,\"Grades\",\"Fun\"");
+        assertEquals(exportLines[7], "\"Team 1.1\",\"student1 In Course1\",\"Team 1.1\",\"student1 In Course1\",,20,80");
+        assertEquals(exportLines[8], "\"Team 1.1\",\"student2 In Course1\",\"Team 1.1\",\"student2 In Course1\",,80,20");
+        assertEquals(exportLines[9], "");
+        assertEquals(exportLines[10], "");
+        assertEquals(exportLines[11], "Question 2,\"Split points among the teams\"");
+        assertEquals(exportLines[12], "");
+        assertEquals(exportLines[13], "Team,Giver,Recipient's Team,Recipient,Feedback");
+        assertEquals(exportLines[14], "\"Instructors\",\"Instructor1 Course1\",\"\",\"Team 1.1\",80");
+        assertEquals(exportLines[15], "\"Instructors\",\"Instructor2 Course1\",\"\",\"Team 1.2\",20");
+        
+        
         ______TS("Non-existent Course/Session");
         
         try {

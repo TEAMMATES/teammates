@@ -976,7 +976,7 @@
                            </option>
                         </select>
                          
-                            Numerical-scale question
+                            Distribute points (among options) question
                      </span>
                      <span class="pull-right">
                         <a class="btn btn-primary btn-xs" data-original-title="Get a submission link to this particular question. Useful if you want students to answer individual questions separately or at different points in time." data-placement="top" data-toggle="tooltip" id="questiongetlink-2" onclick="getQuestionLink(2)" title="">
@@ -998,38 +998,88 @@
             <div class="panel-body">
                <div>
                   <textarea class="form-control textvalue nonDestructive" data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?" data-placement="top" data-toggle="tooltip" disabled="disabled" id="questiontext-2" name="questiontext" rows="5" tabindex="9" title="">
-                     NumScale qn
+                     const sum qn
                   </textarea>
                </div>
-               <div>
+               <div class="row">
                   <br/>
-                                    <div>
-                     <div>
-                        <div class="row">
-                           <div class="col-sm-4" data-original-title="Minimum acceptable response value" data-placement="top" data-toggle="tooltip" title="">
-                              Minimum value:
-                              <input class="minScaleBox" disabled="disabled" id="minScaleBox-2" name="numscalemin" onchange="updateNumScalePossibleValues(2)" type="number" value="0"/>
-                                                         </div>
-                           <div class="col-sm-4" data-original-title="Value to be increased/decreased each step" data-placement="top" data-toggle="tooltip" title="">
-                              Increment:
-                              <input class="stepBox" disabled="disabled" id="stepBox-2" min="0.001" name="numscalestep" onchange="updateNumScalePossibleValues(2)" step="0.001" type="number" value="0.1"/>
-                                                         </div>
-                           <div class="col-sm-4" data-original-title="Maximum acceptable response value" data-placement="top" data-toggle="tooltip" title="">
-                              Maximum value:
-                              <input class="maxScaleBox" disabled="disabled" id="maxScaleBox-2" name="numscalemax" onchange="updateNumScalePossibleValues(2)" type="number" value="1"/>
-                                                         </div>
+                                    <div class="col-sm-6" id="constSumOptionTable-2">
+                     <div id="constSumOptionRow-0-2">
+                        <div class="input-group col-sm-12">
+                           <input class="form-control" disabled="disabled" id="constSumOption-0-2" name="constSumOption-0" type="text" value="Option 1"/>
+                                                      <span class="input-group-btn">
+                              <button class="btn btn-default removeOptionLink" id="constSumRemoveOptionLink" onclick="removeConstSumOption(0,2)" style="display:none" tabindex="-1" type="button">
+                                 <span class="glyphicon glyphicon-remove">
+                                 </span>
+                              </button>
+                           </span>
                         </div>
-                        <br/>
-                                                <div class="row">
-                           <div class="col-sm-12">
-                              <span id="numScalePossibleValues-2">
-                                 [Based on the above settings, acceptable responses are: 0, 0.1, 0.2, ..., 0.8, 0.9, 1]
+                     </div>
+                     <div id="constSumOptionRow-1-2">
+                        <div class="input-group col-sm-12">
+                           <input class="form-control" disabled="disabled" id="constSumOption-1-2" name="constSumOption-1" type="text" value="Option 3"/>
+                                                      <span class="input-group-btn">
+                              <button class="btn btn-default removeOptionLink" id="constSumRemoveOptionLink" onclick="removeConstSumOption(1,2)" style="display:none" tabindex="-1" type="button">
+                                 <span class="glyphicon glyphicon-remove">
+                                 </span>
+                              </button>
+                           </span>
+                        </div>
+                     </div>
+                     <div id="constSumOptionRow-2-2">
+                        <div class="input-group col-sm-12">
+                           <input class="form-control" disabled="disabled" id="constSumOption-2-2" name="constSumOption-2" type="text" value="Option 5"/>
+                                                      <span class="input-group-btn">
+                              <button class="btn btn-default removeOptionLink" id="constSumRemoveOptionLink" onclick="removeConstSumOption(2,2)" style="display:none" tabindex="-1" type="button">
+                                 <span class="glyphicon glyphicon-remove">
+                                 </span>
+                              </button>
+                           </span>
+                        </div>
+                     </div>
+                     <div id="constSumAddOptionRow-2">
+                        <div colspan="2">
+                           <a class="btn btn-primary btn-xs addOptionLink" id="constSumAddOptionLink" onclick="addConstSumOption(2)" style="display:none">
+                              <span class="glyphicon glyphicon-plus">
                               </span>
+                              add more options
+                           </a>
+                        </div>
+                     </div>
+                     <input id="noofchoicecreated-2" name="noofchoicecreated" type="hidden" value="3"/>
+                                          <input id="constSumToRecipients-2" name="constSumToRecipients" type="hidden" value="false"/>
+                                       </div>
+                  <div class="col-sm-6">
+                     <div class="form-inline col-sm-12">
+                        <div class="row">
+                           <div class="col-sm-4">
+                              <label class="control-label width-100-pc">
+                                 <b>
+                                    Points to distribute
+                                 </b>
+                              </label>
                            </div>
+                           <div class="col-sm-5">
+                              <select  class="col-sm-5 width-100-pc select form-control" disabled="disabled" id="constSumPointsPerOptionSelect-2" name="constSumPointsPerOption">
+                                 <option value="false">
+                                    in total:
+                                 </option>
+                                 <option id="constSumOption_Option-2" value="true">
+                                    per option:
+                                 </option>
+                                 <option id="constSumOption_Recipient-2" value="true">
+                                    per recipient:
+                                 </option>
+                              </select>
+                           </div>
+                           <div class="col-sm-3">
+                              <input class="form-control width-100-pc pointsBox" disabled="disabled" id="constSumPoints-2" min="1" name="constSumPoints" onchange="updateConstSumPointsValue(2)" step="1" type="number" value="100"/>
+                                                         </div>
                         </div>
                      </div>
                   </div>
-               </div>
+                  <br/>
+                                 </div>
                <br/>
                               <div>
                   <div class="col-sm-6" data-original-title="Who will give feedback" data-placement="top" data-toggle="tooltip" title="">
@@ -1229,7 +1279,7 @@
                   <input name="courseid" type="hidden" value="CFeedbackEditUiT.CS2104"/>
                   <input name="questionid" type="hidden" value="{*}"/>
                   <input name="questionnum" type="hidden" value="2"/>
-                  <input name="questiontype" type="hidden" value="NUMSCALE"/>
+                  <input name="questiontype" type="hidden" value="CONSTSUM"/>
                   <input id="questionedittype-2" name="questionedittype" type="hidden" value="edit"/>
                   <input name="showresponsesto" type="hidden" value="RECEIVER,INSTRUCTORS"/>
                   <input name="showgiverto" type="hidden" value="RECEIVER,INSTRUCTORS"/>

@@ -100,7 +100,7 @@
             for (FeedbackResponseAttributes existingResponse : existingResponses) {
         %>
                 <br />
-                <div class="form-group">
+                <div class="form-group margin-0">
                     <div class="col-sm-2 form-inline" <%=(question.isRecipientNameHidden()) ? "style=\"display:none\"" : "style=\"text-align:right;\""%>>
                         <label for="input">To: </label>
                         <select class="participantSelect middlealign form-control" name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"
@@ -127,7 +127,7 @@
                         while (responseIndx < numOfResponseBoxes) {
         %>
                 <br />
-                <div class="form-group">
+                <div class="form-group margin-0">
                     <div class="col-sm-2 form-inline" <%=(question.isRecipientNameHidden()) ? "style=\"display:none\"" : "style=\"text-align:right\""%>>
                         <label for="input">To:</label>
                         <select class="participantSelect middlealign newResponse form-control" name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"

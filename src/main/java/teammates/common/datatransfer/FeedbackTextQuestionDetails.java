@@ -63,7 +63,8 @@ public class FeedbackTextQuestionDetails extends
     }
     
     @Override
-    public String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses) {
+    public String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses,
+            FeedbackSessionResultsBundle bundle) {
         String html = "";
         int averageLength = 0;
         int minLength = Integer.MAX_VALUE;
@@ -104,7 +105,8 @@ public class FeedbackTextQuestionDetails extends
 
     @Override
     public List<String> validateResponseAttributes(
-            List<FeedbackResponseAttributes> responses) {
+            List<FeedbackResponseAttributes> responses,
+            int numRecipients) {
         List<String> errors = new ArrayList<String>();
         return errors;
     }
