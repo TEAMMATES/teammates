@@ -29,7 +29,7 @@
           </div>
           <div class="col-sm-6">
               <div class="form-group">
-                <label class="col-sm-4 control-label">Session open:</label>
+                <label class="col-sm-4 control-label">Session duration:</label>
                 <div class="col-sm-8">
                   <p class="form-control-static"><%=TimeHelper.formatTime(data.bundle.feedbackSession.startTime)%>&nbsp;&nbsp;&nbsp;<b>to</b>&nbsp;&nbsp;&nbsp;<%=TimeHelper.formatTime(data.bundle.feedbackSession.endTime)%></p>
                 </div>
@@ -101,7 +101,7 @@
                         </label>
                         <div class="col-sm-10">
                             <div class="input-group">
-                                <input type="text" id="results-search-box" class="form-control" placeholder="Type here to filter results" onchange="updateResultsFilter()">
+                                <input type="text" id="results-search-box" class="form-control" placeholder="Type a student/team name to filter results" onchange="updateResultsFilter()">
                                 <a class="input-group-addon btn btn-default"><span class="glyphicon glyphicon-search"></span></a>
                             </div>
                         </div>
@@ -126,7 +126,7 @@
             </div>
             <div class="row">
                 <% if(data.sections.size() != 0) { %>
-                <div class="col-sm-5" data-toggle="tooltip" title="View results in separated section. Responses which are cross-sectional will not be shown.">
+                <div class="col-sm-5" data-toggle="tooltip" title="View results in separated section">
                     <div class="form-group">
                         <label for="sectionSelect" class="col-sm-2 control-label">
                             Section:
@@ -148,11 +148,9 @@
                 <% } %>
                 <div class="col-sm-7 pull-right" style="padding-top:8px;">
                     <% if(shouldCollapsed){ %>
-                    <div class="pull-right" data-toggle="tooltip" title="Cannot expand or collapse all panels as it will freeze the session due to large amount of responses" style="display:inline-block;">
-                    <a class="btn btn-default btn-xs pull-right" id="collapse-panels-button" onclick="toggleCollapse()">
+                    <a class="btn btn-default btn-xs pull-right" id="collapse-panels-button" onclick="toggleCollapse()" data-toggle="tooltip" title="Collapse or expand all panels. You can also click on the panel heading to toggle each one individually.">
                         Expand All
                     </a>
-                    </div>
                     <% } else { %>
                     <a class="btn btn-default btn-xs pull-right" id="collapse-panels-button" onclick="toggleCollapse()" data-toggle="tooltip" title="Collapse or expand all panels. You can also click on the panel heading to toggle each one individually.">
                         Collapse All
