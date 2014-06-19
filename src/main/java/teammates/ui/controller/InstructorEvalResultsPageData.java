@@ -4,11 +4,13 @@ import java.util.List;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.EvaluationResultsBundle;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentResultBundle;
 import teammates.common.datatransfer.SubmissionAttributes;
 
 public class InstructorEvalResultsPageData extends PageData {
     public EvaluationResultsBundle evaluationResults;
+    public InstructorAttributes instructor;
 
     public InstructorEvalResultsPageData(AccountAttributes account) {
         super(account);

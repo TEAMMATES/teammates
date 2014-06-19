@@ -43,7 +43,7 @@ public class InstructorCourseStudentDetailsPageActionTest extends BaseActionTest
         };
         
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
-        
+        verifyUnaccessibleWithoutViewStudentInSectionsPrivilege(submissionParams);
     }
     
     @Test

@@ -298,14 +298,18 @@
                                     <a class="btn btn-default btn-xs student-view-for-test" 
                                     href="<%=data.getCourseStudentDetailsLink(courseDetails.course.id, student)%>"
                                     title="<%=Const.Tooltips.COURSE_STUDENT_DETAILS%>"
-                                    data-toggle="tooltip" data-placement="top"> View</a> 
+                                    data-toggle="tooltip" data-placement="top"
+                                    <% InstructorAttributes instructor = data.instructors.get(courseDetails.course.id);
+                                       if (!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)) {%>
+                                       disabled="diabled"
+                                    <% } %>
+                                    > View</a> 
                                     
                                     <a class="btn btn-default btn-xs student-edit-for-test"
                                     href="<%=data.getCourseStudentEditLink(courseDetails.course.id, student)%>"
                                     title="<%=Const.Tooltips.COURSE_STUDENT_EDIT%>"
                                     data-toggle="tooltip" data-placement="top"
-                                    <% InstructorAttributes instructor = data.instructors.get(courseDetails.course.id);
-                                       if (!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT)) {%>
+                                    <% if (!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT)) {%>
                                        disabled="diabled"
                                     <% } %>
                                     > Edit</a> 

@@ -254,18 +254,14 @@ public class Const {
         public static final String INSTRUCTOR_PERMISSION_MODIFY_SESSION = "canmodifysession";
         public static final String INSTRUCTOR_PERMISSION_MODIFY_STUDENT = "canmodifystudent";
         
-        public static final String INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTION = "canviewstudentinsection";
-        public static final String INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTION = "canviewcommentinsection";
-        public static final String INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTION = "cangivecommentinsection";
-        public static final String INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTION = "canmodifycommentinsection";
-        public static final String INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTION = "canviewsessioninsection";
-        public static final String INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTION = "cansubmitsessioninsection";
-        public static final String INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTION = "canmodifysessioncommentinsection";
+        public static final String INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS = "canviewstudentinsection";
+        public static final String INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS = "canviewcommentinsection";
+        public static final String INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS = "cangivecommentinsection";
+        public static final String INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS = "canmodifycommentinsection";
         
-        public static final String INSTRUCTOR_PERMISSION_SELECT_SESSION_PART = "selected%s";
-        public static final String INSTRUCTOR_PERMISSION_VIEW_SESSION_FOR_SESSION_PART = "canviewsessionfor%s";
-        public static final String INSTRUCTOR_PERMISSION_SUBMIT_SESSION_FOR_SESSION_PART = "cansubmitsessionfor%s";
-        public static final String INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_FOR_SESSION_PART = "canmodifysessioncommentfor%s";
+        public static final String INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS = "canviewsessioninsection";
+        public static final String INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS = "cansubmitsessioninsection";
+        public static final String INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS = "canmodifysessioncommentinsection";
         
         public static final String STUDENT_RECORDS_SHOW_COMMENT_BOX = "addComment";
         

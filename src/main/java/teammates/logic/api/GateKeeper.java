@@ -223,6 +223,21 @@ public class GateKeeper {
         }
     }
     
+    public void verifyAccessible(InstructorAttributes instructor, CourseAttributes course, String sectionId, String privilegeName) {
+        verifyNotNull(instructor, "instructor");
+        verifyNotNull(instructor.courseId, "instructor's course ID");
+        verifyNotNull(course, "course");
+        verifyNotNull(course.id, "course ID");
+        if(!instructor.courseId.equals(course.id)){
+            throw new UnauthorizedAccessException("Course [" + course.id + 
+                    "] is not accessible to instructor ["+ instructor.email+ "]");
+        }
+        if (!instructor.isAllowedForPrivilege(sectionId, privilegeName)) {
+            throw new UnauthorizedAccessException("Course [" + course.id + 
+                    "] is not accessible to instructor ["+ instructor.email+ "]");
+        }
+    }
+    
     public void verifyAccessible(InstructorAttributes instructor, EvaluationAttributes evaluation){
         verifyNotNull(instructor, "instructor");
         verifyNotNull(instructor.courseId, "instructor's course ID");
@@ -246,6 +261,23 @@ public class GateKeeper {
                     "] is not accessible to instructor ["+ instructor.email+ "]");
         }
         if (!instructor.isAllowedForPrivilege(privilegeName)) {
+            throw new UnauthorizedAccessException(
+                    "Evaluation [" + evaluation.name + 
+                    "] is not accessible to instructor ["+ instructor.email+ "]");
+        }
+    }
+    
+    public void verifyAccessible(InstructorAttributes instructor, EvaluationAttributes evaluation, String sectionId, String sessionId, String privilegeName) {
+        verifyNotNull(instructor, "instructor");
+        verifyNotNull(instructor.courseId, "instructor's course ID");
+        verifyNotNull(evaluation, "evaluation");
+        verifyNotNull(evaluation.courseId, "course ID in the evaluation");
+        if (!instructor.courseId.equals(evaluation.courseId)) {
+            throw new UnauthorizedAccessException(
+                    "Evaluation [" + evaluation.name + 
+                    "] is not accessible to instructor ["+ instructor.email+ "]");
+        }
+        if (!instructor.isAllowedForPrivilege(sectionId, sessionId, privilegeName)) {
             throw new UnauthorizedAccessException(
                     "Evaluation [" + evaluation.name + 
                     "] is not accessible to instructor ["+ instructor.email+ "]");
