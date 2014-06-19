@@ -75,22 +75,26 @@ public class StudentProfileEditSaveAction extends Action {
         editedProfile.country = getRequestParamValue(Const.ParamsNames.STUDENT_COUNTRY);
         editedProfile.gender = getRequestParamValue(Const.ParamsNames.STUDENT_GENDER);
         editedProfile.moreInfo = getRequestParamValue(Const.ParamsNames.STUDENT_PROFILE_MOREINFO);
-        String fileName = getRequestParamValue(Const.ParamsNames.STUDENT_PROFILE_PIC);
+        extractProfilePictureInfo(editedProfile);
         
         validatePostParameters(editedProfile);
         
-        if (fileName != "") {
+        return editedProfile;
+    }
+
+    private void extractProfilePictureInfo(
+            StudentProfileAttributes editedProfile) {
+        try {
             Map<String, List<BlobInfo>> blobsMap = BlobstoreServiceFactory.getBlobstoreService().getBlobInfos(request);
             List<BlobInfo> blobs = blobsMap.get(Const.ParamsNames.STUDENT_PROFILE_PIC);
             
             if(blobs != null && blobs.size() > 0) {
                 BlobInfo profilePic = blobs.get(0);
-                log.info(profilePic.toString());
                 validateAndStorePictureKey(editedProfile, profilePic);
             }
+        } catch (IllegalStateException e) {
+            // this means the student did not give a picture to upload
         }
-        
-        return editedProfile;
     }
 
     private void validateAndStorePictureKey(

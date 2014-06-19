@@ -197,9 +197,10 @@ public class Const {
         
         public static final String STUDENT_PROFILE_SHORTNAME = "This is the name you prefer to be called by";
         public static final String STUDENT_PROFILE_EMAIL = "This is a long term contact email";
-        public static final String STUDENT_PROFILE_INSTITUTION = "This is the institution that you represent in the current course";
-        public static final String STUDENT_PROFILE_COUNTRY = "This is the country you represent in the current course";
-        public static final String STUDENT_PROFILE_MOREINFO = "Miscellaneous information to show the instructor. It can include links to external portfolios.";
+        public static final String STUDENT_PROFILE_INSTITUTION = "This is the institution that you represent";
+        public static final String STUDENT_PROFILE_COUNTRY = "This is the country you represent";
+        public static final String STUDENT_PROFILE_MOREINFO = "You may specify miscellaneous info about yourself "
+                + "e.g. links to home page, online CV, portfolio etc.";
         
         public static final String VISIBILITY_OPTIONS_RECIPIENT = "Control what feedback recipient(s) can view";
         public static final String VISIBILITY_OPTIONS_GIVER_TEAM_MEMBERS = "Control what team members of feedback giver can view";
@@ -511,6 +512,7 @@ public class Const {
         public static final String STUDENT_PROFILE_PAGE = "/page/studentProfilePage";
         public static final String STUDENT_PROFILE_EDIT_SAVE = "/page/studentProfileEditSave";
         public static final String STUDENT_PROFILE_PICTURE = "/page/studentProfilePic";
+        public static final String STUDENT_PROFILE_CREATEUPLOADFORMURL = "/page/studentProfileCreateFormUrl";
         
         public static final String ADMIN_HOME_PAGE = "/admin/adminHomePage";
         public static final String ADMIN_INSTRUCTORACCOUNT_ADD = "/admin/adminInstructorAccountAdd";
