@@ -249,7 +249,7 @@ $(document).ready(function(){
      */
     String.prototype.contains = function(substr) { return this.indexOf(substr) != -1; };
     
-    $('a[id^="visibility-options-trigger"').click(function(){
+    $('a[id^="visibility-options-trigger"]').click(function(){
     	var visibilityOptions = $(this).parent().next();
 		if(visibilityOptions.is(':visible')){
 			visibilityOptions.hide();

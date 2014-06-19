@@ -33,8 +33,6 @@ public class AdminAccountDetailsPageAction extends Action {
         } catch(EntityDoesNotExistException e){
             //Not a student of any course
             data.studentCourseList = null;
-        } catch (InvalidParametersException e) {
-            Assumption.fail("InvalidParametersException exception is not expected at this point");
         }
         
         statusToAdmin = "adminAccountDetails Page Load<br>"+ 

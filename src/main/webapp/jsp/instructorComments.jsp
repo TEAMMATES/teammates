@@ -1,3 +1,4 @@
+<%@page import="teammates.common.datatransfer.InstructorAttributes"%>
 <%@page import="teammates.common.datatransfer.CommentRecipientType"%>
 <%@page import="teammates.common.datatransfer.FeedbackSessionAttributes"%>
 <%@page import="teammates.common.datatransfer.StudentAttributes"%>
@@ -241,7 +242,7 @@
                         <strong><%=data.isViewingDraft ? "Comment drafts" : "Comments on students"%></strong>
                     </div>
                     <div class="panel-body">
-                        <%=data.isViewingDraft ? "Your comments that are not finished:" : "Your comments on student in this course:"%>
+                        <%=data.isViewingDraft ? "Your comments that are not finished:" : ""%>
                         <%
                             int commentIdx = 0;
                             int studentIdx = 0;
@@ -256,7 +257,7 @@
                         <div
                             class="panel panel-info student-record-comments giver_display-by-you">
                             <div class="panel-heading">
-                                From <b>you</b> to <b><%=data.courseId.equals(recipient)?"this course ":""%><%=isRecipientStudent ? student.name : recipient%></b>
+                                To <b><%=data.courseId.equals(recipient)?"all students in this course ":""%><%=isRecipientStudent ? student.name : recipient%></b>
                                 <%=isRecipientStudent ? " (" + student.team + ", <a href=\"mailto:" + student.email + "\">" + student.email + "</a>)" : ""%>
                                 <button type="button"
                                     class="btn btn-default btn-xs icon-button pull-right"
@@ -284,8 +285,26 @@
                                         class="form_comment"
                                         id="form_commentedit-<%=commentIdx%>">
                                         <div id="commentBar-<%=commentIdx%>">
-                                            <span class="text-muted">on
+                                            <% InstructorAttributes instructor = data.roster.getInstructorForEmail(comment.giverEmail);
+                                               String giverDisplay = comment.giverEmail;
+                                               if(comment.giverEmail.equals(data.instructorEmail)){
+                                                   giverDisplay = "you";
+                                               } else if(instructor != null){
+                                                   String title = instructor.displayedName;
+                                                   if(!title.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR) &&
+                                                           !title.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_HELPER)){
+                                                       title = "Instructor";
+                                                   }
+                                                   giverDisplay = title + " " + instructor.name;
+                                               } else {
+                                                   giverDisplay = comment.giverEmail;
+                                               }
+                                            %>
+                                            <span class="text-muted">From <b><%=giverDisplay%></b> on
                                                 <%=TimeHelper.formatTime(comment.createdAt)%></span>
+                                            <%
+                                               if (comment.giverEmail.equals(data.instructorEmail)) {//comment edit/delete control starts
+                                            %>
                                             <a type="button"
                                                 id="commentdelete-<%=commentIdx%>"
                                                 class="btn btn-default btn-xs icon-button pull-right"
@@ -309,9 +328,20 @@
                                                 <span
                                                 class="glyphicon glyphicon-pencil glyphicon-primary"></span>
                                             </a>
+                                            <% }//comment edit/delete control ends %>
+                                            <% if(comment.showCommentTo.size() > 0){ 
+                                                   String peopleCanSee = data.getTypeOfPeopleCanViewComment(comment);
+                                            %>
+                                            <span class="glyphicon glyphicon-eye-open" data-toggle="tooltip" style="margin-left: 5px;"
+                                                data-placement="top"
+                                                title="This comment is public to <%=peopleCanSee%>"></span>
+                                            <% } %>
                                         </div>
                                         <div
                                             id="plainCommentText<%=commentIdx%>"><%=comment.commentText.getValue()%></div>
+                                        <%
+                                           if (comment.giverEmail.equals(data.instructorEmail)) {//comment edit/delete control starts
+                                        %>
                                         <div
                                             id="commentTextEdit<%=commentIdx%>"
                                             style="display: none;">
@@ -532,6 +562,7 @@
                                         <input type="hidden"
                                             name="<%=Const.ParamsNames.USER_ID%>"
                                             value="<%=data.account.googleId%>">
+                                        <% }//comment edit/delete control ends %>
                                     </form>
                                 </li>
                                 <%
