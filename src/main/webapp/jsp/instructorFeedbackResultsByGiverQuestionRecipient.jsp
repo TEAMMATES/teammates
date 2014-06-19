@@ -102,6 +102,7 @@
                 <div class="panel panel-warning">
                     <div class="panel-heading">
                         <strong><%=currentTeam%></strong>
+                        <span class="glyphicon <%= !shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down" %> pull-right"></span>
                     </div>
                     <div class="panel-collapse collapse <%= !shouldCollapsed ? "in" : "" %>">
                     <div class="panel-body background-color-warning">
@@ -160,6 +161,7 @@
                 <div class="panel-heading">
                     From: <strong><%=responsesFromGiver.getKey()%></strong>
                         <a class="link-in-dark-bg" href="mailTo:<%= giverEmail%> " <%=mailtoStyleAttr%>>[<%=giverEmail%>]</a>
+                    <span class="glyphicon <%= !shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down" %> pull-right"></span>
                 </div>
                 <div class="panel-collapse collapse <%= !shouldCollapsed ? "in" : "" %>">
                 <div class="panel-body">

@@ -64,6 +64,7 @@
                         FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
                         out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, ""));
                     %>
+                    <span class="glyphicon <%= !shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down" %> pull-right"></span>
                 </div>
                 <div class="panel-collapse collapse <%= !shouldCollapsed ? "in" : "" %>">
                 <div class="panel-body padding-0">                

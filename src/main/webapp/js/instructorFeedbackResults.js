@@ -63,6 +63,16 @@ function toggleSingleCollapse(e){
         $($(e.target).attr('data-target')).collapse('toggle');
         isCollapsingAll = false;
         isExpandingAll = false;
+
+        var glyphIcon = $(this).children('.glyphicon');
+        var className = $(glyphIcon[0]).attr('class');
+        if(className.indexOf('glyphicon-chevron-up') != -1){
+            $(glyphIcon[0]).removeClass('glyphicon-chevron-up');
+            $(glyphIcon[0]).addClass('glyphicon-chevron-down');
+        } else {
+            $(glyphIcon[0]).removeClass('glyphicon-chevron-down');
+            $(glyphIcon[0]).addClass('glyphicon-chevron-up');
+        }
     }
 }
 
@@ -86,8 +96,9 @@ window.onload = function(){
             $(heading[0]).attr("data-target","#panelBodyCollapse-"+numPanels);
             $(heading[0]).css("cursor", "pointer");
             $(bodyCollapse[0]).attr('id', "panelBodyCollapse-"+numPanels);
-            
+
             $(bodyCollapse[0]).on('hidden.bs.collapse', function(){
+                console.log('Finish hide');
                 if(isCollapsingAll){
                     var id = $(this).attr('id');
                     var nextId = this;
@@ -103,6 +114,7 @@ window.onload = function(){
                 }
             });
             $(bodyCollapse[0]).on('shown.bs.collapse', function(){
+                console.log('Finish show');
                 if(isExpandingAll){
                     var id = $(this).attr('id');
                     var nextId = this;
