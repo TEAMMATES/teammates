@@ -242,7 +242,7 @@
                         <strong><%=data.isViewingDraft ? "Comment drafts" : "Comments on students"%></strong>
                     </div>
                     <div class="panel-body">
-                        <%=data.isViewingDraft ? "Your comments that are not finished:" : "Your comments on student in this course:"%>
+                        <%=data.isViewingDraft ? "Your comments that are not finished:" : ""%>
                         <%
                             int commentIdx = 0;
                             int studentIdx = 0;

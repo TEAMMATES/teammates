@@ -176,6 +176,7 @@ public class InstructorCommentsPageAction extends Action {
                 }
             }
         }
+        //TODO: sort the recipient by their newest comment
         //sort comments by created date
         for(List<CommentAttributes> commentList : recipientToCommentsMap.values()){
             java.util.Collections.sort(commentList);
