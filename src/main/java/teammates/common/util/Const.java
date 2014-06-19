@@ -65,7 +65,7 @@ public class Const {
         public static final String COURSE_STUDENT_EDIT = "Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly";
         public static final String COURSE_STUDENT_REMIND = "Send invitation email to the student";
         public static final String COURSE_STUDENT_DELETE = "Delete the student and the corresponding evaluations from the course";
-        public static final String COURSE_STUDENT_RECORDS = "View all student\\'s evaluations and feedbacks";
+        public static final String COURSE_STUDENT_RECORDS = "View all student's evaluations and feedbacks";
         
         public static final String COURSE_REMIND = "Send invitation emails to all students yet to join the course";
         public static final String COURSE_DELETE_ALL_STUDENTS = "Delete all students in this course";

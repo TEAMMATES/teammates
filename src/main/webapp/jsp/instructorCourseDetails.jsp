@@ -288,10 +288,6 @@
                                     onclick="return toggleDeleteStudentConfirmation('<%=sanitizeForJs(student.name)%>')"
                                     data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_STUDENT_DELETE%>">
                                     Delete</a>
-                            <a class="btn btn-default btn-xs t_student_records-c<%=data.courseDetails.course.id %>.<%=idx%>"
-                                    href="<%=data.getStudentRecordsLinkWithAddComment(data.courseDetails.course.id, student)%>"
-                                    data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_STUDENT_RECORDS%>"> 
-                                    Add Comment</a>
                             <div class="dropdown" style="display:inline;">
                               <a class="btn btn-default btn-xs t_student_records-c<%=data.courseDetails.course.id %>.<%=idx%> dropdown-toggle" 
                                 href="javascript:;"
