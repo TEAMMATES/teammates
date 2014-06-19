@@ -250,7 +250,7 @@
                                 studentIdx++;
                         %>
                         <div
-                            class="panel panel-info student-record-comments giver_display-by-you">
+                            class="panel panel-info student-record-comments <%=data.instructorEmail.equals(giverEmail)?"giver_display-by-you":"giver_display-by-others"%>">
                             <div class="panel-heading">
                                 From <b><%=data.getGiverName(giverEmail)%></b>
                             </div>
