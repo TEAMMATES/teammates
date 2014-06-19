@@ -31,6 +31,7 @@ public class InstructorEvalResultsPageAction extends Action {
         InstructorEvalResultsPageData data = new InstructorEvalResultsPageData(account);
         
         data.evaluationResults = logic.getEvaluationResult(courseId, evalName);
+        data.instructor = instructor;
         Iterator<Entry<String, TeamResultBundle>> iter = data.evaluationResults.teamResults.entrySet().iterator();
         while (iter.hasNext()) {
             boolean shouldDisplayTeam = true;
