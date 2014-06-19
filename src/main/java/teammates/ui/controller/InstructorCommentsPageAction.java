@@ -25,6 +25,7 @@ public class InstructorCommentsPageAction extends Action {
 
     private static final String COMMENT_PAGE_DISPLAY_ARCHIVE_SESSION = "comments_page_displayarchive";
     private static final Boolean IS_INCLUDE_RESPONSE_STATUS = true;
+    private static final String COMMENT_GIVER_NAME_THAT_COMES_FIRST = "_you";
     
     private InstructorCommentsPageData data;
     private String courseId;
@@ -165,10 +166,11 @@ public class InstructorCommentsPageAction extends Action {
         //group data by recipients
         Map<String, List<CommentAttributes>> giverEmailToCommentsMap = new TreeMap<String, List<CommentAttributes>>();
         for(CommentAttributes comment : comments){
-            List<CommentAttributes> commentList = giverEmailToCommentsMap.get(comment.giverEmail);
+            String key = comment.giverEmail.equals(instructor.email)? COMMENT_GIVER_NAME_THAT_COMES_FIRST: comment.giverEmail;
+            List<CommentAttributes> commentList = giverEmailToCommentsMap.get(key);
             if(commentList == null){
                 commentList = new ArrayList<CommentAttributes>();
-                giverEmailToCommentsMap.put(comment.giverEmail, commentList);
+                giverEmailToCommentsMap.put(key, commentList);
             }
             commentList.add(comment);
         }
@@ -187,7 +189,8 @@ public class InstructorCommentsPageAction extends Action {
             List<FeedbackSessionAttributes> fsList = logic.getFeedbackSessionsForCourse(courseId);
             for(FeedbackSessionAttributes fs : fsList){
                 FeedbackSessionResultsBundle bundle = 
-                        logic.getFeedbackSessionResultsForInstructor(fs.feedbackSessionName, courseId, account.email, roster, !IS_INCLUDE_RESPONSE_STATUS);
+                        logic.getFeedbackSessionResultsForInstructor(
+                                fs.feedbackSessionName, courseId, account.email, roster, !IS_INCLUDE_RESPONSE_STATUS);
                 if(bundle != null){
                     removeQuestionsAndResponsesWithoutFeedbackResponseComment(bundle);
                     if(bundle.questions.size() != 0){

@@ -13,6 +13,8 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
 
 public class InstructorCommentsPageData extends PageData {
+    public static final String COMMENT_GIVER_NAME_THAT_COMES_FIRST = "_you";
+    
     public Boolean isViewingDraft;
     public Boolean isDisplayArchive;
     public String courseId;
@@ -36,8 +38,8 @@ public class InstructorCommentsPageData extends PageData {
     public String getGiverName(String giverEmail){
         InstructorAttributes instructor = roster.getInstructorForEmail(giverEmail);
         String giverDisplay = giverEmail;
-        if(giverEmail.equals(instructorEmail)){
-            giverDisplay = "you";
+        if(giverEmail.equals(COMMENT_GIVER_NAME_THAT_COMES_FIRST)){
+            giverDisplay = "You";
         } else if(instructor != null){
             String title = instructor.displayedName;
             if(!title.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR) &&
