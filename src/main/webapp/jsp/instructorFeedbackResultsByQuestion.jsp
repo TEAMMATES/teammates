@@ -56,12 +56,11 @@
             <%
                 for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responseEntries : data.bundle
                         .getQuestionResponseMap().entrySet()) {
+                    FeedbackQuestionAttributes question = responseEntries.getKey();
             %>
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    <strong>Question <%=responseEntries.getKey().questionNumber%>: </strong><%=data.bundle.getQuestionText(responseEntries.getKey().getId())%><%
-                        Map<String, FeedbackQuestionAttributes> questions = data.bundle.questions;
-                        FeedbackQuestionAttributes question = questions.get(responseEntries.getKey().getId());
+                    <strong>Question <%=question.questionNumber%>: </strong><%=data.bundle.getQuestionText(question.getId())%><%
                         FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
                         out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, ""));
                     %>
@@ -98,10 +97,10 @@
                                 %>
                                 <tr>
                                 <%
-                                    String giverName = data.bundle.getGiverNameForResponse(responseEntries.getKey(), responseEntry);
+                                    String giverName = data.bundle.getGiverNameForResponse(question, responseEntry);
                                     String giverTeamName = data.bundle.getTeamNameForEmail(responseEntry.giverEmail);
 
-                                    String recipientName = data.bundle.getRecipientNameForResponse(responseEntries.getKey(), responseEntry);
+                                    String recipientName = data.bundle.getRecipientNameForResponse(question, responseEntry);
                                     String recipientTeamName = data.bundle.getTeamNameForEmail(responseEntry.recipientEmail);
                                 %>
                                     <td class="middlealign"><%=giverName%></td>
