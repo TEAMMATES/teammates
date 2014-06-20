@@ -36,6 +36,15 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
       <![endif]-->
     <jsp:include page="../enableJS.jsp"></jsp:include>
+    <script type="text/javascript">
+        $(function(){
+           //make textarea supports displaying breakline
+    	   $('div[id^="plainCommentText"]').each(function(){
+    		   var commentTextWithBreakLine = $(this).text().replace(/\n/g, '<br />');
+    		   $(this).html(commentTextWithBreakLine);
+		   });
+        });
+    </script>
 </head>
 
 <body>
