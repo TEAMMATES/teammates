@@ -114,7 +114,7 @@ public abstract class EntitiesDb {
                     + entityToAdd.getEntityTypeAsString() + "->"
                     + entityToAdd.getIdentificationString());
         }
-        log.info("Entity is created. Type:" + entityToAdd.getEntityTypeAsString() + " ID:" + entityToAdd.getIdentificationString());
+        log.info("Entity is created. Type::" + entityToAdd.getEntityTypeAsString() + "::" + entityToAdd.getIdentificationString() + "::");
     }
     
     // TODO: use this method for subclasses.

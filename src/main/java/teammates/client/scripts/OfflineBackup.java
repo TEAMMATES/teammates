@@ -15,9 +15,24 @@ import com.google.appengine.repackaged.org.apache.commons.collections.MultiMap;
 import com.google.appengine.repackaged.org.apache.commons.collections.map.MultiValueMap;
 
 import teammates.client.remoteapi.RemoteApiClient;
+import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.CommentAttributes;
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.EntityAttributes;
+import teammates.common.datatransfer.EvaluationAttributes;
+import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.FeedbackResponseAttributes;
+import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.logic.api.Logic;
+import teammates.storage.api.CommentsDb;
+import teammates.storage.api.FeedbackQuestionsDb;
+import teammates.storage.api.FeedbackResponseCommentsDb;
+import teammates.storage.api.FeedbackResponsesDb;
+import teammates.storage.api.SubmissionsDb;
 import teammates.storage.datastore.Datastore;
 
 public class OfflineBackup extends RemoteApiClient {
@@ -47,7 +62,7 @@ public class OfflineBackup extends RemoteApiClient {
                     myURLConnection.getInputStream()));
             String logMessage;
             while ((logMessage = in.readLine()) != null) {
-                //System.out.println(logMessage);
+                System.out.println(logMessage);
                 modifiedLogs.add(logMessage);
             }
             in.close();
@@ -78,9 +93,9 @@ public class OfflineBackup extends RemoteApiClient {
         
         while(it.hasNext()) {
             String entity = it.next();
-            String tokens[] = entity.split(":");
+            String tokens[] = entity.split("::");
             String type = tokens[0];
-            String[] id = tokens[1].split(", ");
+            String[] id = tokens[1].split("[,|/]");
             entitiesMap.put(type, id);
         }
         
@@ -102,19 +117,64 @@ public class OfflineBackup extends RemoteApiClient {
             while(idit.hasNext()) {
                 String[] id = idit.next();
                 EntityAttributes ea = retrieveEntity(entityType,id);
-                //System.out.println(ea.getIdentificationString());
+                System.out.println("Retrieving:" + ea.toString());    
             }
         }
     }
     
     private EntityAttributes retrieveEntity(String type, String[] id) {
         System.out.println(type);
+        Logic logic = new Logic();
         switch(type) {
+            case "Account":
+                AccountAttributes account = logic.getAccount(id[0].trim());
+                return account;
+                
+            case "Comment":
+                CommentsDb commentDb = new CommentsDb();
+                CommentAttributes comment = commentDb.getComment(Long.parseLong(id[0].trim()));
+                return comment;
+                
+            case "Course":
+                CourseAttributes course = logic.getCourse(id[0].trim());
+                return course;
+                
+            case "Evaluation":
+                EvaluationAttributes evaluation = logic.getEvaluation(id[0].trim(), id[1].trim());
+                System.out.println(id[0] + "|" + id[1]);
+                return evaluation;
+                
+            case "FeedbackQuestion":
+                FeedbackQuestionsDb feedbackQuestionDb = new FeedbackQuestionsDb();
+                FeedbackQuestionAttributes feedbackQuestion = feedbackQuestionDb.getFeedbackQuestion(id[0].trim());
+                return feedbackQuestion;
+                
+            case "FeedbackResponse":
+                FeedbackResponsesDb feedbackResponsesDb = new FeedbackResponsesDb();
+                FeedbackResponseAttributes feedbackResponse = feedbackResponsesDb.getFeedbackResponse(id[0].trim());
+                return feedbackResponse;
+                
+            case "FeedbackResponseComment":
+                FeedbackResponseCommentsDb feedbackResponseCommentsDb = new FeedbackResponseCommentsDb();
+                FeedbackResponseCommentAttributes feedbackResponseComment = feedbackResponseCommentsDb.getFeedbackResponseComment(Long.parseLong(id[0].trim()));
+                return feedbackResponseComment;
+                
+            case "FeedbackSession":
+                FeedbackSessionAttributes feedbackSession = logic.getFeedbackSession(id[0].trim(), id[1].trim());
+                return feedbackSession;
+                
             case "Instructor":
-                Logic logic = new Logic();
-                InstructorAttributes e = logic.getInstructorForEmail(id[1], id[0]);
-                System.out.println(e.getIdentificationString());
-                return e;
+                InstructorAttributes instructor = logic.getInstructorForEmail(id[1].trim(), id[0].trim());
+                return instructor;
+            
+            case "Student":
+                StudentAttributes student = logic.getStudentForEmail(id[0].trim(), id[1].trim());
+                return student;
+                
+            case "Submission":
+                SubmissionsDb submissionsDb = new SubmissionsDb();
+                SubmissionAttributes submission = submissionsDb.getSubmission(id[0].trim(), id[1].trim(), id[2].split("to:")[1].trim(), id[3].split("from:")[1].trim());
+                return submission;
         }
         return null;
     }
