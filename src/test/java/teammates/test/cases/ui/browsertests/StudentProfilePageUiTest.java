@@ -6,7 +6,6 @@ import org.openqa.selenium.By;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.util.Const;
@@ -19,6 +18,7 @@ import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.StudentHomePage;
 import teammates.test.pageobjects.StudentProfilePage;
+import teammates.test.pageobjects.StudentProfilePicturePage;
 
 public class StudentProfilePageUiTest extends BaseUiTestCase {
     private static Browser browser;
@@ -35,9 +35,18 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
     
     @Test
     public void allTests() throws Exception {
+        testNavLinkToPage();
         testContent();
-        testNavLink();
         testActions();
+        testAjaxPictureUrl();
+    }
+
+    private void testNavLinkToPage() {
+        Url profileUrl = createUrl(Const.ActionURIs.STUDENT_HOME_PAGE)
+                .withUserId(testData.accounts.get("studentWithEmptyProfile").googleId);
+         StudentHomePage shp = loginAdminToPage(browser, profileUrl, StudentHomePage.class);
+         
+         profilePage = shp.loadProfileTab().changePageType(StudentProfilePage.class);
     }
 
     private void testContent() {
@@ -49,13 +58,15 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         
         ______TS("existing profile values");
         // this test uses actual user accounts
-        profilePage = getProfilePageForStudent("studentWithoutProfilePicture");
+        profilePage = getProfilePageForStudent("studentWithExistingProfile");
         profilePage.verifyHtmlPart(By.id("editProfileDiv"), "/studentProfileEditDivExistingValues.html");
         AppPage.logout(browser);
     }
 
+
     private void testActions() throws Exception {
-        profilePage = getProfilePageForStudent("studentWithoutProfilePicture");
+        profilePage = getProfilePageForStudent("studentWithExistingProfile");
+        String studentGoogleId = testData.accounts.get("studentWithExistingProfile").googleId;
         
         ______TS("typical success case, no picture");
         
@@ -67,8 +78,6 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         
         ______TS("success case, with picture");
         
-        AccountAttributes studentWithoutPic = testData.accounts.get("studentWithoutProfilePicture");
-        
         profilePage.fillProfilePic("src\\test\\resources\\images\\profile_pic.jpg");
         profilePage.submitEditedProfile();
         
@@ -77,7 +86,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         profilePage.verifyStatus(Const.StatusMessages.STUDENT_PROFILE_EDITED);
         
         ______TS("image too big");
-        String prevPictureKey = BackDoor.getStudentProfile(studentWithoutPic.googleId).pictureKey;
+        String prevPictureKey = BackDoor.getStudentProfile(studentGoogleId).pictureKey;
         verifyPictureIsPresent(prevPictureKey);
         
         profilePage.fillProfilePic("src\\test\\resources\\images\\profile_pic_too_large.jpg");
@@ -92,7 +101,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         profilePage.submitEditedProfile();
         
         verifyPictureIsDeleted(prevPictureKey);
-        String currentPictureKey = BackDoor.getStudentProfile(studentWithoutPic.googleId).pictureKey;
+        String currentPictureKey = BackDoor.getStudentProfile(studentGoogleId).pictureKey;
         verifyPictureIsPresent(currentPictureKey);
         
         ______TS("invalid data");
@@ -109,6 +118,32 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         profilePage.verifyStatus(StringHelper.toString(spa.getInvalidityInfo(), " "));
         
         
+        AppPage.logout(browser);
+    }
+    
+    private void testAjaxPictureUrl() throws Exception {
+        String studentGoogleId = testData.accounts.get("studentWithExistingProfile").googleId;
+        String currentPictureKey = BackDoor.getStudentProfile(studentGoogleId).pictureKey;
+        
+        ______TS("typical success case");
+        
+        getProfilePicturePage("studentWithExistingProfile", currentPictureKey)
+            .verifyHasPicture();
+        
+        ______TS("typical failure case");
+        
+        getProfilePicturePage("studentWithExistingProfile", "random-StRing123")
+            .verifyIsErrorPage();
+        
+    }
+
+    private StudentProfilePicturePage getProfilePicturePage(String studentId,
+            String pictureKey) {
+        Url profileUrl = createUrl(Const.ActionURIs.STUDENT_PROFILE_PICTURE)
+                .withUserId(testData.accounts.get(studentId).googleId)
+                .withParam(Const.ParamsNames.BLOB_KEY, pictureKey);
+        
+        return loginAdminToPage(browser, profileUrl, StudentProfilePicturePage.class);
     }
 
     private void verifyPictureIsDeleted(String pictureKey) {
@@ -117,14 +152,6 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
 
     private void verifyPictureIsPresent(String pictureKey) {
         assertEquals(BackDoorServlet.RETURN_VALUE_TRUE, BackDoor.getWhetherPictureIsPresentInGcs(pictureKey));
-    }
-
-    private void testNavLink() {
-        Url profileUrl = createUrl(Const.ActionURIs.STUDENT_HOME_PAGE)
-                .withUserId(testData.accounts.get("studentWithoutProfilePicture").googleId);
-         StudentHomePage shp = loginAdminToPage(browser, profileUrl, StudentHomePage.class);
-         
-         profilePage = shp.loadProfileTab().changePageType(StudentProfilePage.class);
     }
     
     private StudentProfilePage getProfilePageForStudent(String studentId) {

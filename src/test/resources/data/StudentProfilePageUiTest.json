@@ -7,7 +7,7 @@
       "email": "SHomeUiT.instr@gmail.com",
       "institute": "National University of Singapore"
     },
-      "studentWithoutProfilePicture": {
+      "studentWithExistingProfile": {
         "googleId": "{$test.student2}",
         "name": "Benny C",
         "isInstructor": false,
