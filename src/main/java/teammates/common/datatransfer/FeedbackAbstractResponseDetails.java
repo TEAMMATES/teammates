@@ -21,7 +21,7 @@ public abstract class FeedbackAbstractResponseDetails {
     
     public abstract String getAnswerString();
     
-    public abstract String getAnswerHtml();
+    public abstract String getAnswerHtml(FeedbackAbstractQuestionDetails questionDetails);
     
     public abstract String getAnswerCsv(FeedbackAbstractQuestionDetails questionDetails);
     

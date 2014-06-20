@@ -1138,7 +1138,7 @@
             "giverEmail":"SFResultsUiT.alice.b@gmail.com",
             "recipientEmail":"SFResultsUiT.alice.b@gmail.com",
             "responseMetaData":{
-                "value":"{\"questionType\" : \"CONSTSUM\", \"answers\" : [20, 80], \"constSumOptions\":[\"Grades\",\"Fun\"], \"distributeToRecipients\": false}"
+                "value":"{\"questionType\" : \"CONSTSUM\", \"answers\" : [20, 80]}"
             }
             
         },
@@ -1150,7 +1150,7 @@
             "giverEmail":"SFResultsUiT.alice.b@gmail.com",
             "recipientEmail":"SFResultsUiT.benny.c@gmail.com",
             "responseMetaData":{
-                "value":"{\"questionType\" : \"CONSTSUM\", \"answers\" : [80], \"constSumOptions\":[], \"distributeToRecipients\": true}"
+                "value":"{\"questionType\" : \"CONSTSUM\", \"answers\" : [80]}"
             }
             
         },
@@ -1162,7 +1162,7 @@
             "giverEmail":"SFResultsUiT.alice.b@gmail.com",
             "recipientEmail":"SFResultsUiT.charlie.d@gmail.com",
             "responseMetaData":{
-                "value":"{\"questionType\" : \"CONSTSUM\", \"answers\" : [120], \"constSumOptions\":[], \"distributeToRecipients\": true}"
+                "value":"{\"questionType\" : \"CONSTSUM\", \"answers\" : [120]}"
             }
             
         },
@@ -1174,7 +1174,7 @@
             "giverEmail":"SFResultsUiT.alice.b@gmail.com",
             "recipientEmail":"SFResultsUiT.danny.e@gmail.com",
             "responseMetaData":{
-                "value":"{\"questionType\" : \"CONSTSUM\", \"answers\" : [100], \"constSumOptions\":[], \"distributeToRecipients\": true}"
+                "value":"{\"questionType\" : \"CONSTSUM\", \"answers\" : [100]}"
             }
             
         },
@@ -1186,7 +1186,7 @@
             "giverEmail":"SFResultsUiT.benny.c@gmail.com",
             "recipientEmail":"SFResultsUiT.alice.b@gmail.com",
             "responseMetaData":{
-                "value":"{\"questionType\" : \"CONSTSUM\", \"answers\" : [99], \"constSumOptions\":[], \"distributeToRecipients\": true}"
+                "value":"{\"questionType\" : \"CONSTSUM\", \"answers\" : [99]}"
             }
             
         },
@@ -1198,7 +1198,7 @@
             "giverEmail":"SFResultsUiT.benny.c@gmail.com",
             "recipientEmail":"SFResultsUiT.benny.c@gmail.com",
             "responseMetaData":{
-                "value":"{\"questionType\" : \"CONSTSUM\", \"answers\" : [101], \"constSumOptions\":[], \"distributeToRecipients\": true}"
+                "value":"{\"questionType\" : \"CONSTSUM\", \"answers\" : [101]}"
             }
             
         }

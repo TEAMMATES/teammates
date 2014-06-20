@@ -65,6 +65,7 @@ public class FeedbackTextQuestionDetails extends
     @Override
     public String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses,
             FeedbackSessionResultsBundle bundle) {
+        @SuppressWarnings("unused")
         String html = "";
         int averageLength = 0;
         int minLength = Integer.MAX_VALUE;

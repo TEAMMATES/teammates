@@ -8,8 +8,6 @@ import teammates.common.util.Sanitizer;
 public class FeedbackConstantSumResponseDetails extends
         FeedbackAbstractResponseDetails {
     private List<Integer> answers;
-    private List<String> constSumOptions;
-    private boolean distributeToRecipients;
 
     public FeedbackConstantSumResponseDetails() {
         super(FeedbackQuestionType.CONSTSUM);
@@ -18,9 +16,7 @@ public class FeedbackConstantSumResponseDetails extends
     public FeedbackConstantSumResponseDetails(List<Integer> answers, List<String> constSumOptions, boolean distributeToRecipients) {
         super(FeedbackQuestionType.CONSTSUM);
         this.answers = answers;
-        this.distributeToRecipients = distributeToRecipients;
-        if(!this.distributeToRecipients){
-            this.constSumOptions = constSumOptions;
+        if(!distributeToRecipients){
             Assumption.assertEquals("ConstSum num response does not match num of options. "+ answers.size() + "/" + constSumOptions.size(), answers.size(), constSumOptions.size());
         }
     }
@@ -36,15 +32,16 @@ public class FeedbackConstantSumResponseDetails extends
     }
 
     @Override
-    public String getAnswerHtml() {
-        if(distributeToRecipients){
+    public String getAnswerHtml(FeedbackAbstractQuestionDetails questionDetails) {
+        FeedbackConstantSumQuestionDetails csQd = (FeedbackConstantSumQuestionDetails) questionDetails;
+        if(csQd.distributeToRecipients){
             return getAnswerString();
         } else {
             StringBuilder htmlBuilder = new StringBuilder();
             htmlBuilder.append("<ul>");
             for (int i=0 ; i<answers.size() ; i++) {
                 String answerString = answers.get(i).toString();
-                String optionString = constSumOptions.get(i);
+                String optionString = csQd.constSumOptions.get(i);
                 
                 htmlBuilder.append("<li>");
                 htmlBuilder.append( optionString + ": " + Sanitizer.sanitizeForHtml(answerString));
@@ -60,7 +57,7 @@ public class FeedbackConstantSumResponseDetails extends
         StringBuilder csvBuilder = new StringBuilder();
         
         for(int i=0 ; i<answers.size() ; i++) {
-            if(!distributeToRecipients){
+            if(!((FeedbackConstantSumQuestionDetails) questionDetails).distributeToRecipients){
                 csvBuilder.append(",");
             }
             csvBuilder.append(answers.get(i));

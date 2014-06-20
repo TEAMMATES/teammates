@@ -607,7 +607,7 @@
             "giverEmail":"student1InCourse1@gmail.com",
             "recipientEmail":"student1InCourse1@gmail.com",
             "responseMetaData":{
-                "value":"{\"questionType\" : \"CONSTSUM\", \"answers\" : [20, 80], \"constSumOptions\":[\"Grades\",\"Fun\"], \"distributeToRecipients\": false}"
+                "value":"{\"questionType\" : \"CONSTSUM\", \"answers\" : [20, 80]}"
             }
         },
         "response2ForQ1S4C1":{
@@ -618,7 +618,7 @@
             "giverEmail":"student2InCourse1@gmail.com",
             "recipientEmail":"student2InCourse1@gmail.com",
             "responseMetaData":{
-                "value":"{\"questionType\" : \"CONSTSUM\", \"answers\" : [80, 20], \"constSumOptions\":[\"Grades\",\"Fun\"], \"distributeToRecipients\": false}"
+                "value":"{\"questionType\" : \"CONSTSUM\", \"answers\" : [80, 20]}"
             }
         },
         "response1ForQ2S4C1":{
@@ -629,7 +629,7 @@
             "giverEmail":"instructor1@course1.com",
             "recipientEmail":"Team 1.1",
             "responseMetaData":{
-                "value":"{\"questionType\" : \"CONSTSUM\", \"answers\" : [80], \"constSumOptions\":[], \"distributeToRecipients\": true}"
+                "value":"{\"questionType\" : \"CONSTSUM\", \"answers\" : [80]}"
             }
         },
         "response2ForQ2S4C1":{
@@ -640,7 +640,7 @@
             "giverEmail":"instructor2@course1.com",
             "recipientEmail":"Team 1.2",
             "responseMetaData":{
-                "value":"{\"questionType\" : \"CONSTSUM\",\"answers\" : [20], \"constSumOptions\":[], \"distributeToRecipients\": true}"
+                "value":"{\"questionType\" : \"CONSTSUM\",\"answers\" : [20]}"
             }
         }
     }

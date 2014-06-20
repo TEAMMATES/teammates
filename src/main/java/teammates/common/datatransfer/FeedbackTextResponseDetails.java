@@ -25,7 +25,7 @@ public class FeedbackTextResponseDetails extends
     }
 
     @Override
-    public String getAnswerHtml() {
+    public String getAnswerHtml(FeedbackAbstractQuestionDetails questionDetails) {
         return Sanitizer.sanitizeForHtml(answer);
     }
 

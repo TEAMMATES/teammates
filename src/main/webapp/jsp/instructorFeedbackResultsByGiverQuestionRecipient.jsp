@@ -208,7 +208,7 @@
                                         %>
                                             <td class="middlealign"><%=recipientName%></td>
                                             <td class="middlealign"><%=recipientTeamName%></td>
-                                            <td class="multiline"><%=responseEntry.getResponseDetails().getAnswerHtml()%></td>
+                                            <td class="multiline"><%=responseEntry.getResponseDetails().getAnswerHtml(questionDetails)%></td>
                                         </tr>        
                                         <%
                                             }
