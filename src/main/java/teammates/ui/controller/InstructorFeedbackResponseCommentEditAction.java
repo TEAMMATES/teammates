@@ -1,5 +1,6 @@
 package teammates.ui.controller;
 
+import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -18,21 +19,25 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
         Assumption.assertNotNull("null course id", courseId);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         Assumption.assertNotNull("null feedback session name", feedbackSessionName);
+        String feedbackResponseId = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID);
+        Assumption.assertNotNull("null feedback response comment id", feedbackResponseId);
+        String feedbackResponseCommentId = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID);
+        Assumption.assertNotNull("null response comment id", feedbackResponseCommentId);
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
+        FeedbackResponseAttributes response = logic.getFeedbackResponse(feedbackResponseId);
         boolean isCreatorOnly = true;
         
-        new GateKeeper().verifyAccessible(
-                instructor, 
-                session,
-                !isCreatorOnly);
+        new GateKeeper().verifyAccessible(instructor, session, !isCreatorOnly, 
+                response.giverSection, feedbackSessionName,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+        new GateKeeper().verifyAccessible(instructor, session, !isCreatorOnly, 
+                response.recipientSection, feedbackSessionName,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
         
         InstructorFeedbackResponseCommentAjaxPageData data = 
                 new InstructorFeedbackResponseCommentAjaxPageData(account);
-        
-        String feedbackResponseCommentId = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID);
-        Assumption.assertNotNull("null response comment id", feedbackResponseCommentId);
         
         String commentText = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT);
         Assumption.assertNotNull("null comment text", commentText);

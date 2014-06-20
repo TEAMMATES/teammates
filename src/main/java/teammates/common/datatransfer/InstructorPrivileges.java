@@ -282,12 +282,12 @@ public final class InstructorPrivileges {
         return isAllowedInCourseLevel(privilegeName);
     }
     
-    public boolean isAllowedForPrivilege(String sectionId, String privilegeName) {
-        return isAllowedInSectionLevel(sectionId, privilegeName);
+    public boolean isAllowedForPrivilege(String sectionName, String privilegeName) {
+        return isAllowedInSectionLevel(sectionName, privilegeName);
     }
     
-    public boolean isAllowedForPrivilege(String sectionId, String sessionId, String privilegeName) {
-        return isAllowedInSessionLevel(sectionId, sessionId, privilegeName);
+    public boolean isAllowedForPrivilege(String sectionName, String sessionName, String privilegeName) {
+        return isAllowedInSessionLevel(sectionName, sessionName, privilegeName);
     }
     
     private boolean isAllowedInCourseLevel(String privilegeName) {
