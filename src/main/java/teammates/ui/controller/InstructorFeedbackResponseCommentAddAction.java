@@ -32,14 +32,15 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
         FeedbackResponseAttributes response = logic.getFeedbackResponse(feedbackResponseId);
+        Assumption.assertNotNull(response);
         boolean isCreatorOnly = true;
         
         new GateKeeper().verifyAccessible(instructor, session, !isCreatorOnly, 
                 response.giverSection, feedbackSessionName,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
         new GateKeeper().verifyAccessible(instructor, session, !isCreatorOnly, 
                 response.recipientSection, feedbackSessionName,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
         
         InstructorFeedbackResponseCommentAjaxPageData data = 
                 new InstructorFeedbackResponseCommentAjaxPageData(account);

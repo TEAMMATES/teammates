@@ -20,13 +20,14 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         Assumption.assertNotNull("null feedback session name", feedbackSessionName);
         String feedbackResponseId = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID);
-        Assumption.assertNotNull("null feedback response comment id", feedbackResponseId);
+        Assumption.assertNotNull("null feedback response id", feedbackResponseId);
         String feedbackResponseCommentId = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID);
         Assumption.assertNotNull("null response comment id", feedbackResponseCommentId);
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
         FeedbackResponseAttributes response = logic.getFeedbackResponse(feedbackResponseId);
+        Assumption.assertNotNull(response);
         boolean isCreatorOnly = true;
         
         new GateKeeper().verifyAccessible(instructor, session, !isCreatorOnly, 

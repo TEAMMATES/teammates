@@ -56,6 +56,7 @@ var FEEDBACK_QUESTION_TYPENAME_MSQ = "Multiple-choice (multiple answers)";
 var FEEDBACK_QUESTION_TYPENAME_NUMSCALE = "Numerical-scale question";
 
 // used in feedbackResponseComments.js
+var FEEDBACK_RESPONSE_ID = "responseid";
 var FEEDBACK_RESPONSE_COMMENT_ID = "responsecommentid";
 var FEEDBACK_RESPONSE_COMMENT_TEXT = "responsecommenttext";
 

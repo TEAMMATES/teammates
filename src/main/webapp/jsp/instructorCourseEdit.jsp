@@ -291,7 +291,7 @@
                                                     <%if (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)) {%>
                                                         checked="checked"
                                                     <%}%>
-                                                    /> Sessions: Submit Responses and Comments<br>
+                                                    /> Sessions: Submit Responses and Add Comments<br>
                                                     <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS%>"
                                                     id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS%>forinstructor<%=index%>" value="true"
                                                     <%if (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS)) {%>
@@ -447,7 +447,7 @@
                                                     value="true" checked="checked" /> Sessions: View Responses and Comments<br>
                                                     <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS%>"
                                                     id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS%>forinstructor<%=data.instructorList.size()+1%>"
-                                                    value="true" checked="checked" /> Sessions: Submit Responses and Comments<br>
+                                                    value="true" checked="checked" /> Sessions: Submit Responses and Add Comments<br>
                                                     <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS%>"
                                                     id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS%>forinstructor<%=data.instructorList.size()+1%>"
                                                     value="true" checked="checked" /> Sessions: Edit/Delete Responses/Comments by others<br>
