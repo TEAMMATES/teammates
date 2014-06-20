@@ -66,7 +66,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         studentHome = HomePage.getNewInstance(browser).clickStudentLogin()
                                                       .loginAsStudent(unregUserId, unregPassword);
         // this test uses the accounts from test.properties
-        studentHome.verifyHtml("/StudentHomeHTMLEmpty.html");
+        studentHome.verifyHtmlMainContent("/StudentHomeHTMLEmpty.html");
         
         ______TS("login");
         
@@ -78,14 +78,14 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         ______TS("content: multiple courses");
         
         // this test uses the accounts from test.properties
-        studentHome.verifyHtml("/StudentHomeHTML.html");
+        studentHome.verifyHtmlMainContent("/StudentHomeHTML.html");
         
         Url detailsPageUrl = createUrl(Const.ActionURIs.STUDENT_HOME_PAGE)
                              .withUserId(testData.students.get("SHomeUiT.charlie.d@SHomeUiT.CS2104").googleId);
 
         StudentHomePage studentHomePage = loginAdminToPage(browser, detailsPageUrl, StudentHomePage.class);
         
-        studentHomePage.verifyHtml("/StudentHomeTypicalHTML.html");
+        studentHomePage.verifyHtmlMainContent("/StudentHomeTypicalHTML.html");
            
     }
     
@@ -224,7 +224,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         BackDoor.deleteEvaluation("SHomeUiT.CS1101", "Third Eval");
         
         studentHomePage.getEditEvalButton("Third Eval").click();
-        studentHomePage.verifyHtml("/StudentHomeEvalDeletedHTML.html");
+        studentHomePage.verifyHtmlMainContent("/StudentHomeEvalDeletedHTML.html");
         studentHomePage.reloadPage();
         
         
@@ -232,7 +232,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         
         BackDoor.deleteFeedbackSession("First Feedback Session", "SHomeUiT.CS2104");     
         studentHomePage.getSubmitFeedbackButton("First Feedback Session").click();
-        studentHomePage.verifyHtml("/StudentHomeFeedbackDeletedHTML.html");
+        studentHomePage.verifyHtmlMainContent("/StudentHomeFeedbackDeletedHTML.html");
         
     }
 

@@ -59,7 +59,7 @@ public class StudentEvalEditSubmissionPageUiTest extends BaseUiTestCase {
         ______TS("content");
         
         editPage = loginToEvalEditPage("Charlie", "First Eval");
-        editPage.verifyHtml("/StudentEvalEditPendingHTML.html");
+        editPage.verifyHtmlMainContent("/StudentEvalEditPendingHTML.html");
         
         ______TS("links");
         
@@ -100,7 +100,7 @@ public class StudentEvalEditSubmissionPageUiTest extends BaseUiTestCase {
         
         
         editPage = loginToEvalEditPage("Charlie", eval.name);
-        editPage.verifyHtml("/StudentEvalEditPendingSubimittedHTML.html");
+        editPage.verifyHtmlMainContent("/StudentEvalEditPendingSubimittedHTML.html");
 
     }
 
@@ -112,7 +112,7 @@ public class StudentEvalEditSubmissionPageUiTest extends BaseUiTestCase {
         
         ______TS("content");
         
-        editPage.verifyHtml("/StudentEvalEditSubmittedHTML.html");
+        editPage.verifyHtmlMainContent("/StudentEvalEditSubmittedHTML.html");
     
         ______TS("action: submit after editing");
         
@@ -143,7 +143,7 @@ public class StudentEvalEditSubmissionPageUiTest extends BaseUiTestCase {
         verifyEditSaved(subs[3], BackDoor.getSubmission(eval.courseId, eval.name, dannyEmail, newguyEmail));
         
         editPage = loginToEvalEditPage("Danny", eval.name);
-        editPage.verifyHtml("/StudentEvalEditResubmittedHTML.html");
+        editPage.verifyHtmlMainContent("/StudentEvalEditResubmittedHTML.html");
         
         //TODO: more tests are needed to cover the disabling of editing when the evaluation is CLOSED.
         // In particular, timezone differences should be considered in such testing. Currently, these
@@ -166,7 +166,7 @@ public class StudentEvalEditSubmissionPageUiTest extends BaseUiTestCase {
         verifySubmissionEmpty(BackDoor.getSubmission(eval.courseId, eval.name, dannyEmail, newguyEmail));
         
         editPage = loginToEvalEditPage("Danny", eval.name);
-        editPage.verifyHtml("/StudentEvalEditDataClearedHTML.html");
+        editPage.verifyHtmlMainContent("/StudentEvalEditDataClearedHTML.html");
         
         
         
@@ -204,7 +204,7 @@ public class StudentEvalEditSubmissionPageUiTest extends BaseUiTestCase {
         
         ______TS("content");
         
-        editPage.verifyHtml("/StudentEvalEditP2PDisabled.html");
+        editPage.verifyHtmlMainContent("/StudentEvalEditP2PDisabled.html");
         
         ______TS("action: submit");
         
@@ -221,7 +221,7 @@ public class StudentEvalEditSubmissionPageUiTest extends BaseUiTestCase {
         
         ______TS("content");
         
-        editPage.verifyHtml("/StudentEvalEditEntryFieldsDisabled.html");
+        editPage.verifyHtmlMainContent("/StudentEvalEditEntryFieldsDisabled.html");
         
         ______TS("action: submit");
         
