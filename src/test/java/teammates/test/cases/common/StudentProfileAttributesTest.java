@@ -97,6 +97,22 @@ public class StudentProfileAttributesTest extends BaseTestCase {
     }
     
     @Test
+    public void testToEntity() {
+        StudentProfile expectedEntity = new StudentProfile(profile.googleId, profile.shortName, profile.institute, profile.email, 
+                profile.country, profile.gender, new Text(profile.moreInfo), new BlobKey(profile.pictureKey));
+        StudentProfileAttributes testProfile = new StudentProfileAttributes(expectedEntity);
+        StudentProfile actualEntity = (StudentProfile) testProfile.toEntity();
+        assertEquals(expectedEntity.getShortName(), actualEntity.getShortName());
+        assertEquals(expectedEntity.getInstitute(), actualEntity.getInstitute());
+        assertEquals(expectedEntity.getEmail(), actualEntity.getEmail());
+        assertEquals(expectedEntity.getCountry(), actualEntity.getCountry());
+        assertEquals(expectedEntity.getGender(), actualEntity.getGender());
+        assertEquals(expectedEntity.getMoreInfo(), actualEntity.getMoreInfo());
+        assertEquals(expectedEntity.getModifiedDate(), actualEntity.getModifiedDate());
+        assertEquals(expectedEntity.getPictureKey(), actualEntity.getPictureKey());
+    }
+    
+    @Test
     public void testToString() {
         StudentProfileAttributes spa = new StudentProfileAttributes((StudentProfile) profile.toEntity());
         profile.modifiedDate = spa.modifiedDate;
@@ -132,22 +148,6 @@ public class StudentProfileAttributesTest extends BaseTestCase {
         
         return new StudentProfileAttributes(googleId, shortName, email, institute, 
                 country, gender, moreInfo, pictureKey);
-    }
-    
-    @Test
-    public void testToEntity() {
-        StudentProfile expectedEntity = new StudentProfile(profile.googleId, profile.shortName, profile.institute, profile.email, 
-                profile.country, profile.gender, new Text(profile.moreInfo), new BlobKey(profile.pictureKey));
-        StudentProfileAttributes testProfile = new StudentProfileAttributes(expectedEntity);
-        StudentProfile actualEntity = (StudentProfile) testProfile.toEntity();
-        assertEquals(expectedEntity.getShortName(), actualEntity.getShortName());
-        assertEquals(expectedEntity.getInstitute(), actualEntity.getInstitute());
-        assertEquals(expectedEntity.getEmail(), actualEntity.getEmail());
-        assertEquals(expectedEntity.getCountry(), actualEntity.getCountry());
-        assertEquals(expectedEntity.getGender(), actualEntity.getGender());
-        assertEquals(expectedEntity.getMoreInfo(), actualEntity.getMoreInfo());
-        assertEquals(expectedEntity.getModifiedDate(), actualEntity.getModifiedDate());
-        assertEquals(expectedEntity.getPictureKey(), actualEntity.getPictureKey());
     }
     
     @Test

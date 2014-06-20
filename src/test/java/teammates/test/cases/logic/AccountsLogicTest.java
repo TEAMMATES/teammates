@@ -74,15 +74,15 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         testGetInstructorAccounts();
         testAccountFunctions();
         testCreateAccount();
-        testGetStudentProfile();
+        testGetStudentAndUpdateStudentProfile();
         testCreateInstructorAccount();
         testJoinCourseForStudent();
         testJoinCourseForInstructor();
         testDeleteAccountCascade();
     }
  
-    private void testGetStudentProfile() throws Exception {
-        ______TS("getSP");
+    private void testGetStudentAndUpdateStudentProfile() throws Exception {
+        ______TS("get SP");
         StudentProfileAttributes expectedSpa = new StudentProfileAttributes("id", "shortName", "personal@email.com", 
                 "institute", "countryName", "female", "moreInfo", "");
         AccountAttributes accountWithStudentProfile = new AccountAttributes("id", "name",
@@ -91,10 +91,27 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         accountsLogic.createAccount(accountWithStudentProfile);
         
         StudentProfileAttributes actualSpa = accountsLogic.getStudentProfile(accountWithStudentProfile.googleId);
-        expectedSpa.modifiedDate = actualSpa.modifiedDate;
-        
+        expectedSpa.modifiedDate = actualSpa.modifiedDate;        
         assertEquals(expectedSpa.toString(), actualSpa.toString());
+        
+        ______TS("update SP");
+        
+        expectedSpa.pictureKey = "non-empty";
+        accountsLogic.updateAccount(accountWithStudentProfile);
+        
+        actualSpa = accountsLogic.getStudentProfile(accountWithStudentProfile.googleId);
+        expectedSpa.modifiedDate = actualSpa.modifiedDate;        
+        assertEquals(expectedSpa.toString(), actualSpa.toString());
+        
+        ______TS("delete picture");
+        
+        
+        
         accountsLogic.deleteAccountCascade("id");
+    }
+    
+    private void testDeleteProfilePicture() {
+        // not tested here (will be tested in UiTests
     }
 
     private void testCreateAccount() throws Exception {

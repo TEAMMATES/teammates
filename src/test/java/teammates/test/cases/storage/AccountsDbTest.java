@@ -6,6 +6,7 @@ import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertFalse;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,6 +14,16 @@ import java.util.List;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.tools.cloudstorage.GcsFileOptions;
+import com.google.appengine.tools.cloudstorage.GcsFilename;
+import com.google.appengine.tools.cloudstorage.GcsOutputChannel;
+import com.google.appengine.tools.cloudstorage.GcsService;
+import com.google.appengine.tools.cloudstorage.GcsServiceFactory;
+import com.google.appengine.tools.cloudstorage.RawGcsService;
+import com.google.appengine.tools.cloudstorage.RetryParams;
+import com.google.appengine.tools.cloudstorage.dev.LocalRawGcsServiceFactory;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.DataBundle;
@@ -23,6 +34,7 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.storage.api.AccountsDb;
+import teammates.storage.api.EntitiesDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 import teammates.test.util.TestHelper;
@@ -87,8 +99,19 @@ public class AccountsDbTest extends BaseComponentTestCase {
 
         testGetInstructorAccounts();
         
-        ______TS("typical success case");
+        ______TS("typical success case (legacy data)");
         AccountAttributes a = new AccountAttributes();
+        
+        a.googleId = "test.account";
+        a.name = "Test account Name";
+        a.isInstructor = false;
+        a.email = "fresh-account@email.com";
+        a.institute = "National University of Singapore";
+        a.studentProfile = null;
+        
+        accountsDb.createAccount(a);
+            
+        ______TS("success case: duplicate account");
         StudentProfileAttributes spa = new StudentProfileAttributes();
         spa.shortName = "test acc na";
         spa.email = "test@personal.com";
@@ -96,18 +119,10 @@ public class AccountsDbTest extends BaseComponentTestCase {
         spa.country = "test.country";
         spa.institute = "institute";
         spa.moreInfo = "this is more info";
-        
-        a.googleId = "test.account";
         spa.googleId = a.googleId;
-        a.name = "Test account Name";
-        a.isInstructor = false;
-        a.email = "fresh-account@email.com";
-        a.institute = "National University of Singapore";
+        
         a.studentProfile = spa;
         
-        accountsDb.createAccount(a);
-            
-        ______TS("success case: duplicate account");
         accountsDb.createAccount(a);
         
         ______TS("test persistence of latest entry");
@@ -123,42 +138,11 @@ public class AccountsDbTest extends BaseComponentTestCase {
         // Change a field
         accountDataTest.isInstructor = true;
         accountDataTest.studentProfile.gender = Const.GenderTypes.FEMALE;
-        accountsDb.updateAccount(accountDataTest, true);
+        accountsDb.createAccount(accountDataTest);
         // Re-retrieve
         accountDataTest = accountsDb.getAccount(a.googleId, true);
         assertTrue(accountDataTest.isInstructor);
         assertEquals(Const.GenderTypes.FEMALE, accountDataTest.studentProfile.gender);
-        
-        ______TS("success: modified date does not change by default");
-        
-        Date expectedModifiedDate = accountDataTest.studentProfile.modifiedDate;
-        
-        String expectedCountry = accountDataTest.studentProfile.country;
-        accountDataTest.studentProfile.country = "New Country";
-        accountDataTest.institute = "newer institute";
-        
-        accountsDb.updateAccount(accountDataTest);
-        a = accountsDb.getAccount(a.googleId, true);
-        
-        // ensure update was successful
-        assertEquals(accountDataTest.institute, a.institute);
-        // ensure profile was not updated
-        assertEquals(expectedModifiedDate, a.studentProfile.modifiedDate);
-        assertEquals(expectedCountry, a.studentProfile.country);
-        
-        
-        ______TS("success: modified date does not change if profile is not changed");
-        
-        accountDataTest = accountsDb.getAccount(a.googleId, true);
-        accountDataTest.institute = "new institute";
-        
-        accountsDb.updateAccount(accountDataTest, true);
-        a = accountsDb.getAccount(a.googleId, true);
-        
-        // ensure update was successful
-        assertEquals(accountDataTest.institute, a.institute);
-        // ensure profile was not updated
-        assertEquals(expectedModifiedDate, a.studentProfile.modifiedDate);
         
         accountsDb.deleteAccount(a.googleId);
 
@@ -189,15 +173,53 @@ public class AccountsDbTest extends BaseComponentTestCase {
     public void testEditAccount() throws Exception {
         AccountAttributes a = createNewAccount();
         
-        ______TS("typical success case");
+        ______TS("typical success case (legacy data)");
         a.name = "Edited name";
-        a.studentProfile.shortName = "Edite";
-        accountsDb.updateAccount(a, true);
+        a.studentProfile = null;
+        accountsDb.updateAccount(a);
         
         AccountAttributes actualAccount = accountsDb.getAccount(a.googleId, true);
         
         assertEquals(a.name, actualAccount.name);
+        
+        ______TS("typical success case (with profile)");
+        
+        a.studentProfile.shortName = "Edite";
+        accountsDb.updateAccount(a, true);
+        
+        actualAccount = accountsDb.getAccount(a.googleId, true);        
         assertEquals(a.studentProfile.shortName, actualAccount.studentProfile.shortName);
+        
+        ______TS("success: profile not modified in the default case");
+        
+        Date expectedModifiedDate = actualAccount.studentProfile.modifiedDate;
+        
+        String expectedCountry = actualAccount.studentProfile.country;
+        actualAccount.studentProfile.country = "New Country";
+        actualAccount.institute = "newer institute";
+        
+        accountsDb.updateAccount(actualAccount);
+        a = accountsDb.getAccount(a.googleId, true);
+        
+        // ensure update was successful
+        assertEquals(actualAccount.institute, a.institute);
+        // ensure profile was not updated
+        assertEquals(expectedModifiedDate, a.studentProfile.modifiedDate);
+        assertEquals(expectedCountry, a.studentProfile.country);
+        
+        
+        ______TS("success: modified date does not change if profile is not changed");
+        
+        actualAccount = accountsDb.getAccount(a.googleId, true);
+        actualAccount.institute = "new institute";
+        
+        accountsDb.updateAccount(actualAccount);
+        a = accountsDb.getAccount(a.googleId, true);
+        
+        // ensure update was successful
+        assertEquals(actualAccount.institute, a.institute);
+        // ensure modified date was not updated
+        assertEquals(expectedModifiedDate, a.studentProfile.modifiedDate);
         
         ______TS("non-existent account");
         
@@ -250,6 +272,75 @@ public class AccountsDbTest extends BaseComponentTestCase {
         ______TS("non-existent account");
         
         assertNull(accountsDb.getStudentProfile("non-eXisTent"));
+    }
+    
+    @Test
+    public void testUpdateStudentProfile() throws Exception {
+        ______TS("null parameter");
+        try {
+            accountsDb.updateStudentProfile(null);
+            signalFailureToDetectException(" - Assertion Error");
+        } catch (AssertionError ae) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+        }
+        
+        ______TS("invalid paramters case");
+        try {
+            accountsDb.updateStudentProfile(new StudentProfileAttributes());
+            signalFailureToDetectException(" - InvalidParametersException");
+        } catch (InvalidParametersException ipe) {
+            assertEquals(String.format(FieldValidator.GOOGLE_ID_ERROR_MESSAGE, "", FieldValidator.REASON_EMPTY),
+                    ipe.getMessage());
+        }
+        
+        ______TS("non-existent account");
+        AccountAttributes a = createNewAccount();
+        
+        try {
+            a.studentProfile.googleId = "non-ExIsTenT";
+            accountsDb.updateStudentProfile(a.studentProfile);
+            signalFailureToDetectException(" - EntityDoesNotExistException");
+        } catch (EntityDoesNotExistException edne) {
+            AssertHelper.assertContains(
+                EntitiesDb.ERROR_UPDATE_NON_EXISTENT_STUDENT_PROFILE + a.studentProfile.googleId, 
+                edne.getMessage());
+            a.studentProfile.googleId = a.googleId;
+        }
+        
+        ______TS("typical success case, no picture");
+        a.studentProfile.moreInfo = "This is more than enough info...";
+        a.studentProfile.email = "e@email.com";
+        
+        accountsDb.updateStudentProfile(a.studentProfile);
+        StudentProfileAttributes updatedProfile = accountsDb.getStudentProfile(a.studentProfile.googleId);
+        
+        assertEquals(a.studentProfile.moreInfo, updatedProfile.moreInfo);
+        assertEquals(a.studentProfile.email, updatedProfile.email);
+        
+        ______TS("success case: add picture (initially empty)");
+        a.studentProfile.pictureKey = "not-empty";
+        accountsDb.updateStudentProfile(a.studentProfile);
+        
+        updatedProfile = accountsDb.getStudentProfile(a.studentProfile.googleId);
+        
+        assertEquals(a.studentProfile.pictureKey, updatedProfile.pictureKey);
+        
+        ______TS("success case: change picture");
+        a.studentProfile.pictureKey = "new-not-empty";
+        accountsDb.updateStudentProfile(a.studentProfile);
+        
+        updatedProfile = accountsDb.getStudentProfile(a.studentProfile.googleId);
+        
+        assertEquals(a.studentProfile.pictureKey, updatedProfile.pictureKey);
+    }
+    
+    @Test
+    public void testDeleteProfilePicFromGcs() throws Exception {
+        GcsService service = GcsServiceFactory.createGcsService(RetryParams.getDefaultInstance());
+        GcsFilename fileName = new GcsFilename(Const.GCS_BUCKET_NAME, "profilePic1");
+        GcsFileOptions.Builder builder = new GcsFileOptions.Builder();
+        GcsOutputChannel outputChannel = service.createOrReplace(fileName, builder.mimeType("image/jpeg").build());
+        
     }
     
     @Test

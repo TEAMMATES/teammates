@@ -7,6 +7,7 @@ import com.google.appengine.api.blobstore.BlobInfo;
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreFailureException;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
+import com.google.appengine.api.blobstore.FileInfo;
 
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -36,6 +37,9 @@ public class StudentProfileEditSaveAction extends Action {
             statusToAdmin = "Student Profile for <span class=\"bold\">(" + account.googleId + ")</span> edited.<br>" +
                     account.studentProfile.toString();
         } catch (InvalidParametersException ipe) {
+            if (!account.studentProfile.pictureKey.equals("")) {
+                deletePicture(new BlobKey(account.studentProfile.pictureKey));
+            }
             setStatusForException(ipe);
         } catch (BlobstoreFailureException bfe) {
             // This branch is not tested as recreating such a scenario is difficult in the 
@@ -88,6 +92,12 @@ public class StudentProfileEditSaveAction extends Action {
             Map<String, List<BlobInfo>> blobsMap = BlobstoreServiceFactory.getBlobstoreService().getBlobInfos(request);
             List<BlobInfo> blobs = blobsMap.get(Const.ParamsNames.STUDENT_PROFILE_PIC);
             
+            /*USED FOR TESTING PURPOSES
+                Map<String, List<FileInfo>> filesMap = BlobstoreServiceFactory.getBlobstoreService().getFileInfos(request);
+                List<FileInfo> files = filesMap.get(Const.ParamsNames.STUDENT_PROFILE_PIC);
+                
+                log.info(files.get(0).toString());
+            */
             if(blobs != null && blobs.size() > 0) {
                 BlobInfo profilePic = blobs.get(0);
                 validateAndStorePictureKey(editedProfile, profilePic);

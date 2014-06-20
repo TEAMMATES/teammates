@@ -23,6 +23,7 @@ import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.NotImplementedException;
 import teammates.common.exception.TeammatesException;
@@ -154,6 +155,10 @@ public class BackDoor {
         return Utils.getTeammatesGson().fromJson(getAccountAsJson(googleId), AccountAttributes.class);
     }
     
+    public static StudentProfileAttributes getStudentProfile(String googleId) {
+        return Utils.getTeammatesGson().fromJson(getStudentProfileAsJson(googleId), StudentProfileAttributes.class);
+    }
+    
     /**
      * If object not found in the first try, it will retry once more after a delay.
      */
@@ -171,6 +176,20 @@ public class BackDoor {
         params.put(BackDoorServlet.PARAMETER_GOOGLE_ID, googleId);
         String instructorJsonString = makePOSTRequest(params);
         return instructorJsonString;
+    }
+    
+    public static String getStudentProfileAsJson(String googleId) {
+        HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GET_STUDENTPROFILE_AS_JSON);
+        params.put(BackDoorServlet.PARAMETER_GOOGLE_ID, googleId);
+        String studentProfileJsonString = makePOSTRequest(params);
+        return studentProfileJsonString;
+    }
+    
+    public static String getWhetherPictureIsPresentInGcs(String pictureKey) {
+        HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_IS_PICTURE_PRESENT_IN_GCS);
+        params.put(BackDoorServlet.PARAMETER_PICTURE_KEY, pictureKey);
+        String returnVal = makePOSTRequest(params);
+        return returnVal;
     }
 
     public static String editAccount(AccountAttributes account) {

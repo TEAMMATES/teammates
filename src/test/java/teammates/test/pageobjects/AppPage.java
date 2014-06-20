@@ -28,6 +28,8 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebElement;
+import org.openqa.selenium.remote.UselessFileDetector;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
@@ -331,6 +333,12 @@ public abstract class AppPage {
         textBoxElement.click();
         textBoxElement.clear();
         textBoxElement.sendKeys(value + Keys.TAB);
+    }
+    
+    protected void fillFileBox(RemoteWebElement fileBoxElement, String fileName) throws Exception {
+        fileBoxElement.setFileDetector(new UselessFileDetector());
+        String newFilePath = new File(fileName).getAbsolutePath();
+        fileBoxElement.sendKeys(newFilePath);
     }
 
     protected String getTextBoxValue(WebElement textBox) {
