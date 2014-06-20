@@ -98,7 +98,7 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         //test content here to make test finish faster
         ______TS("test student confirmation page content");
         // this test uses accounts from test.properties
-        confirmationPage.verifyHtml("/studentCourseJoinConfirmationHTML.html");
+        confirmationPage.verifyHtmlMainContent("/studentCourseJoinConfirmationHTML.html");
         
         studentHome = confirmationPage.clickConfirmButton();
         expectedMsg = "";

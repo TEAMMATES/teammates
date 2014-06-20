@@ -207,6 +207,8 @@ public class CommentAttributes extends EntityAttributes
     
     private void removeCommentRecipientTypeIn(List<CommentRecipientType> visibilityOptions, 
             CommentRecipientType typeToRemove){
+        if(visibilityOptions == null) return;
+        
         Iterator<CommentRecipientType> iter = visibilityOptions.iterator();
         while(iter.hasNext()){
             CommentRecipientType otherType = iter.next();

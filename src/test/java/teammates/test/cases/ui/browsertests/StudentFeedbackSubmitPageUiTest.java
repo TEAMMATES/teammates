@@ -60,12 +60,12 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         ______TS("Awaiting session");
         
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Awaiting Session");
-        submitPage.verifyHtml("/studentFeedbackSubmitPageAwaiting.html");
+        submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageAwaiting.html");
         
         ______TS("Open session");
         
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
-        submitPage.verifyHtml("/studentFeedbackSubmitPageOpen.html");
+        submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageOpen.html");
         
         ______TS("Grace period session");
         
@@ -78,17 +78,17 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         fs.endTime = endDate.getTime();
         BackDoor.editFeedbackSession(fs);
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Grace Period Session");
-        submitPage.verifyHtml("/studentFeedbackSubmitPageGracePeriod.html");      
+        submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageGracePeriod.html");      
        
         ______TS("Closed session");
         
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Closed Session");
-        submitPage.verifyHtml("/studentFeedbackSubmitPageClosed.html");
+        submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageClosed.html");
         
         ______TS("Empty session");
         
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Empty Session");
-        submitPage.verifyHtml("/studentFeedbackSubmitPageEmpty.html");
+        submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageEmpty.html");
     }
     
     private void testSubmitAction(){
@@ -165,7 +165,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
-        submitPage.verifyHtml("/studentFeedbackSubmitPagePartiallyFilled.html");
+        submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPagePartiallyFilled.html");
        
         ______TS("edit existing response");        
         
@@ -242,7 +242,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertEquals("5", frNumscale.getAnswerString());
         
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
-        submitPage.verifyHtml("/studentFeedbackSubmitPageFullyFilled.html");
+        submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageFullyFilled.html");
         
     }
     
@@ -336,7 +336,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         moveToTeam(Benny, "Team 2");
         
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
-        submitPage.verifyHtml("/studentFeedbackSubmitPageModified.html");
+        submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageModified.html");
         
         restoreTestDataOnServer(testData);
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");

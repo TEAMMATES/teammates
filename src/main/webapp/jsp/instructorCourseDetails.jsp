@@ -293,10 +293,10 @@
                                 href="javascript:;"
                                 data-toggle="dropdown"> Add Comment</a>
                               <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" style="text-align:left;">
-                                <li role="presentation"><a role="menuitem" tabindex="-1" href="<%=data.getCourseStudentDetailsLink(student)
+                                <li role="presentation"><a class="t_student_details_tostudent-c<%=data.courseDetails.course.id %>.<%=idx%>" role="menuitem" tabindex="-1" href="<%=data.getCourseStudentDetailsLink(student)
                                     +"&"+Const.ParamsNames.SHOW_COMMENT_BOX+"=student"%>">
                                     Comment on <%=sanitizeForHtml(student.name)%></a></li>
-                                <li role="presentation"><a role="menuitem" tabindex="-1" href="<%=data.getCourseStudentDetailsLink(student)
+                                <li role="presentation"><a class="t_student_details_toteam-c<%=data.courseDetails.course.id %>.<%=idx%>" role="menuitem" tabindex="-1" href="<%=data.getCourseStudentDetailsLink(student)
                                     +"&"+Const.ParamsNames.SHOW_COMMENT_BOX+"=team"%>">
                                     Comment on <%=sanitizeForHtml(student.team)%></a></li>
                               </ul>
