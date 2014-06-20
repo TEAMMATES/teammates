@@ -117,7 +117,9 @@ public class GateKeeper {
     /** Verifies that the nominal user has instructor privileges.
      */
     public void verifyInstructorPrivileges(AccountAttributes account){
-        if(isInstructor(account.googleId)) return;
+        if(account.isInstructor) {
+            return;
+        }
         throw new UnauthorizedAccessException("User "+account.googleId+" does not have admin privilleges");
     }
     
@@ -365,10 +367,6 @@ public class GateKeeper {
     private boolean isInstructor() {
         User user = userService.getCurrentUser();
         return isUserLoggedOn() &&  AccountsLogic.inst().isAccountAnInstructor(user.getNickname());
-    }
-    
-    private boolean isInstructor(String googleId) {
-        return AccountsLogic.inst().isAccountAnInstructor(googleId);
     }
 
     private boolean isStudent() {
