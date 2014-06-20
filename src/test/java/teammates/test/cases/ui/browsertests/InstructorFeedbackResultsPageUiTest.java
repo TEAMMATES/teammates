@@ -11,6 +11,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
+import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
@@ -220,24 +221,24 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("show stats");
         
         assertEquals(resultsPage.showStatsCheckbox.getAttribute("checked"),"true");
-        assertTrue(resultsPage.verifyAllStatsVisibility(true));
+        assertTrue(resultsPage.verifyAllStatsVisibility());
         
         resultsPage.clickShowStats();
         assertEquals(resultsPage.showStatsCheckbox.getAttribute("checked"),null);
-        assertTrue(resultsPage.verifyAllStatsVisibility(false));
+        assertFalse(resultsPage.verifyAllStatsVisibility());
         
 
         resultsPage.clickShowStats();
         assertEquals(resultsPage.showStatsCheckbox.getAttribute("checked"),"true");
-        assertTrue(resultsPage.verifyAllStatsVisibility(true));
+        assertTrue(resultsPage.verifyAllStatsVisibility());
         
     }
     
     public void testSearchScript(){
         ______TS("test search/filter script");
         
-        resultsPage.fillSearchBox("alice");
-
+        resultsPage.fillSearchBox("question 1");
+        ThreadHelper.waitFor(3000);
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortQuestionSearch.html");
         
         

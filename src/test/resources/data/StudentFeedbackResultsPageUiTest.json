@@ -906,7 +906,7 @@
             "giverEmail":"SFResultsUiT.emily.f@gmail.com",
             "recipientEmail":"Team 1",
             "responseMetaData":{
-                "value":"Team 3 to Team 1 \r\n multiline special char test </textarea>xss<textarea> test"
+                "value":"Team 3 to Team 1 \r\n multiline special char test"
             }
             
         },

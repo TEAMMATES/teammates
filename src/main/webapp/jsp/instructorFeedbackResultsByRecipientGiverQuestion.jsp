@@ -12,6 +12,7 @@
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%
     InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData) request.getAttribute("data");
+    boolean shouldCollapsed = data.bundle.responses.size() > 1000;
 %>
 <!DOCTYPE html>
 <html>
@@ -50,7 +51,7 @@
         <div id="frameBodyWrapper" class="container">
             <div id="topOfPage"></div>
             <div id="headerOperation">
-                <h1>Feedback Results - Instructor</h1>
+                <h1>Session Results</h1>
             </div>
             <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_TOP%>" />
             <br>
@@ -102,8 +103,9 @@
                     <div class="panel panel-warning">
                         <div class="panel-heading">
                             <strong><%=currentTeam%></strong>
+                            <span class="glyphicon <%= !shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down" %> pull-right"></span>
                         </div>
-                        <div class="panel-collapse">
+                        <div class="panel-collapse collapse <%= !shouldCollapsed ? "in" : "" %>">
                         <div class="panel-body background-color-warning">
             <%
                 }
@@ -114,8 +116,9 @@
                 <div class="panel-heading">
                     To: <strong><%=responsesForRecipient.getKey()%></strong>
                         <a class="link-in-dark-bg" href="mailTo:<%= targetEmail%> " <%=mailtoStyleAttr%>>[<%=targetEmail%>]</a>
+                    <span class="glyphicon <%= !shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down" %> pull-right"></span>
                 </div>
-                <div class="panel-collapse">
+                <div class="panel-collapse collapse <%= !shouldCollapsed ? "in" : "" %>">
                 <div class="panel-body">
                 <%
                     int giverIndex = 0;
@@ -136,7 +139,6 @@
                                                 out.print(InstructorFeedbackResultsPageData.sanitizeForHtml(questionDetails.questionText));
                                                 out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, "giver-"+giverIndex+"-recipient-"+recipientIndex));
                                         %></div>
-                                        <div class="panel-collapse">
                                         <div class="panel-body">
                                             <div style="clear:both; overflow: hidden">
                                                 <div class="pull-left"><%=singleResponse.getResponseDetails().getAnswerHtml(questionDetails)%></div>
@@ -221,7 +223,7 @@
                                                 </div>
                                             </form>
                                         </li>
-                                    </ul></div></div></div>
+                                    </ul></div></div>
                             <%
                                     qnIndx++;
                                 }
@@ -256,15 +258,16 @@
         <%
             // Only output the list of students who haven't responded when there are responses.
             FeedbackSessionResponseStatus responseStatus = data.bundle.responseStatus;
-            if (!responseStatus.hasResponse.isEmpty()) {
+            if (data.selectedSection.equals("All") && !responseStatus.noResponse.isEmpty()) {
         %>
                 <div class="panel panel-info">
-                    <div class="panel-heading">Students Who Did Not Respond to Any Question</div>
+                    <div class="panel-heading">Participants who did not respond to any question</div>
                     
                     <table class="table table-striped">
                         <tbody>
-                        <%
-                            for (String studentName : responseStatus.getStudentsWhoDidNotRespondToAnyQuestion()) {
+                        <%  
+                            List<String> students = responseStatus.getStudentsWhoDidNotRespondToAnyQuestion();
+                            for (String studentName : students) {
                         %>
                                 <tr>
                                     <td><%=studentName%></td>
