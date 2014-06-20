@@ -2,7 +2,6 @@ package teammates.logic.core;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -92,7 +91,7 @@ public class CommentsLogic {
         //TODO: handle comments for section
         
         List<CommentAttributes> commentsForCourse = getCommentsForCommentViewer(student.course, CommentRecipientType.COURSE);
-        removeNonVisibleCommentsForCourse(commentsForCourse, student, commentsVisitedSet, comments);
+        removeNonVisibleCommentsForCourse(commentsForCourse, student, teammatesEmails, commentsVisitedSet, comments);
         
         java.util.Collections.sort(comments);
         
@@ -107,7 +106,7 @@ public class CommentsLogic {
         
         List<CommentAttributes> comments = getCommentsForGiverAndStatus(instructor.courseId, instructor.email, CommentStatus.FINAL);
         for(CommentAttributes c: comments){
-            commentsVisitedSet.add(c.getCommentId().toString());
+            preventAppendingThisCommentAgain(commentsVisitedSet, c);
         }
         
         List<CommentAttributes> commentsForOtherInstructor = getCommentsForCommentViewer(instructor.courseId, CommentRecipientType.INSTRUCTOR);
@@ -135,9 +134,7 @@ public class CommentsLogic {
     private void removeNonVisibleCommentsForInstructor(
             List<CommentAttributes> commentsForInstructor,
             HashSet<String> commentsVisitedSet, List<CommentAttributes> comments) {
-        Iterator<CommentAttributes> iter = commentsForInstructor.iterator();
-        while(iter.hasNext()){
-            CommentAttributes c = iter.next();
+        for(CommentAttributes c:commentsForInstructor){
             removeGiverAndRecipientNameByVisibilityOptions(c, CommentRecipientType.INSTRUCTOR);
             appendCommentsFrom(c, comments, commentsVisitedSet);
         }
@@ -152,18 +149,17 @@ public class CommentsLogic {
     }
 
     private void removeNonVisibleCommentsForCourse(
-            List<CommentAttributes> commentsForCourse, StudentAttributes student, HashSet<String> commentsVisitedSet,
+            List<CommentAttributes> commentsForCourse, StudentAttributes student, List<String> teammates, HashSet<String> commentsVisitedSet,
             List<CommentAttributes> comments) {
-        Iterator<CommentAttributes> iter = commentsForCourse.iterator();
-        while(iter.hasNext()){
-            CommentAttributes c = iter.next();
-            if(!c.courseId.equals(student.course)){
-                iter.remove();
-            } else {
-                if(c.recipientType != CommentRecipientType.COURSE){
-                    removeGiverAndRecipientNameByVisibilityOptions(c, CommentRecipientType.COURSE);
-                } else {
+        //ensure comments for teammates or team is separated from comments for course
+        removeNonVisibleCommentsForTeam(commentsForCourse, student, teammates, commentsVisitedSet, comments);
+        
+        for(CommentAttributes c: commentsForCourse){
+            if(c.courseId.equals(student.course)){
+                if(c.recipientType == CommentRecipientType.COURSE) {
                     removeGiverNameByVisibilityOptions(c, CommentRecipientType.COURSE);
+                } else {
+                    removeGiverAndRecipientNameByVisibilityOptions(c, CommentRecipientType.COURSE);
                 }
                 appendCommentsFrom(c, comments, commentsVisitedSet);
             }
@@ -173,29 +169,24 @@ public class CommentsLogic {
     private void removeNonVisibleCommentsForTeam(List<CommentAttributes> commentsForTeam,
             StudentAttributes student, List<String> teammates, HashSet<String> commentsVisitedSet,
             List<CommentAttributes> comments) {
-        Iterator<CommentAttributes> iter = commentsForTeam.iterator();
-        while(iter.hasNext()){
-            CommentAttributes c = iter.next();
-            if(c.recipientType == CommentRecipientType.PERSON){
-                boolean isToRemove = true;
-                for(String recipient : c.recipients){
-                    if(teammates.contains(recipient)){
-                        isToRemove = false;
-                        break;
-                    }
-                }
-                if(isToRemove){
-                    iter.remove();
-                } else {
+        for(CommentAttributes c:commentsForTeam){
+            //for teammates
+            if(c.recipientType == CommentRecipientType.PERSON
+                    && isCommentRecipientsContainTeammates(teammates, c)){
+                if(c.showCommentTo.contains(CommentRecipientType.TEAM)){
                     removeGiverAndRecipientNameByVisibilityOptions(c, CommentRecipientType.TEAM);
                     appendCommentsFrom(c, comments, commentsVisitedSet);
+                } else {
+                    preventAppendingThisCommentAgain(commentsVisitedSet, c);
                 }
-            } else if(c.recipientType == CommentRecipientType.TEAM){
-                if(!c.recipients.contains(student.team)){
-                    iter.remove();
-                } else{
+            //for team
+            } else if(c.recipientType == CommentRecipientType.TEAM 
+                    && c.recipients.contains(student.team)){
+                if(c.showCommentTo.contains(CommentRecipientType.TEAM)){
                     removeGiverNameByVisibilityOptions(c, CommentRecipientType.TEAM);
                     appendCommentsFrom(c, comments, commentsVisitedSet);
+                } else {
+                    preventAppendingThisCommentAgain(commentsVisitedSet, c);
                 }
             }
         }
@@ -203,14 +194,12 @@ public class CommentsLogic {
 
     private void removeNonVisibleCommentsForStudent(List<CommentAttributes> commentsForStudent, HashSet<String> commentsVisitedSet,
             List<CommentAttributes> comments){
-        Iterator<CommentAttributes> iter = commentsForStudent.iterator();
-        while(iter.hasNext()){
-            CommentAttributes c = iter.next();
-            if(!c.showCommentTo.contains(CommentRecipientType.PERSON)){
-                iter.remove();
-            } else {
+        for(CommentAttributes c:commentsForStudent){
+            if(c.showCommentTo.contains(CommentRecipientType.PERSON)){
                 removeGiverNameByVisibilityOptions(c, CommentRecipientType.PERSON);
                 appendCommentsFrom(c, comments, commentsVisitedSet);
+            } else {
+                preventAppendingThisCommentAgain(commentsVisitedSet, c);
             }
         }
     }
@@ -229,11 +218,25 @@ public class CommentsLogic {
         }
     }
     
-    private void appendCommentsFrom(CommentAttributes c, List<CommentAttributes> thatCommentList, HashSet<String> commentsVisitedSet){
+    private void appendCommentsFrom(CommentAttributes c, List<CommentAttributes> toThisCommentList, HashSet<String> commentsVisitedSet){
         if(!commentsVisitedSet.contains(c.getCommentId().toString())){
-            thatCommentList.add(c);
-            commentsVisitedSet.add(c.getCommentId().toString());
+            toThisCommentList.add(c);
+            preventAppendingThisCommentAgain(commentsVisitedSet, c);
         }
+    }
+    
+    private void preventAppendingThisCommentAgain(
+            HashSet<String> commentsVisitedSet, CommentAttributes c) {
+        commentsVisitedSet.add(c.getCommentId().toString());
+    }
+
+    private boolean isCommentRecipientsContainTeammates(List<String> teammates, CommentAttributes c) {
+        for(String recipient : c.recipients){
+            if(teammates.contains(recipient)){
+                return true;
+            }
+        }
+        return false;
     }
     
     private void verifyIsCoursePresentForCreateComment(String courseId)

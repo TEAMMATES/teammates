@@ -22,6 +22,6 @@ public class InstructorStudentRecordsPageData extends PageData {
     }
     
     public String removeBracketsForArrayString(String arrayString){
-        return arrayString.substring(1, arrayString.length() - 1).replace(" ", "");
+        return arrayString.substring(1, arrayString.length() - 1).trim();
     }
 }
