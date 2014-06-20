@@ -487,36 +487,16 @@ public class Logic {
          
      }
      
-     public void verifyInputForAdminHomePage(AdminHomePageData data) throws InvalidParametersException{
+     public void verifyInputForAdminHomePage(String shortName, String name, String institute, String email) throws InvalidParametersException{
          
-         List<String> invalidityInfo = getInvalidityInfoForNewInstructorData(data);
+         List<String> invalidityInfo = instructorsLogic.getInvalidityInfoForNewInstructorData(shortName, name, institute, email);
          
          if (!invalidityInfo.isEmpty()) {
              throw new InvalidParametersException(invalidityInfo);
-         }
+         } 
      }
      
-     private List<String> getInvalidityInfoForNewInstructorData(AdminHomePageData data) {
-         
-         FieldValidator validator = new FieldValidator();
-         List<String> errors = new ArrayList<String>();
-         String error;
-         
-         error= validator.getInvalidityInfo(FieldValidator.FieldType.PERSON_NAME, data.instructorShortName);
-         if(!error.isEmpty()) { errors.add(error); }
-         
-         error= validator.getInvalidityInfo(FieldValidator.FieldType.PERSON_NAME, data.instructorName);
-         if(!error.isEmpty()) { errors.add(error); }
-         
-         error= validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, data.instructorEmail);
-         if(!error.isEmpty()) { errors.add(error); }
-         
-         error= validator.getInvalidityInfo(FieldValidator.FieldType.INSTITUTE_NAME, data.instructorInstitution);
-         if(!error.isEmpty()) { errors.add(error); }
-         
-         //No validation for isInstructor and createdAt fields.
-         return errors;
-     }
+     
     
     
     /**

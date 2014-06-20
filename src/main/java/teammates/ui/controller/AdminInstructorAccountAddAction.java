@@ -49,7 +49,8 @@ public class AdminInstructorAccountAddAction extends Action {
         
         try {
             
-            logic.verifyInputForAdminHomePage(data);
+            
+            logic.verifyInputForAdminHomePage(data.instructorShortName, data.instructorName, data.instructorInstitution, data.instructorEmail);
             
             BackDoorLogic backDoor = new BackDoorLogic();
             String CourseId = importDemoData(data);              

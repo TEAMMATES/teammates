@@ -268,6 +268,29 @@ public class InstructorsLogic {
     }
     
     
+    public List<String> getInvalidityInfoForNewInstructorData(String shortName, String name, String institute, String email) {
+        
+        FieldValidator validator = new FieldValidator();
+        List<String> errors = new ArrayList<String>();
+        String error;
+        
+        error= validator.getInvalidityInfo(FieldValidator.FieldType.PERSON_NAME, shortName);
+        if(!error.isEmpty()) { errors.add(error); }
+        
+        error= validator.getInvalidityInfo(FieldValidator.FieldType.PERSON_NAME, name);
+        if(!error.isEmpty()) { errors.add(error); }
+        
+        error= validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, institute);
+        if(!error.isEmpty()) { errors.add(error); }
+        
+        error= validator.getInvalidityInfo(FieldValidator.FieldType.INSTITUTE_NAME, email);
+        if(!error.isEmpty()) { errors.add(error); }
+        
+        //No validation for isInstructor and createdAt fields.
+        return errors;
+    }
+    
+    
     
     public void deleteInstructor(String courseId, String email) {
         
