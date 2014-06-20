@@ -354,9 +354,9 @@ public class Logic {
      * @deprecated Not scalable. Don't use unless in admin features.
      */
     @Deprecated
-    public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions() {
+    public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions(Date start, Date end, double zone) {
         
-        return feedbackSessionsLogic.getAllOpenFeedbackSessions();
+        return feedbackSessionsLogic.getAllOpenFeedbackSessions(start, end, zone);
     }
     
     

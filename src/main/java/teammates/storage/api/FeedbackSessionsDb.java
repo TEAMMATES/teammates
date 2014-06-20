@@ -20,6 +20,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.TimeHelper;
 import teammates.common.util.Utils;
 import teammates.storage.entity.FeedbackSession;
 
@@ -36,48 +37,94 @@ public class FeedbackSessionsDb extends EntitiesDb {
      * roles in the system.
      */
     @Deprecated
-    public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions() {
-
+    public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions(Date start, Date end, double zone) {
+        
         List<FeedbackSessionAttributes> list = new LinkedList<FeedbackSessionAttributes>();
-        List<FeedbackSession> entities = getFeedbackSessionEntities();
-        Iterator<FeedbackSession> it = entities.iterator();
+        
+        //TODO: prevent SQL injection
+        
+        final Query endTimequery = getPM().newQuery("SELECT FROM teammates.storage.entity.FeedbackSession "
+                                                    + "WHERE this.endTime>rangeStart && this.endTime<rangeEnd "
+                                                    + "&& this.timeZoneDouble == zone PARAMETERS java.util.Date rangeStart, "
+                                                    + "java.util.Date rangeEnd, double zone");
 
-        Date now = Calendar.getInstance(TimeZone.getTimeZone("UTC")).getTime();
+        final Query startTimequery = getPM().newQuery("SELECT FROM teammates.storage.entity.FeedbackSession "
+                                                      + "WHERE this.startTime>rangeStart && this.startTime<rangeEnd "
+                                                      + "&& this.timeZoneDouble == zone PARAMETERS java.util.Date rangeStart, "
+                                                      + "java.util.Date rangeEnd, double zone");
+        
+        final Query acrossRangeSessionStartQuery = getPM().newQuery("SELECT FROM teammates.storage.entity.FeedbackSession "
+                                                                    + "WHERE this.startTime <= rangeStart"
+                                                                    + "&& this.timeZoneDouble == zone PARAMETERS java.util.Date rangeStart, "
+                                                                    + "double zone"); 
+        
+        final Query acrossRangeSessionEndQuery = getPM().newQuery("SELECT FROM teammates.storage.entity.FeedbackSession "
+                                                                    + "WHERE this.endTime >= rangeEnd"
+                                                                    + "&& this.timeZoneDouble == zone PARAMETERS java.util.Date rangeEnd, "
+                                                                    + "double zone"); 
+        
 
-        while (it.hasNext()) {
 
-            FeedbackSessionAttributes fs = new FeedbackSessionAttributes(
-                    it.next());
-            Date startDate = fs.getSessionStartTime();
-            Date endDate = fs.getSessionEndTime();
+ for (int i = 0; i < Const.TIME_ZONE_VALUES.length; i++) {
 
-            if (startDate != null && endDate != null) {
-                if (now.getTime() > startDate.getTime()
-                        && now.getTime() < endDate.getTime()) {
-                    list.add(fs);
-                    System.out
-                            .println("****************************************\n");
-                    System.out.println(fs.getSessionName() + "\n");
-                    System.out.println(fs.getSessionStartTime() + "\n");
-                    System.out.println(fs.getSessionEndTime() + "\n");
+            double timeZone = Const.TIME_ZONE_VALUES[i];
+            
+            Calendar startCal = Calendar.getInstance();
+            startCal.setTime(start);
+            Calendar endCal = Calendar.getInstance();
+            endCal.setTime(end);
 
+            Date curStart = TimeHelper.convertToUserTimeZone(startCal, timeZone- zone).getTime();
+            Date curEnd = TimeHelper.convertToUserTimeZone(endCal, timeZone - zone).getTime();
+         
+            @SuppressWarnings("unchecked")
+            List<FeedbackSession> endEntities = (List<FeedbackSession>) endTimequery.execute(curStart, curEnd, timeZone);
+            @SuppressWarnings("unchecked")
+            List<FeedbackSession> startEntities = (List<FeedbackSession>) startTimequery.execute(curStart, curEnd, timeZone);
+            
+            List<FeedbackSession> endTimeEntities = new ArrayList<FeedbackSession>(endEntities);
+            List<FeedbackSession> startTimeEntities = new ArrayList<FeedbackSession>(startEntities); 
+            
+            endTimeEntities.removeAll(startTimeEntities);
+            startTimeEntities.removeAll(endTimeEntities);
+            endTimeEntities.addAll(startTimeEntities);        
+                        
+            
+            Iterator<FeedbackSession> it = endTimeEntities.iterator();
+
+            while (it.hasNext()) {
+
+                FeedbackSessionAttributes fs = new FeedbackSessionAttributes(it.next());
+                list.add(fs);
+
+            }
+
+            // check if there is sessions across the range
+            @SuppressWarnings("unchecked")
+            List<FeedbackSession> startAcrossEntities = (List<FeedbackSession>) acrossRangeSessionStartQuery
+                                                        .execute(curStart, timeZone);
+            @SuppressWarnings("unchecked")
+            List<FeedbackSession> endAcrossEntities = (List<FeedbackSession>) acrossRangeSessionEndQuery
+                                                      .execute(curEnd, timeZone);
+
+            List<FeedbackSession> startAcrossHalf = new ArrayList<FeedbackSession>(startAcrossEntities);
+            List<FeedbackSession> endAcrossHalf = new ArrayList<FeedbackSession>(endAcrossEntities);
+
+            for (FeedbackSession fs : startAcrossHalf) {
+
+                if (endAcrossHalf.contains(fs)) {
+                    FeedbackSessionAttributes fsa = new FeedbackSessionAttributes(fs);
+                    list.add(fsa);
                 }
+
             }
         }
         
+               
         return list;
     }
 
-    private List<FeedbackSession> getFeedbackSessionEntities() {
 
-        String query = "select from " + FeedbackSession.class.getName();
-
-        @SuppressWarnings("unchecked")
-        List<FeedbackSession> allFeedbackSessionsList = (List<FeedbackSession>) getPM()
-                .newQuery(query).execute();
-
-        return allFeedbackSessionsList;
-    }
     
     /**
      * Preconditions: <br>

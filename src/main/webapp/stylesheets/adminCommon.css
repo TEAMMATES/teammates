@@ -61,3 +61,15 @@
     font-size: 14px;
     padding: 0.8em;
 }
+
+
+.hoverMenu3 {
+    position: fixed;
+    top: 18em;
+    left: -8.6em;
+    text-decoration: none;
+    color: #000000;
+    background-color: rgba(3, 12, 14, 0.8);
+    font-size: 14px;
+    padding: 0.8em;
+}

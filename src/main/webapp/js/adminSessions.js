@@ -93,6 +93,7 @@ function sessionToggleSort(divElement, colIdx, comparator) {
 }
 
 jQuery(document).ready(function() {
+
 	var offset = 220;
 	var duration = 500;
 	jQuery(window).scroll(function() {
@@ -108,8 +109,6 @@ jQuery(document).ready(function() {
 	jQuery('.hoverMenu1').hover(
 
 	function(event) {
-
-		var leftMargin = jQuery('.hoverMenu1').css("left");
 
 		if (!jQuery('.hoverMenu1').is(':animated')) {
 
@@ -166,6 +165,35 @@ jQuery(document).ready(function() {
 
 	);
 
+	jQuery('.hoverMenu3').hover(
+
+	function(event) {
+
+		if (!jQuery('.hoverMenu3').is(':animated')) {
+
+			event.preventDefault();
+			jQuery('.hoverMenu3').animate({
+				"left" : "0em",
+				backgroundColor : "rgba(235, 235, 235, 0.80)"
+			}, duration);
+		}
+		return false;
+	},
+
+	function(event) {
+
+		event.preventDefault();
+		jQuery('.hoverMenu3').animate({
+			left : "-8.6em",
+			backgroundColor : "rgba(3, 12, 14, 0.8)"
+
+		}, duration);
+
+		return false;
+	}
+
+	);
+
 	jQuery('.back-to-top-left').click(function(event) {
 		event.preventDefault();
 		jQuery('html, body').animate({
@@ -181,7 +209,29 @@ jQuery(document).ready(function() {
 		}, duration);
 		return false;
 	});
+
 });
+
+$(function() {
+	$('#datetimepicker').datetimepicker();
+});
+
+$(function() {
+	$('#datetimepicker1').datetimepicker();
+});
+
+// function sessionStart() {
+//
+// var start = $('#datetimepicker').data("DateTimePicker").getDate();
+//
+// $("#sessionStart").attr("value", start);
+//
+// }
+//
+// function sessionEnd() {
+//
+// return $('#datetimepicker1').data("DateTimePicker").getDate();
+// }
 
 $(function() {
 	$(".table-responsive").toggle();

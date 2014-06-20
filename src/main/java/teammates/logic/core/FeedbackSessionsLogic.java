@@ -3,6 +3,7 @@ package teammates.logic.core;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -78,9 +79,9 @@ public class FeedbackSessionsLogic {
      * @deprecated Not scalable. Use only for admin features.
      */
     @Deprecated 
-    public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions() {
+    public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions(Date start, Date end, double zone) {
         
-        return fsDb.getAllOpenFeedbackSessions();
+        return fsDb.getAllOpenFeedbackSessions(start, end, zone);
     }
     
     /**
