@@ -39,7 +39,7 @@ public class InstructorEvalSubmissionPageActionTest extends BaseActionTest {
         };
         
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
-        
+        verifyUnaccessibleWithoutViewSessionInSectionsPrivilege(submissionParams);
     }
     
     @Test

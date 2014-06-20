@@ -22,8 +22,12 @@
               <div class="form-group">
                 <label class="col-sm-2 control-label">Session:</label>
                 <div class="col-sm-10">
-                  <p class="form-control-static"><%=InstructorFeedbackResultsPageData.sanitizeForHtml(data.bundle.feedbackSession.feedbackSessionName)%> <a
-                href="<%=data.getInstructorFeedbackSessionEditLink(data.bundle.feedbackSession.courseId, data.bundle.feedbackSession.feedbackSessionName)%>">[Edit]</a></p>
+                  <p class="form-control-static"><%=InstructorFeedbackResultsPageData.sanitizeForHtml(data.bundle.feedbackSession.feedbackSessionName)%> 
+                      <% if (data.instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION)) { %>
+                          <a href="<%=data.getInstructorFeedbackSessionEditLink(data.bundle.feedbackSession.courseId, data.bundle.feedbackSession.feedbackSessionName)%>">
+                          [Edit]</a>
+                      <% } %>
+                  </p>
                 </div>
               </div>
           </div>
@@ -174,5 +178,5 @@
 <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
 
 <% if (noResponses) { %>
-    <div class="bold color_red align-center">There are no responses for this feedback session yet.</div>
+    <div class="bold color_red align-center">There are no responses for this feedback session yet or you do not have access to the responses collected so far.</div>
 <% } %>

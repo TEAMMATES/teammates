@@ -1779,6 +1779,23 @@ public class Logic {
     private void ____FEEDBACK_RESPONSE_level_methods_____________________________() {
     }
     
+    public FeedbackResponseAttributes getFeedbackResponse(String feedbackResponseId) {
+        
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackResponseId);
+        
+        return feedbackResponsesLogic.getFeedbackResponse(feedbackResponseId);
+    }
+    
+    public FeedbackResponseAttributes getFeedbackResponse(
+            String feedbackQuestionId, String giverEmail, String recipient) {
+        
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackQuestionId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, giverEmail);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, recipient);
+     
+        return feedbackResponsesLogic.getFeedbackResponse(feedbackQuestionId, giverEmail, recipient);
+    }
+    
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
