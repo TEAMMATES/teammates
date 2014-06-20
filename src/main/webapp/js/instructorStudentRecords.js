@@ -5,7 +5,7 @@ var DISPLAY_COMMENT_BLANK = "Please enter a valid comment. The comment can't be 
 $(document).ready(function(){
 	//make textarea supports displaying breakline
     $('div[id^="plainCommentText"]').each(function(){
-	    var commentTextWithBreakLine = $(this).text().replace(/\n/g, '<br />');
+	    var commentTextWithBreakLine = $(this).text().replace(/\n/g, '\n<br />');
 	    $(this).html(commentTextWithBreakLine);
     });
 	
