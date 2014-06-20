@@ -25,7 +25,7 @@ public class FeedbackNumericalScaleResponseDetails extends
     }
 
     @Override
-    public String getAnswerHtml() {
+    public String getAnswerHtml(FeedbackAbstractQuestionDetails questionDetails) {
         return getAnswerString();
     }
 

@@ -38,6 +38,10 @@ var FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE = "numofrecipientstype";
 var FEEDBACK_QUESTION_TYPE ="questiontype";
 var FEEDBACK_QUESTION_MCQCHOICE = "mcqOption";
 var FEEDBACK_QUESTION_MSQCHOICE = "msqOption";
+var FEEDBACK_QUESTION_CONSTSUMOPTION = "constSumOption";
+var FEEDBACK_QUESTION_CONSTSUMOPTIONTABLE = "constSumOptionTable";
+var FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS = "constSumToRecipients";
+var FEEDBACK_QUESTION_CONSTSUMPOINTS = "constSumPoints";
 var FEEDBACK_QUESTION_NUMBEROFCHOICECREATED ="noofchoicecreated";
 var FEEDBACK_QUESTION_NUMSCALE_MIN = "numscalemin";
 var FEEDBACK_QUESTION_NUMSCALE_MAX = "numscalemax";
@@ -54,6 +58,8 @@ var FEEDBACK_QUESTION_TYPENAME_TEXT = "Essay question";
 var FEEDBACK_QUESTION_TYPENAME_MCQ = "Multiple-choice (single answer)";
 var FEEDBACK_QUESTION_TYPENAME_MSQ = "Multiple-choice (multiple answers)";
 var FEEDBACK_QUESTION_TYPENAME_NUMSCALE = "Numerical-scale question";
+var FEEDBACK_QUESTION_TYPENAME_CONSTSUM_OPTION = "Distribute points (among options) question";
+var FEEDBACK_QUESTION_TYPENAME_CONSTSUM_RECIPIENT = "Distribute points (among recipients) question";
 
 // used in feedbackResponseComments.js
 var FEEDBACK_RESPONSE_ID = "responseid";
@@ -528,7 +534,7 @@ function isInstitutionValid(institution) {
  * [Source: http://stackoverflow.com/questions/995183/how-to-allow-only-numeric-0-9-in-html-inputbox-using-jquery]
  */
 function disallowNonNumericEntries(element, decimalPointAllowed, negativeAllowed) {
-    element.keydown(function(event){
+    element.on('keydown', function(event){
         var key = event.which;
         // Allow: backspace, delete, tab, escape, and enter
         if ( key == 46 || key == 8 || key == 9 || key == 27 || key == 13 || 

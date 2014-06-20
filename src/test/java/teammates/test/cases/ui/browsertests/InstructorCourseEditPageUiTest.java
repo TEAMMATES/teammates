@@ -3,6 +3,7 @@ package teammates.test.cases.ui.browsertests;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -134,7 +135,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
                 .withUserId(testData.instructors.get("InsCrsEdit.test").googleId);
             
         InstructorCourseDetailsPage courseDetailsPage = courseEditPage.navigateTo(courseDetailsLink, InstructorCourseDetailsPage.class);
-        courseDetailsPage.verifyHtmlMainContent("/instructorCourseDetailsAddInstructor.html" );
+        courseDetailsPage.verifyHtmlPart(By.id("instructors"), "/instructorCourseDetailsAddInstructor.html");
     
         ______TS("failure: add an existing instructor");
         

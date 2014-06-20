@@ -1,5 +1,6 @@
 package teammates.common.datatransfer;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,14 @@ public class CourseRoster {
     public CourseRoster(List<StudentAttributes> students, List<InstructorAttributes> instructors){
         populateStuentListByEmail(students);
         populateInstructorListByEmail(instructors);
+    }
+    
+    public List<StudentAttributes> getStudents(){
+        return new ArrayList<StudentAttributes>(studentListByEmail.values());
+    }
+    
+    public List<InstructorAttributes> getInstructors(){
+        return new ArrayList<InstructorAttributes>(instructorListByEmail.values());
     }
     
     public boolean isStudentInCourse(String studentEmail){

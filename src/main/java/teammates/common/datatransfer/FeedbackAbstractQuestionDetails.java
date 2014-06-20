@@ -41,7 +41,7 @@ public abstract class FeedbackAbstractQuestionDetails {
     
     public abstract String getQuestionAdditionalInfoHtml(int questionNumber, String additionalInfoId);
     
-    public abstract String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses);
+    public abstract String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses, FeedbackSessionResultsBundle bundle);
     
     public abstract boolean isChangesRequiresResponseDeletion(FeedbackAbstractQuestionDetails newDetails);
     
@@ -58,7 +58,7 @@ public abstract class FeedbackAbstractQuestionDetails {
      * @param responses - The {@code List<FeedbackResponseAttributes>} for the question to be validated
      * @return A {@code List<String>} of error messages (to show as status message to user) if any, or an empty list if question responses are valid.
      */
-    public abstract List<String> validateResponseAttributes(List<FeedbackResponseAttributes> responses);
+    public abstract List<String> validateResponseAttributes(List<FeedbackResponseAttributes> responses, int numRecipients);
     
     public static FeedbackAbstractQuestionDetails createQuestionDetails(Map<String, String[]> requestParameters, FeedbackQuestionType questionType) {
         String questionText = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_TEXT);
@@ -135,6 +135,42 @@ public abstract class FeedbackAbstractQuestionDetails {
 
             questionDetails = 
                     new FeedbackNumericalScaleQuestionDetails(questionText, minScale, maxScale, step);
+            break;
+        case CONSTSUM:
+            int numOfConstSumOptions = 0;
+            List<String> constSumOptions = new LinkedList<String>();
+            String distributeToRecipientsString = null;
+            String pointsPerOptionString = null;
+            String pointsString = null;
+            boolean distributeToRecipients = false;
+            boolean pointsPerOption = false;
+            int points = 0;
+            
+            distributeToRecipientsString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS);
+            pointsPerOptionString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION);
+            pointsString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS);
+            Assumption.assertNotNull("Null points", pointsString);
+            
+            distributeToRecipients = (distributeToRecipientsString == null) ? false : (distributeToRecipientsString.equals("true")? true : false);
+            pointsPerOption = (pointsPerOptionString == null) ? false : pointsPerOptionString.equals("true") ? true : false;
+            points = Integer.parseInt(pointsString);
+            
+            if (!distributeToRecipients) {
+                String numConstSumOptionsCreatedString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED);
+                Assumption.assertNotNull("Null number of choice for ConstSum", numConstSumOptionsCreatedString);
+                int numConstSumOptionsCreated = Integer.parseInt(numConstSumOptionsCreatedString);
+                
+                for(int i = 0; i < numConstSumOptionsCreated; i++) {
+                    String constSumOption = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION + "-" + i);
+                    if(constSumOption != null && !constSumOption.trim().isEmpty()) {
+                        constSumOptions.add(constSumOption);
+                        numOfConstSumOptions++;
+                    }
+                }
+                questionDetails = new FeedbackConstantSumQuestionDetails(questionText, numOfConstSumOptions, constSumOptions, pointsPerOption, points);
+            } else {
+                questionDetails = new FeedbackConstantSumQuestionDetails(questionText, pointsPerOption, points);
+            }
             break;
         default:
             Assumption.fail("Question type not supported by FeedbackAbstractQuestionDetails");

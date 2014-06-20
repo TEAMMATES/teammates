@@ -21,6 +21,8 @@ public class InstructorCourseStudentDetailsPageAction extends InstructorCoursesP
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
+        String commentRecipient = getRequestParamValue(Const.ParamsNames.SHOW_COMMENT_BOX);
+        
         // although "None" means "no section", yet in the intructorPrivilege sectionLevel, "None" will also never be a key
         new GateKeeper().verifyAccessible(
                 instructor, logic.getCourse(courseId), student.section, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS);
@@ -30,6 +32,7 @@ public class InstructorCourseStudentDetailsPageAction extends InstructorCoursesP
         data.student = student;
         data.regKey = logic.getEncryptedKeyForStudent(courseId, studentEmail);
         data.hasSection = logic.hasIndicatedSections(courseId);
+        data.commentRecipient = commentRecipient;
         
         statusToAdmin = "instructorCourseStudentDetails Page Load<br>" + 
                 "Viewing details for Student <span class=\"bold\">" + studentEmail + 

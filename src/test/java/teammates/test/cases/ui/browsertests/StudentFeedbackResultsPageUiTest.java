@@ -38,7 +38,7 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("no responses");
         
         resultsPage = loginToStudentFeedbackSubmitPage("Alice", "Empty Session");
-        resultsPage.verifyHtml("/studentFeedbackResultsPageEmpty.html");
+        resultsPage.verifyHtmlMainContent("/studentFeedbackResultsPageEmpty.html");
             
         ______TS("standard session results");
         
@@ -88,6 +88,11 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         resultsPage = loginToStudentFeedbackSubmitPage("Alice", "NUMSCALE Session");
         resultsPage.verifyHtml("/studentFeedbackResultsPageNUMSCALE.html");
+        
+        ______TS("CONSTSUM session results");
+        
+        resultsPage = loginToStudentFeedbackSubmitPage("Alice", "CONSTSUM Session");
+        resultsPage.verifyHtml("/studentFeedbackResultsPageCONSTSUM.html");
     }
 
     @AfterClass

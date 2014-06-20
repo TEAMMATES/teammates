@@ -16,36 +16,21 @@ function showHideStats(){
 
 //Search functionality
 
-function filterResults(searchText, element){
-    var recurse = false;
-    element = element || $("#frameBodyWrapper").find("div.panel").filter(function(index){
-        var e = $("#frameBodyWrapper").find("div.panel")[index];
-        var heading = $(e).children(".panel-heading");
-        var body = $(e).children(".panel-collapse").children(".panel-body");
-        if(heading.length != 0 && body.length != 0){
-            recurse = true;
-            return true;
-        } else {
-            return false;
-        }
-    });
+function filterResults(searchText){
+    var element = $("#frameBodyWrapper").children("div.panel");
 
     if($(element).parents(".resultStatistics").length){
         return;
     }
 
-    for(var i=0 ; i<element.length ; i++){
+    for(var i = 0 ; i < element.length ; i++){
         var elm = element[i];
-        if($(elm).text().toLowerCase().indexOf(searchText.toLowerCase()) == -1){
-            $(elm).hide();
+        var heading = $(elm).children('.panel-heading');
+        if($(heading[0]).text().toLowerCase().indexOf(searchText.toLowerCase()) != -1){
+           $(elm).show();
         } else {
-            $(elm).show();
-
-            if(recurse){
-                var childElements = $(elm).find(".panel,div.row,tbody>tr");
-                filterResults(searchText, childElements);
-            }
-        }
+           $(elm).hide();
+        } 
     }
 }
 
@@ -53,17 +38,21 @@ function updateResultsFilter(){
     filterResults($("#results-search-box").val());
 }
 
-
-
-
 //This section is used to enable all panels to be collapsible.
 var panelsCollapsed = false;
+var isCollapsingAll = false;
+var isExpandingAll = false;
+
 function toggleCollapse(){
     if(panelsCollapsed){
-        $("div[class*='panelBodyCollapse-']").collapse("show");
+        var panels = $("div.panel-collapse");
+        isExpandingAll = true;
+        $(panels[0]).collapse("show");
         $("#collapse-panels-button").html("Collapse All");
     } else {
-        $("div[class*='panelBodyCollapse-']").collapse("hide");
+        var panels = $("div.panel-collapse");
+        isCollapsingAll = true;
+        $(panels[0]).collapse("hide");
         $("#collapse-panels-button").html("Expand All");
     }
     panelsCollapsed = !panelsCollapsed;
@@ -72,7 +61,25 @@ function toggleCollapse(){
 function toggleSingleCollapse(e){
     if(e.target == e.currentTarget){
         $($(e.target).attr('data-target')).collapse('toggle');
+        isCollapsingAll = false;
+        isExpandingAll = false;
+
+        var glyphIcon = $(this).children('.glyphicon');
+        var className = $(glyphIcon[0]).attr('class');
+        if(className.indexOf('glyphicon-chevron-up') != -1){
+            $(glyphIcon[0]).removeClass('glyphicon-chevron-up');
+            $(glyphIcon[0]).addClass('glyphicon-chevron-down');
+        } else {
+            $(glyphIcon[0]).removeClass('glyphicon-chevron-down');
+            $(glyphIcon[0]).addClass('glyphicon-chevron-up');
+        }
     }
+}
+
+function getNextId(e){
+    var id = $(e).attr('id');
+    var nextId = "#panelBodyCollapse-" + (parseInt(id.split('-')[1]) + 1);
+    return nextId;
 }
 
 window.onload = function(){
@@ -86,10 +93,49 @@ window.onload = function(){
             //$(heading[0]).attr("data-toggle","collapse");
             //Use this instead of the data-toggle attribute to let [more/less] be clicked without collapsing panel
             $(heading[0]).click(toggleSingleCollapse);
-            $(heading[0]).attr("data-target",".panelBodyCollapse-"+numPanels);
+            $(heading[0]).attr("data-target","#panelBodyCollapse-"+numPanels);
             $(heading[0]).css("cursor", "pointer");
-            $(bodyCollapse[0]).addClass("collapse in panelBodyCollapse-"+numPanels);
+            $(bodyCollapse[0]).attr('id', "panelBodyCollapse-"+numPanels);
+
+            $(bodyCollapse[0]).on('hidden.bs.collapse', function(){
+                console.log('Finish hide');
+                if(isCollapsingAll){
+                    var id = $(this).attr('id');
+                    var nextId = this;
+                    do{
+                        nextId = getNextId(nextId);
+                    } while($(nextId).length && $('#' + id + ' ' + nextId).length);
+                    
+                    if($(nextId).length){
+                        $(nextId).collapse('hide');
+                    } else {
+                        isCollapsingAll = false;
+                    }
+                }
+            });
+            $(bodyCollapse[0]).on('shown.bs.collapse', function(){
+                console.log('Finish show');
+                if(isExpandingAll){
+                    var id = $(this).attr('id');
+                    var nextId = this;
+                    do{
+                        nextId = getNextId(nextId);
+                    } while($(nextId).length && $('#' + id + ' ' + nextId).length);
+                    
+                    if($(nextId).length){
+                        $(nextId).collapse('show');
+                    } else {
+                        isExpandingAll = false;
+                    }
+                }
+            });
         }
+    }
+
+    if($("#collapse-panels-button").html().indexOf("Expand All") != -1){
+        panelsCollapsed = true;
+    } else {
+        panelsCollapsed = false;
     }
 };
 

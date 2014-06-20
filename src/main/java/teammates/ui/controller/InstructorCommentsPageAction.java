@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import teammates.common.datatransfer.CommentAttributes;
-import teammates.common.datatransfer.CommentStatus;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
@@ -26,6 +25,7 @@ public class InstructorCommentsPageAction extends Action {
 
     private static final String COMMENT_PAGE_DISPLAY_ARCHIVE_SESSION = "comments_page_displayarchive";
     private static final Boolean IS_INCLUDE_RESPONSE_STATUS = true;
+    private static final String COMMENT_GIVER_NAME_THAT_COMES_FIRST = "_you";
     
     private InstructorCommentsPageData data;
     private String courseId;
@@ -34,6 +34,7 @@ public class InstructorCommentsPageAction extends Action {
     private Boolean isViewingDraft;
     private String previousPageLink = "javascript:;";
     private String nextPageLink = "javascript:;";
+    private InstructorAttributes instructor;
     
     @Override
     public ActionResult execute() throws EntityDoesNotExistException {
@@ -56,7 +57,7 @@ public class InstructorCommentsPageAction extends Action {
         String courseName = getCoursePaginationList(coursePaginationList);
         
         CourseRoster roster = null;
-        Map<String, List<CommentAttributes>> recipientToCommentsMap = new HashMap<String, List<CommentAttributes>>();
+        Map<String, List<CommentAttributes>> giverEmailToCommentsMap = new HashMap<String, List<CommentAttributes>>();
         Map<String, FeedbackSessionResultsBundle> feedbackResultBundles = new HashMap<String, FeedbackSessionResultsBundle>();
         if(coursePaginationList.size() > 0){
         //Load details of students and instructors once and pass it to callee methods
@@ -65,7 +66,7 @@ public class InstructorCommentsPageAction extends Action {
                     new StudentsDb().getStudentsForCourse(courseId),
                     new InstructorsDb().getInstructorsForCourse(courseId));
 
-            recipientToCommentsMap = getRecipientToCommentsMap();
+            giverEmailToCommentsMap = getGiverEmailToCommentsMap();
             feedbackResultBundles = getFeedbackResultBundles(roster);
         }
         
@@ -75,7 +76,7 @@ public class InstructorCommentsPageAction extends Action {
         data.courseId = courseId;
         data.courseName = courseName;
         data.coursePaginationList = coursePaginationList;
-        data.comments = recipientToCommentsMap;
+        data.comments = giverEmailToCommentsMap;
         data.roster = roster;
         data.feedbackResultBundles = feedbackResultBundles;
         data.instructorEmail = account.email;
@@ -92,7 +93,7 @@ public class InstructorCommentsPageAction extends Action {
     private void verifyAccessible() {
         isViewingDraft = courseId == null;
         if(!isViewingDraft){//view by Course
-            InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
+            instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
             new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId));
         } else {//view by Draft
             courseId = "";
@@ -121,6 +122,7 @@ public class InstructorCommentsPageAction extends Action {
             if(isDisplayArchivedCourse || !course.isArchived || course.id.equals(courseId)){
                 if(courseId == ""){
                     courseId = course.id;
+                    instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
                 }
                 coursePaginationList.add(course.id);
             }
@@ -153,33 +155,31 @@ public class InstructorCommentsPageAction extends Action {
         }
     }
 
-    private Map<String, List<CommentAttributes>> getRecipientToCommentsMap()
+    private Map<String, List<CommentAttributes>> getGiverEmailToCommentsMap()
             throws EntityDoesNotExistException {
         List<CommentAttributes> comments;
         if(isViewingDraft){//for comment drafts
             comments = logic.getCommentDrafts(account.email);
         } else {//for normal comments
-            comments = logic.getCommentsForGiverAndStatus(courseId, account.email, CommentStatus.FINAL);
+            comments = logic.getCommentsForInstructor(instructor);
         }
         //group data by recipients
-        Map<String, List<CommentAttributes>> recipientToCommentsMap = new TreeMap<String, List<CommentAttributes>>();
+        Map<String, List<CommentAttributes>> giverEmailToCommentsMap = new TreeMap<String, List<CommentAttributes>>();
         for(CommentAttributes comment : comments){
-            for(String recipient : comment.recipients){
-                List<CommentAttributes> commentList = recipientToCommentsMap.get(recipient);
-                if(commentList == null){
-                    commentList = new ArrayList<CommentAttributes>();
-                    commentList.add(comment);
-                    recipientToCommentsMap.put(recipient, commentList);
-                } else {
-                    commentList.add(comment);
-                }
+            String key = comment.giverEmail.equals(instructor.email)? COMMENT_GIVER_NAME_THAT_COMES_FIRST: comment.giverEmail;
+            List<CommentAttributes> commentList = giverEmailToCommentsMap.get(key);
+            if(commentList == null){
+                commentList = new ArrayList<CommentAttributes>();
+                giverEmailToCommentsMap.put(key, commentList);
             }
+            commentList.add(comment);
         }
+        //TODO: sort the recipient by their newest comment
         //sort comments by created date
-        for(List<CommentAttributes> commentList : recipientToCommentsMap.values()){
+        for(List<CommentAttributes> commentList : giverEmailToCommentsMap.values()){
             java.util.Collections.sort(commentList);
         }
-        return recipientToCommentsMap;
+        return giverEmailToCommentsMap;
     }
 
     private Map<String, FeedbackSessionResultsBundle> getFeedbackResultBundles(CourseRoster roster)
@@ -189,7 +189,8 @@ public class InstructorCommentsPageAction extends Action {
             List<FeedbackSessionAttributes> fsList = logic.getFeedbackSessionsForCourse(courseId);
             for(FeedbackSessionAttributes fs : fsList){
                 FeedbackSessionResultsBundle bundle = 
-                        logic.getFeedbackSessionResultsForInstructor(fs.feedbackSessionName, courseId, account.email, roster, !IS_INCLUDE_RESPONSE_STATUS);
+                        logic.getFeedbackSessionResultsForInstructor(
+                                fs.feedbackSessionName, courseId, account.email, roster, !IS_INCLUDE_RESPONSE_STATUS);
                 if(bundle != null){
                     removeQuestionsAndResponsesWithoutFeedbackResponseComment(bundle);
                     if(bundle.questions.size() != 0){

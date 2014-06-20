@@ -73,6 +73,15 @@ public class FeedbackResponsesLogic {
         return frDb.getFeedbackResponsesForSession(feedbackSessionName, courseId);
     }
 
+    public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionInSection(
+            String feedbackSessionName, String courseId, String section){
+        if(section == null){
+            return getFeedbackResponsesForSession(feedbackSessionName, courseId);
+        } else {
+            return frDb.getFeedbackResponsesForSessionInSection(feedbackSessionName, courseId, section);
+        }
+    }
+
     public List<FeedbackResponseAttributes> getFeedbackResponsesForQuestion(String feedbackQuestionId) {
         return frDb.getFeedbackResponsesForQuestion(feedbackQuestionId);
     }
@@ -199,7 +208,12 @@ public class FeedbackResponsesLogic {
         List<FeedbackParticipantType> showNameTo =
                 isGiverName ? question.showGiverNameTo
                         : question.showRecipientNameTo;
-
+        
+        //Giver can always see giver and recipient.(because he answered.)
+        if(response.giverEmail.equals(userEmail)){
+            return true;
+        }
+        
         for (FeedbackParticipantType type : showNameTo) {
             switch (type) {
             case INSTRUCTORS:

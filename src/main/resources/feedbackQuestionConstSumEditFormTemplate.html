@@ -1,0 +1,47 @@
+<div class="row">
+    <br>
+    <div class="col-sm-6" id="constSumOptionTable-${questionNumber}" ${constSumOptionTableVisibility}>
+        ${constSumEditFormOptionFragments}            
+        <div id="constSumAddOptionRow-${questionNumber}">
+            <div colspan="2">
+                <a class="btn btn-primary btn-xs addOptionLink" id="constSumAddOptionLink"
+                        onclick="addConstSumOption(${questionNumber})" style="display:none">
+                    <span class="glyphicon glyphicon-plus">
+                    </span> add more options
+                </a>
+            </div>
+        </div>
+        
+        <input type="hidden" name="${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}"
+            id="${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNumber}" 
+            value="${numOfConstSumOptions}">
+        <input type="hidden" name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS}"
+            id="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS}-${questionNumber}" 
+            value="${constSumToRecipientsValue}">
+    </div>
+    <div class="col-sm-6">
+        <div class="form-inline col-sm-12">
+            <div class="row">
+                <div class="col-sm-4">
+                    <label class="control-label width-100-pc">
+                        <b>Points to distribute </b>
+                    </label>
+                </div>
+                <div class="col-sm-5">
+                    <select class="col-sm-5 width-100-pc select form-control"
+                            disabled="disabled"
+                            id="constSumPointsPerOptionSelect-${questionNumber}"
+                            name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION}">
+                        <option value="false">in total:</option>
+                        <option value="true" id="constSumOption_Option-${questionNumber}" ${selectedConstSumPointsPerOption}>per option:</option>
+                        <option value="true" id="constSumOption_Recipient-${questionNumber}" ${selectedConstSumPointsPerOption}>per recipient:</option>
+                    </select>
+                </div>
+                <div class="col-sm-3">
+                    <input type="number" disabled="disabled" class="form-control width-100-pc pointsBox" name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS}" id="constSumPoints-${questionNumber}" value="${constSumPoints}" min="1" step="1" onChange="updateConstSumPointsValue(${questionNumber})">
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+</div>
