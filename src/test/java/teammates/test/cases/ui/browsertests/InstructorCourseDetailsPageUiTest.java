@@ -86,20 +86,21 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         
         ______TS("content: sorting");
         
+        //the first table is the hidden table used for comments' visibility options
         String patternString = "Joined{*}Joined{*}Yet to join{*}Yet to join";
-        detailsPage.sortByStatus().verifyTablePattern(0, 2, patternString);
+        detailsPage.sortByStatus().verifyTablePattern(1, 2, patternString);
         patternString = "Yet to join{*}Yet to join{*}Joined{*}Joined";
-        detailsPage.sortByStatus().verifyTablePattern(0, 2, patternString);
+        detailsPage.sortByStatus().verifyTablePattern(1, 2, patternString);
         
         patternString = "Alice Betsy{*}Benny Charles{*}Charlie Davis{*}Danny Engrid";
-        detailsPage.sortByName().verifyTablePattern(0, 1, patternString);
+        detailsPage.sortByName().verifyTablePattern(1, 1, patternString);
         patternString = "Danny Engrid{*}Charlie Davis{*}Benny Charles{*}Alice Betsy";
-        detailsPage.sortByName().verifyTablePattern(0, 1, patternString);
+        detailsPage.sortByName().verifyTablePattern(1, 1, patternString);
         
         patternString = "Team 1{*}Team 1{*}Team 2{*}Team 2";
-        detailsPage.sortByTeam().verifyTablePattern(0, 0, patternString);
+        detailsPage.sortByTeam().verifyTablePattern(1, 0, patternString);
         patternString = "Team 2{*}Team 2{*}Team 1{*}Team 1";
-        detailsPage.sortByTeam().verifyTablePattern(0, 0, patternString);
+        detailsPage.sortByTeam().verifyTablePattern(1, 0, patternString);
     }
     
     public void testLinks(){
@@ -122,8 +123,8 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         
         StudentAttributes aliceBetsy = testData.students.get("CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2104");
         CourseAttributes courseId = testData.courses.get("CCDetailsUiT.CS2104");
-        InstructorStudentRecordsPage studentCommentsPage = detailsPage.clickAddCommentStudent(aliceBetsy.name, courseId);
-        studentCommentsPage.verifyIsCorrectPage(aliceBetsy.name);
+        InstructorCourseStudentDetailsViewPage studentCommentsPage = detailsPage.clickAddCommentStudent(aliceBetsy.name, courseId);
+        studentCommentsPage.verifyIsCorrectPage(aliceBetsy.email);
         detailsPage = studentCommentsPage.goToPreviousPage(InstructorCourseDetailsPage.class);
         
         ______TS("link: download student list");

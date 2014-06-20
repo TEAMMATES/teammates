@@ -17,6 +17,8 @@ public class InstructorCourseStudentDetailsPageAction extends InstructorCoursesP
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
         Assumption.assertNotNull(studentEmail);
         
+        String commentRecipient = getRequestParamValue(Const.ParamsNames.SHOW_COMMENT_BOX);
+        
         new GateKeeper().verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, account.googleId),
                 logic.getCourse(courseId));
@@ -26,6 +28,7 @@ public class InstructorCourseStudentDetailsPageAction extends InstructorCoursesP
         data.student = logic.getStudentForEmail(courseId, studentEmail);
         data.regKey = logic.getEncryptedKeyForStudent(courseId, studentEmail);
         data.hasSection = logic.hasIndicatedSections(courseId);
+        data.commentRecipient = commentRecipient;
         
         statusToAdmin = "instructorCourseStudentDetails Page Load<br>" + 
                 "Viewing details for Student <span class=\"bold\">" + studentEmail + 
