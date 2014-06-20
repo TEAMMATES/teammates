@@ -31,6 +31,7 @@ import teammates.common.datatransfer.UserType;
 import teammates.common.datatransfer.UserType.Role;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.ExceedingRangeException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.NotImplementedException;
 import teammates.common.exception.UnauthorizedAccessException;
@@ -253,7 +254,18 @@ public class FeedbackSessionsLogic {
 
         return new FeedbackSessionQuestionsBundle(fsa, bundle, recipientList);
     }
-
+    
+    /**
+     * Gets results of a feedback session to show to an instructor in an indicated range
+     * @throws ExceedingRangeException if the results are beyond the range
+     */
+    public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorWithinRange(
+            String feedbackSessionName, String courseId, String userEmail, long range)
+            throws EntityDoesNotExistException{
+        
+        return getFeedbackSessionResultsForUserInSectionWithinRange(feedbackSessionName, courseId, userEmail, UserType.Role.INSTRUCTOR, null, range);
+    }
+    
     /**
      * Gets results of a feedback session to show to an instructor.
      */
@@ -1023,6 +1035,156 @@ public class FeedbackSessionsLogic {
                         session, responses, relevantQuestions,
                         emailNameTable, emailTeamNameTable,
                         visibilityTable, responseStatus, responseComments);
+
+        return results;
+    }
+    
+    private FeedbackSessionResultsBundle getFeedbackSessionResultsForUserInSectionWithinRange(
+            String feedbackSessionName, String courseId, String userEmail,
+            UserType.Role role, String section, long range)
+            throws EntityDoesNotExistException{
+        
+        boolean isComplete = false;
+        CourseRoster roster = new CourseRoster(
+                new StudentsDb().getStudentsForCourse(courseId),
+                new InstructorsDb().getInstructorsForCourse(courseId));
+        
+        FeedbackSessionAttributes session = fsDb.getFeedbackSession(
+                courseId, feedbackSessionName);
+
+        if (session == null) {
+            throw new EntityDoesNotExistException(
+                    "Trying to view non-existent feedback session.");
+        }
+
+        List<FeedbackQuestionAttributes> allQuestions =
+                fqLogic.getFeedbackQuestionsForSession(feedbackSessionName,
+                        courseId);
+
+        // create empty data containers to store results
+        List<FeedbackResponseAttributes> responses =
+                new ArrayList<FeedbackResponseAttributes>();
+        Map<String, FeedbackQuestionAttributes> relevantQuestions =
+                new HashMap<String, FeedbackQuestionAttributes>();
+        Map<String, String> emailNameTable =
+                new HashMap<String, String>();
+        Map<String, String> emailTeamNameTable =
+                new HashMap<String, String>();
+        Map<String, boolean[]> visibilityTable =
+                new HashMap<String, boolean[]>();
+        Map<String, List<FeedbackResponseCommentAttributes>> responseComments =
+                new HashMap<String, List<FeedbackResponseCommentAttributes>>();
+
+        FeedbackSessionResponseStatus responseStatus = new FeedbackSessionResponseStatus();
+
+        boolean isPrivateSessionNotCreatedByThisUser = session
+                .isPrivateSession() && !session.isCreator(userEmail);
+        if (isPrivateSessionNotCreatedByThisUser) {
+            // return empty result set
+            return new FeedbackSessionResultsBundle(
+                    session, responses, relevantQuestions,
+                    emailNameTable, emailTeamNameTable,
+                    visibilityTable, responseStatus, responseComments);
+        }
+
+        Map<String, FeedbackQuestionAttributes> allQuestionsMap = new HashMap<String, FeedbackQuestionAttributes>();
+        List<FeedbackResponseAttributes> allResponses = frLogic
+                .getFeedbackResponsesForSessionInSectionWithinRange(feedbackSessionName,
+                        courseId, section, range);
+        if(allResponses.size() <= range){
+            isComplete = true;
+            for (FeedbackQuestionAttributes qn : allQuestions) {
+                allQuestionsMap.put(qn.getId(), qn);
+            }
+        } else {
+            allResponses = new ArrayList<FeedbackResponseAttributes>();
+            for (FeedbackQuestionAttributes qn : allQuestions){
+                allQuestionsMap.put(qn.getId(), qn);
+                allResponses.addAll(frLogic.getFeedbackResponsesForQuestionInSection(qn.getId(), section));
+                if(allResponses.size() > range){
+                    break;
+                }
+            }
+        }
+        
+        responseStatus = (section == null) ? getFeedbackSessionResponseStatus(
+                session, roster, allQuestions, allResponses) : null;
+
+        StudentAttributes student = null;
+        Set<String> studentsEmailInTeam = new HashSet<String>();
+        if (role == Role.STUDENT) {
+            student = studentsLogic.getStudentForEmail(courseId, userEmail);
+            List<StudentAttributes> studentsInTeam = studentsLogic
+                    .getStudentsForTeam(student.team, courseId);
+            for (StudentAttributes teammates : studentsInTeam) {
+                studentsEmailInTeam.add(teammates.email);
+            }
+        }
+
+        for (FeedbackResponseAttributes response : allResponses) {
+            FeedbackQuestionAttributes relatedQuestion = allQuestionsMap
+                    .get(response.feedbackQuestionId);
+            if (relatedQuestion != null) {
+                // TODO: refactor these. you may refer to
+                // FeedbackResponseLogic.getViewableFeedbackResponsesForQuestionInSection
+                Boolean isVisibleResponse = false;
+                if ((response.giverEmail.equals(userEmail) && (section == null || response.recipientSection.equals(section)))
+                        || (response.recipientEmail.equals(userEmail) && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER) && (section == null || response.giverSection.equals(section)))
+                        || (role == Role.INSTRUCTOR && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS) && (section == null || (response.giverSection.equals(section) && response.recipientSection.equals(section))))
+                        || (role == Role.STUDENT && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.STUDENTS))) {
+                    isVisibleResponse = true;
+                } else if (role == Role.STUDENT 
+                        && ((relatedQuestion.recipientType == FeedbackParticipantType.TEAMS
+                                && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
+                                && response.recipientEmail.equals(student.team))
+                            || ((relatedQuestion.giverType == FeedbackParticipantType.TEAMS
+                                || relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS))
+                                    && studentsEmailInTeam.contains(response.giverEmail))
+                            || (relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
+                        && studentsEmailInTeam.contains(response.recipientEmail)))) {
+                    isVisibleResponse = true;
+                }
+                if (isVisibleResponse) {
+                    responses.add(response);
+                    relevantQuestions.put(relatedQuestion.getId(),
+                            relatedQuestion);
+                    addEmailNamePairsToTable(emailNameTable, response,
+                            relatedQuestion, roster);
+                    addEmailTeamNamePairsToTable(emailTeamNameTable, response,
+                            relatedQuestion, roster);
+                    addVisibilityToTable(visibilityTable, relatedQuestion,
+                            response, userEmail, roster);
+                }
+                isVisibleResponse = false;
+            }
+        }
+
+        List<FeedbackResponseCommentAttributes> allResponseComments =
+                frcLogic.getFeedbackResponseCommentForSession(courseId,
+                        feedbackSessionName);
+        for (FeedbackResponseCommentAttributes frc : allResponseComments) {
+            List<FeedbackResponseCommentAttributes> frcList = responseComments
+                    .get(frc.feedbackResponseId);
+            if (frcList == null) {
+                frcList = new ArrayList<FeedbackResponseCommentAttributes>();
+                frcList.add(frc);
+                responseComments.put(frc.feedbackResponseId, frcList);
+            } else {
+                frcList.add(frc);
+            }
+        }
+
+        for (List<FeedbackResponseCommentAttributes> responseCommentList : responseComments
+                .values()) {
+            Collections.sort(responseCommentList,
+                    new ResponseCommentCreationDateComparator());
+        }
+
+        FeedbackSessionResultsBundle results =
+                new FeedbackSessionResultsBundle(
+                        session, responses, relevantQuestions,
+                        emailNameTable, emailTeamNameTable,
+                        visibilityTable, responseStatus, responseComments, isComplete);
 
         return results;
     }

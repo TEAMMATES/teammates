@@ -815,7 +815,7 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null    
      */
-    public List<String> getSectionsNameForCourse(String courseId)
+    public List<String> getSectionNamesForCourse(String courseId)
             throws EntityDoesNotExistException {
 
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
@@ -1711,6 +1711,23 @@ public class Logic {
                                         feedbackSessionName, courseId, userEmail);
     }
     
+    /**
+     * Gets a question+response bundle for questions with responses that
+     * is visible to the instructor for a feedback session.
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     */
+    public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorWithinRange(
+            String feedbackSessionName, String courseId, String userEmail, long range)
+                    throws UnauthorizedAccessException, EntityDoesNotExistException{
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
+       
+        return feedbackSessionsLogic.getFeedbackSessionResultsForInstructorWithinRange(
+                                        feedbackSessionName, courseId, userEmail, range);
+    }
+
     /**
      * Gets a question+response bundle for questions with responses that
      * is visible to the instructor for a feedback session.

@@ -1,6 +1,7 @@
 package teammates.ui.controller;
 
 import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
@@ -28,7 +29,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
         FeedbackSessionAttributes session = logic.getFeedbackSession(
                 feedbackSessionName, courseId);
         boolean isCreatorOnly = true;
-        
+
         new GateKeeper().verifyAccessible(instructor, session, !isCreatorOnly);
 
         InstructorFeedbackResultsPageData data = new InstructorFeedbackResultsPageData(
@@ -37,54 +38,69 @@ public class InstructorFeedbackResultsPageAction extends Action {
         if (data.selectedSection == null) {
             data.selectedSection = ALL_SECTION_OPTION;
         }
-
         data.instructor = instructor;
-        if (data.selectedSection.equals(ALL_SECTION_OPTION)) {
-            data.bundle = logic.getFeedbackSessionResultsForInstructor(
-                    feedbackSessionName, courseId, data.instructor.email);
-        } else {
-            data.bundle = logic.getFeedbackSessionResultsForInstructorInSection(
-                    feedbackSessionName, courseId, data.instructor.email, data.selectedSection);
-        }
-        data.sections = logic.getSectionsNameForCourse(courseId);
-        if (data.bundle == null) {
-            throw new EntityDoesNotExistException(
-                    "Feedback session " + feedbackSessionName + " does not exist in " + courseId + ".");
-        }
-
-        data.sortType = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE);
-        data.groupByTeam = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM);
-
         data.showStats = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS);
-        
+        data.groupByTeam = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM);
+        data.sortType = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE);
         if (data.sortType == null) {
             // default: sort by recipients, stats shown.
             data.showStats = new String("on");
-            data.sortType = new String("recipient-giver-question");
-            return createShowPageResult(
-                    Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION, data);
+            data.sortType = new String("question");
+        }
+        data.sections = logic.getSectionNamesForCourse(courseId);
+
+        if (data.selectedSection.equals(ALL_SECTION_OPTION)) {
+            data.bundle = getResultsBundleForAllOption(feedbackSessionName,
+                    courseId, data.instructor.email, data.sortType);
+        } else {
+            data.bundle = logic
+                    .getFeedbackSessionResultsForInstructorInSection(
+                            feedbackSessionName, courseId,
+                            data.instructor.email, data.selectedSection);
+        }
+
+        if (data.bundle == null) {
+            throw new EntityDoesNotExistException(
+                    "Feedback session " + feedbackSessionName
+                            + " does not exist in " + courseId + ".");
         }
 
         switch (data.sortType) {
         case "question":
             return createShowPageResult(
-                    Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION, data);
+                    Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION,
+                    data);
         case "recipient-giver-question":
             return createShowPageResult(
-                    Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION, data);
+                    Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION,
+                    data);
         case "giver-recipient-question":
             return createShowPageResult(
-                    Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_RECIPIENT_QUESTION, data);
+                    Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_RECIPIENT_QUESTION,
+                    data);
         case "recipient-question-giver":
             return createShowPageResult(
-                    Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_QUESTION_GIVER, data);
+                    Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_QUESTION_GIVER,
+                    data);
         case "giver-question-recipient":
             return createShowPageResult(
-                    Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_QUESTION_RECIPIENT, data);
+                    Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_QUESTION_RECIPIENT,
+                    data);
         default:
             data.sortType = "recipient-giver-question";
             return createShowPageResult(
-                    Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION, data);
+                    Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION,
+                    data);
         }
+    }
+
+    private FeedbackSessionResultsBundle getResultsBundleForAllOption(
+            String feedbackSessionName, String courseId,
+            String instructorEmail, String sortType)
+            throws EntityDoesNotExistException {
+        FeedbackSessionResultsBundle bundle = null;
+        bundle = logic.getFeedbackSessionResultsForInstructorWithinRange(
+                            feedbackSessionName, courseId, instructorEmail, 500);
+        return bundle;
     }
 }

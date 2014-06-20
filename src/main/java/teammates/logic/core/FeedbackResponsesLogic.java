@@ -80,6 +80,24 @@ public class FeedbackResponsesLogic {
             return frDb.getFeedbackResponsesForSessionInSection(feedbackSessionName, courseId, section);
         }
     }
+    
+    public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionWithinRange(
+            String feedbackSessionName, String courseId, long range) {
+        return frDb.getFeedbackResponsesForSessionWithinRange(
+                feedbackSessionName, courseId, range);
+    }
+
+    public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionInSectionWithinRange(
+            String feedbackSessionName, String courseId, String section,
+            long range) {
+        if (section == null) {
+            return getFeedbackResponsesForSessionWithinRange(
+                    feedbackSessionName, courseId, range);
+        } else {
+            return frDb.getFeedbackResponsesForSessionInSectionWithinRange(
+                    feedbackSessionName, courseId, section, range);
+        }
+    }
 
     public List<FeedbackResponseAttributes> getFeedbackResponsesForQuestion(String feedbackQuestionId) {
         return frDb.getFeedbackResponsesForQuestion(feedbackQuestionId);

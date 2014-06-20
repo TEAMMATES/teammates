@@ -26,7 +26,8 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
     public Map<String, boolean[]> visibilityTable = null;
     public FeedbackSessionResponseStatus responseStatus = null;
     public Map<String, List<FeedbackResponseCommentAttributes>> responseComments = null;
-    
+    public boolean isComplete;
+
     public FeedbackSessionResultsBundle (FeedbackSessionAttributes feedbackSession,
             List<FeedbackResponseAttributes> responses,
             Map<String, FeedbackQuestionAttributes> questions,
@@ -34,7 +35,19 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
             Map<String, String> emailTeamNameTable,
             Map<String, boolean[]> visibilityTable,
             FeedbackSessionResponseStatus responseStatus,
-            Map<String, List<FeedbackResponseCommentAttributes>> responseComments) {
+            Map<String, List<FeedbackResponseCommentAttributes>> responseComments){
+        this(feedbackSession, responses, questions, emailNameTable, emailTeamNameTable, visibilityTable, responseStatus, responseComments, true);
+    }
+
+    public FeedbackSessionResultsBundle (FeedbackSessionAttributes feedbackSession,
+            List<FeedbackResponseAttributes> responses,
+            Map<String, FeedbackQuestionAttributes> questions,
+            Map<String, String> emailNameTable,
+            Map<String, String> emailTeamNameTable,
+            Map<String, boolean[]> visibilityTable,
+            FeedbackSessionResponseStatus responseStatus,
+            Map<String, List<FeedbackResponseCommentAttributes>> responseComments,
+            boolean isComplete) {
         this.feedbackSession = feedbackSession;
         this.questions = questions;
         this.responses = responses;
@@ -50,6 +63,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
                 response.giverEmail += Const.TEAM_OF_EMAIL_OWNER;
             }
         }
+        this.isComplete = isComplete;
     }
     
     public String getNameForEmail(String email) {
