@@ -43,7 +43,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         ______TS("typical success case");
         
         profilePage = getProfilePageForStudent("studentWithEmptyProfile");
-        profilePage.verifyHtml("/studentProfilePageDefault.html");
+        profilePage.verifyHtmlMainContent("/studentProfilePageDefault.html");
         
         ______TS("existing profile values");
         

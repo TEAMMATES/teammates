@@ -78,6 +78,8 @@ public enum FeedbackParticipantType {
         case INSTRUCTORS:
             return "instructor";
         case STUDENTS:
+        case OWN_TEAM_MEMBERS:
+        case OWN_TEAM_MEMBERS_INCLUDING_SELF:
             return "student";
         case TEAMS:
             return "team";

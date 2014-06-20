@@ -74,12 +74,13 @@ public class InstructorCourseDetailsPage extends AppPage {
         return changePageType(InstructorCourseStudentDetailsViewPage.class);
     }
     
-    public InstructorStudentRecordsPage clickAddCommentStudent(
+    public InstructorCourseStudentDetailsViewPage clickAddCommentStudent(
             String studentName, CourseAttributes courseId) {
         int rowId = getStudentRowId(studentName);
         getAddCommentLink(rowId, courseId).click();
+        getAddCommentToStudentLink(rowId, courseId).click();
         waitForPageToLoad();
-        return changePageType(InstructorStudentRecordsPage.class);
+        return changePageType(InstructorCourseStudentDetailsViewPage.class);
     }
 
     public InstructorCourseStudentDetailsEditPage clickEditStudent(String studentName) {
@@ -127,6 +128,14 @@ public class InstructorCourseDetailsPage extends AppPage {
     
     private WebElement getAddCommentLink(int rowId, CourseAttributes courseId) {
         return browser.driver.findElement(By.className("t_student_records-c" + courseId.id + "." + rowId));
+    }
+    
+    private WebElement getAddCommentToStudentLink(int rowId, CourseAttributes courseId) {
+        return browser.driver.findElement(By.className("t_student_details_tostudent-c" + courseId.id + "." + rowId));
+    }
+    
+    private WebElement getAddCommentToTeamLink(int rowId, CourseAttributes courseId) {
+        return browser.driver.findElement(By.className("t_student_details_toteam-c" + courseId.id + "." + rowId));
     }
     
     private WebElement getDeleteLink(int rowId) {

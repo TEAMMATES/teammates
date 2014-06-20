@@ -77,7 +77,8 @@
 
                     FeedbackParticipantType firstQuestionRecipientType = questions.get(firstResponse.feedbackQuestionId).recipientType;
                     String mailtoStyleAttr = (firstQuestionRecipientType == FeedbackParticipantType.NONE || 
-                                    firstQuestionRecipientType == FeedbackParticipantType.TEAMS)?"style=\"display:none;\"":"";
+                                    firstQuestionRecipientType == FeedbackParticipantType.TEAMS || 
+                                    targetEmail.contains("@@"))?"style=\"display:none;\"":"";
             %>
             <%
                 if(currentTeam != null && !(data.bundle.getTeamNameForEmail(targetEmail)=="" ? currentTeam.equals(data.bundle.getNameForEmail(targetEmail)): currentTeam.equals(data.bundle.getTeamNameForEmail(targetEmail)))) {
@@ -140,7 +141,7 @@
                                         %></div>
                                         <div class="panel-body">
                                             <div style="clear:both; overflow: hidden">
-                                                <div class="pull-left"><%=singleResponse.getResponseDetails().getAnswerHtml()%></div>
+                                                <div class="pull-left"><%=singleResponse.getResponseDetails().getAnswerHtml(questionDetails)%></div>
                                                 <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" 
                                                     onclick="showResponseCommentAddForm(<%=recipientIndex%>,<%=giverIndex%>,<%=qnIndx%>)"
                                                     data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COMMENT_ADD%>">

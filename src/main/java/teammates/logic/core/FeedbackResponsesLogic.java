@@ -225,7 +225,12 @@ public class FeedbackResponsesLogic {
         List<FeedbackParticipantType> showNameTo =
                 isGiverName ? question.showGiverNameTo
                         : question.showRecipientNameTo;
-
+        
+        //Giver can always see giver and recipient.(because he answered.)
+        if(response.giverEmail.equals(userEmail)){
+            return true;
+        }
+        
         for (FeedbackParticipantType type : showNameTo) {
             switch (type) {
             case INSTRUCTORS:

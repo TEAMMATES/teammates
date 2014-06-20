@@ -42,10 +42,23 @@ public class FeedbackSubmitPage extends AppPage {
         fillTextBox(element, text);
     }
     
+    public void fillResponseTextBox(int qnNumber, int responseNumber, int responseSubNumber, String text) {
+        WebElement element = browser.driver.findElement(
+                By.id(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber + "-" + responseSubNumber));
+        element.click();
+        fillTextBox(element, text);
+    }
+    
     public String getResponseTextBoxValue(int qnNumber, int responseNumber) {
         WebElement element = browser.driver.findElement(
                 By.name(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
         return element.getAttribute("value");
+    }
+    
+    public String getConstSumMessage(int qnNumber, int responseNumber) {
+        WebElement element = browser.driver.findElement(
+                By.id("constSumMessage-" + qnNumber + "-" + responseNumber));
+        return element.getText();
     }
     
     public void chooseMcqOption(int qnNumber, int responseNumber, String choiceName){

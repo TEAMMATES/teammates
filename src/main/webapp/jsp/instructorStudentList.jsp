@@ -324,6 +324,20 @@
                                     title="<%=Const.Tooltips.COURSE_STUDENT_RECORDS%>"
                                     data-toggle="tooltip"
                                     data-placement="top"> All Records</a>
+                                    
+                                    <div class="dropdown" style="display:inline;">
+                                      <a class="btn btn-default btn-xs dropdown-toggle" 
+                                        href="javascript:;"
+                                        data-toggle="dropdown"> Add Comment</a>
+                                      <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" style="text-align:left;">
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="<%=data.getCourseStudentDetailsLink(courseDetails.course.id, student)
+                                            +"&"+Const.ParamsNames.SHOW_COMMENT_BOX+"=student"%>">
+                                            Comment on <%=PageData.sanitizeForHtml(student.name)%></a></li>
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="<%=data.getCourseStudentDetailsLink(courseDetails.course.id, student)
+                                            +"&"+Const.ParamsNames.SHOW_COMMENT_BOX+"=team"%>">
+                                            Comment on <%=PageData.sanitizeForHtml(teamDetails.name)%></a></li>
+                                      </ul>
+                                    </div>
                                 </td>
                             </tr>
                             <%
