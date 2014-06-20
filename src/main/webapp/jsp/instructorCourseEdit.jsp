@@ -147,8 +147,7 @@
                         <% if (instructor.googleId != null) { %>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Google ID:</label>
-                                <div class="col-sm-9"><input class="form-control" type="text"
-                                    name="<%=Const.ParamsNames.INSTRUCTOR_ID%>" id="<%=Const.ParamsNames.INSTRUCTOR_ID+index%>"
+                                <div class="col-sm-9"><input class="form-control immutable" type="text" id="<%=Const.ParamsNames.INSTRUCTOR_ID+index%>"
                                     value="<%=instructor.googleId%>"
                                     data-toggle="tooltip" data-placement="top" title="Enter the google id of the instructor."
                                     maxlength=<%=FieldValidator.GOOGLE_ID_MAX_LENGTH%> tabindex=3
