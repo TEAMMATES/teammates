@@ -10,7 +10,7 @@ public class FeedbackContributionResponseDetails extends FeedbackAbstractRespons
     
     public FeedbackContributionResponseDetails() {
         super(FeedbackQuestionType.CONTRIB);
-        answer = Const.CONTRIB_NOT_SUBMITTED;
+        answer = Const.POINTS_NOT_SUBMITTED;
     }
     
     public FeedbackContributionResponseDetails(String answer) {

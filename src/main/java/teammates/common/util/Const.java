@@ -925,9 +925,6 @@ public class Const {
     private void _______other_constants________________________(){}
     
     //Used for Feedback CONTRIBUTION question
-    public static final int CONTRIB_NOT_SURE = 210;//210 so that it is easier to get 21th element in FEEDBACK_CONTRIBUTION_OPTIONS list
-    public static final int CONTRIB_NOT_SUBMITTED = CONTRIB_NOT_SURE;
-    
     public static final String EQUAL_SHARE = "Equal Share";
     public static final String NOT_SURE = "Not Sure";
     public static final List<String> FEEDBACK_CONTRIBUTION_OPTIONS = Arrays.asList(

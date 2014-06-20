@@ -172,6 +172,9 @@ public abstract class FeedbackAbstractQuestionDetails {
                 questionDetails = new FeedbackConstantSumQuestionDetails(questionText, pointsPerOption, points);
             }
             break;
+        case CONTRIB:
+            questionDetails = new FeedbackContributionQuestionDetails(questionText);
+            break;
         default:
             Assumption.fail("Question type not supported by FeedbackAbstractQuestionDetails");
             break;
