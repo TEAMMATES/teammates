@@ -30,12 +30,13 @@ function filterResults(searchText, element){
         }
     });
 
-    if($(element).parents(".resultStatistics").length){
-        return;
-    }
+    
 
     for(var i=0 ; i<element.length ; i++){
         var elm = element[i];
+        if($(elm).parents(".resultStatistics").length){
+            continue;
+        }
         if($(elm).text().toLowerCase().indexOf(searchText.toLowerCase()) == -1){
             $(elm).hide();
         } else {

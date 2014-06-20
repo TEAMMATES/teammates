@@ -11,6 +11,7 @@ import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentRecipientType;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentResultBundle;
 import teammates.common.datatransfer.SubmissionAttributes;
@@ -593,7 +594,7 @@ public class PageData {
      *         Flag whether the link is to be put at homepage (to determine the redirect link in delete / publish)
      * @return
      */
-    public String getInstructorEvaluationActions(EvaluationAttributes eval, boolean isHome){
+    public String getInstructorEvaluationActions(EvaluationAttributes eval, boolean isHome, InstructorAttributes instructor){
         StringBuffer result = new StringBuffer();
         
         boolean hasView = false;
@@ -626,16 +627,23 @@ public class PageData {
             break;
             
         }
-        
+        String disabledStr = "disabled=\"disabled\"";
+        String disableViewResultsStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTION) ? "" : disabledStr;
+        String disableEditSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
+        String disableDeleteSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
+        String disableUnpublishSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
+        String disablePublishSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
         result.append(
             "<a class=\"btn btn-default btn-xs btn-tm-actions session-view-for-test" + (hasView ? "\"" : DISABLED) +
             "href=\"" + getInstructorEvaluationResultsLink(eval.courseId,eval.name) + "\" " +
-            "title=\"" + Const.Tooltips.EVALUATION_RESULTS+"\" data-toggle=\"tooltip\" data-placement=\"top\">View Results</a> "
+            "title=\"" + Const.Tooltips.EVALUATION_RESULTS+"\" data-toggle=\"tooltip\" data-placement=\"top\" " + 
+            disableViewResultsStr + ">View Results</a> "
         );
         result.append(
             "<a class=\"btn btn-default btn-xs btn-tm-actions session-edit-for-test" + (hasEdit ? "\"" : DISABLED) + 
             "href=\"" + getInstructorEvaluationEditLink(eval.courseId,eval.name) + "\" " +
-            "title=\"" + Const.Tooltips.EVALUATION_EDIT + "\" data-toggle=\"tooltip\" data-placement=\"top\">Edit</a> "
+            "title=\"" + Const.Tooltips.EVALUATION_EDIT + "\" data-toggle=\"tooltip\" data-placement=\"top\" " + 
+            disableEditSessionStr + ">Edit</a> "
         );
         result.append(
             "<a class=\"btn btn-default btn-xs btn-tm-actions session-preview-for-test\"" + 
@@ -648,7 +656,7 @@ public class PageData {
             "href=\"" + getInstructorEvaluationDeleteLink(eval.courseId,eval.name,(isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE : Const.ActionURIs.INSTRUCTOR_EVALS_PAGE)) + "\" " +
             "title=\"" + Const.Tooltips.EVALUATION_DELETE + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
             "onclick=\"return toggleDeleteEvaluationConfirmation('" + eval.courseId + "','" + eval.name + "');\" " +
-            ">Delete</a> "
+            disableDeleteSessionStr + ">Delete</a> "
         );
         result.append(
             "<a class=\"btn btn-default btn-xs btn-tm-actions session-remind-for-test" + (hasRemind ? "\"" : DISABLED) + 
@@ -662,16 +670,16 @@ public class PageData {
                 "<a class=\"btn btn-default btn-xs btn-tm-actions session-unpublish-for-test\"" + 
                 "href=\"" + getInstructorEvaluationUnpublishLink(eval.courseId,eval.name,isHome) + "\" " +
                 "title=\"" + Const.Tooltips.EVALUATION_UNPUBLISH+"\" data-toggle=\"tooltip\" data-placement=\"top\"" +
-                "onclick=\"return toggleUnpublishEvaluation('" + eval.name + "');\">" +
-                "Unpublish</a> "
+                "onclick=\"return toggleUnpublishEvaluation('" + eval.name + "');\" " + 
+                disableUnpublishSessionStr + ">Unpublish</a> "
             );
         } else {
             result.append(
                 "<a class=\"btn btn-default btn-xs btn-tm-actions session-publish-for-test" + (hasPublish ? "\"" : DISABLED) +
                 "href=\"" + getInstructorEvaluationPublishLink(eval.courseId,eval.name,isHome) + "\" " +
                 "title=\"" + Const.Tooltips.EVALUATION_PUBLISH + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
-                (hasPublish ? "onclick=\"return togglePublishEvaluation('" + eval.name + "');\" " : "") +
-                ">Publish</a> "
+                (hasPublish ? "onclick=\"return togglePublishEvaluation('" + eval.name + "');\" " : " ") +
+                disablePublishSessionStr + ">Publish</a> "
             );
         }
         return result.toString();
@@ -731,7 +739,7 @@ public class PageData {
      * @return
      */
     public String getInstructorFeedbackSessionActions(FeedbackSessionAttributes session,
-            boolean isHome){
+            boolean isHome, InstructorAttributes instructor){
         StringBuffer result = new StringBuffer();
         
         // Allowing ALL instructors to view results regardless of publish state.
@@ -741,38 +749,44 @@ public class PageData {
         boolean hasPublish = !session.isWaitingToOpen() && !session.isPublished();
         boolean hasUnpublish = !session.isWaitingToOpen() && session.isPublished();
         boolean hasRemind = session.isOpened();
-        
+        String disabledStr = "disabled=\"disabled\"";
+        String disableViewResultsStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTION) ? "" : disabledStr;
+        String disableEditSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
+        String disableDeleteSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
+        String disableUnpublishSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
+        String disablePublishSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
         result.append(
             "<a class=\"btn btn-default btn-xs btn-tm-actions session-view-for-test" + (hasView ? "\"" : DISABLED) +
             "href=\"" + getInstructorFeedbackSessionResultsLink(session.courseId,session.feedbackSessionName) + "\" " +
-            "title=\"" + Const.Tooltips.FEEDBACK_SESSION_RESULTS + "\" data-toggle=\"tooltip\" data-placement=\"top\""
-                    + ">View Results</a> "
+            "title=\"" + Const.Tooltips.FEEDBACK_SESSION_RESULTS + "\" data-toggle=\"tooltip\" data-placement=\"top\" " +
+            disableViewResultsStr + ">View Results</a> "
         );
         if(isCreator){
             result.append(
                     "<a class=\"btn btn-default btn-xs btn-tm-actions session-edit-for-test\"" + 
                     "href=\"" + getInstructorFeedbackSessionEditLink(session.courseId,session.feedbackSessionName) + "\" " +
-                    "title=\"" + Const.Tooltips.FEEDBACK_SESSION_EDIT + "\" data-toggle=\"tooltip\" data-placement=\"top\">Edit</a> "
+                    "title=\"" + Const.Tooltips.FEEDBACK_SESSION_EDIT + "\" data-toggle=\"tooltip\" data-placement=\"top\" " + 
+                    disableEditSessionStr + ">Edit</a> "
                 );
             result.append(
                     "<a class=\"btn btn-default btn-xs btn-tm-actions session-delete-for-test\"" +
                     "href=\"" + getInstructorFeedbackSessionDeleteLink(session.courseId,session.feedbackSessionName,(isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE : Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)) + "\" " +
                     "title=\"" + Const.Tooltips.FEEDBACK_SESSION_DELETE + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
                     "onclick=\"return toggleDeleteFeedbackSessionConfirmation('" + session.courseId + "','" + session.feedbackSessionName + "');\" " +
-                    ">Delete</a> "
+                    disableDeleteSessionStr + ">Delete</a> "
                 );
         } else{
             result.append(
                     "<a class=\"btn btn-default btn-xs btn-tm-actions session-edit-for-test" + DISABLED +
                     "href=\"" + getInstructorFeedbackSessionEditLink(session.courseId,session.feedbackSessionName) + "\" " +
-                    "title=\"" + Const.Tooltips.FEEDBACK_SESSION_NOT_CREATOR_EDIT + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
-                    ">Edit</a> "
+                    "title=\"" + Const.Tooltips.FEEDBACK_SESSION_NOT_CREATOR_EDIT + "\" data-toggle=\"tooltip\" data-placement=\"top\" " +
+                    disableEditSessionStr + ">Edit</a> "
                 );
             result.append(
                     "<a class=\"btn btn-default btn-xs btn-tm-actions session-delete-for-test" + DISABLED +
                     "href=\"" + getInstructorFeedbackSessionDeleteLink(session.courseId,session.feedbackSessionName,(isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE : Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)) + "\" " +
                     "title=\"" + Const.Tooltips.FEEDBACK_SESSION_NOT_CREATOR_DELETE + "\" data-toggle=\"tooltip\" data-placement=\"top\"" + 
-                    ">Delete</a> "
+                    disableDeleteSessionStr + ">Delete</a> "
                 );
         }
         result.append(
@@ -801,8 +815,8 @@ public class PageData {
                     "<a class=\"btn btn-default btn-xs btn-tm-actions session-unpublish-for-test\"" +
                     "href=\"" + getInstructorFeedbackSessionUnpublishLink(session.courseId,session.feedbackSessionName,isHome) + "\" " +
                     "title=\"" + Const.Tooltips.FEEDBACK_SESSION_UNPUBLISH + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
-                    "onclick=\"return toggleUnpublishEvaluation('" + session.feedbackSessionName + "');\">" +
-                    "Unpublish</a> "
+                    "onclick=\"return toggleUnpublishEvaluation('" + session.feedbackSessionName + "');\" " + 
+                    disableUnpublishSessionStr + ">Unpublish</a> "
                 );
             } else {
                 result.append(
@@ -810,8 +824,8 @@ public class PageData {
                     "href=\"" + getInstructorFeedbackSessionPublishLink(session.courseId,session.feedbackSessionName,isHome) + "\" " +
                     "title=\"" + (hasPublish ? Const.Tooltips.FEEDBACK_SESSION_PUBLISH :  Const.Tooltips.FEEDBACK_SESSION_AWAITING) + "\"" +
                     "data-toggle=\"tooltip\" data-placement=\"top\"" +
-                    (hasPublish ? "onclick=\"return togglePublishEvaluation('" + session.feedbackSessionName + "');\" " : "") +
-                    ">Publish</a> "
+                    (hasPublish ? "onclick=\"return togglePublishEvaluation('" + session.feedbackSessionName + "');\" " : " ") +
+                    disablePublishSessionStr + ">Publish</a> "
                 );
             }
         } else{
@@ -819,15 +833,15 @@ public class PageData {
                 result.append(
                     "<a class=\"btn btn-default btn-xs btn-tm-actions session-unpublish-for-test" + DISABLED +
                     "href=\"" + getInstructorFeedbackSessionUnpublishLink(session.courseId,session.feedbackSessionName,isHome) + "\"" +
-                    "title=\"" + Const.Tooltips.FEEDBACK_SESSION_NOT_CREATOR_UNPUBLISH + "\" data-toggle=\"tooltip\" data-placement=\"top\">" +
-                    "Unpublish</a> "
+                    "title=\"" + Const.Tooltips.FEEDBACK_SESSION_NOT_CREATOR_UNPUBLISH + "\" data-toggle=\"tooltip\" data-placement=\"top\" " + 
+                    disableUnpublishSessionStr + ">Unpublish</a> "
                 );
             } else {
                 result.append(
                     "<a class=\"btn btn-default btn-xs btn-tm-actions session-publish-for-test" + DISABLED +
                     "href=\"" + getInstructorFeedbackSessionPublishLink(session.courseId,session.feedbackSessionName,isHome) + "\" " +
                     "title=\"" + Const.Tooltips.FEEDBACK_SESSION_NOT_CREATOR_PUBLISH  + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
-                    ">Publish</a> "
+                    disablePublishSessionStr + ">Publish</a> "
                 );
             }
         }

@@ -235,6 +235,23 @@ public class GateKeeper {
         }
     }
     
+    public void verifyAccessible(InstructorAttributes instructor, EvaluationAttributes evaluation, String privilegeName) {
+        verifyNotNull(instructor, "instructor");
+        verifyNotNull(instructor.courseId, "instructor's course ID");
+        verifyNotNull(evaluation, "evaluation");
+        verifyNotNull(evaluation.courseId, "course ID in the evaluation");
+        if (!instructor.courseId.equals(evaluation.courseId)) {
+            throw new UnauthorizedAccessException(
+                    "Evaluation [" + evaluation.name + 
+                    "] is not accessible to instructor ["+ instructor.email+ "]");
+        }
+        if (!instructor.isAllowedForPrivilege(privilegeName)) {
+            throw new UnauthorizedAccessException(
+                    "Evaluation [" + evaluation.name + 
+                    "] is not accessible to instructor ["+ instructor.email+ "]");
+        }
+    }
+    
     public void verifyAccessible(InstructorAttributes instructor, 
             FeedbackSessionAttributes feedbacksession, boolean creatorOnly){
         verifyNotNull(instructor, "instructor");
@@ -254,8 +271,35 @@ public class GateKeeper {
             throw new UnauthorizedAccessException(
                     "Feedback session [" + feedbacksession.feedbackSessionName + 
                     "] is not accessible to instructor ["+ instructor.email + "] for this purpose");
+        }           
+    }
+    
+    public void verifyAccessible(InstructorAttributes instructor, FeedbackSessionAttributes feedbacksession,
+            boolean creatorOnly, String privilegeName){
+        verifyNotNull(instructor, "instructor");
+        verifyNotNull(instructor.courseId, "instructor's course ID");
+        verifyNotNull(feedbacksession, "feedback session");
+        verifyNotNull(feedbacksession.courseId, "feedback session's course ID");
+        
+        if(!instructor.courseId.equals(feedbacksession.courseId)){
+            throw new UnauthorizedAccessException(
+                    "Feedback session [" + feedbacksession.feedbackSessionName + 
+                    "] is not accessible to instructor ["+ instructor.email + "]");
         }
-            
+
+        if (creatorOnly &&
+                !feedbacksession.creatorEmail.equals(
+                instructor.email)) {
+            throw new UnauthorizedAccessException(
+                    "Feedback session [" + feedbacksession.feedbackSessionName + 
+                    "] is not accessible to instructor ["+ instructor.email + "] for this purpose");
+        }
+        
+        if (!instructor.isAllowedForPrivilege(privilegeName)) {
+            throw new UnauthorizedAccessException(
+                    "Feedback session [" + feedbacksession.feedbackSessionName + 
+                    "] is not accessible to instructor ["+ instructor.email + "]");
+        }
     }
     
     /*These methods ensures that the nominal user specified can perform the 

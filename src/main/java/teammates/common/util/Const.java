@@ -220,6 +220,8 @@ public class Const {
         public static final String MCQ = "Multiple-choice (single answer)";
         public static final String MSQ = "Multiple-choice (multiple answers)";
         public static final String NUMSCALE = "Numerical-scale question";
+        public static final String CONSTSUM_OPTION = "Distribute points (among options) question";
+        public static final String CONSTSUM_RECIPIENT = "Distribute points (among recipients) question";
     }
     
     public class InstructorPermissionRoleNames {
@@ -246,7 +248,9 @@ public class Const {
         public static final String STUDENTS_ENROLLMENT_INFO = "enrollstudents";
         public static final String INSTRUCTOR_IMPORT_SAMPLE = "importsample";
         
+        public static final String INSTRUCTOR_DISPLAY_NAME = "instructordisplayname";
         public static final String INSTRUCTOR_ROLE_NAME = "instructorrole";
+        
         public static final String INSTRUCTOR_PERMISSION_MODIFY_COURSE = "canmodifycourse";
         public static final String INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR = "canmodifyinstructor";
         public static final String INSTRUCTOR_PERMISSION_MODIFY_SESSION = "canmodifysession";
@@ -318,6 +322,11 @@ public class Const {
         public static final String FEEDBACK_QUESTION_NUMBEROFCHOICECREATED = "noofchoicecreated";
         public static final String FEEDBACK_QUESTION_MCQCHOICE = "mcqOption";
         public static final String FEEDBACK_QUESTION_MSQCHOICE = "msqOption";
+        public static final String FEEDBACK_QUESTION_CONSTSUMOPTION = "constSumOption";
+        public static final String FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS = "constSumToRecipients";
+        public static final String FEEDBACK_QUESTION_CONSTSUMNUMOPTION = "constSumNumOption";
+        public static final String FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION = "constSumPointsPerOption";
+        public static final String FEEDBACK_QUESTION_CONSTSUMPOINTS = "constSumPoints";
         public static final String FEEDBACK_QUESTION_GENERATEDOPTIONS = "generatedOptions";
         public static final String FEEDBACK_QUESTION_GIVERTYPE = "givertype";
         public static final String FEEDBACK_QUESTION_RECIPIENTTYPE = "recipienttype";

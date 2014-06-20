@@ -18,6 +18,7 @@ public class InstructorCourseDetailsPageData extends PageData {
         super(account);
     }
 
+    public InstructorAttributes currentInstructor;
     public CourseDetailsBundle courseDetails;
     public List<StudentAttributes> students;
     public List<InstructorAttributes> instructors;

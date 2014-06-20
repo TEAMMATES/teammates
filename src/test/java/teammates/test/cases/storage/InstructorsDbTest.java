@@ -3,18 +3,22 @@ package teammates.test.cases.storage;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
+import static org.testng.Assert.fail;
+
 import static teammates.common.util.FieldValidator.EMAIL_ERROR_MESSAGE;
 import static teammates.common.util.FieldValidator.GOOGLE_ID_ERROR_MESSAGE;
 import static teammates.common.util.FieldValidator.PERSON_NAME_ERROR_MESSAGE;
 import static teammates.common.util.FieldValidator.REASON_EMPTY;
 import static teammates.common.util.FieldValidator.REASON_INCORRECT_FORMAT;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -42,7 +46,14 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         
         ______TS("Success: create an instructor");
         
-        InstructorAttributes i = new InstructorAttributes("valid.fresh.id", "valid.course.Id", "valid.name", "valid@email.com");
+        String googleId = "valid.fresh.id";
+        String courseId = "valid.course.Id";
+        String name = "valid.name";
+        String email = "valid@email.com";
+        String role = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+        String displayedName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+        InstructorPrivileges privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+        InstructorAttributes i = new InstructorAttributes(googleId, courseId, name, email, role, displayedName, privileges);
         
         instructorsDb.deleteEntity(i);
         instructorsDb.createEntity(i);
@@ -245,15 +256,21 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         String courseId = "idOfTypicalCourse1";
         
         List<InstructorAttributes> retrieved = instructorsDb.getInstructorsForCourse(courseId);
-        assertEquals(3, retrieved.size());
+        assertEquals(4, retrieved.size());
         
-        InstructorAttributes instructor1 = retrieved.get(0);
-        InstructorAttributes instructor2 = retrieved.get(1);
-        InstructorAttributes instructor3 = retrieved.get(2);
+        HashMap<String, Boolean> idMap = new HashMap<String, Boolean>();
+        idMap.put("idOfInstructor1OfCourse1", false);
+        idMap.put("idOfInstructor2OfCourse1", false);
+        idMap.put("idOfInstructor3", false);
+        idMap.put("idOfHelperOfCourse1", false);
         
-        assertEquals("idOfInstructor1OfCourse1", instructor1.googleId);
-        assertEquals("idOfInstructor2OfCourse1", instructor2.googleId);
-        assertEquals("idOfInstructor3", instructor3.googleId);
+        for (InstructorAttributes instructor : retrieved) {
+            if (idMap.containsKey(instructor.googleId)) {
+                idMap.put(instructor.googleId, true);
+            } else {
+                fail();
+            }
+        }
         
         ______TS("Failure: no instructors for a course");
         
@@ -359,9 +376,9 @@ public class InstructorsDbTest extends BaseComponentTestCase {
 
         instructorToEdit.googleId = "idOfInstructor4";
         instructorToEdit.name = "New Name 2";
-        instructorToEdit.email = "InstrDbT.new-email2@email.com";
+        instructorToEdit.email = "newEmail@email.com";
         try {
-            instructorsDb.updateInstructorByGoogleId(instructorToEdit);
+            instructorsDb.updateInstructorByEmail(instructorToEdit);
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
             AssertHelper.assertContains(
@@ -458,13 +475,19 @@ public class InstructorsDbTest extends BaseComponentTestCase {
     
     private InstructorAttributes createNewInstructor() throws InvalidParametersException {
         
-        InstructorAttributes i = new InstructorAttributes("InstrDbT.valid.id", "InstrDbT.valid.course", "InstrDbT.valid.name", "InstrDbT.valid@email.com");
+        String googleId = "valid.fresh.id";
+        String courseId = "valid.course.Id";
+        String name = "valid.name";
+        String email = "valid@email.com";
+        String role = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+        String displayedName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+        InstructorPrivileges privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+        InstructorAttributes i = new InstructorAttributes(googleId, courseId, name, email, role, displayedName, privileges);
         i.key = "InstrDbT.validKey";
         
         try {
             instructorsDb.createEntity(i);
         } catch (EntityAlreadyExistsException e) {
-            // Okay if it already exists
             ignoreExpectedException();
         }
         

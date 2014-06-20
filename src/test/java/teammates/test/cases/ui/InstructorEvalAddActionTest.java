@@ -34,7 +34,7 @@ public class InstructorEvalAddActionTest extends BaseActionTest {
                 createParamsForTypicalEval(instructor1ofCourse1.courseId, "ieaat tca eval");
         
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
-        
+        verifyUnaccessibleWithoutModifySessionPrivilege(submissionParams);
     }
     
     @Test

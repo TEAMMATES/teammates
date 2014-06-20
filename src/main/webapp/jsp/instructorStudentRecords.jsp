@@ -586,7 +586,7 @@
                                         FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
                                         out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, "giver-"+giverIndex+"-session-"+fbIndex));
                                     %></div>
-                                <div class="panel-body"><%=singleResponse.getResponseDetails().getAnswerHtml()%>
+                                <div class="panel-body"><%=singleResponse.getResponseDetails().getAnswerHtml(questionDetails)%>
                             <%
                                 List<FeedbackResponseCommentAttributes> responseComments = feedback.responseComments.get(singleResponse.getId());
                                 if (responseComments != null) {
@@ -655,7 +655,7 @@
                                         FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
                                         out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, "recipient-"+recipientIndex+"-session-"+fbIndex));
                                     %></div>
-                                <div class="panel-body"><%=singleResponse.getResponseDetails().getAnswerHtml()%>
+                                <div class="panel-body"><%=singleResponse.getResponseDetails().getAnswerHtml(questionDetails)%>
                             <%
                                 List<FeedbackResponseCommentAttributes> responseComments = feedback.responseComments.get(singleResponse.getId());
                                 if (responseComments != null) {

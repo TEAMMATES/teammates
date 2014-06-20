@@ -272,7 +272,11 @@
                                     data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_STUDENT_DETAILS%>">
                                     View</a>
                             <a class="btn btn-default btn-xs t_student_edit<%=idx%>" href="<%=data.getCourseStudentEditLink(student)%>"
-                                    data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_STUDENT_EDIT%>">
+                                    data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_STUDENT_EDIT%>"
+                                    <% if (!data.currentInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT)) { %>
+                                        disabled="disabled"
+                                    <% } %>
+                                    >
                                     Edit</a>
                             <%
                                 if(data.getStudentStatus(student).equals(Const.STUDENT_COURSE_STATUS_YET_TO_JOIN)){
@@ -286,7 +290,11 @@
                             %>
                             <a class="btn btn-default btn-xs t_student_delete<%=idx%>" href="<%=data.getCourseStudentDeleteLink(student)%>"
                                     onclick="return toggleDeleteStudentConfirmation('<%=sanitizeForJs(student.name)%>')"
-                                    data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_STUDENT_DELETE%>">
+                                    data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_STUDENT_DELETE%>"
+                                    <% if (!data.currentInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT)) { %>
+                                        disabled="disabled"
+                                    <% } %>
+                                    >
                                     Delete</a>
                             <div class="dropdown" style="display:inline;">
                               <a class="btn btn-default btn-xs t_student_records-c<%=data.courseDetails.course.id %>.<%=idx%> dropdown-toggle" 
