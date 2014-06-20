@@ -1288,7 +1288,7 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
 
         List<MimeMessage> emailsSent = evaluationsLogic.sendEvaluationPublishedEmails(
                 eval.courseId, eval.name);
-        assertEquals(8, emailsSent.size());
+        assertEquals(9, emailsSent.size());
 
         List<StudentAttributes> studentList = studentsLogic.getStudentsForCourse(eval.courseId);
         
@@ -1337,7 +1337,7 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
 
         List<MimeMessage> emailsSent = evaluationsLogic.sendReminderForEvaluation(
                 eval.courseId, eval.name);
-        assertEquals(7, emailsSent.size());
+        assertEquals(8, emailsSent.size());
 
         List<StudentAttributes> studentList = studentsLogic.getStudentsForCourse(eval.courseId);
         

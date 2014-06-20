@@ -14,6 +14,13 @@
             "email":"instr2@course1.com",
             "institute":"National University of Singapore"
         },
+        "helperOfCourse1":{
+            "googleId":"idOfHelperOfCourse1",
+            "name":"Helper of Course 1",
+            "isInstructor":true,
+            "email":"helper@course1.com",
+            "institute":"National University of Singapore"
+        },
         "instructor1OfCourse2":{
             "googleId":"idOfInstructor1OfCourse2",
             "name":"Instructor 1 of Course 2",
@@ -144,6 +151,15 @@
             "role":"Manager",
             "displayedName":"Manager",
             "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": false,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+        },
+        "helperOfCourse1":{
+            "googleId":"idOfHelperOfCourse1",
+            "courseId":"idOfTypicalCourse1",
+            "name":"Helper Course1",
+            "email":"helper@course1.com",
+            "role":"Helper",
+            "displayedName":"Helper",
+            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": false,\n    \"cangivecommentinsection\": false,\n    \"cansubmitsessioninsection\": false,\n    \"canmodifysessioncommentinsection\": false,\n    \"canmodifycommentinsection\": false,\n    \"canmodifycourse\": false,\n    \"canviewsessioninsection\": false,\n    \"canmodifysession\": false,\n    \"canviewcommentinsection\": false,\n    \"canmodifystudent\": false,\n    \"canmodifyinstructor\": false\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
         },
         "instructor1OfCourse2":{
             "googleId":"idOfInstructor1OfCourse2",

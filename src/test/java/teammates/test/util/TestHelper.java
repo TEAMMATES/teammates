@@ -413,13 +413,16 @@ public class TestHelper extends BaseComponentTestCase{
         }
     }
     
-    public static void equalizeIrrelevantData(
-            InstructorAttributes expectedInstructor,
+    public static void equalizeIrrelevantData(InstructorAttributes expectedInstructor,
             InstructorAttributes actualInstructor) {
         
         // pretend keys match because the key is generated only before storing into database
         if ((actualInstructor.key != null)) {
             expectedInstructor.key = actualInstructor.key;
+        }
+        if (!expectedInstructor.instructorPrivilegesAsText.equals(actualInstructor.instructorPrivilegesAsText)
+                && expectedInstructor.privileges.equals(actualInstructor.privileges)) {
+            actualInstructor.instructorPrivilegesAsText = expectedInstructor.getTextFromInstructorPrivileges();
         }
     }
 
