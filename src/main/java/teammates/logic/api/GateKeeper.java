@@ -32,6 +32,7 @@ public class GateKeeper {
         ADD, VIEW, UPDATE, DELETE
     }
     
+    // TODO: refactor this! gate keeper should not use Db level APIs
     private static final StudentsDb studentsDb = new StudentsDb();
     private static EvaluationsDb evaluationsDb = new EvaluationsDb();
 
