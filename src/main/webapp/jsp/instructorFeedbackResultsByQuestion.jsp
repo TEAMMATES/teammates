@@ -68,7 +68,7 @@
                 <div class="panel-collapse">
                 <div class="panel-body padding-0">                
                     <div class="resultStatistics">
-                        <%=questionDetails.getQuestionResultStatisticsHtml(responseEntries.getValue())%>
+                        <%=questionDetails.getQuestionResultStatisticsHtml(responseEntries.getValue(), data.bundle)%>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered dataTable margin-0">
@@ -107,7 +107,7 @@
                                     <td class="middlealign"><%=giverTeamName%></td>
                                     <td class="middlealign"><%=recipientName%></td>
                                     <td class="middlealign"><%=recipientTeamName%></td>
-                                    <td class="multiline"><%=responseEntry.getResponseDetails().getAnswerHtml()%></td>
+                                    <td class="multiline"><%=responseEntry.getResponseDetails().getAnswerHtml(questionDetails)%></td>
                                 </tr>        
                                 <%
                                     }

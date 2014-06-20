@@ -1,0 +1,17 @@
+<div>
+    ${constSumSubmissionFormOptionFragments}
+    <div id="constSumInfo-${qnIdx}-${responseIdx}" class="form-group" ${constSumOptionVisibility}>
+    	<div class="col-sm-2" ${constSumOptionVisibility}>
+    	</div>
+    	<div class="col-sm-3">
+    		<hr class="margin-top-0">
+    		<p class="text-color-blue" id="constSumMessage-${qnIdx}-${responseIdx}">
+    		</p>
+    		<hr>
+    	</div>
+    </div>
+    <input type="hidden" id="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS}-${qnIdx}" value="${constSumToRecipientsValue}">
+    <input type="hidden" id="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION}-${qnIdx}" value="${constSumPointsPerOptionValue}">
+    <input type="hidden" id="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMNUMOPTION}-${qnIdx}" value="${constSumNumOptionValue}">
+    <input type="hidden" id="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS}-${qnIdx}" value="${constSumPointsValue}">
+</div>

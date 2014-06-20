@@ -459,7 +459,7 @@
                                     </tr>
                                     <tr>
                                         <td><strong>Response:
-                                        </strong><%=responseEntry.getResponseDetails().getAnswerHtml()%>
+                                        </strong><%=responseEntry.getResponseDetails().getAnswerHtml(questionDetails)%>
                                         </td>
                                     </tr>
                                     <tr class="active">

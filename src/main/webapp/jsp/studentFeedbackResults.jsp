@@ -168,7 +168,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td class="multiline"><%=singleResponse.getResponseDetails().getAnswerHtml()%></td>
+                                <td class="multiline"><%=singleResponse.getResponseDetails().getAnswerHtml(questionDetails)%></td>
                             </tr>
                         <%
                             List<FeedbackResponseCommentAttributes> responseComments = data.bundle.responseComments.get(singleResponse.getId());
