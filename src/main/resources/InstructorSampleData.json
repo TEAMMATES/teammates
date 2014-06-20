@@ -719,6 +719,62 @@
               "RECEIVER",
               "INSTRUCTORS"
           ]
+      },
+      "qn9InSession1": {
+          "feedbackSessionName": "Session with different question types",
+          "courseId": "demo.course",
+          "creatorEmail": "teammates.demo.instructor@demo.course",
+          "questionMetaData":{
+                "value":"{\"questionText\":\"How important are the following factors to you? Give points accordingly.\",
+                          \"questionType\":\"CONSTSUM\", \"numOfConstSumOptions\" : 2,
+                          \"constSumOptions\" : [\"Grades\", \"Fun\"],\"distributeToRecipients\" : false,
+                          \"pointsPerOption\" : false, \"points\" : 100}"
+          },
+          "questionNumber": 9,
+          "questionType": "CONSTSUM",
+          "giverType": "STUDENTS",
+          "recipientType": "SELF",
+          "numberOfEntitiesToGiveFeedbackTo": 1,
+          "showResponsesTo":[
+              "RECEIVER",
+              "INSTRUCTORS"
+          ],
+          "showGiverNameTo": [
+              "RECEIVER",
+              "INSTRUCTORS"
+          ],
+          "showRecipientNameTo":[
+              "RECEIVER",
+              "INSTRUCTORS"
+          ]
+      },
+      "qn10InSession1": {
+          "feedbackSessionName": "Session with different question types",
+          "courseId": "demo.course",
+          "creatorEmail": "teammates.demo.instructor@demo.course",
+          "questionMetaData":{
+                "value":"{\"questionText\":\"Split points among the your team members and yourself, according to how much you think each member has contributed.\",
+                          \"questionType\":\"CONSTSUM\", \"numOfConstSumOptions\" : 0,
+                          \"constSumOptions\" : [],\"distributeToRecipients\" : true,
+                          \"pointsPerOption\" : true, \"points\" : 100}"
+          },
+          "questionNumber": 10,
+          "questionType": "CONSTSUM",
+          "giverType": "STUDENTS",
+          "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
+          "numberOfEntitiesToGiveFeedbackTo": -100,
+          "showResponsesTo":[
+              "RECEIVER",
+              "INSTRUCTORS"
+          ],
+          "showGiverNameTo": [
+              "RECEIVER",
+              "INSTRUCTORS"
+          ],
+          "showRecipientNameTo":[
+              "RECEIVER",
+              "INSTRUCTORS"
+          ]
       }
   },
 
@@ -832,7 +888,62 @@
           "responseMetaData":{
               "value":"You are the best Emma! Without you, our application will not be running."
           }
-      }, 
+      },
+      "aliceResponse7":{
+          "feedbackSessionName":"Session with different question types",
+          "courseId":"demo.course",
+          "feedbackQuestionId":"9",
+          "feedbackQuestionType":"CONSTSUM",
+          "giverEmail":"alice.b.tmms@gmail.com",
+          "recipientEmail":"alice.b.tmms@gmail.com",
+          "responseMetaData":{
+              "value":"{\"questionType\" : \"CONSTSUM\", \"answers\" : [20, 80]}"
+          }
+      },
+      "aliceResponse8.1":{
+          "feedbackSessionName":"Session with different question types",
+          "courseId":"demo.course",
+          "feedbackQuestionId":"10",
+          "feedbackQuestionType":"CONSTSUM",
+          "giverEmail":"alice.b.tmms@gmail.com",
+          "recipientEmail":"alice.b.tmms@gmail.com",
+          "responseMetaData":{
+              "value":"{\"questionType\" : \"CONSTSUM\",\"answers\" : [100]}"
+          }
+      },
+      "aliceResponse8.2":{
+          "feedbackSessionName":"Session with different question types",
+          "courseId":"demo.course",
+          "feedbackQuestionId":"10",
+          "feedbackQuestionType":"CONSTSUM",
+          "giverEmail":"alice.b.tmms@gmail.com",
+          "recipientEmail":"benny.c.tmms@gmail.com",
+          "responseMetaData":{
+              "value":"{\"questionType\" : \"CONSTSUM\",\"answers\" : [120]}"
+          }
+      },
+      "aliceResponse8.3":{
+          "feedbackSessionName":"Session with different question types",
+          "courseId":"demo.course",
+          "feedbackQuestionId":"10",
+          "feedbackQuestionType":"CONSTSUM",
+          "giverEmail":"alice.b.tmms@gmail.com",
+          "recipientEmail":"danny.e.tmms@gmail.com",
+          "responseMetaData":{
+              "value":"{\"questionType\" : \"CONSTSUM\",\"answers\" : [90]}"
+          }
+      },
+      "aliceResponse8.4":{
+          "feedbackSessionName":"Session with different question types",
+          "courseId":"demo.course",
+          "feedbackQuestionId":"10",
+          "feedbackQuestionType":"CONSTSUM",
+          "giverEmail":"alice.b.tmms@gmail.com",
+          "recipientEmail":"emma.f.tmms@gmail.com",
+          "responseMetaData":{
+              "value":"{\"questionType\" : \"CONSTSUM\",\"answers\" : [90]}"
+          }
+      },
       "charlieResponse1":{
           "feedbackSessionName":"Session with different question types",
           "courseId":"demo.course",
@@ -941,6 +1052,61 @@
           "recipientEmail":"teammates.demo.instructor@demo.course",
           "responseMetaData":{
               "value":"Thank you Demo_Instructor for all the help in the project."
+          }
+      },
+      "charlieResponse7":{
+          "feedbackSessionName":"Session with different question types",
+          "courseId":"demo.course",
+          "feedbackQuestionId":"9",
+          "feedbackQuestionType":"CONSTSUM",
+          "giverEmail":"charlie.d.tmms@gmail.com",
+          "recipientEmail":"charlie.d.tmms@gmail.com",
+          "responseMetaData":{
+              "value":"{\"questionType\" : \"CONSTSUM\", \"answers\" : [45, 55]}"
+          }
+      },
+      "charlieResponse8.1":{
+          "feedbackSessionName":"Session with different question types",
+          "courseId":"demo.course",
+          "feedbackQuestionId":"10",
+          "feedbackQuestionType":"CONSTSUM",
+          "giverEmail":"charlie.d.tmms@gmail.com",
+          "recipientEmail":"charlie.d.tmms@gmail.com",
+          "responseMetaData":{
+              "value":"{\"questionType\" : \"CONSTSUM\",\"answers\" : [110]}"
+          }
+      },
+      "charlieResponse8.2":{
+          "feedbackSessionName":"Session with different question types",
+          "courseId":"demo.course",
+          "feedbackQuestionId":"10",
+          "feedbackQuestionType":"CONSTSUM",
+          "giverEmail":"charlie.d.tmms@gmail.com",
+          "recipientEmail":"francis.g.tmms@gmail.com",
+          "responseMetaData":{
+              "value":"{\"questionType\" : \"CONSTSUM\",\"answers\" : [90]}"
+          }
+      },
+      "charlieResponse8.3":{
+          "feedbackSessionName":"Session with different question types",
+          "courseId":"demo.course",
+          "feedbackQuestionId":"10",
+          "feedbackQuestionType":"CONSTSUM",
+          "giverEmail":"charlie.d.tmms@gmail.com",
+          "recipientEmail":"gene.h.tmms@gmail.com",
+          "responseMetaData":{
+              "value":"{\"questionType\" : \"CONSTSUM\",\"answers\" : [50]}"
+          }
+      },
+      "charlieResponse8.4":{
+          "feedbackSessionName":"Session with different question types",
+          "courseId":"demo.course",
+          "feedbackQuestionId":"10",
+          "feedbackQuestionType":"CONSTSUM",
+          "giverEmail":"charlie.d.tmms@gmail.com",
+          "recipientEmail":"teammates.demo.instructor@demo.course",
+          "responseMetaData":{
+              "value":"{\"questionType\" : \"CONSTSUM\",\"answers\" : [150]}"
           }
       }
   },

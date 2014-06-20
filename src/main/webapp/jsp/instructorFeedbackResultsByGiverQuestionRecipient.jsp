@@ -75,7 +75,8 @@
 
                 FeedbackParticipantType firstQuestionGiverType = questions.get(firstResponse.feedbackQuestionId).giverType;
                 String mailtoStyleAttr = (firstQuestionGiverType == FeedbackParticipantType.NONE || 
-                                firstQuestionGiverType == FeedbackParticipantType.TEAMS)?"style=\"display:none;\"":"";
+                                firstQuestionGiverType == FeedbackParticipantType.TEAMS || 
+                                giverEmail.contains("@@"))?"style=\"display:none;\"":"";
         %>
 
         <%
@@ -117,7 +118,7 @@
                                     for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> teamResponseEntries : currentTeamResponses.entrySet()) {
                                         FeedbackQuestionAttributes question = questions.get(teamResponseEntries.getKey().getId());
                                         FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
-                                        String statsHtml = questionDetails.getQuestionResultStatisticsHtml(teamResponseEntries.getValue());
+                                        String statsHtml = questionDetails.getQuestionResultStatisticsHtml(teamResponseEntries.getValue(), data.bundle);
                                         if(statsHtml != ""){
                                             numStatsShown++;
                                 %>
@@ -180,7 +181,7 @@
                             </div>
                             <div class="panel-body padding-0">
                                 <div class="resultStatistics">
-                                    <%=questionDetails.getQuestionResultStatisticsHtml(responseEntries)%>
+                                    <%=questionDetails.getQuestionResultStatisticsHtml(responseEntries, data.bundle)%>
                                 </div>
                                 <table class="table table-striped table-bordered dataTable margin-0">
                                     <thead class="background-color-medium-gray text-color-gray font-weight-normal">
@@ -207,7 +208,7 @@
                                         %>
                                             <td class="middlealign"><%=recipientName%></td>
                                             <td class="middlealign"><%=recipientTeamName%></td>
-                                            <td class="multiline"><%=responseEntry.getResponseDetails().getAnswerHtml()%></td>
+                                            <td class="multiline"><%=responseEntry.getResponseDetails().getAnswerHtml(questionDetails)%></td>
                                         </tr>        
                                         <%
                                             }
