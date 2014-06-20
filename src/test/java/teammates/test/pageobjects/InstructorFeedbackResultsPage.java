@@ -43,7 +43,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return getPageSource().contains("<h1>Feedback Results - Instructor</h1>");
+        return getPageSource().contains("<h1>Session Results</h1>");
     }
     
     public String getCourseId() {
@@ -182,9 +182,9 @@ public class InstructorFeedbackResultsPage extends AppPage {
         return true;
     }
     
-    public boolean verifyAllStatsVisibility(boolean visible){
-        for(WebElement e : browser.driver.findElements(By.cssSelector(".resultStatistics"))){
-            if(e.isDisplayed() != visible){
+    public boolean verifyAllStatsVisibility(){
+        for(WebElement e : browser.driver.findElements(By.className("resultStatistics"))){
+            if(e.getCssValue("display").equals("none")){
                 return false;
             }
         }

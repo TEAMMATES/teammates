@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -168,6 +169,52 @@ public class CommentAttributes extends EntityAttributes
 
         if (commentText != null) {
             this.commentText = new Text(Sanitizer.sanitizeForHtml(commentText.getValue()));
+        }
+        
+        sanitizeForVisibilityOptions();
+    }
+
+    private void sanitizeForVisibilityOptions() {
+        switch(recipientType){
+        case PERSON:
+            removeCommentRecipientTypeIn(showRecipientNameTo, CommentRecipientType.PERSON);
+            break;
+        case TEAM:
+            removeCommentRecipientTypeInVisibilityOptions(CommentRecipientType.PERSON);
+            removeCommentRecipientTypeIn(showRecipientNameTo, CommentRecipientType.TEAM);
+            break;
+        case SECTION:
+            removeCommentRecipientTypeInVisibilityOptions(CommentRecipientType.PERSON);
+            removeCommentRecipientTypeInVisibilityOptions(CommentRecipientType.TEAM);
+            removeCommentRecipientTypeIn(showRecipientNameTo, CommentRecipientType.SECTION);
+            break;
+        case COURSE:
+            removeCommentRecipientTypeInVisibilityOptions(CommentRecipientType.PERSON);
+            removeCommentRecipientTypeInVisibilityOptions(CommentRecipientType.TEAM);
+            removeCommentRecipientTypeInVisibilityOptions(CommentRecipientType.SECTION);
+            removeCommentRecipientTypeIn(showRecipientNameTo, CommentRecipientType.COURSE);
+            break;
+        default:
+            break;
+        }
+    }
+    
+    private void removeCommentRecipientTypeInVisibilityOptions(CommentRecipientType typeToRemove){
+        removeCommentRecipientTypeIn(showCommentTo, typeToRemove);
+        removeCommentRecipientTypeIn(showGiverNameTo, typeToRemove);
+        removeCommentRecipientTypeIn(showRecipientNameTo, typeToRemove);
+    }
+    
+    private void removeCommentRecipientTypeIn(List<CommentRecipientType> visibilityOptions, 
+            CommentRecipientType typeToRemove){
+        if(visibilityOptions == null) return;
+        
+        Iterator<CommentRecipientType> iter = visibilityOptions.iterator();
+        while(iter.hasNext()){
+            CommentRecipientType otherType = iter.next();
+            if(otherType == typeToRemove){
+                iter.remove();
+            }
         }
     }
 

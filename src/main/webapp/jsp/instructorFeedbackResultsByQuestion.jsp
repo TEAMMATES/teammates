@@ -11,6 +11,7 @@
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%
     InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData)request.getAttribute("data");
+    boolean shouldCollapsed = data.bundle.responses.size() > 1000;
 %>
 <!DOCTYPE html>
 <html>
@@ -48,27 +49,27 @@
         <div id="frameBodyWrapper" class="container">
             <div id="topOfPage"></div>
             <div id="headerOperation">
-                <h1>Feedback Results - Instructor</h1>
+                <h1>Session Results</h1>
             </div>            
             <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_TOP%>" />
             <br>
             <%
                 for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responseEntries : data.bundle
                         .getQuestionResponseMap().entrySet()) {
+                    FeedbackQuestionAttributes question = responseEntries.getKey();
             %>
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    <strong>Question <%=responseEntries.getKey().questionNumber%>: </strong><%=data.bundle.getQuestionText(responseEntries.getKey().getId())%><%
-                        Map<String, FeedbackQuestionAttributes> questions = data.bundle.questions;
-                        FeedbackQuestionAttributes question = questions.get(responseEntries.getKey().getId());
+                    <span class="glyphicon <%= !shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down" %> pull-right"></span>
+                    <strong>Question <%=question.questionNumber%>: </strong><%=data.bundle.getQuestionText(question.getId())%><%
                         FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
                         out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, ""));
                     %>
                 </div>
-                <div class="panel-collapse">
+                <div class="panel-collapse collapse <%= !shouldCollapsed ? "in" : "" %>">
                 <div class="panel-body padding-0">                
                     <div class="resultStatistics">
-                        <%=questionDetails.getQuestionResultStatisticsHtml(responseEntries.getValue())%>
+                        <%=questionDetails.getQuestionResultStatisticsHtml(responseEntries.getValue(), data.bundle)%>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered dataTable margin-0">
@@ -97,17 +98,17 @@
                                 %>
                                 <tr>
                                 <%
-                                    String giverName = data.bundle.getGiverNameForResponse(responseEntries.getKey(), responseEntry);
+                                    String giverName = data.bundle.getGiverNameForResponse(question, responseEntry);
                                     String giverTeamName = data.bundle.getTeamNameForEmail(responseEntry.giverEmail);
 
-                                    String recipientName = data.bundle.getRecipientNameForResponse(responseEntries.getKey(), responseEntry);
+                                    String recipientName = data.bundle.getRecipientNameForResponse(question, responseEntry);
                                     String recipientTeamName = data.bundle.getTeamNameForEmail(responseEntry.recipientEmail);
                                 %>
                                     <td class="middlealign"><%=giverName%></td>
                                     <td class="middlealign"><%=giverTeamName%></td>
                                     <td class="middlealign"><%=recipientName%></td>
                                     <td class="middlealign"><%=recipientTeamName%></td>
-                                    <td class="multiline"><%=responseEntry.getResponseDetails().getAnswerHtml()%></td>
+                                    <td class="multiline"><%=responseEntry.getResponseDetails().getAnswerHtml(questionDetails)%></td>
                                 </tr>        
                                 <%
                                     }
@@ -125,29 +126,30 @@
             <%
             // Only output the list of students who haven't responded when there are responses.
             FeedbackSessionResponseStatus responseStatus = data.bundle.responseStatus;
-            if (!responseStatus.hasResponse.isEmpty()) {
-        %>
-                <div class="panel panel-info">
-                    <div class="panel-heading">Students Who Did Not Respond to Any Question</div>
-                    
-                    <table class="table table-striped">
-                        <tbody>
-                        <%
-                            for (String studentName : responseStatus.getStudentsWhoDidNotRespondToAnyQuestion()) {
-                        %>
-                                <tr>
-                                    <td><%=studentName%></td>
-                                </tr>
-                        <%
-                            }
-                        %>
-                        </tbody>
-                    </table>
-                </div>
-                <br> <br>
-        <%
-            }
-        %>
+            if (data.selectedSection.equals("All") && !responseStatus.noResponse.isEmpty()) {
+            %>
+                    <div class="panel panel-info">
+                        <div class="panel-heading">Participants who did not respond to any question</div>
+                        
+                        <table class="table table-striped">
+                            <tbody>
+                            <%  
+                                List<String> students = responseStatus.getStudentsWhoDidNotRespondToAnyQuestion();
+                                for (String studentName : students) {
+                            %>
+                                    <tr>
+                                        <td><%=studentName%></td>
+                                    </tr>
+                            <%
+                                }
+                            %>
+                            </tbody>
+                        </table>
+                    </div>
+                    <br> <br>
+            <%
+                }
+            %>
         </div>
     </div>
 

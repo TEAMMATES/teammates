@@ -50,14 +50,14 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
 
         fq = BackDoor.getFeedbackQuestion("SFQSubmitUiT.CS2104", "Awaiting Session", 1);
         submitPage = loginToStudentFeedbackQuestionSubmitPage("Alice", "Awaiting Session", fq.getId());
-        submitPage.verifyHtml("/studentFeedbackQuestionSubmitPageAwaiting.html");
+        submitPage.verifyHtmlMainContent("/studentFeedbackQuestionSubmitPageAwaiting.html");
 
         
         ______TS("Open session");
 
         fq = BackDoor.getFeedbackQuestion("SFQSubmitUiT.CS2104", "Open Session", 1);
         submitPage = loginToStudentFeedbackQuestionSubmitPage("Alice", "Open Session", fq.getId());
-        submitPage.verifyHtml("/studentFeedbackQuestionSubmitPageOpen.html");
+        submitPage.verifyHtmlMainContent("/studentFeedbackQuestionSubmitPageOpen.html");
 
         ______TS("Grace period session");
 
@@ -82,7 +82,7 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
 
         fq = BackDoor.getFeedbackQuestion("SFQSubmitUiT.CS2104", "Closed Session", 1);
         submitPage = loginToStudentFeedbackQuestionSubmitPage("Alice","Closed Session", fq.getId());
-        submitPage.verifyHtml("/studentFeedbackQuestionSubmitPageClosed.html");
+        submitPage.verifyHtmlMainContent("/studentFeedbackQuestionSubmitPageClosed.html");
        
     }
 

@@ -2,6 +2,7 @@ package teammates.ui.controller;
 
 import java.util.logging.Logger;
 
+import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -19,13 +20,14 @@ public class InstructorEvalEditPageAction extends Action {
         String evalName = getRequestParamValue(Const.ParamsNames.EVALUATION_NAME);
         Assumption.assertNotNull(evalName);
         
+        EvaluationAttributes eval = logic.getEvaluation(courseId, evalName);
         new GateKeeper().verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, account.googleId),
-                logic.getEvaluation(courseId, evalName));
+                eval, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         
         InstructorEvalEditPageData data = new InstructorEvalEditPageData(account);
         
-        data.evaluation = logic.getEvaluation(courseId, evalName);
+        data.evaluation = eval;
 
         if(data.evaluation == null){
             throw new EntityDoesNotExistException("The evaluation \""+evalName+"\" in course "+courseId+" does not exist");

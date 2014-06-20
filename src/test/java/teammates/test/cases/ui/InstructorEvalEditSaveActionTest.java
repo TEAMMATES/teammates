@@ -34,7 +34,7 @@ public class InstructorEvalEditSaveActionTest extends BaseActionTest {
                 evaluationInCourse1.courseId, evaluationInCourse1.name);
         
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
-        
+        verifyUnaccessibleWithoutModifySessionPrivilege(submissionParams);
     }
     
     @Test

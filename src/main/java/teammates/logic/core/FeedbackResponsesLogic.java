@@ -63,6 +63,7 @@ public class FeedbackResponsesLogic {
 
     public FeedbackResponseAttributes getFeedbackResponse(
             String feedbackQuestionId, String giverEmail, String recipient) {
+        // TODO: check what is this line doing here!!!
         log.warning(feedbackQuestionId);
         return frDb.getFeedbackResponse(feedbackQuestionId, giverEmail, recipient);
     }
@@ -70,6 +71,15 @@ public class FeedbackResponsesLogic {
     public List<FeedbackResponseAttributes> getFeedbackResponsesForSession(
             String feedbackSessionName, String courseId) {
         return frDb.getFeedbackResponsesForSession(feedbackSessionName, courseId);
+    }
+
+    public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionInSection(
+            String feedbackSessionName, String courseId, String section){
+        if(section == null){
+            return getFeedbackResponsesForSession(feedbackSessionName, courseId);
+        } else {
+            return frDb.getFeedbackResponsesForSessionInSection(feedbackSessionName, courseId, section);
+        }
     }
 
     public List<FeedbackResponseAttributes> getFeedbackResponsesForQuestion(String feedbackQuestionId) {
@@ -198,7 +208,12 @@ public class FeedbackResponsesLogic {
         List<FeedbackParticipantType> showNameTo =
                 isGiverName ? question.showGiverNameTo
                         : question.showRecipientNameTo;
-
+        
+        //Giver can always see giver and recipient.(because he answered.)
+        if(response.giverEmail.equals(userEmail)){
+            return true;
+        }
+        
         for (FeedbackParticipantType type : showNameTo) {
             switch (type) {
             case INSTRUCTORS:

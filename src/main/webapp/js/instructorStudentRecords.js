@@ -2,6 +2,47 @@ var COMMENT_TEXT = "commenttext";
 var COMMENT_EDITTYPE = "commentedittype";
 var DISPLAY_COMMENT_BLANK = "Please enter a valid comment. The comment can't be empty.";
 
+$(document).ready(function(){
+	//make textarea supports displaying breakline
+    $('div[id^="plainCommentText"]').each(function(){
+	    var commentTextWithBreakLine = $(this).text().replace(/\n/g, '<br />');
+	    $(this).html(commentTextWithBreakLine);
+    });
+	
+	$('a[id^="visibility-options-trigger"]').click(function(){
+    	var visibilityOptions = $(this).parent().next();
+		if(visibilityOptions.is(':visible')){
+			visibilityOptions.hide();
+			$(this).html('<span class="glyphicon glyphicon-eye-close"></span> Show Visibility Options');
+		} else {
+			visibilityOptions.show();
+			$(this).html('<span class="glyphicon glyphicon-eye-close"></span> Hide Visibility Options');
+		}
+	});
+    
+    $("input[type=checkbox]").click(function(){
+    	var table = $(this).parent().parent().parent().parent();
+    	var form = table.parent().parent().parent();
+    	var visibilityOptions = [];
+    	table.find('.answerCheckbox:checked').each(function () {
+			visibilityOptions.push($(this).val());
+	    });
+    	form.find("input[name='showcommentsto']").val(visibilityOptions.toString());
+	    
+	    visibilityOptions = [];
+	    table.find('.giverCheckbox:checked').each(function () {
+			visibilityOptions.push($(this).val());
+	    });
+	    form.find("input[name='showgiverto']").val(visibilityOptions.toString());
+	    
+	    visibilityOptions = [];
+	    table.find('.recipientCheckbox:checked').each(function () {
+			visibilityOptions.push($(this).val());
+	    });
+	    form.find("input[name='showrecipientto']").val(visibilityOptions.toString());
+    });
+});
+
 /**
  * To be loaded when instructorStudentRecords page is loaded
  * Contains key bindings, text area adjustment and auto-opening

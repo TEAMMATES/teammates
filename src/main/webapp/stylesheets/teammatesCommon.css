@@ -121,12 +121,24 @@ Apply to thead to make headers not bold.
     font-weight: bold;
 }
 
+.text-color-blue {
+    color: blue;
+}
+
 .text-color-primary {
     color: #428bca;
 }
 
 .text-color-gray {
     color: gray;
+}
+
+.text-color-green {
+    color: green;
+}
+
+.text-color-red {
+    color: red;
 }
 
 .text-color-white {
@@ -139,6 +151,11 @@ Apply to thead to make headers not bold.
 
 .text-strike {
     text-decoration: line-through;
+}
+
+.form-control.width-100-pc,
+.width-100-pc {
+    width: 100%;
 }
 
 @media print {
@@ -328,7 +345,15 @@ Apply to thead to make headers not bold.
     cursor: pointer;
 }
 
+.link-disabled {
+    pointer-events: none;
+    cursor: default;
+    opacity: 0.5;
+}
 
+.link-disabled:hover {
+    text-decoration: none;
+}
 
 
 
