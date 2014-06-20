@@ -147,8 +147,7 @@
                         <% if (instructor.googleId != null) { %>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Google ID:</label>
-                                <div class="col-sm-9"><input class="form-control" type="text"
-                                    name="<%=Const.ParamsNames.INSTRUCTOR_ID%>" id="<%=Const.ParamsNames.INSTRUCTOR_ID+index%>"
+                                <div class="col-sm-9"><input class="form-control immutable" type="text" id="<%=Const.ParamsNames.INSTRUCTOR_ID+index%>"
                                     value="<%=instructor.googleId%>"
                                     data-toggle="tooltip" data-placement="top" title="Enter the google id of the instructor."
                                     maxlength=<%=FieldValidator.GOOGLE_ID_MAX_LENGTH%> tabindex=3
@@ -292,7 +291,7 @@
                                                     <%if (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)) {%>
                                                         checked="checked"
                                                     <%}%>
-                                                    /> Sessions: Submit Responses and Comments<br>
+                                                    /> Sessions: Submit Responses and Add Comments<br>
                                                     <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS%>"
                                                     id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS%>forinstructor<%=index%>" value="true"
                                                     <%if (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS)) {%>
@@ -448,7 +447,7 @@
                                                     value="true" checked="checked" /> Sessions: View Responses and Comments<br>
                                                     <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS%>"
                                                     id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS%>forinstructor<%=data.instructorList.size()+1%>"
-                                                    value="true" checked="checked" /> Sessions: Submit Responses and Comments<br>
+                                                    value="true" checked="checked" /> Sessions: Submit Responses and Add Comments<br>
                                                     <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS%>"
                                                     id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS%>forinstructor<%=data.instructorList.size()+1%>"
                                                     value="true" checked="checked" /> Sessions: Edit/Delete Responses/Comments by others<br>

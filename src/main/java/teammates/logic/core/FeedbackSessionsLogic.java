@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -177,6 +178,7 @@ public class FeedbackSessionsLogic {
                     "Trying to get a feedback session that does not exist.");
         }
         
+        InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> bundle
             = new HashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>(); 
         Map<String, Map<String,String>> recipientList
@@ -191,7 +193,31 @@ public class FeedbackSessionsLogic {
             List<FeedbackResponseAttributes> responses = 
                     frLogic.getFeedbackResponsesFromGiverForQuestion(question.getId(), userEmail);
             Map<String, String> recipients =
-                    fqLogic.getRecipientsForQuestion(question, userEmail);            
+                    fqLogic.getRecipientsForQuestion(question, userEmail);
+            // instructor can only see students in allowed sections for him/her
+            if (question.recipientType.equals(FeedbackParticipantType.STUDENTS)) {
+                Iterator<Map.Entry<String, String>> iter = recipients.entrySet().iterator();
+                while (iter.hasNext()) {
+                    Map.Entry<String, String> studentEntry = iter.next();
+                    StudentAttributes student = studentsLogic.getStudentForEmail(courseId, studentEntry.getKey());
+                    if (!instructor.isAllowedForPrivilege(student.section, 
+                            fsa.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)) {
+                        iter.remove();
+                    }
+                }
+            }
+            // instructor can only see teams in allowed sections for him/her
+            if (question.recipientType.equals(FeedbackParticipantType.TEAMS)) {
+                Iterator<Map.Entry<String, String>> iter = recipients.entrySet().iterator();
+                while (iter.hasNext()) {
+                    Map.Entry<String, String> teamEntry = iter.next();
+                    String teamSection = studentsLogic.getSectionForTeam(courseId, teamEntry.getKey());
+                    if (!instructor.isAllowedForPrivilege(teamSection,
+                            fsa.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)) {
+                        iter.remove();
+                    }
+                }
+            }
             normalizeMaximumResponseEntities(question, recipients);            
             
             bundle.put(question, responses);

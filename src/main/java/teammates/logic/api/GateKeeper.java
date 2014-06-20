@@ -32,6 +32,7 @@ public class GateKeeper {
         ADD, VIEW, UPDATE, DELETE
     }
     
+    // TODO: refactor this! gate keeper should not use Db level APIs
     private static final StudentsDb studentsDb = new StudentsDb();
     private static EvaluationsDb evaluationsDb = new EvaluationsDb();
 
@@ -117,7 +118,9 @@ public class GateKeeper {
     /** Verifies that the nominal user has instructor privileges.
      */
     public void verifyInstructorPrivileges(AccountAttributes account){
-        if(isInstructor(account.googleId)) return;
+        if(account.isInstructor) {
+            return;
+        }
         throw new UnauthorizedAccessException("User "+account.googleId+" does not have admin privilleges");
     }
     
@@ -334,6 +337,34 @@ public class GateKeeper {
         }
     }
     
+    public void verifyAccessible(InstructorAttributes instructor, FeedbackSessionAttributes feedbacksession,
+            boolean creatorOnly, String sectionName, String sessionName, String privilegeName){
+        verifyNotNull(instructor, "instructor");
+        verifyNotNull(instructor.courseId, "instructor's course ID");
+        verifyNotNull(feedbacksession, "feedback session");
+        verifyNotNull(feedbacksession.courseId, "feedback session's course ID");
+        
+        if(!instructor.courseId.equals(feedbacksession.courseId)){
+            throw new UnauthorizedAccessException(
+                    "Feedback session [" + feedbacksession.feedbackSessionName + 
+                    "] is not accessible to instructor ["+ instructor.email + "]");
+        }
+
+        if (creatorOnly &&
+                !feedbacksession.creatorEmail.equals(
+                instructor.email)) {
+            throw new UnauthorizedAccessException(
+                    "Feedback session [" + feedbacksession.feedbackSessionName + 
+                    "] is not accessible to instructor ["+ instructor.email + "] for this purpose");
+        }
+        
+        if (!instructor.isAllowedForPrivilege(sectionName, sessionName, privilegeName)) {
+            throw new UnauthorizedAccessException(
+                    "Feedback session [" + feedbacksession.feedbackSessionName + 
+                    "] is not accessible to instructor ["+ instructor.email + "]");
+        }
+    }
+    
     /*These methods ensures that the nominal user specified can perform the 
      * specified action on a given entity.
      */
@@ -365,10 +396,6 @@ public class GateKeeper {
     private boolean isInstructor() {
         User user = userService.getCurrentUser();
         return isUserLoggedOn() &&  AccountsLogic.inst().isAccountAnInstructor(user.getNickname());
-    }
-    
-    private boolean isInstructor(String googleId) {
-        return AccountsLogic.inst().isAccountAnInstructor(googleId);
     }
 
     private boolean isStudent() {
