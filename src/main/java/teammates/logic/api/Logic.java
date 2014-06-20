@@ -1929,20 +1929,6 @@ public class Logic {
      * @return a list of comments from the giver that have the specified comment status.
      * @throws EntityDoesNotExistException
      */
-    public List<CommentAttributes> getCommentsForGiverAndStatus(String courseId, String giverEmail, CommentStatus status) throws EntityDoesNotExistException{
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, giverEmail);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, status);
-        return commentsLogic.getCommentsForGiverAndStatus(courseId, giverEmail, status);
-    }
-    
-    /**
-     * Currently giver is limited to instructors only
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * @return a list of comments from the giver that have the specified comment status.
-     * @throws EntityDoesNotExistException
-     */
     public List<CommentAttributes> getCommentsForInstructor(InstructorAttributes instructor) throws EntityDoesNotExistException{
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructor);
         return commentsLogic.getCommentsForInstructor(instructor);
@@ -1971,20 +1957,6 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, receiver);
         return commentsLogic.getCommentsForReceiver(courseId, recipientType, receiver);
-    }
-    
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * @return a list of comments with the specified commentViewerType - 
-     * PERSON (recipients can view those comments), TEAM (team members can will), SECTION (students in the same section can view),
-     * COURSE (the whole class can view), INSTRUCTOR (instructor can view)
-     * @throws EntityDoesNotExistException
-     */
-    public List<CommentAttributes> getCommentsForCommentViewer(String courseId, CommentRecipientType commentViewerType) throws EntityDoesNotExistException{
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, commentViewerType);
-        return commentsLogic.getCommentsForCommentViewer(courseId, commentViewerType);
     }
     
     @SuppressWarnings("unused")

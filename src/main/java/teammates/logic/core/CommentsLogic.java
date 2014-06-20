@@ -50,31 +50,12 @@ public class CommentsLogic {
         
         return commentsDb.getCommentsForGiver(courseId, giverEmail);
     }
-    
-    public List<CommentAttributes> getCommentsForGiverAndStatus(String courseId, String giverEmail, CommentStatus status)
-            throws EntityDoesNotExistException {
-        verifyIsCoursePresentForGetComments(courseId);
-        
-        return commentsDb.getCommentsForGiverAndStatus(courseId, giverEmail, status);
-    }
-    
-    public List<CommentAttributes> getCommentDrafts(String giverEmail)
-            throws EntityDoesNotExistException {
-        return commentsDb.getCommentDrafts(giverEmail);
-    }
 
     public List<CommentAttributes> getCommentsForReceiver(String courseId, CommentRecipientType recipientType, String receiverEmail)
             throws EntityDoesNotExistException {
         verifyIsCoursePresentForGetComments(courseId);
         
         return commentsDb.getCommentsForReceiver(courseId, recipientType, receiverEmail);
-    }
-    
-    public List<CommentAttributes> getCommentsForCommentViewer(String courseId, CommentRecipientType commentViewerType)
-            throws EntityDoesNotExistException {
-        verifyIsCoursePresentForGetComments(courseId);
-        
-        return commentsDb.getCommentsForCommentViewer(courseId, commentViewerType);
     }
     
     public void updateComment(CommentAttributes comment)
@@ -85,6 +66,11 @@ public class CommentsLogic {
     
     public void deleteComment(CommentAttributes comment){
         commentsDb.deleteEntity(comment);
+    }
+    
+    public List<CommentAttributes> getCommentDrafts(String giverEmail)
+            throws EntityDoesNotExistException {
+        return commentsDb.getCommentDrafts(giverEmail);
     }
     
     public List<CommentAttributes> getCommentsForStudent(StudentAttributes student)
@@ -132,18 +118,28 @@ public class CommentsLogic {
         return comments;
     }
     
+    private List<CommentAttributes> getCommentsForCommentViewer(String courseId, CommentRecipientType commentViewerType)
+            throws EntityDoesNotExistException {
+        verifyIsCoursePresentForGetComments(courseId);
+        
+        return commentsDb.getCommentsForCommentViewer(courseId, commentViewerType);
+    }
+    
+    private List<CommentAttributes> getCommentsForGiverAndStatus(String courseId, String giverEmail, CommentStatus status)
+            throws EntityDoesNotExistException {
+        verifyIsCoursePresentForGetComments(courseId);
+        
+        return commentsDb.getCommentsForGiverAndStatus(courseId, giverEmail, status);
+    }
+    
     private void removeNonVisibleCommentsForInstructor(
             List<CommentAttributes> commentsForInstructor,
             HashSet<String> commentsVisitedSet, List<CommentAttributes> comments) {
         Iterator<CommentAttributes> iter = commentsForInstructor.iterator();
         while(iter.hasNext()){
             CommentAttributes c = iter.next();
-            if(!c.showCommentTo.contains(CommentRecipientType.INSTRUCTOR)){
-                iter.remove();
-            } else {
-                removeGiverAndRecipientNameByVisibilityOptions(c, CommentRecipientType.INSTRUCTOR);
-                appendCommentsFrom(c, comments, commentsVisitedSet);
-            }
+            removeGiverAndRecipientNameByVisibilityOptions(c, CommentRecipientType.INSTRUCTOR);
+            appendCommentsFrom(c, comments, commentsVisitedSet);
         }
     }
 

@@ -2,6 +2,12 @@ $(document).ready(function(){
 	var classNameForCommentsInFeedbackResponse = "list-group-item list-group-item-warning giver_display-by";
 	var classNameForCommentsInStudentRecords = "panel panel-info student-record-comments giver_display-by";
 	
+	//make textarea supports displaying breakline
+    $('div[id^="plainCommentText"]').each(function(){
+	    var commentTextWithBreakLine = $(this).text().replace(/\n/g, '<br />');
+	    $(this).html(commentTextWithBreakLine);
+    });
+	
 	//show on hover for comment
 	$('.comments > .list-group-item').hover(
 	   function(){
