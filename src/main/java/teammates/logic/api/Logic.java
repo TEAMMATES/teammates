@@ -248,6 +248,7 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
+    @Deprecated
     public void createInstructorAccount(String googleId, String courseId, String name, String email, String institute)
             throws EntityAlreadyExistsException, InvalidParametersException {
         
@@ -265,6 +266,7 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
+    @Deprecated
     public void createInstructor(String googleId, String courseId, String name, String email) 
             throws InvalidParametersException, EntityAlreadyExistsException {
         
@@ -281,6 +283,7 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
+    @Deprecated
     public void addInstructor(String courseId, String name, String email, String role) 
             throws InvalidParametersException, EntityAlreadyExistsException {
         
@@ -459,24 +462,6 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, instr);
             
         instructorsLogic.updateInstructorByGoogleId(googleId, instr);
-    }
-    
-    /**
-     * Update the Google ID and name of an instructor with the specific email.
-     * Preconditions: <br>
-     * * All parameters are non-null. 
-     * @param email
-     * @param instr InstructorAttributes object containing the details to be updated
-     * @throws InvalidParametersException
-     * @throws EntityDoesNotExistException
-     */
-    public void updateInstructorByEmail(String email, InstructorAttributes instr) 
-            throws InvalidParametersException, EntityDoesNotExistException {
-        
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, instr);
-        
-        instructorsLogic.updateInstructorByEmail(email, instr);
     }
     
     /**

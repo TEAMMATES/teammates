@@ -2,6 +2,7 @@ package teammates.ui.controller;
 
 import java.util.Arrays;
 
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -22,9 +23,9 @@ public class InstructorCourseStudentDetailsEditSaveAction extends InstructorCour
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
         Assumption.assertNotNull(studentEmail);
         
+        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         new GateKeeper().verifyAccessible(
-                logic.getInstructorForGoogleId(courseId, account.googleId),
-                logic.getCourse(courseId));
+                instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
         
         InstructorCourseStudentDetailsEditPageData data = new InstructorCourseStudentDetailsEditPageData(account);
         

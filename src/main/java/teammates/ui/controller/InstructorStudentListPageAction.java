@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import teammates.common.datatransfer.CourseDetailsBundle;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
@@ -24,8 +25,12 @@ public class InstructorStudentListPageAction extends Action {
         data = new InstructorStudentListPageData(account);
         
         HashMap<String, CourseDetailsBundle> courses = logic.getCourseDetailsListForInstructor(account.googleId);
+        data.instructors = new HashMap<String, InstructorAttributes>();
         data.courses = new ArrayList<CourseDetailsBundle>(courses.values());
         CourseDetailsBundle.sortDetailedCoursesByCreationDate(data.courses);
+        for (CourseDetailsBundle courseDetails : data.courses) {
+            data.instructors.put(courseDetails.course.id, logic.getInstructorForGoogleId(courseDetails.course.id, account.googleId));
+        }
         data.searchKey = searchKey;
         data.displayArchive = displayArchive;
         

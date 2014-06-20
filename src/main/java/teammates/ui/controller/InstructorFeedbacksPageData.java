@@ -1,12 +1,14 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 
 public class InstructorFeedbacksPageData extends PageData {
@@ -20,7 +22,7 @@ public class InstructorFeedbacksPageData extends PageData {
     public List<CourseDetailsBundle> courses;
     public List<EvaluationAttributes> existingEvalSessions;
     public List<FeedbackSessionAttributes> existingFeedbackSessions;        
-    
+    public HashMap<String, InstructorAttributes> instructors;
     
     public ArrayList<String> getTimeZoneOptionsAsHtml(){
         return getTimeZoneOptionsAsHtml(

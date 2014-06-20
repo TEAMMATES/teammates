@@ -1523,7 +1523,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 
         List<MimeMessage> emailsSent = 
                 fsLogic.sendReminderForFeedbackSession(fs.courseId, fs.feedbackSessionName);
-        assertEquals(7, emailsSent.size());
+        assertEquals(9, emailsSent.size());
 
         List<StudentAttributes> studentList = logic.getStudentsForCourse(fs.courseId);
         for (StudentAttributes s : studentList) {
