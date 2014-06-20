@@ -62,6 +62,7 @@ var FEEDBACK_QUESTION_TYPENAME_CONSTSUM_OPTION = "Distribute points (among optio
 var FEEDBACK_QUESTION_TYPENAME_CONSTSUM_RECIPIENT = "Distribute points (among recipients) question";
 
 // used in feedbackResponseComments.js
+var FEEDBACK_RESPONSE_ID = "responseid";
 var FEEDBACK_RESPONSE_COMMENT_ID = "responsecommentid";
 var FEEDBACK_RESPONSE_COMMENT_TEXT = "responsecommenttext";
 

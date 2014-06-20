@@ -345,7 +345,15 @@ Apply to thead to make headers not bold.
     cursor: pointer;
 }
 
+.link-disabled {
+    pointer-events: none;
+    cursor: default;
+    opacity: 0.5;
+}
 
+.link-disabled:hover {
+    text-decoration: none;
+}
 
 
 

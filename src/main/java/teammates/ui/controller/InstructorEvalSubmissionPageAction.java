@@ -1,5 +1,8 @@
 package teammates.ui.controller;
 
+import teammates.common.datatransfer.EvaluationAttributes;
+import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
@@ -22,16 +25,18 @@ public class InstructorEvalSubmissionPageAction extends Action {
         //Note: in InstructorEvalSubmissionEditPageData we use Common.Params.FROM_EMAIL instead
         Assumption.assertNotNull(studentEmail);
         
+        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
+        StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
+        EvaluationAttributes evaluation = logic.getEvaluation(courseId, evalName);
         new GateKeeper().verifyAccessible(
-                logic.getInstructorForGoogleId(courseId, account.googleId),
-                logic.getEvaluation(courseId, evalName));
+                instructor, evaluation, student.section, evaluation.name, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS);
         
         InstructorEvalSubmissionPageData data = new InstructorEvalSubmissionPageData(account);
         
         try {
             
-            data.student = logic.getStudentForEmail(courseId, studentEmail);
-            data.evaluation = logic.getEvaluation(courseId, evalName);
+            data.student = student;
+            data.evaluation = evaluation;
             data.studentResult = logic.getEvaluationResultForStudent(courseId, evalName, studentEmail);
             
             statusToAdmin = "instructorEvalSubmissionView Page Load<br>" + 
