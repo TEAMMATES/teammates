@@ -146,6 +146,12 @@ public class CommentsDb extends EntitiesDb{
         if(newAttributes.status != null){
             comment.setStatus(newAttributes.status);
         }
+        if(newAttributes.recipientType != null){
+            comment.setRecipientType(newAttributes.recipientType);
+        }
+        if(newAttributes.recipients != null){
+            comment.setRecipients(newAttributes.recipients);
+        }
         
         getPM().close();
     }

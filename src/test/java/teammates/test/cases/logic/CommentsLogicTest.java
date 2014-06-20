@@ -1,7 +1,9 @@
 package teammates.test.cases.logic;
 
 import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertTrue;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -13,7 +15,10 @@ import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentRecipientType;
+import teammates.common.datatransfer.CommentStatus;
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -120,10 +125,209 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         ______TS("success: get comment for receiver");
         
         c.recipientType = CommentRecipientType.PERSON;
-        List<CommentAttributes> commentsForReceiver = commentsLogic.getCommentsForReceiver(c.courseId, c.recipientType, c.recipients.iterator().next());
-        for(CommentAttributes comment : commentsForReceiver){
+        List<CommentAttributes> comments = commentsLogic.getCommentsForReceiver(c.courseId, c.recipientType, c.recipients.iterator().next());
+        for(CommentAttributes comment : comments){
             assertEquals(c.courseId, comment.courseId);
             assertEquals(c.recipients, comment.recipients);
+        }
+        
+        ______TS("success: get comment for drafts");
+        
+        //change status to draft
+        c.setCommentId(comments.get(0).getCommentId());
+        c.status = CommentStatus.DRAFT;
+        commentsLogic.updateComment(c);
+        
+        comments = commentsLogic.getCommentDrafts(c.giverEmail);
+        for(CommentAttributes comment : comments){
+            assertEquals(c.courseId, comment.courseId);
+            assertEquals(c.recipients, comment.recipients);
+            assertEquals(c.status, comment.status);
+        }
+        
+        ______TS("success: get comment for instructor");
+        
+        //add visibility options for instructor
+        c.status = CommentStatus.FINAL;
+        c.showCommentTo = new ArrayList<CommentRecipientType>();
+        c.showCommentTo.add(CommentRecipientType.INSTRUCTOR);
+        c.showGiverNameTo = new ArrayList<CommentRecipientType>();
+        c.showGiverNameTo.add(CommentRecipientType.INSTRUCTOR);
+        c.showRecipientNameTo = new ArrayList<CommentRecipientType>();
+        c.showRecipientNameTo.add(CommentRecipientType.INSTRUCTOR);
+        commentsLogic.updateComment(c);
+        
+        InstructorAttributes giver = dataBundle.instructors.get("instructor1OfCourse1");
+        comments = commentsLogic.getCommentsForInstructor(giver);
+        verifyCommentsGotForInstructor(comments, giver);
+        verifyCommentsGiverNameVisible(comments);
+        verifyCommentsRecipientNameVisible(comments);
+        
+        InstructorAttributes instructor = dataBundle.instructors.get("instructor2OfCourse1");
+        comments = commentsLogic.getCommentsForInstructor(instructor);
+        verifyCommentsGotForInstructor(comments, instructor);
+        verifyCommentsGiverNameVisible(comments);
+        verifyCommentsRecipientNameVisible(comments);
+        
+        //remove name visibility options for instructor
+        c.showGiverNameTo = new ArrayList<CommentRecipientType>();
+        c.showRecipientNameTo = new ArrayList<CommentRecipientType>();
+        commentsLogic.updateComment(c);
+        
+        comments = commentsLogic.getCommentsForInstructor(instructor);
+        verifyCommentsGotForInstructor(comments, instructor);
+        verifyCommentsGiverNameHidden(comments);
+        verifyCommentsRecipientNameHidden(comments);
+        
+        //remove all visibility options for instructor
+        c.showCommentTo = new ArrayList<CommentRecipientType>();
+        commentsLogic.updateComment(c);
+        
+        comments = commentsLogic.getCommentsForInstructor(instructor);
+        assertEquals(comments.size(), 0);
+        
+        ______TS("success: get comment for student");
+        //TODO: refactor this test
+        //add visibility options for person
+        c.showCommentTo = new ArrayList<CommentRecipientType>();
+        c.showCommentTo.add(CommentRecipientType.PERSON);
+        c.showGiverNameTo = new ArrayList<CommentRecipientType>();
+        c.showGiverNameTo.add(CommentRecipientType.PERSON);
+        commentsLogic.updateComment(c);
+
+        StudentAttributes student = dataBundle.students.get("student1InCourse1");
+        comments = commentsLogic.getCommentsForStudent(student);
+        verifyCommentsGotForStudent(comments);
+        verifyCommentsGiverNameVisible(comments);
+        verifyCommentsRecipientNameVisible(comments);
+        
+        //remove name visibility options for person
+        c.showGiverNameTo = new ArrayList<CommentRecipientType>();
+        commentsLogic.updateComment(c);
+
+        comments = commentsLogic.getCommentsForStudent(student);
+        verifyCommentsGotForStudent(comments);
+        verifyCommentsGiverNameHidden(comments);
+        verifyCommentsRecipientNameVisible(comments);
+        
+        //remove all visibility options for person
+        c.showCommentTo = new ArrayList<CommentRecipientType>();
+        commentsLogic.updateComment(c);
+
+        comments = commentsLogic.getCommentsForStudent(student);
+        assertEquals(comments.size(), 0);
+        
+        //add visibility options for team
+        c.showCommentTo = new ArrayList<CommentRecipientType>();
+        c.showCommentTo.add(CommentRecipientType.TEAM);
+        commentsLogic.updateComment(c);
+
+        comments = commentsLogic.getCommentsForStudent(student);
+        verifyCommentsGotForStudent(comments);
+        verifyCommentsGiverNameHidden(comments);
+        verifyCommentsRecipientNameHidden(comments);
+        
+        //add visibility options for course
+        c.showCommentTo = new ArrayList<CommentRecipientType>();
+        c.showCommentTo.add(CommentRecipientType.COURSE);
+        commentsLogic.updateComment(c);
+        
+        comments = commentsLogic.getCommentsForStudent(student);
+        verifyCommentsGotForStudent(comments);
+        verifyCommentsGiverNameHidden(comments);
+        verifyCommentsRecipientNameHidden(comments);
+        
+        c.showCommentTo = new ArrayList<CommentRecipientType>();
+        c.showCommentTo.add(CommentRecipientType.TEAM);
+        c.showGiverNameTo = new ArrayList<CommentRecipientType>();
+        c.showGiverNameTo.add(CommentRecipientType.TEAM);
+        c.showRecipientNameTo = new ArrayList<CommentRecipientType>();
+        c.showRecipientNameTo.add(CommentRecipientType.TEAM);
+        commentsLogic.updateComment(c);
+        
+        //for teammates to receive peer's comment
+        StudentAttributes student2 = dataBundle.students.get("student2InCourse1");
+        comments = commentsLogic.getCommentsForStudent(student2);
+        verifyCommentsGotForStudent(comments);
+        verifyCommentsGiverNameVisible(comments);
+        verifyCommentsRecipientNameVisible(comments);
+        
+        c.recipientType = CommentRecipientType.TEAM;
+        c.recipients = new HashSet<String>();
+        c.recipients.add(student.team);
+        commentsLogic.updateComment(c);
+        
+        //for teammates to receive team's comment
+        comments = commentsLogic.getCommentsForStudent(student2);
+        verifyCommentsGotForStudent(comments);
+        verifyCommentsGiverNameVisible(comments);
+        verifyCommentsRecipientNameVisible(comments);
+        
+        //remove name visibility options for team
+        c.showGiverNameTo = new ArrayList<CommentRecipientType>();
+        commentsLogic.updateComment(c);
+        
+        comments = commentsLogic.getCommentsForStudent(student);
+        verifyCommentsGotForStudent(comments);
+        verifyCommentsGiverNameHidden(comments);
+        verifyCommentsRecipientNameVisible(comments);
+        
+        //remove all visibility options for team
+        c.showCommentTo = new ArrayList<CommentRecipientType>();
+        commentsLogic.updateComment(c);
+        
+        comments = commentsLogic.getCommentsForStudent(student);
+        assertEquals(comments.size(), 0);
+        
+        //add visibility options for course
+        c.recipientType = CommentRecipientType.COURSE;
+        c.recipients = new HashSet<String>();
+        c.recipients.add(student.course);
+        c.showCommentTo = new ArrayList<CommentRecipientType>();
+        c.showCommentTo.add(CommentRecipientType.COURSE);
+        c.showGiverNameTo = new ArrayList<CommentRecipientType>();
+        c.showGiverNameTo.add(CommentRecipientType.COURSE);
+        c.showRecipientNameTo = new ArrayList<CommentRecipientType>();
+        commentsLogic.updateComment(c);
+
+        comments = commentsLogic.getCommentsForStudent(student);
+        verifyCommentsGotForStudent(comments);
+        verifyCommentsGiverNameVisible(comments);
+        verifyCommentsRecipientNameVisible(comments);
+        
+        //remove name visibility options for course
+        c.showGiverNameTo = new ArrayList<CommentRecipientType>();
+        commentsLogic.updateComment(c);
+        
+        comments = commentsLogic.getCommentsForStudent(student);
+        verifyCommentsGotForStudent(comments);
+        verifyCommentsGiverNameHidden(comments);
+        verifyCommentsRecipientNameVisible(comments);
+        
+        //remove all visibility options for person
+        c.showCommentTo = new ArrayList<CommentRecipientType>();
+        commentsLogic.updateComment(c);
+
+        comments = commentsLogic.getCommentsForStudent(student);
+        assertEquals(comments.size(), 0);
+    }
+
+    private void verifyCommentsGotForStudent(
+            List<CommentAttributes> commentsForReceiver) {
+        for(CommentAttributes comment : commentsForReceiver){
+            assertTrue(comment.showCommentTo.contains(CommentRecipientType.PERSON)
+                    || comment.showCommentTo.contains(CommentRecipientType.TEAM)
+                    || comment.showCommentTo.contains(CommentRecipientType.SECTION)
+                    || comment.showCommentTo.contains(CommentRecipientType.COURSE));
+        }
+    }
+
+    private void verifyCommentsGotForInstructor(
+            List<CommentAttributes> commentsForReceiver,
+            InstructorAttributes instructor) {
+        for(CommentAttributes comment : commentsForReceiver){
+            assertTrue(comment.showCommentTo.contains(CommentRecipientType.INSTRUCTOR)
+                    || comment.courseId.equals(instructor.courseId));
         }
     }
 
@@ -183,6 +387,30 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         
         commentsLogic.deleteComment(c);
         TestHelper.verifyAbsentInDatastore(c);
+    }
+    
+    private void verifyCommentsGiverNameVisible(List<CommentAttributes> comments){
+        for(CommentAttributes c: comments){
+            assertTrue(!c.giverEmail.equals("Anonymous"));
+        }
+    }
+    
+    private void verifyCommentsGiverNameHidden(List<CommentAttributes> comments){
+        for(CommentAttributes c: comments){
+            assertEquals("Anonymous", c.giverEmail);
+        }
+    }
+    
+    private void verifyCommentsRecipientNameHidden(List<CommentAttributes> comments){
+        for(CommentAttributes c: comments){
+            assertEquals("Anonymous", c.recipients.iterator().next());
+        }
+    }
+    
+    private void verifyCommentsRecipientNameVisible(List<CommentAttributes> comments){
+        for(CommentAttributes c: comments){
+            assertTrue(!c.recipients.iterator().next().equals("Anonymous"));
+        }
     }
     
     private void verifyExceptionThrownFromCreateFrComment(
