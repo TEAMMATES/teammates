@@ -4,6 +4,8 @@ import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
 
 public class FeedbackContributionResponseDetails extends FeedbackAbstractResponseDetails {
+    /**This is the claimed points from giver to recipient.
+    */
     private int answer;
     
     public FeedbackContributionResponseDetails() {
