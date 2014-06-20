@@ -72,6 +72,15 @@ public class FeedbackResponsesLogic {
         return frDb.getFeedbackResponsesForSession(feedbackSessionName, courseId);
     }
 
+    public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionInSection(
+            String feedbackSessionName, String courseId, String section){
+        if(section == null){
+            return getFeedbackResponsesForSession(feedbackSessionName, courseId);
+        } else {
+            return frDb.getFeedbackResponsesForSessionInSection(feedbackSessionName, courseId, section);
+        }
+    }
+
     public List<FeedbackResponseAttributes> getFeedbackResponsesForQuestion(String feedbackQuestionId) {
         return frDb.getFeedbackResponsesForQuestion(feedbackQuestionId);
     }

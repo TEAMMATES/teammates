@@ -5,6 +5,7 @@
 <%@ page import="teammates.ui.controller.InstructorFeedbackResultsPageData"%>
 <%
     InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData)request.getAttribute("data");
+    boolean shouldCollapsed = data.bundle.responses.size() > 1000;
 %>
 
 <div class="well well-plain padding-0">
@@ -28,7 +29,7 @@
           </div>
           <div class="col-sm-6">
               <div class="form-group">
-                <label class="col-sm-4 control-label">Session open:</label>
+                <label class="col-sm-4 control-label">Session duration:</label>
                 <div class="col-sm-8">
                   <p class="form-control-static"><%=TimeHelper.formatTime(data.bundle.feedbackSession.startTime)%>&nbsp;&nbsp;&nbsp;<b>to</b>&nbsp;&nbsp;&nbsp;<%=TimeHelper.formatTime(data.bundle.feedbackSession.endTime)%></p>
                 </div>
@@ -100,7 +101,7 @@
                         </label>
                         <div class="col-sm-10">
                             <div class="input-group">
-                                <input type="text" id="results-search-box" class="form-control" placeholder="Type here to filter results" onchange="updateResultsFilter()">
+                                <input type="text" id="results-search-box" class="form-control" placeholder="Type a student/team name to filter results" onchange="updateResultsFilter()">
                                 <a class="input-group-addon btn btn-default"><span class="glyphicon glyphicon-search"></span></a>
                             </div>
                         </div>
@@ -146,9 +147,15 @@
                 </div>
                 <% } %>
                 <div class="col-sm-7 pull-right" style="padding-top:8px;">
+                    <% if(shouldCollapsed){ %>
+                    <a class="btn btn-default btn-xs pull-right" id="collapse-panels-button" onclick="toggleCollapse()" data-toggle="tooltip" title="Collapse or expand all panels. You can also click on the panel heading to toggle each one individually.">
+                        Expand All
+                    </a>
+                    <% } else { %>
                     <a class="btn btn-default btn-xs pull-right" id="collapse-panels-button" onclick="toggleCollapse()" data-toggle="tooltip" title="Collapse or expand all panels. You can also click on the panel heading to toggle each one individually.">
                         Collapse All
                     </a>
+                    <% } %>
                 </div>
             </div>
         </div>
