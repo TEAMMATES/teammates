@@ -143,6 +143,9 @@ public class CommentsDb extends EntitiesDb{
         comment.setShowCommentTo(newAttributes.showCommentTo);
         comment.setShowGiverNameTo(newAttributes.showGiverNameTo);
         comment.setShowRecipientNameTo(newAttributes.showRecipientNameTo);
+        if(newAttributes.status != null){
+            comment.setStatus(newAttributes.status);
+        }
         
         getPM().close();
     }
