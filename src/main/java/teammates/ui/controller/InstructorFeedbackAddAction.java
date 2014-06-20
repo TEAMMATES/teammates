@@ -3,6 +3,7 @@ package teammates.ui.controller;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import teammates.common.datatransfer.EvaluationAttributes;
@@ -30,20 +31,17 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
         
         Assumption.assertNotNull(courseId);
         
+        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId); 
+        
         new GateKeeper().verifyAccessible(
-                logic.getInstructorForGoogleId(courseId, account.googleId), 
-                logic.getCourse(courseId));
+                instructor, 
+                logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
                 
         InstructorFeedbacksPageData data = new InstructorFeedbacksPageData(account);
 
         FeedbackSessionAttributes fs = extractFeedbackSessionData();
 
         // Set creator email as instructors' email
-        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, data.account.googleId);        
-        if (instructor == null) {
-            //TODO: can reuse the instructor retrieved previously
-            Assumption.fail("Could not find instructor after passing through gatekeeper.");
-        }
         fs.creatorEmail = instructor.email;
         
         data.newFeedbackSession = fs;
@@ -73,7 +71,8 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
         } 
         
         // if isError == true,
-        data.courses = loadCoursesList(account.googleId);
+        data.instructors = new HashMap<String, InstructorAttributes>();
+        data.courses = loadCoursesList(account.googleId, data.instructors);
         data.existingEvalSessions = loadEvaluationsList(account.googleId);
         data.existingFeedbackSessions = loadFeedbackSessionsList(account.googleId);
         
