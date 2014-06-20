@@ -906,7 +906,7 @@
           "feedbackQuestionId":"10",
           "feedbackQuestionType":"CONSTSUM",
           "giverEmail":"alice.b.tmms@gmail.com",
-          "recipientEmail":"benny.c.tmms@gmail.com",
+          "recipientEmail":"alice.b.tmms@gmail.com",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONSTSUM\",\"answers\" : [100]}"
           }
@@ -1108,7 +1108,7 @@
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONSTSUM\",\"answers\" : [150]}"
           }
-      },
+      }
   },
     "feedbackResponseComments":{
         "comment1FromT1C1ToR1Q1S1C1": {
