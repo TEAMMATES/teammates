@@ -12,6 +12,8 @@
 <%
     InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData)request.getAttribute("data");
     boolean shouldCollapsed = data.bundle.responses.size() > 1000;
+    boolean showAll = data.bundle.isComplete;
+    int questionNum = 0;
 %>
 <!DOCTYPE html>
 <html>
@@ -31,6 +33,7 @@
         <script type="text/javascript" src="/js/common.js"></script>
     <script type="text/javascript" src="/js/instructor.js"></script>
     <script type="text/javascript" src="/js/instructorFeedbackResults.js"></script>
+    <script type="text/javascript" src="/js/instructorFeedbackResultsAjaxByQuestion.js"></script>
     <script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
     <jsp:include page="../enableJS.jsp"></jsp:include>
     <!-- Bootstrap core JavaScript ================================================== -->
@@ -57,6 +60,7 @@
                 for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responseEntries : data.bundle
                         .getQuestionResponseMap().entrySet()) {
                     FeedbackQuestionAttributes question = responseEntries.getKey();
+                    questionNum++;
             %>
             <div class="panel panel-info">
                 <div class="panel-heading">
@@ -123,10 +127,10 @@
                 }
             %>
             
-            <%
-            // Only output the list of students who haven't responded when there are responses.
-            FeedbackSessionResponseStatus responseStatus = data.bundle.responseStatus;
-            if (data.selectedSection.equals("All") && !responseStatus.noResponse.isEmpty()) {
+            <% if(showAll) {
+                // Only output the list of students who haven't responded when there are responses.
+                FeedbackSessionResponseStatus responseStatus = data.bundle.responseStatus;
+                if (data.selectedSection.equals("All") && !responseStatus.noResponse.isEmpty()) {
             %>
                     <div class="panel panel-info">
                         <div class="panel-heading">Participants who did not respond to any question</div>
@@ -148,8 +152,21 @@
                     </div>
                     <br> <br>
             <%
-                }
+                    }
+                } else {
             %>
+                <form style="display:block;" id="seeMore" class="seeMoreForm">
+                    <div class="col-sm-offset-5">
+                        <a href="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_AJAX_BY_QUESTIONS%>" type="button" class="btn btn-primary" id="button_see_more">
+                            See More 
+                        </a>
+                    </div>
+                    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBER %>" value="<%=questionNum %>">
+                    <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID %>" value="<%=data.bundle.feedbackSession.courseId %>">
+                    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="<%=data.bundle.feedbackSession.feedbackSessionName %>">
+                    <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId %>">
+                </form>
+            <% } %>
         </div>
     </div>
 

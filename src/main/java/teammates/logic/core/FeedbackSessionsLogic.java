@@ -31,7 +31,6 @@ import teammates.common.datatransfer.UserType;
 import teammates.common.datatransfer.UserType.Role;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.ExceedingRangeException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.NotImplementedException;
 import teammates.common.exception.UnauthorizedAccessException;
@@ -255,6 +254,84 @@ public class FeedbackSessionsLogic {
         return new FeedbackSessionQuestionsBundle(fsa, bundle, recipientList);
     }
     
+    public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorFromQuestion(
+            String feedbackSessionName, String courseId, String userEmail, int questionNumber)
+                    throws EntityDoesNotExistException{
+
+        // Load details of students and instructors once and pass it to callee
+        // methods
+        // (rather than loading them many times).
+        CourseRoster roster = new CourseRoster(
+                new StudentsDb().getStudentsForCourse(courseId),
+                new InstructorsDb().getInstructorsForCourse(courseId));
+
+        FeedbackSessionAttributes session = fsDb.getFeedbackSession(
+                courseId, feedbackSessionName);
+
+        if (session == null) {
+            throw new EntityDoesNotExistException(
+                    "Trying to view non-existent feedback session.");
+        }
+
+        // create empty data containers to store results
+        List<FeedbackResponseAttributes> responses =
+                new ArrayList<FeedbackResponseAttributes>();
+        Map<String, FeedbackQuestionAttributes> relevantQuestions =
+                new HashMap<String, FeedbackQuestionAttributes>();
+        Map<String, String> emailNameTable =
+                new HashMap<String, String>();
+        Map<String, String> emailTeamNameTable =
+                new HashMap<String, String>();
+        Map<String, boolean[]> visibilityTable =
+                new HashMap<String, boolean[]>();
+        Map<String, List<FeedbackResponseCommentAttributes>> responseComments =
+                new HashMap<String, List<FeedbackResponseCommentAttributes>>();
+
+        FeedbackSessionResponseStatus responseStatus = new FeedbackSessionResponseStatus();
+
+        FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(feedbackSessionName, courseId, questionNumber++);
+        while(question != null) {
+            List<FeedbackResponseAttributes> responsesForThisQn;
+
+            boolean isPrivateSessionCreatedByThisUser = session
+                    .isCreator(userEmail) && session.isPrivateSession();
+            if (isPrivateSessionCreatedByThisUser) {
+                responsesForThisQn = frLogic
+                        .getFeedbackResponsesForQuestion(question.getId());
+            } else {
+                responsesForThisQn = frLogic
+                        .getViewableFeedbackResponsesForQuestionInSection(
+                                question, userEmail, Role.INSTRUCTOR, null);
+            }
+
+            boolean thisQuestionHasResponses = (!responsesForThisQn.isEmpty());
+            if (thisQuestionHasResponses) {
+                relevantQuestions.put(question.getId(), question);
+                responses.addAll(responsesForThisQn);
+                for (FeedbackResponseAttributes response : responsesForThisQn) {
+                    addEmailNamePairsToTable(emailNameTable, response,
+                            question, roster);
+                    addEmailTeamNamePairsToTable(emailTeamNameTable, response,
+                            question, roster);
+                    addVisibilityToTable(visibilityTable, question, response,
+                            userEmail, roster);
+                }
+            }
+            if(responses.size() > 500){
+                break;
+            }
+            question = fqLogic.getFeedbackQuestion(feedbackSessionName, courseId, questionNumber++);
+        }
+
+        FeedbackSessionResultsBundle results =
+                new FeedbackSessionResultsBundle(
+                        session, responses, relevantQuestions,
+                        emailNameTable, emailTeamNameTable,
+                        visibilityTable, responseStatus, responseComments);
+
+        return results;
+    }
+
     /**
      * Gets results of a feedback session to show to an instructor in an indicated range
      * @throws ExceedingRangeException if the results are beyond the range

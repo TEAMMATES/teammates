@@ -1468,6 +1468,16 @@ public class Logic {
         
         return feedbackSessionsLogic.getFeedbackSessionQuestionsForStudent(feedbackSessionName, courseId, userEmail);
     }
+
+
+    public FeedbackQuestionAttributes getFeedbackQuestion(String feedbackSessionName,
+                    String courseId, int questionNumber){
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+
+        return feedbackQuestionsLogic.getFeedbackQuestion(feedbackSessionName, courseId, questionNumber);
+    }
+
     
     /**
      * Preconditions: <br>
@@ -1713,7 +1723,7 @@ public class Logic {
     
     /**
      * Gets a question+response bundle for questions with responses that
-     * is visible to the instructor for a feedback session.
+     * is visible to the instructor for a feedback session within the given range
      * Preconditions: <br>
      * * All parameters are non-null.
      */
@@ -1726,6 +1736,23 @@ public class Logic {
        
         return feedbackSessionsLogic.getFeedbackSessionResultsForInstructorWithinRange(
                                         feedbackSessionName, courseId, userEmail, range);
+    }
+
+    /**
+     * Gets a question+response bundle for questions with responses that
+     * is visible to the instructor for a feedback session from a given question number
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     */
+    public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorFromQuestion(
+            String feedbackSessionName, String courseId, String userEmail, int questionNumber)
+                    throws UnauthorizedAccessException, EntityDoesNotExistException{
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
+       
+        return feedbackSessionsLogic.getFeedbackSessionResultsForInstructorFromQuestion(
+                                        feedbackSessionName, courseId, userEmail, questionNumber);
     }
 
     /**
@@ -1792,6 +1819,12 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackResponse);
 
         feedbackResponsesLogic.createFeedbackResponse(feedbackResponse);
+    }
+
+    public List<FeedbackResponseAttributes> getFeedbackResponsesForQuestion(String questionId){
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, questionId);
+
+        return feedbackResponsesLogic.getFeedbackResponsesForQuestion(questionId);
     }
     
     /**
