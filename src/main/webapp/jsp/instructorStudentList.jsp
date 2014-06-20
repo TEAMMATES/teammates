@@ -5,6 +5,7 @@
 <%@ page import="teammates.common.datatransfer.CourseDetailsBundle"%>
 <%@ page import="teammates.common.datatransfer.SectionDetailsBundle" %>
 <%@ page import="teammates.common.datatransfer.TeamDetailsBundle"%>
+<%@ page import="teammates.common.datatransfer.InstructorAttributes" %>
 <%@ page import="teammates.common.datatransfer.StudentAttributes"%>
 <%@ page import="teammates.common.datatransfer.EvaluationAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackSessionAttributes"%>
@@ -297,27 +298,50 @@
                                     <a class="btn btn-default btn-xs student-view-for-test" 
                                     href="<%=data.getCourseStudentDetailsLink(courseDetails.course.id, student)%>"
                                     title="<%=Const.Tooltips.COURSE_STUDENT_DETAILS%>"
-                                    data-toggle="tooltip"
-                                    data-placement="top"> View</a> 
+                                    data-toggle="tooltip" data-placement="top"
+                                    <% InstructorAttributes instructor = data.instructors.get(courseDetails.course.id);
+                                       if (!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)) {%>
+                                       disabled="diabled"
+                                    <% } %>
+                                    > View</a> 
                                     
                                     <a class="btn btn-default btn-xs student-edit-for-test"
                                     href="<%=data.getCourseStudentEditLink(courseDetails.course.id, student)%>"
                                     title="<%=Const.Tooltips.COURSE_STUDENT_EDIT%>"
-                                    data-toggle="tooltip"
-                                    data-placement="top"> Edit</a> 
+                                    data-toggle="tooltip" data-placement="top"
+                                    <% if (!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT)) {%>
+                                       disabled="diabled"
+                                    <% } %>
+                                    > Edit</a> 
                                     
                                     <a class="btn btn-default btn-xs student-delete-for-test"
                                     href="<%=data.getCourseStudentDeleteLink(courseDetails.course.id, student)%>"
                                     onclick="return toggleDeleteStudentConfirmation('<%=sanitizeForJs(courseDetails.course.id)%>','<%=sanitizeForJs(student.name)%>')"
                                     title="<%=Const.Tooltips.COURSE_STUDENT_DELETE%>"
-                                    data-toggle="tooltip"
-                                    data-placement="top"> Delete</a>
+                                    data-toggle="tooltip" data-placement="top"
+                                    <% if (!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT)) {%>
+                                       disabled="diabled"
+                                    <% } %>> Delete</a>
                                     
                                     <a class="btn btn-default btn-xs student-records-for-test"
                                     href="<%=data.getStudentRecordsLink(courseDetails.course.id, student)%>"
                                     title="<%=Const.Tooltips.COURSE_STUDENT_RECORDS%>"
                                     data-toggle="tooltip"
                                     data-placement="top"> All Records</a>
+                                    
+                                    <div class="dropdown" style="display:inline;">
+                                      <a class="btn btn-default btn-xs dropdown-toggle" 
+                                        href="javascript:;"
+                                        data-toggle="dropdown"> Add Comment</a>
+                                      <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" style="text-align:left;">
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="<%=data.getCourseStudentDetailsLink(courseDetails.course.id, student)
+                                            +"&"+Const.ParamsNames.SHOW_COMMENT_BOX+"=student"%>">
+                                            Comment on <%=PageData.sanitizeForHtml(student.name)%></a></li>
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="<%=data.getCourseStudentDetailsLink(courseDetails.course.id, student)
+                                            +"&"+Const.ParamsNames.SHOW_COMMENT_BOX+"=team"%>">
+                                            Comment on <%=PageData.sanitizeForHtml(teamDetails.name)%></a></li>
+                                      </ul>
+                                    </div>
                                 </td>
                             </tr>
                             <%

@@ -46,7 +46,7 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         };
         
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
-        
+        verifyUnaccessibleWithoutModifyStudentPrivilege(submissionParams);
     }
     
     @Test

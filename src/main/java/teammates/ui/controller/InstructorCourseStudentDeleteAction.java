@@ -1,19 +1,13 @@
 package teammates.ui.controller;
 
-import java.util.logging.Logger;
 
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Utils;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorCourseStudentDeleteAction extends InstructorCoursesPageAction {
-    
-    protected static Logger log = Utils.getLogger();
-    
-
-    
     
     @Override
     public ActionResult execute() throws EntityDoesNotExistException {
@@ -24,9 +18,9 @@ public class InstructorCourseStudentDeleteAction extends InstructorCoursesPageAc
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
         Assumption.assertNotNull(studentEmail);
         
+        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         new GateKeeper().verifyAccessible(
-                logic.getInstructorForGoogleId(courseId, account.googleId),
-                logic.getCourse(courseId));
+                instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
         
         logic.deleteStudent(courseId, studentEmail);
         statusToUser.add(Const.StatusMessages.STUDENT_DELETED);

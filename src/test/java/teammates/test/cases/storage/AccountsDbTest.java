@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -90,7 +89,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
                 instructorAccountsExpected.add(acc);
             }
         }
-        assertEquals(10, instructorAccountsActual.size());
+        assertEquals(11, instructorAccountsActual.size());
         TestHelper.isSameContentIgnoreOrder(instructorAccountsExpected, instructorAccountsActual);
     }
     

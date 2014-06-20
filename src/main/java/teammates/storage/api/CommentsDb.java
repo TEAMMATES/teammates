@@ -137,7 +137,21 @@ public class CommentsDb extends EntitiesDb{
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + newAttributes.toString());
         }
         
+        Assumption.assertEquals(comment.getGiverEmail(), newAttributes.giverEmail);
+        
         comment.setCommentText(newAttributes.commentText);
+        comment.setShowCommentTo(newAttributes.showCommentTo);
+        comment.setShowGiverNameTo(newAttributes.showGiverNameTo);
+        comment.setShowRecipientNameTo(newAttributes.showRecipientNameTo);
+        if(newAttributes.status != null){
+            comment.setStatus(newAttributes.status);
+        }
+        if(newAttributes.recipientType != null){
+            comment.setRecipientType(newAttributes.recipientType);
+        }
+        if(newAttributes.recipients != null){
+            comment.setRecipients(newAttributes.recipients);
+        }
         
         getPM().close();
     }

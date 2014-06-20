@@ -563,7 +563,7 @@ public class EmailsTest extends BaseComponentTestCase {
 
         List<MimeMessage> emails = new Emails()
                 .generateFeedbackSessionOpeningEmails(fsa);
-        assertEquals(8, emails.size());
+        assertEquals(9, emails.size());
 
         String prefix = Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_OPENING;
         String status = "is now open";
@@ -573,17 +573,17 @@ public class EmailsTest extends BaseComponentTestCase {
         ______TS("feedback session reminders");
 
         emails = new Emails().generateFeedbackSessionReminderEmails(c, fsa, students, instructors, instructors);
-        assertEquals(11, emails.size());
+        assertEquals(13, emails.size());
 
         prefix = Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER;
         status = "is still open for submissions";
-        verifyEmail(i1, emails.get(0), prefix, status);
-        verifyEmail(i2, emails.get(1), prefix, status);
+        verifyEmail(i1, emails.get(1), prefix, status);
+        verifyEmail(i2, emails.get(2), prefix, status);
         
         ______TS("feedback session closing alerts");
 
         emails = new Emails().generateFeedbackSessionClosingEmails(fsa);
-        assertEquals(6, emails.size());
+        assertEquals(7, emails.size());
 
         prefix = Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_CLOSING;
         status = "is closing soon";
@@ -593,7 +593,7 @@ public class EmailsTest extends BaseComponentTestCase {
         ______TS("feedback session published alerts");
 
         emails = new Emails().generateFeedbackSessionPublishedEmails(fsa);
-        assertEquals(8, emails.size());
+        assertEquals(9, emails.size());
 
         prefix = Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_PUBLISHED;
         status = "The feedback responses for the following feedback session is now open for viewing.";

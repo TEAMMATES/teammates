@@ -13,7 +13,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.StringHelper;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.Action;
@@ -409,13 +408,93 @@ public class BaseActionTest extends BaseComponentTestCase {
         
     }
     
-    protected void verifyUnaccessibleWithoutCoownerPrivileges(String[] submissionParams) throws Exception {
+    protected void verifyUnaccessibleWithoutModifyCoursePrivilege(String[] submissionParams) throws Exception {
         
-        ______TS("non-coowner cannot access");
+        ______TS("without Modify-Course privilege cannot access");
         
-        InstructorAttributes instructor2OfCourse1 = data.instructors.get("instructor2OfCourse1");
+        InstructorAttributes helperOfCourse1 = data.instructors.get("helperOfCourse1");
         
-        gaeSimulation.loginAsInstructor(instructor2OfCourse1.googleId);
+        gaeSimulation.loginAsInstructor(helperOfCourse1.googleId);
+        verifyCannotAccess(submissionParams);
+    }
+    
+    protected void verifyUnaccessibleWithoutModifyInstructorPrivilege(String[] submissionParams) throws Exception {
+        
+        ______TS("without Modify-Instructor privilege cannot access");
+        
+        InstructorAttributes helperOfCourse1 = data.instructors.get("helperOfCourse1");
+        
+        gaeSimulation.loginAsInstructor(helperOfCourse1.googleId);
+        verifyCannotAccess(submissionParams);
+    }
+    
+    protected void verifyUnaccessibleWithoutModifySessionPrivilege(String[] submissionParams) throws Exception {
+
+        ______TS("without Modify-Session privilege cannot access");
+        
+        InstructorAttributes helperOfCourse1 = data.instructors.get("helperOfCourse1");
+        
+        gaeSimulation.loginAsInstructor(helperOfCourse1.googleId);
+        verifyCannotAccess(submissionParams);
+    }
+    
+    protected void verifyUnaccessibleWithoutModifyStudentPrivilege(String[] submissionParams) throws Exception {
+        
+        ______TS("without Modify-Student privilege cannot access");
+        
+        InstructorAttributes helperOfCourse1 = data.instructors.get("helperOfCourse1");
+        
+        gaeSimulation.loginAsInstructor(helperOfCourse1.googleId);
+        verifyCannotAccess(submissionParams);
+    }
+    
+    protected void verifyUnaccessibleWithoutViewStudentInSectionsPrivilege(String[] submissionParams) throws Exception {
+        
+        ______TS("without View-Student-In-Sections privilege cannot access");
+        
+        InstructorAttributes helperOfCourse1 = data.instructors.get("helperOfCourse1");
+        
+        gaeSimulation.loginAsInstructor(helperOfCourse1.googleId);
+        verifyCannotAccess(submissionParams);
+    }
+    
+    protected void verifyUnaccessibleWithoutViewSessionInSectionsPrivilege(String[] submissionParams) throws Exception {
+        
+        ______TS("without View-Student-In-Sections privilege cannot access");
+        
+        InstructorAttributes helperOfCourse1 = data.instructors.get("helperOfCourse1");
+        
+        gaeSimulation.loginAsInstructor(helperOfCourse1.googleId);
+        verifyCannotAccess(submissionParams);
+    }
+    
+    protected void verifyUnaccessibleWithoutModifySessionInSectionsPrivilege(String[] submissionParams) throws Exception {
+        
+        ______TS("without Modify-Session-In-Sections privilege cannot access");
+        
+        InstructorAttributes helperOfCourse1 = data.instructors.get("helperOfCourse1");
+        
+        gaeSimulation.loginAsInstructor(helperOfCourse1.googleId);
+        verifyCannotAccess(submissionParams);
+    }
+    
+    protected void verifyUnaccessibleWithoutSubmitSessionInSectionsPrivilege(String[] submissionParams) throws Exception {
+        
+        ______TS("without Submit-Session-In-Sections privilege cannot access");
+        
+        InstructorAttributes helperOfCourse1 = data.instructors.get("helperOfCourse1");
+        
+        gaeSimulation.loginAsInstructor(helperOfCourse1.googleId);
+        verifyCannotAccess(submissionParams);
+    }
+    
+    protected void verifyUnaccessibleWithoutModifySessionCommentInSectionsPrivilege(String[] submissionParams) throws Exception {
+        
+        ______TS("without Modify-Session-Comment-In-Sections privilege cannot access");
+        
+        InstructorAttributes helperOfCourse1 = data.instructors.get("helperOfCourse1");
+        
+        gaeSimulation.loginAsInstructor(helperOfCourse1.googleId);
         verifyCannotAccess(submissionParams);
     }
     

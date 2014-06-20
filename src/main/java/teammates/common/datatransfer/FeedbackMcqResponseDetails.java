@@ -42,7 +42,7 @@ public class FeedbackMcqResponseDetails extends FeedbackAbstractResponseDetails 
     }
 
     @Override
-    public String getAnswerHtml() {
+    public String getAnswerHtml(FeedbackAbstractQuestionDetails questionDetails) {
         return Sanitizer.sanitizeForHtml(getAnswerString());
     }
 

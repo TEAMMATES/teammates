@@ -11,6 +11,7 @@
 <%@ page import="teammates.common.datatransfer.FeedbackMcqQuestionDetails"%>
 <%@ page import="teammates.common.datatransfer.FeedbackMsqQuestionDetails"%>
 <%@ page import="teammates.common.datatransfer.FeedbackNumericalScaleQuestionDetails"%>
+<%@ page import="teammates.common.datatransfer.FeedbackConstantSumQuestionDetails"%>
 <%@ page import="teammates.common.datatransfer.StudentAttributes"%>
 <%@ page import="teammates.common.datatransfer.InstructorAttributes"%>
 <%@ page import="teammates.logic.core.Emails.EmailType"%>
@@ -805,6 +806,9 @@
                                 <option value = "MCQ"><%=Const.FeedbackQuestionTypeNames.MCQ%></option>
                                 <option value = "MSQ"><%=Const.FeedbackQuestionTypeNames.MSQ%></option>
                                 <option value = "NUMSCALE"><%=Const.FeedbackQuestionTypeNames.NUMSCALE%></option>
+                                <option value = "CONSTSUM_OPTION"><%=Const.FeedbackQuestionTypeNames.CONSTSUM_OPTION%></option>
+                                <option value = "CONSTSUM_RECIPIENT"><%=Const.FeedbackQuestionTypeNames.CONSTSUM_RECIPIENT%></option>
+                                <option value = "CONSTSUM" style="display:none"></option>
                             </select>
                         </div>
                     </div>
@@ -871,6 +875,15 @@
                             fNumQd.step = 1;
                         %>
                         <%=fNumQd.getQuestionSpecificEditFormHtml(-1)%>
+                    </div>
+                    <div id="constSumForm">
+                        <%
+                            FeedbackConstantSumQuestionDetails fConstSumQd = new FeedbackConstantSumQuestionDetails();
+                            fConstSumQd.numOfConstSumOptions = 2;
+                            fConstSumQd.constSumOptions.add("");
+                            fConstSumQd.constSumOptions.add("");
+                        %>
+                        <%=fConstSumQd.getQuestionSpecificEditFormHtml(-1)%>
                     </div>
                     <br>
                     <div>

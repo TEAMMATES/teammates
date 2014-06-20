@@ -262,7 +262,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackAbstractQuestionDetails 
     }
 
     @Override
-    public String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses) {
+    public String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses,
+            FeedbackSessionResultsBundle bundle) {
         if(responses.size() == 0){
             return "";
         }
@@ -328,7 +329,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackAbstractQuestionDetails 
     
     @Override
     public List<String> validateResponseAttributes(
-            List<FeedbackResponseAttributes> responses) {
+            List<FeedbackResponseAttributes> responses,
+            int numRecipients) {
         List<String> errors = new ArrayList<String>();
         for(FeedbackResponseAttributes response : responses){
             FeedbackMsqResponseDetails frd = (FeedbackMsqResponseDetails) response.getResponseDetails();

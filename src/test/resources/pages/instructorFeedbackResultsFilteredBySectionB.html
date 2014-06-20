@@ -98,185 +98,185 @@
          </div>
          <div id="frameBody">
             <div class="container" id="frameBodyWrapper">
-               <div id="topOfPage">
-               </div>
-               <div id="headerOperation">
-                  <h1>
-                     Feedback Results - Instructor
-                  </h1>
-               </div>
-               <div class="well well-plain padding-0">
-                  <form action="/page/instructorFeedbackResultsDownload" class="form-horizontal" method="post" role="form">
-                     <div class="panel-heading">
-                        <div class="row">
-                           <div class="col-sm-4">
-                              <div class="form-group">
-                                 <label class="col-sm-2 control-label">
-                                    Course:
-                                 </label>
-                                 <div class="col-sm-10">
-                                    <p class="form-control-static">
-                                       CFResultsUiT.CS2104
-                                    </p>
-                                 </div>
-                              </div>
-                              <div class="form-group">
-                                 <label class="col-sm-2 control-label">
-                                    Session:
-                                 </label>
-                                 <div class="col-sm-10">
-                                    <p class="form-control-static">
-                                       First Session
-                                       <a href="/page/instructorFeedbackEditPage?courseid=CFResultsUiT.CS2104&fsname=First+Session&user=CFResultsUiT.instr">
-                                          [Edit]
-                                       </a>
-                                    </p>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="col-sm-6">
-                              <div class="form-group">
-                                 <label class="col-sm-4 control-label">
-                                    Session open:
-                                 </label>
-                                 <div class="col-sm-8">
-                                    <p class="form-control-static">
-                                       01 Apr 2012, 23:59   
-                                       <b>
-                                          to
-                                       </b>
-                                          30 Apr 2016, 23:59
-                                    </p>
-                                 </div>
-                              </div>
-                              <div class="form-group">
-                                 <label class="col-sm-4 control-label">
-                                    Results visible from:
-                                 </label>
-                                 <div class="col-sm-8">
-                                    <p class="form-control-static">
-                                       01 May 2012, 23:59
-                                    </p>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="col-sm-2">
-                              <div id="feedbackDataButtons">
-                                 <input class="btn btn-primary pull-right" id="button_download" name="fruploaddownloadbtn" type="submit" value="Download results"/>
-                                                               </div>
-                              <input name="user" type="hidden" value="CFResultsUiT.instr"/>
-                                                            <input name="fsname" type="hidden" value="First Session"/>
-                                                            <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
-                                                         </div>
+      <div id="topOfPage">
+      </div>
+      <div id="headerOperation">
+         <h1>
+            Session Results
+         </h1>
+      </div>
+      <div class="well well-plain padding-0">
+         <form action="/page/instructorFeedbackResultsDownload" class="form-horizontal" method="post" role="form">
+            <div class="panel-heading">
+               <div class="row">
+                  <div class="col-sm-4">
+                     <div class="form-group">
+                        <label class="col-sm-2 control-label">
+                           Course:
+                        </label>
+                        <div class="col-sm-10">
+                           <p class="form-control-static">
+                              CFResultsUiT.CS2104
+                           </p>
                         </div>
                      </div>
-                  </form>
-               </div>
-               <form action="/page/instructorFeedbackResultsPage?courseid=CFResultsUiT.CS2104&fsname=First+Session&user=CFResultsUiT.instr" class="form-horizontal" method="post" role="form">
-                  <div class="panel panel-info margin-0">
-                     <div class="panel-body">
-                        <div class="row">
-                           <div class="col-sm-5" data-original-title="View results in different formats" data-toggle="tooltip" title="">
-                              <div class="form-group">
-                                 <label class="col-sm-2 control-label" for="viewSelect">
-                                    View:
-                                 </label>
-                                 <div class="col-sm-10">
-                                    <select class="form-control" id="viewSelect" name="frsorttype" onchange="this.form.submit()">
-                                       <option selected="selected" value="question">
-                                          Group by - Question
-                                       </option>
-                                       <option value="giver-recipient-question">
-                                          Group by - Giver > Recipient > Question
-                                       </option>
-                                       <option value="recipient-giver-question">
-                                          Group by - Recipient > Giver > Question
-                                       </option>
-                                       <option value="giver-question-recipient">
-                                          Group by - Giver > Question > Recipient
-                                       </option>
-                                       <option value="recipient-question-giver">
-                                          Group by - Recipient > Question > Giver
-                                       </option>
-                                    </select>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="col-sm-5" data-original-title="Filter the results in the current view" data-toggle="tooltip" title="">
-                              <div class="form-group">
-                                 <label class="col-sm-2 control-label" for="viewSelect">
-                                    Filter:
-                                 </label>
-                                 <div class="col-sm-10">
-                                    <div class="input-group">
-                                       <input class="form-control" id="results-search-box" onchange="updateResultsFilter()" placeholder="Type here to filter results" type="text"/>
-                                                                              <a class="input-group-addon btn btn-default">
-                                          <span class="glyphicon glyphicon-search">
-                                          </span>
-                                       </a>
-                                    </div>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="col-sm-2 pull-right">
-                              <div class="col-sm-12" data-original-title="Group results in the current view by team" data-toggle="tooltip" title="">
-                                 <div class="checkbox padding-top-0 min-height-0">
-                                    <label class="text-strike">
-                                       <input checked="checked" name="frgroupbyteam" type="checkbox"/>
-                                                                              Group by Teams
-                                    </label>
-                                 </div>
-                              </div>
-                              <div class="col-sm-12" data-original-title="Show statistics" data-toggle="tooltip" title="">
-                                 <div class="checkbox padding-top-0 min-height-0">
-                                    <label>
-                                       <input checked="checked" id="show-stats-checkbox" name="frshowstats" type="checkbox"/>
-                                                                              Show Statistics
-                                    </label>
-                                 </div>
-                              </div>
-                           </div>
+                     <div class="form-group">
+                        <label class="col-sm-2 control-label">
+                           Session:
+                        </label>
+                        <div class="col-sm-10">
+                           <p class="form-control-static">
+                              First Session
+                              <a href="/page/instructorFeedbackEditPage?courseid=CFResultsUiT.CS2104&fsname=First+Session&user=CFResultsUiT.instr">
+                                 [Edit]
+                              </a>
+                           </p>
                         </div>
-                        <div class="row">
-                           <div class="col-sm-5" data-original-title="View results in separated section" data-toggle="tooltip" title="">
-                              <div class="form-group">
-                                 <label class="col-sm-2 control-label" for="sectionSelect">
-                                    Section:
-                                 </label>
-                                 <div class="col-sm-10">
-                                    <select class="form-control" id="sectionSelect" name="frgroupbysection" onchange="this.form.submit()">
-                                       <option value="All">
-                                          All
-                                       </option>
-                                       <option value="Section A">
-                                          Section A
-                                       </option>
-                                       <option selected="selected" value="Section B">
-                                          Section B
-                                       </option>
-                                    </select>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="col-sm-7 pull-right" style="padding-top:8px;">
-                              <a class="btn btn-default btn-xs pull-right" data-original-title="Collapse or expand all panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button" onclick="toggleCollapse()" title="">
-                                 Collapse All
+                     </div>
+                  </div>
+                  <div class="col-sm-6">
+                     <div class="form-group">
+                        <label class="col-sm-4 control-label">
+                           Session duration:
+                        </label>
+                        <div class="col-sm-8">
+                           <p class="form-control-static">
+                              01 Apr 2012, 23:59   
+                              <b>
+                                 to
+                              </b>
+                                 30 Apr 2016, 23:59
+                           </p>
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label class="col-sm-4 control-label">
+                           Results visible from:
+                        </label>
+                        <div class="col-sm-8">
+                           <p class="form-control-static">
+                              01 May 2012, 23:59
+                           </p>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-sm-2">
+                     <div id="feedbackDataButtons">
+                        <input class="btn btn-primary pull-right" id="button_download" name="fruploaddownloadbtn" type="submit" value="Download results"/>
+                                             </div>
+                     <input name="user" type="hidden" value="CFResultsUiT.instr"/>
+                                          <input name="fsname" type="hidden" value="First Session"/>
+                                          <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                       </div>
+               </div>
+            </div>
+         </form>
+      </div>
+      <form action="/page/instructorFeedbackResultsPage?courseid=CFResultsUiT.CS2104&fsname=First+Session&user=CFResultsUiT.instr" class="form-horizontal" method="post" role="form">
+         <div class="panel panel-info margin-0">
+            <div class="panel-body">
+               <div class="row">
+                  <div class="col-sm-5" data-original-title="View results in different formats" data-toggle="tooltip" title="">
+                     <div class="form-group">
+                        <label class="col-sm-2 control-label" for="viewSelect">
+                           View:
+                        </label>
+                        <div class="col-sm-10">
+                           <select class="form-control" id="viewSelect" name="frsorttype" onchange="this.form.submit()">
+                              <option selected="selected" value="question">
+                                 Group by - Question
+                              </option>
+                              <option value="giver-recipient-question">
+                                 Group by - Giver > Recipient > Question
+                              </option>
+                              <option value="recipient-giver-question">
+                                 Group by - Recipient > Giver > Question
+                              </option>
+                              <option value="giver-question-recipient">
+                                 Group by - Giver > Question > Recipient
+                              </option>
+                              <option value="recipient-question-giver">
+                                 Group by - Recipient > Question > Giver
+                              </option>
+                           </select>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-sm-5" data-original-title="Filter the results in the current view" data-toggle="tooltip" title="">
+                     <div class="form-group">
+                        <label class="col-sm-2 control-label" for="viewSelect">
+                           Filter:
+                        </label>
+                        <div class="col-sm-10">
+                           <div class="input-group">
+                              <input class="form-control" id="results-search-box" onchange="updateResultsFilter()" placeholder="Type a student/team name to filter results" type="text"/>
+                                                            <a class="input-group-addon btn btn-default">
+                                 <span class="glyphicon glyphicon-search">
+                                 </span>
                               </a>
                            </div>
                         </div>
                      </div>
                   </div>
-                  <input name="fsname" type="hidden" value="First Session"/>
-                                    <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
-                                    <input name="user" type="hidden" value="CFResultsUiT.instr"/>
-                                 </form>
-               <div id="statusMessage" style="display: none;">
+                  <div class="col-sm-2 pull-right">
+                     <div class="col-sm-12" data-original-title="Group results in the current view by team" data-toggle="tooltip" title="">
+                        <div class="checkbox padding-top-0 min-height-0">
+                           <label class="text-strike">
+                              <input checked="checked" name="frgroupbyteam" type="checkbox"/>
+                                                            Group by Teams
+                           </label>
+                        </div>
+                     </div>
+                     <div class="col-sm-12" data-original-title="Show statistics" data-toggle="tooltip" title="">
+                        <div class="checkbox padding-top-0 min-height-0">
+                           <label>
+                              <input checked="checked" id="show-stats-checkbox" name="frshowstats" type="checkbox"/>
+                                                            Show Statistics
+                           </label>
+                        </div>
+                     </div>
+                  </div>
                </div>
-               <div class="bold color_red align-center">
-                  There are no responses for this feedback session yet.
+               <div class="row">
+                  <div class="col-sm-5" data-original-title="View results in separated section" data-toggle="tooltip" title="">
+                     <div class="form-group">
+                        <label class="col-sm-2 control-label" for="sectionSelect">
+                           Section:
+                        </label>
+                        <div class="col-sm-10">
+                           <select class="form-control" id="sectionSelect" name="frgroupbysection" onchange="this.form.submit()">
+                              <option value="All">
+                                 All
+                              </option>
+                              <option value="Section A">
+                                 Section A
+                              </option>
+                              <option selected="selected" value="Section B">
+                                 Section B
+                              </option>
+                           </select>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-sm-7 pull-right" style="padding-top:8px;">
+                     <a class="btn btn-default btn-xs pull-right" data-original-title="Collapse or expand all panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button" onclick="toggleCollapse()" title="">
+                        Collapse All
+                     </a>
+                  </div>
                </div>
-               <br/>
-                           </div>
+            </div>
+         </div>
+         <input name="fsname" type="hidden" value="First Session"/>
+                  <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                  <input name="user" type="hidden" value="CFResultsUiT.instr"/>
+               </form>
+      <div id="statusMessage" style="display: none;">
+      </div>
+      <div class="bold color_red align-center">
+                  There are no responses for this feedback session yet or you do not have access to the responses collected so far.
+      </div>
+      <br/>
+         </div>
          </div>
          <div class="container-fluid" id="footerComponent">
             <div class="container">

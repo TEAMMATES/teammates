@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -241,6 +242,24 @@ public class InstructorFeedbackEditPage extends AppPage {
         return possibleValuesSpan.getText();
     }
     
+    public void fillConstSumPointsBox(String points, int qnNumber) {
+        String idSuffix = qnNumber > 0 ? "-" + qnNumber : "";
+        if(qnNumber == -1){
+            idSuffix = "--1";
+        }
+        WebElement pointsBox = browser.driver.findElement(By.id("constSumPoints" + idSuffix));
+        fillTextBox(pointsBox, Keys.BACK_SPACE+points); //backspace to clear the extra 1 when box is cleared.
+    }
+    
+    public String getConstSumPointsBox(int qnNumber) {
+        String idSuffix = qnNumber > 0 ? "-" + qnNumber : "";
+        if(qnNumber == -1){
+            idSuffix = "--1";
+        }
+        WebElement constSumPointsBox = browser.driver.findElement(By.id("constSumPoints" + idSuffix));
+        return constSumPointsBox.getAttribute("value");
+    }
+    
     public void clickQuestionEditForQuestion1() {
         questionEditForQuestion1.click();
     }
@@ -368,6 +387,11 @@ public class InstructorFeedbackEditPage extends AppPage {
         return mcqForm.isDisplayed() && addNewQuestionButton.isDisplayed();
     }
     
+    public boolean verifyNewConstSumQuestionFormIsDisplayed() {
+        WebElement constSumForm = browser.driver.findElement(By.id("constSumForm"));
+        return constSumForm.isDisplayed() && addNewQuestionButton.isDisplayed();
+    }
+    
     public void selectNewQuestionType(String questionType){
         selectDropdownByVisibleValue(browser.driver.findElement(By.id("questionTypeChoice")), questionType);
     }
@@ -378,6 +402,10 @@ public class InstructorFeedbackEditPage extends AppPage {
     
     public void selectMsqGenerateOptionsFor(String generateFor, int questionNumber){
         selectDropdownByVisibleValue(browser.driver.findElement(By.id("msqGenerateForSelect-" + questionNumber)), generateFor);
+    }
+    
+    public void selectConstSumPointsOptions(String pointsOption, int questionNumber){
+        selectDropdownByVisibleValue(browser.driver.findElement(By.id("constSumPointsPerOptionSelect-" + questionNumber)), pointsOption);
     }
     
     public void selectGiverTypeForQuestion1(String giverType){
@@ -528,6 +556,27 @@ public class InstructorFeedbackEditPage extends AppPage {
         
         WebElement msqOptionRow = browser.driver.findElement(By.id("msqOptionRow-" + optionIndex + idSuffix));
         WebElement removeOptionLink = msqOptionRow.findElement(By.id("msqRemoveOptionLink"));
+        removeOptionLink.click();
+    }
+    
+    public void fillConstSumOption(int optionIndex, String optionText){
+        WebElement optionBox = browser.driver.findElement(By.id("constSumOption-" + optionIndex + "--1"));
+        fillTextBox(optionBox, optionText);
+    }
+    
+    public void clickAddMoreConstSumOptionLink(){
+        WebElement addMoreOptionLink = browser.driver.findElement(By.id("constSumAddOptionLink"));
+        addMoreOptionLink.click();
+    }
+    
+    public void clickRemoveConstSumOptionLink(int optionIndex, int qnIndex) {
+        String idSuffix = qnIndex > 0 ? "-" + qnIndex : "";
+        if(qnIndex == -1){
+            idSuffix = "--1";
+        }
+        
+        WebElement msqOptionRow = browser.driver.findElement(By.id("constSumOptionRow-" + optionIndex + idSuffix));
+        WebElement removeOptionLink = msqOptionRow.findElement(By.id("constSumRemoveOptionLink"));
         removeOptionLink.click();
     }
     

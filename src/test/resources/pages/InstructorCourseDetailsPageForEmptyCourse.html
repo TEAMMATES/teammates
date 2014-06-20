@@ -95,112 +95,210 @@
             </div>
          </div>
          <div class="container theme-showcase" id="frameBodyWrapper">
-            <div id="topOfPage">
-            </div>
-            <div id="headerOperation">
-               <h1>
-                  Course Details
-               </h1>
-            </div>
-            <br/>
-                        <div class="well well-plain" id="courseInformationHeader">
-               <div class="form form-horizontal">
-                  <div class="form-group">
-                     <label class="col-sm-3 control-label">
-                        Course ID:
-                     </label>
-                     <div class="col-sm-6" id="courseid">
-                        <p class="form-control-static">
-                           CCDetailsUiT.CourseWithoutStudents
-                        </p>
-                     </div>
-                  </div>
-                  <div class="form-group">
-                     <label class="col-sm-3 control-label">
-                        Course name:
-                     </label>
-                     <div class="col-sm-6" id="coursename">
-                        <p class="form-control-static">
-                           A course with no students
-                        </p>
-                     </div>
-                  </div>
-                  <div class="form-group">
-                     <label class="col-sm-3 control-label">
-                        Sections:
-                     </label>
-                     <div class="col-sm-6" id="total_sections">
-                        <p class="form-control-static">
-                           0
-                        </p>
-                     </div>
-                  </div>
-                  <div class="form-group">
-                     <label class="col-sm-3 control-label">
-                        Teams:
-                     </label>
-                     <div class="col-sm-6" id="total_teams">
-                        <p class="form-control-static">
-                           0
-                        </p>
-                     </div>
-                  </div>
-                  <div class="form-group">
-                     <label class="col-sm-3 control-label">
-                        Total students:
-                     </label>
-                     <div class="col-sm-6" id="total_students">
-                        <p class="form-control-static">
-                           0
-                        </p>
-                     </div>
-                  </div>
-                  <div class="form-group">
-                     <label class="col-sm-3 control-label">
-                        Instructors:
-                     </label>
-                     <div class="col-sm-6" id="instructors">
-                        <div class="form-control-static">
-                           Co-owner: Teammates Test (CCDetailsUiT.instr@gmail.com)
-                           <br/>
-                                                      <br/>
-                                                   </div>
-                     </div>
-                  </div>
+      <div id="topOfPage">
+      </div>
+      <div id="headerOperation">
+         <h1>
+            Course Details
+         </h1>
+      </div>
+      <br/>
+            <div class="well well-plain" id="courseInformationHeader">
+         <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" title="" type="button">
+            <span class="glyphicon glyphicon-comment glyphicon-primary">
+            </span>
+         </button>
+         <div class="form form-horizontal">
+            <div class="form-group">
+               <label class="col-sm-3 control-label">
+                  Course ID:
+               </label>
+               <div class="col-sm-6" id="courseid">
+                  <p class="form-control-static">
+                     CCDetailsUiT.CourseWithoutStudents
+                  </p>
                </div>
             </div>
-            <br/>
-                        <div id="statusMessage" style="display: none;">
+            <div class="form-group">
+               <label class="col-sm-3 control-label">
+                  Course name:
+               </label>
+               <div class="col-sm-6" id="coursename">
+                  <p class="form-control-static">
+                     A course with no students
+                  </p>
+               </div>
             </div>
+            <div class="form-group">
+               <label class="col-sm-3 control-label">
+                  Sections:
+               </label>
+               <div class="col-sm-6" id="total_sections">
+                  <p class="form-control-static">
+                     0
+                  </p>
+               </div>
+            </div>
+            <div class="form-group">
+               <label class="col-sm-3 control-label">
+                  Teams:
+               </label>
+               <div class="col-sm-6" id="total_teams">
+                  <p class="form-control-static">
+                     0
+                  </p>
+               </div>
+            </div>
+            <div class="form-group">
+               <label class="col-sm-3 control-label">
+                  Total students:
+               </label>
+               <div class="col-sm-6" id="total_students">
+                  <p class="form-control-static">
+                     0
+                  </p>
+               </div>
+            </div>
+            <div class="form-group">
+               <label class="col-sm-3 control-label">
+                  Instructors:
+               </label>
+               <div class="col-sm-6" id="instructors">
+                  <div class="form-control-static">
+                     Co-owner: Teammates Test (CCDetailsUiT.instr@gmail.com)
+                     <br/>
+                                          <br/>
+                                       </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="well well-plain" id="commentArea" style="display: none;">
+         <form action="/page/instructorStudentCommentAdd" method="post" name="form_commentadd">
+            <div class="form-group form-inline">
+               <label style="margin-right: 24px;">
+                  Recipient:
+               </label>
+               <select class="form-control" disabled="disabled" id="comment_recipient_select">
+                  <option selected="" value="COURSE">
+                     The whole class
+                  </option>
+               </select>
+               <a class="btn btn-sm btn-info pull-right" id="visibility-options-trigger">
+                  <span class="glyphicon glyphicon-eye-close">
+                  </span>
+                  Show Visibility Options
+               </a>
+            </div>
+            <p class="form-group text-muted">
+               The default visibility for your comment is private. You may change it using the visibility options above.
+            </p>
+            <div class="panel panel-default" id="visibility-options" style="display: none;">
+               <div class="panel-heading">
+                  Visibility Options
+               </div>
+               <table class="table text-center" style="background: #fff;">
+                  <tbody>
+                     <tr>
+                        <th class="text-center">
+                           User/Group
+                        </th>
+                        <th class="text-center">
+                           Can see
+                                    your comment
+                        </th>
+                        <th class="text-center">
+                           Can see
+                                    giver's name
+                        </th>
+                        <th class="text-center">
+                           Can see
+                                    recipient's name
+                        </th>
+                     </tr>
+                     <tr id="recipient-course">
+                        <td class="text-left">
+                           <div data-original-title="Control what students in this course can view" data-placement="top" data-toggle="tooltip" title="">
+                              Students in this course
+                           </div>
+                        </td>
+                        <td>
+                           <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="COURSE"/>
+                                                   </td>
+                        <td>
+                           <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="COURSE"/>
+                                                   </td>
+                        <td>
+                           <input class="visibilityCheckbox recipientCheckbox" disabled="disabled" type="checkbox" value="COURSE"/>
+                                                   </td>
+                     </tr>
+                     <tr>
+                        <td class="text-left">
+                           <div data-original-title="Control what instructors can view" data-placement="top" data-toggle="tooltip" title="">
+                              Instructors
+                           </div>
+                        </td>
+                        <td>
+                           <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTOR"/>
+                                                   </td>
+                        <td>
+                           <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTOR"/>
+                                                   </td>
+                        <td>
+                           <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="INSTRUCTOR"/>
+                                                   </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+            <textarea class="form-control" id="commentText" name="commenttext" placeholder="Enter your comment here ..." rows="6" style="margin-bottom: 15px;">
+            </textarea>
+            <div style="text-align: center;">
+               <input class="btn btn-primary" id="button_save_comment" type="submit" value="Save"/>
+                              <input class="btn btn-default" id="button_cancel_comment" type="button" value="Cancel"/>
+                              <input name="courseid" type="hidden" value="CCDetailsUiT.CourseWithoutStudents"/>
+                              <input name="recipienttype" type="hidden" value="COURSE"/>
+                              <input name="recipients" type="hidden" value="CCDetailsUiT.CourseWithoutStudents"/>
+                              <input name="showcommentsto" type="hidden" value=""/>
+                              <input name="showgiverto" type="hidden" value=""/>
+                              <input name="showrecipientto" type="hidden" value=""/>
+                              <input name="user" type="hidden" value="CCDetailsUiT.instr"/>
+                              <input name="coursedetailspage" type="hidden" value="true"/>
+                           </div>
+         </form>
+      </div>
+      <br/>
+            <div id="statusMessage" style="display: none;">
+      </div>
+      <br/>
+            <table class="table table-bordered table-striped">
+         <thead class="fill-primary">
+            <tr>
+               <th class="button-sort-ascending" id="button_sortstudentteam" onclick="toggleSort(this, 1);">
+                  Team
+                  <span class="icon-sort sorted-ascending">
+                  </span>
+               </th>
+               <th class="button-sort-none" id="button_sortstudentname" onclick="toggleSort(this, 2);">
+                  Student Name
+                  <span class="icon-sort unsorted">
+                  </span>
+               </th>
+               <th class="button-sort-none" id="button_sortstudentstatus" onclick="toggleSort(this, 3);">
+                  Status
+                  <span class="icon-sort unsorted">
+                  </span>
+               </th>
+               <th class="align-center no-print">
+                  Action(s)
+               </th>
+            </tr>
+         </thead>
+      </table>
+      <br/>
             <br/>
-                        <table class="table table-bordered table-striped">
-               <thead class="fill-primary">
-                  <tr>
-                     <th class="button-sort-ascending" id="button_sortstudentteam" onclick="toggleSort(this, 1);">
-                        Team
-                        <span class="icon-sort sorted-ascending">
-                        </span>
-                     </th>
-                     <th class="button-sort-none" id="button_sortstudentname" onclick="toggleSort(this, 2);">
-                        Student Name
-                        <span class="icon-sort unsorted">
-                        </span>
-                     </th>
-                     <th class="button-sort-none" id="button_sortstudentstatus" onclick="toggleSort(this, 3);">
-                        Status
-                        <span class="icon-sort unsorted">
-                        </span>
-                     </th>
-                     <th class="align-center no-print">
-                        Action(s)
-                     </th>
-                  </tr>
-               </thead>
-            </table>
             <br/>
-                        <br/>
-                        <br/>
-                     </div>
+         </div>
          <div class="container-fluid" id="footerComponent">
             <div class="container">
                <div class="row">

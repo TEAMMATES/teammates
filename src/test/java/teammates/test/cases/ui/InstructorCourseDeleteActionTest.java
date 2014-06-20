@@ -11,10 +11,8 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
-import teammates.logic.core.InstructorsLogic;
 import teammates.ui.controller.InstructorCourseDeleteAction;
 import teammates.ui.controller.RedirectResult;
 
@@ -53,21 +51,14 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
         verifyUnaccessibleForUnregisteredUsers(submissionParams);
         verifyUnaccessibleForStudents(submissionParams);
         verifyUnaccessibleForInstructorsOfOtherCourses(submissionParams);
+        verifyUnaccessibleWithoutModifyCoursePrivilege(submissionParams);
         verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
-        verifyUnaccessibleWithoutCoownerPrivileges(submissionParams);
 
         /* Test access for admin in masquerade mode */
         CoursesLogic.inst().createCourseAndInstructor(
                 dataBundle.instructors.get("instructor1OfCourse1").googleId, 
                 "icdat.owncourse", "New course");
         verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
-        
-        /* Test not accessible for instructor who does not have the privilege */
-        InstructorAttributes instructorToAdd = new InstructorAttributes(dataBundle.instructors.get("instructor1OfCourse1").googleId,
-                "icdat.owncourse", "name", "email@google.com", Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER,
-                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER,
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER));
-        InstructorsLogic.inst().createInstructor(instructorToAdd);
     }
     
     @Test
