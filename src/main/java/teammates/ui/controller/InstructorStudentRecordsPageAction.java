@@ -44,6 +44,13 @@ public class InstructorStudentRecordsPageAction extends Action {
             data.student = logic.getStudentForEmail(courseId, studentEmail);
             Assumption.assertNotNull(data.student);
             data.studentProfile = logic.getStudentProfile(data.student.googleId);
+            
+            if (data.studentProfile == null) {
+                statusToUser.add(Const.StatusMessages.STUDENT_NOT_FOUND);
+                isError = true;
+                return createRedirectResult(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
+            }
+            
             data.showCommentBox = showCommentBox;
             data.comments = logic.getCommentsForReceiver(courseId, CommentRecipientType.PERSON, studentEmail);
             Iterator<CommentAttributes> iterator = data.comments.iterator();
@@ -97,7 +104,10 @@ public class InstructorStudentRecordsPageAction extends Action {
                     "Viewing <span class=\"bold\">" + studentEmail + "'s</span> records " +
                     "for Course <span class=\"bold\">[" + courseId + "]</span><br>" +
                     "Number of sessions: " + data.sessions.size() + "<br>" +
-                    "Student Profile: " + data.studentProfile.toString();
+                    "Student Profile: " + 
+                    (data.studentProfile == null ? 
+                            "No Profile" : 
+                                data.studentProfile.toString());
             
             return createShowPageResult(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS, data);
             

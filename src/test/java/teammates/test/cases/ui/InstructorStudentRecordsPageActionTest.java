@@ -102,15 +102,17 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
         assertEquals(false, r.isError);
         assertEquals("", r.getStatusMessage());
 
-        InstructorStudentRecordsPageData pageData = (InstructorStudentRecordsPageData) r.data;
+        InstructorStudentRecordsPageData actualData = (InstructorStudentRecordsPageData) r.data;
         StudentProfileAttributes expectedProfile = new StudentProfileAttributes();
         expectedProfile.googleId = student.googleId;
-        expectedProfile.modifiedDate = pageData.studentProfile.modifiedDate;
-        assertEquals(instructorId, pageData.account.googleId);
-        assertEquals(instructor.courseId, pageData.courseId);
-        assertEquals(1, pageData.comments.size());
-        assertEquals(8, pageData.sessions.size());
-        assertEquals(student.googleId, pageData.studentProfile.googleId);
+        expectedProfile.modifiedDate = actualData.studentProfile.modifiedDate;
+        expectedProfile.pictureKey = actualData.studentProfile.pictureKey;
+        
+        assertEquals(instructorId, actualData.account.googleId);
+        assertEquals(instructor.courseId, actualData.courseId);
+        assertEquals(1, actualData.comments.size());
+        assertEquals(8, actualData.sessions.size());
+        assertEquals(student.googleId, actualData.studentProfile.googleId);
 
         String expectedLogMessage = "TEAMMATESLOG|||instructorStudentRecordsPage|||instructorStudentRecordsPage"+
                 "|||true|||Instructor|||Instructor 3 of Course 1 and 2|||idOfInstructor3"+

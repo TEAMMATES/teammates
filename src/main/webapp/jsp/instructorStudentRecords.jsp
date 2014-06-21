@@ -20,7 +20,7 @@
 <%@ page import="static teammates.ui.controller.PageData.sanitizeForJs"%>
 <%
     InstructorStudentRecordsPageData data = (InstructorStudentRecordsPageData)request.getAttribute("data");
-    
+
     String pictureUrl = Const.ActionURIs.STUDENT_PROFILE_PICTURE + "?blob-key=" + data.studentProfile.pictureKey;
     if (data.studentProfile.pictureKey == "") {
         pictureUrl = Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH;
@@ -64,6 +64,9 @@
 
     <div id="frameBodyWrapper" class="container">
         <div id="topOfPage"></div>
+        <h2><%=InstructorStudentRecordsPageData.sanitizeForHtml(data.student.name)%>'s Records<small class="muted"> - <%=data.courseId %></small></h2>
+        <br />
+        <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
         <div class="modal fade" id="studentProfileMoreInfo" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -82,9 +85,6 @@
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
-        <h2><%=InstructorStudentRecordsPageData.sanitizeForHtml(data.student.name)%>'s Records<small class="muted"> - <%=data.courseId %></small></h2>
-        <br />
-        <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
         
         <div class="container-fluid">
             <div class="row">
