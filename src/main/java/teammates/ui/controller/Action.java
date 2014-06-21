@@ -60,6 +60,8 @@ public abstract class Action {
     
     /** Session that contains status message information */
     protected HttpSession session;
+
+    protected HttpServletRequest request;
     
     /** Initializes variables. 
      * Aborts with an {@link UnauthorizedAccessException} if the user is not
@@ -69,6 +71,7 @@ public abstract class Action {
     @SuppressWarnings("unchecked")
     public void init(HttpServletRequest req){
         
+        request = req;
         requestUrl = HttpRequestHelper.getRequestedURL(req);
         logic = new Logic();
         requestParameters = req.getParameterMap();
@@ -267,6 +270,15 @@ public abstract class Action {
         isError = true;
         statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + errorMessage; 
         return createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
+    }
+    
+    protected ActionResult createImageResult(String blobKey) {
+        return new ImageResult(
+                "imagedisplay",
+                blobKey,
+                account,
+                requestParameters,
+                statusToUser);
     }
 
     /**

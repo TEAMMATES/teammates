@@ -23,6 +23,7 @@ import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.NotImplementedException;
 import teammates.common.exception.TeammatesException;
@@ -56,14 +57,27 @@ public class BackDoor {
      * This persists the given data if no such data already exists in the
      * datastore.
      * 
+     * @param dataBundleJson
+     * @return
+     */
+    public static String persistNewDataBundle(String dataBundleJson) {
+        HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_PERSIST_DATABUNDLE);
+        params.put(BackDoorServlet.PARAMETER_DATABUNDLE_JSON, dataBundleJson);
+        String status = makePOSTRequest(params);
+        return status;
+    }
+    
+    /**
+     * Removes given data. If given entities have already been deleted,
+     * they are ignored
+     * 
      * @param dataBundleJason
      * @return
      */
-    public static String persistNewDataBundle(String dataBundleJason) {
-        HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_PERSIST_DATABUNDLE);
-        params.put(BackDoorServlet.PARAMETER_DATABUNDLE_JSON, dataBundleJason);
-        String status = makePOSTRequest(params);
-        return status;
+    private static void removeOldDataBundle(String dataBundleJson) {
+        HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_REMOVE_DATABUNDLE);
+        params.put(BackDoorServlet.PARAMETER_DATABUNDLE_JSON, dataBundleJson);
+        makePOSTRequest(params);
     }
 
     /**
@@ -78,6 +92,19 @@ public class BackDoor {
         return persistNewDataBundle(dataBundleJason);
     }
     
+    /**
+     * Removes given data. If given entities have already been deleted,
+     * it fails silently
+     * 
+     * @param dataBundleJason
+     * @return
+     */
+    public static void removeDataBundleFromDb(DataBundle dataBundle) {
+        String json = Utils.getTeammatesGson().toJson(dataBundle);
+        removeOldDataBundle(json);
+        
+    }
+
     /**
      * Persists given data. If given entities already exist in the data store,
      * they will be overwritten.
@@ -154,6 +181,10 @@ public class BackDoor {
         return Utils.getTeammatesGson().fromJson(getAccountAsJson(googleId), AccountAttributes.class);
     }
     
+    public static StudentProfileAttributes getStudentProfile(String googleId) {
+        return Utils.getTeammatesGson().fromJson(getStudentProfileAsJson(googleId), StudentProfileAttributes.class);
+    }
+    
     /**
      * If object not found in the first try, it will retry once more after a delay.
      */
@@ -171,6 +202,20 @@ public class BackDoor {
         params.put(BackDoorServlet.PARAMETER_GOOGLE_ID, googleId);
         String instructorJsonString = makePOSTRequest(params);
         return instructorJsonString;
+    }
+    
+    public static String getStudentProfileAsJson(String googleId) {
+        HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GET_STUDENTPROFILE_AS_JSON);
+        params.put(BackDoorServlet.PARAMETER_GOOGLE_ID, googleId);
+        String studentProfileJsonString = makePOSTRequest(params);
+        return studentProfileJsonString;
+    }
+    
+    public static String getWhetherPictureIsPresentInGcs(String pictureKey) {
+        HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_IS_PICTURE_PRESENT_IN_GCS);
+        params.put(BackDoorServlet.PARAMETER_PICTURE_KEY, pictureKey);
+        String returnVal = makePOSTRequest(params);
+        return returnVal;
     }
 
     public static String editAccount(AccountAttributes account) {

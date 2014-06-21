@@ -74,27 +74,45 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         testGetInstructorAccounts();
         testAccountFunctions();
         testCreateAccount();
-        testGetStudentProfile();
+        testGetStudentAndUpdateStudentProfile();
         testCreateInstructorAccount();
         testJoinCourseForStudent();
         testJoinCourseForInstructor();
         testDeleteAccountCascade();
     }
  
-    private void testGetStudentProfile() throws Exception {
-        ______TS("getSP");
+    private void testGetStudentAndUpdateStudentProfile() throws Exception {
+        ______TS("get SP");
         StudentProfileAttributes expectedSpa = new StudentProfileAttributes("id", "shortName", "personal@email.com", 
-                "institute", "countryName", "female", "moreInfo");
+                "institute", "countryName", "female", "moreInfo", "");
         AccountAttributes accountWithStudentProfile = new AccountAttributes("id", "name",
                 true, "test@email.com", "dev", expectedSpa);
         
         accountsLogic.createAccount(accountWithStudentProfile);
         
         StudentProfileAttributes actualSpa = accountsLogic.getStudentProfile(accountWithStudentProfile.googleId);
-        expectedSpa.modifiedDate = actualSpa.modifiedDate;
-        
+        expectedSpa.modifiedDate = actualSpa.modifiedDate;        
         assertEquals(expectedSpa.toString(), actualSpa.toString());
+        
+        ______TS("update SP");
+        
+        expectedSpa.pictureKey = "non-empty";
+        accountWithStudentProfile.studentProfile.pictureKey = expectedSpa.pictureKey;
+        accountsLogic.updateStudentProfile(accountWithStudentProfile.studentProfile);
+        
+        actualSpa = accountsLogic.getStudentProfile(accountWithStudentProfile.googleId);
+        expectedSpa.modifiedDate = actualSpa.modifiedDate;        
+        assertEquals(expectedSpa.toString(), actualSpa.toString());
+        
+        ______TS("delete picture");
+        
+        
+        
         accountsLogic.deleteAccountCascade("id");
+    }
+    
+    private void testDeleteProfilePicture() {
+        // not tested here (will be tested in UiTests
     }
 
     private void testCreateAccount() throws Exception {
@@ -360,7 +378,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         ______TS("success: without encryption and account already exists");
 
         StudentProfileAttributes spa = new StudentProfileAttributes(correctStudentId,
-                "ABC", "personal@gmail.com", "nus", "Singapore", "male", "");
+                "ABC", "personal@gmail.com", "nus", "Singapore", "male", "", "");
         
         AccountAttributes accountData = new AccountAttributes(correctStudentId,
                 "nameABC", false, "real@gmail.com", "nus", spa);

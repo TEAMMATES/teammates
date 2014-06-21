@@ -58,6 +58,8 @@ import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.logic.core.SubmissionsLogic;
 
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.blobstore.BlobstoreFailureException;
 import com.google.appengine.api.datastore.Text;
 
 /**
@@ -236,6 +238,12 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
         
         accountsLogic.deleteAccountCascade(googleId);
+    }
+    
+    public void deleteProfilePicture(BlobKey key) throws BlobstoreFailureException {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, key);
+        
+        accountsLogic.deleteProfilePicture(key);
     }
 
     @SuppressWarnings("unused")
