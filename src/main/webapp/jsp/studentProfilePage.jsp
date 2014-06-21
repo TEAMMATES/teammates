@@ -11,7 +11,7 @@
     
     String pictureUrl = Const.ActionURIs.STUDENT_PROFILE_PICTURE + "?blob-key=" + data.account.studentProfile.pictureKey;
     if (data.account.studentProfile.pictureKey == "") {
-    	pictureUrl = "/images/teammembers/damith.png";
+    	pictureUrl = Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH;
     }
 %>
 

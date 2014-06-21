@@ -57,14 +57,27 @@ public class BackDoor {
      * This persists the given data if no such data already exists in the
      * datastore.
      * 
+     * @param dataBundleJson
+     * @return
+     */
+    public static String persistNewDataBundle(String dataBundleJson) {
+        HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_PERSIST_DATABUNDLE);
+        params.put(BackDoorServlet.PARAMETER_DATABUNDLE_JSON, dataBundleJson);
+        String status = makePOSTRequest(params);
+        return status;
+    }
+    
+    /**
+     * Removes given data. If given entities have already been deleted,
+     * they are ignored
+     * 
      * @param dataBundleJason
      * @return
      */
-    public static String persistNewDataBundle(String dataBundleJason) {
-        HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_PERSIST_DATABUNDLE);
-        params.put(BackDoorServlet.PARAMETER_DATABUNDLE_JSON, dataBundleJason);
-        String status = makePOSTRequest(params);
-        return status;
+    private static void removeOldDataBundle(String dataBundleJson) {
+        HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_REMOVE_DATABUNDLE);
+        params.put(BackDoorServlet.PARAMETER_DATABUNDLE_JSON, dataBundleJson);
+        makePOSTRequest(params);
     }
 
     /**
@@ -79,6 +92,19 @@ public class BackDoor {
         return persistNewDataBundle(dataBundleJason);
     }
     
+    /**
+     * Removes given data. If given entities have already been deleted,
+     * it fails silently
+     * 
+     * @param dataBundleJason
+     * @return
+     */
+    public static void removeDataBundleFromDb(DataBundle dataBundle) {
+        String json = Utils.getTeammatesGson().toJson(dataBundle);
+        removeOldDataBundle(json);
+        
+    }
+
     /**
      * Persists given data. If given entities already exist in the data store,
      * they will be overwritten.

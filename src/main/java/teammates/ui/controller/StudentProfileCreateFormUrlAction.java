@@ -15,7 +15,9 @@ public class StudentProfileCreateFormUrlAction extends Action {
             throw new UnauthorizedAccessException("User is not registered");
         }
         
-        UploadOptions uploadOptions = UploadOptions.Builder.withDefaults().googleStorageBucketName(Const.GCS_BUCKET_NAME);
+        UploadOptions uploadOptions = UploadOptions.Builder.withDefaults()
+                .googleStorageBucketName(Const.GCS_BUCKET_NAME)
+                .maxUploadSizeBytes(5000000);
         String formPostUrl = BlobstoreServiceFactory.getBlobstoreService()
                 .createUploadUrl(Const.ActionURIs.STUDENT_PROFILE_EDIT_SAVE, uploadOptions);
         

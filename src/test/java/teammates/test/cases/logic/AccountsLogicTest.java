@@ -97,7 +97,8 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         ______TS("update SP");
         
         expectedSpa.pictureKey = "non-empty";
-        accountsLogic.updateAccount(accountWithStudentProfile);
+        accountWithStudentProfile.studentProfile.pictureKey = expectedSpa.pictureKey;
+        accountsLogic.updateStudentProfile(accountWithStudentProfile.studentProfile);
         
         actualSpa = accountsLogic.getStudentProfile(accountWithStudentProfile.googleId);
         expectedSpa.modifiedDate = actualSpa.modifiedDate;        

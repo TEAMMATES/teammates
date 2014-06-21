@@ -162,6 +162,15 @@ public class BackDoorLogic extends Logic {
         return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
     }
 
+    /**
+     * Removes any and all occurrences of the entities in the given databundle
+     * from the database
+     * @param dataBundle
+     */
+    public void removeDataBundle(DataBundle dataBundle) {
+        deleteExistingData(dataBundle);
+    }
+
     public String getAccountAsJson(String googleId) {
         AccountAttributes accountData = getAccount(googleId, true);
         return Utils.getTeammatesGson().toJson(accountData);

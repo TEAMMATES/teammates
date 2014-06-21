@@ -107,12 +107,15 @@ public class StudentProfileEditSaveAction extends Action {
         }
     }
 
-    private void validateAndStorePictureKey(
-            StudentProfileAttributes editedProfile, BlobInfo profilePic) {
+    private void validateAndStorePictureKey (StudentProfileAttributes editedProfile, BlobInfo profilePic) {
         if (profilePic.getSize() > Const.SystemParams.MAX_PROFILE_PIC_SIZE) {
             deletePicture(profilePic.getBlobKey());
             isError = true;
             statusToUser.add(Const.StatusMessages.STUDENT_PROFILE_PIC_TOO_LARGE);
+        } else if(!profilePic.getContentType().contains("image/")) {
+            deletePicture(profilePic.getBlobKey());
+            isError = true;
+            statusToUser.add(Const.StatusMessages.STUDENT_PROFILE_NOT_A_PICTURE);
         } else {
             editedProfile.pictureKey = profilePic.getBlobKey().getKeyString();
         }

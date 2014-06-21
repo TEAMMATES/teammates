@@ -6,23 +6,12 @@ import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertFalse;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.tools.cloudstorage.GcsFileOptions;
-import com.google.appengine.tools.cloudstorage.GcsFilename;
-import com.google.appengine.tools.cloudstorage.GcsOutputChannel;
-import com.google.appengine.tools.cloudstorage.GcsService;
-import com.google.appengine.tools.cloudstorage.GcsServiceFactory;
-import com.google.appengine.tools.cloudstorage.RawGcsService;
-import com.google.appengine.tools.cloudstorage.RetryParams;
-import com.google.appengine.tools.cloudstorage.dev.LocalRawGcsServiceFactory;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.DataBundle;
@@ -331,15 +320,6 @@ public class AccountsDbTest extends BaseComponentTestCase {
         updatedProfile = accountsDb.getStudentProfile(a.studentProfile.googleId);
         
         assertEquals(a.studentProfile.pictureKey, updatedProfile.pictureKey);
-    }
-    
-    @Test
-    public void testDeleteProfilePicFromGcs() throws Exception {
-        GcsService service = GcsServiceFactory.createGcsService(RetryParams.getDefaultInstance());
-        GcsFilename fileName = new GcsFilename(Const.GCS_BUCKET_NAME, "profilePic1");
-        GcsFileOptions.Builder builder = new GcsFileOptions.Builder();
-        GcsOutputChannel outputChannel = service.createOrReplace(fileName, builder.mimeType("image/jpeg").build());
-        
     }
     
     @Test

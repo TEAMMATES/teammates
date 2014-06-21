@@ -15,7 +15,7 @@ public class Const {
 
         public static final String ENCODING = "UTF8";
         public static final int NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT = 24;
-        public static final int MAX_PROFILE_PIC_SIZE = 200000;
+        public static final int MAX_PROFILE_PIC_SIZE = 1000000;
         /** e.g. "2014-04-01 11:59 PM UTC" */
         public static final String DEFAULT_DATE_TIME_FORMAT = "yyyy-MM-dd h:mm a Z";
         /** Number to trim the Google ID when displaying to the user*/
@@ -40,6 +40,7 @@ public class Const {
         public static final String SEND_EMAIL_TASK_QUEUE = "send-email-queue";
         
         public static final String QUEUE_XML_PATH = "src/main/webapp/WEB-INF/queue.xml";
+        public static final String DEFAULT_PROFILE_PICTURE_PATH = "/images/profile_picture_default.png";
     }
 
     /* Text displayed to the user when the mouse hover over certain elements in
@@ -814,6 +815,8 @@ public class Const {
                 + "The change will not be reflected here until you <span class='color_red bold'>REFRESH</span> the page.";
         /** Template String. Parameters: Evaluation name, Course ID */
         public static final String STUDENT_EVALUATION_SUBMISSION_RECEIVED = "Your submission for %s in course %s has been saved successfully";
+        public static final String STUDENT_PROFILE_NOT_A_PICTURE = "The file that you have uploaded is not a picture. "
+                + "Please upload a picture (usually it ends with .jpg or .png)";
     }
 
     /* These indicate status of an operation, but they are not shown to the user */

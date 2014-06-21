@@ -3,6 +3,7 @@ package teammates.test.cases.ui.browsertests;
 import static org.testng.AssertJUnit.assertEquals;
 
 import org.openqa.selenium.By;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -35,6 +36,8 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
     
     @Test
     public void allTests() throws Exception {
+        
+        // Do not change the order
         testNavLinkToPage();
         testContent();
         testActions();
@@ -51,8 +54,10 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
 
     private void testContent() {
         
+        // assumes it is run after NavLinks Test 
+        // (ie already logged in as studentWithEmptyProfile
+        
         ______TS("typical success case");
-        profilePage = getProfilePageForStudent("studentWithEmptyProfile");
         profilePage.verifyHtml("/studentProfilePageDefault.html");
         AppPage.logout(browser);
         
@@ -60,12 +65,14 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         // this test uses actual user accounts
         profilePage = getProfilePageForStudent("studentWithExistingProfile");
         profilePage.verifyHtmlPart(By.id("editProfileDiv"), "/studentProfileEditDivExistingValues.html");
-        AppPage.logout(browser);
     }
 
 
     private void testActions() throws Exception {
-        profilePage = getProfilePageForStudent("studentWithExistingProfile");
+        
+        // assumes it is run after NavLinks Test 
+        // (ie already logged in as studentWithExistingProfile
+        
         String studentGoogleId = testData.accounts.get("studentWithExistingProfile").googleId;
         
         ______TS("typical success case, no picture");
@@ -78,7 +85,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         
         ______TS("success case, with picture");
         
-        profilePage.fillProfilePic("src\\test\\resources\\images\\profile_pic.jpg");
+        profilePage.fillProfilePic("src\\test\\resources\\images\\profile_pic.png");
         profilePage.submitEditedProfile();
         
         profilePage.ensureProfileContains("short.name", "e@email.com", "inst", "Usual Country", 
@@ -95,9 +102,17 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         profilePage.verifyStatus(Const.StatusMessages.STUDENT_PROFILE_PIC_TOO_LARGE);
         verifyPictureIsPresent(prevPictureKey);
         
+        ______TS("not a picture");
+        
+        profilePage.fillProfilePic("src\\test\\resources\\images\\not_a_picture.txt");
+        profilePage.submitEditedProfile();
+        
+        profilePage.verifyStatus(Const.StatusMessages.STUDENT_PROFILE_NOT_A_PICTURE);
+        verifyPictureIsPresent(prevPictureKey);
+        
         ______TS("success case, update picture");
         
-        profilePage.fillProfilePic("src\\test\\resources\\images\\profile_pic_update.jpg");
+        profilePage.fillProfilePic("src\\test\\resources\\images\\profile_pic_update.png");
         profilePage.submitEditedProfile();
         
         verifyPictureIsDeleted(prevPictureKey);
@@ -158,5 +173,10 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         Url profileUrl = createUrl(Const.ActionURIs.STUDENT_PROFILE_PAGE)
             .withUserId(testData.accounts.get(studentId).googleId);
         return loginAdminToPage(browser, profileUrl, StudentProfilePage.class);
+    }
+    
+    @AfterClass
+    public void testAfter() {
+        BackDoor.removeDataBundleFromDb(testData);
     }
 }

@@ -68,6 +68,7 @@ public class BackDoorServlet extends HttpServlet {
     public static final String OPERATION_IS_PICTURE_PRESENT_IN_GCS = "OPERATION_IS_PICTURE_PRESENT_IN_GCS";
     
     public static final String OPERATION_PERSIST_DATABUNDLE = "OPERATION_PERSIST_DATABUNDLE";
+    public static final String OPERATION_REMOVE_DATABUNDLE = "OPERATION_REMOVE_DATABUNDLE";
     public static final String OPERATION_SYSTEM_ACTIVATE_AUTOMATED_REMINDER = "activate_auto_reminder";
     
     public static final String PARAMETER_BACKDOOR_KEY = "Params.BACKDOOR_KEY";
@@ -214,6 +215,12 @@ public class BackDoorServlet extends HttpServlet {
             DataBundle dataBundle = Utils.getTeammatesGson().fromJson(
                     dataBundleJsonString, DataBundle.class);
             backDoorLogic.persistDataBundle(dataBundle);
+        } else if (action.equals(OPERATION_REMOVE_DATABUNDLE)) {
+            String dataBundleJsonString = req
+                    .getParameter(PARAMETER_DATABUNDLE_JSON);
+            DataBundle dataBundle = Utils.getTeammatesGson().fromJson(
+                    dataBundleJsonString, DataBundle.class);
+            backDoorLogic.removeDataBundle(dataBundle);
         } else if (action.equals(OPERATION_EDIT_ACCOUNT)) {
             String newValues = req.getParameter(PARAMETER_JASON_STRING);
             backDoorLogic.editAccountAsJson(newValues);
