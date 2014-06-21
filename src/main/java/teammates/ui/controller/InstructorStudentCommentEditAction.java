@@ -105,7 +105,7 @@ public class InstructorStudentCommentEditAction extends Action {
         if(showCommentTo != null && !showCommentTo.isEmpty()){
             String[] showCommentToArray = showCommentTo.split(",");
             for(String sct : showCommentToArray){
-                comment.showCommentTo.add(CommentRecipientType.valueOf(sct));
+                comment.showCommentTo.add(CommentRecipientType.valueOf(sct.trim()));
             }
         }
         
@@ -113,7 +113,7 @@ public class InstructorStudentCommentEditAction extends Action {
         if(showGiverTo != null && !showGiverTo.isEmpty()){
             String[] showGiverToArray = showGiverTo.split(",");
             for(String sgt : showGiverToArray){
-                comment.showGiverNameTo.add(CommentRecipientType.valueOf(sgt));
+                comment.showGiverNameTo.add(CommentRecipientType.valueOf(sgt.trim()));
             }
         }
         
@@ -121,7 +121,7 @@ public class InstructorStudentCommentEditAction extends Action {
         if(showRecipientTo != null && !showRecipientTo.isEmpty()){
             String[] showRecipientToArray = showRecipientTo.split(",");
             for(String srt : showRecipientToArray){
-                comment.showRecipientNameTo.add(CommentRecipientType.valueOf(srt));
+                comment.showRecipientNameTo.add(CommentRecipientType.valueOf(srt.trim()));
             }
         }
         comment.commentText = commentText;

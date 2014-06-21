@@ -49,7 +49,7 @@ public class StudentCommentsPageAction extends Action {
                     new StudentsDb().getStudentsForCourse(courseId),
                     new InstructorsDb().getInstructorsForCourse(courseId));
 
-            StudentAttributes student = logic.getStudentForEmail(courseId, account.email);
+            StudentAttributes student = roster.getStudentForEmail(account.email);
             comments = logic.getCommentsForStudent(student);
         }
         

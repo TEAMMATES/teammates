@@ -658,7 +658,12 @@
                                                                 style="display: none;">
                                                                 <span
                                                                 class="glyphicon glyphicon-trash glyphicon-primary"></span>
-                                                            </a> <input
+                                                            </a>
+                                                            <input 
+                                                                type="hidden" 
+                                                                name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_ID%>" 
+                                                                value="<%=frc.feedbackResponseId%>">
+                                                            <input
                                                                 type="hidden"
                                                                 name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID%>"
                                                                 value="<%=frc.getId()%>">
@@ -718,6 +723,10 @@
                                                                 value="Cancel"
                                                                 onclick="return hideResponseCommentEditForm(<%=fsIndx%>,<%=qnIndx%>,<%=responseIndex%>,<%=responseCommentIndex%>);">
                                                         </div>
+                                                        <input 
+                                                            type="hidden" 
+                                                            name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_ID%>" 
+                                                            value="<%=frc.feedbackResponseId%>">
                                                         <input
                                                             type="hidden"
                                                             name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID%>"
