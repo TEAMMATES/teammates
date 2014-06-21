@@ -1062,8 +1062,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         assertEquals(exportLines[11], "Question 2,\"Rate 1 other student's product\"");
         assertEquals(exportLines[12], "");
         assertEquals(exportLines[13], "Team,Giver,Recipient's Team,Recipient,Feedback");
-        assertEquals(exportLines[14], "\"Team 1.1\",\"student2 In Course1\",\"Team 1.1\",\"student1 In Course1\",\"Response from student 2 to student 1.\"");
-        assertEquals(exportLines[15], "\"Team 1.1\",\"student1 In Course1\",\"Team 1.1\",\"student2 In Course1\",\"Response from student 1 to student 2.\"");
+        assertEquals(exportLines[15], "\"Team 1.1\",\"student2 In Course1\",\"Team 1.1\",\"student1 In Course1\",\"Response from student 2 to student 1.\"");
+        assertEquals(exportLines[14], "\"Team 1.1\",\"student1 In Course1\",\"Team 1.1\",\"student2 In Course1\",\"Response from student 1 to student 2.\"");
         // checking double quotes inside cell + multiline cell
         assertEquals(exportLines[16].trim(), "\"Team 1.1\",\"student3 In Course1\",\"Team 1.1\",\"student2 In Course1\",\"Response from student 3 \"\"to\"\" student 2.");
         assertEquals(exportLines[17], "Multiline test.\"");

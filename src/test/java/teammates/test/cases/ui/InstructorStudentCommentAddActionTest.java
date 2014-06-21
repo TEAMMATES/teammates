@@ -97,7 +97,7 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
                 + "error=false",
                 r.getDestinationWithParams());
         assertEquals(false, r.isError);
-        assertEquals("New comment has been added for this student", r.getStatusMessage());
+        assertEquals("New comment has been added", r.getStatusMessage());
 
         String expectedLogMessage = "TEAMMATESLOG|||instructorStudentCommentAdd|||instructorStudentCommentAdd"+
                 "|||true|||Instructor|||Instructor 3 of Course 1 and 2|||idOfInstructor3"+

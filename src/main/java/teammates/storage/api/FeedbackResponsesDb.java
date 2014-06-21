@@ -123,14 +123,36 @@ public class FeedbackResponsesDb extends EntitiesDb {
         
         List<FeedbackResponse> frList =
                 getFeedbackResponseEntitiesForSession(feedbackSessionName, courseId);
-        List<FeedbackResponseAttributes> fraList =
-                new ArrayList<FeedbackResponseAttributes>();
+        List<FeedbackResponseAttributes> fraList = new ArrayList<FeedbackResponseAttributes>();
         
         for (FeedbackResponse fr : frList) {
                 fraList.add(new FeedbackResponseAttributes(fr));
         }
         
         return fraList;        
+    }
+
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null. 
+     * @return An empty list if no such responses are found.
+     */
+    public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionInSection(
+            String feedbackSessionName, String courseId, String section) {
+
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSessionName);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, section);
+
+        List<FeedbackResponse> frList = getFeedbackResponseEntitiesForSessionInSection(feedbackSessionName,
+                                                                                      courseId, section);
+        List<FeedbackResponseAttributes> fraList = new ArrayList<FeedbackResponseAttributes>();
+
+        for (FeedbackResponse fr : frList){
+            fraList.add(new FeedbackResponseAttributes(fr));
+        }
+
+        return fraList;
     }
     
     /**
@@ -397,12 +419,41 @@ public class FeedbackResponsesDb extends EntitiesDb {
         Query q = getPM().newQuery(FeedbackResponse.class);
         q.declareParameters("String feedbackSessionNameParam, String courseIdParam");
         q.setFilter("feedbackSessionName == feedbackSessionNameParam && courseId == courseIdParam");
-        
+
         @SuppressWarnings("unchecked")
         List<FeedbackResponse> FeedbackResponseList =
             (List<FeedbackResponse>) q.execute(feedbackSessionName, courseId);
         
         return FeedbackResponseList;
+    }
+
+    private List<FeedbackResponse> getFeedbackResponseEntitiesForSessionInSection(
+            String feedbackSessionName, String courseId, String section) {
+
+        List<FeedbackResponse> FeedbackResponseList = new ArrayList<FeedbackResponse>();
+
+        Query q = getPM().newQuery(FeedbackResponse.class);
+        q.declareParameters("String feedbackSessionNameParam, String courseIdParam, String sectionParam");
+        q.setFilter("feedbackSessionName == feedbackSessionNameParam && courseId == courseIdParam && giverSection == sectionParam && receiverSection == sectionParam");
+
+        @SuppressWarnings("unchecked")
+        List<FeedbackResponse> firstQueryResponses =
+            (List<FeedbackResponse>) q.execute(feedbackSessionName, courseId, section);
+        FeedbackResponseList.addAll(firstQueryResponses);
+        
+        q.setFilter("feedbackSessionName == feedbackSessionNameParam && courseId == courseIdParam && giverSection == sectionParam && receiverSection == 'None'");
+        @SuppressWarnings("unchecked")
+        List<FeedbackResponse> secondQueryResponses =
+            (List<FeedbackResponse>) q.execute(feedbackSessionName, courseId, section);
+        FeedbackResponseList.addAll(secondQueryResponses);
+        
+        q.setFilter("feedbackSessionName == feedbackSessionNameParam && courseId == courseIdParam && giverSection == 'None' && receiverSection == sectionParam");
+        @SuppressWarnings("unchecked")
+        List<FeedbackResponse> thirdQueryResponses =
+            (List<FeedbackResponse>) q.execute(feedbackSessionName, courseId, section);
+        FeedbackResponseList.addAll(thirdQueryResponses);     
+
+        return FeedbackResponseList;   
     }
     
     private List<FeedbackResponse> getFeedbackResponseEntitiesForReceiverForQuestion(

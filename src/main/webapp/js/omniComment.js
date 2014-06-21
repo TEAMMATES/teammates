@@ -2,6 +2,12 @@ $(document).ready(function(){
 	var classNameForCommentsInFeedbackResponse = "list-group-item list-group-item-warning giver_display-by";
 	var classNameForCommentsInStudentRecords = "panel panel-info student-record-comments giver_display-by";
 	
+	//make textarea supports displaying breakline
+    $('div[id^="plainCommentText"]').each(function(){
+	    var commentTextWithBreakLine = $(this).text().replace(/\n/g, '\n<br />');
+	    $(this).html(commentTextWithBreakLine);
+    });
+	
 	//show on hover for comment
 	$('.comments > .list-group-item').hover(
 	   function(){
@@ -248,6 +254,39 @@ $(document).ready(function(){
      * Check whether a string contains the substr or not
      */
     String.prototype.contains = function(substr) { return this.indexOf(substr) != -1; };
+    
+    $('a[id^="visibility-options-trigger"]').click(function(){
+    	var visibilityOptions = $(this).parent().next();
+		if(visibilityOptions.is(':visible')){
+			visibilityOptions.hide();
+			$(this).html('<span class="glyphicon glyphicon-eye-close"></span> Show Visibility Options');
+		} else {
+			visibilityOptions.show();
+			$(this).html('<span class="glyphicon glyphicon-eye-close"></span> Hide Visibility Options');
+		}
+	});
+    
+    $("input[type=checkbox]").click(function(){
+    	var table = $(this).parent().parent().parent().parent();
+    	var form = table.parent().parent().parent();
+    	var visibilityOptions = [];
+    	table.find('.answerCheckbox:checked').each(function () {
+			visibilityOptions.push($(this).val());
+	    });
+    	form.find("input[name='showcommentsto']").val(visibilityOptions.toString());
+	    
+	    visibilityOptions = [];
+	    table.find('.giverCheckbox:checked').each(function () {
+			visibilityOptions.push($(this).val());
+	    });
+	    form.find("input[name='showgiverto']").val(visibilityOptions.toString());
+	    
+	    visibilityOptions = [];
+	    table.find('.recipientCheckbox:checked').each(function () {
+			visibilityOptions.push($(this).val());
+	    });
+	    form.find("input[name='showrecipientto']").val(visibilityOptions.toString());
+    });
 });
 
 //public functions:
