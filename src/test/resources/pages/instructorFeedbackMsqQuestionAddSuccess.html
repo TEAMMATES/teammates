@@ -1,101 +1,4 @@
-   <html>
-      <head>
-         <link href="/favicon.png"  rel="shortcut icon" />
-                  <meta content="text/html; charset=UTF-8"  http-equiv="Content-Type" />
-                  <title>
-            TEAMMATES - Instructor
-         </title>
-         <!---->
-         <link href="/bootstrap/css/bootstrap.min.css"  rel="stylesheet" />
-                  <!---->
-         <link href="/bootstrap/css/bootstrap-theme.min.css"  rel="stylesheet" />
-                  <link href="/stylesheets/teammatesCommon.css"  rel="stylesheet"  type="text/css" />
-                  <link href="/stylesheets/datepicker.css"  rel="stylesheet"  type="text/css" />
-                  <script async=""  src="https://ssl.google-analytics.com/ga.js"  type="text/javascript" >
-         </script>
-         <script src="/js/googleAnalytics.js"  type="text/javascript" >
-         </script>
-         <script src="/js/jquery-minified.js"  type="text/javascript" >
-         </script>
-         <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"  type="text/javascript" >
-         </script>
-         <script src="/js/datepicker.js"  type="text/javascript" >
-         </script>
-         <script src="/js/common.js"  type="text/javascript" >
-         </script>
-         <script src="/bootstrap/js/bootstrap.min.js"  type="text/javascript" >
-         </script>
-         <script src="/js/instructor.js"  type="text/javascript" >
-         </script>
-         <script src="/js/instructorFeedbacks.js"  type="text/javascript" >
-         </script>
-         <script src="/js/instructorFeedbackEdit.js"  type="text/javascript" >
-         </script>
-      </head>
-      <body onload="readyFeedbackEditPage();" >
-         <div class="navbar navbar-inverse navbar-fixed-top"  role="navigation" >
-            <div class="container" >
-               <div class="navbar-header" >
-                  <button class="navbar-toggle"  data-target="#contentLinks"  data-toggle="collapse"  type="button" >
-                     <span class="sr-only" >
-                        Toggle navigation
-                     </span>
-                     <span class="icon-bar" >
-                     </span>
-                     <span class="icon-bar" >
-                     </span>
-                     <span class="icon-bar" >
-                     </span>
-                  </button>
-                  <a class="navbar-brand"  href="/index.html" >
-                     TEAMMATES
-                  </a>
-               </div>
-               <div class="collapse navbar-collapse"  id="contentLinks" >
-                  <ul class="nav navbar-nav" >
-                     <li class="" >
-                        <a class="nav home"  data-link="instructorHome"  href="/page/instructorHomePage?user=CFeedbackEditUiT.instructor" >
-                           Home
-                        </a>
-                     </li>
-                     <li class="" >
-                        <a class="nav courses"  data-link="instructorCourse"  href="/page/instructorCoursesPage?user=CFeedbackEditUiT.instructor" >
-                           Courses
-                        </a>
-                     </li>
-                     <li class="active" >
-                        <a class="nav evaluations"  data-link="instructorEval"  href="/page/instructorEvalsPage?user=CFeedbackEditUiT.instructor" >
-                           Sessions
-                        </a>
-                     </li>
-                     <li class="" >
-                        <a class="nav students"  data-link="instructorStudent"  href="/page/instructorStudentListPage?user=CFeedbackEditUiT.instructor" >
-                           Students
-                        </a>
-                     </li>
-                     <li>
-                        <a class="nav help"  href="/instructorHelp.html"  target="_blank" >
-                           Help
-                        </a>
-                     </li>
-                  </ul>
-                  <ul class="nav navbar-nav pull-right" >
-                     <li>
-                        <a class="nav logout"  href="/logout.jsp" >
-                           Logout
-                        
-                        (
-                           <span class="text-info"  data-original-title="CFeedbackEditUiT.instructor"  data-placement="bottom"  data-toggle="tooltip"  title="" >
-                              CFeedbackEditUiT.ins...
-                           </span>
-                           )
-                        </a>
-                     </li>
-                  </ul>
-               </div>
-            </div>
-         </div>
-         <div class="container" id="frameBodyWrapper">
+   <div class="container" id="frameBodyWrapper">
       <h1>
          Edit Feedback Session
       </h1>
@@ -1407,6 +1310,14 @@
                         <option value="NUMSCALE">
                            Numerical-scale question
                         </option>
+                        <option value="CONSTSUM_OPTION">
+                           Distribute points (among options) question
+                        </option>
+                        <option value="CONSTSUM_RECIPIENT">
+                           Distribute points (among recipients) question
+                        </option>
+                        <option style="display:none" value="CONSTSUM">
+                        </option>
                      </select>
                   </div>
                </div>
@@ -1617,6 +1528,76 @@
                      </div>
                   </div>
                </div>
+               <div id="constSumForm">
+                  <div class="row">
+                     <br/>
+                                          <div class="col-sm-6" id="constSumOptionTable--1">
+                        <div id="constSumOptionRow-0--1">
+                           <div class="input-group col-sm-12">
+                              <input class="form-control" disabled="disabled" id="constSumOption-0--1" name="constSumOption-0" type="text" value=""/>
+                                                            <span class="input-group-btn">
+                                 <button class="btn btn-default removeOptionLink" id="constSumRemoveOptionLink" onclick="removeConstSumOption(0,-1)" style="display:none" tabindex="-1" type="button">
+                                    <span class="glyphicon glyphicon-remove">
+                                    </span>
+                                 </button>
+                              </span>
+                           </div>
+                        </div>
+                        <div id="constSumOptionRow-1--1">
+                           <div class="input-group col-sm-12">
+                              <input class="form-control" disabled="disabled" id="constSumOption-1--1" name="constSumOption-1" type="text" value=""/>
+                                                            <span class="input-group-btn">
+                                 <button class="btn btn-default removeOptionLink" id="constSumRemoveOptionLink" onclick="removeConstSumOption(1,-1)" style="display:none" tabindex="-1" type="button">
+                                    <span class="glyphicon glyphicon-remove">
+                                    </span>
+                                 </button>
+                              </span>
+                           </div>
+                        </div>
+                        <div id="constSumAddOptionRow--1">
+                           <div colspan="2">
+                              <a class="btn btn-primary btn-xs addOptionLink" id="constSumAddOptionLink" onclick="addConstSumOption(-1)" style="display:none">
+                                 <span class="glyphicon glyphicon-plus">
+                                 </span>
+                                 add more options
+                              </a>
+                           </div>
+                        </div>
+                        <input id="noofchoicecreated--1" name="noofchoicecreated" type="hidden" value="2"/>
+                                                <input id="constSumToRecipients--1" name="constSumToRecipients" type="hidden" value="false"/>
+                                             </div>
+                     <div class="col-sm-6">
+                        <div class="form-inline col-sm-12">
+                           <div class="row">
+                              <div class="col-sm-4">
+                                 <label class="control-label width-100-pc">
+                                    <b>
+                                       Points to distribute
+                                    </b>
+                                 </label>
+                              </div>
+                              <div class="col-sm-5">
+                                 <select  class="col-sm-5 width-100-pc select form-control" disabled="disabled" id="constSumPointsPerOptionSelect--1" name="constSumPointsPerOption">
+                                    <option value="false">
+                                       in total:
+                                    </option>
+                                    <option id="constSumOption_Option--1" value="true">
+                                       per option:
+                                    </option>
+                                    <option id="constSumOption_Recipient--1" value="true">
+                                       per recipient:
+                                    </option>
+                                 </select>
+                              </div>
+                              <div class="col-sm-3">
+                                 <input class="form-control width-100-pc pointsBox" disabled="disabled" id="constSumPoints--1" min="1" name="constSumPoints" onchange="updateConstSumPointsValue(-1)" step="1" type="number" value="100"/>
+                                                               </div>
+                           </div>
+                        </div>
+                     </div>
+                     <br/>
+                                       </div>
+               </div>
                <br/>
                               <div>
                   <div class="col-sm-6" data-original-title="Who will give feedback')" data-placement="top" data-toggle="tooltip" title="">
@@ -1814,42 +1795,3 @@
          </div>
       </form>
    </div>
-         <br/>
-                  <br/>
-                  <div class="container-fluid"  id="footerComponent" >
-            <div class="container" >
-               <div class="row" >
-                  <div class="col-md-4" >
-                     <span>
-                        [
-                        <a href="/index.html" >
-                           TEAMMATES
-                        </a>
-                        V{$version}]
-                     </span>
-                  </div>
-                  <div class="col-md-4" >
-                     [for
-                     <span class="highlight-white" >
-                        <span class="color_white" >
-                           National University of Singapore
-                        </span>
-                     </span>
-                     ]
-                  </div>
-                  <div class="col-md-4" >
-                     <span>
-                        [Send
-                        <a class="link"  href="../contact.html"  target="_blank" >
-                           Feedback
-                        </a>
-                        ]
-                     </span>
-                  </div>
-               </div>
-            </div>
-         </div>
-         <div class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"  id="ui-datepicker-div" >
-         </div>
-      </body>
-   </html>

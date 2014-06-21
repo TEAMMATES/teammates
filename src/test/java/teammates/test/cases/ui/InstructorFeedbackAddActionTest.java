@@ -9,7 +9,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.Sanitizer;
 import teammates.ui.controller.InstructorFeedbackAddAction;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.ShowPageResult;
@@ -41,7 +40,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                         instructor1ofCourse1.courseId, "ifaat tca fs");
         
         verifyOnlyInstructorsOfTheSameCourseCanAccess(params);
-        
+        verifyUnaccessibleWithoutModifyCoursePrivilege(params);
     }
     
     @Test

@@ -2,9 +2,17 @@
 
 <%@ page import="teammates.ui.controller.PageData" %>
 <%@ page import="teammates.common.util.Const" %>
+<%@ page import="com.google.appengine.api.blobstore.BlobstoreService" %>
+<%@ page import="com.google.appengine.api.blobstore.BlobstoreServiceFactory" %>
+<%@ page import="com.google.appengine.api.blobstore.UploadOptions" %>
 
 <%
     PageData data = (PageData) request.getAttribute("data");
+    
+    String pictureUrl = Const.ActionURIs.STUDENT_PROFILE_PICTURE + "?blob-key=" + data.account.studentProfile.pictureKey;
+    if (data.account.studentProfile.pictureKey == "") {
+    	pictureUrl = Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH;
+    }
 %>
 
 <!DOCTYPE html>
@@ -46,16 +54,26 @@
         
         <div id="editProfileDiv" class="well well-plain well-narrow well-sm-wide">
             <h3 id="studentName"><strong><%=data.account.name %></strong></h3><br>
-            <form class="form center-block" role="form" method="post" 
-                action="<%=Const.ActionURIs.STUDENT_PROFILE_EDIT_SAVE %>">
+            <form id="profileEditForm" class="form center-block" role="form" method="post"
+                  action="<%=Const.ActionURIs.STUDENT_PROFILE_EDIT_SAVE %>">
+                <div class="form-group row" title="Upload a close-up of your face " data-toggle="tooltip" data-placement="top">
+                    <div class="col-xs-4">
+                        <img src="<%=pictureUrl %>" 
+                        height="130px" width="130px" />
+                    </div>
+                    <div class="col-xs-6">
+                        <label for="studentPhoto">Your Photo</label>
+                        <input id="studentPhoto" type="file" name="<%=Const.ParamsNames.STUDENT_PROFILE_PIC %>" />
+                    </div>
+                </div>
                 <div class="form-group" title="<%=Const.Tooltips.STUDENT_PROFILE_SHORTNAME %>" data-toggle="tooltip" data-placement="top">
-                    <label for="studentNickname">Shortname</label>
+                    <label for="studentNickname">Short Name</label>
                     <input id="studentShortname" name="<%=Const.ParamsNames.STUDENT_SHORT_NAME %>" class="form-control" type="text" data-actual-value="<%=data.account.studentProfile.shortName == null ? "" : data.account.studentProfile.shortName %>" value="<%=data.account.studentProfile.shortName == null ? "" : data.account.studentProfile.shortName %>" placeholder="How the instructor should call you" />
                 </div>
                 <div class="form-group" title="<%=Const.Tooltips.STUDENT_PROFILE_EMAIL %>" data-toggle="tooltip" data-placement="top">
                     <label for="studentEmail">Email<small><sup class="pull-right text-color-disclaimer"> - Only visible to your Instructors</sup></small></label>
                     <input id="studentEmail" name="<%=Const.ParamsNames.STUDENT_PROFILE_EMAIL %>" class="form-control" type="email"
-                           data-actual-value="<%=data.account.studentProfile.email %>" value="<%=data.account.studentProfile.email == null ? "" : data.account.studentProfile.email %>" placeholder="Long-term contact email" />
+                           data-actual-value="<%=data.account.studentProfile.email %>" value="<%=data.account.studentProfile.email == null ? "" : data.account.studentProfile.email %>" placeholder="Contact Email (for your instructors to contact you beyond graduation)" />
                 </div>
                 <div class="form-group" title="<%=Const.Tooltips.STUDENT_PROFILE_INSTITUTION %>" data-toggle="tooltip" data-placement="top">
                     <label for="studentInstitution">Institution</label>
@@ -90,12 +108,12 @@
                     <label for="studentCountry">More info about yourself</label>
                     <textarea id="studentMoreInfo"  name="<%=Const.ParamsNames.STUDENT_PROFILE_MOREINFO %>" 
                               rows="4" class="form-control"
-                              placeholder="You may wish to specify miscellaneous information as well as links to external profiles."
+                              placeholder="<%=Const.Tooltips.STUDENT_PROFILE_MOREINFO %>"
                               ><%=data.account.studentProfile.moreInfo == null ? "" : data.account.studentProfile.moreInfo %></textarea>
                 </div><br>
-                <button type="submit" id="profileEditSubmit" class="btn btn-primary center-block">Save Profile</button>
+                <button type="button" id="profileEditSubmit" class="btn btn-primary center-block" onclick="finaliseForm()">Save Profile</button>
                 <br>
-                <p class="text-muted text-color-disclaimer"> <i>* This profile will be visible to all your Instructors and Classmates by default</i></p>
+                <p class="text-muted text-color-disclaimer"> <i>* This profile will be visible to all your Instructors and Coursemates</i></p>
             </form>
         </div>
     </div>

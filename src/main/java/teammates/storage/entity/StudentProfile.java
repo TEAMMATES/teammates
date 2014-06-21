@@ -8,6 +8,7 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.datastore.Text;
 
 
@@ -56,6 +57,10 @@ public class StudentProfile {
     private Text moreInfo;
     
     @Persistent
+    @Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
+    private BlobKey pictureKey;
+    
+    @Persistent
     private Date modifiedDate; 
     
     /**
@@ -79,7 +84,7 @@ public class StudentProfile {
      *            Miscellaneous information, including external profile
      */
     public StudentProfile(String googleId, String shortName, String email,
-            String institute, String country, String gender, Text moreInfo) {
+            String institute, String country, String gender, Text moreInfo, BlobKey pictureKey) {
         this.setGoogleId(googleId);
         this.setShortName(shortName);
         this.setEmail(email);
@@ -88,6 +93,7 @@ public class StudentProfile {
         this.setGender(gender);
         this.setMoreInfo(moreInfo);
         this.setModifiedDate(new Date());
+        this.setPictureKey(pictureKey);
     }
 
     public StudentProfile(String googleId) {
@@ -98,6 +104,7 @@ public class StudentProfile {
         this.setCountry("");
         this.setGender("other");
         this.setMoreInfo(new Text(""));
+        this.setPictureKey(new BlobKey(""));
         this.setModifiedDate(new Date());
     }
     
@@ -155,6 +162,14 @@ public class StudentProfile {
     
     public void setMoreInfo(Text moreInfo) {
         this.moreInfo = moreInfo;
+    }
+    
+    public BlobKey getPictureKey() {
+        return this.pictureKey;
+    }
+    
+    public void setPictureKey(BlobKey pictureKey) {
+        this.pictureKey = pictureKey;
     }
     
     public Date getModifiedDate() {

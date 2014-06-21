@@ -41,7 +41,7 @@ public class InstructorFeedbackEditPageActionTest extends BaseActionTest {
         };
         
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
-        
+        verifyUnaccessibleWithoutModifyCoursePrivilege(submissionParams);
     }
     
     @Test

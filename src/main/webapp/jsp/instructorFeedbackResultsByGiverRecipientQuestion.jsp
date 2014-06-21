@@ -12,6 +12,7 @@
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%
     InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData) request.getAttribute("data");
+    boolean shouldCollapsed = data.bundle.responses.size() > 1000;
 %>
 <!DOCTYPE html>
 <html>
@@ -50,7 +51,7 @@
         <div id="frameBodyWrapper" class="container">
             <div id="topOfPage"></div>
             <div id="headerOperation">
-                <h1>Feedback Results - Instructor</h1>
+                <h1>Session Results</h1>
             </div>
             <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_TOP%>" />
             <br>
@@ -73,6 +74,7 @@
                 FeedbackResponseAttributes firstResponse = giverData.get(giverDataArray[0]).get(0);
                 String targetEmail = firstResponse.giverEmail.replace(Const.TEAM_OF_EMAIL_OWNER,"");
                 String targetEmailDisplay = firstResponse.giverEmail;
+                String mailtoStyleAttr = (targetEmailDisplay.contains("@@"))?"style=\"display:none;\"":"";
 
             %>
             <%
@@ -98,8 +100,9 @@
                     <div class="panel panel-warning">
                         <div class="panel-heading">
                             <strong><%=currentTeam%></strong>
+                            <span class="glyphicon <%= !shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down" %> pull-right"></span>
                         </div>
-                        <div class="panel-collapse">
+                        <div class="panel-collapse collapse <%= !shouldCollapsed ? "in" : "" %>">
                         <div class="panel-body background-color-warning">
             <%
                 }
@@ -108,9 +111,10 @@
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     From: <strong><%=responsesFromGiver.getKey()%></strong>
-                        <a class="link-in-dark-bg" href="mailTo:<%= targetEmail%> " >[<%=targetEmailDisplay%>]</a>
-                </div>
-                <div class="panel-collapse">
+                        <a class="link-in-dark-bg" href="mailTo:<%= targetEmail%> " <%=mailtoStyleAttr%>>[<%=targetEmailDisplay%>]</a>
+			 <span class="glyphicon <%= !shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down" %> pull-right"></span> 
+               </div>
+                <div class="panel-collapse collapse <%= !shouldCollapsed ? "in" : "" %>">
                 <div class="panel-body">
                 <%
                     int recipientIndex = 0;
@@ -131,13 +135,19 @@
                                                 out.print(InstructorFeedbackResultsPageData.sanitizeForHtml(questionDetails.questionText));
                                                 out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, "giver-"+giverIndex+"-recipient-"+recipientIndex));
                                         %></div>
-                                        <div class="panel-collapse">
                                         <div class="panel-body">
                                             <div style="clear:both; overflow: hidden">
-                                                <div class="pull-left"><%=singleResponse.getResponseDetails().getAnswerHtml()%></div>
+                                                <div class="pull-left"><%=singleResponse.getResponseDetails().getAnswerHtml(questionDetails)%></div>
                                                 <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" 
                                                     onclick="showResponseCommentAddForm(<%=recipientIndex%>,<%=giverIndex%>,<%=qnIndx%>)"
-                                                    data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COMMENT_ADD%>">
+                                                    data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COMMENT_ADD%>"
+                                                    <% if (!data.instructor.isAllowedForPrivilege(singleResponse.giverSection,
+                                                            singleResponse.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)
+                                                            || !data.instructor.isAllowedForPrivilege(singleResponse.recipientSection,
+                                                                    singleResponse.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)) { %>
+                                                            disabled="disabled"
+                                                    <% } %>
+                                                    >
                                                     <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                                 </button>
                                             </div>
@@ -152,15 +162,20 @@
                                         <li class="list-group-item list-group-item-warning" id="responseCommentRow-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>">
                                             <div id="commentBar-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>">
                                             <span class="text-muted">From: <%=comment.giverEmail%> [<%=comment.createdAt%>]</span>
-                                            <% 
-                                                if (comment.giverEmail.equals(data.instructor.email)) {
-                                            %>
                                             <!-- frComment delete Form -->
                                             <form class="responseCommentDeleteForm pull-right">
                                                 <a href="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE%>" type="button" id="commentdelete-<%=responseCommentIndex %>" class="btn btn-default btn-xs icon-button" 
-                                                    data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COMMENT_DELETE%>"> 
+                                                    data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COMMENT_DELETE%>"
+                                                    <% if (!data.instructor.isAllowedForPrivilege(singleResponse.giverSection,
+                                                            singleResponse.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS)
+                                                            || !data.instructor.isAllowedForPrivilege(singleResponse.recipientSection,
+                                                                    singleResponse.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS)) { %>
+                                                            disabled="disabled"
+                                                    <% } %>
+                                                    > 
                                                     <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
                                                 </a>
+                                                <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_ID%>" value="<%=comment.feedbackResponseId%>">
                                                 <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID %>" value="<%=comment.getId()%>">
                                                 <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID %>" value="<%=singleResponse.courseId %>">
                                                 <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="<%=singleResponse.feedbackSessionName %>">
@@ -168,11 +183,17 @@
                                             </form>
                                             <a type="button" id="commentedit-<%=responseCommentIndex %>" class="btn btn-default btn-xs icon-button pull-right" 
                                                 onclick="showResponseCommentEditForm(<%=recipientIndex%>,<%=giverIndex%>,<%=qnIndx%>,<%=responseCommentIndex%>)"
-                                                data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COMMENT_EDIT%>">
+                                                data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COMMENT_EDIT%>"
+                                                <% if (!data.instructor.isAllowedForPrivilege(singleResponse.giverSection,
+                                                            singleResponse.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS)
+                                                            || !data.instructor.isAllowedForPrivilege(singleResponse.recipientSection,
+                                                                    singleResponse.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS)) { %>
+                                                            disabled="disabled"
+                                                <% } %>
+                                                >
                                                 <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
                                             </a>
                                             </div>
-                                            <%  } %>
                                             <!-- frComment Content -->
                                             <div id="plainCommentText-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>"><%=InstructorFeedbackResultsPageData.sanitizeForHtml(comment.commentText.getValue()) %></div>
                                             <!-- frComment Edit Form -->
@@ -188,6 +209,7 @@
                                                     </a>
                                                     <input type="button" class="btn btn-default" value="Cancel" onclick="return hideResponseCommentEditForm(<%=recipientIndex%>,<%=giverIndex%>,<%=qnIndx%>,<%=responseCommentIndex%>);">
                                                 </div>
+                                                <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_ID%>" value="<%=comment.feedbackResponseId%>">
                                                 <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID %>" value="<%=comment.getId()%>">
                                                 <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID %>" value="<%=singleResponse.courseId %>">
                                                 <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="<%=singleResponse.feedbackSessionName %>">
@@ -216,7 +238,7 @@
                                                 </div>
                                             </form>
                                         </li>
-                                    </ul></div></div></div>
+                                    </ul></div></div>
                     <%
                             qnIndx++;
                         }
@@ -249,28 +271,29 @@
             %>
             
             <%
-                // Only output the list of students who haven't responded when there are responses.
-                FeedbackSessionResponseStatus responseStatus = data.bundle.responseStatus;
-                if (!responseStatus.hasResponse.isEmpty()) {
+            // Only output the list of students who haven't responded when there are responses.
+            FeedbackSessionResponseStatus responseStatus = data.bundle.responseStatus;
+            if (data.selectedSection.equals("All") && !responseStatus.noResponse.isEmpty()) {
             %>
-            <div class="panel panel-info">
-                    <div class="panel-heading">Students Who Did Not Respond to Any Question</div>
-                    
-                    <table class="table table-striped">
-                        <tbody>
-                        <%
-                            for (String studentName : responseStatus.getStudentsWhoDidNotRespondToAnyQuestion()) {
-                        %>
-                                <tr>
-                                    <td><%=studentName%></td>
-                                </tr>
-                        <%
-                            }
-                        %>
-                        </tbody>
-                    </table>
-                </div>
-                <br> <br>
+                    <div class="panel panel-info">
+                        <div class="panel-heading">Participants who did not respond to any question</div>
+                        
+                        <table class="table table-striped">
+                            <tbody>
+                            <%  
+                                List<String> students = responseStatus.getStudentsWhoDidNotRespondToAnyQuestion();
+                                for (String studentName : students) {
+                            %>
+                                    <tr>
+                                        <td><%=studentName%></td>
+                                    </tr>
+                            <%
+                                }
+                            %>
+                            </tbody>
+                        </table>
+                    </div>
+                    <br> <br>
             <%
                 }
             %>

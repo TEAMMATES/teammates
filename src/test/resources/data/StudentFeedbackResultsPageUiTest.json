@@ -217,6 +217,24 @@
             "feedbackSessionType":"STANDARD",
             "sentOpenEmail":true,
             "sentPublishedEmail":true
+        },
+        "CONSTSUM Session":{
+            "feedbackSessionName":"CONSTSUM Session",
+            "courseId":"SFResultsUiT.CS2104",
+            "creatorEmail":"SFResultsUiT.instr@gmail.com",
+            "instructions":{
+                "value":"Instructions for numscale session"
+            },
+            "createdTime":"2012-04-01 11:59 PM UTC",
+            "startTime":"2012-04-01 11:59 PM UTC",
+            "endTime":"2016-04-30 11:59 PM UTC",
+            "sessionVisibleFromTime":"2012-04-01 11:59 PM UTC",
+            "resultsVisibleFromTime":"2012-05-01 11:59 PM UTC",
+            "timeZone":8.0,
+            "gracePeriod":10,
+            "feedbackSessionType":"STANDARD",
+            "sentOpenEmail":true,
+            "sentPublishedEmail":true
         }
     },
     "feedbackQuestions":{
@@ -716,6 +734,95 @@
                 "RECEIVER"
             ]
             
+        },
+        "qn1InConstSumSession":{
+            "feedbackSessionName":"CONSTSUM Session",
+            "courseId":"SFResultsUiT.CS2104",
+            "creatorEmail":"SFResultsUiT.instr@gmail.com",
+            "questionMetaData":{
+                "value":"{\"questionText\":\"How important are the following factors to you? Give points accordingly.\",
+                          \"questionType\":\"CONSTSUM\", \"numOfConstSumOptions\" : 2,
+                          \"constSumOptions\" : [\"Grades\", \"Fun\"],\"distributeToRecipients\" : false,
+                          \"pointsPerOption\" : false, \"points\" : 100}"
+            },
+            "questionNumber":"1",
+            "questionType":"CONSTSUM",
+            "giverType":"STUDENTS",
+            "recipientType":"SELF",
+            "numberOfEntitiesToGiveFeedbackTo":1,
+            "showResponsesTo":[
+                "RECEIVER",
+                "OWN_TEAM_MEMBERS",
+                "STUDENTS",
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo":[
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "INSTRUCTORS"
+            ]
+            
+        },
+        "qn2InConstSumSession":{
+            "feedbackSessionName":"CONSTSUM Session",
+            "courseId":"SFResultsUiT.CS2104",
+            "creatorEmail":"SFResultsUiT.instr@gmail.com",
+            "questionMetaData":{
+                "value":"{\"questionText\":\"Split points among 3 students.\",
+                          \"questionType\":\"CONSTSUM\", \"numOfConstSumOptions\" : 0,
+                          \"constSumOptions\" : [],\"distributeToRecipients\" : true,
+                          \"pointsPerOption\" : true, \"points\" : 100}"
+            },
+            "questionNumber":"2",
+            "questionType":"CONSTSUM",
+            "giverType":"STUDENTS",
+            "recipientType":"STUDENTS",
+            "numberOfEntitiesToGiveFeedbackTo":3,
+            "showResponsesTo":[
+                "INSTRUCTORS",
+                "RECEIVER",
+                "STUDENTS",
+                "OWN_TEAM_MEMBERS"
+            ],
+            "showGiverNameTo":[
+                "INSTRUCTORS",
+                "OWN_TEAM_MEMBERS"
+            ],
+            "showRecipientNameTo":[
+                "INSTRUCTORS",
+                "RECEIVER"
+            ]
+            
+        },
+        "qn3InConstSumSession":{
+            "feedbackSessionName":"CONSTSUM Session",
+            "courseId":"SFResultsUiT.CS2104",
+            "creatorEmail":"SFResultsUiT.instr@gmail.com",
+            "questionMetaData":{
+                "value":"{\"questionText\":\"Split points among your team members by how much they contributed.\",
+                          \"questionType\":\"CONSTSUM\", \"numOfConstSumOptions\" : 0,
+                          \"constSumOptions\" : [],\"distributeToRecipients\" : true,
+                          \"pointsPerOption\" : true, \"points\" : 100}"
+            },
+            "questionNumber":"3",
+            "questionType":"CONSTSUM",
+            "giverType":"STUDENTS",
+            "recipientType":"OWN_TEAM_MEMBERS_INCLUDING_SELF",
+            "numberOfEntitiesToGiveFeedbackTo":-100,
+            "showResponsesTo":[
+                "RECEIVER",
+                "OWN_TEAM_MEMBERS"
+            ],
+            "showGiverNameTo":[
+                "RECEIVER",
+                "OWN_TEAM_MEMBERS"
+            ],
+            "showRecipientNameTo":[
+                "RECEIVER",
+                "OWN_TEAM_MEMBERS"
+            ]
+            
         }
     },
     "feedbackResponses":{
@@ -799,7 +906,7 @@
             "giverEmail":"SFResultsUiT.emily.f@gmail.com",
             "recipientEmail":"Team 1",
             "responseMetaData":{
-                "value":"Team 3 to Team 1 \r\n multiline special char test </textarea>xss<textarea> test"
+                "value":"Team 3 to Team 1 \r\n multiline special char test"
             }
             
         },
@@ -1019,6 +1126,79 @@
             "recipientEmail":"SFResultsUiT.alice.b@gmail.com",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"NUMSCALE\", \"answer\" : 2.5}"
+            }
+            
+        },
+
+        "constsumResponse1":{
+            "feedbackSessionName":"CONSTSUM Session",
+            "courseId":"SFResultsUiT.CS2104",
+            "feedbackQuestionId":"1",
+            "feedbackQuestionType":"CONSTSUM",
+            "giverEmail":"SFResultsUiT.alice.b@gmail.com",
+            "recipientEmail":"SFResultsUiT.alice.b@gmail.com",
+            "responseMetaData":{
+                "value":"{\"questionType\" : \"CONSTSUM\", \"answers\" : [20, 80]}"
+            }
+            
+        },
+        "constsumResponse2":{
+            "feedbackSessionName":"CONSTSUM Session",
+            "courseId":"SFResultsUiT.CS2104",
+            "feedbackQuestionId":"2",
+            "feedbackQuestionType":"CONSTSUM",
+            "giverEmail":"SFResultsUiT.alice.b@gmail.com",
+            "recipientEmail":"SFResultsUiT.benny.c@gmail.com",
+            "responseMetaData":{
+                "value":"{\"questionType\" : \"CONSTSUM\", \"answers\" : [80]}"
+            }
+            
+        },
+        "constsumResponse3":{
+            "feedbackSessionName":"CONSTSUM Session",
+            "courseId":"SFResultsUiT.CS2104",
+            "feedbackQuestionId":"2",
+            "feedbackQuestionType":"CONSTSUM",
+            "giverEmail":"SFResultsUiT.alice.b@gmail.com",
+            "recipientEmail":"SFResultsUiT.charlie.d@gmail.com",
+            "responseMetaData":{
+                "value":"{\"questionType\" : \"CONSTSUM\", \"answers\" : [120]}"
+            }
+            
+        },
+        "constsumResponse4":{
+            "feedbackSessionName":"CONSTSUM Session",
+            "courseId":"SFResultsUiT.CS2104",
+            "feedbackQuestionId":"2",
+            "feedbackQuestionType":"CONSTSUM",
+            "giverEmail":"SFResultsUiT.alice.b@gmail.com",
+            "recipientEmail":"SFResultsUiT.danny.e@gmail.com",
+            "responseMetaData":{
+                "value":"{\"questionType\" : \"CONSTSUM\", \"answers\" : [100]}"
+            }
+            
+        },
+        "constsumResponse5":{
+            "feedbackSessionName":"CONSTSUM Session",
+            "courseId":"SFResultsUiT.CS2104",
+            "feedbackQuestionId":"3",
+            "feedbackQuestionType":"CONSTSUM",
+            "giverEmail":"SFResultsUiT.benny.c@gmail.com",
+            "recipientEmail":"SFResultsUiT.alice.b@gmail.com",
+            "responseMetaData":{
+                "value":"{\"questionType\" : \"CONSTSUM\", \"answers\" : [99]}"
+            }
+            
+        },
+        "constsumResponse6":{
+            "feedbackSessionName":"CONSTSUM Session",
+            "courseId":"SFResultsUiT.CS2104",
+            "feedbackQuestionId":"3",
+            "feedbackQuestionType":"CONSTSUM",
+            "giverEmail":"SFResultsUiT.benny.c@gmail.com",
+            "recipientEmail":"SFResultsUiT.benny.c@gmail.com",
+            "responseMetaData":{
+                "value":"{\"questionType\" : \"CONSTSUM\", \"answers\" : [101]}"
             }
             
         }

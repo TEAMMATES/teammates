@@ -488,6 +488,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes
         case NUMSCALE:
             questionDetailsClass = FeedbackNumericalScaleQuestionDetails.class;
             break;
+        case CONSTSUM:
+            questionDetailsClass = FeedbackConstantSumQuestionDetails.class;
+            break;
         default:
             Assumption.fail("FeedbackQuestionType " + questionType + " unsupported by FeedbackQuestionAttributes");
             break;

@@ -5,3 +5,42 @@ $(function () {
 		}
 	});
 });
+
+function finaliseForm(event) {
+	if ($('#studentPhoto').val() == "") {
+		$('#profileEditForm').submit();
+		return;
+	}
+	
+	initialSubmitMessage = $('#profileEditSubmit').html();
+	
+	$.ajax({
+		url: "/page/studentProfileCreateFormUrl",
+		beforeSend : function() {
+            $(this).html("<img src='/images/ajax-loader.gif'/>");
+        },
+        error: function() {
+        	$(this).Text(initialSubmitMessage);
+        	$('#statusMessage').css("display", "block")
+        					   .attr('class', 'alert alert-danger')
+        					   .html('There seems to be a network error, please try again later');
+        	$("html, body").animate({ scrollTop: 0 });
+        },
+        success: function(data) {
+        	if (!data.isError) {
+	        	$('#profileEditForm').attr('enctype','multipart/form-data');
+	        	// for IE compatibility
+	        	$('#profileEditForm').attr('encoding','multipart/form-data');
+	        	$('#profileEditForm').attr('action', data.formUrl);
+	        	$('#profileEditForm').submit();
+        	} else {
+        		$(this).Text(initialSubmitMessage);
+            	$('#statusMessage').css("display", "block")
+            					   .attr('class', 'alert alert-danger')
+            					   .html('There seems to be a network error, please try again later');
+            	$("html, body").animate({ scrollTop: 0 });
+        	}
+        }
+        
+	});
+}

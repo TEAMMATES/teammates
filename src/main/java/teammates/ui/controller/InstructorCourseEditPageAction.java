@@ -12,6 +12,7 @@ import teammates.logic.api.GateKeeper;
  */
 public class InstructorCourseEditPageAction extends Action {
  
+    //TODO: display privileges in the database properly
     @Override
     public ActionResult execute() throws EntityDoesNotExistException { 
                 

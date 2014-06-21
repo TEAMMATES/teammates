@@ -38,9 +38,10 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
         InstructorAttributes instructor = dataBundle.instructors.get("instructor2OfCourse1");
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, instructor.courseId,
-                Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.email,
+                Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.email
         };
         
+        verifyUnaccessibleWithoutModifyInstructorPrivilege(submissionParams);
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
     }
     
@@ -126,7 +127,7 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
         
         expectedLogSegment = "Instructor <span class=\"bold\"> " + instructorEmailToDelete + "</span>"
                 + " in Course <span class=\"bold\">[" + courseId + "]</span> could not be deleted "
-                + "as there is only one instructor left.<br>";
+                + "as there is only one instructor left to be able to modify instructors.<br>";
         AssertHelper.assertContains(expectedLogSegment, deleteAction.getLogMessage());
     }
     

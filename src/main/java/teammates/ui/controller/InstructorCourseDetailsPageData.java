@@ -18,6 +18,7 @@ public class InstructorCourseDetailsPageData extends PageData {
         super(account);
     }
 
+    public InstructorAttributes currentInstructor;
     public CourseDetailsBundle courseDetails;
     public List<StudentAttributes> students;
     public List<InstructorAttributes> instructors;
@@ -72,7 +73,7 @@ public class InstructorCourseDetailsPageData extends PageData {
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = Url.addParamToUrl(link, Const.ParamsNames.STUDENT_EMAIL,
                 student.email);
-        link = Url.addParamToUrl(link, Const.ParamsNames.STUDENT_RECORDS_SHOW_COMMENT_BOX, "yes");
+        link = Url.addParamToUrl(link, Const.ParamsNames.SHOW_COMMENT_BOX, "yes");
         link = addUserIdToUrl(link);
         return link;
     }

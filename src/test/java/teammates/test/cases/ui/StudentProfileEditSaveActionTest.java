@@ -112,7 +112,8 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         
         AssertHelper.assertContainsRegex(expectedLogMessage, a.getLogMessage());
         
-        
+        ______TS("test uploading, deleting and updating of photos");
+        // not tested here and will be tested in UiTests
     }
 
     private StudentProfileAttributes getProfileAttributesFrom(

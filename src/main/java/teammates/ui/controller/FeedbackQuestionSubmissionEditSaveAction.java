@@ -14,14 +14,12 @@ import teammates.common.datatransfer.FeedbackQuestionBundle;
 import teammates.common.datatransfer.FeedbackQuestionType;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
-import teammates.logic.api.Logic;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.StudentsLogic;
 
@@ -76,7 +74,7 @@ public abstract class FeedbackQuestionSubmissionEditSaveAction extends Action {
             }
         }
         
-        List<String> errors = questionDetails.validateResponseAttributes(responsesForQuestion);
+        List<String> errors = questionDetails.validateResponseAttributes(responsesForQuestion, data.bundle.recipientList.size());
         
         if(errors.isEmpty()) {
             for(FeedbackResponseAttributes response : responsesForQuestion) {
@@ -159,7 +157,16 @@ public abstract class FeedbackQuestionSubmissionEditSaveAction extends Action {
         //This field can be null if the question is skipped
         String[] answer = HttpRequestHelper.getValuesFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT+"-"+questionIndx+"-"+responseIndx);
         
-        if(answer != null && !answer[0].trim().isEmpty()) {
+        boolean allAnswersEmpty = true;
+        if(answer!=null){
+            for(int i=0 ; i<answer.length ; i++){
+                if(answer[i]!=null || !answer[i].trim().isEmpty()){
+                    allAnswersEmpty = false;
+                }
+            }
+        }
+        
+        if(answer != null && !allAnswersEmpty) {
             FeedbackAbstractResponseDetails responseDetails = 
                     FeedbackAbstractResponseDetails.createResponseDetails(
                             answer,

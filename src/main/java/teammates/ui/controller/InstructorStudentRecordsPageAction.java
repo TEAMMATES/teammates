@@ -31,7 +31,7 @@ public class InstructorStudentRecordsPageAction extends Action {
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL); 
         Assumption.assertNotNull(studentEmail);
         
-        String showCommentBox = getRequestParamValue(Const.ParamsNames.STUDENT_RECORDS_SHOW_COMMENT_BOX);
+        String showCommentBox = getRequestParamValue(Const.ParamsNames.SHOW_COMMENT_BOX);
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         
