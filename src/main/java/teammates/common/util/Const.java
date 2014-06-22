@@ -27,6 +27,8 @@ public class Const {
          */
         public static final String ADMIN_TIME_ZONE = "Asia/Singapore";
         
+        public static final String GCS_BUCKET_NAME = "teammates";
+        
         public static final String EMAIL_TASK_QUEUE = "configure-and-prepare-email-queue";
         public static final String SUBMISSION_TASK_QUEUE = "submission-queue";
         public static final String EVAL_SUBMISSION_ADJUSTMENT_TASK_QUEUE =
@@ -860,8 +862,6 @@ public class Const {
     private void _______repeated_phrases___________________________________(){}
     
     public static final String EOL = System.getProperty("line.separator");
-    
-    public static final String GCS_BUCKET_NAME = "teammates";
     
     public static final String USER_NOBODY_TEXT = "-";
     public static final String USER_UNKNOWN_TEXT = "Unknown user";

@@ -16,7 +16,7 @@ public class StudentProfileCreateFormUrlAction extends Action {
         }
         
         UploadOptions uploadOptions = UploadOptions.Builder.withDefaults()
-                .googleStorageBucketName(Const.GCS_BUCKET_NAME)
+                .googleStorageBucketName(Const.SystemParams.GCS_BUCKET_NAME)
                 .maxUploadSizeBytes(5000000);
         String formPostUrl = BlobstoreServiceFactory.getBlobstoreService()
                 .createUploadUrl(Const.ActionURIs.STUDENT_PROFILE_EDIT_SAVE, uploadOptions);
