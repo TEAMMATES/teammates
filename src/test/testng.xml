@@ -203,7 +203,6 @@
             <class name="teammates.test.cases.ui.browsertests.StudentCourseJoinConfirmationPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.AdminHomePageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.StudentHomePageUiTest" />
-            <class name="teammates.test.cases.ui.browsertests.StudentProfilePageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.AllAccessControlUiTests" />
         </classes>
     </test>
