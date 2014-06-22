@@ -24,7 +24,11 @@ public class StudentProfilePicturePage extends AppPage {
     }
     
     public void verifyIsErrorPage() {
-        verifyHtmlPart(By.id("frameBodyWrapper"), "/studentProfilePictureNotFound.html");
+        if (browser.driver.getCurrentUrl().contains("localhost")) {
+            verifyHtmlPart(By.id("frameBodyWrapper"), "/studentProfilePictureNotFound.html");
+        } else {
+            assertEquals("", browser.driver.findElement(By.tagName("body")).getText());
+        }
     }
 
 }

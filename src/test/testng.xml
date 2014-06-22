@@ -141,6 +141,7 @@
             <class name="teammates.test.cases.ui.StudentFeedbackQuestionSubmissionEditSaveActionTest" />
             <class name="teammates.test.cases.ui.StudentHomePageActionTest" />
             <class name="teammates.test.cases.ui.StudentProfilePageActionTest" />
+            <class name="teammates.test.cases.ui.StudentProfileEditSaveActionTest" />
             <class name="teammates.test.automated.EvaluationClosingReminderTest" />
             <class name="teammates.test.automated.EvaluationOpeningReminderTest" />
             <class name="teammates.test.automated.FeedbackSessionClosingReminderTest" />

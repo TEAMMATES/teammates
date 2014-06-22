@@ -103,12 +103,12 @@ public abstract class Action {
         
         if (!isMasqueradeModeRequested(loggedInUser.googleId, paramRequestedUserId)) {
             account = loggedInUser;
-        
         } else if (loggedInUserType.isAdmin) {
-            //Allowing admin to masquerade as another user
             isUnregistered = false;
+            //Allowing admin to masquerade as another user
             account = logic.getAccount(paramRequestedUserId);
             if(account==null){ //Unregistered user
+                isUnregistered = true;
                 account = new AccountAttributes();
                 account.googleId = paramRequestedUserId;
             }

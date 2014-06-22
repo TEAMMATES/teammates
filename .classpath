@@ -19,5 +19,6 @@
 	<classpathentry kind="lib" path="src/test/resources/lib/httpunit/httpunit.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/appengine-gcs-client-0.3.13.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/guava-15.0.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/google-api-services-storage-v1beta2-rev47-1.18.0-rc.jar"/>
 	<classpathentry kind="output" path="src/main/webapp/WEB-INF/classes"/>
 </classpath>

@@ -27,7 +27,7 @@ public class Const {
          */
         public static final String ADMIN_TIME_ZONE = "Asia/Singapore";
         
-        public static final String GCS_BUCKET_NAME = "teammates";
+        public static final String GCS_BUCKET_NAME = "teammates-thy.appspot.com";
         
         public static final String EMAIL_TASK_QUEUE = "configure-and-prepare-email-queue";
         public static final String SUBMISSION_TASK_QUEUE = "submission-queue";

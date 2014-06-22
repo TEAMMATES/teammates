@@ -9,7 +9,9 @@
 <%
     PageData data = (PageData) request.getAttribute("data");
     
-    String pictureUrl = Const.ActionURIs.STUDENT_PROFILE_PICTURE + "?blob-key=" + data.account.studentProfile.pictureKey;
+    String pictureUrl = Const.ActionURIs.STUDENT_PROFILE_PICTURE + 
+            "?blob-key=" + data.account.studentProfile.pictureKey + 
+            "&user="+data.account.googleId;
     if (data.account.studentProfile.pictureKey == "") {
     	pictureUrl = Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH;
     }
@@ -113,6 +115,7 @@
                 <button type="button" id="profileEditSubmit" class="btn btn-primary center-block" onclick="finaliseForm()">Save Profile</button>
                 <br>
                 <p class="text-muted text-color-disclaimer"> <i>* This profile will be visible to all your Instructors and Coursemates</i></p>
+                <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
             </form>
         </div>
     </div>
