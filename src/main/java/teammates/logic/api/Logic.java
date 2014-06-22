@@ -165,8 +165,6 @@ public class Logic {
      */
     public void createAccount(String googleId, String name, boolean isInstructor,
                                 String email, String institute) throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
-        StudentProfileAttributes emptyStudentProfile = new StudentProfileAttributes();
-        emptyStudentProfile.googleId = googleId;
 
         createAccount(googleId, name, isInstructor, email, institute, null);
     }

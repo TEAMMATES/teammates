@@ -27,6 +27,8 @@ public class Const {
          */
         public static final String ADMIN_TIME_ZONE = "Asia/Singapore";
         
+        public static final String GCS_BUCKET_NAME = "teammates";
+        
         public static final String EMAIL_TASK_QUEUE = "configure-and-prepare-email-queue";
         public static final String SUBMISSION_TASK_QUEUE = "submission-queue";
         public static final String EVAL_SUBMISSION_ADJUSTMENT_TASK_QUEUE =
@@ -817,6 +819,7 @@ public class Const {
         public static final String STUDENT_EVALUATION_SUBMISSION_RECEIVED = "Your submission for %s in course %s has been saved successfully";
         public static final String STUDENT_PROFILE_NOT_A_PICTURE = "The file that you have uploaded is not a picture. "
                 + "Please upload a picture (usually it ends with .jpg or .png)";
+        public static final String STUDENT_NOT_FOUND = "The student you tried to view records for does not exist.";
     }
 
     /* These indicate status of an operation, but they are not shown to the user */
@@ -860,8 +863,6 @@ public class Const {
     
     public static final String EOL = System.getProperty("line.separator");
     
-    public static final String GCS_BUCKET_NAME = "teammates";
-    
     public static final String USER_NOBODY_TEXT = "-";
     public static final String USER_UNKNOWN_TEXT = "Unknown user";
     public static final String TEAM_OF_EMAIL_OWNER = "'s Team";
@@ -888,6 +889,7 @@ public class Const {
     
     public static final String STUDENT_COURSE_STATUS_YET_TO_JOIN = "Yet to join";
     public static final String STUDENT_COURSE_STATUS_JOINED = "Joined";
+    public static final String STUDENT_PROFILE_FIELD_NOT_FILLED = "Undisclosed";
     
     public static final String USER_NAME_FOR_SELF = "Myself";
     public static final String USER_TEAM_FOR_INSTRUCTOR = "Instructors";

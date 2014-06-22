@@ -1,4 +1,38 @@
 {
+    
+  "accounts": {
+    "Charlie": {
+      "googleId": "CESubEditUiT.charlie.d.tmms",
+      "email": "CESubEditUiT.charlie.d.tmms@gmail.com",
+      "isInstructor":false,
+      "name": "Charlie Dávis",
+      "institute":"MIT",
+      "studentProfile":{
+        "googleId":"CESubEditUiT.charlie.d.tmms",
+        "shortName":"Charl",
+        "email":"char@lie.com",
+        "institute":"Harvard",
+        "country":"U.S.A",
+        "gender":"male",
+        "moreInfo":"no more info",
+        pictureKey:""
+      }
+    },
+    "Danny": {
+      "googleId": "CESubEditUiT.danny.e.tmms",
+      "email": "CESubEditUiT.danny.e.tmms@gmail.com",
+      "isInstructor":false,
+      "name": "Danny Engrid",
+      "institute":"SIT"
+    },
+    "Emily": {
+      "googleId": "CESubEditUiT.emily.tmms",
+      "email": "CESubEditUiT.emily.tmms@gmail.com",
+      "isInstructor":false,
+      "name": "Emily",
+      "institute":"NUS"
+    }
+  },
   "courses": {
     "CESubEditUiT.CS1101": {
       "id": "CESubEditUiT.CS1101",

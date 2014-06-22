@@ -58,8 +58,7 @@
                   action="<%=Const.ActionURIs.STUDENT_PROFILE_EDIT_SAVE %>">
                 <div class="form-group row" title="Upload a close-up of your face " data-toggle="tooltip" data-placement="top">
                     <div class="col-xs-4">
-                        <img src="<%=pictureUrl %>" 
-                        height="130px" width="130px" />
+                        <img src="<%=pictureUrl %>" class="profile-pic"/>
                     </div>
                     <div class="col-xs-6">
                         <label for="studentPhoto">Your Photo</label>

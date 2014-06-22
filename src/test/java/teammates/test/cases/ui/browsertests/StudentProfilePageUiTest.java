@@ -178,5 +178,6 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
     @AfterClass
     public void testAfter() {
         BackDoor.removeDataBundleFromDb(testData);
+        BrowserPool.release(browser);
     }
 }
