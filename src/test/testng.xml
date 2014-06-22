@@ -190,6 +190,7 @@
     <test name="sequential-ui-tests">
       <!--Theses cases need to be run sequentially to avoid state leaks between tests --> 
         <classes>
+            <class name="teammates.test.cases.ui.browsertests.StudentProfilePageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorCourseJoinConfirmationPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorHomePageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorCourseEnrollPageUiTest" />
@@ -201,7 +202,7 @@
             <class name="teammates.test.cases.ui.browsertests.InstructorEvalsPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorFeedbackEditPageUiTest" /> 
             <class name="teammates.test.cases.ui.browsertests.StudentCourseJoinConfirmationPageUiTest" />
-            <class name="teammates.test.cases.ui.browsertests.AdminHomePageUiTest" />
+            <class name="teammates.test.cases.ui.browsertests.AdminHomePageUiTest" />            
             <class name="teammates.test.cases.ui.browsertests.StudentHomePageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.AllAccessControlUiTests" />
         </classes>
