@@ -736,8 +736,6 @@ public class Emails {
                 key = StringHelper.encrypt(instructor.key);
                 joinUrl = Config.APP_URL + Const.ActionURIs.INSTRUCTOR_COURSE_JOIN;
                 joinUrl = Url.addParamToUrl(joinUrl, Const.ParamsNames.REGKEY, key);
-                joinUrl = Url.addParamToUrl(joinUrl, Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
-                joinUrl = Url.addParamToUrl(joinUrl, Const.ParamsNames.IS_SAMPLE_DATA_IMPORTED, "" + isSampleDataImported);
             }
             
             emailBody = emailBody.replace("${confimationUrl}",joinUrl);
