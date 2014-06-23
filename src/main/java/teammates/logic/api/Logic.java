@@ -59,6 +59,8 @@ import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.logic.core.SubmissionsLogic;
 
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.blobstore.BlobstoreFailureException;
 import com.google.appengine.api.datastore.Text;
 
 /**
@@ -164,8 +166,6 @@ public class Logic {
      */
     public void createAccount(String googleId, String name, boolean isInstructor,
                                 String email, String institute) throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
-        StudentProfileAttributes emptyStudentProfile = new StudentProfileAttributes();
-        emptyStudentProfile.googleId = googleId;
 
         createAccount(googleId, name, isInstructor, email, institute, null);
     }
@@ -237,6 +237,12 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
         
         accountsLogic.deleteAccountCascade(googleId);
+    }
+    
+    public void deleteProfilePicture(BlobKey key) throws BlobstoreFailureException {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, key);
+        
+        accountsLogic.deleteProfilePicture(key);
     }
 
     @SuppressWarnings("unused")
@@ -1838,6 +1844,23 @@ public class Logic {
     private void ____FEEDBACK_RESPONSE_level_methods_____________________________() {
     }
     
+    public FeedbackResponseAttributes getFeedbackResponse(String feedbackResponseId) {
+        
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackResponseId);
+        
+        return feedbackResponsesLogic.getFeedbackResponse(feedbackResponseId);
+    }
+    
+    public FeedbackResponseAttributes getFeedbackResponse(
+            String feedbackQuestionId, String giverEmail, String recipient) {
+        
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackQuestionId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, giverEmail);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, recipient);
+     
+        return feedbackResponsesLogic.getFeedbackResponse(feedbackQuestionId, giverEmail, recipient);
+    }
+    
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
@@ -1994,20 +2017,6 @@ public class Logic {
      * @return a list of comments from the giver that have the specified comment status.
      * @throws EntityDoesNotExistException
      */
-    public List<CommentAttributes> getCommentsForGiverAndStatus(String courseId, String giverEmail, CommentStatus status) throws EntityDoesNotExistException{
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, giverEmail);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, status);
-        return commentsLogic.getCommentsForGiverAndStatus(courseId, giverEmail, status);
-    }
-    
-    /**
-     * Currently giver is limited to instructors only
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * @return a list of comments from the giver that have the specified comment status.
-     * @throws EntityDoesNotExistException
-     */
     public List<CommentAttributes> getCommentsForInstructor(InstructorAttributes instructor) throws EntityDoesNotExistException{
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructor);
         return commentsLogic.getCommentsForInstructor(instructor);
@@ -2036,20 +2045,6 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, receiver);
         return commentsLogic.getCommentsForReceiver(courseId, recipientType, receiver);
-    }
-    
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * @return a list of comments with the specified commentViewerType - 
-     * PERSON (recipients can view those comments), TEAM (team members can will), SECTION (students in the same section can view),
-     * COURSE (the whole class can view), INSTRUCTOR (instructor can view)
-     * @throws EntityDoesNotExistException
-     */
-    public List<CommentAttributes> getCommentsForCommentViewer(String courseId, CommentRecipientType commentViewerType) throws EntityDoesNotExistException{
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, commentViewerType);
-        return commentsLogic.getCommentsForCommentViewer(courseId, commentViewerType);
     }
     
     @SuppressWarnings("unused")

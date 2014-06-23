@@ -7,7 +7,7 @@ var FEEDBACK_RESPONSE_TEXT = "responsetext";
 $(document).ready(function () {
 
     // Bind submission event
-    $('form[name="form_submit_response"]').submit(function() {
+    $('form[name="form_submit_response"],form[name="form_student_submit_response"]').submit(function() {
         if(!validateConstSumQuestions()){
             return false;
         }

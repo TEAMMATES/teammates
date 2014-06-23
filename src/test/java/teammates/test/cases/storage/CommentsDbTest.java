@@ -8,6 +8,7 @@ import static teammates.common.util.FieldValidator.COURSE_ID_ERROR_MESSAGE;
 import static teammates.common.util.FieldValidator.REASON_INCORRECT_FORMAT;
 import static teammates.common.util.FieldValidator.EMAIL_ERROR_MESSAGE;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -22,6 +23,7 @@ import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentRecipientType;
+import teammates.common.datatransfer.CommentStatus;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -92,16 +94,42 @@ public class CommentsDbTest extends BaseComponentTestCase {
                 c.courseId, c.recipientType, VALID_RECEIVER_EMAIL));
         
         CommentAttributes anotherRetrievedComment = commentsDb.getComment(retrievedComment.getCommentId());
-        assertEquals(retrievedComment.commentText, anotherRetrievedComment.commentText);
-        assertEquals(retrievedComment.giverEmail, anotherRetrievedComment.giverEmail);
-        assertEquals(retrievedComment.recipients, anotherRetrievedComment.recipients);
-        assertEquals(retrievedComment.courseId, anotherRetrievedComment.courseId);
+        compareComments(retrievedComment, anotherRetrievedComment);
         
         anotherRetrievedComment = commentsDb.getComment(retrievedComment);
-        assertEquals(retrievedComment.commentText, anotherRetrievedComment.commentText);
-        assertEquals(retrievedComment.giverEmail, anotherRetrievedComment.giverEmail);
-        assertEquals(retrievedComment.recipients, anotherRetrievedComment.recipients);
-        assertEquals(retrievedComment.courseId, anotherRetrievedComment.courseId);
+        compareComments(retrievedComment, anotherRetrievedComment);
+        
+        anotherRetrievedComment = commentsDb.
+                getCommentsForGiverAndStatus(retrievedComment.courseId, retrievedComment.giverEmail, retrievedComment.status).get(0);
+        compareComments(retrievedComment, anotherRetrievedComment);
+        
+        retrievedComment.status = CommentStatus.DRAFT;
+        retrievedComment.showCommentTo = new ArrayList<CommentRecipientType>();
+        retrievedComment.showCommentTo.add(CommentRecipientType.PERSON);
+        retrievedComment.showCommentTo.add(CommentRecipientType.TEAM);
+        retrievedComment.showCommentTo.add(CommentRecipientType.SECTION);
+        retrievedComment.showCommentTo.add(CommentRecipientType.COURSE);
+        commentsDb.updateComment(retrievedComment);
+        
+        anotherRetrievedComment = commentsDb.
+                getCommentDrafts(retrievedComment.giverEmail).get(0);
+        compareComments(retrievedComment, anotherRetrievedComment);
+        
+        anotherRetrievedComment = commentsDb.
+                getCommentsForCommentViewer(retrievedComment.courseId, CommentRecipientType.PERSON).get(0);
+        compareComments(retrievedComment, anotherRetrievedComment);
+        
+        anotherRetrievedComment = commentsDb.
+                getCommentsForCommentViewer(retrievedComment.courseId, CommentRecipientType.TEAM).get(0);
+        compareComments(retrievedComment, anotherRetrievedComment);
+        
+        anotherRetrievedComment = commentsDb.
+                getCommentsForCommentViewer(retrievedComment.courseId, CommentRecipientType.SECTION).get(0);
+        compareComments(retrievedComment, anotherRetrievedComment);
+        
+        anotherRetrievedComment = commentsDb.
+                getCommentsForCommentViewer(retrievedComment.courseId, CommentRecipientType.COURSE).get(0);
+        compareComments(retrievedComment, anotherRetrievedComment);
         
         ______TS("non existant comment case");
         List<CommentAttributes> retrievedList = commentsDb.getCommentsForGiver("any-course-id", "non-existent@email.com");
@@ -127,6 +155,14 @@ public class CommentsDbTest extends BaseComponentTestCase {
         } catch (AssertionError e){
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
         }
+    }
+
+    private void compareComments(CommentAttributes retrievedComment,
+            CommentAttributes anotherRetrievedComment) {
+        assertEquals(retrievedComment.commentText, anotherRetrievedComment.commentText);
+        assertEquals(retrievedComment.giverEmail, anotherRetrievedComment.giverEmail);
+        assertEquals(retrievedComment.recipients, anotherRetrievedComment.recipients);
+        assertEquals(retrievedComment.courseId, anotherRetrievedComment.courseId);
     }
 
     @Test
@@ -212,6 +248,7 @@ public class CommentsDbTest extends BaseComponentTestCase {
         c.recipients.add(VALID_RECEIVER_EMAIL);
         c.createdAt = new Date();
         c.commentText = new Text(VALID_COMMENT_TEXT);
+        c.status = CommentStatus.FINAL;
         return c;
     }
     

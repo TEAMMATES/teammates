@@ -628,7 +628,6 @@ public class PageData {
             
         }
         String disabledStr = "disabled=\"disabled\"";
-        String disableViewResultsStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTION) ? "" : disabledStr;
         String disableEditSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
         String disableDeleteSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
         String disableUnpublishSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
@@ -637,7 +636,7 @@ public class PageData {
             "<a class=\"btn btn-default btn-xs btn-tm-actions session-view-for-test" + (hasView ? "\"" : DISABLED) +
             "href=\"" + getInstructorEvaluationResultsLink(eval.courseId,eval.name) + "\" " +
             "title=\"" + Const.Tooltips.EVALUATION_RESULTS+"\" data-toggle=\"tooltip\" data-placement=\"top\" " + 
-            disableViewResultsStr + ">View Results</a> "
+            ">View Results</a> "
         );
         result.append(
             "<a class=\"btn btn-default btn-xs btn-tm-actions session-edit-for-test" + (hasEdit ? "\"" : DISABLED) + 
@@ -750,7 +749,6 @@ public class PageData {
         boolean hasUnpublish = !session.isWaitingToOpen() && session.isPublished();
         boolean hasRemind = session.isOpened();
         String disabledStr = "disabled=\"disabled\"";
-        String disableViewResultsStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTION) ? "" : disabledStr;
         String disableEditSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
         String disableDeleteSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
         String disableUnpublishSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
@@ -759,7 +757,7 @@ public class PageData {
             "<a class=\"btn btn-default btn-xs btn-tm-actions session-view-for-test" + (hasView ? "\"" : DISABLED) +
             "href=\"" + getInstructorFeedbackSessionResultsLink(session.courseId,session.feedbackSessionName) + "\" " +
             "title=\"" + Const.Tooltips.FEEDBACK_SESSION_RESULTS + "\" data-toggle=\"tooltip\" data-placement=\"top\" " +
-            disableViewResultsStr + ">View Results</a> "
+            ">View Results</a> "
         );
         if(isCreator){
             result.append(

@@ -26,14 +26,17 @@ public class InstructorAttributes extends EntityAttributes {
     public String courseId;
     public String key;
     public String role;
+    public boolean isDisplayedToStudents;
     public String displayedName;
     public String instructorPrivilegesAsText;
     public transient InstructorPrivileges privileges;
     
+    public static final String DEFAULT_DISPLAY_NAME = "Instructor";
+    
     @Deprecated
     public InstructorAttributes(String googleId, String courseId, String name, String email) {
-        this(googleId, courseId, name, email, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+        this(googleId, courseId, name, email,
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER, DEFAULT_DISPLAY_NAME,
                 new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER));
     }
 
@@ -44,6 +47,7 @@ public class InstructorAttributes extends EntityAttributes {
         this.name = Sanitizer.sanitizeName(name);
         this.email = Sanitizer.sanitizeEmail(email);
         this.role = Sanitizer.sanitizeName(role);
+        this.isDisplayedToStudents = true;
         this.displayedName = Sanitizer.sanitizeName(displayedName);
         this.instructorPrivilegesAsText = Sanitizer.sanitizeTextField(instructorPrivilegesAsText);
         this.privileges = this.getInstructorPrivilegesFromText();
@@ -56,9 +60,16 @@ public class InstructorAttributes extends EntityAttributes {
         this.name = Sanitizer.sanitizeName(name);
         this.email = Sanitizer.sanitizeEmail(email);
         this.role = Sanitizer.sanitizeName(role);
+        this.isDisplayedToStudents = true;
         this.displayedName = Sanitizer.sanitizeName(displayedName);
         this.privileges = privileges;
         this.instructorPrivilegesAsText = this.getTextFromInstructorPrivileges();     
+    }
+    
+    public InstructorAttributes(String googleId, String courseId, String name, String email, String role,
+            boolean isDisplayedToStudents, String displayName, InstructorPrivileges privileges) {
+        this(googleId, courseId, name, email, role, displayName, privileges);
+        this.isDisplayedToStudents = isDisplayedToStudents;
     }
     
     public InstructorAttributes(Instructor instructor) {
@@ -72,8 +83,9 @@ public class InstructorAttributes extends EntityAttributes {
         } else {
             this.role = instructor.getRole();
         }
+        this.isDisplayedToStudents = instructor.isDisplayedToStudents();
         if (instructor.getDisplayedName() == null) {
-            this.displayedName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+            this.displayedName = DEFAULT_DISPLAY_NAME;
         } else {
             this.displayedName = instructor.getDisplayedName();
         }
@@ -105,9 +117,9 @@ public class InstructorAttributes extends EntityAttributes {
 
     public Instructor toEntity() {
         if (key != null) {
-            return new Instructor(googleId, courseId, name, email, key, role, displayedName, instructorPrivilegesAsText);
+            return new Instructor(googleId, courseId, name, email, key, role, isDisplayedToStudents, displayedName, instructorPrivilegesAsText);
         } else {
-            return new Instructor(googleId, courseId, name, email, role, displayedName, instructorPrivilegesAsText);
+            return new Instructor(googleId, courseId, name, email, role,isDisplayedToStudents, displayedName, instructorPrivilegesAsText);
         }
     }
 
@@ -174,18 +186,18 @@ public class InstructorAttributes extends EntityAttributes {
         return this.privileges.isAllowedForPrivilege(privilegeName);
     }
     
-    public boolean isAllowedForPrivilege(String sectionId, String privilegeName) {
+    public boolean isAllowedForPrivilege(String sectionName, String privilegeName) {
         if (this.privileges == null) {
             this.privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         }
-        return this.privileges.isAllowedForPrivilege(sectionId, privilegeName);
+        return this.privileges.isAllowedForPrivilege(sectionName, privilegeName);
     }
     
-    public boolean isAllowedForPrivilege(String sectionId, String sessionId, String privilegeName) {
+    public boolean isAllowedForPrivilege(String sectionName, String sessionName, String privilegeName) {
         if (this.privileges == null) {
             this.privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         }
-        return this.privileges.isAllowedForPrivilege(sectionId, sessionId, privilegeName);
+        return this.privileges.isAllowedForPrivilege(sectionName, sessionName, privilegeName);
     }
     
     /**
