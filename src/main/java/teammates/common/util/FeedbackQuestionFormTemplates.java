@@ -33,6 +33,9 @@ public class FeedbackQuestionFormTemplates {
     public static String CONSTSUM_RESULT_STATS = FileHelper.readResourseFile("feedbackQuestionConstSumResultStatsTemplate.html");
     public static String CONSTSUM_RESULT_STATS_OPTIONFRAGMENT = FileHelper.readResourseFile("feedbackQuestionConstSumResultStatsOptionFragment.html");
     
+    public static String CONTRIB_SUBMISSION_FORM = FileHelper.readResourseFile("feedbackQuestionContribSubmissionFormTemplate.html");
+    
+    
     /** Populates the feedback question form html templates by replacing 
      * variables in the template string with the given value string.
      * @param template The template html to be populated
