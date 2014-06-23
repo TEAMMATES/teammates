@@ -17,7 +17,7 @@ function finaliseForm(event) {
 	$.ajax({
 		url: "/page/studentProfileCreateFormUrl?user="+$("input[name='user']").val(),
 		beforeSend : function() {
-            $(this).html("<img src='/images/ajax-loader.gif'/>");
+            $('#profileEditSubmit').html("<img src='../images/ajax-loader.gif'/>");
         },
         error: function() {
         	$(this).Text(initialSubmitMessage);
