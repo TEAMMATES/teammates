@@ -65,7 +65,7 @@ public class StudentProfileEditSaveAction extends Action {
         Assumption.assertPostParamNotNull(Const.ParamsNames.STUDENT_SHORT_NAME, studentProfile.shortName);
         Assumption.assertPostParamNotNull(Const.ParamsNames.STUDENT_EMAIL, studentProfile.email);
         Assumption.assertPostParamNotNull(Const.ParamsNames.STUDENT_GENDER, studentProfile.gender);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.STUDENT_COUNTRY, studentProfile.country);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.STUDENT_NATIONALITY, studentProfile.nationality);
         Assumption.assertPostParamNotNull(Const.ParamsNames.STUDENT_PROFILE_INSTITUTION, studentProfile.institute);
         Assumption.assertPostParamNotNull(Const.ParamsNames.STUDENT_PROFILE_MOREINFO, studentProfile.moreInfo);
     }
@@ -76,7 +76,7 @@ public class StudentProfileEditSaveAction extends Action {
         editedProfile.shortName = getRequestParamValue(Const.ParamsNames.STUDENT_SHORT_NAME);
         editedProfile.email = getRequestParamValue(Const.ParamsNames.STUDENT_PROFILE_EMAIL);
         editedProfile.institute = getRequestParamValue(Const.ParamsNames.STUDENT_PROFILE_INSTITUTION);
-        editedProfile.country = getRequestParamValue(Const.ParamsNames.STUDENT_COUNTRY);
+        editedProfile.nationality = getRequestParamValue(Const.ParamsNames.STUDENT_NATIONALITY);
         editedProfile.gender = getRequestParamValue(Const.ParamsNames.STUDENT_GENDER);
         editedProfile.moreInfo = getRequestParamValue(Const.ParamsNames.STUDENT_PROFILE_MOREINFO);
         extractProfilePictureInfo(editedProfile);

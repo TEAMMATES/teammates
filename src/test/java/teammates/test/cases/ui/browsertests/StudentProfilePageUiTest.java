@@ -77,9 +77,9 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         
         ______TS("typical success case, no picture");
         
-        profilePage.editProfileThroughUi("", "short.name", "e@email.com", "inst", "Usual Country", 
+        profilePage.editProfileThroughUi("", "short.name", "e@email.com", "inst", "Usual Nationality", 
                 "female", "this is enough!$%&*</>");
-        profilePage.ensureProfileContains("short.name", "e@email.com", "inst", "Usual Country", 
+        profilePage.ensureProfileContains("short.name", "e@email.com", "inst", "Usual Nationality", 
                 "female", "this is enough!$%&*</>");
         profilePage.verifyStatus(Const.StatusMessages.STUDENT_PROFILE_EDITED);
         
@@ -88,7 +88,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         profilePage.fillProfilePic("src\\test\\resources\\images\\profile_pic.png");
         profilePage.submitEditedProfile();
         
-        profilePage.ensureProfileContains("short.name", "e@email.com", "inst", "Usual Country", 
+        profilePage.ensureProfileContains("short.name", "e@email.com", "inst", "Usual Nationality", 
                 "female", "this is enough!$%&*</>");
         profilePage.verifyStatus(Const.StatusMessages.STUDENT_PROFILE_EDITED);
         
@@ -125,9 +125,9 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
                 "e@email.com", " inst  ", StringHelper.generateStringOfLength(54), 
                 "male", "this is enough!$%&*</>", "");
         profilePage.editProfileThroughUi("", spa.shortName, spa.email, spa.institute, 
-                spa.country, spa.gender, spa.moreInfo);
+                spa.nationality, spa.gender, spa.moreInfo);
         
-        profilePage.ensureProfileContains("short.name", "e@email.com", "inst", "Usual Country", 
+        profilePage.ensureProfileContains("short.name", "e@email.com", "inst", "Usual Nationality", 
                 "female", "this is enough!$%&*</>");
         
         profilePage.verifyStatus(StringHelper.toString(spa.getInvalidityInfo(), " "));

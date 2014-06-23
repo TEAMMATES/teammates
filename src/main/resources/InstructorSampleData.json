@@ -11,7 +11,7 @@
             "shortName": "Alice",
             "email":"alice@gmail.com",
             "institute":"NUS",
-            "country": "China",
+            "nationality": "China",
             "gender":"female",
             "moreInfo":"This is more info about me"
         }
@@ -34,7 +34,7 @@
                 "shortName": "Danny",
                 "email": "danny.e.tmms@gmail.com",
                 "institute":"NTU",
-                "country":"Singapore",
+                "nationality":"Singapore",
                 "gender":"male",
                 "moreInfo":"lorem ipsum might be suitable here :P"
             }
@@ -50,7 +50,7 @@
                 "shortName": "Emm",
                 "email": "emma@gmail.com",
                 "institute":"SIT",
-                "country":"India",
+                "nationality":"India",
                 "gender":"female",
                 "moreInfo":"This student's name is Emma Farrell"
             }
