@@ -50,6 +50,13 @@
             "isInstructor":false,
             "email":"comments.student2InCourse1@gmail.com",
             "institute":"National University of Singapore"
+        },
+        "student3InCourse1":{
+            "googleId":"comments.student3InCourse1",
+            "name":"Student 3 in course 1",
+            "isInstructor":false,
+            "email":"comments.student3InCourse1@gmail.com",
+            "institute":"National University of Singapore"
         }
     },
     "courses":{
