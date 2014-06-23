@@ -54,7 +54,7 @@ public class EntityModifiedLogsServlet extends AutomatedRemindersServlet {
                         String type = tokens[1];
                         String id = tokens[2];
                       
-                        writer.println(type + ":" + id);
+                        writer.println(type + "::" + id);
 
                     }
                 }

@@ -5,12 +5,15 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.Vector;
 
+import com.google.appengine.api.datastore.Text;
 import com.google.appengine.repackaged.org.apache.commons.collections.MultiMap;
 import com.google.appengine.repackaged.org.apache.commons.collections.map.MultiValueMap;
 
@@ -51,7 +54,7 @@ public class OfflineBackup extends RemoteApiClient {
     
     private Vector<String> getModifiedLogs() {
         Vector<String> modifiedLogs = new Vector<String>();
-        
+
         try {
             //Opens a URL connection to obtain the entity modified logs
             URL myURL = new URL("http://4-18-dot-teammates-shawn.appspot.com/entityModifiedLogs");
@@ -116,13 +119,17 @@ public class OfflineBackup extends RemoteApiClient {
             
             while(idit.hasNext()) {
                 String[] id = idit.next();
-                EntityAttributes ea = retrieveEntity(entityType,id);
-                System.out.println("Retrieving:" + ea.toString());    
+                try {
+                    EntityAttributes ea = retrieveEntity(entityType,id);
+                    System.out.println("Retrieving:" + ea.toString());  
+                } catch (ParseException e) {
+                    System.out.println("Error while retrieving entities: " + e.getMessage());
+                }     
             }
         }
     }
     
-    private EntityAttributes retrieveEntity(String type, String[] id) {
+    private EntityAttributes retrieveEntity(String type, String[] id) throws ParseException {
         System.out.println(type);
         Logic logic = new Logic();
         switch(type) {
@@ -132,7 +139,7 @@ public class OfflineBackup extends RemoteApiClient {
                 
             case "Comment":
                 CommentsDb commentDb = new CommentsDb();
-                CommentAttributes comment = commentDb.getComment(Long.parseLong(id[0].trim()));
+                CommentAttributes comment = commentDb.getComment(id[0].trim(),id[1].trim(),id[2].trim(),new Text(id[3].trim()), new SimpleDateFormat("EEE MMM d HH:mm:ss.SSSSSS zzz yyyy").parse(id[4].trim()));
                 return comment;
                 
             case "Course":
@@ -141,25 +148,25 @@ public class OfflineBackup extends RemoteApiClient {
                 
             case "Evaluation":
                 EvaluationAttributes evaluation = logic.getEvaluation(id[0].trim(), id[1].trim());
-                System.out.println(id[0] + "|" + id[1]);
                 return evaluation;
                 
-            case "FeedbackQuestion":
+            case "Feedback Question":
                 FeedbackQuestionsDb feedbackQuestionDb = new FeedbackQuestionsDb();
-                FeedbackQuestionAttributes feedbackQuestion = feedbackQuestionDb.getFeedbackQuestion(id[0].trim());
+                FeedbackQuestionAttributes feedbackQuestion = feedbackQuestionDb.getFeedbackQuestion(id[0].trim(), id[1].trim(), Integer.parseInt(id[2].trim()));
                 return feedbackQuestion;
                 
-            case "FeedbackResponse":
+            case "Feedback Response":
                 FeedbackResponsesDb feedbackResponsesDb = new FeedbackResponsesDb();
-                FeedbackResponseAttributes feedbackResponse = feedbackResponsesDb.getFeedbackResponse(id[0].trim());
+                FeedbackResponseAttributes feedbackResponse = feedbackResponsesDb.getFeedbackResponse(id[0].trim(), id[1].split(":")[0], id[1].split(":")[1]);
                 return feedbackResponse;
                 
             case "FeedbackResponseComment":
+                System.out.println("lols");
                 FeedbackResponseCommentsDb feedbackResponseCommentsDb = new FeedbackResponseCommentsDb();
-                FeedbackResponseCommentAttributes feedbackResponseComment = feedbackResponseCommentsDb.getFeedbackResponseComment(Long.parseLong(id[0].trim()));
+                FeedbackResponseCommentAttributes feedbackResponseComment = feedbackResponseCommentsDb.getFeedbackResponseComment(id[0].trim(), id[1].trim(), new SimpleDateFormat("EEE MMM d HH:mm:ss.SSSSSS zzz yyyy").parse(id[2].trim()));
                 return feedbackResponseComment;
                 
-            case "FeedbackSession":
+            case "Feedback Session":
                 FeedbackSessionAttributes feedbackSession = logic.getFeedbackSession(id[0].trim(), id[1].trim());
                 return feedbackSession;
                 
