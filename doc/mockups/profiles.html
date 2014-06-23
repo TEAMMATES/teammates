@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="shortcut icon" href="/favicon.png">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TEAMMATES - Instructor</title>
+    <!-- Bootstrap core CSS -->
+    <link href="../../src/main/webapp/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap theme -->
+    <link href="../../src/main/webapp/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../src/main/webapp/stylesheets/teammatesCommon.css" type="text/css" media="screen">
+    <script type="text/javascript" src="../../src/main/webapp/js/jquery-minified.js"></script>
+    <script type="text/javascript" async="" src="https://ssl.google-analytics.com/ga.js"></script>
+    <script type="text/javascript" src="../../src/main/webapp/js/googleAnalytics.js"></script>
+    <script type="text/javascript" src="../../src/main/webapp/js/AnchorPosition.js"></script>
+    <script type="text/javascript" src="../../src/main/webapp/js/common.js"></script>
+
+    <script type="text/javascript" src="../../src/main/webapp/js/instructor.js"></script>
+    <script type="text/javascript" src="../../src/main/webapp/js/instructorStudentRecords.js"></script>
+    <script type="text/javascript" src="../../src/main/webapp/js/additionalQuestionInfo.js"></script>
+
+    <!-- Bootstrap core JavaScript ================================================== -->
+    <script src="../../src/main/webapp/bootstrap/js/bootstrap.min.js"></script>
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script type="text/javascript">
+        var showCommentBox = "null";
+    </script>
+
+    <style>
+        .affix {
+            position: fixed;
+            top: 100px;
+        }
+
+            .affix > li > a {
+                color: gray;
+                padding-top: 5px;
+                padding-bottom: 5px;
+            }
+
+                .affix > li.active > a {
+                    color: #31708f;
+                    font-weight: 700;
+                    border-left: 2px solid #31708f;
+                }
+
+            .affix > li > .nav {
+                font-size: 12px;
+            }
+
+                .affix > li > .nav > li > a {
+                    color: gray;
+                    padding-top: 1px;
+                    padding-bottom: 1px;
+                    padding-left: 30px;
+                }
+
+                .affix > li.active > .nav {
+                    display: block;
+                    width: 100%;
+                }
+
+                    .affix > li > .nav > li.active > a {
+                        color: #31708f;
+                        font-weight: 700;
+                        border-left: 2px solid #31708f;
+                    }
+
+                .affix > li:not(.active) > .nav {
+                    display: none;
+                }
+
+        .affix-top {
+            position: relative;
+        }
+
+        .affix-bottom {
+            position: absolute;
+        }
+
+        #studentProfile {
+            height:170px;
+        }
+
+        #studentName {
+            margin-top: 0;
+        }
+
+        .profile-attribute {
+            font-weight: bold;
+        }
+
+        #contentLinks > ul >li > a.nav {
+            padding: 15px 10px;
+        }
+
+        @media (max-width: 992px) {
+            #affixNav {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body onload="readyStudentRecordsPage();" data-spy="scroll" data-target="#affixNav" data-offset="100">
+
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#contentLinks">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/index.html">TEAMMATES</a>
+        </div>
+        <div class="collapse navbar-collapse" id="contentLinks">
+            <ul class="nav navbar-nav">
+                <li class="">
+                    <a class="nav home" data-link="instructorHome"
+                       href="/page/instructorHomePage?user=thyagesh.instructor">Home</a>
+                </li>
+                <li class="">
+                    <a class="nav courses" data-link="instructorCourse"
+                       href="/page/instructorCoursesPage?user=thyagesh.instructor">Courses</a>
+                </li>
+                <li class="">
+                    <a class="nav evaluations" data-link="instructorEval"
+                       href="/page/instructorEvalsPage?user=thyagesh.instructor">Sessions</a>
+                </li>
+                <li class="active">
+                    <a class="nav students" data-link="instructorStudent"
+                       href="/page/instructorStudentListPage?user=thyagesh.instructor">Students</a>
+                </li>
+                <li>
+                    <a class="nav help" href="/instructorHelp.html" target="_blank">Help</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav pull-right">
+                <li><a class="nav logout" href="/logout.jsp">Logout
+
+                    (<span class="text-info" data-toggle="tooltip" data-placement="bottom" title=""
+                           data-original-title="thyagesh.instructor">
+                                thyagesh.instructor
+                         </span>)
+
+                </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div id="frameBodyWrapper" class="container">
+<div id="topOfPage"></div>
+<h1>Emma Farrell's Records</h1>
+<br>
+<div class="modal fade" id="studentMoreInfo" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Emma's Profile - More Info</h4>
+            </div>
+            <div class="modal-body">
+                <p>One fine body&hellip;<br><br> Maybe a few links here. A few things there...</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="container-fluid">
+<div class="row">
+<div class="col-md-10">
+<div class="row" id="studentProfile">
+    <div class="col-md-2 col-sm-2 col-xs-2">
+        <img style="width:100px; height: 130px;" src="pictures/profile_pic.png" class="center-block profile-pic">
+    </div>
+    <div class="col-lg-6 col-md-8 col-sm-10 col-xs-10">
+        <table class="table table-striped">
+			<tbody>
+				<tr>
+					<td class="text-bold">Shortname (Gender)</td>
+					<td>Emm (F)</td>
+				</tr>
+				<tr>
+					<td class="text-bold">Email</td>
+					<td>emma.farrel@gmail.com</td>
+				</tr>
+				<tr>
+					<td class="text-bold">Institution</td>
+					<td>Nanyang Tech University</td>
+				</tr>
+				<tr>
+					<td class="text-bold">Country</td>
+					<td>Croatia</td>
+				</tr>
+				<tr class="hidden">
+					<td class="text-bold">Gender</td>
+					<td>Female</td>
+				</tr>
+				
+			</tbody>
+		</table>
+	</div>           
+</div>
+
+<div class="row">
+<div class="col-md-12">
+    <div class="panel panel-info">
+    <div id="studentComments" class="panel-heading">Comments</div>
+        <div class="panel-body">
+            <h5 id="currentInstructorComments">Your comments on this student:</h5>
+            <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment"
+                    onclick="showAddCommentBox();" data-toggle="tooltip" data-placement="top" title=""
+                    data-original-title="Add comment">
+                <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
+            </button>
+            <ul class="list-group" style="margin-top:15px;">
+
+                <li class="list-group-item list-group-item-warning">You don't have any comments on this student.</li>
+
+                <li class="list-group-item list-group-item-warning" id="comment_box" style="display:none;">
+                    <form method="post" action="/page/instructorStudentCommentAdd" name="form_commentadd"
+                          class="form_comment">
+                        <div class="form-group">
+                            <textarea class="form-control" rows="3" placeholder="Your comment about this student"
+                                      name="commenttext" id="commentText"></textarea>
+                        </div>
+                        <div class="col-sm-offset-5">
+                            <input type="submit" class="btn btn-primary" id="button_save_comment" value="Add Comment">
+                            <input type="button" class="btn btn-default" value="Cancel" onclick="hideAddCommentBox();">
+                            <input type="hidden" name="courseid" value="thyageshm.gma-demo">
+                            <input type="hidden" name="studentemail" value="emma.f.tmms@gmail.com">
+                            <input type="hidden" name="user" value="thyagesh.instructor">
+                        </div>
+                    </form>
+                </li>
+            </ul>
+            <h5 id="courseOtherComments">Comments from other courses:</h5>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <a id="courseOther1Comments" class="link">CS2103: Software Engineering (National University of
+                        Singapore)</a>
+                </li>
+                <li class="list-group-item list-group-item-warning">
+                    You have been handing in consistent work, well done! Please help
+                    your peers as well :-)
+                </li>
+                <li class="list-group-item list-group-item-warning">
+                    You have been a wonderful student! Keep up the good work!
+                </li>
+                <li class="list-group-item list-group-item-warning hidden">
+                    You have been a wonderful student! Keep up the good work!
+                </li>
+                <li class="list-group-item list-group-item-warning hidden">
+                    You have been a wonderful student! Keep up the good work!
+                </li>
+                <li class="list-group-item list-group-item-warning hidden">
+                    You have been a wonderful student! Keep up the good work!
+                </li>
+                <li class="list-group-item list-group-item-warning hidden">
+                    You have been a wonderful student! Keep up the good work!
+                </li>
+                <li class="list-group-item list-group-item-warning hidden">
+                    You have been a wonderful student! Keep up the good work!
+                </li>
+                <li class="list-group-item fill-plain more-comments-option" style="cursor: pointer">
+                    More...
+                </li>
+            </ul>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <a id="courseOther2Comments" class="link">FX331B2: Some Random Module (Coursera)</a>
+                </li>
+                <li class="list-group-item list-group-item-warning">
+                    You have worked hard this semester. Work further on team building skills.
+                </li>
+            </ul>
+        </div>
+    </div>
+    <br>
+
+    <div id="studentEvaluations">
+        <div class="well well-plain student_eval" id="studentEval-0">
+            <div class="text-primary">
+                <h2 id="eval_name-0">Evaluation Name: Second Evaluation</h2>
+            </div>
+
+            <h3>
+                <span class="label label-primary">Result</span>
+            </h3>
+
+            <div class="panel panel-primary">
+                <table class="table panel-heading">
+                    <tbody>
+                    <tr>
+                        <td class="col-sm-4">Reviewee: <strong>Emma Farrell</strong>
+                        </td>
+                        <td class="col-sm-4">
+                            <div class="pull-right"><span data-toggle="tooltip" data-placement="top" title=""
+                                                          data-original-title="This is student own estimation of his/her contributions to the project">Claimed Contribution: </span>
+                                <span class="badge background-color-white color-negative">N/A</span>
+                            </div>
+                        </td>
+                        <td class="col-sm-4">
+                            <div class="pull-right"><span data-toggle="tooltip" data-placement="top" title=""
+                                                          data-original-title="This is the average of what other team members think this student contributed to the project">Perceived Contribution: </span>
+                                <span class="badge background-color-white color-negative">N/A</span>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <td><strong>Self evaluation: </strong><br>
+                            N/A
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Comments about the team: </strong><br>
+
+                            N/A
+
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <table class="table">
+                    <tbody>
+                    <tr class="fill-primary">
+                        <td>
+                            Feedback from others
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <table class="table table-bordered table-striped">
+                    <thead>
+                    <tr class="border-top-gray fill-info">
+                        <td width="15%"><strong>From student</strong></td>
+                        <td width="5%"><strong>Contribution</strong></td>
+                        <td width="40%"><strong>Confidential comments</strong></td>
+                        <td width="40%"><strong>Feedback to peer</strong></td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>
+                <span class="label label-default">Submission</span>
+            </h3>
+
+            <div class="panel panel-default">
+                <table class="table panel-heading">
+                    <tbody>
+                    <tr>
+                        <td class="col-sm-4">Reviewer: <strong>Emma Farrell</strong>
+                        </td>
+                        <td class="col-sm-4">
+                            <div class="pull-right"><span data-toggle="tooltip" data-placement="top" title=""
+                                                          data-original-title="This is student own estimation of his/her contributions to the project">Claimed Contribution: </span>
+                                <span class="badge background-color-white color-negative">N/A</span>
+                            </div>
+                        </td>
+                        <td class="col-sm-4">
+                            <div class="pull-right"><span data-toggle="tooltip" data-placement="top" title=""
+                                                          data-original-title="This is the average of what other team members think this student contributed to the project">Perceived Contribution: </span>
+                                <span class="badge background-color-white color-negative">N/A</span>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <td><strong>Self evaluation: </strong><br>
+                            N/A
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Comments about the team: </strong><br>
+
+                            N/A
+
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <div class="panel-heading panel-default">
+                    <div style="margin-left:-5px">
+                        Feedback to others
+                    </div>
+                </div>
+
+                <table class="table table-bordered table-striped">
+                    <thead>
+                    <tr class="border-top-gray ">
+                        <td width="15%"><strong>To student</strong></td>
+                        <td width="5%"><strong>Contribution</strong></td>
+                        <td width="40%"><strong>Confidential comments</strong></td>
+                        <td width="40%"><strong>Feedback to peer</strong></td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="align-center">
+                <input type="button" class="btn btn-primary" id="button_edit-0" value="Edit Submission"
+                       onclick="window.location.href='/page/instructorEvalSubmissionEdit?courseid=thyageshm.gma-demo&amp;evaluationname=Second+Evaluation&amp;studentemail=emma.f.tmms%40gmail.com&amp;user=thyagesh.instructor'">
+            </div>
+        </div>
+    <br>
+
+    <div class="well well-plain student_eval" id="studentEval-1">
+        <div class="text-primary">
+            <h2 id="eval_name-1">Evaluation Name: First Evaluation</h2>
+        </div>
+
+        <h3>
+            <span class="label label-primary">Result</span>
+        </h3>
+
+        <div class="panel panel-primary">
+            <table class="table panel-heading">
+                <tbody>
+                <tr>
+                    <td class="col-sm-4">Reviewee: <strong>Emma Farrell</strong>
+                    </td>
+                    <td class="col-sm-4">
+                        <div class="pull-right"><span data-toggle="tooltip" data-placement="top" title=""
+                                                      data-original-title="This is student own estimation of his/her contributions to the project">Claimed Contribution: </span>
+                            <span class="badge background-color-white color-positive"> E </span>
+                        </div>
+                    </td>
+                    <td class="col-sm-4">
+                        <div class="pull-right"><span data-toggle="tooltip" data-placement="top" title=""
+                                                      data-original-title="This is the average of what other team members think this student contributed to the project">Perceived Contribution: </span>
+                            <span class="badge background-color-white color-negative">N/A</span>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <table class="table">
+                <tbody>
+                <tr>
+                    <td><strong>Self evaluation: </strong><br>
+                        I worked with Alice to build the application backend.
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Comments about the team: </strong><br>
+
+                        The team work is great and I learnt a lot from this project.
+
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <table class="table">
+                <tbody>
+                <tr class="fill-primary">
+                    <td>
+                        Feedback from others
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <table class="table table-bordered table-striped">
+                <thead>
+                <tr class="border-top-gray fill-info">
+                    <td width="15%"><strong>From student</strong></td>
+                    <td width="5%"><strong>Contribution</strong></td>
+                    <td width="40%"><strong>Confidential comments</strong></td>
+                    <td width="40%"><strong>Feedback to peer</strong></td>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+
+        <h3>
+            <span class="label label-default">Submission</span>
+        </h3>
+
+        <div class="panel panel-default">
+            <table class="table panel-heading">
+                <tbody>
+                <tr>
+                    <td class="col-sm-4">Reviewer: <strong>Emma Farrell</strong>
+                    </td>
+                    <td class="col-sm-4">
+                        <div class="pull-right"><span data-toggle="tooltip" data-placement="top" title=""
+                                                      data-original-title="This is student own estimation of his/her contributions to the project">Claimed Contribution: </span>
+                            <span class="badge background-color-white color-positive"> E </span>
+                        </div>
+                    </td>
+                    <td class="col-sm-4">
+                        <div class="pull-right"><span data-toggle="tooltip" data-placement="top" title=""
+                                                      data-original-title="This is the average of what other team members think this student contributed to the project">Perceived Contribution: </span>
+                            <span class="badge background-color-white color-negative">N/A</span>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <table class="table">
+                <tbody>
+                <tr>
+                    <td><strong>Self evaluation: </strong><br>
+                        I worked with Alice to build the application backend.
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Comments about the team: </strong><br>
+
+                        The team work is great and I learnt a lot from this project.
+
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div class="panel-heading panel-default">
+                <div style="margin-left:-5px">
+                    Feedback to others
+                </div>
+            </div>
+
+            <table class="table table-bordered table-striped">
+                <thead>
+                <tr class="border-top-gray ">
+                    <td width="15%"><strong>To student</strong></td>
+                    <td width="5%"><strong>Contribution</strong></td>
+                    <td width="40%"><strong>Confidential comments</strong></td>
+                    <td width="40%"><strong>Feedback to peer</strong></td>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="align-center">
+            <input type="button" class="btn btn-primary" id="button_edit-1" value="Edit Submission"
+                   onclick="window.location.href='/page/instructorEvalSubmissionEdit?courseid=thyageshm.gma-demo&amp;evaluationname=First+Evaluation&amp;studentemail=emma.f.tmms%40gmail.com&amp;user=thyagesh.instructor'">
+        </div>
+    </div>
+    <br>
+    </div>
+<div id="studentFeedbacks">
+    <div class="well well-plain student_feedback" id="studentFeedback-0">
+        <div class="text-primary">
+            <h2 id="feedback_name-0">
+                <strong>Feedback Session Name: Session with different question types</strong>
+            </h2>
+        </div>
+        <br>
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                To: <strong>Emma Farrell (Team 1)</strong>
+            </div>
+            <div class="panel-body">
+
+                <div class="row ">
+                    <div class="col-md-2"><strong>From: Unknown user</strong></div>
+                    <div class="col-md-10">
+
+                        <div class="panel panel-info">
+                            <div class="panel-heading">Question 8: What did you learn from working with your team
+                                members?
+                            </div>
+                            <div class="panel-body">You are the best Emma! Without you, our application will not be
+                                running.
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <br>
+
+            </div>
+        </div>
+
+
+        <div class="panel panel-info">
+            <div class="panel-body">No feedback by Emma Farrell found</div>
+        </div>
+
+    </div>
+    <br>
+</div>
+</div>
+</div>
+</div>
+
+<div class="col-md-2">
+    <div id="affixNav">
+        <ul class="affix nav">
+            <li><a class="affixLink hidden" href="#topOfPage"></a></li>
+            <li><a class="affixLink" href="#studentProfile">Profile</a></li>
+            <li><a class="affixLink" href="#studentComments">Comments</a>
+                <ul class="nav">
+                    <li><a class="affixLink" href="#currentInstructorComments">Your Comments</a></li>
+                    <li><a class="affixLink" href="#courseOther1Comments">Comments from CS2103</a></li>
+                    <li><a class="affixLink" href="#courseOther2Comments">Comments from FX331B2</a></li>
+                </ul>
+            </li>
+            <li><a class="affixLink" href="#studentEvaluations">Evaluations</a>
+                <ul class="nav">
+                    <li><a class="affixLink" href="#studentEval-0">Second Evaluation</a></li>
+                    <li><a class="affixLink" href="#studentEval-1">First Evaluation</a></li>
+                </ul>
+            </li>
+            <li><a class="affixLink" href="#studentFeedbacks">Feedbacks</a>
+                <ul class="nav">
+                    <li><a class="affixLink" href="#studentFeedback-0">Session with different question types</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+</div>
+<br><br>
+</div>
+</div>
+
+<div id="footerComponent" class="container-fluid">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <span>[<a href="/index.html">TEAMMATES</a> V4.18]</span>
+            </div>
+            <div class="col-md-4">
+
+                [for <span class="highlight-white"><span
+                    class="color_white">National University of Singapore</span></span>]
+
+            </div>
+            <div class="col-md-4">
+                <span>[Send <a class="link" href="../contact.html" target="_blank">Feedback</a>]</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="statusMessage" style="display: none;"></div>
+</body>
+</html>
+
+<script>
+    $(".other-courses, .affixLink").on('click', function (e) {
+
+        // prevent default anchor click behavior
+        e.preventDefault();
+
+        // store hash
+        var hash = this.hash;
+        var newPosition = $(this.hash).offset().top - 70;
+        var currentPosition = $('body').scrollTop();
+        var distanceToMove = Math.abs(newPosition - currentPosition);
+
+        // animate
+        $('html, body').animate({
+            scrollTop: newPosition
+        }, Math.abs(distanceToMove/3), function () {
+
+            // when done, add hash to url
+            // (default click behaviour)
+            window.location.hash = hash;
+        });
+
+    });
+
+    $(".more-comments-option").click(function () {
+        $(this).siblings().slice(3).toggleClass("hidden");
+        $(this).text($(this).text().indexOf("More...") >= 0 ? "Hide..." : "More...");
+    });
+
+</script>
+<!--
+<div class="row">
+	<div class="profile-attribute col-md-4 col-sm-4 col-xs-4">
+		Shortname
+	</div>
+	<div class="profile-value col-md-8 col-sm-8 col-xs-8 border-left-gray">
+		Emm
+	</div>
+</div>
+
+<div class="row">
+	<div class="profile-attribute col-md-4 col-sm-4 col-xs-4">
+		Email
+	</div>
+	<div class="profile-value col-md-8 col-sm-8 col-xs-8 border-left-gray">
+		emma.farrel@gmail.com
+	</div>
+</div>
+
+<div class="row">
+	<div class="profile-attribute col-md-4 col-sm-4 col-xs-4">
+		Institution
+	</div>
+	<div class="profile-value col-md-8 col-sm-8 col-xs-8 border-left-gray">
+		Nanyang Tech University
+	</div>
+</div>
+
+<div class="row">
+	<div class="profile-attribute col-md-4 col-sm-4 col-xs-4">
+		Country
+	</div>
+	<div class="profile-value col-md-8 col-sm-8 col-xs-8 border-left-gray">
+		Croatia
+	</div>
+</div>
+
+<div class="row">
+	<div class="profile-attribute col-md-4 col-sm-4 col-xs-4">
+		Gender
+	</div>
+	<div class="profile-value col-md-8 col-sm-8 col-xs-8 border-left-gray">
+		Female
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-4">
+		<br>
+		<a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#studentMoreInfo">
+			MoreInfo
+		</a>
+	</div>
+	<br><br>
+</div>-->
+<!--
+<div class="container-fluid">                
+	<div class="row">
+		<div class="text-bold col-md-4 col-sm-4 col-xs-4">
+			Shortname (Gender)
+		</div>
+		<div class="profile-value col-md-8 col-sm-8 col-xs-8">
+			<%=data.studentProfile.shortName %>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="text-bold col-md-4 col-sm-4 col-xs-4">
+			Email
+		</div>
+		<div class="profile-value col-md-8 col-sm-8 col-xs-8">
+			<%=data.studentProfile.email %>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="text-bold col-md-4 col-sm-4 col-xs-4">
+			Institution
+		</div>
+		<div class="profile-value col-md-8 col-sm-8 col-xs-8">
+			<%=data.studentProfile.institute %>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="text-bold col-md-4 col-sm-4 col-xs-4">
+			Country
+		</div>
+		<div class="profile-value col-md-8 col-sm-8 col-xs-8">
+			<%=data.studentProfile.country %>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="text-bold col-md-4 col-sm-4 col-xs-4">
+			Gender
+		</div>
+		<div class="profile-value col-md-8 col-sm-8 col-xs-8">
+			<%=data.studentProfile.gender %>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-4">
+			<br>
+			<a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#studentMoreInfo">
+				MoreInfo
+			</a>
+		</div>
+		<br><br>
+	</div>
+</div>
+						-->

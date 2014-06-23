@@ -185,21 +185,6 @@ public class LogicTest extends BaseComponentTestCase {
     public void testCreateSubmission() {
         // method not implemented
     }
-    
-    @Test
-    public void testGetStudentProfile() throws Exception {
-        String googleId = "test.googleId";
-        StudentProfileAttributes expectedProfile = new StudentProfileAttributes(googleId, 
-                "", "", "", "", "other", "");
-        
-        logic.createAccount(googleId, "Name", false, "email@gmail.com", "NUS");
-        
-        StudentProfileAttributes actualAttributes = logic.getStudentProfile(googleId);
-        actualAttributes.modifiedDate = null;
-        
-        assertEquals(expectedProfile.toString(), actualAttributes.toString());
-        
-    }
 
 
     @Test
