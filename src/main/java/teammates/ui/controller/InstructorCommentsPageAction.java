@@ -24,7 +24,6 @@ import teammates.storage.api.StudentsDb;
 public class InstructorCommentsPageAction extends Action {
 
     public static final String COMMENT_PAGE_DISPLAY_ARCHIVE_SESSION = "comments_page_displayarchive";
-    public static final String COMMENT_GIVER_NAME_THAT_COMES_FIRST = "_you";
     private static final Boolean IS_INCLUDE_RESPONSE_STATUS = true;
     
     private InstructorCommentsPageData data;
@@ -79,7 +78,7 @@ public class InstructorCommentsPageAction extends Action {
         data.comments = giverEmailToCommentsMap;
         data.roster = roster;
         data.feedbackResultBundles = feedbackResultBundles;
-        data.instructorEmail = account.email;
+        data.instructorEmail = instructor != null? instructor.email : "no-email";
         data.previousPageLink = previousPageLink;
         data.nextPageLink = nextPageLink;
         
@@ -166,7 +165,7 @@ public class InstructorCommentsPageAction extends Action {
         //group data by recipients
         Map<String, List<CommentAttributes>> giverEmailToCommentsMap = new TreeMap<String, List<CommentAttributes>>();
         for(CommentAttributes comment : comments){
-            String key = comment.giverEmail.equals(instructor.email)? COMMENT_GIVER_NAME_THAT_COMES_FIRST: comment.giverEmail;
+            String key = comment.giverEmail.equals(instructor.email)? InstructorCommentsPageData.COMMENT_GIVER_NAME_THAT_COMES_FIRST: comment.giverEmail;
             List<CommentAttributes> commentList = giverEmailToCommentsMap.get(key);
             if(commentList == null){
                 commentList = new ArrayList<CommentAttributes>();

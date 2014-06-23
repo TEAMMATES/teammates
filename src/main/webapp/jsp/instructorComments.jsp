@@ -73,7 +73,7 @@
             <div id="topOfPage"></div>
             <div class="inner-container">
                 <div class="row">
-                    <div class="col-sm-5">
+                    <div class="col-sm-6">
                         <h1>Comments from Instructors</h1>
                     </div>
                     <!-- <div class="col-sm-5 instructor-header-bar">
