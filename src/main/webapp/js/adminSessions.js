@@ -209,31 +209,16 @@ jQuery(document).ready(function() {
 		}, duration);
 		return false;
 	});
+	
+	
+	$(function() {
+		$('#datetimepicker').datetimepicker();
+	});
 
+	$(function() {
+		$('#datetimepicker1').datetimepicker();
+	});
+	
 });
 
-$(function() {
-	$('#datetimepicker').datetimepicker();
-});
 
-$(function() {
-	$('#datetimepicker1').datetimepicker();
-});
-
-// function sessionStart() {
-//
-// var start = $('#datetimepicker').data("DateTimePicker").getDate();
-//
-// $("#sessionStart").attr("value", start);
-//
-// }
-//
-// function sessionEnd() {
-//
-// return $('#datetimepicker1').data("DateTimePicker").getDate();
-// }
-
-$(function() {
-	$(".table-responsive").toggle();
-
-});

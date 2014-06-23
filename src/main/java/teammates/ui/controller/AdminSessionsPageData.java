@@ -1,5 +1,6 @@
 package teammates.ui.controller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -14,6 +15,9 @@ public class AdminSessionsPageData extends PageData {
     public HashMap<String,List<FeedbackSessionAttributes>> map;
     public int totalOngoingSessions;
     public boolean hasUnknown;
+    public Date rangeStart;
+    public Date rangeEnd;
+    public double zone;
     
     public AdminSessionsPageData(AccountAttributes account) {
         super(account);

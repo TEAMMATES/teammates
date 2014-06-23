@@ -16,6 +16,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Sanitizer;
 import teammates.common.util.TimeHelper;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.api.Logic;
@@ -42,11 +43,20 @@ public class AdminSessionsPageAction extends Action {
 
         if (rawStart == null && rawEnd == null && rawZone == null) {
             zone = 0.0;
-            start = TimeHelper.now(zone).getTime();
-            end = TimeHelper.now(zone).getTime();
+            Calendar calStart = TimeHelper.now(zone);
+            Calendar calEnd = TimeHelper.now(zone);
+            calStart.add(Calendar.DAY_OF_YEAR, -3);
+            calEnd.add(Calendar.DAY_OF_YEAR, 4);
+            
+            start = calStart.getTime();
+            end = calEnd.getTime();
         } else if (rawStart != null && rawEnd != null && rawZone != null 
                    && !rawStart.trim().isEmpty() && !rawEnd.trim().isEmpty() && !rawZone.trim().isEmpty()) {
-                              
+            
+            Sanitizer.sanitizeForHtml(rawStart);
+            Sanitizer.sanitizeForHtml(rawEnd);
+            Sanitizer.sanitizeForHtml(rawZone);
+            
             zone = Double.parseDouble(rawZone);
             start = TimeHelper.convertToDate(converTorequiredFormat(rawStart));
             end = TimeHelper.convertToDate(converTorequiredFormat(rawEnd));  
@@ -65,12 +75,15 @@ public class AdminSessionsPageAction extends Action {
             return createShowPageResult(Const.ViewURIs.ADMIN_SESSIONS, data);
             
         }
-
         
-        @SuppressWarnings("deprecation")
-        // This method is deprecated to prevent unintended usage. This is an
-        // intended usage.
+        
+        data.rangeStart = start;
+        data.rangeEnd = end;
+        data.zone = zone;
+        
+        
         List<FeedbackSessionAttributes> allOpenFeedbackSessionsList = logic.getAllOpenFeedbackSessions(start,end,zone);
+               
 
         if (allOpenFeedbackSessionsList.isEmpty()) {
 

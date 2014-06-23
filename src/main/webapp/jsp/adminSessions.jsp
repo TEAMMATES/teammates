@@ -11,8 +11,8 @@
 
 
 <%
-	AdminSessionsPageData data = (AdminSessionsPageData) request
-			.getAttribute("data");
+    AdminSessionsPageData data = (AdminSessionsPageData) request
+            .getAttribute("data");
 %><!DOCTYPE html>
 <html lang="en">
 <head>
@@ -59,7 +59,8 @@
 
         <div id="headerOperation" class="page-header">
             <h1 id="headTitle">
-                Ongoing Sessions<small> Total: <%=data.totalOngoingSessions%></small>
+                Ongoing Sessions<small> Total: <%=data.totalOngoingSessions%> <br>
+                    <%=TimeHelper.formatTime(data.rangeStart)%>&nbsp;<span class="glyphicon glyphicon-resize-horizontal"></span>&nbsp;<%=TimeHelper.formatTime(data.rangeEnd)%> &nbsp;&nbsp;UTC <%=data.zone %></small>
             </h1>
 
         </div>
@@ -233,24 +234,24 @@
         <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
 
         <%
-        	int tableIndex = 1;
+            int tableIndex = 1;
 
-        	for (String key : data.map.keySet()) {
+            for (String key : data.map.keySet()) {
 
-        		int index = 1;
+                int index = 1;
 
-        		if (key.contentEquals("Unknown")) {
-        			continue;
-        		}
+                if (key.contentEquals("Unknown")) {
+                    continue;
+                }
         %>
 
         <div class="panel panel-primary">
             <ul class="nav nav-pills nav-stacked">
-                <li id="pill_<%=tableIndex%>" class="pill"><a
+                <li id="pill_<%=tableIndex%>" class="active"><a
                     href="#"
                     onclick="toggleContent(<%=tableIndex%>); return false;"><span
                         class="badge pull-right"
-                        id="badge_<%=tableIndex%>"><%=data.map.get(key).size()%></span><Strong><%=key%>
+                        id="badge_<%=tableIndex%>" style="display:none"><%=data.map.get(key).size()%></span><Strong><%=key%>
                     </Strong></a></li>
             </ul>
 
@@ -279,9 +280,9 @@
                     <tbody>
 
                         <%
-                        	List<FeedbackSessionAttributes> curList = data.map.get(key);
+                            List<FeedbackSessionAttributes> curList = data.map.get(key);
 
-                        		for (FeedbackSessionAttributes fs : curList) {
+                                for (FeedbackSessionAttributes fs : curList) {
                         %>
 
                         <tr>
@@ -291,15 +292,15 @@
                             <td><%=TimeHelper.formatTime(fs.getSessionEndTime())%></td>
                             <td><a
                                 href="<%=data
-							.getInstructorHomePageViewLink(fs.creatorEmail)%>"
+                            .getInstructorHomePageViewLink(fs.creatorEmail)%>"
                                 target="blank"><%=fs.creatorEmail%></a></td>
                         </tr>
 
                         <%
-                        	index++;
-                        		}
+                            index++;
+                                }
 
-                        		tableIndex++;
+                                tableIndex++;
                         %>
                     </tbody>
 
@@ -310,12 +311,12 @@
         </div>
 
         <%
-        	}
+            }
 
-        	if (data.hasUnknown) {
+            if (data.hasUnknown) {
 
-        		String key = "Unknown";
-        		int index = 1;
+                String key = "Unknown";
+                int index = 1;
         %>
 
 
@@ -323,11 +324,11 @@
 
 
             <ul class="nav nav-pills nav-stacked">
-                <li id="pill_<%=tableIndex%>" class="pill"><a
+                <li id="pill_<%=tableIndex%>" class="pill active"><a
                     href="#"
                     onclick="toggleContent(<%=tableIndex%>); return false;"><span
                         class="badge pull-right"
-                        id="badge_<%=tableIndex%>"><%=data.map.get(key).size()%></span>
+                        id="badge_<%=tableIndex%> style="display:none"><%=data.map.get(key).size()%></span>
                         <Strong><%=key%> </Strong></a></li>
             </ul>
 
@@ -355,9 +356,9 @@
                     <tbody>
 
                         <%
-                        	List<FeedbackSessionAttributes> curList = data.map.get(key);
+                            List<FeedbackSessionAttributes> curList = data.map.get(key);
 
-                        		for (FeedbackSessionAttributes fs : curList) {
+                                for (FeedbackSessionAttributes fs : curList) {
                         %>
 
                         <tr>
@@ -367,13 +368,13 @@
                             <td><%=TimeHelper.formatTime(fs.getSessionEndTime())%></td>
                             <td><a
                                 href="<%=data
-							.getInstructorHomePageViewLink(fs.creatorEmail)%>"
+                            .getInstructorHomePageViewLink(fs.creatorEmail)%>"
                                 target="blank"><%=fs.creatorEmail%></a></td>
                         </tr>
 
                         <%
-                        	index++;
-                        		}
+                            index++;
+                                }
                         %>
                     </tbody>
 
@@ -386,7 +387,7 @@
 
 
         <%
-        	}
+            }
         %>
 
 
