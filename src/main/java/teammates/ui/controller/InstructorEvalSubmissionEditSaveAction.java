@@ -3,6 +3,7 @@ package teammates.ui.controller;
 import java.util.ArrayList;
 
 import teammates.common.datatransfer.EvaluationAttributes;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -27,19 +28,19 @@ public class InstructorEvalSubmissionEditSaveAction extends Action {
         String evalName = getRequestParamValue(Const.ParamsNames.EVALUATION_NAME);
         Assumption.assertNotNull(evalName);
         
+        String fromEmail = getRequestParamValue(Const.ParamsNames.FROM_EMAIL);
+        
+        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
+        StudentAttributes student = logic.getStudentForEmail(courseId, fromEmail);
+        EvaluationAttributes evaluation = logic.getEvaluation(courseId, evalName);
         new GateKeeper().verifyAccessible(
-                logic.getInstructorForGoogleId(courseId, account.googleId),
-                logic.getEvaluation(courseId, evalName));
+                instructor, evaluation, student.section, evaluation.name, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
         
         String teamName = getRequestParamValue(Const.ParamsNames.TEAM_NAME);
-        String fromEmail = getRequestParamValue(Const.ParamsNames.FROM_EMAIL);
         String[] toEmails = getRequestParamValues(Const.ParamsNames.TO_EMAIL);
         String[] points = getRequestParamValues(Const.ParamsNames.POINTS);
         String[] justifications = getRequestParamValues(Const.ParamsNames.JUSTIFICATION);
         String[] comments = getRequestParamValues(Const.ParamsNames.COMMENTS);
-        
-        EvaluationAttributes eval = logic.getEvaluation(courseId, evalName);
-        StudentAttributes student = logic.getStudentForEmail(courseId, fromEmail);
         
         //extract submission data
         ArrayList<SubmissionAttributes> submissionData = new ArrayList<SubmissionAttributes>();
@@ -50,7 +51,7 @@ public class InstructorEvalSubmissionEditSaveAction extends Action {
             sub.evaluation = evalName;
             sub.justification = new Text(justifications[i]);
             
-            if (eval.p2pEnabled) {
+            if (evaluation.p2pEnabled) {
                 sub.p2pFeedback = new Text(comments[i]);
             }
             

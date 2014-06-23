@@ -7,6 +7,8 @@ import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.CommentAttributes;
+import teammates.common.datatransfer.CommentRecipientType;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -282,6 +284,16 @@ public class PageData {
      */
     public String getStudentProfileLink() {
         String link = Const.ActionURIs.STUDENT_PROFILE_PAGE;
+        link = addUserIdToUrl(link);
+        return link;
+    }
+    
+    /**
+     * @return The relative path to the student comments page. 
+     * The user Id is encoded in the url as a parameter.
+     */
+    public String getStudentCommentsLink() {
+        String link = Const.ActionURIs.STUDENT_COMMENTS_PAGE;
         link = addUserIdToUrl(link);
         return link;
     }
@@ -616,7 +628,6 @@ public class PageData {
             
         }
         String disabledStr = "disabled=\"disabled\"";
-        String disableViewResultsStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTION) ? "" : disabledStr;
         String disableEditSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
         String disableDeleteSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
         String disableUnpublishSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
@@ -625,7 +636,7 @@ public class PageData {
             "<a class=\"btn btn-default btn-xs btn-tm-actions session-view-for-test" + (hasView ? "\"" : DISABLED) +
             "href=\"" + getInstructorEvaluationResultsLink(eval.courseId,eval.name) + "\" " +
             "title=\"" + Const.Tooltips.EVALUATION_RESULTS+"\" data-toggle=\"tooltip\" data-placement=\"top\" " + 
-            disableViewResultsStr + ">View Results</a> "
+            ">View Results</a> "
         );
         result.append(
             "<a class=\"btn btn-default btn-xs btn-tm-actions session-edit-for-test" + (hasEdit ? "\"" : DISABLED) + 
@@ -738,7 +749,6 @@ public class PageData {
         boolean hasUnpublish = !session.isWaitingToOpen() && session.isPublished();
         boolean hasRemind = session.isOpened();
         String disabledStr = "disabled=\"disabled\"";
-        String disableViewResultsStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTION) ? "" : disabledStr;
         String disableEditSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
         String disableDeleteSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
         String disableUnpublishSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
@@ -747,7 +757,7 @@ public class PageData {
             "<a class=\"btn btn-default btn-xs btn-tm-actions session-view-for-test" + (hasView ? "\"" : DISABLED) +
             "href=\"" + getInstructorFeedbackSessionResultsLink(session.courseId,session.feedbackSessionName) + "\" " +
             "title=\"" + Const.Tooltips.FEEDBACK_SESSION_RESULTS + "\" data-toggle=\"tooltip\" data-placement=\"top\" " +
-            disableViewResultsStr + ">View Results</a> "
+            ">View Results</a> "
         );
         if(isCreator){
             result.append(
@@ -835,6 +845,57 @@ public class PageData {
         }
         
         return result.toString();
+    }
+    
+    /**
+     * Returns the type of people that can view the comment. 
+     */
+    public String getTypeOfPeopleCanViewComment(CommentAttributes comment){
+        StringBuilder peopleCanView = new StringBuilder();
+        for(int i = 0; i < comment.showCommentTo.size(); i++){
+            CommentRecipientType commentViewer = comment.showCommentTo.get(i);
+            if(i == comment.showCommentTo.size() - 1 && comment.showCommentTo.size() > 1){
+                peopleCanView.append("and ");
+            }
+            
+            switch(commentViewer){
+            case PERSON:
+                peopleCanView.append("recipient, ");
+                break;
+            case TEAM:
+                if(comment.recipientType == CommentRecipientType.TEAM){
+                    peopleCanView.append("recipient team, ");
+                } else {
+                    peopleCanView.append("recipient's team, ");
+                }
+                break;
+            case SECTION:
+                if(comment.recipientType == CommentRecipientType.SECTION){
+                    peopleCanView.append("recipient section, ");
+                } else {
+                    peopleCanView.append("recipient's section, ");
+                }
+                break;
+            case COURSE:
+                if(comment.recipientType == CommentRecipientType.COURSE){
+                    peopleCanView.append("the whole class, ");
+                } else {
+                    peopleCanView.append("other students in this course, ");
+                }
+                break;
+            case INSTRUCTOR:
+                peopleCanView.append("instructors, ");
+                break;
+            default:
+                break;
+            }
+        }
+        String peopleCanViewString = peopleCanView.toString();
+        return removeEndComma(peopleCanViewString);
+    }
+    
+    protected String removeEndComma(String str){
+        return str.substring(0, str.length() - 2);
     }
 
     /**

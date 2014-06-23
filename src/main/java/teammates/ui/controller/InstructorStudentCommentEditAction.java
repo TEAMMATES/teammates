@@ -24,8 +24,7 @@ public class InstructorStudentCommentEditAction extends Action {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull(courseId);
         
-        String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL); 
-        Assumption.assertNotNull(studentEmail);
+        String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
         
         Boolean isFromCommentPage = getRequestParamAsBoolean(Const.ParamsNames.FROM_COMMENTS_PAGE);
         
@@ -72,20 +71,59 @@ public class InstructorStudentCommentEditAction extends Action {
         String commentId = getRequestParamValue(Const.ParamsNames.COMMENT_ID);
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
-        Text commentText = new Text(getRequestParamValue(Const.ParamsNames.COMMENT_TEXT));
+        String recipientType = getRequestParamValue(Const.ParamsNames.RECIPIENT_TYPE);
+        String recipients = getRequestParamValue(Const.ParamsNames.RECIPIENTS);
+        String showCommentTo = getRequestParamValue(Const.ParamsNames.COMMENTS_SHOWCOMMENTSTO);
+        String showGiverTo = getRequestParamValue(Const.ParamsNames.COMMENTS_SHOWGIVERTO);
+        String showRecipientTo = getRequestParamValue(Const.ParamsNames.COMMENTS_SHOWRECIPIENTTO);
+
+        String commentTextString = getRequestParamValue(Const.ParamsNames.COMMENT_TEXT);
+        Assumption.assertNotNull(commentTextString);
+        Assumption.assertNotEmpty(commentTextString);
+        
+        Text commentText = new Text(commentTextString);
+        
         InstructorAttributes instructorDetailForCourse = logic.getInstructorForGoogleId(courseId, account.googleId);
         Assumption.assertNotNull("Account trying to update comment is not an instructor of the course", instructorDetailForCourse);
         
         comment.setCommentId(Long.valueOf(commentId));
         comment.courseId = courseId;
         comment.giverEmail = instructorDetailForCourse.email; 
-        comment.recipientType = CommentRecipientType.PERSON;
+        comment.recipientType = recipientType == null ? CommentRecipientType.PERSON : CommentRecipientType.valueOf(recipientType);
         comment.recipients = new HashSet<String>();
-        comment.recipients.add(studentEmail);
+        if(recipients != null && !recipients.isEmpty()){
+            String[] recipientsArray = recipients.split(",");
+            for(String recipient : recipientsArray){
+                comment.recipients.add(recipient.trim());
+            }
+        } else {
+            comment.recipients.add(studentEmail);
+        }
         comment.status = CommentStatus.FINAL;
+        
         comment.showCommentTo = new ArrayList<CommentRecipientType>();
+        if(showCommentTo != null && !showCommentTo.isEmpty()){
+            String[] showCommentToArray = showCommentTo.split(",");
+            for(String sct : showCommentToArray){
+                comment.showCommentTo.add(CommentRecipientType.valueOf(sct.trim()));
+            }
+        }
+        
         comment.showGiverNameTo = new ArrayList<CommentRecipientType>();
+        if(showGiverTo != null && !showGiverTo.isEmpty()){
+            String[] showGiverToArray = showGiverTo.split(",");
+            for(String sgt : showGiverToArray){
+                comment.showGiverNameTo.add(CommentRecipientType.valueOf(sgt.trim()));
+            }
+        }
+        
         comment.showRecipientNameTo = new ArrayList<CommentRecipientType>();
+        if(showRecipientTo != null && !showRecipientTo.isEmpty()){
+            String[] showRecipientToArray = showRecipientTo.split(",");
+            for(String srt : showRecipientToArray){
+                comment.showRecipientNameTo.add(CommentRecipientType.valueOf(srt.trim()));
+            }
+        }
         comment.commentText = commentText;
         
         return comment;

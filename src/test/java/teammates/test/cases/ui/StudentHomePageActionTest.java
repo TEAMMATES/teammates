@@ -158,7 +158,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
         
         
         expectedLogMessage = "TEAMMATESLOG|||studentHomePage|||studentHomePage|||true" +
-                "|||Student(M)|||Student in two courses|||student2InCourse1|||sudent2inCourse1@gmail.com" +
+                "|||Student(M)|||Student in two courses|||student2InCourse1|||student2InCourse1@gmail.com" +
                 "|||studentHome Page Load<br>Total courses: 2|||/page/studentHomePage" ;
         assertEquals(expectedLogMessage, a.getLogMessage());
         
