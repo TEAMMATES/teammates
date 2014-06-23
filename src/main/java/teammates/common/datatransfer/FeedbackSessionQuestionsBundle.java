@@ -37,6 +37,24 @@ public class FeedbackSessionQuestionsBundle {
     }
     
     /**
+     * Gets the question in the data bunde with id == questionId
+     * @param questionId
+     * @return a FeedbackQuestionAttribute with the specified questionId
+     */
+    public FeedbackQuestionAttributes getQuestionAttributes(String questionId){
+        List<FeedbackQuestionAttributes> questions =
+                new ArrayList<FeedbackQuestionAttributes>(this.questionResponseBundle.keySet());
+        
+        for(FeedbackQuestionAttributes question : questions){
+            if(question.getId().equals(questionId)){
+                return question;
+            }
+        }
+        
+        return null;
+    }
+    
+    /**
      * Gets the recipient list for a question, sorted by the recipient's name. 
      * @param feedbackQuestionId of the question
      * @return A {@code Map<String key, String value>} where {@code key} is the recipient's email
