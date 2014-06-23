@@ -40,7 +40,7 @@ public class InstructorStudentCommentAddAction extends Action {
         
         new GateKeeper().verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, account.googleId),
-                logic.getCourse(courseId));
+                logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS);
         
         CommentAttributes comment = extractCommentData();
         
