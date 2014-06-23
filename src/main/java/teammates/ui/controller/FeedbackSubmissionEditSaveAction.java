@@ -55,7 +55,13 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             }
             
             List<FeedbackResponseAttributes> responsesForQuestion = new ArrayList<FeedbackResponseAttributes>();
+            String questionId = HttpRequestHelper.getValueFromParamMap(
+                    requestParameters, 
+                    Const.ParamsNames.FEEDBACK_QUESTION_ID + "-" + questionIndx);
+            Assumption.assertEquals("Question and Response Id mismatch!",questionId, data.bundle.getSortedQuestions().get(questionIndx - 1).getId());
             FeedbackAbstractQuestionDetails questionDetails = data.bundle.getSortedQuestions().get(questionIndx - 1).getQuestionDetails();
+            
+            
             int numOfResponsesToGet = Integer.parseInt(totalResponsesForQuestion);  
             
             for(int responseIndx = 0; responseIndx < numOfResponsesToGet; responseIndx++) {
