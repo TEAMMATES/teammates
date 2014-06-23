@@ -37,6 +37,9 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
         
         String html = FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.CONTRIB_SUBMISSION_FORM,
+                "${qnIdx}", Integer.toString(qnIdx),
+                "${responseIdx}", Integer.toString(responseIdx),
+                "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                 "${disabled}", sessionIsOpen ? "" : "disabled=\"disabled\"",
                 "${contribSelectFragmentsHtml}", optionSelectFragmentsHtml);
         
@@ -138,7 +141,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
         return result;
     }
     
-    private String convertToEqualShareFormat(int i) {
+    public static String convertToEqualShareFormat(int i) {
         if (i > 100)
             return "Equal share + " + (i - 100) + "%"; // Do more
         else if (i == 100)
