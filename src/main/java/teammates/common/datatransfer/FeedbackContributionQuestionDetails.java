@@ -103,13 +103,23 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
             List<FeedbackResponseAttributes> responses,
             int numRecipients) {
         List<String> errors = new ArrayList<String>();
-        /*
         for(FeedbackResponseAttributes response : responses){
+            boolean validAnswer = false;
             FeedbackContributionResponseDetails frd = (FeedbackContributionResponseDetails) response.getResponseDetails();
-            if(frd.getAnswer() > 21 || frd.getAnswer()<0){
+            for(int i=200; i>=0; i-=10){
+                if(frd.getAnswer() == i){
+                    validAnswer = true;
+                    break;
+                }
+            }
+            if(frd.getAnswer() == Const.POINTS_NOT_SURE){
+                validAnswer = true;
+            }
+            
+            if(validAnswer == false){
                 errors.add(ERROR_INVALID_OPTION);
             }
-        }*/
+        }
         return errors;
     }
     
@@ -148,8 +158,12 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
             return "Equal share"; // Do same
         else if (i > 0)
             return "Equal share - " + (100 - i) + "%"; // Do less
-        else
+        else if(i == 0)
             return "0%"; // Do none
+        else if(i == Const.POINTS_NOT_SURE)
+            return "Not Sure";
+        else
+            return "";
     }
 
 }
