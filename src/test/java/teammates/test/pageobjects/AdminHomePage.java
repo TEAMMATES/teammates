@@ -7,8 +7,8 @@ import teammates.common.datatransfer.AccountAttributes;
 
 public class AdminHomePage extends AppPage {
     
-    @FindBy (name="instructorid")
-    WebElement googleIdTextBox;
+    @FindBy (name="instructorshortname")
+    WebElement shortNameTextBox;
 
     @FindBy (name="instructorname")
     WebElement nameTextBox;
@@ -40,9 +40,9 @@ public class AdminHomePage extends AppPage {
      * @param attributesForNewAccount
      * @param isCreateCourse True if a sample course should be created for this account.
      */
-    public AdminHomePage createInstructor(AccountAttributes attributesForNewAccount, boolean isCreateCourse) {
-        if(attributesForNewAccount.googleId != null){
-            fillTextBox(googleIdTextBox, attributesForNewAccount.googleId);
+    public AdminHomePage createInstructor(AccountAttributes attributesForNewAccount, String shortName,boolean isCreateCourse) {
+        if(shortName != null){
+            fillTextBox(shortNameTextBox, shortName);
         }
         if(attributesForNewAccount.name != null){
             fillTextBox(nameTextBox, attributesForNewAccount.name);
