@@ -300,7 +300,11 @@
                             <div class="dropdown" style="display:inline;">
                               <a class="btn btn-default btn-xs t_student_records-c<%=data.courseDetails.course.id %>.<%=idx%> dropdown-toggle" 
                                 href="javascript:;"
-                                data-toggle="dropdown"> Add Comment</a>
+                                data-toggle="dropdown"
+                                <% if (!data.currentInstructor.isAllowedForPrivilege(student.section, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS)) { %>
+                                    disabled="disabled"
+                                <% } %>
+                                > Add Comment</a>
                               <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" style="text-align:left;">
                                 <li role="presentation"><a class="t_student_details_tostudent-c<%=data.courseDetails.course.id %>.<%=idx%>" role="menuitem" tabindex="-1" href="<%=data.getCourseStudentDetailsLink(student)
                                     +"&"+Const.ParamsNames.SHOW_COMMENT_BOX+"=student"%>">
