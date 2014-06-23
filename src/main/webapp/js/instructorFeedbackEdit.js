@@ -410,6 +410,11 @@ function setDefaultContribQnVisibility(questionNumber){
                                         .filter("[value='RECEIVER'],[value='OWN_TEAM_MEMBERS'],[value='RECEIVER_TEAM_MEMBERS']")
                                         .prop('checked', false);
         }
+        
+        $('#questionTable'+idSuffix).find('input.visibilityCheckbox')
+                                    .filter("input[name=receiverFollowerCheckbox]")
+                                    .prop('checked', $(this).prop('checked'));
+
         if($(this).val() == "RECEIVER" || $(this).val() == "OWN_TEAM_MEMBERS" || $(this).val() == "RECEIVER_TEAM_MEMBERS"){
             $('#questionTable'+idSuffix).find('input.visibilityCheckbox')
                                         .filter("[class*='answerCheckbox']")
