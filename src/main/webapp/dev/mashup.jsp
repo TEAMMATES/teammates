@@ -37,6 +37,7 @@
                                 <li><a href="#instructorStudentListPage">Instructor Student List Page</a></li>
                                 <li><a href="#instructorCourseStudentDetailsPage">Instructor Student Details Page</a></li>
                                 <li><a href="#instructorCourseStudentEditPage">Instructor Student Edit Page</a></li>
+                                <li><a href="#instructorStudentRecordsPage">Instructor Student Records Page</a></li>
                                 <li><a href="#instructorCourseEvalPage">Instructor Eval Page</a></li>
                                 <li><a href="#instructorCourseEvalEditPage">Instructor Eval Edit Page</a></li>
                                 <li><a href="#instructorCourseEvalPreviewPage">Instructor Eval Preview Page</a></li>
@@ -63,6 +64,7 @@
                             <h2>Student Pages</h2>
                             <ul class="nav">
                                 <li><a href="#studentHomePage">Student Home Page</a></li>
+                                <li><a href="#studentProfilePage">Student Profile Page</a></li>
                                 <li><a href="#studentCourseJoinConfirmationPage">Student Course Join Confirmation Page</a></li>
                                 <li><a href="#studentCourseDetailsPage">Student Course Details Page</a></li>
                                 <li><a href="#studentEvalEditPage">Student Eval Edit Page</a></li>
@@ -137,6 +139,10 @@
                 
                 <div class="pageinfo">Instructor Student Edit Page</div>
                 <div id="instructorCourseStudentEditPage"></div>
+                <br><hr class="hr-bold"><br>
+                
+                <div class="pageinfo">Instructor Student Records Page</div>
+                <div id="instructorStudentRecordsPage"></div>
                 <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Instructor Eval Page</div>
@@ -223,6 +229,10 @@
 
                 <div class="pageinfo">Student Home Page</div>
                 <div id="studentHomePage"></div>
+                <br><hr class="hr-bold"><br>
+                
+                <div class="pageinfo">Student Profile Page</div>
+                <div id="studentProfilePage"></div>
                 <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Student Course Join Confirmation Page</div>
@@ -359,6 +369,13 @@
                 function (response, status, xml) {
                     $("[data-toggle='tooltip']").tooltip({html: true}); 
                 });
+            
+
+            $('#instructorStudentRecordsPage').load("<%=Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE%>?user=teammates.test&courseid=CS2104&studentemail=alice.b.tmms%40gmail.com #frameBodyWrapper",
+                function (response, status, xml) {
+                    $("[data-toggle='tooltip']").tooltip({html: true}); 
+                });
+            
             $('#instructorCourseEvalPage').load("<%=Const.ActionURIs.INSTRUCTOR_EVALS_PAGE%>?user=teammates.test #frameBodyWrapper",
                 function (response, status, xml) {
                     $("[data-toggle='tooltip']").tooltip({html: true}); 
@@ -456,6 +473,12 @@
                 function (response, status, xml) {
                     $("[data-toggle='tooltip']").tooltip({html: true}); 
                 });
+            
+            $('#studentProfilePage').load("<%=Const.ActionURIs.STUDENT_PROFILE_PAGE%>?user=alice.b.tmms #frameBodyWrapper",
+                    function (response, status, xml) {
+                        $("[data-toggle='tooltip']").tooltip({html: true}); 
+                    });
+            
             <%
                 String regkey = null;
                 if(new Logic().getStudentForEmail("CS4215", "teammates.test@gmail.com")!=null){

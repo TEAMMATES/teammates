@@ -18,7 +18,17 @@
             "name":"Alice Betsy",
             "isInstructor":false,
             "email":"alice.b.tmms@gmail.com",
-            "institute":"National University of Singapore"
+            "institute":"National University of Singapore",
+            "studentProfile":{
+                "googleId":"alice.b.tmms",
+                "shortName":"Alice",
+                "email":"",
+                "institute":"SIT",
+                "country":"USA",
+                "gender":"female",
+                "moreInfo":"Some info",
+                "pictureKey":""
+            }
         },
         "benny.c.tmms":{
             "googleId":"benny.c.tmms",
