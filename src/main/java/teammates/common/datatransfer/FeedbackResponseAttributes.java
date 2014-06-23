@@ -3,8 +3,6 @@ package teammates.common.datatransfer;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.mortbay.log.Log;
-
 import teammates.common.util.Assumption;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
@@ -145,9 +143,6 @@ public class FeedbackResponseAttributes extends EntityAttributes {
             // This is due to legacy data in the data store before there were multiple question types
             responseMetaData = new Text(responseDetails.getAnswerString());
         } else {
-            Log.info("Response question type: " + responseDetails.questionType.toString());
-            Log.info("Response Attributes question type: " + getFeedbackResponseDetailsClass().toString());
-            Log.info("Response answer string: " + responseDetails.getAnswerString());
             responseMetaData = new Text(gson.toJson(responseDetails, getFeedbackResponseDetailsClass()));
         }
     }

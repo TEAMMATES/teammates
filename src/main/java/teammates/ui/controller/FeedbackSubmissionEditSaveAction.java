@@ -8,6 +8,7 @@ import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.FeedbackAbstractQuestionDetails;
 import teammates.common.datatransfer.FeedbackAbstractResponseDetails;
+import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionType;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
@@ -58,10 +59,12 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             String questionId = HttpRequestHelper.getValueFromParamMap(
                     requestParameters, 
                     Const.ParamsNames.FEEDBACK_QUESTION_ID + "-" + questionIndx);
-            //A better way might be to get the questionDetails based on the question id.
-            Assumption.assertEquals("Question and Response Id mismatch! question index: " + questionIndx,questionId, data.bundle.getSortedQuestions().get(questionIndx - 1).getId());
-            FeedbackAbstractQuestionDetails questionDetails = data.bundle.getSortedQuestions().get(questionIndx - 1).getQuestionDetails();
-            
+            FeedbackQuestionAttributes questionAttributes = data.bundle.getQuestionAttributes(questionId);
+            if(questionAttributes == null){
+                Assumption.fail("Question not found. (deleted or invalid id passed?) id: "+ questionId + " index: " + questionIndx);
+            }
+            FeedbackAbstractQuestionDetails questionDetails = questionAttributes.getQuestionDetails();
+
             
             int numOfResponsesToGet = Integer.parseInt(totalResponsesForQuestion);  
             
