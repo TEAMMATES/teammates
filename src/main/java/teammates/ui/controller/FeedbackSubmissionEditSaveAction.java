@@ -61,7 +61,10 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                     Const.ParamsNames.FEEDBACK_QUESTION_ID + "-" + questionIndx);
             FeedbackQuestionAttributes questionAttributes = data.bundle.getQuestionAttributes(questionId);
             if(questionAttributes == null){
-                Assumption.fail("Question not found. (deleted or invalid id passed?) id: "+ questionId + " index: " + questionIndx);
+                statusToUser.add("Responses for question " + questionIndx + " is not saved. The feedback session/question may have changed while you were submitting.");
+                isError = true;
+                log.warning("Question not found. (deleted or invalid id passed?) id: "+ questionId + " index: " + questionIndx);
+                continue;
             }
             FeedbackAbstractQuestionDetails questionDetails = questionAttributes.getQuestionDetails();
 
