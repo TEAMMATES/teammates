@@ -32,6 +32,7 @@
     <script type="text/javascript" src="/js/instructor.js"></script>
     <script type="text/javascript" src="/js/instructorFeedbackResults.js"></script>
     <script type="text/javascript" src="/js/instructorFeedbackResultsAjaxByQuestion.js"></script>
+    <script type="text/javascript" src="/js/instructorFeedbackResultsAjaxResponseRate.js"></script>
     <script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
     <jsp:include page="../enableJS.jsp"></jsp:include>
     <!-- Bootstrap core JavaScript ================================================== -->
@@ -134,15 +135,25 @@
                 }
             %>
             
+            <div class="panel panel-warning">
+                <div class="panel-heading ajax_response_rate_submit">
+                    <form style="display:none;" id="responseRate" class="responseRateForm" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_AJAX_RESPONSE_RATE%>">
+                        <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID %>" value="<%=data.bundle.feedbackSession.courseId %>">
+                        <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="<%=data.bundle.feedbackSession.feedbackSessionName %>">
+                        <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId %>">
+                    </form>
+                    <div class='display-icon pull-right'>
+                    <span class="glyphicon <%= showAll ? "glyphicon-chevron-up" : "glyphicon-chevron-down" %> pull-right"></span>
+                    </div>
+                    Participants who did not respond to any question</div>
+                <div class="panel-collapse collapse <%= showAll ? "in" : "" %>">
+                <div class="panel-body padding-0">
             <% if(showAll) {
                 // Only output the list of students who haven't responded when there are responses.
                 FeedbackSessionResponseStatus responseStatus = data.bundle.responseStatus;
                 if (data.selectedSection.equals("All") && !responseStatus.noResponse.isEmpty()) {
             %>
-                    <div class="panel panel-info">
-                        <div class="panel-heading">Participants who did not respond to any question</div>
-                        
-                        <table class="table table-striped">
+                        <table class="table table-striped table-bordered margin-0">
                             <tbody>
                             <%  
                                 List<String> students = responseStatus.getStudentsWhoDidNotRespondToAnyQuestion();
@@ -156,13 +167,15 @@
                             %>
                             </tbody>
                         </table>
-                    </div>
+                    
                     <br> <br>
             <%
                     }
                 } 
             %>
-                
+                </div>
+                </div>
+            </div>    
         </div>
     </div>
 

@@ -104,7 +104,7 @@ window.onload = function(){
             numPanels++;
             //$(heading[0]).attr("data-toggle","collapse");
             //Use this instead of the data-toggle attribute to let [more/less] be clicked without collapsing panel
-            if($(heading[0]).attr('class').indexOf('ajax_input') == -1){
+            if($(heading[0]).attr('class') == 'panel-heading'){
                 $(heading[0]).click(toggleSingleCollapse);
             }
             $(heading[0]).attr("data-target","#panelBodyCollapse-"+numPanels);
@@ -117,7 +117,6 @@ window.onload = function(){
                     var nextId = this;
                     do{
                         nextId = getNextId(nextId);
-                        console.log(nextId);
                     } while($(nextId).length && ($('#' + id + ' ' + nextId).length || $(nextId).attr('class').indexOf('in') == -1));
                     
                     if($(nextId).length){
@@ -133,7 +132,6 @@ window.onload = function(){
                     var nextId = this;
                     do{
                         nextId = getNextId(nextId);
-                        console.log(nextId);
                     } while($(nextId).length && ($('#' + id + ' ' + nextId).length || $(nextId).attr('class').indexOf('in') != -1));
                     
                     if($(nextId).length){

@@ -494,6 +494,7 @@ public class Const {
         public static final String INSTRUCTOR_FEEDBACK_PREVIEW_ASINSTRUCTOR = "/page/instructorFeedbackPreviewAsInstructor";
         
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_AJAX_BY_QUESTIONS = "/page/instructorFeedbackResultsAjaxByQuestions";
+        public static final String INSTRUCTOR_FEEDBACK_RESULTS_AJAX_RESPONSE_RATE = "/page/instructorFeedbackResultsAjaxResponseRate";
 
         public static final String INSTRUCTOR_FEEDBACK_QUESTION_ADD = "/page/instructorFeedbackQuestionAdd";
         public static final String INSTRUCTOR_FEEDBACK_QUESTION_EDIT = "/page/instructorFeedbackQuestionEdit";

@@ -254,6 +254,34 @@ public class FeedbackSessionsLogic {
         return new FeedbackSessionQuestionsBundle(fsa, bundle, recipientList);
     }
     
+    public FeedbackSessionResponseStatus getFeedbackSessionResponseStatus(String feedbackSessionName, String courseId) throws EntityDoesNotExistException{
+        
+        CourseRoster roster = new CourseRoster(
+                new StudentsDb().getStudentsForCourse(courseId),
+                new InstructorsDb().getInstructorsForCourse(courseId));
+        FeedbackSessionAttributes session = fsDb.getFeedbackSession(
+                courseId, feedbackSessionName);
+
+        if (session == null) {
+            throw new EntityDoesNotExistException(
+                    "Trying to view non-existent feedback session.");
+        }
+
+        List<FeedbackQuestionAttributes> allQuestions = fqLogic.getFeedbackQuestionsForSession(feedbackSessionName,
+                        courseId);
+        
+        List<FeedbackResponseAttributes> allResponses = frLogic.getFeedbackResponsesForSessionInSection(feedbackSessionName,
+                courseId, null);
+        
+        return getFeedbackSessionResponseStatus(session, roster, allQuestions, allResponses);
+    }
+    
+    
+    /**
+     * Gets results of a feedback session to show to an instructor from an indicated question
+     * This will not retrieve the list of comments for this question
+     * @throws ExceedingRangeException if the results are beyond the range
+     */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorFromQuestion(
             String feedbackSessionName, String courseId, String userEmail, int questionNumber)
                     throws EntityDoesNotExistException{
@@ -264,68 +292,14 @@ public class FeedbackSessionsLogic {
         CourseRoster roster = new CourseRoster(
                 new StudentsDb().getStudentsForCourse(courseId),
                 new InstructorsDb().getInstructorsForCourse(courseId));
-
-        FeedbackSessionAttributes session = fsDb.getFeedbackSession(
-                courseId, feedbackSessionName);
-
-        if (session == null) {
-            throw new EntityDoesNotExistException(
-                    "Trying to view non-existent feedback session.");
-        }
-
-        // create empty data containers to store results
-        List<FeedbackResponseAttributes> responses =
-                new ArrayList<FeedbackResponseAttributes>();
-        Map<String, FeedbackQuestionAttributes> relevantQuestions =
-                new HashMap<String, FeedbackQuestionAttributes>();
-        Map<String, String> emailNameTable =
-                new HashMap<String, String>();
-        Map<String, String> emailTeamNameTable =
-                new HashMap<String, String>();
-        Map<String, boolean[]> visibilityTable =
-                new HashMap<String, boolean[]>();
-        Map<String, List<FeedbackResponseCommentAttributes>> responseComments =
-                new HashMap<String, List<FeedbackResponseCommentAttributes>>();
-
-        FeedbackSessionResponseStatus responseStatus = new FeedbackSessionResponseStatus();
-
-        FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(feedbackSessionName, courseId, questionNumber);
-        if(question != null) {
-            List<FeedbackResponseAttributes> responsesForThisQn;
-
-            boolean isPrivateSessionCreatedByThisUser = session
-                    .isCreator(userEmail) && session.isPrivateSession();
-            if (isPrivateSessionCreatedByThisUser) {
-                responsesForThisQn = frLogic
-                        .getFeedbackResponsesForQuestion(question.getId());
-            } else {
-                responsesForThisQn = frLogic
-                        .getViewableFeedbackResponsesForQuestionInSection(
-                                question, userEmail, Role.INSTRUCTOR, null);
-            }
-
-            boolean thisQuestionHasResponses = (!responsesForThisQn.isEmpty());
-            if (thisQuestionHasResponses) {
-                relevantQuestions.put(question.getId(), question);
-                responses.addAll(responsesForThisQn);
-                for (FeedbackResponseAttributes response : responsesForThisQn) {
-                    addEmailNamePairsToTable(emailNameTable, response,
-                            question, roster);
-                    addEmailTeamNamePairsToTable(emailTeamNameTable, response,
-                            question, roster);
-                    addVisibilityToTable(visibilityTable, question, response,
-                            userEmail, roster);
-                }
-            }
-        }
-
-        FeedbackSessionResultsBundle results =
-                new FeedbackSessionResultsBundle(
-                        session, responses, relevantQuestions,
-                        emailNameTable, emailTeamNameTable,
-                        visibilityTable, responseStatus, responseComments);
-
-        return results;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("isIncludeResponseStatus", "true");
+        params.put("inSection", "false");
+        params.put("fromSection", "fasle");
+        params.put("toSection", "false");
+        params.put("questionNum", String.valueOf(questionNumber));
+        
+        return getFeedbackSessionResultsForUserWithParams(feedbackSessionName, courseId, userEmail, UserType.Role.INSTRUCTOR, roster, params);
     }
 
     /**
@@ -336,7 +310,16 @@ public class FeedbackSessionsLogic {
             String feedbackSessionName, String courseId, String userEmail, long range)
             throws EntityDoesNotExistException{
         
-        return getFeedbackSessionResultsForUserInSectionWithinRange(feedbackSessionName, courseId, userEmail, UserType.Role.INSTRUCTOR, null, range);
+        CourseRoster roster = new CourseRoster(
+                new StudentsDb().getStudentsForCourse(courseId),
+                new InstructorsDb().getInstructorsForCourse(courseId));
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("isIncludeResponseStatus", "true");
+        params.put("inSection", "true");
+        params.put("fromSection", "false");
+        params.put("toSection", "false");
+        params.put("range", String.valueOf(range));
+        return getFeedbackSessionResultsForUserWithParams(feedbackSessionName, courseId, userEmail, UserType.Role.INSTRUCTOR, roster, params);
     }
     
     /**
@@ -345,9 +328,8 @@ public class FeedbackSessionsLogic {
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructor(
             String feedbackSessionName, String courseId, String userEmail)
             throws EntityDoesNotExistException {
-        return getFeedbackSessionResultsForUserInSection(
-                feedbackSessionName, courseId, userEmail,
-                UserType.Role.INSTRUCTOR, null);
+        
+       return getFeedbackSessionResultsForInstructorInSection(feedbackSessionName, courseId, userEmail, null);
     }
 
     /**
@@ -358,9 +340,18 @@ public class FeedbackSessionsLogic {
             String feedbackSessionName, String courseId, String userEmail,
             String section)
             throws EntityDoesNotExistException {
-        return getFeedbackSessionResultsForUserInSection(
-                feedbackSessionName, courseId, userEmail,
-                UserType.Role.INSTRUCTOR, section);
+        
+        CourseRoster roster = new CourseRoster(
+                new StudentsDb().getStudentsForCourse(courseId),
+                new InstructorsDb().getInstructorsForCourse(courseId));
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("isIncludeResponseStatus", "true");
+        params.put("inSection", "false");
+        params.put("fromSection", "false");
+        params.put("toSection", "false");
+        params.put("section", section);
+        return getFeedbackSessionResultsForUserWithParams(feedbackSessionName,
+                courseId, userEmail, UserType.Role.INSTRUCTOR, roster, params);
     }
 
     /**
@@ -370,9 +361,15 @@ public class FeedbackSessionsLogic {
             String feedbackSessionName, String courseId, String userEmail,
             CourseRoster roster, Boolean isIncludeResponseStatus)
             throws EntityDoesNotExistException {
-        return getFeedbackSessionResultsForUserInSection(feedbackSessionName,
+        
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("isIncludeResponseStatus", String.valueOf(isIncludeResponseStatus));
+        params.put("inSection", "false");
+        params.put("fromSection", "false");
+        params.put("toSection", "false");
+        return getFeedbackSessionResultsForUserWithParams(feedbackSessionName,
                 courseId, userEmail,
-                UserType.Role.INSTRUCTOR, null, roster, isIncludeResponseStatus);
+                UserType.Role.INSTRUCTOR, roster, params);
     }
 
     /**
@@ -962,27 +959,15 @@ public class FeedbackSessionsLogic {
         return results;
     }
 
-    /* Get feedback session results for user in a section by filtering out all results in the session */
-    private FeedbackSessionResultsBundle getFeedbackSessionResultsForUserInSection(
+    private FeedbackSessionResultsBundle getFeedbackSessionResultsForUserWithParams(
             String feedbackSessionName, String courseId, String userEmail,
-            UserType.Role role, String section)
+            UserType.Role role, CourseRoster roster, Map<String, String> params)
             throws EntityDoesNotExistException {
-        // Load details of students and instructors once and pass it to callee
-        // methods
-        // (rather than loading them many times).
-        CourseRoster roster = new CourseRoster(
-                new StudentsDb().getStudentsForCourse(courseId),
-                new InstructorsDb().getInstructorsForCourse(courseId));
-        return getFeedbackSessionResultsForUserInSection(feedbackSessionName,
-                courseId, userEmail, role, section, roster, true);
-    }
-
-    private FeedbackSessionResultsBundle getFeedbackSessionResultsForUserInSection(
-            String feedbackSessionName, String courseId, String userEmail,
-            UserType.Role role, String section,
-            CourseRoster roster, Boolean isIncludeResponseStatus)
-            throws EntityDoesNotExistException {
-
+        
+        boolean isIncludeResponseStatus = Boolean.parseBoolean(params.get("isIncludeResponseStatus"));
+        boolean isComplete = (params.get("range") != null) ? false : true;
+        String section = params.get("section");
+        
         FeedbackSessionAttributes session = fsDb.getFeedbackSession(
                 courseId, feedbackSessionName);
 
@@ -1020,15 +1005,74 @@ public class FeedbackSessionsLogic {
                     emailNameTable, emailTeamNameTable,
                     visibilityTable, responseStatus, responseComments);
         }
+        
+        if(params.get("questionNum") != null){
+            int questionNumber = Integer.parseInt(params.get("questionNum"));
+            FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(feedbackSessionName, courseId, questionNumber);
+            if(question != null) {
+                List<FeedbackResponseAttributes> responsesForThisQn;
+    
+                boolean isPrivateSessionCreatedByThisUser = session
+                        .isCreator(userEmail) && session.isPrivateSession();
+                if (isPrivateSessionCreatedByThisUser) {
+                    responsesForThisQn = frLogic
+                            .getFeedbackResponsesForQuestion(question.getId());
+                } else {
+                    responsesForThisQn = frLogic
+                            .getViewableFeedbackResponsesForQuestionInSection(
+                                    question, userEmail, Role.INSTRUCTOR, null);
+                }
+    
+                boolean thisQuestionHasResponses = (!responsesForThisQn.isEmpty());
+                if (thisQuestionHasResponses) {
+                    relevantQuestions.put(question.getId(), question);
+                    responses.addAll(responsesForThisQn);
+                    for (FeedbackResponseAttributes response : responsesForThisQn) {
+                        addEmailNamePairsToTable(emailNameTable, response,
+                                question, roster);
+                        addEmailTeamNamePairsToTable(emailTeamNameTable, response,
+                                question, roster);
+                        addVisibilityToTable(visibilityTable, question, response,
+                                userEmail, roster);
+                    }
+                }
+            }
+            FeedbackSessionResultsBundle results =
+                    new FeedbackSessionResultsBundle(
+                            session, responses, relevantQuestions,
+                            emailNameTable, emailTeamNameTable,
+                            visibilityTable, responseStatus, responseComments);
+
+            return results;
+        }
 
         Map<String, FeedbackQuestionAttributes> allQuestionsMap = new HashMap<String, FeedbackQuestionAttributes>();
         for (FeedbackQuestionAttributes qn : allQuestions) {
             allQuestionsMap.put(qn.getId(), qn);
         }
-
-        List<FeedbackResponseAttributes> allResponses = frLogic
-                .getFeedbackResponsesForSessionInSection(feedbackSessionName,
+        List<FeedbackResponseAttributes> allResponses;
+        if(params.get("range") != null){
+            long range = Long.parseLong(params.get("range"));
+             allResponses = frLogic.getFeedbackResponsesForSessionInSectionWithinRange(feedbackSessionName,
+                            courseId, section, range);
+            if(allResponses.size() <= range){
+                isComplete = true;
+            } else {
+                for (FeedbackQuestionAttributes qn : allQuestions){
+                    relevantQuestions.put(qn.getId(), qn);
+                }
+                FeedbackSessionResultsBundle results =
+                    new FeedbackSessionResultsBundle(
+                            session, responses, allQuestionsMap,
+                            emailNameTable, emailTeamNameTable,
+                            visibilityTable, responseStatus, responseComments, isComplete);
+    
+                return results;
+            }
+        } else {
+            allResponses = frLogic.getFeedbackResponsesForSessionInSection(feedbackSessionName,
                         courseId, section);
+        }
 
         responseStatus = (section == null && isIncludeResponseStatus) ? getFeedbackSessionResponseStatus(
                 session, roster, allQuestions, allResponses) : null;
@@ -1107,163 +1151,11 @@ public class FeedbackSessionsLogic {
                 new FeedbackSessionResultsBundle(
                         session, responses, relevantQuestions,
                         emailNameTable, emailTeamNameTable,
-                        visibilityTable, responseStatus, responseComments);
+                        visibilityTable, responseStatus, responseComments, isComplete);
 
         return results;
     }
     
-    private FeedbackSessionResultsBundle getFeedbackSessionResultsForUserInSectionWithinRange(
-            String feedbackSessionName, String courseId, String userEmail,
-            UserType.Role role, String section, long range)
-            throws EntityDoesNotExistException{
-        
-        boolean isComplete = false;
-        CourseRoster roster = new CourseRoster(
-                new StudentsDb().getStudentsForCourse(courseId),
-                new InstructorsDb().getInstructorsForCourse(courseId));
-        
-        FeedbackSessionAttributes session = fsDb.getFeedbackSession(
-                courseId, feedbackSessionName);
-
-        if (session == null) {
-            throw new EntityDoesNotExistException(
-                    "Trying to view non-existent feedback session.");
-        }
-
-        List<FeedbackQuestionAttributes> allQuestions =
-                fqLogic.getFeedbackQuestionsForSession(feedbackSessionName,
-                        courseId);
-
-        // create empty data containers to store results
-        List<FeedbackResponseAttributes> responses =
-                new ArrayList<FeedbackResponseAttributes>();
-        Map<String, FeedbackQuestionAttributes> relevantQuestions =
-                new HashMap<String, FeedbackQuestionAttributes>();
-        Map<String, String> emailNameTable =
-                new HashMap<String, String>();
-        Map<String, String> emailTeamNameTable =
-                new HashMap<String, String>();
-        Map<String, boolean[]> visibilityTable =
-                new HashMap<String, boolean[]>();
-        Map<String, List<FeedbackResponseCommentAttributes>> responseComments =
-                new HashMap<String, List<FeedbackResponseCommentAttributes>>();
-
-        FeedbackSessionResponseStatus responseStatus = new FeedbackSessionResponseStatus();
-
-        boolean isPrivateSessionNotCreatedByThisUser = session
-                .isPrivateSession() && !session.isCreator(userEmail);
-        if (isPrivateSessionNotCreatedByThisUser) {
-            // return empty result set
-            return new FeedbackSessionResultsBundle(
-                    session, responses, relevantQuestions,
-                    emailNameTable, emailTeamNameTable,
-                    visibilityTable, responseStatus, responseComments);
-        }
-
-        Map<String, FeedbackQuestionAttributes> allQuestionsMap = new HashMap<String, FeedbackQuestionAttributes>();
-        List<FeedbackResponseAttributes> allResponses = frLogic
-                .getFeedbackResponsesForSessionInSectionWithinRange(feedbackSessionName,
-                        courseId, section, range);
-        if(allResponses.size() <= range){
-            isComplete = true;
-            for (FeedbackQuestionAttributes qn : allQuestions) {
-                allQuestionsMap.put(qn.getId(), qn);
-            }
-        } else {
-            for (FeedbackQuestionAttributes qn : allQuestions){
-                relevantQuestions.put(qn.getId(), qn);
-            }
-            FeedbackSessionResultsBundle results =
-                new FeedbackSessionResultsBundle(
-                        session, responses, relevantQuestions,
-                        emailNameTable, emailTeamNameTable,
-                        visibilityTable, responseStatus, responseComments, isComplete);
-
-            return results;
-        }
-        
-        responseStatus = (section == null) ? getFeedbackSessionResponseStatus(
-                session, roster, allQuestions, allResponses) : null;
-
-        StudentAttributes student = null;
-        Set<String> studentsEmailInTeam = new HashSet<String>();
-        if (role == Role.STUDENT) {
-            student = studentsLogic.getStudentForEmail(courseId, userEmail);
-            List<StudentAttributes> studentsInTeam = studentsLogic
-                    .getStudentsForTeam(student.team, courseId);
-            for (StudentAttributes teammates : studentsInTeam) {
-                studentsEmailInTeam.add(teammates.email);
-            }
-        }
-
-        for (FeedbackResponseAttributes response : allResponses) {
-            FeedbackQuestionAttributes relatedQuestion = allQuestionsMap
-                    .get(response.feedbackQuestionId);
-            if (relatedQuestion != null) {
-                // TODO: refactor these. you may refer to
-                // FeedbackResponseLogic.getViewableFeedbackResponsesForQuestionInSection
-                Boolean isVisibleResponse = false;
-                if ((response.giverEmail.equals(userEmail) && (section == null || response.recipientSection.equals(section)))
-                        || (response.recipientEmail.equals(userEmail) && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER) && (section == null || response.giverSection.equals(section)))
-                        || (role == Role.INSTRUCTOR && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS) && (section == null || (response.giverSection.equals(section) && response.recipientSection.equals(section))))
-                        || (role == Role.STUDENT && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.STUDENTS))) {
-                    isVisibleResponse = true;
-                } else if (role == Role.STUDENT 
-                        && ((relatedQuestion.recipientType == FeedbackParticipantType.TEAMS
-                                && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
-                                && response.recipientEmail.equals(student.team))
-                            || ((relatedQuestion.giverType == FeedbackParticipantType.TEAMS
-                                || relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS))
-                                    && studentsEmailInTeam.contains(response.giverEmail))
-                            || (relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
-                        && studentsEmailInTeam.contains(response.recipientEmail)))) {
-                    isVisibleResponse = true;
-                }
-                if (isVisibleResponse) {
-                    responses.add(response);
-                    relevantQuestions.put(relatedQuestion.getId(),
-                            relatedQuestion);
-                    addEmailNamePairsToTable(emailNameTable, response,
-                            relatedQuestion, roster);
-                    addEmailTeamNamePairsToTable(emailTeamNameTable, response,
-                            relatedQuestion, roster);
-                    addVisibilityToTable(visibilityTable, relatedQuestion,
-                            response, userEmail, roster);
-                }
-                isVisibleResponse = false;
-            }
-        }
-
-        List<FeedbackResponseCommentAttributes> allResponseComments =
-                frcLogic.getFeedbackResponseCommentForSession(courseId,
-                        feedbackSessionName);
-        for (FeedbackResponseCommentAttributes frc : allResponseComments) {
-            List<FeedbackResponseCommentAttributes> frcList = responseComments
-                    .get(frc.feedbackResponseId);
-            if (frcList == null) {
-                frcList = new ArrayList<FeedbackResponseCommentAttributes>();
-                frcList.add(frc);
-                responseComments.put(frc.feedbackResponseId, frcList);
-            } else {
-                frcList.add(frc);
-            }
-        }
-
-        for (List<FeedbackResponseCommentAttributes> responseCommentList : responseComments
-                .values()) {
-            Collections.sort(responseCommentList,
-                    new ResponseCommentCreationDateComparator());
-        }
-
-        FeedbackSessionResultsBundle results =
-                new FeedbackSessionResultsBundle(
-                        session, responses, relevantQuestions,
-                        emailNameTable, emailTeamNameTable,
-                        visibilityTable, responseStatus, responseComments, isComplete);
-
-        return results;
-    }
-
     private class ResponseCommentCreationDateComparator implements
             Comparator<FeedbackResponseCommentAttributes> {
         @Override

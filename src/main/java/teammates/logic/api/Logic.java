@@ -26,6 +26,7 @@ import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
+import teammates.common.datatransfer.FeedbackSessionResponseStatus;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.InstructorPrivileges;
@@ -1719,6 +1720,19 @@ public class Logic {
     }
     
     /**
+     * Gets the response rate status for a session
+     * Preconditions: <br>
+     * * All parameters are non-null
+     */
+    public FeedbackSessionResponseStatus getFeedbackSessionResponseStatus(String feedbackSessionName, String courseId) throws EntityDoesNotExistException {
+    
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        
+        return feedbackSessionsLogic.getFeedbackSessionResponseStatus(feedbackSessionName, courseId);
+    }
+    
+    /**
      * Gets a question+response bundle for questions with responses that
      * is visible to the student for a feedback session.
      * Preconditions: <br>
@@ -1755,6 +1769,7 @@ public class Logic {
     /**
      * Gets a question+response bundle for questions with responses that
      * is visible to the instructor for a feedback session from a given question number
+     * This will not retrieve the list of comments for this question
      * Preconditions: <br>
      * * All parameters are non-null.
      */
