@@ -38,6 +38,7 @@ import teammates.common.exception.JoinCourseException;
 import teammates.common.exception.NotImplementedException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
+import teammates.common.util.FieldValidator;
 import teammates.common.util.Utils;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CommentsLogic;
@@ -51,6 +52,7 @@ import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.logic.core.SubmissionsLogic;
+import teammates.ui.controller.AdminHomePageData;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -448,6 +450,18 @@ public class Logic {
         accountsLogic.joinCourseForInstructor(encryptedKey, googleId);
     }
 
+    
+    public void createAccountForNewInstructor(String encryptedKey, String googleId, String institute, boolean isSampleDataImported) 
+                throws JoinCourseException, InvalidParametersException {
+
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, encryptedKey);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, institute);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, isSampleDataImported);
+      
+        accountsLogic.createAccountForNewInstructor(encryptedKey, googleId, institute, isSampleDataImported);
+               
+    }
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
@@ -460,6 +474,30 @@ public class Logic {
     
         return instructorsLogic.sendRegistrationInviteToInstructor(courseId, instructorEmail);
     }
+    
+    
+    public void sendJoinLinkToNewInstructor(InstructorAttributes instructor, AdminHomePageData data, boolean isSampleDataImported)
+            throws EntityDoesNotExistException{
+         
+         Assumption.assertNotNull(ERROR_NULL_PARAMETER, data);
+         Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructor);
+         Assumption.assertNotNull(ERROR_NULL_PARAMETER, isSampleDataImported);
+         
+         instructorsLogic.sendJoinLinkToNewInstructor(instructor, data, isSampleDataImported);
+         
+     }
+     
+     public void verifyInputForAdminHomePage(String shortName, String name, String institute, String email) throws InvalidParametersException{
+         
+         List<String> invalidityInfo = instructorsLogic.getInvalidityInfoForNewInstructorData(shortName, name, institute, email);
+         
+         if (!invalidityInfo.isEmpty()) {
+             throw new InvalidParametersException(invalidityInfo);
+         } 
+     }
+     
+     
+    
     
     /**
      * Removes instructor access but does not delete the account. 
@@ -839,6 +877,10 @@ public class Logic {
         return studentsLogic.enrollStudents(enrollLines.trim(), courseId);
     
     }
+    
+    
+    
+    
 
     /**
      * Sends the registration invite to unregistered students in the course.

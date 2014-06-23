@@ -1,5 +1,6 @@
 package teammates.logic.core;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -11,8 +12,10 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
+import teammates.common.util.FieldValidator;
 import teammates.common.util.Utils;
 import teammates.storage.api.InstructorsDb;
+import teammates.ui.controller.AdminHomePageData;
 
 /**
  * Handles  operations related to instructor roles.
@@ -234,7 +237,61 @@ public class InstructorsLogic {
         }
         
     }
+    
+    public void sendJoinLinkToNewInstructor(InstructorAttributes instructor, AdminHomePageData data, boolean isSampleDataImported) 
+           throws EntityDoesNotExistException {
+        
+        
+        InstructorAttributes instructorData = getInstructorForEmail(instructor.courseId, instructor.email);                                             
+        
+        if (instructorData == null) {
+            throw new EntityDoesNotExistException("Instructor [" 
+                                                  + data.instructorEmail 
+                                                  + "] does not exist in course ["
+                                                  + instructor.courseId + "]");
+        }
+        
+        Emails emailMgr = new Emails();
 
+        try {
+            List<MimeMessage> emails = emailMgr.generateNewInstructorAccountJoinEmail(isSampleDataImported, 
+                                                                               instructorData,
+                                                                               data.instructorShortName,
+                                                                               data.instructorInstitution);
+            emailMgr.sendEmail(emails.get(0));
+            emailMgr.sendEmail(emails.get(1));
+
+        } catch (Exception e) {
+            throw new RuntimeException("Unexpected error while sending email",e);
+        }
+
+    }
+    
+    
+    public List<String> getInvalidityInfoForNewInstructorData(String shortName, String name, String institute, String email) {
+        
+        FieldValidator validator = new FieldValidator();
+        List<String> errors = new ArrayList<String>();
+        String error;
+        
+        error= validator.getInvalidityInfo(FieldValidator.FieldType.PERSON_NAME, shortName);
+        if(!error.isEmpty()) { errors.add(error); }
+        
+        error= validator.getInvalidityInfo(FieldValidator.FieldType.PERSON_NAME, name);
+        if(!error.isEmpty()) { errors.add(error); }
+        
+        error= validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email);
+        if(!error.isEmpty()) { errors.add(error); }
+        
+        error= validator.getInvalidityInfo(FieldValidator.FieldType.INSTITUTE_NAME, institute);
+        if(!error.isEmpty()) { errors.add(error); }
+        
+        //No validation for isInstructor and createdAt fields.
+        return errors;
+    }
+    
+    
+    
     public void deleteInstructor(String courseId, String email) {
         
         instructorsDb.deleteInstructor(courseId, email);

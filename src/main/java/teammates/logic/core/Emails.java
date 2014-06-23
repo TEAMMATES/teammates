@@ -17,6 +17,7 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
@@ -33,6 +34,7 @@ import teammates.common.util.EmailTemplates;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
 import teammates.common.util.Utils;
+import teammates.ui.controller.AdminHomePageData;
 
 /**
  * Handles operations related to sending e-mails.
@@ -52,6 +54,8 @@ public class Emails {
     public static final String SUBJECT_PREFIX_STUDENT_COURSE_JOIN = "TEAMMATES: Invitation to join course";
     public static final String SUBJECT_PREFIX_INSTRUCTOR_COURSE_JOIN = "TEAMMATES: Invitation to join course as an instructor";
     public static final String SUBJECT_PREFIX_ADMIN_SYSTEM_ERROR = "TEAMMATES (%s): New System Exception: %s";
+    public static final String SUBJECT_PREFIX_NEW_INSTRUCTOR_ACCOUNT = "TEAMMATES: Welcome to TEAMMATES!";
+    public static final String SUBJECT_PREFIX_NEW_INSTRUCTOR_ACCOUNT_COPY = "Copy of Confirmation Email For"; 
             
     public static enum EmailType {
         EVAL_CLOSING,
@@ -703,7 +707,47 @@ public class Emails {
         message.setContent(emailBody, "text/html");
         return message;
     }
+    
+    public List<MimeMessage> generateNewInstructorAccountJoinEmail(boolean isSampleDataImported, InstructorAttributes instructor,
+                                                                   String shortName, String institute) throws AddressException,
+                                                                                                              MessagingException,
+                                                                                                              UnsupportedEncodingException {
 
+        MimeMessage messageToUser = getEmptyEmailAddressedToEmail(instructor.email);
+        MimeMessage messageToAdmin = getEmptyEmailAddressedToEmail(Config.SUPPORT_EMAIL);
+        
+        List<MimeMessage> messages = new ArrayList<MimeMessage>();
+        messages.add(messageToUser);
+        messages.add(messageToAdmin);
+        
+        
+        messageToUser.setSubject(String.format(SUBJECT_PREFIX_NEW_INSTRUCTOR_ACCOUNT + " " + shortName));
+        messageToAdmin.setSubject(String.format(SUBJECT_PREFIX_NEW_INSTRUCTOR_ACCOUNT_COPY +
+                                                " " + shortName+" "+ "[" + instructor.email + "]"));
+        
+        for(MimeMessage message : messages){
+         
+            String emailBody = EmailTemplates.NEW_INSTRCUTOR_ACCOUNT_WELCOME;
+            emailBody = emailBody.replace("${UserName}", shortName);
+            
+            String joinUrl = "";
+            if (instructor != null) {
+                String key;
+                key = StringHelper.encrypt(instructor.key);
+                joinUrl = Config.APP_URL + Const.ActionURIs.INSTRUCTOR_COURSE_JOIN;
+                joinUrl = Url.addParamToUrl(joinUrl, Const.ParamsNames.REGKEY, key);
+                joinUrl = Url.addParamToUrl(joinUrl, Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
+                joinUrl = Url.addParamToUrl(joinUrl, Const.ParamsNames.IS_SAMPLE_DATA_IMPORTED, "" + isSampleDataImported);
+            }
+            
+            emailBody = emailBody.replace("${confimationUrl}",joinUrl);
+            message.setContent(emailBody, "text/html");
+            
+        }
+        return messages;
+
+    }
+    
     public MimeMessage generateInstructorCourseJoinEmail(
             CourseAttributes course, InstructorAttributes instructor) 
                     throws AddressException, MessagingException, UnsupportedEncodingException {

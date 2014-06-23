@@ -49,7 +49,7 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
     @Test
     public void testExecuteAndPostProcess() throws Exception{
         //TODO: find a way to test status message from session
-        final String newInstructorId = "JamesBond89";
+        final String shortName = "James";
         final String name = "JamesBond";
         final String email = "jamesbond89@gmail.com";
         final String institute = "National University of Singapore";
@@ -59,16 +59,16 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
         
         gaeSimulation.loginAsAdmin(adminUserId);
         verifyAssumptionFailure();
-        verifyAssumptionFailure(Const.ParamsNames.INSTRUCTOR_ID, newInstructorId);
-        verifyAssumptionFailure(Const.ParamsNames.INSTRUCTOR_ID, newInstructorId,
+        verifyAssumptionFailure(Const.ParamsNames.INSTRUCTOR_SHORT_NAME, shortName);
+        verifyAssumptionFailure(Const.ParamsNames.INSTRUCTOR_SHORT_NAME, shortName,
                 Const.ParamsNames.INSTRUCTOR_NAME, name);
-        verifyAssumptionFailure(Const.ParamsNames.INSTRUCTOR_ID, newInstructorId,
+        verifyAssumptionFailure(Const.ParamsNames.INSTRUCTOR_SHORT_NAME, shortName,
                 Const.ParamsNames.INSTRUCTOR_NAME, name,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, email);
-        verifyAssumptionFailure(Const.ParamsNames.INSTRUCTOR_ID, newInstructorId,
+        verifyAssumptionFailure(Const.ParamsNames.INSTRUCTOR_SHORT_NAME, shortName,
                 Const.ParamsNames.INSTRUCTOR_NAME, name,
                 Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
-        verifyAssumptionFailure(Const.ParamsNames.INSTRUCTOR_ID, newInstructorId,
+        verifyAssumptionFailure(Const.ParamsNames.INSTRUCTOR_SHORT_NAME, shortName,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, email,
                 Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
         verifyAssumptionFailure(Const.ParamsNames.INSTRUCTOR_NAME, name,
@@ -77,14 +77,14 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
         
         
         ______TS("Normal case: not importing demo couse, extra spaces around values");
-        final String newInstructorIdWithSpaces = "   " + newInstructorId + "   ";
+        final String inStructorShortName = "   " + shortName + "   ";
         final String nameWithSpaces = "   " + name + "   ";
         final String emailWithSpaces = "   " + email + "   ";
         final String instituteWithSpaces = "   " + institute + "   ";
         
         
         Action a = getAction(
-                Const.ParamsNames.INSTRUCTOR_ID, newInstructorIdWithSpaces,
+                Const.ParamsNames.INSTRUCTOR_SHORT_NAME, inStructorShortName,
                 Const.ParamsNames.INSTRUCTOR_NAME, nameWithSpaces,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, emailWithSpaces,
                 Const.ParamsNames.INSTRUCTOR_INSTITUTION, instituteWithSpaces);
@@ -96,30 +96,13 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
         assertEquals(Const.ActionURIs.ADMIN_HOME_PAGE, r.destination);
         assertEquals(Const.ActionURIs.ADMIN_HOME_PAGE + "?error=false&user=" + adminUserId, r.getDestinationWithParams());
         
-        ______TS("Error: already an instructor");
-        
-        ShowPageResult rForAlreadyExistingInstructor = (ShowPageResult) getAction(
-                Const.ParamsNames.INSTRUCTOR_ID, newInstructorId,
-                Const.ParamsNames.INSTRUCTOR_NAME, name,
-                Const.ParamsNames.INSTRUCTOR_EMAIL, email,
-                Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute).executeAndPostProcess();
-        
-        assertEquals(true, rForAlreadyExistingInstructor.isError);
-        assertEquals("The Google ID " + newInstructorId + " is already registered as an instructor", rForAlreadyExistingInstructor.getStatusMessage());
-        assertEquals(Const.ViewURIs.ADMIN_HOME, rForAlreadyExistingInstructor.destination);
-        assertEquals(Const.ViewURIs.ADMIN_HOME + "?error=true&user=" + adminUserId, rForAlreadyExistingInstructor.getDestinationWithParams());
-        AdminHomePageData pageData = (AdminHomePageData)rForAlreadyExistingInstructor.data;
-        assertEquals(email, pageData.instructorEmail);
-        assertEquals(newInstructorId, pageData.instructorId);
-        assertEquals(institute, pageData.instructorInstitution);
-        assertEquals(name, pageData.instructorName);
 
         ______TS("Error: invalid parameter");
         
-        final String anotherNewInstructorId = "JamesBond99";
+        final String anotherShortName = "Bond";
         final String invalidName = "James%20Bond99";
         a = getAction(
-                Const.ParamsNames.INSTRUCTOR_ID, anotherNewInstructorId,
+                Const.ParamsNames.INSTRUCTOR_SHORT_NAME, anotherShortName,
                 Const.ParamsNames.INSTRUCTOR_NAME, invalidName,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, email,
                 Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
@@ -132,16 +115,15 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
         assertEquals(Const.ViewURIs.ADMIN_HOME + "?error=true&user=" + adminUserId,
                 rInvalidParam.getDestinationWithParams());
         
-        pageData = (AdminHomePageData) rInvalidParam.data;
+        AdminHomePageData pageData = (AdminHomePageData) rInvalidParam.data;
         assertEquals(email, pageData.instructorEmail);
-        assertEquals(anotherNewInstructorId, pageData.instructorId);
         assertEquals(institute, pageData.instructorInstitution);
         assertEquals(invalidName, pageData.instructorName);
         
         ______TS("Normal case: importing demo couse");
         
         a = getAction(
-                Const.ParamsNames.INSTRUCTOR_ID, anotherNewInstructorId,
+                Const.ParamsNames.INSTRUCTOR_SHORT_NAME, anotherShortName,
                 Const.ParamsNames.INSTRUCTOR_NAME, name,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, email,
                 Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute,

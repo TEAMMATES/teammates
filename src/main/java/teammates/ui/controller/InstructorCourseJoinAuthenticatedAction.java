@@ -2,6 +2,7 @@ package teammates.ui.controller;
 
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.JoinCourseException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -22,16 +23,31 @@ public class InstructorCourseJoinAuthenticatedAction extends Action {
         String key = getRequestParamValue(Const.ParamsNames.REGKEY);
         Assumption.assertNotNull(key);
         
+        String institute = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
+        String isSampleDataImported = getRequestParamValue(Const.ParamsNames.IS_SAMPLE_DATA_IMPORTED);
+        
         new GateKeeper().verifyLoggedInUserPrivileges();
         
         /* Process authentication for the instructor to join course */
         try {
-            logic.joinCourseForInstructor(key, account.googleId);
+            
+            if(institute !=null && !institute.isEmpty()){               
+                Assumption.assertNotNull(isSampleDataImported);
+                boolean isSampleImportedBool = Boolean.valueOf(isSampleDataImported);              
+                logic.createAccountForNewInstructor(key, account.googleId, institute, isSampleImportedBool);              
+            }else{
+                logic.joinCourseForInstructor(key, account.googleId);
+            }
+            
         } catch (JoinCourseException e) {
             // Does not sanitize for html to allow insertion of mailto link
             setStatusForException(e, e.getMessage());
             log.info(e.getMessage());
-        }
+            
+        } catch (InvalidParametersException e) {
+            setStatusForException(e, e.getMessage());
+            log.info(e.getMessage());
+        } 
         
         /* Set status to be shown to admin */
         final String joinedCourseMsg = "Action Instructor Joins Course"

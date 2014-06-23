@@ -1,10 +1,18 @@
 package teammates.logic.core;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.logging.Logger;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
+import com.google.gson.Gson;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -14,8 +22,12 @@ import teammates.common.exception.JoinCourseException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.FileHelper;
+import teammates.common.util.Config;
 import teammates.common.util.Utils;
+import teammates.logic.backdoor.BackDoorLogic;
 import teammates.storage.api.AccountsDb;
+
 
 /**
  * Handles the logic related to accounts.
@@ -139,6 +151,83 @@ public class AccountsLogic {
         }
     }
     
+    
+    public void createAccountForNewInstructor(String encryptedKey, String googleId, String institute, boolean isSampleDataImported) 
+                throws JoinCourseException, InvalidParametersException {
+            
+        verifyNewInstructorAccountRequest(encryptedKey, googleId);
+     
+        InstructorAttributes instructor = InstructorsLogic.inst().getInstructorForRegistrationKey(encryptedKey);
+        AccountAttributes accountToAdd = new AccountAttributes(googleId,
+                                                               instructor.name,
+                                                               true,
+                                                               instructor.email,
+                                                               institute);        
+        try {
+            createAccount(accountToAdd);
+        } catch (InvalidParametersException e) {
+            throw e;
+        }
+
+        instructor.googleId = googleId;
+        try {           
+            InstructorsLogic.inst().updateInstructorByEmail(instructor.email, instructor);
+            if(!isSampleDataImported){
+                BackDoorLogic backDoor = new BackDoorLogic();
+                backDoor.deleteInstructor(instructor.courseId, instructor.email);
+                backDoor.deleteInstructor(instructor.courseId, instructor.email);
+                backDoor.deleteCourse(instructor.courseId);           
+            }
+        } catch (InvalidParametersException | EntityDoesNotExistException e) {
+            throw new JoinCourseException(e.getMessage());
+        }
+        
+    }
+    
+    private void verifyNewInstructorAccountRequest(String encryptedKey, String googleId) 
+                 throws JoinCourseException {
+        
+        InstructorAttributes instructorRole = InstructorsLogic.inst().getInstructorForRegistrationKey(encryptedKey);
+        
+        if (instructorRole == null) {
+            String joinUrl = Const.ActionURIs.INSTRUCTOR_COURSE_JOIN + "?regkey=" + encryptedKey;
+            
+            throw new JoinCourseException(Const.StatusCodes.INVALID_KEY,
+                    "You have used an invalid join link: " + joinUrl);
+            
+        } else if (instructorRole.isRegistered()) {
+            if (instructorRole.googleId.equals(googleId)) {
+                AccountAttributes account = accountsDb.getAccount(googleId);
+                if(account == null) {
+                    try {
+                        createInstructorAccount(instructorRole);
+                        return;
+                    } catch (InvalidParametersException e) {
+                        throw new JoinCourseException(e.getMessage());
+                    }
+                } else {
+                    throw new JoinCourseException(Const.StatusCodes.ALREADY_JOINED,
+                                                  "You has already verified your google account");
+                }
+                
+            } else {
+                throw new JoinCourseException(Const.StatusCodes.KEY_BELONGS_TO_DIFFERENT_USER,
+                        String.format(Const.StatusMessages.JOIN_COURSE_KEY_BELONGS_TO_DIFFERENT_USER,
+                                truncateGoogleId(instructorRole.googleId)));
+            }
+        }
+    
+        InstructorAttributes existingInstructor =
+                InstructorsLogic.inst().getInstructorForGoogleId(instructorRole.courseId, googleId);
+        
+        if (existingInstructor != null) {
+            throw new JoinCourseException(
+                    String.format(Const.StatusMessages.JOIN_COURSE_GOOGLE_ID_BELONGS_TO_DIFFERENT_USER,
+                            googleId));
+        }
+    }
+    
+    
     public void joinCourseForInstructor(String encryptedKey, String googleId)
             throws JoinCourseException {
         
@@ -175,6 +264,7 @@ public class AccountsLogic {
             
             throw new JoinCourseException(Const.StatusCodes.INVALID_KEY,
                     "You have used an invalid join link: " + joinUrl);
+            
         } else if (instructorRole.isRegistered()) {
             if (instructorRole.googleId.equals(googleId)) {
                 AccountAttributes account = accountsDb.getAccount(googleId);
@@ -304,6 +394,8 @@ public class AccountsLogic {
         accountsDb.createAccount(account);
     }
 
+    
+    
     private String truncateGoogleId(String googleId) {
         String frontPart = googleId.substring(0, googleId.length() / 3);
         String endPart = googleId.substring(2 * googleId.length() / 3);
