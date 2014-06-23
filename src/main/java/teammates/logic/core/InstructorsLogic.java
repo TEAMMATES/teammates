@@ -280,10 +280,10 @@ public class InstructorsLogic {
         error= validator.getInvalidityInfo(FieldValidator.FieldType.PERSON_NAME, name);
         if(!error.isEmpty()) { errors.add(error); }
         
-        error= validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, institute);
+        error= validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email);
         if(!error.isEmpty()) { errors.add(error); }
         
-        error= validator.getInvalidityInfo(FieldValidator.FieldType.INSTITUTE_NAME, email);
+        error= validator.getInvalidityInfo(FieldValidator.FieldType.INSTITUTE_NAME, institute);
         if(!error.isEmpty()) { errors.add(error); }
         
         //No validation for isInstructor and createdAt fields.
