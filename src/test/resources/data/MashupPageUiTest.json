@@ -18,14 +18,34 @@
             "name":"Alice Betsy",
             "isInstructor":false,
             "email":"alice.b.tmms@gmail.com",
-            "institute":"National University of Singapore"
+            "institute":"National University of Singapore",
+            "studentProfile":{
+                "googleId":"alice.b.tmms",
+                "shortName":"Alice",
+                "email":"",
+                "institute":"SIT",
+                "country":"USA",
+                "gender":"female",
+                "moreInfo":"Some info",
+                "pictureKey":""
+            }
         },
         "benny.c.tmms":{
             "googleId":"benny.c.tmms",
             "name":"Benny Charles",
             "isInstructor":false,
             "email":"benny.c.tmms@gmail.com",
-            "institute":"National University of Singapore"
+            "institute":"National University of Singapore",
+            "studentProfile":{
+                "googleId":"benny.c.tmms",
+                "shortName":"Benny",
+                "email":"",
+                "institute":"SIM",
+                "country":"Singapore",
+                "gender":"male",
+                "moreInfo":"This is a lot more info so that the instructor can see the extent of info that can be given",
+                "pictureKey":""
+            }
         },
         "charlie.d.tmms":{
             "googleId":"charlie.d.tmms",

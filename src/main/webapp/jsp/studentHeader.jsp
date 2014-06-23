@@ -27,7 +27,7 @@
                         </li>
                         <li class="<%=data.getClass().toString().contains("StudentProfilePage")?"active":""%>">
                             <a id="studentProfileLink" data-link="studentProfilePage" href="<%=data.getStudentProfileLink()%>">
-                                Profile<sup><span class="glyphicon glyphicon-star glyphicon-gold"></span></sup>
+                                Profile
                             </a>
                         </li>
                         <li class="<%=data.getClass().toString().contains("StudentComments")?"active":""%>">

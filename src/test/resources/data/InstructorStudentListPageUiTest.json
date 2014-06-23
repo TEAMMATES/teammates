@@ -21,13 +21,20 @@
         "email": "instr@course1.com",
         "institute": "NTU"
     },
-  "instructorOfCourse4": {
-    "googleId": "instructorOfCourse4",
-    "name": "Instructor of Course 4",
-    "isInstructor": true,
-    "email": "instr@course4.com",
-    "institute": "MIT"
-  }
+    "instructorOfCourse4": {
+        "googleId": "instructorOfCourse4",
+        "name": "Instructor of Course 4",
+        "isInstructor": true,
+        "email": "instr@course4.com",
+        "institute": "MIT"
+    },
+    "Student3Course3": {
+      "googleId": "CCSDetailsUiT.charlie.tmms",
+      "email": "CCSDetailsUiT.charlie.tmms@gmail.com",
+      "isInstructor":false,
+      "name": "Charlie D",
+      "institute":"NUS"
+    }
   },
 
   "courses": {
