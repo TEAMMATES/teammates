@@ -255,6 +255,7 @@ public class Const {
         public static final String STUDENTS_ENROLLMENT_INFO = "enrollstudents";
         public static final String INSTRUCTOR_IMPORT_SAMPLE = "importsample";
         
+        public static final String INSTRUCTOR_IS_DISPLAYED_TO_STUDENT = "instructorisdisplayed";
         public static final String INSTRUCTOR_DISPLAY_NAME = "instructordisplayname";
         public static final String INSTRUCTOR_ROLE_NAME = "instructorrole";
         
