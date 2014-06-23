@@ -58,7 +58,8 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             String questionId = HttpRequestHelper.getValueFromParamMap(
                     requestParameters, 
                     Const.ParamsNames.FEEDBACK_QUESTION_ID + "-" + questionIndx);
-            Assumption.assertEquals("Question and Response Id mismatch!",questionId, data.bundle.getSortedQuestions().get(questionIndx - 1).getId());
+            //A better way might be to get the questionDetails based on the question id.
+            Assumption.assertEquals("Question and Response Id mismatch! question index: " + questionIndx,questionId, data.bundle.getSortedQuestions().get(questionIndx - 1).getId());
             FeedbackAbstractQuestionDetails questionDetails = data.bundle.getSortedQuestions().get(questionIndx - 1).getQuestionDetails();
             
             
