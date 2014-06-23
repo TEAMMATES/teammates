@@ -1,26 +1,61 @@
+function getAppendedData(data){
+    var appendHtml = '';
+    appendHtml += "<div class='resultStatistics'>";
+    appendHtml += data.questionStats;
+    appendHtml += "</div>";
+    appendHtml += "<div class='table-responsive'>";
+    appendHtml += "<table class='table table-striped table-bordered dataTable margin-0'>";
+    appendHtml += "<thead class='background-color-medium-gray text-color-gray font-weight-normal'>";
+    appendHtml += "<tr>";
+    appendHtml += "<th id='button_sortFromName' onclick='toggleSort(this,1)' style='width: 15%;'>Giver</th>";
+    appendHtml += "<th id='button_sortFromTeam' onclick='toggleSort(this,2)' style='width: 15%;'>Team</th>";
+    appendHtml += '<th id="button_sortToName" onclick="toggleSort(this,3)" style="width: 15%;">Recipient</th>';
+    appendHtml += '<th id="button_sortToTeam" class="button-sort-ascending" onclick="toggleSort(this,4)" style="width: 15%;">Team</th>';
+    appendHtml += '<th id="button_sortFeedback" onclick="toggleSort(this,5)">Feedback</th>';
+    appendHtml += '</tr></thead>';
+    appendHtml += '<tbody>';
+    for(var i = 0; i < data.responses.length; i++){
+        appendHtml += '<tr>';
+        appendHtml += '<td class="middlealign">' + data.emailNameTable[(data.responses[i])['giverEmail']] + '</td>';
+        appendHtml += '<td class="middlealign">' + data.emailTeamTable[(data.responses[i])['giverEmail']] + '</td>';
+        appendHtml += '<td class="middlealign">' + data.emailNameTable[(data.responses[i])['recipientEmail']] + '</td>';
+        appendHtml += '<td class="middlealign">' + data.emailTeamTable[(data.responses[i])['recipientEmail']] + '</td>';
+        appendHtml += '<td class="multiline">' + data.answerTable[(data.responses[i])['feedbackResponseId']] + '</td>';
+        appendHtml += '</tr>';                            
+    }
+    appendHtml += '</tbody></table></div>';
+
+    return appendHtml;
+}
+
 $(document).ready(function(){
     var seeMoreRequest = function(e) {
-        var submitButton = $(this);
-        var formObject = $(this).parent().parent();
+        var panelHeading = $(this);
+        var displayIcon = $(this).children('.display-icon');
+        var formObject = $(this).children("form");
+        var panelCollapse = $(this).parent().children('.panel-collapse');
+        var panelBody = $(panelCollapse[0]).children('.panel-body');
         var formData = formObject.serialize();
-        
         e.preventDefault();
-        
         $.ajax({
             type : 'POST',
-            url : 	submitButton.attr('href') + "?" + formData,
+            url : 	$(formObject[0]).attr('action') + "?" + formData,
             beforeSend : function() {
-                submitButton.html("<img src='/images/ajax-loader.gif'/>");
+                displayIcon.html("<img height='25' width='25' src='/images/ajax-preload.gif'/>")
+                //submitButton.html("<img src='/images/ajax-loader.gif'/>");
             },
             error : function() {
-                submitButton.html('See More');
                 console.log('Error');
             },
             success : function(data) {
-                submitButton.html('See More');
-                console.log(data);
+                $(panelBody[0]).html(getAppendedData(data));
+                $(panelHeading).removeClass('ajax_submit');
+                $(panelHeading).off('click');
+                displayIcon.html('<span class="glyphicon glyphicon-chevron-down pull-right"></span>')
+                $(panelHeading).click(toggleSingleCollapse);
+                $(panelHeading).trigger('click');
             }
         });
     };
-    $("form[class*='seeMoreForm'] > div > a").click(seeMoreRequest);
+    $(".ajax_submit").click(seeMoreRequest);
 });

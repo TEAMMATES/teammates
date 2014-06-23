@@ -289,8 +289,8 @@ public class FeedbackSessionsLogic {
 
         FeedbackSessionResponseStatus responseStatus = new FeedbackSessionResponseStatus();
 
-        FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(feedbackSessionName, courseId, questionNumber++);
-        while(question != null) {
+        FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(feedbackSessionName, courseId, questionNumber);
+        if(question != null) {
             List<FeedbackResponseAttributes> responsesForThisQn;
 
             boolean isPrivateSessionCreatedByThisUser = session
@@ -317,10 +317,6 @@ public class FeedbackSessionsLogic {
                             userEmail, roster);
                 }
             }
-            if(responses.size() > 500){
-                break;
-            }
-            question = fqLogic.getFeedbackQuestion(feedbackSessionName, courseId, questionNumber++);
         }
 
         FeedbackSessionResultsBundle results =
@@ -1174,14 +1170,16 @@ public class FeedbackSessionsLogic {
                 allQuestionsMap.put(qn.getId(), qn);
             }
         } else {
-            allResponses = new ArrayList<FeedbackResponseAttributes>();
             for (FeedbackQuestionAttributes qn : allQuestions){
-                allQuestionsMap.put(qn.getId(), qn);
-                allResponses.addAll(frLogic.getFeedbackResponsesForQuestionInSection(qn.getId(), section));
-                if(allResponses.size() > range){
-                    break;
-                }
+                relevantQuestions.put(qn.getId(), qn);
             }
+            FeedbackSessionResultsBundle results =
+                new FeedbackSessionResultsBundle(
+                        session, responses, relevantQuestions,
+                        emailNameTable, emailTeamNameTable,
+                        visibilityTable, responseStatus, responseComments, isComplete);
+
+            return results;
         }
         
         responseStatus = (section == null) ? getFeedbackSessionResponseStatus(

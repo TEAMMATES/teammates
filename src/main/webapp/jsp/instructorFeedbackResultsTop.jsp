@@ -5,7 +5,7 @@
 <%@ page import="teammates.ui.controller.InstructorFeedbackResultsPageData"%>
 <%
     InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData)request.getAttribute("data");
-    boolean shouldCollapsed = data.bundle.responses.size() > 1000;
+    boolean showAll = data.bundle.isComplete;
 %>
 
 <div class="well well-plain padding-0">
@@ -61,7 +61,7 @@
 </div>
 
 <%
-    if (noResponses == false || !data.selectedSection.equals("All")) {
+    if (noResponses == false || !data.selectedSection.equals("All") || !showAll) {
 %>
 
 <form class="form-horizontal" role="form" method="post" action="<%=data.getInstructorFeedbackSessionResultsLink(data.bundle.feedbackSession.courseId,data.bundle.feedbackSession.feedbackSessionName)%>">
@@ -147,10 +147,12 @@
                 </div>
                 <% } %>
                 <div class="col-sm-7 pull-right" style="padding-top:8px;">
-                    <% if(shouldCollapsed){ %>
-                    <a class="btn btn-default btn-xs pull-right" id="collapse-panels-button" onclick="toggleCollapse()" data-toggle="tooltip" title="Collapse or expand all panels. You can also click on the panel heading to toggle each one individually.">
+                    <% if(!showAll){ %>
+                    <div class="pull-right" style="display:inline-block;" data-toggle="tooltip" title="Cannot expand as the data is too large. Expand each panel to see the results.">
+                    <a class="btn btn-default btn-xs pull-right" id="collapse-panels-button" onclick="toggleCollapse()" disabled="disabled">
                         Expand All
                     </a>
+                    </div>
                     <% } else { %>
                     <a class="btn btn-default btn-xs pull-right" id="collapse-panels-button" onclick="toggleCollapse()" data-toggle="tooltip" title="Collapse or expand all panels. You can also click on the panel heading to toggle each one individually.">
                         Collapse All
@@ -173,6 +175,6 @@
 
 <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
 
-<% if (noResponses) { %>
+<% if (noResponses && showAll) { %>
     <div class="bold color_red align-center">There are no responses for this feedback session yet.</div>
 <% } %>

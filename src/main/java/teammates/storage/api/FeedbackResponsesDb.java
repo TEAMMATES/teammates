@@ -1,6 +1,7 @@
 package teammates.storage.api;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -168,7 +169,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, section);
 
-        List<FeedbackResponse> frList = getFeedbackResponseEntitiesForSessionInSection(feedbackSessionName,
+        Collection<FeedbackResponse> frList = getFeedbackResponseEntitiesForSessionInSection(feedbackSessionName,
                                                                                       courseId, section);
         List<FeedbackResponseAttributes> fraList = new ArrayList<FeedbackResponseAttributes>();
 
@@ -191,7 +192,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, section);
 
-        List<FeedbackResponse> frList = getFeedbackResponseEntitiesForSessionInSectionWithinRange(feedbackSessionName,
+        Collection<FeedbackResponse> frList = getFeedbackResponseEntitiesForSessionInSectionWithinRange(feedbackSessionName,
                                                                                       courseId, section, range);
         List<FeedbackResponseAttributes> fraList = new ArrayList<FeedbackResponseAttributes>();
 
@@ -489,7 +490,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         return FeedbackResponseList;
     }
  
-    private List<FeedbackResponse> getFeedbackResponseEntitiesForSessionInSection(
+    private Collection<FeedbackResponse> getFeedbackResponseEntitiesForSessionInSection(
             String feedbackSessionName, String courseId, String section) {
 
         Map<String, FeedbackResponse> FeedbackResponseList = new HashMap<String,FeedbackResponse>();
@@ -513,10 +514,10 @@ public class FeedbackResponsesDb extends EntitiesDb {
             FeedbackResponseList.put(response.getId(), response);
         }
         
-        return (List<FeedbackResponse>) FeedbackResponseList.values();   
+        return FeedbackResponseList.values();   
     }
     
-    private List<FeedbackResponse> getFeedbackResponseEntitiesForSessionInSectionWithinRange(
+    private Collection<FeedbackResponse> getFeedbackResponseEntitiesForSessionInSectionWithinRange(
             String feedbackSessionName, String courseId, String section, long range) {
 
         Map<String, FeedbackResponse> FeedbackResponseList = new HashMap<String,FeedbackResponse>();
@@ -542,7 +543,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
             FeedbackResponseList.put(response.getId(), response);
         }
         
-        return (List<FeedbackResponse>) FeedbackResponseList.values();   
+        return FeedbackResponseList.values();   
     }
     
     private List<FeedbackResponse> getFeedbackResponseEntitiesForReceiverForQuestion(

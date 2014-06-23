@@ -11,9 +11,7 @@
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%
     InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData)request.getAttribute("data");
-    boolean shouldCollapsed = data.bundle.responses.size() > 1000;
     boolean showAll = data.bundle.isComplete;
-    int questionNum = 0;
 %>
 <!DOCTYPE html>
 <html>
@@ -60,18 +58,26 @@
                 for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responseEntries : data.bundle
                         .getQuestionResponseMap().entrySet()) {
                     FeedbackQuestionAttributes question = responseEntries.getKey();
-                    questionNum++;
             %>
             <div class="panel panel-info">
-                <div class="panel-heading">
-                    <span class="glyphicon <%= !shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down" %> pull-right"></span>
+                <div class="panel-heading <%= showAll ? "" : "ajax_submit"%>">
+                    <form style="display:none;" id="seeMore-<%=question.questionNumber%>" class="seeMoreForm-<%=question.questionNumber%>" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_AJAX_BY_QUESTIONS%>">
+                        <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBER %>" value="<%=question.questionNumber %>">
+                        <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID %>" value="<%=data.bundle.feedbackSession.courseId %>">
+                        <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="<%=data.bundle.feedbackSession.feedbackSessionName %>">
+                        <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId %>">
+                    </form>
+                    <div class='display-icon pull-right'>
+                    <span class="glyphicon <%= showAll ? "glyphicon-chevron-up" : "glyphicon-chevron-down" %> pull-right"></span>
+                    </div>
                     <strong>Question <%=question.questionNumber%>: </strong><%=data.bundle.getQuestionText(question.getId())%><%
                         FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
                         out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, ""));
                     %>
                 </div>
-                <div class="panel-collapse collapse <%= !shouldCollapsed ? "in" : "" %>">
-                <div class="panel-body padding-0">                
+                <div class="panel-collapse collapse <%= showAll ? "in" : "" %>">
+                <div class="panel-body padding-0">
+                    <% if(showAll) { %>                
                     <div class="resultStatistics">
                         <%=questionDetails.getQuestionResultStatisticsHtml(responseEntries.getValue(), data.bundle)%>
                     </div>
@@ -120,6 +126,7 @@
                             </tbody>
                         </table>
                     </div>
+                    <% } %>
                 </div>
                 </div>
             </div>
@@ -153,20 +160,9 @@
                     <br> <br>
             <%
                     }
-                } else {
+                } 
             %>
-                <form style="display:block;" id="seeMore" class="seeMoreForm">
-                    <div class="col-sm-offset-5">
-                        <a href="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_AJAX_BY_QUESTIONS%>" type="button" class="btn btn-primary" id="button_see_more">
-                            See More 
-                        </a>
-                    </div>
-                    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBER %>" value="<%=questionNum %>">
-                    <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID %>" value="<%=data.bundle.feedbackSession.courseId %>">
-                    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="<%=data.bundle.feedbackSession.feedbackSessionName %>">
-                    <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId %>">
-                </form>
-            <% } %>
+                
         </div>
     </div>
 

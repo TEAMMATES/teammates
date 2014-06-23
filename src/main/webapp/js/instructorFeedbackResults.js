@@ -47,12 +47,24 @@ function toggleCollapse(){
     if(panelsCollapsed){
         var panels = $("div.panel-collapse");
         isExpandingAll = true;
-        $(panels[0]).collapse("show");
+        var i = 0;
+        while($(panels[i]).attr('class').indexOf('in') != -1){
+            i++;
+        }
+        if($(panels[i]).length){
+            $(panels[i]).collapse("show");
+        }
         $("#collapse-panels-button").html("Collapse All");
     } else {
         var panels = $("div.panel-collapse");
         isCollapsingAll = true;
-        $(panels[0]).collapse("hide");
+        var i = 0;
+        while($(panels[i]).attr('class').indexOf('in') == -1){
+            i++;
+        }
+        if($(panels[i]).length){
+            $(panels[i]).collapse("hide");
+        }
         $("#collapse-panels-button").html("Expand All");
     }
     panelsCollapsed = !panelsCollapsed;
@@ -64,7 +76,7 @@ function toggleSingleCollapse(e){
         isCollapsingAll = false;
         isExpandingAll = false;
 
-        var glyphIcon = $(this).children('.glyphicon');
+        var glyphIcon = $(this).find('.glyphicon');
         var className = $(glyphIcon[0]).attr('class');
         if(className.indexOf('glyphicon-chevron-up') != -1){
             $(glyphIcon[0]).removeClass('glyphicon-chevron-up');
@@ -92,19 +104,21 @@ window.onload = function(){
             numPanels++;
             //$(heading[0]).attr("data-toggle","collapse");
             //Use this instead of the data-toggle attribute to let [more/less] be clicked without collapsing panel
-            $(heading[0]).click(toggleSingleCollapse);
+            if($(heading[0]).attr('class').indexOf('ajax_input') == -1){
+                $(heading[0]).click(toggleSingleCollapse);
+            }
             $(heading[0]).attr("data-target","#panelBodyCollapse-"+numPanels);
             $(heading[0]).css("cursor", "pointer");
             $(bodyCollapse[0]).attr('id', "panelBodyCollapse-"+numPanels);
 
             $(bodyCollapse[0]).on('hidden.bs.collapse', function(){
-                console.log('Finish hide');
                 if(isCollapsingAll){
                     var id = $(this).attr('id');
                     var nextId = this;
                     do{
                         nextId = getNextId(nextId);
-                    } while($(nextId).length && $('#' + id + ' ' + nextId).length);
+                        console.log(nextId);
+                    } while($(nextId).length && ($('#' + id + ' ' + nextId).length || $(nextId).attr('class').indexOf('in') == -1));
                     
                     if($(nextId).length){
                         $(nextId).collapse('hide');
@@ -114,13 +128,13 @@ window.onload = function(){
                 }
             });
             $(bodyCollapse[0]).on('shown.bs.collapse', function(){
-                console.log('Finish show');
                 if(isExpandingAll){
                     var id = $(this).attr('id');
                     var nextId = this;
                     do{
                         nextId = getNextId(nextId);
-                    } while($(nextId).length && $('#' + id + ' ' + nextId).length);
+                        console.log(nextId);
+                    } while($(nextId).length && ($('#' + id + ' ' + nextId).length || $(nextId).attr('class').indexOf('in') != -1));
                     
                     if($(nextId).length){
                         $(nextId).collapse('show');
