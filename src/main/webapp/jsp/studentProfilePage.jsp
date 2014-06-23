@@ -72,7 +72,7 @@
                     <input id="studentShortname" name="<%=Const.ParamsNames.STUDENT_SHORT_NAME %>" class="form-control" type="text" data-actual-value="<%=data.account.studentProfile.shortName == null ? "" : data.account.studentProfile.shortName %>" value="<%=data.account.studentProfile.shortName == null ? "" : data.account.studentProfile.shortName %>" placeholder="How the instructor should call you" />
                 </div>
                 <div class="form-group" title="<%=Const.Tooltips.STUDENT_PROFILE_EMAIL %>" data-toggle="tooltip" data-placement="top">
-                    <label for="studentEmail">Email<small><sup class="pull-right text-color-disclaimer"> - Only visible to your Instructors</sup></small></label>
+                    <label for="studentEmail">Email <em class="font-weight-normal emphasis text-muted small">- only visible to your instructors</em></label>
                     <input id="studentEmail" name="<%=Const.ParamsNames.STUDENT_PROFILE_EMAIL %>" class="form-control" type="email"
                            data-actual-value="<%=data.account.studentProfile.email %>" value="<%=data.account.studentProfile.email == null ? "" : data.account.studentProfile.email %>" placeholder="Contact Email (for your instructors to contact you beyond graduation)" />
                 </div>
@@ -80,9 +80,9 @@
                     <label for="studentInstitution">Institution</label>
                     <input id="studentInstitution" name="<%=Const.ParamsNames.STUDENT_PROFILE_INSTITUTION %>" class="form-control" type="text" data-actual-value="<%=data.account.studentProfile.institute == null ? "" : data.account.studentProfile.institute %>" value="<%=data.account.studentProfile.institute == null ? "" : data.account.studentProfile.institute %>" placeholder="Your Institution" />
                 </div>
-                <div class="form-group" title="<%=Const.Tooltips.STUDENT_PROFILE_COUNTRY%>" data-toggle="tooltip" data-placement="top">
-                    <label for="studentCountry">Country</label>
-                    <input id="studentCountry" name="<%=Const.ParamsNames.STUDENT_COUNTRY %>" class="form-control" type="text" data-actual-value="<%=data.account.studentProfile.country == null ? "" : data.account.studentProfile.country %>" value="<%=data.account.studentProfile.country == null ? "" : data.account.studentProfile.country %>" placeholder="Country" />
+                <div class="form-group" title="<%=Const.Tooltips.STUDENT_PROFILE_NATIONALITY%>" data-toggle="tooltip" data-placement="top">
+                    <label for="studentNationality">Nationality</label>
+                    <input id="studentNationality" name="<%=Const.ParamsNames.STUDENT_NATIONALITY%>" class="form-control" type="text" data-actual-value="<%=data.account.studentProfile.nationality == null ? "" : data.account.studentProfile.nationality %>" value="<%=data.account.studentProfile.nationality == null ? "" : data.account.studentProfile.nationality %>" placeholder="Nationality" />
                 </div>
                 <div class="form-group">
                     <label for="studentGender">Gender</label>
@@ -106,7 +106,7 @@
     
                 </div>
                 <div class="form-group" title="<%=Const.Tooltips.STUDENT_PROFILE_MOREINFO %>" data-toggle="tooltip" data-placement="top">
-                    <label for="studentCountry">More info about yourself</label>
+                    <label for="studentNationality">More info about yourself</label>
                     <textarea id="studentMoreInfo"  name="<%=Const.ParamsNames.STUDENT_PROFILE_MOREINFO %>" 
                               rows="4" class="form-control"
                               placeholder="<%=Const.Tooltips.STUDENT_PROFILE_MOREINFO %>"

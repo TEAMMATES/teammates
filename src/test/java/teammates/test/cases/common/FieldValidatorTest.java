@@ -303,9 +303,9 @@ public class FieldValidatorTest extends BaseTestCase{
     @Test
     public void testGetValidityInfo_COUNTRY() {
         runGenericTestCasesForCappedSizeStringTypeField(
-                FieldType.COUNTRY,
-                COUNTRY_MAX_LENGTH,
-                COUNTRY_ERROR_MESSAGE,
+                FieldType.NATIONALITY,
+                NATIONALITY_MAX_LENGTH,
+                NATIONALITY_ERROR_MESSAGE,
                 false);
     }
     

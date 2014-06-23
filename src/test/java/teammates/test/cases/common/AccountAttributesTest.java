@@ -145,13 +145,13 @@ public class AccountAttributesTest extends BaseTestCase {
         String shortName = "<name>";
         String personalEmail = "'toSanitize@email.com'";
         String profileInstitute = "";
-        String country = "&\"invalid country &";
+        String nationality = "&\"invalid nationality &";
         String gender = "'\"'other";
         String moreInfo = "<<script> alert('hi!'); </script>";
         String pictureKey = "";
         
         account.studentProfile = new StudentProfileAttributes(account.googleId, shortName, personalEmail, 
-                profileInstitute, country, gender, moreInfo, pictureKey);
+                profileInstitute, nationality, gender, moreInfo, pictureKey);
         
         return account;
         

@@ -104,7 +104,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
         spa.shortName = "test acc na";
         spa.email = "test@personal.com";
         spa.gender = Const.GenderTypes.MALE;
-        spa.country = "test.country";
+        spa.nationality = "test.nationality";
         spa.institute = "institute";
         spa.moreInfo = "this is more info";
         spa.googleId = a.googleId;
@@ -182,8 +182,8 @@ public class AccountsDbTest extends BaseComponentTestCase {
         
         Date expectedModifiedDate = actualAccount.studentProfile.modifiedDate;
         
-        String expectedCountry = actualAccount.studentProfile.country;
-        actualAccount.studentProfile.country = "New Country";
+        String expectedNationality = actualAccount.studentProfile.nationality;
+        actualAccount.studentProfile.nationality = "New Nationality";
         actualAccount.institute = "newer institute";
         
         accountsDb.updateAccount(actualAccount);
@@ -193,7 +193,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
         assertEquals(actualAccount.institute, a.institute);
         // ensure profile was not updated
         assertEquals(expectedModifiedDate, a.studentProfile.modifiedDate);
-        assertEquals(expectedCountry, a.studentProfile.country);
+        assertEquals(expectedNationality, a.studentProfile.nationality);
         
         
         ______TS("success: modified date does not change if profile is not changed");

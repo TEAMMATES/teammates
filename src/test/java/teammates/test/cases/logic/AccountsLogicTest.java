@@ -123,7 +123,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         spa.shortName = "test acc na";
         spa.email = "test@personal.com";
         spa.gender = Const.GenderTypes.MALE;
-        spa.country = "test.country";
+        spa.nationality = "test.nationality";
         spa.institute = "institute";
         spa.moreInfo = "this is more info";
         

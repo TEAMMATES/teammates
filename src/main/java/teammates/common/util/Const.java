@@ -201,7 +201,7 @@ public class Const {
         public static final String STUDENT_PROFILE_SHORTNAME = "This is the name you prefer to be called by";
         public static final String STUDENT_PROFILE_EMAIL = "This is a long term contact email";
         public static final String STUDENT_PROFILE_INSTITUTION = "This is the institution that you represent";
-        public static final String STUDENT_PROFILE_COUNTRY = "This is the country you represent";
+        public static final String STUDENT_PROFILE_NATIONALITY = "This is your nationality";
         public static final String STUDENT_PROFILE_MOREINFO = "You may specify miscellaneous info about yourself "
                 + "e.g. links to home page, online CV, portfolio etc.";
         
@@ -374,7 +374,7 @@ public class Const {
         public static final String STUDENT_SHORT_NAME = "studentshortname";
         public static final String STUDENT_PROFILE_EMAIL = "studentprofileemail";
         public static final String STUDENT_PROFILE_INSTITUTION = "studentprofileinstitute";
-        public static final String STUDENT_COUNTRY = "studentcountry";
+        public static final String STUDENT_NATIONALITY = "studentnationality";
         public static final String STUDENT_GENDER = "studentgender";
         public static final String STUDENT_PROFILE_MOREINFO = "studentprofilemoreinfo"; 
         public static final String STUDENT_PROFILE_PIC = "studentprofilephoto";

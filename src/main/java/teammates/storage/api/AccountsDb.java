@@ -265,7 +265,7 @@ public class AccountsDb extends EntitiesDb {
         profileToUpdate.setShortName(newSpa.shortName);
         profileToUpdate.setEmail(newSpa.email);
         profileToUpdate.setInstitute(newSpa.institute);
-        profileToUpdate.setCountry(newSpa.country);
+        profileToUpdate.setNationality(newSpa.nationality);
         profileToUpdate.setGender(newSpa.gender);
         profileToUpdate.setMoreInfo(new Text(newSpa.moreInfo));
         if (newSpa.pictureKey != "") {

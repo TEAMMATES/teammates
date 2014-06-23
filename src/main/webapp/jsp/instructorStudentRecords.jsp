@@ -120,8 +120,8 @@
                                         <td><%=data.studentProfile.institute.isEmpty() ? "<i  class='text-muted'>" + Const.STUDENT_PROFILE_FIELD_NOT_FILLED + "</i>" : data.studentProfile.institute %></td>
                                     </tr>
                                     <tr>
-                                        <td class="text-bold">Country</td>
-                                        <td><%=data.studentProfile.country.isEmpty() ? "<i  class='text-muted'>" + Const.STUDENT_PROFILE_FIELD_NOT_FILLED + "</i>" : data.studentProfile.country %></td>
+                                        <td class="text-bold">Nationality</td>
+                                        <td><%=data.studentProfile.nationality.isEmpty() ? "<i  class='text-muted'>" + Const.STUDENT_PROFILE_FIELD_NOT_FILLED + "</i>" : data.studentProfile.nationality %></td>
                                     </tr>                                
                                 </tbody>
                             </table>
