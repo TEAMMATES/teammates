@@ -70,7 +70,14 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
 
     @Override
     public String getQuestionAdditionalInfoHtml(int questionNumber, String additionalInfoId) {
-        return "";
+        String additionalInfo = this.getQuestionTypeDisplayName();
+        
+        String html = FeedbackQuestionFormTemplates.populateTemplate(
+                FeedbackQuestionFormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
+                "${questionNumber}", Integer.toString(questionNumber),
+                "${additionalInfoId}", additionalInfoId,
+                "${questionAdditionalInfo}", additionalInfo);
+        return html;
     }
     
     @Override

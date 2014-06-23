@@ -60,7 +60,7 @@ var FEEDBACK_QUESTION_TYPENAME_MSQ = "Multiple-choice (multiple answers)";
 var FEEDBACK_QUESTION_TYPENAME_NUMSCALE = "Numerical-scale question";
 var FEEDBACK_QUESTION_TYPENAME_CONSTSUM_OPTION = "Distribute points (among options) question";
 var FEEDBACK_QUESTION_TYPENAME_CONSTSUM_RECIPIENT = "Distribute points (among recipients) question";
-var FEEDBACK_QUESTION_TYPENAME_CONTRIB = "Team Contribution question";
+var FEEDBACK_QUESTION_TYPENAME_CONTRIB = "Team contribution question";
 
 // used in feedbackResponseComments.js
 var FEEDBACK_RESPONSE_ID = "responseid";
