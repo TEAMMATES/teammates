@@ -39,6 +39,6 @@ public class FeedbackContributionResponseDetails extends FeedbackAbstractRespons
 
     @Override
     public String getAnswerCsv(FeedbackAbstractQuestionDetails questionDetails) {
-        return Sanitizer.sanitizeForCsv(getAnswerString());
+        return Sanitizer.sanitizeForCsv(FeedbackContributionQuestionDetails.convertToEqualShareFormat(getAnswer()));
     }
 }
