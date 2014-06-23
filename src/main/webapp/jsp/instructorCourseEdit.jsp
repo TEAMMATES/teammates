@@ -185,7 +185,13 @@
                         </div>
                         <div id="accessControlEditDivForInstr<%=index%>" style="display:none;">
                             <div class="form-group">
-                                <label class="col-sm-3 control-label">Display to students as:</label>
+                                <label class="col-sm-3 control-label">
+                                     <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT%>" value="true"
+                                     <% if (instructor.isDisplayedToStudents) { %>
+                                         checked="checked"
+                                     <% } %>
+                                     >
+                                     Display to students as:</label>
                                 <div class="col-sm-9">
                                     <input class="form-control" type="text" name="<%=Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME%>" 
                                     placeholder="E.g.Co-lecturer, Teaching Asistant" value="<%=instructor.displayedName%>"/>
@@ -360,7 +366,9 @@
                         </div>
                         <div id="accessControlEditDivForInstr<%=data.instructorList.size()+1%>">
                             <div class="form-group">
-                                <label class="col-sm-3 control-label">Display to students as:</label>
+                                <label class="col-sm-3 control-label">
+                                    <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT%>" value="true" checked="checked">
+                                    Display to students as:</label>
                                 <div class="col-sm-9">
                                     <input class="form-control" type="text" name="<%=Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME%>" 
                                     placeholder="E.g.Co-lecturer, Teaching Asistant"/>

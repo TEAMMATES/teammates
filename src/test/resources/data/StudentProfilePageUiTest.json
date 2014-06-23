@@ -7,20 +7,20 @@
       "email": "SHomeUiT.instr@gmail.com",
       "institute": "National University of Singapore"
     },
-    "studentWithFilledProfile": {
-      "googleId": "{$test.student1}",
-      "name": "Alice B",
-      "isInstructor": false,
-      "email": "{$test.student1}@gmail.com",
-      "institute": "National University of Singapore",
-      "studentProfile":{
-            "googleId":"{$test.student1}",
-            "shortName":"Alice",
-            "email":"i.m.alice@gmail.com",
-            "institute":"Georgia Tech",
-            "country":"U.S.A",
-            "gender":"female",
-            "moreInfo":"I am just a student :P"
+      "studentWithExistingProfile": {
+        "googleId": "{$test.student2}",
+        "name": "Benny C",
+        "isInstructor": false,
+        "email": "{$test.student2}@gmail.com",
+        "institute": "NTU",
+        "studentProfile":{
+            "googleId":"{$test.student2}",
+            "shortName":"Ben",
+            "email":"i.m.benny@gmail.com",
+            "institute":"SIM",
+            "nationality":"Singapore",
+            "gender":"male",
+            "moreInfo":"I am just another student :P"
         }
       },
       "studentWithEmptyProfile": {

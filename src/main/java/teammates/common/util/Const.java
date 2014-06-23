@@ -15,6 +15,7 @@ public class Const {
 
         public static final String ENCODING = "UTF8";
         public static final int NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT = 24;
+        public static final int MAX_PROFILE_PIC_SIZE = 1000000;
         /** e.g. "2014-04-01 11:59 PM UTC" */
         public static final String DEFAULT_DATE_TIME_FORMAT = "yyyy-MM-dd h:mm a Z";
         /** Number to trim the Google ID when displaying to the user*/
@@ -25,6 +26,8 @@ public class Const {
          * in the FieldValidator class.
          */
         public static final String ADMIN_TIME_ZONE = "Asia/Singapore";
+        
+        public static final String GCS_BUCKET_NAME = "teammates-thy.appspot.com";
         
         public static final String EMAIL_TASK_QUEUE = "configure-and-prepare-email-queue";
         public static final String SUBMISSION_TASK_QUEUE = "submission-queue";
@@ -39,6 +42,7 @@ public class Const {
         public static final String SEND_EMAIL_TASK_QUEUE = "send-email-queue";
         
         public static final String QUEUE_XML_PATH = "src/main/webapp/WEB-INF/queue.xml";
+        public static final String DEFAULT_PROFILE_PICTURE_PATH = "/images/profile_picture_default.png";
     }
 
     /* Text displayed to the user when the mouse hover over certain elements in
@@ -196,9 +200,10 @@ public class Const {
         
         public static final String STUDENT_PROFILE_SHORTNAME = "This is the name you prefer to be called by";
         public static final String STUDENT_PROFILE_EMAIL = "This is a long term contact email";
-        public static final String STUDENT_PROFILE_INSTITUTION = "This is the institution that you represent in the current course";
-        public static final String STUDENT_PROFILE_COUNTRY = "This is the country you represent in the current course";
-        public static final String STUDENT_PROFILE_MOREINFO = "Miscellaneous information to show the instructor. It can include links to external portfolios.";
+        public static final String STUDENT_PROFILE_INSTITUTION = "This is the institution that you represent";
+        public static final String STUDENT_PROFILE_NATIONALITY = "This is your nationality";
+        public static final String STUDENT_PROFILE_MOREINFO = "You may specify miscellaneous info about yourself "
+                + "e.g. links to home page, online CV, portfolio etc.";
         
         public static final String VISIBILITY_OPTIONS_RECIPIENT = "Control what feedback recipient(s) can view";
         public static final String VISIBILITY_OPTIONS_GIVER_TEAM_MEMBERS = "Control what team members of feedback giver can view";
@@ -239,6 +244,8 @@ public class Const {
     }
 
     public class ParamsNames{
+        public static final String BLOB_KEY = "blob-key";
+        
         public static final String COURSE_ID = "courseid";
         public static final String COURSE_NAME = "coursename";
         public static final String INSTRUCTOR_ID = "instructorid";
@@ -248,6 +255,7 @@ public class Const {
         public static final String STUDENTS_ENROLLMENT_INFO = "enrollstudents";
         public static final String INSTRUCTOR_IMPORT_SAMPLE = "importsample";
         
+        public static final String INSTRUCTOR_IS_DISPLAYED_TO_STUDENT = "instructorisdisplayed";
         public static final String INSTRUCTOR_DISPLAY_NAME = "instructordisplayname";
         public static final String INSTRUCTOR_ROLE_NAME = "instructorrole";
         
@@ -367,9 +375,10 @@ public class Const {
         public static final String STUDENT_SHORT_NAME = "studentshortname";
         public static final String STUDENT_PROFILE_EMAIL = "studentprofileemail";
         public static final String STUDENT_PROFILE_INSTITUTION = "studentprofileinstitute";
-        public static final String STUDENT_COUNTRY = "studentcountry";
+        public static final String STUDENT_NATIONALITY = "studentnationality";
         public static final String STUDENT_GENDER = "studentgender";
-        public static final String STUDENT_PROFILE_MOREINFO = "studentprofilemoreinfo";        
+        public static final String STUDENT_PROFILE_MOREINFO = "studentprofilemoreinfo"; 
+        public static final String STUDENT_PROFILE_PIC = "studentprofilephoto";
     
         public static final String STUDENT_NAME = "studentname";
         public static final String RECIPIENT_TYPE = "recipienttype";
@@ -519,6 +528,8 @@ public class Const {
         public static final String STUDENT_FEEDBACK_RESULTS_PAGE = "/page/studentFeedbackResultsPage";
         public static final String STUDENT_PROFILE_PAGE = "/page/studentProfilePage";
         public static final String STUDENT_PROFILE_EDIT_SAVE = "/page/studentProfileEditSave";
+        public static final String STUDENT_PROFILE_PICTURE = "/page/studentProfilePic";
+        public static final String STUDENT_PROFILE_CREATEUPLOADFORMURL = "/page/studentProfileCreateFormUrl";
         
         public static final String ADMIN_HOME_PAGE = "/admin/adminHomePage";
         public static final String ADMIN_INSTRUCTORACCOUNT_ADD = "/admin/adminInstructorAccountAdd";
@@ -692,6 +703,10 @@ public class Const {
         public static final String STUDENT_DELETED = "The student has been removed from the course";
         public static final String STUDENT_EMAIL_CONFLIT = "Trying to update to an email that is already used by: ";
         public static final String STUDENT_PROFILE_EDITED = "Your profile has been edited successfully";
+        public static final String STUDENT_PROFILE_PIC_TOO_LARGE = "The uploaded profile picture was too large. "
+                + "Please try again with a smaller picture.";
+        public static final String STUDENT_PROFILE_PIC_SERVICE_DOWN = "We were unable to upload your picture at this time. "
+                + "Please try again after some time";
         
         public static final String EVALUATION_ADDED = "The evaluation has been added. If you don't see that evaluation in the list below, please refresh the page after a few moments.";
         public static final String EVALUATION_DELETED = "The evaluation has been deleted.";
@@ -803,6 +818,9 @@ public class Const {
                 + "The change will not be reflected here until you <span class='color_red bold'>REFRESH</span> the page.";
         /** Template String. Parameters: Evaluation name, Course ID */
         public static final String STUDENT_EVALUATION_SUBMISSION_RECEIVED = "Your submission for %s in course %s has been saved successfully";
+        public static final String STUDENT_PROFILE_NOT_A_PICTURE = "The file that you have uploaded is not a picture. "
+                + "Please upload a picture (usually it ends with .jpg or .png)";
+        public static final String STUDENT_NOT_FOUND = "The student you tried to view records for does not exist.";
     }
 
     /* These indicate status of an operation, but they are not shown to the user */
@@ -872,6 +890,7 @@ public class Const {
     
     public static final String STUDENT_COURSE_STATUS_YET_TO_JOIN = "Yet to join";
     public static final String STUDENT_COURSE_STATUS_JOINED = "Joined";
+    public static final String STUDENT_PROFILE_FIELD_NOT_FILLED = "Undisclosed";
     
     public static final String USER_NAME_FOR_SELF = "Myself";
     public static final String USER_TEAM_FOR_INSTRUCTOR = "Instructors";

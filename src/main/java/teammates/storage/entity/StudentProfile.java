@@ -8,6 +8,7 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.datastore.Text;
 
 
@@ -43,7 +44,7 @@ public class StudentProfile {
     
     @Persistent
     @Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
-    private String country;
+    private String nationality;
     
     @Persistent
     /* only accepts "male", "female" or "other" */
@@ -54,6 +55,10 @@ public class StudentProfile {
     /* must be html sanitized before saving */
     @Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
     private Text moreInfo;
+    
+    @Persistent
+    @Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
+    private BlobKey pictureKey;
     
     @Persistent
     private Date modifiedDate; 
@@ -70,8 +75,8 @@ public class StudentProfile {
      * @param institute
      *            The university/school/institute the student is from
      *            (useful for exchange students)
-     * @param country
-     *            The country the student is from
+     * @param nationality
+     *            The nationality the student is from
      *            (useful for exchange/foreign students)
      * @param gender
      *            The student's gender. Allows "other"
@@ -79,15 +84,16 @@ public class StudentProfile {
      *            Miscellaneous information, including external profile
      */
     public StudentProfile(String googleId, String shortName, String email,
-            String institute, String country, String gender, Text moreInfo) {
+            String institute, String nationality, String gender, Text moreInfo, BlobKey pictureKey) {
         this.setGoogleId(googleId);
         this.setShortName(shortName);
         this.setEmail(email);
         this.setInstitute(institute);
-        this.setCountry(country);
+        this.setNationality(nationality);
         this.setGender(gender);
         this.setMoreInfo(moreInfo);
         this.setModifiedDate(new Date());
+        this.setPictureKey(pictureKey);
     }
 
     public StudentProfile(String googleId) {
@@ -95,9 +101,10 @@ public class StudentProfile {
         this.setShortName("");
         this.setEmail("");
         this.setInstitute("");
-        this.setCountry("");
+        this.setNationality("");
         this.setGender("other");
         this.setMoreInfo(new Text(""));
+        this.setPictureKey(new BlobKey(""));
         this.setModifiedDate(new Date());
     }
     
@@ -133,12 +140,12 @@ public class StudentProfile {
         this.institute = institute;
     }
     
-    public String getCountry() {
-        return this.country;
+    public String getNationality() {
+        return this.nationality;
     }
     
-    public void setCountry(String country) {
-        this.country = country;
+    public void setNationality(String nationality) {
+        this.nationality = nationality;
     }
     
     public String getGender() {
@@ -155,6 +162,14 @@ public class StudentProfile {
     
     public void setMoreInfo(Text moreInfo) {
         this.moreInfo = moreInfo;
+    }
+    
+    public BlobKey getPictureKey() {
+        return this.pictureKey;
+    }
+    
+    public void setPictureKey(BlobKey pictureKey) {
+        this.pictureKey = pictureKey;
     }
     
     public Date getModifiedDate() {
