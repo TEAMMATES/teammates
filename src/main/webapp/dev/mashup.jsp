@@ -369,9 +369,8 @@
                 function (response, status, xml) {
                     $("[data-toggle='tooltip']").tooltip({html: true}); 
                 });
-            
 
-            $('#instructorStudentRecordsPage').load("<%=Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE%>?user=teammates.test&courseid=CS2104&studentemail=alice.b.tmms%40gmail.com #frameBodyWrapper",
+            $('#instructorStudentRecordsPage').load("<%=Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE%>?user=teammates.test&courseid=CS2104&studentemail=benny.c.tmms%40gmail.com #frameBodyWrapper",
                 function (response, status, xml) {
                     $("[data-toggle='tooltip']").tooltip({html: true}); 
                 });
