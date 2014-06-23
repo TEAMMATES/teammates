@@ -47,6 +47,7 @@ public class Instructor {
     private String registrationKey;
     
     @Persistent
+    @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
     private String role;
     
     @Persistent
