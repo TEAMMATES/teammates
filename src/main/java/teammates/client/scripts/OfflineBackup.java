@@ -161,7 +161,6 @@ public class OfflineBackup extends RemoteApiClient {
                 return feedbackResponse;
                 
             case "FeedbackResponseComment":
-                System.out.println("lols");
                 FeedbackResponseCommentsDb feedbackResponseCommentsDb = new FeedbackResponseCommentsDb();
                 FeedbackResponseCommentAttributes feedbackResponseComment = feedbackResponseCommentsDb.getFeedbackResponseComment(id[0].trim(), id[1].trim(), new SimpleDateFormat("EEE MMM d HH:mm:ss.SSSSSS zzz yyyy").parse(id[2].trim()));
                 return feedbackResponseComment;
