@@ -21,7 +21,9 @@
 <%
     InstructorStudentRecordsPageData data = (InstructorStudentRecordsPageData)request.getAttribute("data");
 
-    String pictureUrl = Const.ActionURIs.STUDENT_PROFILE_PICTURE + "?blob-key=" + data.studentProfile.pictureKey;
+    String pictureUrl = Const.ActionURIs.STUDENT_PROFILE_PICTURE + 
+            "?blob-key=" + data.studentProfile.pictureKey +
+            "&user="+data.account.googleId;
     if (data.studentProfile.pictureKey == "") {
         pictureUrl = Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH;
     }
