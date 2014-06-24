@@ -5,7 +5,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.logic.api.GateKeeper;
+import teammates.common.util.StringHelper;
 import teammates.storage.api.EntitiesDb;
 
 public class StudentProfilePictureAction extends Action {
@@ -35,6 +35,9 @@ public class StudentProfilePictureAction extends Action {
         Assumption.assertPostParamNotNull(Const.ParamsNames.STUDENT_EMAIL, email);
         Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
 
+        email = StringHelper.decrypt(email);
+        courseId = StringHelper.decrypt(courseId);
+        
         if(logic.getInstructorForGoogleId(courseId, account.googleId) == null) {
             throw new UnauthorizedAccessException(
                     "User is not instructor of the course that student belongs to");
