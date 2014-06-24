@@ -10,7 +10,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
 
-public class InstructorFeedbackResultsSeeMoreAction extends Action {
+public class InstructorFeedbackResultsByQuestionSeeMorePageAction extends Action {
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
@@ -28,8 +28,8 @@ public class InstructorFeedbackResultsSeeMoreAction extends Action {
                 session,
                 !isCreatorOnly);
         
-        InstructorFeedbackResultsSortedQuestionPageData data = 
-                new InstructorFeedbackResultsSortedQuestionPageData(account);
+        InstructorFeedbackResultsByQuestionSeeMorePageData data = 
+                new InstructorFeedbackResultsByQuestionSeeMorePageData(account);
         
         String questionNumStr = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBER);
         Assumption.assertNotNull("null question number", questionNumStr);

@@ -68,6 +68,7 @@
                         <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID %>" value="<%=data.bundle.feedbackSession.courseId %>">
                         <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="<%=data.bundle.feedbackSession.feedbackSessionName %>">
                         <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId %>">
+                        <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE%>" value="<%=data.sortType%>">
                     </form>
                     <div class='display-icon pull-right'>
                     <span class="glyphicon <%= showAll || shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down" %> pull-right"></span>

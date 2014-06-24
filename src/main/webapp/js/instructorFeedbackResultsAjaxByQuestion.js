@@ -42,7 +42,6 @@ $(document).ready(function(){
             url : 	$(formObject[0]).attr('action') + "?" + formData,
             beforeSend : function() {
                 displayIcon.html("<img height='25' width='25' src='/images/ajax-preload.gif'/>")
-                //submitButton.html("<img src='/images/ajax-loader.gif'/>");
             },
             error : function() {
                 console.log('Error');
