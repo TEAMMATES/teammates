@@ -1,10 +1,16 @@
 package teammates.common.datatransfer;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+
+import org.mortbay.log.Log;
 
 import teammates.common.util.Const;
 import teammates.common.util.FeedbackQuestionFormTemplates;
+import teammates.logic.core.TeamEvalResult;
 
 public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestionDetails {
     
@@ -80,14 +86,94 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
         return html;
     }
     
+    /**
+     * Uses classes from evaluations to calculate statistics.
+     */
     @Override
     public String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses,
             FeedbackSessionResultsBundle bundle) {
         if(responses.size() == 0){
             return "";
         }
-        
+
         String html = "";
+        
+        
+        //List of teams with at least one response
+        List<String> teamNames = new ArrayList<String>();
+        for(FeedbackResponseAttributes response : responses){
+            if(!teamNames.contains(bundle.getTeamNameForEmail(response.giverEmail))){
+                teamNames.add(bundle.getTeamNameForEmail(response.giverEmail));
+            }
+        }
+        
+        //Each team's member(email) list
+        Map<String, List<String>> teamMembersEmail = new LinkedHashMap<String, List<String>>();
+        for(String teamName : teamNames){
+            teamMembersEmail.put(teamName, new ArrayList<String>());
+        }
+        for(Map.Entry<String, String> entry : bundle.emailTeamNameTable.entrySet()){
+            if(teamMembersEmail.containsKey(entry.getValue())){
+                teamMembersEmail.get(entry.getValue()).add(entry.getKey());
+            }
+        }
+        
+        //Each team's responses
+        Map<String, List<FeedbackResponseAttributes>> teamResponses = 
+                new LinkedHashMap<String,List<FeedbackResponseAttributes>>();
+        for(String teamName : teamNames){
+            teamResponses.put(teamName, new ArrayList<FeedbackResponseAttributes>());
+        }
+        for(FeedbackResponseAttributes response : responses){
+            String team = bundle.emailTeamNameTable.get(response.giverEmail);
+            if(teamResponses.containsKey(team)){
+                teamResponses.get(team).add(response);
+            }
+        }
+        
+        //Get each team's submission array. -> int[teamSize][teamSize]
+        //Where int[0][1] refers points from student 0 to student 1
+        //Where student 0 is the 0th student in the list in teamMembersEmail
+        Map<String, int[][]> teamSubmissionArray = new LinkedHashMap<String,int[][]>();
+        for(String team : teamNames){
+            int teamSize = teamMembersEmail.get(team).size();
+            teamSubmissionArray.put(team, new int[teamSize][teamSize]);
+            //Initialize all as not submitted.
+            for(int i=0 ; i<teamSize ; i++){
+                for(int j=0 ; j<teamSize ; j++){
+                    teamSubmissionArray.get(team)[i][j] = Const.POINTS_NOT_SUBMITTED;
+                }
+            }
+            //Fill in submitted points
+            List<FeedbackResponseAttributes> teamResponseList = teamResponses.get(team);
+            List<String> memberEmailList = teamMembersEmail.get(team);
+            for(FeedbackResponseAttributes response : teamResponseList){
+                int giverIndx = memberEmailList.indexOf(response.giverEmail);
+                int recipientIndx = memberEmailList.indexOf(response.recipientEmail);
+                int points = ((FeedbackContributionResponseDetails) response.getResponseDetails()).getAnswer();
+                teamSubmissionArray.get(team)[giverIndx][recipientIndx] = points;
+            }
+        }
+        
+        
+        //For testing
+        for(Map.Entry<String, List<String>> entry : teamMembersEmail.entrySet()){
+            html += entry.getKey() + " size: " +  teamMembersEmail.get(entry.getKey()).size() +"<br>";
+            html += entry.getValue().toString() + "<br>";
+            
+            html += "Submission Array:<br>";
+            for(int i=0 ; i<teamSubmissionArray.get(entry.getKey()).length ; i++)
+                html += Arrays.toString(teamSubmissionArray.get(entry.getKey())[i]) + "<br>";
+            
+        }
+        
+        
+        //Each team's eval results.
+        Map<String, TeamEvalResult> teamResults = new LinkedHashMap<String, TeamEvalResult>();
+        
+        
+        
+        
         
         return html;
     }
@@ -129,7 +215,6 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
         }
         return errors;
     }
-    
     
     /*
      * The functions below are taken and modified from EvalSubmissionEditPageData.java
