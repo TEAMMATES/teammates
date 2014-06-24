@@ -14,12 +14,42 @@
             "email":"teammates.instr@gmail.com",
             "institute":"National University of Singapore"
         },
+        "teammates.test@ISR.CS1101":{
+            "googleId":"ISR.teammates.test",
+            "email":"teammates.test@gmail.com",
+            "isInstructor":true,
+            "name":"Teammates Test",
+            "institute":"Nanyang Technological University"
+        },
         "teammates.empty":{
             "googleId":"ISR.no.eval",
             "name":"Teammates Instr No Record",
             "isInstructor":true,
             "email":"teammates.norecord@gmail.com",
             "institute":"National University of Singapore"
+        },
+        "alice.b.tmms@ISR.CS2104":{
+            "googleId":"ISR.alice.b.tmms",
+            "name":"Alice Betsy",
+            "email":"alice.b.tmms@gmail.com",
+            "isInstructor":false,
+            "institute":"NTU"
+        },
+        "benny.c.tmms@ISR.CS2104":{
+            "googleId":"ISR.benny.c.tmms",
+            "name":"Benny Charlés",
+            "isInstructor":false,
+            "email":"benny.c.tmms@gmail.com",
+            "institute":"NUS",
+            "studentProfile":{
+                "googleId":"ISR.benny.c.tmms",
+                "shortName":"Ben",
+                "email":"",
+                "institute":"NTU",
+                "nationality":"Singapore",
+                "gender":"male",
+                "moreInfo":"This is a lot of info!"
+            }
         }
     },
     "courses":{

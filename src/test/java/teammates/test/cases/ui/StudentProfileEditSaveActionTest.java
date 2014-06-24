@@ -112,7 +112,8 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         
         AssertHelper.assertContainsRegex(expectedLogMessage, a.getLogMessage());
         
-        
+        ______TS("test uploading, deleting and updating of photos");
+        // not tested here and will be tested in UiTests
     }
 
     private StudentProfileAttributes getProfileAttributesFrom(
@@ -121,7 +122,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         spa.shortName = submissionParams[1];
         spa.email = submissionParams[3];
         spa.institute = submissionParams[5];
-        spa.country = submissionParams[7];
+        spa.nationality = submissionParams[7];
         spa.gender = submissionParams[9];
         spa.moreInfo = submissionParams[11];
         spa.modifiedDate = null;

@@ -2,6 +2,7 @@ package teammates.storage.entity;
 
 import java.security.SecureRandom;
 
+import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -46,21 +47,28 @@ public class Instructor {
     private String registrationKey;
     
     @Persistent
+    @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
     private String role;
     
     @Persistent
+    @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
+    private Boolean isDisplayedToStudents;
+    
+    @Persistent
+    @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
     private String displayedName;
     
     @Persistent
     private Text instructorPrivilegesAsText;
     
     public Instructor(String instructorGoogleId, String courseId, String instructorName, String instructorEmail,
-            String role, String displayedName, String instructorPrivilegesAsText) {
+            String role, boolean isDisplayedToStudents, String displayedName, String instructorPrivilegesAsText) {
         this.setGoogleId(instructorGoogleId);
         this.setCourseId(courseId);
         this.setName(instructorName);
         this.setEmail(instructorEmail);
         this.setRole(role);
+        this.setIsDisplayedToStudents(isDisplayedToStudents);
         this.setDisplayedName(displayedName);
         this.setInstructorPrivilegeAsText(instructorPrivilegesAsText);
         // setId should be called after setting email and courseId
@@ -72,12 +80,13 @@ public class Instructor {
      * Constructor used for testing purpose only.
      */
     public Instructor(String instructorGoogleId, String courseId, String instructorName, String instructorEmail, 
-            String key, String role, String displayedName, String instructorPrivilegesAsText) {
+            String key, String role, boolean isDisplayedToStudents, String displayedName, String instructorPrivilegesAsText) {
         this.setGoogleId(instructorGoogleId);
         this.setCourseId(courseId);
         this.setName(instructorName);
         this.setEmail(instructorEmail);
         this.setRole(role);
+        this.setIsDisplayedToStudents(isDisplayedToStudents);
         this.setDisplayedName(displayedName);
         this.setInstructorPrivilegeAsText(instructorPrivilegesAsText);
         // setId should be called after setting email and courseId
@@ -160,6 +169,17 @@ public class Instructor {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public boolean isDisplayedToStudents() {
+        if (this.isDisplayedToStudents == null) {
+            return true;
+        }
+        return isDisplayedToStudents.booleanValue();
+    }
+
+    public void setIsDisplayedToStudents(boolean shouldDisplayToStudents) {
+        this.isDisplayedToStudents = Boolean.valueOf(shouldDisplayToStudents);
     }
 
     public String getDisplayedName() {

@@ -6,6 +6,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.blobstore.BlobstoreFailureException;
+import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
+
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CourseAttributes;
@@ -18,6 +22,7 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -157,9 +162,23 @@ public class BackDoorLogic extends Logic {
         return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
     }
 
+    /**
+     * Removes any and all occurrences of the entities in the given databundle
+     * from the database
+     * @param dataBundle
+     */
+    public void removeDataBundle(DataBundle dataBundle) {
+        deleteExistingData(dataBundle);
+    }
+
     public String getAccountAsJson(String googleId) {
         AccountAttributes accountData = getAccount(googleId, true);
         return Utils.getTeammatesGson().toJson(accountData);
+    }
+
+    public String getStudentProfileAsJson(String googleId) {
+        StudentProfileAttributes profileData = getStudentProfile(googleId);
+        return Utils.getTeammatesGson().toJson(profileData);
     }
     
     public String getInstructorAsJsonById(String instructorId, String courseId) {
@@ -551,5 +570,14 @@ public class BackDoorLogic extends Logic {
                 
         return submissionsLogic.getSubmission(
                 courseId, evaluationName, revieweeEmail, reviewerEmail);
+    }
+
+    public String isPicturePresentInGcs(String pictureKey) {
+        try {
+            BlobstoreServiceFactory.getBlobstoreService().fetchData(new BlobKey(pictureKey), 0, 10);
+            return BackDoorServlet.RETURN_VALUE_TRUE;
+        } catch(IllegalArgumentException | BlobstoreFailureException e) {
+            return BackDoorServlet.RETURN_VALUE_FALSE;
+        }
     }
 }
