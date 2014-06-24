@@ -1,9 +1,13 @@
 package teammates.ui.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,8 +33,12 @@ public class ImageResult extends ActionResult {
     public void send(HttpServletRequest req, HttpServletResponse resp)
             throws IOException, ServletException {
         
-        BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
-        blobstoreService.serve(new BlobKey(blobKey), resp);
+        if (blobKey != "") {
+            BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
+            blobstoreService.serve(new BlobKey(blobKey), resp);
+        } else {
+            resp.sendError(1, "No image found");;
+        }
     }
 
 }

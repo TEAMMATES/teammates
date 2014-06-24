@@ -284,7 +284,7 @@
                                     int sectionIdx = -1;
                                     int teamIdx = -1;
                                     int studentIdx = -1;
-                                    String photoUrl = "/page/studentProfilePicture?" + 
+                                    String photoUrl = Const.ActionURIs.STUDENT_PROFILE_PICTURE + "?" + 
                                     	    Const.ParamsNames.STUDENT_EMAIL+"=%s&" + 
                                     	    Const.ParamsNames.COURSE_ID + "=%s";
                                     for(SectionDetailsBundle sectionDetails : courseDetails.sections){
@@ -299,7 +299,7 @@
                                     <a class="student-photo-link-for-test btn-link" 
                                        data-link=<%=String.format(photoUrl, StringHelper.encrypt(student.email),  StringHelper.encrypt(student.course)) %>>
                                        View Photo</a>
-                                    <img src="" class="hidden">
+                                    <img src="" alt="No Image Given" class="hidden">
                                 </td>
                                 <% if(numSections != 0) { %>
                                     <td id="studentsection-c<%=courseIdx %>.<%=sectionIdx%>"><%=PageData.sanitizeForHtml(sectionDetails.name)%></td>

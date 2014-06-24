@@ -211,12 +211,15 @@ $(document).ready(function(){
     
     // Binding for photo retrieval
     $(".student-photo-link-for-test").on('click', function() {
-    	var link = $(this).parent().Attr('data-link');
-    	
+    	var link = $(this).attr('data-link');
     	$(this).siblings('img')
-    		.attr('src', link)
+    		.attr("src", link)
     		.removeClass('hidden');
         $(this).remove();
+    });
+    
+    $("img").on('error', function() {
+    	$(this).attr("src","../images/profile_picture_default.png");
     });
 });
 

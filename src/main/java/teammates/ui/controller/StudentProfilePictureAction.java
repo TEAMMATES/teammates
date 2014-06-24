@@ -18,8 +18,10 @@ public class StudentProfilePictureAction extends Action {
         
         ActionResult result = null;
         if (getRequestParamValue(Const.ParamsNames.BLOB_KEY) != null) {
+            log.info("blob-key given");
             result = handleRequestWithBlobKey();
         } else if (getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL) != null) {
+            log.info("email and course given");
             result = handleRequestWithEmailAndCourse();
         } else {
             Assumption.fail("expected blob-key, or student email with courseId");
@@ -37,6 +39,8 @@ public class StudentProfilePictureAction extends Action {
 
         email = StringHelper.decrypt(email);
         courseId = StringHelper.decrypt(courseId);
+        
+        log.info("email: " + email + ", course: " + courseId);
         
         if(logic.getInstructorForGoogleId(courseId, account.googleId) == null) {
             throw new UnauthorizedAccessException(
