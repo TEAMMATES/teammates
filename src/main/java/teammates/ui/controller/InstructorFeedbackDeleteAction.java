@@ -19,7 +19,7 @@ public class InstructorFeedbackDeleteAction extends Action {
         new GateKeeper().verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, account.googleId),
                 logic.getFeedbackSession(feedbackSessionName, courseId),
-                true, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+                false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         
         logic.deleteFeedbackSession(feedbackSessionName, courseId);
         statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_DELETED);
