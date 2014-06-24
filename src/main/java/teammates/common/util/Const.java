@@ -15,7 +15,12 @@ public class Const {
 
         public static final String ENCODING = "UTF8";
         public static final int NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT = 24;
+        
+        /** This is the limit after which TEAMMATES will send error message */
         public static final int MAX_PROFILE_PIC_SIZE = 1000000;
+        /** This is the limit given to Blobstore API, beyond which an ugly error page is shown */
+        public static final long MAX_PROFILE_PIC_LIMIT_FOR_BLOBSTOREAPI = 5000000;
+        
         /** e.g. "2014-04-01 11:59 PM UTC" */
         public static final String DEFAULT_DATE_TIME_FORMAT = "yyyy-MM-dd h:mm a Z";
         /** Number to trim the Google ID when displaying to the user*/
