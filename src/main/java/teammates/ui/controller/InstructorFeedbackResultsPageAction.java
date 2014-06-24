@@ -4,7 +4,6 @@ import java.util.Iterator;
 
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
@@ -53,11 +52,23 @@ public class InstructorFeedbackResultsPageAction extends Action {
         data.sections = logic.getSectionNamesForCourse(courseId);
 
         if (data.selectedSection.equals(ALL_SECTION_OPTION)) {
-            data.bundle = getResultsBundleForAllOption(feedbackSessionName,
-                    courseId, data.instructor.email, data.sortType);
-        } else {
+            data.bundle = logic.getFeedbackSessionResultsForInstructorWithinRange(
+                    feedbackSessionName, courseId, data.instructor.email, 500);
+        } else if (data.sortType.equals("question")) {
             data.bundle = logic
                     .getFeedbackSessionResultsForInstructorInSection(
+                            feedbackSessionName, courseId,
+                            data.instructor.email, data.selectedSection);
+        } else if (data.sortType.equals("giver-question-recipient")
+                || data.sortType.equals("giver-recipient-question")) {
+            data.bundle = logic
+                    .getFeedbackSessionResultsForInstructorFromSection(
+                            feedbackSessionName, courseId,
+                            data.instructor.email, data.selectedSection);
+        } else if (data.sortType.equals("recipient-question-giver")
+                || data.sortType.equals("recipient-giver-question")) {
+            data.bundle = logic
+                    .getFeedbackSessionResultsForInstructorToSection(
                             feedbackSessionName, courseId,
                             data.instructor.email, data.selectedSection);
         }
@@ -78,8 +89,6 @@ public class InstructorFeedbackResultsPageAction extends Action {
             }
         }
         
-     
-
         switch (data.sortType) {
         case "question":
             return createShowPageResult(
@@ -107,15 +116,5 @@ public class InstructorFeedbackResultsPageAction extends Action {
                     Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION,
                     data);
         }
-    }
-
-    private FeedbackSessionResultsBundle getResultsBundleForAllOption(
-            String feedbackSessionName, String courseId,
-            String instructorEmail, String sortType)
-            throws EntityDoesNotExistException {
-        FeedbackSessionResultsBundle bundle = null;
-        bundle = logic.getFeedbackSessionResultsForInstructorWithinRange(
-                            feedbackSessionName, courseId, instructorEmail, 500);
-        return bundle;
     }
 }

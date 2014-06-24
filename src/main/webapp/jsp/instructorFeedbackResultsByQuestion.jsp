@@ -12,6 +12,7 @@
 <%
     InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData)request.getAttribute("data");
     boolean showAll = data.bundle.isComplete;
+    boolean shouldCollapsed = data.bundle.responses.size() > 1000;
 %>
 <!DOCTYPE html>
 <html>
@@ -69,14 +70,14 @@
                         <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId %>">
                     </form>
                     <div class='display-icon pull-right'>
-                    <span class="glyphicon <%= showAll ? "glyphicon-chevron-up" : "glyphicon-chevron-down" %> pull-right"></span>
+                    <span class="glyphicon <%= showAll || shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down" %> pull-right"></span>
                     </div>
                     <strong>Question <%=question.questionNumber%>: </strong><%=data.bundle.getQuestionText(question.getId())%><%
                         FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
                         out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, ""));
                     %>
                 </div>
-                <div class="panel-collapse collapse <%= showAll ? "in" : "" %>">
+                <div class="panel-collapse collapse <%= showAll || shouldCollapsed ? "in" : "" %>">
                 <div class="panel-body padding-0">
                     <% if(showAll) { %>                
                     <div class="resultStatistics">

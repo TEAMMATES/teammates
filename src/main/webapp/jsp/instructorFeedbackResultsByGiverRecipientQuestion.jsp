@@ -12,6 +12,7 @@
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%
     InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData) request.getAttribute("data");
+    boolean showAll = data.bundle.isComplete;
     boolean shouldCollapsed = data.bundle.responses.size() > 1000;
 %>
 <!DOCTYPE html>
@@ -59,6 +60,8 @@
                 boolean groupByTeamEnabled = data.groupByTeam==null ? false : true;
                 String currentTeam = null;
                 boolean newTeam = false;
+                String currentSection = null;
+                boolean newSection = false;
             %>
             <%
                 Map<String, Map<String, List<FeedbackResponseAttributes>>> allResponses = data.bundle.getResponsesSortedByGiver(groupByTeamEnabled);
@@ -90,6 +93,36 @@
                 </div>
             <%
                 }
+            %>
+
+            <% 
+                if(currentSection != null && !firstResponse.giverSection.equals(currentSection)){
+                    currentSection = firstResponse.giverSection;
+                    newSection = true;
+            %>
+                    </div>
+                    </div>
+                </div>
+            <% 
+                }
+            %>
+
+            <% if(currentSection == null || newSection == true){
+                    currentSection = firstResponse.giverSection;
+                    newSection = false;
+            %>
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            <strong><%=currentSection%></strong>
+                            <span class="glyphicon <%= !shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down" %> pull-right"></span>
+                        </div>
+                        <div class="panel-collapse collapse <%= !shouldCollapsed ? "in" : "" %>">
+                        <div class="panel-body">
+            <%
+                }
+            %>
+
+            <%
                 if(groupByTeamEnabled == true && (currentTeam==null || newTeam==true)) {
                     currentTeam = data.bundle.getTeamNameForEmail(targetEmail);
                     if(currentTeam.equals("")){
@@ -269,7 +302,10 @@
             <%
                 }
             %>
-            
+
+                    </div>
+                    </div>
+                </div>
             <%
             // Only output the list of students who haven't responded when there are responses.
             FeedbackSessionResponseStatus responseStatus = data.bundle.responseStatus;

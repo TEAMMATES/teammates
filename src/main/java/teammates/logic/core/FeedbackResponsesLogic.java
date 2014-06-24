@@ -81,6 +81,24 @@ public class FeedbackResponsesLogic {
             return frDb.getFeedbackResponsesForSessionInSection(feedbackSessionName, courseId, section);
         }
     }
+
+    public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionFromSection(
+            String feedbackSessionName, String courseId, String section){
+        if(section == null){
+            return getFeedbackResponsesForSession(feedbackSessionName, courseId);
+        } else {
+            return frDb.getFeedbackResponsesForSessionFromSection(feedbackSessionName, courseId, section);
+        }
+    }
+
+    public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionToSection(
+            String feedbackSessionName, String courseId, String section){
+        if(section == null){
+            return getFeedbackResponsesForSession(feedbackSessionName, courseId);
+        } else {
+            return frDb.getFeedbackResponsesForSessionToSection(feedbackSessionName, courseId, section);
+        }
+    }
     
     public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionWithinRange(
             String feedbackSessionName, String courseId, long range) {
@@ -96,6 +114,30 @@ public class FeedbackResponsesLogic {
                     feedbackSessionName, courseId, range);
         } else {
             return frDb.getFeedbackResponsesForSessionInSectionWithinRange(
+                    feedbackSessionName, courseId, section, range);
+        }
+    }
+
+    public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionFromSectionWithinRange(
+            String feedbackSessionName, String courseId, String section,
+            long range) {
+        if(section == null) {
+            return getFeedbackResponsesForSessionWithinRange(
+                    feedbackSessionName, courseId, range);
+        } else {
+            return frDb.getFeedbackResponsesForSessionFromSectionWithinRange(
+                    feedbackSessionName, courseId, section, range);
+        }
+    }
+
+    public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionToSectionWithinRange(
+            String feedbackSessionName, String courseId, String section,
+            long range) {
+        if(section == null) {
+            return getFeedbackResponsesForSessionWithinRange(
+                    feedbackSessionName, courseId, range);
+        } else {
+            return frDb.getFeedbackResponsesForSessionToSectionWithinRange(
                     feedbackSessionName, courseId, section, range);
         }
     }

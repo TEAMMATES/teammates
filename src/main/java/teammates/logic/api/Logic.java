@@ -11,7 +11,6 @@ import javax.mail.internet.MimeMessage;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentRecipientType;
-import teammates.common.datatransfer.CommentStatus;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.CourseRoster;
@@ -1771,6 +1770,60 @@ public class Logic {
         return feedbackSessionsLogic.getFeedbackSessionResultsForInstructorWithinRange(
                                         feedbackSessionName, courseId, userEmail, range);
     }
+    
+    /**
+     * Gets a question+response bundle for questions with responses that
+     * is visible to the instructor for a feedback session in a section within the given range
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     */
+    public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorInSectionWithinRange(
+            String feedbackSessionName, String courseId, String userEmail,
+            String section, long range)
+            throws UnauthorizedAccessException, EntityDoesNotExistException {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
+
+        return feedbackSessionsLogic.getFeedbackSessionResultsForInstructorInSectionWithinRange(
+                        feedbackSessionName, courseId, userEmail, section, range);
+    }
+    
+    /**
+     * Gets a question+response bundle for questions with responses that
+     * is visible to the instructor for a feedback session from a section within the given range
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     */
+    public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorFromSectionWithinRange(
+            String feedbackSessionName, String courseId, String userEmail,
+            String section, long range)
+            throws UnauthorizedAccessException, EntityDoesNotExistException {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
+
+        return feedbackSessionsLogic.getFeedbackSessionResultsForInstructorFromSectionWithinRange(
+                        feedbackSessionName, courseId, userEmail, section, range);
+    }
+    
+    /**
+     * Gets a question+response bundle for questions with responses that
+     * is visible to the instructor for a feedback session to a section within the given range
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     */
+    public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorToSectionWithinRange(
+            String feedbackSessionName, String courseId, String userEmail,
+            String section, long range)
+            throws UnauthorizedAccessException, EntityDoesNotExistException {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
+
+        return feedbackSessionsLogic.getFeedbackSessionResultsForInstructorToSectionWithinRange(
+                        feedbackSessionName, courseId, userEmail, section, range);
+    }
 
     /**
      * Gets a question+response bundle for questions with responses that
@@ -1822,6 +1875,7 @@ public class Logic {
 
         return feedbackSessionsLogic.getFeedbackSessionResultsForInstructor(feedbackSessionName, courseId, userEmail, roster, isIncludeResponseStatus);
     }
+    
     /**
      * Gets a question+response bundle for questions with responses that
      * is visible to the instructor for a feedback session in a specific section.
@@ -1837,6 +1891,42 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, section);
 
         return feedbackSessionsLogic.getFeedbackSessionResultsForInstructorInSection(
+                                        feedbackSessionName, courseId, userEmail, section);
+    }
+    
+    /**
+     * Gets a question+response bundle for questions with responses that
+     * is visible to the instructor for a feedback session in a specific section.
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     */
+    public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorFromSection(
+            String feedbackSessionName, String courseId, String userEmail, String section)
+                    throws UnauthorizedAccessException, EntityDoesNotExistException {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, section);
+
+        return feedbackSessionsLogic.getFeedbackSessionResultsForInstructorFromSection(
+                                        feedbackSessionName, courseId, userEmail, section);
+    }
+    
+    /**
+     * Gets a question+response bundle for questions with responses that
+     * is visible to the instructor for a feedback session in a specific section.
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     */
+    public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorToSection(
+            String feedbackSessionName, String courseId, String userEmail, String section)
+                    throws UnauthorizedAccessException, EntityDoesNotExistException {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, section);
+
+        return feedbackSessionsLogic.getFeedbackSessionResultsForInstructorToSection(
                                         feedbackSessionName, courseId, userEmail, section);
     }
 

@@ -338,6 +338,17 @@ public class FeedbackSessionsLogic {
             String feedbackSessionName, String courseId, String userEmail, long range)
             throws EntityDoesNotExistException{
         
+       return getFeedbackSessionResultsForInstructorInSectionWithinRange(feedbackSessionName, courseId, userEmail, null , range);
+    }
+
+    /**
+     * Gets results of a feedback session to show to an instructor in a section in an indicated range
+     * @throws ExceedingRangeException if the results are beyond the range
+     */
+    public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorInSectionWithinRange(
+            String feedbackSessionName, String courseId, String userEmail, String section, long range)
+            throws EntityDoesNotExistException{
+        
         CourseRoster roster = new CourseRoster(
                 new StudentsDb().getStudentsForCourse(courseId),
                 new InstructorsDb().getInstructorsForCourse(courseId));
@@ -346,7 +357,53 @@ public class FeedbackSessionsLogic {
         params.put("inSection", "true");
         params.put("fromSection", "false");
         params.put("toSection", "false");
+        params.put("section", section);
         params.put("range", String.valueOf(range));
+
+        return getFeedbackSessionResultsForUserWithParams(feedbackSessionName, courseId, userEmail, UserType.Role.INSTRUCTOR, roster, params);
+    }
+
+    /**
+     * Gets results of a feedback session to show to an instructor in a section in an indicated range
+     * @throws ExceedingRangeException if the results are beyond the range
+     */
+    public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorFromSectionWithinRange(
+            String feedbackSessionName, String courseId, String userEmail, String section, long range)
+            throws EntityDoesNotExistException{
+        
+        CourseRoster roster = new CourseRoster(
+                new StudentsDb().getStudentsForCourse(courseId),
+                new InstructorsDb().getInstructorsForCourse(courseId));
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("isIncludeResponseStatus", "true");
+        params.put("inSection", "false");
+        params.put("fromSection", "true");
+        params.put("toSection", "false");
+        params.put("section", section);
+        params.put("range", String.valueOf(range));
+
+        return getFeedbackSessionResultsForUserWithParams(feedbackSessionName, courseId, userEmail, UserType.Role.INSTRUCTOR, roster, params);
+    }
+
+    /**
+     * Gets results of a feedback session to show to an instructor in a section in an indicated range
+     * @throws ExceedingRangeException if the results are beyond the range
+     */
+    public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorToSectionWithinRange(
+            String feedbackSessionName, String courseId, String userEmail, String section, long range)
+            throws EntityDoesNotExistException{
+        
+        CourseRoster roster = new CourseRoster(
+                new StudentsDb().getStudentsForCourse(courseId),
+                new InstructorsDb().getInstructorsForCourse(courseId));
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("isIncludeResponseStatus", "true");
+        params.put("inSection", "false");
+        params.put("fromSection", "false");
+        params.put("toSection", "true");
+        params.put("section", section);
+        params.put("range", String.valueOf(range));
+
         return getFeedbackSessionResultsForUserWithParams(feedbackSessionName, courseId, userEmail, UserType.Role.INSTRUCTOR, roster, params);
     }
     
@@ -374,9 +431,53 @@ public class FeedbackSessionsLogic {
                 new InstructorsDb().getInstructorsForCourse(courseId));
         Map<String, String> params = new HashMap<String, String>();
         params.put("isIncludeResponseStatus", "true");
-        params.put("inSection", "false");
+        params.put("inSection", "true");
         params.put("fromSection", "false");
         params.put("toSection", "false");
+        params.put("section", section);
+        return getFeedbackSessionResultsForUserWithParams(feedbackSessionName,
+                courseId, userEmail, UserType.Role.INSTRUCTOR, roster, params);
+    }
+
+    /**
+     *  Gets results of  a feedback session to show to an instructor from a 
+     *  specific section
+     */
+    public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorFromSection(
+            String feedbackSessionName, String courseId, String userEmail,
+            String section)
+            throws EntityDoesNotExistException {
+
+        CourseRoster roster = new CourseRoster(
+                new StudentsDb().getStudentsForCourse(courseId),
+                new InstructorsDb().getInstructorsForCourse(courseId));
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("isIncludeResponseStatus", "true");
+        params.put("inSection", "false");
+        params.put("fromSection", "true");
+        params.put("toSection", "false");
+        params.put("section", section);
+        return getFeedbackSessionResultsForUserWithParams(feedbackSessionName,
+                courseId, userEmail, UserType.Role.INSTRUCTOR, roster, params);
+    }
+
+    /**
+     *  Gets results of  a feedback session to show to an instructor to a 
+     *  specific section
+     */
+    public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorToSection(
+            String feedbackSessionName, String courseId, String userEmail,
+            String section)
+            throws EntityDoesNotExistException {
+
+        CourseRoster roster = new CourseRoster(
+                new StudentsDb().getStudentsForCourse(courseId),
+                new InstructorsDb().getInstructorsForCourse(courseId));
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("isIncludeResponseStatus", "true");
+        params.put("inSection", "false");
+        params.put("fromSection", "false");
+        params.put("toSection", "true");
         params.put("section", section);
         return getFeedbackSessionResultsForUserWithParams(feedbackSessionName,
                 courseId, userEmail, UserType.Role.INSTRUCTOR, roster, params);
@@ -994,6 +1095,10 @@ public class FeedbackSessionsLogic {
         
         boolean isIncludeResponseStatus = Boolean.parseBoolean(params.get("isIncludeResponseStatus"));
         boolean isComplete = (params.get("range") != null) ? false : true;
+
+        boolean isFromSection = Boolean.parseBoolean(params.get("fromSection"));
+        boolean isToSection = Boolean.parseBoolean(params.get("toSection"));
+        boolean isInSection = Boolean.parseBoolean(params.get("inSection"));
         String section = params.get("section");
         
         FeedbackSessionAttributes session = fsDb.getFeedbackSession(
@@ -1078,11 +1183,21 @@ public class FeedbackSessionsLogic {
         for (FeedbackQuestionAttributes qn : allQuestions) {
             allQuestionsMap.put(qn.getId(), qn);
         }
-        List<FeedbackResponseAttributes> allResponses;
+        List<FeedbackResponseAttributes> allResponses = new ArrayList<FeedbackResponseAttributes>();
         if(params.get("range") != null){
             long range = Long.parseLong(params.get("range"));
-             allResponses = frLogic.getFeedbackResponsesForSessionInSectionWithinRange(feedbackSessionName,
+            if(isInSection){
+                allResponses = frLogic.getFeedbackResponsesForSessionInSectionWithinRange(feedbackSessionName,
                             courseId, section, range);
+            } else if(isFromSection){
+                allResponses = frLogic.getFeedbackResponsesForSessionFromSectionWithinRange(feedbackSessionName,
+                            courseId, section, range);
+            } else if(isToSection) {
+                allResponses = frLogic.getFeedbackResponsesForSessionToSectionWithinRange(feedbackSessionName,
+                            courseId, section, range);
+            } else {
+                Assumption.fail("Client did not indicate the origin of the responses");
+            }
             if(allResponses.size() <= range){
                 isComplete = true;
             } else {
@@ -1098,8 +1213,18 @@ public class FeedbackSessionsLogic {
                 return results;
             }
         } else {
-            allResponses = frLogic.getFeedbackResponsesForSessionInSection(feedbackSessionName,
+            if(isInSection){
+                allResponses = frLogic.getFeedbackResponsesForSessionInSection(feedbackSessionName,
                         courseId, section);
+            } else if(isFromSection){
+                allResponses = frLogic.getFeedbackResponsesForSessionFromSection(feedbackSessionName,
+                        courseId, section);
+            } else if(isToSection){
+                allResponses = frLogic.getFeedbackResponsesForSessionToSection(feedbackSessionName,
+                        courseId, section);
+            } else {
+                Assumption.fail("Client did not indicate the origin of the response");
+            }
         }
 
         responseStatus = (section == null && isIncludeResponseStatus) ? getFeedbackSessionResponseStatus(
