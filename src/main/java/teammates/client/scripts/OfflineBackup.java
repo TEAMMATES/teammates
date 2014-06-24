@@ -54,15 +54,15 @@ public class OfflineBackup extends RemoteApiClient {
         retrieveAllEntities(mapModifiedEntities(logs));
     }
     
-    
+    /**
+     * Opens a connection to the entityModifiedLogs servlet to retrieve a log of all recently modified entities
+     */
     private Vector<String> getModifiedLogs() {
         Vector<String> modifiedLogs = new Vector<String>();
         TestProperties testProperties = TestProperties.inst();
         try {
             //Opens a URL connection to obtain the entity modified logs
-            
             URL myURL = new URL(testProperties.TEAMMATES_URL + "/entityModifiedLogs");
-                    //"http://4-18-dot-teammates-shawn2.appspot.com/entityModifiedLogs");
             
             URLConnection myURLConnection = myURL.openConnection();        
         
@@ -77,14 +77,17 @@ public class OfflineBackup extends RemoteApiClient {
         } 
         
         catch (IOException e) { 
-            // new URL() failed
-            // ...
+            System.out.println("Error occurred while trying to access modified entity logs: " + e.getMessage());
         } 
         
         return modifiedLogs;
     }
     
    
+    /**
+     * Look through the logs and extracts all recently modified entities. Duplicates are removed
+     * and the entities are placed into a multimap based on their types (instructor, student etc)
+     */
     private MultiMap mapModifiedEntities(Vector<String> modifiedLogs) {
         
         //Removes all duplicates using a set
@@ -110,6 +113,10 @@ public class OfflineBackup extends RemoteApiClient {
         return entitiesMap;
     }
     
+    /** 
+     *  Looks through an entity map to obtain all entities that were modified recently. Those entities are 
+     *  then retrieved for backup.
+     */
     @SuppressWarnings("unchecked")
     private void retrieveAllEntities(MultiMap entityMap) {
 
@@ -118,12 +125,12 @@ public class OfflineBackup extends RemoteApiClient {
         
         while(it.hasNext()) {
             String entityType = it.next();
-            Collection<String> ids = (Collection<String>) entityMap.get(entityType);
+            Collection<String> entityIds = (Collection<String>) entityMap.get(entityType);
             
-            Iterator<String> idit = ids.iterator();
+            Iterator<String> entityIdsIt = entityIds.iterator();
             
-            while(idit.hasNext()) {
-                String id = idit.next();
+            while(entityIdsIt.hasNext()) {
+                String id = entityIdsIt.next();
                 try {
                     retrieveEntity(entityType,id);
                     
@@ -134,6 +141,9 @@ public class OfflineBackup extends RemoteApiClient {
         }
     }
     
+    /**
+     * Retrieve a recently modified entity and saves its contents to a .csv file
+     */
     private void retrieveEntity(String type, String id) throws ParseException {
         System.out.println(type);
         
@@ -184,6 +194,7 @@ public class OfflineBackup extends RemoteApiClient {
         }
         
     }
+    
     
     private void retrieveAndSaveAccount(String id) {
         Logic logic = new Logic();
