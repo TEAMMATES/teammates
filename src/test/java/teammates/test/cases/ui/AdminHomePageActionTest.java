@@ -47,6 +47,7 @@ public class AdminHomePageActionTest extends BaseActionTest {
         assertEquals( Const.ViewURIs.ADMIN_HOME, result.destination);
         final AdminHomePageData startingPageData = (AdminHomePageData) result.data;
         assertEquals("", startingPageData.instructorEmail);
+        assertEquals("", startingPageData.instructorId);
         assertEquals("", startingPageData.instructorInstitution);
         assertEquals("", startingPageData.instructorName);
         

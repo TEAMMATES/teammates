@@ -10,6 +10,5 @@ public class EmailTemplates {
     public static String USER_FEEDBACK_SESSION = FileHelper.readResourseFile("userEmailTemplate-feedbackSession.html");
     public static String USER_FEEDBACK_SESSION_PUBLISHED = FileHelper.readResourseFile("userEmailTemplate-feedbackSessionPublished.html");
     public static String SYSTEM_ERROR = FileHelper.readResourseFile("systemErrorEmailTemplate.html");
-    public static String NEW_INSTRCUTOR_ACCOUNT_WELCOME = FileHelper.readResourseFile("newInstructorAccountWelcome.html");
 
 }
