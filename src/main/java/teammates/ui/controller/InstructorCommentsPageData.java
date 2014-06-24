@@ -21,7 +21,9 @@ public class InstructorCommentsPageData extends PageData {
     public String courseName;
     public List<String> coursePaginationList;
     public Map<String, List<CommentAttributes>> comments;
+    // TODO: remove this field
     public String instructorEmail;
+    public InstructorAttributes currentInstructor;
     public CourseRoster roster;
     public Map<String, FeedbackSessionResultsBundle> feedbackResultBundles;
     public String previousPageLink;

@@ -1853,6 +1853,12 @@ public class Logic {
         feedbackResponseCommentsLogic.createFeedbackResponseComment(feedbackResponseComment);
     }
     
+    public FeedbackResponseCommentAttributes getFeedbackResponseComment(Long feedbackResponseCommentId) {
+        Assumption.assertNotNull(feedbackResponseCommentId);
+        
+        return feedbackResponseCommentsLogic.getFeedbackResponseComment(feedbackResponseCommentId);
+    }
+    
     /**
      * Preconditions: <br>
      * * All parameters are non-null.

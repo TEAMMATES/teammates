@@ -2,11 +2,13 @@ package teammates.ui.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 import teammates.common.datatransfer.CommentAttributes;
+import teammates.common.datatransfer.CommentRecipientType;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
@@ -15,6 +17,7 @@ import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
@@ -72,6 +75,7 @@ public class InstructorCommentsPageAction extends Action {
         
         data = new InstructorCommentsPageData(account);
         data.isViewingDraft = isViewingDraft;
+        data.currentInstructor = instructor;
         data.isDisplayArchive = isDisplayArchivedCourse;
         data.courseId = courseId;
         data.courseName = courseName;
@@ -166,13 +170,14 @@ public class InstructorCommentsPageAction extends Action {
         //group data by recipients
         Map<String, List<CommentAttributes>> giverEmailToCommentsMap = new TreeMap<String, List<CommentAttributes>>();
         for(CommentAttributes comment : comments){
-            String key = comment.giverEmail.equals(instructor.email)? COMMENT_GIVER_NAME_THAT_COMES_FIRST: comment.giverEmail;
+            boolean isCurrentInstructorGiver = comment.giverEmail.equals(instructor.email);
+            String key = isCurrentInstructorGiver ? COMMENT_GIVER_NAME_THAT_COMES_FIRST : comment.giverEmail;
             List<CommentAttributes> commentList = giverEmailToCommentsMap.get(key);
-            if(commentList == null){
+            if (commentList == null) {
                 commentList = new ArrayList<CommentAttributes>();
                 giverEmailToCommentsMap.put(key, commentList);
             }
-            commentList.add(comment);
+            updateCommentList(comment, isCurrentInstructorGiver, commentList);
         }
         //TODO: sort the recipient by their newest comment
         //sort comments by created date
@@ -180,6 +185,59 @@ public class InstructorCommentsPageAction extends Action {
             java.util.Collections.sort(commentList);
         }
         return giverEmailToCommentsMap;
+    }
+
+    private void updateCommentList(CommentAttributes comment, boolean isCurrentInstructorGiver, List<CommentAttributes> commentList)
+            throws EntityDoesNotExistException {
+        if (!isViewingDraft && !isCurrentInstructorGiver) { 
+            // TODO: remember to come back and change this if later CommentAttributes.recipients can have multiple later!!!
+            if (comment.recipientType == CommentRecipientType.COURSE) {
+                if (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS)) {
+                    commentList.add(comment);
+                }
+            } else if (comment.recipientType == CommentRecipientType.SECTION) {
+                String section = "";
+                if (!comment.recipients.isEmpty()) {
+                    Iterator<String> iterator = comment.recipients.iterator();
+                    section = iterator.next();
+                }
+                if (instructor.isAllowedForPrivilege(section, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS)) {
+                    commentList.add(comment);
+                }
+            } else if (comment.recipientType == CommentRecipientType.TEAM) {
+                String team = "";
+                String section = "";
+                if (!comment.recipients.isEmpty()) {
+                    Iterator<String> iterator = comment.recipients.iterator();
+                    team = iterator.next();
+                }
+                List<StudentAttributes> students = logic.getStudentsForTeam(team, courseId);
+                if (!students.isEmpty()) {
+                    section = students.get(0).section;
+                }
+                if (instructor.isAllowedForPrivilege(section, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS)) {
+                    commentList.add(comment);
+                }
+            } else if (comment.recipientType == CommentRecipientType.PERSON) {
+                String studentEmail = "";
+                String section = "";
+                if (!comment.recipients.isEmpty()) {
+                    Iterator<String> iterator = comment.recipients.iterator();
+                    studentEmail = iterator.next();
+                }
+                StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
+                if (student != null) {
+                    section = student.section;
+                }
+                if (instructor.isAllowedForPrivilege(section, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS)) {
+                    commentList.add(comment);
+                }
+            } else {
+                // TODO: implement this if instructor is later allowed to be added to recipients
+            }
+        } else {
+            commentList.add(comment);
+        }
     }
 
     private Map<String, FeedbackSessionResultsBundle> getFeedbackResultBundles(CourseRoster roster)

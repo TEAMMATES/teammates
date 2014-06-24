@@ -40,6 +40,7 @@ public class InstructorStudentRecordsPageAction extends Action {
         data = new InstructorStudentRecordsPageData(account);
         
         try {
+            data.currentInstructor = instructor;
             data.courseId = courseId;
             data.student = logic.getStudentForEmail(courseId, studentEmail);
             Assumption.assertNotNull(data.student);
