@@ -24,6 +24,7 @@ import com.google.appengine.api.datastore.Text;
 public class SubmissionAttributes extends EntityAttributes {
     
     //Note: be careful when changing these variables as their names are used in *.json files.
+    private Long id = null;
     public String course; //TODO: rename to courseId 
     public String evaluation; //TODO: rename to evaluationName 
     public String team; //TODO: rename to teamName
@@ -54,6 +55,7 @@ public class SubmissionAttributes extends EntityAttributes {
     }
 
     public SubmissionAttributes(Submission s) {
+        this.id = s.getId();
         this.course = s.getCourseId();
         this.evaluation = s.getEvaluationName();
         this.reviewer = s.getReviewerEmail();
@@ -77,6 +79,7 @@ public class SubmissionAttributes extends EntityAttributes {
      */
     public SubmissionAttributes getCopy() {
         SubmissionAttributes copy = new SubmissionAttributes();
+        copy.id = this.id;
         copy.course = this.course;
         copy.evaluation = this.evaluation;
         copy.team = this.team;
@@ -94,6 +97,10 @@ public class SubmissionAttributes extends EntityAttributes {
         return copy;
     }
 
+    public Long getId() {
+        return this.id;
+    }
+    
     public boolean isSelfEvaluation() {
         return reviewee.equals(reviewer);
     }

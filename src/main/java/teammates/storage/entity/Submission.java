@@ -62,6 +62,10 @@ public class Submission {
         this.points = Const.POINTS_NOT_SUBMITTED;
     }
 
+    public Long getId() {
+        return id;
+    }
+    
     public String getCourseId() {
         return courseID;
     }
