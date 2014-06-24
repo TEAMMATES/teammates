@@ -11,7 +11,6 @@ function readyCourseEditPage() {
  * @param totalInstructors
  */
 function enableEditInstructor(instructorNum, totalInstructors) {
-
     for (var i=1; i<=totalInstructors; i++) {
         if (i == instructorNum) {
             enableFormEditInstructor(i);
@@ -19,6 +18,7 @@ function enableEditInstructor(instructorNum, totalInstructors) {
             disableFormEditInstructor(i);
         }
     }
+    hideNewInstructorForm();
 }
 
 /**
@@ -27,9 +27,11 @@ function enableEditInstructor(instructorNum, totalInstructors) {
  * @param number
  */
 function enableFormEditInstructor(number) {
-    $("#instructorTable"+number).find(":input").not(".immutable").prop("disabled", false);
-    $("#instrEditLink"+number).hide();
-    $("#btnSaveInstructor"+number).show();
+    $("#instructorTable" + number).find(":input").not(".immutable").prop("disabled", false);
+    $("#instrEditLink" + number).hide();
+    $("#accessControlInfoForInstr" + number).hide();
+    $("#accessControlEditDivForInstr" + number).show();
+    $("#btnSaveInstructor" + number).show();
 }
 
 /**
@@ -38,18 +40,22 @@ function enableFormEditInstructor(number) {
  * @param number
  */
 function disableFormEditInstructor(number) {
-    $("#instructorTable"+number).find(":input").not(".immutable").prop("disabled", true);
-    $("#instrEditLink"+number).show();
-    $("#btnSaveInstructor"+number).hide();
+    $("#instructorTable" + number).find(":input").not(".immutable").prop("disabled", true);
+    $("#instrEditLink" + number).show();
+    $("#accessControlInfoForInstr" + number).show();
+    $("#accessControlEditDivForInstr" + number).hide();
+    $("#btnSaveInstructor" + number).hide();
 }
 
-/**
- * Show the form for adding new instructor. Hide the btnShowNewInstructorForm.
- */
 function showNewInstructorForm() {
     $("#panelAddInstructor").show();
     $("#btnShowNewInstructorForm").hide();
     $('html, body').animate({scrollTop: $('#frameBodyWrapper')[0].scrollHeight}, 1000);
+}
+
+function hideNewInstructorForm() {
+	$("#panelAddInstructor").hide();
+    $("#btnShowNewInstructorForm").show();
 }
 
 /**
@@ -60,6 +66,15 @@ function showNewInstructorForm() {
  */
 function toggleSendRegistrationKey(courseID, email) {
     return confirm("Do you wish to re-send the invitation email to this instructor now?");
+}
+
+function toggleTunePermissionsDiv(number) {
+    $("#tunePermissionsDivForInstructor" + number).toggle();
+}
+
+function checkTheRoleThatApplies(instrNum) {
+	var instrRole = $("#accessControlInfoForInstr"+instrNum+" div div p").html();
+	$("input[id='instructorroleforinstructor" + instrNum + "']").filter("[value='" + instrRole + "']").prop("checked", true);
 }
 
 /**
@@ -78,3 +93,10 @@ function toggleDeleteInstructorConfirmation(courseID, instructorName, isDeleteOw
             "He/she will not be able to access the course anymore.");
     }
 }
+
+$(function(){
+	var numOfInstr = $("form[id^='formEditInstructor']").length;
+	for (var i=0; i<numOfInstr;i++) {
+		checkTheRoleThatApplies(i+1);
+	}
+});

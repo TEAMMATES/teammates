@@ -51,6 +51,7 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
         verifyUnaccessibleForUnregisteredUsers(submissionParams);
         verifyUnaccessibleForStudents(submissionParams);
         verifyUnaccessibleForInstructorsOfOtherCourses(submissionParams);
+        verifyUnaccessibleWithoutModifyCoursePrivilege(submissionParams);
         verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
 
         /* Test access for admin in masquerade mode */

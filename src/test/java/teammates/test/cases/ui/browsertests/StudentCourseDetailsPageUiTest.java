@@ -53,7 +53,7 @@ public class StudentCourseDetailsPageUiTest extends BaseUiTestCase {
             .withCourseId(testData.courses.get(courseObjectId).id);
         
         loginAdminToPage(browser, detailsPageUrl, StudentCourseDetailsPage.class)
-            .verifyHtml(filePath);
+            .verifyHtmlMainContent(filePath);
     }
 
     @AfterClass

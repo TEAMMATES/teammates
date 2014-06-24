@@ -44,7 +44,7 @@ public class InstructorCourseStudentDetailsPageUiTest extends BaseUiTestCase {
             .withStudentEmail(testData.students.get("registeredStudent").email);
         
         viewPage = loginAdminToPage(browser, viewPageUrl, InstructorCourseStudentDetailsViewPage.class);
-        viewPage.verifyHtml("/InstructorCourseStudentDetailsPage.html");
+        viewPage.verifyHtmlMainContent("/InstructorCourseStudentDetailsPage.html");
 
         ______TS("content: unregistered student");
         
@@ -55,7 +55,7 @@ public class InstructorCourseStudentDetailsPageUiTest extends BaseUiTestCase {
             .withStudentEmail(testData.students.get("unregisteredStudent").email);
         
         viewPage = loginAdminToPage(browser, viewPageUrl, InstructorCourseStudentDetailsViewPage.class);
-        viewPage.verifyHtml("/InstructorCourseStudentDetailsUnregisteredPage.html");
+        viewPage.verifyHtmlMainContent("/InstructorCourseStudentDetailsUnregisteredPage.html");
         
         //No links, input validation, or actions to test.
         

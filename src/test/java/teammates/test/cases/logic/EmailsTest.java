@@ -107,9 +107,7 @@ public class EmailsTest extends BaseComponentTestCase {
         s.key = "skxxxxxxxxxks";
         s.email = "student@email.com";
         
-        InstructorAttributes i = new InstructorAttributes();
-        i.name = "Instructor Name";
-        i.email = "instructr@email.com";
+        InstructorAttributes i = new InstructorAttributes("googleId2", "courseId3", "name", "instructr@email.com");
 
         ______TS("generic template, student yet to join");
 
@@ -263,9 +261,7 @@ public class EmailsTest extends BaseComponentTestCase {
         s.key = "skxxxxxxxxxks";
         s.email = "student@email.com";
         
-        InstructorAttributes i = new InstructorAttributes();
-        i.name = "Instructor Name";
-        i.email = "instructr@email.com";
+        InstructorAttributes i = new InstructorAttributes("googleId1", "courseId2", "name", "instructr@email.com");
 
         ______TS("generic template, student yet to join");
 
@@ -485,14 +481,10 @@ public class EmailsTest extends BaseComponentTestCase {
         s2.email = "student2@email.com";
         students.add(s2);
         
-        InstructorAttributes i1 = new InstructorAttributes();
-        i1.name = "Instructor1 Name";
-        i1.email = "instructor1@email.com";
+        InstructorAttributes i1 = new InstructorAttributes("googleId", "CourseId", "Instructor1 Name", "instructor1@email.com");
         instructors.add(i1);
         
-        InstructorAttributes i2 = new InstructorAttributes();
-        i2.name = "Instructor2 Name";
-        i2.email = "instructor2@email.com";
+        InstructorAttributes i2 = new InstructorAttributes("anotherId", "courseId2",  "Instructor2 Name",  "instructor2@email.com");
         instructors.add(i2);
         
         ______TS("evaluation opening emails");
@@ -563,17 +555,15 @@ public class EmailsTest extends BaseComponentTestCase {
         StudentAttributes s3 = new StudentAttributes();
         s3.email = "student3InCourse1@gmail.com";
         
-        InstructorAttributes i1 = new InstructorAttributes();
-        i1.email = "instructor1@course1.com";
+        InstructorAttributes i1 = new InstructorAttributes("googleId", "courseId1", "name", "instructor1@course1.com");
         
-        InstructorAttributes i2 = new InstructorAttributes();
-        i2.email = "instructor2@course1.com";
+        InstructorAttributes i2 = new InstructorAttributes("googleId", "courseId1", "name", "instructor2@course1.com");
         
         ______TS("feedback session opening emails");
 
         List<MimeMessage> emails = new Emails()
                 .generateFeedbackSessionOpeningEmails(fsa);
-        assertEquals(8, emails.size());
+        assertEquals(9, emails.size());
 
         String prefix = Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_OPENING;
         String status = "is now open";
@@ -583,17 +573,17 @@ public class EmailsTest extends BaseComponentTestCase {
         ______TS("feedback session reminders");
 
         emails = new Emails().generateFeedbackSessionReminderEmails(c, fsa, students, instructors, instructors);
-        assertEquals(11, emails.size());
+        assertEquals(13, emails.size());
 
         prefix = Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER;
         status = "is still open for submissions";
-        verifyEmail(i1, emails.get(0), prefix, status);
-        verifyEmail(i2, emails.get(1), prefix, status);
+        verifyEmail(i1, emails.get(1), prefix, status);
+        verifyEmail(i2, emails.get(2), prefix, status);
         
         ______TS("feedback session closing alerts");
 
         emails = new Emails().generateFeedbackSessionClosingEmails(fsa);
-        assertEquals(6, emails.size());
+        assertEquals(7, emails.size());
 
         prefix = Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_CLOSING;
         status = "is closing soon";
@@ -603,7 +593,7 @@ public class EmailsTest extends BaseComponentTestCase {
         ______TS("feedback session published alerts");
 
         emails = new Emails().generateFeedbackSessionPublishedEmails(fsa);
-        assertEquals(8, emails.size());
+        assertEquals(9, emails.size());
 
         prefix = Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_PUBLISHED;
         status = "The feedback responses for the following feedback session is now open for viewing.";

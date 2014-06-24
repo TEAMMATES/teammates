@@ -40,8 +40,8 @@ public class InstructorFeedbackEditPageActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName
         };
         
+        verifyUnaccessibleWithoutModifySessionPrivilege(submissionParams);
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
-        
     }
     
     @Test

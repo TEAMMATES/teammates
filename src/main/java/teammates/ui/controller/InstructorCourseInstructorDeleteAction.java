@@ -1,5 +1,8 @@
 package teammates.ui.controller;
 
+import java.util.List;
+
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -18,14 +21,24 @@ public class InstructorCourseInstructorDeleteAction extends Action {
         String instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
         Assumption.assertNotNull(instructorEmail);
         
+        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         new GateKeeper().verifyAccessible(
-                logic.getInstructorForGoogleId(courseId, account.googleId),
-                logic.getCourse(courseId));
+                instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
 
-        int numberOfInstructorsForCourse = logic.getInstructorsForCourse(courseId).size();
+        List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
+        int numOfInstrCanModifyInstructor = 0;
+        InstructorAttributes instrCanModifyInstructor = null;
+        for (InstructorAttributes instr : instructors) {
+            if (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR)) {
+                numOfInstrCanModifyInstructor++;
+                instrCanModifyInstructor = instr;
+            }
+        }
+        boolean lastCanModifyInstructor = (numOfInstrCanModifyInstructor <= 1) && 
+                (instrCanModifyInstructor != null && instrCanModifyInstructor.email.equals(instructorEmail));
         
         /* Process deleting an instructor and setup status to be shown to user and admin */
-        if (numberOfInstructorsForCourse != 1) {
+        if (!lastCanModifyInstructor) {
             logic.deleteInstructor(courseId, instructorEmail);
             
             statusToUser.add(Const.StatusMessages.COURSE_INSTRUCTOR_DELETED);
@@ -36,7 +49,7 @@ public class InstructorCourseInstructorDeleteAction extends Action {
             statusToUser.add(Const.StatusMessages.COURSE_INSTRUCTOR_DELETE_NOT_ALLOWED);
             statusToAdmin = "Instructor <span class=\"bold\"> " + instructorEmail + "</span>"
                     + " in Course <span class=\"bold\">[" + courseId + "]</span> could not be deleted "
-                    + "as there is only one instructor left.<br>";
+                    + "as there is only one instructor left to be able to modify instructors.<br>";
         }
         
         /* Create redirection. It will redirect back to 'Courses' page if the instructor deletes himself */

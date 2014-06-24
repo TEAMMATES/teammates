@@ -157,7 +157,7 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
         
         EmailAction fsClosingAction = new FeedbackSessionClosingMailAction(paramMap);
         int course1StudentCount = 5-2; // 2 students have already completed the session 
-        int course1InstructorCount = 3;
+        int course1InstructorCount = 4;
         
         List<MimeMessage> preparedEmails = fsClosingAction.getPreparedEmailsAndPerformSuccessOperations();
         assertEquals(course1StudentCount + course1InstructorCount, preparedEmails.size());

@@ -86,7 +86,7 @@ public class StudentEvalResultsPageUiTest extends BaseUiTestCase {
         
         resultsPage = getResultsPage("Third Eval", "SEvalRUiT.charlie.d");
         resultsPage.clickResultInterpretLink();  
-        resultsPage.verifyHtml("/studentEvalResultsTypicalHTML.html");
+        resultsPage.verifyHtmlMainContent("/studentEvalResultsTypicalHTML.html");
  
         Url expectedUrl = createUrl(Const.ActionURIs.STUDENT_EVAL_RESULTS_PAGE)
                           .withUserId(testData.students.get("SEvalRUiT.charlie.d").googleId)
@@ -112,7 +112,7 @@ public class StudentEvalResultsPageUiTest extends BaseUiTestCase {
     private void verifyResultContent(String evalObjectId, String studentObjectId, String filePath) {
         
         StudentEvalResultsPage actualResultsPage = getResultsPage(evalObjectId, studentObjectId);
-        actualResultsPage.verifyHtml(filePath);     
+        actualResultsPage.verifyHtmlMainContent(filePath);     
     }
     
     

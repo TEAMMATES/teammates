@@ -16,6 +16,14 @@ body {
     background-color: white;
 }
 
+.background-color-medium-gray {
+    background-color: #e5e5e6;
+}
+
+.background-color-warning {
+    background-color: #fcf8e3;
+}
+
 .border-gray {
     border: 1px solid #ddd;
 }
@@ -39,6 +47,19 @@ body {
 
 .color-negative { 
     color: #e74c3c;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+    cursor: hand;
+}
+
+/*
+Apply to thead to make headers not bold.
+*/
+.font-weight-normal,
+.font-weight-normal > tr > th {
+    font-weight: normal;
 }
 
 .fill-plain {
@@ -67,6 +88,16 @@ body {
     color: red;
 }
 
+.glyphicon-gold {
+    color: #ffd700;
+}
+
+.height-fixed-md {
+    min-height: 150px;
+    max-height: 250px;
+    overflow: auto;
+}
+
 .highlight-white {
     color: white;
 }
@@ -75,16 +106,72 @@ body {
     display: inline;
 }
 
+.margin-0 {
+   margin: 0;
+}
+
+.min-height-0.checkbox,
+.min-height-0 {
+   min-height: 0;
+}
+
+.margin-top-0 {
+   margin-top: 0;
+}
+
+.padding-0 {
+   padding: 0;
+}
+
+.padding-top-0.checkbox,
+.padding-top-0 {
+   padding-top: 0;
+}
+
+.pre-plain {
+    background-color: #fff;
+    border: 0;
+    font-family: none;
+    font-size: 15px;
+    word-break: normal;
+    white-space: pre-wrap;
+}
+
 .text-bold {
     font-weight: bold;
+}
+
+.text-color-blue {
+    color: blue;
 }
 
 .text-color-primary {
     color: #428bca;
 }
 
+.text-color-gray {
+    color: gray;
+}
+
+.text-color-green {
+    color: green;
+}
+
+.text-color-red {
+    color: red;
+}
+
 .text-color-white {
     color: white;
+}
+
+.text-strike {
+    text-decoration: line-through;
+}
+
+.form-control.width-100-pc,
+.width-100-pc {
+    width: 100%;
 }
 
 @media print {
@@ -95,13 +182,6 @@ body {
         display: none;
     }
 }
-
-
-
-
-
-
-
 
 /*////////////////////////////////////////////////////////////
 ///////////////////////// NavBar ////////////////////////////
@@ -124,6 +204,12 @@ body {
 .well-narrow {
     margin: 0 auto;
     width: 60%;
+}
+
+@media (max-width: 767px) {
+    .well-sm-wide {
+        width:100%;
+    }
 }
 
 .well-plain {
@@ -176,6 +262,63 @@ body {
     margin-top: 20px;
 }
 
+
+
+
+/*////////////////////////////////////////////////////////////
+///////////////////////// Affix /////////////////////////////
+//////////////////////////////////////////////////////////*/
+
+.affix {
+            position: fixed;
+            top: 100px;
+        }
+
+            .affix > li > a {
+                color: gray;
+                padding-top: 5px;
+                padding-bottom: 5px;
+            }
+
+                .affix > li.active > a {
+                    color: #31708f;
+                    font-weight: 700;
+                    border-left: 2px solid #31708f;
+                }
+
+            .affix > li > .nav {
+                font-size: 12px;
+            }
+
+                .affix > li > .nav > li > a {
+                    color: gray;
+                    padding-top: 1px;
+                    padding-bottom: 1px;
+                    padding-left: 30px;
+                }
+
+                .affix > li.active > .nav {
+                    display: block;
+                    width: 100%;
+                }
+
+                    .affix > li > .nav > li.active > a {
+                        color: #31708f;
+                        font-weight: 700;
+                        border-left: 2px solid #31708f;
+                    }
+
+                .affix > li:not(.active) > .nav {
+                    display: none;
+                }
+
+        .affix-top {
+            position: relative;
+        }
+
+        .affix-bottom {
+            position: absolute;
+        }
 
 
 
@@ -257,6 +400,11 @@ body {
     width: 12px;
 }
 
+.profile-pic {
+    width: 130px; 
+    height: 130px;
+}
+
 .unsorted {
     background: url(../images/sortSideButton.png);
 }
@@ -275,9 +423,15 @@ body {
     cursor: pointer;
 }
 
+.link-disabled {
+    pointer-events: none;
+    cursor: default;
+    opacity: 0.5;
+}
 
-
-
+.link-disabled:hover {
+    text-decoration: none;
+}
 
 
 /*////////////////////////////////////////////////////////////

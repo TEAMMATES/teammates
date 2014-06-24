@@ -6,6 +6,7 @@
         <classes>
             <class name="teammates.test.cases.BaseTestCaseTest" />
             <class name="teammates.test.cases.common.AccountAttributesTest" />
+            <class name="teammates.test.cases.common.StudentProfileAttributesTest" />
             <class name="teammates.test.cases.common.BuildPropertiesTest" />
             <class name="teammates.test.cases.common.CourseAttributesTest" />
             <class name="teammates.test.cases.common.CourseRosterTest" />
@@ -139,6 +140,8 @@
             <class name="teammates.test.cases.ui.StudentFeedbackQuestionSubmissionEditPageActionTest" />
             <class name="teammates.test.cases.ui.StudentFeedbackQuestionSubmissionEditSaveActionTest" />
             <class name="teammates.test.cases.ui.StudentHomePageActionTest" />
+            <class name="teammates.test.cases.ui.StudentProfilePageActionTest" />
+            <class name="teammates.test.cases.ui.StudentProfileEditSaveActionTest" />
             <class name="teammates.test.automated.EvaluationClosingReminderTest" />
             <class name="teammates.test.automated.EvaluationOpeningReminderTest" />
             <class name="teammates.test.automated.FeedbackSessionClosingReminderTest" />
@@ -188,8 +191,8 @@
     <test name="sequential-ui-tests">
       <!--Theses cases need to be run sequentially to avoid state leaks between tests --> 
         <classes>
-            <class name="teammates.test.cases.ui.browsertests.InstructorHomePageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorCourseJoinConfirmationPageUiTest" />
+            <class name="teammates.test.cases.ui.browsertests.InstructorHomePageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorCourseEnrollPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorCourseStudentDetailsPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorCourseStudentDetailsEditPageUiTest" />
@@ -199,8 +202,9 @@
             <class name="teammates.test.cases.ui.browsertests.InstructorEvalsPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorFeedbackEditPageUiTest" /> 
             <class name="teammates.test.cases.ui.browsertests.StudentCourseJoinConfirmationPageUiTest" />
-            <class name="teammates.test.cases.ui.browsertests.AdminHomePageUiTest" />
+            <class name="teammates.test.cases.ui.browsertests.AdminHomePageUiTest" />            
             <class name="teammates.test.cases.ui.browsertests.StudentHomePageUiTest" />
+            <class name="teammates.test.cases.ui.browsertests.StudentProfilePageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.AllAccessControlUiTests" />
         </classes>
     </test>

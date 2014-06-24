@@ -13,6 +13,7 @@ import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
+import teammates.test.pageobjects.InstructorCourseDetailsPage;
 import teammates.test.pageobjects.InstructorCourseEnrollPage;
 import teammates.test.pageobjects.InstructorCourseStudentDetailsEditPage;
 import teammates.test.pageobjects.InstructorCourseStudentDetailsViewPage;
@@ -59,12 +60,12 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
             .withUserId(instructorId);
         
         viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
-        viewPage.verifyHtml("/instructorStudentListPage.html");
+        viewPage.verifyHtmlMainContent("/instructorStudentListPage.html");
         
         ______TS("content: search student");
 
         viewPage.setSearchKey("ben");
-        viewPage.verifyHtml("/instructorStudentListPageSearchStudent.html");
+        viewPage.verifyHtmlMainContent("/instructorStudentListPageSearchStudent.html");
         
         ______TS("content: search and toggle show email");
         
@@ -73,7 +74,7 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         
         viewPage.clickShowMoreOptions();
         viewPage.clickShowEmail();
-        viewPage.verifyHtml("/instructorStudentListPageSearchShowEmail.html");
+        viewPage.verifyHtmlMainContent("/instructorStudentListPageSearchShowEmail.html");
         viewPage.clickShowEmail();
         viewPage.clickShowMoreOptions();
         viewPage.verifyIsHidden("moreOptionsDiv");
@@ -81,12 +82,12 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         ______TS("content: live search");
 
         viewPage.setLiveSearchKey("charlie");
-        viewPage.verifyHtml("/instructorStudentListPageLiveSearch.html");
+        viewPage.verifyHtmlMainContent("/instructorStudentListPageLiveSearch.html");
         
         ______TS("content: search no match");
         
         viewPage.setSearchKey("noMatch");
-        viewPage.verifyHtml("/instructorStudentListPageSearchNoMatch.html");
+        viewPage.verifyHtmlMainContent("/instructorStudentListPageSearchNoMatch.html");
         
         ______TS("content: 1 course with no students");
         
@@ -96,7 +97,7 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
             .withUserId(instructorId);
         
         viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
-        viewPage.verifyHtml("/instructorStudentListPageNoStudent.html");
+        viewPage.verifyHtmlMainContent("/instructorStudentListPageNoStudent.html");
 
         
         ______TS("content: no course");
@@ -107,7 +108,7 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
                 .withUserId(instructorId);
             
         viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
-        viewPage.verifyHtml("/instructorStudentListPageNoCourse.html");
+        viewPage.verifyHtmlMainContent("/instructorStudentListPageNoCourse.html");
     }
     
     public void testLinks() throws Exception{
@@ -156,8 +157,10 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         viewPage.clickDeleteAndCancel(courseId, studentName);
         assertNotNull(BackDoor.getStudent(courseId, studentEmail));
 
-        viewPage.clickDeleteAndConfirm(courseId, studentName)
-            .verifyHtml("/instructorStudentListDeleteSuccessful.html");
+        String expectedStatus = "The student has been removed from the course";
+        viewPage.clickDeleteAndConfirm(courseId, studentName);
+        InstructorCourseDetailsPage courseDetailsPage = viewPage.changePageType(InstructorCourseDetailsPage.class);
+        courseDetailsPage.verifyStatus(expectedStatus);
     }
     
     private void testSearchScript() {
@@ -173,31 +176,31 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         ______TS("action: display archive");
         
         viewPage.clickDisplayArchiveOptions();
-        viewPage.verifyHtml("/instructorStudentListPageDisplayArchivedCourses.html");
+        viewPage.verifyHtmlMainContent("/instructorStudentListPageDisplayArchivedCourses.html");
         
         ______TS("action: test 'Show More Options' when archived courses are displayed");
         viewPage.clickShowMoreOptions();
         viewPage.clickShowEmail();
         viewPage.clickSelectAll();
         viewPage.clickCheckBoxOne();
-        viewPage.verifyHtml("/instructorStudentListPageDisplayArchivedCoursesWithMoreOptions.html");
+        viewPage.verifyHtmlMainContent("/instructorStudentListPageDisplayArchivedCoursesWithMoreOptions.html");
         
         ______TS("action: hide archive");
         
         viewPage.clickDisplayArchiveOptions();
-        viewPage.verifyHtml("/instructorStudentListPageHideArchivedCourses.html");
+        viewPage.verifyHtmlMainContent("/instructorStudentListPageHideArchivedCourses.html");
         
         ______TS("action: test 'Show More Options' when archived courses are hidden");
         viewPage.clickShowMoreOptions();
         viewPage.clickShowEmail();
         viewPage.clickSelectAll();
         viewPage.clickCheckBoxOne();
-        viewPage.verifyHtml("/instructorStudentListPageHideArchivedCoursesWithMoreOptions.html");
+        viewPage.verifyHtmlMainContent("/instructorStudentListPageHideArchivedCoursesWithMoreOptions.html");
         
         ______TS("action: re-display archive");
         
         viewPage.clickDisplayArchiveOptions();
-        viewPage.verifyHtml("/instructorStudentListPageDisplayArchivedCourses.html");
+        viewPage.verifyHtmlMainContent("/instructorStudentListPageDisplayArchivedCourses.html");
     }
     
     @AfterClass

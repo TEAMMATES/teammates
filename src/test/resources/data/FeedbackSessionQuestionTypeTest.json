@@ -83,37 +83,55 @@
             "googleId":"FSQTT.idOfInstructor1OfCourse1",
             "courseId":"FSQTT.idOfTypicalCourse1",
             "name":"Instructor1 Course1",
-            "email":"instructor1@course1.com"
+            "email":"instructor1@course1.com",
+            "role":"Co-owner",
+            "displayedName":"Co-owner",
+            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
         },
         "instructor2OfCourse1":{
             "googleId":"FSQTT.idOfInstructor2OfCourse1",
             "courseId":"FSQTT.idOfTypicalCourse1",
             "name":"Instructor2 Course1",
-            "email":"instructor2@course1.com"
+            "email":"instructor2@course1.com",
+            "role":"Co-owner",
+            "displayedName":"Co-owner",
+            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
         },
         "instructor1OfCourse2":{
             "googleId":"FSQTT.idOfInstructor1OfCourse2",
             "courseId":"FSQTT.idOfTypicalCourse2",
             "name":"Instructor1 Course2",
-            "email":"instructor1@course2.com"
+            "email":"instructor1@course2.com",
+            "role":"Co-owner",
+            "displayedName":"Co-owner",
+            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
         },
         "instructor2OfCourse2":{
             "googleId":"FSQTT.idOfInstructor2OfCourse2",
             "courseId":"FSQTT.idOfTypicalCourse2",
             "name":"Instructor2 Course2",
-            "email":"instructor2@course2.com"
+            "email":"instructor2@course2.com",
+            "role":"Co-owner",
+            "displayedName":"Co-owner",
+            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
         },
         "instructor3OfCourse1":{
             "googleId":"FSQTT.idOfInstructor3",
             "courseId":"FSQTT.idOfTypicalCourse1",
             "name":"Instructor3 Course1",
-            "email":"instructor3@course1.com"
+            "email":"instructor3@course1.com",
+            "role":"Co-owner",
+            "displayedName":"Co-owner",
+            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
         },
         "instructor3OfCourse2":{
             "googleId":"FSQTT.idOfInstructor3",
             "courseId":"FSQTT.idOfTypicalCourse2",
             "name":"Instructor3 Course2",
-            "email":"instructor3@course2.com"
+            "email":"instructor3@course2.com",
+            "role":"Co-owner",
+            "displayedName":"Co-owner",
+            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
         }
         
     },
@@ -231,7 +249,25 @@
             "feedbackSessionType":"STANDARD",
             "sentOpenEmail":true,
             "sentPublishedEmail":false
-        }		
+        },
+        "constSumSession":{
+            "feedbackSessionName":"CONSTSUM Session",
+            "courseId":"FSQTT.idOfTypicalCourse1",
+            "creatorEmail":"instructor1@course1.com",
+            "instructions":{
+                "value":"Please answer the following questions."
+            },
+            "createdTime":"2012-03-20 11:59 PM UTC",
+            "startTime":"2012-04-01 11:59 PM UTC",
+            "endTime":"2017-04-30 11:59 PM UTC",
+            "sessionVisibleFromTime":"2012-03-28 11:59 PM UTC",
+            "resultsVisibleFromTime":"2017-05-01 11:59 PM UTC",
+            "timeZone":2.0,
+            "gracePeriod":10,
+            "feedbackSessionType":"STANDARD",
+            "sentOpenEmail":true,
+            "sentPublishedEmail":false
+        }   	
     },
     "feedbackQuestions":{
         "qn1InSession1InCourse1":{
@@ -359,6 +395,57 @@
             "giverType":"INSTRUCTORS",
             "recipientType":"SELF",
             "numberOfEntitiesToGiveFeedbackTo":1,
+            "showResponsesTo":[
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo":[
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "INSTRUCTORS"
+            ]
+        },
+        "qn1InSession4InCourse1":{
+            "feedbackSessionName":"CONSTSUM Session",
+            "courseId":"FSQTT.idOfTypicalCourse1",
+            "creatorEmail":"instructor1@course1.com",
+            "questionMetaData":{
+                "value":"{\"questionText\":\"How important are the following factors to you? Give points accordingly.\",
+                          \"questionType\":\"CONSTSUM\", \"numOfConstSumOptions\" : 2,
+                          \"constSumOptions\" : [\"Grades\", \"Fun\"],\"distributeToRecipients\" : false,
+                           \"pointsPerOption\" : false, \"points\" : 100}"
+            },
+            "questionNumber":"1",
+            "questionType":"CONSTSUM",
+            "giverType":"STUDENTS",
+            "recipientType":"SELF",
+            "numberOfEntitiesToGiveFeedbackTo":1,
+            "showResponsesTo":[
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo":[
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "INSTRUCTORS"
+            ]
+            
+        },
+        "qn2InSession4InCourse1":{
+            "feedbackSessionName":"CONSTSUM Session",
+            "courseId":"FSQTT.idOfTypicalCourse1",
+            "creatorEmail":"instructor1@course1.com",
+            "questionMetaData":{
+                "value":"{\"questionText\":\"Split points among the teams\",
+                          \"questionType\":\"CONSTSUM\", \"numOfConstSumOptions\" : 0,
+                          \"constSumOptions\" : [],\"distributeToRecipients\" : true,
+                           \"pointsPerOption\" : true, \"points\" : 100}"
+            },
+            "questionNumber":"2",
+            "questionType":"CONSTSUM",
+            "giverType":"INSTRUCTORS",
+            "recipientType":"TEAMS",
+            "numberOfEntitiesToGiveFeedbackTo":2,
             "showResponsesTo":[
                 "INSTRUCTORS"
             ],
@@ -510,6 +597,50 @@
             "recipientEmail":"instructor2@course1.com",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"NUMSCALE\", \"answer\" : 1}"
+            }
+        },
+        "response1ForQ1S4C1":{
+            "feedbackSessionName":"CONSTSUM Session",
+            "courseId":"FSQTT.idOfTypicalCourse1",
+            "feedbackQuestionId":"1",
+            "feedbackQuestionType":"CONSTSUM",
+            "giverEmail":"student1InCourse1@gmail.com",
+            "recipientEmail":"student1InCourse1@gmail.com",
+            "responseMetaData":{
+                "value":"{\"questionType\" : \"CONSTSUM\", \"answers\" : [20, 80]}"
+            }
+        },
+        "response2ForQ1S4C1":{
+            "feedbackSessionName":"CONSTSUM Session",
+            "courseId":"FSQTT.idOfTypicalCourse1",
+            "feedbackQuestionId":"1",
+            "feedbackQuestionType":"CONSTSUM",
+            "giverEmail":"student2InCourse1@gmail.com",
+            "recipientEmail":"student2InCourse1@gmail.com",
+            "responseMetaData":{
+                "value":"{\"questionType\" : \"CONSTSUM\", \"answers\" : [80, 20]}"
+            }
+        },
+        "response1ForQ2S4C1":{
+            "feedbackSessionName":"CONSTSUM Session",
+            "courseId":"FSQTT.idOfTypicalCourse1",
+            "feedbackQuestionId":"2",
+            "feedbackQuestionType":"CONSTSUM",
+            "giverEmail":"instructor1@course1.com",
+            "recipientEmail":"Team 1.1",
+            "responseMetaData":{
+                "value":"{\"questionType\" : \"CONSTSUM\", \"answers\" : [80]}"
+            }
+        },
+        "response2ForQ2S4C1":{
+            "feedbackSessionName":"CONSTSUM Session",
+            "courseId":"FSQTT.idOfTypicalCourse1",
+            "feedbackQuestionId":"2",
+            "feedbackQuestionType":"CONSTSUM",
+            "giverEmail":"instructor2@course1.com",
+            "recipientEmail":"Team 1.2",
+            "responseMetaData":{
+                "value":"{\"questionType\" : \"CONSTSUM\",\"answers\" : [20]}"
             }
         }
     }

@@ -92,7 +92,7 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
         // should be checked at lower level methods
     }
 
-        @Test
+    @Test
     public void testGetSubmission() throws Exception {
 
         restoreTypicalDataInDatastore();

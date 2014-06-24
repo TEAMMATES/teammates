@@ -2,9 +2,12 @@ package teammates.storage.entity;
 
 import java.util.Date;
 
+import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
+
+import teammates.storage.entity.StudentProfile;
 
 /**
  * Represents a unique user in the system. 
@@ -30,6 +33,10 @@ public class Account {
 
     @Persistent
     private Date createdAt;
+    
+    @Persistent(dependent="true", defaultFetchGroup="false")
+    @Extension(vendorName="datanucleus", key="gae.unindexed", value="true")
+    private StudentProfile studentProfile;
 
     /**
      * Instantiates a new account. 
@@ -44,15 +51,24 @@ public class Account {
      *            The official email of the user.
      * @param institute
      *            The university/school/institute e.g., "Abrons State University, Alaska" 
+     * @param studentProfile
+     *            It is a StudentProfile object that contains all the attributes
+     *            of a student profile
      */
     public Account(String googleId, String name, boolean isInstructor,
-            String email, String institute) {
+            String email, String institute, StudentProfile studentProfile) {
         this.setGoogleId(googleId);
         this.setName(name);
         this.setIsInstructor(isInstructor);
         this.setEmail(email);
         this.setInstitute(institute);
         this.setCreatedAt(new Date());
+        this.setStudentProfile(studentProfile);
+    }
+
+    public Account(String googleId, String name, boolean isInstructor,
+            String email, String institute) {
+        this(googleId, name, isInstructor, email, institute, new StudentProfile(googleId));
     }
 
     public String getGoogleId() {
@@ -101,5 +117,14 @@ public class Account {
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
+    }
+    
+    public StudentProfile getStudentProfile() {
+        return this.studentProfile;
+    }
+    
+    public void setStudentProfile(StudentProfile studentProfile) {
+        this.studentProfile = studentProfile;
+        
     }
 }
