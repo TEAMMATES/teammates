@@ -5,6 +5,7 @@ import com.google.appengine.api.blobstore.UploadOptions;
 
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.UnauthorizedAccessException;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 
 public class StudentProfileCreateFormUrlAction extends Action {
@@ -16,7 +17,7 @@ public class StudentProfileCreateFormUrlAction extends Action {
         }
         
         UploadOptions uploadOptions = UploadOptions.Builder.withDefaults()
-                .googleStorageBucketName(Const.SystemParams.GCS_BUCKET_NAME)
+                .googleStorageBucketName(Config.GCS_BUCKETNAME)
                 .maxUploadSizeBytes(5000000);
         String formPostUrl = BlobstoreServiceFactory.getBlobstoreService()
                 .createUploadUrl(Const.ActionURIs.STUDENT_PROFILE_EDIT_SAVE, uploadOptions);
