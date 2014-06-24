@@ -45,8 +45,12 @@
         </div>
 
         <div class="alert alert-success">
-        Enrollment Successful. Summary given below. Click <a href="javascript:history.go(-1)" id="edit_enroll">here</a> 
-        to modify values and re-do the enrollment.
+        <form name='goBack' action="<%=data.getInstructorCourseEnrollLink(data.courseId)%>" method="post" role="form"> 
+            Enrollment Successful. Summary given below. Click <a id="edit_enroll" href="javascript:document.forms['goBack'].submit()">here</a> to modify values and re-do the enrollment.
+            
+        <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.courseId%>">
+        <input type="hidden" name="<%=Const.ParamsNames.STUDENTS_ENROLLMENT_INFO%>" value="<%=data.enrollStudents%>">
+        </form>
         </div>
         
         <%
@@ -73,19 +77,25 @@
                 <%=data.getMessageForEnrollmentStatus(i)%>
                 </div>
                 <table class="table table-striped table-bordered">
-                <tr>
+                <tr> 
+                    <% if(data.hasSection){ %>
+                        <th>Section</th>
+                    <% } %>
+                    <th>Team</th>
                     <th>Student Name</th>
                     <th>E-mail address</th>
-                    <th>Team</th>
                     <th>Comments</th>
                 </tr>
                 <%
                     for(StudentAttributes student: students){
                 %>
                     <tr>
+                        <% if(data.hasSection) { %>
+                            <td><%=sanitizeForHtml(student.section)%></td>
+                        <% } %>
+                        <td><%=sanitizeForHtml(student.team)%></td>
                         <td><%=sanitizeForHtml(student.name)%></td>
                         <td><%=sanitizeForHtml(student.email)%></td>
-                        <td><%=sanitizeForHtml(student.team)%></td>
                         <td><%=sanitizeForHtml(student.comments)%></td>
                     </tr>
                 <%

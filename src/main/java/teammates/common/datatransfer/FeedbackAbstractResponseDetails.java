@@ -1,6 +1,8 @@
 package teammates.common.datatransfer;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import teammates.common.util.Assumption;
 
@@ -19,7 +21,7 @@ public abstract class FeedbackAbstractResponseDetails {
     
     public abstract String getAnswerString();
     
-    public abstract String getAnswerHtml();
+    public abstract String getAnswerHtml(FeedbackAbstractQuestionDetails questionDetails);
     
     public abstract String getAnswerCsv(FeedbackAbstractQuestionDetails questionDetails);
     
@@ -49,6 +51,22 @@ public abstract class FeedbackAbstractResponseDetails {
             } catch (NumberFormatException e) {
                 responseDetails = null;
             }
+            break;
+        case CONSTSUM:
+            
+            List<Integer> constSumAnswer = new ArrayList<Integer>();
+            for(int i=0 ; i<answer.length ; i++){
+                try{
+                    constSumAnswer.add(Integer.parseInt(answer[i]));
+                } catch (NumberFormatException e) {
+                    constSumAnswer.add(0);
+                }
+            }
+            
+            FeedbackConstantSumQuestionDetails constSumQd = (FeedbackConstantSumQuestionDetails) questionDetails;
+            
+            responseDetails = new FeedbackConstantSumResponseDetails(constSumAnswer, constSumQd.constSumOptions, constSumQd.distributeToRecipients);
+            
             break;
         default:
             Assumption.fail("Question type not supported");

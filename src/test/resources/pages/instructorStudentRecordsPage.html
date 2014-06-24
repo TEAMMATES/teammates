@@ -1,208 +1,531 @@
-<html>
-      <head>
-         <link href="/favicon.png"  rel="shortcut icon" />
-                  <meta content="text/html; charset=UTF-8"  http-equiv="Content-Type" />
-                  <meta content="IE=edge"  http-equiv="X-UA-Compatible" />
-                  <meta content="width=device-width, initial-scale=1"  name="viewport" />
-                  <title>
-            TEAMMATES - Instructor
-         </title>
-         <!--{*}-->
-         <link href="/bootstrap/css/bootstrap.min.css"  rel="stylesheet" />
-                  <!--{*}-->
-         <link href="/bootstrap/css/bootstrap-theme.min.css"  rel="stylesheet" />
-                  <link href="/stylesheets/teammatesCommon.css"  media="screen"  rel="stylesheet"  type="text/css" />
-                  <script async=""  src="https://ssl.google-analytics.com/ga.js"  type="text/javascript" >
-         </script>
-         <script src="/js/googleAnalytics.js"  type="text/javascript" >
-         </script>
-         <script src="/js/jquery-minified.js"  type="text/javascript" >
-         </script>
-                  <script src="/js/common.js"  type="text/javascript" >
-         </script>
-         <script src="/js/instructor.js"  type="text/javascript" >
-         </script>
-         <script src="/js/instructorStudentRecords.js"  type="text/javascript" >
-         </script>
-         <script src="/js/additionalQuestionInfo.js"  type="text/javascript" >
-         </script>
-         <!--{*}-->
-         <script src="/bootstrap/js/bootstrap.min.js" >
-         </script>
-         <!--{*}-->
-         <!--{*}-->
-         <script type="text/javascript" >
-            var showCommentBox = "null";
-         </script>
-      </head>
-      <body onload="readyStudentRecordsPage();" >
-         <div class="navbar navbar-inverse navbar-fixed-top"  role="navigation" >
-            <div class="container" >
-               <div class="navbar-header" >
-                  <button class="navbar-toggle"  data-target="#contentLinks"  data-toggle="collapse"  type="button" >
-                     <span class="sr-only" >
-                        Toggle navigation
-                     </span>
-                     <span class="icon-bar" >
-                     </span>
-                     <span class="icon-bar" >
-                     </span>
-                     <span class="icon-bar" >
-                     </span>
+   <div class="container" id="frameBodyWrapper">
+      <div id="topOfPage">
+      </div>
+      <h2>
+         Benny Charlés's Records
+         <small class="muted">
+            - ISR.CS2104
+         </small>
+      </h2>
+      <br/>
+            <div id="statusMessage" style="display: none;">
+      </div>
+      <div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade" id="studentProfileMoreInfo" role="dialog">
+         <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
+                     ×
                   </button>
-                  <a class="navbar-brand"  href="/index.html" >
-                     TEAMMATES
-                  </a>
+                  <h4 class="modal-title">
+                     Emma's Profile - More Info
+                  </h4>
                </div>
-               <div class="collapse navbar-collapse"  id="contentLinks" >
-                  <ul class="nav navbar-nav" >
-                     <li class="" >
-                        <a class="nav home"  data-link="instructorHome"  href="/page/instructorHomePage?user=ISR.teammates.test" >
-                           Home
-                        </a>
-                     </li>
-                     <li class="" >
-                        <a class="nav courses"  data-link="instructorCourse"  href="/page/instructorCoursesPage?user=ISR.teammates.test" >
-                           Courses
-                        </a>
-                     </li>
-                     <li class="" >
-                        <a class="nav evaluations"  data-link="instructorEval"  href="/page/instructorEvalsPage?user=ISR.teammates.test" >
-                           Sessions
-                        </a>
-                     </li>
-                     <li class="active" >
-                        <a class="nav students"  data-link="instructorStudent"  href="/page/instructorStudentListPage?user=ISR.teammates.test" >
-                           Students
-                        </a>
-                     </li>
-                     <li>
-                        <a class="nav help"  href="/instructorHelp.html"  target="_blank" >
-                           Help
-                        </a>
-                     </li>
-                  </ul>
-                  <ul class="nav navbar-nav pull-right" >
-                     <li>
-                        <a class="nav logout"  href="/logout.jsp" >
-                           Logout
-                        
-                        (
-                           <span class="text-info"  data-original-title="ISR.teammates.test"  data-placement="bottom"  data-toggle="tooltip"  title="" >
-                              ISR.teammates.test
-                           </span>
-                           )
-                        </a>
-                     </li>
-                  </ul>
+               <div class="modal-body">
+                  <br/>
+                                    <pre class="pre-plain height-fixed-md">
+                     This is a lot of info!
+                  </pre>
+               </div>
+               <div class="modal-footer">
+                  <button class="btn btn-primary" data-dismiss="modal" type="button">
+                     Close
+                  </button>
                </div>
             </div>
          </div>
-         <div id="frameBody" >
-            <div id="frameBodyWrapper" class="container">
-               <div id="topOfPage" >
-               </div>
-               <h1>
-                  ISR.CS2104 - Benny Charlés's Records
-               </h1>
-               <br/>
-                              <div id="statusMessage"  style="display: none;" >
-               </div>
-               <div class="panel panel-info" >
-                  <div class="panel-heading" >
-                     Student Records Comment
+      </div>
+      <div class="container-fluid">
+         <div class="row">
+            <div class="col-xs-12">
+               <div class="row" id="studentProfile">
+                  <div class="col-md-2 col-xs-3 block-center">
+                     <img class="profile-pic pull-right" src="/images/profile_picture_default.png"/>
+                                       </div>
+                  <div class="col-md-10 col-sm-9 col-xs-8">
+                     <table class="table table-striped">
+                        <thead>
+                           <tr>
+                              <th colspan="2">
+                                 Profile
+                              </th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr>
+                              <td class="text-bold">
+                                 Shortname (Gender)
+                              </td>
+                              <td>
+                                 Ben 
+                                        (
+                                 <i>
+                                    male
+                                 </i>
+                                 )
+                              </td>
+                           </tr>
+                           <tr>
+                              <td class="text-bold">
+                                 Email
+                              </td>
+                              <td>
+                                 <i class="text-muted">
+                                    Undisclosed
+                                 </i>
+                              </td>
+                           </tr>
+                           <tr>
+                              <td class="text-bold">
+                                 Institution
+                              </td>
+                              <td>
+                                 NTU
+                              </td>
+                           </tr>
+                           <tr>
+                              <td class="text-bold">
+                                 Nationality
+                              </td>
+                              <td>
+                                 Singapore
+                              </td>
+                           </tr>
+                        </tbody>
+                     </table>
                   </div>
-                  <div class="panel-body" >
+               </div>
+               <div class="row">
+                  <div class="col-xs-12">
+                     <div class="panel panel-default">
+                        <div class="panel-body">
+                           <span class="text-muted pull-right glyphicon glyphicon-resize-full cursor-pointer" data-target="#studentProfileMoreInfo" data-toggle="modal">
+                           </span>
+                           <h5>
+                              More Info
+                           </h5>
+                           <pre class="pre-plain height-fixed-md">
+                              This is a lot of info!
+                           </pre>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="row">
+            <div class="col-md-12">
+               <div class="panel panel-info">
+                  <div class="panel-heading" id="studentComments">
+                     Comments for Benny Charlés
+                  </div>
+                  <div class="panel-body">
                      Your comments on this student:
-                     <button class="btn btn-default btn-xs icon-button pull-right"  data-original-title="Add comment"  data-placement="top"  data-toggle="tooltip"  id="button_add_comment"  onclick="showAddCommentBox();"  title=""  type="button" >
-                        <span class="glyphicon glyphicon-comment glyphicon-primary" >
+                     <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showAddCommentBox();" title="" type="button">
+                        <span class="glyphicon glyphicon-comment glyphicon-primary">
                         </span>
                      </button>
-                     <ul class="list-group"  style="margin-top:15px;" >
-                        <li class="list-group-item list-group-item-warning" >
-                           <form action="/page/instructorStudentCommentEdit"  class="form_comment"  id="form_commentedit-0"  method="post"  name="form_commentedit" >
-                              <div id="commentBar0" >
-                                 <span class="text-muted" >
+                     <ul class="list-group" style="margin-top:15px;">
+                        <li class="list-group-item list-group-item-warning">
+                           <form action="/page/instructorStudentCommentEdit" class="form_comment" id="form_commentedit-0" method="post" name="form_commentedit">
+                              <div id="commentBar0">
+                                 <span class="text-muted">
                                     01 Jun 2012, 19:20
                                  </span>
-                                 <a class="btn btn-default btn-xs icon-button pull-right"  data-original-title="Delete this comment"  data-placement="top"  data-toggle="tooltip"  id="commentdelete-0"  onclick="return deleteComment('0');"  title=""  type="button" >
-                                    <span class="glyphicon glyphicon-trash glyphicon-primary" >
+                                 <a class="btn btn-default btn-xs icon-button pull-right" data-original-title="Delete this comment" data-placement="top" data-toggle="tooltip" id="commentdelete-0" onclick="return deleteComment('0');" title="" type="button">
+                                    <span class="glyphicon glyphicon-trash glyphicon-primary">
                                     </span>
                                  </a>
-                                 <a class="btn btn-default btn-xs icon-button pull-right"  data-original-title="Edit this comment"  data-placement="top"  data-toggle="tooltip"  id="commentedit-0"  onclick="return enableEdit('0', '2');"  title=""  type="button" >
-                                    <span class="glyphicon glyphicon-pencil glyphicon-primary" >
+                                 <a class="btn btn-default btn-xs icon-button pull-right" data-original-title="Edit this comment" data-placement="top" data-toggle="tooltip" id="commentedit-0" onclick="return enableEdit('0', '2');" title="" type="button">
+                                    <span class="glyphicon glyphicon-pencil glyphicon-primary">
                                     </span>
                                  </a>
                               </div>
-                              <div id="plainCommentText0" >
+                              <div id="plainCommentText0">
                                  Comment 2 from ISR.CS2104 teammates.test Instructor to Benny
                               </div>
-                              <div id="commentTextEdit0"  style="display:none;" >
-                                 <div class="form-group" >
-                                    <textarea class="form-control"  id="commentText0"  name="commenttext"  placeholder="Your comment about this student"  rows="3" >
+                              <div id="commentTextEdit0" style="display:none;">
+                                 <div class="form-group form-inline">
+                                    <div class="form-group text-muted">
+                                       You may change comment's visibility using the visibility options on the right hand side.
+                                    </div>
+                                    <a class="btn btn-sm btn-info pull-right" id="visibility-options-trigger0">
+                                       <span class="glyphicon glyphicon-eye-close">
+                                       </span>
+                                       Show Visibility Options
+                                    </a>
+                                 </div>
+                                 <div class="panel panel-default" id="visibility-options0" style="display: none;">
+                                    <div class="panel-heading">
+                                       Visibility Options
+                                    </div>
+                                    <table class="table text-center" style="color:#000;">
+                                       <tbody>
+                                          <tr>
+                                             <th class="text-center">
+                                                User/Group
+                                             </th>
+                                             <th class="text-center">
+                                                Can see
+                                                    your comment
+                                             </th>
+                                             <th class="text-center">
+                                                Can see
+                                                    giver's name
+                                             </th>
+                                             <th class="text-center">
+                                                Can see
+                                                    recipient's name
+                                             </th>
+                                          </tr>
+                                          <tr id="recipient-person0">
+                                             <td class="text-left">
+                                                <div data-original-title="Control what comment recipient(s) can view" data-placement="top" data-toggle="tooltip" title="">
+                                                   Recipient(s)
+                                                </div>
+                                             </td>
+                                             <td>
+                                                <input class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="PERSON"/>
+                                                                                             </td>
+                                             <td>
+                                                <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="PERSON"/>
+                                                                                             </td>
+                                             <td>
+                                                <input class="visibilityCheckbox recipientCheckbox" disabled="disabled" name="receiverFollowerCheckbox" type="checkbox" value="PERSON"/>
+                                                                                             </td>
+                                          </tr>
+                                          <tr id="recipient-team0">
+                                             <td class="text-left">
+                                                <div data-original-title="Control what team members of comment recipients can view" data-placement="top" data-toggle="tooltip" title="">
+                                                   Recipient's Team
+                                                </div>
+                                             </td>
+                                             <td>
+                                                <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="TEAM"/>
+                                                                                             </td>
+                                             <td>
+                                                <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="TEAM"/>
+                                                                                             </td>
+                                             <td>
+                                                <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="TEAM"/>
+                                                                                             </td>
+                                          </tr>
+                                          <tr id="recipient-course0">
+                                             <td class="text-left">
+                                                <div data-original-title="Control what other students in this course can view" data-placement="top" data-toggle="tooltip" title="">
+                                                   Other students in this course
+                                                </div>
+                                             </td>
+                                             <td>
+                                                <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="COURSE"/>
+                                                                                             </td>
+                                             <td>
+                                                <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="COURSE"/>
+                                                                                             </td>
+                                             <td>
+                                                <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="COURSE"/>
+                                                                                             </td>
+                                          </tr>
+                                          <tr>
+                                             <td class="text-left">
+                                                <div data-original-title="Control what instructors can view" data-placement="top" data-toggle="tooltip" title="">
+                                                   Instructors
+                                                </div>
+                                             </td>
+                                             <td>
+                                                <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTOR"/>
+                                                                                             </td>
+                                             <td>
+                                                <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTOR"/>
+                                                                                             </td>
+                                             <td>
+                                                <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="INSTRUCTOR"/>
+                                                                                             </td>
+                                          </tr>
+                                       </tbody>
+                                    </table>
+                                 </div>
+                                 <div class="form-group">
+                                    <textarea class="form-control" id="commentText0" name="commenttext" placeholder="Your comment about this student" rows="3">
                                        Comment 2 from ISR.CS2104 teammates.test Instructor to Benny
                                     </textarea>
                                  </div>
-                                 <div class="col-sm-offset-5" >
-                                    <input class="btn btn-primary"  id="commentsave-0"  onclick="return submitCommentForm('0');"  title="Save comment"  type="submit"  value="Save" />
-                                                                        <input class="btn btn-default"  onclick="return disableComment('0');"  type="button"  value="Cancel" />
+                                 <div class="col-sm-offset-5">
+                                    <input class="btn btn-primary" id="commentsave-0" onclick="return submitCommentForm('0');" title="Save comment" type="submit" value="Save"/>
+                                                                        <input class="btn btn-default" onclick="return disableComment('0');" type="button" value="Cancel"/>
                                                                      </div>
                               </div>
-                              <input id="commentedittype-0"  name="commentedittype"  type="hidden"  value="edit" />
-                                                            <input name="commentid"  type="hidden"  value="{*}" />
-                                                            <input name="courseid"  type="hidden"  value="ISR.CS2104" />
-                                                            <input name="studentemail"  type="hidden"  value="benny.c.tmms@gmail.com" />
-                                                            <input name="user"  type="hidden"  value="ISR.teammates.test" />
+                              <input id="commentedittype-0" name="commentedittype" type="hidden" value="edit"/>
+                                                            <input name="commentid" type="hidden" value="{*}"/>
+                                                            <input name="courseid" type="hidden" value="ISR.CS2104"/>
+                                                            <input name="studentemail" type="hidden" value="benny.c.tmms@gmail.com"/>
+                                                            <input name="recipienttype" type="hidden" value="PERSON"/>
+                                                            <input name="recipients" type="hidden" value="benny.c.tmms@gmail.com"/>
+                                                            <input name="showcommentsto" type="hidden" value=""/>
+                                                            <input name="showgiverto" type="hidden" value=""/>
+                                                            <input name="showrecipientto" type="hidden" value=""/>
+                                                            <input name="user" type="hidden" value="ISR.teammates.test"/>
                                                          </form>
                         </li>
-                        <li class="list-group-item list-group-item-warning" >
-                           <form action="/page/instructorStudentCommentEdit"  class="form_comment"  id="form_commentedit-1"  method="post"  name="form_commentedit" >
-                              <div id="commentBar1" >
-                                 <span class="text-muted" >
+                        <li class="list-group-item list-group-item-warning">
+                           <form action="/page/instructorStudentCommentEdit" class="form_comment" id="form_commentedit-1" method="post" name="form_commentedit">
+                              <div id="commentBar1">
+                                 <span class="text-muted">
                                     01 May 2012, 08:51
                                  </span>
-                                 <a class="btn btn-default btn-xs icon-button pull-right"  data-original-title="Delete this comment"  data-placement="top"  data-toggle="tooltip"  id="commentdelete-1"  onclick="return deleteComment('1');"  title=""  type="button" >
-                                    <span class="glyphicon glyphicon-trash glyphicon-primary" >
+                                 <a class="btn btn-default btn-xs icon-button pull-right" data-original-title="Delete this comment" data-placement="top" data-toggle="tooltip" id="commentdelete-1" onclick="return deleteComment('1');" title="" type="button">
+                                    <span class="glyphicon glyphicon-trash glyphicon-primary">
                                     </span>
                                  </a>
-                                 <a class="btn btn-default btn-xs icon-button pull-right"  data-original-title="Edit this comment"  data-placement="top"  data-toggle="tooltip"  id="commentedit-1"  onclick="return enableEdit('1', '2');"  title=""  type="button" >
-                                    <span class="glyphicon glyphicon-pencil glyphicon-primary" >
+                                 <a class="btn btn-default btn-xs icon-button pull-right" data-original-title="Edit this comment" data-placement="top" data-toggle="tooltip" id="commentedit-1" onclick="return enableEdit('1', '2');" title="" type="button">
+                                    <span class="glyphicon glyphicon-pencil glyphicon-primary">
                                     </span>
                                  </a>
                               </div>
-                              <div id="plainCommentText1" >
+                              <div id="plainCommentText1">
                                  Comment 1 from ISR.CS2104 teammates.test Instructor to Benny
                               </div>
-                              <div id="commentTextEdit1"  style="display:none;" >
-                                 <div class="form-group" >
-                                    <textarea class="form-control"  id="commentText1"  name="commenttext"  placeholder="Your comment about this student"  rows="3" >
+                              <div id="commentTextEdit1" style="display:none;">
+                                 <div class="form-group form-inline">
+                                    <div class="form-group text-muted">
+                                       You may change comment's visibility using the visibility options on the right hand side.
+                                    </div>
+                                    <a class="btn btn-sm btn-info pull-right" id="visibility-options-trigger1">
+                                       <span class="glyphicon glyphicon-eye-close">
+                                       </span>
+                                       Show Visibility Options
+                                    </a>
+                                 </div>
+                                 <div class="panel panel-default" id="visibility-options1" style="display: none;">
+                                    <div class="panel-heading">
+                                       Visibility Options
+                                    </div>
+                                    <table class="table text-center" style="color:#000;">
+                                       <tbody>
+                                          <tr>
+                                             <th class="text-center">
+                                                User/Group
+                                             </th>
+                                             <th class="text-center">
+                                                Can see
+                                                    your comment
+                                             </th>
+                                             <th class="text-center">
+                                                Can see
+                                                    giver's name
+                                             </th>
+                                             <th class="text-center">
+                                                Can see
+                                                    recipient's name
+                                             </th>
+                                          </tr>
+                                          <tr id="recipient-person1">
+                                             <td class="text-left">
+                                                <div data-original-title="Control what comment recipient(s) can view" data-placement="top" data-toggle="tooltip" title="">
+                                                   Recipient(s)
+                                                </div>
+                                             </td>
+                                             <td>
+                                                <input class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="PERSON"/>
+                                                                                             </td>
+                                             <td>
+                                                <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="PERSON"/>
+                                                                                             </td>
+                                             <td>
+                                                <input class="visibilityCheckbox recipientCheckbox" disabled="disabled" name="receiverFollowerCheckbox" type="checkbox" value="PERSON"/>
+                                                                                             </td>
+                                          </tr>
+                                          <tr id="recipient-team1">
+                                             <td class="text-left">
+                                                <div data-original-title="Control what team members of comment recipients can view" data-placement="top" data-toggle="tooltip" title="">
+                                                   Recipient's Team
+                                                </div>
+                                             </td>
+                                             <td>
+                                                <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="TEAM"/>
+                                                                                             </td>
+                                             <td>
+                                                <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="TEAM"/>
+                                                                                             </td>
+                                             <td>
+                                                <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="TEAM"/>
+                                                                                             </td>
+                                          </tr>
+                                          <tr id="recipient-course1">
+                                             <td class="text-left">
+                                                <div data-original-title="Control what other students in this course can view" data-placement="top" data-toggle="tooltip" title="">
+                                                   Other students in this course
+                                                </div>
+                                             </td>
+                                             <td>
+                                                <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="COURSE"/>
+                                                                                             </td>
+                                             <td>
+                                                <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="COURSE"/>
+                                                                                             </td>
+                                             <td>
+                                                <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="COURSE"/>
+                                                                                             </td>
+                                          </tr>
+                                          <tr>
+                                             <td class="text-left">
+                                                <div data-original-title="Control what instructors can view" data-placement="top" data-toggle="tooltip" title="">
+                                                   Instructors
+                                                </div>
+                                             </td>
+                                             <td>
+                                                <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTOR"/>
+                                                                                             </td>
+                                             <td>
+                                                <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTOR"/>
+                                                                                             </td>
+                                             <td>
+                                                <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="INSTRUCTOR"/>
+                                                                                             </td>
+                                          </tr>
+                                       </tbody>
+                                    </table>
+                                 </div>
+                                 <div class="form-group">
+                                    <textarea class="form-control" id="commentText1" name="commenttext" placeholder="Your comment about this student" rows="3">
                                        Comment 1 from ISR.CS2104 teammates.test Instructor to Benny
                                     </textarea>
                                  </div>
-                                 <div class="col-sm-offset-5" >
-                                    <input class="btn btn-primary"  id="commentsave-1"  onclick="return submitCommentForm('1');"  title="Save comment"  type="submit"  value="Save" />
-                                                                        <input class="btn btn-default"  onclick="return disableComment('1');"  type="button"  value="Cancel" />
+                                 <div class="col-sm-offset-5">
+                                    <input class="btn btn-primary" id="commentsave-1" onclick="return submitCommentForm('1');" title="Save comment" type="submit" value="Save"/>
+                                                                        <input class="btn btn-default" onclick="return disableComment('1');" type="button" value="Cancel"/>
                                                                      </div>
                               </div>
-                              <input id="commentedittype-1"  name="commentedittype"  type="hidden"  value="edit" />
-                                                            <input name="commentid"  type="hidden"  value="{*}" />
-                                                            <input name="courseid"  type="hidden"  value="ISR.CS2104" />
-                                                            <input name="studentemail"  type="hidden"  value="benny.c.tmms@gmail.com" />
-                                                            <input name="user"  type="hidden"  value="ISR.teammates.test" />
+                              <input id="commentedittype-1" name="commentedittype" type="hidden" value="edit"/>
+                                                            <input name="commentid" type="hidden" value="{*}"/>
+                                                            <input name="courseid" type="hidden" value="ISR.CS2104"/>
+                                                            <input name="studentemail" type="hidden" value="benny.c.tmms@gmail.com"/>
+                                                            <input name="recipienttype" type="hidden" value="PERSON"/>
+                                                            <input name="recipients" type="hidden" value="benny.c.tmms@gmail.com"/>
+                                                            <input name="showcommentsto" type="hidden" value=""/>
+                                                            <input name="showgiverto" type="hidden" value=""/>
+                                                            <input name="showrecipientto" type="hidden" value=""/>
+                                                            <input name="user" type="hidden" value="ISR.teammates.test"/>
                                                          </form>
                         </li>
-                        <li class="list-group-item list-group-item-warning"  id="comment_box"  style="display:none;" >
-                           <form action="/page/instructorStudentCommentAdd"  class="form_comment"  method="post"  name="form_commentadd" >
-                              <div class="form-group" >
-                                 <textarea class="form-control"  id="commentText"  name="commenttext"  placeholder="Your comment about this student"  rows="3" >
+                        <li class="list-group-item list-group-item-warning" id="comment_box" style="display:none;">
+                           <form action="/page/instructorStudentCommentAdd" class="form_comment" method="post" name="form_commentadd">
+                              <div class="form-group form-inline">
+                                 <div class="form-group text-muted">
+                                    The default visibility for your comment is private. You may change it using the visibility options.
+                                 </div>
+                                 <a class="btn btn-sm btn-info pull-right" id="visibility-options-trigger1">
+                                    <span class="glyphicon glyphicon-eye-close">
+                                    </span>
+                                    Show Visibility Options
+                                 </a>
+                              </div>
+                              <div class="panel panel-default" id="visibility-options1" style="display: none;">
+                                 <div class="panel-heading">
+                                    Visibility Options
+                                 </div>
+                                 <table class="table text-center" style="color:#000;">
+                                    <tbody>
+                                       <tr>
+                                          <th class="text-center">
+                                             User/Group
+                                          </th>
+                                          <th class="text-center">
+                                             Can see
+                                                    your comment
+                                          </th>
+                                          <th class="text-center">
+                                             Can see
+                                                    giver's name
+                                          </th>
+                                          <th class="text-center">
+                                             Can see
+                                                    recipient's name
+                                          </th>
+                                       </tr>
+                                       <tr id="recipient-person1">
+                                          <td class="text-left">
+                                             <div data-original-title="Control what comment recipient(s) can view" data-placement="top" data-toggle="tooltip" title="">
+                                                Recipient(s)
+                                             </div>
+                                          </td>
+                                          <td>
+                                             <input class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="PERSON"/>
+                                                                                       </td>
+                                          <td>
+                                             <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="PERSON"/>
+                                                                                       </td>
+                                          <td>
+                                             <input class="visibilityCheckbox recipientCheckbox" disabled="disabled" name="receiverFollowerCheckbox" type="checkbox" value="PERSON"/>
+                                                                                       </td>
+                                       </tr>
+                                       <tr id="recipient-team1">
+                                          <td class="text-left">
+                                             <div data-original-title="Control what team members of comment recipients can view" data-placement="top" data-toggle="tooltip" title="">
+                                                Recipient's Team
+                                             </div>
+                                          </td>
+                                          <td>
+                                             <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="TEAM"/>
+                                                                                       </td>
+                                          <td>
+                                             <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="TEAM"/>
+                                                                                       </td>
+                                          <td>
+                                             <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="TEAM"/>
+                                                                                       </td>
+                                       </tr>
+                                       <tr id="recipient-course1">
+                                          <td class="text-left">
+                                             <div data-original-title="Control what other students in this course can view" data-placement="top" data-toggle="tooltip" title="">
+                                                Other students in this course
+                                             </div>
+                                          </td>
+                                          <td>
+                                             <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="COURSE"/>
+                                                                                       </td>
+                                          <td>
+                                             <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="COURSE"/>
+                                                                                       </td>
+                                          <td>
+                                             <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="COURSE"/>
+                                                                                       </td>
+                                       </tr>
+                                       <tr>
+                                          <td class="text-left">
+                                             <div data-original-title="Control what instructors can view" data-placement="top" data-toggle="tooltip" title="">
+                                                Instructors
+                                             </div>
+                                          </td>
+                                          <td>
+                                             <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTOR"/>
+                                                                                       </td>
+                                          <td>
+                                             <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTOR"/>
+                                                                                       </td>
+                                          <td>
+                                             <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="INSTRUCTOR"/>
+                                                                                       </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </div>
+                              <div class="form-group">
+                                 <textarea class="form-control" id="commentText" name="commenttext" placeholder="Your comment about this student" rows="3">
                                  </textarea>
                               </div>
-                              <div class="col-sm-offset-5" >
-                                 <input class="btn btn-primary"  id="button_save_comment"  type="submit"  value="Add Comment" />
-                                                                  <input class="btn btn-default"  onclick="hideAddCommentBox();"  type="button"  value="Cancel" />
-                                                                  <input name="courseid"  type="hidden"  value="ISR.CS2104" />
-                                                                  <input name="studentemail"  type="hidden"  value="benny.c.tmms@gmail.com" />
-                                                                  <input name="user"  type="hidden"  value="ISR.teammates.test" />
+                              <div class="col-sm-offset-5">
+                                 <input class="btn btn-primary" id="button_save_comment" type="submit" value="Add Comment"/>
+                                                                  <input class="btn btn-default" onclick="hideAddCommentBox();" type="button" value="Cancel"/>
+                                                                  <input name="courseid" type="hidden" value="ISR.CS2104"/>
+                                                                  <input name="studentemail" type="hidden" value="benny.c.tmms@gmail.com"/>
+                                                                  <input name="user" type="hidden" value="ISR.teammates.test"/>
+                                                                  <input name="recipienttype" type="hidden" value="PERSON"/>
+                                                                  <input name="recipients" type="hidden" value="benny.c.tmms@gmail.com"/>
+                                                                  <input name="showcommentsto" type="hidden" value=""/>
+                                                                  <input name="showgiverto" type="hidden" value=""/>
+                                                                  <input name="showrecipientto" type="hidden" value=""/>
+                                                                  <input name="user" type="hidden" value="ISR.teammates.test"/>
                                                                </div>
                            </form>
                         </li>
@@ -210,47 +533,47 @@
                   </div>
                </div>
                <br/>
-                              <div class="well well-plain student_feedback"  id="studentFeedback-0" >
-                  <div class="text-primary" >
-                     <h2 id="feedback_name-0" >
+                              <div class="well well-plain student_feedback" id="studentFeedback-0">
+                  <div class="text-primary">
+                     <h2 id="feedback_name-0">
                         <strong>
                            Feedback Session Name: First feedback session
                         </strong>
                      </h2>
                   </div>
                   <br/>
-                                    <div class="panel panel-primary" >
-                     <div class="panel-heading" >
+                                    <div class="panel panel-primary">
+                     <div class="panel-heading">
                         To:
                         <strong>
                            Benny Charlés (Team 1)
                         </strong>
                      </div>
-                     <div class="panel-body" >
-                        <div class="row " >
-                           <div class="col-md-2" >
+                     <div class="panel-body">
+                        <div class="row ">
+                           <div class="col-md-2">
                               <strong>
                                  From: Alice Betsy (Team 2)
                               </strong>
                            </div>
-                           <div class="col-md-10" >
-                              <div class="panel panel-info" >
-                                 <div class="panel-heading" >
+                           <div class="col-md-10">
+                              <div class="panel panel-info">
+                                 <div class="panel-heading">
                                     Question 2: Rate 5 other students' products
                                  </div>
-                                 <div class="panel-body" >
+                                 <div class="panel-body">
                                     Benny is a good student.
-                                    <ul class="list-group comment-list" >
-                                       <li class="list-group-item list-group-item-warning" >
-                                          <span class="text-muted" >
+                                    <ul class="list-group comment-list">
+                                       <li class="list-group-item list-group-item-warning">
+                                          <span class="text-muted">
                                              From: teammates.test@gmail.com [Tue Mar 01 23:59:00 UTC 2016]
                                           </span>
                                           <div>
                                              Instructor first comment to Alice about feedback to Benny
                                           </div>
                                        </li>
-                                       <li class="list-group-item list-group-item-warning" >
-                                          <span class="text-muted" >
+                                       <li class="list-group-item list-group-item-warning">
+                                          <span class="text-muted">
                                              From: teammates.test@gmail.com [Wed Mar 02 23:59:00 UTC 2016]
                                           </span>
                                           <div>
@@ -265,44 +588,44 @@
                         <br/>
                                              </div>
                   </div>
-                  <div class="panel panel-primary" >
-                     <div class="panel-heading" >
+                  <div class="panel panel-primary">
+                     <div class="panel-heading">
                         From:
                         <strong>
                            Benny Charlés (Team 1)
                         </strong>
                      </div>
-                     <div class="panel-body" >
-                        <div class="row " >
-                           <div class="col-md-2" >
+                     <div class="panel-body">
+                        <div class="row ">
+                           <div class="col-md-2">
                               <strong>
                                  To: Charlie Davis (Team 1)
                               </strong>
                            </div>
-                           <div class="col-md-10" >
-                              <div class="panel panel-info" >
-                                 <div class="panel-heading" >
+                           <div class="col-md-10">
+                              <div class="panel panel-info">
+                                 <div class="panel-heading">
                                     Question 2: Rate 5 other students' products
                                  </div>
-                                 <div class="panel-body" >
+                                 <div class="panel-body">
                                     Charlie did alot of work.
                                  </div>
                               </div>
                            </div>
                         </div>
                         <br/>
-                                                <div class="row border-top-gray" >
-                           <div class="col-md-2" >
+                                                <div class="row border-top-gray">
+                           <div class="col-md-2">
                               <strong>
                                  To: Danny Engrid (Team 2)
                               </strong>
                            </div>
-                           <div class="col-md-10" >
-                              <div class="panel panel-info" >
-                                 <div class="panel-heading" >
+                           <div class="col-md-10">
+                              <div class="panel panel-info">
+                                 <div class="panel-heading">
                                     Question 2: Rate 5 other students' products
                                  </div>
-                                 <div class="panel-body" >
+                                 <div class="panel-body">
                                     Danny starts with D.
                                  </div>
                               </div>
@@ -313,51 +636,51 @@
                   </div>
                </div>
                <br/>
-                              <div class="well well-plain student_eval"  id="studentEval-0" >
-                  <div class="text-primary" >
-                     <h2 id="eval_name-0" >
+                              <div class="well well-plain student_eval" id="studentEval-0">
+                  <div class="text-primary">
+                     <h2 id="eval_name-0">
                         Evaluation Name: First Eval
                      </h2>
                   </div>
                   <h3>
-                     <span class="label label-primary" >
+                     <span class="label label-primary">
                         Result
                      </span>
                   </h3>
-                  <div class="panel panel-primary" >
-                     <table class="table panel-heading" >
+                  <div class="panel panel-primary">
+                     <table class="table panel-heading">
                         <tbody>
                            <tr>
-                              <td class="col-sm-4" >
+                              <td class="col-sm-4">
                                  Reviewee:
                                  <strong>
                                     Benny Charlés
                                  </strong>
                               </td>
-                              <td class="col-sm-4" >
-                                 <div class="pull-right" >
-                                    <span data-original-title="This is student own estimation of his/her contributions to the project"  data-placement="top"  data-toggle="tooltip"  title="" >
+                              <td class="col-sm-4">
+                                 <div class="pull-right">
+                                    <span data-original-title="This is student own estimation of his/her contributions to the project" data-placement="top" data-toggle="tooltip" title="">
                                        Claimed Contribution:
                                     </span>
-                                    <span class="badge background-color-white color-negative" >
+                                    <span class="badge background-color-white color-negative">
                                        N/A
                                     </span>
                                  </div>
                               </td>
-                              <td class="col-sm-4" >
-                                 <div class="pull-right" >
-                                    <span data-original-title="This is the average of what other team members think this student contributed to the project"  data-placement="top"  data-toggle="tooltip"  title="" >
+                              <td class="col-sm-4">
+                                 <div class="pull-right">
+                                    <span data-original-title="This is the average of what other team members think this student contributed to the project" data-placement="top" data-toggle="tooltip" title="">
                                        Perceived Contribution:
                                     </span>
-                                    <span class="badge background-color-white color-positive" >
-                                      E +5%
+                                    <span class="badge background-color-white color-positive">
+                                       E +5%
                                     </span>
                                  </div>
                               </td>
                            </tr>
                         </tbody>
                      </table>
-                     <table class="table" >
+                     <table class="table">
                         <tbody>
                            <tr>
                               <td>
@@ -379,34 +702,34 @@
                            </tr>
                         </tbody>
                      </table>
-                     <table class="table" >
+                     <table class="table">
                         <tbody>
-                           <tr class="fill-primary" >
+                           <tr class="fill-primary">
                               <td>
                                  Feedback from others
                               </td>
                            </tr>
                         </tbody>
                      </table>
-                     <table class="table table-bordered table-striped" >
+                     <table class="table table-bordered table-striped">
                         <thead>
-                           <tr class="border-top-gray fill-info" >
-                              <td width="15%" >
+                           <tr class="border-top-gray fill-info">
+                              <td width="15%">
                                  <strong>
                                     From student
                                  </strong>
                               </td>
-                              <td width="5%" >
+                              <td width="5%">
                                  <strong>
                                     Contribution
                                  </strong>
                               </td>
-                              <td width="40%" >
+                              <td width="40%">
                                  <strong>
                                     Confidential comments
                                  </strong>
                               </td>
-                              <td width="40%" >
+                              <td width="40%">
                                  <strong>
                                     Feedback to peer
                                  </strong>
@@ -421,7 +744,7 @@
                                  </b>
                               </td>
                               <td>
-                                 <span class="badge background-color-white color-positive" >
+                                 <span class="badge background-color-white color-positive">
                                     E
                                  </span>
                               </td>
@@ -439,7 +762,7 @@
                                  </b>
                               </td>
                               <td>
-                                                                  <span class="badge background-color-white color-positive" >
+                                 <span class="badge background-color-white color-positive">
                                     E +10%
                                  </span>
                               </td>
@@ -454,36 +777,36 @@
                      </table>
                   </div>
                   <h3>
-                     <span class="label label-default" >
+                     <span class="label label-default">
                         Submission
                      </span>
                   </h3>
-                  <div class="panel panel-default" >
-                     <table class="table panel-heading" >
+                  <div class="panel panel-default">
+                     <table class="table panel-heading">
                         <tbody>
                            <tr>
-                              <td class="col-sm-4" >
+                              <td class="col-sm-4">
                                  Reviewer:
                                  <strong>
                                     Benny Charlés
                                  </strong>
                               </td>
-                              <td class="col-sm-4" >
-                                 <div class="pull-right" >
-                                    <span data-original-title="This is student own estimation of his/her contributions to the project"  data-placement="top"  data-toggle="tooltip"  title="" >
+                              <td class="col-sm-4">
+                                 <div class="pull-right">
+                                    <span data-original-title="This is student own estimation of his/her contributions to the project" data-placement="top" data-toggle="tooltip" title="">
                                        Claimed Contribution:
                                     </span>
-                                    <span class="badge background-color-white color-negative" >
+                                    <span class="badge background-color-white color-negative">
                                        N/A
                                     </span>
                                  </div>
                               </td>
-                              <td class="col-sm-4" >
-                                 <div class="pull-right" >
-                                    <span data-original-title="This is the average of what other team members think this student contributed to the project"  data-placement="top"  data-toggle="tooltip"  title="" >
+                              <td class="col-sm-4">
+                                 <div class="pull-right">
+                                    <span data-original-title="This is the average of what other team members think this student contributed to the project" data-placement="top" data-toggle="tooltip" title="">
                                        Perceived Contribution:
                                     </span>
-                                    <span class="badge background-color-white color-positive" >
+                                    <span class="badge background-color-white color-positive">
                                        E +5%
                                     </span>
                                  </div>
@@ -491,7 +814,7 @@
                            </tr>
                         </tbody>
                      </table>
-                     <table class="table" >
+                     <table class="table">
                         <tbody>
                            <tr>
                               <td>
@@ -513,30 +836,30 @@
                            </tr>
                         </tbody>
                      </table>
-                     <div class="panel-heading panel-default" >
-                        <div style="margin-left:-5px" >
+                     <div class="panel-heading panel-default">
+                        <div style="margin-left:-5px">
                            Feedback to others
                         </div>
                      </div>
-                     <table class="table table-bordered table-striped" >
+                     <table class="table table-bordered table-striped">
                         <thead>
-                           <tr class="border-top-gray " >
-                              <td width="15%" >
+                           <tr class="border-top-gray ">
+                              <td width="15%">
                                  <strong>
                                     To student
                                  </strong>
                               </td>
-                              <td width="5%" >
+                              <td width="5%">
                                  <strong>
                                     Contribution
                                  </strong>
                               </td>
-                              <td width="40%" >
+                              <td width="40%">
                                  <strong>
                                     Confidential comments
                                  </strong>
                               </td>
-                              <td width="40%" >
+                              <td width="40%">
                                  <strong>
                                     Feedback to peer
                                  </strong>
@@ -551,7 +874,7 @@
                                  </b>
                               </td>
                               <td>
-                                                                  <span class="badge background-color-white color-negative" >
+                                 <span class="badge background-color-white color-negative">
                                     E -5%
                                  </span>
                               </td>
@@ -569,7 +892,7 @@
                                  </b>
                               </td>
                               <td>
-                                                                  <span class="badge background-color-white color-positive" >
+                                 <span class="badge background-color-white color-positive">
                                     E +5%
                                  </span>
                               </td>
@@ -583,90 +906,90 @@
                         </tbody>
                      </table>
                   </div>
-                  <div class="align-center" >
-                     <input class="btn btn-primary"  id="button_edit-0"  onclick="window.location.href='/page/instructorEvalSubmissionEdit?courseid=ISR.CS2104&evaluationname=First+Eval&studentemail=benny.c.tmms%40gmail.com&user=ISR.teammates.test'"  type="button"  value="Edit Submission" />
+                  <div class="align-center">
+                     <input class="btn btn-primary" id="button_edit-0" onclick="window.location.href='/page/instructorEvalSubmissionEdit?courseid=ISR.CS2104&evaluationname=First+Eval&studentemail=benny.c.tmms%40gmail.com&user=ISR.teammates.test'" type="button" value="Edit Submission"/>
                                        </div>
                </div>
                <br/>
-                              <div class="well well-plain student_feedback"  id="studentFeedback-1" >
-                  <div class="text-primary" >
-                     <h2 id="feedback_name-1" >
+                              <div class="well well-plain student_feedback" id="studentFeedback-1">
+                  <div class="text-primary">
+                     <h2 id="feedback_name-1">
                         <strong>
                            Feedback Session Name: Second feedback session
                         </strong>
                      </h2>
                   </div>
                   <br/>
-                                    <div class="panel panel-info" >
-                     <div class="panel-body" >
+                                    <div class="panel panel-info">
+                     <div class="panel-body">
                         No feedback for Benny Charlés found
                      </div>
                   </div>
-                  <div class="panel panel-info" >
-                     <div class="panel-body" >
+                  <div class="panel panel-info">
+                     <div class="panel-body">
                         No feedback by Benny Charlés found
                      </div>
                   </div>
                </div>
                <br/>
-                              <div class="well well-plain student_feedback"  id="studentFeedback-2" >
-                  <div class="text-primary" >
-                     <h2 id="feedback_name-2" >
+                              <div class="well well-plain student_feedback" id="studentFeedback-2">
+                  <div class="text-primary">
+                     <h2 id="feedback_name-2">
                         <strong>
                            Feedback Session Name: 3rd feedback session
                         </strong>
                      </h2>
                   </div>
                   <br/>
-                                    <div class="panel panel-info" >
-                     <div class="panel-body" >
+                                    <div class="panel panel-info">
+                     <div class="panel-body">
                         No feedback for Benny Charlés found
                      </div>
                   </div>
-                  <div class="panel panel-info" >
-                     <div class="panel-body" >
+                  <div class="panel panel-info">
+                     <div class="panel-body">
                         No feedback by Benny Charlés found
                      </div>
                   </div>
                </div>
                <br/>
-                              <div class="well well-plain student_eval"  id="studentEval-1" >
-                  <div class="text-primary" >
-                     <h2 id="eval_name-1" >
+                              <div class="well well-plain student_eval" id="studentEval-1">
+                  <div class="text-primary">
+                     <h2 id="eval_name-1">
                         Evaluation Name: Second Eval
                      </h2>
                   </div>
                   <h3>
-                     <span class="label label-primary" >
+                     <span class="label label-primary">
                         Result
                      </span>
                   </h3>
-                  <div class="panel panel-primary" >
-                     <table class="table panel-heading" >
+                  <div class="panel panel-primary">
+                     <table class="table panel-heading">
                         <tbody>
                            <tr>
-                              <td class="col-sm-4" >
+                              <td class="col-sm-4">
                                  Reviewee:
                                  <strong>
                                     Benny Charlés
                                  </strong>
                               </td>
-                              <td class="col-sm-4" >
-                                 <div class="pull-right" >
-                                    <span data-original-title="This is student own estimation of his/her contributions to the project"  data-placement="top"  data-toggle="tooltip"  title="" >
+                              <td class="col-sm-4">
+                                 <div class="pull-right">
+                                    <span data-original-title="This is student own estimation of his/her contributions to the project" data-placement="top" data-toggle="tooltip" title="">
                                        Claimed Contribution:
                                     </span>
-                                    <span class="badge background-color-white color-negative" >
+                                    <span class="badge background-color-white color-negative">
                                        N/A
                                     </span>
                                  </div>
                               </td>
-                              <td class="col-sm-4" >
-                                 <div class="pull-right" >
-                                    <span data-original-title="This is the average of what other team members think this student contributed to the project"  data-placement="top"  data-toggle="tooltip"  title="" >
+                              <td class="col-sm-4">
+                                 <div class="pull-right">
+                                    <span data-original-title="This is the average of what other team members think this student contributed to the project" data-placement="top" data-toggle="tooltip" title="">
                                        Perceived Contribution:
                                     </span>
-                                    <span class="badge background-color-white color-negative" >
+                                    <span class="badge background-color-white color-negative">
                                        N/A
                                     </span>
                                  </div>
@@ -674,7 +997,7 @@
                            </tr>
                         </tbody>
                      </table>
-                     <table class="table" >
+                     <table class="table">
                         <tbody>
                            <tr>
                               <td>
@@ -696,34 +1019,34 @@
                            </tr>
                         </tbody>
                      </table>
-                     <table class="table" >
+                     <table class="table">
                         <tbody>
-                           <tr class="fill-primary" >
+                           <tr class="fill-primary">
                               <td>
                                  Feedback from others
                               </td>
                            </tr>
                         </tbody>
                      </table>
-                     <table class="table table-bordered table-striped" >
+                     <table class="table table-bordered table-striped">
                         <thead>
-                           <tr class="border-top-gray fill-info" >
-                              <td width="15%" >
+                           <tr class="border-top-gray fill-info">
+                              <td width="15%">
                                  <strong>
                                     From student
                                  </strong>
                               </td>
-                              <td width="5%" >
+                              <td width="5%">
                                  <strong>
                                     Contribution
                                  </strong>
                               </td>
-                              <td width="40%" >
+                              <td width="40%">
                                  <strong>
                                     Confidential comments
                                  </strong>
                               </td>
-                              <td width="40%" >
+                              <td width="40%">
                                  <strong>
                                     Feedback to peer
                                  </strong>
@@ -738,7 +1061,7 @@
                                  </b>
                               </td>
                               <td>
-                                 <span class="badge background-color-white color-negative" >
+                                 <span class="badge background-color-white color-negative">
                                     N/A
                                  </span>
                               </td>
@@ -756,7 +1079,7 @@
                                  </b>
                               </td>
                               <td>
-                                 <span class="badge background-color-white color-negative" >
+                                 <span class="badge background-color-white color-negative">
                                     N/A
                                  </span>
                               </td>
@@ -771,36 +1094,36 @@
                      </table>
                   </div>
                   <h3>
-                     <span class="label label-default" >
+                     <span class="label label-default">
                         Submission
                      </span>
                   </h3>
-                  <div class="panel panel-default" >
-                     <table class="table panel-heading" >
+                  <div class="panel panel-default">
+                     <table class="table panel-heading">
                         <tbody>
                            <tr>
-                              <td class="col-sm-4" >
+                              <td class="col-sm-4">
                                  Reviewer:
                                  <strong>
                                     Benny Charlés
                                  </strong>
                               </td>
-                              <td class="col-sm-4" >
-                                 <div class="pull-right" >
-                                    <span data-original-title="This is student own estimation of his/her contributions to the project"  data-placement="top"  data-toggle="tooltip"  title="" >
+                              <td class="col-sm-4">
+                                 <div class="pull-right">
+                                    <span data-original-title="This is student own estimation of his/her contributions to the project" data-placement="top" data-toggle="tooltip" title="">
                                        Claimed Contribution:
                                     </span>
-                                    <span class="badge background-color-white color-negative" >
+                                    <span class="badge background-color-white color-negative">
                                        N/A
                                     </span>
                                  </div>
                               </td>
-                              <td class="col-sm-4" >
-                                 <div class="pull-right" >
-                                    <span data-original-title="This is the average of what other team members think this student contributed to the project"  data-placement="top"  data-toggle="tooltip"  title="" >
+                              <td class="col-sm-4">
+                                 <div class="pull-right">
+                                    <span data-original-title="This is the average of what other team members think this student contributed to the project" data-placement="top" data-toggle="tooltip" title="">
                                        Perceived Contribution:
                                     </span>
-                                    <span class="badge background-color-white color-negative" >
+                                    <span class="badge background-color-white color-negative">
                                        N/A
                                     </span>
                                  </div>
@@ -808,7 +1131,7 @@
                            </tr>
                         </tbody>
                      </table>
-                     <table class="table" >
+                     <table class="table">
                         <tbody>
                            <tr>
                               <td>
@@ -830,30 +1153,30 @@
                            </tr>
                         </tbody>
                      </table>
-                     <div class="panel-heading panel-default" >
-                        <div style="margin-left:-5px" >
+                     <div class="panel-heading panel-default">
+                        <div style="margin-left:-5px">
                            Feedback to others
                         </div>
                      </div>
-                     <table class="table table-bordered table-striped" >
+                     <table class="table table-bordered table-striped">
                         <thead>
-                           <tr class="border-top-gray " >
-                              <td width="15%" >
+                           <tr class="border-top-gray ">
+                              <td width="15%">
                                  <strong>
                                     To student
                                  </strong>
                               </td>
-                              <td width="5%" >
+                              <td width="5%">
                                  <strong>
                                     Contribution
                                  </strong>
                               </td>
-                              <td width="40%" >
+                              <td width="40%">
                                  <strong>
                                     Confidential comments
                                  </strong>
                               </td>
-                              <td width="40%" >
+                              <td width="40%">
                                  <strong>
                                     Feedback to peer
                                  </strong>
@@ -868,7 +1191,7 @@
                                  </b>
                               </td>
                               <td>
-                                 <span class="badge background-color-white color-negative" >
+                                 <span class="badge background-color-white color-negative">
                                     N/A
                                  </span>
                               </td>
@@ -886,7 +1209,7 @@
                                  </b>
                               </td>
                               <td>
-                                 <span class="badge background-color-white color-positive" >
+                                 <span class="badge background-color-white color-positive">
                                     E
                                  </span>
                               </td>
@@ -900,45 +1223,12 @@
                         </tbody>
                      </table>
                   </div>
-                  <div class="align-center" >
-                     <input class="btn btn-primary"  id="button_edit-1"  onclick="window.location.href='/page/instructorEvalSubmissionEdit?courseid=ISR.CS2104&evaluationname=Second+Eval&studentemail=benny.c.tmms%40gmail.com&user=ISR.teammates.test'"  type="button"  value="Edit Submission" />
+                  <div class="align-center">
+                     <input class="btn btn-primary" id="button_edit-1" onclick="window.location.href='/page/instructorEvalSubmissionEdit?courseid=ISR.CS2104&evaluationname=Second+Eval&studentemail=benny.c.tmms%40gmail.com&user=ISR.teammates.test'" type="button" value="Edit Submission"/>
                                        </div>
                </div>
                <br/>
                            </div>
          </div>
-         <div class="container-fluid"  id="footerComponent" >
-            <div class="container" >
-               <div class="row" >
-                  <div class="col-md-4" >
-                     <span>
-                        [
-                        <a href="/index.html" >
-                           TEAMMATES
-                        </a>
-                        V{$version}]
-                     </span>
-                  </div>
-                  <div class="col-md-4" >
-                     [for
-                     <span class="highlight-white" >
-                        <span class="color_white" >
-                           National University of Singapore
-                        </span>
-                     </span>
-                     ]
-                  </div>
-                  <div class="col-md-4" >
-                     <span>
-                        [Send
-                        <a class="link"  href="../contact.html"  target="_blank" >
-                           Feedback
-                        </a>
-                        ]
-                     </span>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </body>
-   </html>
+      </div>
+   </div>

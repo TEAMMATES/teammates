@@ -55,7 +55,7 @@ public class InstructorEvalEditPageUiTest extends BaseUiTestCase {
         ______TS("content: summary view");
         
         gotoInstructorEvalEditPage();
-        editPage.verifyHtml("/instructorEvalEdit.html");
+        editPage.verifyHtmlMainContent("/instructorEvalEdit.html");
     }
     
     public void testEditAction() throws Exception{

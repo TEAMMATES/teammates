@@ -138,7 +138,7 @@ public class FeedbackSessionEmailTaskQueueTest extends
             counter++;
         }
         if(counter == 10){
-            assertEquals(FeedbackSessionsEmailTaskQueueCallback.taskCount, 7);
+            assertEquals(FeedbackSessionsEmailTaskQueueCallback.taskCount, 9);
         }
       
         

@@ -1,288 +1,330 @@
-<html>
-
-<head>
-    <link rel="shortcut icon" href="/favicon.png">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TEAMMATES - Student</title>
-    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="/bootstrap/css/bootstrap-theme.min.css" type="text/css">
-    <link rel="stylesheet" href="/stylesheets/teammatesCommon.css" type="text/css">
-
-    <script src="https://ssl.google-analytics.com/ga.js" async="" type="text/javascript"></script><script type="text/javascript" src="/js/googleAnalytics.js"></script>
-    <script type="text/javascript" src="/js/jquery-minified.js"></script>
-    <script type="text/javascript" src="/js/common.js"></script>
-    <script src="/bootstrap/js/bootstrap.min.js"></script>
-    
-    <script type="text/javascript" src="/js/student.js"></script>
-    <script type="text/javascript" src="/js/studentHome.js"></script>
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-      <![endif]-->
-    <noscript>
-<style>
-/* remove display of original page*/
-#frameBody, #frameTop, #frameBottom{display:none;}
-
-/*Some styles for link, might need it as the css from common.css isn't that nice.
-ul #nav {
-    margin: 0;
-    padding: 0;
-}
-
-#nav li {
-    display: inline;
-    padding: 0;
-    margin: 0;
-}
-
-#nav a:link,#nav a:visited {
-    color: #000;
-    padding: 10px;
-    background: #aaa;
-    text-decoration: none;
-}
-
-#nav a:hover {
-    background: #222;
-    color: #fff;
-}
-*/
-</style>
-
-    <div id="noscript-warning">
-        <h1>
-            TEAMMATES works best with JavaScript enabled. <br> You may
-            enable it in your browser by following steps below.
-        </h1>
-
-        <div>
-            <ul id="nav">
-                <li><a href="#ie">Internet Explorer</a></li>
-                <li><a href="#firefox">Mozilla Firefox</a></li>
-                <li><a href="#safari">Safari</a></li>
-                <li><a href="#opera">Opera</a></li>
-                <li><a href="#chrome">Chrome</a></li>
-            </ul>
-        </div>
-
-        
-</noscript>
-
-
-</head>
-
-<body>
-    
-
-
-
-
-        <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+   <html>
+      <head>
+         <link href="/favicon.png" rel="shortcut icon"/>
+                  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+                  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+                  <title>
+            TEAMMATES - Student
+         </title>
+         <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+                  <link href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css"/>
+                  <link href="/stylesheets/teammatesCommon.css" rel="stylesheet" type="text/css"/>
+                  <script async="" src="https://ssl.google-analytics.com/ga.js" type="text/javascript">
+         </script>
+         <script src="/js/googleAnalytics.js" type="text/javascript">
+         </script>
+         <script src="/js/jquery-minified.js" type="text/javascript">
+         </script>
+         <script src="/js/common.js" type="text/javascript">
+         </script>
+         <script src="/bootstrap/js/bootstrap.min.js">
+         </script>
+         <script src="/js/student.js" type="text/javascript">
+         </script>
+         <script src="/js/studentHome.js" type="text/javascript">
+         </script>
+         <!---->
+      </head>
+      <body>
+         <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#contentLinks">
-                         <span class="sr-only">Toggle navigation</span>
-                         <span class="icon-bar"></span>
-                         <span class="icon-bar"></span>
-                         <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="/index.html">TEAMMATES</a>
-                </div>
-                <div class="collapse navbar-collapse" id="contentLinks">
-                    <ul class="nav navbar-nav">
-                        <li class="active">
-                            <a data-link="studentHome" href="/page/studentHomePage?user=SHomeUiT.charlie.d">Home</a>
-                        </li>
-                        <li class="">
-                            <a class="nav help" href="/studentHelp.html" target="_blank">Help</a>
-                        </li>
-                    </ul>
-                    <ul class="nav navbar-nav pull-right">
-                        <li><a class="nav logout" href="/logout.jsp">Logout
+               <div class="navbar-header">
+                  <button class="navbar-toggle" data-target="#contentLinks" data-toggle="collapse" type="button">
+                     <span class="sr-only">
+                        Toggle navigation
+                     </span>
+                     <span class="icon-bar">
+                     </span>
+                     <span class="icon-bar">
+                     </span>
+                     <span class="icon-bar">
+                     </span>
+                  </button>
+                  <a class="navbar-brand" href="/index.html">
+                     TEAMMATES
+                  </a>
+               </div>
+               <div class="collapse navbar-collapse" id="contentLinks">
+                  <ul class="nav navbar-nav">
+                     <li class="active">
+                        <a data-link="studentHome" href="/page/studentHomePage?user=SHomeUiT.charlie.d" id="studentHomeLink">
+                           Home
+                        </a>
+                     </li>
+                     <li class="">
+                        <a data-link="studentProfilePage" href="/page/studentProfilePage?user=SHomeUiT.charlie.d" id="studentProfileLink">
+                           Profile
+                        </a>
+                     </li>
+                     <li class="">
+                        <a class="nav" href="/studentHelp.html" id="studentHelpLink" target="_blank">
+                           Help
+                        </a>
+                     </li>
+                  </ul>
+                  <ul class="nav navbar-nav pull-right">
+                     <li>
+                        <a class="nav logout" href="/logout.jsp">
+                           Logout
                                 
-                                (<span data-original-title="SHomeUiT.charlie.d" class="text-info" data-toggle="tooltip" data-placement="bottom" title="">
-                                        SHomeUiT.charlie.d
-                                 </span>)
-                                
-                            </a>
-                        </li>
-                    </ul>
-                    
-                    
-                </div>
+                                (
+                           <span class="text-info" data-original-title="SHomeUiT.charlie.d" data-placement="bottom" data-toggle="tooltip" title="">
+                              SHomeUiT.charlie.d
+                           </span>
+                           )
+                        </a>
+                     </li>
+                  </ul>
+               </div>
             </div>
-        </div>
-
-    <div id="frameBodyWrapper" class="container theme-showcase">
-        <div id="topOfPage"></div>
-        <h2>Student Home</h2>
-
-        
-
-
-
-
-    <div id="statusMessage" style="display: none;"></div>
-
-        <br>
-
-        
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <strong>
-                [SHomeUiT.CS1101] : Programming Methodology
-                </strong>
-                <span class="pull-right">
-                    <a data-original-title="View and edit information regarding your team" class="btn btn-primary btn-xs" href="/page/studentCourseDetailsPage?user=SHomeUiT.charlie.d&amp;courseid=SHomeUiT.CS1101" data-toggle="tooltip" data-placement="top" title="">View Team</a>
-                </span>
+         </div>
+         <div class="container theme-showcase" id="frameBodyWrapper">
+            <div id="topOfPage">
             </div>
-            
-            <table class="table-responsive table table-striped">
-            
-                        <thead>
-                            <tr>
-                                <th>Session Name</th>
-                                <th>Deadline</th>
-                                <th>Status</th>
-                                <th class="studentHomeActions">Action(s)</th>
-                            </tr>
-                        </thead>
-                    
-                            <tbody>
-                    
-                            
-                    
-            <tr id="evaluation0">
-                                <td>Third Eval</td>
-                                <td>02 Apr 2012, 23:59</td>
-                                <td><span data-original-title="The evaluation has finished but the instructor has not published the results yet" data-toggle="tooltip" data-placement="top" title="">
-                                    Closed
-                                    </span>
-                                </td>
-                                <td class="studentHomeActions">
-                                    <a data-original-title="View the current results of the evaluation" class="btn btn-default btn-xs btn-tm-actions disabled" onclick="return false" href="/page/studentEvalResultsPage?user=SHomeUiT.charlie.d&amp;courseid=SHomeUiT.CS1101&amp;evaluationname=Third+Eval" name="viewEvaluationResults0" id="viewEvaluationResults0" data-toggle="tooltip" data-placement="top" title="" role="button">View Results</a><a data-original-title="Edit submitted evaluation" class="btn btn-default btn-xs btn-tm-actions" href="/page/studentEvalSubmissionEditPage?user=SHomeUiT.charlie.d&amp;courseid=SHomeUiT.CS1101&amp;evaluationname=Third+Eval" name="editEvaluationSubmission0" id="editEvaluationSubmission0" data-toggle="tooltip" data-placement="top" title="" role="button">Edit/View Submission</a>
-                                </td>
-                            </tr><tr id="evaluation1">
-                                <td>Fifth Eval</td>
-                                <td>01 Apr 2017, 23:59</td>
-                                <td><span data-original-title="The evaluation is yet to be completed by you" data-toggle="tooltip" data-placement="top" title="">
-                                    Pending
-                                    </span>
-                                </td>
-                                <td class="studentHomeActions">
-                                    <a data-original-title="Start evaluation" class="btn btn-default btn-xs btn-tm-actions" id="submitEvaluation1" href="/page/studentEvalSubmissionEditPage?user=SHomeUiT.charlie.d&amp;courseid=SHomeUiT.CS1101&amp;evaluationname=Fifth+Eval" data-toggle="tooltip" data-placement="top" title="">Submit</a>
-                                </td>
-                            </tr></tbody></table>
-        </div>
-        <br>
-        <br>
-        
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <strong>
-                [SHomeUiT.CS2104] : Programming Language Concepts
-                </strong>
-                <span class="pull-right">
-                    <a data-original-title="View and edit information regarding your team" class="btn btn-primary btn-xs" href="/page/studentCourseDetailsPage?user=SHomeUiT.charlie.d&amp;courseid=SHomeUiT.CS2104" data-toggle="tooltip" data-placement="top" title="">View Team</a>
-                </span>
+            <h2>
+               Student Home
+            </h2>
+            <div id="statusMessage" style="display: none;">
             </div>
-            
-            <table class="table-responsive table table-striped">
-            
-                        <thead>
-                            <tr>
-                                <th>Session Name</th>
-                                <th>Deadline</th>
-                                <th>Status</th>
-                                <th class="studentHomeActions">Action(s)</th>
-                            </tr>
-                        </thead>
-                    
-                            <tbody>
-                    
-                            
-                    
-                                
-                        
-                                
-                        
-                                
-                        
-            <tr id="evaluation2">
-                                <td>Second Eval</td>
-                                <td>02 Apr 2012, 23:59</td>
-                                <td><span data-original-title="The evaluation has finished and you can check the results" data-toggle="tooltip" data-placement="top" title="">
-                                    Published
-                                    </span>
-                                </td>
-                                <td class="studentHomeActions">
-                                    <a data-original-title="View the current results of the evaluation" class="btn btn-default btn-xs btn-tm-actions" href="/page/studentEvalResultsPage?user=SHomeUiT.charlie.d&amp;courseid=SHomeUiT.CS2104&amp;evaluationname=Second+Eval" name="viewEvaluationResults2" id="viewEvaluationResults2" data-toggle="tooltip" data-placement="top" title="" role="button">View Results</a><a data-original-title="Edit submitted evaluation" class="btn btn-default btn-xs btn-tm-actions disabled" onclick="return false" href="/page/studentEvalSubmissionEditPage?user=SHomeUiT.charlie.d&amp;courseid=SHomeUiT.CS2104&amp;evaluationname=Second+Eval" name="editEvaluationSubmission2" id="editEvaluationSubmission2" data-toggle="tooltip" data-placement="top" title="" role="button">Edit/View Submission</a>
-                                </td>
-                            </tr><tr class="home_evaluations_row" id="evaluation4">
-                                    <td>Closed Feedback Session</td>
-                                    <td>30 Apr 2012, 23:59</td>
-                                    <td><span data-original-title="The feedback session is yet to be completed by you.<br />The session is now closed for submissions.<br />The responses for the session can now be viewed." data-toggle="tooltip" data-placement="top" title="">
-                                            Published
-                                        </span>
-                                    </td>
-                                    <td class="studentHomeActions"><a data-original-title="View the submitted responses for this feedback session" class="btn btn-default btn-xs btn-tm-actions" href="/page/studentFeedbackResultsPage?courseid=SHomeUiT.CS2104&amp;fsname=Closed+Feedback+Session&amp;user=SHomeUiT.charlie.d" name="viewFeedbackResults4" id="viewFeedbackResults4" data-toggle="tooltip" data-placement="top" title="" role="button">View Responses</a><a data-original-title="Start submitting feedback" class="btn btn-default btn-xs btn-tm-actions" id="submitFeedback4" href="/page/studentFeedbackSubmissionEditPage?courseid=SHomeUiT.CS2104&amp;fsname=Closed+Feedback+Session&amp;user=SHomeUiT.charlie.d" data-toggle="tooltip" data-placement="top" title="" role="button">Submit</a>
-                                    </td>
-                                </tr><tr class="home_evaluations_row" id="evaluation5">
-                                    <td>Graced Feedback Session</td>
-                                    <td>{*}</td>
-                                    <td><span data-original-title="The feedback session is yet to be completed by you." data-toggle="tooltip" data-placement="top" title="">
-                                            Closed
-                                        </span>
-                                    </td>
-                                    <td class="studentHomeActions"><a data-original-title="View the submitted responses for this feedback session" class="btn btn-default btn-xs btn-tm-actions disabled" onclick="return false" href="/page/studentFeedbackResultsPage?courseid=SHomeUiT.CS2104&amp;fsname=Graced+Feedback+Session&amp;user=SHomeUiT.charlie.d" name="viewFeedbackResults5" id="viewFeedbackResults5" data-toggle="tooltip" data-placement="top" title="" role="button">View Responses</a><a data-original-title="Start submitting feedback" class="btn btn-default btn-xs btn-tm-actions" id="submitFeedback5" href="/page/studentFeedbackSubmissionEditPage?courseid=SHomeUiT.CS2104&amp;fsname=Graced+Feedback+Session&amp;user=SHomeUiT.charlie.d" data-toggle="tooltip" data-placement="top" title="" role="button">Submit</a>
-                                    </td>
-                                </tr><tr id="evaluation3">
-                                <td>First Eval</td>
-                                <td>01 Apr 2017, 23:59</td>
-                                <td><span data-original-title="You have submitted your feedback for this evaluation" data-toggle="tooltip" data-placement="top" title="">
-                                    Submitted
-                                    </span>
-                                </td>
-                                <td class="studentHomeActions">
-                                    <a data-original-title="View the current results of the evaluation" class="btn btn-default btn-xs btn-tm-actions disabled" onclick="return false" href="/page/studentEvalResultsPage?user=SHomeUiT.charlie.d&amp;courseid=SHomeUiT.CS2104&amp;evaluationname=First+Eval" name="viewEvaluationResults3" id="viewEvaluationResults3" data-toggle="tooltip" data-placement="top" title="" role="button">View Results</a><a data-original-title="Edit submitted evaluation" class="btn btn-default btn-xs btn-tm-actions" href="/page/studentEvalSubmissionEditPage?user=SHomeUiT.charlie.d&amp;courseid=SHomeUiT.CS2104&amp;evaluationname=First+Eval" name="editEvaluationSubmission3" id="editEvaluationSubmission3" data-toggle="tooltip" data-placement="top" title="" role="button">Edit/View Submission</a>
-                                </td>
-                            </tr><tr class="home_evaluations_row" id="evaluation6">
-                                    <td>First Feedback Session</td>
-                                    <td>30 Apr 2017, 23:59</td>
-                                    <td><span data-original-title="The feedback session is yet to be completed by you." data-toggle="tooltip" data-placement="top" title="">
-                                            Pending
-                                        </span>
-                                    </td>
-                                    <td class="studentHomeActions"><a data-original-title="View the submitted responses for this feedback session" class="btn btn-default btn-xs btn-tm-actions disabled" onclick="return false" href="/page/studentFeedbackResultsPage?courseid=SHomeUiT.CS2104&amp;fsname=First+Feedback+Session&amp;user=SHomeUiT.charlie.d" name="viewFeedbackResults6" id="viewFeedbackResults6" data-toggle="tooltip" data-placement="top" title="" role="button">View Responses</a><a data-original-title="Start submitting feedback" class="btn btn-default btn-xs btn-tm-actions" id="submitFeedback6" href="/page/studentFeedbackSubmissionEditPage?courseid=SHomeUiT.CS2104&amp;fsname=First+Feedback+Session&amp;user=SHomeUiT.charlie.d" data-toggle="tooltip" data-placement="top" title="" role="button">Submit</a>
-                                    </td>
-                                </tr></tbody></table>
-        </div>
-        <br>
-        <br>
-        
-    </div>
-    
-
-
-
-<div id="footerComponent" class="container-fluid">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4">
-                <span>[<a href="/index.html">TEAMMATES</a> V{$version}]</span>
+            <br/>
+                        <div class="panel panel-primary">
+               <div class="panel-heading">
+                  <strong>
+                     [SHomeUiT.CS1101] : Programming Methodology
+                  </strong>
+                  <span class="pull-right">
+                     <a class="btn btn-primary btn-xs" data-original-title="View and edit information regarding your team" data-placement="top" data-toggle="tooltip" href="/page/studentCourseDetailsPage?user=SHomeUiT.charlie.d&courseid=SHomeUiT.CS1101" title="">
+                        View Team
+                     </a>
+                  </span>
+               </div>
+               <table class="table-responsive table table-striped">
+                  <thead>
+                     <tr>
+                        <th>
+                           Session Name
+                        </th>
+                        <th>
+                           Deadline
+                        </th>
+                        <th>
+                           Status
+                        </th>
+                        <th class="studentHomeActions">
+                           Action(s)
+                        </th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr id="evaluation0">
+                        <td>
+                           Third Eval
+                        </td>
+                        <td>
+                           02 Apr 2012, 23:59
+                        </td>
+                        <td>
+                           <span data-original-title="The evaluation has finished but the instructor has not published the results yet" data-placement="top" data-toggle="tooltip" title="">
+                              Closed
+                           </span>
+                        </td>
+                        <td class="studentHomeActions">
+                           <a class="btn btn-default btn-xs btn-tm-actions disabled" data-original-title="View the current results of the evaluation" data-placement="top" data-toggle="tooltip" href="/page/studentEvalResultsPage?user=SHomeUiT.charlie.d&courseid=SHomeUiT.CS1101&evaluationname=Third+Eval" id="viewEvaluationResults0" name="viewEvaluationResults0" onclick="return false" role="button" title="">
+                              View Results
+                           </a>
+                           <a class="btn btn-default btn-xs btn-tm-actions" data-original-title="Edit submitted evaluation" data-placement="top" data-toggle="tooltip" href="/page/studentEvalSubmissionEditPage?user=SHomeUiT.charlie.d&courseid=SHomeUiT.CS1101&evaluationname=Third+Eval" id="editEvaluationSubmission0" name="editEvaluationSubmission0" role="button" title="">
+                              Edit/View Submission
+                           </a>
+                        </td>
+                     </tr>
+                     <tr id="evaluation1">
+                        <td>
+                           Fifth Eval
+                        </td>
+                        <td>
+                           01 Apr 2017, 23:59
+                        </td>
+                        <td>
+                           <span data-original-title="The evaluation is yet to be completed by you" data-placement="top" data-toggle="tooltip" title="">
+                              Pending
+                           </span>
+                        </td>
+                        <td class="studentHomeActions">
+                           <a class="btn btn-default btn-xs btn-tm-actions" data-original-title="Start evaluation" data-placement="top" data-toggle="tooltip" href="/page/studentEvalSubmissionEditPage?user=SHomeUiT.charlie.d&courseid=SHomeUiT.CS1101&evaluationname=Fifth+Eval" id="submitEvaluation1" title="">
+                              Submit
+                           </a>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
             </div>
-            <div class="col-md-4">
-                
+            <br/>
+                        <br/>
+                        <div class="panel panel-primary">
+               <div class="panel-heading">
+                  <strong>
+                     [SHomeUiT.CS2104] : Programming Language Concepts
+                  </strong>
+                  <span class="pull-right">
+                     <a class="btn btn-primary btn-xs" data-original-title="View and edit information regarding your team" data-placement="top" data-toggle="tooltip" href="/page/studentCourseDetailsPage?user=SHomeUiT.charlie.d&courseid=SHomeUiT.CS2104" title="">
+                        View Team
+                     </a>
+                  </span>
+               </div>
+               <table class="table-responsive table table-striped">
+                  <thead>
+                     <tr>
+                        <th>
+                           Session Name
+                        </th>
+                        <th>
+                           Deadline
+                        </th>
+                        <th>
+                           Status
+                        </th>
+                        <th class="studentHomeActions">
+                           Action(s)
+                        </th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr id="evaluation2">
+                        <td>
+                           Second Eval
+                        </td>
+                        <td>
+                           02 Apr 2012, 23:59
+                        </td>
+                        <td>
+                           <span data-original-title="The evaluation has finished and you can check the results" data-placement="top" data-toggle="tooltip" title="">
+                              Published
+                           </span>
+                        </td>
+                        <td class="studentHomeActions">
+                           <a class="btn btn-default btn-xs btn-tm-actions" data-original-title="View the current results of the evaluation" data-placement="top" data-toggle="tooltip" href="/page/studentEvalResultsPage?user=SHomeUiT.charlie.d&courseid=SHomeUiT.CS2104&evaluationname=Second+Eval" id="viewEvaluationResults2" name="viewEvaluationResults2" role="button" title="">
+                              View Results
+                           </a>
+                           <a class="btn btn-default btn-xs btn-tm-actions disabled" data-original-title="Edit submitted evaluation" data-placement="top" data-toggle="tooltip" href="/page/studentEvalSubmissionEditPage?user=SHomeUiT.charlie.d&courseid=SHomeUiT.CS2104&evaluationname=Second+Eval" id="editEvaluationSubmission2" name="editEvaluationSubmission2" onclick="return false" role="button" title="">
+                              Edit/View Submission
+                           </a>
+                        </td>
+                     </tr>
+                     <tr class="home_evaluations_row" id="evaluation4">
+                        <td>
+                           Closed Feedback Session
+                        </td>
+                        <td>
+                           30 Apr 2012, 23:59
+                        </td>
+                        <td>
+                           <span data-original-title="The feedback session is yet to be completed by you.<br />The session is now closed for submissions.<br />The responses for the session can now be viewed." data-placement="top" data-toggle="tooltip" title="">
+                              Published
+                           </span>
+                        </td>
+                        <td class="studentHomeActions">
+                           <a class="btn btn-default btn-xs btn-tm-actions" data-original-title="View the submitted responses for this feedback session" data-placement="top" data-toggle="tooltip" href="/page/studentFeedbackResultsPage?courseid=SHomeUiT.CS2104&fsname=Closed+Feedback+Session&user=SHomeUiT.charlie.d" id="viewFeedbackResults4" name="viewFeedbackResults4" role="button" title="">
+                              View Responses
+                           </a>
+                           <a class="btn btn-default btn-xs btn-tm-actions" data-original-title="Start submitting feedback" data-placement="top" data-toggle="tooltip" href="/page/studentFeedbackSubmissionEditPage?courseid=SHomeUiT.CS2104&fsname=Closed+Feedback+Session&user=SHomeUiT.charlie.d" id="submitFeedback4" role="button" title="">
+                              Submit
+                           </a>
+                        </td>
+                     </tr>
+                     <tr class="home_evaluations_row" id="evaluation5">
+                        <td>
+                           Graced Feedback Session
+                        </td>
+                        <td>
+                           {*}
+                        </td>
+                        <td>
+                           <span data-original-title="The feedback session is yet to be completed by you." data-placement="top" data-toggle="tooltip" title="">
+                              Closed
+                           </span>
+                        </td>
+                        <td class="studentHomeActions">
+                           <a class="btn btn-default btn-xs btn-tm-actions disabled" data-original-title="View the submitted responses for this feedback session" data-placement="top" data-toggle="tooltip" href="/page/studentFeedbackResultsPage?courseid=SHomeUiT.CS2104&fsname=Graced+Feedback+Session&user=SHomeUiT.charlie.d" id="viewFeedbackResults5" name="viewFeedbackResults5" onclick="return false" role="button" title="">
+                              View Responses
+                           </a>
+                           <a class="btn btn-default btn-xs btn-tm-actions" data-original-title="Start submitting feedback" data-placement="top" data-toggle="tooltip" href="/page/studentFeedbackSubmissionEditPage?courseid=SHomeUiT.CS2104&fsname=Graced+Feedback+Session&user=SHomeUiT.charlie.d" id="submitFeedback5" role="button" title="">
+                              Submit
+                           </a>
+                        </td>
+                     </tr>
+                     <tr id="evaluation3">
+                        <td>
+                           First Eval
+                        </td>
+                        <td>
+                           01 Apr 2017, 23:59
+                        </td>
+                        <td>
+                           <span data-original-title="You have submitted your feedback for this evaluation" data-placement="top" data-toggle="tooltip" title="">
+                              Submitted
+                           </span>
+                        </td>
+                        <td class="studentHomeActions">
+                           <a class="btn btn-default btn-xs btn-tm-actions disabled" data-original-title="View the current results of the evaluation" data-placement="top" data-toggle="tooltip" href="/page/studentEvalResultsPage?user=SHomeUiT.charlie.d&courseid=SHomeUiT.CS2104&evaluationname=First+Eval" id="viewEvaluationResults3" name="viewEvaluationResults3" onclick="return false" role="button" title="">
+                              View Results
+                           </a>
+                           <a class="btn btn-default btn-xs btn-tm-actions" data-original-title="Edit submitted evaluation" data-placement="top" data-toggle="tooltip" href="/page/studentEvalSubmissionEditPage?user=SHomeUiT.charlie.d&courseid=SHomeUiT.CS2104&evaluationname=First+Eval" id="editEvaluationSubmission3" name="editEvaluationSubmission3" role="button" title="">
+                              Edit/View Submission
+                           </a>
+                        </td>
+                     </tr>
+                     <tr class="home_evaluations_row" id="evaluation6">
+                        <td>
+                           First Feedback Session
+                        </td>
+                        <td>
+                           30 Apr 2017, 23:59
+                        </td>
+                        <td>
+                           <span data-original-title="The feedback session is yet to be completed by you." data-placement="top" data-toggle="tooltip" title="">
+                              Pending
+                           </span>
+                        </td>
+                        <td class="studentHomeActions">
+                           <a class="btn btn-default btn-xs btn-tm-actions disabled" data-original-title="View the submitted responses for this feedback session" data-placement="top" data-toggle="tooltip" href="/page/studentFeedbackResultsPage?courseid=SHomeUiT.CS2104&fsname=First+Feedback+Session&user=SHomeUiT.charlie.d" id="viewFeedbackResults6" name="viewFeedbackResults6" onclick="return false" role="button" title="">
+                              View Responses
+                           </a>
+                           <a class="btn btn-default btn-xs btn-tm-actions" data-original-title="Start submitting feedback" data-placement="top" data-toggle="tooltip" href="/page/studentFeedbackSubmissionEditPage?courseid=SHomeUiT.CS2104&fsname=First+Feedback+Session&user=SHomeUiT.charlie.d" id="submitFeedback6" role="button" title="">
+                              Submit
+                           </a>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
             </div>
-            <div class="col-md-4">
-                <span>[Send <a class="link" href="../contact.html" target="_blank">Feedback</a>]</span>
+            <br/>
+                        <br/>
+                     </div>
+         <div class="container-fluid" id="footerComponent">
+            <div class="container">
+               <div class="row">
+                  <div class="col-md-4">
+                     <span>
+                        [
+                        <a href="/index.html">
+                           TEAMMATES
+                        </a>
+                        V{$version}]
+                     </span>
+                  </div>
+                  <div class="col-md-4">
+                  </div>
+                  <div class="col-md-4">
+                     <span>
+                        [Send
+                        <a class="link" href="../contact.html" target="_blank">
+                           Feedback
+                        </a>
+                        ]
+                     </span>
+                  </div>
+               </div>
             </div>
-        </div>
-    </div>
-</div>
-
-</body>
-
-</html>
+         </div>
+      </body>
+   </html>

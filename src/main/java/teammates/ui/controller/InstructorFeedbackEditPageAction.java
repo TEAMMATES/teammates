@@ -4,9 +4,11 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
 
@@ -16,17 +18,17 @@ public class InstructorFeedbackEditPageAction extends Action {
     protected ActionResult execute() throws EntityDoesNotExistException {
         
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
+        Assumption.assertNotNull(courseId);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-
-        InstructorFeedbackEditPageData data = new InstructorFeedbackEditPageData(account);
+        Assumption.assertNotNull(feedbackSessionName);       
         
-        data.session = logic.getFeedbackSession(feedbackSessionName, courseId);
-                
+        FeedbackSessionAttributes feedback = logic.getFeedbackSession(feedbackSessionName, courseId);
         new GateKeeper().verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, account.googleId), 
-                data.session,
-                true);
+                feedback, true, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         
+        InstructorFeedbackEditPageData data = new InstructorFeedbackEditPageData(account);       
+        data.session = feedback;
         data.questions = logic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
         for(FeedbackQuestionAttributes question : data.questions) {            
             data.questionHasResponses.put(question.getId(),

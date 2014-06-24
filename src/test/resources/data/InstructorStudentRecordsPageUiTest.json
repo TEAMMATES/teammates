@@ -14,12 +14,42 @@
             "email":"teammates.instr@gmail.com",
             "institute":"National University of Singapore"
         },
+        "teammates.test@ISR.CS1101":{
+            "googleId":"ISR.teammates.test",
+            "email":"teammates.test@gmail.com",
+            "isInstructor":true,
+            "name":"Teammates Test",
+            "institute":"Nanyang Technological University"
+        },
         "teammates.empty":{
             "googleId":"ISR.no.eval",
             "name":"Teammates Instr No Record",
             "isInstructor":true,
             "email":"teammates.norecord@gmail.com",
             "institute":"National University of Singapore"
+        },
+        "alice.b.tmms@ISR.CS2104":{
+            "googleId":"ISR.alice.b.tmms",
+            "name":"Alice Betsy",
+            "email":"alice.b.tmms@gmail.com",
+            "isInstructor":false,
+            "institute":"NTU"
+        },
+        "benny.c.tmms@ISR.CS2104":{
+            "googleId":"ISR.benny.c.tmms",
+            "name":"Benny Charlés",
+            "isInstructor":false,
+            "email":"benny.c.tmms@gmail.com",
+            "institute":"NUS",
+            "studentProfile":{
+                "googleId":"ISR.benny.c.tmms",
+                "shortName":"Ben",
+                "email":"",
+                "institute":"NTU",
+                "nationality":"Singapore",
+                "gender":"male",
+                "moreInfo":"This is a lot of info!"
+            }
         }
     },
     "courses":{
@@ -44,25 +74,37 @@
             "googleId":"ISR.teammates.test",
             "courseId":"ISR.CS2104",
             "name":"Teammates Test",
-            "email":"teammates.test@gmail.com"
+            "email":"teammates.test@gmail.com",
+            "role":"Co-owner",
+            "displayedName":"Co-owner",
+            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
         },
         "teammates.test.CS1101":{
             "googleId":"ISR.teammates.test",
             "courseId":"ISR.CS1101",
             "name":"Teammates Test",
-            "email":"teammates.test@gmail.com"
+            "email":"teammates.test@gmail.com",
+            "role":"Co-owner",
+            "displayedName":"Co-owner",
+            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
         },
         "teammates.instr.CS1101":{
             "googleId":"ISR.teammates.instr",
             "courseId":"ISR.CS1101",
             "name":"Teammates Coord",
-            "email":"teammates.instr@gmail.com"
+            "email":"teammates.instr@gmail.com",
+            "role":"Co-owner",
+            "displayedName":"Co-owner",
+            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
         },
         "teammates.noeval":{
             "googleId":"ISR.no.eval",
             "courseId":"ISR.NoEval",
             "name":"No Eval Instructor",
-            "email":"teammates.norecord@gmail.com"
+            "email":"teammates.norecord@gmail.com",
+            "role":"Co-owner",
+            "displayedName":"Co-owner",
+            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
         }
     },
     "students":{
@@ -773,6 +815,12 @@
         "comment1":{
             "courseId":"ISR.CS2104",
             "giverEmail":"teammates.test@gmail.com",
+            "recipientType":"PERSON",
+            "recipients":["benny.c.tmms@gmail.com"],
+            "status": "FINAL",
+            "showCommentTo": [],
+            "showGiverNameTo": [],
+            "showRecipientNameTo": [],
             "receiverEmail":"benny.c.tmms@gmail.com",
             "createdAt":"2012-05-01 08:51 AM UTC",
             "commentText":{
@@ -783,6 +831,12 @@
         "comment2":{
             "courseId":"ISR.CS2104",
             "giverEmail":"teammates.test@gmail.com",
+            "recipientType":"PERSON",
+            "recipients":["benny.c.tmms@gmail.com"],
+            "status": "FINAL",
+            "showCommentTo": [],
+            "showGiverNameTo": [],
+            "showRecipientNameTo": [],
             "receiverEmail":"benny.c.tmms@gmail.com",
             "createdAt":"2012-06-01 07:20 PM UTC",
             "commentText":{

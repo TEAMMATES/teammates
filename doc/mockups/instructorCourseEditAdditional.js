@@ -64,84 +64,79 @@ function tickAllSessionsForInstructor(instrNum) {
 }
 
 function tickDefaultAccessControlForOwner(instrNum) {
-    $("#canmodifycourse" + instrNum).prop('checked', true);
-    $("#canmodifyinstructor" + instrNum).prop('checked', true);
-    $("#canmodifyowner" + instrNum).prop('checked', true);
-    $("#canmodifysession" + instrNum).prop('checked', true);
-    $("#canmodifystudent" + instrNum).prop('checked', true);
-    $("#canviewstudentinsection" + instrNum).prop('checked', true);
-    $("#canviewcommentinsection" + instrNum).prop('checked', true);
-    $("#cangivecommentinsection" + instrNum).prop('checked', true);
-    $("#canmodifycommentinsection" + instrNum).prop('checked', true);
+    $("#canmodifycourseforinstructor" + instrNum).prop('checked', true);
+    $("#canmodifyinstructorforinstructor" + instrNum).prop('checked', true);
+    $("#canmodifysessionforinstructor" + instrNum).prop('checked', true);
+    $("#canmodifystudentforinstructor" + instrNum).prop('checked', true);
+    $("#canviewstudentinsectionforinstructor" + instrNum).prop('checked', true);
+    $("#canviewcommentinsectionforinstructor" + instrNum).prop('checked', true);
+    $("#cangivecommentinsectionforinstructor" + instrNum).prop('checked', true);
+    $("#canmodifycommentinsectionforinstructor" + instrNum).prop('checked', true);
     $("#canviewsessioninsectionforinstructor" + instrNum).prop('checked', true);
     $("#cansubmitsessioninsectionforinstructor" + instrNum).prop('checked', true);
-    $("#canmodifysessioninsectionforinstructor" + instrNum).prop('checked', true);
+    $("#canmodifysessioncommentinsectionforinstructor" + instrNum).prop('checked', true);
 }
 
 function tickDefaultAccessControlForManager(instrNum) {
-    $("#canmodifycourse" + instrNum).prop('checked', false);
-    $("#canmodifyinstructor" + instrNum).prop('checked', true);
-    $("#canmodifyowner" + instrNum).prop('checked', false);
-    $("#canmodifysession" + instrNum).prop('checked', true);
-    $("#canmodifystudent" + instrNum).prop('checked', true);
-    $("#canviewstudentinsection" + instrNum).prop('checked', true);
-    $("#canviewcommentinsection" + instrNum).prop('checked', true);
-    $("#cangivecommentinsection" + instrNum).prop('checked', true);
-    $("#canmodifycommentinsection" + instrNum).prop('checked', true);
+    $("#canmodifycourseforinstructor" + instrNum).prop('checked', false);
+    $("#canmodifyinstructorforinstructor" + instrNum).prop('checked', true);
+    $("#canmodifysessionforinstructor" + instrNum).prop('checked', true);
+    $("#canmodifystudentforinstructor" + instrNum).prop('checked', true);
+    $("#canviewstudentinsectionforinstructor" + instrNum).prop('checked', true);
+    $("#canviewcommentinsectionforinstructor" + instrNum).prop('checked', true);
+    $("#cangivecommentinsectionforinstructor" + instrNum).prop('checked', true);
+    $("#canmodifycommentinsectionforinstructor" + instrNum).prop('checked', true);
     $("#canviewsessioninsectionforinstructor" + instrNum).prop('checked', true);
     $("#cansubmitsessioninsectionforinstructor" + instrNum).prop('checked', true);
-    $("#canmodifysessioninsectionforinstructor" + instrNum).prop('checked', true);
+    $("#canmodifysessioncommentinsectionforinstructor" + instrNum).prop('checked', true);
 }
 
 function tickDefaultAccessControlForObserver(instrNum) {
-    $("#canmodifycourse" + instrNum).prop('checked', false);
-    $("#canmodifyinstructor" + instrNum).prop('checked', false);
-    $("#canmodifyowner" + instrNum).prop('checked', false);
-    $("#canmodifysession" + instrNum).prop('checked', false);
-    $("#canmodifystudent" + instrNum).prop('checked', false);
-    $("#canviewstudentinsection" + instrNum).prop('checked', true);
-    $("#canviewcommentinsection" + instrNum).prop('checked', true);
-    $("#cangivecommentinsection" + instrNum).prop('checked', false);
-    $("#canmodifycommentinsection" + instrNum).prop('checked', false);
+    $("#canmodifycourseforinstructor" + instrNum).prop('checked', false);
+    $("#canmodifyinstructorforinstructor" + instrNum).prop('checked', false);
+    $("#canmodifysessionforinstructor" + instrNum).prop('checked', false);
+    $("#canmodifystudentforinstructor" + instrNum).prop('checked', false);
+    $("#canviewstudentinsectionforinstructor" + instrNum).prop('checked', true);
+    $("#canviewcommentinsectionforinstructor" + instrNum).prop('checked', true);
+    $("#cangivecommentinsectionforinstructor" + instrNum).prop('checked', false);
+    $("#canmodifycommentinsectionforinstructor" + instrNum).prop('checked', false);
     $("#canviewsessioninsectionforinstructor" + instrNum).prop('checked', true);
     $("#cansubmitsessioninsectionforinstructor" + instrNum).prop('checked', false);
-    $("#canmodifysessioninsectionforinstructor" + instrNum).prop('checked', false);
+    $("#canmodifysessioncommentinsectionforinstructor" + instrNum).prop('checked', false);
 }
 
 function tickDefaultAccessControlForTutor(instrNum) {
-    $("#canmodifycourse" + instrNum).prop('checked', false);
-    $("#canmodifyinstructor" + instrNum).prop('checked', false);
-    $("#canmodifyowner" + instrNum).prop('checked', false);
-    $("#canmodifysession" + instrNum).prop('checked', false);
-    $("#canmodifystudent" + instrNum).prop('checked', false);
-    $("#canviewstudentinsection" + instrNum).prop('checked', true);
-    $("#canviewcommentinsection" + instrNum).prop('checked', false);
-    $("#cangivecommentinsection" + instrNum).prop('checked', true);
+    $("#canmodifycourseforinstructor" + instrNum).prop('checked', false);
+    $("#canmodifyinstructorforinstructor" + instrNum).prop('checked', false);
+    $("#canmodifysessionforinstructor" + instrNum).prop('checked', false);
+    $("#canmodifystudentforinstructor" + instrNum).prop('checked', false);
+    $("#canviewstudentinsectionforinstructor" + instrNum).prop('checked', true);
+    $("#canviewcommentinsectionforinstructor" + instrNum).prop('checked', false);
+    $("#cangivecommentinsectionforinstructor" + instrNum).prop('checked', true);
     $("#canmodifycommentinsection" + instrNum).prop('checked', false);
     $("#canviewsessioninsectionforinstructor" + instrNum).prop('checked', true);
     $("#cansubmitsessioninsectionforinstructor" + instrNum).prop('checked', true);
-    $("#canmodifysessioninsectionforinstructor" + instrNum).prop('checked', false);
+    $("#canmodifysessioncommentinsectionforinstructor" + instrNum).prop('checked', false);
 }
 
 function tickDefaultAccessControlForHelper(instrNum) {
-    $("#canmodifycourse" + instrNum).prop('checked', false);
-    $("#canmodifyinstructor" + instrNum).prop('checked', false);
-    $("#canmodifyowner" + instrNum).prop('checked', false);
-    $("#canmodifysession" + instrNum).prop('checked', false);
-    $("#canmodifystudent" + instrNum).prop('checked', false);
-    $("#canviewstudentinsection" + instrNum).prop('checked', false);
-    $("#canviewcommentinsection" + instrNum).prop('checked', false);
-    $("#cangivecommentinsection" + instrNum).prop('checked', false);
-    $("#canmodifycommentinsection" + instrNum).prop('checked', false);
+    $("#canmodifycourseforinstructor" + instrNum).prop('checked', false);
+    $("#canmodifyinstructorforinstructor" + instrNum).prop('checked', false);
+    $("#canmodifysessionforinstructor" + instrNum).prop('checked', false);
+    $("#canmodifystudentforinstructor" + instrNum).prop('checked', false);
+    $("#canviewstudentinsectionforinstructor" + instrNum).prop('checked', false);
+    $("#canviewcommentinsectionforinstructor" + instrNum).prop('checked', false);
+    $("#cangivecommentinsectionforinstructor" + instrNum).prop('checked', false);
+    $("#canmodifycommentinsectionforinstructor" + instrNum).prop('checked', false);
     $("#canviewsessioninsectionforinstructor" + instrNum).prop('checked', false);
     $("#cansubmitsessioninsectionforinstructor" + instrNum).prop('checked', false);
-    $("#canmodifysessioninsectionforinstructor" + instrNum).prop('checked', false);
+    $("#canmodifysessioncommentinsectionforinstructor" + instrNum).prop('checked', false);
 }
 
 function triggerSessionChangeInSection(instrNum) {
     $("#canviewsessioninsectionforinstructor" + instrNum).change();
     $("#cansubmitsessioninsectionforinstructor" + instrNum).change();
-    $("#canmodifysessioninsectionforinstructor" + instrNum).change();
+    $("#canmodifysessioncommentinsectionforinstructor" + instrNum).change();
 }
 
 $(function() { 
@@ -166,9 +161,9 @@ $(function() {
         var instrNum = parseInt($(this).attr("id").substring(38));
         $("input[id^='cansubmitsessionforinstructor" + instrNum + "']").prop("checked", $(this).prop("checked"));
     });
-    $("input[id^='canmodifysessioninsectionforinstructor']").change(function() {
-        var instrNum = parseInt($(this).attr("id").substring(38));
-        $("input[id^='canmodifysessionforinstructor" + instrNum + "']").prop("checked", $(this).prop("checked"));
+    $("input[id^='canmodifysessioncommentinsectionforinstructor']").change(function() {
+        var instrNum = parseInt($(this).attr("id").substring(45));
+        $("input[id^='canmodifysessioncommentforinstructor" + instrNum + "']").prop("checked", $(this).prop("checked"));
     });
 });
 

@@ -34,6 +34,9 @@ public abstract class Action {
     
     protected Logic logic;
     
+    /** This is used to ensure unregistered users don't access certain pages in the system */
+    public boolean isUnregistered = false;
+    
     /** This will be the admin user if the application is running under the masquerade mode. */
     public AccountAttributes loggedInUser;
     
@@ -57,6 +60,8 @@ public abstract class Action {
     
     /** Session that contains status message information */
     protected HttpSession session;
+
+    protected HttpServletRequest request;
     
     /** Initializes variables. 
      * Aborts with an {@link UnauthorizedAccessException} if the user is not
@@ -66,6 +71,7 @@ public abstract class Action {
     @SuppressWarnings("unchecked")
     public void init(HttpServletRequest req){
         
+        request = req;
         requestUrl = HttpRequestHelper.getRequestedURL(req);
         logic = new Logic();
         requestParameters = req.getParameterMap();
@@ -86,6 +92,7 @@ public abstract class Action {
         loggedInUser = logic.getAccount(loggedInUserType.id);
         
         if(loggedInUser==null){ //Unregistered user
+            isUnregistered = true;
             loggedInUser = new AccountAttributes();
             loggedInUser.googleId = loggedInUserType.id;
         }
@@ -96,11 +103,12 @@ public abstract class Action {
         
         if (!isMasqueradeModeRequested(loggedInUser.googleId, paramRequestedUserId)) {
             account = loggedInUser;
-        
         } else if (loggedInUserType.isAdmin) {
+            isUnregistered = false;
             //Allowing admin to masquerade as another user
             account = logic.getAccount(paramRequestedUserId);
             if(account==null){ //Unregistered user
+                isUnregistered = true;
                 account = new AccountAttributes();
                 account.googleId = paramRequestedUserId;
             }
@@ -262,6 +270,15 @@ public abstract class Action {
         isError = true;
         statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + errorMessage; 
         return createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
+    }
+    
+    protected ActionResult createImageResult(String blobKey) {
+        return new ImageResult(
+                "imagedisplay",
+                blobKey,
+                account,
+                requestParameters,
+                statusToUser);
     }
 
     /**

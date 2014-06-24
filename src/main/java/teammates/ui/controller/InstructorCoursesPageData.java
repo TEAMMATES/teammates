@@ -1,8 +1,10 @@
 package teammates.ui.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 
@@ -17,6 +19,8 @@ public class InstructorCoursesPageData extends PageData {
     
     /** Used when adding a course. Null if not adding a course. */
     public CourseAttributes newCourse;
+    
+    public HashMap<String, InstructorAttributes> instructors;
     
     /* List of details for all courses created by an instructor */
     public List<CourseDetailsBundle> allCourses;

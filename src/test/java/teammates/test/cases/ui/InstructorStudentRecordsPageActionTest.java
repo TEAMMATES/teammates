@@ -10,6 +10,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -101,18 +102,25 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
         assertEquals(false, r.isError);
         assertEquals("", r.getStatusMessage());
 
-        InstructorStudentRecordsPageData pageData = (InstructorStudentRecordsPageData) r.data;
-        assertEquals(instructorId, pageData.account.googleId);
-        assertEquals(instructor.courseId, pageData.courseId);
-        assertEquals(1, pageData.comments.size());
-        assertEquals(8, pageData.sessions.size());
+        InstructorStudentRecordsPageData actualData = (InstructorStudentRecordsPageData) r.data;
+        StudentProfileAttributes expectedProfile = new StudentProfileAttributes();
+        expectedProfile.googleId = student.googleId;
+        expectedProfile.modifiedDate = actualData.studentProfile.modifiedDate;
+        expectedProfile.pictureKey = actualData.studentProfile.pictureKey;
+        
+        assertEquals(instructorId, actualData.account.googleId);
+        assertEquals(instructor.courseId, actualData.courseId);
+        assertEquals(1, actualData.comments.size());
+        assertEquals(8, actualData.sessions.size());
+        assertEquals(student.googleId, actualData.studentProfile.googleId);
 
         String expectedLogMessage = "TEAMMATESLOG|||instructorStudentRecordsPage|||instructorStudentRecordsPage"+
                 "|||true|||Instructor|||Instructor 3 of Course 1 and 2|||idOfInstructor3"+
                 "|||instr3@course1n2.com|||instructorStudentRecords Page Load<br>" +
                 "Viewing <span class=\"bold\">" + student.email + "'s</span> records " +
                 "for Course <span class=\"bold\">[" + instructor.courseId + "]</span><br>" +
-                "Number of sessions: 8" +
+                "Number of sessions: 8<br>" +
+                "Student Profile: " + expectedProfile.toString() +  
                 "|||/page/instructorStudentRecordsPage";
         assertEquals(expectedLogMessage, a.getLogMessage());
         
@@ -141,7 +149,8 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
     private void createStudentInTypicalDataBundleForCourseWithNoSession() throws EntityAlreadyExistsException, 
     InvalidParametersException, EntityDoesNotExistException {
         Logic logic = new Logic();
-        StudentAttributes student = new StudentAttributes("team", "nameOfStudent", "emailTemp@gmail.com", "No comment", "idOfCourseNoEvals");
+        StudentAttributes student = new StudentAttributes("valid.id.nosessions", "emailTemp@gmail.com", "nameOfStudent", "No comment", "idOfCourseNoEvals", "team", "section");
+        logic.createAccount("valid.id.nosessions", "nameOfStudent", false, "emailTemp@gmail.com", "institute");
         logic.createStudent(student);
     }
     

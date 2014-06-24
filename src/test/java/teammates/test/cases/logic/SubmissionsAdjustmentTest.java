@@ -119,7 +119,7 @@ public class SubmissionsAdjustmentTest extends
             assertEquals(SubmissionsAdjustmentTaskQueueCallback.taskCount, 0);
         }
         
-        String newStudentLine = "Team 1.1|n|s@g|c";
+        String newStudentLine = "Section 1 | Team 1.1|n|s@g|c";
         String nonExistentCourseId = "courseDoesNotExist";
         String enrollLines = newStudentLine + Const.EOL;
         
@@ -159,7 +159,8 @@ public class SubmissionsAdjustmentTest extends
                 "(to check the cascade logic of the SUT)");
 
         //enroll string can also contain whitespace lines
-        enrollLines = newStudentLine + Const.EOL + "\t";
+        enrollLines = "Section | Team | Name | Email | Comment" + Const.EOL;
+        enrollLines += newStudentLine + Const.EOL + "\t";
         
         int counter = 0;
         while(counter != 10){
@@ -215,13 +216,15 @@ public class SubmissionsAdjustmentTest extends
         List<FeedbackResponseAttributes> student1responses = getAllTeamResponsesForStudent(studentInTeam1);
         assertTrue(student1responses.size() != 0);
         
+        studentInTeam1.section = "Section 2";
         studentInTeam1.team = "Team 1.2";
-        String student1enrollString = studentInTeam1.toEnrollmentString();
+        enrollLines = "Section | Team | Name | Email | Comment";
+        enrollLines += studentInTeam1.toEnrollmentString();
         
         counter = 0;
         while(counter != 10){
             SubmissionsAdjustmentTaskQueueCallback.resetTaskCount();
-            studentsInfo = studentsLogic.enrollStudents(student1enrollString, studentInTeam1.course);
+            studentsInfo = studentsLogic.enrollStudents(enrollLines, studentInTeam1.course);
             
             //Verify scheduling of adjustment of responses
             if(SubmissionsAdjustmentTaskQueueCallback.verifyTaskCount(
@@ -242,8 +245,9 @@ public class SubmissionsAdjustmentTest extends
         //Reset task count in TaskQueue callback
         SubmissionsAdjustmentTaskQueueCallback.resetTaskCount();
         
+        String invalidEnrollLine = "Team | Name | Email | Comment" + Const.EOL;
         String invalidStudentId = "t1|n6|e6@g@";
-        String invalidEnrollLine = invalidStudentId + Const.EOL;
+        invalidEnrollLine += invalidStudentId + Const.EOL;
         try {
             studentsInfo = studentsLogic
                     .enrollStudents(invalidEnrollLine, course1.id);
@@ -271,7 +275,9 @@ public class SubmissionsAdjustmentTest extends
         ______TS("typical case: add new student to existing team");
         String evaluationName = "evaluation1 In Course1";
         StudentAttributes newStudent = new StudentAttributes();
+        newStudent.section = "None";
         newStudent.team = "Team 1.1";
+        newStudent.section = "Section1";
         newStudent.course = "idOfTypicalCourse1";
         newStudent.email = "random@g";
         newStudent.name = "someName";
@@ -287,7 +293,7 @@ public class SubmissionsAdjustmentTest extends
         studentsLogic.createStudentCascadeWithSubmissionAdjustmentScheduled(newStudent);
         
         StudentEnrollDetails enrollDetails = new StudentEnrollDetails
-                (UpdateStatus.NEW, newStudent.course, newStudent.email, "", newStudent.team);
+                (UpdateStatus.NEW, newStudent.course, newStudent.email, "", newStudent.team, "", newStudent.section);
         
         ArrayList<StudentEnrollDetails> enrollList = new ArrayList<StudentEnrollDetails>();
         enrollList.add(enrollDetails);
@@ -323,11 +329,13 @@ public class SubmissionsAdjustmentTest extends
         assertTrue(oldNumberOfResponsesForSession != 0);
         
         String oldTeam = student.team;
+        String oldSection = student.section;
         String newTeam = "Team 1.2";
+        String newSection = "Section 2";
         student.team = newTeam;
         
         enrollDetails = new StudentEnrollDetails
-                (UpdateStatus.MODIFIED, student.course, student.email, oldTeam, newTeam);
+                (UpdateStatus.MODIFIED, student.course, student.email, oldTeam, newTeam, oldSection, newSection);
         enrollList = new ArrayList<StudentEnrollDetails>();
         enrollList.add(enrollDetails);
         enrollString = gsonBuilder.toJson(enrollList);

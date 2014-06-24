@@ -49,13 +49,18 @@
            </div>
            <div class="collapse navbar-collapse"  id="contentLinks" >
               <ul class="nav navbar-nav" >
-                 <li class="active" >
-                    <a data-link="studentHome"  href="/page/studentHomePage?user={$test.unreg}" >
+                 <li class="active">
+                    <a data-link="studentHome" href="/page/studentHomePage?user={$test.unreg}" id="studentHomeLink">
                        Home
                     </a>
                  </li>
-                 <li class="" >
-                    <a class="nav help"  href="/studentHelp.html"  target="_blank" >
+                 <li class="">
+                    <a data-link="studentProfilePage" href="/page/studentProfilePage?user={$test.unreg}" id="studentProfileLink">
+                       Profile
+                    </a>
+                 </li>
+                 <li class="">
+                    <a class="nav" href="/studentHelp.html" id="studentHelpLink" target="_blank">
                        Help
                     </a>
                  </li>

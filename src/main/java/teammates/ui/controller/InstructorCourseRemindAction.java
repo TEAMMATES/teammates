@@ -122,6 +122,9 @@ public class InstructorCourseRemindAction extends Action {
     private String extractRegistrationKey(String emailContent) {
         int startIndex = emailContent.indexOf("regkey=") + "regkey=".length();
         int endIndex = emailContent.indexOf("\">http://");
+        if (endIndex < 0) {
+            endIndex = emailContent.indexOf("\">https://");
+        }
         return emailContent.substring(startIndex, endIndex);
     }
     

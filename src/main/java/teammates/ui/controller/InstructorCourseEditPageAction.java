@@ -12,6 +12,7 @@ import teammates.logic.api.GateKeeper;
  */
 public class InstructorCourseEditPageAction extends Action {
  
+    //TODO: display privileges in the database properly
     @Override
     public ActionResult execute() throws EntityDoesNotExistException { 
                 
@@ -27,6 +28,7 @@ public class InstructorCourseEditPageAction extends Action {
         InstructorCourseEditPageData data = new InstructorCourseEditPageData(account);
         data.course = courseToEdit;
         data.instructorList = logic.getInstructorsForCourse(courseId);
+        data.currentInstructor = instructor;
         
         statusToAdmin = "instructorCourseEdit Page Load<br>"
                 + "Editing information for Course <span class=\"bold\">["

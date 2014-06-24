@@ -34,6 +34,9 @@
                 <li class="<%=data.getClass().toString().contains("Student")?"active":""%>">
                     <a class='nav students' data-link="instructorStudent" href="<%=data.getInstructorStudentListLink()%>">Students</a>
                 </li>
+                <li class="<%=data.getClass().toString().contains("Comment")?"active":""%>">
+                    <a class='nav comments' data-link="instructorComments" href="<%=data.getInstructorCommentsLink()%>">Comments</a>
+                </li>
                 <li>
                     <a class='nav help' href="/instructorHelp.html" target="_blank">Help</a>
                 </li>

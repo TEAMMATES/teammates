@@ -1,9 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
-<%@page import="teammates.common.util.TimeHelper"%>
+<%@ page import="teammates.common.util.TimeHelper"%>
 <%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.common.datatransfer.CourseDetailsBundle"%>
+<%@ page import="teammates.common.datatransfer.SectionDetailsBundle" %>
 <%@ page import="teammates.common.datatransfer.TeamDetailsBundle"%>
+<%@ page import="teammates.common.datatransfer.InstructorAttributes" %>
 <%@ page import="teammates.common.datatransfer.StudentAttributes"%>
 <%@ page import="teammates.common.datatransfer.EvaluationAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackSessionAttributes"%>
@@ -87,7 +89,7 @@
             <div id="moreOptionsDiv" class="well well-plain" style="display: none;">
                 <form class="form-horizontal" role="form">
                     <div class="row">
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
                             <div class="text-color-primary">
                                 <strong>Courses</strong>
                             </div>
@@ -113,8 +115,39 @@
                                 }
                             %>
                         </div>
-    
-                        <div class="col-sm-4">
+                        
+                        <div class="col-sm-3">
+                            <div class="text-color-primary">
+                                <strong>Sections</strong>
+                            </div>
+                            <br>
+                            <div class="checkbox">
+                                <input type="checkbox" value="" id="section_all" checked="checked"> 
+                                <label for="section_all"><strong>Select all</strong></label>
+                            </div>
+                            <br>
+                            <%
+                                courseIdx = -1;
+                                for(CourseDetailsBundle courseDetails: data.courses){
+                                    if((courseDetails.course.isArchived && data.displayArchive) || !courseDetails.course.isArchived){
+                                        courseIdx++;
+                                        int sectionIdx = -1;
+                                        for(SectionDetailsBundle sectionDetails: courseDetails.sections) {
+                                            sectionIdx++;
+                            %>
+                                <div class="checkbox"><input id="section_check-<%=courseIdx %>-<%=sectionIdx%>" type="checkbox" checked="checked">
+                                    <label for="section_check-<%=courseIdx %>-<%=sectionIdx%>">
+                                    [<%=courseDetails.course.id%>] : <%=PageData.sanitizeForHtml(sectionDetails.name)%>
+                                    </label>
+                                </div>
+                            <%          
+                                        }
+                                    }
+                                }
+                            %>
+                        </div>
+
+                        <div class="col-sm-3">
                             <div class="text-color-primary">
                                 <strong>Teams</strong>
                             </div>
@@ -129,13 +162,16 @@
                                 for(CourseDetailsBundle courseDetails: data.courses){
                                     if((courseDetails.course.isArchived && data.displayArchive) || !courseDetails.course.isArchived){
                                         courseIdx++;
+                                        int sectionIdx = -1;
                                         int teamIdx = -1;
-                                        for(TeamDetailsBundle teamDetails: courseDetails.teams){
+                                    for(SectionDetailsBundle sectionDetails: courseDetails.sections){
+                                        sectionIdx++;
+                                        for(TeamDetailsBundle teamDetails: sectionDetails.teams){
                                             teamIdx++;
                             %>
                                 <div class="checkbox">
-                                    <input id="team_check-<%=courseIdx %>-<%=teamIdx %>" type="checkbox" checked="checked">
-                                    <label for="team_check-<%=courseIdx %>-<%=teamIdx%>">
+                                    <input id="team_check-<%=courseIdx %>-<%=sectionIdx%>-<%=teamIdx %>" type="checkbox" checked="checked">
+                                    <label for="team_check-<%=courseIdx %>-<%=sectionIdx%>-<%=teamIdx%>">
                                     [<%=courseDetails.course.id%>] : <%=PageData.sanitizeForHtml(teamDetails.name)%>
                                     </label>
                                 </div>
@@ -143,9 +179,10 @@
                                         }
                                     }
                                 }
+                                }
                             %>
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
                             <div class="text-color-primary">
                                 <strong>Emails</strong>
                             </div>
@@ -165,13 +202,15 @@
                                             int totalCourseStudents = courseDetails.stats.studentsTotal;
                                             if(totalCourseStudents >= 1){
                                                 int studentIdx = -1;
-                                                for(TeamDetailsBundle teamDetails: courseDetails.teams){
+                                                for(SectionDetailsBundle sectionDetails : courseDetails.sections){
+                                                for(TeamDetailsBundle teamDetails: sectionDetails.teams){
                                                     for(StudentAttributes student: teamDetails.students){
                                                         studentIdx++;
                                 %>
                                         <div id="student_email-c<%=courseIdx %>.<%=studentIdx%>"><%=student.email %></div>
                                 <%
                                                     }
+                                                }
                                                 }
                                             }
                                         }
@@ -189,6 +228,8 @@
                 for (CourseDetailsBundle courseDetails : data.courses) {
                     if((courseDetails.course.isArchived && data.displayArchive) || !courseDetails.course.isArchived){
                         courseIdx++;
+                        int sortIdx = 1;
+                        int numSections = courseDetails.stats.sectionsTotal;
                         int totalCourseStudents = courseDetails.stats.studentsTotal;
             %>
 
@@ -215,63 +256,98 @@
                     if (totalCourseStudents > 0) {
                 %>
                         <table class="table table-responsive table-striped table-bordered">
-                            <thead>
-                                <tr class="fill-<%=courseDetails.course.isArchived ? "default":"primary" %>">
-                                    <th id="button_sortteam" class="button-sort-ascending" onclick="toggleSort(this,1)">
-                                        Team <span class="icon-sort sorted-ascending"></span>
+                            <thead class="fill-<%=courseDetails.course.isArchived ? "default":"primary" %>">
+                                <tr>
+                                    <% if(numSections != 0) { %>
+                                        <th id="button_sortsection-<%=courseDetails.course.id%>" class="button-sort-none" onclick="toggleSort(this,<%=sortIdx++%>)">
+                                            Section <span class="icon-sort unsorted"></span>
+                                        </th>
+                                    <% } %>
+                                    <th id="button_sortteam-<%=courseDetails.course.id%>" class="button-sort-none" onclick="toggleSort(this,<%=sortIdx++%>)">
+                                        Team <span class="icon-sort unsorted"></span>
                                     </th>
-                                    <th id="button_sortstudentname" class="button-sort-none" onclick="toggleSort(this,2)">
+                                    <th id="button_sortstudentname-<%=courseDetails.course.id%>" class="button-sort-none" onclick="toggleSort(this,<%=sortIdx++%>)">
                                         Student Name <span class="icon-sort unsorted"></span>
                                     </th>
-                                    <th id="button_sortteam" class="button-sort-none" onclick="toggleSort(this,3)"> 
+                                    <th id="button_sortemail-<%=courseDetails.course.id%>" class="button-sort-none" onclick="toggleSort(this,<%=sortIdx++%>)"> 
                                         Email <span class="icon-sort unsorted"></span>
                                     </th>
                                     <th>Action(s)
                                     </th>
                                 </tr>
                             </thead>
-                            <%
+                            <%  
+                                    int sectionIdx = -1;
                                     int teamIdx = -1;
                                     int studentIdx = -1;
-                                    for(TeamDetailsBundle teamDetails: courseDetails.teams){
-                                        teamIdx++;
-                                        for(StudentAttributes student: teamDetails.students){
-                                            studentIdx++;
+                                    for(SectionDetailsBundle sectionDetails : courseDetails.sections){
+                                        sectionIdx++;
+                                        for(TeamDetailsBundle teamDetails: sectionDetails.teams){
+                                            teamIdx++;
+                                            for(StudentAttributes student: teamDetails.students){
+                                                studentIdx++;
                             %>
                             <tr id="student-c<%=courseIdx %>.<%=studentIdx%>" style="display: table-row;">
-                                <td id="studentteam-c<%=courseIdx %>.<%=teamIdx%>"><%=PageData.sanitizeForHtml(teamDetails.name)%></td>
+                                <% if(numSections != 0) { %>
+                                    <td id="studentsection-c<%=courseIdx %>.<%=sectionIdx%>"><%=PageData.sanitizeForHtml(sectionDetails.name)%></td>
+                                <% } %>
+                                <td id="studentteam-c<%=courseIdx %>.<%=sectionIdx%>.<%=teamIdx%>"><%=PageData.sanitizeForHtml(teamDetails.name)%></td>
                                 <td id="studentname-c<%=courseIdx %>.<%=studentIdx%>"><%=PageData.sanitizeForHtml(student.name)%></td>
                                 <td id="studentemail-c<%=courseIdx %>.<%=studentIdx%>"><%=PageData.sanitizeForHtml(student.email)%></td>
                                 <td class="no-print align-center">
                                     <a class="btn btn-default btn-xs student-view-for-test" 
                                     href="<%=data.getCourseStudentDetailsLink(courseDetails.course.id, student)%>"
                                     title="<%=Const.Tooltips.COURSE_STUDENT_DETAILS%>"
-                                    data-toggle="tooltip"
-                                    data-placement="top"> View</a> 
+                                    data-toggle="tooltip" data-placement="top"
+                                    <% InstructorAttributes instructor = data.instructors.get(courseDetails.course.id);
+                                       if (!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)) {%>
+                                       disabled="diabled"
+                                    <% } %>
+                                    > View</a> 
                                     
                                     <a class="btn btn-default btn-xs student-edit-for-test"
                                     href="<%=data.getCourseStudentEditLink(courseDetails.course.id, student)%>"
                                     title="<%=Const.Tooltips.COURSE_STUDENT_EDIT%>"
-                                    data-toggle="tooltip"
-                                    data-placement="top"> Edit</a> 
+                                    data-toggle="tooltip" data-placement="top"
+                                    <% if (!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT)) {%>
+                                       disabled="diabled"
+                                    <% } %>
+                                    > Edit</a> 
                                     
                                     <a class="btn btn-default btn-xs student-delete-for-test"
                                     href="<%=data.getCourseStudentDeleteLink(courseDetails.course.id, student)%>"
                                     onclick="return toggleDeleteStudentConfirmation('<%=sanitizeForJs(courseDetails.course.id)%>','<%=sanitizeForJs(student.name)%>')"
                                     title="<%=Const.Tooltips.COURSE_STUDENT_DELETE%>"
-                                    data-toggle="tooltip"
-                                    data-placement="top"> Delete</a>
+                                    data-toggle="tooltip" data-placement="top"
+                                    <% if (!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT)) {%>
+                                       disabled="diabled"
+                                    <% } %>> Delete</a>
                                     
                                     <a class="btn btn-default btn-xs student-records-for-test"
                                     href="<%=data.getStudentRecordsLink(courseDetails.course.id, student)%>"
                                     title="<%=Const.Tooltips.COURSE_STUDENT_RECORDS%>"
                                     data-toggle="tooltip"
                                     data-placement="top"> All Records</a>
+                                    
+                                    <div class="dropdown" style="display:inline;">
+                                      <a class="btn btn-default btn-xs dropdown-toggle" 
+                                        href="javascript:;"
+                                        data-toggle="dropdown"> Add Comment</a>
+                                      <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" style="text-align:left;">
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="<%=data.getCourseStudentDetailsLink(courseDetails.course.id, student)
+                                            +"&"+Const.ParamsNames.SHOW_COMMENT_BOX+"=student"%>">
+                                            Comment on <%=PageData.sanitizeForHtml(student.name)%></a></li>
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="<%=data.getCourseStudentDetailsLink(courseDetails.course.id, student)
+                                            +"&"+Const.ParamsNames.SHOW_COMMENT_BOX+"=team"%>">
+                                            Comment on <%=PageData.sanitizeForHtml(teamDetails.name)%></a></li>
+                                      </ul>
+                                    </div>
                                 </td>
                             </tr>
                             <%
                                         }
                                     }
+                                 }
                             %>
                         </table>
                         <%

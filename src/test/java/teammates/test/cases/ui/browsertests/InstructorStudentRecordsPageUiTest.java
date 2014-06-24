@@ -61,7 +61,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
             .withStudentEmail(student.email);
         
         viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentRecordsPage.class);
-        viewPage.verifyHtml("/instructorStudentRecordsPage.html");
+        viewPage.verifyHtmlMainContent("/instructorStudentRecordsPage.html");
         
         
         ______TS("content: normal student records with private feedback session");
@@ -77,7 +77,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
             .withStudentEmail(student.email);
         
         viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentRecordsPage.class);
-        viewPage.verifyHtml("/instructorStudentRecordsPageWithPrivateFeedback.html");
+        viewPage.verifyHtmlMainContent("/instructorStudentRecordsPageWithPrivateFeedback.html");
         
         
         ______TS("content: no student records");
@@ -91,7 +91,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
             .withStudentEmail(student.email);
         
         viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentRecordsPage.class);
-        viewPage.verifyHtml("/instructorStudentRecordsPageNoRecords.html");
+        viewPage.verifyHtmlMainContent("/instructorStudentRecordsPageNoRecords.html");
         
         ______TS("content: multiple feedback session type student record");
         
@@ -106,7 +106,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
             .withStudentEmail(student.email);
         
         viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentRecordsPage.class);
-        viewPage.verifyHtml("/instructorStudentRecordsPageMixedQuestionType.html");
+        viewPage.verifyHtmlMainContent("/instructorStudentRecordsPageMixedQuestionType.html");
 
     }
     
@@ -144,7 +144,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
         ______TS("add comment: success");
 
         viewPage.addComment("New comment from teammates.test for Benny C")
-                .verifyStatus("New comment has been added for this student");
+                .verifyStatus("New comment has been added");
         
         ______TS("delete comment: cancel");
         

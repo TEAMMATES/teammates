@@ -65,7 +65,8 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         AppPage.logout(browser);
         studentHome = HomePage.getNewInstance(browser).clickStudentLogin()
                                                       .loginAsStudent(unregUserId, unregPassword);
-        studentHome.verifyHtml("/StudentHomeHTMLEmpty.html");
+        // this test uses the accounts from test.properties
+        studentHome.verifyHtmlMainContent("/StudentHomeHTMLEmpty.html");
         
         ______TS("login");
         
@@ -76,14 +77,15 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
             
         ______TS("content: multiple courses");
         
-        studentHome.verifyHtml("/StudentHomeHTML.html");
+        // this test uses the accounts from test.properties
+        studentHome.verifyHtmlMainContent("/StudentHomeHTML.html");
         
         Url detailsPageUrl = createUrl(Const.ActionURIs.STUDENT_HOME_PAGE)
                              .withUserId(testData.students.get("SHomeUiT.charlie.d@SHomeUiT.CS2104").googleId);
 
         StudentHomePage studentHomePage = loginAdminToPage(browser, detailsPageUrl, StudentHomePage.class);
         
-        studentHomePage.verifyHtml("/StudentHomeTypicalHTML.html");
+        studentHomePage.verifyHtmlMainContent("/StudentHomeTypicalHTML.html");
            
     }
     
@@ -222,7 +224,8 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         BackDoor.deleteEvaluation("SHomeUiT.CS1101", "Third Eval");
         
         studentHomePage.getEditEvalButton("Third Eval").click();
-        studentHomePage.verifyHtml("/StudentHomeEvalDeletedHTML.html");
+        browser.selenium.waitForPageToLoad("15000");
+        studentHomePage.verifyHtmlMainContent("/StudentHomeEvalDeletedHTML.html");
         studentHomePage.reloadPage();
         
         
@@ -230,7 +233,8 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         
         BackDoor.deleteFeedbackSession("First Feedback Session", "SHomeUiT.CS2104");     
         studentHomePage.getSubmitFeedbackButton("First Feedback Session").click();
-        studentHomePage.verifyHtml("/StudentHomeFeedbackDeletedHTML.html");
+        browser.selenium.waitForPageToLoad("15000");
+        studentHomePage.verifyHtmlMainContent("/StudentHomeFeedbackDeletedHTML.html");
         
     }
 

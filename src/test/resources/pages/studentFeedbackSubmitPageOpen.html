@@ -1,75 +1,79 @@
-<html>
+   <html>
       <head>
-         <link href="/favicon.png"  rel="shortcut icon" />
-                  <meta content="text/html; charset=UTF-8"  http-equiv="Content-Type" />
-                  <meta content="IE=edge"  http-equiv="X-UA-Compatible" />
-                  <meta content="width=device-width, initial-scale=1"  name="viewport" />
+         <link href="/favicon.png" rel="shortcut icon"/>
+                  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+                  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+                  <meta content="width=device-width, initial-scale=1" name="viewport"/>
                   <title>
             TEAMMATES - Submit Feedback
          </title>
-         <!--{*}-->
-         <link href="/bootstrap/css/bootstrap.min.css"  rel="stylesheet" />
-         <!--{*}-->
-         <link href="/bootstrap/css/bootstrap-theme.min.css"  rel="stylesheet" />
-                  <link href="/stylesheets/teammatesCommon.css"  rel="stylesheet"  type="text/css" />
-                  <script async=""  src="https://ssl.google-analytics.com/ga.js"  type="text/javascript" >
+         <!---->
+         <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+                  <!---->
+         <link href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet"/>
+                  <link href="/stylesheets/teammatesCommon.css" rel="stylesheet" type="text/css"/>
+                  <script async="" src="https://ssl.google-analytics.com/ga.js" type="text/javascript">
          </script>
-         <script src="/js/googleAnalytics.js"  type="text/javascript" >
+         <script src="/js/googleAnalytics.js" type="text/javascript">
          </script>
-         <script src="/js/jquery-minified.js"  type="text/javascript" >
+         <script src="/js/jquery-minified.js" type="text/javascript">
          </script>
-                  <script src="/js/common.js"  type="text/javascript" >
+         <script src="/js/common.js" type="text/javascript">
          </script>
-         <script src="/js/feedbackSubmissionsEdit.js"  type="text/javascript" >
+         <script src="/js/feedbackSubmissionsEdit.js" type="text/javascript">
          </script>
-         <script src="/js/student.js"  type="text/javascript" >
+         <script src="/js/student.js" type="text/javascript">
          </script>
-         <!--{*}-->
-         <script src="/bootstrap/js/bootstrap.min.js" >
+         <!---->
+         <script src="/bootstrap/js/bootstrap.min.js">
          </script>
-         <!--{*}-->
-         <!--{*}-->
-         <noscript>{*}</noscript>
+         <!---->
+         <!---->
       </head>
       <body>
-            <div class="navbar navbar-inverse navbar-fixed-top"  role="navigation" >
-            <div class="container" >
-               <div class="navbar-header" >
-                  <button class="navbar-toggle"  data-target="#contentLinks"  data-toggle="collapse"  type="button" >
-                     <span class="sr-only" >
+         <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container">
+               <div class="navbar-header">
+                  <button class="navbar-toggle" data-target="#contentLinks" data-toggle="collapse" type="button">
+                     <span class="sr-only">
                         Toggle navigation
                      </span>
-                     <span class="icon-bar" >
+                     <span class="icon-bar">
                      </span>
-                     <span class="icon-bar" >
+                     <span class="icon-bar">
                      </span>
-                     <span class="icon-bar" >
+                     <span class="icon-bar">
                      </span>
                   </button>
-                  <a class="navbar-brand"  href="/index.html" >
+                  <a class="navbar-brand" href="/index.html">
                      TEAMMATES
                   </a>
                </div>
-               <div class="collapse navbar-collapse"  id="contentLinks" >
-                  <ul class="nav navbar-nav" >
-                     <li class="" >
-                        <a data-link="studentHome"  href="/page/studentHomePage?user=SFSubmitUiT.alice.b" >
+               <div class="collapse navbar-collapse" id="contentLinks">
+                  <ul class="nav navbar-nav">
+                     <li class="">
+                        <a data-link="studentHome" href="/page/studentHomePage?user=SFSubmitUiT.alice.b" id="studentHomeLink">
                            Home
                         </a>
                      </li>
-                     <li class="" >
-                        <a class="nav help"  href="/studentHelp.html"  target="_blank" >
+                     <li class="">
+                        <a data-link="studentProfilePage" href="/page/studentProfilePage?user=SFSubmitUiT.alice.b" id="studentProfileLink">
+                           Profile
+                        </a>
+                     </li>
+                     <li class="">
+                        <a class="nav" href="/studentHelp.html" id="studentHelpLink" target="_blank">
                            Help
                         </a>
                      </li>
                   </ul>
-                  <ul class="nav navbar-nav pull-right" >
+                  <ul class="nav navbar-nav pull-right">
                      <li>
-                        <a class="nav logout"  href="/logout.jsp" >
+                        <a class="nav logout" href="/logout.jsp">
                            Logout
                                 
                                 (
-                           <span class="text-info"  data-original-title="SFSubmitUiT.alice.b"  data-placement="bottom"  data-toggle="tooltip"  title="" >
+                           <span class="text-info" data-original-title="SFSubmitUiT.alice.b" data-placement="bottom" data-toggle="tooltip" title="">
                               SFSubmitUiT.alice.b
                            </span>
                            )
@@ -77,70 +81,70 @@
                      </li>
                   </ul>
                </div>
+            </div>
          </div>
-      </div>
-         <div id="frameBody" >
-            <div id="frameBodyWrapper" class="container">
-               <div id="topOfPage" >
+         <div id="frameBody">
+            <div class="container" id="frameBodyWrapper">
+               <div id="topOfPage">
                </div>
                <h1>
                   Submit Feedback
                </h1>
                <br/>
-                              <form action="/page/studentFeedbackSubmissionEditSave"  method="post"  name="form_student_submit_response" >
-                  <input name="fsname"  type="hidden"  value="First Session" />
-                                    <input name="courseid"  type="hidden"  value="SFSubmitUiT.CS2104" />
-                                    <input name="user"  type="hidden"  value="SFSubmitUiT.alice.b" />
-                                    <div class="well well-plain"  id="course1" >
-                     <div class="panel-body" >
-                        <div class="form-horizontal" >
-                           <div class="panel-heading" >
-                              <div class="form-group" >
-                                 <label class="col-sm-2 control-label" >
+                              <form action="/page/studentFeedbackSubmissionEditSave" method="post" name="form_student_submit_response">
+                  <input name="fsname" type="hidden" value="First Session"/>
+                                    <input name="courseid" type="hidden" value="SFSubmitUiT.CS2104"/>
+                                    <input name="user" type="hidden" value="SFSubmitUiT.alice.b"/>
+                                    <div class="well well-plain" id="course1">
+                     <div class="panel-body">
+                        <div class="form-horizontal">
+                           <div class="panel-heading">
+                              <div class="form-group">
+                                 <label class="col-sm-2 control-label">
                                     Course:
                                  </label>
-                                 <div class="col-sm-10" >
-                                    <p class="form-control-static" >
+                                 <div class="col-sm-10">
+                                    <p class="form-control-static">
                                        SFSubmitUiT.CS2104
                                     </p>
                                  </div>
                               </div>
-                              <div class="form-group" >
-                                 <label class="col-sm-2 control-label" >
+                              <div class="form-group">
+                                 <label class="col-sm-2 control-label">
                                     Session:
                                  </label>
-                                 <div class="col-sm-10" >
-                                    <p class="form-control-static" >
+                                 <div class="col-sm-10">
+                                    <p class="form-control-static">
                                        First Session
                                     </p>
                                  </div>
                               </div>
-                              <div class="form-group" >
-                                 <label class="col-sm-2 control-label" >
+                              <div class="form-group">
+                                 <label class="col-sm-2 control-label">
                                     Opening time:
                                  </label>
-                                 <div class="col-sm-10" >
-                                    <p class="form-control-static" >
+                                 <div class="col-sm-10">
+                                    <p class="form-control-static">
                                        01 Apr 2012, 23:59
                                     </p>
                                  </div>
                               </div>
-                              <div class="form-group" >
-                                 <label class="col-sm-2 control-label" >
+                              <div class="form-group">
+                                 <label class="col-sm-2 control-label">
                                     Closing time:
                                  </label>
-                                 <div class="col-sm-10" >
-                                    <p class="form-control-static" >
+                                 <div class="col-sm-10">
+                                    <p class="form-control-static">
                                        30 Apr 2016, 23:59
                                     </p>
                                  </div>
                               </div>
-                              <div class="form-group" >
-                                 <label class="col-sm-2 control-label" >
+                              <div class="form-group">
+                                 <label class="col-sm-2 control-label">
                                     Instructions:
                                  </label>
-                                 <div class="col-sm-10" >
-                                    <p class="form-control-static" >
+                                 <div class="col-sm-10">
+                                    <p class="form-control-static">
                                        Instructions for first session
                                     </p>
                                  </div>
@@ -149,38 +153,38 @@
                         </div>
                      </div>
                   </div>
-                  <div id="statusMessage"  style="display: none;" >
+                  <div id="statusMessage" style="display: none;">
                   </div>
                   <br/>
-                                    <input name="questiontype-1"  type="hidden"  value="TEXT" />
-                                    <input name="questionid-1"  type="hidden"  value="{*}" />
-                                    <input name="questionresponsetotal-1"  type="hidden"  value="1" />
-                                    <div class="form-horizontal" >
-                     <div class="panel panel-primary" >
-                        <div class="panel-heading" >
+                                    <input name="questiontype-1" type="hidden" value="TEXT"/>
+                                    <input name="questionid-1" type="hidden" value="{*}"/>
+                                    <input name="questionresponsetotal-1" type="hidden" value="1"/>
+                                    <div class="form-horizontal">
+                     <div class="panel panel-primary">
+                        <div class="panel-heading">
                            Question 1:
                            <br/>
                                                       What is the best selling point of your product?
                         </div>
-                        <div class="panel-body" >
-                           <p class="text-muted" >
+                        <div class="panel-body">
+                           <p class="text-muted">
                               Only the following persons can see your responses:
                            </p>
-                           <ul class="text-muted" >
-                              <li class="unordered" >
+                           <ul class="text-muted">
+                              <li class="unordered">
                                  You can see your own feedback in the results page later on.
                               </li>
                            </ul>
                            <br/>
-                                                      <div class="form-group" >
-                              <div class="col-sm-2 form-inline"  style="display:none" >
-                                 <label for="input" >
+                                                      <div class="form-group margin-0">
+                              <div class="col-sm-2 form-inline" style="display:none">
+                                 <label for="input">
                                     To:
                                  </label>
-                                 <select class="participantSelect middlealign newResponse form-control"  name="responserecipient-1-0"  style="max-width:125px" >
-                                    <option selected="selected"  value="" >
+                                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-1-0" style="display:none;max-width:125px">
+                                    <option selected="selected" value="">
                                     </option>
-                                    <option value="SFSubmitUiT.alice.b@gmail.com" >
+                                    <option value="SFSubmitUiT.alice.b@gmail.com">
                                        Myself
                                     </option>
                                  </select>
@@ -188,8 +192,8 @@
                                     Myself
                                  </span>
                               </div>
-                              <div class="col-sm-12" >
-                                 <textarea class="form-control"  cols="100%"  name="responsetext-1-0"  rows="4" >
+                              <div class="col-sm-12">
+                                 <textarea class="form-control" cols="100%" name="responsetext-1-0" rows="4">
                                  </textarea>
                               </div>
                            </div>
@@ -198,138 +202,138 @@
                   </div>
                   <br/>
                                     <br/>
-                                    <input name="questiontype-2"  type="hidden"  value="TEXT" />
-                                    <input name="questionid-2"  type="hidden"  value="{*}" />
-                                    <input name="questionresponsetotal-2"  type="hidden"  value="3" />
-                                    <div class="form-horizontal" >
-                     <div class="panel panel-primary" >
-                        <div class="panel-heading" >
+                                    <input name="questiontype-2" type="hidden" value="TEXT"/>
+                                    <input name="questionid-2" type="hidden" value="{*}"/>
+                                    <input name="questionresponsetotal-2" type="hidden" value="3"/>
+                                    <div class="form-horizontal">
+                     <div class="panel panel-primary">
+                        <div class="panel-heading">
                            Question 2:
                            <br/>
                                                       Rate 3 other students' products
                         </div>
-                        <div class="panel-body" >
-                           <p class="text-muted" >
+                        <div class="panel-body">
+                           <p class="text-muted">
                               Only the following persons can see your responses:
                            </p>
-                           <ul class="text-muted" >
-                              <li class="unordered" >
+                           <ul class="text-muted">
+                              <li class="unordered">
                                  Instructors in this course can see your response, the name of the recipient, and your name.
                               </li>
-                              <li class="unordered" >
+                              <li class="unordered">
                                  The receiving students can see your response, but
-                                 <span class="bold color_red" >
+                                 <span class="bold color_red">
                                     not
                                  </span>
                                  your name.
                               </li>
-                              <li class="unordered" >
+                              <li class="unordered">
                                  Your team members can see your response, and your name, but
-                                 <span class="bold color_red" >
+                                 <span class="bold color_red">
                                     not
                                  </span>
                                  the name of the recipient.
                               </li>
                            </ul>
                            <br/>
-                                                      <div class="form-group" >
-                              <div class="col-sm-2 form-inline"  style="text-align:right" >
-                                 <label for="input" >
+                                                      <div class="form-group margin-0">
+                              <div class="col-sm-2 form-inline" style="text-align:right">
+                                 <label for="input">
                                     To:
                                  </label>
-                                 <select class="participantSelect middlealign newResponse form-control"  name="responserecipient-2-0"  style="max-width:125px" >
-                                    <option selected="selected"  value="" >
+                                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-2-0" style="max-width:125px">
+                                    <option selected="selected" value="">
                                     </option>
-                                    <option value="SFSubmitUiT.benny.c@gmail.com" >
+                                    <option value="SFSubmitUiT.benny.c@gmail.com">
                                        Benny Charles
                                     </option>
-                                    <option style="display: none;"  value="SFSubmitUiT.charlie.d@gmail.com" >
+                                    <option style="display: none;" value="SFSubmitUiT.charlie.d@gmail.com">
                                        Charlie Davis
                                     </option>
-                                    <option style="display: none;"  value="SFSubmitUiT.danny.e@gmail.com" >
+                                    <option style="display: none;" value="SFSubmitUiT.danny.e@gmail.com">
                                        Danny Engrid
                                     </option>
-                                    <option value="drop.out@gmail.com" >
+                                    <option value="drop.out@gmail.com">
                                        Drop out
                                     </option>
-                                    <option value="SFSubmitUiT.emily.f@gmail.com" >
+                                    <option value="SFSubmitUiT.emily.f@gmail.com">
                                        Emily
                                     </option>
-                                    <option value="extra.guy@gmail.com" >
+                                    <option value="extra.guy@gmail.com">
                                        Extra guy
                                     </option>
                                  </select>
                               </div>
-                              <div class="col-sm-10" >
-                                 <textarea class="form-control"  cols="100%"  name="responsetext-2-0"  rows="4" >
+                              <div class="col-sm-10">
+                                 <textarea class="form-control" cols="100%" name="responsetext-2-0" rows="4">
                                  </textarea>
                               </div>
                            </div>
                            <br/>
-                                                      <div class="form-group" >
-                              <div class="col-sm-2 form-inline"  style="text-align:right" >
-                                 <label for="input" >
+                                                      <div class="form-group margin-0">
+                              <div class="col-sm-2 form-inline" style="text-align:right">
+                                 <label for="input">
                                     To:
                                  </label>
-                                 <select class="participantSelect middlealign newResponse form-control"  name="responserecipient-2-1"  style="max-width:125px" >
-                                    <option selected="selected"  value="" >
+                                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-2-1" style="max-width:125px">
+                                    <option selected="selected" value="">
                                     </option>
-                                    <option style="display: none;"  value="SFSubmitUiT.benny.c@gmail.com" >
+                                    <option style="display: none;" value="SFSubmitUiT.benny.c@gmail.com">
                                        Benny Charles
                                     </option>
-                                    <option value="SFSubmitUiT.charlie.d@gmail.com" >
+                                    <option value="SFSubmitUiT.charlie.d@gmail.com">
                                        Charlie Davis
                                     </option>
-                                    <option style="display: none;"  value="SFSubmitUiT.danny.e@gmail.com" >
+                                    <option style="display: none;" value="SFSubmitUiT.danny.e@gmail.com">
                                        Danny Engrid
                                     </option>
-                                    <option value="drop.out@gmail.com" >
+                                    <option value="drop.out@gmail.com">
                                        Drop out
                                     </option>
-                                    <option value="SFSubmitUiT.emily.f@gmail.com" >
+                                    <option value="SFSubmitUiT.emily.f@gmail.com">
                                        Emily
                                     </option>
-                                    <option value="extra.guy@gmail.com" >
+                                    <option value="extra.guy@gmail.com">
                                        Extra guy
                                     </option>
                                  </select>
                               </div>
-                              <div class="col-sm-10" >
-                                 <textarea class="form-control"  cols="100%"  name="responsetext-2-1"  rows="4" >
+                              <div class="col-sm-10">
+                                 <textarea class="form-control" cols="100%" name="responsetext-2-1" rows="4">
                                  </textarea>
                               </div>
                            </div>
                            <br/>
-                                                      <div class="form-group" >
-                              <div class="col-sm-2 form-inline"  style="text-align:right" >
-                                 <label for="input" >
+                                                      <div class="form-group margin-0">
+                              <div class="col-sm-2 form-inline" style="text-align:right">
+                                 <label for="input">
                                     To:
                                  </label>
-                                 <select class="participantSelect middlealign newResponse form-control"  name="responserecipient-2-2"  style="max-width:125px" >
-                                    <option selected="selected"  value="" >
+                                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-2-2" style="max-width:125px">
+                                    <option selected="selected" value="">
                                     </option>
-                                    <option style="display: none;"  value="SFSubmitUiT.benny.c@gmail.com" >
+                                    <option style="display: none;" value="SFSubmitUiT.benny.c@gmail.com">
                                        Benny Charles
                                     </option>
-                                    <option style="display: none;"  value="SFSubmitUiT.charlie.d@gmail.com" >
+                                    <option style="display: none;" value="SFSubmitUiT.charlie.d@gmail.com">
                                        Charlie Davis
                                     </option>
-                                    <option value="SFSubmitUiT.danny.e@gmail.com" >
+                                    <option value="SFSubmitUiT.danny.e@gmail.com">
                                        Danny Engrid
                                     </option>
-                                    <option value="drop.out@gmail.com" >
+                                    <option value="drop.out@gmail.com">
                                        Drop out
                                     </option>
-                                    <option value="SFSubmitUiT.emily.f@gmail.com" >
+                                    <option value="SFSubmitUiT.emily.f@gmail.com">
                                        Emily
                                     </option>
-                                    <option value="extra.guy@gmail.com" >
+                                    <option value="extra.guy@gmail.com">
                                        Extra guy
                                     </option>
                                  </select>
                               </div>
-                              <div class="col-sm-10" >
-                                 <textarea class="form-control"  cols="100%"  name="responsetext-2-2"  rows="4" >
+                              <div class="col-sm-10">
+                                 <textarea class="form-control" cols="100%" name="responsetext-2-2" rows="4">
                                  </textarea>
                               </div>
                            </div>
@@ -338,39 +342,39 @@
                   </div>
                   <br/>
                                     <br/>
-                                    <input name="questiontype-3"  type="hidden"  value="TEXT" />
-                                    <input name="questionid-3"  type="hidden"  value="{*}" />
-                                    <input name="questionresponsetotal-3"  type="hidden"  value="1" />
-                                    <div class="form-horizontal" >
-                     <div class="panel panel-primary" >
-                        <div class="panel-heading" >
+                                    <input name="questiontype-3" type="hidden" value="TEXT"/>
+                                    <input name="questionid-3" type="hidden" value="{*}"/>
+                                    <input name="questionresponsetotal-3" type="hidden" value="1"/>
+                                    <div class="form-horizontal">
+                     <div class="panel panel-primary">
+                        <div class="panel-heading">
                            Question 3:
                            <br/>
                                                       Comments about the class
                         </div>
-                        <div class="panel-body" >
-                           <p class="text-muted" >
+                        <div class="panel-body">
+                           <p class="text-muted">
                               Only the following persons can see your responses:
                            </p>
-                           <ul class="text-muted" >
-                              <li class="unordered" >
+                           <ul class="text-muted">
+                              <li class="unordered">
                                  Instructors in this course can see your response, but
-                                 <span class="bold color_red" >
+                                 <span class="bold color_red">
                                     not
                                  </span>
                                  your name.
                               </li>
                            </ul>
                            <br/>
-                                                      <div class="form-group" >
-                              <div class="col-sm-2 form-inline"  style="display:none" >
-                                 <label for="input" >
+                                                      <div class="form-group margin-0">
+                              <div class="col-sm-2 form-inline" style="display:none">
+                                 <label for="input">
                                     To:
                                  </label>
-                                 <select class="participantSelect middlealign newResponse form-control"  name="responserecipient-3-0"  style="max-width:125px" >
-                                    <option selected="selected"  value="" >
+                                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-3-0" style="display:none;max-width:125px">
+                                    <option selected="selected" value="">
                                     </option>
-                                    <option value="%GENERAL%" >
+                                    <option value="%GENERAL%">
                                        %GENERAL%
                                     </option>
                                  </select>
@@ -378,8 +382,8 @@
                                     %GENERAL%
                                  </span>
                               </div>
-                              <div class="col-sm-12" >
-                                 <textarea class="form-control"  cols="100%"  name="responsetext-3-0"  rows="4" >
+                              <div class="col-sm-12">
+                                 <textarea class="form-control" cols="100%" name="responsetext-3-0" rows="4">
                                  </textarea>
                               </div>
                            </div>
@@ -388,66 +392,72 @@
                   </div>
                   <br/>
                                     <br/>
-                                    <input name="questiontype-4"  type="hidden"  value="TEXT" />
-                                    <input name="questionid-4"  type="hidden"  value="{*}" />
-                                    <input name="questionresponsetotal-4"  type="hidden"  value="2" />
-                                    <div class="form-horizontal" >
-                     <div class="panel panel-primary" >
-                        <div class="panel-heading" >
+                                    <input name="questiontype-4" type="hidden" value="TEXT"/>
+                                    <input name="questionid-4" type="hidden" value="{*}"/>
+                                    <input name="questionresponsetotal-4" type="hidden" value="2"/>
+                                    <div class="form-horizontal">
+                     <div class="panel panel-primary">
+                        <div class="panel-heading">
                            Question 4:
                            <br/>
                                                       Give feedback to 3 other teams.
                         </div>
-                        <div class="panel-body" >
-                           <p class="text-muted" >
+                        <div class="panel-body">
+                           <p class="text-muted">
                               Only the following persons can see your responses:
                            </p>
-                           <ul class="text-muted" >
-                              <li class="unordered" >
+                           <ul class="text-muted">
+                              <li class="unordered">
                                  The receiving teams can see your response, and your name.
                               </li>
                            </ul>
                            <br/>
-                                                      <div class="form-group" >
-                              <div class="col-sm-2 form-inline"  style="text-align:right" >
-                                 <label for="input" >
+                                                      <div class="form-group margin-0">
+                              <div class="col-sm-2 form-inline" style="text-align:right">
+                                 <label for="input">
                                     To:
                                  </label>
-                                 <select class="participantSelect middlealign newResponse form-control"  name="responserecipient-4-0"  style="max-width:125px" >
-                                    <option selected="selected"  value="" >
+                                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-4-0" style="display:none;max-width:125px">
+                                    <option selected="selected" value="">
                                     </option>
-                                    <option value="Team 2" >
+                                    <option value="Team 2">
                                        Team 2
                                     </option>
-                                    <option style="display: none;"  value="Team 3" >
+                                    <option style="display: none;" value="Team 3">
                                        Team 3
                                     </option>
                                  </select>
+                                 <span>
+                                    Team 2
+                                 </span>
                               </div>
-                              <div class="col-sm-10" >
-                                 <textarea class="form-control"  cols="100%"  name="responsetext-4-0"  rows="4" >
+                              <div class="col-sm-10">
+                                 <textarea class="form-control" cols="100%" name="responsetext-4-0" rows="4">
                                  </textarea>
                               </div>
                            </div>
                            <br/>
-                                                      <div class="form-group" >
-                              <div class="col-sm-2 form-inline"  style="text-align:right" >
-                                 <label for="input" >
+                                                      <div class="form-group margin-0">
+                              <div class="col-sm-2 form-inline" style="text-align:right">
+                                 <label for="input">
                                     To:
                                  </label>
-                                 <select class="participantSelect middlealign newResponse form-control"  name="responserecipient-4-1"  style="max-width:125px" >
-                                    <option selected="selected"  value="" >
+                                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-4-1" style="display:none;max-width:125px">
+                                    <option selected="selected" value="">
                                     </option>
-                                    <option style="display: none;"  value="Team 2" >
+                                    <option style="display: none;" value="Team 2">
                                        Team 2
                                     </option>
-                                    <option value="Team 3" >
+                                    <option value="Team 3">
                                        Team 3
                                     </option>
                                  </select>
+                                 <span>
+                                    Team 3
+                                 </span>
                               </div>
-                              <div class="col-sm-10" >
-                                 <textarea class="form-control"  cols="100%"  name="responsetext-4-1"  rows="4" >
+                              <div class="col-sm-10">
+                                 <textarea class="form-control" cols="100%" name="responsetext-4-1" rows="4">
                                  </textarea>
                               </div>
                            </div>
@@ -456,41 +466,44 @@
                   </div>
                   <br/>
                                     <br/>
-                                    <input name="questiontype-5"  type="hidden"  value="TEXT" />
-                                    <input name="questionid-5"  type="hidden"  value="{*}" />
-                                    <input name="questionresponsetotal-5"  type="hidden"  value="1" />
-                                    <div class="form-horizontal" >
-                     <div class="panel panel-primary" >
-                        <div class="panel-heading" >
+                                    <input name="questiontype-5" type="hidden" value="TEXT"/>
+                                    <input name="questionid-5" type="hidden" value="{*}"/>
+                                    <input name="questionresponsetotal-5" type="hidden" value="1"/>
+                                    <div class="form-horizontal">
+                     <div class="panel panel-primary">
+                        <div class="panel-heading">
                            Question 5:
                            <br/>
                                                       Give feedback to your team mates
                         </div>
-                        <div class="panel-body" >
-                           <p class="text-muted" >
+                        <div class="panel-body">
+                           <p class="text-muted">
                               Only the following persons can see your responses:
                            </p>
-                           <ul class="text-muted" >
-                              <li class="unordered" >
+                           <ul class="text-muted">
+                              <li class="unordered">
                                  Your team members can see your response, and your name.
                               </li>
                            </ul>
                            <br/>
-                                                      <div class="form-group" >
-                              <div class="col-sm-2 form-inline"  style="text-align:right" >
-                                 <label for="input" >
+                                                      <div class="form-group margin-0">
+                              <div class="col-sm-2 form-inline" style="text-align:right">
+                                 <label for="input">
                                     To:
                                  </label>
-                                 <select class="participantSelect middlealign newResponse form-control"  name="responserecipient-5-0"  style="max-width:125px" >
-                                    <option selected="selected"  value="" >
+                                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-5-0" style="display:none;max-width:125px">
+                                    <option selected="selected" value="">
                                     </option>
-                                    <option value="SFSubmitUiT.benny.c@gmail.com" >
+                                    <option value="SFSubmitUiT.benny.c@gmail.com">
                                        Benny Charles
                                     </option>
                                  </select>
+                                 <span>
+                                    Benny Charles
+                                 </span>
                               </div>
-                              <div class="col-sm-10" >
-                                 <textarea class="form-control"  cols="100%"  name="responsetext-5-0"  rows="4" >
+                              <div class="col-sm-10">
+                                 <textarea class="form-control" cols="100%" name="responsetext-5-0" rows="4">
                                  </textarea>
                               </div>
                            </div>
@@ -499,35 +512,35 @@
                   </div>
                   <br/>
                                     <br/>
-                                    <input name="questiontype-6"  type="hidden"  value="MCQ" />
-                                    <input name="questionid-6"  type="hidden"  value="{*}" />
-                                    <input name="questionresponsetotal-6"  type="hidden"  value="1" />
-                                    <div class="form-horizontal" >
-                     <div class="panel panel-primary" >
-                        <div class="panel-heading" >
+                                    <input name="questiontype-6" type="hidden" value="MCQ"/>
+                                    <input name="questionid-6" type="hidden" value="{*}"/>
+                                    <input name="questionresponsetotal-6" type="hidden" value="1"/>
+                                    <div class="form-horizontal">
+                     <div class="panel panel-primary">
+                        <div class="panel-heading">
                            Question 6:
                            <br/>
                                                       What is the best selling point of your product?
                         </div>
-                        <div class="panel-body" >
-                           <p class="text-muted" >
+                        <div class="panel-body">
+                           <p class="text-muted">
                               Only the following persons can see your responses:
                            </p>
-                           <ul class="text-muted" >
-                              <li class="unordered" >
+                           <ul class="text-muted">
+                              <li class="unordered">
                                  You can see your own feedback in the results page later on.
                               </li>
                            </ul>
                            <br/>
-                                                      <div class="form-group" >
-                              <div class="col-sm-2 form-inline"  style="display:none" >
-                                 <label for="input" >
+                                                      <div class="form-group margin-0">
+                              <div class="col-sm-2 form-inline" style="display:none">
+                                 <label for="input">
                                     To:
                                  </label>
-                                 <select class="participantSelect middlealign newResponse form-control"  name="responserecipient-6-0"  style="max-width:125px" >
-                                    <option selected="selected"  value="" >
+                                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-6-0" style="display:none;max-width:125px">
+                                    <option selected="selected" value="">
                                     </option>
-                                    <option value="SFSubmitUiT.alice.b@gmail.com" >
+                                    <option value="SFSubmitUiT.alice.b@gmail.com">
                                        Myself
                                     </option>
                                  </select>
@@ -535,13 +548,13 @@
                                     Myself
                                  </span>
                               </div>
-                              <div class="col-sm-12" >
+                              <div class="col-sm-12">
                                  <table>
                                     <tbody>
                                        <tr>
                                           <td>
                                              <label>
-                                                <input name="responsetext-6-0"  type="radio"  value="UI" />
+                                                <input name="responsetext-6-0" type="radio" value="UI"/>
                                                                                                 UI
                                              </label>
                                           </td>
@@ -549,7 +562,7 @@
                                        <tr>
                                           <td>
                                              <label>
-                                                <input name="responsetext-6-0"  type="radio"  value="Algo" />
+                                                <input name="responsetext-6-0" type="radio" value="Algo"/>
                                                                                                 Algo
                                              </label>
                                           </td>
@@ -563,49 +576,52 @@
                   </div>
                   <br/>
                                     <br/>
-                                    <input name="questiontype-7"  type="hidden"  value="MCQ" />
-                                    <input name="questionid-7"  type="hidden"  value="{*}" />
-                                    <input name="questionresponsetotal-7"  type="hidden"  value="2" />
-                                    <div class="form-horizontal" >
-                     <div class="panel panel-primary" >
-                        <div class="panel-heading" >
+                                    <input name="questiontype-7" type="hidden" value="MCQ"/>
+                                    <input name="questionid-7" type="hidden" value="{*}"/>
+                                    <input name="questionresponsetotal-7" type="hidden" value="2"/>
+                                    <div class="form-horizontal">
+                     <div class="panel panel-primary">
+                        <div class="panel-heading">
                            Question 7:
                            <br/>
                                                       What do you think is the other teams' best feature?
                         </div>
-                        <div class="panel-body" >
-                           <p class="text-muted" >
+                        <div class="panel-body">
+                           <p class="text-muted">
                               Only the following persons can see your responses:
                            </p>
-                           <ul class="text-muted" >
-                              <li class="unordered" >
+                           <ul class="text-muted">
+                              <li class="unordered">
                                  The receiving teams can see your response, and your name.
                               </li>
                            </ul>
                            <br/>
-                                                      <div class="form-group" >
-                              <div class="col-sm-2 form-inline"  style="text-align:right" >
-                                 <label for="input" >
+                                                      <div class="form-group margin-0">
+                              <div class="col-sm-2 form-inline" style="text-align:right">
+                                 <label for="input">
                                     To:
                                  </label>
-                                 <select class="participantSelect middlealign newResponse form-control"  name="responserecipient-7-0"  style="max-width:125px" >
-                                    <option selected="selected"  value="" >
+                                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-7-0" style="display:none;max-width:125px">
+                                    <option selected="selected" value="">
                                     </option>
-                                    <option value="Team 2" >
+                                    <option value="Team 2">
                                        Team 2
                                     </option>
-                                    <option style="display: none;"  value="Team 3" >
+                                    <option style="display: none;" value="Team 3">
                                        Team 3
                                     </option>
                                  </select>
+                                 <span>
+                                    Team 2
+                                 </span>
                               </div>
-                              <div class="col-sm-10" >
+                              <div class="col-sm-10">
                                  <table>
                                     <tbody>
                                        <tr>
                                           <td>
                                              <label>
-                                                <input name="responsetext-7-0"  type="radio"  value="UI" />
+                                                <input name="responsetext-7-0" type="radio" value="UI"/>
                                                                                                 UI
                                              </label>
                                           </td>
@@ -613,7 +629,7 @@
                                        <tr>
                                           <td>
                                              <label>
-                                                <input name="responsetext-7-0"  type="radio"  value="Algo" />
+                                                <input name="responsetext-7-0" type="radio" value="Algo"/>
                                                                                                 Algo
                                              </label>
                                           </td>
@@ -623,29 +639,32 @@
                               </div>
                            </div>
                            <br/>
-                                                      <div class="form-group" >
-                              <div class="col-sm-2 form-inline"  style="text-align:right" >
-                                 <label for="input" >
+                                                      <div class="form-group margin-0">
+                              <div class="col-sm-2 form-inline" style="text-align:right">
+                                 <label for="input">
                                     To:
                                  </label>
-                                 <select class="participantSelect middlealign newResponse form-control"  name="responserecipient-7-1"  style="max-width:125px" >
-                                    <option selected="selected"  value="" >
+                                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-7-1" style="display:none;max-width:125px">
+                                    <option selected="selected" value="">
                                     </option>
-                                    <option style="display: none;"  value="Team 2" >
+                                    <option style="display: none;" value="Team 2">
                                        Team 2
                                     </option>
-                                    <option value="Team 3" >
+                                    <option value="Team 3">
                                        Team 3
                                     </option>
                                  </select>
+                                 <span>
+                                    Team 3
+                                 </span>
                               </div>
-                              <div class="col-sm-10" >
+                              <div class="col-sm-10">
                                  <table>
                                     <tbody>
                                        <tr>
                                           <td>
                                              <label>
-                                                <input name="responsetext-7-1"  type="radio"  value="UI" />
+                                                <input name="responsetext-7-1" type="radio" value="UI"/>
                                                                                                 UI
                                              </label>
                                           </td>
@@ -653,7 +672,7 @@
                                        <tr>
                                           <td>
                                              <label>
-                                                <input name="responsetext-7-1"  type="radio"  value="Algo" />
+                                                <input name="responsetext-7-1" type="radio" value="Algo"/>
                                                                                                 Algo
                                              </label>
                                           </td>
@@ -667,35 +686,35 @@
                   </div>
                   <br/>
                                     <br/>
-                                    <input name="questiontype-8"  type="hidden"  value="MSQ" />
-                                    <input name="questionid-8"  type="hidden"  value="{*}" />
-                                    <input name="questionresponsetotal-8"  type="hidden"  value="1" />
-                                    <div class="form-horizontal" >
-                     <div class="panel panel-primary" >
-                        <div class="panel-heading" >
+                                    <input name="questiontype-8" type="hidden" value="MSQ"/>
+                                    <input name="questionid-8" type="hidden" value="{*}"/>
+                                    <input name="questionresponsetotal-8" type="hidden" value="1"/>
+                                    <div class="form-horizontal">
+                     <div class="panel panel-primary">
+                        <div class="panel-heading">
                            Question 8:
                            <br/>
                                                       What is the best selling point of your product?
                         </div>
-                        <div class="panel-body" >
-                           <p class="text-muted" >
+                        <div class="panel-body">
+                           <p class="text-muted">
                               Only the following persons can see your responses:
                            </p>
-                           <ul class="text-muted" >
-                              <li class="unordered" >
+                           <ul class="text-muted">
+                              <li class="unordered">
                                  You can see your own feedback in the results page later on.
                               </li>
                            </ul>
                            <br/>
-                                                      <div class="form-group" >
-                              <div class="col-sm-2 form-inline"  style="display:none" >
-                                 <label for="input" >
+                                                      <div class="form-group margin-0">
+                              <div class="col-sm-2 form-inline" style="display:none">
+                                 <label for="input">
                                     To:
                                  </label>
-                                 <select class="participantSelect middlealign newResponse form-control"  name="responserecipient-8-0"  style="max-width:125px" >
-                                    <option selected="selected"  value="" >
+                                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-8-0" style="display:none;max-width:125px">
+                                    <option selected="selected" value="">
                                     </option>
-                                    <option value="SFSubmitUiT.alice.b@gmail.com" >
+                                    <option value="SFSubmitUiT.alice.b@gmail.com">
                                        Myself
                                     </option>
                                  </select>
@@ -703,13 +722,13 @@
                                     Myself
                                  </span>
                               </div>
-                              <div class="col-sm-12" >
+                              <div class="col-sm-12">
                                  <table>
                                     <tbody>
                                        <tr>
                                           <td>
                                              <label>
-                                                <input name="responsetext-8-0"  type="checkbox"  value="UI" />
+                                                <input name="responsetext-8-0" type="checkbox" value="UI"/>
                                                                                                 UI
                                              </label>
                                           </td>
@@ -717,7 +736,7 @@
                                        <tr>
                                           <td>
                                              <label>
-                                                <input name="responsetext-8-0"  type="checkbox"  value="Algo" />
+                                                <input name="responsetext-8-0" type="checkbox" value="Algo"/>
                                                                                                 Algo
                                              </label>
                                           </td>
@@ -725,7 +744,7 @@
                                        <tr>
                                           <td>
                                              <label>
-                                                <input name="responsetext-8-0"  type="checkbox"  value="Design" />
+                                                <input name="responsetext-8-0" type="checkbox" value="Design"/>
                                                                                                 Design
                                              </label>
                                           </td>
@@ -739,49 +758,52 @@
                   </div>
                   <br/>
                                     <br/>
-                                    <input name="questiontype-9"  type="hidden"  value="MSQ" />
-                                    <input name="questionid-9"  type="hidden"  value="{*}" />
-                                    <input name="questionresponsetotal-9"  type="hidden"  value="2" />
-                                    <div class="form-horizontal" >
-                     <div class="panel panel-primary" >
-                        <div class="panel-heading" >
+                                    <input name="questiontype-9" type="hidden" value="MSQ"/>
+                                    <input name="questionid-9" type="hidden" value="{*}"/>
+                                    <input name="questionresponsetotal-9" type="hidden" value="2"/>
+                                    <div class="form-horizontal">
+                     <div class="panel panel-primary">
+                        <div class="panel-heading">
                            Question 9:
                            <br/>
                                                       What do you think is the other teams' best feature?
                         </div>
-                        <div class="panel-body" >
-                           <p class="text-muted" >
+                        <div class="panel-body">
+                           <p class="text-muted">
                               Only the following persons can see your responses:
                            </p>
-                           <ul class="text-muted" >
-                              <li class="unordered" >
+                           <ul class="text-muted">
+                              <li class="unordered">
                                  The receiving teams can see your response, and your name.
                               </li>
                            </ul>
                            <br/>
-                                                      <div class="form-group" >
-                              <div class="col-sm-2 form-inline"  style="text-align:right" >
-                                 <label for="input" >
+                                                      <div class="form-group margin-0">
+                              <div class="col-sm-2 form-inline" style="text-align:right">
+                                 <label for="input">
                                     To:
                                  </label>
-                                 <select class="participantSelect middlealign newResponse form-control"  name="responserecipient-9-0"  style="max-width:125px" >
-                                    <option selected="selected"  value="" >
+                                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-9-0" style="display:none;max-width:125px">
+                                    <option selected="selected" value="">
                                     </option>
-                                    <option value="Team 2" >
+                                    <option value="Team 2">
                                        Team 2
                                     </option>
-                                    <option style="display: none;"  value="Team 3" >
+                                    <option style="display: none;" value="Team 3">
                                        Team 3
                                     </option>
                                  </select>
+                                 <span>
+                                    Team 2
+                                 </span>
                               </div>
-                              <div class="col-sm-10" >
+                              <div class="col-sm-10">
                                  <table>
                                     <tbody>
                                        <tr>
                                           <td>
                                              <label>
-                                                <input name="responsetext-9-0"  type="checkbox"  value="UI" />
+                                                <input name="responsetext-9-0" type="checkbox" value="UI"/>
                                                                                                 UI
                                              </label>
                                           </td>
@@ -789,7 +811,7 @@
                                        <tr>
                                           <td>
                                              <label>
-                                                <input name="responsetext-9-0"  type="checkbox"  value="Algo" />
+                                                <input name="responsetext-9-0" type="checkbox" value="Algo"/>
                                                                                                 Algo
                                              </label>
                                           </td>
@@ -797,7 +819,7 @@
                                        <tr>
                                           <td>
                                              <label>
-                                                <input name="responsetext-9-0"  type="checkbox"  value="Design" />
+                                                <input name="responsetext-9-0" type="checkbox" value="Design"/>
                                                                                                 Design
                                              </label>
                                           </td>
@@ -807,29 +829,32 @@
                               </div>
                            </div>
                            <br/>
-                                                      <div class="form-group" >
-                              <div class="col-sm-2 form-inline"  style="text-align:right" >
-                                 <label for="input" >
+                                                      <div class="form-group margin-0">
+                              <div class="col-sm-2 form-inline" style="text-align:right">
+                                 <label for="input">
                                     To:
                                  </label>
-                                 <select class="participantSelect middlealign newResponse form-control"  name="responserecipient-9-1"  style="max-width:125px" >
-                                    <option selected="selected"  value="" >
+                                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-9-1" style="display:none;max-width:125px">
+                                    <option selected="selected" value="">
                                     </option>
-                                    <option style="display: none;"  value="Team 2" >
+                                    <option style="display: none;" value="Team 2">
                                        Team 2
                                     </option>
-                                    <option value="Team 3" >
+                                    <option value="Team 3">
                                        Team 3
                                     </option>
                                  </select>
+                                 <span>
+                                    Team 3
+                                 </span>
                               </div>
-                              <div class="col-sm-10" >
+                              <div class="col-sm-10">
                                  <table>
                                     <tbody>
                                        <tr>
                                           <td>
                                              <label>
-                                                <input name="responsetext-9-1"  type="checkbox"  value="UI" />
+                                                <input name="responsetext-9-1" type="checkbox" value="UI"/>
                                                                                                 UI
                                              </label>
                                           </td>
@@ -837,7 +862,7 @@
                                        <tr>
                                           <td>
                                              <label>
-                                                <input name="responsetext-9-1"  type="checkbox"  value="Algo" />
+                                                <input name="responsetext-9-1" type="checkbox" value="Algo"/>
                                                                                                 Algo
                                              </label>
                                           </td>
@@ -845,7 +870,7 @@
                                        <tr>
                                           <td>
                                              <label>
-                                                <input name="responsetext-9-1"  type="checkbox"  value="Design" />
+                                                <input name="responsetext-9-1" type="checkbox" value="Design"/>
                                                                                                 Design
                                              </label>
                                           </td>
@@ -859,35 +884,35 @@
                   </div>
                   <br/>
                                     <br/>
-                                    <input name="questiontype-10"  type="hidden"  value="MCQ" />
-                                    <input name="questionid-10"  type="hidden"  value="{*}" />
-                                    <input name="questionresponsetotal-10"  type="hidden"  value="1" />
-                                    <div class="form-horizontal" >
-                     <div class="panel panel-primary" >
-                        <div class="panel-heading" >
+                                    <input name="questiontype-10" type="hidden" value="MCQ"/>
+                                    <input name="questionid-10" type="hidden" value="{*}"/>
+                                    <input name="questionresponsetotal-10" type="hidden" value="1"/>
+                                    <div class="form-horizontal">
+                     <div class="panel panel-primary">
+                        <div class="panel-heading">
                            Question 10:
                            <br/>
                                                       Who is the best class mate?
                         </div>
-                        <div class="panel-body" >
-                           <p class="text-muted" >
+                        <div class="panel-body">
+                           <p class="text-muted">
                               Only the following persons can see your responses:
                            </p>
-                           <ul class="text-muted" >
-                              <li class="unordered" >
+                           <ul class="text-muted">
+                              <li class="unordered">
                                  You can see your own feedback in the results page later on.
                               </li>
                            </ul>
                            <br/>
-                                                      <div class="form-group" >
-                              <div class="col-sm-2 form-inline"  style="display:none" >
-                                 <label for="input" >
+                                                      <div class="form-group margin-0">
+                              <div class="col-sm-2 form-inline" style="display:none">
+                                 <label for="input">
                                     To:
                                  </label>
-                                 <select class="participantSelect middlealign newResponse form-control"  name="responserecipient-10-0"  style="max-width:125px" >
-                                    <option selected="selected"  value="" >
+                                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-10-0" style="display:none;max-width:125px">
+                                    <option selected="selected" value="">
                                     </option>
-                                    <option value="SFSubmitUiT.alice.b@gmail.com" >
+                                    <option value="SFSubmitUiT.alice.b@gmail.com">
                                        Myself
                                     </option>
                                  </select>
@@ -895,13 +920,13 @@
                                     Myself
                                  </span>
                               </div>
-                              <div class="col-sm-12" >
+                              <div class="col-sm-12">
                                  <table>
                                     <tbody>
                                        <tr>
                                           <td>
                                              <label>
-                                                <input name="responsetext-10-0"  type="radio"  value="Alice Betsy (Team 1)" />
+                                                <input name="responsetext-10-0" type="radio" value="Alice Betsy (Team 1)"/>
                                                                                                 Alice Betsy (Team 1)
                                              </label>
                                           </td>
@@ -909,7 +934,7 @@
                                        <tr>
                                           <td>
                                              <label>
-                                                <input name="responsetext-10-0"  type="radio"  value="Benny Charles (Team 1)" />
+                                                <input name="responsetext-10-0" type="radio" value="Benny Charles (Team 1)"/>
                                                                                                 Benny Charles (Team 1)
                                              </label>
                                           </td>
@@ -917,7 +942,7 @@
                                        <tr>
                                           <td>
                                              <label>
-                                                <input name="responsetext-10-0"  type="radio"  value="Charlie Davis (Team 2)" />
+                                                <input name="responsetext-10-0" type="radio" value="Charlie Davis (Team 2)"/>
                                                                                                 Charlie Davis (Team 2)
                                              </label>
                                           </td>
@@ -925,7 +950,7 @@
                                        <tr>
                                           <td>
                                              <label>
-                                                <input name="responsetext-10-0"  type="radio"  value="Danny Engrid (Team 2)" />
+                                                <input name="responsetext-10-0" type="radio" value="Danny Engrid (Team 2)"/>
                                                                                                 Danny Engrid (Team 2)
                                              </label>
                                           </td>
@@ -933,7 +958,7 @@
                                        <tr>
                                           <td>
                                              <label>
-                                                <input name="responsetext-10-0"  type="radio"  value="Drop out (Team 2)" />
+                                                <input name="responsetext-10-0" type="radio" value="Drop out (Team 2)"/>
                                                                                                 Drop out (Team 2)
                                              </label>
                                           </td>
@@ -941,7 +966,7 @@
                                        <tr>
                                           <td>
                                              <label>
-                                                <input name="responsetext-10-0"  type="radio"  value="Emily (Team 3)" />
+                                                <input name="responsetext-10-0" type="radio" value="Emily (Team 3)"/>
                                                                                                 Emily (Team 3)
                                              </label>
                                           </td>
@@ -949,7 +974,7 @@
                                        <tr>
                                           <td>
                                              <label>
-                                                <input name="responsetext-10-0"  type="radio"  value="Extra guy (Team 2)" />
+                                                <input name="responsetext-10-0" type="radio" value="Extra guy (Team 2)"/>
                                                                                                 Extra guy (Team 2)
                                              </label>
                                           </td>
@@ -963,35 +988,35 @@
                   </div>
                   <br/>
                                     <br/>
-                                    <input name="questiontype-11"  type="hidden"  value="MSQ" />
-                                    <input name="questionid-11"  type="hidden"  value="{*}" />
-                                    <input name="questionresponsetotal-11"  type="hidden"  value="1" />
-                                    <div class="form-horizontal" >
-                     <div class="panel panel-primary" >
-                        <div class="panel-heading" >
+                                    <input name="questiontype-11" type="hidden" value="MSQ"/>
+                                    <input name="questionid-11" type="hidden" value="{*}"/>
+                                    <input name="questionresponsetotal-11" type="hidden" value="1"/>
+                                    <div class="form-horizontal">
+                     <div class="panel panel-primary">
+                        <div class="panel-heading">
                            Question 11:
                            <br/>
                                                       Who do you recommend as tutor?
                         </div>
-                        <div class="panel-body" >
-                           <p class="text-muted" >
+                        <div class="panel-body">
+                           <p class="text-muted">
                               Only the following persons can see your responses:
                            </p>
-                           <ul class="text-muted" >
-                              <li class="unordered" >
+                           <ul class="text-muted">
+                              <li class="unordered">
                                  You can see your own feedback in the results page later on.
                               </li>
                            </ul>
                            <br/>
-                                                      <div class="form-group" >
-                              <div class="col-sm-2 form-inline"  style="display:none" >
-                                 <label for="input" >
+                                                      <div class="form-group margin-0">
+                              <div class="col-sm-2 form-inline" style="display:none">
+                                 <label for="input">
                                     To:
                                  </label>
-                                 <select class="participantSelect middlealign newResponse form-control"  name="responserecipient-11-0"  style="max-width:125px" >
-                                    <option selected="selected"  value="" >
+                                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-11-0" style="display:none;max-width:125px">
+                                    <option selected="selected" value="">
                                     </option>
-                                    <option value="SFSubmitUiT.alice.b@gmail.com" >
+                                    <option value="SFSubmitUiT.alice.b@gmail.com">
                                        Myself
                                     </option>
                                  </select>
@@ -999,13 +1024,13 @@
                                     Myself
                                  </span>
                               </div>
-                              <div class="col-sm-12" >
+                              <div class="col-sm-12">
                                  <table>
                                     <tbody>
                                        <tr>
                                           <td>
                                              <label>
-                                                <input name="responsetext-11-0"  type="checkbox"  value="Alice Betsy (Team 1)" />
+                                                <input name="responsetext-11-0" type="checkbox" value="Alice Betsy (Team 1)"/>
                                                                                                 Alice Betsy (Team 1)
                                              </label>
                                           </td>
@@ -1013,7 +1038,7 @@
                                        <tr>
                                           <td>
                                              <label>
-                                                <input name="responsetext-11-0"  type="checkbox"  value="Benny Charles (Team 1)" />
+                                                <input name="responsetext-11-0" type="checkbox" value="Benny Charles (Team 1)"/>
                                                                                                 Benny Charles (Team 1)
                                              </label>
                                           </td>
@@ -1021,7 +1046,7 @@
                                        <tr>
                                           <td>
                                              <label>
-                                                <input name="responsetext-11-0"  type="checkbox"  value="Charlie Davis (Team 2)" />
+                                                <input name="responsetext-11-0" type="checkbox" value="Charlie Davis (Team 2)"/>
                                                                                                 Charlie Davis (Team 2)
                                              </label>
                                           </td>
@@ -1029,7 +1054,7 @@
                                        <tr>
                                           <td>
                                              <label>
-                                                <input name="responsetext-11-0"  type="checkbox"  value="Danny Engrid (Team 2)" />
+                                                <input name="responsetext-11-0" type="checkbox" value="Danny Engrid (Team 2)"/>
                                                                                                 Danny Engrid (Team 2)
                                              </label>
                                           </td>
@@ -1037,7 +1062,7 @@
                                        <tr>
                                           <td>
                                              <label>
-                                                <input name="responsetext-11-0"  type="checkbox"  value="Drop out (Team 2)" />
+                                                <input name="responsetext-11-0" type="checkbox" value="Drop out (Team 2)"/>
                                                                                                 Drop out (Team 2)
                                              </label>
                                           </td>
@@ -1045,7 +1070,7 @@
                                        <tr>
                                           <td>
                                              <label>
-                                                <input name="responsetext-11-0"  type="checkbox"  value="Emily (Team 3)" />
+                                                <input name="responsetext-11-0" type="checkbox" value="Emily (Team 3)"/>
                                                                                                 Emily (Team 3)
                                              </label>
                                           </td>
@@ -1053,7 +1078,7 @@
                                        <tr>
                                           <td>
                                              <label>
-                                                <input name="responsetext-11-0"  type="checkbox"  value="Extra guy (Team 2)" />
+                                                <input name="responsetext-11-0" type="checkbox" value="Extra guy (Team 2)"/>
                                                                                                 Extra guy (Team 2)
                                              </label>
                                           </td>
@@ -1067,35 +1092,35 @@
                   </div>
                   <br/>
                                     <br/>
-                                    <input name="questiontype-12"  type="hidden"  value="MCQ" />
-                                    <input name="questionid-12"  type="hidden"  value="{*}" />
-                                    <input name="questionresponsetotal-12"  type="hidden"  value="1" />
-                                    <div class="form-horizontal" >
-                     <div class="panel panel-primary" >
-                        <div class="panel-heading" >
+                                    <input name="questiontype-12" type="hidden" value="MCQ"/>
+                                    <input name="questionid-12" type="hidden" value="{*}"/>
+                                    <input name="questionresponsetotal-12" type="hidden" value="1"/>
+                                    <div class="form-horizontal">
+                     <div class="panel panel-primary">
+                        <div class="panel-heading">
                            Question 12:
                            <br/>
                                                       Which is the best team?
                         </div>
-                        <div class="panel-body" >
-                           <p class="text-muted" >
+                        <div class="panel-body">
+                           <p class="text-muted">
                               Only the following persons can see your responses:
                            </p>
-                           <ul class="text-muted" >
-                              <li class="unordered" >
+                           <ul class="text-muted">
+                              <li class="unordered">
                                  You can see your own feedback in the results page later on.
                               </li>
                            </ul>
                            <br/>
-                                                      <div class="form-group" >
-                              <div class="col-sm-2 form-inline"  style="display:none" >
-                                 <label for="input" >
+                                                      <div class="form-group margin-0">
+                              <div class="col-sm-2 form-inline" style="display:none">
+                                 <label for="input">
                                     To:
                                  </label>
-                                 <select class="participantSelect middlealign newResponse form-control"  name="responserecipient-12-0"  style="max-width:125px" >
-                                    <option selected="selected"  value="" >
+                                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-12-0" style="display:none;max-width:125px">
+                                    <option selected="selected" value="">
                                     </option>
-                                    <option value="SFSubmitUiT.alice.b@gmail.com" >
+                                    <option value="SFSubmitUiT.alice.b@gmail.com">
                                        Myself
                                     </option>
                                  </select>
@@ -1103,13 +1128,13 @@
                                     Myself
                                  </span>
                               </div>
-                              <div class="col-sm-12" >
+                              <div class="col-sm-12">
                                  <table>
                                     <tbody>
                                        <tr>
                                           <td>
                                              <label>
-                                                <input name="responsetext-12-0"  type="radio"  value="Team 1" />
+                                                <input name="responsetext-12-0" type="radio" value="Team 1"/>
                                                                                                 Team 1
                                              </label>
                                           </td>
@@ -1117,7 +1142,7 @@
                                        <tr>
                                           <td>
                                              <label>
-                                                <input name="responsetext-12-0"  type="radio"  value="Team 2" />
+                                                <input name="responsetext-12-0" type="radio" value="Team 2"/>
                                                                                                 Team 2
                                              </label>
                                           </td>
@@ -1125,7 +1150,7 @@
                                        <tr>
                                           <td>
                                              <label>
-                                                <input name="responsetext-12-0"  type="radio"  value="Team 3" />
+                                                <input name="responsetext-12-0" type="radio" value="Team 3"/>
                                                                                                 Team 3
                                              </label>
                                           </td>
@@ -1139,35 +1164,35 @@
                   </div>
                   <br/>
                                     <br/>
-                                    <input name="questiontype-13"  type="hidden"  value="MSQ" />
-                                    <input name="questionid-13"  type="hidden"  value="{*}" />
-                                    <input name="questionresponsetotal-13"  type="hidden"  value="1" />
-                                    <div class="form-horizontal" >
-                     <div class="panel panel-primary" >
-                        <div class="panel-heading" >
+                                    <input name="questiontype-13" type="hidden" value="MSQ"/>
+                                    <input name="questionid-13" type="hidden" value="{*}"/>
+                                    <input name="questionresponsetotal-13" type="hidden" value="1"/>
+                                    <div class="form-horizontal">
+                     <div class="panel panel-primary">
+                        <div class="panel-heading">
                            Question 13:
                            <br/>
                                                       Who do you recommend as tutor?
                         </div>
-                        <div class="panel-body" >
-                           <p class="text-muted" >
+                        <div class="panel-body">
+                           <p class="text-muted">
                               Only the following persons can see your responses:
                            </p>
-                           <ul class="text-muted" >
-                              <li class="unordered" >
+                           <ul class="text-muted">
+                              <li class="unordered">
                                  You can see your own feedback in the results page later on.
                               </li>
                            </ul>
                            <br/>
-                                                      <div class="form-group" >
-                              <div class="col-sm-2 form-inline"  style="display:none" >
-                                 <label for="input" >
+                                                      <div class="form-group margin-0">
+                              <div class="col-sm-2 form-inline" style="display:none">
+                                 <label for="input">
                                     To:
                                  </label>
-                                 <select class="participantSelect middlealign newResponse form-control"  name="responserecipient-13-0"  style="max-width:125px" >
-                                    <option selected="selected"  value="" >
+                                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-13-0" style="display:none;max-width:125px">
+                                    <option selected="selected" value="">
                                     </option>
-                                    <option value="SFSubmitUiT.alice.b@gmail.com" >
+                                    <option value="SFSubmitUiT.alice.b@gmail.com">
                                        Myself
                                     </option>
                                  </select>
@@ -1175,13 +1200,13 @@
                                     Myself
                                  </span>
                               </div>
-                              <div class="col-sm-12" >
+                              <div class="col-sm-12">
                                  <table>
                                     <tbody>
                                        <tr>
                                           <td>
                                              <label>
-                                                <input name="responsetext-13-0"  type="checkbox"  value="Team 1" />
+                                                <input name="responsetext-13-0" type="checkbox" value="Team 1"/>
                                                                                                 Team 1
                                              </label>
                                           </td>
@@ -1189,7 +1214,7 @@
                                        <tr>
                                           <td>
                                              <label>
-                                                <input name="responsetext-13-0"  type="checkbox"  value="Team 2" />
+                                                <input name="responsetext-13-0" type="checkbox" value="Team 2"/>
                                                                                                 Team 2
                                              </label>
                                           </td>
@@ -1197,7 +1222,7 @@
                                        <tr>
                                           <td>
                                              <label>
-                                                <input name="responsetext-13-0"  type="checkbox"  value="Team 3" />
+                                                <input name="responsetext-13-0" type="checkbox" value="Team 3"/>
                                                                                                 Team 3
                                              </label>
                                           </td>
@@ -1211,35 +1236,35 @@
                   </div>
                   <br/>
                                     <br/>
-                                    <input name="questiontype-14"  type="hidden"  value="NUMSCALE" />
-                                    <input name="questionid-14"  type="hidden"  value="{*}" />
-                                    <input name="questionresponsetotal-14"  type="hidden"  value="1" />
-                                    <div class="form-horizontal" >
-                     <div class="panel panel-primary" >
-                        <div class="panel-heading" >
+                                    <input name="questiontype-14" type="hidden" value="NUMSCALE"/>
+                                    <input name="questionid-14" type="hidden" value="{*}"/>
+                                    <input name="questionresponsetotal-14" type="hidden" value="1"/>
+                                    <div class="form-horizontal">
+                     <div class="panel panel-primary">
+                        <div class="panel-heading">
                            Question 14:
                            <br/>
                                                       Rate your product
                         </div>
-                        <div class="panel-body" >
-                           <p class="text-muted" >
+                        <div class="panel-body">
+                           <p class="text-muted">
                               Only the following persons can see your responses:
                            </p>
-                           <ul class="text-muted" >
-                              <li class="unordered" >
+                           <ul class="text-muted">
+                              <li class="unordered">
                                  You can see your own feedback in the results page later on.
                               </li>
                            </ul>
                            <br/>
-                                                      <div class="form-group" >
-                              <div class="col-sm-2 form-inline"  style="display:none" >
-                                 <label for="input" >
+                                                      <div class="form-group margin-0">
+                              <div class="col-sm-2 form-inline" style="display:none">
+                                 <label for="input">
                                     To:
                                  </label>
-                                 <select class="participantSelect middlealign newResponse form-control"  name="responserecipient-14-0"  style="max-width:125px" >
-                                    <option selected="selected"  value="" >
+                                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-14-0" style="display:none;max-width:125px">
+                                    <option selected="selected" value="">
                                     </option>
-                                    <option value="SFSubmitUiT.alice.b@gmail.com" >
+                                    <option value="SFSubmitUiT.alice.b@gmail.com">
                                        Myself
                                     </option>
                                  </select>
@@ -1247,14 +1272,14 @@
                                     Myself
                                  </span>
                               </div>
-                              <div class="col-sm-12" >
-                                 <div class="col-sm-3" >
-                                    <input class="numScaleAnswerBox form-control col-sm-2"  max="5"  min="1"  name="responsetext-14-0"  onchange="validateNumScaleAnswer(14, 0)"  step="0.5"  type="number"  value="" />
-                                                                        <input name="numscalemin-14-0"  type="hidden"  value="1" />
-                                                                        <input name="numscalemax-14-0"  type="hidden"  value="5" />
-                                                                        <input name="numscalestep-14-0"  type="hidden"  value="0.5" />
+                              <div class="col-sm-12">
+                                 <div class="col-sm-3">
+                                    <input class="numScaleAnswerBox form-control col-sm-2" max="5" min="1" name="responsetext-14-0" onchange="validateNumScaleAnswer(14, 0)" step="0.5" type="number" value=""/>
+                                                                        <input name="numscalemin-14-0" type="hidden" value="1"/>
+                                                                        <input name="numscalemax-14-0" type="hidden" value="5"/>
+                                                                        <input name="numscalestep-14-0" type="hidden" value="0.5"/>
                                                                      </div>
-                                 <div class="text-muted form-control-static" >
+                                 <div class="text-muted form-control-static">
                                     [Possible values: 1, 1.5, 2, ..., 4, 4.5, 5]
                                  </div>
                               </div>
@@ -1264,79 +1289,85 @@
                   </div>
                   <br/>
                                     <br/>
-                                    <input name="questiontype-15"  type="hidden"  value="NUMSCALE" />
-                                    <input name="questionid-15"  type="hidden"  value="{*}" />
-                                    <input name="questionresponsetotal-15"  type="hidden"  value="2" />
-                                    <div class="form-horizontal" >
-                     <div class="panel panel-primary" >
-                        <div class="panel-heading" >
+                                    <input name="questiontype-15" type="hidden" value="NUMSCALE"/>
+                                    <input name="questionid-15" type="hidden" value="{*}"/>
+                                    <input name="questionresponsetotal-15" type="hidden" value="2"/>
+                                    <div class="form-horizontal">
+                     <div class="panel panel-primary">
+                        <div class="panel-heading">
                            Question 15:
                            <br/>
                                                       Rate others' product
                         </div>
-                        <div class="panel-body" >
-                           <p class="text-muted" >
+                        <div class="panel-body">
+                           <p class="text-muted">
                               Only the following persons can see your responses:
                            </p>
-                           <ul class="text-muted" >
-                              <li class="unordered" >
+                           <ul class="text-muted">
+                              <li class="unordered">
                                  The receiving teams can see your response, and your name.
                               </li>
                            </ul>
                            <br/>
-                                                      <div class="form-group" >
-                              <div class="col-sm-2 form-inline"  style="text-align:right" >
-                                 <label for="input" >
+                                                      <div class="form-group margin-0">
+                              <div class="col-sm-2 form-inline" style="text-align:right">
+                                 <label for="input">
                                     To:
                                  </label>
-                                 <select class="participantSelect middlealign newResponse form-control"  name="responserecipient-15-0"  style="max-width:125px" >
-                                    <option selected="selected"  value="" >
+                                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-15-0" style="display:none;max-width:125px">
+                                    <option selected="selected" value="">
                                     </option>
-                                    <option value="Team 2" >
+                                    <option value="Team 2">
                                        Team 2
                                     </option>
-                                    <option style="display: none;"  value="Team 3" >
+                                    <option style="display: none;" value="Team 3">
                                        Team 3
                                     </option>
                                  </select>
+                                 <span>
+                                    Team 2
+                                 </span>
                               </div>
-                              <div class="col-sm-10" >
-                                 <div class="col-sm-3" >
-                                    <input class="numScaleAnswerBox form-control col-sm-2"  max="5"  min="1"  name="responsetext-15-0"  onchange="validateNumScaleAnswer(15, 0)"  step="0.5"  type="number"  value="" />
-                                                                        <input name="numscalemin-15-0"  type="hidden"  value="1" />
-                                                                        <input name="numscalemax-15-0"  type="hidden"  value="5" />
-                                                                        <input name="numscalestep-15-0"  type="hidden"  value="0.5" />
+                              <div class="col-sm-10">
+                                 <div class="col-sm-3">
+                                    <input class="numScaleAnswerBox form-control col-sm-2" max="5" min="1" name="responsetext-15-0" onchange="validateNumScaleAnswer(15, 0)" step="0.5" type="number" value=""/>
+                                                                        <input name="numscalemin-15-0" type="hidden" value="1"/>
+                                                                        <input name="numscalemax-15-0" type="hidden" value="5"/>
+                                                                        <input name="numscalestep-15-0" type="hidden" value="0.5"/>
                                                                      </div>
-                                 <div class="text-muted form-control-static" >
+                                 <div class="text-muted form-control-static">
                                     [Possible values: 1, 1.5, 2, ..., 4, 4.5, 5]
                                  </div>
                               </div>
                            </div>
                            <br/>
-                                                      <div class="form-group" >
-                              <div class="col-sm-2 form-inline"  style="text-align:right" >
-                                 <label for="input" >
+                                                      <div class="form-group margin-0">
+                              <div class="col-sm-2 form-inline" style="text-align:right">
+                                 <label for="input">
                                     To:
                                  </label>
-                                 <select class="participantSelect middlealign newResponse form-control"  name="responserecipient-15-1"  style="max-width:125px" >
-                                    <option selected="selected"  value="" >
+                                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-15-1" style="display:none;max-width:125px">
+                                    <option selected="selected" value="">
                                     </option>
-                                    <option style="display: none;"  value="Team 2" >
+                                    <option style="display: none;" value="Team 2">
                                        Team 2
                                     </option>
-                                    <option value="Team 3" >
+                                    <option value="Team 3">
                                        Team 3
                                     </option>
                                  </select>
+                                 <span>
+                                    Team 3
+                                 </span>
                               </div>
-                              <div class="col-sm-10" >
-                                 <div class="col-sm-3" >
-                                    <input class="numScaleAnswerBox form-control col-sm-2"  max="5"  min="1"  name="responsetext-15-1"  onchange="validateNumScaleAnswer(15, 1)"  step="0.5"  type="number"  value="" />
-                                                                        <input name="numscalemin-15-1"  type="hidden"  value="1" />
-                                                                        <input name="numscalemax-15-1"  type="hidden"  value="5" />
-                                                                        <input name="numscalestep-15-1"  type="hidden"  value="0.5" />
+                              <div class="col-sm-10">
+                                 <div class="col-sm-3">
+                                    <input class="numScaleAnswerBox form-control col-sm-2" max="5" min="1" name="responsetext-15-1" onchange="validateNumScaleAnswer(15, 1)" step="0.5" type="number" value=""/>
+                                                                        <input name="numscalemin-15-1" type="hidden" value="1"/>
+                                                                        <input name="numscalemax-15-1" type="hidden" value="5"/>
+                                                                        <input name="numscalestep-15-1" type="hidden" value="0.5"/>
                                                                      </div>
-                                 <div class="text-muted form-control-static" >
+                                 <div class="text-muted form-control-static">
                                     [Possible values: 1, 1.5, 2, ..., 4, 4.5, 5]
                                  </div>
                               </div>
@@ -1346,35 +1377,35 @@
                   </div>
                   <br/>
                                     <br/>
-                                    <input name="questiontype-16"  type="hidden"  value="MCQ" />
-                                    <input name="questionid-16"  type="hidden"  value="{*}" />
-                                    <input name="questionresponsetotal-16"  type="hidden"  value="1" />
-                                    <div class="form-horizontal" >
-                     <div class="panel panel-primary" >
-                        <div class="panel-heading" >
+                                    <input name="questiontype-16" type="hidden" value="MCQ"/>
+                                    <input name="questionid-16" type="hidden" value="{*}"/>
+                                    <input name="questionresponsetotal-16" type="hidden" value="1"/>
+                                    <div class="form-horizontal">
+                     <div class="panel panel-primary">
+                        <div class="panel-heading">
                            Question 16:
                            <br/>
                                                       Who is the best instructor?
                         </div>
-                        <div class="panel-body" >
-                           <p class="text-muted" >
+                        <div class="panel-body">
+                           <p class="text-muted">
                               Only the following persons can see your responses:
                            </p>
-                           <ul class="text-muted" >
-                              <li class="unordered" >
+                           <ul class="text-muted">
+                              <li class="unordered">
                                  You can see your own feedback in the results page later on.
                               </li>
                            </ul>
                            <br/>
-                                                      <div class="form-group" >
-                              <div class="col-sm-2 form-inline"  style="display:none" >
-                                 <label for="input" >
+                                                      <div class="form-group margin-0">
+                              <div class="col-sm-2 form-inline" style="display:none">
+                                 <label for="input">
                                     To:
                                  </label>
-                                 <select class="participantSelect middlealign newResponse form-control"  name="responserecipient-16-0"  style="max-width:125px" >
-                                    <option selected="selected"  value="" >
+                                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-16-0" style="display:none;max-width:125px">
+                                    <option selected="selected" value="">
                                     </option>
-                                    <option value="SFSubmitUiT.alice.b@gmail.com" >
+                                    <option value="SFSubmitUiT.alice.b@gmail.com">
                                        Myself
                                     </option>
                                  </select>
@@ -1382,13 +1413,13 @@
                                     Myself
                                  </span>
                               </div>
-                              <div class="col-sm-12" >
+                              <div class="col-sm-12">
                                  <table>
                                     <tbody>
                                        <tr>
                                           <td>
                                              <label>
-                                                <input name="responsetext-16-0"  type="radio"  value="Teammates Test" />
+                                                <input name="responsetext-16-0" type="radio" value="Teammates Test"/>
                                                                                                 Teammates Test
                                              </label>
                                           </td>
@@ -1396,7 +1427,7 @@
                                        <tr>
                                           <td>
                                              <label>
-                                                <input name="responsetext-16-0"  type="radio"  value="Teammates Test2" />
+                                                <input name="responsetext-16-0" type="radio" value="Teammates Test2"/>
                                                                                                 Teammates Test2
                                              </label>
                                           </td>
@@ -1404,7 +1435,7 @@
                                        <tr>
                                           <td>
                                              <label>
-                                                <input name="responsetext-16-0"  type="radio"  value="Teammates Test3" />
+                                                <input name="responsetext-16-0" type="radio" value="Teammates Test3"/>
                                                                                                 Teammates Test3
                                              </label>
                                           </td>
@@ -1418,35 +1449,35 @@
                   </div>
                   <br/>
                                     <br/>
-                                    <input name="questiontype-17"  type="hidden"  value="MSQ" />
-                                    <input name="questionid-17"  type="hidden"  value="{*}" />
-                                    <input name="questionresponsetotal-17"  type="hidden"  value="1" />
-                                    <div class="form-horizontal" >
-                     <div class="panel panel-primary" >
-                        <div class="panel-heading" >
+                                    <input name="questiontype-17" type="hidden" value="MSQ"/>
+                                    <input name="questionid-17" type="hidden" value="{*}"/>
+                                    <input name="questionresponsetotal-17" type="hidden" value="1"/>
+                                    <div class="form-horizontal">
+                     <div class="panel panel-primary">
+                        <div class="panel-heading">
                            Question 17:
                            <br/>
                                                       Who do you recommend as tutors?
                         </div>
-                        <div class="panel-body" >
-                           <p class="text-muted" >
+                        <div class="panel-body">
+                           <p class="text-muted">
                               Only the following persons can see your responses:
                            </p>
-                           <ul class="text-muted" >
-                              <li class="unordered" >
+                           <ul class="text-muted">
+                              <li class="unordered">
                                  You can see your own feedback in the results page later on.
                               </li>
                            </ul>
                            <br/>
-                                                      <div class="form-group" >
-                              <div class="col-sm-2 form-inline"  style="display:none" >
-                                 <label for="input" >
+                                                      <div class="form-group margin-0">
+                              <div class="col-sm-2 form-inline" style="display:none">
+                                 <label for="input">
                                     To:
                                  </label>
-                                 <select class="participantSelect middlealign newResponse form-control"  name="responserecipient-17-0"  style="max-width:125px" >
-                                    <option selected="selected"  value="" >
+                                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-17-0" style="display:none;max-width:125px">
+                                    <option selected="selected" value="">
                                     </option>
-                                    <option value="SFSubmitUiT.alice.b@gmail.com" >
+                                    <option value="SFSubmitUiT.alice.b@gmail.com">
                                        Myself
                                     </option>
                                  </select>
@@ -1454,13 +1485,13 @@
                                     Myself
                                  </span>
                               </div>
-                              <div class="col-sm-12" >
+                              <div class="col-sm-12">
                                  <table>
                                     <tbody>
                                        <tr>
                                           <td>
                                              <label>
-                                                <input name="responsetext-17-0"  type="checkbox"  value="Teammates Test" />
+                                                <input name="responsetext-17-0" type="checkbox" value="Teammates Test"/>
                                                                                                 Teammates Test
                                              </label>
                                           </td>
@@ -1468,7 +1499,7 @@
                                        <tr>
                                           <td>
                                              <label>
-                                                <input name="responsetext-17-0"  type="checkbox"  value="Teammates Test2" />
+                                                <input name="responsetext-17-0" type="checkbox" value="Teammates Test2"/>
                                                                                                 Teammates Test2
                                              </label>
                                           </td>
@@ -1476,7 +1507,7 @@
                                        <tr>
                                           <td>
                                              <label>
-                                                <input name="responsetext-17-0"  type="checkbox"  value="Teammates Test3" />
+                                                <input name="responsetext-17-0" type="checkbox" value="Teammates Test3"/>
                                                                                                 Teammates Test3
                                              </label>
                                           </td>
@@ -1490,39 +1521,240 @@
                   </div>
                   <br/>
                                     <br/>
-                                    {*}
-                          
+                                    <input name="questiontype-18" type="hidden" value="CONSTSUM"/>
+                                    <input name="questionid-18" type="hidden" value="{*}"/>
+                                    <input name="questionresponsetotal-18" type="hidden" value="1"/>
+                                    <div class="form-horizontal">
+                     <div class="panel panel-primary">
+                        <div class="panel-heading">
+                           Question 18:
+                           <br/>
+                                                      How important are the following factors to you? Give points accordingly.
+                        </div>
+                        <div class="panel-body">
+                           <p class="text-muted">
+                              Only the following persons can see your responses:
+                           </p>
+                           <ul class="text-muted">
+                              <li class="unordered">
+                                 You can see your own feedback in the results page later on.
+                              </li>
+                           </ul>
+                           <br/>
+                                                      <div class="form-group margin-0">
+                              <div class="col-sm-2 form-inline" style="display:none">
+                                 <label for="input">
+                                    To:
+                                 </label>
+                                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-18-0" style="display:none;max-width:125px">
+                                    <option selected="selected" value="">
+                                    </option>
+                                    <option value="SFSubmitUiT.alice.b@gmail.com">
+                                       Myself
+                                    </option>
+                                 </select>
+                                 <span>
+                                    Myself
+                                 </span>
+                              </div>
+                              <div class="col-sm-12">
+                                 <div>
+                                    <div class="form-group">
+                                       <label class="col-sm-2 control-label">
+                                          Grades
+                                       </label>
+                                       <div class="col-sm-3">
+                                          <input class="form-control pointsBox" id="responsetext-18-0-0" min="0" name="responsetext-18-0" onchange="updateConstSumMessageQn('18')" step="1" type="number" value=""/>
+                                                                                 </div>
+                                    </div>
+                                    <div class="form-group">
+                                       <label class="col-sm-2 control-label">
+                                          Fun
+                                       </label>
+                                       <div class="col-sm-3">
+                                          <input class="form-control pointsBox" id="responsetext-18-0-1" min="0" name="responsetext-18-0" onchange="updateConstSumMessageQn('18')" step="1" type="number" value=""/>
+                                                                                 </div>
+                                    </div>
+                                    <div class="form-group" id="constSumInfo-18-0">
+                                       <div class="col-sm-2">
+                                       </div>
+                                       <div class="col-sm-3">
+                                          <hr class="margin-top-0"/>
+                                                                                    <p class="text-color-blue" id="constSumMessage-18-0">
+                                             Please distribute 100 points among the above options.
+                                          </p>
+                                          <hr/>
+                                                                                 </div>
+                                    </div>
+                                    <input id="constSumToRecipients-18" type="hidden" value="false"/>
+                                                                        <input id="constSumPointsPerOption-18" type="hidden" value="false"/>
+                                                                        <input id="constSumNumOption-18" type="hidden" value="2"/>
+                                                                        <input id="constSumPoints-18" type="hidden" value="100"/>
+                                                                     </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <br/>
+                                    <br/>
+                                    <input name="questiontype-19" type="hidden" value="CONSTSUM"/>
+                                    <input name="questionid-19" type="hidden" value="{*}"/>
+                                    <input name="questionresponsetotal-19" type="hidden" value="2"/>
+                                    <div class="form-horizontal">
+                     <div class="panel panel-primary">
+                        <div class="panel-heading">
+                           Question 19:
+                           <br/>
+                                                      Split points among the teams
+                        </div>
+                        <div class="panel-body">
+                           <p class="text-muted">
+                              Only the following persons can see your responses:
+                           </p>
+                           <ul class="text-muted">
+                              <li class="unordered">
+                                 The receiving teams can see your response, but
+                                 <span class="bold color_red">
+                                    not
+                                 </span>
+                                 the name of the recipient, or your name.
+                              </li>
+                              <li class="unordered">
+                                 Instructors in this course can see your response, the name of the recipient, and your name.
+                              </li>
+                           </ul>
+                           <br/>
+                                                      <div class="form-group margin-0">
+                              <div class="col-sm-2 form-inline" style="text-align:right">
+                                 <label for="input">
+                                    To:
+                                 </label>
+                                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-19-0" style="display:none;max-width:125px">
+                                    <option selected="selected" value="">
+                                    </option>
+                                    <option value="Team 2">
+                                       Team 2
+                                    </option>
+                                    <option style="display: none;" value="Team 3">
+                                       Team 3
+                                    </option>
+                                 </select>
+                                 <span>
+                                    Team 2
+                                 </span>
+                              </div>
+                              <div class="col-sm-10">
+                                 <div>
+                                    <div class="form-group">
+                                       <label class="col-sm-2 control-label" style="display:none">
+                                       </label>
+                                       <div class="col-sm-3">
+                                          <input class="form-control pointsBox" id="responsetext-19-0-0" min="0" name="responsetext-19-0" onchange="updateConstSumMessageQn('19')" step="1" type="number" value=""/>
+                                                                                 </div>
+                                    </div>
+                                    <div class="form-group" id="constSumInfo-19-0" style="display:none">
+                                       <div class="col-sm-2" style="display:none">
+                                       </div>
+                                       <div class="col-sm-3">
+                                          <hr class="margin-top-0"/>
+                                                                                    <p class="text-color-blue" id="constSumMessage-19-0">
+                                          </p>
+                                          <hr/>
+                                                                                 </div>
+                                    </div>
+                                    <input id="constSumToRecipients-19" type="hidden" value="true"/>
+                                                                        <input id="constSumPointsPerOption-19" type="hidden" value="true"/>
+                                                                        <input id="constSumNumOption-19" type="hidden" value="0"/>
+                                                                        <input id="constSumPoints-19" type="hidden" value="100"/>
+                                                                     </div>
+                              </div>
+                           </div>
+                           <br/>
+                                                      <div class="form-group margin-0">
+                              <div class="col-sm-2 form-inline" style="text-align:right">
+                                 <label for="input">
+                                    To:
+                                 </label>
+                                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-19-1" style="display:none;max-width:125px">
+                                    <option selected="selected" value="">
+                                    </option>
+                                    <option style="display: none;" value="Team 2">
+                                       Team 2
+                                    </option>
+                                    <option value="Team 3">
+                                       Team 3
+                                    </option>
+                                 </select>
+                                 <span>
+                                    Team 3
+                                 </span>
+                              </div>
+                              <div class="col-sm-10">
+                                 <div>
+                                    <div class="form-group">
+                                       <label class="col-sm-2 control-label" style="display:none">
+                                       </label>
+                                       <div class="col-sm-3">
+                                          <input class="form-control pointsBox" id="responsetext-19-1-0" min="0" name="responsetext-19-1" onchange="updateConstSumMessageQn('19')" step="1" type="number" value=""/>
+                                                                                 </div>
+                                    </div>
+                                    <div class="form-group" id="constSumInfo-19-1" style="">
+                                       <div class="col-sm-2" style="display:none">
+                                       </div>
+                                       <div class="col-sm-3">
+                                          <hr class="margin-top-0"/>
+                                                                                    <p class="text-color-blue" id="constSumMessage-19-1">
+                                             Please distribute 200 points among the above recipients.
+                                          </p>
+                                          <hr/>
+                                                                                 </div>
+                                    </div>
+                                    <input id="constSumToRecipients-19" type="hidden" value="true"/>
+                                                                        <input id="constSumPointsPerOption-19" type="hidden" value="true"/>
+                                                                        <input id="constSumNumOption-19" type="hidden" value="0"/>
+                                                                        <input id="constSumPoints-19" type="hidden" value="100"/>
+                                                                     </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <br/>
+                                    <br/>
+                                    <div class="bold align-center">
+                     <input class="btn btn-primary" data-original-title="You can save your responses at any time and come back later to continue." data-placement="top" data-toggle="tooltip" id="response_submit_button" title="" type="submit" value="Save Feedback"/>
+                                       </div>
                   <br/>
                                     <br/>
                                  </form>
             </div>
          </div>
-            <div class="container-fluid"  id="footerComponent" >
-               <div class="container" >
-                  <div class="row" >
-                     <div class="col-md-4" >
-                        <span>
-                           [
-                           <a href="/index.html" >
-                              TEAMMATES
-                           </a>
-                           V{$version}]
-                        </span>
-                     </div>
-                     <div class="col-md-4" >
-                        
-                     </div>
-                     <div class="col-md-4" >
-                        <span>
-                           [Send
-                           <a class="link"  href="../contact.html"  target="_blank" >
-                              Feedback
-                           </a>
-                           ]
-                        </span>
-                     </div>
+         <div class="container-fluid" id="footerComponent">
+            <div class="container">
+               <div class="row">
+                  <div class="col-md-4">
+                     <span>
+                        [
+                        <a href="/index.html">
+                           TEAMMATES
+                        </a>
+                        V{$version}]
+                     </span>
+                  </div>
+                  <div class="col-md-4">
+                  </div>
+                  <div class="col-md-4">
+                     <span>
+                        [Send
+                        <a class="link" href="../contact.html" target="_blank">
+                           Feedback
+                        </a>
+                        ]
+                     </span>
                   </div>
                </div>
             </div>
+         </div>
       </body>
    </html>
