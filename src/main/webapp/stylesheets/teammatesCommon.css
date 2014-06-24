@@ -49,11 +49,16 @@ body {
     color: #e74c3c;
 }
 
+.cursor-pointer {
+    cursor: pointer;
+    cursor: hand;
+}
+
 /*
 Apply to thead to make headers not bold.
 */
 .font-weight-normal,
-.font-weight-normal > tr > th{
+.font-weight-normal > tr > th {
     font-weight: normal;
 }
 
@@ -87,6 +92,12 @@ Apply to thead to make headers not bold.
     color: #ffd700;
 }
 
+.height-fixed-md {
+    min-height: 150px;
+    max-height: 250px;
+    overflow: auto;
+}
+
 .highlight-white {
     color: white;
 }
@@ -117,6 +128,15 @@ Apply to thead to make headers not bold.
    padding-top: 0;
 }
 
+.pre-plain {
+    background-color: #fff;
+    border: 0;
+    font-family: none;
+    font-size: 15px;
+    word-break: normal;
+    white-space: pre-wrap;
+}
+
 .text-bold {
     font-weight: bold;
 }
@@ -143,10 +163,6 @@ Apply to thead to make headers not bold.
 
 .text-color-white {
     color: white;
-}
-
-.text-color-disclaimer {
-    color: red;
 }
 
 .text-strike {
@@ -249,6 +265,63 @@ Apply to thead to make headers not bold.
 
 
 
+/*////////////////////////////////////////////////////////////
+///////////////////////// Affix /////////////////////////////
+//////////////////////////////////////////////////////////*/
+
+.affix {
+            position: fixed;
+            top: 100px;
+        }
+
+            .affix > li > a {
+                color: gray;
+                padding-top: 5px;
+                padding-bottom: 5px;
+            }
+
+                .affix > li.active > a {
+                    color: #31708f;
+                    font-weight: 700;
+                    border-left: 2px solid #31708f;
+                }
+
+            .affix > li > .nav {
+                font-size: 12px;
+            }
+
+                .affix > li > .nav > li > a {
+                    color: gray;
+                    padding-top: 1px;
+                    padding-bottom: 1px;
+                    padding-left: 30px;
+                }
+
+                .affix > li.active > .nav {
+                    display: block;
+                    width: 100%;
+                }
+
+                    .affix > li > .nav > li.active > a {
+                        color: #31708f;
+                        font-weight: 700;
+                        border-left: 2px solid #31708f;
+                    }
+
+                .affix > li:not(.active) > .nav {
+                    display: none;
+                }
+
+        .affix-top {
+            position: relative;
+        }
+
+        .affix-bottom {
+            position: absolute;
+        }
+
+
+
 
 /*////////////////////////////////////////////////////////////
 /////////////////////// Main Content ////////////////////////
@@ -327,6 +400,11 @@ Apply to thead to make headers not bold.
     width: 12px;
 }
 
+.profile-pic {
+    width: 130px; 
+    height: 130px;
+}
+
 .unsorted {
     background: url(../images/sortSideButton.png);
 }
@@ -345,9 +423,15 @@ Apply to thead to make headers not bold.
     cursor: pointer;
 }
 
+.link-disabled {
+    pointer-events: none;
+    cursor: default;
+    opacity: 0.5;
+}
 
-
-
+.link-disabled:hover {
+    text-decoration: none;
+}
 
 
 /*////////////////////////////////////////////////////////////

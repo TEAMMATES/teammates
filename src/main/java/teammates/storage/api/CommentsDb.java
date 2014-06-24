@@ -143,6 +143,15 @@ public class CommentsDb extends EntitiesDb{
         comment.setShowCommentTo(newAttributes.showCommentTo);
         comment.setShowGiverNameTo(newAttributes.showGiverNameTo);
         comment.setShowRecipientNameTo(newAttributes.showRecipientNameTo);
+        if(newAttributes.status != null){
+            comment.setStatus(newAttributes.status);
+        }
+        if(newAttributes.recipientType != null){
+            comment.setRecipientType(newAttributes.recipientType);
+        }
+        if(newAttributes.recipients != null){
+            comment.setRecipients(newAttributes.recipients);
+        }
         
         getPM().close();
     }
@@ -208,6 +217,7 @@ public class CommentsDb extends EntitiesDb{
         if(commentToGet.getCommentId() != null){
             return getCommentEntity(commentToGet.getCommentId());
         } else{
+            commentToGet.sanitizeForSaving();
             return getCommentEntity(commentToGet.courseId, commentToGet.giverEmail, commentToGet.recipientType,
                     commentToGet.recipients, commentToGet.commentText, commentToGet.createdAt);
         }

@@ -26,7 +26,7 @@ public class InstructorAttributesTest extends BaseTestCase {
     public void testConstructor() {
         InstructorAttributes instructor = new InstructorAttributes("valid.google.id", "valid-course-id", "valid name", "valid@email.com");
         String roleName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
-        String displayedName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+        String displayedName = InstructorAttributes.DEFAULT_DISPLAY_NAME;
         InstructorPrivileges privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         
         assertEquals(roleName, instructor.role);
@@ -42,6 +42,11 @@ public class InstructorAttributesTest extends BaseTestCase {
                 instructor.role, instructor.displayedName, instructor1.privileges);
         
         assertEquals(instructor1.privileges, instructor2.privileges);
+        
+        InstructorAttributes instructorNew = new InstructorAttributes(instructor.googleId, instructor.courseId, instructor.name, instructor.email,
+                instructor.role, false, instructor.displayedName, instructor1.privileges);
+        
+        assertEquals(false, instructorNew.isDisplayedToStudents);
         
         Instructor entity = instructor2.toEntity();
         InstructorAttributes instructor3 = new InstructorAttributes(entity);
@@ -163,14 +168,14 @@ public class InstructorAttributesTest extends BaseTestCase {
         assertTrue(instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
         
         String sectionId = "sectionId";
-        assertTrue(instructor.isAllowedForPrivilege(sectionId, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTION));
+        assertTrue(instructor.isAllowedForPrivilege(sectionId, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS));
         instructor.privileges = null;
-        assertTrue(instructor.isAllowedForPrivilege(sectionId, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTION));
+        assertTrue(instructor.isAllowedForPrivilege(sectionId, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS));
         
         String sessionId = "sessionId";
-        assertTrue(instructor.isAllowedForPrivilege(sectionId, sessionId, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTION));
+        assertTrue(instructor.isAllowedForPrivilege(sectionId, sessionId, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
         instructor.privileges = null;
-        assertTrue(instructor.isAllowedForPrivilege(sectionId, sessionId, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTION));
+        assertTrue(instructor.isAllowedForPrivilege(sectionId, sessionId, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
     }
     
     @Test

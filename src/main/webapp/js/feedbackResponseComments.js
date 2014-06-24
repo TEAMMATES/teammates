@@ -162,6 +162,8 @@ function generateNewCommentRow(data) {
 	var thisYear = commentDate.getFullYear();
 	var indexOfYear = commentDateStr.indexOf(thisYear, 0);
 	var formattedDate = commentDateStr.substring(0, indexOfYear - 1);
+	var formattedTime = commentDateStr.substring(indexOfYear + 5, indexOfYear + 14);
+	var commentTime = formattedDate + " " + formattedTime + " UTC " + thisYear;
 	
 	var classNameForRow = $(location).attr('href').indexOf('instructorCommentsPage') != -1? "list-group-item list-group-item-warning giver_display-by-you":
 			"list-group-item list-group-item-warning";
@@ -170,13 +172,14 @@ function generateNewCommentRow(data) {
     // Comment Row
 	"<li class=\"" + classNameForRow + "\" id=\"responseCommentRow-" + addCount + "\">"
 	+ "<div id=\"commentBar-" + addCount + "\">"
-    + "<span class=\"text-muted\">From: <b>you</b> [" + formattedDate + "]</span>"
+    + "<span class=\"text-muted\">From: <b>you</b> [" + commentTime + "]</span>"
 	// Delete form
     + "<form class=\"responseCommentDeleteForm pull-right\">"
     + 		"<a href=\"/page/instructorFeedbackResponseCommentDelete\" type=\"button\" id=\"commentdelete-" + data.comment.feedbackResponseCommentId + "\" class=\"btn btn-default btn-xs icon-button\"" 
     +    		" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Delete this comment\">" 
     +    		"<span class=\"glyphicon glyphicon-trash glyphicon-primary\"></span>"
     +    	"</a>"
+    +   "<input type=\"hidden\" name=\"" + FEEDBACK_RESPONSE_ID + "\" value=\"" + data.comment.feedbackResponseId + "\">"
     + 	"<input type=\"hidden\" name=\"" + FEEDBACK_RESPONSE_COMMENT_ID + "\" value=\"" + data.comment.feedbackResponseCommentId + "\">"
     + 	"<input type=\"hidden\" name=\"" + COURSE_ID + "\" value=\"" + data.comment.courseId + "\">"
     + 	"<input type=\"hidden\" name=\"" + FEEDBACK_SESSION_NAME + "\" value=\"" + data.comment.feedbackSessionName + "\">"
@@ -203,6 +206,7 @@ function generateNewCommentRow(data) {
     + 		"</a><span> </span>"
     +    	"<input type=\"button\" class=\"btn btn-default\" value=\"Cancel\" onclick=\"return hideResponseCommentEditForm(" + addCount + ");\">"
     + 	 "</div>"
+    +   "<input type=\"hidden\" name=\"" + FEEDBACK_RESPONSE_ID + "\" value=\"" + data.comment.feedbackResponseId + "\">"
     + 	 "<input type=\"hidden\" name=\"" + FEEDBACK_RESPONSE_COMMENT_ID + "\" value=\"" + data.comment.feedbackResponseCommentId + "\">"
     + 	 "<input type=\"hidden\" name=\"" + COURSE_ID + "\" value=\"" + data.comment.courseId + "\">"
     + 	 "<input type=\"hidden\" name=\"" + FEEDBACK_SESSION_NAME + "\" value=\"" + data.comment.feedbackSessionName + "\">"

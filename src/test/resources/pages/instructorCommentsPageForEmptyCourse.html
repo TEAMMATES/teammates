@@ -1,0 +1,100 @@
+<div class="container" id="frameBodyWrapper">
+      <div id="topOfPage">
+      </div>
+      <div class="inner-container">
+         <div class="row">
+            <div class="col-sm-6">
+               <h1>
+                  Comments from Instructors
+               </h1>
+            </div>
+         </div>
+      </div>
+      <br/>
+            <div id="statusMessage" style="display: none;">
+      </div>
+      <div class="well well-plain">
+         <div class="row">
+            <div class="col-md-2">
+               <div class="checkbox">
+                  <input id="option-check" type="checkbox"/>
+                                    <label for="option-check">
+                     Show More
+                                Options
+                  </label>
+               </div>
+            </div>
+            <div class="col-md-3">
+               <div class="checkbox">
+                  <input id="displayArchivedCourses_check" type="checkbox"/>
+                                    <label for="displayArchivedCourses_check">
+                     Include
+                                Archived Courses
+                  </label>
+                  <div id="displayArchivedCourses_link" style="display:none;">
+                     <a href="/page/instructorCommentsPage?user=comments.instructorWithoutCourses">
+                        link back to the page
+                     </a>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="row">
+            <div class="well well-plain" id="more-options">
+               <form class="form-horizontal" role="form">
+                  <div class="row">
+                     <div class="col-sm-4">
+                        <div class="text-color-primary">
+                           <strong>
+                              Show comments for:
+                           </strong>
+                        </div>
+                        <br/>
+                                                <div class="checkbox">
+                           <input checked="checked" id="panel_all" type="checkbox"/>
+                                                      <label for="panel_all">
+                              <strong>
+                                 All
+                              </strong>
+                           </label>
+                        </div>
+                        <br/>
+                                             </div>
+                     <div class="col-sm-4">
+                        <div class="text-color-primary">
+                           <strong>
+                              Show comments from:
+                           </strong>
+                        </div>
+                        <br/>
+                                                <div class="checkbox">
+                           <input checked="checked" id="giver_all" type="checkbox" value=""/>
+                                                      <label for="giver_all">
+                              <strong>
+                                 All
+                              </strong>
+                           </label>
+                        </div>
+                        <br/>
+                                                <div class="checkbox">
+                           <input checked="checked" id="giver_check-by-you" type="checkbox"/>
+                                                      <label for="giver_check-by-you">
+                              You
+                           </label>
+                        </div>
+                        <div class="checkbox">
+                           <input checked="checked" id="giver_check-by-others" type="checkbox"/>
+                                                      <label for="giver_check-by-others">
+                              Others
+                           </label>
+                        </div>
+                     </div>
+                  </div>
+               </form>
+            </div>
+         </div>
+      </div>
+      <div class="alert alert-warning" id="statusMessage">
+         There is no comment to display
+      </div>
+   </div>

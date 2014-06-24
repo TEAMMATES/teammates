@@ -13,7 +13,7 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
 
 public class InstructorCommentsPageData extends PageData {
-    public static final String COMMENT_GIVER_NAME_THAT_COMES_FIRST = "_you";
+    public static final String COMMENT_GIVER_NAME_THAT_COMES_FIRST = "0you";
     
     public Boolean isViewingDraft;
     public Boolean isDisplayArchive;
@@ -32,7 +32,7 @@ public class InstructorCommentsPageData extends PageData {
     }
     
     public String removeBracketsForArrayString(String arrayString){
-        return arrayString.substring(1, arrayString.length() - 1).replace(" ", "");
+        return arrayString.substring(1, arrayString.length() - 1).trim();
     }
     
     public String getGiverName(String giverEmail){
@@ -60,7 +60,7 @@ public class InstructorCommentsPageData extends PageData {
             }
             StudentAttributes student = roster.getStudentForEmail(recipient);
             if(courseId.equals(recipient)){ 
-                namesStringBuilder.append("All Students In This Course, ");
+                namesStringBuilder.append("All students in this course, ");
             } else if(student != null){
                 if(recipients.size() == 1){
                     namesStringBuilder.append(student.name 

@@ -269,15 +269,17 @@
                         <td class="align-center no-print">
                             <a class="btn btn-default btn-xs t_student_details<%=idx%>"
                                     href="<%=data.getCourseStudentDetailsLink(student)%>"
-                                    data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_STUDENT_DETAILS%>">
-                                    View</a>
+                                    data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_STUDENT_DETAILS%>" 
+                                    <% if (!data.currentInstructor.isAllowedForPrivilege(student.section, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)) { %>
+                                        disabled="disabled"
+                                    <% } %>
+                                    > View</a>
                             <a class="btn btn-default btn-xs t_student_edit<%=idx%>" href="<%=data.getCourseStudentEditLink(student)%>"
                                     data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_STUDENT_EDIT%>"
                                     <% if (!data.currentInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT)) { %>
                                         disabled="disabled"
                                     <% } %>
-                                    >
-                                    Edit</a>
+                                    > Edit</a>
                             <%
                                 if(data.getStudentStatus(student).equals(Const.STUDENT_COURSE_STATUS_YET_TO_JOIN)){
                             %>
@@ -294,8 +296,7 @@
                                     <% if (!data.currentInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT)) { %>
                                         disabled="disabled"
                                     <% } %>
-                                    >
-                                    Delete</a>
+                                    > Delete</a>
                             <div class="dropdown" style="display:inline;">
                               <a class="btn btn-default btn-xs t_student_records-c<%=data.courseDetails.course.id %>.<%=idx%> dropdown-toggle" 
                                 href="javascript:;"
