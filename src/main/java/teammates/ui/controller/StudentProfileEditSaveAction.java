@@ -26,10 +26,9 @@ public class StudentProfileEditSaveAction extends Action {
             throw new UnauthorizedAccessException("User is not registered");
         }
         
-        account.studentProfile = extractProfileData();
-        account.studentProfile.googleId = account.googleId;
-        
         try {
+            account.studentProfile = extractProfileData();
+            account.studentProfile.googleId = account.googleId;
             logic.updateStudentProfile(account.studentProfile);
             if (statusToUser.isEmpty()) {
                 statusToUser.add(Const.StatusMessages.STUDENT_PROFILE_EDITED);
