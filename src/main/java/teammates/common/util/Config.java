@@ -22,6 +22,9 @@ public class Config {
     /** The value of the "app.url" in build.properties file */
     public static String APP_URL;
     
+    /** The value of the "app.gcs.bucketname" in build.properties file */
+    public static String GCS_BUCKETNAME;
+    
     /** The value of the "app.backdoor.key" in build.properties file */
     public static String BACKDOOR_KEY;
     
@@ -69,10 +72,15 @@ public class Config {
 
     private static void initProperties(){
         APP_URL = instance.getAppUrl();
+        GCS_BUCKETNAME= instance.getGcsBucketname();
         BACKDOOR_KEY = instance.getBackdoorKey();
         ENCRYPTION_KEY = instance.getEncyptionKey();
         PERSISTENCE_CHECK_DURATION = instance.getPersistenceCheckduration();
         SUPPORT_EMAIL = instance.getSupportEmail();
+    }
+
+    private String getGcsBucketname() {
+        return props.getProperty("app.gcs.bucketname");
     }
 
     private String getAppUrl() {
