@@ -2,15 +2,18 @@ package teammates.common.datatransfer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.mortbay.log.Log;
-
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FeedbackQuestionFormTemplates;
 import teammates.logic.core.TeamEvalResult;
+import teammates.ui.controller.InstructorEvalResultsPageData;
+import teammates.ui.controller.PageData;
 
 public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestionDetails {
     
@@ -95,9 +98,6 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
         if(responses.size() == 0){
             return "";
         }
-
-        String html = "";
-        
         
         //List of teams with at least one response
         List<String> teamNames = new ArrayList<String>();
@@ -155,6 +155,33 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
             }
         }
         
+        //Each team's eval results.
+        Map<String, TeamEvalResult> teamResults = new LinkedHashMap<String, TeamEvalResult>();
+        for(String team : teamNames){
+            teamResults.put(team, new TeamEvalResult(teamSubmissionArray.get(team)));
+        }
+        
+        //Each person's results summary
+        Map<String, StudentResultSummary> studentResults = new HashMap<String, StudentResultSummary>();
+        for(Map.Entry<String, TeamEvalResult> entry : teamResults.entrySet()){
+            TeamEvalResult teamResult = entry.getValue();
+            List<String> teamEmails = teamMembersEmail.get(entry.getKey());
+            int i = 0;
+            for(String studentEmail : teamEmails){
+                StudentResultSummary summary = new StudentResultSummary();
+                summary.claimedFromStudent = teamResult.claimed[i][i];
+                summary.claimedToInstructor = teamResult.normalizedClaimed[i][i];
+                summary.perceivedToStudent = teamResult.denormalizedAveragePerceived[i][i];
+                summary.perceivedToInstructor = teamResult.normalizedAveragePerceived[i];
+                
+                studentResults.put(studentEmail, summary);
+                
+                i++;
+            }
+        }
+        
+
+        String html = "";
         
         //For testing
         for(Map.Entry<String, List<String>> entry : teamMembersEmail.entrySet()){
@@ -164,18 +191,84 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
             html += "Submission Array:<br>";
             for(int i=0 ; i<teamSubmissionArray.get(entry.getKey()).length ; i++)
                 html += Arrays.toString(teamSubmissionArray.get(entry.getKey())[i]) + "<br>";
+        
+            html += "<br><br>";
+            
+            html +=  "<pre>" + teamResults.get(entry.getKey()).toString() + "</pre>";//.replace(Const.EOL, "<br>");
+            
+            html += "<br><br>";
+            
+            for(Map.Entry<String, StudentResultSummary> entry2 : studentResults.entrySet()){
+                html += entry2.getKey() + " "
+                     + entry2.getValue().claimedFromStudent + " "
+                     + entry2.getValue().claimedToInstructor + " "
+                     + entry2.getValue().perceivedToInstructor + " "
+                     + entry2.getValue().perceivedToStudent + "<br>";
+            }
             
         }
         
         
-        //Each team's eval results.
-        Map<String, TeamEvalResult> teamResults = new LinkedHashMap<String, TeamEvalResult>();
         
+        String contribFragments = "";
         
+        for(Map.Entry<String, StudentResultSummary> entry : studentResults.entrySet()){
+            StudentResultSummary summary = entry.getValue();
+            String team = bundle.emailTeamNameTable.get(entry.getKey());
+            List<String> teamEmails = teamMembersEmail.get(team);
+            TeamEvalResult teamResult = teamResults.get(team);
+            int studentIndx = teamEmails.indexOf(entry.getKey());
+            
+            int[] incomingPoints = new int[teamResult.normalizedPeerContributionRatio.length];
+            for(int i=0 ; i<incomingPoints.length ; i++){
+                incomingPoints[i] = teamResult.normalizedPeerContributionRatio[i][studentIndx];
+            }
+            
+            contribFragments += FeedbackQuestionFormTemplates.populateTemplate(
+                    FeedbackQuestionFormTemplates.CONTRIB_RESULT_STATS_FRAGMENT,
+                    "${studentTeam}", PageData.sanitizeForHtml(team),
+                    "${studentName}", PageData.sanitizeForHtml(bundle.emailNameTable.get(entry.getKey())),
+                    
+                    "${CC}", InstructorEvalResultsPageData.getPointsAsColorizedHtml(summary.claimedToInstructor),
+                    "${PC}", InstructorEvalResultsPageData.getPointsAsColorizedHtml(summary.perceivedToInstructor),
+                    "${Diff}", InstructorEvalResultsPageData.getPointsDiffAsHtml(summary),
+                    "${RR}", getNormalizedPointsListColorizedDescending(incomingPoints, studentIndx),
+                    
+                    "${Const.ParamsNames.STUDENT_NAME}", Const.ParamsNames.STUDENT_NAME);
+        }
         
-        
+        html += FeedbackQuestionFormTemplates.populateTemplate(
+                FeedbackQuestionFormTemplates.CONTRIB_RESULT_STATS,
+                "${contribFragments}", contribFragments,
+                "${Const.Tooltips.EVALUATION_POINTS_RECEIVED}", Const.Tooltips.EVALUATION_POINTS_RECEIVED,
+                "${Const.Tooltips.EVALUATION_DIFF}", Const.Tooltips.EVALUATION_DIFF);
+
         
         return html;
+    }
+    
+    public static String getNormalizedPointsListColorizedDescending(int[] subs, int index){
+        List<String> result = new ArrayList<String>();
+        for(int i=0 ; i<subs.length ; i++){
+            if(i==index){
+                continue;
+            }
+            result.add(getPointsAsColorizedHtml(subs[i]));
+        }
+        Collections.sort(result);
+        Collections.reverse(result);
+        String resultString = "";
+        for(String s : result){
+            if(!resultString.isEmpty()){
+                resultString+=", ";
+            }
+            resultString += s;
+        }
+        return resultString;
+    }
+    
+    public static String getPointsAsColorizedHtml(int points){
+        return PageData.getPointsAsColorizedHtml(points);
     }
     
     @Override
