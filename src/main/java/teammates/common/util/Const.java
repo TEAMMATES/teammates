@@ -820,7 +820,8 @@ public class Const {
         public static final String STUDENT_EVALUATION_SUBMISSION_RECEIVED = "Your submission for %s in course %s has been saved successfully";
         public static final String STUDENT_PROFILE_NOT_A_PICTURE = "The file that you have uploaded is not a picture. "
                 + "Please upload a picture (usually it ends with .jpg or .png)";
-        public static final String STUDENT_NOT_FOUND = "The student you tried to view records for does not exist.";
+        public static final String STUDENT_NOT_FOUND_FOR_RECORDS = "The student you tried to view records for does not exist.";
+        public static final String STUDENT_NOT_JOINED_YET_FOR_RECORDS = "This student has not joined the course yet and hence has no profile to view";
     }
 
     /* These indicate status of an operation, but they are not shown to the user */
