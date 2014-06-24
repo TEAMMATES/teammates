@@ -198,6 +198,7 @@ public class Const {
         public static final String FEEDBACK_RESPONSE_SAVE = "You can submit your responses at any time and come back later to continue " +
                 "before the session closes.";
         
+        public static final String STUDENT_PROFILE_PICTURE = "Upload a profile picture";
         public static final String STUDENT_PROFILE_SHORTNAME = "This is the name you prefer to be called by";
         public static final String STUDENT_PROFILE_EMAIL = "This is a long term contact email";
         public static final String STUDENT_PROFILE_INSTITUTION = "This is the institution that you represent";

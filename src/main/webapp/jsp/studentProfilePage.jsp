@@ -58,7 +58,7 @@
             <h3 id="studentName"><strong><%=data.account.name %></strong></h3><br>
             <form id="profileEditForm" class="form center-block" role="form" method="post"
                   action="<%=Const.ActionURIs.STUDENT_PROFILE_EDIT_SAVE %>">
-                <div class="form-group row" title="Upload a close-up of your face " data-toggle="tooltip" data-placement="top">
+                <div class="form-group row" title="<%=Const.Tooltips.STUDENT_PROFILE_PICTURE %>" data-toggle="tooltip" data-placement="top">
                     <div class="col-xs-4">
                         <img src="<%=pictureUrl %>" class="profile-pic"/>
                     </div>
