@@ -2,7 +2,7 @@ package teammates.ui.controller;
 
 import teammates.common.exception.EntityDoesNotExistException;
 
-public class InstructorFeedbackResultsByRQGSeeMoreAction extends Action {
+public class InstructorFeedbackResultsByGQRSeeMorePageAction extends Action {
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {

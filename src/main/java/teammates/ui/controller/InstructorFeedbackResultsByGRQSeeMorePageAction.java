@@ -31,9 +31,11 @@ public class InstructorFeedbackResultsByGRQSeeMorePageAction extends Action {
         
         String section = getRequestParamValue(Const.ParamsNames.SECTION_NAME);
         Assumption.assertNotNull("null question number", section);
-        
+        String groupByTeam = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM);
+        boolean groupByTeamEnabled = (groupByTeam != null);
+
         FeedbackSessionResultsBundle bundle = logic.getFeedbackSessionResultsForInstructorFromSection(feedbackSessionName, courseId, instructor.email, section);
-        data.responses = bundle.getResponsesSortedByGiver(false);
+        data.responses = bundle.getResponsesSortedByGiver(groupByTeamEnabled);
         data.comments = bundle.responseComments;
         
         return createAjaxResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION, data);

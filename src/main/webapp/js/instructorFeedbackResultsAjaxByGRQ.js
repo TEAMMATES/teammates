@@ -1,3 +1,45 @@
+function getAppendedData(data){
+    var appendedHtml = '';
+    for(var giver in data.responses){
+        if(data.responses.hasOwnProperty(giver)){
+            appendedHtml += getResponsesFromGiver(giver, data);
+        }
+    }
+}
+
+function getResponsesFromGiver(giver, data){    
+    var appendedResponses = '';
+    appendedResponses += '<div class="panel panel-primary">';
+    appendedResponses += '<div class="panel-heading">';
+    appendedResponses += 'From: <strong>' + giver + '</strong>'
+    appendedResponses +=
+    appendedResponses +=
+    appendedResponses +=
+    appendedResponses +=
+    appendedResponses +=
+    appendedResponses +=
+    appendedResponses +=
+    appendedResponses +=
+
+                
+                    
+                        <a class="link-in-dark-bg" href="mailTo:<%= targetEmail%> " <%=mailtoStyleAttr%>>[<%=targetEmailDisplay%>]</a>
+             <span class="glyphicon <%= !shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down" %> pull-right"></span> 
+               </div>
+
+    for(var receiver in data.responses[giver]){
+        var receiversList = data.responses[giver];
+        if(receiversList.hasOwnProperty(receiver)){
+            appendedResponses += getResponsesToReceiver(giver, receiver, data);
+        }
+    }
+}
+
+function getResponsesToReceiver(giver, receiver, data){
+
+}
+
+
 $(document).ready(function(){
     var seeMoreRequest = function(e) {
         var panelHeading = $(this);
@@ -17,7 +59,7 @@ $(document).ready(function(){
                 console.log('Error');
             },
             success : function(data) {
-                console.log(data);
+                getAppendedData(data);
                 //$(panelBody[0]).html(getAppendedData(data));
                 $(panelHeading).removeClass('ajax_submit');
                 $(panelHeading).off('click');
