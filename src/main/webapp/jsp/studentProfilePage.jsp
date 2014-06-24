@@ -65,6 +65,7 @@
                     <div class="col-xs-6">
                         <label for="studentPhoto">Your Photo</label>
                         <input id="studentPhoto" type="file" name="<%=Const.ParamsNames.STUDENT_PROFILE_PIC %>" />
+                        <p class="help-block">Max Size: 1 MB</p>
                     </div>
                 </div>
                 <div class="form-group" title="<%=Const.Tooltips.STUDENT_PROFILE_SHORTNAME %>" data-toggle="tooltip" data-placement="top">
