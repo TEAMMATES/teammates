@@ -189,13 +189,23 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         ______TS("success: get comment for student");
         //TODO: refactor this test
         //add visibility options for person
+        
+        //init
+        StudentAttributes student = dataBundle.students.get("student1InCourse1");
+        comments = commentsLogic.getCommentsForStudent(student);
+        for(CommentAttributes comment : comments){
+            comment.showCommentTo = new ArrayList<CommentRecipientType>();
+            comment.showGiverNameTo = new ArrayList<CommentRecipientType>();
+            comment.showRecipientNameTo = new ArrayList<CommentRecipientType>();
+            commentsLogic.updateComment(comment);
+        }
+        
         c.showCommentTo = new ArrayList<CommentRecipientType>();
         c.showCommentTo.add(CommentRecipientType.PERSON);
         c.showGiverNameTo = new ArrayList<CommentRecipientType>();
         c.showGiverNameTo.add(CommentRecipientType.PERSON);
         commentsLogic.updateComment(c);
 
-        StudentAttributes student = dataBundle.students.get("student1InCourse1");
         comments = commentsLogic.getCommentsForStudent(student);
         verifyCommentsGotForStudent(comments);
         verifyCommentsGiverNameVisible(comments);
