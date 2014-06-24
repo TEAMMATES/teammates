@@ -184,6 +184,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
         String html = "";
         
         //For testing
+        /*
         for(Map.Entry<String, List<String>> entry : teamMembersEmail.entrySet()){
             html += entry.getKey() + " size: " +  teamMembersEmail.get(entry.getKey()).size() +"<br>";
             html += entry.getValue().toString() + "<br>";
@@ -206,9 +207,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
                      + entry2.getValue().perceivedToStudent + "<br>";
             }
             
-        }
-        
-        
+        }*/
         
         String contribFragments = "";
         
