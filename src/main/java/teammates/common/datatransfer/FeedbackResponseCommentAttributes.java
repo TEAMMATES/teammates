@@ -22,6 +22,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
     public String feedbackQuestionId;
     public String giverEmail;
     public String feedbackResponseId;
+    public Boolean isPending = false;
     public Date createdAt;
     public Text commentText;
 
@@ -57,6 +58,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
         this.feedbackQuestionId = comment.getFeedbackQuestionId();
         this.giverEmail = comment.getGiverEmail();
         this.feedbackResponseId = comment.getFeedbackResponseId();
+        this.isPending = comment.getIsPending() != null? comment.getIsPending() : false;
         this.createdAt = comment.getCreatedAt();
         this.commentText = comment.getCommentText();
     }
@@ -93,7 +95,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
     @Override
     public FeedbackResponseComment toEntity() {
         return new FeedbackResponseComment(courseId, feedbackSessionName,
-                feedbackQuestionId, giverEmail, feedbackResponseId, createdAt,
+                feedbackQuestionId, giverEmail, feedbackResponseId, isPending, createdAt,
                 commentText);
     }
 

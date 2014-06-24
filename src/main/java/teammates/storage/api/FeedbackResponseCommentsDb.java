@@ -106,8 +106,24 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         }
         
         frc.setCommentText(newAttributes.commentText);
+        frc.setIsPending(newAttributes.isPending);
         
         getPM().close();
+    }
+    
+    public void clearPendingFeedbackResponseComment(String courseId) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        
+        List<FeedbackResponseComment> frcList = getPendingFeedbackResponseCommentEntity(courseId);
+        
+        for(FeedbackResponseComment frComment : frcList){
+            if(frComment.getIsPending() != null
+                    && frComment.getIsPending()){
+                frComment.setIsPending(false);
+            }
+        }
+        
+        getPM().flush();
     }
     
     @Override
@@ -123,6 +139,18 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
                 feedbackResponseCommentToGet.giverEmail,
                 feedbackResponseCommentToGet.createdAt);
         }
+    }
+    
+    private List<FeedbackResponseComment> getPendingFeedbackResponseCommentEntity(String courseId) {
+        Query q = getPM().newQuery(FeedbackResponseComment.class);
+        q.declareParameters("String courseIdParam");
+        q.setFilter("courseId == courseIdParam && isPending == true");
+        
+        @SuppressWarnings("unchecked")
+        List<FeedbackResponseComment> feedbackResponseCommentList =
+            (List<FeedbackResponseComment>) q.execute(courseId);
+    
+        return feedbackResponseCommentList;
     }
 
     private FeedbackResponseComment getFeedbackResponseCommentEntity(Long feedbackResponseCommentId) {

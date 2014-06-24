@@ -26,6 +26,7 @@ public class InstructorCommentsPageData extends PageData {
     public Map<String, FeedbackSessionResultsBundle> feedbackResultBundles;
     public String previousPageLink;
     public String nextPageLink;
+    public int numberOfPendingComments = 0;
     
     public InstructorCommentsPageData(AccountAttributes account) {
         super(account);

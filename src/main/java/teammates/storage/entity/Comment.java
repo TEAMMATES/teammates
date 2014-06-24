@@ -53,6 +53,10 @@ public class Comment {
     @Persistent
     private CommentStatus status;
     
+    /** Is this comment pending to be sent to recipient (through email) */
+    @Persistent
+    private Boolean isPending;
+    
     /** Visibility options **/
     @Persistent
     private List<CommentRecipientType> showCommentTo;
@@ -77,6 +81,7 @@ public class Comment {
     private Text commentText;
 
     public Comment(String courseId, String giverEmail, CommentRecipientType recipientType, Set<String> recipients, CommentStatus status,
+            Boolean isPending,
             List<CommentRecipientType> showCommentTo,
             List<CommentRecipientType> showGiverNameTo,
             List<CommentRecipientType> showRecipientNameTo,
@@ -87,6 +92,7 @@ public class Comment {
         this.recipientType = recipientType;
         this.recipients = recipients;
         this.status = status;
+        this.isPending = isPending;
         this.showCommentTo = showCommentTo;
         this.showGiverNameTo = showGiverNameTo;
         this.showRecipientNameTo = showRecipientNameTo;
@@ -141,6 +147,14 @@ public class Comment {
     
     public void setStatus(CommentStatus status){
         this.status = status;
+    }
+    
+    public Boolean getIsPending(){
+        return isPending;
+    }
+    
+    public void setIsPending(Boolean isPending){
+        this.isPending = isPending;
     }
     
     public List<CommentRecipientType> getShowCommentTo(){

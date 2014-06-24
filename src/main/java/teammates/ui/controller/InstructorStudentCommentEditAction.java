@@ -124,6 +124,11 @@ public class InstructorStudentCommentEditAction extends Action {
                 comment.showRecipientNameTo.add(CommentRecipientType.valueOf(srt.trim()));
             }
         }
+        //if a comment is public to recipient (except Instructor), it's a pending comment
+        comment.isPending = comment.showCommentTo != null
+                && comment.showCommentTo.size() > 0
+                && !(comment.showCommentTo.size() == 1 
+                    && comment.showCommentTo.contains(CommentRecipientType.INSTRUCTOR));
         comment.commentText = commentText;
         
         return comment;

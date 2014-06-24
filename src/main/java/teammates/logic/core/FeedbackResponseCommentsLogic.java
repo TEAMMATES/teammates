@@ -70,6 +70,12 @@ public class FeedbackResponseCommentsLogic {
         frcDb.updateFeedbackResponseComment(feedbackResponseComment);    
     }
     
+    public void clearPendingFeedbackResponseComment(
+            String courseId) throws EntityDoesNotExistException {
+        verifyIsCoursePresent(courseId);
+        frcDb.clearPendingFeedbackResponseComment(courseId);    
+    }
+    
     public void deleteFeedbackResponseComment(
             FeedbackResponseCommentAttributes feedbackResponseComment) {
         frcDb.deleteEntity(feedbackResponseComment);    

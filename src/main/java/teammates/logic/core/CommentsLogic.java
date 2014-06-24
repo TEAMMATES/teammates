@@ -39,7 +39,7 @@ public class CommentsLogic {
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         verifyIsCoursePresentForCreateComment(comment.courseId);
         verifyIsInstructorOfCourse(comment.courseId, comment.giverEmail);
-        
+
         commentsDb.createEntity(comment);
     }
 
@@ -55,6 +55,11 @@ public class CommentsLogic {
         verifyIsCoursePresentForGetComments(courseId);
         
         return commentsDb.getCommentsForReceiver(courseId, recipientType, receiverEmail);
+    }
+    
+    public void clearPendingComments(String courseId) throws EntityDoesNotExistException{
+        verifyIsCoursePresentForClearPendingComments(courseId);
+        commentsDb.clearPendingComments(courseId);
     }
     
     public void updateComment(CommentAttributes comment)
@@ -239,6 +244,7 @@ public class CommentsLogic {
         return false;
     }
     
+    //TODO:refactor these
     private void verifyIsCoursePresentForCreateComment(String courseId)
             throws EntityDoesNotExistException {
         if (!coursesLogic.isCoursePresent(courseId)) {
@@ -260,6 +266,14 @@ public class CommentsLogic {
         if (!coursesLogic.isCoursePresent(courseId)) {
             throw new EntityDoesNotExistException(
                     "Trying to update comments for a course that does not exist.");
+        }
+    }
+    
+    private void verifyIsCoursePresentForClearPendingComments(String courseId)
+            throws EntityDoesNotExistException {
+        if (!coursesLogic.isCoursePresent(courseId)) {
+            throw new EntityDoesNotExistException(
+                    "Trying to clear pending comments for a course that does not exist.");
         }
     }
     

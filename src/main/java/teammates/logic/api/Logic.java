@@ -11,7 +11,6 @@ import javax.mail.internet.MimeMessage;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentRecipientType;
-import teammates.common.datatransfer.CommentStatus;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.CourseRoster;
@@ -1494,6 +1493,19 @@ public class Logic {
      * * All parameters are non-null. <br>
      * 
      */
+    public FeedbackQuestionAttributes
+            getFeedbackQuestion(String feedbackQuestionId)
+                    throws EntityDoesNotExistException {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackQuestionId);
+        
+        return feedbackQuestionsLogic.getFeedbackQuestion(feedbackQuestionId);
+    }
+    
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null. <br>
+     * 
+     */
     public FeedbackQuestionBundle
             getFeedbackQuestionBundleForInstructor(String feedbackSessionName,
                     String courseId, String feedbackQuestionId, String userEmail)
@@ -1876,6 +1888,17 @@ public class Logic {
 
         feedbackResponseCommentsLogic.updateFeedbackResponseComment(feedbackResponseComment);
     }
+    
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     */
+    public void clearPendingFeedbackResponseComment(String courseId)
+            throws EntityDoesNotExistException {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+
+        feedbackResponseCommentsLogic.clearPendingFeedbackResponseComment(courseId);
+    }
 
     /**
      * Preconditions: <br>
@@ -1900,6 +1923,16 @@ public class Logic {
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, comment);
         commentsLogic.createComment(comment);
+    }
+    
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     */
+    public void clearPendingComment(String courseId)
+            throws EntityDoesNotExistException {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        commentsLogic.clearPendingComments(courseId);
     }
     
     /**

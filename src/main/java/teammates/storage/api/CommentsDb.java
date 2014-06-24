@@ -122,6 +122,21 @@ public class CommentsDb extends EntitiesDb{
         }
         return commentAttributesList;
     }
+    
+    public void clearPendingComments(String courseId){
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        
+        List<Comment> comments = getPendingCommentEntities(courseId);
+        
+        for(Comment comment: comments){
+            if(comment.getIsPending() != null
+                    && comment.getIsPending()){
+                comment.setIsPending(false);
+            }
+        }
+        
+        getPM().flush();
+    }
 
     public void updateComment(CommentAttributes newAttributes) throws InvalidParametersException, EntityDoesNotExistException{
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT,  newAttributes);
@@ -139,10 +154,18 @@ public class CommentsDb extends EntitiesDb{
         
         Assumption.assertEquals(comment.getGiverEmail(), newAttributes.giverEmail);
         
-        comment.setCommentText(newAttributes.commentText);
-        comment.setShowCommentTo(newAttributes.showCommentTo);
-        comment.setShowGiverNameTo(newAttributes.showGiverNameTo);
-        comment.setShowRecipientNameTo(newAttributes.showRecipientNameTo);
+        if(newAttributes.commentText != null){
+            comment.setCommentText(newAttributes.commentText);
+        }
+        if(newAttributes.showCommentTo != null){
+            comment.setShowCommentTo(newAttributes.showCommentTo);
+        }
+        if(newAttributes.showGiverNameTo != null){
+            comment.setShowGiverNameTo(newAttributes.showGiverNameTo);
+        }
+        if(newAttributes.showRecipientNameTo != null){
+            comment.setShowRecipientNameTo(newAttributes.showRecipientNameTo);
+        }
         if(newAttributes.status != null){
             comment.setStatus(newAttributes.status);
         }
@@ -152,8 +175,20 @@ public class CommentsDb extends EntitiesDb{
         if(newAttributes.recipients != null){
             comment.setRecipients(newAttributes.recipients);
         }
+        comment.setIsPending(newAttributes.isPending);
         
         getPM().close();
+    }
+    
+    private List<Comment> getPendingCommentEntities(String courseId){
+        Query q = getPM().newQuery(Comment.class);
+        q.declareParameters("String courseIdParam");
+        q.setFilter("courseId == courseIdParam && isPending == true");
+        
+        @SuppressWarnings("unchecked")
+        List<Comment> commentList = (List<Comment>) q.execute(courseId);
+        
+        return commentList;
     }
     
     private List<Comment> getCommentEntitiesForGiver(String courseId, String giverEmail){

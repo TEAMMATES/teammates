@@ -2,6 +2,8 @@ package teammates.ui.controller;
 
 import java.util.Date;
 
+import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
@@ -56,6 +58,15 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         FeedbackResponseCommentAttributes feedbackResponseComment = new FeedbackResponseCommentAttributes(courseId,
             feedbackSessionName, feedbackQuestionId, instructor.email, feedbackResponseId, new Date(),
             new Text(commentText));
+        
+        FeedbackQuestionAttributes question = logic.getFeedbackQuestion(feedbackQuestionId);
+        if(question.showResponsesTo.size() > 0
+            && (question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
+                || question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)
+                || question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
+                || question.isResponseVisibleTo(FeedbackParticipantType.STUDENTS))){
+            feedbackResponseComment.isPending = true;
+        }
         
         try {
             logic.createFeedbackResponseComment(feedbackResponseComment);
