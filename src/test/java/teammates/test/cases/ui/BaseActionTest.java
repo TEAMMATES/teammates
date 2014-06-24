@@ -458,6 +458,16 @@ public class BaseActionTest extends BaseComponentTestCase {
         verifyCannotAccess(submissionParams);
     }
     
+    protected void verifyUnaccessibleWithoutGiveCommentInSectionsPrivilege(String[] submissionParams) throws Exception {
+        
+        ______TS("without Give-Comment-In-Sections privilege cannot access");
+        
+        InstructorAttributes helperOfCourse1 = data.instructors.get("helperOfCourse1");
+        
+        gaeSimulation.loginAsInstructor(helperOfCourse1.googleId);
+        verifyCannotAccess(submissionParams);
+    }
+    
     protected void verifyUnaccessibleWithoutViewSessionInSectionsPrivilege(String[] submissionParams) throws Exception {
         
         ______TS("without View-Student-In-Sections privilege cannot access");
