@@ -1,18 +1,9 @@
 package teammates.logic.core;
 
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
-import java.util.TimeZone;
 import java.util.logging.Logger;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-
-import com.google.gson.Gson;
-
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -22,8 +13,6 @@ import teammates.common.exception.JoinCourseException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.FileHelper;
-import teammates.common.util.Config;
 import teammates.common.util.Utils;
 import teammates.logic.backdoor.BackDoorLogic;
 import teammates.storage.api.AccountsDb;
