@@ -438,15 +438,17 @@ public class Logic {
      * Create an account for the instructor if there is no account exist for him.
      * Preconditions: <br>
      * * All parameters are non-null.
+     * @throws InvalidParametersException 
      */
-    public void joinCourseForInstructor(String encryptedKey, String googleId)
-            throws JoinCourseException {
+    public void joinCourseForInstructor(String encryptedKey, String googleId, String institute)
+            throws JoinCourseException, InvalidParametersException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, encryptedKey);
-    
-        accountsLogic.joinCourseForInstructor(encryptedKey, googleId);
+        //institute can be empty for normal course joining action for instructor       
+        accountsLogic.joinCourseForInstructor(encryptedKey, googleId, institute);
     }
+
 
     /**
      * Preconditions: <br>
@@ -460,6 +462,31 @@ public class Logic {
     
         return instructorsLogic.sendRegistrationInviteToInstructor(courseId, instructorEmail);
     }
+    
+    
+    public void sendJoinLinkToNewInstructor(InstructorAttributes instructor, String shortName, String institute)
+            throws EntityDoesNotExistException{
+         
+         
+         Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructor);
+         Assumption.assertNotNull(ERROR_NULL_PARAMETER, shortName);
+         Assumption.assertNotNull(ERROR_NULL_PARAMETER, institute);
+         
+         instructorsLogic.sendJoinLinkToNewInstructor(instructor, shortName, institute);
+         
+     }
+     
+     public void verifyInputForAdminHomePage(String shortName, String name, String institute, String email) throws InvalidParametersException{
+         
+         List<String> invalidityInfo = instructorsLogic.getInvalidityInfoForNewInstructorData(shortName, name, institute, email);
+         
+         if (!invalidityInfo.isEmpty()) {
+             throw new InvalidParametersException(invalidityInfo);
+         } 
+     }
+     
+     
+    
     
     /**
      * Removes instructor access but does not delete the account. 

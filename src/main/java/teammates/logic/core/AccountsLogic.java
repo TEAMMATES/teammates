@@ -2,7 +2,6 @@ package teammates.logic.core;
 
 import java.util.List;
 import java.util.logging.Logger;
-
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -15,7 +14,9 @@ import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Utils;
+import teammates.logic.backdoor.BackDoorLogic;
 import teammates.storage.api.AccountsDb;
+
 
 /**
  * Handles the logic related to accounts.
@@ -139,12 +140,24 @@ public class AccountsLogic {
         }
     }
     
-    public void joinCourseForInstructor(String encryptedKey, String googleId)
-            throws JoinCourseException {
+
+    
+    public void joinCourseForInstructor(String encryptedKey, String googleId, String institute)
+            throws JoinCourseException, InvalidParametersException {
         
-        verifyInstructorJoinCourseRequest(encryptedKey, googleId);
+        verifyInstructorJoinCourseRequest(encryptedKey, googleId, institute);
         
         InstructorAttributes instructor = InstructorsLogic.inst().getInstructorForRegistrationKey(encryptedKey);
+        
+        if(!institute.isEmpty()){
+        AccountAttributes accountToAdd = new AccountAttributes(googleId,
+                                                               instructor.name,
+                                                               true,
+                                                               instructor.email,
+                                                               institute);     
+        
+        createAccount(accountToAdd);
+        }
         
         instructor.googleId = googleId;
         try {
@@ -165,7 +178,7 @@ public class AccountsLogic {
         }
     }
     
-    private void verifyInstructorJoinCourseRequest(String encryptedKey, String googleId)
+    private void verifyInstructorJoinCourseRequest(String encryptedKey, String googleId, String institute)
             throws JoinCourseException {
         
         InstructorAttributes instructorRole = InstructorsLogic.inst().getInstructorForRegistrationKey(encryptedKey);
@@ -175,25 +188,43 @@ public class AccountsLogic {
             
             throw new JoinCourseException(Const.StatusCodes.INVALID_KEY,
                     "You have used an invalid join link: " + joinUrl);
+            
         } else if (instructorRole.isRegistered()) {
             if (instructorRole.googleId.equals(googleId)) {
                 AccountAttributes account = accountsDb.getAccount(googleId);
-                if(account == null) {
-                    try {
-                        createInstructorAccount(instructorRole);
-                        return;
-                    } catch (InvalidParametersException e) {
-                        throw new JoinCourseException(e.getMessage());
+                if (account == null) {
+
+                    if (!institute.isEmpty()) {
+                        throw new JoinCourseException(
+                                Const.StatusCodes.KEY_BELONGS_TO_DIFFERENT_USER,
+                                String.format(Const.StatusMessages.JOIN_COURSE_KEY_BELONGS_TO_DIFFERENT_USER,
+                                              truncateGoogleId(instructorRole.googleId)));
+                    } else {
+
+                        try {
+                            createInstructorAccount(instructorRole);
+                            return;
+                        } catch (InvalidParametersException e) {
+                            throw new JoinCourseException(e.getMessage());
+                        }
                     }
+
                 } else {
-                    throw new JoinCourseException(Const.StatusCodes.ALREADY_JOINED,
-                            googleId + " has already joined this course");
+
+                    if (!institute.isEmpty()) {
+                        throw new JoinCourseException(Const.StatusCodes.ALREADY_JOINED,
+                                                      "You has already verified your google account");
+                    } else {
+                        throw new JoinCourseException(Const.StatusCodes.ALREADY_JOINED,
+                                                       googleId + " has already joined this course");
+                    }
                 }
                 
             } else {
+                
                 throw new JoinCourseException(Const.StatusCodes.KEY_BELONGS_TO_DIFFERENT_USER,
-                        String.format(Const.StatusMessages.JOIN_COURSE_KEY_BELONGS_TO_DIFFERENT_USER,
-                                truncateGoogleId(instructorRole.googleId)));
+                                              String.format(Const.StatusMessages.JOIN_COURSE_KEY_BELONGS_TO_DIFFERENT_USER,
+                                                            truncateGoogleId(instructorRole.googleId)));
             }
         }
     
@@ -201,9 +232,9 @@ public class AccountsLogic {
                 InstructorsLogic.inst().getInstructorForGoogleId(instructorRole.courseId, googleId);
         
         if (existingInstructor != null) {
-            throw new JoinCourseException(
-                    String.format(Const.StatusMessages.JOIN_COURSE_GOOGLE_ID_BELONGS_TO_DIFFERENT_USER,
-                            googleId));
+            throw new JoinCourseException(String.format(Const.StatusMessages.JOIN_COURSE_GOOGLE_ID_BELONGS_TO_DIFFERENT_USER,
+                                                        googleId));
+            
         }
     }
     
@@ -304,6 +335,8 @@ public class AccountsLogic {
         accountsDb.createAccount(account);
     }
 
+    
+    
     private String truncateGoogleId(String googleId) {
         String frontPart = googleId.substring(0, googleId.length() / 3);
         String endPart = googleId.substring(2 * googleId.length() / 3);

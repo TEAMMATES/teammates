@@ -220,6 +220,7 @@ public class Const {
     public class ParamsNames{
         public static final String COURSE_ID = "courseid";
         public static final String COURSE_NAME = "coursename";
+        public static final String INSTRUCTOR_SHORT_NAME = "instructorshortname";
         public static final String INSTRUCTOR_ID = "instructorid";
         public static final String INSTRUCTOR_EMAIL = "instructoremail";
         public static final String INSTRUCTOR_INSTITUTION = "instructorinstitution";
