@@ -12,6 +12,9 @@ import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentRecipientType;
 import teammates.common.datatransfer.CommentStatus;
 import teammates.common.datatransfer.CourseRoster;
+import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
@@ -35,6 +38,8 @@ public class CommentsLogic {
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
     private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     private static final StudentsLogic studentsLogic = StudentsLogic.inst();
+    private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
+    private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
     private static final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
 
     public static CommentsLogic inst() {
@@ -130,7 +135,7 @@ public class CommentsLogic {
         return comments;
     }
     
-    public void sendEmailForPendingComments(String courseId) throws EntityDoesNotExistException {
+    public Set<String> sendEmailForPendingComments(String courseId) throws EntityDoesNotExistException {
         List<StudentAttributes> allStudents = new StudentsDb().getStudentsForCourse(courseId);
         
         //prepare roster
@@ -151,8 +156,100 @@ public class CommentsLogic {
                 sectionStudentTable,
                 recipientEmailsList);
         
-        Map<String, Set<String>> responseCommentsAddedTable = new HashMap<String, Set<String>>();
         List<FeedbackResponseCommentAttributes> pendingResponseCommentsList = frcLogic.getPendingFeedbackResponseComments(courseId);
+        Map<String, FeedbackQuestionAttributes> feedbackQuestionsTable = new HashMap<String, FeedbackQuestionAttributes>();
+        Map<String, FeedbackResponseAttributes> feedbackResponsesTable = new HashMap<String, FeedbackResponseAttributes>();
+        for(FeedbackResponseCommentAttributes frc:pendingResponseCommentsList){
+            Map<String, Set<String>> responseCommentsAddedTable = new HashMap<String, Set<String>>();
+            FeedbackQuestionAttributes relatedQuestion = feedbackQuestionsTable.get(frc.feedbackQuestionId);
+            if(relatedQuestion == null){
+                relatedQuestion = fqLogic.getFeedbackQuestion(frc.feedbackQuestionId);
+                feedbackQuestionsTable.put(frc.feedbackQuestionId, relatedQuestion);
+            }
+            FeedbackResponseAttributes relatedResponse = feedbackResponsesTable.get(frc.feedbackResponseId);
+            if(relatedResponse == null){
+                relatedResponse = frLogic.getFeedbackResponse(frc.feedbackResponseId);
+                feedbackResponsesTable.put(frc.feedbackResponseId, relatedResponse);
+            }
+            
+            //giver can see
+            switch (relatedQuestion.giverType) {
+            case STUDENTS:
+                if(roster.getStudentForEmail(relatedResponse.giverEmail) != null){
+                    addRecipientEmailsToList(responseCommentsAddedTable, recipientEmailsList, 
+                            frc.getId().toString(), relatedResponse.giverEmail);
+                }
+                //Own team members can see
+                if(relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)){
+                    StudentAttributes studentOfThisEmail = roster.getStudentForEmail(relatedResponse.giverEmail);
+                    if(studentOfThisEmail != null){
+                        List<StudentAttributes> students = teamStudentTable.get(studentOfThisEmail.team);
+                        if(students != null){
+                            for(StudentAttributes stu:students){
+                                addRecipientEmailsToList(responseCommentsAddedTable, recipientEmailsList, 
+                                        frc.getId().toString(), stu.email);
+                            }
+                        }
+                    }
+                }
+                break;
+            case TEAMS:
+                //giverEmail is team name here
+                List<StudentAttributes> students = teamStudentTable.get(relatedResponse.giverEmail);
+                if(students != null){
+                    for(StudentAttributes stu:students){
+                        addRecipientEmailsToList(responseCommentsAddedTable, recipientEmailsList, 
+                                frc.getId().toString(), stu.email);
+                    }
+                }
+                break;
+            default:
+                break;
+            }
+            //Receiver can see
+            if(relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)){
+                switch (relatedQuestion.recipientType) {
+                case STUDENTS:
+                    if(roster.getStudentForEmail(relatedResponse.recipientEmail) != null){
+                        addRecipientEmailsToList(responseCommentsAddedTable, recipientEmailsList, 
+                                frc.getId().toString(), relatedResponse.recipientEmail);
+                    }
+                    //Receiver's team members can see
+                    if(relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)){
+                        StudentAttributes studentOfThisEmail = roster.getStudentForEmail(relatedResponse.recipientEmail);
+                        if(studentOfThisEmail != null){
+                            List<StudentAttributes> students = teamStudentTable.get(studentOfThisEmail.team);
+                            if(students != null){
+                                for(StudentAttributes stu:students){
+                                    addRecipientEmailsToList(responseCommentsAddedTable, recipientEmailsList, 
+                                            frc.getId().toString(), stu.email);
+                                }
+                            }
+                        }
+                    }
+                    break;
+                case TEAMS:
+                    //recipientEmail is team name here
+                    List<StudentAttributes> students = teamStudentTable.get(relatedResponse.recipientEmail);
+                    if(students != null){
+                        for(StudentAttributes stu:students){
+                            addRecipientEmailsToList(responseCommentsAddedTable, recipientEmailsList, 
+                                    frc.getId().toString(), stu.email);
+                        }
+                    }
+                    break;
+                default:
+                    break;
+                }
+            }
+            if(relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.STUDENTS)){
+                for(StudentAttributes student : allStudents){
+                    addRecipientEmailsToList(responseCommentsAddedTable,
+                            recipientEmailsList, frc.getId().toString(), student.email);
+                }
+            }
+        }
+        return recipientEmailsList;
     }
 
     private void populateTeamSectionStudentTables(
@@ -184,6 +281,7 @@ public class CommentsLogic {
         
         Map<String, Set<String>> studentCommentsAddedTable = new HashMap<String, Set<String>>();
         
+        //TODO: make it like this : check isVisible, then get recipients based on recipient type
         for(CommentAttributes pendingComment : pendingCommentsList){
             switch(pendingComment.recipientType){
             case PERSON:
@@ -292,7 +390,7 @@ public class CommentsLogic {
             String recipientEmailInTheSameSection = student.email;
             if(pendingComment.isVisibleTo(CommentRecipientType.SECTION)){
                 addRecipientEmailsToList(studentCommentsAddedTable,
-                        recipientEmailList, pendingComment, recipientEmailInTheSameSection);
+                        recipientEmailList, pendingComment.getCommentId().toString(), recipientEmailInTheSameSection);
             } else {
                 preventAddRecipientEmailsToList(studentCommentsAddedTable, pendingComment, recipientEmailInTheSameSection);
             }
@@ -311,7 +409,7 @@ public class CommentsLogic {
             String teammatesEmail = student.email;
             if(pendingComment.isVisibleTo(CommentRecipientType.TEAM)){
                 addRecipientEmailsToList(studentCommentsAddedTable,
-                        recipientEmailList, pendingComment, teammatesEmail);
+                        recipientEmailList, pendingComment.getCommentId().toString(), teammatesEmail);
             } else {
                 preventAddRecipientEmailsToList(studentCommentsAddedTable, pendingComment, teammatesEmail);
             }
@@ -324,7 +422,7 @@ public class CommentsLogic {
             CommentAttributes pendingComment, String recipientEmail) {
         if(pendingComment.isVisibleTo(CommentRecipientType.PERSON)){
             addRecipientEmailsToList(studentCommentsAddedTable,
-                    recipientEmailList, pendingComment, recipientEmail);
+                    recipientEmailList, pendingComment.getCommentId().toString(), recipientEmail);
         } else {
             preventAddRecipientEmailsToList(studentCommentsAddedTable, pendingComment, recipientEmail);
         }
@@ -338,7 +436,7 @@ public class CommentsLogic {
             String recipientEmail = student.email;
             if(pendingComment.isVisibleTo(CommentRecipientType.COURSE)){
                 addRecipientEmailsToList(studentCommentsAddedTable,
-                        recipientEmailList, pendingComment, recipientEmail);
+                        recipientEmailList, pendingComment.getCommentId().toString(), recipientEmail);
             }
         }
     }
@@ -346,15 +444,15 @@ public class CommentsLogic {
     private void addRecipientEmailsToList(
             Map<String, Set<String>> isAddedTable,
             Set<String> targetTable,
-            CommentAttributes comment, String key) {
+            String subKey, String key) {
         //prevent re-entry
         Set<String> commentIdsSet = isAddedTable.get(key);
         if(commentIdsSet == null){
             commentIdsSet = new HashSet<String>();
             isAddedTable.put(key, commentIdsSet);
         }
-        if(!commentIdsSet.contains(comment.getCommentId().toString())){
-            commentIdsSet.add(comment.getCommentId().toString());
+        if(!commentIdsSet.contains(subKey)){
+            commentIdsSet.add(subKey);
             targetTable.add(key);
         }
     }
