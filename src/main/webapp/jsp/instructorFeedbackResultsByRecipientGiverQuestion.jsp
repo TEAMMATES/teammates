@@ -12,7 +12,7 @@
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%
     InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData) request.getAttribute("data");
-    boolean shouldCollapsed = data.bundle.responses.size() > 1000;
+    boolean showAll = data.bundle.isComplete;
 %>
 <!DOCTYPE html>
 <html>
@@ -34,6 +34,9 @@
     <script type="text/javascript" src="/js/instructorFeedbackResults.js"></script>
     <script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
     <script type="text/javascript" src="/js/feedbackResponseComments.js"></script>
+    <script type="text/javascript" src="/js/instructorFeedbackResultsAjaxByRGQ.js"></script>
+    <script type="text/javascript" src="/js/instructorFeedbackResultsAjaxResponseRate.js"></script>
+
     <jsp:include page="../enableJS.jsp"></jsp:include>
     <!-- Bootstrap core JavaScript ================================================== -->
     <script src="/bootstrap/js/bootstrap.min.js"></script>
@@ -55,10 +58,65 @@
             </div>
             <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_TOP%>" />
             <br>
+
+            <% if(!showAll) {
+                    int sectionIndex = 0; 
+                    for(String section: data.sections){
+            %>
+                        <div class="panel panel-success">
+                                <div class="panel-heading ajax_submit">
+                                    <strong><%=section%></strong>
+                                    <form style="display:none;" id="seeMore-<%=sectionIndex%>" class="seeMoreForm-<%=sectionIndex%>" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_AJAX_BY_RGQ%>">
+                                        <input type="hidden" name="<%=Const.ParamsNames.SECTION_NAME %>" value="<%=section%>">
+                                        <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID %>" value="<%=data.bundle.feedbackSession.courseId %>">
+                                        <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="<%=data.bundle.feedbackSession.feedbackSessionName %>">
+                                        <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId %>">
+                                        <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM%>" value="<%=data.groupByTeam%>">
+                                    </form>
+                                    <div class='display-icon pull-right'>
+                                        <span class="glyphicon glyphicon-chevron-down pull-right"></span>
+                                    </div>
+                                </div>
+                                <div class="panel-collapse collapse">
+                                <div class="panel-body">
+                                </div>
+                                </div>
+                        </div>
+            <%
+                    sectionIndex++;
+                    }
+            %>
+                    <div class="panel panel-success">
+                            <div class="panel-heading ajax_submit">
+                                <strong>None</strong>
+                                <form style="display:none;" id="seeMore-<%=sectionIndex%>" class="seeMoreForm-<%=sectionIndex%>" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_AJAX_BY_RGQ%>">
+                                    <input type="hidden" name="<%=Const.ParamsNames.SECTION_NAME %>" value="None">
+                                    <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID %>" value="<%=data.bundle.feedbackSession.courseId %>">
+                                    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="<%=data.bundle.feedbackSession.feedbackSessionName %>">
+                                    <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId %>">
+                                    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM%>" value="<%=data.groupByTeam%>">
+                                </form>
+                                <div class='display-icon pull-right'>
+                                    <span class="glyphicon glyphicon-chevron-down pull-right"></span>
+                                </div>
+                            </div>
+                            <div class="panel-collapse collapse">
+                            <div class="panel-body">
+                            </div>
+                            </div>
+                    </div>
+            <%
+                } else {
+            %>
+
             <%
                 boolean groupByTeamEnabled = data.groupByTeam==null ? false : true;
                 String currentTeam = null;
                 boolean newTeam = false;
+                String currentSection = null;
+                boolean newSection = false;
+                int sectionIndex = 0;
+                int teamIndex = 0;
             %>
 
             <%
@@ -93,20 +151,62 @@
                 </div>
             <%
                 }
+            %>
+
+            <% 
+                if(currentSection != null && !firstResponse.giverSection.equals(currentSection)){
+                    currentSection = firstResponse.giverSection;
+                    newSection = true;
+            %>
+                    </div>
+                    </div>
+                </div>
+            <% 
+                }
+            %>
+
+            <% if(currentSection == null || newSection == true){
+                    currentSection = firstResponse.giverSection;
+                    newSection = false;
+                    sectionIndex++;
+            %>
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            <strong><%=currentSection%></strong>
+                            <span class="glyphicon glyphicon-chevron-up pull-right"></span>
+                        </div>
+                        <div class="panel-collapse collapse in">
+                        <div class="panel-body">
+                        <a class="btn btn-default btn-xs pull-right" id="collapse-panels-button-section-<%=sectionIndex%>" style="display:block;">
+                            Expand All
+                        </a>
+                        <br>
+                        <br>
+            <%
+                }
+            %>
+
+            <%
                 if(groupByTeamEnabled == true && (currentTeam==null || newTeam==true)) {
                     currentTeam = data.bundle.getTeamNameForEmail(targetEmail);
                     if(currentTeam.equals("")){
                         currentTeam = data.bundle.getNameForEmail(targetEmail);
                     }
+                    teamIndex++;
                     newTeam = false;
             %>
                     <div class="panel panel-warning">
                         <div class="panel-heading">
                             <strong><%=currentTeam%></strong>
-                            <span class="glyphicon <%= !shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down" %> pull-right"></span>
+                            <span class="glyphicon glyphicon-chevron-down pull-right"></span>
                         </div>
-                        <div class="panel-collapse collapse <%= !shouldCollapsed ? "in" : "" %>">
+                        <div class="panel-collapse collapse">
                         <div class="panel-body background-color-warning">
+                            <a class="btn btn-default btn-xs pull-right" id="collapse-panels-button-team-<%=teamIndex%>">
+                                Expand All
+                            </a>
+                            <br>
+                            <br>
             <%
                 }
             %>
@@ -116,9 +216,9 @@
                 <div class="panel-heading">
                     To: <strong><%=responsesForRecipient.getKey()%></strong>
                         <a class="link-in-dark-bg" href="mailTo:<%= targetEmail%> " <%=mailtoStyleAttr%>>[<%=targetEmail%>]</a>
-                    <span class="glyphicon <%= !shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down" %> pull-right"></span>
+                    <span class="glyphicon glyphicon-chevron-down pull-right"></span>
                 </div>
-                <div class="panel-collapse collapse <%= !shouldCollapsed ? "in" : "" %>">
+                <div class="panel-collapse collapse">
                 <div class="panel-body">
                 <%
                     int giverIndex = 0;
@@ -274,33 +374,56 @@
             }
         %>
 
-        <%
-            // Only output the list of students who haven't responded when there are responses.
-            FeedbackSessionResponseStatus responseStatus = data.bundle.responseStatus;
-            if (data.selectedSection.equals("All") && !responseStatus.noResponse.isEmpty()) {
-        %>
-                <div class="panel panel-info">
-                    <div class="panel-heading">Participants who did not respond to any question</div>
-                    
-                    <table class="table table-striped">
-                        <tbody>
-                        <%  
-                            List<String> students = responseStatus.getStudentsWhoDidNotRespondToAnyQuestion();
-                            for (String studentName : students) {
-                        %>
-                                <tr>
-                                    <td><%=studentName%></td>
-                                </tr>
-                        <%
-                            }
-                        %>
-                        </tbody>
-                    </table>
+            </div>
                 </div>
-                <br> <br>
+            </div>
         <%
             }
         %>
+
+        <% if(data.selectedSection.equals("All")){ %>
+            <div class="panel panel-warning">
+                <div class="panel-heading ajax_response_rate_submit">
+                    <form style="display:none;" id="responseRate" class="responseRateForm" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_AJAX_RESPONSE_RATE%>">
+                        <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID %>" value="<%=data.bundle.feedbackSession.courseId %>">
+                        <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="<%=data.bundle.feedbackSession.feedbackSessionName %>">
+                        <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId %>">
+                    </form>
+                    <div class='display-icon pull-right'>
+                    <span class="glyphicon <%= showAll ? "glyphicon-chevron-up" : "glyphicon-chevron-down" %> pull-right"></span>
+                    </div>
+                    Participants who have not responded to any question</div>
+                <div class="panel-collapse collapse <%= showAll ? "in" : "" %>">
+            <% if(showAll) {
+                // Only output the list of students who haven't responded when there are responses.
+                FeedbackSessionResponseStatus responseStatus = data.bundle.responseStatus;
+                if (data.selectedSection.equals("All") && !responseStatus.noResponse.isEmpty()) {
+            %>
+                    <div class="panel-body padding-0">
+                        <table class="table table-striped table-bordered margin-0">
+                            <tbody>
+                            <%  
+                                List<String> students = responseStatus.getStudentsWhoDidNotRespondToAnyQuestion();
+                                for (String studentName : students) {
+                            %>
+                                    <tr>
+                                        <td><%=studentName%></td>
+                                    </tr>
+                            <%
+                                }
+                            %>
+                            </tbody>
+                        </table>
+                    <br> <br>
+                    </div>
+            <%
+                    }
+                } 
+            %>
+                </div>
+            </div>
+            <% } %>
+
         </div>
     </div>
 

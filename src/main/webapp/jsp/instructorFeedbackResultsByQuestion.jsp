@@ -137,6 +137,7 @@
                 }
             %>
             
+            <% if(data.selectedSection.equals("All")){ %>
             <div class="panel panel-warning">
                 <div class="panel-heading ajax_response_rate_submit">
                     <form style="display:none;" id="responseRate" class="responseRateForm" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_AJAX_RESPONSE_RATE%>">
@@ -147,14 +148,14 @@
                     <div class='display-icon pull-right'>
                     <span class="glyphicon <%= showAll ? "glyphicon-chevron-up" : "glyphicon-chevron-down" %> pull-right"></span>
                     </div>
-                    Participants who did not respond to any question</div>
+                    Participants who have not responded to any question</div>
                 <div class="panel-collapse collapse <%= showAll ? "in" : "" %>">
-                <div class="panel-body padding-0">
             <% if(showAll) {
                 // Only output the list of students who haven't responded when there are responses.
                 FeedbackSessionResponseStatus responseStatus = data.bundle.responseStatus;
                 if (data.selectedSection.equals("All") && !responseStatus.noResponse.isEmpty()) {
-            %>
+            %>          
+                    <div class="panel-body padding-0">
                         <table class="table table-striped table-bordered margin-0">
                             <tbody>
                             <%  
@@ -171,12 +172,14 @@
                         </table>
                     
                     <br> <br>
+                    </div>
             <%
                     }
                 } 
             %>
                 </div>
                 </div>
+            <% } %>
             </div>    
         </div>
     </div>

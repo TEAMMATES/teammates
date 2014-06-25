@@ -1,5 +1,5 @@
 var sectionIndex = 0;
-var giverIndex = 0;
+var recipientIndex = 0;
 var numPanels  = 0;
 var currentTeam;
 var teamIndex = 0;
@@ -8,13 +8,13 @@ function getAppendedData(data){
     var appendedHtml = '';
     var hasUsers = false;
 
-    appendedHtml += '<a class="btn btn-default btn-xs pull-right" id="collapse-panels-button-section-' + sectionIndex + '" style="display:block;">'
+    appendedHtml += '<a class="btn btn-success btn-xs pull-right" id="collapse-panels-button-section-' + sectionIndex + '" style="display:block;">'
                         + 'Expand All</a><br><br>';
 
-    for(var giver in data.responses){
-        if(data.responses.hasOwnProperty(giver)){
+    for(var recipient in data.responses){
+        if(data.responses.hasOwnProperty(recipient)){
             hasUsers = true;
-            appendedHtml += getResponsesFromGiver(giver, data);
+            appendedHtml += getResponsesToRecipient(recipient, data);
         }
     }
     if(!hasUsers){
@@ -25,40 +25,40 @@ function getAppendedData(data){
     return appendedHtml;
 }
 
-function getResponsesFromGiver(giver, data){    
+function getResponsesToRecipient(recipient, data){    
     var appendedResponses = '';
     var firstResponse;
-    for(var receiver in data.responses[giver]){
-        var receiversList = data.responses[giver];
-        if(receiversList.hasOwnProperty(receiver)){
-            firstResponse = receiversList[receiver][0];
+    for(var giver in data.responses[recipient]){
+        var giversList = data.responses[recipient];
+        if(giversList.hasOwnProperty(giver)){
+            firstResponse = giversList[giver][0];
             break;
         }
     }
 
-    var targetEmail = firstResponse.giverEmail.replace("'s Team", "");
-    var targetEmailDisplay = firstResponse.giverEmail;
+    var targetEmail = firstResponse.recipientEmail.replace("'s Team", "");
+    var targetEmailDisplay = firstResponse.recipientEmail;
     var mailToStyleAttr = (targetEmailDisplay.indexOf("@@") != -1) ? "style='display:none;'" : "";
 
     var groupByTeamEnabled = $('#frgroupbyteam').attr('checked') == 'checked';
-    var giverTeam = data.emailTeamNameTable[targetEmail];
-    if(groupByTeamEnabled && (typeof currentTeam == 'undefined' || giverTeam != currentTeam)){
+    var recipientTeam = data.emailTeamNameTable[targetEmail];
+    if(groupByTeamEnabled && (typeof currentTeam == 'undefined' || recipientTeam != currentTeam)){
         if(typeof currentTeam != 'undefined'){
             appendedResponses += '</div></div></div>';
         }
         teamIndex++;
-        currentTeam = giverTeam;
+        currentTeam = recipientTeam;
         appendedResponses += '<div class="panel panel-warning"><div class="panel-heading">';
         appendedResponses += '<strong>'+ currentTeam + '</strong>';
         appendedResponses += '<span class="glyphicon glyphicon-chevron-down pull-right"></span></div>';
         appendedResponses += '<div class="panel-collapse collapse"><div class="panel-body background-color-warning">';
-        appendedResponses += '<a class="btn btn-default btn-xs pull-right" id="collapse-panels-button-team-' + teamIndex + '%>">'
+        appendedResponses += '<a class="btn btn-warning btn-xs pull-right" id="collapse-panels-button-team-' + teamIndex + '%>">'
                                 + 'Expand All</a><br><br>';
     }
 
     appendedResponses += '<div class="panel panel-primary">';
     appendedResponses += '<div class="panel-heading">';
-    appendedResponses += 'From: <strong>' + giver + '</strong>';
+    appendedResponses += 'To: <strong>' + recipient + '</strong>';
     appendedResponses += '<a class="link-in-dark-bg" href="mailTo:' + targetEmail + '" '+ mailToStyleAttr + '> [' + targetEmailDisplay + ']</a>';
     if(groupByTeamEnabled){
         appendedResponses += '<span class="glyphicon glyphicon-chevron-down pull-right"></span>';
@@ -74,15 +74,15 @@ function getResponsesFromGiver(giver, data){
     
     appendedResponses += '<div class="panel-body">';
 
-    var recipientIndex = 0;
+    var giverIndex = 0;
 
     var hasResponse = false;
-    for(var receiver in data.responses[giver]){
-        var receiversList = data.responses[giver];
-        if(receiversList.hasOwnProperty(receiver)){
+    for(var giver in data.responses[recipient]){
+        var giversList = data.responses[recipient];
+        if(giversList.hasOwnProperty(giver)){
             hasResponse = true;
-            recipientIndex++;
-            appendedResponses += getResponsesToReceiver(giver, receiver, recipientIndex, data);
+            giverIndex++;
+            appendedResponses += getResponsesFromrecipient(recipient, giver, giverIndex, data);
         }
     }
 
@@ -93,16 +93,16 @@ function getResponsesFromGiver(giver, data){
     appendedResponses += '</div>';
     appendedResponses += '</div>';
     appendedResponses += '</div>';
-    giverIndex++;
+    recipientIndex++;
 
     return appendedResponses;
 }
 
-function getResponsesToReceiver(giver, receiver, recipientIndex, data){
+function getResponsesFromrecipient(recipient, giver, giverIndex, data){
     var appendedResponses = '';
-    var responsesList = data.responses[giver][receiver];
-    appendedResponses += '<div class="row ' + (recipientIndex == 1 ? "": "border-top-gray") + '">';
-    appendedResponses += '<div class="col-md-2"><strong>To: ' + receiver + '</strong></div>';
+    var responsesList = data.responses[recipient][giver];
+    appendedResponses += '<div class="row ' + (giverIndex == 1 ? "": "border-top-gray") + '">';
+    appendedResponses += '<div class="col-md-2"><strong>From: ' + giver + '</strong></div>';
     appendedResponses += '<div class="col-md-10">';
 
     var qnIndx = 0;
@@ -115,13 +115,13 @@ function getResponsesToReceiver(giver, receiver, recipientIndex, data){
         var recipientSection = response['recipientSection'];
         var question = data.questionsInfo[questionId];
         appendedResponses += '<div class="panel panel-info">';
-        appendedResponses += '<div class="panel-heading">Question ' + question['questionNum'] + ': ' + question['questionText'] + question['questionAdditionalInfo'].replace('additionalInfoId','giver-' + giverIndex +'-recipient-' + recipientIndex) + '</div>';
+        appendedResponses += '<div class="panel-heading">Question ' + question['questionNum'] + ': ' + question['questionText'] + question['questionAdditionalInfo'].replace('additionalInfoId','recipient-' + recipientIndex +'-giver-' + giverIndex) + '</div>';
         appendedResponses += '<div class="panel-body"> <div style="clear:both; overflow: hidden"><div class="pull-left">';
         appendedResponses +=  data.answer[responseId] + '</div>';
         appendedResponses += '<button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment"'
                                 + 'onclick="showResponseCommentAddForm('+ recipientIndex +',' + giverIndex+',' + qnIndx + ')"'
                                 + 'data-toggle="tooltip" data-placement="top" title="Add comment" ';
-        if(!data.privilegesInfo[giverSection]['cansubmitsessioninsection'] || !data.privilegesInfo[recipientSection]['cansubmitsessioninsection']){
+        if(!data.privilegesInfo[recipientSection]['cansubmitsessioninsection'] || !data.privilegesInfo[giverSection]['cansubmitsessioninsection']){
             appendedResponses += 'disabled="disabled"';
         }
         var responseComments = data.comments[responseId];
@@ -157,7 +157,7 @@ function getResponsesToReceiver(giver, receiver, recipientIndex, data){
                 }
                 appendedResponses += '><span class="glyphicon glyphicon-pencil glyphicon-primary"></span></a></div>';
                 appendedResponses += '<div id="plainCommentText-' + recipientIndex + '-' + giverIndex + '-' + qnIndx + '-' + responseCommentIndex + '">' + comment['commentText']['value'] + '</div>';
-                appendedResponses += '<form style="display:none;" id="responseCommentEditForm-' + recipientIndex + '-' + giverIndex + '-' + qnIndx + '-' + responseCommentIndex + '" class="responseCommentEditForm">';
+                appendedResponses += '<form style="display:none;" id="responseCommentEditForm-' + giverIndex + '-' + recipientIndex + '-' + qnIndx + '-' + responseCommentIndex + '" class="responseCommentEditForm">';
                 appendedResponses += '<div class="form-group"><textarea class="form-control" rows="3" placeholder="Your comment about this response"' 
                                         + 'name="responsecommenttext" id="responsecommenttext-' + recipientIndex + '-' + giverIndex + '-' + qnIndx + '-' + responseCommentIndex + '">' + comment['commentText']['value'] + '</textarea></div>';
                 appendedResponses += '<div class="col-sm-offset-5"><a href="/page/instructorFeedbackResponseCommentEdit" type="button" class="btn btn-primary" id="button_save_comment_for_edit-' + recipientIndex + '-' + giverIndex + '-' + qnIndx + '-' + responseCommentIndex + '">';
@@ -209,7 +209,7 @@ $(document).ready(function(){
         e.preventDefault();
         $.ajax({
             type : 'POST',
-            url : 	$(formObject[0]).attr('action') + "?" + formData,
+            url :   $(formObject[0]).attr('action') + "?" + formData,
             beforeSend : function() {
                 displayIcon.html("<img height='25' width='25' src='/images/ajax-preload.gif'/>")
             },

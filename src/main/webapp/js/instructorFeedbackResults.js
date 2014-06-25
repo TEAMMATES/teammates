@@ -39,35 +39,49 @@ function updateResultsFilter(){
 }
 
 //This section is used to enable all panels to be collapsible.
-var panelsCollapsed = false;
 var isCollapsingAll = false;
 var isExpandingAll = false;
 
-function toggleCollapse(){
-    if(panelsCollapsed){
-        var panels = $("div.panel-collapse");
+function toggleCollapse(e, panels){
+    if($(e).html().indexOf("Expand All") != -1){
+        panels = panels || $("div.panel-collapse");
         isExpandingAll = true;
         var i = 0;
-        while($(panels[i]).attr('class').indexOf('in') != -1){
-            i++;
+        for(var idx = 0; idx < panels.length; idx++){
+            if($(panels[idx]).attr('class').indexOf('in') == -1){
+                setTimeout(showSingleCollapse, 100 * i, panels[idx]);
+                i++;
+            }
         }
-        if($(panels[i]).length){
-            $(panels[i]).collapse("show");
-        }
-        $("#collapse-panels-button").html("Collapse All");
+        $(e).html("Collapse All");
     } else {
-        var panels = $("div.panel-collapse");
+        panels = panels || $("div.panel-collapse");
         isCollapsingAll = true;
         var i = 0;
-        while($(panels[i]).attr('class').indexOf('in') == -1){
-            i++;
+        for(var idx = 0; idx < panels.length; idx++){
+            if($(panels[idx]).attr('class').indexOf('in') != -1){
+                setTimeout(hideSingleCollapse, 100 * i, panels[idx]);
+                i++;
+            }
         }
-        if($(panels[i]).length){
-            $(panels[i]).collapse("hide");
-        }
-        $("#collapse-panels-button").html("Expand All");
+        $(e).html("Expand All");
     }
-    panelsCollapsed = !panelsCollapsed;
+}
+
+function showSingleCollapse(e){
+    var heading = $(e).parent().children('.panel-heading');
+    var glyphIcon = $(heading[0]).find('.glyphicon');
+    $(glyphIcon[0]).removeClass('glyphicon-chevron-down');
+    $(glyphIcon[0]).addClass('glyphicon-chevron-up');
+    $(e).collapse("show");
+}
+
+function hideSingleCollapse(e){
+    var heading = $(e).parent().children('.panel-heading');
+    var glyphIcon = $(heading[0]).find('.glyphicon');
+    $(glyphIcon[0]).removeClass('glyphicon-chevron-up');
+    $(glyphIcon[0]).addClass('glyphicon-chevron-down');
+    $(e).collapse("hide");
 }
 
 function toggleSingleCollapse(e){
@@ -94,9 +108,7 @@ function getNextId(e){
     return nextId;
 }
 
-window.onload = function(){
-    var panels = $("div.panel");
-    var numPanels = 0;
+function bindCollapseEvents(panels, numPanels){
     for(var i=0 ; i<panels.length ; i++){
         var heading = $(panels[i]).children(".panel-heading");
         var bodyCollapse = $(panels[i]).children(".panel-collapse");
@@ -110,45 +122,20 @@ window.onload = function(){
             $(heading[0]).attr("data-target","#panelBodyCollapse-"+numPanels);
             $(heading[0]).css("cursor", "pointer");
             $(bodyCollapse[0]).attr('id', "panelBodyCollapse-"+numPanels);
-
-            $(bodyCollapse[0]).on('hidden.bs.collapse', function(){
-                if(isCollapsingAll){
-                    var id = $(this).attr('id');
-                    var nextId = this;
-                    do{
-                        nextId = getNextId(nextId);
-                    } while($(nextId).length && ($('#' + id + ' ' + nextId).length || $(nextId).attr('class').indexOf('in') == -1));
-                    
-                    if($(nextId).length){
-                        $(nextId).collapse('hide');
-                    } else {
-                        isCollapsingAll = false;
-                    }
-                }
-            });
-            $(bodyCollapse[0]).on('shown.bs.collapse', function(){
-                if(isExpandingAll){
-                    var id = $(this).attr('id');
-                    var nextId = this;
-                    do{
-                        nextId = getNextId(nextId);
-                    } while($(nextId).length && ($('#' + id + ' ' + nextId).length || $(nextId).attr('class').indexOf('in') != -1));
-                    
-                    if($(nextId).length){
-                        $(nextId).collapse('show');
-                    } else {
-                        isExpandingAll = false;
-                    }
-                }
-            });
         }
     }
+    return numPanels;
+}
 
-    if($("#collapse-panels-button").html().indexOf("Expand All") != -1){
-        panelsCollapsed = true;
-    } else {
-        panelsCollapsed = false;
-    }
+window.onload = function(){
+    var panels = $("div.panel");
+    var numPanels = 0;
+
+    bindCollapseEvents(panels, numPanels);
+    $("a[id^='collapse-panels-button-section-'],a[id^='collapse-panels-button-team-']").on('click', function(){
+        var panels = $(this).parent().children('div.panel').children('.panel-collapse');
+        toggleCollapse(this, panels);
+    });
 };
 
 //Set on ready events

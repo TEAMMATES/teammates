@@ -8,7 +8,7 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 
-public class InstructorFeedbackResultsByGRQSeeMorePageData extends PageData {
+public class InstructorFeedbackResultsByRGQSeeMorePageData extends PageData {
     Map<String, Map<String, List<FeedbackResponseAttributes>>> responses;
     Map<String, List<FeedbackResponseCommentAttributes>> comments;
     Map<String, String> answer;
@@ -16,7 +16,7 @@ public class InstructorFeedbackResultsByGRQSeeMorePageData extends PageData {
     Map<String, Map<String, String>> privilegesInfo;
     Map<String, String> emailTeamNameTable;
     
-    public InstructorFeedbackResultsByGRQSeeMorePageData(AccountAttributes account) {
+    public InstructorFeedbackResultsByRGQSeeMorePageData(AccountAttributes account) {
         super(account);
         answer = new HashMap<String, String>();
         questionsInfo = new HashMap<>();

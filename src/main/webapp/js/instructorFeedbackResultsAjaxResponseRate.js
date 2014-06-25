@@ -1,15 +1,21 @@
 function getAppendedResponseRateData(data){
     var appendHtml = '';
-    appendHtml += '<table class="table table-striped table-bordered margin-0">';
-    appendHtml += '<tbody>';
-    if(data.responseStatus.noResponse.length == 0){
-        appendHtml += '<tr><td>All students have responsed to some questions in this session.</td></tr>';
-    }
-    for(var i = 0; i < data.responseStatus.noResponse.length; i++){
-        appendHtml += '<tr><td>' + data.responseStatus.noResponse[i] + '</td></tr>';
-    }
-    appendHtml += '</tbody></table>';
     
+    if(data.responseStatus.noResponse.length == 0){
+        appendHtml += '<div class="panel-body">';
+        appendHtml += 'All students have responsed to some questions in this session.';
+        appendHtml += '</div>';
+    } else {
+        appendHtml += '<div class="panel-body padding-0">';
+        appendHtml += '<table class="table table-striped table-bordered margin-0">';
+        appendHtml += '<tbody>';
+        for(var i = 0; i < data.responseStatus.noResponse.length; i++){
+            appendHtml += '<tr><td>' + data.responseStatus.noResponse[i] + '</td></tr>';
+        }
+        appendHtml += '</tbody></table>';
+        appendHtml += '</div>';
+    }
+   
     return appendHtml;
 }
 
@@ -19,7 +25,6 @@ $(document).ready(function(){
         var displayIcon = $(this).children('.display-icon');
         var formObject = $(this).children("form");
         var panelCollapse = $(this).parent().children('.panel-collapse');
-        var panelBody = $(panelCollapse[0]).children('.panel-body');
         var formData = formObject.serialize();
         e.preventDefault();
         $.ajax({
@@ -33,7 +38,7 @@ $(document).ready(function(){
                 console.log('Error');
             },
             success : function(data) {
-                $(panelBody[0]).html(getAppendedResponseRateData(data));
+                $(panelCollapse[0]).html(getAppendedResponseRateData(data));
                 $(panelHeading).removeClass('ajax_response_rate_submit');
                 $(panelHeading).off('click');
                 displayIcon.html('<span class="glyphicon glyphicon-chevron-down pull-right"></span>')
