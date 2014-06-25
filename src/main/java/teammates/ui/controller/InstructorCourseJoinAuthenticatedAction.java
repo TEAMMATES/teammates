@@ -24,18 +24,18 @@ public class InstructorCourseJoinAuthenticatedAction extends Action {
         Assumption.assertNotNull(key);
         
         String institute = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
-        
-        String instituteParam ="";       
-        if(institute !=null && !institute.trim().isEmpty()){
-            instituteParam = institute;
-        }
+      
         
         new GateKeeper().verifyLoggedInUserPrivileges();
         
         /* Process authentication for the instructor to join course */
         try {       
           
-          logic.joinCourseForInstructor(key, account.googleId, instituteParam);
+            if (institute != null) {
+                logic.joinCourseForInstructor(key, account.googleId, institute);
+            } else {
+                logic.joinCourseForInstructor(key, account.googleId);
+            }
            
         } catch (JoinCourseException | InvalidParametersException e) {
             // Does not sanitize for html to allow insertion of mailto link

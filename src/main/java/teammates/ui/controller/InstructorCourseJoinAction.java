@@ -41,7 +41,9 @@ public class InstructorCourseJoinAction extends Action {
             // Bypass confirmation if instructor is already registered
             String redirectUrl = Url.addParamToUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED,
                                                    Const.ParamsNames.REGKEY, key);
-
+            
+            //for the link of instructor added by admin, an additional parameter institute is needed  
+            //so it must be passed to instructorCourseJoinAuthenticated action
             if (institute != null) {
                 redirectUrl = Url.addParamToUrl(redirectUrl, Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
             }
@@ -51,11 +53,13 @@ public class InstructorCourseJoinAction extends Action {
         pageData = new InstructorCourseJoinConfirmationPageData(account);
         pageData.regkey = key;
         
-        if(institute != null){
-            pageData.institute = institute;
-        }else{
-            pageData.institute = "";
-        }
+        
+        //1.for instructors added by admin, institute is passed form the join link and should be passed
+        //to the confirmation page and later to authenticated action for account creation
+        //2.for instructors added by other instructors, institute is not passed from the link so the value 
+        //will be null
+        
+        pageData.institute = institute;
         
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_JOIN_CONFIRMATION, pageData);
     }

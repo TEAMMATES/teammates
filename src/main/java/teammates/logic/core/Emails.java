@@ -724,7 +724,7 @@ public class Emails {
         for(MimeMessage message : messages){
          
             String emailBody = EmailTemplates.NEW_INSTRCUTOR_ACCOUNT_WELCOME;
-            emailBody = emailBody.replace("${UserName}", shortName);
+            emailBody = emailBody.replace("${userName}", shortName);
             
             String joinUrl = "";
             if (instructor != null) {
@@ -735,11 +735,7 @@ public class Emails {
                 joinUrl = Url.addParamToUrl(joinUrl, Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
             }
             
-            emailBody = emailBody.replace("${confimationUrl}",joinUrl);
-            
-            System.out.print("*******************************************************\n");
-            System.out.print(joinUrl);
-            
+            emailBody = emailBody.replace("${joinUrl}",joinUrl);
             message.setContent(emailBody, "text/html");
             
         }

@@ -58,7 +58,7 @@
                 <div class="align-center">
                     <%
                         String ref = "";
-                        if (data.institute.trim().length() == 0 || data.institute == null) {
+                        if (data.institute == null) {
 
                             ref = Const.ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED
                                     + "?regkey=" + data.regkey;

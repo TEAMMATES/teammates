@@ -140,25 +140,59 @@ public class AccountsLogic {
         }
     }
     
-
-    
+   
     public void joinCourseForInstructor(String encryptedKey, String googleId, String institute)
+            throws JoinCourseException, InvalidParametersException{
+        
+        joinCourseForInstructorWithInstitute(encryptedKey, googleId, institute);
+        
+        
+    }
+    
+    public void joinCourseForInstructor(String encryptedKey, String googleId)
+            throws JoinCourseException, InvalidParametersException{
+        
+        joinCourseForInstructorWithInstitute(encryptedKey, googleId, null);
+        
+        
+    }
+    
+    
+    
+    private void joinCourseForInstructorWithInstitute(String encryptedKey,String googleId, String institute)
             throws JoinCourseException, InvalidParametersException {
-        
-        verifyInstructorJoinCourseRequest(encryptedKey, googleId, institute);
-        
+
+        boolean isAccountNeeded = verifyInstructorJoinCourseRequest(encryptedKey, googleId, institute);
+
         InstructorAttributes instructor = InstructorsLogic.inst().getInstructorForRegistrationKey(encryptedKey);
         
-        if(!institute.isEmpty()){
-        AccountAttributes accountToAdd = new AccountAttributes(googleId,
-                                                               instructor.name,
-                                                               true,
-                                                               instructor.email,
-                                                               institute);     
-        
-        createAccount(accountToAdd);
+        if (isAccountNeeded && institute == null) {
+            //this is for instructor added by other instructors
+            //no institute need to be provided here
+            AccountAttributes account = accountsDb.getAccount(googleId);
+
+            if (account == null) {
+                try {
+                    instructor.googleId = googleId;
+                    createInstructorAccount(instructor);
+                } catch (InvalidParametersException e) {
+                    throw new JoinCourseException(e.getMessage());
+                }
+            } else {
+                makeAccountInstructor(googleId);
+            }
+
+        } else if (isAccountNeeded && institute != null) {
+            // this is for instructor added by other instructors
+            // no institute need to be provided here
+
+            AccountAttributes accountToAdd = new AccountAttributes(googleId,instructor.name,
+                                                                   true,instructor.email,
+                                                                   institute);
+
+            createAccount(accountToAdd);
         }
-        
+                  
         instructor.googleId = googleId;
         try {
             InstructorsLogic.inst().updateInstructorByEmail(instructor.email, instructor);
@@ -166,20 +200,13 @@ public class AccountsLogic {
             throw new JoinCourseException(e.getMessage());
         }
         
-        AccountAttributes account = accountsDb.getAccount(googleId);
-        if(account == null) {
-            try {
-                createInstructorAccount(instructor);
-            } catch (InvalidParametersException e) {
-                throw new JoinCourseException(e.getMessage());
-            }
-        } else {
-            makeAccountInstructor(googleId);
-        }
+        
     }
     
-    private void verifyInstructorJoinCourseRequest(String encryptedKey, String googleId, String institute)
+    private boolean verifyInstructorJoinCourseRequest(String encryptedKey, String googleId, String institute)
             throws JoinCourseException {
+        
+        boolean isAccountNeeded = false;
         
         InstructorAttributes instructorRole = InstructorsLogic.inst().getInstructorForRegistrationKey(encryptedKey);
         
@@ -190,52 +217,51 @@ public class AccountsLogic {
                     "You have used an invalid join link: " + joinUrl);
             
         } else if (instructorRole.isRegistered()) {
+            //key is valid and belongs to a registered instructor
+            
             if (instructorRole.googleId.equals(googleId)) {
+                //key belongs to current logged in user
+                
                 AccountAttributes account = accountsDb.getAccount(googleId);
-                if (account == null) {
-
-                    if (!institute.isEmpty()) {
-                        throw new JoinCourseException(
-                                Const.StatusCodes.KEY_BELONGS_TO_DIFFERENT_USER,
-                                String.format(Const.StatusMessages.JOIN_COURSE_KEY_BELONGS_TO_DIFFERENT_USER,
-                                              truncateGoogleId(instructorRole.googleId)));
-                    } else {
-
-                        try {
-                            createInstructorAccount(instructorRole);
-                            return;
-                        } catch (InvalidParametersException e) {
-                            throw new JoinCourseException(e.getMessage());
-                        }
-                    }
-
-                } else {
-
-                    if (!institute.isEmpty()) {
+                if (account != null){
+                    //current user has registered as this instructor and account has been created successfully
+                    if (institute != null) {
                         throw new JoinCourseException(Const.StatusCodes.ALREADY_JOINED,
-                                                      "You has already verified your google account");
+                                                      "You have already verified your google account");
                     } else {
                         throw new JoinCourseException(Const.StatusCodes.ALREADY_JOINED,
                                                        googleId + " has already joined this course");
                     }
+                }else{
+                    //instructor has registered but account was missing
+                    //reason may be: account creation failure, accidental deletion of account etc
+                    isAccountNeeded = true;
                 }
                 
             } else {
-                
+                //key does not belong to current logged in user
                 throw new JoinCourseException(Const.StatusCodes.KEY_BELONGS_TO_DIFFERENT_USER,
                                               String.format(Const.StatusMessages.JOIN_COURSE_KEY_BELONGS_TO_DIFFERENT_USER,
                                                             truncateGoogleId(instructorRole.googleId)));
             }
-        }
-    
-        InstructorAttributes existingInstructor =
-                InstructorsLogic.inst().getInstructorForGoogleId(instructorRole.courseId, googleId);
-        
-        if (existingInstructor != null) {
-            throw new JoinCourseException(String.format(Const.StatusMessages.JOIN_COURSE_GOOGLE_ID_BELONGS_TO_DIFFERENT_USER,
-                                                        googleId));
             
+        } else {
+            //key is valid and belongs to a non-registered instructor object
+            InstructorAttributes existingInstructor = InstructorsLogic.inst().getInstructorForGoogleId(instructorRole.courseId, googleId);
+            
+            if (existingInstructor != null) {
+                //the logged in user has registered in the same course so this key belongs to another user who has not registered yet
+                throw new JoinCourseException(String.format(Const.StatusMessages.JOIN_COURSE_GOOGLE_ID_BELONGS_TO_DIFFERENT_USER,googleId));
+
+            }else{
+                //key is valid and belongs to a non-registered instructor object, 
+                //and the logged in user has not registered in the same course yet
+                isAccountNeeded = true;
+            }
         }
+        
+        
+        return isAccountNeeded;
     }
     
     private void verifyStudentJoinCourseRequest(String encryptedKey, String googleId)

@@ -404,7 +404,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         ______TS("failure: googleID belongs to an existing instructor in the course");
 
         try {
-            accountsLogic.joinCourseForInstructor(encryptedKey, "idOfInstructorWithOnlyOneSampleCourse", "");
+            accountsLogic.joinCourseForInstructor(encryptedKey, "idOfInstructorWithOnlyOneSampleCourse");
             signalFailureToDetectException();
         } catch (JoinCourseException e) {
             assertEquals(String.format(Const.StatusMessages.JOIN_COURSE_GOOGLE_ID_BELONGS_TO_DIFFERENT_USER,
@@ -413,7 +413,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         
         ______TS("success: instructor joined and new account be created");
         
-        accountsLogic.joinCourseForInstructor(encryptedKey, loggedInGoogleId, "");
+        accountsLogic.joinCourseForInstructor(encryptedKey, loggedInGoogleId);
         
         InstructorAttributes joinedInstructor = instructorsLogic.getInstructorForEmail(instructor.courseId, instructor.email);
         assertEquals(loggedInGoogleId, joinedInstructor.googleId);
@@ -429,7 +429,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         accountsDb.deleteAccount(loggedInGoogleId);
         
         //Try to join course again, Account object should be recreated
-        accountsLogic.joinCourseForInstructor(encryptedKey, loggedInGoogleId, "");
+        accountsLogic.joinCourseForInstructor(encryptedKey, loggedInGoogleId);
         
         joinedInstructor = instructorsLogic.getInstructorForEmail(instructor.courseId, instructor.email);
         assertEquals(loggedInGoogleId, joinedInstructor.googleId);
@@ -446,7 +446,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         key = instructorsLogic.getKeyForInstructor(instructor.courseId, nonInstrAccount.email);
         encryptedKey = StringHelper.encrypt(key);
         
-        accountsLogic.joinCourseForInstructor(encryptedKey, nonInstrAccount.googleId, "");
+        accountsLogic.joinCourseForInstructor(encryptedKey, nonInstrAccount.googleId);
         
         joinedInstructor = instructorsLogic.getInstructorForEmail(instructor.courseId, nonInstrAccount.email);
         assertEquals(nonInstrAccount.googleId, joinedInstructor.googleId);
@@ -468,7 +468,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         key = instructorsLogic.getKeyForInstructor(instructor.courseId, nonInstrAccount.email);
         encryptedKey = StringHelper.encrypt(key);
         
-        accountsLogic.joinCourseForInstructor(encryptedKey, nonInstrAccount.googleId, "");
+        accountsLogic.joinCourseForInstructor(encryptedKey, nonInstrAccount.googleId);
         
         joinedInstructor = instructorsLogic.getInstructorForEmail(instructor.courseId, nonInstrAccount.email);
         assertEquals(nonInstrAccount.googleId, joinedInstructor.googleId);
@@ -488,7 +488,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         joinedInstructor = instructorsLogic.getInstructorForEmail(instructor.courseId, nonInstrAccount.email);
         
         try {
-            accountsLogic.joinCourseForInstructor(encryptedKey, joinedInstructor.googleId, "");
+            accountsLogic.joinCourseForInstructor(encryptedKey, joinedInstructor.googleId);
             signalFailureToDetectException();
         } catch (JoinCourseException e) {
             assertEquals(joinedInstructor.googleId + " has already joined this course",
@@ -498,7 +498,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         ______TS("failure: key belongs to a different user");
 
         try {
-            accountsLogic.joinCourseForInstructor(encryptedKey, "otherUserId", "");
+            accountsLogic.joinCourseForInstructor(encryptedKey, "otherUserId");
             signalFailureToDetectException();
         } catch (JoinCourseException e) {
             assertEquals("The join link used belongs to a different user whose "
@@ -516,7 +516,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         String invalidKey = StringHelper.encrypt("invalidKey");
         
         try {
-            accountsLogic.joinCourseForInstructor(invalidKey, loggedInGoogleId, "");
+            accountsLogic.joinCourseForInstructor(invalidKey, loggedInGoogleId);
             signalFailureToDetectException();
         } catch (JoinCourseException e) {
             assertEquals(

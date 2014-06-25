@@ -445,8 +445,18 @@ public class Logic {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, encryptedKey);
-        //institute can be empty for normal course joining action for instructor       
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, institute);
+        
         accountsLogic.joinCourseForInstructor(encryptedKey, googleId, institute);
+    }
+    
+    public void joinCourseForInstructor(String encryptedKey, String googleId)
+            throws JoinCourseException, InvalidParametersException {
+        
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, encryptedKey);
+        //institute can be empty for normal course joining action for instructor       
+        accountsLogic.joinCourseForInstructor(encryptedKey, googleId);
     }
 
 
