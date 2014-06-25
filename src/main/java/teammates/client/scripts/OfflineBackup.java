@@ -14,6 +14,7 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.Vector;
 
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Text;
 import com.google.appengine.repackaged.org.apache.commons.collections.MultiMap;
 import com.google.appengine.repackaged.org.apache.commons.collections.map.MultiValueMap;
@@ -213,20 +214,31 @@ public class OfflineBackup extends RemoteApiClient {
         Logic logic = new Logic();
         String googleId = id.trim();
         AccountAttributes account = logic.getAccount(googleId);
+        
+        if(account == null) {
+            return;
+        }
+        
         String accountCsv = account.googleId + "," + account.name + "," + account.isInstructor + "," + account.email + "," + account.institute + "," + account.createdAt + Const.EOL;
         FileHelper.appendToFile(accountCsvFile, accountCsv);
     }
     
     private void retrieveAndSaveComment(String id) throws ParseException {
         CommentsDb commentDb = new CommentsDb();
-        String[] idTokens = id.split("|");
+        String[] idTokens = id.split("\\|");
         String courseId = idTokens[0].trim();
         String giverEmail = idTokens[1].trim();
         String receiverEmail = idTokens[2].trim();
         Text commentText = new Text(idTokens[3].trim());
         Date date = new SimpleDateFormat("EEE MMM d HH:mm:ss.SSSSSS zzz yyyy").parse(idTokens[4].trim());
         CommentAttributes comment = commentDb.getComment(courseId, giverEmail, receiverEmail, commentText, date);
-        String commentCsv = comment.getCommentId() + "," + comment.courseId + "," + comment.giverEmail + "," + comment.receiverEmail + "," + date + "," + commentText + Const.EOL;
+        
+        if(comment == null) {
+            return;
+        }
+        
+        String commentCsv = comment.getCommentId() + "," + comment.courseId + "," + comment.giverEmail + "," + comment.receiverEmail + "," + date + "," + 
+                                commentText.getValue() + Const.EOL;
         FileHelper.appendToFile(commentCsvFile, commentCsv);
     }
     
@@ -234,6 +246,11 @@ public class OfflineBackup extends RemoteApiClient {
         Logic logic = new Logic();
         String courseId = id.trim();
         CourseAttributes course = logic.getCourse(courseId);
+        
+        if(course == null) {
+            return;
+        }
+        
         String createdAt = new SimpleDateFormat("EEE MMM d HH:mm:ss.SSSSSS zzz yyyy").format(course.createdAt);
         String courseCsv = course.id + "," + course.name + "," + createdAt + "," + course.isArchived + Const.EOL;
         FileHelper.appendToFile(courseCsvFile, courseCsv);
@@ -241,10 +258,16 @@ public class OfflineBackup extends RemoteApiClient {
     
     private void retrieveAndSaveEvaluation(String id) {
         Logic logic = new Logic();
-        String[] idTokens = id.split("|");
+        String[] idTokens = id.split("\\|");
         String courseId = idTokens[0].trim();
         String evaluationName = idTokens[1].trim();
         EvaluationAttributes evaluation = logic.getEvaluation(courseId, evaluationName);
+        
+        if(evaluation == null) {
+            System.out.println("Eval is: " + courseId + "|" + evaluationName + "|" + id + "|" + idTokens.length);
+            return;
+        }
+        
         String startTime = new SimpleDateFormat("EEE MMM d HH:mm:ss.SSSSSS zzz yyyy").format(evaluation.startTime);
         String endTime = new SimpleDateFormat("EEE MMM d HH:mm:ss.SSSSSS zzz yyyy").format(evaluation.endTime);
         String evaluationCsv = evaluation.getId() + "," + evaluation.courseId + "," + evaluation.name + "," + evaluation.instructions.getValue() + "," + startTime + 
@@ -260,12 +283,17 @@ public class OfflineBackup extends RemoteApiClient {
         String courseId = idTokens[1].trim();
         int questionNumber = Integer.parseInt(idTokens[2].trim());
         FeedbackQuestionAttributes feedbackQuestion = feedbackQuestionDb.getFeedbackQuestion(feedbackSessionName, courseId, questionNumber);
+        
+        if(feedbackQuestion == null) {
+            return;
+        }
+        
         String feedbackQuestionCsv = feedbackQuestion.getId() + "," + feedbackQuestion.feedbackSessionName + "," + feedbackQuestion.courseId + "," +
-                                        feedbackQuestion.creatorEmail + "," + feedbackQuestion.questionMetaData.getValue() + "," + feedbackQuestion.questionNumber +
+                                        feedbackQuestion.creatorEmail + "," + feedbackQuestion.questionMetaData.getValue() + "," + feedbackQuestion.questionNumber + "," +
                                         feedbackQuestion.questionType + "," + feedbackQuestion.giverType + "," + feedbackQuestion.recipientType + "," +
                                         feedbackQuestion.numberOfEntitiesToGiveFeedbackTo + "," + feedbackQuestion.showResponsesTo + "," + feedbackQuestion.showGiverNameTo +
                                         feedbackQuestion.showRecipientNameTo + Const.EOL;
-        FileHelper.appendToFile(feedbackQuestionCsv, feedbackQuestionCsv);
+        FileHelper.appendToFile(feedbackQuestionCsvFile, feedbackQuestionCsv);
     }
     
     private void retrieveAndSaveFeedbackResponse(String id) {
@@ -276,6 +304,11 @@ public class OfflineBackup extends RemoteApiClient {
         String receiverEmail = idTokens[1].split(":")[1].trim();
         
         FeedbackResponseAttributes feedbackResponse = feedbackResponsesDb.getFeedbackResponse(feedbackQuestionId, giverEmail, receiverEmail);
+        
+        if(feedbackResponse == null) {
+            return;
+        }
+        
         String feedbackResponseCsv = feedbackResponse.getId() + "," + feedbackResponse.feedbackSessionName + "," + feedbackResponse.courseId + "," +
                                         feedbackResponse.feedbackQuestionId + "," + feedbackResponse.feedbackQuestionType + "," + feedbackResponse.giverEmail +
                                         "," + feedbackResponse.recipientEmail + "," + feedbackResponse.responseMetaData.getValue() + Const.EOL;
@@ -284,11 +317,16 @@ public class OfflineBackup extends RemoteApiClient {
     
     private void retrieveAndSaveFeedbackResponseComment(String id) throws ParseException {
         FeedbackResponseCommentsDb feedbackResponseCommentsDb = new FeedbackResponseCommentsDb();
-        String[] idTokens = id.split("|");
+        String[] idTokens = id.split("\\|");
         String feedbackResponseId = idTokens[0].trim();
         String giverEmail = idTokens[1].trim();
         Date createdAt = new SimpleDateFormat("EEE MMM d HH:mm:ss.SSSSSS zzz yyyy").parse(idTokens[2].trim());
         FeedbackResponseCommentAttributes feedbackResponseComment = feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponseId, giverEmail, createdAt);
+        
+        if(feedbackResponseComment == null) {
+            return;
+        }
+        
         String feedbackResponseCommentCsv = feedbackResponseComment.getId() + "," + feedbackResponseComment.courseId + "," + feedbackResponseComment.feedbackSessionName +
                                                 "," + feedbackResponseComment.feedbackQuestionId + "," + feedbackResponseComment.giverEmail + "," + 
                                                 feedbackResponseComment.feedbackResponseId + "," + createdAt + "," +
@@ -302,6 +340,10 @@ public class OfflineBackup extends RemoteApiClient {
         String feedbackSessionName = idTokens[0].trim();
         String courseId = idTokens[1].trim();
         FeedbackSessionAttributes feedbackSession = logic.getFeedbackSession(feedbackSessionName, courseId);
+        
+        if(feedbackSession == null) {
+            return;
+        }
         
         String createdTime = new SimpleDateFormat("EEE MMM d HH:mm:ss.SSSSSS zzz yyyy").format(feedbackSession.createdTime);
         String startTime = new SimpleDateFormat("EEE MMM d HH:mm:ss.SSSSSS zzz yyyy").format(feedbackSession.startTime);
@@ -323,7 +365,13 @@ public class OfflineBackup extends RemoteApiClient {
         String courseId = idTokens[1].trim();
         String email = idTokens[0].trim();
         InstructorAttributes instructor = logic.getInstructorForEmail(courseId, email);
-        String instructorCsv = instructor.googleId + "," + instructor.name + "," + instructor.email + "," + instructor.courseId + "," + instructor.key + Const.EOL;
+        
+        if(instructor == null) {
+            return;
+        }
+        
+        String instructorCsv = instructor.getId() + "," + instructor.googleId + "," + instructor.name + "," + instructor.email + "," + instructor.courseId + 
+                                "," + instructor.key + Const.EOL;
         FileHelper.appendToFile(InstructorCsvFile, instructorCsv);
     }
     
@@ -333,8 +381,14 @@ public class OfflineBackup extends RemoteApiClient {
         String courseId = idTokens[0].trim();
         String email = idTokens[1].trim();
         StudentAttributes student = logic.getStudentForEmail(courseId, email);
-        String studentCsv = student.googleId + "," + student.name + "," + student.email + "," + student.course + "," + student.comments + "," + student.team + 
-                            "," + student.key + Const.EOL;
+        
+        if(student == null) {
+            return;
+        }
+        
+        Long key = KeyFactory.stringToKey(student.key).getId();
+        String studentCsv = key + "," + student.googleId + "," + student.name + "," + student.email + "," + student.course + "," + student.comments + 
+                                "," + student.team + Const.EOL;
         FileHelper.appendToFile(studentCsvFile, studentCsv);
     }
     
@@ -346,6 +400,11 @@ public class OfflineBackup extends RemoteApiClient {
         String toStudent = idTokens[2].split("to:")[1].trim();
         String fromStudent = idTokens[3].split("from:")[1].trim();
         SubmissionAttributes submission = submissionsDb.getSubmission(courseId, evaluationName, toStudent, fromStudent);
+        
+        if(submission == null) {
+            return;
+        }
+        
         String submissionCsv = submission.getId() + "," + submission.course + "," + submission.evaluation + "," + submission.team + "," + submission.reviewer + "," 
                                 + submission.reviewee + "," + submission.points + "," + submission.justification.getValue() + "," + 
                                 submission.p2pFeedback.getValue() + Const.EOL;
@@ -356,40 +415,40 @@ public class OfflineBackup extends RemoteApiClient {
      * Prepares all entity types .csv files with their headers extracted from GAE datastore
      */
     private void setupCsvFiles() {
-        String accountCsv = "key,name,isInstructor,email,institute,createAt";
+        String accountCsv = "key,name,isInstructor,email,institute,createAt" + Const.EOL;
         FileHelper.writeToFile(accountCsvFile, accountCsv);
         
-        String commentCsv = "key,courseID,giverEmail,receiverEmail,data,commentText";
+        String commentCsv = "key,courseID,giverEmail,receiverEmail,commentText,createdAt" + Const.EOL;
         FileHelper.writeToFile(commentCsvFile, commentCsv);
         
-        String courseCsv = "key,name,createdAt,archiveStatus";
+        String courseCsv = "key,name,createdAt,archiveStatus" + Const.EOL;
         FileHelper.writeToFile(courseCsvFile, courseCsv);
         
-        String evaluationCsv = "key,courseID,name,longInstructions,startTime,endTime,timeZone,gracePeriod,commentsEnabled,published,activated";
+        String evaluationCsv = "key,courseID,name,longInstructions,startTime,endTime,timeZone,gracePeriod,commentsEnabled,published,activated" + Const.EOL;
         FileHelper.writeToFile(evaluationCsvFile, evaluationCsv);
         
         String feedbackQuestionCsv = "key,feedbackSessionName,courseID,creatorEmail,questionText,questionNumber,questionType,giverType,recipientType,"
-                + "numberOfEntitiesToGiveFeedbackTo,showResponsesTo,showGiverNameTo,showRecipientNameTo";
+                + "numberOfEntitiesToGiveFeedbackTo,showResponsesTo,showGiverNameTo,showRecipientNameTo" + Const.EOL;
         FileHelper.writeToFile(feedbackQuestionCsvFile, feedbackQuestionCsv);
         
-        String feedbackResponseCsv = "key,feedbackSessionName,courseID,feedbackQuestionID,feedbackQuestionType,giverEmail,recipientEmail,responseText";
+        String feedbackResponseCsv = "key,feedbackSessionName,courseID,feedbackQuestionID,feedbackQuestionType,giverEmail,receiver,answer" + Const.EOL;
         FileHelper.writeToFile(feedbackResponseCsvFile, feedbackResponseCsv);
         
-        String feedbackResponseCommentCsv = "key,courseID,feedbackSessionName,feedbackQuestionID,giverEmail,feedbackResponseID,createdAt,commentText";
+        String feedbackResponseCommentCsv = "key,courseID,feedbackSessionName,feedbackQuestionID,giverEmail,feedbackResponseID,createdAt,commentText" + Const.EOL;
         FileHelper.writeToFile(feedbackResponseCommentCsvFile, feedbackResponseCommentCsv);
         
-        String feedbackSessionCsv = "key,feedbackSessionName,courseID,creatorEmail,instructions,createdTime,startTime,ednTime,sessionVisibleFromTime,"
-                + "resultsVisibleFromTime,timeZone,gracePeriod,feedbackSessionType,sentOpenEmail,sentPublishedEmail,isOpeningEmailEnabled,isClosingEmailEnabled,"
-                + "isPublishedEmailEnabled";
+        String feedbackSessionCsv = "key,feedbackSessionName,courseID,creatorEmail,instructions,createdTime,startTime,endTime,sessionVisibleFromTime,"
+                + "resultsVisibleFromTime,timeZoneDouble,gracePeriod,feedbackSessionType,sentOpenEmail,sentPublishedEmail,isOpeningEmailEnabled,isClosingEmailEnabled,"
+                + "isPublishedEmailEnabled" + Const.EOL;
         FileHelper.writeToFile(feedbackSessionCsvFile, feedbackSessionCsv);
         
-        String instructorCsv = "key,name,email,courseID,key";
+        String instructorCsv = "key,name,email,courseID,registrationKey" + Const.EOL;
         FileHelper.writeToFile(InstructorCsvFile, instructorCsv);
         
-        String studentCsv = "key,name,email.course,comments,team,key";
+        String studentCsv = "key,ID,name,email,courseID,comments,teamName" + Const.EOL;
         FileHelper.writeToFile(studentCsvFile, studentCsv);
         
-        String submissionCsv = "key,course,evaluation,team,reviewer,reviewee,points,justification,p2pFeedback";
+        String submissionCsv = "key,courseID,evaluationName,teamName,fromStudent,toStudent,points,justification,commentsToStudent" + Const.EOL;
         FileHelper.writeToFile(submissionCsvFile, submissionCsv); 
     }
 }

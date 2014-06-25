@@ -17,6 +17,7 @@ import teammates.storage.entity.Instructor;
 public class InstructorAttributes extends EntityAttributes {
     
     //Note: be careful when changing these variables as their names are used in *.json files.
+    private String id;
     public String googleId;
     public String name;
     public String email;
@@ -35,6 +36,7 @@ public class InstructorAttributes extends EntityAttributes {
     }
     
     public InstructorAttributes(Instructor instructor) {
+        this.id = instructor.getUniqueId();
         this.googleId = instructor.getGoogleId();
         this.courseId = instructor.getCourseId();
         this.name = instructor.getName();
@@ -62,6 +64,10 @@ public class InstructorAttributes extends EntityAttributes {
         this.courseId = courseId;
         this.name = parts[1].trim();
         this.email = parts[2].trim();
+    }
+    
+    public String getId() {
+        return id;
     }
     
     public boolean isRegistered() {
