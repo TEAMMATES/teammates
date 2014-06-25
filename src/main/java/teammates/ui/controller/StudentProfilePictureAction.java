@@ -6,7 +6,6 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.storage.api.EntitiesDb;
 
 public class StudentProfilePictureAction extends Action {
 
@@ -49,13 +48,13 @@ public class StudentProfilePictureAction extends Action {
         
         StudentAttributes student = logic.getStudentForEmail(courseId, email);
         if (student == null) {
-            throw new EntityDoesNotExistException(EntitiesDb.ERROR_UPDATE_NON_EXISTENT_STUDENT +
+            throw new EntityDoesNotExistException("student with " +
                     courseId + "/" + email);
         }
-        
+        log.info(student.googleId);
         // googleId == null is handled at logic level
         String blobKey = logic.getStudentProfile(student.googleId).pictureKey;
-        
+        log.info(blobKey);
         return createImageResult(blobKey);
     }
 

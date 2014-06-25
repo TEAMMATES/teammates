@@ -1,6 +1,5 @@
 package teammates.test.pageobjects;
 
-import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertEquals;
 
 import org.openqa.selenium.By;
@@ -23,11 +22,15 @@ public class StudentProfilePicturePage extends AppPage {
                 Sanitizer.sanitizeForHtml(browser.driver.getCurrentUrl()));
     }
     
-    public void verifyIsErrorPage() {
-        if (browser.driver.getCurrentUrl().contains("localhost")) {
-            verifyHtmlPart(By.id("frameBodyWrapper"), "/studentProfilePictureNotFound.html");
-        } else {
-            assertEquals("", browser.driver.findElement(By.tagName("body")).getText());
+    public void verifyIsErrorPage(String expectedFilename) {
+        try {
+            verifyHtmlPart(By.id("frameBodyWrapper"), expectedFilename);
+        } catch (AssertionError ae) {
+            if (! browser.driver.getCurrentUrl().contains("localhost")) {
+                assertEquals("", browser.driver.findElement(By.tagName("body")).getText());
+            } else {
+                throw ae;
+            }
         }
     }
 
