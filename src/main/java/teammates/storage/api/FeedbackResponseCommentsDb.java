@@ -111,7 +111,19 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         getPM().close();
     }
     
-    public void clearPendingFeedbackResponseComment(String courseId) {
+    public List<FeedbackResponseCommentAttributes> getPendingFeedbackResponseComments(String courseId){
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        
+        List<FeedbackResponseComment> frcList = getPendingFeedbackResponseCommentEntity(courseId);
+        List<FeedbackResponseCommentAttributes> resultList = new ArrayList<FeedbackResponseCommentAttributes>();
+        for (FeedbackResponseComment frc : frcList) {
+            resultList.add(new FeedbackResponseCommentAttributes(frc));
+        }
+        
+        return resultList;  
+    }
+    
+    public void clearPendingFeedbackResponseComments(String courseId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         
         List<FeedbackResponseComment> frcList = getPendingFeedbackResponseCommentEntity(courseId);

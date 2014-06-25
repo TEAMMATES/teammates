@@ -16,10 +16,10 @@ public class InstructorStudentCommentClearPendingAction extends Action {
                 logic.getInstructorForGoogleId(courseId, account.googleId),
                 logic.getCourse(courseId));
         
-        //TODO: email student about their comments
+        logic.sendEmailForPendingComments(courseId);
         
-        logic.clearPendingComment(courseId);
-        logic.clearPendingFeedbackResponseComment(courseId);
+        logic.clearPendingComments(courseId);
+        logic.clearPendingFeedbackResponseComments(courseId);
         
         statusToUser.add(Const.StatusMessages.COMMENT_CLEARED);
         statusToAdmin = account.googleId + " cleared pending comments for course " + courseId;

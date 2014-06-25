@@ -125,12 +125,16 @@ public class InstructorStudentCommentEditAction extends Action {
             }
         }
         //if a comment is public to recipient (except Instructor), it's a pending comment
-        comment.isPending = comment.showCommentTo != null
-                && comment.showCommentTo.size() > 0
-                && !(comment.showCommentTo.size() == 1 
-                    && comment.showCommentTo.contains(CommentRecipientType.INSTRUCTOR));
+        comment.isPending = isCommentPublic(comment);
         comment.commentText = commentText;
         
         return comment;
+    }
+
+    private boolean isCommentPublic(CommentAttributes comment) {
+        return comment.showCommentTo != null
+                && comment.showCommentTo.size() > 0
+                && !(comment.showCommentTo.size() == 1 
+                    && comment.showCommentTo.contains(CommentRecipientType.INSTRUCTOR));
     }
 }

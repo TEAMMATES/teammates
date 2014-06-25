@@ -225,7 +225,7 @@
                          href="<%=Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_CLEAR_PENDING + "?" + Const.ParamsNames.COURSE_ID + "=" + data.courseId
                                         + "&" + Const.ParamsNames.USER_ID + "=" + data.account.googleId%>"
                          title="Email pending <%=data.numberOfPendingComments>1?"comments":"comment"%> to recipient">
-                        <%=data.numberOfPendingComments>1?"Clear pending comments":"Clear pending comment"%> <span class="badge"><%=data.numberOfPendingComments%></span>
+                        <%=data.numberOfPendingComments>1?"Pending comments":"Pending comment"%> <span class="badge"><%=data.numberOfPendingComments%></span>
                       </a>
                     </div>
                 </div>

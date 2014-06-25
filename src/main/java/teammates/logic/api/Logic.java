@@ -1893,11 +1893,11 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public void clearPendingFeedbackResponseComment(String courseId)
+    public void clearPendingFeedbackResponseComments(String courseId)
             throws EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
-        feedbackResponseCommentsLogic.clearPendingFeedbackResponseComment(courseId);
+        feedbackResponseCommentsLogic.clearPendingFeedbackResponseComments(courseId);
     }
 
     /**
@@ -1929,7 +1929,7 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public void clearPendingComment(String courseId)
+    public void clearPendingComments(String courseId)
             throws EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         commentsLogic.clearPendingComments(courseId);
@@ -2013,6 +2013,17 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, receiver);
         return commentsLogic.getCommentsForReceiver(courseId, recipientType, receiver);
+    }
+    
+    /**
+     * Currently receiver is limited to students only
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     * @throws EntityDoesNotExistException 
+     */
+    public void sendEmailForPendingComments(String courseId) throws EntityDoesNotExistException {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        commentsLogic.sendEmailForPendingComments(courseId);
     }
     
     @SuppressWarnings("unused")

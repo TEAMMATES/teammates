@@ -131,6 +131,10 @@ public class CommentAttributes extends EntityAttributes
                 showRecipientNameTo, 
                 commentText, createdAt);
     }
+    
+    public Boolean isVisibleTo(CommentRecipientType targetViewer){
+        return showCommentTo.contains(targetViewer);
+    }
 
     @Override
     public String toString() {
