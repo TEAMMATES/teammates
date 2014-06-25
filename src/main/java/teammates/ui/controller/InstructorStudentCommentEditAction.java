@@ -76,7 +76,7 @@ public class InstructorStudentCommentEditAction extends Action {
             // if comment giver and instructor are the same, allow access
             return ;
         }
-        if (commentInDb == null || instructor == null) {
+        if (commentInDb == null) {
             Assumption.fail("Comment or instructor cannot be null for editing comment");
         }
         CommentRecipientType commentRecipientType = commentInDb.recipientType;
