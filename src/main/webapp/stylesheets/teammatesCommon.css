@@ -3,299 +3,267 @@
 /*////////////////////////////////////////////////////////////
 /////////////////// Atomic Classes //////////////////////////
 //////////////////////////////////////////////////////////*/
-
 body {
-    padding: 60px 0 30px;
+	padding: 60px 0 30px;
 }
 
 .align-center {
-    text-align: center;
+	text-align: center;
 }
 
 .background-color-white {
-    background-color: white;
+	background-color: white;
 }
 
 .border-gray {
-    border: 1px solid #ddd;
+	border: 1px solid #ddd;
 }
 
 .border-left-gray {
-    border-left: 1px solid #ddd;
+	border-left: 1px solid #ddd;
 }
 
 .border-right-gray {
-    border-right: 1px solid #ddd;
+	border-right: 1px solid #ddd;
 }
 
 .border-top-gray {
-    border-top: 1px solid #ddd;
-    padding-top: 10px;
+	border-top: 1px solid #ddd;
+	padding-top: 10px;
 }
 
-.color-positive { 
-    color: #108627;
+.color-positive {
+	color: #108627;
 }
 
-.color-negative { 
-    color: #e74c3c;
+.color-negative {
+	color: #e74c3c;
 }
 
 .fill-plain {
-    background-color: #eaeff5;
+	background-color: #eaeff5;
 }
 
 .fill-primary {
-    background-color: #428bca;
-    color: white;
+	background-color: #428bca;
+	color: white;
 }
 
 .fill-default {
-    background-color: #9E9E9E;
-    color: white;
+	background-color: #9E9E9E;
+	color: white;
 }
 
 .fill-info {
-    background-color: #c4e3f3;
+	background-color: #c4e3f3;
 }
 
 .glyphicon-primary {
-    color: #428bca;
+	color: #428bca;
 }
 
 .glyphicon-danger {
-    color: red;
+	color: red;
 }
 
 .highlight-white {
-    color: white;
+	color: white;
 }
 
 .inline {
-    display: inline;
+	display: inline;
 }
 
-.hidden{
-    display: none;
+.hidden {
+	display: none;
 }
 
 .text-bold {
-    font-weight: bold;
+	font-weight: bold;
 }
 
 .text-color-primary {
-    color: #428bca;
+	color: #428bca;
 }
 
 .text-color-white {
-    color: white;
+	color: white;
 }
 
 @media print {
-    a[href]:after {
-        content: none;
-    }
-    .no-print {
-        display: none;
-    }
+	a[href]:after {
+		content: none;
+	}
+	.no-print {
+		display: none;
+	}
 }
-
-
-
-
-
-
-
 
 /*////////////////////////////////////////////////////////////
 ///////////////////////// NavBar ////////////////////////////
 //////////////////////////////////////////////////////////*/
-
-
-.comment-list{
-    padding-top: 15px;
+.comment-list {
+	padding-top: 15px;
 }
- 
-.well-default {    
-    background-color: #d9edf7;
-    background-image: none;
-    border: 0px;
-    -webkit-box-shadow: 0 0 0 0;
-       -moz-box-shadow: 0 0 0 0;
-            box-shadow: 0 0 0 0;
+
+.well-default {
+	background-color: #d9edf7;
+	background-image: none;
+	border: 0px;
+	-webkit-box-shadow: 0 0 0 0;
+	-moz-box-shadow: 0 0 0 0;
+	box-shadow: 0 0 0 0;
 }
- 
+
 .well-narrow {
-    margin: 0 auto;
-    width: 60%;
+	margin: 0 auto;
+	width: 60%;
 }
 
 .well-plain {
-    background-color: #eaeff5;
-    background-image: none;
-    border: 0px;
-    -webkit-box-shadow: 0 0 0 0;
-       -moz-box-shadow: 0 0 0 0;
-            box-shadow: 0 0 0 0;
+	background-color: #eaeff5;
+	background-image: none;
+	border: 0px;
+	-webkit-box-shadow: 0 0 0 0;
+	-moz-box-shadow: 0 0 0 0;
+	box-shadow: 0 0 0 0;
 }
- 
+
 .panel-narrow {
-    margin: 0 auto;
-    width: 60%;
+	margin: 0 auto;
+	width: 60%;
 }
 
 .link-in-dark-bg:link {
 	color: #f2fcac;
 }
-        
-        .link-in-dark-bg:active {
-            color: yellow;
-        }
-        
-        .link-in-dark-bg:hover {
-            color: yellow;
-        }
 
-        .link-in-dark-bg:visited {
-        	color: white;
-        }
-
-.icon-button{
-	background: transparent;
-	border: 0;	
+.link-in-dark-bg:active {
+	color: yellow;
 }
 
+.link-in-dark-bg:hover {
+	color: yellow;
+}
 
+.link-in-dark-bg:visited {
+	color: white;
+}
 
-
-
-
+.icon-button {
+	background: transparent;
+	border: 0;
+}
 
 /*////////////////////////////////////////////////////////////
 ///////////////////////// Header ////////////////////////////
 //////////////////////////////////////////////////////////*/
-
 .instructor-header-bar {
-    /* TODO: find a stable solution to vertical middle align the columns */
-    margin-top: 20px;
+	/* TODO: find a stable solution to vertical middle align the columns */
+	margin-top: 20px;
 }
-
-
-
-
 
 /*////////////////////////////////////////////////////////////
 /////////////////////// Main Content ////////////////////////
 //////////////////////////////////////////////////////////*/
-
 .bs-example {
-    background-color: #fafafa;
-    border-color: #e5e5e5 #eee #eee;
-    border-style: solid;
-    border-width: 1px 0;
-    -webkit-box-shadow: inset 0 3px 6px rgba(0, 0, 0, .05);
-       -moz-box-shadow: inset 0 3px 6px rgba(0, 0, 0, .05);
-            box-shadow: inset 0 3px 6px rgba(0, 0, 0, .05);
-    margin: 0 -15px 15px;
-    padding: 45px 15px 15px;
-    position: relative;
+	background-color: #fafafa;
+	border-color: #e5e5e5 #eee #eee;
+	border-style: solid;
+	border-width: 1px 0;
+	-webkit-box-shadow: inset 0 3px 6px rgba(0, 0, 0, .05);
+	-moz-box-shadow: inset 0 3px 6px rgba(0, 0, 0, .05);
+	box-shadow: inset 0 3px 6px rgba(0, 0, 0, .05);
+	margin: 0 -15px 15px;
+	padding: 45px 15px 15px;
+	position: relative;
 }
 
-        .bs-example:after {
-            color: #bbb;
-            content: "Example";
-            font-size: 12px;
-            font-weight: 700;
-            left: 15px;
-            letter-spacing: 1px;
-            position: absolute;
-            text-transform: uppercase;
-            top: 15px;
-        }
-    
-        .bs-example .container {
-            width: auto
-        }
-    
-        .bs-example+.highlight {
-            margin: -15px -15px 15px;
-            border-radius: 0;
-            border-width: 0 0 1px
-        }
-    
-        @media (min-width:768px){
-            .bs-example {
-                background-color: #fff;
-                border: 1px solid #ddd;
-                -webkit-border-radius: 4px 4px 0 0;
-                   -moz-border-radius: 4px 4px 0 0;
-                        border-radius: 4px 4px 0 0;
-                -webkit-box-shadow: none;
-                   -moz-box-shadow: none;
-                        box-shadow: none;
-                margin-left: 0;
-                margin-right: 0;
-            }
-        
-            .bs-example+.highlight {
-                border-width: 1px;
-                -webkit-border-bottom-left-radius: 4px;
-                   -moz-border-radius-bottomleft: 4px;
-                        border-bottom-left-radius: 4px;
-                -webkit-border-bottom-right-radius: 4px;
-                   -moz-border-radius-bottomright: 4px;
-                        border-bottom-right-radius: 4px;                
-                margin-left: 0;
-                margin-right: 0;
-                margin-top: -16px;
-            }
-        }
+.bs-example:after {
+	color: #bbb;
+	content: "Example";
+	font-size: 12px;
+	font-weight: 700;
+	left: 15px;
+	letter-spacing: 1px;
+	position: absolute;
+	text-transform: uppercase;
+	top: 15px;
+}
 
+.bs-example .container {
+	width: auto
+}
 
+.bs-example+.highlight {
+	margin: -15px -15px 15px;
+	border-radius: 0;
+	border-width: 0 0 1px
+}
+
+@media ( min-width :768px) {
+	.bs-example {
+		background-color: #fff;
+		border: 1px solid #ddd;
+		-webkit-border-radius: 4px 4px 0 0;
+		-moz-border-radius: 4px 4px 0 0;
+		border-radius: 4px 4px 0 0;
+		-webkit-box-shadow: none;
+		-moz-box-shadow: none;
+		box-shadow: none;
+		margin-left: 0;
+		margin-right: 0;
+	}
+	.bs-example+.highlight {
+		border-width: 1px;
+		-webkit-border-bottom-left-radius: 4px;
+		-moz-border-radius-bottomleft: 4px;
+		border-bottom-left-radius: 4px;
+		-webkit-border-bottom-right-radius: 4px;
+		-moz-border-radius-bottomright: 4px;
+		border-bottom-right-radius: 4px;
+		margin-left: 0;
+		margin-right: 0;
+		margin-top: -16px;
+	}
+}
 
 .icon-sort {
-    display: block;
-    float: right;
-    height: 17px;
-    margin-top: 1px;
-    width: 12px;
+	display: block;
+	float: right;
+	height: 17px;
+	margin-top: 1px;
+	width: 12px;
 }
 
 .unsorted {
-    background: url(../images/sortSideButton.png);
+	background: url(../images/sortSideButton.png);
 }
 
 .sorted-ascending {
-    background: url(../images/sortUpButton.png);
+	background: url(../images/sortUpButton.png);
 }
 
 .sorted-descending {
-    background: url(../images/sortDownButton.png);
+	background: url(../images/sortDownButton.png);
 }
 
-.button-sort-ascending:hover, 
-.button-sort-none:hover, 
-.button-sort-descending:hover {
-    cursor: pointer;
+.button-sort-ascending:hover,.button-sort-none:hover,.button-sort-descending:hover
+	{
+	cursor: pointer;
 }
-
-
-
-
-
 
 /*////////////////////////////////////////////////////////////
 ////////////////////////// Footer ///////////////////////////
 //////////////////////////////////////////////////////////*/
-
 #footerComponent {
-    background-color: black;
-    background-image: linear-gradient(to bottom,#3c3c3c 0,#222 100%);
-    bottom: 0px;
-    color: grey;
-    height: 20px;
-    margin: 0px;
-    position: fixed;
-    text-align: center;
-    width: 100%;
+	background-color: black;
+	background-image: linear-gradient(to bottom, #3c3c3c 0, #222 100%);
+	bottom: 0px;
+	color: grey;
+	height: 20px;
+	margin: 0px;
+	position: fixed;
+	text-align: center;
+	width: 100%;
 }
