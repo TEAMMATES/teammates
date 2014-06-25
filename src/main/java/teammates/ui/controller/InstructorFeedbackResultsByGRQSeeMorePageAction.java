@@ -81,6 +81,10 @@ public class InstructorFeedbackResultsByGRQSeeMorePageAction extends Action {
                             Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS)));
             data.privilegesInfo.put(s, params);
         }
+        Map<String, String> params = new HashMap<String, String>();
+        params.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS, "true");
+        params.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS, "true");
+        data.privilegesInfo.put("None", params);
         
         for(String emailKey : bundle.emailTeamNameTable.keySet()){
             String teamName = bundle.getTeamNameForEmail(emailKey);

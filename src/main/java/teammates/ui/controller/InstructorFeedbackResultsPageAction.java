@@ -53,7 +53,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
 
         if (data.selectedSection.equals(ALL_SECTION_OPTION)) {
             data.bundle = logic.getFeedbackSessionResultsForInstructorWithinRange(
-                    feedbackSessionName, courseId, data.instructor.email, 500);
+                    feedbackSessionName, courseId, data.instructor.email, 5);
         } else if (data.sortType.equals("question")) {
             data.bundle = logic
                     .getFeedbackSessionResultsForInstructorInSection(

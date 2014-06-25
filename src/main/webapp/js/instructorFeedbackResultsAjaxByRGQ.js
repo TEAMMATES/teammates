@@ -36,9 +36,9 @@ function getResponsesToRecipient(recipient, data){
         }
     }
 
-    var targetEmail = firstResponse.recipientEmail.replace("'s Team", "");
-    var targetEmailDisplay = firstResponse.recipientEmail;
-    var mailToStyleAttr = (targetEmailDisplay.indexOf("@@") != -1) ? "style='display:none;'" : "";
+    var targetEmail = firstResponse.recipientEmail;
+    var participantType = data.questionsInfo[firstResponse.feedbackQuestionId].questionRecipientType;
+    var mailToStyleAttr = (targetEmail.indexOf("@@") != -1 || participantType == "Nobody specific (For general class feedback)" || participantType == "Other teams in the course") ? "style='display:none;'" : "";
 
     var groupByTeamEnabled = $('#frgroupbyteam').attr('checked') == 'checked';
     var recipientTeam = data.emailTeamNameTable[targetEmail];
@@ -59,7 +59,7 @@ function getResponsesToRecipient(recipient, data){
     appendedResponses += '<div class="panel panel-primary">';
     appendedResponses += '<div class="panel-heading">';
     appendedResponses += 'To: <strong>' + recipient + '</strong>';
-    appendedResponses += '<a class="link-in-dark-bg" href="mailTo:' + targetEmail + '" '+ mailToStyleAttr + '> [' + targetEmailDisplay + ']</a>';
+    appendedResponses += '<a class="link-in-dark-bg" href="mailTo:' + targetEmail + '" '+ mailToStyleAttr + '> [' + targetEmail + ']</a>';
     if(groupByTeamEnabled){
         appendedResponses += '<span class="glyphicon glyphicon-chevron-down pull-right"></span>';
     } else {
@@ -217,6 +217,7 @@ $(document).ready(function(){
                 console.log('Error');
             },
             success : function(data) {
+                console.log(data);
                 $(panelBody[0]).html(getAppendedData(data));
                 $(panelHeading).removeClass('ajax_submit');
                 $(panelHeading).off('click');

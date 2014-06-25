@@ -174,7 +174,7 @@
                         </div>
                         <div class="panel-collapse collapse in">
                         <div class="panel-body">
-                        <a class="btn btn-default btn-xs pull-right" id="collapse-panels-button-section-<%=sectionIndex%>" style="display:block;">
+                        <a class="btn btn-success btn-xs pull-right" id="collapse-panels-button-section-<%=sectionIndex%>" style="display:block;">
                             Expand All
                         </a>
                         <br>
@@ -199,7 +199,7 @@
                         </div>
                         <div class="panel-collapse collapse">
                         <div class="panel-body background-color-warning">
-                        <a class="btn btn-default btn-xs pull-right" id="collapse-panels-button-team-<%=teamIndex%>">
+                        <a class="btn btn-warning btn-xs pull-right" id="collapse-panels-button-team-<%=teamIndex%>">
                             Expand All
                         </a>
                         <br>

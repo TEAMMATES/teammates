@@ -8,7 +8,7 @@ function getAppendedData(data){
     var appendedHtml = '';
     var hasUsers = false;
 
-    appendedHtml += '<a class="btn btn-default btn-xs pull-right" id="collapse-panels-button-section-' + sectionIndex + '" style="display:block;">'
+    appendedHtml += '<a class="btn btn-success btn-xs pull-right" id="collapse-panels-button-section-' + sectionIndex + '" style="display:block;">'
                         + 'Expand All</a><br><br>';
 
     for(var giver in data.responses){
@@ -52,7 +52,7 @@ function getResponsesFromGiver(giver, data){
         appendedResponses += '<strong>'+ currentTeam + '</strong>';
         appendedResponses += '<span class="glyphicon glyphicon-chevron-down pull-right"></span></div>';
         appendedResponses += '<div class="panel-collapse collapse"><div class="panel-body background-color-warning">';
-        appendedResponses += '<a class="btn btn-default btn-xs pull-right" id="collapse-panels-button-team-' + teamIndex + '%>">'
+        appendedResponses += '<a class="btn btn-warning btn-xs pull-right" id="collapse-panels-button-team-' + teamIndex + '%>">'
                                 + 'Expand All</a><br><br>';
     }
 

@@ -1202,11 +1202,13 @@ public class FeedbackSessionsLogic {
                 isComplete = true;
             } else {
                 for (FeedbackQuestionAttributes qn : allQuestions){
-                    relevantQuestions.put(qn.getId(), qn);
+                    if(qn.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS)){
+                        relevantQuestions.put(qn.getId(), qn);
+                    }   
                 }
                 FeedbackSessionResultsBundle results =
                     new FeedbackSessionResultsBundle(
-                            session, responses, allQuestionsMap,
+                            session, responses, relevantQuestions,
                             emailNameTable, emailTeamNameTable,
                             visibilityTable, responseStatus, responseComments, isComplete);
     
@@ -1248,9 +1250,9 @@ public class FeedbackSessionsLogic {
                 // TODO: refactor these. you may refer to
                 // FeedbackResponseLogic.getViewableFeedbackResponsesForQuestionInSection
                 Boolean isVisibleResponse = false;
-                if ((response.giverEmail.equals(userEmail) && (section == null || response.recipientSection.equals(section)))
-                        || (response.recipientEmail.equals(userEmail) && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER) && (section == null || response.giverSection.equals(section)))
-                        || (role == Role.INSTRUCTOR && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS) && (section == null || (response.giverSection.equals(section) && response.recipientSection.equals(section))))
+                if ((response.giverEmail.equals(userEmail))
+                        || (response.recipientEmail.equals(userEmail) && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER))
+                        || (role == Role.INSTRUCTOR && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS))
                         || (role == Role.STUDENT && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.STUDENTS))) {
                     isVisibleResponse = true;
                 } else if (role == Role.STUDENT 

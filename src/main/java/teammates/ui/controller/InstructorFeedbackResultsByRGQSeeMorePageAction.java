@@ -67,6 +67,7 @@ public class InstructorFeedbackResultsByRGQSeeMorePageAction extends Action {
             params.put("questionNum", String.valueOf(question.questionNumber));
             params.put("questionText", Sanitizer.sanitizeForHtml(questionDetails.questionText));
             params.put("questionAdditionalInfo", questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, "additionalInfoId"));
+            params.put("questionRecipientType", question.recipientType.toDisplayRecipientName());
             data.questionsInfo.put(questionId, params);
         }
         
@@ -81,9 +82,14 @@ public class InstructorFeedbackResultsByRGQSeeMorePageAction extends Action {
                             Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS)));
             data.privilegesInfo.put(s, params);
         }
+        Map<String, String> params = new HashMap<String, String>();
+        params.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS, "true");
+        params.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS, "true");
+        data.privilegesInfo.put("None", params);
+        
         
         for(String emailKey : bundle.emailTeamNameTable.keySet()){
-            String teamName = bundle.getTeamNameForEmail(emailKey);
+            String teamName = bundle.getTeamNameForEmail(emailKey).equals("")? bundle.getNameForEmail(emailKey): bundle.getTeamNameForEmail(emailKey);
             if(!teamName.equals(bundle.emailTeamNameTable.get(emailKey))){
                 bundle.emailTeamNameTable.put(emailKey, teamName);
             }

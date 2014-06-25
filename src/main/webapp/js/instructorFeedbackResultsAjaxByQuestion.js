@@ -1,5 +1,9 @@
 function getAppendedData(data){
     var appendHtml = '';
+    if(data.responses.length == 0){
+        appendHtml += 'There is currently no responses for this question';
+        return appendHtml;
+    }
     appendHtml += "<div class='resultStatistics'>";
     appendHtml += data.questionStats;
     appendHtml += "</div>";
@@ -47,6 +51,7 @@ $(document).ready(function(){
                 console.log('Error');
             },
             success : function(data) {
+                console.log(data);
                 $(panelBody[0]).html(getAppendedData(data));
                 $(panelHeading).removeClass('ajax_submit');
                 $(panelHeading).off('click');
