@@ -61,8 +61,9 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, "1",
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient"
         };
-        verifyOnlyInstructorsCanAccess(submissionParams);
+        // this person is not the giver. so not accessible
         verifyUnaccessibleWithoutModifySessionCommentInSectionsPrivilege(submissionParams);
+        verifyOnlyInstructorsCanAccess(submissionParams);
     }
     
     @Test
