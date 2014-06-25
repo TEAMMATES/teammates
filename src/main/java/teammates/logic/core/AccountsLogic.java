@@ -144,124 +144,100 @@ public class AccountsLogic {
     public void joinCourseForInstructor(String encryptedKey, String googleId, String institute)
             throws JoinCourseException, InvalidParametersException{
         
-        joinCourseForInstructorWithInstitute(encryptedKey, googleId, institute);
-        
+        try {
+            joinCourseForInstructorWithInstitute(encryptedKey, googleId,
+                    institute);
+        } catch (EntityDoesNotExistException e) {
+            throw new JoinCourseException(e.getMessage());
+        }
         
     }
     
     public void joinCourseForInstructor(String encryptedKey, String googleId)
             throws JoinCourseException, InvalidParametersException{
         
-        joinCourseForInstructorWithInstitute(encryptedKey, googleId, null);
-        
+        try {
+            joinCourseForInstructorWithInstitute(encryptedKey, googleId, null);
+        } catch (EntityDoesNotExistException e) {
+            throw new JoinCourseException(e.getMessage());
+        }
         
     }
     
     
     
     private void joinCourseForInstructorWithInstitute(String encryptedKey,String googleId, String institute)
-            throws JoinCourseException, InvalidParametersException {
+            throws JoinCourseException, InvalidParametersException, EntityDoesNotExistException {
 
-        boolean isAccountNeeded = verifyInstructorJoinCourseRequest(encryptedKey, googleId, institute);
+        confirmValidJoinCourseRequest(encryptedKey, googleId);
 
         InstructorAttributes instructor = InstructorsLogic.inst().getInstructorForRegistrationKey(encryptedKey);
+        AccountAttributes account = accountsDb.getAccount(googleId);
+        String instituteToSave = (institute == null? getCourseInstitute(instructor.courseId) : institute ) ;
         
-        if (isAccountNeeded && institute == null) {
-            //this is for instructor added by other instructors
-            //no institute need to be provided here
-            AccountAttributes account = accountsDb.getAccount(googleId);
-
-            if (account == null) {
-                try {
-                    instructor.googleId = googleId;
-                    createInstructorAccount(instructor);
-                } catch (InvalidParametersException e) {
-                    throw new JoinCourseException(e.getMessage());
-                }
-            } else {
-                makeAccountInstructor(googleId);
-            }
-
-        } else if (isAccountNeeded && institute != null) {
-            // this is for instructor added by other instructors
-            // no institute need to be provided here
-
-            AccountAttributes accountToAdd = new AccountAttributes(googleId,instructor.name,
-                                                                   true,instructor.email,
-                                                                   institute);
-
-            createAccount(accountToAdd);
+        if (account != null){
+            makeAccountInstructor(googleId);
+        } else {
+            createAccount(new AccountAttributes(googleId,
+                                                instructor.name,
+                                                true,
+                                                instructor.email,
+                                                instituteToSave));
         }
                   
         instructor.googleId = googleId;
-        try {
-            InstructorsLogic.inst().updateInstructorByEmail(instructor.email, instructor);
-        } catch (InvalidParametersException | EntityDoesNotExistException e) {
-            throw new JoinCourseException(e.getMessage());
-        }
-        
+        InstructorsLogic.inst().updateInstructorByEmail(instructor.email, instructor);
         
     }
     
-    private boolean verifyInstructorJoinCourseRequest(String encryptedKey, String googleId, String institute)
+    /**
+     * @throws JoinCourseException if the request is invalid. Do nothing otherwise.
+     */
+    private void confirmValidJoinCourseRequest(String encryptedKey, String googleId)
             throws JoinCourseException {
         
-        boolean isAccountNeeded = false;
+        InstructorAttributes instructorForKey = InstructorsLogic.inst().getInstructorForRegistrationKey(encryptedKey);
         
-        InstructorAttributes instructorRole = InstructorsLogic.inst().getInstructorForRegistrationKey(encryptedKey);
-        
-        if (instructorRole == null) {
+        //Invalid request: invalid key
+        if (instructorForKey == null) {
             String joinUrl = Const.ActionURIs.INSTRUCTOR_COURSE_JOIN + "?regkey=" + encryptedKey;
-            
             throw new JoinCourseException(Const.StatusCodes.INVALID_KEY,
                     "You have used an invalid join link: " + joinUrl);
             
-        } else if (instructorRole.isRegistered()) {
-            //key is valid and belongs to a registered instructor
-            
-            if (instructorRole.googleId.equals(googleId)) {
-                //key belongs to current logged in user
-                
-                AccountAttributes account = accountsDb.getAccount(googleId);
-                if (account != null){
-                    //current user has registered as this instructor and account has been created successfully
-                    if (institute != null) {
-                        throw new JoinCourseException(Const.StatusCodes.ALREADY_JOINED,
-                                                      "You have already verified your google account");
-                    } else {
-                        throw new JoinCourseException(Const.StatusCodes.ALREADY_JOINED,
-                                                       googleId + " has already joined this course");
-                    }
-                }else{
-                    //instructor has registered but account was missing
-                    //reason may be: account creation failure, accidental deletion of account etc
-                    isAccountNeeded = true;
-                }
-                
-            } else {
-                //key does not belong to current logged in user
-                throw new JoinCourseException(Const.StatusCodes.KEY_BELONGS_TO_DIFFERENT_USER,
-                                              String.format(Const.StatusMessages.JOIN_COURSE_KEY_BELONGS_TO_DIFFERENT_USER,
-                                                            truncateGoogleId(instructorRole.googleId)));
-            }
-            
-        } else {
-            //key is valid and belongs to a non-registered instructor object
-            InstructorAttributes existingInstructor = InstructorsLogic.inst().getInstructorForGoogleId(instructorRole.courseId, googleId);
+        } 
+        
+      //Invalid request: the logged in user has registered in the same course so this key belongs to another user who has not registered yet
+        if (!instructorForKey.isRegistered()){
+            InstructorAttributes existingInstructor = InstructorsLogic.inst()
+                    .getInstructorForGoogleId(instructorForKey.courseId, googleId);
             
             if (existingInstructor != null) {
-                //the logged in user has registered in the same course so this key belongs to another user who has not registered yet
-                throw new JoinCourseException(String.format(Const.StatusMessages.JOIN_COURSE_GOOGLE_ID_BELONGS_TO_DIFFERENT_USER,googleId));
-
-            }else{
-                //key is valid and belongs to a non-registered instructor object, 
-                //and the logged in user has not registered in the same course yet
-                isAccountNeeded = true;
+                throw new JoinCourseException(
+                        String.format(Const.StatusMessages.JOIN_COURSE_GOOGLE_ID_BELONGS_TO_DIFFERENT_USER,
+                                      googleId));
             }
         }
         
         
-        return isAccountNeeded;
+      //Invalid request: Key doesn't belong to logged in user
+        if (instructorForKey.isRegistered() 
+                && !instructorForKey.googleId.equals(googleId)) {
+            throw new JoinCourseException(Const.StatusCodes.KEY_BELONGS_TO_DIFFERENT_USER,
+                                          String.format(Const.StatusMessages.JOIN_COURSE_KEY_BELONGS_TO_DIFFERENT_USER,
+                                                        truncateGoogleId(instructorForKey.googleId)));
+        }
+        
+        
+        //Invalid request:current user has registered as this instructor and account has been created successfully
+        AccountAttributes existingAccount = accountsDb.getAccount(googleId);
+        if (instructorForKey.isRegistered() 
+                && existingAccount != null 
+                && existingAccount.isInstructor){
+            throw new JoinCourseException(Const.StatusCodes.ALREADY_JOINED,
+                                               googleId + " has already joined this course");
+        }
+            
+        
     }
     
     private void verifyStudentJoinCourseRequest(String encryptedKey, String googleId)
@@ -351,15 +327,7 @@ public class AccountsLogic {
         accountsDb.createAccount(account);
     }
     
-    private void createInstructorAccount(InstructorAttributes instructor) throws InvalidParametersException {
-        AccountAttributes account = new AccountAttributes();
-        account.googleId = instructor.googleId;
-        account.email = instructor.email;
-        account.name = instructor.name;
-        account.isInstructor = true;
-        account.institute = getCourseInstitute(instructor.courseId);
-        accountsDb.createAccount(account);
-    }
+
 
     
     
