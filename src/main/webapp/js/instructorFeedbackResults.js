@@ -98,7 +98,6 @@ window.onload = function(){
             $(bodyCollapse[0]).attr('id', "panelBodyCollapse-"+numPanels);
 
             $(bodyCollapse[0]).on('hidden.bs.collapse', function(){
-                console.log('Finish hide');
                 if(isCollapsingAll){
                     var id = $(this).attr('id');
                     var nextId = this;
@@ -114,7 +113,6 @@ window.onload = function(){
                 }
             });
             $(bodyCollapse[0]).on('shown.bs.collapse', function(){
-                console.log('Finish show');
                 if(isExpandingAll){
                     var id = $(this).attr('id');
                     var nextId = this;
@@ -131,6 +129,13 @@ window.onload = function(){
             });
         }
     }
+
+    $(".glyphicon").click(function(){
+        var parent = $(this).parent();
+        if(parent.length){
+            $(parent).trigger('click');
+        }
+    });
 
     if($("#collapse-panels-button").html().indexOf("Expand All") != -1){
         panelsCollapsed = true;

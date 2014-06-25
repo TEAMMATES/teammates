@@ -11,7 +11,6 @@ import javax.mail.internet.MimeMessage;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentRecipientType;
-import teammates.common.datatransfer.CommentStatus;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.CourseRoster;
