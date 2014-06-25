@@ -224,6 +224,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         BackDoor.deleteEvaluation("SHomeUiT.CS1101", "Third Eval");
         
         studentHomePage.getEditEvalButton("Third Eval").click();
+        browser.selenium.waitForPageToLoad("15000");
         studentHomePage.verifyHtmlMainContent("/StudentHomeEvalDeletedHTML.html");
         studentHomePage.reloadPage();
         
@@ -232,6 +233,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         
         BackDoor.deleteFeedbackSession("First Feedback Session", "SHomeUiT.CS2104");     
         studentHomePage.getSubmitFeedbackButton("First Feedback Session").click();
+        browser.selenium.waitForPageToLoad("15000");
         studentHomePage.verifyHtmlMainContent("/StudentHomeFeedbackDeletedHTML.html");
         
     }

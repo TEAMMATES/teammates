@@ -42,7 +42,20 @@ public class InstructorStudentRecordsPageAction extends Action {
         try {
             data.courseId = courseId;
             data.student = logic.getStudentForEmail(courseId, studentEmail);
-            Assumption.assertNotNull(data.student);
+            
+            if (data.student == null) {
+                statusToUser.add(Const.StatusMessages.STUDENT_NOT_FOUND_FOR_RECORDS);
+                isError = true;
+                return createRedirectResult(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
+            }
+            
+            if (data.student.googleId == "") {
+                statusToUser.add(Const.StatusMessages.STUDENT_NOT_JOINED_YET_FOR_RECORDS);
+            } else {
+                data.studentProfile = logic.getStudentProfile(data.student.googleId);
+                Assumption.assertNotNull(data.studentProfile);
+            }
+            
             data.showCommentBox = showCommentBox;
             data.comments = logic.getCommentsForReceiver(courseId, CommentRecipientType.PERSON, studentEmail);
             Iterator<CommentAttributes> iterator = data.comments.iterator();
@@ -95,7 +108,11 @@ public class InstructorStudentRecordsPageAction extends Action {
             statusToAdmin = "instructorStudentRecords Page Load<br>" + 
                     "Viewing <span class=\"bold\">" + studentEmail + "'s</span> records " +
                     "for Course <span class=\"bold\">[" + courseId + "]</span><br>" +
-                    "Number of sessions: " + data.sessions.size();
+                    "Number of sessions: " + data.sessions.size() + "<br>" +
+                    "Student Profile: " + 
+                    (data.studentProfile == null ? 
+                            "No Profile" : 
+                                data.studentProfile.toString());
             
             return createShowPageResult(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS, data);
             

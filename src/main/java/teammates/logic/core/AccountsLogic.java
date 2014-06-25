@@ -3,6 +3,9 @@ package teammates.logic.core;
 import java.util.List;
 import java.util.logging.Logger;
 
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.blobstore.BlobstoreFailureException;
+
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -343,5 +346,10 @@ public class AccountsLogic {
     public void updateStudentProfile(StudentProfileAttributes newStudentProfileAttributes) 
             throws InvalidParametersException, EntityDoesNotExistException {
         accountsDb.updateStudentProfile(newStudentProfileAttributes);
+    }
+
+
+    public void deleteProfilePicture(BlobKey key) throws BlobstoreFailureException {
+        accountsDb.deleteProfilePicFromGcs(key);
     }
 }

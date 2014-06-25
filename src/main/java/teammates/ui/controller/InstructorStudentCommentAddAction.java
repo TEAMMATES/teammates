@@ -60,6 +60,7 @@ public class InstructorStudentCommentAddAction extends Action {
             isError = true;
         }
         
+        //TODO: remove fromCommentsPage
         if(isFromCommentsPage){
             return createRedirectResult((new PageData(account).getInstructorCommentsLink()) + "&" + Const.ParamsNames.COURSE_ID + "=" + courseId);
         } else if(isFromStudentDetailsPage){

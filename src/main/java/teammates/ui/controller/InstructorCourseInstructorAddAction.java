@@ -55,9 +55,10 @@ public class InstructorCourseInstructorAddAction extends Action {
     private InstructorAttributes extractCompleteInstructor(String courseId, String instructorName, String instructorEmail) {
         String instructorRole = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ROLE_NAME);
         Assumption.assertNotNull(instructorRole);
+        boolean isDisplayedToStudents = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT) != null;
         String displayedName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME);
         displayedName = (displayedName == null || displayedName.isEmpty()) ?
-                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER : displayedName;
+                InstructorAttributes.DEFAULT_DISPLAY_NAME : displayedName;
         
         boolean isModifyCourseChecked = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE) != null;
         boolean isModifyInstructorChecked = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR) != null;
@@ -74,7 +75,7 @@ public class InstructorCourseInstructorAddAction extends Action {
         boolean isModifySessionInSectionsChecked = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS) != null;
         
         InstructorAttributes instructorToAdd = constructorNewInstructor(courseId, instructorName, instructorEmail,
-                instructorRole, displayedName);
+                instructorRole, isDisplayedToStudents, displayedName);
             
         instructorToAdd.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, isModifyCourseChecked);
         instructorToAdd.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, isModifyInstructorChecked);
@@ -98,15 +99,14 @@ public class InstructorCourseInstructorAddAction extends Action {
     }
 
     private InstructorAttributes constructorNewInstructor(String courseId,
-            String instructorName, String instructorEmail,
-            String instructorRole, String displayedName) {
+            String instructorName, String instructorEmail, String instructorRole, boolean isDisplayedToStudents, String displayedName) {
         instructorName = Sanitizer.sanitizeName(instructorName);
         instructorEmail = Sanitizer.sanitizeEmail(instructorEmail);
         instructorRole = Sanitizer.sanitizeName(instructorRole);
         displayedName = Sanitizer.sanitizeName(displayedName);
         InstructorPrivileges privileges = new InstructorPrivileges(instructorRole);
         InstructorAttributes instructorToAdd = new InstructorAttributes(null, courseId, instructorName, instructorEmail, instructorRole,
-                displayedName, privileges);
+                isDisplayedToStudents, displayedName, privileges);
         return instructorToAdd;
     }
 

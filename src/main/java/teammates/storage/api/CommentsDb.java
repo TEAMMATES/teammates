@@ -217,6 +217,7 @@ public class CommentsDb extends EntitiesDb{
         if(commentToGet.getCommentId() != null){
             return getCommentEntity(commentToGet.getCommentId());
         } else{
+            commentToGet.sanitizeForSaving();
             return getCommentEntity(commentToGet.courseId, commentToGet.giverEmail, commentToGet.recipientType,
                     commentToGet.recipients, commentToGet.commentText, commentToGet.createdAt);
         }

@@ -29,7 +29,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
         new GateKeeper().verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, account.googleId), 
                 logic.getFeedbackSession(feedbackSessionName, courseId),
-                true);
+                false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
         String editType = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE);
         Assumption.assertNotNull("Null editType", editType);
