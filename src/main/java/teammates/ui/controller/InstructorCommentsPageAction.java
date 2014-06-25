@@ -24,9 +24,8 @@ import teammates.storage.api.StudentsDb;
 
 public class InstructorCommentsPageAction extends Action {
 
-    private static final String COMMENT_PAGE_DISPLAY_ARCHIVE_SESSION = "comments_page_displayarchive";
+    public static final String COMMENT_PAGE_DISPLAY_ARCHIVE_SESSION = "comments_page_displayarchive";
     private static final Boolean IS_INCLUDE_RESPONSE_STATUS = true;
-    private static final String COMMENT_GIVER_NAME_THAT_COMES_FIRST = "_you";
     
     private InstructorCommentsPageData data;
     private String courseId;
@@ -82,7 +81,7 @@ public class InstructorCommentsPageAction extends Action {
         data.comments = giverEmailToCommentsMap;
         data.roster = roster;
         data.feedbackResultBundles = feedbackResultBundles;
-        data.instructorEmail = account.email;
+        data.instructorEmail = instructor != null? instructor.email : "no-email";
         data.previousPageLink = previousPageLink;
         data.nextPageLink = nextPageLink;
         

@@ -80,7 +80,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
         viewPage.verifyHtmlMainContent("/instructorStudentRecordsPageWithPrivateFeedback.html");
         
         
-        ______TS("content: no student records");
+        ______TS("content: no student records, no profiles");
         
         instructor = testDataNormal.instructors.get("teammates.noeval");
         student = testDataNormal.students.get("alice.b.tmms@ISR.NoEval");

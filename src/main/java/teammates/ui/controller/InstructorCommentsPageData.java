@@ -16,7 +16,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.logic.api.Logic;
 
 public class InstructorCommentsPageData extends PageData {
-    public static final String COMMENT_GIVER_NAME_THAT_COMES_FIRST = "_you";
+    public static final String COMMENT_GIVER_NAME_THAT_COMES_FIRST = "0you";
     
     public Boolean isViewingDraft;
     public Boolean isDisplayArchive;
@@ -61,7 +61,7 @@ public class InstructorCommentsPageData extends PageData {
             }
             StudentAttributes student = roster.getStudentForEmail(recipient);
             if(courseId.equals(recipient)){ 
-                namesStringBuilder.append("All Students In This Course, ");
+                namesStringBuilder.append("All students in this course, ");
             } else if(student != null){
                 if(recipients.size() == 1){
                     namesStringBuilder.append(student.name 
