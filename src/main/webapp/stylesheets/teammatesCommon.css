@@ -75,6 +75,10 @@ body {
     display: inline;
 }
 
+.hidden{
+    display: none;
+}
+
 .text-bold {
     font-weight: bold;
 }
