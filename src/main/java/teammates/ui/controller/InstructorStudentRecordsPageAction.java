@@ -42,13 +42,18 @@ public class InstructorStudentRecordsPageAction extends Action {
         try {
             data.courseId = courseId;
             data.student = logic.getStudentForEmail(courseId, studentEmail);
-            Assumption.assertNotNull(data.student);
-            data.studentProfile = logic.getStudentProfile(data.student.googleId);
             
-            if (data.studentProfile == null) {
-                statusToUser.add(Const.StatusMessages.STUDENT_NOT_FOUND);
+            if (data.student == null) {
+                statusToUser.add(Const.StatusMessages.STUDENT_NOT_FOUND_FOR_RECORDS);
                 isError = true;
                 return createRedirectResult(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
+            }
+            
+            if (data.student.googleId == "") {
+                statusToUser.add(Const.StatusMessages.STUDENT_NOT_JOINED_YET_FOR_RECORDS);
+            } else {
+                data.studentProfile = logic.getStudentProfile(data.student.googleId);
+                Assumption.assertNotNull(data.studentProfile);
             }
             
             data.showCommentBox = showCommentBox;
