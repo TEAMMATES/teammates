@@ -28,7 +28,7 @@ public class InstructorFeedbackQuestionAddAction extends Action {
         new GateKeeper().verifyAccessible(
                 instructorDetailForCourse, 
                 logic.getFeedbackSession(feedbackSessionName, courseId),
-                true);
+                false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         
         FeedbackQuestionAttributes feedbackQuestion = extractFeedbackQuestionData(requestParameters, instructorDetailForCourse.email);
         List<String> questionDetailsErrors = feedbackQuestion.getQuestionDetails().validateQuestionDetails();

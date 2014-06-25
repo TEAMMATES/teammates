@@ -1,0 +1,559 @@
+{
+    "accounts":{
+        "instructor1OfCourse1":{
+            "googleId":"comments.idOfInstructor1OfCourse1",
+            "name":"Instructor 1 of Course 1",
+            "isInstructor":true,
+            "email":"comments.instr1@course1.com",
+            "institute":"National University of Singapore"
+        },
+        "instructor2OfCourse1":{
+            "googleId":"comments.idOfInstructor2OfCourse1",
+            "name":"Instructor 2 of Course 1",
+            "isInstructor":true,
+            "email":"comments.instr2@course1.com",
+            "institute":"National University of Singapore"
+        },
+        "instructorWithoutCourses":{
+            "googleId":"comments.instructorWithoutCourses",
+            "name":"Instructor Without Courses",
+            "isInstructor":true,
+            "email":"comments.iwc@yahoo.com",
+            "institute":"NTU"
+        },
+        "instructorWithOnlyOneSampleCourse":{
+            "googleId":"comments.idOfInstructorWithSampleCourse",
+            "name":"Instructor With Only One Sample Course",
+            "isInstructor":true,
+            "email":"comments.iwosc@yahoo.com",
+            "institute":"NTU"
+        },
+        "student1InCourse1":{
+            "googleId":"comments.student1InCourse1",
+            "name":"Student 1 in course 1",
+            "isInstructor":false,
+            "email":"comments.student1InCourse1@gmail.com",
+            "institute":"National University of Singapore",
+            "studentProfile":{
+                "googleId":"student1InCourse1",
+                "shortName":"Stud1",
+                "email":"i.m.stud1@gmail.com",
+                "institute":"Georgia Tech",
+                "country":"U.S.A",
+                "gender":"male",
+                "moreInfo":"I am just a student :P"
+            }
+        },
+        "student2InCourse1":{
+            "googleId":"comments.student2InCourse1",
+            "name":"Student in two courses",
+            "isInstructor":false,
+            "email":"comments.student2InCourse1@gmail.com",
+            "institute":"National University of Singapore"
+        },
+        "student3InCourse1":{
+            "googleId":"comments.student3InCourse1",
+            "name":"Student 3 in course 1",
+            "isInstructor":false,
+            "email":"comments.student3InCourse1@gmail.com",
+            "institute":"National University of Singapore"
+        }
+    },
+    "courses":{
+        "typicalCourse1":{
+            "id":"comments.idOfTypicalCourse1",
+            "name":"Typical Course 1 with 2 Evals",
+            "isArchived":false
+        },
+        "sampleCourse":{
+            "id":"comments.idOfSampleCourse-demo",
+            "name":"Sample Course",
+            "isArchived":false
+        },
+        "archivedCourse":{
+            "id":"comments.idOfArchivedCourse",
+            "name":"Archived Course",
+            "isArchived":true
+        }
+    },
+    "instructors":{
+        "instructor1OfCourse1":{
+            "googleId":"comments.idOfInstructor1OfCourse1",
+            "courseId":"comments.idOfTypicalCourse1",
+            "name":"Instructor1 Course1",
+            "email":"comments.instructor1@course1.com",
+            "role":"Co-owner",
+            "displayedName":"Co-owner",
+            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+        },
+        "instructor2OfCourse1":{
+            "googleId":"comments.idOfInstructor2OfCourse1",
+            "courseId":"comments.idOfTypicalCourse1",
+            "name":"Instructor2 Course1",
+            "email":"comments.instructor2@course1.com",
+            "role":"Manager",
+            "displayedName":"Manager",
+            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": false,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+        },
+        "instructorWithOnlyOneSampleCourse":{
+            "googleId":"comments.idOfInstructorWithSampleCourse",
+            "courseId":"comments.idOfSampleCourse-demo",
+            "name":"Instructor With Only One Sample Course",
+            "email":"comments.iwosc@yahoo.com",
+            "role":"Co-owner",
+            "displayedName":"Co-owner",
+            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+        },
+        "instructorOfArchivedCourse":{
+            "googleId":"comments.idOfInstructor1OfCourse1",
+            "courseId":"comments.idOfArchivedCourse",
+            "name":"InstructorOfArchiveCourse name",
+            "email":"comments.instructor1@course1.com",
+            "role":"Co-owner",
+            "displayedName":"Co-owner",
+            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+        }
+    },
+    "students":{
+        "student1InCourse1":{
+            "email":"comments.student1InCourse1@gmail.com",
+            "name":"student1 In Course1",
+            "team":"Team 1.1",
+            "section":"Section 1",
+            "googleId":"comments.student1InCourse1",
+            "comments":"comment for student1InCourse1",
+            "course":"comments.idOfTypicalCourse1"
+        },
+        "student2InCourse1":{
+            "email":"comments.student2InCourse1@gmail.com",
+            "name":"student2 In Course1",
+            "googleId":"comments.student2InCourse1",
+            "team":"Team 1.1",
+            "section":"Section 1",
+            "comments":"",
+            "course":"comments.idOfTypicalCourse1"
+        },
+        "student3InCourse1":{
+            "email":"comments.student3InCourse1@gmail.com",
+            "name":"student3 In Course1",
+            "googleId":"comments.student3InCourse1",
+            "team":"Team 1.2",
+            "section":"Section 1",
+            "comments":"",
+            "course":"comments.idOfTypicalCourse1"
+        }
+    },
+    "feedbackSessions":{
+        "session1InCourse1":{
+            "feedbackSessionName":"comments.First feedback session",
+            "courseId":"comments.idOfTypicalCourse1",
+            "creatorEmail":"comments.instructor1@course1.com",
+            "instructions":{
+                "value":"Please please fill in the following questions."
+            },
+            "createdTime":"2012-03-20 11:59 PM UTC",
+            "startTime":"2012-04-01 11:59 PM UTC",
+            "endTime":"2017-04-30 11:59 PM UTC",
+            "sessionVisibleFromTime":"2012-03-28 11:59 PM UTC",
+            "resultsVisibleFromTime":"2017-05-01 11:59 PM UTC",
+            "timeZone":2.0,
+            "gracePeriod":10,
+            "feedbackSessionType":"STANDARD",
+            "sentOpenEmail":true,
+            "sentPublishedEmail":false
+        }
+        
+    },
+    "feedbackQuestions":{
+        "qn1InSession1InCourse1":{
+            "feedbackSessionName":"comments.First feedback session",
+            "courseId":"comments.idOfTypicalCourse1",
+            "creatorEmail":"comments.instructor1@course1.com",
+            "questionMetaData":{
+                "value":"What is the best selling point of your product?"
+            },
+            "questionNumber":"1",
+            "questionType":"TEXT",
+            "giverType":"STUDENTS",
+            "recipientType":"SELF",
+            "numberOfEntitiesToGiveFeedbackTo":1,
+            "showResponsesTo":[
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo":[
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "INSTRUCTORS"
+            ]
+            
+        },
+        "qn2InSession1InCourse1":{
+            "feedbackSessionName":"comments.First feedback session",
+            "courseId":"comments.idOfTypicalCourse1",
+            "creatorEmail":"comments.instructor1@course1.com",
+            "questionMetaData":{
+                "value":"Rate 1 other student's product"
+            },
+            "questionNumber":"2",
+            "questionType":"TEXT",
+            "giverType":"STUDENTS",
+            "recipientType":"STUDENTS",
+            "numberOfEntitiesToGiveFeedbackTo":1,
+            "showResponsesTo":[
+                "INSTRUCTORS",
+                "RECEIVER"
+            ],
+            "showGiverNameTo":[
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "INSTRUCTORS",
+                "RECEIVER"
+            ]
+            
+        },
+        "qn3InSession1InCourse1":{
+            "feedbackSessionName":"comments.First feedback session",
+            "courseId":"comments.idOfTypicalCourse1",
+            "creatorEmail":"comments.instructor1@course1.com",
+            "questionMetaData":{
+                "value":"My comments on the class"
+            },
+            "questionNumber":"3",
+            "questionType":"TEXT",
+            "giverType":"SELF",
+            "recipientType":"NONE",
+            "numberOfEntitiesToGiveFeedbackTo":-100,
+            "showResponsesTo":[
+                "RECEIVER",
+                "OWN_TEAM_MEMBERS",
+                "STUDENTS",
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo":[
+                "RECEIVER",
+                "OWN_TEAM_MEMBERS",
+                "STUDENTS",
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "RECEIVER",
+                "OWN_TEAM_MEMBERS",
+                "STUDENTS",
+                "INSTRUCTORS"
+            ]
+            
+        },
+        "qn4InSession1InCourse1":{
+            "feedbackSessionName":"comments.First feedback session",
+            "courseId":"comments.idOfTypicalCourse1",
+            "creatorEmail":"comments.instructor1@course1.com",
+            "questionMetaData":{
+                "value":"Instructor comments on the class"
+            },
+            "questionNumber":"4",
+            "questionType":"TEXT",
+            "giverType":"INSTRUCTORS",
+            "recipientType":"NONE",
+            "numberOfEntitiesToGiveFeedbackTo":-100,
+            "showResponsesTo":[
+                "RECEIVER",
+                "OWN_TEAM_MEMBERS",
+                "STUDENTS",
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo":[
+                "RECEIVER",
+                "OWN_TEAM_MEMBERS",
+                "STUDENTS",
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "RECEIVER",
+                "OWN_TEAM_MEMBERS",
+                "STUDENTS",
+                "INSTRUCTORS"
+            ]
+            
+        }
+
+    },
+    "feedbackResponses":{
+        "response1ForQ1S1C1":{
+            "feedbackSessionName":"comments.First feedback session",
+            "courseId":"comments.idOfTypicalCourse1",
+            "feedbackQuestionId":"1",
+            "feedbackQuestionType":"TEXT",
+            "giverEmail":"comments.student1InCourse1@gmail.com",
+            "recipientEmail":"comments.student1InCourse1@gmail.com",
+            "responseMetaData":{
+                "value":"Student 1 self feedback."
+            },
+            "giverSection":"Section 1",
+            "recipientSection":"Section 1" 
+        },
+        "response2ForQ1S1C1":{
+            "feedbackSessionName":"comments.First feedback session",
+            "courseId":"comments.idOfTypicalCourse1",
+            "feedbackQuestionId":"1",
+            "feedbackQuestionType":"TEXT",
+            "giverEmail":"comments.student2InCourse1@gmail.com",
+            "recipientEmail":"comments.student2InCourse1@gmail.com",
+            "responseMetaData":{
+                "value":"I'm cool'"
+            },
+            "giverSection":"Section 1",
+            "recipientSection":"Section 1" 
+            
+        },
+        "response1ForQ2S1C1":{
+            "feedbackSessionName":"comments.First feedback session",
+            "courseId":"comments.idOfTypicalCourse1",
+            "feedbackQuestionId":"2",
+            "feedbackQuestionType":"TEXT",
+            "giverEmail":"comments.student2InCourse1@gmail.com",
+            "recipientEmail":"comments.student1InCourse1@gmail.com",
+            "responseMetaData":{
+                "value":"Response from student 2 to student 1."
+            },
+            "giverSection":"Section 1",
+            "recipientSection":"Section 1" 
+            
+        },
+        "response2ForQ2S1C1":{
+            "feedbackSessionName":"comments.First feedback session",
+            "courseId":"comments.idOfTypicalCourse1",
+            "feedbackQuestionId":"2",
+            "feedbackQuestionType":"TEXT",
+            "giverEmail":"comments.student1InCourse1@gmail.com",
+            "recipientEmail":"comments.student2InCourse1@gmail.com",
+            "responseMetaData":{
+                "value":"Response from student 1 to student 2."
+            },
+            "giverSection":"Section 1",
+            "recipientSection":"Section 1" 
+            
+        },
+        "response3ForQ2S1C1":{
+            "feedbackSessionName":"comments.First feedback session",
+            "courseId":"comments.idOfTypicalCourse1",
+            "feedbackQuestionId":"2",
+            "feedbackQuestionType":"TEXT",
+            "giverEmail":"comments.student3InCourse1@gmail.com",
+            "recipientEmail":"comments.student2InCourse1@gmail.com",
+            "responseMetaData":{
+                "value":"Response from student 3 \"to\" student 2.\r\nMultiline test."
+            },
+            "giverSection":"Section 1",
+            "recipientSection":"Section 1" 
+            
+        },
+        "response1ForQ3S1C1":{
+            "feedbackSessionName":"comments.First feedback session",
+            "courseId":"comments.idOfTypicalCourse1",
+            "feedbackQuestionId":"3",
+            "feedbackQuestionType":"TEXT",
+            "giverEmail":"comments.instructor1@course1.com",
+            "recipientEmail":"%GENERAL%",
+            "responseMetaData":{
+                "value":"Good work, keep it up!"
+            },
+            "giverSection":"None",
+            "recipientSection":"None" 
+            
+        }
+    },
+    "feedbackResponseComments":{
+        "comment1FromT1C1ToR1Q1S1C1": {
+            "courseId":"comments.idOfTypicalCourse1",
+            "feedbackSessionName":"comments.First feedback session",
+            "feedbackQuestionId":"1",
+            "giverEmail":"comments.instructor1@course1.com",
+            "feedbackResponseId":"1%comments.student1InCourse1@gmail.com%comments.student1InCourse1@gmail.com",
+            "createdAt":"2016-03-01 11:59 PM UTC",
+            "commentText":{
+                "value":"Instructor 1 comment to student 1 self feedback"   
+            }
+        },
+        "comment1FromT1C1ToR1Q2S1C1": {
+            "courseId":"comments.idOfTypicalCourse1",
+            "feedbackSessionName":"comments.First feedback session",
+            "feedbackQuestionId":"2",
+            "giverEmail":"comments.instructor1@course1.com",
+            "feedbackResponseId":"2%comments.student3InCourse1@gmail.com%comments.student2InCourse1@gmail.com",
+            "createdAt":"2016-02-01 11:59 PM UTC",
+            "commentText":{
+                "value":"Instructor 1 comment to student 1 self feedback Question 2"   
+            }
+        }
+    },
+    "comments":{
+        "privateComments":{
+            "courseId":"comments.idOfTypicalCourse1",
+            "giverEmail":"comments.instructor1@course1.com",
+            "recipientType":"PERSON",
+            "recipients":["comments.student1InCourse1@gmail.com"],
+            "status": "FINAL",
+            "showCommentTo": [],
+            "showGiverNameTo": [],
+            "showRecipientNameTo": [],
+            "receiverEmail":"comments.student1InCourse1@gmail.com",
+            "createdAt":"2012-04-01 11:59 PM UTC",
+            "commentText":{
+                "value":"private comment"
+            }
+        },
+        "recipientCanViewThisComment":{
+            "courseId":"comments.idOfTypicalCourse1",
+            "giverEmail":"comments.instructor1@course1.com",
+            "recipientType":"PERSON",
+            "recipients":["comments.student1InCourse1@gmail.com"],
+            "status": "FINAL",
+            "showCommentTo": [PERSON],
+            "showGiverNameTo": [PERSON],
+            "showRecipientNameTo": [PERSON],
+            "receiverEmail":"comments.student1InCourse1@gmail.com",
+            "createdAt":"2012-05-01 08:51 AM UTC",
+            "commentText":{
+                "value":"recipient can see this comment with giver and recipient's name"
+            }
+        },
+        "recipientCanViewThisCommentWithoutName":{
+            "courseId":"comments.idOfTypicalCourse1",
+            "giverEmail":"comments.instructor1@course1.com",
+            "recipientType":"PERSON",
+            "recipients":["comments.student1InCourse1@gmail.com"],
+            "status": "FINAL",
+            "showCommentTo": [PERSON],
+            "showGiverNameTo": [],
+            "showRecipientNameTo": [],
+            "receiverEmail":"comments.student1InCourse1@gmail.com",
+            "createdAt":"2012-05-02 08:51 AM UTC",
+            "commentText":{
+                "value":"recipient can see this comment without giver's name"
+            }
+        },
+        "teammatesCanViewThisComment":{
+            "courseId":"comments.idOfTypicalCourse1",
+            "giverEmail":"comments.instructor1@course1.com",
+            "recipientType":"PERSON",
+            "recipients":["comments.student1InCourse1@gmail.com"],
+            "status": "FINAL",
+            "showCommentTo": [TEAM],
+            "showGiverNameTo": [TEAM],
+            "showRecipientNameTo": [TEAM],
+            "receiverEmail":"comments.student1InCourse1@gmail.com",
+            "createdAt":"2012-05-03 08:51 AM UTC",
+            "commentText":{
+                "value":"teammates can see this comment with giver and recipient's name"
+            }
+        },
+        "teammatesCanViewThisCommentWithoutName":{
+            "courseId":"comments.idOfTypicalCourse1",
+            "giverEmail":"comments.instructor1@course1.com",
+            "recipientType":"PERSON",
+            "recipients":["comments.student1InCourse1@gmail.com"],
+            "status": "FINAL",
+            "showCommentTo": [TEAM],
+            "showGiverNameTo": [],
+            "showRecipientNameTo": [],
+            "receiverEmail":"comments.student1InCourse1@gmail.com",
+            "createdAt":"2012-05-04 08:51 AM UTC",
+            "commentText":{
+                "value":"teammates can see this comment without giver and recipient's name"
+            }
+        },
+        "teamCanViewThisComment":{
+            "courseId":"comments.idOfTypicalCourse1",
+            "giverEmail":"comments.instructor1@course1.com",
+            "recipientType":"TEAM",
+            "recipients":["Team 1.1"],
+            "status": "FINAL",
+            "showCommentTo": [TEAM],
+            "showGiverNameTo": [TEAM],
+            "showRecipientNameTo": [TEAM],
+            "receiverEmail":"Team 1.1",
+            "createdAt":"2012-05-05 08:51 AM UTC",
+            "commentText":{
+                "value":"team can see this comment with giver and recipient's name"
+            }
+        },
+        "teamCanViewThisCommentWithoutName":{
+            "courseId":"comments.idOfTypicalCourse1",
+            "giverEmail":"comments.instructor1@course1.com",
+            "recipientType":"TEAM",
+            "recipients":["Team 1.1"],
+            "status": "FINAL",
+            "showCommentTo": [TEAM],
+            "showGiverNameTo": [],
+            "showRecipientNameTo": [],
+            "receiverEmail":"Team 1.1",
+            "createdAt":"2012-05-07 08:51 AM UTC",
+            "commentText":{
+                "value":"team can see this comment without giver's name"
+            }
+        },
+        "otherStudentsInThisCourseCanViewThisCommentWithoutName":{
+            "courseId":"comments.idOfTypicalCourse1",
+            "giverEmail":"comments.instructor1@course1.com",
+            "recipientType":"PERSON",
+            "recipients":["comments.student1InCourse1@gmail.com"],
+            "status": "FINAL",
+            "showCommentTo": [COURSE],
+            "showGiverNameTo": [],
+            "showRecipientNameTo": [],
+            "receiverEmail":"comments.student1InCourse1@gmail.com",
+            "createdAt":"2012-05-06 08:51 AM UTC",
+            "commentText":{
+                "value":"Other students in this course can see this comment without giver and recipient's name"
+            }
+        },
+        "studentsInThisCourseCanViewThisComment":{
+            "courseId":"comments.idOfTypicalCourse1",
+            "giverEmail":"comments.instructor1@course1.com",
+            "recipientType":"COURSE",
+            "recipients":["comments.idOfTypicalCourse1"],
+            "status": "FINAL",
+            "showCommentTo": [COURSE],
+            "showGiverNameTo": [COURSE],
+            "showRecipientNameTo": [COURSE],
+            "receiverEmail":"comments.idOfTypicalCourse1",
+            "createdAt":"2012-06-01 07:20 PM UTC",
+            "commentText":{
+                "value":"Students in this course can see this comment"
+            }
+        },
+        "otherInstructorCanViewThisComment":{
+            "courseId":"comments.idOfTypicalCourse1",
+            "giverEmail":"comments.instructor2@course1.com",
+            "recipientType":"COURSE",
+            "recipients":["comments.idOfTypicalCourse1"],
+            "status": "FINAL",
+            "showCommentTo": [INSTRUCTOR],
+            "showGiverNameTo": [INSTRUCTOR],
+            "showRecipientNameTo": [INSTRUCTOR],
+            "receiverEmail":"comments.idOfTypicalCourse1",
+            "createdAt":"2012-06-02 07:20 PM UTC",
+            "commentText":{
+                "value":"Other instructors in this course can see this comment"
+            }
+        },
+        "otherInstructorCanViewThisCommentWithoutName":{
+            "courseId":"comments.idOfTypicalCourse1",
+            "giverEmail":"comments.instructor2@course1.com",
+            "recipientType":"COURSE",
+            "recipients":["comments.idOfTypicalCourse1"],
+            "status": "FINAL",
+            "showCommentTo": [INSTRUCTOR],
+            "showGiverNameTo": [],
+            "showRecipientNameTo": [],
+            "receiverEmail":"comments.idOfTypicalCourse1",
+            "createdAt":"2012-06-02 07:20 PM UTC",
+            "commentText":{
+                "value":"Other instructors in this course can see this comment without names"
+            }
+        }
+        
+    }
+}

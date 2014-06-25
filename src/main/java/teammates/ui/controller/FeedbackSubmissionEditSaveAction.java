@@ -61,7 +61,19 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             }
             
             List<FeedbackResponseAttributes> responsesForQuestion = new ArrayList<FeedbackResponseAttributes>();
-            FeedbackAbstractQuestionDetails questionDetails = data.bundle.getSortedQuestions().get(questionIndx - 1).getQuestionDetails();
+            String questionId = HttpRequestHelper.getValueFromParamMap(
+                    requestParameters, 
+                    Const.ParamsNames.FEEDBACK_QUESTION_ID + "-" + questionIndx);
+            FeedbackQuestionAttributes questionAttributes = data.bundle.getQuestionAttributes(questionId);
+            if(questionAttributes == null){
+                statusToUser.add("The feedback session or questions may have changed while you were submitting. Please check your responses to make sure they are saved correctly.");
+                isError = true;
+                log.warning("Question not found. (deleted or invalid id passed?) id: "+ questionId + " index: " + questionIndx);
+                continue;
+            }
+            FeedbackAbstractQuestionDetails questionDetails = questionAttributes.getQuestionDetails();
+
+            
             int numOfResponsesToGet = Integer.parseInt(totalResponsesForQuestion);  
             String qnId = "";
             

@@ -28,13 +28,6 @@
             "email":"teammates.norecord@gmail.com",
             "institute":"National University of Singapore"
         },
-        "alice.b.tmms@ISR.CS2104":{
-            "googleId":"ISR.alice.b.tmms",
-            "name":"Alice Betsy",
-            "email":"alice.b.tmms@gmail.com",
-            "isInstructor":false,
-            "institute":"NTU"
-        },
         "benny.c.tmms@ISR.CS2104":{
             "googleId":"ISR.benny.c.tmms",
             "name":"Benny Charlés",
@@ -46,7 +39,7 @@
                 "shortName":"Ben",
                 "email":"",
                 "institute":"NTU",
-                "country":"Singapore",
+                "nationality":"Singapore",
                 "gender":"male",
                 "moreInfo":"This is a lot of info!"
             }
@@ -181,7 +174,7 @@
             "team":"Team 2"
         },
         "alice.b.tmms@ISR.NoEval":{
-            "googleId":"ISR.alice.b.tmms",
+            "googleId":"",
             "email":"alice.b.tmms@gmail.com",
             "course":"ISR.NoEval",
             "name":"Alice Betsy",

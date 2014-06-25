@@ -51,7 +51,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         String name = "valid.name";
         String email = "valid@email.com";
         String role = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
-        String displayedName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+        String displayedName = InstructorAttributes.DEFAULT_DISPLAY_NAME;
         InstructorPrivileges privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         InstructorAttributes i = new InstructorAttributes(googleId, courseId, name, email, role, displayedName, privileges);
         

@@ -19,7 +19,7 @@ public class StudentProfileAttributes extends EntityAttributes {
     public String shortName;
     public String email;
     public String institute;
-    public String country;
+    public String nationality;
     /* only accepts "male", "female" or "other" */
     public String gender;
     public String moreInfo;
@@ -27,12 +27,12 @@ public class StudentProfileAttributes extends EntityAttributes {
     public Date modifiedDate;
 
     public StudentProfileAttributes(String googleId, String shortName, String email,
-            String institute, String country, String gender, String moreInfo, String pictureKey) {
+            String institute, String nationality, String gender, String moreInfo, String pictureKey) {
         this.googleId = googleId;
         this.shortName = Sanitizer.sanitizeName(shortName);
         this.email = Sanitizer.sanitizeEmail(email);
         this.institute = Sanitizer.sanitizeTitle(institute);
-        this.country = Sanitizer.sanitizeName(country);
+        this.nationality = Sanitizer.sanitizeName(nationality);
         this.gender = gender;
         this.moreInfo = moreInfo;
         this.pictureKey = pictureKey;
@@ -43,7 +43,7 @@ public class StudentProfileAttributes extends EntityAttributes {
         this.shortName = sp.getShortName();
         this.email = sp.getEmail();
         this.institute = sp.getInstitute();
-        this.country = sp.getCountry();
+        this.nationality = sp.getNationality();
         this.gender = sp.getGender();
         this.moreInfo = sp.getMoreInfo().getValue();
         this.pictureKey = sp.getPictureKey().getKeyString();
@@ -56,7 +56,7 @@ public class StudentProfileAttributes extends EntityAttributes {
         this.shortName = "";
         this.email = "";
         this.institute = "";
-        this.country = "";
+        this.nationality = "";
         this.gender = "other";
         this.moreInfo = "";
         this.pictureKey = "";
@@ -82,7 +82,7 @@ public class StudentProfileAttributes extends EntityAttributes {
         error = institute.isEmpty() ? "" : validator.getInvalidityInfo(FieldValidator.FieldType.INSTITUTE_NAME, institute);
         if(!error.isEmpty()) { errors.add(error); }
         
-        error = country.isEmpty() ? "" : validator.getInvalidityInfo(FieldValidator.FieldType.COUNTRY, country);
+        error = nationality.isEmpty() ? "" : validator.getInvalidityInfo(FieldValidator.FieldType.NATIONALITY, nationality);
         if(!error.isEmpty()) { errors.add(error); }
         
         error = validator.getInvalidityInfo(FieldValidator.FieldType.GENDER, gender);
@@ -103,7 +103,7 @@ public class StudentProfileAttributes extends EntityAttributes {
     @Override
     public Object toEntity() {
         return new StudentProfile(googleId, shortName, email, institute, 
-                country, gender, new Text(moreInfo), new BlobKey(this.pictureKey));
+                nationality, gender, new Text(moreInfo), new BlobKey(this.pictureKey));
     }
 
     @Override
@@ -122,7 +122,7 @@ public class StudentProfileAttributes extends EntityAttributes {
         this.shortName = Sanitizer.sanitizeForHtml(this.shortName);
         this.email = Sanitizer.sanitizeForHtml(this.email);
         this.institute = Sanitizer.sanitizeForHtml(this.institute);
-        this.country = Sanitizer.sanitizeForHtml(this.country);
+        this.nationality = Sanitizer.sanitizeForHtml(this.nationality);
         this.gender = Sanitizer.sanitizeForHtml(this.gender);
         this.moreInfo = Sanitizer.sanitizeForHtml(this.moreInfo);
     }

@@ -37,7 +37,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
         profile.shortName = "shor";
         profile.institute = "institute";
         profile.email = "valid@email.com";
-        profile.country = "country";
+        profile.nationality = "nationality";
         profile.gender = "female";
         profile.moreInfo = "moreInfo can have a lot more than this...";
         profile.pictureKey = "profile Pic Key";
@@ -55,7 +55,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
         ______TS("Valid profile with empty attributes");
         validProfile.shortName = "";
         validProfile.email = "";
-        validProfile.country = "";
+        validProfile.nationality = "";
         validProfile.institute = "";
         
         assertTrue("valid: all valid info", validProfile.isValid());
@@ -70,7 +70,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
         expectedErrorMessages.add(String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE, profile.shortName, FieldValidator.REASON_CONTAINS_INVALID_CHAR));
         expectedErrorMessages.add(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, profile.email, FieldValidator.REASON_INCORRECT_FORMAT));
         expectedErrorMessages.add(String.format(FieldValidator.INSTITUTE_NAME_ERROR_MESSAGE, profile.institute, FieldValidator.REASON_TOO_LONG));
-        expectedErrorMessages.add(String.format(FieldValidator.COUNTRY_ERROR_MESSAGE, profile.country, FieldValidator.REASON_START_WITH_NON_ALPHANUMERIC_CHAR));
+        expectedErrorMessages.add(String.format(FieldValidator.NATIONALITY_ERROR_MESSAGE, profile.nationality, FieldValidator.REASON_START_WITH_NON_ALPHANUMERIC_CHAR));
         expectedErrorMessages.add(String.format(FieldValidator.GENDER_ERROR_MESSAGE, profile.gender));
         
         TestHelper.isSameContentIgnoreOrder(expectedErrorMessages, invalidProfile.getInvalidityInfo());
@@ -91,7 +91,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
         assertEquals(Sanitizer.sanitizeForHtml(profileToSanitizeExpected.shortName), profileToSanitize.shortName);
         assertEquals(Sanitizer.sanitizeForHtml(profileToSanitizeExpected.institute), profileToSanitize.institute);
         assertEquals(Sanitizer.sanitizeForHtml(profileToSanitizeExpected.email), profileToSanitize.email);
-        assertEquals(Sanitizer.sanitizeForHtml(profileToSanitizeExpected.country), profileToSanitize.country);
+        assertEquals(Sanitizer.sanitizeForHtml(profileToSanitizeExpected.nationality), profileToSanitize.nationality);
         assertEquals(Sanitizer.sanitizeForHtml(profileToSanitizeExpected.gender), profileToSanitize.gender);
         assertEquals(Sanitizer.sanitizeForHtml(profileToSanitizeExpected.moreInfo), profileToSanitize.moreInfo);
     }
@@ -99,13 +99,13 @@ public class StudentProfileAttributesTest extends BaseTestCase {
     @Test
     public void testToEntity() {
         StudentProfile expectedEntity = new StudentProfile(profile.googleId, profile.shortName, profile.institute, profile.email, 
-                profile.country, profile.gender, new Text(profile.moreInfo), new BlobKey(profile.pictureKey));
+                profile.nationality, profile.gender, new Text(profile.moreInfo), new BlobKey(profile.pictureKey));
         StudentProfileAttributes testProfile = new StudentProfileAttributes(expectedEntity);
         StudentProfile actualEntity = (StudentProfile) testProfile.toEntity();
         assertEquals(expectedEntity.getShortName(), actualEntity.getShortName());
         assertEquals(expectedEntity.getInstitute(), actualEntity.getInstitute());
         assertEquals(expectedEntity.getEmail(), actualEntity.getEmail());
-        assertEquals(expectedEntity.getCountry(), actualEntity.getCountry());
+        assertEquals(expectedEntity.getNationality(), actualEntity.getNationality());
         assertEquals(expectedEntity.getGender(), actualEntity.getGender());
         assertEquals(expectedEntity.getMoreInfo(), actualEntity.getMoreInfo());
         assertEquals(expectedEntity.getModifiedDate(), actualEntity.getModifiedDate());
@@ -127,13 +127,13 @@ public class StudentProfileAttributesTest extends BaseTestCase {
         String shortName = "%%";
         String email = "invalid@email@com";
         String institute = StringHelper.generateStringOfLength(FieldValidator.INSTITUTE_NAME_MAX_LENGTH+1);
-        String country = "$invalid country ";
+        String nationality = "$invalid nationality ";
         String gender = "invalidGender";
         String moreInfo = "Ooops no validation for this one...";
         String pictureKey = "";
         
         return new StudentProfileAttributes(googleId, shortName, email, institute, 
-                country, gender, moreInfo, pictureKey);
+                nationality, gender, moreInfo, pictureKey);
     }
     
     public StudentProfileAttributes getStudentProfileAttributesToSanitize() {
@@ -141,13 +141,13 @@ public class StudentProfileAttributesTest extends BaseTestCase {
         String shortName = "<name>";
         String email = "'toSanitize@email.com'";
         String institute = "institute/\"";
-        String country = "&\"invalid country &";
+        String nationality = "&\"invalid nationality &";
         String gender = "'\"'invalidGender";
         String moreInfo = "<<script> alert('hi!'); </script>";
         String pictureKey = "testPictureKey";
         
         return new StudentProfileAttributes(googleId, shortName, email, institute, 
-                country, gender, moreInfo, pictureKey);
+                nationality, gender, moreInfo, pictureKey);
     }
     
     @Test

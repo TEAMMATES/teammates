@@ -26,7 +26,7 @@ public class StudentProfilePage extends AppPage {
     @FindBy(id="studentInstitution")
     protected WebElement institutionBox;
     
-    @FindBy(id="studentCountry")
+    @FindBy(id="studentNationality")
     protected WebElement countryBox;
     
     @FindBy(id="genderMale")
@@ -78,8 +78,8 @@ public class StudentProfilePage extends AppPage {
         fillTextBox(institutionBox, studentInstitution);
     }
     
-    public void fillCountry(String studentCountry) {
-        fillTextBox(countryBox, studentCountry);
+    public void fillNationality(String studentNationality) {
+        fillTextBox(countryBox, studentNationality);
     }
     
     public void fillMoreInfo(String moreInfo) {
@@ -103,26 +103,26 @@ public class StudentProfilePage extends AppPage {
     }
     
     public void editProfileThroughUi(String fileName, String shortName, String email, String institute,
-            String country, String gender, String moreInfo) throws Exception {
+            String nationality, String gender, String moreInfo) throws Exception {
         if (!fileName.equals("")) {
             fillProfilePic(fileName);
         }
         fillShortName(shortName);
         fillEmail(email);
         fillInstitution(institute);
-        fillCountry(country);
+        fillNationality(nationality);
         fillMoreInfo(moreInfo);
         selectGender(gender);
         submitEditedProfile();
     }
 
     public void ensureProfileContains(String shortName, String email,
-            String institute, String country, String gender, String moreInfo) {
+            String institute, String nationality, String gender, String moreInfo) {
         
         assertEquals(shortName, shortNameBox.getAttribute("value"));
         assertEquals(email, emailBox.getAttribute("value"));
         assertEquals(institute, institutionBox.getAttribute("value"));
-        assertEquals(country, countryBox.getAttribute("value"));
+        assertEquals(nationality, countryBox.getAttribute("value"));
         ensureGenderIsSelectedAs(gender);
         assertEquals(moreInfo, moreInfoBox.getText());
     }

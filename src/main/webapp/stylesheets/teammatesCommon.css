@@ -165,10 +165,6 @@ Apply to thead to make headers not bold.
     color: white;
 }
 
-.text-color-disclaimer {
-    color: red;
-}
-
 .text-strike {
     text-decoration: line-through;
 }

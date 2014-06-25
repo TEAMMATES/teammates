@@ -208,7 +208,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         expectedStudentProfile.shortName = "short";
         expectedStudentProfile.email = "personal@email.com";
         expectedStudentProfile.institute = "institute";
-        expectedStudentProfile.country = "Valid Country";
+        expectedStudentProfile.nationality = "Valid Nationality";
         expectedStudentProfile.gender = "female";
         expectedStudentProfile.moreInfo = "This sentence may sound sound but it cannot make actual sound... :P";
         
@@ -260,7 +260,8 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         try {
             studentsLogic.validateSections(studentList, courseId);
         } catch (EnrollException e) {
-            assertEquals(String.format(Const.StatusMessages.TEAM_INVALID_SECTION_EDIT,"Team 1.1"), e.getMessage());
+            assertEquals(String.format(Const.StatusMessages.TEAM_INVALID_SECTION_EDIT,"Team 1.1") + "Please use the enroll page to edit multiple students"
+                    , e.getMessage());
         }
     }
 
