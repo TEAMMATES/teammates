@@ -41,30 +41,7 @@ public class InstructorStudentCommentAddAction extends Action {
         Assumption.assertNotNull(commentText);
         Assumption.assertNotEmpty(commentText);
         
-        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
-        CourseAttributes course = logic.getCourse(courseId);
-        String recipientType = getRequestParamValue(Const.ParamsNames.RECIPIENT_TYPE);
-        CommentRecipientType commentRecipientType = recipientType == null ? CommentRecipientType.PERSON : CommentRecipientType.valueOf(recipientType);
-        String recipients = getRequestParamValue(Const.ParamsNames.RECIPIENTS);
-        if (commentRecipientType == CommentRecipientType.COURSE) {
-            new GateKeeper().verifyAccessible(instructor, course, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS);
-        } else if (commentRecipientType == CommentRecipientType.SECTION) {
-            new GateKeeper().verifyAccessible(instructor, course, recipients, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS);
-        } else if (commentRecipientType == CommentRecipientType.TEAM) {
-            List<StudentAttributes> students = logic.getStudentsForTeam(recipients, courseId);
-            if (students.isEmpty()) { // considered as a serious bug in coding or user submitted corrupted data
-                new GateKeeper().verifyAccessible(instructor, course, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS);
-            } else {
-                new GateKeeper().verifyAccessible(instructor, course, students.get(0).section, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS);
-            }
-        } else { // TODO: modify this after comment for instructor is enabled
-            StudentAttributes student = logic.getStudentForEmail(courseId, recipients);
-            if (student == null) { // considered as a serious bug in coding or user submitted corrupted data
-                new GateKeeper().verifyAccessible(instructor, course, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS);
-            } else {
-                new GateKeeper().verifyAccessible(instructor, course, student.section, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS);
-            }
-        }
+        verifyAccessibleByInstructor(courseId);
         
         
         CommentAttributes comment = extractCommentData();
@@ -93,6 +70,39 @@ public class InstructorStudentCommentAddAction extends Action {
             return createRedirectResult(new PageData(account).getInstructorCourseDetailsLink(courseId));
         } else {//studentRecordsPage by default
             return createRedirectResult(new PageData(account).getInstructorStudentRecordsLink(courseId, studentEmail));
+        }
+    }
+
+    private void verifyAccessibleByInstructor(String courseId)
+            throws EntityDoesNotExistException {
+        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
+        CourseAttributes course = logic.getCourse(courseId);
+        String recipientType = getRequestParamValue(Const.ParamsNames.RECIPIENT_TYPE);
+        CommentRecipientType commentRecipientType = recipientType == null ? CommentRecipientType.PERSON : CommentRecipientType.valueOf(recipientType);
+        String recipients = getRequestParamValue(Const.ParamsNames.RECIPIENTS);
+        if (commentRecipientType == CommentRecipientType.COURSE) {
+            new GateKeeper().verifyAccessible(instructor, course, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS);
+        } else if (commentRecipientType == CommentRecipientType.SECTION) {
+            new GateKeeper().verifyAccessible(instructor, course, recipients, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS);
+        } else if (commentRecipientType == CommentRecipientType.TEAM) {
+            List<StudentAttributes> students;
+            try {
+                students = logic.getStudentsForTeam(recipients, courseId);
+            } catch(EntityDoesNotExistException e) {
+                students = new ArrayList<StudentAttributes>();
+            }
+            if (students.isEmpty()) { // considered as a serious bug in coding or user submitted corrupted data
+                Assumption.fail();
+            } else {
+                new GateKeeper().verifyAccessible(instructor, course, students.get(0).section, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS);
+            }
+        } else { // TODO: modify this after comment for instructor is enabled
+            StudentAttributes student = logic.getStudentForEmail(courseId, recipients);
+            if (student == null) { // considered as a serious bug in coding or user submitted corrupted data
+                Assumption.fail();
+            } else {
+                new GateKeeper().verifyAccessible(instructor, course, student.section, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS);
+            }
         }
     }
 

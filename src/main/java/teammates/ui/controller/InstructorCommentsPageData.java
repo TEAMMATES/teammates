@@ -1,16 +1,19 @@
 package teammates.ui.controller;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
+import teammates.common.datatransfer.CommentRecipientType;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.util.Const;
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.logic.api.Logic;
 
 public class InstructorCommentsPageData extends PageData {
     public static final String COMMENT_GIVER_NAME_THAT_COMES_FIRST = "_you";
@@ -44,10 +47,6 @@ public class InstructorCommentsPageData extends PageData {
             giverDisplay = "You";
         } else if(instructor != null){
             String title = instructor.displayedName;
-            if(!title.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR) &&
-                    !title.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_HELPER)){
-                title = "Instructor";
-            }
             giverDisplay = title + " " + instructor.name;
         }
         return giverDisplay;
@@ -77,5 +76,54 @@ public class InstructorCommentsPageData extends PageData {
         }
         String namesString = namesStringBuilder.toString();
         return removeEndComma(namesString);
+    }
+    
+    public boolean isInstructorAllowedForPrivilegeOnComment(CommentAttributes comment, String privilegeName) {
+        // TODO: remember to come back and change this if later CommentAttributes.recipients can have multiple later!!!
+        Logic logic = new Logic();
+        if (this.currentInstructor == null) {
+            return false;
+        }
+        if (comment.recipientType == CommentRecipientType.COURSE) {
+            return this.currentInstructor.isAllowedForPrivilege(privilegeName);          
+        } else if (comment.recipientType == CommentRecipientType.SECTION) {
+            String section = "";
+            if (!comment.recipients.isEmpty()) {
+                Iterator<String> iterator = comment.recipients.iterator();
+                section = iterator.next();
+            }
+            return this.currentInstructor.isAllowedForPrivilege(section, privilegeName);
+        } else if (comment.recipientType == CommentRecipientType.TEAM) {
+            String team = "";
+            String section = "";
+            if (!comment.recipients.isEmpty()) {
+                Iterator<String> iterator = comment.recipients.iterator();
+                team = iterator.next();
+            }
+            try {
+                List<StudentAttributes> students = logic.getStudentsForTeam(team, courseId);
+                if (!students.isEmpty()) {
+                    section = students.get(0).section;
+                }
+            } catch(EntityDoesNotExistException e) {
+                return false;
+            }
+            return this.currentInstructor.isAllowedForPrivilege(section, privilegeName);
+        } else if (comment.recipientType == CommentRecipientType.PERSON) {
+            String studentEmail = "";
+            String section = "";
+            if (!comment.recipients.isEmpty()) {
+                Iterator<String> iterator = comment.recipients.iterator();
+                studentEmail = iterator.next();
+            }
+            StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
+            if (student != null) {
+                section = student.section;
+            }
+            return this.currentInstructor.isAllowedForPrivilege(section, privilegeName);
+        } else {
+            // TODO: implement this if instructor is later allowed to be added to recipients
+            return false;
+        }
     }
 }

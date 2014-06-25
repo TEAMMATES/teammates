@@ -273,7 +273,10 @@
                                             <span class="text-muted">To <b><%=data.getRecipientNames(comment.recipients)%></b> on
                                                 <%=TimeHelper.formatTime(comment.createdAt)%></span>
                                             <%
-                                               if (comment.giverEmail.equals(data.instructorEmail)) {//comment edit/delete control starts
+                                               if (comment.giverEmail.equals(data.instructorEmail)
+                                                       || (data.currentInstructor != null && 
+                                                       data.isInstructorAllowedForPrivilegeOnComment(comment, 
+                                                               Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS))) {//comment edit/delete control starts
                                             %>
                                             <a type="button"
                                                 id="commentdelete-<%=commentIdx%>"
@@ -310,7 +313,10 @@
                                         <div
                                             id="plainCommentText<%=commentIdx%>"><%=comment.commentText.getValue()%></div>
                                         <%
-                                           if (comment.giverEmail.equals(data.instructorEmail)) {//comment edit/delete control starts
+                                           if (comment.giverEmail.equals(data.instructorEmail)
+                                        		   || (data.currentInstructor != null && 
+                                                   data.isInstructorAllowedForPrivilegeOnComment(comment, 
+                                                           Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS))) {//comment edit/delete control starts
                                         %>
                                         <div
                                             id="commentTextEdit<%=commentIdx%>"

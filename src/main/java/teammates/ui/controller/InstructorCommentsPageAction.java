@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import teammates.common.datatransfer.CommentAttributes;
-import teammates.common.datatransfer.CommentRecipientType;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
@@ -17,7 +16,6 @@ import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
@@ -59,6 +57,13 @@ public class InstructorCommentsPageAction extends Action {
         List<String> coursePaginationList = new ArrayList<String>(); 
         String courseName = getCoursePaginationList(coursePaginationList);
         
+        data = new InstructorCommentsPageData(account);
+        data.isViewingDraft = isViewingDraft;
+        data.currentInstructor = instructor;
+        data.isDisplayArchive = isDisplayArchivedCourse;
+        data.courseId = courseId;
+        data.courseName = courseName;
+        
         CourseRoster roster = null;
         Map<String, List<CommentAttributes>> giverEmailToCommentsMap = new HashMap<String, List<CommentAttributes>>();
         Map<String, FeedbackSessionResultsBundle> feedbackResultBundles = new HashMap<String, FeedbackSessionResultsBundle>();
@@ -73,12 +78,6 @@ public class InstructorCommentsPageAction extends Action {
             feedbackResultBundles = getFeedbackResultBundles(roster);
         }
         
-        data = new InstructorCommentsPageData(account);
-        data.isViewingDraft = isViewingDraft;
-        data.currentInstructor = instructor;
-        data.isDisplayArchive = isDisplayArchivedCourse;
-        data.courseId = courseId;
-        data.courseName = courseName;
         data.coursePaginationList = coursePaginationList;
         data.comments = giverEmailToCommentsMap;
         data.roster = roster;
@@ -187,53 +186,10 @@ public class InstructorCommentsPageAction extends Action {
         return giverEmailToCommentsMap;
     }
 
-    private void updateCommentList(CommentAttributes comment, boolean isCurrentInstructorGiver, List<CommentAttributes> commentList)
-            throws EntityDoesNotExistException {
+    private void updateCommentList(CommentAttributes comment, boolean isCurrentInstructorGiver, List<CommentAttributes> commentList) {
         if (!isViewingDraft && !isCurrentInstructorGiver) { 
-            // TODO: remember to come back and change this if later CommentAttributes.recipients can have multiple later!!!
-            if (comment.recipientType == CommentRecipientType.COURSE) {
-                if (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS)) {
-                    commentList.add(comment);
-                }
-            } else if (comment.recipientType == CommentRecipientType.SECTION) {
-                String section = "";
-                if (!comment.recipients.isEmpty()) {
-                    Iterator<String> iterator = comment.recipients.iterator();
-                    section = iterator.next();
-                }
-                if (instructor.isAllowedForPrivilege(section, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS)) {
-                    commentList.add(comment);
-                }
-            } else if (comment.recipientType == CommentRecipientType.TEAM) {
-                String team = "";
-                String section = "";
-                if (!comment.recipients.isEmpty()) {
-                    Iterator<String> iterator = comment.recipients.iterator();
-                    team = iterator.next();
-                }
-                List<StudentAttributes> students = logic.getStudentsForTeam(team, courseId);
-                if (!students.isEmpty()) {
-                    section = students.get(0).section;
-                }
-                if (instructor.isAllowedForPrivilege(section, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS)) {
-                    commentList.add(comment);
-                }
-            } else if (comment.recipientType == CommentRecipientType.PERSON) {
-                String studentEmail = "";
-                String section = "";
-                if (!comment.recipients.isEmpty()) {
-                    Iterator<String> iterator = comment.recipients.iterator();
-                    studentEmail = iterator.next();
-                }
-                StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
-                if (student != null) {
-                    section = student.section;
-                }
-                if (instructor.isAllowedForPrivilege(section, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS)) {
-                    commentList.add(comment);
-                }
-            } else {
-                // TODO: implement this if instructor is later allowed to be added to recipients
+            if (data.isInstructorAllowedForPrivilegeOnComment(comment, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS)) {
+                commentList.add(comment);
             }
         } else {
             commentList.add(comment);
@@ -251,6 +207,7 @@ public class InstructorCommentsPageAction extends Action {
                                 fs.feedbackSessionName, courseId, account.email, roster, !IS_INCLUDE_RESPONSE_STATUS);
                 if(bundle != null){
                     removeQuestionsAndResponsesWithoutFeedbackResponseComment(bundle);
+                    removeQuestionsAndResponsesIfNotAllowed(bundle);
                     if(bundle.questions.size() != 0){
                         feedbackResultBundles.put(fs.feedbackSessionName, bundle);
                     }
@@ -258,6 +215,20 @@ public class InstructorCommentsPageAction extends Action {
             }
         }
         return feedbackResultBundles;
+    }
+
+    private void removeQuestionsAndResponsesIfNotAllowed(FeedbackSessionResultsBundle bundle) {
+        Iterator<FeedbackResponseAttributes> iter = bundle.responses.iterator();
+        while (iter.hasNext()) {
+            FeedbackResponseAttributes fdr = iter.next();
+            if (!(data.currentInstructor != null &&
+                    data.currentInstructor.isAllowedForPrivilege(fdr.giverSection, 
+                            fdr.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)
+                    && data.currentInstructor.isAllowedForPrivilege(fdr.recipientSection, 
+                            fdr.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS))) {
+                iter.remove();
+            }
+        }
     }
 
     private void removeQuestionsAndResponsesWithoutFeedbackResponseComment(FeedbackSessionResultsBundle bundle) {

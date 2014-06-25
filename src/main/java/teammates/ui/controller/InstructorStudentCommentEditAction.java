@@ -3,13 +3,16 @@ package teammates.ui.controller;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentRecipientType;
 import teammates.common.datatransfer.CommentStatus;
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
@@ -31,9 +34,7 @@ public class InstructorStudentCommentEditAction extends Action {
         String commentId = getRequestParamValue(Const.ParamsNames.COMMENT_ID);
         Assumption.assertNotNull(commentId);
         
-        new GateKeeper().verifyAccessible(
-                logic.getInstructorForGoogleId(courseId, account.googleId),
-                logic.getCourse(courseId));
+        verifyAccessibleByInstructor(courseId, commentId);
         
         CommentAttributes comment = extractCommentData();
         String editType = getRequestParamValue(Const.ParamsNames.COMMENT_EDITTYPE);
@@ -63,6 +64,47 @@ public class InstructorStudentCommentEditAction extends Action {
         
         return !isFromCommentPage? createRedirectResult(new PageData(account).getInstructorStudentRecordsLink(courseId,studentEmail)):
             createRedirectResult((new PageData(account).getInstructorCommentsLink()) + "&" + Const.ParamsNames.COURSE_ID + "=" + courseId);
+    }
+
+    private void verifyAccessibleByInstructor(String courseId, String commentId) {
+        // TODO: update this if Comment recipient is updated
+        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
+        CourseAttributes course = logic.getCourse(courseId);
+        CommentAttributes commentInDb = logic.getComment(Long.valueOf(commentId));
+        
+        if (commentInDb != null && instructor != null && commentInDb.giverEmail.equals(instructor.email)) {
+            // if comment giver and instructor are the same, allow access
+            return ;
+        }
+        if (commentInDb == null || instructor == null) {
+            Assumption.fail("Comment or instructor cannot be null for editing comment");
+        }
+        CommentRecipientType commentRecipientType = commentInDb.recipientType;
+        String recipients = commentInDb.recipients.iterator().next();
+        if (commentRecipientType == CommentRecipientType.COURSE) {
+            new GateKeeper().verifyAccessible(instructor, course, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS);
+        } else if (commentRecipientType == CommentRecipientType.SECTION) {
+            new GateKeeper().verifyAccessible(instructor, course, recipients, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS);
+        } else if (commentRecipientType == CommentRecipientType.TEAM) {
+            List<StudentAttributes> students;
+            try {
+                students = logic.getStudentsForTeam(recipients, courseId);
+            } catch(EntityDoesNotExistException e) {
+                students = new ArrayList<StudentAttributes>();
+            }
+            if (students.isEmpty()) { // considered as a serious bug in coding or user submitted corrupted data
+                Assumption.fail();
+            } else {
+                new GateKeeper().verifyAccessible(instructor, course, students.get(0).section, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS);
+            }
+        } else { // TODO: modify this after comment for instructor is enabled
+            StudentAttributes student = logic.getStudentForEmail(courseId, recipients);
+            if (student == null) { // considered as a serious bug in coding or user submitted corrupted data
+                Assumption.fail();
+            } else {
+                new GateKeeper().verifyAccessible(instructor, course, student.section, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS);
+            }
+        }
     }
 
     private CommentAttributes extractCommentData() {
