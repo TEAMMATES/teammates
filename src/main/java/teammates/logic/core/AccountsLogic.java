@@ -2,6 +2,7 @@ package teammates.logic.core;
 
 import java.util.List;
 import java.util.logging.Logger;
+
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -196,50 +197,75 @@ public class AccountsLogic {
     private void confirmValidJoinCourseRequest(String encryptedKey, String googleId)
             throws JoinCourseException {
         
+        
+        confirmValidKey(encryptedKey);
+        
         InstructorAttributes instructorForKey = InstructorsLogic.inst().getInstructorForRegistrationKey(encryptedKey);
         
-        //Invalid request: invalid key
+        confirmNotAlreadyJoinedAsInstructor(instructorForKey, googleId);
+        confirmUnusedKey(instructorForKey, googleId);
+        confirmNotRejoiningUsingDifferentKey(instructorForKey, googleId);
+        
+    }
+    
+    private void confirmNotRejoiningUsingDifferentKey(
+            InstructorAttributes instructorForKey, String googleId) throws JoinCourseException {
+        
+        if (instructorForKey.googleId != null) { //using a used key. this means no danger of rejoining using different key
+            return;
+        }
+        
+        //check if this Google ID has already joined this course
+        InstructorAttributes existingInstructor = InstructorsLogic.inst()
+                .getInstructorForGoogleId(instructorForKey.courseId, googleId);
+        
+        if (existingInstructor != null) {
+            throw new JoinCourseException(
+                    String.format(Const.StatusMessages.JOIN_COURSE_GOOGLE_ID_BELONGS_TO_DIFFERENT_USER,
+                                  googleId));
+        }
+        
+    }
+
+
+    private void confirmNotAlreadyJoinedAsInstructor(InstructorAttributes instructorForKey, String googleId) throws JoinCourseException {
+        if(instructorForKey.googleId ==null 
+                || !instructorForKey.googleId.equals(googleId)){
+            return;
+        }
+        AccountAttributes existingAccount = accountsDb.getAccount(googleId);
+        if (existingAccount != null && existingAccount.isInstructor){
+            throw new JoinCourseException(Const.StatusCodes.ALREADY_JOINED,
+                                               googleId + " has already joined this course");
+        }
+        
+    }
+
+
+    private void confirmValidKey(String encryptedKey) throws JoinCourseException{
+        InstructorAttributes instructorForKey = InstructorsLogic.inst().getInstructorForRegistrationKey(encryptedKey);
+        
         if (instructorForKey == null) {
             String joinUrl = Const.ActionURIs.INSTRUCTOR_COURSE_JOIN + "?regkey=" + encryptedKey;
             throw new JoinCourseException(Const.StatusCodes.INVALID_KEY,
                     "You have used an invalid join link: " + joinUrl);
             
-        } 
-        
-      //Invalid request: the logged in user has registered in the same course so this key belongs to another user who has not registered yet
-        if (!instructorForKey.isRegistered()){
-            InstructorAttributes existingInstructor = InstructorsLogic.inst()
-                    .getInstructorForGoogleId(instructorForKey.courseId, googleId);
-            
-            if (existingInstructor != null) {
-                throw new JoinCourseException(
-                        String.format(Const.StatusMessages.JOIN_COURSE_GOOGLE_ID_BELONGS_TO_DIFFERENT_USER,
-                                      googleId));
-            }
         }
-        
-        
-      //Invalid request: Key doesn't belong to logged in user
-        if (instructorForKey.isRegistered() 
-                && !instructorForKey.googleId.equals(googleId)) {
+    }
+    
+    private void confirmUnusedKey(InstructorAttributes instructorForKey, String googleId) throws JoinCourseException{
+        if(instructorForKey.googleId==null){
+            return;
+        }
+        if (!instructorForKey.googleId.equals(googleId)) {
             throw new JoinCourseException(Const.StatusCodes.KEY_BELONGS_TO_DIFFERENT_USER,
                                           String.format(Const.StatusMessages.JOIN_COURSE_KEY_BELONGS_TO_DIFFERENT_USER,
                                                         truncateGoogleId(instructorForKey.googleId)));
         }
-        
-        
-        //Invalid request:current user has registered as this instructor and account has been created successfully
-        AccountAttributes existingAccount = accountsDb.getAccount(googleId);
-        if (instructorForKey.isRegistered() 
-                && existingAccount != null 
-                && existingAccount.isInstructor){
-            throw new JoinCourseException(Const.StatusCodes.ALREADY_JOINED,
-                                               googleId + " has already joined this course");
-        }
-            
-        
     }
     
+
+
     private void verifyStudentJoinCourseRequest(String encryptedKey, String googleId)
             throws JoinCourseException {
         
