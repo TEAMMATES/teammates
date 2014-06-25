@@ -1,7 +1,6 @@
 package teammates.common.datatransfer;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -96,8 +95,9 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
     @Override
     public String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
-            FeedbackSessionResultsBundle bundle) {
-        if(responses.size() == 0){
+            FeedbackSessionResultsBundle bundle,
+            String view) {
+        if(responses.size() == 0 || !view.equals("question")){//only question view has stats.
             return "";
         }
         
