@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import javax.mail.Address;
@@ -58,7 +59,8 @@ public class Emails {
         EVAL_OPENING,
         FEEDBACK_CLOSING,
         FEEDBACK_OPENING,
-        FEEDBACK_PUBLISHED
+        FEEDBACK_PUBLISHED,
+        PENDING_COMMENT_CLEARED
     };
     
     private String senderEmail;
@@ -109,6 +111,19 @@ public class Emails {
         taskQueueLogic.createAndAddTask(SystemParams.EMAIL_TASK_QUEUE,
                 Const.ActionURIs.EMAIL_WORKER, paramMap);
     }
+    
+    public void addCommentReminderToEmailsQueue(String courseId,
+            EmailType typeOfEmail) {
+        
+        HashMap<String, String> paramMap = new HashMap<String, String>();
+        paramMap.put(ParamsNames.COURSE_ID, courseId);
+        paramMap.put(ParamsNames.EMAIL_TYPE, typeOfEmail.toString());
+        
+        TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
+        taskQueueLogic.createAndAddTask(SystemParams.EMAIL_TASK_QUEUE,
+                Const.ActionURIs.EMAIL_WORKER, paramMap);
+    }
+    
     public List<MimeMessage> generateEvaluationOpeningEmails(
             CourseAttributes course,
             EvaluationAttributes evaluation, 
@@ -472,6 +487,11 @@ public class Emails {
                     "text/html");
         }
         return emails;
+    }
+    
+    public List<MimeMessage> generatePendingCommentsClearedEmails(Set<String> recipients){
+        //TODO: impl this
+        return null;
     }
     
     public List<MimeMessage> generateFeedbackSessionPublishedEmails(

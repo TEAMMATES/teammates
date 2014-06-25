@@ -2015,17 +2015,6 @@ public class Logic {
         return commentsLogic.getCommentsForReceiver(courseId, recipientType, receiver);
     }
     
-    /**
-     * Currently receiver is limited to students only
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * @throws EntityDoesNotExistException 
-     */
-    public void sendEmailForPendingComments(String courseId) throws EntityDoesNotExistException {
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        commentsLogic.sendEmailForPendingComments(courseId);
-    }
-    
     @SuppressWarnings("unused")
     private void ____MISC_methods__________________________________________() {
     }

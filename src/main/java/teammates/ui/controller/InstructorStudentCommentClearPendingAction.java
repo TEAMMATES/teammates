@@ -4,6 +4,8 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
+import teammates.logic.core.Emails;
+import teammates.logic.core.Emails.EmailType;
 
 public class InstructorStudentCommentClearPendingAction extends Action {
 
@@ -16,10 +18,8 @@ public class InstructorStudentCommentClearPendingAction extends Action {
                 logic.getInstructorForGoogleId(courseId, account.googleId),
                 logic.getCourse(courseId));
         
-        logic.sendEmailForPendingComments(courseId);
-        
-        logic.clearPendingComments(courseId);
-        logic.clearPendingFeedbackResponseComments(courseId);
+        Emails emails = new Emails();
+        emails.addCommentReminderToEmailsQueue(courseId, EmailType.PENDING_COMMENT_CLEARED);
         
         statusToUser.add(Const.StatusMessages.COMMENT_CLEARED);
         statusToAdmin = account.googleId + " cleared pending comments for course " + courseId;
