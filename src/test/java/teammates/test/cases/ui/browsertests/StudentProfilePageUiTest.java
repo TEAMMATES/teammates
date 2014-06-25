@@ -9,6 +9,8 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentProfileAttributes;
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Url;
@@ -137,19 +139,60 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
     }
     
     private void testAjaxPictureUrl() throws Exception {
+        
+        String studentId = "studentWithExistingProfile";
+        String instructorId = "SHomeUiT.instr";
+        
         String studentGoogleId = testData.accounts.get("studentWithExistingProfile").googleId;
         String currentPictureKey = BackDoor.getStudentProfile(studentGoogleId).pictureKey;
+        String email = testData.students.get("studentWithExistingProfile").email;        
+        String courseId = testData.students.get("studentWithExistingProfile").course;
         
-        ______TS("typical success case");
+        email = StringHelper.encrypt(email);
+        courseId = StringHelper.encrypt(courseId);
+        String invalidEmail = StringHelper.encrypt("random-EmAIl");
+        String invalidCourse = StringHelper.encrypt("random-CouRsE");
         
-        getProfilePicturePage("studentWithExistingProfile", currentPictureKey)
+        
+        ______TS("success case, with blob-key");
+        
+        getProfilePicturePage(studentId, currentPictureKey)
             .verifyHasPicture();
         
-        ______TS("typical failure case");
+        ______TS("failure case, blob-key");
         
-        getProfilePicturePage("studentWithExistingProfile", "random-StRing123")
-            .verifyIsErrorPage();
+        String expectedFilename = "/studentProfilePictureNotFound.html";
+        getProfilePicturePage(studentId, "random-StRing123")
+            .verifyIsErrorPage(expectedFilename);
         
+        ______TS("success case, with email and course");
+        
+        getProfilePicturePage(instructorId, email, courseId)
+            .verifyHasPicture();
+        
+        ______TS("failure case: course that the instructor does not belong in");
+        
+        expectedFilename = "/studentProfilePictureUnauthorized.html";
+        getProfilePicturePage(instructorId, email, invalidCourse)
+            .verifyIsErrorPage(expectedFilename);
+        
+        ______TS("failure case: non-existent student");
+        
+        expectedFilename = "/studentProfilePictureStudentDoesNotExist.html";
+        
+        getProfilePicturePage(instructorId, invalidEmail, courseId)
+            .verifyIsErrorPage(expectedFilename);
+        
+    }
+
+    private StudentProfilePicturePage getProfilePicturePage(String instructorId,
+            String email, String courseId) {
+        Url profileUrl = createUrl(Const.ActionURIs.STUDENT_PROFILE_PICTURE)
+                .withUserId(testData.accounts.get(instructorId).googleId)
+                .withParam(Const.ParamsNames.STUDENT_EMAIL, email)
+                .withParam(Const.ParamsNames.COURSE_ID, courseId);
+        
+        return loginAdminToPage(browser, profileUrl, StudentProfilePicturePage.class);
     }
 
     private StudentProfilePicturePage getProfilePicturePage(String studentId,

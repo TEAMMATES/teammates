@@ -405,6 +405,15 @@ Apply to thead to make headers not bold.
     height: 130px;
 }
 
+/* used on the div/td that contains the img */
+.profile-pic-icon {
+        text-align: center;
+    }
+        .profile-pic-icon > img {
+            width: 40px;
+            height: 40px;
+        }
+
 .unsorted {
     background: url(../images/sortSideButton.png);
 }
