@@ -601,15 +601,21 @@ public abstract class AppPage {
         return getPageSource()
                 .replace("<#comment[ ]*</#comment>", "<!---->")
                 .replace("V4.18", "{$version}")
+                // photo from instructor
                 .replaceAll("studentemail=([a-zA-Z0-9]+)\\&courseid=([a-zA-Z0-9]+)\\\"", 
                             "studentemail={*}&courseid={*}")
+                //questionid
                 .replaceAll("([a-zA-Z0-9-_]){63}","{*}")
+                //commentid
+                .replaceAll("\"([0-9]){16}\"", "{*}")
+                // the test accounts/ email
                 .replace(TestProperties.inst().TEST_STUDENT1_ACCOUNT, "{$test.student1}")
                 .replace(TestProperties.inst().TEST_STUDENT2_ACCOUNT, "{$test.student2}")
                 .replace(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, "{$test.instructor}")
                 .replace(TestProperties.inst().TEST_ADMIN_ACCOUNT, "{$test.admin}")
                 .replace(TestProperties.inst().TEST_UNREG_ACCOUNT, "{$test.unreg}")
                 .replace(Config.SUPPORT_EMAIL, "{$support.email}")
+                // today's date
                 .replace("\""+ new SimpleDateFormat("DD/MM/YYYY").format(new Date()) + "\"", "{*}");
     }
 
