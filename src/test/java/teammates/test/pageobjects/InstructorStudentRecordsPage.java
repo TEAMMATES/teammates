@@ -24,7 +24,8 @@ public class InstructorStudentRecordsPage extends AppPage {
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return getPageSource().contains("'s Records</h1>");
+        String source = getPageSource();
+        return source.contains("'s Records") && source.contains("<small class=\"muted\"> - ");
     }
     
     public void verifyBelongsToStudent(String name) {

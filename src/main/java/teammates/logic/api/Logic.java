@@ -10,8 +10,10 @@ import javax.mail.internet.MimeMessage;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
+import teammates.common.datatransfer.CommentRecipientType;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
+import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.CourseSummaryBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.EvaluationDetailsBundle;
@@ -25,7 +27,10 @@ import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.SectionDetailsBundle;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.datatransfer.StudentResultBundle;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.datatransfer.TeamDetailsBundle;
@@ -52,6 +57,8 @@ import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.logic.core.SubmissionsLogic;
 
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.blobstore.BlobstoreFailureException;
 import com.google.appengine.api.datastore.Text;
 
 /**
@@ -133,7 +140,7 @@ public class Logic {
      * 
      */
     public void createAccount(String googleId, String name, boolean isInstructor,
-                                String email, String institute) throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+                                String email, String institute, StudentProfileAttributes studentProfile) throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, name);
@@ -141,7 +148,11 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, institute);
         
-        AccountAttributes accountToAdd = new AccountAttributes(googleId, name, isInstructor, email, institute);
+        if (studentProfile == null) {
+            studentProfile = new StudentProfileAttributes();
+            studentProfile.googleId = googleId;
+        }
+        AccountAttributes accountToAdd = new AccountAttributes(googleId, name, isInstructor, email, institute, studentProfile);
         
         accountsLogic.createAccount(accountToAdd);
     }
@@ -149,12 +160,27 @@ public class Logic {
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
+     * This is just for legacy code that creates an Account without the profile parameter
+     */
+    public void createAccount(String googleId, String name, boolean isInstructor,
+                                String email, String institute) throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+
+        createAccount(googleId, name, isInstructor, email, institute, null);
+    }
+    
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
      */
     public AccountAttributes getAccount(String googleId) {
+        return accountsLogic.getAccount(googleId, false);
+    }
+    
+    public AccountAttributes getAccount(String googleId, boolean retrieveStudentProfile) {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
         
-        return accountsLogic.getAccount(googleId);
+        return accountsLogic.getAccount(googleId, retrieveStudentProfile);
     }
     
     /**
@@ -184,6 +210,19 @@ public class Logic {
     }
     
     /**
+     * Preconditions: <br>
+     * * All parameters are non-null.<br>
+     * * {@code newAccountAttributes} represents an existing account.
+     */
+    public void updateStudentProfile(StudentProfileAttributes newStudentProfileAttributes) 
+            throws InvalidParametersException, EntityDoesNotExistException {
+        
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, newStudentProfileAttributes);
+        
+        accountsLogic.updateStudentProfile(newStudentProfileAttributes);
+    }
+    
+    /**
      * Deletes both instructor and student privileges.
      * Does not delete courses. Can result in orphan courses 
      * (to be rectified in future).
@@ -197,6 +236,12 @@ public class Logic {
         
         accountsLogic.deleteAccountCascade(googleId);
     }
+    
+    public void deleteProfilePicture(BlobKey key) throws BlobstoreFailureException {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, key);
+        
+        accountsLogic.deleteProfilePicture(key);
+    }
 
     @SuppressWarnings("unused")
     private void ____INSTRUCTOR_level_methods____________________________________() {
@@ -208,6 +253,7 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
+    @Deprecated
     public void createInstructorAccount(String googleId, String courseId, String name, String email, String institute)
             throws EntityAlreadyExistsException, InvalidParametersException {
         
@@ -225,6 +271,7 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
+    @Deprecated
     public void createInstructor(String googleId, String courseId, String name, String email) 
             throws InvalidParametersException, EntityAlreadyExistsException {
         
@@ -241,14 +288,21 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public void addInstructor(String courseId, String name, String email) 
+    @Deprecated
+    public void addInstructor(String courseId, String name, String email, String role) 
             throws InvalidParametersException, EntityAlreadyExistsException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, name);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
+        
+        InstructorAttributes instructor = new InstructorAttributes(null, courseId, name, email, role, role, new InstructorPrivileges(role));
 
-        instructorsLogic.addInstructor(courseId, name, email);
+        instructorsLogic.createInstructor(instructor);
+    }
+    
+    public void createInstructor(InstructorAttributes instructor) throws InvalidParametersException, EntityAlreadyExistsException {
+        instructorsLogic.createInstructor(instructor);
     }
 
     /**
@@ -416,24 +470,6 @@ public class Logic {
     }
     
     /**
-     * Update the Google ID and name of an instructor with the specific email.
-     * Preconditions: <br>
-     * * All parameters are non-null. 
-     * @param email
-     * @param instr InstructorAttributes object containing the details to be updated
-     * @throws InvalidParametersException
-     * @throws EntityDoesNotExistException
-     */
-    public void updateInstructorByEmail(String email, InstructorAttributes instr) 
-            throws InvalidParametersException, EntityDoesNotExistException {
-        
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, instr);
-        
-        instructorsLogic.updateInstructorByEmail(email, instr);
-    }
-    
-    /**
      * Make the instructor join the course, i.e. associate the Google ID to the instructor.<br>
      * Create an account for the instructor if there is no account exist for him.
      * Preconditions: <br>
@@ -577,7 +613,7 @@ public class Logic {
      * * All parameters are non-null.
      */
     public List<CourseAttributes> getCoursesForStudentAccount(String googleId)
-            throws EntityDoesNotExistException, InvalidParametersException {
+            throws EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
     
@@ -653,6 +689,21 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
     
         return coursesLogic.getCourseDetailsListForStudent(googleId);
+    
+    }
+    
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     * 
+     * @return Courses the instructor is in.
+     */
+    public List<CourseAttributes> getCoursesForInstructor(String googleId)
+            throws EntityDoesNotExistException {
+        
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
+    
+        return coursesLogic.getCoursesForInstructor(googleId);
     
     }
     
@@ -748,6 +799,18 @@ public class Logic {
     
         return studentsLogic.getStudentForCourseIdAndGoogleId(courseId, googleId);
     }
+    
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     * 
+     * @return Null if no match found.
+     */
+    public StudentProfileAttributes getStudentProfile(String googleId) {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
+        
+        return accountsLogic.getStudentProfile(googleId);
+    }
 
     /**
      * Preconditions: <br>
@@ -774,6 +837,71 @@ public class Logic {
     
         return studentsLogic.getStudentsForCourse(courseId);
     
+    }
+
+     /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     * @return Empty list if none found.
+     */
+    public List<StudentAttributes> getStudentsForSection(String section, String courseId)
+            throws EntityDoesNotExistException {
+
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, section);
+
+        return studentsLogic.getStudentsForSection(section, courseId);
+    }
+    
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     * @return Empty list if none found.
+     */
+    public List<StudentAttributes> getStudentsForTeam(String team, String courseId)
+            throws EntityDoesNotExistException {
+
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, team);
+
+        return studentsLogic.getStudentsForTeam(team, courseId);
+    }
+
+    /** 
+     * Preconditions: <br>
+     * * All parameters are non-null    
+     */
+    public List<String> getSectionsNameForCourse(String courseId)
+            throws EntityDoesNotExistException {
+
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+
+        return coursesLogic.getSectionsNameForCourse(courseId);
+    }
+
+    /** 
+     * Preconditions: <br>
+     * * All parameters are non-null    
+     */
+    public SectionDetailsBundle getSectionForCourse(String section, String courseId)
+            throws EntityDoesNotExistException {
+
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, section);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        
+        return coursesLogic.getSectionForCourse(section, courseId);
+    }
+
+    /** 
+     * Preconditions: <br>
+     * * All parameters are non-null    
+     */
+    public List<SectionDetailsBundle> getSectionsForCourse(String courseId)
+            throws EntityDoesNotExistException {
+
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+
+        return coursesLogic.getSectionsForCourse(courseId);
     }
 
     /**
@@ -828,7 +956,7 @@ public class Logic {
      * * All parameters are non-null.
      */
     public void updateStudent(String originalEmail, StudentAttributes student)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws InvalidParametersException, EntityDoesNotExistException, EnrollException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, originalEmail);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, student);
@@ -947,6 +1075,32 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, studentEmail);
 
         studentsLogic.deleteStudentCascade(courseId, studentEmail);
+    }
+
+    /**
+     *  Checks if a course has sections for each team 
+     *  Preconditions: <br>
+     *  * All parameters are non-null.
+     */
+    public boolean hasIndicatedSections(String courseId) throws EntityDoesNotExistException {
+
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+
+        return coursesLogic.hasIndicatedSections(courseId);
+    }
+
+    /**
+     * Validate if the list of modified students will not create conflicts for the sections
+     * in a course 
+     * Preconditions: <br>
+     * * All parameters are non-null
+     */
+    public void validateSections(List<StudentAttributes> studentList, String courseId) throws EntityDoesNotExistException, EnrollException {
+
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, studentList);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+
+        studentsLogic.validateSections(studentList, courseId);
     }
 
     @SuppressWarnings("unused")
@@ -1282,6 +1436,17 @@ public class Logic {
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
+     */
+    public List<FeedbackSessionAttributes> getFeedbackSessionsForCourse(String courseId) {
+        
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        
+        return feedbackSessionsLogic.getFeedbackSessionsForCourse(courseId);
+    }
+    
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
      * @throws EntityDoesNotExistException 
      */
     public FeedbackSessionDetailsBundle getFeedbackSessionDetails(String feedbackSessionName, String courseId) 
@@ -1598,7 +1763,8 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
         
-        return feedbackSessionsLogic.getFeedbackSessionResultsForStudent(feedbackSessionName, courseId, userEmail);
+        return feedbackSessionsLogic.getFeedbackSessionResultsForStudent(
+                                        feedbackSessionName, courseId, userEmail);
     }
     
     /**
@@ -1614,11 +1780,62 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
         
-        return feedbackSessionsLogic.getFeedbackSessionResultsForInstructor(feedbackSessionName, courseId, userEmail);
+        return feedbackSessionsLogic.getFeedbackSessionResultsForInstructor(
+                                        feedbackSessionName, courseId, userEmail);
     }
     
+    /**
+     * Gets a question+response bundle for questions with responses that
+     * is visible to the instructor for a feedback session of a roster.
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     */
+    public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructor(
+            String feedbackSessionName, String courseId, String userEmail, CourseRoster roster, Boolean isIncludeResponseStatus)
+                    throws UnauthorizedAccessException, EntityDoesNotExistException {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
+
+        return feedbackSessionsLogic.getFeedbackSessionResultsForInstructor(feedbackSessionName, courseId, userEmail, roster, isIncludeResponseStatus);
+    }
+    /**
+     * Gets a question+response bundle for questions with responses that
+     * is visible to the instructor for a feedback session in a specific section.
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     */
+    public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorInSection(
+            String feedbackSessionName, String courseId, String userEmail, String section)
+                    throws UnauthorizedAccessException, EntityDoesNotExistException {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, section);
+
+        return feedbackSessionsLogic.getFeedbackSessionResultsForInstructorInSection(
+                                        feedbackSessionName, courseId, userEmail, section);
+    }
+
     @SuppressWarnings("unused")
     private void ____FEEDBACK_RESPONSE_level_methods_____________________________() {
+    }
+    
+    public FeedbackResponseAttributes getFeedbackResponse(String feedbackResponseId) {
+        
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackResponseId);
+        
+        return feedbackResponsesLogic.getFeedbackResponse(feedbackResponseId);
+    }
+    
+    public FeedbackResponseAttributes getFeedbackResponse(
+            String feedbackQuestionId, String giverEmail, String recipient) {
+        
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackQuestionId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, giverEmail);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, recipient);
+     
+        return feedbackResponsesLogic.getFeedbackResponse(feedbackQuestionId, giverEmail, recipient);
     }
     
     /**
@@ -1754,32 +1971,51 @@ public class Logic {
     }
     
     /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     * @return a list of comments from the giver.
+     * @throws EntityDoesNotExistException
+     */
+    public List<CommentAttributes> getCommentsForStudent(StudentAttributes student) throws EntityDoesNotExistException{
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, student);
+        return commentsLogic.getCommentsForStudent(student);
+    }
+    
+    /**
+     * Currently giver is limited to instructors only
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     * @return a list of comments from the giver that have the specified comment status.
+     * @throws EntityDoesNotExistException
+     */
+    public List<CommentAttributes> getCommentsForInstructor(InstructorAttributes instructor) throws EntityDoesNotExistException{
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructor);
+        return commentsLogic.getCommentsForInstructor(instructor);
+    }
+    
+    /**
+     * Currently giver is limited to instructors only
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     * @return a list of comments from the giver that are drafts.
+     * @throws EntityDoesNotExistException
+     */
+    public List<CommentAttributes> getCommentDrafts(String giverEmail) throws EntityDoesNotExistException{
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, giverEmail);
+        return commentsLogic.getCommentDrafts(giverEmail);
+    }
+    
+    /**
      * Currently receiver is limited to students only
      * Preconditions: <br>
      * * All parameters are non-null.
      * @return a list of comments for the receiver.
      * @throws EntityDoesNotExistException
      */
-    public List<CommentAttributes> getCommentsForReceiver(String courseId, String receiverEmail) throws EntityDoesNotExistException{
+    public List<CommentAttributes> getCommentsForReceiver(String courseId, CommentRecipientType recipientType, String receiver) throws EntityDoesNotExistException{
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, receiverEmail);
-        return commentsLogic.getCommentsForReceiver(courseId, receiverEmail);
-    }
-    
-    /**
-     * Giver = instructors, Receiver = student
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * @return a list of comments from the giver to receiver
-     * @throws EntityDoesNotExistException
-     */
-    public List<CommentAttributes> getCommentsForGiverAndReceiver(
-            String courseId, String giverEmail, String receiverEmail)
-            throws EntityDoesNotExistException {
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, giverEmail);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, receiverEmail);
-        return commentsLogic.getCommentsForGiverAndReceiver(courseId, giverEmail, receiverEmail);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, receiver);
+        return commentsLogic.getCommentsForReceiver(courseId, recipientType, receiver);
     }
     
     @SuppressWarnings("unused")

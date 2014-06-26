@@ -38,6 +38,10 @@ var FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE = "numofrecipientstype";
 var FEEDBACK_QUESTION_TYPE ="questiontype";
 var FEEDBACK_QUESTION_MCQCHOICE = "mcqOption";
 var FEEDBACK_QUESTION_MSQCHOICE = "msqOption";
+var FEEDBACK_QUESTION_CONSTSUMOPTION = "constSumOption";
+var FEEDBACK_QUESTION_CONSTSUMOPTIONTABLE = "constSumOptionTable";
+var FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS = "constSumToRecipients";
+var FEEDBACK_QUESTION_CONSTSUMPOINTS = "constSumPoints";
 var FEEDBACK_QUESTION_NUMBEROFCHOICECREATED ="noofchoicecreated";
 var FEEDBACK_QUESTION_NUMSCALE_MIN = "numscalemin";
 var FEEDBACK_QUESTION_NUMSCALE_MAX = "numscalemax";
@@ -54,8 +58,11 @@ var FEEDBACK_QUESTION_TYPENAME_TEXT = "Essay question";
 var FEEDBACK_QUESTION_TYPENAME_MCQ = "Multiple-choice (single answer)";
 var FEEDBACK_QUESTION_TYPENAME_MSQ = "Multiple-choice (multiple answers)";
 var FEEDBACK_QUESTION_TYPENAME_NUMSCALE = "Numerical-scale question";
+var FEEDBACK_QUESTION_TYPENAME_CONSTSUM_OPTION = "Distribute points (among options) question";
+var FEEDBACK_QUESTION_TYPENAME_CONSTSUM_RECIPIENT = "Distribute points (among recipients) question";
 
 // used in feedbackResponseComments.js
+var FEEDBACK_RESPONSE_ID = "responseid";
 var FEEDBACK_RESPONSE_COMMENT_ID = "responsecommentid";
 var FEEDBACK_RESPONSE_COMMENT_TEXT = "responsecommenttext";
 
@@ -120,21 +127,25 @@ var INSTITUTION_MAX_LENGTH = 64;
  *            The sort button
  * @param colIdx
  *            The column index (1-based) as key for the sort
+ * @param row
+ *            Row to start sorting from.
+ *            The column index (0-based) e.g. use 2 if <th> has 2 rows so that the headers are not sorted.
  */
-function toggleSort(divElement, colIdx, comparator) {
+function toggleSort(divElement, colIdx, comparator, row) {
+    row = row || 1;
     if ($(divElement).attr("class") == "button-sort-none") {
-        sortTable(divElement, colIdx, comparator, true);
+        sortTable(divElement, colIdx, comparator, true, row);
         $(divElement).parent().find(".button-sort-ascending").attr("class", "button-sort-none");
         $(divElement).parent().find(".button-sort-descending").attr("class", "button-sort-none");
         $(divElement).parent().find(".icon-sort").attr("class", "icon-sort unsorted");
         $(divElement).attr("class", "button-sort-ascending");
         $(divElement).find(".icon-sort").attr("class", "icon-sort sorted-ascending");
     } else if ($(divElement).attr("class") == "button-sort-ascending") {
-        sortTable(divElement, colIdx, comparator, false);
+        sortTable(divElement, colIdx, comparator, false, row);
         $(divElement).attr("class", "button-sort-descending");
         $(divElement).find(".icon-sort").attr("class", "icon-sort sorted-descending");
     } else {
-        sortTable(divElement, colIdx, comparator, true);
+        sortTable(divElement, colIdx, comparator, true, row);
         $(divElement).attr("class", "button-sort-ascending");
         $(divElement).find(".icon-sort").attr("class", "icon-sort sorted-ascending");
     }
@@ -152,7 +163,7 @@ function toggleSort(divElement, colIdx, comparator) {
  * @param ascending
  * 			  if this is true, it will be ascending order, else it will be descending order
  */
-function sortTable(oneOfTableCell, colIdx, comparator, ascending) {
+function sortTable(oneOfTableCell, colIdx, comparator, ascending, row) {
     //Get the table
     var table = $(oneOfTableCell);
     if (!table.is("table")){
@@ -163,7 +174,10 @@ function sortTable(oneOfTableCell, colIdx, comparator, ascending) {
     var store = [];
     var RowList = $("tr", table);
     //Iterate through column's contents to decide which comparator to use
-    for (var i = 1; i < RowList.length; i++) {
+    for (var i = row; i < RowList.length; i++) {
+        if(RowList[i].cells[colIdx-1] == undefined || RowList[i].cells[colIdx-1] == null){
+            continue;
+        }
         var innerText = RowList[i].cells[colIdx-1].innerHTML;
         
         //Store rows together with the innerText to compare
@@ -520,7 +534,7 @@ function isInstitutionValid(institution) {
  * [Source: http://stackoverflow.com/questions/995183/how-to-allow-only-numeric-0-9-in-html-inputbox-using-jquery]
  */
 function disallowNonNumericEntries(element, decimalPointAllowed, negativeAllowed) {
-    element.keydown(function(event){
+    element.on('keydown', function(event){
         var key = event.which;
         // Allow: backspace, delete, tab, escape, and enter
         if ( key == 46 || key == 8 || key == 9 || key == 27 || key == 13 || 

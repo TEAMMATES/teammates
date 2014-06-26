@@ -100,12 +100,11 @@
             for (FeedbackResponseAttributes existingResponse : existingResponses) {
         %>
                 <br />
-                <div class="form-group">
+                <div class="form-group margin-0">
                     <div class="col-sm-2 form-inline" <%=(question.isRecipientNameHidden()) ? "style=\"display:none\"" : "style=\"text-align:right;\""%>>
                         <label for="input">To: </label>
-                        <select class="participantSelect middlealign form-control" style="max-width:125px"
-                            name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"
-                            <%=(numOfResponseBoxes == maxResponsesPossible) ? "style=\"display:none\"" : ""%>
+                        <select class="participantSelect middlealign form-control" name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"
+                            <%=(numOfResponseBoxes == maxResponsesPossible) ? "style=\"display:none;max-width:125px\"" : "style=\"max-width:125px\""%>
                             <%=data.isSessionOpenForSubmission ? "" : "disabled=\"disabled\""%>>
                         <%
                             for(String opt: data.getRecipientOptionsForQuestion(question.getId(), existingResponse.recipientEmail)){
@@ -128,12 +127,11 @@
                         while (responseIndx < numOfResponseBoxes) {
         %>
                 <br />
-                <div class="form-group">
+                <div class="form-group margin-0">
                     <div class="col-sm-2 form-inline" <%=(question.isRecipientNameHidden()) ? "style=\"display:none\"" : "style=\"text-align:right\""%>>
                         <label for="input">To:</label>
-                        <select class="participantSelect middlealign newResponse form-control" style="max-width:125px"
-                            name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"
-                            <%=(numOfResponseBoxes == maxResponsesPossible) ? "style=\"display:none\"" : ""%>
+                        <select class="participantSelect middlealign newResponse form-control" name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"
+                            <%=(numOfResponseBoxes == maxResponsesPossible) ? "style=\"display:none;max-width:125px\"" : "style=\"max-width:125px\""%>
                             <%=data.isSessionOpenForSubmission ? "" : "disabled=\"disabled\""%>>
                         <%
                             for(String opt: data.getRecipientOptionsForQuestion(question.getId(), null)) {

@@ -1,8 +1,10 @@
 package teammates.test.cases.logic;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNull;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNull;
+import static org.testng.Assert.assertTrue;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.mail.internet.MimeMessage;
@@ -14,9 +16,11 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.InstructorsLogic;
@@ -50,17 +54,23 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         
         ______TS("success: add an instructor");
         
-        InstructorAttributes instr = new InstructorAttributes(
-                null, "test-course", "New Instructor", "ILT.instr@email.com");
+        String googleId = null;
+        String courseId = "test-course";
+        String name = "New Instructor";
+        String email = "ILT.instr@email.com";
+        String role = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+        String displayedName = InstructorAttributes.DEFAULT_DISPLAY_NAME;
+        InstructorPrivileges privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);      
+        InstructorAttributes instr = new InstructorAttributes(googleId, courseId, name, email, role, displayedName, privileges);
         
-        instructorsLogic.addInstructor(instr.courseId, instr.name, instr.email);
+        instructorsLogic.createInstructor(null, instr.courseId, instr.name, instr.email);
         
         TestHelper.verifyPresentInDatastore(instr);
         
         ______TS("failure: instructor already exists");
         
         try {
-            instructorsLogic.addInstructor(instr.courseId, instr.name, instr.email);
+            instructorsLogic.createInstructor(null, instr.courseId, instr.name, instr.email);
             signalFailureToDetectException();
         } catch (EntityAlreadyExistsException e) {
             AssertHelper.assertContains("Trying to create a Instructor that exists", e.getMessage());
@@ -71,7 +81,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         instr.email = "invalidEmail.com";
         
         try {
-            instructorsLogic.addInstructor(instr.courseId, instr.name, instr.email);
+            instructorsLogic.createInstructor(null, instr.courseId, instr.name, instr.email);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains("\""+instr.email+"\" is not acceptable to TEAMMATES as an email",
@@ -81,21 +91,21 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         ______TS("failure: null parameters");
         
         try {
-            instructorsLogic.addInstructor(null, instr.name, instr.email);
+            instructorsLogic.createInstructor(null, null, instr.name, instr.email);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains("Non-null value expected", e.getMessage());
         }
         
         try {
-            instructorsLogic.addInstructor(instr.courseId, null, instr.email);
+            instructorsLogic.createInstructor(null, instr.courseId, null, instr.email);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains("Non-null value expected", e.getMessage());
         }
         
         try {
-            instructorsLogic.addInstructor(instr.courseId, instr.name, null);
+            instructorsLogic.createInstructor(null, instr.courseId, instr.name, null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains("Non-null value expected", e.getMessage());
@@ -215,15 +225,22 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         String courseId = "idOfTypicalCourse1";
         
         List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(courseId);
-        assertEquals(3, instructors.size());
+        assertEquals(4, instructors.size());
         
-        InstructorAttributes instructor1 = instructorsDb.getInstructorForGoogleId(courseId, "idOfInstructor1OfCourse1");
-        InstructorAttributes instructor2 = instructorsDb.getInstructorForGoogleId(courseId, "idOfInstructor2OfCourse1");
-        InstructorAttributes instructor3 = instructorsDb.getInstructorForGoogleId(courseId, "idOfInstructor3");
+        HashMap<String, Boolean> idMap = new HashMap<String, Boolean>();
+        idMap.put("idOfInstructor1OfCourse1", false);
+        idMap.put("idOfInstructor2OfCourse1", false);
+        idMap.put("idOfInstructor3", false);
         
-        verifySameInstructor(instructor1, instructors.get(0));
-        verifySameInstructor(instructor2, instructors.get(1));
-        verifySameInstructor(instructor3, instructors.get(2));
+        for (InstructorAttributes i : instructors) {
+            if (idMap.containsKey(i.googleId)) {
+                idMap.put(i.googleId, true);
+            }
+        }
+        
+        assertTrue(idMap.get("idOfInstructor1OfCourse1").booleanValue());
+        assertTrue(idMap.get("idOfInstructor2OfCourse1").booleanValue());
+        assertTrue(idMap.get("idOfInstructor3").booleanValue());
         
         ______TS("failure: no instructors for a given course");
         

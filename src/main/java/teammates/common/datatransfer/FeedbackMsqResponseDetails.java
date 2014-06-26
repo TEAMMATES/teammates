@@ -28,9 +28,13 @@ public class FeedbackMsqResponseDetails extends FeedbackAbstractResponseDetails 
     public String getAnswerString() {
         return StringHelper.toString(answers, ", ");
     }
+    
+    public List<String> getAnswerStrings() {
+        return answers;
+    }
 
     @Override
-    public String getAnswerHtml() {
+    public String getAnswerHtml(FeedbackAbstractQuestionDetails questionDetails) {
         StringBuilder htmlBuilder = new StringBuilder();
         
         htmlBuilder.append("<ul class=\"selectedOptionsList\">");

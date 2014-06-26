@@ -14,7 +14,7 @@ public class InstructorEvalDeleteAction extends InstructorEvalsPageAction {
         
         new GateKeeper().verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, account.googleId), 
-                logic.getEvaluation(courseId, evalName));
+                logic.getEvaluation(courseId, evalName), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         
         logic.deleteEvaluation(courseId,evalName);
         statusToUser.add(Const.StatusMessages.EVALUATION_DELETED);

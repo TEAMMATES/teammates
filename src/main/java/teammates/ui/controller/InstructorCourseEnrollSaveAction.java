@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -25,18 +26,20 @@ public class InstructorCourseEnrollSaveAction extends Action {
         String studentsInfo = getRequestParamValue(Const.ParamsNames.STUDENTS_ENROLLMENT_INFO);
         Assumption.assertPostParamNotNull(Const.ParamsNames.STUDENTS_ENROLLMENT_INFO, studentsInfo);
         
+        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         new GateKeeper().verifyAccessible(
-                logic.getInstructorForGoogleId(courseId, account.googleId), 
-                logic.getCourse(courseId));
+                instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
         
         /* Process enrollment list and setup data for page result */
         try {
             InstructorCourseEnrollResultPageData pageData = new InstructorCourseEnrollResultPageData(account);
             pageData.courseId = courseId;
             pageData.students = enrollAndProcessResultForDisplay(studentsInfo, courseId);
+            pageData.hasSection = hasSections(pageData.students);
+            pageData.enrollStudents = studentsInfo;
             statusToAdmin = "Students Enrolled in Course <span class=\"bold\">[" 
                     + courseId + "]:</span><br>" + (studentsInfo).replace("\n", "<br>");
-            
+
             return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL_RESULT, pageData);
             
         } catch (EnrollException | InvalidParametersException e) {
@@ -49,6 +52,17 @@ public class InstructorCourseEnrollSaveAction extends Action {
             
             return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, pageData);
         }
+    }
+
+    private boolean hasSections(List<StudentAttributes>[] students){
+        for(List<StudentAttributes> studentList: students){
+            for(StudentAttributes student : studentList){
+                if(!student.section.equals(Const.DEFAULT_SECTION)){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private List<StudentAttributes>[] enrollAndProcessResultForDisplay(String studentsInfo, String courseId)

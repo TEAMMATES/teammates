@@ -161,7 +161,7 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
         HashMap<String, String> paramMap = createParamMapForAction(session1);
         EmailAction fsOpeningAction = new FeedbackSessionOpeningMailAction(paramMap);
         int course1StudentCount = 5; 
-        int course1InstructorCount = 3;
+        int course1InstructorCount = 4;
         
         List<MimeMessage> preparedEmails = fsOpeningAction.getPreparedEmailsAndPerformSuccessOperations();
         assertEquals(course1StudentCount + course1InstructorCount, preparedEmails.size());

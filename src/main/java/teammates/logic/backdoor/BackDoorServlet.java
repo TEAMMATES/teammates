@@ -47,6 +47,7 @@ public class BackDoorServlet extends HttpServlet {
     public static final String OPERATION_GET_INSTRUCTOR_AS_JSON_BY_EMAIL = "OPERATION_GET_INSTRUCTOR_AS_JSON_BY_EMAIL";
     public static final String OPERATION_GET_COURSES_BY_INSTRUCTOR = "get_courses_by_instructor";
     public static final String OPERATION_GET_ACCOUNT_AS_JSON = "OPERATION_GET_ACCOUNT_AS_JSON";
+    public static final String OPERATION_GET_STUDENTPROFILE_AS_JSON = "OPERATION_GET_STUDENTPROFILE_AS_JSON";
     public static final String OPERATION_GET_COURSE_AS_JSON = "OPERATION_GET_COURSE_AS_JSON";
     public static final String OPERATION_GET_STUDENT_AS_JSON = "OPERATION_GET_STUDENT_AS_JSON";
     public static final String OPERATION_GET_EVALUATION_AS_JSON = "OPERATION_GET_EVALUATION_AS_JSON";
@@ -64,7 +65,10 @@ public class BackDoorServlet extends HttpServlet {
     public static final String OPERATION_GET_FEEDBACK_QUESTION_AS_JSON = "OPERATION_GET_FEEDBACK_QUESTION_AS_JSON";
     public static final String OPERATION_GET_FEEDBACK_QUESTION_FOR_ID_AS_JSON = "OPERATION_GET_FEEDBACK_QUESTION_FOR_ID_AS_JSON";
     public static final String OPERATION_GET_FEEDBACK_RESPONSE_AS_JSON = "OPERATION_GET_FEEDBACK_RESPONSE_AS_JSON";
+    public static final String OPERATION_IS_PICTURE_PRESENT_IN_GCS = "OPERATION_IS_PICTURE_PRESENT_IN_GCS";
+    
     public static final String OPERATION_PERSIST_DATABUNDLE = "OPERATION_PERSIST_DATABUNDLE";
+    public static final String OPERATION_REMOVE_DATABUNDLE = "OPERATION_REMOVE_DATABUNDLE";
     public static final String OPERATION_SYSTEM_ACTIVATE_AUTOMATED_REMINDER = "activate_auto_reminder";
     
     public static final String PARAMETER_BACKDOOR_KEY = "Params.BACKDOOR_KEY";
@@ -87,6 +91,11 @@ public class BackDoorServlet extends HttpServlet {
     public static final String PARAMETER_FEEDBACK_QUESTION_NUMBER = "PARAMETER_FEEDBACK_QUESTION_NUMBER";
     public static final String PARAMETER_GIVER_EMAIL = "PARAMETER_GIVER_EMAIL";
     public static final String PARAMETER_RECIPIENT = "PARAMETER_RECIPIENT";
+    public static final String PARAMETER_PICTURE_KEY = "PARAMETER_PICTURE_KEY";
+    
+    public static final String RETURN_VALUE_TRUE = "true";
+    public static final String RETURN_VALUE_FALSE = "false";
+    
     
     private static final Logger log = Utils.getLogger();
 
@@ -107,14 +116,15 @@ public class BackDoorServlet extends HttpServlet {
         String keyReceived = req.getParameter(PARAMETER_BACKDOOR_KEY);
         if (!keyReceived.equals(Config.BACKDOOR_KEY)) {
             returnValue = "Not authorized to access Backdoor Services";
-
         } else {
             try {
                 returnValue = executeBackendAction(req, action);
             } catch (Exception e) {
+                log.info(e.getMessage());
                 returnValue = Const.StatusCodes.BACKDOOR_STATUS_FAILURE
                         + TeammatesException.toStringWithStackTrace(e);
             } catch (AssertionError ae) {
+                log.info(ae.getMessage());
                 returnValue = Const.StatusCodes.BACKDOOR_STATUS_FAILURE
                         + " Assertion error " + ae.getMessage();
             }
@@ -150,6 +160,12 @@ public class BackDoorServlet extends HttpServlet {
         } else if (action.equals(OPERATION_GET_ACCOUNT_AS_JSON)) {
             String googleId = req.getParameter(PARAMETER_GOOGLE_ID);
             return backDoorLogic.getAccountAsJson(googleId);
+        } else if (action.equals(OPERATION_GET_STUDENTPROFILE_AS_JSON)) {
+            String googleId = req.getParameter(PARAMETER_GOOGLE_ID);
+            return backDoorLogic.getStudentProfileAsJson(googleId);
+        } else if (action.equals(OPERATION_IS_PICTURE_PRESENT_IN_GCS)) {
+            String pictureKey = req.getParameter(PARAMETER_PICTURE_KEY);
+            return backDoorLogic.isPicturePresentInGcs(pictureKey);
         } else if (action.equals(OPERATION_GET_INSTRUCTOR_AS_JSON_BY_ID)) {
             String instructorID = req.getParameter(PARAMETER_INSTRUCTOR_ID);
             String courseId = req.getParameter(PARAMETER_COURSE_ID);
@@ -199,6 +215,12 @@ public class BackDoorServlet extends HttpServlet {
             DataBundle dataBundle = Utils.getTeammatesGson().fromJson(
                     dataBundleJsonString, DataBundle.class);
             backDoorLogic.persistDataBundle(dataBundle);
+        } else if (action.equals(OPERATION_REMOVE_DATABUNDLE)) {
+            String dataBundleJsonString = req
+                    .getParameter(PARAMETER_DATABUNDLE_JSON);
+            DataBundle dataBundle = Utils.getTeammatesGson().fromJson(
+                    dataBundleJsonString, DataBundle.class);
+            backDoorLogic.removeDataBundle(dataBundle);
         } else if (action.equals(OPERATION_EDIT_ACCOUNT)) {
             String newValues = req.getParameter(PARAMETER_JASON_STRING);
             backDoorLogic.editAccountAsJson(newValues);

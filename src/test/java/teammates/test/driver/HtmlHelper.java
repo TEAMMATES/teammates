@@ -82,6 +82,8 @@ public class HtmlHelper {
             String initialIndentation = "";
             convertToStandardHtmlRecursively(currentNode, initialIndentation, currentHtml, isHtmlPartPassedIn);
             return currentHtml.toString()
+                    .replace("%20", " ")
+                    .replace("%27", "'")
                     .replace("<#document", "")
                     .replace("   <html   </html>", "")
                     .replace("</#document>", ""); //remove two unnecessary tags added by DOM parser.
@@ -122,7 +124,7 @@ public class HtmlHelper {
         return parser.getDocument();
     }
 
-    private static void convertToStandardHtmlRecursively(Node currentNode, String indentation,
+    public static void convertToStandardHtmlRecursively(Node currentNode, String indentation,
         StringBuilder currentHtmlText, boolean isHtmlPartPassedIn){
         
         if(currentNode.getNodeType() == Node.TEXT_NODE){
@@ -184,7 +186,8 @@ public class HtmlHelper {
     private static boolean shouldIncludeCurrentNode(boolean isHtmlPartPassedIn, String currentNodeName) {
         boolean shouldIncludeCurrentNode = !(isHtmlPartPassedIn && (currentNodeName.equals("html")
                                                                          || currentNodeName.equals("head")
-                                                                         || currentNodeName.equals("body")));
+                                                                         || currentNodeName.equals("body")
+                                                                         || currentNodeName.equals("#comment")));
         return shouldIncludeCurrentNode;
     }
 

@@ -17,6 +17,7 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentAttributesFactory;
 import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
+import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -41,12 +42,15 @@ public class StudentsLogic {
     //  familiar with the its code and Logic's code. Hence, no need for header 
     //  comments.
     
+    private static int SECTION_SIZE_LIMIT = 100;
+
     private static StudentsLogic instance = null;
     private StudentsDb studentsDb = new StudentsDb();
     
     private CoursesLogic coursesLogic = CoursesLogic.inst();
     private EvaluationsLogic evaluationsLogic = EvaluationsLogic.inst();
     private FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
+    private AccountsLogic accLogic = AccountsLogic.inst();
     
     private static Logger log = Utils.getLogger();
     
@@ -100,8 +104,18 @@ public class StudentsLogic {
         return studentsDb.getStudentsForTeam(teamName, courseId);
     }
 
+    public List<StudentAttributes> getStudentsForSection(String sectionName, String courseId) {
+        return studentsDb.getStudentsForSection(sectionName, courseId);
+    }
+
     public List<StudentAttributes> getUnregisteredStudentsForCourse(String courseId) {
         return studentsDb.getUnregisteredStudentsForCourse(courseId);
+    }
+    
+    public StudentProfileAttributes getStudentProfile(String googleId) {
+        Assumption.assertNotNull(googleId);
+        
+        return accLogic.getStudentProfile(googleId);
     }
     
     public String getKeyForStudent(String courseId, String email) throws EntityDoesNotExistException {
@@ -159,7 +173,7 @@ public class StudentsLogic {
     }
     
     public void updateStudentCascade(String originalEmail, StudentAttributes student) 
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws InvalidParametersException, EntityDoesNotExistException, EnrollException {
         StudentAttributes originalStudent = getStudentForEmail(student.course, originalEmail);
         updateStudentCascadeWithSubmissionAdjustmentScheduled(originalEmail, student);
         
@@ -181,11 +195,15 @@ public class StudentsLogic {
             evaluationsLogic.adjustSubmissionsForChangingTeam(student.course, finalEmail, student.team);
             frLogic.updateFeedbackResponsesForChangingTeam(student.course, finalEmail, originalStudent.team, student.team);
         }
+
+        if(isSectionChanged(originalStudent.section, student.section)) {
+            frLogic.updateFeedbackResponsesForChangingSection(student.course, finalEmail, originalStudent.section, student.section);
+        }
     }
     
     public void updateStudentCascadeWithSubmissionAdjustmentScheduled(String originalEmail, 
             StudentAttributes student) 
-            throws EntityDoesNotExistException, InvalidParametersException {
+            throws EntityDoesNotExistException, InvalidParametersException, EnrollException {
         // Edit student uses KeepOriginal policy, where unchanged fields are set
         // as null. Hence, we can't do isValid() for student here.
         // After updateWithReferenceToExistingStudentRecord method called,
@@ -203,7 +221,7 @@ public class StudentsLogic {
             throw new InvalidParametersException(student.getInvalidityInfo());
         }
         
-        studentsDb.updateStudent(student.course, originalEmail, student.name, student.team, student.email, student.googleId, student.comments);    
+        studentsDb.updateStudent(student.course, originalEmail, student.name, student.team, student.section, student.email, student.googleId, student.comments);    
         
         // cascade email change, if any
         if (!originalEmail.equals(student.email)) {
@@ -238,14 +256,7 @@ public class StudentsLogic {
 
         StudentAttributesFactory saf = new StudentAttributesFactory(linesArray[0]);
         
-        int startLine;
-        if (saf.hasHeader()) {
-            startLine = 1;
-        } else {
-            startLine = 0;
-        }
-        
-        for (int i = startLine; i < linesArray.length; i++) {
+        for (int i = 1; i < linesArray.length; i++) {
             String line = linesArray[i];
             
             if (StringHelper.isWhiteSpace(line)) {
@@ -255,6 +266,8 @@ public class StudentsLogic {
             StudentAttributes student = saf.makeStudent(line, courseId);
             studentList.add(student);
         }
+
+        validateSections(studentList, courseId);
 
         // TODO: can we use a batch persist operation here?
         // enroll all students
@@ -297,6 +310,102 @@ public class StudentsLogic {
         }
 
         return returnList;
+    }
+
+    public void validateSections(List<StudentAttributes> studentList, String courseId) throws EntityDoesNotExistException, EnrollException {
+
+        List<StudentAttributes> mergedList = new ArrayList<StudentAttributes>();
+        List<StudentAttributes> studentsInCourse = getStudentsForCourse(courseId);
+        
+        for(StudentAttributes student : studentList) {
+            mergedList.add(student);
+        }
+
+        for(StudentAttributes student : studentsInCourse) {
+            if(!isInEnrollList(student, mergedList)){
+                mergedList.add(student);
+            }
+        }
+
+        if(mergedList.size() < 2){ // no conflicts
+            return;
+        }
+        
+        String errorMessage = "";
+        errorMessage += getSectionInvalidityInfo(mergedList);
+        errorMessage += getTeamInvalidityInfo(mergedList);
+
+        if(!errorMessage.equals("")){
+            throw new EnrollException(errorMessage);
+        }
+
+    }
+
+    public String getSectionForTeam(String courseId, String teamName){
+
+        List<StudentAttributes> students = getStudentsForTeam(teamName, courseId);
+        if(students.isEmpty()){
+            return Const.DEFAULT_SECTION;
+        } else {
+            return students.get(0).section;
+        }
+    }
+
+    private String getSectionInvalidityInfo(List<StudentAttributes> mergedList) {
+        
+        StudentAttributes.sortBySectionName(mergedList);
+
+        List<String> invalidSectionList = new ArrayList<String>();
+        int studentsCount = 1;
+        for(int i = 1; i < mergedList.size(); i++){
+            StudentAttributes currentStudent = mergedList.get(i);
+            StudentAttributes previousStudent = mergedList.get(i-1);
+            if(currentStudent.section.equals(previousStudent.section)){
+                studentsCount++;
+            } else {
+                if(studentsCount > SECTION_SIZE_LIMIT){
+                    invalidSectionList.add(previousStudent.section);
+                }
+                studentsCount = 1;
+            }
+
+            if(i == mergedList.size() - 1 && studentsCount > SECTION_SIZE_LIMIT){
+                invalidSectionList.add(currentStudent.section);
+            }
+        }
+
+        String errorMessage = "";
+        for(String section: invalidSectionList){
+            errorMessage += String.format(Const.StatusMessages.SECTION_QUOTA_EXCEED, section);
+        }
+
+        return errorMessage;
+    }
+
+    private String getTeamInvalidityInfo(List<StudentAttributes> mergedList) {
+
+        StudentAttributes.sortByTeamName(mergedList);
+
+        List<String> invalidTeamList = new ArrayList<String>();
+        for(int i = 1; i < mergedList.size(); i++){
+            StudentAttributes currentStudent = mergedList.get(i);
+            StudentAttributes previousStudent = mergedList.get(i-1);
+            if(currentStudent.team.equals(previousStudent.team) && !currentStudent.section.equals(previousStudent.section)){
+                if(!invalidTeamList.contains(currentStudent.team)){
+                    invalidTeamList.add(currentStudent.team);    
+                }
+            }
+        }
+
+        String errorMessage = "";
+        for(String team : invalidTeamList){
+            errorMessage += String.format(Const.StatusMessages.TEAM_INVALID_SECTION_EDIT, team);
+        }
+        if(!errorMessage.equals("")){
+            errorMessage += "Please use the enroll page to edit multiple students";
+        }
+
+        return errorMessage;
     }
 
     private void scheduleSubmissionAdjustmentForFeedbackInCourse(
@@ -414,9 +523,15 @@ public class StudentsLogic {
             ArrayList<StudentEnrollDetails> enrollmentList,
             FeedbackResponseAttributes response) throws InvalidParametersException, EntityDoesNotExistException {
         for(StudentEnrollDetails enrollment : enrollmentList) {
+            boolean isResponseDeleted = false;
             if(enrollment.updateStatus == UpdateStatus.MODIFIED &&
                     isTeamChanged(enrollment.oldTeam, enrollment.newTeam)) {
-                frLogic.updateFeedbackResponseForChangingTeam(enrollment, response);
+                isResponseDeleted = frLogic.updateFeedbackResponseForChangingTeam(enrollment, response);
+            }
+        
+            if(!isResponseDeleted && enrollment.updateStatus == UpdateStatus.MODIFIED &&
+                    isSectionChanged(enrollment.oldSection, enrollment.newSection)){
+                frLogic.updateFeedbackResponseForChangingSection(enrollment, response);
             }
         }
     }
@@ -429,7 +544,8 @@ public class StudentsLogic {
         enrollmentDetails.course = validStudentAttributes.course;
         enrollmentDetails.email = validStudentAttributes.email;
         enrollmentDetails.newTeam = validStudentAttributes.team;
-        
+        enrollmentDetails.newSection = validStudentAttributes.section;
+
         try {
             if (validStudentAttributes.isEnrollInfoSameAs(originalStudentAttributes)) {
                 enrollmentDetails.updateStatus = UpdateStatus.UNMODIFIED;
@@ -439,6 +555,9 @@ public class StudentsLogic {
                 
                 if(!originalStudentAttributes.team.equals(validStudentAttributes.team)) {
                     enrollmentDetails.oldTeam = originalStudentAttributes.team;
+                }
+                if(!originalStudentAttributes.section.equals(validStudentAttributes.section)) {
+                    enrollmentDetails.oldSection = originalStudentAttributes.section;
                 }
             } else {
                 createStudentCascadeWithSubmissionAdjustmentScheduled(validStudentAttributes);
@@ -465,18 +584,10 @@ public class StudentsLogic {
         List<String> invalidityInfo = new ArrayList<String>();
         String[] linesArray = lines.split(Const.EOL);
         ArrayList<String>  studentEmailList = new ArrayList<String>();
-        
+    
         StudentAttributesFactory saf = new StudentAttributesFactory(linesArray[0]);
         
-        int startLine;
-        if (saf.hasHeader()) {
-            startLine = 1;
-            studentEmailList.add(new String());
-        } else {
-            startLine = 0;
-        }
-        
-        for (int i = startLine; i < linesArray.length; i++) {
+        for (int i = 1; i < linesArray.length; i++) {
             String line = linesArray[i];
             try {
                 if (StringHelper.isWhiteSpace(line)) {
@@ -509,7 +620,7 @@ public class StudentsLogic {
     private List<String> getInvalidityInfoInDuplicatedEmail(String email,
             ArrayList<String> studentEmailList,String[] linesArray){
         List<String> info = new ArrayList<String>();
-        info.add("Same email address as the student in line \"" + linesArray[studentEmailList.indexOf(email)]+ "\"");
+        info.add("Same email address as the student in line \"" + linesArray[studentEmailList.indexOf(email) + 1]+ "\"");
         return info;
     }
     
@@ -520,7 +631,7 @@ public class StudentsLogic {
     }
     
     private boolean isInEnrollList(StudentAttributes student,
-            ArrayList<StudentAttributes> studentInfoList) {
+            List<StudentAttributes> studentInfoList) {
         for (StudentAttributes studentInfo : studentInfoList) {
             if (studentInfo.email.equalsIgnoreCase(student.email)) {
                 return true;
@@ -532,6 +643,11 @@ public class StudentsLogic {
     private boolean isTeamChanged(String originalTeam, String newTeam) {
         return (newTeam != null) && (originalTeam != null)
                 && (!originalTeam.equals(newTeam));
+    }
+
+    private boolean isSectionChanged(String originalSection, String newSection) {
+        return (newSection != null) && (originalSection != null)
+                && (!originalSection.equals(newSection));
     }
     
 }

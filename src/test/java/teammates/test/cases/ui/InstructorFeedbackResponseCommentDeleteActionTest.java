@@ -42,14 +42,27 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends
     @Test
     public void testAccessControl() throws Exception {
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
+        FeedbackQuestionsDb feedbackQuestionsDb = new FeedbackQuestionsDb();
+        FeedbackResponsesDb feedbackResponsesDb = new FeedbackResponsesDb();
+
+        int questionNumber = 1;
+        FeedbackQuestionAttributes feedbackQuestion = feedbackQuestionsDb.getFeedbackQuestion(
+                "First feedback session", "idOfTypicalCourse1", questionNumber);
+        
+        String giverEmail = "student1InCourse1@gmail.com";
+        String receiverEmail = "student1InCourse1@gmail.com";
+        FeedbackResponseAttributes feedbackResponse = feedbackResponsesDb.getFeedbackResponse(feedbackQuestion.getId(),
+                giverEmail, receiverEmail);
         
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, fs.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponse.getId(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, "1",
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient"
         };
         verifyOnlyInstructorsCanAccess(submissionParams);
+        verifyUnaccessibleWithoutModifySessionCommentInSectionsPrivilege(submissionParams);
     }
     
     @Test
@@ -95,6 +108,7 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, feedbackResponseComment.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackResponseComment.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseComment.feedbackResponseId,
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseComment.getId().toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, feedbackResponseComment.commentText + " (Edited)",
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient"

@@ -8,6 +8,7 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.logic.api.GateKeeper;
@@ -23,10 +24,13 @@ public class InstructorFeedbackEditSaveAction extends Action {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         
+        Assumption.assertNotNull(courseId);
+        Assumption.assertNotNull(feedbackSessionName);
+        
         new GateKeeper().verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, account.googleId), 
                 logic.getFeedbackSession(feedbackSessionName, courseId),
-                true);
+                false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         
         InstructorFeedbackEditPageData data = new InstructorFeedbackEditPageData(account);
         data.session = extractFeedbackSessionData();

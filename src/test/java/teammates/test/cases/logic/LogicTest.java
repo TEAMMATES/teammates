@@ -14,10 +14,7 @@ import static teammates.logic.core.TeamEvalResult.NSB;
 import static teammates.logic.core.TeamEvalResult.NSU;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletException;
@@ -27,6 +24,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
@@ -35,6 +33,7 @@ import teammates.common.datatransfer.EvaluationDetailsBundle;
 import teammates.common.datatransfer.EvaluationResultsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.datatransfer.StudentResultBundle;
 import teammates.common.datatransfer.SubmissionAttributes;
@@ -108,7 +107,7 @@ public class LogicTest extends BaseComponentTestCase {
         gaeSimulation.loginAsAdmin(instructor.googleId);
         // also make this user a student of another course
         StudentAttributes instructorAsStudent = new StudentAttributes(
-                "Team 1", "Instructor As Student", "instructorasstudent@yahoo.com", "", course2Id);
+                "Section 1", "Team 1", "Instructor As Student", "instructorasstudent@yahoo.com", "", course2Id);
         instructorAsStudent.googleId = instructor.googleId;
         logic.createStudent(instructorAsStudent);
 

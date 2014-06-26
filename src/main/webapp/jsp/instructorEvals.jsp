@@ -363,7 +363,7 @@
                     href="<%=data.getEvaluationStatsLink(edd.courseId,
                             edd.name)%>">Show</a>
                 </td>
-                <td class="no-print"><%=data.getInstructorEvaluationActions(edd, false)%></td>
+                <td class="no-print"><%=data.getInstructorEvaluationActions(edd, false, data.instructors.get(edd.courseId))%></td>
             </tr>
             <%
                 }
@@ -387,8 +387,7 @@
                     href="<%=data.getFeedbackSessionStatsLink(fdb.courseId,
                             fdb.feedbackSessionName)%>">Show</a>
                 </td>
-                <td class="no-print"><%=data.getInstructorFeedbackSessionActions(fdb,
-                            false)%></td>
+                <td class="no-print"><%=data.getInstructorFeedbackSessionActions(fdb, false, data.instructors.get(fdb.courseId))%></td>
             </tr>
             <%
                 }

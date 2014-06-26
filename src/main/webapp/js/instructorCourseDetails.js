@@ -1,3 +1,11 @@
+$(document).ready(function(){
+    if($("#button_sortstudentsection").length){
+        toggleSort($("#button_sortstudentsection"),1);
+    } else {
+        toggleSort($("#button_sortstudentteam"),1);
+    }
+});
+
 /**
  * Functions to trigger registration key sending to a specific student in the
  * course.

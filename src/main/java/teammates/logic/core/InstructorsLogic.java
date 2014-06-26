@@ -12,7 +12,11 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
+<<<<<<< HEAD
 import teammates.common.util.FieldValidator;
+=======
+import teammates.common.util.Const;
+>>>>>>> origin/master
 import teammates.common.util.Utils;
 import teammates.storage.api.InstructorsDb;
 import teammates.ui.controller.AdminHomePageData;
@@ -43,17 +47,9 @@ public class InstructorsLogic {
         return instance;
     }
     
-    public void addInstructor(String courseId, String name, String email) 
-            throws InvalidParametersException, EntityAlreadyExistsException {
-                
-        InstructorAttributes instructorToAdd = new InstructorAttributes(null, courseId, name, email);
-        
-        createInstructor(instructorToAdd);
-    }
-
+    @Deprecated
     public void createInstructor(String googleId, String courseId, String name, String email) 
             throws InvalidParametersException, EntityAlreadyExistsException {
-                
         InstructorAttributes instructorToAdd = new InstructorAttributes(googleId, courseId, name, email);
         
         createInstructor(instructorToAdd);
@@ -181,12 +177,8 @@ public class InstructorsLogic {
 
         coursesLogic.verifyCourseIsPresent(instructor.courseId);        
         verifyIsGoogleIdOfInstructorOfCourse(googleId, instructor.courseId);
-
-        InstructorAttributes instructorToUpdate = getInstructorForGoogleId(instructor.courseId, googleId);
-        instructorToUpdate.name = instructor.name;
-        instructorToUpdate.email = instructor.email;
         
-        instructorsDb.updateInstructorByGoogleId(instructorToUpdate);
+        instructorsDb.updateInstructorByGoogleId(instructor);
     }
     
     /**
@@ -203,12 +195,8 @@ public class InstructorsLogic {
 
         coursesLogic.verifyCourseIsPresent(instructor.courseId);        
         verifyIsEmailOfInstructorOfCourse(email, instructor.courseId);
-
-        InstructorAttributes instructorToUpdate = getInstructorForEmail(instructor.courseId, email);
-        instructorToUpdate.googleId = instructor.googleId;
-        instructorToUpdate.name = instructor.name;
         
-        instructorsDb.updateInstructorByEmail(instructorToUpdate);
+        instructorsDb.updateInstructorByEmail(instructor);
     }
     
     public MimeMessage sendRegistrationInviteToInstructor(String courseId, String instructorEmail) 

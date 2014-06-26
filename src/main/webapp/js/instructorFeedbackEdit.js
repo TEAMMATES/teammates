@@ -147,7 +147,15 @@ function enableQuestion(number){
         $("#msqChoiceTable-"+number).show();
         $("#mcqGenerateForSelect-"+number).prop("disabled", true);
         $("#msqGenerateForSelect-"+number).prop("disabled", true);
-    }		
+    }
+
+    if($("#constSumToRecipients-"+number).val() == "true"){
+        $("#constSumOptionTable-"+number).hide();
+        $("#constSumOption_Option-"+number).hide();
+    } else {
+        $("#constSumOptionTable-"+number).show();
+        $("#constSumOption_Recipient-"+number).hide();
+    }
     
     $('#'+FEEDBACK_QUESTION_EDITTEXT+'-'+number).hide();
     $('#'+FEEDBACK_QUESTION_SAVECHANGESTEXT+'-'+number).show();
@@ -231,6 +239,7 @@ function formatNumberBoxes(){
     disallowNonNumericEntries($('input.minScaleBox'), false, true);
     disallowNonNumericEntries($('input.maxScaleBox'), false, true);
     disallowNonNumericEntries($('input.stepBox'), true, false);
+    disallowNonNumericEntries($('input.pointsBox'), false, false);
     
     // Binds onChange of recipientType to modify numEntityBox visibility
     $("select[name="+FEEDBACK_QUESTION_RECIPIENTTYPE+"]").each(function(){
@@ -311,20 +320,23 @@ function prepareQuestionForm(type) {
         $('#mcqForm').hide();
         $('#msqForm').hide();
         $('#numScaleForm').hide();
+        $('#constSumForm').hide();
         break;
     case "MCQ":
-        $("#"+FEEDBACK_QUESTION_NUMBEROFCHOICECREATED).val(2);
+        $("#"+FEEDBACK_QUESTION_NUMBEROFCHOICECREATED+"--1").val(2);
         $("#questionTypeHeader").append(FEEDBACK_QUESTION_TYPENAME_MCQ);
         $('#mcqForm').show();
         $('#msqForm').hide();
         $('#numScaleForm').hide();
+        $('#constSumForm').hide();
         break;
     case "MSQ":
-        $("#"+FEEDBACK_QUESTION_NUMBEROFCHOICECREATED).val(2);
+        $("#"+FEEDBACK_QUESTION_NUMBEROFCHOICECREATED+"--1").val(2);
         $("#questionTypeHeader").append(FEEDBACK_QUESTION_TYPENAME_MSQ);
         $('#mcqForm').hide();
         $('#msqForm').show();
         $('#numScaleForm').hide();
+        $('#constSumForm').hide();
         break;
     case "NUMSCALE":
         $("#questionTypeHeader").append(FEEDBACK_QUESTION_TYPENAME_NUMSCALE);
@@ -332,8 +344,39 @@ function prepareQuestionForm(type) {
         $('#msqForm').hide();
         $('#numScaleForm').show();
         $('#'+FEEDBACK_QUESTION_TEXT).attr("placeholder","e.g. Rate the class from 1 (very bad) to 5 (excellent)");
+        $('#constSumForm').hide();
+        break;
+    case "CONSTSUM_OPTION":
+        $("#"+FEEDBACK_QUESTION_NUMBEROFCHOICECREATED+"--1").val(2);
+        $("#"+FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS+"--1").val("false");
+        $("#constSumOption_Recipient"+"--1").hide();
+        $("#questionTypeHeader").append(FEEDBACK_QUESTION_TYPENAME_CONSTSUM_OPTION);
+        $('#mcqForm').hide();
+        $('#msqForm').hide();
+        $('#numScaleForm').hide();
+        $('#constSumForm').show();
+        $('#questionTypeChoice').val('CONSTSUM');
+        break;
+    case "CONSTSUM_RECIPIENT":
+        $("#"+FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS+"--1").val("true");
+        $("#constSumOption_Option"+"--1").hide();
+        hideConstSumOptionTable(-1);
+        $("#questionTypeHeader").append(FEEDBACK_QUESTION_TYPENAME_CONSTSUM_RECIPIENT);
+        $('#mcqForm').hide();
+        $('#msqForm').hide();
+        $('#numScaleForm').hide();
+        $('#constSumForm').show();
+        $('#questionTypeChoice').val('CONSTSUM');
         break;
     }
+}
+
+function hideConstSumOptionTable(questionNumber){
+    var idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
+    if(questionNumber == -1){
+        idSuffix = "--1";
+    }
+    $("#"+FEEDBACK_QUESTION_CONSTSUMOPTIONTABLE+idSuffix).hide();
 }
 
 function addMcqOption(questionNumber) {
@@ -402,6 +445,36 @@ function addMsqOption(questionNumber) {
     }
 }
 
+function addConstSumOption(questionNumber) {
+    idOfQuestion = '#form_editquestion-' + questionNumber;
+    idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
+    if(questionNumber == -1){
+        idSuffix = "--1";
+    }
+    
+    var curNumberOfChoiceCreated = parseInt($("#"+FEEDBACK_QUESTION_NUMBEROFCHOICECREATED+idSuffix).val());
+        
+    $(    "<div id=\"constSumOptionRow-"+curNumberOfChoiceCreated+idSuffix+"\">"
+        +   "<div class=\"input-group\">"
+        +       "<input type=\"text\" name=\""+FEEDBACK_QUESTION_CONSTSUMOPTION+"-"+curNumberOfChoiceCreated+"\" "
+        +               "id=\""+FEEDBACK_QUESTION_CONSTSUMOPTION+"-"+curNumberOfChoiceCreated+idSuffix+"\" class=\"form-control constSumOptionTextBox\">"
+        +       "<span class=\"input-group-btn\">"
+        +           "<button class=\"btn btn-default removeOptionLink\" id=\"constSumRemoveOptionLink\" "
+        +                   "onclick=\"removeConstSumOption("+curNumberOfChoiceCreated+","+questionNumber+")\" tabindex=\"-1\">"
+        +               "<span class=\"glyphicon glyphicon-remove\"></span>"
+        +           "</button>"
+        +       "</span>"
+        +   "</div>"
+        + "</div>"
+    ).insertBefore($("#constSumAddOptionRow" + idSuffix));
+
+    $("#"+FEEDBACK_QUESTION_NUMBEROFCHOICECREATED+idSuffix).val(curNumberOfChoiceCreated+1);
+    
+    if($(idOfQuestion).attr('editStatus') == "hasResponses") {
+        $(idOfQuestion).attr('editStatus', "mustDeleteResponses");
+    }
+}
+
 function removeMcqOption(index, questionNumber) {
     idOfQuestion = '#form_editquestion-' + questionNumber;
     idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
@@ -424,6 +497,20 @@ function removeMsqOption(index, questionNumber) {
     }
 
     $("#msqOptionRow-"+index+idSuffix).remove();
+    
+    if($(idOfQuestion).attr('editStatus') == "hasResponses") {
+        $(idOfQuestion).attr('editStatus', "mustDeleteResponses");
+    }
+}
+
+function removeConstSumOption(index, questionNumber) {
+    idOfQuestion = '#form_editquestion-' + questionNumber;
+    idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
+    if(questionNumber == -1){
+        idSuffix = "--1";
+    }
+
+    $("#constSumOptionRow-"+index+idSuffix).remove();
     
     if($(idOfQuestion).attr('editStatus') == "hasResponses") {
         $(idOfQuestion).attr('editStatus', "mustDeleteResponses");
@@ -523,6 +610,11 @@ function updateNumScalePossibleValues(questionNumber) {
     if (Math.round(largestValueInRange*1000)/1000 != max) {
         $("#numScalePossibleValues"+idSuffix).css("color","red");
         possibleValuesString = "[The interval " + min.toString() + " - " + max.toString() + " is not divisible by the specified increment.]";
+
+        if(min.toString() == "NaN" || max.toString() == "NaN" || step.toString() == "NaN"){
+            possibleValuesString = "[Please enter valid numbers for all the options.]"
+        }
+
         $("#numScalePossibleValues"+idSuffix).text(possibleValuesString);
         return false;
     } else {
@@ -546,6 +638,16 @@ function updateNumScalePossibleValues(questionNumber) {
         possibleValuesString += "]";
         $("#numScalePossibleValues"+idSuffix).text(possibleValuesString);
         return true;
+    }
+}
+
+function updateConstSumPointsValue(questionNumber){
+    var idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
+    if(questionNumber == -1){
+        idSuffix = "--1";
+    }
+    if($("#"+FEEDBACK_QUESTION_CONSTSUMPOINTS+idSuffix).val() < 1){
+        $("#"+FEEDBACK_QUESTION_CONSTSUMPOINTS+idSuffix).val(1);
     }
 }
 
