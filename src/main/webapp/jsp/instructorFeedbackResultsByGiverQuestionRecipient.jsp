@@ -33,7 +33,6 @@
     <script type="text/javascript" src="/js/instructor.js"></script>
     <script type="text/javascript" src="/js/instructorFeedbackResults.js"></script>
     <script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
-    <script type="text/javascript" src="/js/feedbackResponseComments.js"></script>
     <script type="text/javascript" src="/js/instructorFeedbackResultsAjaxByGQR.js"></script>
     <script type="text/javascript" src="/js/instructorFeedbackResultsAjaxResponseRate.js"></script>
     <jsp:include page="../enableJS.jsp"></jsp:include>

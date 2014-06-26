@@ -138,7 +138,7 @@ function getResponsesFromrecipient(recipient, giver, giverIndex, data){
             var responseCommentIndex = 0;
             for(var j = 0; j < responseComments.length; j++){
                 responseCommentIndex++;
-                var comment = responseComments[i];
+                var comment = responseComments[j];
                 appendedResponses += '<li class="list-group-item list-group-item-warning" id="responseCommentRow-' + recipientIndex + '-' + giverIndex + '-' + qnIndx + '-' + responseCommentIndex + '">';
                 appendedResponses += '<div id="commentBar-' + recipientIndex + '-' + giverIndex + '-' + qnIndx + '-' + responseCommentIndex + '">';
                 appendedResponses += '<span class="text-muted">From: '+ comment['giverEmail'] + ' [' + comment['createdAt'] + ']</span>';

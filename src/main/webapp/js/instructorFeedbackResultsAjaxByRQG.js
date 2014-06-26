@@ -1,5 +1,5 @@
 var sectionIndex = 0;
-var giverIndex = 0;
+var recipientIndex = 0;
 var numPanels  = 0;
 var currentTeam;
 var teamIndex = 0;
@@ -17,24 +17,24 @@ function getAppendedData(data){
         appendedHtml += 'Students</a><br><br>';
     }
 
-    for(var giver in data.responses){
-        if(data.responses.hasOwnProperty(giver)){
+    for(var recipient in data.responses){
+        if(data.responses.hasOwnProperty(recipient)){
             hasUsers = true;
-            appendedHtml += getResponsesFromGiver(giver, data);
+            appendedHtml += getResponsesToRecipient(recipient, data);
         }
     }
     if(!hasUsers){
-        appendedHtml += 'There is currently no responses from this section.';
+        appendedHtml += 'There is currently no responses to this section.';
     }
     sectionIndex++;
 
     return appendedHtml;
 }
 
-function getResponsesFromGiver(giver, data){    
+function getResponsesToRecipient(recipient, data){    
     var appendedResponses = '';
     var firstResponse;
-    var questionsList = data.responses[giver];
+    var questionsList = data.responses[recipient];
     for(var question in questionsList){
         if(questionsList.hasOwnProperty(question)){
             firstResponse = questionsList[question][0];
@@ -42,18 +42,18 @@ function getResponsesFromGiver(giver, data){
         }
     }
 
-    var targetEmail = firstResponse.giverEmail.replace("'s Team", "");
-    var targetEmailDisplay = firstResponse.giverEmail;
-    var mailToStyleAttr = (targetEmailDisplay.indexOf("@@") != -1) ? "style='display:none;'" : "";
+    var targetEmail = firstResponse.recipientEmail;
+    var participantType = data.questionsInfo[firstResponse.feedbackQuestionId].questionRecipientType;
+    var mailToStyleAttr = (targetEmail.indexOf("@@") != -1 || participantType == "Nobody specific (For general class feedback)" || participantType == "Other teams in the course") ? "style='display:none;'" : "";
 
     var groupByTeamEnabled = $('#frgroupbyteam').attr('checked') == 'checked';
-    var giverTeam = data.emailTeamNameTable[targetEmail];
-    if(groupByTeamEnabled && (typeof currentTeam == 'undefined' || giverTeam != currentTeam)){
+    var recipientTeam = data.emailTeamNameTable[targetEmail];
+    if(groupByTeamEnabled && (typeof currentTeam == 'undefined' || recipientTeam != currentTeam)){
         if(typeof currentTeam != 'undefined'){
             appendedResponses += '</div></div></div>';
         }
         teamIndex++;
-        currentTeam = giverTeam;
+        currentTeam = recipientTeam;
         appendedResponses += '<div class="panel panel-warning"><div class="panel-heading">';
         appendedResponses += '<strong>'+ currentTeam + '</strong>';
         appendedResponses += '<span class="glyphicon glyphicon-chevron-down pull-right"></span></div>';
@@ -63,13 +63,16 @@ function getResponsesFromGiver(giver, data){
         
         // Statistics
         appendedResponses += '<div class="resultStatistics">';
-        appendedResponses += '<h3>' + currentTeam + ' Given Responses Statistics </h3><hr class="margin-top-0">';
+        appendedResponses += '<h3>' + currentTeam + ' Received Responses Statistics </h3><hr class="margin-top-0">';
         var numStatsShown = 0;
         if(typeof data.participantStats != 'undefined' && typeof data.participantStats[currentTeam] != 'undefined'){
             var currentParticipantStats = data.participantStats[currentTeam];
             for(var questionKey in currentParticipantStats){
                 if(currentParticipantStats.hasOwnProperty(questionKey)){
                     var question = data.questionsInfo[questionKey];
+                    if(currentParticipantStats[questionKey] == ""){
+                        continue;
+                    }
                     appendedResponses += '<div class="panel panel-info"><div class="panel-heading">';
                     appendedResponses += '<strong>Question ' + question['questionNum'] + ': </strong>' + question['questionText'] + question['questionAdditionalInfo'].replace(/additionalInfoId/g,'team-' + teamIndex) + '</div>';
                     appendedResponses += '<div class="panel-body padding-0"><div class="resultStatistics">';
@@ -89,8 +92,8 @@ function getResponsesFromGiver(giver, data){
     // Responses
     appendedResponses += '<div class="panel panel-primary">';
     appendedResponses += '<div class="panel-heading">';
-    appendedResponses += 'From: <strong>' + giver + '</strong>';
-    appendedResponses += '<a class="link-in-dark-bg" href="mailTo:' + targetEmail + '" '+ mailToStyleAttr + '> [' + targetEmailDisplay + ']</a>';
+    appendedResponses += 'To: <strong>' + recipient + '</strong>';
+    appendedResponses += '<a class="link-in-dark-bg" href="mailTo:' + targetEmail + '" '+ mailToStyleAttr + '> [' + targetEmail + ']</a>';
     if(groupByTeamEnabled){
         appendedResponses += '<span class="glyphicon glyphicon-chevron-down pull-right"></span>';
     } else {
@@ -112,35 +115,35 @@ function getResponsesFromGiver(giver, data){
         if(questionsList.hasOwnProperty(question)){
             hasResponse = true;
             questionIndex++;
-            appendedResponses += getResponsesForQuestion(giver, question, questionIndex, data);
+            appendedResponses += getResponsesForQuestion(recipient, question, questionIndex, data);
         }
     }
 
     if(!hasResponse){
-        appendedResponses += 'There is currently no responses from this user';
+        appendedResponses += 'There is currently no responses to this user';
     }
 
     appendedResponses += '</div>';
     appendedResponses += '</div>';
     appendedResponses += '</div>';
-    giverIndex++;
+    recipientIndex++;
 
     return appendedResponses;
 }
 
-function getResponsesForQuestion(giver, question, questionIndex, data){
+function getResponsesForQuestion(recipient, question, questionIndex, data){
     var appendedResponses = '';
-    var responsesList = data.responses[giver][question];
+    var responsesList = data.responses[recipient][question];
     var questionId = responsesList[0].feedbackQuestionId;
     var questionInfo = data.questionsInfo[questionId];
 
     appendedResponses += '<div class="panel panel-info">';
-    appendedResponses += ' <div class="panel-heading">Question ' + questionInfo['questionNum'] + ': ' + questionInfo['questionText'] + questionInfo['questionAdditionalInfo'].replace(/additionalInfoId/g,'giver-' + giverIndex +'-question-' + questionIndex) + '</div>';
+    appendedResponses += ' <div class="panel-heading">Question ' + questionInfo['questionNum'] + ': ' + questionInfo['questionText'] + questionInfo['questionAdditionalInfo'].replace(/additionalInfoId/g,'recipient-' + recipientIndex +'-question-' + questionIndex) + '</div>';
     appendedResponses += '<div class="panel-body padding-0"><div class="resultStatistics">';
-    appendedResponses += (typeof data.participantStats == 'undefined' || typeof data.participantStats[giver][questionId] == 'undefined' ? "" : data.participantStats[giver][questionId]) + '</div>';
+    appendedResponses += (typeof data.participantStats == 'undefined' || typeof data.participantStats[recipient][questionId] == 'undefined' ? "" : data.participantStats[recipient][questionId]) + '</div>';
     appendedResponses += '<table class="table table-striped table-bordered dataTable margin-0">';
     appendedResponses += '<thead class="background-color-medium-gray text-color-gray font-weight-normal"><tr>';
-    appendedResponses += '<th id="button_sortTo" onclick="toggleSort(this,1)" style="width: 15%;">Recipient</th>';
+    appendedResponses += '<th id="button_sortTo" onclick="toggleSort(this,1)" style="width: 15%;">Giver</th>';
     appendedResponses += '<th id="button_sortFromTeam" onclick="toggleSort(this,2)" style="width: 15%;">Team</th>';
     appendedResponses += '<th id="button_sortFeedback" onclick="toggleSort(this,3)">Feedback</th>';
     appendedResponses += '</tr></thead>';
@@ -148,8 +151,8 @@ function getResponsesForQuestion(giver, question, questionIndex, data){
     for(var i = 0; i < responsesList.length; i++){
         var response = responsesList[i];
         appendedResponses += '<tr>';
-        appendedResponses += '<td class="middlealign">' + data.emailNameTable[response.recipientEmail] + '</td>';
-        appendedResponses += '<td class="middlealign">' + data.emailTeamNameTable[response.recipientEmail] + '</td>';
+        appendedResponses += '<td class="middlealign">' + data.emailNameTable[response.giverEmail] + '</td>';
+        appendedResponses += '<td class="middlealign">' + data.emailTeamNameTable[response.giverEmail] + '</td>';
         appendedResponses += '<td class="multiline">' + data.answer[response.feedbackResponseId] + '</td>';
         appendedResponses += '</tr>';
     }
