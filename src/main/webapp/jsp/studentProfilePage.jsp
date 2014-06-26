@@ -24,6 +24,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TEAMMATES - Student Profile</title>
+    <link rel="stylesheet" href="/Jcrop/css/jquery.Jcrop.min.css">
     <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" type="text/css">
     <link rel="stylesheet" href="/bootstrap/css/bootstrap-theme.min.css" type="text/css">
     <link rel="stylesheet" href="/stylesheets/teammatesCommon.css" type="text/css">
@@ -34,6 +35,7 @@
     <script type="text/javascript"
             src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
     <script type="text/javascript" src="/js/common.js"></script>
+    <script src="/Jcrop/js/jquery.Jcrop.min.js"></script>
     <script src="/bootstrap/js/bootstrap.min.js"></script>
 
     <script type="text/javascript" src="/js/student.js"></script>
@@ -59,26 +61,38 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">Upload Photo</h4>
+                        <h4 class="modal-title">Upload/Edit Photo <small>(Click on the picture to start editing)</small></h4>
                     </div>
                     <div class="modal-body center-block align-center">
                         <br>
-                        <img id="editablePicture" src="<%=pictureUrl %>" /><br><br>
-                        <div class="center-block align-center">
-                            <label for="studentPhoto">Your Photo</label><br>
-                            <form id="profilePictureUploadForm" method="post"> 
-                                <input id="studentPhoto" class="inline" type="file" name="<%=Const.ParamsNames.STUDENT_PROFILE_PHOTO%>" />
-                                <button type="button" id="profileUploadPictureSubmit" class="btn btn-primary center-block" onclick="finaliseUploadPictureForm()">
-                                    Upload Picture
-                                </button>
-                            </form>
-                            <p class="help-block">Max Size: 30 MB</p>
+                        <div class="row">
+                            <div class="col-xs-4 profile-pic-edit-col">
+                                <div class="center-block align-center">
+                                    <form id="profilePictureUploadForm" method="post"> 
+                                        <input id="studentPhoto" class="inline" type="file" name="<%=Const.ParamsNames.STUDENT_PROFILE_PHOTO%>" />
+                                        <p class="help-block">Max Size: 30 MB</p>
+                                        <button type="button" id="profileUploadPictureSubmit" class="btn btn-primary center-block" onclick="finaliseUploadPictureForm()">
+                                            Upload Picture
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="col-xs-8 profile-pic-edit-col border-left-gray ">
+                                <div class="profile-pic-edit">
+                                    <img id="editableProfilePicture" src="<%=pictureUrl %>" /><br><br>
+                                    <label for="editableProfilePicture">Your Photo</label><br>
+                                </div>
+                                <form id="profilePictureUploadForm" method="post">
+                                    <input type="hidden" name="">
+                                    <input type="hidden" name="">
+                                    <input type="hidden" >
+                                    <button type="button" class="btn btn-primary">Save Edited Photo</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                    </div>
                 </div><!-- /.modal-content -->
+                <div class="modal-footer"></div>
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
         

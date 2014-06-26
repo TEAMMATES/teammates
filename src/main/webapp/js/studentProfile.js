@@ -8,6 +8,15 @@ $(function () {
 	$(window).load(function() {
 		if($('#profilePic').attr('data-edit') == "true") {
 			$('#studentPhotoUploader').modal('show');
+			$('#editableProfilePicture').Jcrop({
+				bgColor: 'transparent',
+				setSelect: [10, 10, 200, 200],
+				aspectRatio: 1,
+				bgOpacity: 0.4,
+				addClass: "inline-block",
+				boxWidth: 400,
+				boxHeight: 400
+			});
 		}
 	});
 });
@@ -16,7 +25,6 @@ function finaliseUploadPictureForm(event) {
 	if ($('#studentPhoto').val() == "") return;
 	
 	initialSubmitMessage = $('#profileUploadPictureSubmit').html();
-	alert('1');
 	$.ajax({
 		url: "/page/studentProfileCreateFormUrl?user="+$("input[name='user']").val(),
 		beforeSend : function() {
