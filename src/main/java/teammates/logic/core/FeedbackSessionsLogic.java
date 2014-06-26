@@ -993,23 +993,9 @@ public class FeedbackSessionsLogic {
             if (relatedQuestion != null) {
                 // TODO: refactor these. you may refer to
                 // FeedbackResponseLogic.getViewableFeedbackResponsesForQuestionInSection
-                Boolean isVisibleResponse = false;
-                if ((response.giverEmail.equals(userEmail) && (section == null || response.recipientSection.equals(section)))
-                        || (response.recipientEmail.equals(userEmail) && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER) && (section == null || response.giverSection.equals(section)))
-                        || (role == Role.INSTRUCTOR && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS) && (section == null || (response.giverSection.equals(section) && response.recipientSection.equals(section))))
-                        || (role == Role.STUDENT && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.STUDENTS))) {
-                    isVisibleResponse = true;
-                } else if (role == Role.STUDENT 
-                        && ((relatedQuestion.recipientType == FeedbackParticipantType.TEAMS
-                                && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
-                                && response.recipientEmail.equals(student.team))
-                            || ((relatedQuestion.giverType == FeedbackParticipantType.TEAMS
-                                || relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS))
-                                    && studentsEmailInTeam.contains(response.giverEmail))
-                            || (relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
-                        && studentsEmailInTeam.contains(response.recipientEmail)))) {
-                    isVisibleResponse = true;
-                }
+                boolean isVisibleResponse = isResponseVisibleForUser(userEmail, courseId,
+                        role, section, student, studentsEmailInTeam, response,
+                        relatedQuestion);
                 if (isVisibleResponse) {
                     responses.add(response);
                     relevantQuestions.put(relatedQuestion.getId(),
@@ -1053,6 +1039,43 @@ public class FeedbackSessionsLogic {
                         visibilityTable, responseStatus, responseComments);
 
         return results;
+    }
+
+    private boolean isResponseVisibleForUser(String userEmail, String courseId,
+            UserType.Role role, String section, StudentAttributes student,
+            Set<String> studentsEmailInTeam,
+            FeedbackResponseAttributes response,
+            FeedbackQuestionAttributes relatedQuestion) {
+        InstructorAttributes instructor = null;
+        if (role == Role.INSTRUCTOR) {
+            instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
+        }
+        boolean isVisibleResponse = false;
+        if ((response.giverEmail.equals(userEmail) && (section == null || response.recipientSection.equals(section)))
+                || (response.recipientEmail.equals(userEmail) && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER) && (section == null || response.giverSection.equals(section)))
+                || (role == Role.INSTRUCTOR && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS) && (section == null || (response.giverSection.equals(section) && response.recipientSection.equals(section))))
+                || (role == Role.STUDENT && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.STUDENTS))) {
+            isVisibleResponse = true;
+        } else if (role == Role.STUDENT 
+                && ((relatedQuestion.recipientType == FeedbackParticipantType.TEAMS
+                        && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
+                        && response.recipientEmail.equals(student.team))
+                    || ((relatedQuestion.giverType == FeedbackParticipantType.TEAMS
+                        || relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS))
+                            && studentsEmailInTeam.contains(response.giverEmail))
+                    || (relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
+                && studentsEmailInTeam.contains(response.recipientEmail)))) {
+            isVisibleResponse = true;
+        }
+        if (isVisibleResponse && instructor != null) {
+            if (!(instructor.isAllowedForPrivilege(response.giverSection,
+                    response.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS))
+                    || !(instructor.isAllowedForPrivilege(response.giverSection,
+                            response.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS))) {
+                isVisibleResponse = false;
+            }
+        }
+        return isVisibleResponse;
     }
 
     private class ResponseCommentCreationDateComparator implements
