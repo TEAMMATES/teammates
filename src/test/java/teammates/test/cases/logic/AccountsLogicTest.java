@@ -525,6 +525,8 @@ public class AccountsLogicTest extends BaseComponentTestCase {
                     e.getMessage());
         }
         
+        //TODO: Add a case where a registered student joins as a new instructor
+        
     }
 
     private void testDeleteAccountCascade() throws Exception {
