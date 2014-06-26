@@ -109,7 +109,9 @@ public class FeedbackNumericalScaleQuestionDetails extends
 
     @Override
     public String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses,
-            FeedbackSessionResultsBundle bundle) {
+            FeedbackQuestionAttributes question,
+            FeedbackSessionResultsBundle bundle,
+            String view) {
         String html = "";
         double average = 0;
         double min = Integer.MAX_VALUE;

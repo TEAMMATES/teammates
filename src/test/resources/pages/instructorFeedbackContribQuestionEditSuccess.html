@@ -415,7 +415,7 @@
 
 
     <div id="statusMessage" class="alert alert-warning">
-        The question has been added to this feedback session.
+        The changes to the question has been updated.
     </div>
     <script type="text/javascript">
         document.getElementById( 'statusMessage' ).scrollIntoView();
@@ -638,7 +638,7 @@
 
                             </select>
                             &nbsp;
-                            Distribute points (among options) question
+                            Team contribution question
                         </span>
                         <span class="pull-right">
                             <a data-original-title="Get a submission link to this particular question. Useful if you want students to answer individual questions separately or at different points in time." class="btn btn-primary btn-xs" id="questiongetlink-2" data-toggle="tooltip" data-placement="top" title="" onclick="getQuestionLink(2)">Get Link</a>
@@ -651,80 +651,9 @@
             </div>
             <div class="panel-body">
                 <div>
-                    <textarea data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?" rows="5" class="form-control textvalue nonDestructive" name="questiontext" id="questiontext-2" data-toggle="tooltip" data-placement="top" title="" tabindex="9" disabled="disabled">const sum qn</textarea>
+                    <textarea data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?" rows="5" class="form-control textvalue nonDestructive" name="questiontext" id="questiontext-2" data-toggle="tooltip" data-placement="top" title="" tabindex="9" disabled="disabled">edited contrib qn text</textarea>
                 </div>
-                <div class="row">
-    <br>
-    <div class="col-sm-6" id="constSumOptionTable-2">
-        <div id="constSumOptionRow-0-2">
-    <div class="input-group col-sm-12">
-        <input class="form-control" disabled="disabled" name="constSumOption-0" id="constSumOption-0-2" value="Option 1" type="text">
-        <span class="input-group-btn">
-            <button class="btn btn-default removeOptionLink" type="button" id="constSumRemoveOptionLink" onclick="removeConstSumOption(0,2)" style="display:none" tabindex="-1">
-                <span class="glyphicon glyphicon-remove">
-                </span>
-            </button>
-        </span>
-    </div>
-</div>
-<div id="constSumOptionRow-1-2">
-    <div class="input-group col-sm-12">
-        <input class="form-control" disabled="disabled" name="constSumOption-1" id="constSumOption-1-2" value="Option 3" type="text">
-        <span class="input-group-btn">
-            <button class="btn btn-default removeOptionLink" type="button" id="constSumRemoveOptionLink" onclick="removeConstSumOption(1,2)" style="display:none" tabindex="-1">
-                <span class="glyphicon glyphicon-remove">
-                </span>
-            </button>
-        </span>
-    </div>
-</div>
-<div id="constSumOptionRow-2-2">
-    <div class="input-group col-sm-12">
-        <input class="form-control" disabled="disabled" name="constSumOption-2" id="constSumOption-2-2" value="Option 5" type="text">
-        <span class="input-group-btn">
-            <button class="btn btn-default removeOptionLink" type="button" id="constSumRemoveOptionLink" onclick="removeConstSumOption(2,2)" style="display:none" tabindex="-1">
-                <span class="glyphicon glyphicon-remove">
-                </span>
-            </button>
-        </span>
-    </div>
-</div>
-            
-        <div id="constSumAddOptionRow-2">
-            <div colspan="2">
-                <a class="btn btn-primary btn-xs addOptionLink" id="constSumAddOptionLink" onclick="addConstSumOption(2)" style="display:none">
-                    <span class="glyphicon glyphicon-plus">
-                    </span> add more options
-                </a>
-            </div>
-        </div>
-        
-        <input name="noofchoicecreated" id="noofchoicecreated-2" value="3" type="hidden">
-        <input name="constSumToRecipients" id="constSumToRecipients-2" value="false" type="hidden">
-    </div>
-    <div class="col-sm-6">
-        <div class="form-inline col-sm-12">
-            <div class="row">
-                <div class="col-sm-4">
-                    <label class="control-label width-100-pc">
-                        <b>Points to distribute </b>
-                    </label>
-                </div>
-                <div class="col-sm-5">
-                    <select class="col-sm-5 width-100-pc select form-control" disabled="disabled" id="constSumPointsPerOptionSelect-2" name="constSumPointsPerOption">
-                        <option value="false">in total:</option>
-                        <option value="true" id="constSumOption_Option-2">per option:</option>
-                        <option value="true" id="constSumOption_Recipient-2">per recipient:</option>
-                    </select>
-                </div>
-                <div class="col-sm-3">
-                    <input disabled="disabled" class="form-control width-100-pc pointsBox" name="constSumPoints" id="constSumPoints-2" value="100" min="1" step="1" onchange="updateConstSumPointsValue(2)" type="number">
-                </div>
-            </div>
-        </div>
-    </div>
-    <br>
-</div>
+                
                 <br>
                 <div>
                     <div data-original-title="Who will give feedback" class="col-sm-6" data-toggle="tooltip" data-placement="top" title="">  
@@ -733,8 +662,8 @@
                         </label>
                         <div class="col-sm-8">
                             <select class="form-control participantSelect" name="givertype" id="givertype-2" disabled="disabled" onchange="feedbackGiverUpdateVisibilityOptions(this)">
-                                <option value="SELF" selected="selected">Me (Session creator)</option>
-<option value="STUDENTS">Students in this course</option>
+                                <option value="SELF">Me (Session creator)</option>
+<option value="STUDENTS" selected="selected">Students in this course</option>
 <option value="INSTRUCTORS">Instructors in this course</option>
 <option value="TEAMS">Teams in this course</option>
 
@@ -747,13 +676,13 @@
                         </label>
                         <div class="col-sm-8">
                             <select class="form-control participantSelect" name="recipienttype" id="recipienttype-2" disabled="disabled" onchange="feedbackRecipientUpdateVisibilityOptions(this)">
-                                <option value="SELF" selected="selected">Giver (Self feedback)</option>
+                                <option value="SELF">Giver (Self feedback)</option>
 <option value="STUDENTS">Other students in the course</option>
 <option value="INSTRUCTORS">Instructors in the course</option>
 <option value="TEAMS">Other teams in the course</option>
 <option value="OWN_TEAM">Giver's team</option>
 <option value="OWN_TEAM_MEMBERS">Giver's team members</option>
-<option value="OWN_TEAM_MEMBERS_INCLUDING_SELF">Giver's team members and Giver</option>
+<option value="OWN_TEAM_MEMBERS_INCLUDING_SELF" selected="selected">Giver's team members and Giver</option>
 <option value="NONE">Nobody specific (For general class feedback)</option>
 
                             </select>
@@ -803,7 +732,7 @@
                                 <input class="visibilityCheckbox answerCheckbox2 centered" name="receiverLeaderCheckbox" value="RECEIVER" disabled="disabled" checked="checked" type="checkbox">
                             </td>
                             <td>
-                                <input class="visibilityCheckbox giverCheckbox2" value="RECEIVER" disabled="disabled" checked="checked" type="checkbox">     
+                                <input class="visibilityCheckbox giverCheckbox2" value="RECEIVER" disabled="disabled" type="checkbox">     
                             </td>
                             <td>
                                 <input class="visibilityCheckbox recipientCheckbox2" name="receiverFollowerCheckbox" value="RECEIVER" disabled="disabled" checked="checked" type="checkbox">
@@ -816,7 +745,7 @@
                                 </div>
                             </td>
                             <td>
-                                <input class="visibilityCheckbox answerCheckbox2" value="OWN_TEAM_MEMBERS" disabled="disabled" type="checkbox">
+                                <input class="visibilityCheckbox answerCheckbox2" value="OWN_TEAM_MEMBERS" disabled="disabled" checked="checked" type="checkbox">
                             </td>
                             <td>
                                 <input class="visibilityCheckbox giverCheckbox2" value="OWN_TEAM_MEMBERS" disabled="disabled" type="checkbox">
@@ -832,7 +761,7 @@
                                 </div>
                             </td>
                             <td>
-                                <input class="visibilityCheckbox answerCheckbox2" value="RECEIVER_TEAM_MEMBERS" disabled="disabled" type="checkbox">
+                                <input class="visibilityCheckbox answerCheckbox2" value="RECEIVER_TEAM_MEMBERS" disabled="disabled" checked="checked" type="checkbox">
                             </td>
                             <td>
                                 <input class="visibilityCheckbox giverCheckbox2" value="RECEIVER_TEAM_MEMBERS" disabled="disabled" type="checkbox">
@@ -886,7 +815,7 @@
             <input name="courseid" value="CFeedbackEditUiT.CS2104" type="hidden">
             <input name="questionid" value="{*}" type="hidden">
             <input name="questionnum" value="2" type="hidden">
-            <input name="questiontype" value="CONSTSUM" type="hidden">
+            <input name="questiontype" value="CONTRIB" type="hidden">
             <input name="questionedittype" id="questionedittype-2" value="edit" type="hidden">
             <input value="RECEIVER,INSTRUCTORS" name="showresponsesto" type="hidden">
             <input value="RECEIVER,INSTRUCTORS" name="showgiverto" type="hidden">

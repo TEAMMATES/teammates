@@ -1,6 +1,8 @@
 package teammates.common.util;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -231,6 +233,7 @@ public class Const {
         public static final String NUMSCALE = "Numerical-scale question";
         public static final String CONSTSUM_OPTION = "Distribute points (among options) question";
         public static final String CONSTSUM_RECIPIENT = "Distribute points (among recipients) question";
+        public static final String CONTRIB = "Team contribution question";
     }
     
     public class InstructorPermissionRoleNames {
@@ -944,5 +947,38 @@ public class Const {
         TIME_REPRESENTS_LATER = TimeHelper.convertToDate("1970-01-01 00:00 AM UTC");
         TIME_REPRESENTS_NOW = TimeHelper.convertToDate("1970-02-14 00:00 AM UTC");
     }
-     
+    
+    /* Other Constants
+     */
+    @SuppressWarnings("unused")
+    private void _______other_constants________________________(){}
+    
+    //Used for Feedback CONTRIBUTION question
+    public static final String EQUAL_SHARE = "Equal Share";
+    public static final String NOT_SURE = "Not Sure";
+    public static final List<String> FEEDBACK_CONTRIBUTION_OPTIONS = Arrays.asList(
+            "0%",
+            EQUAL_SHARE+ " - 90%",
+            EQUAL_SHARE+ " - 80%",
+            EQUAL_SHARE+ " - 70%",
+            EQUAL_SHARE+ " - 60%",
+            EQUAL_SHARE+ " - 50%",
+            EQUAL_SHARE+ " - 40%",
+            EQUAL_SHARE+ " - 30%",
+            EQUAL_SHARE+ " - 20%",
+            EQUAL_SHARE+ " - 10%",
+            EQUAL_SHARE,
+            EQUAL_SHARE+ " + 10%",
+            EQUAL_SHARE+ " + 20%",
+            EQUAL_SHARE+ " + 30%",
+            EQUAL_SHARE+ " + 40%",
+            EQUAL_SHARE+ " + 50%",
+            EQUAL_SHARE+ " + 60%",
+            EQUAL_SHARE+ " + 70%",
+            EQUAL_SHARE+ " + 80%",
+            EQUAL_SHARE+ " + 90%",
+            EQUAL_SHARE+ " + 100%",
+            NOT_SURE);
+    
+    
 }

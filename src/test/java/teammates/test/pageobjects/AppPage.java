@@ -328,7 +328,7 @@ public abstract class AppPage {
     protected void fillTextBox(WebElement textBoxElement, String value) {
         textBoxElement.click();
         textBoxElement.clear();
-        textBoxElement.sendKeys(value + Keys.TAB);
+        textBoxElement.sendKeys(value + Keys.TAB + Keys.TAB + Keys.TAB);
     }
     
     protected void fillFileBox(RemoteWebElement fileBoxElement, String fileName) throws Exception {

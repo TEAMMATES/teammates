@@ -262,7 +262,9 @@ public class FeedbackMcqQuestionDetails extends FeedbackAbstractQuestionDetails 
     
     @Override
     public String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses,
-            FeedbackSessionResultsBundle bundle) {
+            FeedbackQuestionAttributes question,
+            FeedbackSessionResultsBundle bundle,
+            String view) {
         if(responses.size() == 0){
             return "";
         }
