@@ -149,8 +149,7 @@ public class AccountsLogic {
             throws JoinCourseException, InvalidParametersException{
         
         try {
-            joinCourseForInstructorWithInstitute(encryptedKey, googleId,
-                    institute);
+            joinCourseForInstructorWithInstitute(encryptedKey, googleId, institute);
         } catch (EntityDoesNotExistException e) {
             throw new JoinCourseException(e.getMessage());
         }
@@ -185,14 +184,14 @@ public class AccountsLogic {
         AccountAttributes account = accountsDb.getAccount(googleId);
         String instituteToSave = (institute == null? getCourseInstitute(instructor.courseId) : institute ) ;
         
-        if (account != null){
-            makeAccountInstructor(googleId);
-        } else {
+        if (account == null){
             createAccount(new AccountAttributes(googleId,
                                                 instructor.name,
                                                 true,
                                                 instructor.email,
                                                 instituteToSave));
+        } else {
+            makeAccountInstructor(googleId);
         }
                   
         instructor.googleId = googleId;
