@@ -1174,13 +1174,13 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null. <br>
      */
-    public String getEvaluationResultSummaryAsCsv(String courseId, String evalName) 
+    public String getEvaluationResultSummaryAsCsv(String courseId, String instrEmail, String evalName) 
             throws EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, evalName);
         
-        return evaluationsLogic.getEvaluationResultSummaryAsCsv(courseId, evalName);
+        return evaluationsLogic.getEvaluationResultSummaryAsCsv(courseId, instrEmail, evalName);
     }
     
     /**
