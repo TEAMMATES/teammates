@@ -156,6 +156,11 @@ function enableQuestion(number){
         $("#constSumOptionTable-"+number).show();
         $("#constSumOption_Recipient-"+number).hide();
     }
+
+    if($('#questionTable'+number).parent().find('input[name="questiontype"]').val()=='CONTRIB'){
+        fixContribQnGiverRecipient(number);
+        setDefaultContribQnVisibility(number);
+    }
     
     $('#'+FEEDBACK_QUESTION_EDITTEXT+'-'+number).hide();
     $('#'+FEEDBACK_QUESTION_SAVECHANGESTEXT+'-'+number).show();
@@ -383,6 +388,8 @@ function prepareQuestionForm(type) {
 function setDefaultContribQnVisibility(questionNumber){
     var idSuffix = questionNumber ? ("-" + questionNumber) : "New";
     var idSuffix2 = questionNumber ? questionNumber : "";
+
+    console.log(idSuffix);
 
     $('#questionTable'+idSuffix).find('input.visibilityCheckbox').prop('checked', false);
     //All except STUDENTS can see answer
