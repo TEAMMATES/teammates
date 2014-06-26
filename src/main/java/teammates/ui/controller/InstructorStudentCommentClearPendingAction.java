@@ -1,6 +1,7 @@
 package teammates.ui.controller;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.Set;
 
 import net.sf.jsr107cache.Cache;
@@ -26,7 +27,7 @@ public class InstructorStudentCommentClearPendingAction extends Action {
                 logic.getCourse(courseId));
         
         Set<String> recipientEmails = logic.getRecipientEmailsForPendingComments(courseId);
-        String recipientEmailsKey = Const.ParamsNames.RECIPIENTS + recipientEmails.hashCode();
+        String recipientEmailsKey = Const.ParamsNames.RECIPIENTS + recipientEmails.hashCode() + (new Date()).hashCode();
         
         try {
             CacheFactory cacheFactory = CacheManager.getInstance().getCacheFactory();

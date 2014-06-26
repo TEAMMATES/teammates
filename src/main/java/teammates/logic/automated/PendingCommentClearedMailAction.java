@@ -87,7 +87,7 @@ public class PendingCommentClearedMailAction extends EmailAction {
     private void initializeCache() throws CacheException {
         @SuppressWarnings("rawtypes")
         Map cacheProps = new HashMap();
-        cacheProps.put(GCacheFactory.EXPIRATION_DELTA, 3600);
+        cacheProps.put(GCacheFactory.EXPIRATION_DELTA, 1800);
         CacheFactory cacheFactory = CacheManager.getInstance().getCacheFactory();
         cache = cacheFactory.createCache(cacheProps);
     }
