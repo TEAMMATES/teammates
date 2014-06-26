@@ -122,7 +122,10 @@ public class GodModeTest extends BaseUiTestCase {
         writeToFile(TestProperties.TEST_PAGES_FOLDER + "/godmode.html", initialContent);
         
         File file = new File(getOutputFilePath());
-        file.delete();
+        if(!file.delete()){
+            System.out.println("Delete failed. " + file.getAbsolutePath());
+            file.deleteOnExit();
+        }
     }
 
     private static String getPath() throws Exception{
