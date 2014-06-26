@@ -54,20 +54,39 @@
         <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
         <br>
         
+        <div class="modal fade" id="studentPhotoUploader" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Upload Photo</h4>
+                    </div>
+                    <div class="modal-body center-block align-center">
+                        <br>
+                        <img id="editablePicture" src="<%=pictureUrl %>" /><br><br>
+                        <div class="center-block align-center">
+                            <label for="studentPhoto">Your Photo</label><br>
+                            <input id="studentPhoto" class="inline" type="file" name="<%=Const.ParamsNames.STUDENT_PROFILE_PIC %>" />
+                            <p class="help-block">Max Size: 30 MB</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+        
         <div id="editProfileDiv" class="well well-plain well-narrow well-sm-wide">
             <h3 id="studentName"><strong><%=data.account.name %></strong></h3><br>
+            <div class="form-group row">
+                <div class="col-xs-3 cursor-pointer" 
+                     title="<%=Const.Tooltips.STUDENT_PROFILE_PICTURE %>" data-toggle="tooltip" data-placement="top">
+                    <img src="<%=pictureUrl %>" class="profile-pic" data-toggle="modal" data-target="#studentPhotoUploader"/>
+                </div>
+            </div>
             <form id="profileEditForm" class="form center-block" role="form" method="post"
                   action="<%=Const.ActionURIs.STUDENT_PROFILE_EDIT_SAVE %>">
-                <div class="form-group row" title="<%=Const.Tooltips.STUDENT_PROFILE_PICTURE %>" data-toggle="tooltip" data-placement="top">
-                    <div class="col-xs-4">
-                        <img src="<%=pictureUrl %>" class="profile-pic"/>
-                    </div>
-                    <div class="col-xs-6">
-                        <label for="studentPhoto">Your Photo</label>
-                        <input id="studentPhoto" type="file" name="<%=Const.ParamsNames.STUDENT_PROFILE_PIC %>" />
-                        <p class="help-block">Max Size: 1 MB</p>
-                    </div>
-                </div>
                 <div class="form-group" title="<%=Const.Tooltips.STUDENT_PROFILE_SHORTNAME %>" data-toggle="tooltip" data-placement="top">
                     <label for="studentNickname">Short Name</label>
                     <input id="studentShortname" name="<%=Const.ParamsNames.STUDENT_SHORT_NAME %>" class="form-control" type="text" data-actual-value="<%=data.account.studentProfile.shortName == null ? "" : data.account.studentProfile.shortName %>" value="<%=data.account.studentProfile.shortName == null ? "" : data.account.studentProfile.shortName %>" placeholder="How the instructor should call you" />
@@ -113,7 +132,7 @@
                               placeholder="<%=Const.Tooltips.STUDENT_PROFILE_MOREINFO %>"
                               ><%=data.account.studentProfile.moreInfo == null ? "" : data.account.studentProfile.moreInfo %></textarea>
                 </div><br>
-                <button type="button" id="profileEditSubmit" class="btn btn-primary center-block" onclick="finaliseForm()">Save Profile</button>
+                <button type="submit" id="profileEditSubmit" class="btn btn-primary center-block">Save Profile</button>
                 <br>
                 <p class="text-muted text-color-disclaimer"> <i>* This profile will be visible to all your Instructors and Coursemates</i></p>
                 <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">

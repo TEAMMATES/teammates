@@ -299,5 +299,37 @@ public class AccountsDb extends EntitiesDb {
     protected Object getEntity(EntityAttributes entity) {
         return getAccountEntity(((AccountAttributes)entity).googleId);
     }
+
+    public void updateStudentProfilePicture(String googleId,
+            String newPictureKey) throws EntityDoesNotExistException {
+        
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, newPictureKey);
+        Assumption.assertNotEmpty("GoogleId is empty", googleId);
+        Assumption.assertNotEmpty("PictureKey is empty", newPictureKey);
+        
+        StudentProfile profileToUpdate = getStudentProfileEntity(googleId);
+        
+        if (profileToUpdate == null || JDOHelper.isDeleted(profileToUpdate)) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_STUDENT_PROFILE + googleId
+                    + ThreadHelper.getCurrentThreadStack());
+        }
+        
+        profileToUpdate.setPictureKey(new BlobKey(newPictureKey));
+        if (newPictureKey != "") {
+            if (!profileToUpdate.getPictureKey().equals(new BlobKey(""))) {
+                try {
+                    deleteProfilePicFromGcs(profileToUpdate.getPictureKey());
+                } catch (BlobstoreFailureException bfe) {
+                    // this branch is not tested as it is 
+                    //      => difficult to reproduce during testing
+                    //      => properly handled higher up
+                    closePM();
+                    throw bfe;
+                }
+            }
+            profileToUpdate.setPictureKey(new BlobKey(newPictureKey));
+        }
+    }
 }
 
