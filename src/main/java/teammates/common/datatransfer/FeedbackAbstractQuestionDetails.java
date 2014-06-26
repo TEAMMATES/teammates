@@ -41,7 +41,10 @@ public abstract class FeedbackAbstractQuestionDetails {
     
     public abstract String getQuestionAdditionalInfoHtml(int questionNumber, String additionalInfoId);
     
-    public abstract String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses, FeedbackSessionResultsBundle bundle);
+    public abstract String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses,
+            FeedbackQuestionAttributes question,
+            FeedbackSessionResultsBundle bundle,
+            String view);
     
     public abstract boolean isChangesRequiresResponseDeletion(FeedbackAbstractQuestionDetails newDetails);
     
@@ -171,6 +174,9 @@ public abstract class FeedbackAbstractQuestionDetails {
             } else {
                 questionDetails = new FeedbackConstantSumQuestionDetails(questionText, pointsPerOption, points);
             }
+            break;
+        case CONTRIB:
+            questionDetails = new FeedbackContributionQuestionDetails(questionText);
             break;
         default:
             Assumption.fail("Question type not supported by FeedbackAbstractQuestionDetails");

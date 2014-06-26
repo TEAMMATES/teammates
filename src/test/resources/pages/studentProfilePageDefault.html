@@ -58,10 +58,11 @@
                  <li class="">
                     <a data-link="studentProfilePage" href="/page/studentProfilePage?user=SHomeUiT.benny.c" id="studentProfileLink">
                        Profile
-                       <sup>
-                          <span class="glyphicon glyphicon-star glyphicon-gold">
-                          </span>
-                       </sup>
+                    </a>
+                 </li>
+                 <li class="">
+                    <a data-link="studentCommentsPage" href="/page/studentCommentsPage?user=SHomeUiT.benny.c" id="studentCommentsLink">
+                       Comments
                     </a>
                  </li>
                  <li class="">
@@ -76,10 +77,10 @@
                        Logout
                                 
                                 (
-                           <span class="text-info" data-original-title="SHomeUiT.benny.c" data-placement="bottom" data-toggle="tooltip" title="">
-                              SHomeUiT.benny.c
-                           </span>
-                           )
+                       <span class="text-info" data-original-title="SHomeUiT.benny.c" data-placement="bottom" data-toggle="tooltip" title="">
+                          SHomeUiT.benny.c
+                       </span>
+                       )
                     </a>
                  </li>
               </ul>
@@ -103,35 +104,45 @@
               </strong>
            </h3>
            <br/>
-                          <form action="/page/studentProfileEditSave" class="form center-block" method="post" role="form">
+                          <form action="/page/studentProfileEditSave" class="form center-block" id="profileEditForm" method="post" role="form">
+              <div class="form-group row" data-original-title="Upload a profile picture" data-placement="top" data-toggle="tooltip" title="">
+                 <div class="col-xs-4">
+                    <img class="profile-pic" src="/images/profile_picture_default.png" />
+                                         </div>
+                 <div class="col-xs-6">
+                    <label for="studentPhoto">
+                       Your Photo
+                    </label>
+                    <input id="studentPhoto" name="studentprofilephoto" type="file"/>
+                    <p class="help-block">Max Size: 1 MB</p>
+                                         </div>
+              </div>
               <div class="form-group" data-original-title="This is the name you prefer to be called by" data-placement="top" data-toggle="tooltip" title="">
                  <label for="studentNickname">
-                    Shortname
+                    Short Name
                  </label>
                  <input class="form-control" data-actual-value="" id="studentShortname" name="studentshortname" placeholder="How the instructor should call you" type="text" value=""/>
                                    </div>
               <div class="form-group" data-original-title="This is a long term contact email" data-placement="top" data-toggle="tooltip" title="">
                  <label for="studentEmail">
                     Email
-                    <small>
-                       <sup class="pull-right text-color-disclaimer">
-                          - Only visible to your Instructors
-                       </sup>
-                    </small>
+                    <em class="font-weight-normal emphasis text-muted small">
+                           - only visible to your instructors
+                        </em>
                  </label>
-                 <input class="form-control" data-actual-value="" id="studentEmail" name="studentprofileemail" placeholder="Long-term contact email" type="email" value=""/>
+                 <input class="form-control" data-actual-value="" id="studentEmail" name="studentprofileemail" placeholder="Contact Email (for your instructors to contact you beyond graduation)" type="email" value=""/>
                                    </div>
-              <div class="form-group" data-original-title="This is the institution that you represent in the current course" data-placement="top" data-toggle="tooltip" title="">
+              <div class="form-group" data-original-title="This is the institution that you represent" data-placement="top" data-toggle="tooltip" title="">
                  <label for="studentInstitution">
                     Institution
                  </label>
                  <input class="form-control" data-actual-value="" id="studentInstitution" name="studentprofileinstitute" placeholder="Your Institution" type="text" value=""/>
                                    </div>
-              <div class="form-group" data-original-title="This is the country you represent in the current course" data-placement="top" data-toggle="tooltip" title="">
-                 <label for="studentCountry">
-                    Country
+              <div class="form-group" data-original-title="This is your nationality" data-placement="top" data-toggle="tooltip" title="">
+                 <label for="studentNationality">
+                    Nationality
                  </label>
-                 <input class="form-control" data-actual-value="" id="studentCountry" name="studentcountry" placeholder="Country" type="text" value=""/>
+                 <input class="form-control" data-actual-value="" id="studentNationality" name="studentnationality" placeholder="Nationality" type="text" value=""/>
                                    </div>
               <div class="form-group">
                  <label for="studentGender">
@@ -152,23 +163,24 @@
                     </label>
                  </div>
               </div>
-              <div class="form-group" data-original-title="Miscellaneous information to show the instructor. It can include links to external portfolios." data-placement="top" data-toggle="tooltip" title="">
-                 <label for="studentCountry">
+              <div class="form-group" data-original-title="You may specify miscellaneous info about yourself e.g. links to home page, online CV, portfolio etc." data-placement="top" data-toggle="tooltip" title="">
+                 <label for="studentNationality">
                     More info about yourself
                  </label>
-                 <textarea class="form-control" id="studentMoreInfo" name="studentprofilemoreinfo" placeholder="You may wish to specify miscellaneous information as well as links to external profiles." rows="4">
+                 <textarea class="form-control" id="studentMoreInfo" name="studentprofilemoreinfo" placeholder="You may specify miscellaneous info about yourself e.g. links to home page, online CV, portfolio etc." rows="4">
                  </textarea>
               </div>
               <br/>
-                                <button class="btn btn-primary center-block" id="profileEditSubmit" type="submit">
+                                <button class="btn btn-primary center-block" id="profileEditSubmit" onclick="finaliseForm()" type="button">
                  Save Profile
               </button>
               <br/>
                                 <p class="text-muted text-color-disclaimer">
                  <i>
-                    * This profile will be visible to all your Instructors and Classmates by default
+                    * This profile will be visible to all your Instructors and Coursemates
                  </i>
               </p>
+              <input type="hidden" name="user" value="SHomeUiT.benny.c">
            </form>
         </div>
      </div>

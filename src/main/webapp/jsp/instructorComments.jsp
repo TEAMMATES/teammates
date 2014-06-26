@@ -73,8 +73,8 @@
             <div id="topOfPage"></div>
             <div class="inner-container">
                 <div class="row">
-                    <div class="col-sm-5">
-                        <h1>Instructor Comments</h1>
+                    <div class="col-sm-6">
+                        <h1>Comments from Instructors</h1>
                     </div>
                     <!-- <div class="col-sm-5 instructor-header-bar">
                         <form method="post" action="#"
@@ -130,15 +130,14 @@
                             <div class="row">
                                 <div class="col-sm-4">
                                     <div class="text-color-primary">
-                                        <strong>Comment Panels</strong>
+                                        <strong>Show comments for: </strong>
                                     </div>
                                     <br>
                                     <div class="checkbox">
                                         <input id="panel_all"
                                             type="checkbox"
                                             checked="checked"> <label
-                                            for="panel_all"><strong>Display
-                                                All</strong></label>
+                                            for="panel_all"><strong>All</strong></label>
                                     </div>
                                     <br>
                                     <% int panelIdx = 0; %>
@@ -150,7 +149,7 @@
                                             type="checkbox"
                                             checked="checked"> <label
                                             for="panel_check-<%=panelIdx%>">
-                                            Comments on students </label>
+                                            Students </label>
                                     </div>
                                     <% } %>
                                     <% for(String fsName : data.feedbackResultBundles.keySet()){ 
@@ -161,21 +160,20 @@
                                             type="checkbox"
                                             checked="checked"> <label
                                             for="panel_check-<%=panelIdx%>">
-                                            <%=fsName%> </label>
+                                            Session: <%=fsName%> </label>
                                     </div>
                                     <% } %>
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="text-color-primary">
-                                        <strong>Comment Givers</strong>
+                                        <strong>Show comments from: </strong>
                                     </div>
                                     <br>
                                     <div class="checkbox">
                                         <input type="checkbox" value=""
                                             id="giver_all"
                                             checked="checked"> <label
-                                            for="giver_all"><strong>Display
-                                                all</strong></label>
+                                            for="giver_all"><strong>All</strong></label>
                                     </div>
                                     <br>
                                     <div class="checkbox">
@@ -183,14 +181,14 @@
                                             type="checkbox"
                                             checked="checked"> <label
                                             for="giver_check-by-you">
-                                            By you </label>
+                                            You </label>
                                     </div>
                                     <div class="checkbox">
                                         <input id="giver_check-by-others"
                                             type="checkbox"
                                             checked="checked"> <label
                                             for="giver_check-by-others">
-                                            By others </label>
+                                            Others </label>
                                     </div>
                                 </div>
                             </div>
@@ -239,7 +237,7 @@
                 <br>
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <strong><%=data.isViewingDraft ? "Comment drafts" : "Comments on students"%></strong>
+                        <strong><%=data.isViewingDraft ? "Comment drafts" : "Comments for students"%></strong>
                     </div>
                     <div class="panel-body">
                         <%=data.isViewingDraft ? "Your comments that are not finished:" : ""%>
@@ -555,7 +553,7 @@
                 <br>
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <strong>Feedback Session: <%=fsName%></strong>
+                        <strong>Comments in session: <%=fsName%></strong>
                     </div>
                     <div class="panel-body">
                         <%
@@ -600,7 +598,7 @@
                                         </td>
                                     </tr>
                                     <tr class="active">
-                                        <td>Comment:
+                                        <td>Comment(s):
                                             <button type="button"
                                                 class="btn btn-default btn-xs icon-button pull-right"
                                                 id="button_add_comment-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>"

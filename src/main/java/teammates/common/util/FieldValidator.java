@@ -18,7 +18,7 @@ public class FieldValidator {
     public enum FieldType {
         COURSE_ID,  
         COURSE_NAME, 
-        COUNTRY, 
+        NATIONALITY, 
         EMAIL, 
         EVALUATION_INSTRUCTIONS, 
         EVALUATION_NAME, 
@@ -90,15 +90,15 @@ public class FieldValidator {
 
     /*
      * ======================================================================= 
-     * Field: Country
+     * Field: Nationality
      */
-    private static final String COUNTRY_FIELD_NAME = "a country";
-    // one more than longest official country name
-    public static final int COUNTRY_MAX_LENGTH = 53;
-    public static final String COUNTRY_ERROR_MESSAGE = 
-            "\"%s\" is not acceptable to TEAMMATES as "+COUNTRY_FIELD_NAME+" because it %s. " +
-                    "The value of "+COUNTRY_FIELD_NAME+" should be no longer than "+
-                    COUNTRY_MAX_LENGTH+" characters. It should not be empty.";
+    private static final String NATIONALITY_FIELD_NAME = "nationality";
+    // one more than longest official nationality name
+    public static final int NATIONALITY_MAX_LENGTH = 55;
+    public static final String NATIONALITY_ERROR_MESSAGE = 
+            "\"%s\" is not acceptable to TEAMMATES as "+NATIONALITY_FIELD_NAME+" because it %s. " +
+                    "The value of "+NATIONALITY_FIELD_NAME+" should be no longer than "+
+                    NATIONALITY_MAX_LENGTH+" characters. It should not be empty.";
     
     /*
      * =======================================================================
@@ -450,9 +450,9 @@ public class FieldValidator {
             returnValue = getValidityInfoForAllowedName(
                     INSTITUTE_NAME_FIELD_NAME, INSTITUTE_NAME_MAX_LENGTH, (String)value);
             break;
-        case COUNTRY:
+        case NATIONALITY:
             returnValue = getValidityInfoForAllowedName(
-                     COUNTRY_FIELD_NAME, COUNTRY_MAX_LENGTH, (String)value);
+                     NATIONALITY_FIELD_NAME, NATIONALITY_MAX_LENGTH, (String)value);
             break;
         case COURSE_NAME:
             returnValue = getValidityInfoForAllowedName(

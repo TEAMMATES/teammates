@@ -65,7 +65,7 @@ public class BaseActionTest extends BaseComponentTestCase {
                 Const.ParamsNames.STUDENT_SHORT_NAME, "short",
                 Const.ParamsNames.STUDENT_PROFILE_EMAIL, "e@email.com",
                 Const.ParamsNames.STUDENT_PROFILE_INSTITUTION, "NUS",
-                Const.ParamsNames.STUDENT_COUNTRY, "Switzerland",
+                Const.ParamsNames.STUDENT_NATIONALITY, "Switzerland",
                 Const.ParamsNames.STUDENT_GENDER, "other",
                 Const.ParamsNames.STUDENT_PROFILE_MOREINFO, "This is more info on me"
         };
@@ -77,7 +77,7 @@ public class BaseActionTest extends BaseComponentTestCase {
                 Const.ParamsNames.STUDENT_SHORT_NAME, "$$short",
                 Const.ParamsNames.STUDENT_PROFILE_EMAIL, "invalid.email",
                 Const.ParamsNames.STUDENT_PROFILE_INSTITUTION, "institute",
-                Const.ParamsNames.STUDENT_COUNTRY, "USA",
+                Const.ParamsNames.STUDENT_NATIONALITY, "USA",
                 Const.ParamsNames.STUDENT_GENDER, "female",
                 Const.ParamsNames.STUDENT_PROFILE_MOREINFO, "This is more info on me"
         };

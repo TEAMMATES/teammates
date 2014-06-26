@@ -94,7 +94,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         accountsLogic.createAccount(
                 new AccountAttributes(instructorId, "ICET Instr Name", true,
                         "instructor@icet.com", "National University of Singapore",
-                        new StudentProfileAttributes(instructorId, "ICET", "", "", "", "other", "")));
+                        new StudentProfileAttributes(instructorId, "ICET", "", "", "", "other", "", "")));
         coursesLogic.createCourseAndInstructor(instructorId, instructorCourse, "Course for Enroll Testing");
 
         ______TS("add student into empty course");
@@ -192,8 +192,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         ______TS("success: default profile");
         
         StudentProfileAttributes actualSpa = studentsLogic.getStudentProfile(student1InCourse1.googleId);
-        StudentProfileAttributes expectedSpa = new StudentProfileAttributes(student1InCourse1.googleId,
-                "Stud1", "i.m.stud1@gmail.com", "Georgia Tech", "U.S.A", "male", "I am just a student :P");
+        StudentProfileAttributes expectedSpa = student1.studentProfile;
         
         // fill-in auto-generated and default values
         expectedSpa.institute = actualSpa.institute;
@@ -209,7 +208,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         expectedStudentProfile.shortName = "short";
         expectedStudentProfile.email = "personal@email.com";
         expectedStudentProfile.institute = "institute";
-        expectedStudentProfile.country = "Valid Country";
+        expectedStudentProfile.nationality = "Valid Nationality";
         expectedStudentProfile.gender = "female";
         expectedStudentProfile.moreInfo = "This sentence may sound sound but it cannot make actual sound... :P";
         
@@ -261,7 +260,8 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         try {
             studentsLogic.validateSections(studentList, courseId);
         } catch (EnrollException e) {
-            assertEquals(String.format(Const.StatusMessages.TEAM_INVALID_SECTION_EDIT,"Team 1.1"), e.getMessage());
+            assertEquals(String.format(Const.StatusMessages.TEAM_INVALID_SECTION_EDIT,"Team 1.1") + "Please use the enroll page to edit multiple students"
+                    , e.getMessage());
         }
     }
 
@@ -676,7 +676,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         String EOL = Const.EOL;
         AccountAttributes accountToAdd = new AccountAttributes(instructorId, 
                 "Instructor 1", true, instructorEmail, "National University Of Singapore",
-                new StudentProfileAttributes(instructorId, "Ins1", "", "", "", "male", ""));
+                new StudentProfileAttributes(instructorId, "Ins1", "", "", "", "male", "", ""));
         
         accountsLogic.createAccount(accountToAdd);
         coursesLogic.createCourseAndInstructor(instructorId, courseIdForEnrollTest, "Course for Enroll Testing");
@@ -767,7 +767,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         
         accountToAdd = new AccountAttributes("tes.instructor", 
                 "Instructor 1", true, "instructor@email.com", "National University Of Singapore",
-                new StudentProfileAttributes("tes.instructor", "Ins 1", "", "", "", "male", ""));
+                new StudentProfileAttributes("tes.instructor", "Ins 1", "", "", "", "male", "", ""));
         accountsLogic.createAccount(accountToAdd);
         coursesLogic.createCourseAndInstructor("tes.instructor", "tes.course", "TES Course");
             

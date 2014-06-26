@@ -77,13 +77,16 @@
                     <div class="col-sm-9">
                         <p class="form-control-static" id="<%=Const.ParamsNames.INSTRUCTOR_NAME%>">
                            <%
-                            for (int i = 0; i < data.instructors.size(); i++){
+                            for (int i = 0; i < data.instructors.size(); i++) {
                                 InstructorAttributes instructor = data.instructors.get(i);
-                                String instructorInfo = instructor.name + " (" + instructor.email + ")";
+                                if (instructor.isDisplayedToStudents) {
+                                    String displayedName = instructor.displayedName + ": ";
+                                    String instructorInfo = instructor.name + " (" + instructor.email + ")";
                             %>
-                            <a href = "mailto:<%=instructor.email%>"><%=instructorInfo%></a><br>
+                                <%=displayedName%><a href = "mailto:<%=instructor.email%>"><%=instructorInfo%></a><br>
                             <%
                                 }
+                            }
                             %>
                         </p>
                     </div>

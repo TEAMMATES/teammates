@@ -11,7 +11,6 @@ import javax.mail.internet.MimeMessage;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentRecipientType;
-import teammates.common.datatransfer.CommentStatus;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.CourseRoster;
@@ -58,6 +57,8 @@ import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.logic.core.SubmissionsLogic;
 
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.blobstore.BlobstoreFailureException;
 import com.google.appengine.api.datastore.Text;
 
 /**
@@ -163,8 +164,6 @@ public class Logic {
      */
     public void createAccount(String googleId, String name, boolean isInstructor,
                                 String email, String institute) throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
-        StudentProfileAttributes emptyStudentProfile = new StudentProfileAttributes();
-        emptyStudentProfile.googleId = googleId;
 
         createAccount(googleId, name, isInstructor, email, institute, null);
     }
@@ -236,6 +235,12 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
         
         accountsLogic.deleteAccountCascade(googleId);
+    }
+    
+    public void deleteProfilePicture(BlobKey key) throws BlobstoreFailureException {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, key);
+        
+        accountsLogic.deleteProfilePicture(key);
     }
 
     @SuppressWarnings("unused")
