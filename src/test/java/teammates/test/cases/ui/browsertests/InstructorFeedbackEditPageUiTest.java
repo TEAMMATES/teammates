@@ -111,13 +111,22 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         testAddConstSumOptionQuestionAction();
         testEditConstSumOptionQuestionAction();
         testDeleteConstSumOptionQuestionAction();
-        
+    
         testNewConstSumRecipientQuestionFrame();
         testInputValidationForConstSumRecipientQuestion();
         testCustomizeConstSumRecipientOptions();
         testAddConstSumRecipientQuestionAction();
         testEditConstSumRecipientQuestionAction();
         testDeleteConstSumRecipientQuestionAction();
+        
+        /*
+        testNewContributionQuestionFrame();
+        testInputValidationForContributionQuestion();
+        testCustomizeContributionOptions();
+        testAddContributionQuestionAction();
+        testEditContributionQuestionAction();
+        testDeleteContributionQuestionAction();
+        */
         
         testPreviewSessionAction();
 
@@ -870,6 +879,82 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));
 
         ______TS("CONSTSUM: qn delete then accept");
+
+        feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(2));
+        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED, feedbackEditPage.getStatus());
+        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));    
+    }
+    
+
+    @SuppressWarnings("unused")
+    private void ____CONTRIB_methods___________________________________() {
+    }
+    
+    private void testNewContributionQuestionFrame() {
+        ______TS("CONTRIB: new question (frame) link");
+
+        feedbackEditPage.selectNewQuestionType("Distribute points (among recipients) question");
+        feedbackEditPage.clickNewQuestionButton();
+        assertTrue(feedbackEditPage.verifyNewConstSumQuestionFormIsDisplayed());
+    }
+    
+    private void testInputValidationForContributionQuestion() {
+        
+        ______TS("CONTRIB:input validation");
+        
+        feedbackEditPage.fillQuestionBox("ConstSum-recipient qn");
+        feedbackEditPage.fillConstSumPointsBox("", -1);
+        
+        assertEquals("1", feedbackEditPage.getConstSumPointsBox(-1));
+        assertEquals(false, feedbackEditPage.isElementVisible("constSumOptionTable--1"));
+        
+        feedbackEditPage.getDeleteQuestionLink(-1).click();
+        assertEquals("", feedbackEditPage.getStatus());
+        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));
+        
+    }
+    
+
+    private void testCustomizeContributionOptions() {
+        ______TS("CONTRIB: set points options");
+
+        feedbackEditPage.selectConstSumPointsOptions("per recipient:", -1);
+        feedbackEditPage.fillConstSumPointsBox("100", -1);
+        
+    }
+
+    private void testAddContributionQuestionAction() {
+        ______TS("CONTRIB: add question action success");
+        
+        feedbackEditPage.fillQuestionBox("const sum qn");
+        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));
+        feedbackEditPage.clickAddQuestionButton();
+        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());
+        assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackConstSumRecipientQuestionAddSuccess.html");
+    }
+
+    private void testEditContributionQuestionAction() {
+        ______TS("CONTRIB: edit question success");
+
+        assertEquals(true, feedbackEditPage.clickEditQuestionButton(2));
+        feedbackEditPage.fillEditQuestionBox("edited const sum qn text", 2);
+        feedbackEditPage.fillConstSumPointsBox("200", 2);
+        feedbackEditPage.selectConstSumPointsOptions("in total:", 2);
+        
+        feedbackEditPage.clickSaveExistingQuestionButton(2);
+        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, feedbackEditPage.getStatus());
+
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackConstSumRecipientQuestionEditSuccess.html");
+    }
+    
+    private void testDeleteContributionQuestionAction(){
+        ______TS("CONTRIB: qn delete then cancel");
+
+        feedbackEditPage.clickAndCancel(feedbackEditPage.getDeleteQuestionLink(2));
+        assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));
+
+        ______TS("CONTRIB: qn delete then accept");
 
         feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(2));
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED, feedbackEditPage.getStatus());
