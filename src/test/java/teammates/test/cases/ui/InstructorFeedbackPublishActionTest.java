@@ -50,6 +50,7 @@ public class InstructorFeedbackPublishActionTest extends BaseActionTest {
         verifyUnaccessibleForUnregisteredUsers(submissionParams);
         verifyUnaccessibleForStudents(submissionParams);
         verifyUnaccessibleForInstructorsOfOtherCourses(submissionParams);
+        verifyUnaccessibleWithoutModifySessionPrivilege(submissionParams);
         verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
         
         makeFeedbackSessionUnpublished(session); //we have to revert to the closed state
