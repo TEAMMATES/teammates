@@ -15,7 +15,6 @@ import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Utils;
-import teammates.logic.backdoor.BackDoorLogic;
 import teammates.storage.api.AccountsDb;
 
 
@@ -172,13 +171,13 @@ public class AccountsLogic {
     
     
     /**
-     * If institute is set only if it is not null. If it is null, this instructor
-     *   is given the the institute of an existing instructor of the same course. 
+     * Institute is set only if it is not null. If it is null, this instructor
+     * is given the the institute of an existing instructor of the same course. 
      */
     private void joinCourseForInstructorWithInstitute(String encryptedKey,String googleId, String institute)
             throws JoinCourseException, InvalidParametersException, EntityDoesNotExistException {
 
-        confirmValidJoinCourseRequest(encryptedKey, googleId);
+        confirmValidJoinCourseRequest(encryptedKey, googleId, institute);
 
         InstructorAttributes instructor = InstructorsLogic.inst().getInstructorForRegistrationKey(encryptedKey);
         AccountAttributes account = accountsDb.getAccount(googleId);
@@ -202,16 +201,15 @@ public class AccountsLogic {
     /**
      * @throws JoinCourseException if the request is invalid. Do nothing otherwise.
      */
-    private void confirmValidJoinCourseRequest(String encryptedKey, String googleId)
+    private void confirmValidJoinCourseRequest(String encryptedKey, String googleId, String institute)
             throws JoinCourseException {
         
         //The order in which these confirmations are done is important. Reorder with care.
         confirmValidKey(encryptedKey);
         
-        InstructorAttributes instructorForKey = InstructorsLogic.inst()
-                                .getInstructorForRegistrationKey(encryptedKey);
+        InstructorAttributes instructorForKey = InstructorsLogic.inst().getInstructorForRegistrationKey(encryptedKey);
         
-        confirmNotAlreadyJoinedAsInstructor(instructorForKey, googleId);
+        confirmNotAlreadyJoinedAsInstructor(instructorForKey, googleId, institute);
         confirmUnusedKey(instructorForKey, googleId);
         confirmNotRejoiningUsingDifferentKey(instructorForKey, googleId);
         
@@ -229,8 +227,7 @@ public class AccountsLogic {
         }
         
         //check if this Google ID has already joined this course
-        InstructorAttributes existingInstructor = InstructorsLogic.inst()
-                .getInstructorForGoogleId(instructorForKey.courseId, googleId);
+        InstructorAttributes existingInstructor = InstructorsLogic.inst().getInstructorForGoogleId(instructorForKey.courseId, googleId);
         
         if (existingInstructor != null) {
             throw new JoinCourseException(
@@ -245,15 +242,22 @@ public class AccountsLogic {
      * @throws JoinCourseException is the instructor has already joined this 
      *     course using the same key.
      */
-    private void confirmNotAlreadyJoinedAsInstructor(InstructorAttributes instructorForKey, String googleId) throws JoinCourseException {
-        if(instructorForKey.googleId ==null 
-                || !instructorForKey.googleId.equals(googleId)){
+    private void confirmNotAlreadyJoinedAsInstructor(InstructorAttributes instructorForKey, String googleId, String institute) 
+            throws JoinCourseException {
+        if(instructorForKey.googleId ==null || !instructorForKey.googleId.equals(googleId)){
             return;
         }
         AccountAttributes existingAccount = accountsDb.getAccount(googleId);
         if (existingAccount != null && existingAccount.isInstructor){
-            throw new JoinCourseException(Const.StatusCodes.ALREADY_JOINED,
-                                               googleId + " has already joined this course");
+            
+            String errorMsg = "";
+            if (institute != null) {
+                errorMsg = "You have already verified the account";
+            } else {
+                errorMsg = googleId + " has already joined this course";
+            }
+
+            throw new JoinCourseException(Const.StatusCodes.ALREADY_JOINED, errorMsg);
         }
         
     }
@@ -269,7 +273,7 @@ public class AccountsLogic {
         if (instructorForKey == null) {
             String joinUrl = Const.ActionURIs.INSTRUCTOR_COURSE_JOIN + "?regkey=" + encryptedKey;
             throw new JoinCourseException(Const.StatusCodes.INVALID_KEY,
-                    "You have used an invalid join link: " + joinUrl);
+                                          "You have used an invalid join link: " + joinUrl);
             
         }
     }
