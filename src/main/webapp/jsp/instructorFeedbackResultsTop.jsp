@@ -154,12 +154,12 @@
                     <% if(!showAll){ %>
                     <div class="pull-right" style="display:inline-block;" data-toggle="tooltip" title="Cannot expand as the data is too large. Expand each panel to see the results.">
                     <a class="btn btn-default btn-xs pull-right" id="collapse-panels-button" onclick="toggleCollapse(this)" disabled="disabled">
-                        Expand All
+                        Expand <%= data.sortType.equals("question") ? "Questions" : "Sections" %>
                     </a>
                     </div>
                     <% } else { %>
                     <a class="btn btn-default btn-xs pull-right" id="collapse-panels-button" onclick="toggleCollapse(this)" data-toggle="tooltip" title="Collapse or expand all panels. You can also click on the panel heading to toggle each one individually.">
-                        Collapse All
+                        Collapse <%= data.sortType.equals("question") ? "Questions" : "Sections" %>
                     </a>
                     <% } %>
                 </div>

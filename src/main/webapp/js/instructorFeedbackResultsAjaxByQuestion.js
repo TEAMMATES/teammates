@@ -1,7 +1,8 @@
 function getAppendedData(data){
     var appendHtml = '';
     if(data.responses.length == 0){
-        appendHtml += 'There is currently no responses for this question';
+
+        appendHtml += 'There is currently no responses for this question or you are not allowed to see the responses in this question';
         return appendHtml;
     }
     appendHtml += "<div class='resultStatistics'>";
@@ -51,8 +52,11 @@ $(document).ready(function(){
                 console.log('Error');
             },
             success : function(data) {
-                console.log(data);
-                $(panelBody[0]).html(getAppendedData(data));
+                var appendedData = getAppendedData(data);
+                if(appendedData.indexOf('resultStatistics') == -1){
+                    $(panelBody[0]).removeClass('padding-0');
+                }
+                $(panelBody[0]).html(appendedData);
                 $(panelHeading).removeClass('ajax_submit');
                 $(panelHeading).off('click');
                 displayIcon.html('<span class="glyphicon glyphicon-chevron-down pull-right"></span>')

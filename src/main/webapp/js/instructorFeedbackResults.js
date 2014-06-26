@@ -38,12 +38,8 @@ function updateResultsFilter(){
     filterResults($("#results-search-box").val());
 }
 
-//This section is used to enable all panels to be collapsible.
-var isCollapsingAll = false;
-var isExpandingAll = false;
-
 function toggleCollapse(e, panels){
-    if($(e).html().indexOf("Expand All") != -1){
+    if($(e).html().indexOf("Expand") != -1){
         panels = panels || $("div.panel-collapse");
         isExpandingAll = true;
         var i = 0;
@@ -53,7 +49,9 @@ function toggleCollapse(e, panels){
                 i++;
             }
         }
-        $(e).html("Collapse All");
+        var htmlString = $(e).html();
+        htmlString = htmlString.replace("Expand", "Collapse");
+        $(e).html(htmlString);
     } else {
         panels = panels || $("div.panel-collapse");
         isCollapsingAll = true;
@@ -64,7 +62,9 @@ function toggleCollapse(e, panels){
                 i++;
             }
         }
-        $(e).html("Expand All");
+        var htmlString = $(e).html();
+        htmlString = htmlString.replace("Collapse", "Expand");
+        $(e).html(htmlString);
     }
 }
 

@@ -1139,12 +1139,13 @@ public class FeedbackSessionsLogic {
                     visibilityTable, responseStatus, responseComments);
         }
         
-        if(params.get("questionNum") != null){
+        if (params.get("questionNum") != null) {
             int questionNumber = Integer.parseInt(params.get("questionNum"));
-            FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(feedbackSessionName, courseId, questionNumber);
-            if(question != null) {
+            FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(
+                    feedbackSessionName, courseId, questionNumber);
+            if (question != null) {
                 List<FeedbackResponseAttributes> responsesForThisQn;
-    
+
                 boolean isPrivateSessionCreatedByThisUser = session
                         .isCreator(userEmail) && session.isPrivateSession();
                 if (isPrivateSessionCreatedByThisUser) {
@@ -1155,19 +1156,36 @@ public class FeedbackSessionsLogic {
                             .getViewableFeedbackResponsesForQuestionInSection(
                                     question, userEmail, Role.INSTRUCTOR, null);
                 }
-    
-                boolean thisQuestionHasResponses = (!responsesForThisQn.isEmpty());
+
+                boolean thisQuestionHasResponses = (!responsesForThisQn
+                        .isEmpty());
                 if (thisQuestionHasResponses) {
-                    relevantQuestions.put(question.getId(), question);
-                    responses.addAll(responsesForThisQn);
+                    relevantQuestions.put(question.getId(),
+                            question);
                     for (FeedbackResponseAttributes response : responsesForThisQn) {
-                        addEmailNamePairsToTable(emailNameTable, response,
-                                question, roster);
-                        addEmailTeamNamePairsToTable(emailTeamNameTable, response,
-                                question, roster);
-                        addVisibilityToTable(visibilityTable, question, response,
-                                userEmail, roster);
+                        boolean isVisibleResponse = false;
+                        if ((response.giverEmail.equals(userEmail))
+                                || (response.recipientEmail.equals(userEmail) && question
+                                        .isResponseVisibleTo(FeedbackParticipantType.RECEIVER))
+                                || (role == Role.INSTRUCTOR && question
+                                        .isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS))
+                                || (role == Role.STUDENT && question
+                                        .isResponseVisibleTo(FeedbackParticipantType.STUDENTS))) {
+                            isVisibleResponse = true;
+                        }
+                        if (isVisibleResponse) {
+                            responses.add(response);
+                            addEmailNamePairsToTable(emailNameTable, response,
+                                    question, roster);
+                            addEmailTeamNamePairsToTable(emailTeamNameTable,
+                                    response,
+                                    question, roster);
+                            addVisibilityToTable(visibilityTable, question,
+                                    response, userEmail, roster);
+                        }
+                        isVisibleResponse = false;
                     }
+
                 }
             }
             FeedbackSessionResultsBundle results =
@@ -1202,9 +1220,7 @@ public class FeedbackSessionsLogic {
                 isComplete = true;
             } else {
                 for (FeedbackQuestionAttributes qn : allQuestions){
-                    if(qn.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS)){
-                        relevantQuestions.put(qn.getId(), qn);
-                    }   
+                    relevantQuestions.put(qn.getId(), qn);
                 }
                 FeedbackSessionResultsBundle results =
                     new FeedbackSessionResultsBundle(

@@ -87,7 +87,7 @@ public class InstructorFeedbackResultsByGRQSeeMorePageAction extends Action {
         data.privilegesInfo.put("None", params);
         
         for(String emailKey : bundle.emailTeamNameTable.keySet()){
-            String teamName = bundle.getTeamNameForEmail(emailKey);
+            String teamName = bundle.getTeamNameForEmail(emailKey).equals("")? bundle.getNameForEmail(emailKey): bundle.getTeamNameForEmail(emailKey);
             if(!teamName.equals(bundle.emailTeamNameTable.get(emailKey))){
                 bundle.emailTeamNameTable.put(emailKey, teamName);
             }

@@ -178,7 +178,7 @@
                         <div class="panel-collapse collapse in">
                         <div class="panel-body">
                         <a class="btn btn-success btn-xs pull-right" id="collapse-panels-button-section-<%=sectionIndex%>" style="display:block;">
-                            Expand All
+                            <%= groupByTeamEnabled == true ? "Expand Teams" : "Expand Students" %>
                         </a>
                         <br>
                         <br>
@@ -203,7 +203,7 @@
                         <div class="panel-collapse collapse">
                         <div class="panel-body background-color-warning">
                             <a class="btn btn-warning btn-xs pull-right" id="collapse-panels-button-team-<%=teamIndex%>">
-                                Expand All
+                                Expand Students
                             </a>
                             <br>
                             <br>

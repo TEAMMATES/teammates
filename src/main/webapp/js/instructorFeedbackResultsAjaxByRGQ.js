@@ -8,8 +8,14 @@ function getAppendedData(data){
     var appendedHtml = '';
     var hasUsers = false;
 
+    var groupByTeamEnabled = $('#frgroupbyteam').attr('checked') == 'checked';
     appendedHtml += '<a class="btn btn-success btn-xs pull-right" id="collapse-panels-button-section-' + sectionIndex + '" style="display:block;">'
-                        + 'Expand All</a><br><br>';
+                        + 'Expand ';
+    if(groupByTeamEnabled){
+        appendedHtml += 'Teams</a><br><br>';
+    } else {
+        appendedHtml += 'Students</a><br><br>';
+    }
 
     for(var recipient in data.responses){
         if(data.responses.hasOwnProperty(recipient)){
@@ -18,7 +24,7 @@ function getAppendedData(data){
         }
     }
     if(!hasUsers){
-        appendedHtml += 'No users in this section.';
+        appendedHtml += 'There is currently no responses to this section.';
     }
     sectionIndex++;
 
@@ -53,7 +59,7 @@ function getResponsesToRecipient(recipient, data){
         appendedResponses += '<span class="glyphicon glyphicon-chevron-down pull-right"></span></div>';
         appendedResponses += '<div class="panel-collapse collapse"><div class="panel-body background-color-warning">';
         appendedResponses += '<a class="btn btn-warning btn-xs pull-right" id="collapse-panels-button-team-' + teamIndex + '%>">'
-                                + 'Expand All</a><br><br>';
+                                + 'Expand Students</a><br><br>';
     }
 
     appendedResponses += '<div class="panel panel-primary">';
@@ -87,7 +93,7 @@ function getResponsesToRecipient(recipient, data){
     }
 
     if(!hasResponse){
-        appendedResponses += 'No feedback from this user.';
+        appendedResponses += 'There is currently no responses to this user';
     }
 
     appendedResponses += '</div>';
@@ -115,7 +121,7 @@ function getResponsesFromrecipient(recipient, giver, giverIndex, data){
         var recipientSection = response['recipientSection'];
         var question = data.questionsInfo[questionId];
         appendedResponses += '<div class="panel panel-info">';
-        appendedResponses += '<div class="panel-heading">Question ' + question['questionNum'] + ': ' + question['questionText'] + question['questionAdditionalInfo'].replace('additionalInfoId','recipient-' + recipientIndex +'-giver-' + giverIndex) + '</div>';
+        appendedResponses += '<div class="panel-heading">Question ' + question['questionNum'] + ': ' + question['questionText'] + question['questionAdditionalInfo'].replace(/additionalInfoId/g,'recipient-' + recipientIndex +'-giver-' + giverIndex) + '</div>';
         appendedResponses += '<div class="panel-body"> <div style="clear:both; overflow: hidden"><div class="pull-left">';
         appendedResponses +=  data.answer[responseId] + '</div>';
         appendedResponses += '<button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment"'
@@ -217,7 +223,6 @@ $(document).ready(function(){
                 console.log('Error');
             },
             success : function(data) {
-                console.log(data);
                 $(panelBody[0]).html(getAppendedData(data));
                 $(panelHeading).removeClass('ajax_submit');
                 $(panelHeading).off('click');

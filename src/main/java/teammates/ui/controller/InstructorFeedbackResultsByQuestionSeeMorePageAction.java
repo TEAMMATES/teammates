@@ -53,7 +53,7 @@ public class InstructorFeedbackResultsByQuestionSeeMorePageAction extends Action
         data.emailNameTable = bundle.emailNameTable;
 
         for(String emailKey : bundle.emailTeamNameTable.keySet()){
-            String teamName = bundle.getTeamNameForEmail(emailKey);
+            String teamName = bundle.getTeamNameForEmail(emailKey).equals("")? bundle.getNameForEmail(emailKey): bundle.getTeamNameForEmail(emailKey);
             if(!teamName.equals(bundle.emailTeamNameTable.get(emailKey))){
                 bundle.emailTeamNameTable.put(emailKey, teamName);
             }
