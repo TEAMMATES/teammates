@@ -599,15 +599,15 @@ public abstract class AppPage {
 
     private String processPageSourceForGodMode(String content) {
         return content
-                .replace("<#comment[ ]*</#comment>", "<!---->")
-                .replace("V4.18", "V{$version}")
+                .replaceAll("<#comment[ ]*</#comment>", "<!---->")
+                .replaceAll("V[0-9]\\.[0-9]+", "V{\\$version}")
                 // photo from instructor
                 .replaceAll("studentemail=([a-zA-Z0-9]){1,}\\&courseid=([a-zA-Z0-9]){1,}", 
-                            "studentemail={*}&courseid={*}")
+                            "studentemail={*}\\&courseid={*}")
                 //questionid
                 .replaceAll("([a-zA-Z0-9-_]){63}","{*}")
                 //commentid
-                .replaceAll("\\\"([0-9]){16}\\\"", "\"{*}\"")
+                .replaceAll("\\\"([0-9]){16}\\\"", "\\\"{*}\\\"")
                 // the test accounts/ email
                 .replace(TestProperties.inst().TEST_STUDENT1_ACCOUNT, "{$test.student1}")
                 .replace(TestProperties.inst().TEST_STUDENT2_ACCOUNT, "{$test.student2}")
