@@ -11,6 +11,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
@@ -607,7 +609,8 @@ public abstract class AppPage {
                 .replace(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, "{$test.instructor}")
                 .replace(TestProperties.inst().TEST_ADMIN_ACCOUNT, "{$test.admin}")
                 .replace(TestProperties.inst().TEST_UNREG_ACCOUNT, "{$test.unreg}")
-                .replace(Config.SUPPORT_EMAIL, "{$support.email}");
+                .replace(Config.SUPPORT_EMAIL, "{$support.email}")
+                .replace("\""+ new SimpleDateFormat("DD/MM/YYYY").format(new Date()) + "\"", "{*}");
     }
 
     private boolean areTestAccountsDefaultValues() {
