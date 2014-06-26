@@ -52,8 +52,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         String[] submissionParams = createParamsForTypicalFeedbackQuestion(fs.courseId, fs.feedbackSessionName);
         
         submissionParams = addQuestionIdToParams(fq.getId(), submissionParams);
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
-        
+        verifyUnaccessibleWithoutModifySessionPrivilege(submissionParams);
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams); 
     }
     
     @Test

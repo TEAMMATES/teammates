@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.TimeZone;
 
 import teammates.common.datatransfer.AccountAttributes;
@@ -15,12 +16,14 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentResultBundle;
 import teammates.common.datatransfer.SubmissionAttributes;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
+import teammates.logic.api.Logic;
 
 /**
  * Data and utility methods needed to render a specific page.
@@ -736,14 +739,13 @@ public class PageData {
      * @param isHome
      *         Flag whether the link is to be put at homepage (to determine the redirect link in delete / publish)
      * @return
+     * @throws EntityDoesNotExistException 
      */
     public String getInstructorFeedbackSessionActions(FeedbackSessionAttributes session,
-            boolean isHome, InstructorAttributes instructor){
+            boolean isHome, InstructorAttributes instructor) throws EntityDoesNotExistException{
         StringBuffer result = new StringBuffer();
         
         // Allowing ALL instructors to view results regardless of publish state.
-        boolean hasView = true;
-        boolean isCreator = session.isCreator(this.account.email);
         boolean hasSubmit = session.isVisible() || session.isPrivateSession();
         boolean hasPublish = !session.isWaitingToOpen() && !session.isPublished();
         boolean hasUnpublish = !session.isWaitingToOpen() && session.isPublished();
@@ -753,45 +755,40 @@ public class PageData {
         String disableDeleteSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
         String disableUnpublishSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
         String disablePublishSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
+        boolean shouldEnableSubmitLink = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
+        List<String> sectionsInCourse = new Logic().getSectionsNameForCourse(instructor.courseId);
+        for (String section : sectionsInCourse) {
+            if (!instructor.isAllowedForPrivilege(section, session.feedbackSessionName, 
+                    Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)) {
+                shouldEnableSubmitLink = false;
+                break;
+            }
+        }
+        String disableSubmitSessionStr = shouldEnableSubmitLink ? "" : disabledStr;
         result.append(
-            "<a class=\"btn btn-default btn-xs btn-tm-actions session-view-for-test" + (hasView ? "\"" : DISABLED) +
+            "<a class=\"btn btn-default btn-xs btn-tm-actions session-view-for-test\"" +
             "href=\"" + getInstructorFeedbackSessionResultsLink(session.courseId,session.feedbackSessionName) + "\" " +
             "title=\"" + Const.Tooltips.FEEDBACK_SESSION_RESULTS + "\" data-toggle=\"tooltip\" data-placement=\"top\" " +
             ">View Results</a> "
         );
-        if(isCreator){
-            result.append(
-                    "<a class=\"btn btn-default btn-xs btn-tm-actions session-edit-for-test\"" + 
-                    "href=\"" + getInstructorFeedbackSessionEditLink(session.courseId,session.feedbackSessionName) + "\" " +
-                    "title=\"" + Const.Tooltips.FEEDBACK_SESSION_EDIT + "\" data-toggle=\"tooltip\" data-placement=\"top\" " + 
-                    disableEditSessionStr + ">Edit</a> "
-                );
-            result.append(
-                    "<a class=\"btn btn-default btn-xs btn-tm-actions session-delete-for-test\"" +
-                    "href=\"" + getInstructorFeedbackSessionDeleteLink(session.courseId,session.feedbackSessionName,(isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE : Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)) + "\" " +
-                    "title=\"" + Const.Tooltips.FEEDBACK_SESSION_DELETE + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
-                    "onclick=\"return toggleDeleteFeedbackSessionConfirmation('" + session.courseId + "','" + session.feedbackSessionName + "');\" " +
-                    disableDeleteSessionStr + ">Delete</a> "
-                );
-        } else{
-            result.append(
-                    "<a class=\"btn btn-default btn-xs btn-tm-actions session-edit-for-test" + DISABLED +
-                    "href=\"" + getInstructorFeedbackSessionEditLink(session.courseId,session.feedbackSessionName) + "\" " +
-                    "title=\"" + Const.Tooltips.FEEDBACK_SESSION_NOT_CREATOR_EDIT + "\" data-toggle=\"tooltip\" data-placement=\"top\" " +
-                    disableEditSessionStr + ">Edit</a> "
-                );
-            result.append(
-                    "<a class=\"btn btn-default btn-xs btn-tm-actions session-delete-for-test" + DISABLED +
-                    "href=\"" + getInstructorFeedbackSessionDeleteLink(session.courseId,session.feedbackSessionName,(isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE : Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)) + "\" " +
-                    "title=\"" + Const.Tooltips.FEEDBACK_SESSION_NOT_CREATOR_DELETE + "\" data-toggle=\"tooltip\" data-placement=\"top\"" + 
-                    disableDeleteSessionStr + ">Delete</a> "
-                );
-        }
+        result.append(
+            "<a class=\"btn btn-default btn-xs btn-tm-actions session-edit-for-test\"" + 
+            "href=\"" + getInstructorFeedbackSessionEditLink(session.courseId,session.feedbackSessionName) + "\" " +
+            "title=\"" + Const.Tooltips.FEEDBACK_SESSION_EDIT + "\" data-toggle=\"tooltip\" data-placement=\"top\" " + 
+            disableEditSessionStr + ">Edit</a> "
+        );
+        result.append(
+            "<a class=\"btn btn-default btn-xs btn-tm-actions session-delete-for-test\"" +
+            "href=\"" + getInstructorFeedbackSessionDeleteLink(session.courseId,session.feedbackSessionName,(isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE : Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)) + "\" " +
+            "title=\"" + Const.Tooltips.FEEDBACK_SESSION_DELETE + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
+            "onclick=\"return toggleDeleteFeedbackSessionConfirmation('" + session.courseId + "','" + session.feedbackSessionName + "');\" " +
+            disableDeleteSessionStr + ">Delete</a> "
+        );
         result.append(
             "<a class=\"btn btn-default btn-xs btn-tm-actions session-submit-for-test" + (hasSubmit ? "\"" : DISABLED) +
             "href=\"" + getInstructorFeedbackSessionSubmitLink(session.courseId,session.feedbackSessionName) + "\" " +
             "title=\"" + Const.Tooltips.FEEDBACK_SESSION_SUBMIT + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
-            ">Submit</a> "
+            disableSubmitSessionStr + ">Submit</a> "
         );
         
         // Don't need to show any other links if private
@@ -807,41 +804,23 @@ public class PageData {
             ">Remind</a> "
         );
         
-        if(isCreator){
-            if (hasUnpublish) {
-                result.append(
-                    "<a class=\"btn btn-default btn-xs btn-tm-actions session-unpublish-for-test\"" +
-                    "href=\"" + getInstructorFeedbackSessionUnpublishLink(session.courseId,session.feedbackSessionName,isHome) + "\" " +
-                    "title=\"" + Const.Tooltips.FEEDBACK_SESSION_UNPUBLISH + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
-                    "onclick=\"return toggleUnpublishEvaluation('" + session.feedbackSessionName + "');\" " + 
-                    disableUnpublishSessionStr + ">Unpublish</a> "
-                );
-            } else {
-                result.append(
-                    "<a class=\"btn btn-default btn-xs btn-tm-actions session-publish-for-test" + (hasPublish ? "\"" : DISABLED) + 
-                    "href=\"" + getInstructorFeedbackSessionPublishLink(session.courseId,session.feedbackSessionName,isHome) + "\" " +
-                    "title=\"" + (hasPublish ? Const.Tooltips.FEEDBACK_SESSION_PUBLISH :  Const.Tooltips.FEEDBACK_SESSION_AWAITING) + "\"" +
-                    "data-toggle=\"tooltip\" data-placement=\"top\"" +
-                    (hasPublish ? "onclick=\"return togglePublishEvaluation('" + session.feedbackSessionName + "');\" " : " ") +
-                    disablePublishSessionStr + ">Publish</a> "
-                );
-            }
-        } else{
-            if (hasUnpublish) {
-                result.append(
-                    "<a class=\"btn btn-default btn-xs btn-tm-actions session-unpublish-for-test" + DISABLED +
-                    "href=\"" + getInstructorFeedbackSessionUnpublishLink(session.courseId,session.feedbackSessionName,isHome) + "\"" +
-                    "title=\"" + Const.Tooltips.FEEDBACK_SESSION_NOT_CREATOR_UNPUBLISH + "\" data-toggle=\"tooltip\" data-placement=\"top\" " + 
-                    disableUnpublishSessionStr + ">Unpublish</a> "
-                );
-            } else {
-                result.append(
-                    "<a class=\"btn btn-default btn-xs btn-tm-actions session-publish-for-test" + DISABLED +
-                    "href=\"" + getInstructorFeedbackSessionPublishLink(session.courseId,session.feedbackSessionName,isHome) + "\" " +
-                    "title=\"" + Const.Tooltips.FEEDBACK_SESSION_NOT_CREATOR_PUBLISH  + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
-                    disablePublishSessionStr + ">Publish</a> "
-                );
-            }
+        if (hasUnpublish) {
+            result.append(
+                "<a class=\"btn btn-default btn-xs btn-tm-actions session-unpublish-for-test\"" +
+                "href=\"" + getInstructorFeedbackSessionUnpublishLink(session.courseId,session.feedbackSessionName,isHome) + "\" " +
+                "title=\"" + Const.Tooltips.FEEDBACK_SESSION_UNPUBLISH + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
+                "onclick=\"return toggleUnpublishEvaluation('" + session.feedbackSessionName + "');\" " + 
+                disableUnpublishSessionStr + ">Unpublish</a> "
+            );
+        } else {
+            result.append(
+                "<a class=\"btn btn-default btn-xs btn-tm-actions session-publish-for-test" + (hasPublish ? "\"" : DISABLED) + 
+                "href=\"" + getInstructorFeedbackSessionPublishLink(session.courseId,session.feedbackSessionName,isHome) + "\" " +
+                "title=\"" + (hasPublish ? Const.Tooltips.FEEDBACK_SESSION_PUBLISH :  Const.Tooltips.FEEDBACK_SESSION_AWAITING) + "\"" +
+                "data-toggle=\"tooltip\" data-placement=\"top\"" +
+                (hasPublish ? "onclick=\"return togglePublishEvaluation('" + session.feedbackSessionName + "');\" " : " ") +
+                disablePublishSessionStr + ">Publish</a> "
+            );
         }
         
         return result.toString();

@@ -137,8 +137,6 @@ public class CommentsDb extends EntitiesDb{
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + newAttributes.toString());
         }
         
-        Assumption.assertEquals(comment.getGiverEmail(), newAttributes.giverEmail);
-        
         comment.setCommentText(newAttributes.commentText);
         comment.setShowCommentTo(newAttributes.showCommentTo);
         comment.setShowGiverNameTo(newAttributes.showGiverNameTo);
@@ -217,6 +215,7 @@ public class CommentsDb extends EntitiesDb{
         if(commentToGet.getCommentId() != null){
             return getCommentEntity(commentToGet.getCommentId());
         } else{
+            commentToGet.sanitizeForSaving();
             return getCommentEntity(commentToGet.courseId, commentToGet.giverEmail, commentToGet.recipientType,
                     commentToGet.recipients, commentToGet.commentText, commentToGet.createdAt);
         }

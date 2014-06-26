@@ -284,13 +284,6 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackResultsPage = feedbackPage.loadEditLink(fsa.courseId, fsa.feedbackSessionName);
         assertTrue(feedbackResultsPage.isCorrectPage(fsa.courseId, fsa.feedbackSessionName));
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
-
-        ______TS("edit link not clickable when not creator");
-        
-        fsa = testData.feedbackSessions.get("publishedSession");
-        assertEquals("return false", 
-                feedbackPage.getEditLink(fsa.courseId, fsa.feedbackSessionName)
-                .getAttribute("onclick"));
     }
     
     public void testSubmitLink () {
@@ -315,12 +308,6 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackResultsPage = feedbackPage.loadSubmitLink(fsa.courseId, fsa.feedbackSessionName);
         assertTrue(feedbackResultsPage.isCorrectPage(fsa.courseId, fsa.feedbackSessionName));
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
-        
-        ______TS("submit link not clickable when not visible and is not private");
-        
-        assertEquals(feedbackPage.getSubmitLink("CFeedbackUiT.CS1101", "New Session")
-                        .getAttribute("onclick"), 
-                    "return false");
     }
 
     public void testAddAction() throws Exception{
@@ -624,12 +611,8 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     public void testUnpublishAction(){
         // refresh page
         
-        ______TS("PUBLISHED: unpublish link unclickable for other instructor");
-        
         String courseId = testData.feedbackSessions.get("publishedSession").courseId;
         String sessionName = testData.feedbackSessions.get("publishedSession").feedbackSessionName;
-        
-        feedbackPage.verifyUnclickable(feedbackPage.getUnpublishLink(courseId, sessionName));
         feedbackPage.verifyPublishLinkHidden(courseId, sessionName);
         
         ______TS("PRIVATE: unpublish link unclickable");
