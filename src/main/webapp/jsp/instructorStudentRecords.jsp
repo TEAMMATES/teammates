@@ -630,7 +630,12 @@
                             %>
                                 <div class="align-center">
                                     <input type="button" class="btn btn-primary" id="button_edit-<%=evalIndex %>" value="Edit Submission"
-                                        onclick="window.location.href='<%=data.getInstructorEvaluationSubmissionEditLink(eval.courseId, eval.name, data.student.email)%>'">
+                                        onclick="window.location.href='<%=data.getInstructorEvaluationSubmissionEditLink(eval.courseId, eval.name, data.student.email)%>'"
+                                        <% if (!data.currentInstructor.isAllowedForPrivilege(data.student.section, eval.name, 
+                                                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS)) { %>
+                                                disabled="disabled"
+                                        <% } %>
+                                        >
                                 </div>
                                 </div>
                                 <br>

@@ -50,7 +50,8 @@ public class InstructorStudentRecordsPageAction extends Action {
                 return createRedirectResult(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
             }
             
-            if (data.student.googleId == "") {
+            if (data.student.googleId == "" || !data.currentInstructor.isAllowedForPrivilege(data.student.section, 
+                    Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)) {
                 statusToUser.add(Const.StatusMessages.STUDENT_NOT_JOINED_YET_FOR_RECORDS);
             } else {
                 data.studentProfile = logic.getStudentProfile(data.student.googleId);
@@ -75,10 +76,18 @@ public class InstructorStudentRecordsPageAction extends Action {
                 if(!evals.get(i).courseId.equals(courseId)){
                     evals.remove(i);
                 }
+                if (!data.currentInstructor.isAllowedForPrivilege(data.student.section, 
+                        evals.get(i).getSessionName(), Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)) {
+                    evals.remove(i);
+                }
             }
             
             for(int i = feedbacks.size() - 1; i >= 0; i--){
                 if(!feedbacks.get(i).courseId.equals(courseId)){
+                    feedbacks.remove(i);
+                }
+                if (!data.currentInstructor.isAllowedForPrivilege(data.student.section, 
+                        feedbacks.get(i).feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)) {
                     feedbacks.remove(i);
                 }
             }
