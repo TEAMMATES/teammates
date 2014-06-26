@@ -12,6 +12,9 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
@@ -25,6 +28,7 @@ import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.DevServerLoginPage;
 import teammates.test.pageobjects.GoogleLoginPage;
 import teammates.test.pageobjects.InstructorCourseJoinConfirmationPage;
+import teammates.test.pageobjects.InstructorHomePage;
 import teammates.test.pageobjects.LoginPage;
 
 /**
@@ -35,6 +39,8 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
     private static Browser browser;
     private static AdminHomePage homePage;
     private static InstructorCourseJoinConfirmationPage confirmationPage;
+    private static InstructorHomePage instructorHomePage;
+    private static LoginPage loginPage;
     
     
     @BeforeClass
@@ -45,7 +51,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
     }
     
     @Test
-    public void testAll(){
+    public void testAll() throws InvalidParametersException, EntityDoesNotExistException{
         testContent();
         //no links to check
         testCreateInstructorAction();
@@ -60,7 +66,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         //Full page content check is omitted because this is an internal page. 
     }
 
-    private void testCreateInstructorAction() {
+    private void testCreateInstructorAction() throws InvalidParametersException, EntityDoesNotExistException {
         
         InstructorAttributes instructor = new InstructorAttributes();
         
@@ -121,7 +127,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         BackDoor.createAccount(new AccountAttributes(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, 
                                                      instructor.name, false,
                                                      instructor.email, institute));
-        
+       
         BackDoor.deleteCourse(demoCourseId);
         BackDoor.deleteInstructor(demoCourseId, instructor.email);
         
@@ -130,6 +136,16 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         //verify the instructor and the demo course have been created
         assertNotNull(BackDoor.getCourse(demoCourseId));
         assertNotNull(BackDoor.getInstructorByEmail(instructor.email, demoCourseId));
+        
+        InstructorAttributes instructorData = new InstructorAttributes(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, 
+                                                                       demoCourseId, 
+                                                                       instructor.name, 
+                                                                       instructor.email,
+                                                                       Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER, 
+                                                                       "Instructor",
+                                                                       new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER));
+        BackDoor.createInstructor(instructorData);
+        //this will update the instructor's google id
         
         //get the joinURL which sent to the requester's email
         joinActionUrl = TestProperties.inst().TEAMMATES_URL + Const.ActionURIs.INSTRUCTOR_COURSE_JOIN;
@@ -140,12 +156,15 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         joinLink = Url.addParamToUrl(joinLink, Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
         
         //simulate the user's verification here because it is added by admin 
-        browser.driver.get(joinLink);
-        confirmationPage = createCorrectLoginPageType(browser.driver.getPageSource())
-                           .loginAsJoiningInstructor(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT,
-                                                     TestProperties.inst().TEST_INSTRUCTOR_PASSWORD);  
-        confirmationPage.clickConfirmButton();
-        confirmationPage.verifyContains("Instructor Home");
+        
+        browser.driver.get(joinLink);        
+        loginPage = createCorrectLoginPageType(browser.driver.getPageSource());
+        
+        instructorHomePage = loginPage.loginAsJoiningInstructorByPassConfirmation(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT,
+                                                                                  TestProperties.inst().TEST_INSTRUCTOR_PASSWORD);
+        
+        
+        instructorHomePage.verifyContains("Instructor Home");
 
         //check a account has been created for the requester successfully
         assertNotNull(BackDoor.getAccount(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT));
@@ -157,7 +176,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         BackDoor.deleteInstructor(demoCourseId, instructor.email);
      
         confirmationPage.logout();
-        
+       
         
         ______TS("action failure : invalid parameter");
         
