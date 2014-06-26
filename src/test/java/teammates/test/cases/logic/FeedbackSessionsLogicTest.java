@@ -75,8 +75,12 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
     
     @BeforeMethod
     public void methodSetUp() throws Exception {
+        // if no modification is done to the objects in dataBundle, there is just no point loading it again
+        // except for wasting time
         dataBundle = getTypicalDataBundle();
         //TODO: add restoreTypicalDataInDatastore() here and remove it from the rest of the file
+        // answer: restoreTypicalDataInDatastore() is not used for all the methods and retoring data unnecessarily
+        // will slow down the testing process
     }
     
     @SuppressWarnings("serial")
@@ -1265,6 +1269,17 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         assertEquals(exportLines[14], "\"Instructors\",\"Instructor1 Course1\",\"\",\"Team 1.1\",80");
         assertEquals(exportLines[15], "\"Instructors\",\"Instructor2 Course1\",\"\",\"Team 1.2\",20");
         
+        ______TS("Instructor without privilege to view responses");
+        
+        instructor = dataBundle.instructors.get("instructor2OfCourse1");
+        
+        export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
+                session.feedbackSessionName, session.courseId, instructor.email);
+        
+        exportLines = export.split(Const.EOL);
+        assertEquals(2, exportLines.length);
+        assertEquals(exportLines[0], "Course,\"" + session.courseId + "\"");
+        assertEquals(exportLines[1], "Session Name,\"" + session.feedbackSessionName + "\"");
         
         ______TS("Non-existent Course/Session");
         
