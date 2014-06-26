@@ -141,7 +141,10 @@ public class AccountsLogic {
         }
     }
     
-   
+
+    /**
+     * Joins the user as an instructor, and sets the institute too.
+     */
     public void joinCourseForInstructor(String encryptedKey, String googleId, String institute)
             throws JoinCourseException, InvalidParametersException{
         
@@ -154,6 +157,9 @@ public class AccountsLogic {
         
     }
     
+    /**
+     * Joins the user as an instructor.
+     */
     public void joinCourseForInstructor(String encryptedKey, String googleId)
             throws JoinCourseException, InvalidParametersException{
         
@@ -166,7 +172,10 @@ public class AccountsLogic {
     }
     
     
-    
+    /**
+     * If institute is set only if it is not null. If it is null, this instructor
+     *   is given the the institute of an existing instructor of the same course. 
+     */
     private void joinCourseForInstructorWithInstitute(String encryptedKey,String googleId, String institute)
             throws JoinCourseException, InvalidParametersException, EntityDoesNotExistException {
 
@@ -197,10 +206,11 @@ public class AccountsLogic {
     private void confirmValidJoinCourseRequest(String encryptedKey, String googleId)
             throws JoinCourseException {
         
-        
+        //The order in which these confirmations are done is important. Reorder with care.
         confirmValidKey(encryptedKey);
         
-        InstructorAttributes instructorForKey = InstructorsLogic.inst().getInstructorForRegistrationKey(encryptedKey);
+        InstructorAttributes instructorForKey = InstructorsLogic.inst()
+                                .getInstructorForRegistrationKey(encryptedKey);
         
         confirmNotAlreadyJoinedAsInstructor(instructorForKey, googleId);
         confirmUnusedKey(instructorForKey, googleId);
@@ -208,6 +218,10 @@ public class AccountsLogic {
         
     }
     
+    /**
+     * @throws JoinCourseException if this is a case of an instructor who has
+     *     already joined the course using the key of another unregistered user.
+     */
     private void confirmNotRejoiningUsingDifferentKey(
             InstructorAttributes instructorForKey, String googleId) throws JoinCourseException {
         
@@ -228,6 +242,10 @@ public class AccountsLogic {
     }
 
 
+    /**
+     * @throws JoinCourseException is the instructor has already joined this 
+     *     course using the same key.
+     */
     private void confirmNotAlreadyJoinedAsInstructor(InstructorAttributes instructorForKey, String googleId) throws JoinCourseException {
         if(instructorForKey.googleId ==null 
                 || !instructorForKey.googleId.equals(googleId)){
@@ -242,6 +260,10 @@ public class AccountsLogic {
     }
 
 
+    /**
+     * @throws JoinCourseException if the key does not correspond to an
+     *    Instructor entity.
+     */
     private void confirmValidKey(String encryptedKey) throws JoinCourseException{
         InstructorAttributes instructorForKey = InstructorsLogic.inst().getInstructorForRegistrationKey(encryptedKey);
         
@@ -253,10 +275,16 @@ public class AccountsLogic {
         }
     }
     
+    /**
+     * @throws JoinCourseException if the key has been used before.
+     */
     private void confirmUnusedKey(InstructorAttributes instructorForKey, String googleId) throws JoinCourseException{
         if(instructorForKey.googleId==null){
             return;
         }
+        
+        //We assume we have already confirmed that the key was not used by this
+        //  person already.
         if (!instructorForKey.googleId.equals(googleId)) {
             throw new JoinCourseException(Const.StatusCodes.KEY_BELONGS_TO_DIFFERENT_USER,
                                           String.format(Const.StatusMessages.JOIN_COURSE_KEY_BELONGS_TO_DIFFERENT_USER,
