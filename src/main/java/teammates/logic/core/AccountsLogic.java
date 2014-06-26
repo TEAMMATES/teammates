@@ -257,7 +257,7 @@ public class AccountsLogic {
 
 
     /**
-     * @throws JoinCourseException is the instructor has already joined this 
+     * @throws JoinCourseException if the instructor has already joined this 
      *     course using the same key.
      */
     private void confirmNotAlreadyJoinedAsInstructor(InstructorAttributes instructorForKey, String googleId, String institute) 

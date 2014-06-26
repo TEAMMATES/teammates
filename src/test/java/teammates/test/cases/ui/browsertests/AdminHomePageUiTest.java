@@ -1,7 +1,7 @@
 package teammates.test.cases.ui.browsertests;
 
 import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertNull;
+import static org.testng.AssertJUnit.assertTrue;
 
 import java.lang.reflect.Constructor;
 
@@ -10,10 +10,8 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
@@ -113,18 +111,64 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         BackDoor.deleteInstructor(demoCourseId, instructor.email);
         
         confirmationPage.logout();
+        
+        
+        ______TS("action success : non-instructor account exists and the account is updated successfully after user's verification");
+        
+        Url homeUrl = createUrl(Const.ActionURIs.ADMIN_HOME_PAGE);
+        homePage = loginAdminToPage(browser, homeUrl, AdminHomePage.class);
+        
+        BackDoor.createAccount(new AccountAttributes(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, 
+                                                     instructor.name, false,
+                                                     instructor.email, institute));
+        
+        BackDoor.deleteCourse(demoCourseId);
+        BackDoor.deleteInstructor(demoCourseId, instructor.email);
+        
+        homePage.createInstructor(shortName,instructor,institute).verifyStatus("Instructor AHPUiT Instrúctör has been successfully created");  
+        homePage.logout();
+        //verify the instructor and the demo course have been created
+        assertNotNull(BackDoor.getCourse(demoCourseId));
+        assertNotNull(BackDoor.getInstructorByEmail(instructor.email, demoCourseId));
+        
+        //get the joinURL which sent to the requester's email
+        joinActionUrl = TestProperties.inst().TEAMMATES_URL + Const.ActionURIs.INSTRUCTOR_COURSE_JOIN;
+      
+        joinLink = Url.addParamToUrl(joinActionUrl, Const.ParamsNames.REGKEY,
+                                            StringHelper.encrypt(BackDoor.getKeyForInstructor(demoCourseId, instructor.email)));
+       
+        joinLink = Url.addParamToUrl(joinLink, Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
+        
+        //simulate the user's verification here because it is added by admin 
+        browser.driver.get(joinLink);
+        confirmationPage = createCorrectLoginPageType(browser.driver.getPageSource())
+                           .loginAsJoiningInstructor(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT,
+                                                     TestProperties.inst().TEST_INSTRUCTOR_PASSWORD);  
+        confirmationPage.clickConfirmButton();
+        confirmationPage.verifyContains("Instructor Home");
 
+        //check a account has been created for the requester successfully
+        assertNotNull(BackDoor.getAccount(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT));
+        //check the account has been updated to instructor successfully
+        assertTrue(BackDoor.getAccount(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT).isInstructor);
+        
+        BackDoor.deleteAccount(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);
+        BackDoor.deleteCourse(demoCourseId);
+        BackDoor.deleteInstructor(demoCourseId, instructor.email);
+     
+        confirmationPage.logout();
+        
         
         ______TS("action failure : invalid parameter");
         
-        Url homeUrl = createUrl(Const.ActionURIs.ADMIN_HOME_PAGE);
+        homeUrl = createUrl(Const.ActionURIs.ADMIN_HOME_PAGE);
         homePage = loginAdminToPage(browser, homeUrl, AdminHomePage.class);
         
         instructor.email = "AHPUiT.email.com";
         
         homePage.createInstructor(shortName,instructor,institute).verifyStatus(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, instructor.email, FieldValidator.REASON_INCORRECT_FORMAT));
+      
         
-
     }
 
     @AfterClass
