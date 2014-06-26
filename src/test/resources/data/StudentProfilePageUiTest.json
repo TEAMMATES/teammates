@@ -51,8 +51,8 @@
   
   "students": {
     "alice.tmms@SHomeUiT.CS2104": {
-      "googleId": "{$test.student1}",
-      "email": "{$test.student1}@gmail.com",
+      "googleId": "{$test.student2}",
+      "email": "{$test.student2}@gmail.com",
       "course": "SHomeUiT.CS2104",
       "name": "Amy Betsy",
       "comments": "This student's name is Amy Betsy",
