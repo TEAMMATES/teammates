@@ -117,8 +117,15 @@ public class GodModeTest extends BaseUiTestCase {
 
     @AfterClass
     public static void closeClass() throws Exception {
+        BrowserPool.release(browser);
         System.clearProperty("godmode");
         writeToFile(TestProperties.TEST_PAGES_FOLDER + "/godmode.html", initialContent);
+        
+        File file = new File(getOutputFilePath());
+        if(!file.delete()){
+            System.out.println("Delete failed. " + file.getAbsolutePath());
+            file.deleteOnExit();
+        }
     }
 
     private static String getPath() throws Exception{

@@ -162,8 +162,8 @@ public class CommentsDb extends EntitiesDb{
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + newAttributes.toString());
         }
         
-        Assumption.assertEquals(comment.getGiverEmail(), newAttributes.giverEmail);
-        
+
+
         if(newAttributes.commentText != null){
             comment.setCommentText(newAttributes.commentText);
         }

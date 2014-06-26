@@ -57,6 +57,10 @@ public class FeedbackResponseCommentsLogic {
         }
     }
     
+    public FeedbackResponseCommentAttributes getFeedbackResponseComment(Long feedbackResponseCommentId) {
+        return frcDb.getFeedbackResponseComment(feedbackResponseCommentId);
+    }
+    
     public FeedbackResponseCommentAttributes getFeedbackResponseComment(
             String responseId, String giverEmail, Date creationDate) {
         return frcDb.getFeedbackResponseComment(responseId, giverEmail, creationDate);

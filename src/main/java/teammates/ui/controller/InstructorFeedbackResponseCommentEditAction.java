@@ -31,14 +31,10 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
         FeedbackResponseAttributes response = logic.getFeedbackResponse(feedbackResponseId);
         Assumption.assertNotNull(response);
-        boolean isCreatorOnly = true;
         
-        new GateKeeper().verifyAccessible(instructor, session, !isCreatorOnly, 
-                response.giverSection, feedbackSessionName,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
-        new GateKeeper().verifyAccessible(instructor, session, !isCreatorOnly, 
-                response.recipientSection, feedbackSessionName,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+        verifyAccessibleForInstructorToFeedbackResponseComment(
+                feedbackSessionName, feedbackResponseCommentId, instructor,
+                session, response);
         
         InstructorFeedbackResponseCommentAjaxPageData data = 
                 new InstructorFeedbackResponseCommentAjaxPageData(account);
@@ -89,5 +85,24 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
                             || question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)
                             || question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
                             || question.isResponseVisibleTo(FeedbackParticipantType.STUDENTS));
+    }
+    
+    private void verifyAccessibleForInstructorToFeedbackResponseComment(
+            String feedbackSessionName, String feedbackResponseCommentId,
+            InstructorAttributes instructor, FeedbackSessionAttributes session,
+            FeedbackResponseAttributes response) {
+        FeedbackResponseCommentAttributes frc = logic.getFeedbackResponseComment(Long.parseLong(feedbackResponseCommentId));
+        if (frc == null) {
+            Assumption.fail("FeedbackResponseComment should not be null");
+        }
+        if (instructor != null && frc.giverEmail.equals(instructor.email)) { // giver, allowed by default
+            return ;
+        }
+        new GateKeeper().verifyAccessible(instructor, session, false, 
+                response.giverSection, feedbackSessionName,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+        new GateKeeper().verifyAccessible(instructor, session, false, 
+                response.recipientSection, feedbackSessionName,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
     }
 }

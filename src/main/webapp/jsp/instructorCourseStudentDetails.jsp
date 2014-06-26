@@ -59,13 +59,14 @@
         <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
 
         <div class="well well-plain">
-            <button type="button"
-                class="btn btn-default btn-xs icon-button pull-right"
+            <button type="button" class="btn btn-default btn-xs icon-button pull-right"
                 id="button_add_comment" data-toggle="tooltip"
-                data-placement="top" title=""
-                data-original-title="Add comment">
-                <span
-                    class="glyphicon glyphicon-comment glyphicon-primary"></span>
+                data-placement="top" title="" data-original-title="Add comment"
+                <% if (!data.currentInstructor.isAllowedForPrivilege(data.student.section, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS)) { %>
+                    disabled="disabled"
+                <% } %>
+                >
+                <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
             </button>
             <div class="form form-horizontal"
                 id="studentInfomationTable">
@@ -127,8 +128,7 @@
                 </div>
             </div>
         </div>
-        <div id="commentArea" class="well well-plain"
-            style="display: none;">
+        <div id="commentArea" class="well well-plain" style="display: none;">
             <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_ADD%>" name="form_commentadd">
                 <div class="form-group form-inline">
                     <label style="margin-right: 24px;">Recipient:

@@ -58,6 +58,10 @@ public class CommentsLogic {
 
         commentsDb.createEntity(comment);
     }
+    
+    public CommentAttributes getComment(Long commentId) {
+        return commentsDb.getComment(commentId);
+    }
 
     public List<CommentAttributes> getCommentsForGiver(String courseId, String giverEmail)
             throws EntityDoesNotExistException {

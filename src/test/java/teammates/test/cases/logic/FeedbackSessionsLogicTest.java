@@ -75,8 +75,12 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
     
     @BeforeMethod
     public void methodSetUp() throws Exception {
+        // if no modification is done to the objects in dataBundle, there is just no point loading it again
+        // except for wasting time
         dataBundle = getTypicalDataBundle();
         //TODO: add restoreTypicalDataInDatastore() here and remove it from the rest of the file
+        // answer: restoreTypicalDataInDatastore() is not used for all the methods and retoring data unnecessarily
+        // will slow down the testing process
     }
     
     @SuppressWarnings("serial")
@@ -1265,6 +1269,56 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         assertEquals(exportLines[14], "\"Instructors\",\"Instructor1 Course1\",\"\",\"Team 1.1\",80");
         assertEquals(exportLines[15], "\"Instructors\",\"Instructor2 Course1\",\"\",\"Team 1.2\",20");
         
+        ______TS("Instructor without privilege to view responses");
+        
+        instructor = dataBundle.instructors.get("instructor2OfCourse1");
+        
+        export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
+                session.feedbackSessionName, session.courseId, instructor.email);
+        
+        exportLines = export.split(Const.EOL);
+        assertEquals(2, exportLines.length);
+        assertEquals(exportLines[0], "Course,\"" + session.courseId + "\"");
+        assertEquals(exportLines[1], "Session Name,\"" + session.feedbackSessionName + "\"");
+        
+        ______TS("CONTRIB results");
+        
+        session = dataBundle.feedbackSessions.get("contribSession");
+        instructor = dataBundle.instructors.get("instructor1OfCourse1");
+        
+        export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
+                session.feedbackSessionName, session.courseId, instructor.email);
+        
+        System.out.println(export);
+        
+        /*This is how the export should look like
+        =======================================
+        Course,"FSQTT.idOfTypicalCourse1"
+        Session Name,"CONTRIB Session"
+        
+        
+        Question 1,"How much has each team member including yourself, contributed to the project?"
+        
+        Team,Giver,Recipient's Team,Recipient,Feedback
+        "Team 1.1","student1 In Course1","Team 1.1","student1 In Course1","Equal share"
+        "Team 1.1","student1 In Course1","Team 1.1","student2 In Course1","Equal share - 20%"
+        "Team 1.1","student1 In Course1","Team 1.1","student3 In Course1","Equal share + 10%"
+        "Team 1.1","student1 In Course1","Team 1.1","student4 In Course1","Equal share + 30%"
+        */
+        
+        exportLines = export.split(Const.EOL);
+        assertEquals(exportLines[0], "Course,\"" + session.courseId + "\"");
+        assertEquals(exportLines[1], "Session Name,\"" + session.feedbackSessionName + "\"");
+        assertEquals(exportLines[2], "");
+        assertEquals(exportLines[3], "");
+        assertEquals(exportLines[4], "Question 1,\"How much has each team member including yourself, contributed to the project?\"");
+        assertEquals(exportLines[5], "");
+        assertEquals(exportLines[6], "Team,Giver,Recipient's Team,Recipient,Feedback");
+        assertEquals(exportLines[7], "\"Team 1.1\",\"student1 In Course1\",\"Team 1.1\",\"student1 In Course1\",\"Equal share\"");
+        assertEquals(exportLines[8], "\"Team 1.1\",\"student1 In Course1\",\"Team 1.1\",\"student2 In Course1\",\"Equal share - 20%\"");
+        assertEquals(exportLines[9], "\"Team 1.1\",\"student1 In Course1\",\"Team 1.1\",\"student3 In Course1\",\"Equal share + 10%\"");
+        assertEquals(exportLines[10], "\"Team 1.1\",\"student1 In Course1\",\"Team 1.1\",\"student4 In Course1\",\"Equal share + 30%\"");
+
         
         ______TS("Non-existent Course/Session");
         

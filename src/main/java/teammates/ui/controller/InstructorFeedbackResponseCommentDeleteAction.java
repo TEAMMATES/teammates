@@ -26,14 +26,10 @@ public class InstructorFeedbackResponseCommentDeleteAction extends Action {
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
         FeedbackResponseAttributes response = logic.getFeedbackResponse(feedbackResponseId);
         Assumption.assertNotNull(response);
-        boolean isCreatorOnly = true;
         
-        new GateKeeper().verifyAccessible(instructor, session, !isCreatorOnly, 
-                response.giverSection, feedbackSessionName,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
-        new GateKeeper().verifyAccessible(instructor, session, !isCreatorOnly, 
-                response.recipientSection, feedbackSessionName,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+        verifyAccessibleForInstructorToFeedbackResponseComment(
+                feedbackSessionName, feedbackResponseCommentId, instructor,
+                session, response);
         
         FeedbackResponseCommentAttributes feedbackResponseComment = new FeedbackResponseCommentAttributes();
         feedbackResponseComment.setId(Long.parseLong(feedbackResponseCommentId));
@@ -48,6 +44,25 @@ public class InstructorFeedbackResponseCommentDeleteAction extends Action {
                 new InstructorFeedbackResponseCommentAjaxPageData(account);
         
         return createAjaxResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION, data);
+    }
+    
+    private void verifyAccessibleForInstructorToFeedbackResponseComment(
+            String feedbackSessionName, String feedbackResponseCommentId,
+            InstructorAttributes instructor, FeedbackSessionAttributes session,
+            FeedbackResponseAttributes response) {
+        FeedbackResponseCommentAttributes frc = logic.getFeedbackResponseComment(Long.parseLong(feedbackResponseCommentId));
+        if (frc == null) {
+            return ;
+        }
+        if (instructor != null && frc.giverEmail.equals(instructor.email)) { // giver, allowed by default
+            return ;
+        }
+        new GateKeeper().verifyAccessible(instructor, session, false, 
+                response.giverSection, feedbackSessionName,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+        new GateKeeper().verifyAccessible(instructor, session, false, 
+                response.recipientSection, feedbackSessionName,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
     }
 
 }
