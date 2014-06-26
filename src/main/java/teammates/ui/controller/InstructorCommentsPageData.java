@@ -7,6 +7,8 @@ import java.util.Set;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CourseRoster;
+import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
@@ -76,5 +78,14 @@ public class InstructorCommentsPageData extends PageData {
         }
         String namesString = namesStringBuilder.toString();
         return removeEndComma(namesString);
+    }
+    
+    public boolean isResponseCommentPublicToRecipient(FeedbackQuestionAttributes question) {
+        return (question.giverType == FeedbackParticipantType.STUDENTS
+                || question.giverType == FeedbackParticipantType.TEAMS) 
+                    || (question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
+                            || question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)
+                            || question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
+                            || question.isResponseVisibleTo(FeedbackParticipantType.STUDENTS));
     }
 }

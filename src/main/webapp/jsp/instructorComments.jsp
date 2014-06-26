@@ -1,3 +1,4 @@
+<%@page import="teammates.common.datatransfer.CommentSendingState"%>
 <%@page import="teammates.common.datatransfer.InstructorAttributes"%>
 <%@page import="teammates.common.datatransfer.CommentRecipientType"%>
 <%@page import="teammates.common.datatransfer.FeedbackSessionAttributes"%>
@@ -224,8 +225,11 @@
                       <a type="button" class="btn btn-sm btn-info" data-toggle="tooltip" style="margin-right: 17px;"
                          href="<%=Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_CLEAR_PENDING + "?" + Const.ParamsNames.COURSE_ID + "=" + data.courseId
                                         + "&" + Const.ParamsNames.USER_ID + "=" + data.account.googleId%>"
-                         title="Email notification for pending <%=data.numberOfPendingComments>1?"comments":"comment"%> to recipient">
-                        <%=data.numberOfPendingComments>1?"Pending comments":"Pending comment"%> <span class="badge"><%=data.numberOfPendingComments%></span>
+                         title="Send email notification to recipients of <%=data.numberOfPendingComments%> pending <%=data.numberOfPendingComments>1?"comments":"comment"%>">
+                        <span class="badge" style="margin-right: 5px"><%=data.numberOfPendingComments%></span>
+                        <span class="glyphicon glyphicon-comment"></span>
+                        <span class="glyphicon glyphicon-arrow-right"></span>
+                        <span class="glyphicon glyphicon-envelope"></span>
                       </a>
                     </div>
                 </div>
@@ -313,11 +317,11 @@
                                                 title="This comment is public to <%=peopleCanSee%>"></span>
                                             <% } %>
                                             <% 
-                                               if(comment.isPending){ 
+                                               if(comment.sendingState == CommentSendingState.PENDING){ 
                                             %>
                                             <span class="glyphicon glyphicon-bell" data-toggle="tooltip" 
                                                 data-placement="top"
-                                                title="This comment is pending to notify recipient"></span>
+                                                title="This comment is pending to notify recipients"></span>
                                             <% } %>
                                         </div>
                                         <div
@@ -586,6 +590,7 @@
                                             FeedbackQuestionAttributes question = questions.get(responseEntries.getKey().getId());
                                             FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
                                             out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, ""));
+                                            Boolean isPublicResponseComment = data.isResponseCommentPublicToRecipient(question);
                                 %>
                             </div>
                             <table class="table">
@@ -655,12 +660,17 @@
                                                             <b><%=frCommentGiver%></b>
                                                             [<%=frc.createdAt%>]
                                                         </span>
+                                                        <% if(isPublicResponseComment && bundle.feedbackSession.isPublished()){ %>
+                                                        <span class="glyphicon glyphicon-eye-open" data-toggle="tooltip" 
+                                                            data-placement="top" style="margin-left: 5px;"
+                                                            title="This response comment is public"></span>
+                                                        <% } %>
                                                         <% 
-                                                           if(frc.isPending){ 
+                                                           if(frc.sendingState == CommentSendingState.PENDING && bundle.feedbackSession.isPublished()){ 
                                                         %>
                                                         <span class="glyphicon glyphicon-bell" data-toggle="tooltip" 
                                                             data-placement="top"
-                                                            title="This comment is pending to be sent to recipient"></span>
+                                                            title="This comment is pending to notify recipients"></span>
                                                         <% } %>
                                                         <%
                                                             if (frc.giverEmail.equals(data.instructorEmail)) {//FeedbackResponseComment edit/delete control starts

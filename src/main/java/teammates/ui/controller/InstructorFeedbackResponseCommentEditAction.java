@@ -1,5 +1,6 @@
 package teammates.ui.controller;
 
+import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
@@ -56,7 +57,9 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
         feedbackResponseComment.setId(Long.parseLong(feedbackResponseCommentId));
         
         FeedbackQuestionAttributes question = logic.getFeedbackQuestion(response.feedbackQuestionId);
-        feedbackResponseComment.isPending = isResponseCommentPublic(question);
+        if(isResponseCommentPublicToRecipient(question)){
+            feedbackResponseComment.sendingState = CommentSendingState.PENDING;
+        }
         
         try {
             logic.updateFeedbackResponseComment(feedbackResponseComment);
@@ -79,7 +82,7 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
         return createAjaxResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION, data);
     }
 
-    private boolean isResponseCommentPublic(FeedbackQuestionAttributes question) {
+    private boolean isResponseCommentPublicToRecipient(FeedbackQuestionAttributes question) {
         return (question.giverType == FeedbackParticipantType.STUDENTS
                 || question.giverType == FeedbackParticipantType.TEAMS) 
                     || (question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)

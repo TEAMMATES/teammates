@@ -12,6 +12,7 @@ import javax.mail.internet.MimeMessage;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentRecipientType;
+import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.CourseRoster;
@@ -1882,6 +1883,17 @@ public class Logic {
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
+     * @throws EntityDoesNotExistException 
+     */
+    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForSendingState(String courseId, CommentSendingState state) 
+            throws EntityDoesNotExistException {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        return feedbackResponseCommentsLogic.getFeedbackResponseCommentsForSendingState(courseId, state);
+    }
+    
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
      */
     public void updateFeedbackResponseComment(FeedbackResponseCommentAttributes feedbackResponseComment)
             throws EntityDoesNotExistException, InvalidParametersException {
@@ -1894,11 +1906,13 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public void clearPendingFeedbackResponseComments(String courseId)
+    public void updateFeedbackResponseComments(String courseId, CommentSendingState oldState, CommentSendingState newState)
             throws EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, oldState);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, newState);
 
-        feedbackResponseCommentsLogic.clearPendingFeedbackResponseComments(courseId);
+        feedbackResponseCommentsLogic.updateFeedbackResponseComments(courseId, oldState, newState);
     }
 
     /**
@@ -1931,20 +1945,22 @@ public class Logic {
      * * All parameters are non-null.
      * @throws EntityDoesNotExistException 
      */
-    public Set<String> getRecipientEmailsForPendingComments(String courseId) 
+    public Set<String> getRecipientEmailsForSendingComments(String courseId) 
             throws EntityDoesNotExistException{
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        return commentsLogic.getRecipientEmailsForPendingComments(courseId);
+        return commentsLogic.getRecipientEmailsForSendingComments(courseId);
     }
     
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public void clearPendingComments(String courseId)
+    public void updateComments(String courseId, CommentSendingState oldState, CommentSendingState newState)
             throws EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        commentsLogic.clearPendingComments(courseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, oldState);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, newState);
+        commentsLogic.updateComments(courseId, oldState, newState);
     }
     
     /**
@@ -2025,6 +2041,17 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, receiver);
         return commentsLogic.getCommentsForReceiver(courseId, recipientType, receiver);
+    }
+    
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     * @return a list of comments from the giver.
+     * @throws EntityDoesNotExistException
+     */
+    public List<CommentAttributes> getCommentsForSendingState(String courseId, CommentSendingState sendingState) throws EntityDoesNotExistException{
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        return commentsLogic.getCommentsForSendingState(courseId, sendingState);
     }
     
     @SuppressWarnings("unused")

@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import teammates.common.datatransfer.CommentAttributes;
+import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
@@ -169,7 +170,7 @@ public class InstructorCommentsPageAction extends Action {
         for(CommentAttributes comment : comments){
             String key = comment.giverEmail.equals(instructor.email)? 
                     InstructorCommentsPageData.COMMENT_GIVER_NAME_THAT_COMES_FIRST: comment.giverEmail;
-            if(comment.isPending){
+            if(comment.sendingState == CommentSendingState.PENDING){
                 numberOfPendingComments++;
             }
 
@@ -215,7 +216,7 @@ public class InstructorCommentsPageAction extends Action {
             if(frComment != null && frComment.size() != 0){
                 responsesWithFeedbackResponseComment.add(fr);
                 for(FeedbackResponseCommentAttributes frc: frComment){
-                    if(frc.isPending){
+                    if(frc.sendingState == CommentSendingState.PENDING && bundle.feedbackSession.isPublished()){
                         numberOfPendingComments++;
                     }
                 }

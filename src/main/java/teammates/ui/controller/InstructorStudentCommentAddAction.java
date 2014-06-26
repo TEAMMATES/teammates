@@ -9,6 +9,7 @@ import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentRecipientType;
+import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CommentStatus;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -127,18 +128,21 @@ public class InstructorStudentCommentAddAction extends Action {
         }
         
         //if a comment is public to recipient (except Instructor), it's a pending comment
-        comment.isPending = isCommentPublic(comment);
+        if(isCommentPublicToRecipient(comment)){
+            comment.sendingState = CommentSendingState.PENDING;
+        }
         comment.createdAt = new Date();
         comment.commentText = commentText;
         
         return comment;
     }
 
-    private boolean isCommentPublic(CommentAttributes comment) {
+    private boolean isCommentPublicToRecipient(CommentAttributes comment) {
         return comment.showCommentTo != null
-                && comment.showCommentTo.size() > 0
-                && !(comment.showCommentTo.size() == 1 
-                    && comment.showCommentTo.contains(CommentRecipientType.INSTRUCTOR));
+                && (comment.isVisibleTo(CommentRecipientType.PERSON)
+                    || comment.isVisibleTo(CommentRecipientType.TEAM)
+                    || comment.isVisibleTo(CommentRecipientType.SECTION)
+                    || comment.isVisibleTo(CommentRecipientType.COURSE));
     }
     
     public String getCourseStudentDetailsLink(String courseId, String studentEmail){

@@ -1,9 +1,11 @@
 package teammates.logic.core;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
+import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -70,16 +72,30 @@ public class FeedbackResponseCommentsLogic {
         frcDb.updateFeedbackResponseComment(feedbackResponseComment);    
     }
     
-    public List<FeedbackResponseCommentAttributes> getPendingFeedbackResponseComments(String courseId) 
+    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForSendingState(String courseId, CommentSendingState state) 
             throws EntityDoesNotExistException{
         verifyIsCoursePresent(courseId);
-        return frcDb.getPendingFeedbackResponseComments(courseId);
+        
+        List<FeedbackResponseCommentAttributes> frcList = new ArrayList<FeedbackResponseCommentAttributes>();
+        List<FeedbackSessionAttributes> feedbackSessions = fsLogic.getFeedbackSessionsForCourse(courseId);
+        for(FeedbackSessionAttributes fs:feedbackSessions){
+            if(fs.isPublished()){
+                frcList = frcDb.getFeedbackResponseCommentsForSendingState(courseId, fs.feedbackSessionName, state);
+            }
+        }
+        return frcList;
     }
     
-    public void clearPendingFeedbackResponseComments(
-            String courseId) throws EntityDoesNotExistException {
+    public void updateFeedbackResponseComments(
+            String courseId, CommentSendingState oldState, CommentSendingState newState) throws EntityDoesNotExistException {
         verifyIsCoursePresent(courseId);
-        frcDb.clearPendingFeedbackResponseComments(courseId);    
+        
+        List<FeedbackSessionAttributes> feedbackSessions = fsLogic.getFeedbackSessionsForCourse(courseId);
+        for(FeedbackSessionAttributes fs:feedbackSessions){
+            if(fs.isPublished()){
+                frcDb.updateFeedbackResponseComments(courseId, fs.feedbackSessionName, oldState, newState);    
+            }
+        }
     }
     
     public void deleteFeedbackResponseComment(

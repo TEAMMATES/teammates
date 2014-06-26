@@ -13,6 +13,7 @@ import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentRecipientType;
+import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CommentStatus;
 import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -123,10 +124,10 @@ public class CommentsDb extends EntitiesDb{
         return commentAttributesList;
     }
     
-    public List<CommentAttributes> getPendingComments(String courseId){
+    public List<CommentAttributes> getCommentsForSendingState(String courseId, CommentSendingState state){
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         
-        List<Comment> comments = getPendingCommentEntities(courseId);
+        List<Comment> comments = getCommentEntitiesForSendingState(courseId, state);
         List<CommentAttributes> commentAttributesList = new ArrayList<CommentAttributes>();
         
         for(Comment comment: comments){
@@ -135,19 +136,16 @@ public class CommentsDb extends EntitiesDb{
         return commentAttributesList;
     }
     
-    public void clearPendingComments(String courseId){
+    public void updateComments(String courseId, CommentSendingState oldState, CommentSendingState newState){
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         
-        List<Comment> comments = getPendingCommentEntities(courseId);
+        List<Comment> comments = getCommentEntitiesForSendingState(courseId, oldState);
         
         for(Comment comment: comments){
-            if(comment.getIsPending() != null
-                    && comment.getIsPending()){
-                comment.setIsPending(false);
-            }
+            comment.setSendingState(newState);
         }
         
-        getPM().flush();
+        getPM().close();
     }
 
     public void updateComment(CommentAttributes newAttributes) throws InvalidParametersException, EntityDoesNotExistException{
@@ -187,18 +185,18 @@ public class CommentsDb extends EntitiesDb{
         if(newAttributes.recipients != null){
             comment.setRecipients(newAttributes.recipients);
         }
-        comment.setIsPending(newAttributes.isPending);
+        comment.setSendingState(newAttributes.sendingState);
         
         getPM().close();
     }
     
-    private List<Comment> getPendingCommentEntities(String courseId){
+    private List<Comment> getCommentEntitiesForSendingState(String courseId, CommentSendingState sendingState){
         Query q = getPM().newQuery(Comment.class);
-        q.declareParameters("String courseIdParam");
-        q.setFilter("courseId == courseIdParam && isPending == true");
+        q.declareParameters("String courseIdParam, String sendingStateParam");
+        q.setFilter("courseId == courseIdParam && sendingState == sendingStateParam");
         
         @SuppressWarnings("unchecked")
-        List<Comment> commentList = (List<Comment>) q.execute(courseId);
+        List<Comment> commentList = (List<Comment>) q.execute(courseId, sendingState.toString());
         
         return commentList;
     }
