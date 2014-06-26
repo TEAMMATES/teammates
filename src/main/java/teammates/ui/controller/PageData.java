@@ -404,6 +404,12 @@ public class PageData {
         return link;
     }
     
+    public String getInstructorClearPendingCommentsLink(String courseId){
+        String link = Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_CLEAR_PENDING;
+        link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID, courseId);
+        link = addUserIdToUrl(link);
+        return link;
+    }
 
     public String getInstructorEvaluationDeleteLink(String courseID, String evalName, String nextURL){
         String link = Const.ActionURIs.INSTRUCTOR_EVAL_DELETE;

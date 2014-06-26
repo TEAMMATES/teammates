@@ -1,5 +1,8 @@
 package teammates.ui.controller;
 
+import teammates.common.datatransfer.CommentSendingState;
+import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
@@ -49,6 +52,11 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
                 new Text(commentText));
         feedbackResponseComment.setId(Long.parseLong(feedbackResponseCommentId));
         
+        FeedbackQuestionAttributes question = logic.getFeedbackQuestion(response.feedbackQuestionId);
+        if(isResponseCommentPublicToRecipient(question)){
+            feedbackResponseComment.sendingState = CommentSendingState.PENDING;
+        }
+        
         try {
             logic.updateFeedbackResponseComment(feedbackResponseComment);
         } catch (InvalidParametersException e) {
@@ -70,6 +78,15 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
         return createAjaxResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION, data);
     }
 
+    private boolean isResponseCommentPublicToRecipient(FeedbackQuestionAttributes question) {
+        return (question.giverType == FeedbackParticipantType.STUDENTS
+                || question.giverType == FeedbackParticipantType.TEAMS) 
+                    || (question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
+                            || question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)
+                            || question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
+                            || question.isResponseVisibleTo(FeedbackParticipantType.STUDENTS));
+    }
+    
     private void verifyAccessibleForInstructorToFeedbackResponseComment(
             String feedbackSessionName, String feedbackResponseCommentId,
             InstructorAttributes instructor, FeedbackSessionAttributes session,

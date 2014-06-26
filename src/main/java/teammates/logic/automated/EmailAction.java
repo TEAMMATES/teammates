@@ -33,6 +33,8 @@ public abstract class EmailAction {
     
     protected static Logger log = Utils.getLogger();
     
+    protected Boolean isError = false;
+    
     public EmailAction() {
         req = null;
         emailsToBeSent = null;
@@ -65,11 +67,21 @@ public abstract class EmailAction {
             logActivitySuccess(req, emailList);
                 
         } catch (Exception e) {
+            isError = true;
             logActivityFailure(req, e);    
             log.severe("Unexpected error " + TeammatesException.toStringWithStackTrace(e));
+        } finally {
+            if(isError){
+                try {
+                    doPostProcessingForUnsuccesfulSend();
+                } catch (EntityDoesNotExistException e) {
+                    logActivityFailure(req, e);    
+                    log.severe("Unexpected error " + TeammatesException.toStringWithStackTrace(e));
+                }
+            }
         }
     }
-    
+
     /*
      *  Used for testing
      */
@@ -86,6 +98,9 @@ public abstract class EmailAction {
     }
     
     protected abstract void doPostProcessingForSuccesfulSend() throws InvalidParametersException, EntityDoesNotExistException;
+    
+    protected void doPostProcessingForUnsuccesfulSend() throws EntityDoesNotExistException {
+    }
     
     protected abstract List<MimeMessage> prepareMailToBeSent() throws MessagingException, IOException, EntityDoesNotExistException;
     

@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import teammates.common.datatransfer.CommentAttributes;
+import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
@@ -35,6 +36,7 @@ public class InstructorCommentsPageAction extends Action {
     private String previousPageLink = "javascript:;";
     private String nextPageLink = "javascript:;";
     private InstructorAttributes instructor;
+    private int numberOfPendingComments = 0;
     
     @Override
     public ActionResult execute() throws EntityDoesNotExistException {
@@ -84,6 +86,7 @@ public class InstructorCommentsPageAction extends Action {
         data.instructorEmail = instructor != null? instructor.email : "no-email";
         data.previousPageLink = previousPageLink;
         data.nextPageLink = nextPageLink;
+        data.numberOfPendingComments = numberOfPendingComments;
         
         statusToAdmin = "instructorComments Page Load<br>" + 
                 "Viewing <span class=\"bold\">" + account.googleId + "'s</span> comment records " +
@@ -169,7 +172,12 @@ public class InstructorCommentsPageAction extends Action {
         Map<String, List<CommentAttributes>> giverEmailToCommentsMap = new TreeMap<String, List<CommentAttributes>>();
         for(CommentAttributes comment : comments){
             boolean isCurrentInstructorGiver = comment.giverEmail.equals(instructor.email);
-            String key = isCurrentInstructorGiver ? InstructorCommentsPageData.COMMENT_GIVER_NAME_THAT_COMES_FIRST : comment.giverEmail;
+            String key = isCurrentInstructorGiver? 
+                    InstructorCommentsPageData.COMMENT_GIVER_NAME_THAT_COMES_FIRST: comment.giverEmail;
+            if(comment.sendingState == CommentSendingState.PENDING){
+                numberOfPendingComments++;
+            }
+
             List<CommentAttributes> commentList = giverEmailToCommentsMap.get(key);
             if (commentList == null) {
                 commentList = new ArrayList<CommentAttributes>();
@@ -177,7 +185,7 @@ public class InstructorCommentsPageAction extends Action {
             }
             updateCommentList(comment, isCurrentInstructorGiver, commentList);
         }
-        //TODO: sort the recipient by their newest comment
+        
         //sort comments by created date
         for(List<CommentAttributes> commentList : giverEmailToCommentsMap.values()){
             java.util.Collections.sort(commentList);
@@ -203,7 +211,7 @@ public class InstructorCommentsPageAction extends Action {
             for(FeedbackSessionAttributes fs : fsList){
                 FeedbackSessionResultsBundle bundle = 
                         logic.getFeedbackSessionResultsForInstructor(
-                                fs.feedbackSessionName, courseId, account.email, roster, !IS_INCLUDE_RESPONSE_STATUS);
+                                fs.feedbackSessionName, courseId, instructor.email, roster, !IS_INCLUDE_RESPONSE_STATUS);
                 if(bundle != null){
                     removeQuestionsAndResponsesWithoutFeedbackResponseComment(bundle);
                     removeQuestionsAndResponsesIfNotAllowed(bundle);
@@ -236,6 +244,11 @@ public class InstructorCommentsPageAction extends Action {
             List<FeedbackResponseCommentAttributes> frComment = bundle.responseComments.get(fr.getId());
             if(frComment != null && frComment.size() != 0){
                 responsesWithFeedbackResponseComment.add(fr);
+                for(FeedbackResponseCommentAttributes frc: frComment){
+                    if(frc.sendingState == CommentSendingState.PENDING && bundle.feedbackSession.isPublished()){
+                        numberOfPendingComments++;
+                    }
+                }
             }
         }
         Map<String, FeedbackQuestionAttributes> questionsWithFeedbackResponseComment = new HashMap<String, FeedbackQuestionAttributes>();
