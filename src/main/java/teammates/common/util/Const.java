@@ -811,7 +811,7 @@ public class Const {
         public static final String COMMENT_ADDED = "New comment has been added";
         public static final String COMMENT_EDITED = "Comment edited";
         public static final String COMMENT_DELETED = "Comment deleted";
-        public static final String COMMENT_CLEARED = "Notification for all pending comments have been sent to recipient";
+        public static final String COMMENT_CLEARED = "Notification for all pending comments have been sent to recipients";
         public static final String COMMENT_CLEARED_UNSUCCESSFULLY = "Notification for some pending comments fails to send";
         public static final String COMMENT_DUPLICATE = "An existing comment with the same content is found, comment not added";
         

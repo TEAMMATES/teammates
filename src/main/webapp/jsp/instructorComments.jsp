@@ -225,7 +225,7 @@
                       <a type="button" class="btn btn-sm btn-info" data-toggle="tooltip" style="margin-right: 17px;"
                          href="<%=Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_CLEAR_PENDING + "?" + Const.ParamsNames.COURSE_ID + "=" + data.courseId
                                         + "&" + Const.ParamsNames.USER_ID + "=" + data.account.googleId%>"
-                         title="Email notification to recipients for <%=data.numberOfPendingComments%> pending <%=data.numberOfPendingComments>1?"comments":"comment"%>">
+                         title="Send email notification to recipients of <%=data.numberOfPendingComments%> pending <%=data.numberOfPendingComments>1?"comments":"comment"%>">
                         <span class="badge" style="margin-right: 5px"><%=data.numberOfPendingComments%></span>
                         <span class="glyphicon glyphicon-comment"></span>
                         <span class="glyphicon glyphicon-arrow-right"></span>
@@ -321,7 +321,7 @@
                                             %>
                                             <span class="glyphicon glyphicon-bell" data-toggle="tooltip" 
                                                 data-placement="top"
-                                                title="This comment is pending to notify recipient"></span>
+                                                title="This comment is pending to notify recipients"></span>
                                             <% } %>
                                         </div>
                                         <div
@@ -670,7 +670,7 @@
                                                         %>
                                                         <span class="glyphicon glyphicon-bell" data-toggle="tooltip" 
                                                             data-placement="top"
-                                                            title="This comment is pending to notify recipient"></span>
+                                                            title="This comment is pending to notify recipients"></span>
                                                         <% } %>
                                                         <%
                                                             if (frc.giverEmail.equals(data.instructorEmail)) {//FeedbackResponseComment edit/delete control starts

@@ -152,7 +152,7 @@
                                     <a class="btn btn-primary btn-xs btn-tm-actions course-notify-pending-comments-for-test
                                         <%=numberOfPendingCommentsForThisCourse==0?"hidden":""%>"
                                         href="<%=data.getInstructorClearPendingCommentsLink(courseDetails.course.id)%>"
-                                        title="Email notification to recipient for <%=numberOfPendingCommentsForThisCourse%> pending <%=numberOfPendingCommentsForThisCourse>1?"comments":"comment"%>" 
+                                        title="Send email notification to recipients of <%=numberOfPendingCommentsForThisCourse%> pending <%=numberOfPendingCommentsForThisCourse>1?"comments":"comment"%>" 
                                         data-toggle="tooltip" data-placement="top">
                                         <span class="badge"><%=numberOfPendingCommentsForThisCourse%></span>
                                         <span class="glyphicon glyphicon-comment"></span>
