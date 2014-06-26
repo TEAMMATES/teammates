@@ -7,7 +7,11 @@ $(function () {
 	
 	$(window).load(function() {
 		if($('#profilePic').attr('data-edit') == "true") {
-			$('#studentPhotoUploader').modal('show');
+			$('#studentPhotoUploader').modal({
+				keyboard: false,
+				show: true
+			});
+			
 			$('#editableProfilePicture').Jcrop({
 				bgColor: 'transparent',
 				setSelect: [10, 10, 200, 200],
@@ -15,11 +19,16 @@ $(function () {
 				bgOpacity: 0.4,
 				addClass: "inline-block",
 				boxWidth: 400,
-				boxHeight: 400
+				boxHeight: 400,
+				onSelect: updateFormData
 			});
 		}
 	});
 });
+
+function updateFormData(coords) {
+	$('#cropBox').val(coords.x + "-" + coords.y + "-" + coords.x2 + "-" + coords.y2);
+}
 
 function finaliseUploadPictureForm(event) {
 	if ($('#studentPhoto').val() == "") return;

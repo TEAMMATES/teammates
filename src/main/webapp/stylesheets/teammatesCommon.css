@@ -428,6 +428,7 @@ input.inline {
 /* used on the div/td that contains the img */
 .profile-pic-icon {
         text-align: center;
+        overflow: hidden;
     }
         .profile-pic-icon > img {
             width: 40px;

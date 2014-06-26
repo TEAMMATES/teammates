@@ -83,16 +83,15 @@
                                     <label for="editableProfilePicture">Your Photo</label><br>
                                 </div>
                                 <form id="profilePictureUploadForm" method="post">
-                                    <input type="hidden" name="">
-                                    <input type="hidden" name="">
-                                    <input type="hidden" >
+                                    <input id="cropBox" type="hidden" name="cropbox" value="">
                                     <button type="button" class="btn btn-primary">Save Edited Photo</button>
                                 </form>
                             </div>
                         </div>
                     </div>
+                    <div class="modal-footer">
+                    </div>
                 </div><!-- /.modal-content -->
-                <div class="modal-footer"></div>
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
         
