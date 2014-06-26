@@ -340,6 +340,7 @@ public class FeedbackSessionsLogic {
         Collections.sort(results.responses,
                 results.compareByGiverRecipientQuestion);
 
+        // TODO: use StringBuffer instead for better performance
         String export = "";
 
         export += "Course" + "," + Sanitizer.sanitizeForCsv(results.feedbackSession.courseId) + Const.EOL
