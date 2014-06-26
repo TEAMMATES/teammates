@@ -70,6 +70,12 @@ public class CommentsLogic {
         return commentsDb.getCommentsForReceiver(courseId, recipientType, receiverEmail);
     }
     
+    public List<CommentAttributes> getPendingComments(String courseId)
+            throws EntityDoesNotExistException {
+        verifyIsCoursePresent(courseId, "get");
+        return commentsDb.getPendingComments(courseId);
+    }
+    
     public void clearPendingComments(String courseId) throws EntityDoesNotExistException{
         verifyIsCoursePresent(courseId, "clear pending");
         commentsDb.clearPendingComments(courseId);

@@ -224,8 +224,11 @@
                       <a type="button" class="btn btn-sm btn-info" data-toggle="tooltip" style="margin-right: 17px;"
                          href="<%=Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_CLEAR_PENDING + "?" + Const.ParamsNames.COURSE_ID + "=" + data.courseId
                                         + "&" + Const.ParamsNames.USER_ID + "=" + data.account.googleId%>"
-                         title="Email notification for pending <%=data.numberOfPendingComments>1?"comments":"comment"%> to recipient">
-                        <%=data.numberOfPendingComments>1?"Pending comments":"Pending comment"%> <span class="badge"><%=data.numberOfPendingComments%></span>
+                         title="Email notification to recipients for <%=data.numberOfPendingComments%> pending <%=data.numberOfPendingComments>1?"comments":"comment"%>">
+                        <span class="badge" style="margin-right: 5px"><%=data.numberOfPendingComments%></span>
+                        <span class="glyphicon glyphicon-comment"></span>
+                        <span class="glyphicon glyphicon-arrow-right"></span>
+                        <span class="glyphicon glyphicon-envelope"></span>
                       </a>
                     </div>
                 </div>

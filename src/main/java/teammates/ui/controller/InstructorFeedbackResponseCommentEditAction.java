@@ -56,7 +56,7 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
         feedbackResponseComment.setId(Long.parseLong(feedbackResponseCommentId));
         
         FeedbackQuestionAttributes question = logic.getFeedbackQuestion(response.feedbackQuestionId);
-        feedbackResponseComment.isPending = isResponseCommentPublic(question);
+        feedbackResponseComment.isPending = isResponseCommentPublicToRecipient(question);
         
         try {
             logic.updateFeedbackResponseComment(feedbackResponseComment);
@@ -79,7 +79,7 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
         return createAjaxResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION, data);
     }
 
-    private boolean isResponseCommentPublic(FeedbackQuestionAttributes question) {
+    private boolean isResponseCommentPublicToRecipient(FeedbackQuestionAttributes question) {
         return (question.giverType == FeedbackParticipantType.STUDENTS
                 || question.giverType == FeedbackParticipantType.TEAMS) 
                     || (question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)

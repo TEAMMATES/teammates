@@ -47,10 +47,15 @@ public class InstructorHomePageAction extends Action {
         }
         
         data.instructors = new HashMap<String, InstructorAttributes>();
+        data.numberOfPendingComments = new HashMap<String, Integer>();
         
         for(CourseSummaryBundle course: data.courses) {
-            InstructorAttributes instructor = logic.getInstructorForGoogleId(course.course.id, account.googleId);
-            data.instructors.put(course.course.id, instructor);
+            String courseId = course.course.id;
+            InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
+            data.instructors.put(courseId, instructor);
+            int numberOfPendingCommentsForThisCourse = logic.getPendingComments(courseId).size() 
+                    + logic.getPendingFeedbackResponseComment(courseId).size();
+            data.numberOfPendingComments.put(courseId, numberOfPendingCommentsForThisCourse);
             
             EvaluationAttributes.sortEvaluationsByDeadlineDescending(course.evaluations);
             FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(course.feedbackSessions);

@@ -125,16 +125,17 @@ public class InstructorStudentCommentEditAction extends Action {
             }
         }
         //if a comment is public to recipient (except Instructor), it's a pending comment
-        comment.isPending = isCommentPublic(comment);
+        comment.isPending = isCommentPublicToRecipient(comment);
         comment.commentText = commentText;
         
         return comment;
     }
 
-    private boolean isCommentPublic(CommentAttributes comment) {
+    private boolean isCommentPublicToRecipient(CommentAttributes comment) {
         return comment.showCommentTo != null
-                && comment.showCommentTo.size() > 0
-                && !(comment.showCommentTo.size() == 1 
-                    && comment.showCommentTo.contains(CommentRecipientType.INSTRUCTOR));
+                && (comment.isVisibleTo(CommentRecipientType.PERSON)
+                    || comment.isVisibleTo(CommentRecipientType.TEAM)
+                    || comment.isVisibleTo(CommentRecipientType.SECTION)
+                    || comment.isVisibleTo(CommentRecipientType.COURSE));
     }
 }

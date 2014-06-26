@@ -1882,6 +1882,17 @@ public class Logic {
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
+     * @throws EntityDoesNotExistException 
+     */
+    public List<FeedbackResponseCommentAttributes> getPendingFeedbackResponseComment(String courseId) 
+            throws EntityDoesNotExistException {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        return feedbackResponseCommentsLogic.getPendingFeedbackResponseComments(courseId);
+    }
+    
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
      */
     public void updateFeedbackResponseComment(FeedbackResponseCommentAttributes feedbackResponseComment)
             throws EntityDoesNotExistException, InvalidParametersException {
@@ -2025,6 +2036,17 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, receiver);
         return commentsLogic.getCommentsForReceiver(courseId, recipientType, receiver);
+    }
+    
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     * @return a list of comments from the giver.
+     * @throws EntityDoesNotExistException
+     */
+    public List<CommentAttributes> getPendingComments(String courseId) throws EntityDoesNotExistException{
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        return commentsLogic.getPendingComments(courseId);
     }
     
     @SuppressWarnings("unused")
