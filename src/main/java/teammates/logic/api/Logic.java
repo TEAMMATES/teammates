@@ -1174,13 +1174,13 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null. <br>
      */
-    public String getEvaluationResultSummaryAsCsv(String courseId, String evalName) 
+    public String getEvaluationResultSummaryAsCsv(String courseId, String instrEmail, String evalName) 
             throws EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, evalName);
         
-        return evaluationsLogic.getEvaluationResultSummaryAsCsv(courseId, evalName);
+        return evaluationsLogic.getEvaluationResultSummaryAsCsv(courseId, instrEmail, evalName);
     }
     
     /**
@@ -1852,6 +1852,12 @@ public class Logic {
         feedbackResponseCommentsLogic.createFeedbackResponseComment(feedbackResponseComment);
     }
     
+    public FeedbackResponseCommentAttributes getFeedbackResponseComment(Long feedbackResponseCommentId) {
+        Assumption.assertNotNull(feedbackResponseCommentId);
+        
+        return feedbackResponseCommentsLogic.getFeedbackResponseComment(feedbackResponseCommentId);
+    }
+    
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
@@ -1899,6 +1905,11 @@ public class Logic {
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, comment);
         commentsLogic.createComment(comment);
+    }
+    
+    public CommentAttributes getComment(Long commentId) {
+        Assumption.assertNotNull(commentId);
+        return commentsLogic.getComment(commentId);
     }
     
     /**

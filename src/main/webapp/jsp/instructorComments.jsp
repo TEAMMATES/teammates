@@ -271,7 +271,10 @@
                                             <span class="text-muted">To <b><%=data.getRecipientNames(comment.recipients)%></b> on
                                                 <%=TimeHelper.formatTime(comment.createdAt)%></span>
                                             <%
-                                               if (comment.giverEmail.equals(data.instructorEmail)) {//comment edit/delete control starts
+                                               if (comment.giverEmail.equals(data.instructorEmail)
+                                                       || (data.currentInstructor != null && 
+                                                       data.isInstructorAllowedForPrivilegeOnComment(comment, 
+                                                               Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS))) {//comment edit/delete control starts
                                             %>
                                             <a type="button"
                                                 id="commentdelete-<%=commentIdx%>"
@@ -308,7 +311,10 @@
                                         <div
                                             id="plainCommentText<%=commentIdx%>"><%=comment.commentText.getValue()%></div>
                                         <%
-                                           if (comment.giverEmail.equals(data.instructorEmail)) {//comment edit/delete control starts
+                                           if (comment.giverEmail.equals(data.instructorEmail)
+                                        		   || (data.currentInstructor != null && 
+                                                   data.isInstructorAllowedForPrivilegeOnComment(comment, 
+                                                           Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS))) {//comment edit/delete control starts
                                         %>
                                         <div
                                             id="commentTextEdit<%=commentIdx%>"
@@ -605,7 +611,17 @@
                                                 onclick="showResponseCommentAddForm(<%=fsIndx%>,<%=qnIndx%>,<%=responseIndex%>)"
                                                 data-toggle="tooltip"
                                                 data-placement="top"
-                                                title="<%=Const.Tooltips.COMMENT_ADD%>">
+                                                title="<%=Const.Tooltips.COMMENT_ADD%>"
+                                                <% if ((data.currentInstructor == null) || 
+                                                           (!data.currentInstructor.isAllowedForPrivilege(responseEntry.giverSection,
+                                                                   responseEntry.feedbackSessionName,
+                                                        		   Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)
+                                                               || !data.currentInstructor.isAllowedForPrivilege(responseEntry.recipientSection,
+                                                            		   responseEntry.feedbackSessionName,
+                                                                       Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS))) { %>
+                                                       disabled="disabled"
+                                                <% } %>                 
+                                                >
                                                 <span
                                                     class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                             </button>
@@ -641,7 +657,14 @@
                                                             [<%=frc.createdAt%>]
                                                         </span>
                                                         <%
-                                                            if (frc.giverEmail.equals(data.instructorEmail)) {//FeedbackResponseComment edit/delete control starts
+                                                            if (frc.giverEmail.equals(data.instructorEmail)
+                                                                    || (data.currentInstructor != null &&
+                                                                        data.currentInstructor.isAllowedForPrivilege(responseEntry.giverSection,
+                                                                                responseEntry.feedbackSessionName,
+                                                                                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS)
+                                                                        && data.currentInstructor.isAllowedForPrivilege(responseEntry.recipientSection,
+                                                                                responseEntry.feedbackSessionName,
+                                                                                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS))) {//FeedbackResponseComment edit/delete control starts
                                                         %>
                                                         <form
                                                             class="responseCommentDeleteForm pull-right">

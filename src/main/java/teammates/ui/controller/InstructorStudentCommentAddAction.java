@@ -4,13 +4,16 @@ package teammates.ui.controller;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentRecipientType;
 import teammates.common.datatransfer.CommentStatus;
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -30,17 +33,16 @@ public class InstructorStudentCommentAddAction extends Action {
         //used to redirect to studentDetailsPage or studentRecordsPage
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
         
-        Boolean isFromCommentsPage = getRequestParamAsBoolean(Const.ParamsNames.FROM_COMMENTS_PAGE);
-        Boolean isFromStudentDetailsPage = getRequestParamAsBoolean(Const.ParamsNames.FROM_STUDENT_DETAILS_PAGE);
-        Boolean isFromCourseDetailsPage = getRequestParamAsBoolean(Const.ParamsNames.FROM_COURSE_DETAILS_PAGE);
+        boolean isFromCommentsPage = getRequestParamAsBoolean(Const.ParamsNames.FROM_COMMENTS_PAGE);
+        boolean isFromStudentDetailsPage = getRequestParamAsBoolean(Const.ParamsNames.FROM_STUDENT_DETAILS_PAGE);
+        boolean isFromCourseDetailsPage = getRequestParamAsBoolean(Const.ParamsNames.FROM_COURSE_DETAILS_PAGE);
         
         String commentText = getRequestParamValue(Const.ParamsNames.COMMENT_TEXT); 
         Assumption.assertNotNull(commentText);
         Assumption.assertNotEmpty(commentText);
         
-        new GateKeeper().verifyAccessible(
-                logic.getInstructorForGoogleId(courseId, account.googleId),
-                logic.getCourse(courseId));
+        verifyAccessibleByInstructor(courseId);
+        
         
         CommentAttributes comment = extractCommentData();
         
@@ -69,6 +71,39 @@ public class InstructorStudentCommentAddAction extends Action {
             return createRedirectResult(new PageData(account).getInstructorCourseDetailsLink(courseId));
         } else {//studentRecordsPage by default
             return createRedirectResult(new PageData(account).getInstructorStudentRecordsLink(courseId, studentEmail));
+        }
+    }
+
+    private void verifyAccessibleByInstructor(String courseId)
+            throws EntityDoesNotExistException {
+        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
+        CourseAttributes course = logic.getCourse(courseId);
+        String recipientType = getRequestParamValue(Const.ParamsNames.RECIPIENT_TYPE);
+        CommentRecipientType commentRecipientType = recipientType == null ? CommentRecipientType.PERSON : CommentRecipientType.valueOf(recipientType);
+        String recipients = getRequestParamValue(Const.ParamsNames.RECIPIENTS);
+        if (commentRecipientType == CommentRecipientType.COURSE) {
+            new GateKeeper().verifyAccessible(instructor, course, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS);
+        } else if (commentRecipientType == CommentRecipientType.SECTION) {
+            new GateKeeper().verifyAccessible(instructor, course, recipients, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS);
+        } else if (commentRecipientType == CommentRecipientType.TEAM) {
+            List<StudentAttributes> students;
+            try {
+                students = logic.getStudentsForTeam(recipients, courseId);
+            } catch(EntityDoesNotExistException e) {
+                students = new ArrayList<StudentAttributes>();
+            }
+            if (students.isEmpty()) { // considered as a serious bug in coding or user submitted corrupted data
+                Assumption.fail();
+            } else {
+                new GateKeeper().verifyAccessible(instructor, course, students.get(0).section, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS);
+            }
+        } else { // TODO: modify this after comment for instructor is enabled
+            StudentAttributes student = logic.getStudentForEmail(courseId, recipients);
+            if (student == null) { // considered as a serious bug in coding or user submitted corrupted data
+                Assumption.fail();
+            } else {
+                new GateKeeper().verifyAccessible(instructor, course, student.section, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS);
+            }
         }
     }
 

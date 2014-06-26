@@ -226,7 +226,7 @@ public class GateKeeper {
         }
     }
     
-    public void verifyAccessible(InstructorAttributes instructor, CourseAttributes course, String sectionId, String privilegeName) {
+    public void verifyAccessible(InstructorAttributes instructor, CourseAttributes course, String sectionName, String privilegeName) {
         verifyNotNull(instructor, "instructor");
         verifyNotNull(instructor.courseId, "instructor's course ID");
         verifyNotNull(course, "course");
@@ -235,7 +235,7 @@ public class GateKeeper {
             throw new UnauthorizedAccessException("Course [" + course.id + 
                     "] is not accessible to instructor ["+ instructor.email+ "]");
         }
-        if (!instructor.isAllowedForPrivilege(sectionId, privilegeName)) {
+        if (!instructor.isAllowedForPrivilege(sectionName, privilegeName)) {
             throw new UnauthorizedAccessException("Course [" + course.id + 
                     "] is not accessible to instructor ["+ instructor.email+ "]");
         }
@@ -270,7 +270,7 @@ public class GateKeeper {
         }
     }
     
-    public void verifyAccessible(InstructorAttributes instructor, EvaluationAttributes evaluation, String sectionId, String sessionId, String privilegeName) {
+    public void verifyAccessible(InstructorAttributes instructor, EvaluationAttributes evaluation, String sectionName, String sessionName, String privilegeName) {
         verifyNotNull(instructor, "instructor");
         verifyNotNull(instructor.courseId, "instructor's course ID");
         verifyNotNull(evaluation, "evaluation");
@@ -280,7 +280,7 @@ public class GateKeeper {
                     "Evaluation [" + evaluation.name + 
                     "] is not accessible to instructor ["+ instructor.email+ "]");
         }
-        if (!instructor.isAllowedForPrivilege(sectionId, sessionId, privilegeName)) {
+        if (!instructor.isAllowedForPrivilege(sectionName, sessionName, privilegeName)) {
             throw new UnauthorizedAccessException(
                     "Evaluation [" + evaluation.name + 
                     "] is not accessible to instructor ["+ instructor.email+ "]");

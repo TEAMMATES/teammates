@@ -2,6 +2,7 @@ package teammates.ui.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -55,6 +56,13 @@ public class InstructorCommentsPageAction extends Action {
         List<String> coursePaginationList = new ArrayList<String>(); 
         String courseName = getCoursePaginationList(coursePaginationList);
         
+        data = new InstructorCommentsPageData(account);
+        data.isViewingDraft = isViewingDraft;
+        data.currentInstructor = instructor;
+        data.isDisplayArchive = isDisplayArchivedCourse;
+        data.courseId = courseId;
+        data.courseName = courseName;
+        
         CourseRoster roster = null;
         Map<String, List<CommentAttributes>> giverEmailToCommentsMap = new HashMap<String, List<CommentAttributes>>();
         Map<String, FeedbackSessionResultsBundle> feedbackResultBundles = new HashMap<String, FeedbackSessionResultsBundle>();
@@ -69,11 +77,6 @@ public class InstructorCommentsPageAction extends Action {
             feedbackResultBundles = getFeedbackResultBundles(roster);
         }
         
-        data = new InstructorCommentsPageData(account);
-        data.isViewingDraft = isViewingDraft;
-        data.isDisplayArchive = isDisplayArchivedCourse;
-        data.courseId = courseId;
-        data.courseName = courseName;
         data.coursePaginationList = coursePaginationList;
         data.comments = giverEmailToCommentsMap;
         data.roster = roster;
@@ -165,13 +168,14 @@ public class InstructorCommentsPageAction extends Action {
         //group data by recipients
         Map<String, List<CommentAttributes>> giverEmailToCommentsMap = new TreeMap<String, List<CommentAttributes>>();
         for(CommentAttributes comment : comments){
-            String key = comment.giverEmail.equals(instructor.email)? InstructorCommentsPageData.COMMENT_GIVER_NAME_THAT_COMES_FIRST: comment.giverEmail;
+            boolean isCurrentInstructorGiver = comment.giverEmail.equals(instructor.email);
+            String key = isCurrentInstructorGiver ? InstructorCommentsPageData.COMMENT_GIVER_NAME_THAT_COMES_FIRST : comment.giverEmail;
             List<CommentAttributes> commentList = giverEmailToCommentsMap.get(key);
-            if(commentList == null){
+            if (commentList == null) {
                 commentList = new ArrayList<CommentAttributes>();
                 giverEmailToCommentsMap.put(key, commentList);
             }
-            commentList.add(comment);
+            updateCommentList(comment, isCurrentInstructorGiver, commentList);
         }
         //TODO: sort the recipient by their newest comment
         //sort comments by created date
@@ -179,6 +183,16 @@ public class InstructorCommentsPageAction extends Action {
             java.util.Collections.sort(commentList);
         }
         return giverEmailToCommentsMap;
+    }
+
+    private void updateCommentList(CommentAttributes comment, boolean isCurrentInstructorGiver, List<CommentAttributes> commentList) {
+        if (!isViewingDraft && !isCurrentInstructorGiver) { 
+            if (data.isInstructorAllowedForPrivilegeOnComment(comment, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS)) {
+                commentList.add(comment);
+            }
+        } else {
+            commentList.add(comment);
+        }
     }
 
     private Map<String, FeedbackSessionResultsBundle> getFeedbackResultBundles(CourseRoster roster)
@@ -192,6 +206,7 @@ public class InstructorCommentsPageAction extends Action {
                                 fs.feedbackSessionName, courseId, account.email, roster, !IS_INCLUDE_RESPONSE_STATUS);
                 if(bundle != null){
                     removeQuestionsAndResponsesWithoutFeedbackResponseComment(bundle);
+                    removeQuestionsAndResponsesIfNotAllowed(bundle);
                     if(bundle.questions.size() != 0){
                         feedbackResultBundles.put(fs.feedbackSessionName, bundle);
                     }
@@ -199,6 +214,20 @@ public class InstructorCommentsPageAction extends Action {
             }
         }
         return feedbackResultBundles;
+    }
+
+    private void removeQuestionsAndResponsesIfNotAllowed(FeedbackSessionResultsBundle bundle) {
+        Iterator<FeedbackResponseAttributes> iter = bundle.responses.iterator();
+        while (iter.hasNext()) {
+            FeedbackResponseAttributes fdr = iter.next();
+            if (!(data.currentInstructor != null &&
+                    data.currentInstructor.isAllowedForPrivilege(fdr.giverSection, 
+                            fdr.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)
+                    && data.currentInstructor.isAllowedForPrivilege(fdr.recipientSection, 
+                            fdr.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS))) {
+                iter.remove();
+            }
+        }
     }
 
     private void removeQuestionsAndResponsesWithoutFeedbackResponseComment(FeedbackSessionResultsBundle bundle) {
