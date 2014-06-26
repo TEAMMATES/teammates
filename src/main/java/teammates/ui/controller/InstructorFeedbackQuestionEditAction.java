@@ -157,7 +157,15 @@ public class InstructorFeedbackQuestionEditAction extends Action {
             FeedbackAbstractQuestionDetails questionDetails = 
                     FeedbackAbstractQuestionDetails.createQuestionDetails(requestParameters, newQuestion.questionType);
             newQuestion.setQuestionDetails(questionDetails);
-        }      
+        }
+        
+        if(newQuestion.questionType == FeedbackQuestionType.CONTRIB){
+            Assumption.assertEquals("Contrib qn giver type invalid: " + newQuestion.giverType.toString(),
+                                    newQuestion.giverType, FeedbackParticipantType.STUDENTS);
+            Assumption.assertEquals("Contrib qn recipient type invalid: " + newQuestion.recipientType.toString(),
+                                    newQuestion.recipientType, FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF);
+        }
+        
         return newQuestion;
     }
     
