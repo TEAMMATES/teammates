@@ -117,6 +117,7 @@ public class GodModeTest extends BaseUiTestCase {
 
     @AfterClass
     public static void closeClass() throws Exception {
+        System.clearProperty("godmode");
         writeToFile(TestProperties.TEST_PAGES_FOLDER + "/godmode.html", initialContent);
     }
 
