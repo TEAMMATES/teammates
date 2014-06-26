@@ -15,6 +15,7 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentResultBundle;
+import teammates.common.datatransfer.StudentResultSummary;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
@@ -84,7 +85,7 @@ public class PageData {
      *         In terms of full percentage, so equal share will be 100, 20% more
      *         from equal share will be 120, etc.
      */
-    protected static String getPointsAsColorizedHtml(int points){
+    public static String getPointsAsColorizedHtml(int points){
         if(points==Const.POINTS_NOT_SUBMITTED || points==Const.INT_UNINITIALIZED)
             return "<span class=\"color-negative\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"" + Const.Tooltips.EVALUATION_SUBMISSION_NOT_AVAILABLE+ "\">N/A</span>";
         else if(points==Const.POINTS_NOT_SURE)
@@ -149,8 +150,12 @@ public class PageData {
      * explain the meaning of the abbreviation.
      */
     protected static String getPointsDiffAsHtml(StudentResultBundle sub){
-        int claimed = sub.summary.claimedToInstructor;
-        int perceived = sub.summary.perceivedToInstructor;
+        return getPointsDiffAsHtml(sub.summary);
+    }
+    
+    public static String getPointsDiffAsHtml(StudentResultSummary summary){
+        int claimed = summary.claimedToInstructor;
+        int perceived = summary.perceivedToInstructor;
         int diff = perceived - claimed;
         if(perceived==Const.POINTS_NOT_SUBMITTED || perceived==Const.INT_UNINITIALIZED
                 || claimed==Const.POINTS_NOT_SUBMITTED || claimed==Const.INT_UNINITIALIZED){

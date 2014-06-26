@@ -27,6 +27,12 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
     public FeedbackSessionResponseStatus responseStatus = null;
     public Map<String, List<FeedbackResponseCommentAttributes>> responseComments = null;
     
+    /**
+     * Responses with identities of giver/recipients NOT hidden.
+     * To be used for anonymous result calculation only, and identities hidden before showing to users.
+     */
+    public List<FeedbackResponseAttributes> actualResponses = null;
+    
     public FeedbackSessionResultsBundle (FeedbackSessionAttributes feedbackSession,
             List<FeedbackResponseAttributes> responses,
             Map<String, FeedbackQuestionAttributes> questions,
@@ -43,12 +49,16 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         this.visibilityTable = visibilityTable;
         this.responseStatus = responseStatus;
         this.responseComments = responseComments;
+        this.actualResponses = new ArrayList<FeedbackResponseAttributes>();
 
         // We change user email to team name here for display purposes.
         for (FeedbackResponseAttributes response : responses) {
             if (questions.get(response.feedbackQuestionId).giverType == FeedbackParticipantType.TEAMS){ 
                 response.giverEmail += Const.TEAM_OF_EMAIL_OWNER;
             }
+            //Copy the data before hiding response recipient and giver.
+            FeedbackResponseAttributes fraCopy = new FeedbackResponseAttributes(response);
+            actualResponses.add(fraCopy);
         }
         
         hideResponsesGiverRecipient(responses, questions, emailNameTable,
