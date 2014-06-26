@@ -157,6 +157,7 @@
             <class name="teammates.test.cases.testdriver.BackDoorTest" />
             <class name="teammates.test.cases.ui.browsertests.SystemErrorEmailReportTest" />
             <class name="teammates.test.cases.ui.browsertests.TableSortTest" />
+            <class name="teammates.test.cases.ui.browsertests.GodModeTest" />
             <class name="teammates.test.cases.ui.browsertests.AllJsTests" />
             <class name="teammates.test.cases.ui.browsertests.MashupPageUiTest" />
         </classes>
