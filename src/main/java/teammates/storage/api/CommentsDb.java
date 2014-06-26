@@ -123,6 +123,18 @@ public class CommentsDb extends EntitiesDb{
         return commentAttributesList;
     }
     
+    public List<CommentAttributes> getPendingComments(String courseId){
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        
+        List<Comment> comments = getPendingCommentEntities(courseId);
+        List<CommentAttributes> commentAttributesList = new ArrayList<CommentAttributes>();
+        
+        for(Comment comment: comments){
+            commentAttributesList.add(new CommentAttributes(comment));
+        }
+        return commentAttributesList;
+    }
+    
     public void clearPendingComments(String courseId){
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         

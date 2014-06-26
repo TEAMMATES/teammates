@@ -60,13 +60,7 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
             new Text(commentText));
         
         FeedbackQuestionAttributes question = logic.getFeedbackQuestion(feedbackQuestionId);
-        if(question.showResponsesTo.size() > 0
-            && (question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
-                || question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)
-                || question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
-                || question.isResponseVisibleTo(FeedbackParticipantType.STUDENTS))){
-            feedbackResponseComment.isPending = true;
-        }
+        feedbackResponseComment.isPending = isResponseCommentPublic(question);
         
         try {
             logic.createFeedbackResponseComment(feedbackResponseComment);
@@ -111,5 +105,14 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         }
         
         return createAjaxResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION, data);
+    }
+
+    private boolean isResponseCommentPublic(FeedbackQuestionAttributes question) {
+        return (question.giverType == FeedbackParticipantType.STUDENTS
+                || question.giverType == FeedbackParticipantType.TEAMS) 
+                    || (question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
+                            || question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)
+                            || question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
+                            || question.isResponseVisibleTo(FeedbackParticipantType.STUDENTS));
     }
 }

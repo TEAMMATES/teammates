@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import javax.mail.internet.MimeMessage;
@@ -1893,11 +1894,11 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public void clearPendingFeedbackResponseComment(String courseId)
+    public void clearPendingFeedbackResponseComments(String courseId)
             throws EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
-        feedbackResponseCommentsLogic.clearPendingFeedbackResponseComment(courseId);
+        feedbackResponseCommentsLogic.clearPendingFeedbackResponseComments(courseId);
     }
 
     /**
@@ -1928,8 +1929,19 @@ public class Logic {
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
+     * @throws EntityDoesNotExistException 
      */
-    public void clearPendingComment(String courseId)
+    public Set<String> getRecipientEmailsForPendingComments(String courseId) 
+            throws EntityDoesNotExistException{
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        return commentsLogic.getRecipientEmailsForPendingComments(courseId);
+    }
+    
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     */
+    public void clearPendingComments(String courseId)
             throws EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         commentsLogic.clearPendingComments(courseId);
