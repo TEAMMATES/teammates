@@ -1,13 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
-<%@ page import="teammates.ui.controller.PageData" %>
+<%@ page import="teammates.ui.controller.StudentProfilePageData" %>
 <%@ page import="teammates.common.util.Const" %>
 <%@ page import="com.google.appengine.api.blobstore.BlobstoreService" %>
 <%@ page import="com.google.appengine.api.blobstore.BlobstoreServiceFactory" %>
 <%@ page import="com.google.appengine.api.blobstore.UploadOptions" %>
 
 <%
-    PageData data = (PageData) request.getAttribute("data");
+    StudentProfilePageData data = (StudentProfilePageData) request.getAttribute("data");
     
     String pictureUrl = Const.ActionURIs.STUDENT_PROFILE_PICTURE + 
             "?blob-key=" + data.account.studentProfile.pictureKey + 
@@ -66,7 +66,12 @@
                         <img id="editablePicture" src="<%=pictureUrl %>" /><br><br>
                         <div class="center-block align-center">
                             <label for="studentPhoto">Your Photo</label><br>
-                            <input id="studentPhoto" class="inline" type="file" name="<%=Const.ParamsNames.STUDENT_PROFILE_PIC %>" />
+                            <form id="profilePictureUploadForm" method="post"> 
+                                <input id="studentPhoto" class="inline" type="file" name="<%=Const.ParamsNames.STUDENT_PROFILE_PHOTO%>" />
+                                <button type="button" id="profileUploadPictureSubmit" class="btn btn-primary center-block" onclick="finaliseUploadPictureForm()">
+                                    Upload Picture
+                                </button>
+                            </form>
                             <p class="help-block">Max Size: 30 MB</p>
                         </div>
                     </div>
@@ -82,10 +87,10 @@
             <div class="form-group row">
                 <div class="col-xs-3 cursor-pointer" 
                      title="<%=Const.Tooltips.STUDENT_PROFILE_PICTURE %>" data-toggle="tooltip" data-placement="top">
-                    <img src="<%=pictureUrl %>" class="profile-pic" data-toggle="modal" data-target="#studentPhotoUploader"/>
+                    <img id="profilePic" src="<%=pictureUrl %>" class="profile-pic" data-toggle="modal" data-target="#studentPhotoUploader" data-edit="<%=data.editPicture %>" />
                 </div>
             </div>
-            <form id="profileEditForm" class="form center-block" role="form" method="post"
+            <form class="form center-block" role="form" method="post"
                   action="<%=Const.ActionURIs.STUDENT_PROFILE_EDIT_SAVE %>">
                 <div class="form-group" title="<%=Const.Tooltips.STUDENT_PROFILE_SHORTNAME %>" data-toggle="tooltip" data-placement="top">
                     <label for="studentNickname">Short Name</label>

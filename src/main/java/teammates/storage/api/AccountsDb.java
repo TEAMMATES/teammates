@@ -269,17 +269,7 @@ public class AccountsDb extends EntitiesDb {
         profileToUpdate.setGender(newSpa.gender);
         profileToUpdate.setMoreInfo(new Text(newSpa.moreInfo));
         if (newSpa.pictureKey != "") {
-            if (!profileToUpdate.getPictureKey().equals(new BlobKey(""))) {
-                try {
-                    deleteProfilePicFromGcs(profileToUpdate.getPictureKey());
-                } catch (BlobstoreFailureException bfe) {
-                    // this branch is not tested as it is 
-                    //      => difficult to reproduce during testing
-                    //      => properly handled higher up
-                    closePM();
-                    throw bfe;
-                }
-            }
+            deleteIfNotEmpty(profileToUpdate.getPictureKey());
             profileToUpdate.setPictureKey(new BlobKey(newSpa.pictureKey));
         }
         closePM();
@@ -315,20 +305,22 @@ public class AccountsDb extends EntitiesDb {
                     + ThreadHelper.getCurrentThreadStack());
         }
         
+        deleteIfNotEmpty(profileToUpdate.getPictureKey());
         profileToUpdate.setPictureKey(new BlobKey(newPictureKey));
-        if (newPictureKey != "") {
-            if (!profileToUpdate.getPictureKey().equals(new BlobKey(""))) {
-                try {
-                    deleteProfilePicFromGcs(profileToUpdate.getPictureKey());
-                } catch (BlobstoreFailureException bfe) {
-                    // this branch is not tested as it is 
-                    //      => difficult to reproduce during testing
-                    //      => properly handled higher up
-                    closePM();
-                    throw bfe;
-                }
+    }
+
+    private void deleteIfNotEmpty(BlobKey pictureKey)
+            throws BlobstoreFailureException {
+        if (!pictureKey.equals(new BlobKey(""))) {
+            try {
+                deleteProfilePicFromGcs(pictureKey);
+            } catch (BlobstoreFailureException bfe) {
+                // this branch is not tested as it is 
+                //      => difficult to reproduce during testing
+                //      => properly handled higher up
+                closePM();
+                throw bfe;
             }
-            profileToUpdate.setPictureKey(new BlobKey(newPictureKey));
         }
     }
 }

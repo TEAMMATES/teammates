@@ -4,23 +4,26 @@ $(function () {
 			$(this).select();
 		}
 	});
+	
+	$(window).load(function() {
+		if($('#profilePic').attr('data-edit') == "true") {
+			$('#studentPhotoUploader').modal('show');
+		}
+	});
 });
 
-function finaliseForm(event) {
-	if ($('#studentPhoto').val() == "") {
-		$('#profileEditForm').submit();
-		return;
-	}
+function finaliseUploadPictureForm(event) {
+	if ($('#studentPhoto').val() == "") return;
 	
-	initialSubmitMessage = $('#profileEditSubmit').html();
-	
+	initialSubmitMessage = $('#profileUploadPictureSubmit').html();
+	alert('1');
 	$.ajax({
 		url: "/page/studentProfileCreateFormUrl?user="+$("input[name='user']").val(),
 		beforeSend : function() {
-            $('#profileEditSubmit').html("<img src='../images/ajax-loader.gif'/>");
+            $('#profileUploadPictureSubmit').html("<img src='../images/ajax-loader.gif'/>");
         },
         error: function() {
-        	$(this).Text(initialSubmitMessage);
+        	$('#profileUploadPictureSubmit').Text(initialSubmitMessage);
         	$('#statusMessage').css("display", "block")
         					   .attr('class', 'alert alert-danger')
         					   .html('There seems to be a network error, please try again later');
@@ -28,13 +31,13 @@ function finaliseForm(event) {
         },
         success: function(data) {
         	if (!data.isError) {
-	        	$('#profileEditForm').attr('enctype','multipart/form-data');
+	        	$('#profilePictureUploadForm').attr('enctype','multipart/form-data');
 	        	// for IE compatibility
-	        	$('#profileEditForm').attr('encoding','multipart/form-data');
-	        	$('#profileEditForm').attr('action', data.formUrl);
-	        	$('#profileEditForm').submit();
+	        	$('#profilePictureUploadForm').attr('encoding','multipart/form-data');
+	        	$('#profilePictureUploadForm').attr('action', data.formUrl);
+	        	$('#profilePictureUploadForm').submit();
         	} else {
-        		$(this).Text(initialSubmitMessage);
+        		$('#profileUploadPictureSubmit').Text(initialSubmitMessage);
             	$('#statusMessage').css("display", "block")
             					   .attr('class', 'alert alert-danger')
             					   .html('There seems to be a network error, please try again later');

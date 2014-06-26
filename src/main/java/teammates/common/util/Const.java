@@ -382,7 +382,8 @@ public class Const {
         public static final String STUDENT_NATIONALITY = "studentnationality";
         public static final String STUDENT_GENDER = "studentgender";
         public static final String STUDENT_PROFILE_MOREINFO = "studentprofilemoreinfo"; 
-        public static final String STUDENT_PROFILE_PIC = "studentprofilephoto";
+        public static final String STUDENT_PROFILE_PHOTO = "studentprofilephoto";
+        public static final String STUDENT_PROFILE_PHOTOEDIT = "editphoto";
     
         public static final String STUDENT_NAME = "studentname";
         public static final String RECIPIENT_TYPE = "recipienttype";

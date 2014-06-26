@@ -12,19 +12,18 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 
 public class StudentProfilePictureUploadAction extends Action {
-
-    StudentProfilePictureUploadAjaxData data;
     
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
         
         String pictureKey = "";
+        RedirectResult r = createRedirectResult(Const.ActionURIs.STUDENT_PROFILE_PAGE);
         try {
             pictureKey = extractProfilePictureKey();
             if (pictureKey != "") {
                 logic.updateStudentProfilePicture(account.googleId, pictureKey);
-                data = new StudentProfilePictureUploadAjaxData(account, pictureKey);
                 statusToUser.add(Const.StatusMessages.STUDENT_PROFILE_PICTURE_SAVED);
+                r.addResponseParam(Const.ParamsNames.STUDENT_PROFILE_PHOTOEDIT, "true");
             }
         } catch (BlobstoreFailureException bfe) {
             // This branch is not tested as recreating such a scenario is difficult in the 
@@ -39,20 +38,20 @@ public class StudentProfilePictureUploadAction extends Action {
             statusToUser.clear();
             statusToUser.add(Const.StatusMessages.STUDENT_PROFILE_PIC_SERVICE_DOWN);
             isError = true;
-            return createAjaxResult("", data);
         } catch (Exception e) {
             deletePicture(new BlobKey(pictureKey));
             statusToUser.clear();
             throw e;
         }
         
-        return createAjaxResult("", data);
+        return r;
+                
     }
 
     private String extractProfilePictureKey() {
         try {
             Map<String, List<BlobInfo>> blobsMap = BlobstoreServiceFactory.getBlobstoreService().getBlobInfos(request);
-            List<BlobInfo> blobs = blobsMap.get(Const.ParamsNames.STUDENT_PROFILE_PIC);
+            List<BlobInfo> blobs = blobsMap.get(Const.ParamsNames.STUDENT_PROFILE_PHOTO);
             
             /*USED FOR TESTING PURPOSES
                 Map<String, List<FileInfo>> filesMap = BlobstoreServiceFactory.getBlobstoreService().getFileInfos(request);
