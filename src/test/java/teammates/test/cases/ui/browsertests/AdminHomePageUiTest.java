@@ -10,12 +10,10 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-<<<<<<< HEAD
+
 import teammates.common.datatransfer.InstructorAttributes;
-=======
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
->>>>>>> origin/master
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
@@ -68,25 +66,12 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         
         InstructorAttributes instructor = new InstructorAttributes();
         
-<<<<<<< HEAD
         String shortName = "Instrúctör";
         instructor.name =  "AHPUiT Instrúctör";
         instructor.email = "AHPUiT.instr1@gmail.com";
         String institute = "National University of Singapore";
         String demoCourseId = "AHPUiT.instr1.gma-demo";
-        
-       
-=======
-        account.googleId = "AHPUiT.instr1";
-        account.name =  "AHPUiT Instrúctör";
-        account.email = "AHPUiT.instr1@gmail.com";
-        account.institute = "Institution";
-        account.isInstructor = true;
-        account.studentProfile = new StudentProfileAttributes();
-        account.studentProfile.googleId = account.googleId;
-        BackDoor.deleteAccount(account.googleId);
->>>>>>> origin/master
-        
+    
         ______TS("action success : create instructor account and the account is created successfully after user's verification");
         
         BackDoor.deleteCourse(demoCourseId);
@@ -119,8 +104,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
                                                      TestProperties.inst().TEST_INSTRUCTOR_PASSWORD);  
         confirmationPage.clickConfirmButton();
         confirmationPage.verifyContains("Instructor Home");
-        
-<<<<<<< HEAD
+
         //check a account has been created for the requester successfully
         assertNotNull(BackDoor.getAccount(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT));
         
@@ -129,14 +113,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         BackDoor.deleteInstructor(demoCourseId, instructor.email);
         
         confirmationPage.logout();
-=======
-        account.studentProfile = new StudentProfileAttributes();
-        account.studentProfile.googleId = account.googleId;
-        homePage.createInstructor(account, false)
-            .verifyStatus("Instructor AHPUiT Instrúctör has been successfully created");
-        verifyAccountCreated(account);
-        assertNull(BackDoor.getCourse(demoCourseId));
->>>>>>> origin/master
+
         
         ______TS("action failure : invalid parameter");
         
@@ -147,17 +124,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         
         homePage.createInstructor(shortName,instructor,institute).verifyStatus(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, instructor.email, FieldValidator.REASON_INCORRECT_FORMAT));
         
-<<<<<<< HEAD
-=======
-    }
 
-    private void verifyAccountCreated(AccountAttributes expected) {
-        AccountAttributes actual = BackDoor.getAccountWithRetry(expected.googleId);
-        assertNotNull(actual);
-        expected.createdAt = actual.createdAt;
-        expected.studentProfile.modifiedDate = actual.studentProfile.modifiedDate;
-        assertEquals(expected.toString(), actual.toString());
->>>>>>> origin/master
     }
 
     @AfterClass

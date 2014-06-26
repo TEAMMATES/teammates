@@ -407,25 +407,6 @@ public class AccountsLogic {
         accountsDb.createAccount(account);
     }
     
-<<<<<<< HEAD
-=======
-    private void createInstructorAccount(InstructorAttributes instructor) throws InvalidParametersException {
-        AccountAttributes account = new AccountAttributes();
-        account.googleId = instructor.googleId;
-        account.email = instructor.email;
-        account.name = instructor.name;
-        account.isInstructor = true;
-        account.institute = getCourseInstitute(instructor.courseId);
-        
-        StudentProfileAttributes spa = new StudentProfileAttributes();
-        spa.googleId = instructor.googleId;
-        spa.institute = account.institute;
-        account.studentProfile = spa;
-        accountsDb.createAccount(account);
-    }
->>>>>>> origin/master
-
-
     
     
     private String truncateGoogleId(String googleId) {
