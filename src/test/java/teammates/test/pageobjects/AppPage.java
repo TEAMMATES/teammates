@@ -586,7 +586,7 @@ public abstract class AppPage {
                         + "eg: change test.student1.account from alice.tmms to alice.tmms.example");
             }
             try {
-                String processedPageSource = processPageSourceForGodMode();                
+                String processedPageSource = processPageSourceForGodMode(content);                
                 saveCurrentPage(filePath, processedPageSource);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -597,8 +597,8 @@ public abstract class AppPage {
         }
     }
 
-    private String processPageSourceForGodMode() {
-        return getPageSource()
+    private String processPageSourceForGodMode(String content) {
+        return content
                 .replace("<#comment[ ]*</#comment>", "<!---->")
                 .replace("V4.18", "{$version}")
                 // photo from instructor
