@@ -120,6 +120,9 @@ public class GodModeTest extends BaseUiTestCase {
         BrowserPool.release(browser);
         System.clearProperty("godmode");
         writeToFile(TestProperties.TEST_PAGES_FOLDER + "/godmode.html", initialContent);
+        
+        File file = new File(getOutputFilePath());
+        file.delete();
     }
 
     private static String getPath() throws Exception{
