@@ -52,7 +52,7 @@ public class InstructorFeedbackResponseCommentDeleteAction extends Action {
             FeedbackResponseAttributes response) {
         FeedbackResponseCommentAttributes frc = logic.getFeedbackResponseComment(Long.parseLong(feedbackResponseCommentId));
         if (frc == null) {
-            Assumption.fail("FeedbackResponseComment should not be null");
+            return ;
         }
         if (instructor != null && frc.giverEmail.equals(instructor.email)) { // giver, allowed by default
             return ;

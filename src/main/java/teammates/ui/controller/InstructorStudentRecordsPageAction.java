@@ -75,8 +75,7 @@ public class InstructorStudentRecordsPageAction extends Action {
             for(int i = evals.size() - 1; i >= 0; i--){
                 if(!evals.get(i).courseId.equals(courseId)){
                     evals.remove(i);
-                }
-                if (!data.currentInstructor.isAllowedForPrivilege(data.student.section, 
+                } else if (!data.currentInstructor.isAllowedForPrivilege(data.student.section, 
                         evals.get(i).getSessionName(), Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)) {
                     evals.remove(i);
                 }
@@ -85,8 +84,7 @@ public class InstructorStudentRecordsPageAction extends Action {
             for(int i = feedbacks.size() - 1; i >= 0; i--){
                 if(!feedbacks.get(i).courseId.equals(courseId)){
                     feedbacks.remove(i);
-                }
-                if (!data.currentInstructor.isAllowedForPrivilege(data.student.section, 
+                } else if (!data.currentInstructor.isAllowedForPrivilege(data.student.section, 
                         feedbacks.get(i).feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)) {
                     feedbacks.remove(i);
                 }
