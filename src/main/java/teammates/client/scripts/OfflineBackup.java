@@ -219,7 +219,8 @@ public class OfflineBackup extends RemoteApiClient {
             return;
         }
         
-        String accountCsv = account.googleId + "," + account.name + "," + account.isInstructor + "," + account.email + "," + account.institute + "," + account.createdAt + Const.EOL;
+        String createdAt = new SimpleDateFormat("EEE MMM d HH:mm:ss.SSSSSS zzz yyyy").format(account.createdAt);
+        String accountCsv = account.googleId + "," + account.name + "," + account.isInstructor + "," + account.email + "," + account.institute + "," + createdAt + Const.EOL;
         FileHelper.appendToFile(accountCsvFile, accountCsv);
     }
     
@@ -415,7 +416,7 @@ public class OfflineBackup extends RemoteApiClient {
      * Prepares all entity types .csv files with their headers extracted from GAE datastore
      */
     private void setupCsvFiles() {
-        String accountCsv = "key,name,isInstructor,email,institute,createAt" + Const.EOL;
+        String accountCsv = "key,name,isInstructor,email,institute,createdAt" + Const.EOL;
         FileHelper.writeToFile(accountCsvFile, accountCsv);
         
         String commentCsv = "key,courseID,giverEmail,receiverEmail,commentText,createdAt" + Const.EOL;
@@ -442,7 +443,7 @@ public class OfflineBackup extends RemoteApiClient {
                 + "isPublishedEmailEnabled" + Const.EOL;
         FileHelper.writeToFile(feedbackSessionCsvFile, feedbackSessionCsv);
         
-        String instructorCsv = "key,name,email,courseID,registrationKey" + Const.EOL;
+        String instructorCsv = "key,googleId,name,email,courseID,registrationKey" + Const.EOL;
         FileHelper.writeToFile(InstructorCsvFile, instructorCsv);
         
         String studentCsv = "key,ID,name,email,courseID,comments,teamName" + Const.EOL;
