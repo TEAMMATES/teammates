@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import javax.mail.internet.MimeMessage;
@@ -1923,6 +1924,17 @@ public class Logic {
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, comment);
         commentsLogic.createComment(comment);
+    }
+    
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     * @throws EntityDoesNotExistException 
+     */
+    public Set<String> getRecipientEmailsForPendingComments(String courseId) 
+            throws EntityDoesNotExistException{
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        return commentsLogic.getRecipientEmailsForPendingComments(courseId);
     }
     
     /**

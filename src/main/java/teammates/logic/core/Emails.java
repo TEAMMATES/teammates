@@ -5,6 +5,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -50,6 +51,7 @@ public class Emails {
     public static final String SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER = "TEAMMATES: Feedback session reminder";
     public static final String SUBJECT_PREFIX_FEEDBACK_SESSION_CLOSING = "TEAMMATES: Feedback session closing soon";
     public static final String SUBJECT_PREFIX_FEEDBACK_SESSION_PUBLISHED = "TEAMMATES: Feedback session results published";
+    public static final String SUBJECT_PREFIX_PENDING_COMMENTS_CLEARED = "TEAMMATES: You have new comments";
     public static final String SUBJECT_PREFIX_STUDENT_COURSE_JOIN = "TEAMMATES: Invitation to join course";
     public static final String SUBJECT_PREFIX_INSTRUCTOR_COURSE_JOIN = "TEAMMATES: Invitation to join course as an instructor";
     public static final String SUBJECT_PREFIX_ADMIN_SYSTEM_ERROR = "TEAMMATES (%s): New System Exception: %s";
@@ -113,10 +115,11 @@ public class Emails {
     }
     
     public void addCommentReminderToEmailsQueue(String courseId,
-            EmailType typeOfEmail) {
+            String recipientEmailsKey, EmailType typeOfEmail) {
         
         HashMap<String, String> paramMap = new HashMap<String, String>();
-        paramMap.put(ParamsNames.COURSE_ID, courseId);
+        paramMap.put(ParamsNames.EMAIL_COURSE, courseId);
+        paramMap.put(ParamsNames.RECIPIENTS, recipientEmailsKey);
         paramMap.put(ParamsNames.EMAIL_TYPE, typeOfEmail.toString());
         
         TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
@@ -489,9 +492,60 @@ public class Emails {
         return emails;
     }
     
-    public List<MimeMessage> generatePendingCommentsClearedEmails(Set<String> recipients){
-        //TODO: impl this
-        return null;
+    public List<MimeMessage> generatePendingCommentsClearedEmails(String courseId, Set<String> recipients) 
+            throws EntityDoesNotExistException, MessagingException, UnsupportedEncodingException{
+        CourseAttributes course = CoursesLogic.inst().getCourse(courseId);
+        List<StudentAttributes> students = StudentsLogic.inst().getStudentsForCourse(courseId);
+        Map<String, StudentAttributes> emailStudentTable = new HashMap<String, StudentAttributes>();
+        for (StudentAttributes s : students) {
+            emailStudentTable.put(s.email, s);
+        }
+        
+        String template = EmailTemplates.USER_PENDING_COMMENTS_CLEARED;
+        
+        ArrayList<MimeMessage> emails = new ArrayList<MimeMessage>();
+        for (String recipientEmail : recipients) {
+            StudentAttributes s = emailStudentTable.get(recipientEmail);
+            if(s == null) continue;
+            emails.add(generatePendingCommentsClearedEmailBaseForStudent(course, s,
+                    template));
+        }
+        for (MimeMessage email : emails) {
+            email.setSubject(email.getSubject().replace("${subjectPrefix}",
+                    SUBJECT_PREFIX_PENDING_COMMENTS_CLEARED));
+        }
+        return emails;
+    }
+    
+    public MimeMessage generatePendingCommentsClearedEmailBaseForStudent(CourseAttributes course,
+            StudentAttributes student, String template) 
+                    throws MessagingException, UnsupportedEncodingException{
+        MimeMessage message = getEmptyEmailAddressedToEmail(student.email);
+
+        message.setSubject(String
+                .format("${subjectPrefix} [Course: %s]",
+                        course.id));
+
+        String emailBody = template;
+
+        if (isYetToJoinCourse(student)) {
+            emailBody = fillUpStudentJoinFragment(student, emailBody);
+        } else {
+            emailBody = emailBody.replace("${joinFragment}", "");
+        }
+        
+        emailBody = emailBody.replace("${userName}", student.name);
+        emailBody = emailBody.replace("${courseName}", course.name);
+        emailBody = emailBody.replace("${courseId}", course.id);
+        
+        String commentsPageUrl = Config.APP_URL
+                + Const.ActionURIs.STUDENT_COMMENTS_PAGE;
+        commentsPageUrl = Url.addParamToUrl(commentsPageUrl, Const.ParamsNames.COURSE_ID,
+                course.id);
+        emailBody = emailBody.replace("${commentsPageUrl}", commentsPageUrl);
+
+        message.setContent(emailBody, "text/html");
+        return message;
     }
     
     public List<MimeMessage> generateFeedbackSessionPublishedEmails(

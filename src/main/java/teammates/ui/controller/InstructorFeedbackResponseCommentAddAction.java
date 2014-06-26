@@ -108,10 +108,11 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
     }
 
     private boolean isResponseCommentPublic(FeedbackQuestionAttributes question) {
-        return question.showResponsesTo.size() > 0
-            && (question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
-                || question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)
-                || question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
-                || question.isResponseVisibleTo(FeedbackParticipantType.STUDENTS));
+        return (question.giverType == FeedbackParticipantType.STUDENTS
+                || question.giverType == FeedbackParticipantType.TEAMS) 
+                    || (question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
+                            || question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)
+                            || question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
+                            || question.isResponseVisibleTo(FeedbackParticipantType.STUDENTS));
     }
 }
