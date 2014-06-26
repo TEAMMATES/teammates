@@ -22,10 +22,10 @@ public class CommentAttributes extends EntityAttributes
     private Long commentId = null;
     public String courseId;
     public String giverEmail;
-    public CommentRecipientType recipientType;
+    public CommentRecipientType recipientType = CommentRecipientType.PERSON;
     public Set<String> recipients;
-    public CommentStatus status;
-    public Boolean isPending = false;
+    public CommentStatus status = CommentStatus.FINAL;
+    public CommentSendingState sendingState = CommentSendingState.SENT;
     public List<CommentRecipientType> showCommentTo;
     public List<CommentRecipientType> showGiverNameTo;
     public List<CommentRecipientType> showRecipientNameTo;
@@ -52,7 +52,7 @@ public class CommentAttributes extends EntityAttributes
         this.giverEmail = comment.getGiverEmail();
         this.recipientType = comment.getRecipientType();
         this.status = comment.getStatus();
-        this.isPending = comment.getIsPending() != null? comment.getIsPending() : false;
+        this.sendingState = comment.getSendingState() != null? comment.getSendingState() : CommentSendingState.SENT;
         this.showCommentTo = comment.getShowCommentTo();
         this.showGiverNameTo = comment.getShowGiverNameTo();
         this.showRecipientNameTo = comment.getShowRecipientNameTo();
@@ -125,7 +125,7 @@ public class CommentAttributes extends EntityAttributes
 
     public Comment toEntity() {
         return new Comment(courseId, giverEmail, recipientType, recipients, status,
-                isPending,
+                sendingState,
                 showCommentTo, 
                 showGiverNameTo, 
                 showRecipientNameTo, 

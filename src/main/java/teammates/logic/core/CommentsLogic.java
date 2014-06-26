@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentRecipientType;
+import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CommentStatus;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -70,15 +71,15 @@ public class CommentsLogic {
         return commentsDb.getCommentsForReceiver(courseId, recipientType, receiverEmail);
     }
     
-    public List<CommentAttributes> getPendingComments(String courseId)
+    public List<CommentAttributes> getCommentsForSendingState(String courseId, CommentSendingState sendingState)
             throws EntityDoesNotExistException {
         verifyIsCoursePresent(courseId, "get");
-        return commentsDb.getPendingComments(courseId);
+        return commentsDb.getCommentsForSendingState(courseId, sendingState);
     }
     
-    public void clearPendingComments(String courseId) throws EntityDoesNotExistException{
+    public void updateComments(String courseId, CommentSendingState oldState, CommentSendingState newState) throws EntityDoesNotExistException{
         verifyIsCoursePresent(courseId, "clear pending");
-        commentsDb.clearPendingComments(courseId);
+        commentsDb.updateComments(courseId, oldState, newState);
     }
     
     public void updateComment(CommentAttributes comment)
@@ -282,7 +283,7 @@ public class CommentsLogic {
     
     /************ Send Email For Pending Comments ************/
     
-    public Set<String> getRecipientEmailsForPendingComments(String courseId) throws EntityDoesNotExistException {
+    public Set<String> getRecipientEmailsForSendingComments(String courseId) throws EntityDoesNotExistException {
         List<StudentAttributes> allStudents = new StudentsDb().getStudentsForCourse(courseId);
 
         CourseRoster roster = new CourseRoster(
@@ -308,14 +309,14 @@ public class CommentsLogic {
         Set<String> recipientEmailsList = new HashSet<String>();
         
         List<CommentAttributes> pendingCommentsList = 
-                commentsDb.getPendingComments(courseId);
+                commentsDb.getCommentsForSendingState(courseId, CommentSendingState.SENDING);
         populateRecipientEmailsFromPendingComments(pendingCommentsList, 
                 allStudents, roster, teamStudentTable,
                 sectionStudentTable,
                 recipientEmailsList);
         
         List<FeedbackResponseCommentAttributes> pendingResponseCommentsList = 
-                frcLogic.getPendingFeedbackResponseComments(courseId);
+                frcLogic.getFeedbackResponseCommentsForSendingState(courseId, CommentSendingState.SENDING);
         populateRecipientEmailsFromPendingResponseComments(
                 pendingResponseCommentsList, allStudents, roster,
                 teamStudentTable, 

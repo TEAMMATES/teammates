@@ -10,6 +10,7 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 import teammates.common.datatransfer.CommentRecipientType;
+import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CommentStatus;
 
 import com.google.appengine.api.datastore.Text;
@@ -53,9 +54,9 @@ public class Comment {
     @Persistent
     private CommentStatus status;
     
-    /** Is this comment pending to be sent to recipient (through email) */
+    /** Is this comment pending to be sent to recipient (through email) or sending or sent */
     @Persistent
-    private Boolean isPending;
+    private CommentSendingState sendingState;
     
     /** Visibility options **/
     @Persistent
@@ -81,7 +82,7 @@ public class Comment {
     private Text commentText;
 
     public Comment(String courseId, String giverEmail, CommentRecipientType recipientType, Set<String> recipients, CommentStatus status,
-            Boolean isPending,
+            CommentSendingState sendingState,
             List<CommentRecipientType> showCommentTo,
             List<CommentRecipientType> showGiverNameTo,
             List<CommentRecipientType> showRecipientNameTo,
@@ -92,7 +93,7 @@ public class Comment {
         this.recipientType = recipientType;
         this.recipients = recipients;
         this.status = status;
-        this.isPending = isPending;
+        this.sendingState = sendingState;
         this.showCommentTo = showCommentTo;
         this.showGiverNameTo = showGiverNameTo;
         this.showRecipientNameTo = showRecipientNameTo;
@@ -149,12 +150,12 @@ public class Comment {
         this.status = status;
     }
     
-    public Boolean getIsPending(){
-        return isPending;
+    public CommentSendingState getSendingState(){
+        return sendingState;
     }
     
-    public void setIsPending(Boolean isPending){
-        this.isPending = isPending;
+    public void setSendingState(CommentSendingState sendingState){
+        this.sendingState = sendingState;
     }
     
     public List<CommentRecipientType> getShowCommentTo(){

@@ -1,5 +1,6 @@
 package teammates.ui.controller;
 
+import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
@@ -56,7 +57,9 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
         feedbackResponseComment.setId(Long.parseLong(feedbackResponseCommentId));
         
         FeedbackQuestionAttributes question = logic.getFeedbackQuestion(response.feedbackQuestionId);
-        feedbackResponseComment.isPending = isResponseCommentPublicToRecipient(question);
+        if(isResponseCommentPublicToRecipient(question)){
+            feedbackResponseComment.sendingState = CommentSendingState.PENDING;
+        }
         
         try {
             logic.updateFeedbackResponseComment(feedbackResponseComment);

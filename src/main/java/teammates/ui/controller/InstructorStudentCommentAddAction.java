@@ -9,6 +9,7 @@ import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentRecipientType;
+import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CommentStatus;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -127,7 +128,9 @@ public class InstructorStudentCommentAddAction extends Action {
         }
         
         //if a comment is public to recipient (except Instructor), it's a pending comment
-        comment.isPending = isCommentPublicToRecipient(comment);
+        if(isCommentPublicToRecipient(comment)){
+            comment.sendingState = CommentSendingState.PENDING;
+        }
         comment.createdAt = new Date();
         comment.commentText = commentText;
         

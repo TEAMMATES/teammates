@@ -114,12 +114,10 @@ public class Emails {
                 Const.ActionURIs.EMAIL_WORKER, paramMap);
     }
     
-    public void addCommentReminderToEmailsQueue(String courseId,
-            String recipientEmailsKey, EmailType typeOfEmail) {
+    public void addCommentReminderToEmailsQueue(String courseId, EmailType typeOfEmail) {
         
         HashMap<String, String> paramMap = new HashMap<String, String>();
         paramMap.put(ParamsNames.EMAIL_COURSE, courseId);
-        paramMap.put(ParamsNames.RECIPIENTS, recipientEmailsKey);
         paramMap.put(ParamsNames.EMAIL_TYPE, typeOfEmail.toString());
         
         TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();

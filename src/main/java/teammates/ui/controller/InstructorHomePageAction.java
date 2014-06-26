@@ -3,6 +3,7 @@ package teammates.ui.controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CourseSummaryBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
@@ -53,8 +54,8 @@ public class InstructorHomePageAction extends Action {
             String courseId = course.course.id;
             InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
             data.instructors.put(courseId, instructor);
-            int numberOfPendingCommentsForThisCourse = logic.getPendingComments(courseId).size() 
-                    + logic.getPendingFeedbackResponseComment(courseId).size();
+            int numberOfPendingCommentsForThisCourse = logic.getCommentsForSendingState(courseId, CommentSendingState.PENDING).size() 
+                    + logic.getFeedbackResponseCommentsForSendingState(courseId, CommentSendingState.PENDING).size();
             data.numberOfPendingComments.put(courseId, numberOfPendingCommentsForThisCourse);
             
             EvaluationAttributes.sortEvaluationsByDeadlineDescending(course.evaluations);

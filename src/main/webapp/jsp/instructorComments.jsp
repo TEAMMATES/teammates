@@ -1,3 +1,4 @@
+<%@page import="teammates.common.datatransfer.CommentSendingState"%>
 <%@page import="teammates.common.datatransfer.InstructorAttributes"%>
 <%@page import="teammates.common.datatransfer.CommentRecipientType"%>
 <%@page import="teammates.common.datatransfer.FeedbackSessionAttributes"%>
@@ -316,7 +317,7 @@
                                                 title="This comment is public to <%=peopleCanSee%>"></span>
                                             <% } %>
                                             <% 
-                                               if(comment.isPending){ 
+                                               if(comment.sendingState == CommentSendingState.PENDING){ 
                                             %>
                                             <span class="glyphicon glyphicon-bell" data-toggle="tooltip" 
                                                 data-placement="top"
@@ -659,13 +660,13 @@
                                                             <b><%=frCommentGiver%></b>
                                                             [<%=frc.createdAt%>]
                                                         </span>
-                                                        <% if(isPublicResponseComment){ %>
+                                                        <% if(isPublicResponseComment && bundle.feedbackSession.isPublished()){ %>
                                                         <span class="glyphicon glyphicon-eye-open" data-toggle="tooltip" 
                                                             data-placement="top" style="margin-left: 5px;"
                                                             title="This response comment is public"></span>
                                                         <% } %>
                                                         <% 
-                                                           if(frc.isPending && bundle.feedbackSession.isPublished()){ 
+                                                           if(frc.sendingState == CommentSendingState.PENDING && bundle.feedbackSession.isPublished()){ 
                                                         %>
                                                         <span class="glyphicon glyphicon-bell" data-toggle="tooltip" 
                                                             data-placement="top"
