@@ -215,7 +215,7 @@ public class InstructorCommentsPageAction extends Action {
             if(frComment != null && frComment.size() != 0){
                 responsesWithFeedbackResponseComment.add(fr);
                 for(FeedbackResponseCommentAttributes frc: frComment){
-                    if(frc.isPending){
+                    if(frc.isPending && bundle.feedbackSession.isPublished()){
                         numberOfPendingComments++;
                     }
                 }

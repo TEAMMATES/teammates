@@ -111,10 +111,11 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         getPM().close();
     }
     
-    public List<FeedbackResponseCommentAttributes> getPendingFeedbackResponseComments(String courseId){
+    public List<FeedbackResponseCommentAttributes> getPendingFeedbackResponseComments(String courseId, String sessionName){
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, sessionName);
         
-        List<FeedbackResponseComment> frcList = getPendingFeedbackResponseCommentEntity(courseId);
+        List<FeedbackResponseComment> frcList = getPendingFeedbackResponseCommentEntity(courseId, sessionName);
         List<FeedbackResponseCommentAttributes> resultList = new ArrayList<FeedbackResponseCommentAttributes>();
         for (FeedbackResponseComment frc : frcList) {
             resultList.add(new FeedbackResponseCommentAttributes(frc));
@@ -123,10 +124,10 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         return resultList;  
     }
     
-    public void clearPendingFeedbackResponseComments(String courseId) {
+    public void clearPendingFeedbackResponseComments(String courseId, String feedbackSessionName) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         
-        List<FeedbackResponseComment> frcList = getPendingFeedbackResponseCommentEntity(courseId);
+        List<FeedbackResponseComment> frcList = getPendingFeedbackResponseCommentEntity(courseId, feedbackSessionName);
         
         for(FeedbackResponseComment frComment : frcList){
             if(frComment.getIsPending() != null
@@ -153,14 +154,14 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         }
     }
     
-    private List<FeedbackResponseComment> getPendingFeedbackResponseCommentEntity(String courseId) {
+    private List<FeedbackResponseComment> getPendingFeedbackResponseCommentEntity(String courseId, String feedbackSessionName) {
         Query q = getPM().newQuery(FeedbackResponseComment.class);
-        q.declareParameters("String courseIdParam");
-        q.setFilter("courseId == courseIdParam && isPending == true");
+        q.declareParameters("String courseIdParam, String fsNameParam");
+        q.setFilter("courseId == courseIdParam && feedbackSessionName == fsNameParam && isPending == true");
         
         @SuppressWarnings("unchecked")
         List<FeedbackResponseComment> feedbackResponseCommentList =
-            (List<FeedbackResponseComment>) q.execute(courseId);
+            (List<FeedbackResponseComment>) q.execute(courseId, feedbackSessionName);
     
         return feedbackResponseCommentList;
     }

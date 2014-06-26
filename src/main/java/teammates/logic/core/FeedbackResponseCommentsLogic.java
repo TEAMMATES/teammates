@@ -1,5 +1,6 @@
 package teammates.logic.core;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
@@ -73,13 +74,27 @@ public class FeedbackResponseCommentsLogic {
     public List<FeedbackResponseCommentAttributes> getPendingFeedbackResponseComments(String courseId) 
             throws EntityDoesNotExistException{
         verifyIsCoursePresent(courseId);
-        return frcDb.getPendingFeedbackResponseComments(courseId);
+        
+        List<FeedbackResponseCommentAttributes> frcList = new ArrayList<FeedbackResponseCommentAttributes>();
+        List<FeedbackSessionAttributes> feedbackSessions = fsLogic.getFeedbackSessionsForCourse(courseId);
+        for(FeedbackSessionAttributes fs:feedbackSessions){
+            if(fs.isPublished()){
+                frcList = frcDb.getPendingFeedbackResponseComments(courseId, fs.feedbackSessionName);
+            }
+        }
+        return frcList;
     }
     
     public void clearPendingFeedbackResponseComments(
             String courseId) throws EntityDoesNotExistException {
         verifyIsCoursePresent(courseId);
-        frcDb.clearPendingFeedbackResponseComments(courseId);    
+        
+        List<FeedbackSessionAttributes> feedbackSessions = fsLogic.getFeedbackSessionsForCourse(courseId);
+        for(FeedbackSessionAttributes fs:feedbackSessions){
+            if(fs.isPublished()){
+                frcDb.clearPendingFeedbackResponseComments(courseId, fs.feedbackSessionName);    
+            }
+        }
     }
     
     public void deleteFeedbackResponseComment(

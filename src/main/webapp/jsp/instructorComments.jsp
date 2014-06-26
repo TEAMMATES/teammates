@@ -589,6 +589,7 @@
                                             FeedbackQuestionAttributes question = questions.get(responseEntries.getKey().getId());
                                             FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
                                             out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, ""));
+                                            Boolean isPublicResponseComment = data.isResponseCommentPublicToRecipient(question);
                                 %>
                             </div>
                             <table class="table">
@@ -658,12 +659,17 @@
                                                             <b><%=frCommentGiver%></b>
                                                             [<%=frc.createdAt%>]
                                                         </span>
+                                                        <% if(isPublicResponseComment){ %>
+                                                        <span class="glyphicon glyphicon-eye-open" data-toggle="tooltip" 
+                                                            data-placement="top" style="margin-left: 5px;"
+                                                            title="This response comment is public"></span>
+                                                        <% } %>
                                                         <% 
-                                                           if(frc.isPending){ 
+                                                           if(frc.isPending && bundle.feedbackSession.isPublished()){ 
                                                         %>
                                                         <span class="glyphicon glyphicon-bell" data-toggle="tooltip" 
                                                             data-placement="top"
-                                                            title="This comment is pending to be sent to recipient"></span>
+                                                            title="This comment is pending to notify recipient"></span>
                                                         <% } %>
                                                         <%
                                                             if (frc.giverEmail.equals(data.instructorEmail)) {//FeedbackResponseComment edit/delete control starts
