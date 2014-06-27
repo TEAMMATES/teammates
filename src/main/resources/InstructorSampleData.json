@@ -58,7 +58,7 @@
     },
     
     "instructors":{
-     "teammates.demo.instructor@demo.course":{
+     "teammates.demo.instructor@demo.course":{   	
       "googleId": "teammates.demo.instructor",
       "courseId": "demo.course",
       "name":"Demo_Instructor",
@@ -67,7 +67,6 @@
 
   "courses": {
     "Demo Course": {
-      "instructor": "teammates.demo.instructor",
       "id": "demo.course",
       "name": "Sample Course 101"
     }
