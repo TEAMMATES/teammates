@@ -64,7 +64,7 @@ public class InstructorsLogic {
            throws InvalidParametersException, EntityDoesNotExistException{
         
         InstructorAttributes instructor = instructorsDb.getInstructorForGoogleId(courseId, googleId);
-        instructor.isArchived = Boolean.valueOf(archiveStatus);
+        instructor.isArchived = archiveStatus;
         instructorsDb.updateInstructorByGoogleId(instructor);
     }
     

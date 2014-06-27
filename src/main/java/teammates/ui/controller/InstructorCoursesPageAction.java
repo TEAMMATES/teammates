@@ -82,7 +82,7 @@ public class InstructorCoursesPageAction extends Action {
             //if the archive status is null,
             //accept the value from the course
             if(curInstructor.isArchived != null){
-                course.isArchived = curInstructor.isArchived.booleanValue();
+                course.isArchived = curInstructor.isArchived;
             }
             
             if (course.isArchived) {
