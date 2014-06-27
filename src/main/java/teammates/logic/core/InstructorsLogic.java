@@ -62,10 +62,6 @@ public class InstructorsLogic {
         
         InstructorAttributes instructor = instructorsDb.getInstructorForGoogleId(courseId, googleId);
         instructor.isArchived = Boolean.valueOf(archiveStatus);
-        
-        System.out.print("*********************new status**********************\n");
-        System.out.print(instructor.isArchived + "\n");
-        
         instructorsDb.updateInstructorByGoogleId(instructor);
     }
     
