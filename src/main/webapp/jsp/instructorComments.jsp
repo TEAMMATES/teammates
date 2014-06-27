@@ -192,6 +192,33 @@
                                             Others </label>
                                     </div>
                                 </div>
+                                <div class="col-sm-4">
+                                    <div class="text-color-primary">
+                                        <strong>Show comments with status: </strong>
+                                    </div>
+                                    <br>
+                                    <div class="checkbox">
+                                        <input type="checkbox" value=""
+                                            id="status_all"
+                                            checked="checked"> <label
+                                            for="status_all"><strong>All</strong></label>
+                                    </div>
+                                    <br>
+                                    <div class="checkbox">
+                                        <input id="status_check-public"
+                                            type="checkbox"
+                                            checked="checked"> <label
+                                            for="status_check-public">
+                                            Public </label>
+                                    </div>
+                                    <div class="checkbox">
+                                        <input id="status_check-private"
+                                            type="checkbox"
+                                            checked="checked"> <label
+                                            for="status_check-private">
+                                            Private </label>
+                                    </div>
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -272,7 +299,7 @@
                                             recipientTypeForThisRecipient = comment.recipientType;
                                 %>
                                 <li
-                                    class="list-group-item list-group-item-warning">
+                                    class="list-group-item list-group-item-warning <%=comment.showCommentTo.size()>0?"status_display-public":"status_display-private"%>">
                                     <form method="post"
                                         action="<%=Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_EDIT%>"
                                         name="form_commentedit"
@@ -667,7 +694,7 @@
                                                                     }
                                                 %>
                                                 <li
-                                                    class="list-group-item list-group-item-warning <%=frCommentGiver.equals("you")?"giver_display-by-you":"giver_display-by-others"%>"
+                                                    class="list-group-item list-group-item-warning <%=frCommentGiver.equals("you")?"giver_display-by-you":"giver_display-by-others"%> <%=isPublicResponseComment && bundle.feedbackSession.isPublished()?"status_display-public":"status_display-private"%>"
                                                     id="responseCommentRow-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>">
                                                     <div
                                                         id="commentBar-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>">
