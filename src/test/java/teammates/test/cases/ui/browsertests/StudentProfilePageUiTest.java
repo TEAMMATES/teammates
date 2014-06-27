@@ -85,7 +85,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         
         ______TS("success case, with picture");
         
-        profilePage.fillProfilePic("src\\test\\resources\\images\\profile_pic.png");
+        profilePage.fillProfilePic("src//test//resources//images//profile_pic.png");
         profilePage.submitEditedProfile();
         
         profilePage.ensureProfileContains("short.name", "e@email.com", "inst", "Usual Nationality", 
@@ -96,7 +96,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         String prevPictureKey = BackDoor.getStudentProfile(studentGoogleId).pictureKey;
         verifyPictureIsPresent(prevPictureKey);
         
-        profilePage.fillProfilePic("src\\test\\resources\\images\\profile_pic_too_large.jpg");
+        profilePage.fillProfilePic("src//test//resources//images//profile_pic_too_large.jpg");
         profilePage.submitEditedProfile();
         
         profilePage.verifyStatus(Const.StatusMessages.STUDENT_PROFILE_PIC_TOO_LARGE);
@@ -104,7 +104,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         
         ______TS("not a picture");
         
-        profilePage.fillProfilePic("src\\test\\resources\\images\\not_a_picture.txt");
+        profilePage.fillProfilePic("src//test//resources//images//not_a_picture.txt");
         profilePage.submitEditedProfile();
         
         profilePage.verifyStatus(Const.StatusMessages.STUDENT_PROFILE_NOT_A_PICTURE);
@@ -112,7 +112,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         
         ______TS("success case, update picture");
         
-        profilePage.fillProfilePic("src\\test\\resources\\images\\profile_pic_update.png");
+        profilePage.fillProfilePic("src//test//resources//images//profile_pic_update.png");
         profilePage.submitEditedProfile();
         
         verifyPictureIsDeleted(prevPictureKey);

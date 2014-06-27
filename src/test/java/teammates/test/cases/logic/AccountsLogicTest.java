@@ -186,6 +186,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         AccountAttributes creator = dataBundle.accounts.get("instructor1OfCourse1");
         instructor.name = creator.name;
         instructor.email = creator.email; 
+        instructor.isArchived = Boolean.valueOf(false);
         TestHelper.verifyPresentInDatastore(cd);
         TestHelper.verifyPresentInDatastore(instructor);
         TestHelper.verifyPresentInDatastore(instructor2);

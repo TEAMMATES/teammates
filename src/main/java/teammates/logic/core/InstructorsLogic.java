@@ -1,6 +1,5 @@
 package teammates.logic.core;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -12,7 +11,6 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Const;
 import teammates.common.util.Utils;
 import teammates.storage.api.InstructorsDb;
 
@@ -57,7 +55,20 @@ public class InstructorsLogic {
         
         instructorsDb.createEntity(instructorToAdd);
     }
-
+    
+    
+    public void setArchiveStatusOfInstructor(String googleId, String courseId, boolean archiveStatus) 
+           throws InvalidParametersException, EntityDoesNotExistException{
+        
+        InstructorAttributes instructor = instructorsDb.getInstructorForGoogleId(courseId, googleId);
+        instructor.isArchived = Boolean.valueOf(archiveStatus);
+        
+        System.out.print("*********************new status**********************\n");
+        System.out.print(instructor.isArchived + "\n");
+        
+        instructorsDb.updateInstructorByGoogleId(instructor);
+    }
+    
     public InstructorAttributes getInstructorForEmail(String courseId, String email) {
         
         return instructorsDb.getInstructorForEmail(courseId, email);
