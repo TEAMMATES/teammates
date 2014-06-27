@@ -81,6 +81,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
         
         String html = FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
+                "${more}", "[more]",
+                "${less}", "[less]",
                 "${questionNumber}", Integer.toString(questionNumber),
                 "${additionalInfoId}", additionalInfoId,
                 "${questionAdditionalInfo}", additionalInfo);
@@ -141,11 +143,6 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
         //Each team's eval results.
         Map<String, TeamEvalResult> teamResults = getTeamResults(teamNames, teamSubmissionArray);
         
-        //Each person's results summary
-        Map<String, StudentResultSummary> studentResults = getStudentResults(
-                teamMembersEmail, teamResults);
-        
-
         String html = "";
         
         //For testing
@@ -197,6 +194,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
         
         String contribAdditionalInfo = FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
+                "${more}", "[how to interpret, etc..]",
+                "${less}", "[less]",
                 "${questionNumber}", Integer.toString(question.questionNumber),
                 "${additionalInfoId}", "contributionInfo",
                 "${questionAdditionalInfo}", FeedbackQuestionFormTemplates.CONTRIB_RESULT_STATS_STUDENT_INFO);
