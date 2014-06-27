@@ -150,6 +150,14 @@ public class FeedbackNumericalScaleQuestionDetails extends
         
         return html;
     }
+
+    @Override
+    public String getQuestionResultStatisticsCsv(
+            List<FeedbackResponseAttributes> responses,
+            FeedbackQuestionAttributes question,
+            FeedbackSessionResultsBundle bundle) {
+        return "";
+    }
     
     @Override
     public boolean isChangesRequiresResponseDeletion(
@@ -237,14 +245,5 @@ public class FeedbackNumericalScaleQuestionDetails extends
             //TODO: strengthen check for step
         }
         return errors;
-    }
-
-    @Override
-    public String getQuestionResultStatisticsCsv(
-            List<FeedbackResponseAttributes> responses,
-            FeedbackQuestionAttributes question,
-            FeedbackSessionResultsBundle bundle) {
-        // TODO Auto-generated method stub
-        return null;
     }
 }

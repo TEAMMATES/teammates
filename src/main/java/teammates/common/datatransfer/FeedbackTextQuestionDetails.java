@@ -96,6 +96,15 @@ public class FeedbackTextQuestionDetails extends
         return "";
     }
     
+
+    @Override
+    public String getQuestionResultStatisticsCsv(
+            List<FeedbackResponseAttributes> responses,
+            FeedbackQuestionAttributes question,
+            FeedbackSessionResultsBundle bundle) {
+        return "";
+    }
+    
     @Override
     public String getCsvHeader() {
         return "Feedback";
@@ -113,15 +122,6 @@ public class FeedbackTextQuestionDetails extends
             int numRecipients) {
         List<String> errors = new ArrayList<String>();
         return errors;
-    }
-
-    @Override
-    public String getQuestionResultStatisticsCsv(
-            List<FeedbackResponseAttributes> responses,
-            FeedbackQuestionAttributes question,
-            FeedbackSessionResultsBundle bundle) {
-        // TODO Auto-generated method stub
-        return null;
     }
 
 }

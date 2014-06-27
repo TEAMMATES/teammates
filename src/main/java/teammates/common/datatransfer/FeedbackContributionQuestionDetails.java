@@ -308,6 +308,14 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
         
         return html;
     }
+    
+    @Override
+    public String getQuestionResultStatisticsCsv(
+            List<FeedbackResponseAttributes> responses,
+            FeedbackQuestionAttributes question,
+            FeedbackSessionResultsBundle bundle) {
+        return "";
+    }
 
     private Map<String, StudentResultSummary> getStudentResults(
             Map<String, List<String>> teamMembersEmail,
@@ -527,15 +535,6 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
             return "Not Sure";
         else
             return "";
-    }
-
-    @Override
-    public String getQuestionResultStatisticsCsv(
-            List<FeedbackResponseAttributes> responses,
-            FeedbackQuestionAttributes question,
-            FeedbackSessionResultsBundle bundle) {
-        // TODO Auto-generated method stub
-        return null;
     }
 
 }
