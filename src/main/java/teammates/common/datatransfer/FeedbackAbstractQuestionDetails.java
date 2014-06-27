@@ -47,6 +47,10 @@ public abstract class FeedbackAbstractQuestionDetails {
             FeedbackSessionResultsBundle bundle,
             String view);
     
+    public abstract String getQuestionResultStatisticsCsv(List<FeedbackResponseAttributes> responses,
+            FeedbackQuestionAttributes question,
+            FeedbackSessionResultsBundle bundle);
+    
     public abstract boolean isChangesRequiresResponseDeletion(FeedbackAbstractQuestionDetails newDetails);
     
     public abstract String getCsvHeader();
