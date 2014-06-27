@@ -95,11 +95,29 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
     @Override
     public String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
+            AccountAttributes currentUser,
             FeedbackSessionResultsBundle bundle,
             String view) {
-        if(responses.size() == 0 || !view.equals("question")){//only question view has stats.
+        if(view.equals("question")){//for instructor, only question view has stats.
+            return getQuestionResultsStatisticsHtmlQuestionView(responses, question, bundle);
+        } else if(view.equals("student")){//Student view of stats.
+            return getQuestionResultStatisticsHtmlStudentView(responses, question, currentUser, bundle);
+        } else {
             return "";
         }
+    }
+    
+
+    public String getQuestionResultStatisticsHtmlStudentView(List<FeedbackResponseAttributes> responses,
+            FeedbackQuestionAttributes question,
+            AccountAttributes currentUser,
+            FeedbackSessionResultsBundle bundle) {
+    
+        if(responses.size() == 0 ){
+            return "";
+        }
+    
+        String currentUserEmail = currentUser.email;
         
         responses = getActualResponses(question, bundle);
 
@@ -155,6 +173,104 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
             
         }*/
         
+        
+        //Check visibility of recipient
+        boolean hideRecipient = false;
+        List<String> hiddenRecipients = new ArrayList<String>();//List of recipients to hide
+        FeedbackParticipantType type = question.recipientType;
+        for(FeedbackResponseAttributes response : responses){
+            if (bundle.visibilityTable.get(response.getId())[1] == false &&
+                    type != FeedbackParticipantType.SELF &&
+                    type != FeedbackParticipantType.NONE) {
+                hiddenRecipients.add(response.recipientEmail);
+                hideRecipient = true;
+            }
+        }
+        
+        
+        String contribFragments = "";
+        
+        for(Map.Entry<String, StudentResultSummary> entry : studentResults.entrySet()){
+            StudentResultSummary summary = entry.getValue();
+            String email = entry.getKey();
+            String name = bundle.emailNameTable.get(email);
+            String team = bundle.emailTeamNameTable.get(email);
+            
+            List<String> teamEmails = teamMembersEmail.get(team);
+            TeamEvalResult teamResult = teamResults.get(team);
+            int studentIndx = teamEmails.indexOf(email);
+            
+            String displayName = name;
+            String displayTeam = team;
+            if(hideRecipient == true && hiddenRecipients.contains(email)){
+                String hash = Integer.toString(Math.abs(name.hashCode()));
+                displayName = type.toSingularFormString();
+                displayName = "Anonymous " + displayName + " " + hash;
+                displayTeam = displayName + Const.TEAM_OF_EMAIL_OWNER;
+            }
+            
+            int[] incomingPoints = new int[teamResult.normalizedPeerContributionRatio.length];
+            for(int i=0 ; i<incomingPoints.length ; i++){
+                incomingPoints[i] = teamResult.normalizedPeerContributionRatio[i][studentIndx];
+            }
+            
+            contribFragments += FeedbackQuestionFormTemplates.populateTemplate(
+                    FeedbackQuestionFormTemplates.CONTRIB_RESULT_STATS_FRAGMENT,
+                    "${studentTeam}", PageData.sanitizeForHtml(displayTeam),
+                    "${studentName}", PageData.sanitizeForHtml(displayName),
+                    
+                    "${CC}", InstructorEvalResultsPageData.getPointsAsColorizedHtml(summary.claimedToInstructor),
+                    "${PC}", InstructorEvalResultsPageData.getPointsAsColorizedHtml(summary.perceivedToInstructor),
+                    "${Diff}", InstructorEvalResultsPageData.getPointsDiffAsHtml(summary),
+                    "${RR}", getNormalizedPointsListColorizedDescending(incomingPoints, studentIndx),
+                    
+                    "${Const.ParamsNames.STUDENT_NAME}", Const.ParamsNames.STUDENT_NAME);
+        }
+        
+        html += FeedbackQuestionFormTemplates.populateTemplate(
+                FeedbackQuestionFormTemplates.CONTRIB_RESULT_STATS,
+                "${contribFragments}", contribFragments,
+                "${Const.Tooltips.EVALUATION_POINTS_RECEIVED}", Const.Tooltips.EVALUATION_POINTS_RECEIVED,
+                "${Const.Tooltips.EVALUATION_DIFF}", Const.Tooltips.EVALUATION_DIFF);
+
+        
+        return html;
+    }
+    
+    public String getQuestionResultsStatisticsHtmlQuestionView(List<FeedbackResponseAttributes> responses,
+            FeedbackQuestionAttributes question,
+            FeedbackSessionResultsBundle bundle) {
+    
+        if(responses.size() == 0 ){
+            return "";
+        }
+    
+        responses = getActualResponses(question, bundle);
+
+        //List of teams with at least one response
+        List<String> teamNames = getTeamsWithAtLeastOneResponse(responses, bundle);
+        
+        //Each team's member(email) list
+        Map<String, List<String>> teamMembersEmail = getTeamMembersEmail(bundle, teamNames);
+        
+        //Each team's responses
+        Map<String, List<FeedbackResponseAttributes>> teamResponses = getTeamResponses(
+                responses, bundle, teamNames);
+        
+        //Get each team's submission array. -> int[teamSize][teamSize]
+        //Where int[0][1] refers points from student 0 to student 1
+        //Where student 0 is the 0th student in the list in teamMembersEmail
+        Map<String, int[][]> teamSubmissionArray = getTeamSubmissionArray(
+                teamNames, teamMembersEmail, teamResponses);
+        
+        //Each team's eval results.
+        Map<String, TeamEvalResult> teamResults = getTeamResults(teamNames, teamSubmissionArray);
+        
+        //Each person's results summary
+        Map<String, StudentResultSummary> studentResults = getStudentResults(
+                teamMembersEmail, teamResults);
+        
+        String html = "";
         
         //Check visibility of recipient
         boolean hideRecipient = false;

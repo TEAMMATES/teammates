@@ -43,6 +43,7 @@ public abstract class FeedbackAbstractQuestionDetails {
     
     public abstract String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
+            AccountAttributes currentUser,
             FeedbackSessionResultsBundle bundle,
             String view);
     
