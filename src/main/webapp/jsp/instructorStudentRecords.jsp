@@ -160,7 +160,11 @@
                           <div class="panel-body">
                             Your comments on this student:
                             <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showAddCommentBox();"
-                            data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COMMENT_ADD%>">
+                        data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COMMENT_ADD%>"
+                        <% if (!data.currentInstructor.isAllowedForPrivilege(data.student.section, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS)) { %>
+                            disabled="disabled"
+                        <% } %>
+                        >
                               <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                             </button>
                             <ul class="list-group" style="margin-top:15px;">
@@ -626,7 +630,12 @@
                             %>
                                 <div class="align-center">
                                     <input type="button" class="btn btn-primary" id="button_edit-<%=evalIndex %>" value="Edit Submission"
-                                        onclick="window.location.href='<%=data.getInstructorEvaluationSubmissionEditLink(eval.courseId, eval.name, data.student.email)%>'">
+                                        onclick="window.location.href='<%=data.getInstructorEvaluationSubmissionEditLink(eval.courseId, eval.name, data.student.email)%>'"
+                                        <% if (!data.currentInstructor.isAllowedForPrivilege(data.student.section, eval.name, 
+                                                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS)) { %>
+                                                disabled="disabled"
+                                        <% } %>
+                                        >
                                 </div>
                                 </div>
                                 <br>

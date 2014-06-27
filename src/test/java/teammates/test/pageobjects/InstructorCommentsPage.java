@@ -1,5 +1,7 @@
 package teammates.test.pageobjects;
 
+import static org.testng.AssertJUnit.assertEquals;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -142,5 +144,18 @@ public class InstructorCommentsPage extends AppPage {
     public void clickResponseCommentDelete(int sessionIdx, int questionIdx, int responseIdx, int commentIdx) {
         browser.driver.findElement(By.id("commentdelete-" + sessionIdx + "-" + questionIdx + "-" + responseIdx + "-" + commentIdx)).click();
         waitForPageToLoad();
+    }
+    
+    public void verifyCommentFormErrorMessage(String commentTableIdSuffix, String errorMessage) {
+        int idNumber = commentTableIdSuffix.split("-").length;
+        if(idNumber == 4){
+            WebElement commentRow = browser.driver.findElement(By.id("responseCommentEditForm-" + commentTableIdSuffix));
+            waitForPageToLoad();
+            assertEquals(errorMessage, commentRow.findElement(By.tagName("span")).getText());
+        } else if(idNumber == 3){
+            WebElement commentRow = browser.driver.findElement(By.id("showResponseCommentAddForm-" + commentTableIdSuffix));
+            waitForPageToLoad();
+            assertEquals(errorMessage, commentRow.findElement(By.tagName("span")).getText());
+        }
     }
 }
