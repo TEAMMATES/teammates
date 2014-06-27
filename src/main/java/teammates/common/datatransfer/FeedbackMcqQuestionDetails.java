@@ -253,6 +253,8 @@ public class FeedbackMcqQuestionDetails extends FeedbackAbstractQuestionDetails 
         
         String html = FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
+                "${more}", "[more]",
+                "${less}", "[less]",
                 "${questionNumber}", Integer.toString(questionNumber),
                 "${additionalInfoId}", additionalInfoId,
                 "${questionAdditionalInfo}", additionalInfo);
@@ -263,8 +265,14 @@ public class FeedbackMcqQuestionDetails extends FeedbackAbstractQuestionDetails 
     @Override
     public String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
+            AccountAttributes currentUser,
             FeedbackSessionResultsBundle bundle,
             String view) {
+        
+        if(view.equals("student")){
+            return "";
+        }
+        
         if(responses.size() == 0){
             return "";
         }

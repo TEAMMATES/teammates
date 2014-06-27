@@ -81,6 +81,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
         
         String html = FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
+                "${more}", "[more]",
+                "${less}", "[less]",
                 "${questionNumber}", Integer.toString(questionNumber),
                 "${additionalInfoId}", additionalInfoId,
                 "${questionAdditionalInfo}", additionalInfo);
@@ -95,12 +97,128 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
     @Override
     public String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
+            AccountAttributes currentUser,
             FeedbackSessionResultsBundle bundle,
             String view) {
-        if(responses.size() == 0 || !view.equals("question")){//only question view has stats.
+        if(view.equals("question")){//for instructor, only question view has stats.
+            return getQuestionResultsStatisticsHtmlQuestionView(responses, question, bundle);
+        } else if(view.equals("student")){//Student view of stats.
+            return getQuestionResultStatisticsHtmlStudentView(responses, question, currentUser, bundle);
+        } else {
             return "";
         }
+    }
+    
+
+    public String getQuestionResultStatisticsHtmlStudentView(List<FeedbackResponseAttributes> responses,
+            FeedbackQuestionAttributes question,
+            AccountAttributes currentUser,
+            FeedbackSessionResultsBundle bundle) {
+    
+        if(responses.size() == 0 ){
+            return "";
+        }
+    
+        String currentUserEmail = currentUser.email;
+        String currentUserTeam = bundle.emailTeamNameTable.get(currentUser.email);
         
+        responses = getActualResponses(question, bundle);
+
+        //List of teams with at least one response
+        List<String> teamNames = getTeamsWithAtLeastOneResponse(responses, bundle);
+        
+        //Each team's member(email) list
+        Map<String, List<String>> teamMembersEmail = getTeamMembersEmail(bundle, teamNames);
+        
+        //Each team's responses
+        Map<String, List<FeedbackResponseAttributes>> teamResponses = getTeamResponses(
+                responses, bundle, teamNames);
+        
+        //Get each team's submission array. -> int[teamSize][teamSize]
+        //Where int[0][1] refers points from student 0 to student 1
+        //Where student 0 is the 0th student in the list in teamMembersEmail
+        Map<String, int[][]> teamSubmissionArray = getTeamSubmissionArray(
+                teamNames, teamMembersEmail, teamResponses);
+        
+        //Each team's eval results.
+        Map<String, TeamEvalResult> teamResults = getTeamResults(teamNames, teamSubmissionArray);
+        
+        String html = "";
+        
+        //For testing
+        /*
+        for(Map.Entry<String, List<String>> entry : teamMembersEmail.entrySet()){
+            if(entry.getKey().equals(currentUserTeam)){
+                
+                html += entry.getKey() + " size: " +  teamMembersEmail.get(entry.getKey()).size() +"<br>";
+                html += entry.getValue().toString() + "<br>";
+                
+                html += "Claimed:<br>";
+                for(int i=0 ; i<teamResults.get(entry.getKey()).claimed.length ; i++)
+                    html += Arrays.toString(teamResults.get(entry.getKey()).claimed[i]) + "<br>";
+                
+                html += "Denormalized Average Percived:<br>";
+                for(int i=0 ; i<teamResults.get(entry.getKey()).denormalizedAveragePerceived.length ; i++)
+                    html += Arrays.toString(teamResults.get(entry.getKey()).denormalizedAveragePerceived[i]) + "<br>";
+                
+                
+                html += "Submission Array:<br>";
+                for(int i=0 ; i<teamSubmissionArray.get(entry.getKey()).length ; i++)
+                    html += Arrays.toString(teamSubmissionArray.get(entry.getKey())[i]) + "<br>";
+            
+                html += "<br><br>";
+                
+                html +=  "<pre>" + teamResults.get(entry.getKey()).toString() + "</pre>";//.replace(Const.EOL, "<br>");
+                
+                html += "<br><br>";
+                
+                for(Map.Entry<String, StudentResultSummary> entry2 : studentResults.entrySet()){
+                    html += entry2.getKey() + " "
+                         + entry2.getValue().claimedFromStudent + " "
+                         + entry2.getValue().claimedToInstructor + " "
+                         + entry2.getValue().perceivedToInstructor + " "
+                         + entry2.getValue().perceivedToStudent + "<br>";
+                }
+                
+            }
+        }*/
+        
+        TeamEvalResult currentUserTeamResults = teamResults.get(currentUserTeam);
+        if(currentUserTeamResults == null){
+            return "";
+        }
+
+        int currentUserIndex = teamMembersEmail.get(currentUserTeam).indexOf(currentUserEmail);
+        int selfClaim = currentUserTeamResults.claimed[currentUserIndex][currentUserIndex];
+        int teamClaim = currentUserTeamResults.denormalizedAveragePerceived[currentUserIndex][currentUserIndex];
+        
+        String contribAdditionalInfo = FeedbackQuestionFormTemplates.populateTemplate(
+                FeedbackQuestionFormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
+                "${more}", "[how to interpret, etc..]",
+                "${less}", "[less]",
+                "${questionNumber}", Integer.toString(question.questionNumber),
+                "${additionalInfoId}", "contributionInfo",
+                "${questionAdditionalInfo}", FeedbackQuestionFormTemplates.CONTRIB_RESULT_STATS_STUDENT_INFO);
+        
+        html += FeedbackQuestionFormTemplates.populateTemplate(
+                FeedbackQuestionFormTemplates.CONTRIB_RESULT_STATS_STUDENT,
+                "${contribAdditionalInfo}", contribAdditionalInfo,
+                "${myViewOfMe}", getPointsAsColorizedHtml(selfClaim),
+                "${myViewOfOthers}", getNormalizedPointsListColorizedDescending(currentUserTeamResults.claimed[currentUserIndex], currentUserIndex),
+                "${teamViewOfMe}",getPointsAsColorizedHtml(teamClaim),
+                "${teamViewOfOthers}",getNormalizedPointsListColorizedDescending(currentUserTeamResults.denormalizedAveragePerceived[currentUserIndex], currentUserIndex));
+
+        return html;
+    }
+    
+    public String getQuestionResultsStatisticsHtmlQuestionView(List<FeedbackResponseAttributes> responses,
+            FeedbackQuestionAttributes question,
+            FeedbackSessionResultsBundle bundle) {
+    
+        if(responses.size() == 0 ){
+            return "";
+        }
+    
         responses = getActualResponses(question, bundle);
 
         //List of teams with at least one response
@@ -126,35 +244,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
         Map<String, StudentResultSummary> studentResults = getStudentResults(
                 teamMembersEmail, teamResults);
         
-
         String html = "";
-        
-        //For testing
-        /*
-        for(Map.Entry<String, List<String>> entry : teamMembersEmail.entrySet()){
-            html += entry.getKey() + " size: " +  teamMembersEmail.get(entry.getKey()).size() +"<br>";
-            html += entry.getValue().toString() + "<br>";
-            
-            html += "Submission Array:<br>";
-            for(int i=0 ; i<teamSubmissionArray.get(entry.getKey()).length ; i++)
-                html += Arrays.toString(teamSubmissionArray.get(entry.getKey())[i]) + "<br>";
-        
-            html += "<br><br>";
-            
-            html +=  "<pre>" + teamResults.get(entry.getKey()).toString() + "</pre>";//.replace(Const.EOL, "<br>");
-            
-            html += "<br><br>";
-            
-            for(Map.Entry<String, StudentResultSummary> entry2 : studentResults.entrySet()){
-                html += entry2.getKey() + " "
-                     + entry2.getValue().claimedFromStudent + " "
-                     + entry2.getValue().claimedToInstructor + " "
-                     + entry2.getValue().perceivedToInstructor + " "
-                     + entry2.getValue().perceivedToStudent + "<br>";
-            }
-            
-        }*/
-        
         
         //Check visibility of recipient
         boolean hideRecipient = false;
