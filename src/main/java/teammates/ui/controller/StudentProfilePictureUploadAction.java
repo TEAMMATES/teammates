@@ -94,7 +94,7 @@ public class StudentProfilePictureUploadAction extends Action {
         if (blobKey == new BlobKey("")) return;
         
         try {
-            logic.deleteProfilePicture(blobKey);
+            logic.deletePicture(blobKey);
         } catch (BlobstoreFailureException bfe) {
             // This branch is not tested as recreating such a scenario is difficult in the 
             // dev server for testing purposes.

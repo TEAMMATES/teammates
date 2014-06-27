@@ -8,6 +8,7 @@ import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import com.google.appengine.api.images.Image;
 import com.google.appengine.api.images.ImagesService;
 import com.google.appengine.api.images.ImagesServiceFactory;
+import com.google.appengine.api.images.OutputSettings;
 import com.google.appengine.api.images.Transform;
 import com.google.appengine.tools.cloudstorage.GcsFileOptions;
 import com.google.appengine.tools.cloudstorage.GcsFilename;
@@ -74,26 +75,23 @@ public class StudentProfilePictureEditAction extends Action {
     private byte[] transformImage(String leftXString, String topYString, String rightXString, 
             String bottomYString, String heightString, String widthString, BlobKey blobKey) {
         
-        Double leftX = Double.parseDouble(leftXString);
-        Double topY = Double.parseDouble(topYString);
-        Double rightX = Double.parseDouble(rightXString);
-        Double bottomY = Double.parseDouble(bottomYString);
         Double height = Double.parseDouble(heightString);
         Double width = Double.parseDouble(widthString);
+        Double leftX = Double.parseDouble(leftXString)/width;
+        Double topY = Double.parseDouble(topYString)/height;
+        Double rightX = Double.parseDouble(rightXString)/width;
+        Double bottomY = Double.parseDouble(bottomYString)/height;
         
         ImagesService imagesService = ImagesServiceFactory.getImagesService();
         Image oldImage;
         
         oldImage = ImagesServiceFactory.makeImageFromBlob(blobKey);
         
-        leftX = leftX/width;
-        rightX = rightX/width;
-        topY = topY/height;
-        bottomY = bottomY/height;
-        
         Transform resize = ImagesServiceFactory.makeCrop(leftX, topY, rightX, bottomY);
-
-        Image newImage = imagesService.applyTransform(resize, oldImage);
+        OutputSettings settings = new OutputSettings(ImagesService.OutputEncoding.PNG);
+        //settings.setQuality(100);
+        
+        Image newImage = imagesService.applyTransform(resize, oldImage, settings);
 
         return  newImage.getImageData();
     }

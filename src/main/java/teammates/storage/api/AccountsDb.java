@@ -174,7 +174,7 @@ public class AccountsDb extends EntitiesDb {
         }
         
         if (!accountToDelete.studentProfile.pictureKey.equals("")) {
-            deleteStudentProfilePicture(new BlobKey(accountToDelete.studentProfile.pictureKey));
+            deletePicture(new BlobKey(accountToDelete.studentProfile.pictureKey));
         }
         deleteEntity(accountToDelete);
         closePM();
@@ -269,7 +269,7 @@ public class AccountsDb extends EntitiesDb {
         profileToUpdate.setGender(newSpa.gender);
         profileToUpdate.setMoreInfo(new Text(newSpa.moreInfo));
         if (newSpa.pictureKey != "" && newSpa.pictureKey.equals(profileToUpdate.getPictureKey().getKeyString())) {
-            deleteStudentProfilePicture(profileToUpdate.getPictureKey());
+            deletePicture(profileToUpdate.getPictureKey());
             profileToUpdate.setPictureKey(new BlobKey(newSpa.pictureKey));
         }
         
@@ -294,8 +294,8 @@ public class AccountsDb extends EntitiesDb {
         boolean keyNotEmpty = !newPictureKey.isEmpty();
         boolean newKeyGiven = !newPictureKey.equals(profileToUpdate.getPictureKey().getKeyString());
         
-        if (keyNotEmpty || newKeyGiven) {
-            deleteStudentProfilePicture(profileToUpdate.getPictureKey());
+        if (keyNotEmpty && newKeyGiven) {
+            deletePicture(profileToUpdate.getPictureKey());
             profileToUpdate.setPictureKey(new BlobKey(newPictureKey));
         }
         
@@ -306,7 +306,7 @@ public class AccountsDb extends EntitiesDb {
         StudentProfile sp = getStudentProfileEntity(googleId);
         if (!sp.getPictureKey().equals(new BlobKey(""))) {
             try {
-                deleteStudentProfilePicture(sp.getPictureKey());
+                deletePicture(sp.getPictureKey());
                 sp.setPictureKey(new BlobKey(""));
             } catch (BlobstoreFailureException bfe) {
                 // this branch is not tested as it is 
@@ -319,7 +319,7 @@ public class AccountsDb extends EntitiesDb {
         closePM();
     }
     
-    private void deleteStudentProfilePicture(BlobKey key) throws BlobstoreFailureException {
+    public void deletePicture(BlobKey key) throws BlobstoreFailureException {
         BlobstoreServiceFactory.getBlobstoreService().delete(key);
     }
     

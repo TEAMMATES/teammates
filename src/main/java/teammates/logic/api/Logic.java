@@ -256,6 +256,12 @@ public class Logic {
         
         accountsLogic.deleteStudentProfilePicture(googleId);
     }
+    
+    public void deletePicture(BlobKey key) throws BlobstoreFailureException {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, key);
+        
+        accountsLogic.deletePicture(key);
+    }
 
     @SuppressWarnings("unused")
     private void ____INSTRUCTOR_level_methods____________________________________() {
