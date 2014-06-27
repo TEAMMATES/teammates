@@ -58,7 +58,16 @@ public class InstructorsLogic {
         
         instructorsDb.createEntity(instructorToAdd);
     }
-
+    
+    
+    public void setArchiveStatusOfInstructor(String googleId, String courseId, boolean archiveStatus) 
+           throws InvalidParametersException, EntityDoesNotExistException{
+        
+        InstructorAttributes instructor = instructorsDb.getInstructorForGoogleId(courseId, googleId);
+        instructor.isArchived = archiveStatus;
+        instructorsDb.updateInstructorByGoogleId(instructor);
+    }
+    
     public InstructorAttributes getInstructorForEmail(String courseId, String email) {
         
         return instructorsDb.getInstructorForEmail(courseId, email);
