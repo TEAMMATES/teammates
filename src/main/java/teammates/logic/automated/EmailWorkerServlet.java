@@ -45,7 +45,9 @@ public class EmailWorkerServlet extends WorkerServlet {
             case FEEDBACK_PUBLISHED:
                 emailObj = new FeedbackSessionPublishedMailAction(req);
                 break;
-                
+            case PENDING_COMMENT_CLEARED:
+                emailObj = new PendingCommentClearedMailAction(req);
+                break;
             default:
                 log.severe("Type of email is null");
                 responseCode = Response.SC_INTERNAL_SERVER_ERROR;

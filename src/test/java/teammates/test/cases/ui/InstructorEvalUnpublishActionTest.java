@@ -45,6 +45,7 @@ public class InstructorEvalUnpublishActionTest extends BaseActionTest {
         verifyUnaccessibleForUnregisteredUsers(submissionParams);
         verifyUnaccessibleForStudents(submissionParams);
         verifyUnaccessibleForInstructorsOfOtherCourses(submissionParams);
+        verifyUnaccessibleWithoutModifySessionPrivilege(submissionParams);
         verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
         
         makeEvaluationPublished(evaluationInCourse1); //we have revert to the PUBLISHED state
