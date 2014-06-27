@@ -5,29 +5,45 @@ $(function () {
 		}
 	});
 	
-	$(window).load(function() {
-		if($('#profilePic').attr('data-edit') == "true") {
+	$(window).load(function() {		
+		$('#editableProfilePicture').Jcrop({
+			bgColor: 'transparent',
+			setSelect: [10, 10, 200, 200],
+			aspectRatio: 1,
+			bgOpacity: 0.4,
+			addClass: "inline-block",
+			boxWidth: 400,
+			boxHeight: 400,
+			onSelect: updateFormData,
+			onRelease: updateFormData
+		});
+		
+		$('#pictureWidth').val($('#editableProfilePicture').width());
+		$('#pictureHeight').val($('#editableProfilePicture').height());
+		
+		if($('#profilePic').attr('data-edit') == "true") {			
 			$('#studentPhotoUploader').modal({
-				keyboard: false,
 				show: true
 			});
-			
-			$('#editableProfilePicture').Jcrop({
-				bgColor: 'transparent',
-				setSelect: [10, 10, 200, 200],
-				aspectRatio: 1,
-				bgOpacity: 0.4,
-				addClass: "inline-block",
-				boxWidth: 400,
-				boxHeight: 400,
-				onSelect: updateFormData
-			});
 		}
+		
 	});
 });
 
 function updateFormData(coords) {
-	$('#cropBox').val(coords.x + "-" + coords.y + "-" + coords.x2 + "-" + coords.y2);
+	$('#cropBoxLeftX').val(coords.x);
+	$('#cropBoxTopY').val(coords.y);
+	$('#cropBoxRightX').val(coords.x2);
+	$('#cropBoxBottomY').val(coords.y2);
+}
+
+function finaliseEditPictureForm(event) {
+	if ($('#cropBoxLeftX').val() == "" || $('#cropBoxRightX').val() ==""
+		|| $('#cropBoxTopY').val() == "" || $('#cropBoxBottomY').val() == "") {
+		return;
+	}
+	
+	$('#profilePictureEditForm').submit();
 }
 
 function finaliseUploadPictureForm(event) {

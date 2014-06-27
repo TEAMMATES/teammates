@@ -82,9 +82,15 @@
                                     <img id="editableProfilePicture" src="<%=pictureUrl %>" /><br><br>
                                     <label for="editableProfilePicture">Your Photo</label><br>
                                 </div>
-                                <form id="profilePictureUploadForm" method="post">
-                                    <input id="cropBox" type="hidden" name="cropbox" value="">
-                                    <button type="button" class="btn btn-primary">Save Edited Photo</button>
+                                <form id="profilePictureEditForm" method="post" action="<%=Const.ActionURIs.STUDENT_PROFILE_PICTURE_EDIT %>">
+                                    <input id="pictureHeight" type="hidden" name="pictureheight" value="">
+                                    <input id="pictureWidth" type="hidden" name="picturewidth" value="">
+                                    <input id="cropBoxLeftX" type="hidden" name="cropboxleftx" value="">
+                                    <input id="cropBoxTopY" type="hidden" name="cropboxtopy" value="">
+                                    <input id="cropBoxRightX" type="hidden" name="cropboxrightx" value="">
+                                    <input id="cropBoxBottomY" type="hidden" name="cropboxbottomy" value="">
+                                    <input id="blobKey" type="hidden" name="<%=Const.ParamsNames.BLOB_KEY %>" value="<%=data.account.studentProfile.pictureKey %>">
+                                    <button type="button" class="btn btn-primary" onclick="finaliseEditPictureForm()">Save Edited Photo</button>
                                 </form>
                             </div>
                         </div>

@@ -438,6 +438,11 @@ public class Const {
         //Parameters for checking persistence of data during Eventual Consistency
         public static final String CHECK_PERSISTENCE_COURSE = "persistencecourse";
         public static final String CHECK_PERSISTENCE_EVALUATION = "persistenceevalaution";
+
+        public static final String PROFILE_PICTURE_LEFTX = "cropboxleftx";
+        public static final String PROFILE_PICTURE_TOPY = "cropboxtopy";
+        public static final String PROFILE_PICTURE_RIGHTX = "cropboxrightx";
+        public static final String PROFILE_PICTURE_BOTTOMY = "cropboxbottomy";
     }
 
     public class ActionURIs{
@@ -535,6 +540,7 @@ public class Const {
         public static final String STUDENT_PROFILE_EDIT_SAVE = "/page/studentProfileEditSave";
         public static final String STUDENT_PROFILE_PICTURE = "/page/studentProfilePic";
         public static final String STUDENT_PROFILE_PICTURE_UPLOAD = "/page/studentProfilePictureUpload";
+        public static final String STUDENT_PROFILE_PICTURE_EDIT = "/page/studentProfilePictureEdit";
         public static final String STUDENT_PROFILE_CREATEUPLOADFORMURL = "/page/studentProfileCreateFormUrl";
         
         public static final String ADMIN_HOME_PAGE = "/admin/adminHomePage";
