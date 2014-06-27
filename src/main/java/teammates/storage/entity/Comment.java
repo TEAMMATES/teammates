@@ -10,6 +10,7 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 import teammates.common.datatransfer.CommentRecipientType;
+import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CommentStatus;
 
 import com.google.appengine.api.datastore.Text;
@@ -53,6 +54,10 @@ public class Comment {
     @Persistent
     private CommentStatus status;
     
+    /** Is this comment pending to be sent to recipient (through email) or sending or sent */
+    @Persistent
+    private CommentSendingState sendingState;
+    
     /** Visibility options **/
     @Persistent
     private List<CommentRecipientType> showCommentTo;
@@ -77,6 +82,7 @@ public class Comment {
     private Text commentText;
 
     public Comment(String courseId, String giverEmail, CommentRecipientType recipientType, Set<String> recipients, CommentStatus status,
+            CommentSendingState sendingState,
             List<CommentRecipientType> showCommentTo,
             List<CommentRecipientType> showGiverNameTo,
             List<CommentRecipientType> showRecipientNameTo,
@@ -87,6 +93,7 @@ public class Comment {
         this.recipientType = recipientType;
         this.recipients = recipients;
         this.status = status;
+        this.sendingState = sendingState;
         this.showCommentTo = showCommentTo;
         this.showGiverNameTo = showGiverNameTo;
         this.showRecipientNameTo = showRecipientNameTo;
@@ -141,6 +148,14 @@ public class Comment {
     
     public void setStatus(CommentStatus status){
         this.status = status;
+    }
+    
+    public CommentSendingState getSendingState(){
+        return sendingState;
+    }
+    
+    public void setSendingState(CommentSendingState sendingState){
+        this.sendingState = sendingState;
     }
     
     public List<CommentRecipientType> getShowCommentTo(){

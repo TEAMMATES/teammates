@@ -1,3 +1,4 @@
+<%@page import="teammates.common.datatransfer.CommentSendingState"%>
 <%@page import="teammates.common.datatransfer.InstructorAttributes"%>
 <%@page import="teammates.common.datatransfer.CommentRecipientType"%>
 <%@page import="teammates.common.datatransfer.FeedbackSessionAttributes"%>
@@ -215,11 +216,22 @@
                 <li><a href="<%=data.nextPageLink%>">»</a></li>
             </ul>
             <div class="well well-plain">
-                <div class="text-color-primary">
-                    <h4>
+                <div class="row">
+                    <h4 class="col-sm-9 text-color-primary">
                         <strong> <%=data.isViewingDraft ? "Drafts" : data.courseName%>
                         </strong>
                     </h4>
+                    <div class="btn-group pull-right" style="<%=data.numberOfPendingComments==0?"display:none":""%>">
+                      <a type="button" class="btn btn-sm btn-info" data-toggle="tooltip" style="margin-right: 17px;"
+                         href="<%=Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_CLEAR_PENDING + "?" + Const.ParamsNames.COURSE_ID + "=" + data.courseId
+                                        + "&" + Const.ParamsNames.USER_ID + "=" + data.account.googleId%>"
+                         title="Send email notification to recipients of <%=data.numberOfPendingComments%> pending <%=data.numberOfPendingComments>1?"comments":"comment"%>">
+                        <span class="badge" style="margin-right: 5px"><%=data.numberOfPendingComments%></span>
+                        <span class="glyphicon glyphicon-comment"></span>
+                        <span class="glyphicon glyphicon-arrow-right"></span>
+                        <span class="glyphicon glyphicon-envelope"></span>
+                      </a>
+                    </div>
                 </div>
                 <div id="no-comment-panel" style="<%=data.comments.keySet().size() == 0 && data.feedbackResultBundles.keySet().size() == 0?"":"display:none;"%>">
                     <br>
@@ -306,6 +318,13 @@
                                             <span class="glyphicon glyphicon-eye-open" data-toggle="tooltip" style="margin-left: 5px;"
                                                 data-placement="top"
                                                 title="This comment is public to <%=peopleCanSee%>"></span>
+                                            <% } %>
+                                            <% 
+                                               if(comment.sendingState == CommentSendingState.PENDING){ 
+                                            %>
+                                            <span class="glyphicon glyphicon-bell" data-toggle="tooltip" 
+                                                data-placement="top"
+                                                title="This comment is pending to notify recipients"></span>
                                             <% } %>
                                         </div>
                                         <div
@@ -577,6 +596,7 @@
                                             FeedbackQuestionAttributes question = questions.get(responseEntries.getKey().getId());
                                             FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
                                             out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, ""));
+                                            Boolean isPublicResponseComment = data.isResponseCommentPublicToRecipient(question);
                                 %>
                             </div>
                             <table class="table">
@@ -656,6 +676,18 @@
                                                             <b><%=frCommentGiver%></b>
                                                             [<%=frc.createdAt%>]
                                                         </span>
+                                                        <% if(isPublicResponseComment && bundle.feedbackSession.isPublished()){ %>
+                                                        <span class="glyphicon glyphicon-eye-open" data-toggle="tooltip" 
+                                                            data-placement="top" style="margin-left: 5px;"
+                                                            title="This response comment is public"></span>
+                                                        <% } %>
+                                                        <% 
+                                                           if(frc.sendingState == CommentSendingState.PENDING && bundle.feedbackSession.isPublished()){ 
+                                                        %>
+                                                        <span class="glyphicon glyphicon-bell" data-toggle="tooltip" 
+                                                            data-placement="top"
+                                                            title="This comment is pending to notify recipients"></span>
+                                                        <% } %>
                                                         <%
                                                             if (frc.giverEmail.equals(data.instructorEmail)
                                                                     || (data.currentInstructor != null &&

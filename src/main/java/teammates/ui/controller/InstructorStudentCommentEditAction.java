@@ -9,6 +9,7 @@ import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentRecipientType;
+import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CommentStatus;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -166,8 +167,20 @@ public class InstructorStudentCommentEditAction extends Action {
                 comment.showRecipientNameTo.add(CommentRecipientType.valueOf(srt.trim()));
             }
         }
+        //if a comment is public to recipient (except Instructor), it's a pending comment
+        if(isCommentPublicToRecipient(comment)){
+            comment.sendingState = CommentSendingState.PENDING;
+        }
         comment.commentText = commentText;
         
         return comment;
+    }
+
+    private boolean isCommentPublicToRecipient(CommentAttributes comment) {
+        return comment.showCommentTo != null
+                && (comment.isVisibleTo(CommentRecipientType.PERSON)
+                    || comment.isVisibleTo(CommentRecipientType.TEAM)
+                    || comment.isVisibleTo(CommentRecipientType.SECTION)
+                    || comment.isVisibleTo(CommentRecipientType.COURSE));
     }
 }

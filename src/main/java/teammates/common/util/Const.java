@@ -489,6 +489,7 @@ public class Const {
         public static final String INSTRUCTOR_STUDENT_RECORDS_PAGE = "/page/instructorStudentRecordsPage";
         public static final String INSTRUCTOR_STUDENT_COMMENT_ADD = "/page/instructorStudentCommentAdd";
         public static final String INSTRUCTOR_STUDENT_COMMENT_EDIT = "/page/instructorStudentCommentEdit";
+        public static final String INSTRUCTOR_STUDENT_COMMENT_CLEAR_PENDING = "/page/instructorStudentCommentClearPending";
         
         public static final String INSTRUCTOR_COMMENTS_PAGE = "/page/instructorCommentsPage";
         
@@ -813,6 +814,8 @@ public class Const {
         public static final String COMMENT_ADDED = "New comment has been added";
         public static final String COMMENT_EDITED = "Comment edited";
         public static final String COMMENT_DELETED = "Comment deleted";
+        public static final String COMMENT_CLEARED = "Notification for all pending comments have been sent to recipients";
+        public static final String COMMENT_CLEARED_UNSUCCESSFULLY = "Notification for some pending comments fails to send";
         public static final String COMMENT_DUPLICATE = "An existing comment with the same content is found, comment not added";
         
         public static final String HINT_FOR_NEW_INSTRUCTOR = "New to TEAMMATES? You may wish to have a look at our "
