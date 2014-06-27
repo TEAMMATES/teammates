@@ -727,6 +727,25 @@ public class Logic {
         coursesLogic.setArchiveStatusOfCourse(courseId, archiveStatus);
     }
     
+    
+    /**
+     * Change the archive status of a course for a instructor.<br>
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     * @param courseId The course of which the archive status is to be changed
+     * @param archiveStatus The archive status to be set
+     */
+    
+    public void setArchiveStatusOfInstructor(String googleId, String courseId, boolean archiveStatus)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, archiveStatus);
+        
+        instructorsLogic.setArchiveStatusOfInstructor(googleId, courseId, archiveStatus);
+    }
+    
     /**
      * Deletes the course and all data related to the course 
      * (instructors, students, evaluations, feedback sessions).
