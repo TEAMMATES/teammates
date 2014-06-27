@@ -1297,9 +1297,10 @@ public class FeedbackSessionsLogic {
             }
         }
 
+        
         List<FeedbackResponseCommentAttributes> allResponseComments =
-                frcLogic.getFeedbackResponseCommentForSession(courseId,
-                        feedbackSessionName);
+                frcLogic.getFeedbackResponseCommentForSessionInSection(courseId,
+                        feedbackSessionName, section);
         for (FeedbackResponseCommentAttributes frc : allResponseComments) {
             List<FeedbackResponseCommentAttributes> frcList = responseComments
                     .get(frc.feedbackResponseId);

@@ -29,6 +29,7 @@ public class FeedbackResponsesLogic {
     private static final StudentsLogic studentsLogic = StudentsLogic.inst();
     private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic
             .inst();
+    private static final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
     private static final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
 
     public static FeedbackResponsesLogic inst() {
@@ -444,6 +445,7 @@ public class FeedbackResponsesLogic {
         for (FeedbackResponseAttributes response : responsesFromUser) {
             response.giverSection = newSection;
             frDb.updateFeedbackResponse(response);
+            frcLogic.updateFeedbackResponseCommentForResponse(response.getId());
         }
 
         List<FeedbackResponseAttributes> responsesToUser =
@@ -452,6 +454,7 @@ public class FeedbackResponsesLogic {
         for (FeedbackResponseAttributes response : responsesToUser) {
             response.recipientSection = newSection;
             frDb.updateFeedbackResponse(response);
+            frcLogic.updateFeedbackResponseCommentForResponse(response.getId());
         }
 
     }
@@ -501,6 +504,7 @@ public class FeedbackResponsesLogic {
         
         if(isGiverSameForResponseAndEnrollment || isReceiverSameForResponseAndEnrollment){
             frDb.updateFeedbackResponse(response);
+            frcLogic.updateFeedbackResponseCommentForResponse(response.getId());
         }
     }
 

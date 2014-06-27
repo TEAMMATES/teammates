@@ -55,7 +55,7 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         
         FeedbackResponseCommentAttributes feedbackResponseComment = new FeedbackResponseCommentAttributes(courseId,
             feedbackSessionName, feedbackQuestionId, instructor.email, feedbackResponseId, new Date(),
-            new Text(commentText));
+            new Text(commentText), response.giverSection, response.recipientSection);
         
         try {
             logic.createFeedbackResponseComment(feedbackResponseComment);

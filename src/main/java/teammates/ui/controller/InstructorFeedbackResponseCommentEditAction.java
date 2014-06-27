@@ -50,7 +50,7 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
         
         FeedbackResponseCommentAttributes feedbackResponseComment = new FeedbackResponseCommentAttributes(
                 courseId, feedbackSessionName, null, instructor.email, null, null,
-                new Text(commentText));
+                new Text(commentText), response.giverSection, response.recipientSection);
         feedbackResponseComment.setId(Long.parseLong(feedbackResponseCommentId));
         
         try {
