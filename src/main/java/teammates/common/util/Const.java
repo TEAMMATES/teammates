@@ -1,6 +1,8 @@
 package teammates.common.util;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -15,7 +17,12 @@ public class Const {
 
         public static final String ENCODING = "UTF8";
         public static final int NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT = 24;
+        
+        /** This is the limit after which TEAMMATES will send error message */
         public static final int MAX_PROFILE_PIC_SIZE = 1000000;
+        /** This is the limit given to Blobstore API, beyond which an ugly error page is shown */
+        public static final long MAX_PROFILE_PIC_LIMIT_FOR_BLOBSTOREAPI = 5000000;
+        
         /** e.g. "2014-04-01 11:59 PM UTC" */
         public static final String DEFAULT_DATE_TIME_FORMAT = "yyyy-MM-dd h:mm a Z";
         /** Number to trim the Google ID when displaying to the user*/
@@ -26,8 +33,6 @@ public class Const {
          * in the FieldValidator class.
          */
         public static final String ADMIN_TIME_ZONE = "Asia/Singapore";
-        
-        public static final String GCS_BUCKET_NAME = "teammates-thy.appspot.com";
         
         public static final String EMAIL_TASK_QUEUE = "configure-and-prepare-email-queue";
         public static final String SUBMISSION_TASK_QUEUE = "submission-queue";
@@ -198,6 +203,7 @@ public class Const {
         public static final String FEEDBACK_RESPONSE_SAVE = "You can submit your responses at any time and come back later to continue " +
                 "before the session closes.";
         
+        public static final String STUDENT_PROFILE_PICTURE = "Upload a profile picture";
         public static final String STUDENT_PROFILE_SHORTNAME = "This is the name you prefer to be called by";
         public static final String STUDENT_PROFILE_EMAIL = "This is a long term contact email";
         public static final String STUDENT_PROFILE_INSTITUTION = "This is the institution that you represent";
@@ -227,6 +233,7 @@ public class Const {
         public static final String NUMSCALE = "Numerical-scale question";
         public static final String CONSTSUM_OPTION = "Distribute points (among options) question";
         public static final String CONSTSUM_RECIPIENT = "Distribute points (among recipients) question";
+        public static final String CONTRIB = "Team contribution question";
     }
     
     public class InstructorPermissionRoleNames {
@@ -482,6 +489,7 @@ public class Const {
         public static final String INSTRUCTOR_STUDENT_RECORDS_PAGE = "/page/instructorStudentRecordsPage";
         public static final String INSTRUCTOR_STUDENT_COMMENT_ADD = "/page/instructorStudentCommentAdd";
         public static final String INSTRUCTOR_STUDENT_COMMENT_EDIT = "/page/instructorStudentCommentEdit";
+        public static final String INSTRUCTOR_STUDENT_COMMENT_CLEAR_PENDING = "/page/instructorStudentCommentClearPending";
         
         public static final String INSTRUCTOR_COMMENTS_PAGE = "/page/instructorCommentsPage";
         
@@ -813,6 +821,8 @@ public class Const {
         public static final String COMMENT_ADDED = "New comment has been added";
         public static final String COMMENT_EDITED = "Comment edited";
         public static final String COMMENT_DELETED = "Comment deleted";
+        public static final String COMMENT_CLEARED = "Notification for all pending comments have been sent to recipients";
+        public static final String COMMENT_CLEARED_UNSUCCESSFULLY = "Notification for some pending comments fails to send";
         public static final String COMMENT_DUPLICATE = "An existing comment with the same content is found, comment not added";
         
         public static final String HINT_FOR_NEW_INSTRUCTOR = "New to TEAMMATES? You may wish to have a look at our "
@@ -827,7 +837,8 @@ public class Const {
         public static final String STUDENT_EVALUATION_SUBMISSION_RECEIVED = "Your submission for %s in course %s has been saved successfully";
         public static final String STUDENT_PROFILE_NOT_A_PICTURE = "The file that you have uploaded is not a picture. "
                 + "Please upload a picture (usually it ends with .jpg or .png)";
-        public static final String STUDENT_NOT_FOUND = "The student you tried to view records for does not exist.";
+        public static final String STUDENT_NOT_FOUND_FOR_RECORDS = "The student you tried to view records for does not exist.";
+        public static final String STUDENT_NOT_JOINED_YET_FOR_RECORDS = "This student has not joined the course yet or you are not supposed to view his/her profile";
     }
 
     /* These indicate status of an operation, but they are not shown to the user */
@@ -946,5 +957,38 @@ public class Const {
         TIME_REPRESENTS_LATER = TimeHelper.convertToDate("1970-01-01 00:00 AM UTC");
         TIME_REPRESENTS_NOW = TimeHelper.convertToDate("1970-02-14 00:00 AM UTC");
     }
-     
+    
+    /* Other Constants
+     */
+    @SuppressWarnings("unused")
+    private void _______other_constants________________________(){}
+    
+    //Used for Feedback CONTRIBUTION question
+    public static final String EQUAL_SHARE = "Equal Share";
+    public static final String NOT_SURE = "Not Sure";
+    public static final List<String> FEEDBACK_CONTRIBUTION_OPTIONS = Arrays.asList(
+            "0%",
+            EQUAL_SHARE+ " - 90%",
+            EQUAL_SHARE+ " - 80%",
+            EQUAL_SHARE+ " - 70%",
+            EQUAL_SHARE+ " - 60%",
+            EQUAL_SHARE+ " - 50%",
+            EQUAL_SHARE+ " - 40%",
+            EQUAL_SHARE+ " - 30%",
+            EQUAL_SHARE+ " - 20%",
+            EQUAL_SHARE+ " - 10%",
+            EQUAL_SHARE,
+            EQUAL_SHARE+ " + 10%",
+            EQUAL_SHARE+ " + 20%",
+            EQUAL_SHARE+ " + 30%",
+            EQUAL_SHARE+ " + 40%",
+            EQUAL_SHARE+ " + 50%",
+            EQUAL_SHARE+ " + 60%",
+            EQUAL_SHARE+ " + 70%",
+            EQUAL_SHARE+ " + 80%",
+            EQUAL_SHARE+ " + 90%",
+            EQUAL_SHARE+ " + 100%",
+            NOT_SURE);
+    
+    
 }

@@ -125,17 +125,19 @@ function bindCollapseEvents(panels, numPanels){
         }
     }
     return numPanels;
+ $(".glyphicon").click(function(){
+        var parent = $(this).parent();
+        if(parent.length){
+            $(parent).trigger('click');
+        }
+    });
 }
 
-window.onload = function(){
-    var panels = $("div.panel");
-    var numPanels = 0;
-
-    bindCollapseEvents(panels, numPanels);
-    $("a[id^='collapse-panels-button-section-'],a[id^='collapse-panels-button-team-']").on('click', function(){
-        var panels = $(this).parent().children('div.panel').children('.panel-collapse');
-        toggleCollapse(this, panels);
-    });
+    if($("#collapse-panels-button").html().indexOf("Expand All") != -1){
+        panelsCollapsed = true;
+    } else {
+        panelsCollapsed = false;
+    }
 };
 
 //Set on ready events

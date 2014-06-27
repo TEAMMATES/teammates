@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import javax.mail.internet.MimeMessage;
@@ -11,6 +12,7 @@ import javax.mail.internet.MimeMessage;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentRecipientType;
+import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.CourseRoster;
@@ -1175,13 +1177,13 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null. <br>
      */
-    public String getEvaluationResultSummaryAsCsv(String courseId, String evalName) 
+    public String getEvaluationResultSummaryAsCsv(String courseId, String instrEmail, String evalName) 
             throws EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, evalName);
         
-        return evaluationsLogic.getEvaluationResultSummaryAsCsv(courseId, evalName);
+        return evaluationsLogic.getEvaluationResultSummaryAsCsv(courseId, instrEmail, evalName);
     }
     
     /**
@@ -1498,6 +1500,19 @@ public class Logic {
         return feedbackQuestionsLogic.getFeedbackQuestion(feedbackSessionName, courseId, questionNumber);
     }
 
+    
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null. <br>
+     * 
+     */
+    public FeedbackQuestionAttributes
+            getFeedbackQuestion(String feedbackQuestionId)
+                    throws EntityDoesNotExistException {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackQuestionId);
+        
+        return feedbackQuestionsLogic.getFeedbackQuestion(feedbackQuestionId);
+    }
     
     /**
      * Preconditions: <br>
@@ -2008,6 +2023,12 @@ public class Logic {
         feedbackResponseCommentsLogic.createFeedbackResponseComment(feedbackResponseComment);
     }
     
+    public FeedbackResponseCommentAttributes getFeedbackResponseComment(Long feedbackResponseCommentId) {
+        Assumption.assertNotNull(feedbackResponseCommentId);
+        
+        return feedbackResponseCommentsLogic.getFeedbackResponseComment(feedbackResponseCommentId);
+    }
+    
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
@@ -2024,12 +2045,36 @@ public class Logic {
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
+     * @throws EntityDoesNotExistException 
+     */
+    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForSendingState(String courseId, CommentSendingState state) 
+            throws EntityDoesNotExistException {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        return feedbackResponseCommentsLogic.getFeedbackResponseCommentsForSendingState(courseId, state);
+    }
+    
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
      */
     public void updateFeedbackResponseComment(FeedbackResponseCommentAttributes feedbackResponseComment)
             throws EntityDoesNotExistException, InvalidParametersException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackResponseComment);
 
         feedbackResponseCommentsLogic.updateFeedbackResponseComment(feedbackResponseComment);
+    }
+    
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     */
+    public void updateFeedbackResponseComments(String courseId, CommentSendingState oldState, CommentSendingState newState)
+            throws EntityDoesNotExistException {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, oldState);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, newState);
+
+        feedbackResponseCommentsLogic.updateFeedbackResponseComments(courseId, oldState, newState);
     }
 
     /**
@@ -2055,6 +2100,34 @@ public class Logic {
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, comment);
         commentsLogic.createComment(comment);
+    }
+    
+    public CommentAttributes getComment(Long commentId) {
+        Assumption.assertNotNull(commentId);
+        return commentsLogic.getComment(commentId);
+    }
+    
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     * @throws EntityDoesNotExistException 
+     */
+    public Set<String> getRecipientEmailsForSendingComments(String courseId) 
+            throws EntityDoesNotExistException{
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        return commentsLogic.getRecipientEmailsForSendingComments(courseId);
+    }
+    
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     */
+    public void updateComments(String courseId, CommentSendingState oldState, CommentSendingState newState)
+            throws EntityDoesNotExistException {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, oldState);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, newState);
+        commentsLogic.updateComments(courseId, oldState, newState);
     }
     
     /**
@@ -2135,6 +2208,17 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, receiver);
         return commentsLogic.getCommentsForReceiver(courseId, recipientType, receiver);
+    }
+    
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     * @return a list of comments from the giver.
+     * @throws EntityDoesNotExistException
+     */
+    public List<CommentAttributes> getCommentsForSendingState(String courseId, CommentSendingState sendingState) throws EntityDoesNotExistException{
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        return commentsLogic.getCommentsForSendingState(courseId, sendingState);
     }
     
     @SuppressWarnings("unused")

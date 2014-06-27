@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import javax.jdo.JDOHelper;
 import javax.jdo.Query;
 
+import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -144,6 +145,35 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         }
         
         frc.setCommentText(newAttributes.commentText);
+        frc.setSendingState(newAttributes.sendingState);
+        
+        getPM().close();
+    }
+    
+    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForSendingState(String courseId, String sessionName,
+            CommentSendingState state){
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, sessionName);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, state);
+        
+        List<FeedbackResponseComment> frcList = getFeedbackResponseCommentEntityForSendingState(courseId, sessionName, state);
+        List<FeedbackResponseCommentAttributes> resultList = new ArrayList<FeedbackResponseCommentAttributes>();
+        for (FeedbackResponseComment frc : frcList) {
+            resultList.add(new FeedbackResponseCommentAttributes(frc));
+        }
+        
+        return resultList;  
+    }
+    
+    public void updateFeedbackResponseComments(String courseId, String feedbackSessionName,
+            CommentSendingState oldState, CommentSendingState newState) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        
+        List<FeedbackResponseComment> frcList = getFeedbackResponseCommentEntityForSendingState(courseId, feedbackSessionName, oldState);
+        
+        for(FeedbackResponseComment frComment : frcList){
+            frComment.setSendingState(newState);
+        }
         
         getPM().close();
     }
@@ -161,6 +191,19 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
                 feedbackResponseCommentToGet.giverEmail,
                 feedbackResponseCommentToGet.createdAt);
         }
+    }
+    
+    private List<FeedbackResponseComment> getFeedbackResponseCommentEntityForSendingState(String courseId, String feedbackSessionName,
+            CommentSendingState state) {
+        Query q = getPM().newQuery(FeedbackResponseComment.class);
+        q.declareParameters("String courseIdParam, String fsNameParam, String sendingStateParam");
+        q.setFilter("courseId == courseIdParam && feedbackSessionName == fsNameParam && sendingState == sendingStateParam");
+        
+        @SuppressWarnings("unchecked")
+        List<FeedbackResponseComment> feedbackResponseCommentList =
+            (List<FeedbackResponseComment>) q.execute(courseId, feedbackSessionName, state.toString());
+    
+        return feedbackResponseCommentList;
     }
 
     private FeedbackResponseComment getFeedbackResponseCommentEntity(Long feedbackResponseCommentId) {

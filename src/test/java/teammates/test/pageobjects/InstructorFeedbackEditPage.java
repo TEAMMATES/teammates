@@ -315,7 +315,11 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
     
     public void clickVisibilityOptionsForQuestion1(){
-        browser.driver.findElement(By.className("visibilityOptionsLabel")).click();;
+        browser.driver.findElement(By.className("visibilityOptionsLabel")).click();
+    }
+    
+    public void clickVisibilityOptionsForQuestion2(){
+        browser.driver.findElements(By.className("visibilityOptionsLabel")).get(1).click();
     }
     
     public void clickAddQuestionButton(){
@@ -390,6 +394,10 @@ public class InstructorFeedbackEditPage extends AppPage {
     public boolean verifyNewConstSumQuestionFormIsDisplayed() {
         WebElement constSumForm = browser.driver.findElement(By.id("constSumForm"));
         return constSumForm.isDisplayed() && addNewQuestionButton.isDisplayed();
+    }
+    
+    public boolean verifyNewContributionQuestionFormIsDisplayed() {
+        return addNewQuestionButton.isDisplayed();
     }
     
     public void selectNewQuestionType(String questionType){

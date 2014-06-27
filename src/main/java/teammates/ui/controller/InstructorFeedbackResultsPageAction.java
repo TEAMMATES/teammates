@@ -2,7 +2,6 @@ package teammates.ui.controller;
 
 import java.util.Iterator;
 
-import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -76,17 +75,6 @@ public class InstructorFeedbackResultsPageAction extends Action {
         if (data.bundle == null) {
             throw new EntityDoesNotExistException(
                     "Feedback session " + feedbackSessionName + " does not exist in " + courseId + ".");
-        }
-        Iterator<FeedbackResponseAttributes> iterResponse = data.bundle.responses.iterator();
-        while (iterResponse.hasNext()) {
-            FeedbackResponseAttributes response = iterResponse.next();
-            if ((!data.instructor.isAllowedForPrivilege(response.giverSection,
-                    response.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS))
-                    || !(data.instructor.isAllowedForPrivilege(response.recipientSection,
-                            response.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS))) {
-                data.bundle.responseComments.remove(response.getId());
-                iterResponse.remove();
-            }
         }
         
         switch (data.sortType) {

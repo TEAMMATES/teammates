@@ -7,7 +7,6 @@ import com.google.appengine.api.blobstore.BlobInfo;
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreFailureException;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
-import com.google.appengine.api.blobstore.FileInfo;
 
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -26,10 +25,9 @@ public class StudentProfileEditSaveAction extends Action {
             throw new UnauthorizedAccessException("User is not registered");
         }
         
-        account.studentProfile = extractProfileData();
-        account.studentProfile.googleId = account.googleId;
-        
         try {
+            account.studentProfile = extractProfileData();
+            account.studentProfile.googleId = account.googleId;
             logic.updateStudentProfile(account.studentProfile);
             if (statusToUser.isEmpty()) {
                 statusToUser.add(Const.StatusMessages.STUDENT_PROFILE_EDITED);

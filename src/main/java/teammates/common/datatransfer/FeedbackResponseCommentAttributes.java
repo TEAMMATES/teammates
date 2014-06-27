@@ -24,6 +24,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
     public String giverSection;
     public String receiverSection;
     public String feedbackResponseId;
+    public CommentSendingState sendingState = CommentSendingState.SENT;
     public Date createdAt;
     public Text commentText;
 
@@ -70,6 +71,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
         this.feedbackQuestionId = comment.getFeedbackQuestionId();
         this.giverEmail = comment.getGiverEmail();
         this.feedbackResponseId = comment.getFeedbackResponseId();
+        this.sendingState = comment.getSendingState() != null? comment.getSendingState() : CommentSendingState.SENT;
         this.createdAt = comment.getCreatedAt();
         this.commentText = comment.getCommentText();
         this.giverSection = comment.getGiverSection();
@@ -108,7 +110,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
     @Override
     public FeedbackResponseComment toEntity() {
         return new FeedbackResponseComment(courseId, feedbackSessionName,
-                feedbackQuestionId, giverEmail, feedbackResponseId, createdAt,
+                feedbackQuestionId, giverEmail, feedbackResponseId, sendingState, createdAt,
                 commentText, giverSection, receiverSection);
     }
 

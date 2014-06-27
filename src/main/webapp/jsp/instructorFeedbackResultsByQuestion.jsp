@@ -81,7 +81,7 @@
                 <div class="panel-body padding-0">
                     <% if(showAll) { %>                
                     <div class="resultStatistics">
-                        <%=questionDetails.getQuestionResultStatisticsHtml(responseEntries.getValue(), data.bundle)%>
+                        <%=questionDetails.getQuestionResultStatisticsHtml(responseEntries.getValue(), question, data.bundle, "question")%>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered dataTable margin-0">
