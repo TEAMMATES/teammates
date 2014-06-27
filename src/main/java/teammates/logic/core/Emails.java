@@ -52,6 +52,8 @@ public class Emails {
     public static final String SUBJECT_PREFIX_STUDENT_COURSE_JOIN = "TEAMMATES: Invitation to join course";
     public static final String SUBJECT_PREFIX_INSTRUCTOR_COURSE_JOIN = "TEAMMATES: Invitation to join course as an instructor";
     public static final String SUBJECT_PREFIX_ADMIN_SYSTEM_ERROR = "TEAMMATES (%s): New System Exception: %s";
+    public static final String SUBJECT_PREFIX_NEW_INSTRUCTOR_ACCOUNT = "TEAMMATES: Welcome to TEAMMATES!";
+    public static final String SUBJECT_PREFIX_NEW_INSTRUCTOR_ACCOUNT_COPY = "Copy of Confirmation Email For"; 
             
     public static enum EmailType {
         EVAL_CLOSING,
@@ -703,7 +705,44 @@ public class Emails {
         message.setContent(emailBody, "text/html");
         return message;
     }
+    
+    public List<MimeMessage> generateNewInstructorAccountJoinEmail(InstructorAttributes instructor,String shortName, String institute) 
+                             throws AddressException,MessagingException,UnsupportedEncodingException {
 
+        MimeMessage messageToUser = getEmptyEmailAddressedToEmail(instructor.email);
+        MimeMessage messageToAdmin = getEmptyEmailAddressedToEmail(Config.SUPPORT_EMAIL);
+        
+        List<MimeMessage> messages = new ArrayList<MimeMessage>();
+        messages.add(messageToUser);
+        messages.add(messageToAdmin);
+        
+        
+        messageToUser.setSubject(String.format(SUBJECT_PREFIX_NEW_INSTRUCTOR_ACCOUNT + " " + shortName));
+        messageToAdmin.setSubject(String.format(SUBJECT_PREFIX_NEW_INSTRUCTOR_ACCOUNT_COPY +
+                                                " " + shortName+" "+ "[" + instructor.email + "]"));
+        
+        for(MimeMessage message : messages){
+         
+            String emailBody = EmailTemplates.NEW_INSTRCUTOR_ACCOUNT_WELCOME;
+            emailBody = emailBody.replace("${userName}", shortName);
+            
+            String joinUrl = "";
+            if (instructor != null) {
+                String key;
+                key = StringHelper.encrypt(instructor.key);
+                joinUrl = Config.APP_URL + Const.ActionURIs.INSTRUCTOR_COURSE_JOIN;
+                joinUrl = Url.addParamToUrl(joinUrl, Const.ParamsNames.REGKEY, key);
+                joinUrl = Url.addParamToUrl(joinUrl, Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
+            }
+            
+            emailBody = emailBody.replace("${joinUrl}",joinUrl);
+            message.setContent(emailBody, "text/html");
+            
+        }
+        return messages;
+
+    }
+    
     public MimeMessage generateInstructorCourseJoinEmail(
             CourseAttributes course, InstructorAttributes instructor) 
                     throws AddressException, MessagingException, UnsupportedEncodingException {
