@@ -349,8 +349,8 @@ public class AccountsLogic {
     }
 
 
-    public void deleteProfilePicture(BlobKey key) throws BlobstoreFailureException {
-        accountsDb.deleteProfilePicFromGcs(key);
+    public void deleteStudentProfilePicture(String googleId) throws BlobstoreFailureException {
+        accountsDb.deleteStudentProfilePicture(googleId);
     }
 
 

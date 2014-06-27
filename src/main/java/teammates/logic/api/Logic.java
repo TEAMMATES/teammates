@@ -251,10 +251,10 @@ public class Logic {
         accountsLogic.deleteAccountCascade(googleId);
     }
     
-    public void deleteProfilePicture(BlobKey key) throws BlobstoreFailureException {
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, key);
+    public void deleteStudentProfilePicture(String googleId) throws BlobstoreFailureException {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
         
-        accountsLogic.deleteProfilePicture(key);
+        accountsLogic.deleteStudentProfilePicture(googleId);
     }
 
     @SuppressWarnings("unused")

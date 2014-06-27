@@ -174,7 +174,7 @@ public class AccountsDb extends EntitiesDb {
         }
         
         if (!accountToDelete.studentProfile.pictureKey.equals("")) {
-            deleteProfilePicFromGcs(new BlobKey(accountToDelete.studentProfile.pictureKey));
+            deleteStudentProfilePicture(new BlobKey(accountToDelete.studentProfile.pictureKey));
         }
         deleteEntity(accountToDelete);
         closePM();
@@ -268,28 +268,14 @@ public class AccountsDb extends EntitiesDb {
         profileToUpdate.setNationality(newSpa.nationality);
         profileToUpdate.setGender(newSpa.gender);
         profileToUpdate.setMoreInfo(new Text(newSpa.moreInfo));
-        if (newSpa.pictureKey != "") {
-            deleteIfNotEmpty(profileToUpdate.getPictureKey());
+        if (newSpa.pictureKey != "" && newSpa.pictureKey.equals(profileToUpdate.getPictureKey().getKeyString())) {
+            deleteStudentProfilePicture(profileToUpdate.getPictureKey());
             profileToUpdate.setPictureKey(new BlobKey(newSpa.pictureKey));
         }
+        
         closePM();
     }
     
-    public void deleteProfilePicFromGcs(BlobKey key) throws BlobstoreFailureException {
-        BlobstoreServiceFactory.getBlobstoreService().delete(key);
-    }
-    
-    private void closePM() {
-        if (!getPM().isClosed()) {
-            getPM().close();
-        }
-    }
-
-    @Override
-    protected Object getEntity(EntityAttributes entity) {
-        return getAccountEntity(((AccountAttributes)entity).googleId);
-    }
-
     public void updateStudentProfilePicture(String googleId,
             String newPictureKey) throws EntityDoesNotExistException {
         
@@ -305,23 +291,48 @@ public class AccountsDb extends EntitiesDb {
                     + ThreadHelper.getCurrentThreadStack());
         }
         
-        deleteIfNotEmpty(profileToUpdate.getPictureKey());
-        profileToUpdate.setPictureKey(new BlobKey(newPictureKey));
+        boolean keyNotEmpty = !newPictureKey.isEmpty();
+        boolean newKeyGiven = !newPictureKey.equals(profileToUpdate.getPictureKey().getKeyString());
+        
+        if (keyNotEmpty || newKeyGiven) {
+            deleteStudentProfilePicture(profileToUpdate.getPictureKey());
+            profileToUpdate.setPictureKey(new BlobKey(newPictureKey));
+        }
+        
+        closePM();
     }
-
-    private void deleteIfNotEmpty(BlobKey pictureKey)
-            throws BlobstoreFailureException {
-        if (!pictureKey.equals(new BlobKey(""))) {
+    
+    public void deleteStudentProfilePicture(String googleId) throws BlobstoreFailureException {
+        StudentProfile sp = getStudentProfileEntity(googleId);
+        if (!sp.getPictureKey().equals(new BlobKey(""))) {
             try {
-                deleteProfilePicFromGcs(pictureKey);
+                deleteStudentProfilePicture(sp.getPictureKey());
+                sp.setPictureKey(new BlobKey(""));
             } catch (BlobstoreFailureException bfe) {
                 // this branch is not tested as it is 
                 //      => difficult to reproduce during testing
                 //      => properly handled higher up
-                closePM();
                 throw bfe;
             }
         }
+        
+        closePM();
+    }
+    
+    private void deleteStudentProfilePicture(BlobKey key) throws BlobstoreFailureException {
+        BlobstoreServiceFactory.getBlobstoreService().delete(key);
+    }
+    
+    
+    private void closePM() {
+        if (!getPM().isClosed()) {
+            getPM().close();
+        }
+    }
+
+    @Override
+    protected Object getEntity(EntityAttributes entity) {
+        return getAccountEntity(((AccountAttributes)entity).googleId);
     }
 }
 
