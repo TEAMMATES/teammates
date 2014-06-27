@@ -113,6 +113,11 @@ public class FeedbackNumericalScaleQuestionDetails extends
             AccountAttributes currentUser,
             FeedbackSessionResultsBundle bundle,
             String view) {
+        
+        if(view.equals("student")){
+            return "";
+        }
+        
         String html = "";
         double average = 0;
         double min = Integer.MAX_VALUE;

@@ -251,6 +251,11 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackAbstractQuestion
             AccountAttributes currentUser,
             FeedbackSessionResultsBundle bundle,
             String view) {
+        
+        if(view.equals("student")){
+            return "";
+        }
+        
         if(responses.size() == 0){
             return "";
         }

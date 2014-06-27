@@ -118,6 +118,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
         }
     
         String currentUserEmail = currentUser.email;
+        String currentUserTeam = bundle.emailTeamNameTable.get(currentUser.email);
         
         responses = getActualResponses(question, bundle);
 
@@ -150,90 +151,64 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
         //For testing
         /*
         for(Map.Entry<String, List<String>> entry : teamMembersEmail.entrySet()){
-            html += entry.getKey() + " size: " +  teamMembersEmail.get(entry.getKey()).size() +"<br>";
-            html += entry.getValue().toString() + "<br>";
+            if(entry.getKey().equals(currentUserTeam)){
+                
+                html += entry.getKey() + " size: " +  teamMembersEmail.get(entry.getKey()).size() +"<br>";
+                html += entry.getValue().toString() + "<br>";
+                
+                html += "Claimed:<br>";
+                for(int i=0 ; i<teamResults.get(entry.getKey()).claimed.length ; i++)
+                    html += Arrays.toString(teamResults.get(entry.getKey()).claimed[i]) + "<br>";
+                
+                html += "Denormalized Average Percived:<br>";
+                for(int i=0 ; i<teamResults.get(entry.getKey()).denormalizedAveragePerceived.length ; i++)
+                    html += Arrays.toString(teamResults.get(entry.getKey()).denormalizedAveragePerceived[i]) + "<br>";
+                
+                
+                html += "Submission Array:<br>";
+                for(int i=0 ; i<teamSubmissionArray.get(entry.getKey()).length ; i++)
+                    html += Arrays.toString(teamSubmissionArray.get(entry.getKey())[i]) + "<br>";
             
-            html += "Submission Array:<br>";
-            for(int i=0 ; i<teamSubmissionArray.get(entry.getKey()).length ; i++)
-                html += Arrays.toString(teamSubmissionArray.get(entry.getKey())[i]) + "<br>";
-        
-            html += "<br><br>";
-            
-            html +=  "<pre>" + teamResults.get(entry.getKey()).toString() + "</pre>";//.replace(Const.EOL, "<br>");
-            
-            html += "<br><br>";
-            
-            for(Map.Entry<String, StudentResultSummary> entry2 : studentResults.entrySet()){
-                html += entry2.getKey() + " "
-                     + entry2.getValue().claimedFromStudent + " "
-                     + entry2.getValue().claimedToInstructor + " "
-                     + entry2.getValue().perceivedToInstructor + " "
-                     + entry2.getValue().perceivedToStudent + "<br>";
+                html += "<br><br>";
+                
+                html +=  "<pre>" + teamResults.get(entry.getKey()).toString() + "</pre>";//.replace(Const.EOL, "<br>");
+                
+                html += "<br><br>";
+                
+                for(Map.Entry<String, StudentResultSummary> entry2 : studentResults.entrySet()){
+                    html += entry2.getKey() + " "
+                         + entry2.getValue().claimedFromStudent + " "
+                         + entry2.getValue().claimedToInstructor + " "
+                         + entry2.getValue().perceivedToInstructor + " "
+                         + entry2.getValue().perceivedToStudent + "<br>";
+                }
+                
             }
-            
         }*/
         
-        
-        //Check visibility of recipient
-        boolean hideRecipient = false;
-        List<String> hiddenRecipients = new ArrayList<String>();//List of recipients to hide
-        FeedbackParticipantType type = question.recipientType;
-        for(FeedbackResponseAttributes response : responses){
-            if (bundle.visibilityTable.get(response.getId())[1] == false &&
-                    type != FeedbackParticipantType.SELF &&
-                    type != FeedbackParticipantType.NONE) {
-                hiddenRecipients.add(response.recipientEmail);
-                hideRecipient = true;
-            }
+        TeamEvalResult currentUserTeamResults = teamResults.get(currentUserTeam);
+        if(currentUserTeamResults == null){
+            return "";
         }
+
+        int currentUserIndex = teamMembersEmail.get(currentUserTeam).indexOf(currentUserEmail);
+        int selfClaim = currentUserTeamResults.claimed[currentUserIndex][currentUserIndex];
+        int teamClaim = currentUserTeamResults.denormalizedAveragePerceived[currentUserIndex][currentUserIndex];
         
-        
-        String contribFragments = "";
-        
-        for(Map.Entry<String, StudentResultSummary> entry : studentResults.entrySet()){
-            StudentResultSummary summary = entry.getValue();
-            String email = entry.getKey();
-            String name = bundle.emailNameTable.get(email);
-            String team = bundle.emailTeamNameTable.get(email);
-            
-            List<String> teamEmails = teamMembersEmail.get(team);
-            TeamEvalResult teamResult = teamResults.get(team);
-            int studentIndx = teamEmails.indexOf(email);
-            
-            String displayName = name;
-            String displayTeam = team;
-            if(hideRecipient == true && hiddenRecipients.contains(email)){
-                String hash = Integer.toString(Math.abs(name.hashCode()));
-                displayName = type.toSingularFormString();
-                displayName = "Anonymous " + displayName + " " + hash;
-                displayTeam = displayName + Const.TEAM_OF_EMAIL_OWNER;
-            }
-            
-            int[] incomingPoints = new int[teamResult.normalizedPeerContributionRatio.length];
-            for(int i=0 ; i<incomingPoints.length ; i++){
-                incomingPoints[i] = teamResult.normalizedPeerContributionRatio[i][studentIndx];
-            }
-            
-            contribFragments += FeedbackQuestionFormTemplates.populateTemplate(
-                    FeedbackQuestionFormTemplates.CONTRIB_RESULT_STATS_FRAGMENT,
-                    "${studentTeam}", PageData.sanitizeForHtml(displayTeam),
-                    "${studentName}", PageData.sanitizeForHtml(displayName),
-                    
-                    "${CC}", InstructorEvalResultsPageData.getPointsAsColorizedHtml(summary.claimedToInstructor),
-                    "${PC}", InstructorEvalResultsPageData.getPointsAsColorizedHtml(summary.perceivedToInstructor),
-                    "${Diff}", InstructorEvalResultsPageData.getPointsDiffAsHtml(summary),
-                    "${RR}", getNormalizedPointsListColorizedDescending(incomingPoints, studentIndx),
-                    
-                    "${Const.ParamsNames.STUDENT_NAME}", Const.ParamsNames.STUDENT_NAME);
-        }
+        String contribAdditionalInfo = FeedbackQuestionFormTemplates.populateTemplate(
+                FeedbackQuestionFormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
+                "${questionNumber}", Integer.toString(question.questionNumber),
+                "${additionalInfoId}", "contributionInfo",
+                "${questionAdditionalInfo}", FeedbackQuestionFormTemplates.CONTRIB_RESULT_STATS_STUDENT_INFO);
         
         html += FeedbackQuestionFormTemplates.populateTemplate(
-                FeedbackQuestionFormTemplates.CONTRIB_RESULT_STATS,
-                "${contribFragments}", contribFragments,
-                "${Const.Tooltips.EVALUATION_POINTS_RECEIVED}", Const.Tooltips.EVALUATION_POINTS_RECEIVED,
-                "${Const.Tooltips.EVALUATION_DIFF}", Const.Tooltips.EVALUATION_DIFF);
+                FeedbackQuestionFormTemplates.CONTRIB_RESULT_STATS_STUDENT,
+                "${contribAdditionalInfo}", contribAdditionalInfo,
+                "${myViewOfMe}", getPointsAsColorizedHtml(selfClaim),
+                "${myViewOfOthers}", getNormalizedPointsListColorizedDescending(currentUserTeamResults.claimed[currentUserIndex], currentUserIndex),
+                "${teamViewOfMe}",getPointsAsColorizedHtml(teamClaim),
+                "${teamViewOfOthers}",getNormalizedPointsListColorizedDescending(currentUserTeamResults.denormalizedAveragePerceived[currentUserIndex], currentUserIndex));
 
-        
         return html;
     }
     
