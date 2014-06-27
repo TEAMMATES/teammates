@@ -102,6 +102,8 @@ public class FeedbackNumericalScaleQuestionDetails extends
         
         return FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
+                "${more}", "[more]",
+                "${less}", "[less]",
                 "${questionNumber}", Integer.toString(questionNumber),
                 "${additionalInfoId}", additionalInfoId,
                 "${questionAdditionalInfo}", additionalInfo);
@@ -110,8 +112,14 @@ public class FeedbackNumericalScaleQuestionDetails extends
     @Override
     public String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
+            AccountAttributes currentUser,
             FeedbackSessionResultsBundle bundle,
             String view) {
+        
+        if(view.equals("student")){
+            return "";
+        }
+        
         String html = "";
         double average = 0;
         double min = Integer.MAX_VALUE;

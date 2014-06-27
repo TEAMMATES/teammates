@@ -65,6 +65,7 @@ public class FeedbackTextQuestionDetails extends
     @Override
     public String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
+            AccountAttributes currentUser,
             FeedbackSessionResultsBundle bundle,
             String view) {
         @SuppressWarnings("unused")

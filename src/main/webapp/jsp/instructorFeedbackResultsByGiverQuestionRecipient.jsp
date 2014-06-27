@@ -118,7 +118,7 @@
                                     for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> teamResponseEntries : currentTeamResponses.entrySet()) {
                                         FeedbackQuestionAttributes question = questions.get(teamResponseEntries.getKey().getId());
                                         FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
-                                        String statsHtml = questionDetails.getQuestionResultStatisticsHtml(teamResponseEntries.getValue(), question, data.bundle, "giver-question-recipient");
+                                        String statsHtml = questionDetails.getQuestionResultStatisticsHtml(teamResponseEntries.getValue(), question, data.account, data.bundle, "giver-question-recipient");
                                         if(statsHtml != ""){
                                             numStatsShown++;
                                 %>
@@ -181,7 +181,7 @@
                             </div>
                             <div class="panel-body padding-0">
                                 <div class="resultStatistics">
-                                    <%=questionDetails.getQuestionResultStatisticsHtml(responseEntries, question, data.bundle, "giver-question-recipient")%>
+                                    <%=questionDetails.getQuestionResultStatisticsHtml(responseEntries, question, data.account, data.bundle, "giver-question-recipient")%>
                                 </div>
                                 <table class="table table-striped table-bordered dataTable margin-0">
                                     <thead class="background-color-medium-gray text-color-gray font-weight-normal">
