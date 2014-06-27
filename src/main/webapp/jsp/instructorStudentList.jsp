@@ -343,6 +343,11 @@
                                         <li role="presentation"><a role="menuitem" tabindex="-1" href="<%=data.getCourseStudentDetailsLink(courseDetails.course.id, student)
                                             +"&"+Const.ParamsNames.SHOW_COMMENT_BOX+"=team"%>">
                                             Comment on <%=PageData.sanitizeForHtml(teamDetails.name)%></a></li>
+                                        <% if(numSections != 0) { %>
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="<%=data.getCourseStudentDetailsLink(courseDetails.course.id, student)
+                                            +"&"+Const.ParamsNames.SHOW_COMMENT_BOX+"=section"%>">
+                                            Comment on <%=PageData.sanitizeForHtml(sectionDetails.name)%></a></li>
+                                        <% } %>
                                       </ul>
                                     </div>
                                 </td>

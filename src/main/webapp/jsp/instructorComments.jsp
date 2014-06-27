@@ -419,14 +419,13 @@
                                                             </td>
                                                         </tr>
                                                         <% } %>
-                                                        <% if(comment.recipientType != CommentRecipientType.COURSE
-                                                                && comment.showCommentTo.contains(CommentRecipientType.SECTION)){ %>
+                                                        <% if(comment.recipientType != CommentRecipientType.COURSE){ %>
                                                         <tr id="recipient-section<%=commentIdx%>">
                                                             <td class="text-left">
                                                                 <div data-toggle="tooltip"
                                                                     data-placement="top" title=""
-                                                                    data-original-title="Control what other students in the same section can view">
-                                                                    Recipient's Section</div>
+                                                                    data-original-title="Control what students in the same section can view">
+                                                                    <%=comment.recipientType == CommentRecipientType.SECTION? "Recipient Section" : "Recipient's Section" %></div>
                                                             </td>
                                                             <td><input
                                                                 class="visibilityCheckbox answerCheckbox"

@@ -41,7 +41,10 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 <script type="text/javascript">
-    var isShowCommentBox = <%=data.commentRecipient != null && (data.commentRecipient.equals("student") || data.commentRecipient.equals("team"))%>;
+    var isShowCommentBox = <%=data.commentRecipient != null 
+            && (data.commentRecipient.equals("student") 
+                    || data.commentRecipient.equals("team")
+                    || data.commentRecipient.equals("section"))%>;
     var commentRecipient = "<%=data.commentRecipient != null? data.commentRecipient: ""%>";
 </script>
 </head>
@@ -213,7 +216,7 @@
                                 <td class="text-left">
                                     <div data-toggle="tooltip"
                                         data-placement="top" title=""
-                                        data-original-title="Control what other students in the same section can view">
+                                        data-original-title="Control what students in the same section can view">
                                         Recipient's Section</div>
                                 </td>
                                 <td><input

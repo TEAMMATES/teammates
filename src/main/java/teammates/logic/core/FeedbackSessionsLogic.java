@@ -328,6 +328,17 @@ public class FeedbackSessionsLogic {
                 feedbackSessionName, courseId, userEmail,
                 UserType.Role.STUDENT, null);
     }
+    
+    /**
+     * Gets results of a feedback session to show to a student.
+     */
+    public FeedbackSessionResultsBundle getFeedbackSessionResultsForStudent(
+            String feedbackSessionName, String courseId, String userEmail, CourseRoster roster)
+            throws EntityDoesNotExistException {
+        return getFeedbackSessionResultsForUserInSectionByQuestions(
+                feedbackSessionName, courseId, userEmail,
+                UserType.Role.STUDENT, null, roster);
+    }
 
     public String getFeedbackSessionResultsSummaryAsCsv(
             String feedbackSessionName, String courseId, String userEmail)
@@ -797,19 +808,28 @@ public class FeedbackSessionsLogic {
 
         return details;
     }
-
+    
     /* Get the feedback results for user in a section iterated by questions */
     private FeedbackSessionResultsBundle getFeedbackSessionResultsForUserInSectionByQuestions(
             String feedbackSessionName, String courseId, String userEmail,
             UserType.Role role, String section)
             throws EntityDoesNotExistException {
-
         // Load details of students and instructors once and pass it to callee
         // methods
         // (rather than loading them many times).
         CourseRoster roster = new CourseRoster(
                 new StudentsDb().getStudentsForCourse(courseId),
                 new InstructorsDb().getInstructorsForCourse(courseId));
+        
+        return getFeedbackSessionResultsForUserInSectionByQuestions(
+                feedbackSessionName, courseId, userEmail, role, section, roster);
+    }
+
+    /* Get the feedback results for user in a section iterated by questions */
+    private FeedbackSessionResultsBundle getFeedbackSessionResultsForUserInSectionByQuestions(
+            String feedbackSessionName, String courseId, String userEmail,
+            UserType.Role role, String section, CourseRoster roster)
+            throws EntityDoesNotExistException {
 
         FeedbackSessionAttributes session = fsDb.getFeedbackSession(
                 courseId, feedbackSessionName);
