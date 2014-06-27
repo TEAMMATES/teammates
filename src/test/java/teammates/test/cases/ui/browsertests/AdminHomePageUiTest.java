@@ -28,7 +28,6 @@ import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.DevServerLoginPage;
 import teammates.test.pageobjects.GoogleLoginPage;
 import teammates.test.pageobjects.InstructorCourseJoinConfirmationPage;
-import teammates.test.pageobjects.InstructorHomePage;
 import teammates.test.pageobjects.LoginPage;
 
 /**
@@ -39,8 +38,6 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
     private static Browser browser;
     private static AdminHomePage homePage;
     private static InstructorCourseJoinConfirmationPage confirmationPage;
-    private static InstructorHomePage instructorHomePage;
-    private static LoginPage loginPage;
     
     
     @BeforeClass
@@ -118,73 +115,12 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         
         confirmationPage.logout();
         
-        
-        ______TS("action success : non-instructor account exists and the account is updated successfully after user's verification");
+        ______TS("action failure : invalid parameter");
         
         Url homeUrl = createUrl(Const.ActionURIs.ADMIN_HOME_PAGE);
         homePage = loginAdminToPage(browser, homeUrl, AdminHomePage.class);
         
-        BackDoor.createAccount(new AccountAttributes(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, 
-                                                     instructor.name, false,
-                                                     instructor.email, institute));
-       
-        BackDoor.deleteCourse(demoCourseId);
-        BackDoor.deleteInstructor(demoCourseId, instructor.email);
-        
-        homePage.createInstructor(shortName,instructor,institute).verifyStatus("Instructor AHPUiT Instrúctör has been successfully created");  
-        homePage.logout();
-        //verify the instructor and the demo course have been created
-        assertNotNull(BackDoor.getCourse(demoCourseId));
-        assertNotNull(BackDoor.getInstructorByEmail(instructor.email, demoCourseId));
-        
-        InstructorAttributes instructorData = new InstructorAttributes(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, 
-                                                                       demoCourseId, 
-                                                                       instructor.name, 
-                                                                       instructor.email,
-                                                                       Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER, 
-                                                                       "Instructor",
-                                                                       new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER));
-        BackDoor.createInstructor(instructorData);
-        //this will update the instructor's google id
-        
-        //get the joinURL which sent to the requester's email
-        joinActionUrl = TestProperties.inst().TEAMMATES_URL + Const.ActionURIs.INSTRUCTOR_COURSE_JOIN;
-      
-        joinLink = Url.addParamToUrl(joinActionUrl, Const.ParamsNames.REGKEY,
-                                            StringHelper.encrypt(BackDoor.getKeyForInstructor(demoCourseId, instructor.email)));
-       
-        joinLink = Url.addParamToUrl(joinLink, Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
-        
-        //simulate the user's verification here because it is added by admin 
-        
-        browser.driver.get(joinLink);        
-        loginPage = createCorrectLoginPageType(browser.driver.getPageSource());
-        
-        instructorHomePage = loginPage.loginAsJoiningInstructorByPassConfirmation(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT,
-                                                                                  TestProperties.inst().TEST_INSTRUCTOR_PASSWORD);
-        
-        
-        instructorHomePage.verifyContains("Instructor Home");
-
-        //check a account has been created for the requester successfully
-        assertNotNull(BackDoor.getAccount(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT));
-        //check the account has been updated to instructor successfully
-        assertTrue(BackDoor.getAccount(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT).isInstructor);
-        
-        BackDoor.deleteAccount(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);
-        BackDoor.deleteCourse(demoCourseId);
-        BackDoor.deleteInstructor(demoCourseId, instructor.email);
-     
-        confirmationPage.logout();
-       
-        
-        ______TS("action failure : invalid parameter");
-        
-        homeUrl = createUrl(Const.ActionURIs.ADMIN_HOME_PAGE);
-        homePage = loginAdminToPage(browser, homeUrl, AdminHomePage.class);
-        
-        instructor.email = "AHPUiT.email.com";
-        
+        instructor.email = "AHPUiT.email.com";        
         homePage.createInstructor(shortName,instructor,institute).verifyStatus(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, instructor.email, FieldValidator.REASON_INCORRECT_FORMAT));
       
         

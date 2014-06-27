@@ -63,7 +63,7 @@ public class AdminInstructorAccountAddAction extends Action {
                 + " has been successfully created");
         statusToAdmin = "A New Instructor <span class=\"bold\">"
                 + data.instructorName + "</span> has been created.<br>"
-                + "<span class=\"bold\">Id: </span>" + "Id will be assigned when the verification link was clicked and confirmed"
+                + "<span class=\"bold\">Id: </span>" + "ID will be assigned when the verification link was clicked and confirmed"
                 + "<br>"
                 + "<span class=\"bold\">Email: </span>" + data.instructorEmail
                 + "<span class=\"bold\">Institution: </span>"

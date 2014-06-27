@@ -54,9 +54,9 @@ public class InstructorCourseJoinAction extends Action {
         pageData.regkey = key;
         
         
-        //1.for instructors added by admin, institute is passed form the join link and should be passed
+        //1.For instructors added by admin, institute is passed from the join link and should be passed
         //to the confirmation page and later to authenticated action for account creation
-        //2.for instructors added by other instructors, institute is not passed from the link so the value 
+        //2.For instructors added by other instructors, institute is not passed from the link so the value 
         //will be null
         
         pageData.institute = institute;

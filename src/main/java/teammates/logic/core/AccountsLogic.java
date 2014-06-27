@@ -267,15 +267,8 @@ public class AccountsLogic {
         }
         AccountAttributes existingAccount = accountsDb.getAccount(googleId);
         if (existingAccount != null && existingAccount.isInstructor){
-            
-            String errorMsg = "";
-            if (institute != null) {
-                errorMsg = "You have already verified the account";
-            } else {
-                errorMsg = googleId + " has already joined this course";
-            }
-
-            throw new JoinCourseException(Const.StatusCodes.ALREADY_JOINED, errorMsg);
+            throw new JoinCourseException(Const.StatusCodes.ALREADY_JOINED, 
+                                          googleId + " has already joined this course");
         }
         
     }

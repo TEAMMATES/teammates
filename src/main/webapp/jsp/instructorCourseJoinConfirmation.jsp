@@ -3,8 +3,7 @@
 
 <%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.ui.controller.PageData"%>
-<%@ page
-    import="teammates.ui.controller.InstructorCourseJoinConfirmationPageData"%>
+<%@ page import="teammates.ui.controller.InstructorCourseJoinConfirmationPageData"%>
 <%
     InstructorCourseJoinConfirmationPageData data = (InstructorCourseJoinConfirmationPageData) request
             .getAttribute("data");
