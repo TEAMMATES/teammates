@@ -24,6 +24,10 @@ $(document).ready(function(){
             success : function(data) {
                 setTimeout(function(){
                     if (!data.isError) {
+                    	if($(location).attr('href').indexOf('instructorCommentsPage') != -1){
+                        	location.reload();
+                        }
+                    	
                         // Inject new comment row
                     	addFormRow.parent().attr("class", "list-group");
                         addFormRow.before(generateNewCommentRow(data));
@@ -32,15 +36,6 @@ $(document).ready(function(){
                         newCommentRow.find("form[class*='responseCommentDeleteForm'] > a").click(deleteCommentHandler);
                         addCount++;
                         newCommentRow.find("[data-toggle='tooltip']").tooltip({html: true});
-                        if($(location).attr('href').indexOf('instructorCommentsPage') != -1){
-                        	newCommentRow.find("a[type='button']").hide();
-                        	newCommentRow.hover(
-                        		function(){
-                    			$("a[type='button']", this).show();
-                    		}, function(){
-                    			$("a[type='button']", this).hide();
-                    		});
-                        }
                         
                         // Reset add comment form
                         formObject.find("textarea").prop("disabled", false);
@@ -83,6 +78,10 @@ $(document).ready(function(){
             success : function(data) {
                 setTimeout(function(){
                     if (!data.isError) {
+                    	if($(location).attr('href').indexOf('instructorCommentsPage') != -1){
+                        	location.reload();
+                        }
+                    	
                         // Update editted comment
                     	displayedText.html(data.comment.commentText.value);
                     	commentBar.show();
@@ -132,6 +131,10 @@ $(document).ready(function(){
             success : function(data) {
                 setTimeout(function(){
                     if (!data.isError) {
+                    	if($(location).attr('href').indexOf('instructorCommentsPage') != -1){
+                        	location.reload();
+                        }
+                    	
                     	var numberOfItemInFrCommentList = deletedCommentRow.parent().children('li');
                         if(numberOfItemInFrCommentList.length <= 2){
                         	deletedCommentRow.parent().hide();

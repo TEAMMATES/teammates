@@ -605,7 +605,11 @@ public abstract class AppPage {
                 .replaceAll("studentemail=([a-zA-Z0-9]){1,}\\&courseid=([a-zA-Z0-9]){1,}", 
                             "studentemail={*}\\&courseid={*}")
                 //questionid
-                .replaceAll("([a-zA-Z0-9-_]){63}","{*}")
+                .replaceAll("([a-zA-Z0-9-_]){62}","{*}")
+                //responseid
+                .replaceAll("([a-zA-Z0-9-_]){62}%"
+                        + "[\\w+-][\\w+!#$%&'*/=?^_`{}~-]*+(\\.[\\w+!#$%&'*/=?^_`{}~-]+)*+@([A-Za-z0-9-]+\\.)*[A-Za-z]+%"
+                        + "[\\w+-][\\w+!#$%&'*/=?^_`{}~-]*+(\\.[\\w+!#$%&'*/=?^_`{}~-]+)*+@([A-Za-z0-9-]+\\.)*[A-Za-z]+", "{*}")
                 //commentid
                 .replaceAll("\\\"([0-9]){16}\\\"", "\\\"{*}\\\"")
                 // the test accounts/ email
