@@ -529,4 +529,13 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
             return "";
     }
 
+    @Override
+    public String getQuestionResultStatisticsCsv(
+            List<FeedbackResponseAttributes> responses,
+            FeedbackQuestionAttributes question,
+            FeedbackSessionResultsBundle bundle) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

@@ -349,12 +349,20 @@ public class FeedbackSessionsLogic {
 
         for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry : results
                 .getQuestionResponseMap().entrySet()) {
-            FeedbackAbstractQuestionDetails questionDetails = entry.getKey()
-                    .getQuestionDetails();
+            FeedbackQuestionAttributes question = entry.getKey();
+            FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
 
             export += "Question " + Integer.toString(entry.getKey().questionNumber) + "," 
                     + Sanitizer.sanitizeForCsv(questionDetails.questionText)
                     + Const.EOL + Const.EOL;
+            
+            String statistics = questionDetails.getQuestionResultStatisticsCsv(entry.getValue(),
+                                        question, results);
+            if(statistics != ""){
+                export += "Summary Statistics," + Const.EOL;
+                
+            }
+            
             export += "Team" + "," + "Giver" + "," + "Recipient's Team" + ","
                     + "Recipient" + "," + questionDetails.getCsvHeader() + Const.EOL;
 
