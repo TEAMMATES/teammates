@@ -22,6 +22,7 @@ public class InstructorCourseArchiveAction extends Action {
         try {
             // Set the archive status and status shown to user and admin 
             logic.setArchiveStatusOfCourse(idOfCourseToArchive, setArchive);
+            logic.setArchiveStatusOfInstructor(account.googleId, idOfCourseToArchive, setArchive);
             if (setArchive) {
                 if (isRedirectedToHomePage()) {
                     statusToUser.add(String.format(Const.StatusMessages.COURSE_ARCHIVED_FROM_HOMEPAGE, idOfCourseToArchive));
