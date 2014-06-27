@@ -320,7 +320,45 @@ public class FeedbackMsqQuestionDetails extends FeedbackAbstractQuestionDetails 
             List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
             FeedbackSessionResultsBundle bundle) {
-        return "";
+        if(responses.size() == 0){
+            return "";
+        }
+        
+        String csv = "";
+        String fragments = "";
+        Map<String,Integer> answerFrequency = new LinkedHashMap<String,Integer>();
+        
+        for(String option : msqChoices){
+            answerFrequency.put(option, 0);
+        }
+        
+        int numChoicesSelected = 0;
+        for(FeedbackResponseAttributes response : responses){
+            List<String> answerStrings = ((FeedbackMsqResponseDetails)response.getResponseDetails()).getAnswerStrings();
+            for(String answerString : answerStrings){
+                numChoicesSelected++;
+                if(!answerFrequency.containsKey(answerString)){
+                    answerFrequency.put(answerString, 1);
+                } else {
+                    answerFrequency.put(answerString, answerFrequency.get(answerString)+1);
+                }
+            }
+        }
+        
+        DecimalFormat df = new DecimalFormat("#.##");
+        
+        for(Entry<String, Integer> entry : answerFrequency.entrySet() ){
+            fragments += entry.getKey() + ","
+                      + entry.getValue().toString() + ","
+                      + df.format(100*(double)entry.getValue()/numChoicesSelected) + Const.EOL;
+                    
+        }
+
+        csv += "Choice, Response Count, Percentage" + Const.EOL;
+        
+        csv += fragments + Const.EOL;
+        
+        return csv;
     }
 
     @Override

@@ -320,7 +320,60 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackAbstractQuestion
             List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
             FeedbackSessionResultsBundle bundle) {
-        return "";
+        if(responses.size() == 0){
+            return "";
+        }
+        
+        String csv = "";
+        String fragments = "";
+        List<String> options;
+        List<Integer> optionPoints = new ArrayList<Integer>();
+        Map<String, Integer[]> optionTotalCount = new LinkedHashMap<String, Integer[]>();
+                
+        if(distributeToRecipients){
+            for(FeedbackResponseAttributes response : responses){
+                FeedbackConstantSumResponseDetails frd = (FeedbackConstantSumResponseDetails)response.getResponseDetails(); 
+                String recipientEmail = response.recipientEmail;
+                String recipientName = bundle.getNameForEmail(recipientEmail);
+                Integer[] pointCount = optionTotalCount.get(recipientName);
+                if(pointCount == null){
+                    pointCount = new Integer[]{0,0};
+                }
+                pointCount[0] += frd.getAnswerList().get(0);
+                pointCount[1] += 1;
+                optionTotalCount.put(recipientName, pointCount);
+            }
+        } else {
+            options = constSumOptions;
+            for(int i=0 ; i<options.size() ; i++){
+                optionPoints.add(0);
+            }
+            
+            for(FeedbackResponseAttributes response : responses){
+                FeedbackConstantSumResponseDetails frd = (FeedbackConstantSumResponseDetails)response.getResponseDetails(); 
+                for(int i=0 ; i<frd.getAnswerList().size(); i++){
+                    optionPoints.set(i, optionPoints.get(i)+frd.getAnswerList().get(i));
+                }
+            }
+            
+            for(int i=0 ; i<options.size() ; i++){
+                optionTotalCount.put(options.get(i), new Integer[]{optionPoints.get(i),responses.size()});
+            }
+        }
+        
+        DecimalFormat df = new DecimalFormat("#.##");
+        
+        for(Entry<String, Integer[]> entry : optionTotalCount.entrySet() ){
+            double average = entry.getValue()[0]/entry.getValue()[1];
+            fragments += entry.getKey() + ","
+                      + df.format(average) + Const.EOL;
+        }
+        
+        csv += (distributeToRecipients? "Recipient":"Option") + ", Average Points" + Const.EOL; 
+        
+        csv += fragments + Const.EOL;
+        
+        return csv;
     }
 
     @Override

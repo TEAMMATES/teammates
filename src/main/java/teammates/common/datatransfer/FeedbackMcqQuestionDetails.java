@@ -315,8 +315,40 @@ public class FeedbackMcqQuestionDetails extends FeedbackAbstractQuestionDetails 
             List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
             FeedbackSessionResultsBundle bundle) {
+        if(responses.size() == 0){
+            return "";
+        }
         
-        return "";
+        String csv = "";
+        String fragments = "";
+        Map<String,Integer> answerFrequency = new LinkedHashMap<String,Integer>();
+        
+        for(String option : mcqChoices){
+            answerFrequency.put(option, 0);
+        }
+        
+        for(FeedbackResponseAttributes response : responses){
+            String answerString = response.getResponseDetails().getAnswerString();
+            if(!answerFrequency.containsKey(answerString)){
+                answerFrequency.put(answerString, 1);
+            } else {
+                answerFrequency.put(answerString, answerFrequency.get(answerString)+1);
+            }
+        }
+        
+        DecimalFormat df = new DecimalFormat("#.##");
+        
+        for(Entry<String, Integer> entry : answerFrequency.entrySet() ){
+            fragments += entry.getKey() + ","
+                      + entry.getValue().toString() + ","
+                      + df.format(100*(double)entry.getValue()/responses.size()) + Const.EOL;
+        }
+        
+        csv += "Choice, Response Count, Percentage" + Const.EOL;
+        
+        csv += fragments;
+        
+        return csv;
     }
     
     @Override
