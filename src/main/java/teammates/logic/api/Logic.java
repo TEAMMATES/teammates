@@ -1747,6 +1747,24 @@ public class Logic {
     
     /**
      * Gets a question+response bundle for questions with responses that
+     * is visible to the student for a feedback session.
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     */
+    public FeedbackSessionResultsBundle getFeedbackSessionResultsForStudent(
+            String feedbackSessionName, String courseId, String userEmail, CourseRoster roster)
+                    throws UnauthorizedAccessException, EntityDoesNotExistException {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, roster);
+        
+        return feedbackSessionsLogic.getFeedbackSessionResultsForStudent(
+                                        feedbackSessionName, courseId, userEmail, roster);
+    }
+    
+    /**
+     * Gets a question+response bundle for questions with responses that
      * is visible to the instructor for a feedback session.
      * Preconditions: <br>
      * * All parameters are non-null.
