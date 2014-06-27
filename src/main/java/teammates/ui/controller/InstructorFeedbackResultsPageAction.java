@@ -1,7 +1,5 @@
 package teammates.ui.controller;
 
-import java.util.Iterator;
-
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -12,6 +10,7 @@ import teammates.logic.api.GateKeeper;
 public class InstructorFeedbackResultsPageAction extends Action {
 
     private static final String ALL_SECTION_OPTION = "All";
+    public static int QUERY_RANGE = 500;
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
@@ -52,7 +51,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
 
         if (data.selectedSection.equals(ALL_SECTION_OPTION)) {
             data.bundle = logic.getFeedbackSessionResultsForInstructorWithinRange(
-                    feedbackSessionName, courseId, data.instructor.email, 5);
+                    feedbackSessionName, courseId, data.instructor.email, QUERY_RANGE);
         } else if (data.sortType.equals("question")) {
             data.bundle = logic
                     .getFeedbackSessionResultsForInstructorInSection(

@@ -74,8 +74,8 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
         this.sendingState = comment.getSendingState() != null? comment.getSendingState() : CommentSendingState.SENT;
         this.createdAt = comment.getCreatedAt();
         this.commentText = comment.getCommentText();
-        this.giverSection = comment.getGiverSection();
-        this.receiverSection = comment.getReceiverSection();
+        this.giverSection = comment.getGiverSection() != null ? comment.getGiverSection() : "None";
+        this.receiverSection = comment.getReceiverSection() != null ? comment.getReceiverSection() : "None";
     }
     
     public Long getId() {

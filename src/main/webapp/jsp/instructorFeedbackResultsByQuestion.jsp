@@ -138,7 +138,7 @@
             
             <% if(data.selectedSection.equals("All")){ %>
             <div class="panel panel-warning">
-                <div class="panel-heading ajax_response_rate_submit">
+                <div class="panel-heading<%= showAll ? "" : " ajax_response_rate_submit"%>">
                     <form style="display:none;" id="responseRate" class="responseRateForm" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_AJAX_RESPONSE_RATE%>">
                         <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID %>" value="<%=data.bundle.feedbackSession.courseId %>">
                         <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="<%=data.bundle.feedbackSession.feedbackSessionName %>">
@@ -169,8 +169,12 @@
                             %>
                             </tbody>
                         </table>
-                    
-                    <br> <br>
+                    </div>
+            <%
+                    } else {
+            %>
+                    <div class="panel-body">
+                        All students have responsed to some questions in this session.
                     </div>
             <%
                     }

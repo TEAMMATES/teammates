@@ -66,7 +66,7 @@ public class InstructorFeedbackResultsByRQGSeeMorePageAction extends Action {
             for(Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> currentResponseEntry : responseEntries.getValue().entrySet()){
                 FeedbackQuestionAttributes question = currentResponseEntry.getKey();
                 FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
-                String statsHtml = questionDetails.getQuestionResultStatisticsHtml(currentResponseEntry.getValue(), bundle);
+                String statsHtml = questionDetails.getQuestionResultStatisticsHtml(currentResponseEntry.getValue(), question, bundle, "recipient-question-giver");
                 questionStatsTable.put(question.getId(), statsHtml);
             }
             data.participantStats.put(participant, questionStatsTable);
@@ -80,7 +80,7 @@ public class InstructorFeedbackResultsByRQGSeeMorePageAction extends Action {
                 for(Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> currentTeamResponseEntry : teamResponseEntries.getValue().entrySet()){
                     FeedbackQuestionAttributes question = currentTeamResponseEntry.getKey();
                     FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
-                    String statsHtml = questionDetails.getQuestionResultStatisticsHtml(currentTeamResponseEntry.getValue(), bundle);
+                    String statsHtml = questionDetails.getQuestionResultStatisticsHtml(currentTeamResponseEntry.getValue(), question, bundle, "recipient-question-giver");
                     if(!statsHtml.equals("")){
                         questionStatsTable.put(question.getId(), statsHtml);
                     }

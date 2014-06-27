@@ -146,6 +146,8 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         
         frc.setCommentText(newAttributes.commentText);
         frc.setSendingState(newAttributes.sendingState);
+        frc.setGiverSection(newAttributes.giverSection);
+        frc.setReceiverSection(newAttributes.receiverSection);
         
         getPM().close();
     }
