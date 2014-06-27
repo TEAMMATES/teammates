@@ -309,7 +309,7 @@
                                         </div>
                                         <% if (!data.sectionNames.isEmpty()) { %>
                                             <% for (int j=0;j<data.sectionNames.size();j++) { %>
-                                            <div id="tunePermissionsDiv<%=j%>ForInstructor<%=index%>" style="display: none;">
+                                            <div id="tuneSectionPermissionsDiv<%=j%>ForInstructor<%=index%>" style="display: none;">
                                                 <div class="panel panel-info">
                                                     <div class="panel-heading col-sm-12">
                                                         <div class="col-sm-3">
@@ -318,7 +318,11 @@
                                                         <div class="col-sm-3 col-sm-offset-6">
                                                         <select name="section<%=j%>" id="section<%=j%>forinstructor<%=index%>" class="pull-right">
                                                             <% for (String sectionOptionName : data.sectionNames) { %>
-                                                            <option value="<%=sectionOptionName%>"><%=sectionOptionName%></option>
+                                                            <option value="<%=sectionOptionName%>"
+                                                            <% if (sectionOptionName.equals(data.sectionNames.get(j))) { %>
+                                                            selected
+                                                            <% } %>
+                                                            ><%=sectionOptionName%></option>
                                                             <% } %>
                                                         </select>
                                                         </div>
@@ -349,7 +353,7 @@
                                                             <%if (instructor.isAllowedForPrivilege(data.sectionNames.get(j), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS)) {%>
                                                                 checked="checked"
                                                             <%}%>
-                                                            /> Edit/Delete Others' Comments on Students<br>
+                                                            /> Edit/Delete Others' Comments on Students<br><br>
                                                         </div>
                                                         <div class="col-sm-5 col-sm-offset-1">
                                                             <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS + "section" + j%>"
@@ -369,8 +373,94 @@
                                                             <%if (instructor.isAllowedForPrivilege(data.sectionNames.get(j), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS)) {%>
                                                                 checked="checked"
                                                             <%}%>
-                                                            /> Sessions: Edit/Delete Responses/Comments by Others<br>
+                                                            /> Sessions: Edit/Delete Responses/Comments by Others<br><br>
                                                         </div>
+                                                        <% if (!data.evalNames.isEmpty() && !data.feedbackNames.isEmpty()) { %>
+                                                        <a href="javascript:;" onclick="toggleTuneSessionnPermissionsDiv(<%=index%>, <%=j%>)"
+                                                            id="toggleSessionLevelInSection<%=j%>ForInstructor<%=index%>"
+                                                            class="small col-sm-5">Configure session-level privileges</a>      
+                                                        <div id="tuneSessionPermissionsDiv<%=j%>ForInstructor<%=index%>" style="display: none;">
+                                                            <table class="table table-striped">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <td>SessionName</td>
+                                                                        <td>Submit Responses and Add Comments</td>
+                                                                        <td>View Responses and Comments</td>
+                                                                        <td>Edit/Delete Responses/Comments by Others</td>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <% for (String evalName : data.evalNames) { %>
+                                                                    <tr>
+                                                                        <td><%=evalName%></td>
+                                                                        <td class="align-center">
+                                                                            <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS 
+                                                                            + "section" + j + "feedback" + evalName%>" value="true"
+                                                                            <% if (instructor.isAllowedForPrivilege(data.sectionNames.get(j),
+                                                                            		Const.EVAL_PREFIX_FOR_INSTRUCTOR_PRIVILEGES+evalName,
+                                                                            		Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)) { %>
+                                                                            checked="checked"
+                                                                            <% } %>
+                                                                            />
+                                                                        </td>
+                                                                        <td class="align-center">
+                                                                            <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS
+                                                                            + "section" + j + "feedback" + evalName%>" value="true"
+                                                                            <% if (instructor.isAllowedForPrivilege(data.sectionNames.get(j),
+                                                                            		Const.EVAL_PREFIX_FOR_INSTRUCTOR_PRIVILEGES+evalName,
+                                                                            		Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)) { %>
+                                                                            checked="checked"
+                                                                            <% } %>
+                                                                            />
+                                                                        </td>
+                                                                        <td class="align-center">
+                                                                            <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS
+                                                                            + "section" + j + "feedback" + evalName%>" value="true"
+                                                                            <% if (instructor.isAllowedForPrivilege(data.sectionNames.get(j),
+                                                                            		Const.EVAL_PREFIX_FOR_INSTRUCTOR_PRIVILEGES+evalName,
+                                                                            		Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS)) { %>
+                                                                            checked="checked"
+                                                                            <% } %>
+                                                                            />
+                                                                        </td>
+                                                                    </tr>
+                                                                    <% } %>
+                                                                    <% for (String feedbackName : data.feedbackNames) { %>
+                                                                    <tr>
+                                                                        <td><%=feedbackName%></td>
+                                                                        <td class="align-center">
+                                                                            <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS 
+                                                                            + "section" + j + "feedback" + feedbackName%>" value="true"
+                                                                            <% if (instructor.isAllowedForPrivilege(data.sectionNames.get(j),
+                                                                                    feedbackName, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)) { %>
+                                                                            checked="checked"
+                                                                            <% } %>
+                                                                            />
+                                                                        </td>
+                                                                        <td class="align-center">
+                                                                            <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS
+                                                                            + "section" + j + "feedback" + feedbackName%>" value="true"
+                                                                            <% if (instructor.isAllowedForPrivilege(data.sectionNames.get(j),
+                                                                                    feedbackName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)) { %>
+                                                                            checked="checked"
+                                                                            <% } %>
+                                                                            />
+                                                                        </td>
+                                                                        <td class="align-center">
+                                                                            <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS
+                                                                            + "section" + j + "feedback" + feedbackName%>" value="true"
+                                                                            <% if (instructor.isAllowedForPrivilege(data.sectionNames.get(j),
+                                                                                    feedbackName, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS)) { %>
+                                                                            checked="checked"
+                                                                            <% } %>
+                                                                            />
+                                                                        </td>
+                                                                    </tr>
+                                                                    <% } %>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                        <% } %>
                                                     </div>
                                                 </div>
                                             </div>

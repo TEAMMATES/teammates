@@ -917,6 +917,8 @@ public class Const {
     public static final String DEFAULT_SORT_CRITERIA = SORT_BY_COURSE_CREATION_DATE;
 
     public static final String DEFAULT_SECTION = "None";
+    
+    public static final String EVAL_PREFIX_FOR_INSTRUCTOR_PRIVILEGES = "eval%";
     /* These constants are used as variable values to mean that the variable 
      * is in a 'special' state.
      */

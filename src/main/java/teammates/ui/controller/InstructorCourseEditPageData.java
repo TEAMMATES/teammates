@@ -19,6 +19,8 @@ public class InstructorCourseEditPageData extends PageData {
     public List<InstructorAttributes> instructorList;
     public InstructorAttributes currentInstructor;
     public List<String> sectionNames;
+    public List<String> evalNames;
+    public List<String> feedbackNames;
 
     public String getInstructorCourseInstructorEditLink(String courseId, String instructorId) {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_EDIT_SAVE;
