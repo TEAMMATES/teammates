@@ -344,7 +344,7 @@ public class FeedbackSessionsLogic {
         String export = "";
 
         export += "Course" + "," + Sanitizer.sanitizeForCsv(results.feedbackSession.courseId) + Const.EOL
-                + "Session Name" + "," + Sanitizer .sanitizeForCsv(results.feedbackSession.feedbackSessionName)
+                + "Session Name" + "," + Sanitizer.sanitizeForCsv(results.feedbackSession.feedbackSessionName)
                 + Const.EOL + Const.EOL + Const.EOL;
 
         for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry : results
@@ -360,7 +360,7 @@ public class FeedbackSessionsLogic {
                                         question, results);
             if(statistics != ""){
                 export += "Summary Statistics," + Const.EOL;
-                
+                export += statistics + Const.EOL;
             }
             
             export += "Team" + "," + "Giver" + "," + "Recipient's Team" + ","
