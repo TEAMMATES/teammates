@@ -96,6 +96,15 @@ public class FeedbackTextQuestionDetails extends
         return "";
     }
     
+
+    @Override
+    public String getQuestionResultStatisticsCsv(
+            List<FeedbackResponseAttributes> responses,
+            FeedbackQuestionAttributes question,
+            FeedbackSessionResultsBundle bundle) {
+        return "";
+    }
+    
     @Override
     public String getCsvHeader() {
         return "Feedback";
