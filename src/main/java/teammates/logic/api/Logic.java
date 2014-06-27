@@ -2066,10 +2066,28 @@ public class Logic {
      * @return a list of comments for the receiver.
      * @throws EntityDoesNotExistException
      */
-    public List<CommentAttributes> getCommentsForReceiver(String courseId, CommentRecipientType recipientType, String receiver) throws EntityDoesNotExistException{
+    public List<CommentAttributes> getCommentsForReceiver(String courseId,
+            CommentRecipientType recipientType, String receiver) throws EntityDoesNotExistException{
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, recipientType);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, receiver);
         return commentsLogic.getCommentsForReceiver(courseId, recipientType, receiver);
+    }
+    
+    /**
+     * Currently receiver is limited to students only
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     * @return a list of comments for the receiver.
+     * @throws EntityDoesNotExistException
+     */
+    public List<CommentAttributes> getCommentsForReceiver(String courseId, String giverEmail,
+            CommentRecipientType recipientType, String receiver) throws EntityDoesNotExistException{
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, giverEmail);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, recipientType);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, receiver);
+        return commentsLogic.getCommentsForReceiver(courseId, giverEmail, recipientType, receiver);
     }
     
     /**
