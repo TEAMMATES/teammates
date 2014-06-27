@@ -268,7 +268,7 @@ public class AccountsDb extends EntitiesDb {
         profileToUpdate.setNationality(newSpa.nationality);
         profileToUpdate.setGender(newSpa.gender);
         profileToUpdate.setMoreInfo(new Text(newSpa.moreInfo));
-        if (newSpa.pictureKey != "" && newSpa.pictureKey.equals(profileToUpdate.getPictureKey().getKeyString())) {
+        if (newSpa.pictureKey != "" && !newSpa.pictureKey.equals(profileToUpdate.getPictureKey().getKeyString())) {
             deletePicture(profileToUpdate.getPictureKey());
             profileToUpdate.setPictureKey(new BlobKey(newSpa.pictureKey));
         }

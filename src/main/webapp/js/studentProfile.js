@@ -5,26 +5,28 @@ $(function () {
 		}
 	});
 	
-	$(window).load(function() {		
-		$('#editableProfilePicture').Jcrop({
-			bgColor: 'transparent',
-			setSelect: [10, 10, 200, 200],
-			aspectRatio: 1,
-			bgOpacity: 0.4,
-			addClass: "inline-block",
-			boxWidth: 400,
-			boxHeight: 400,
-			onSelect: updateFormData,
-			onRelease: updateFormData
-		});
-		
-		$('#pictureWidth').val($('#editableProfilePicture').width());
-		$('#pictureHeight').val($('#editableProfilePicture').height());
-		
-		if($('#profilePic').attr('data-edit') == "true") {			
-			$('#studentPhotoUploader').modal({
-				show: true
+	$(window).load(function() {
+		if($('#editableProfilePicture').length != 0) {
+			$('#editableProfilePicture').Jcrop({
+				bgColor: 'transparent',
+				setSelect: [10, 10, 200, 200],
+				aspectRatio: 1,
+				bgOpacity: 0.4,
+				addClass: "inline-block",
+				boxWidth: 400,
+				boxHeight: 400,
+				onSelect: updateFormData,
+				onRelease: updateFormData
 			});
+			
+			$('#pictureWidth').val($('#editableProfilePicture').width());
+			$('#pictureHeight').val($('#editableProfilePicture').height());
+			
+			if($('#profilePic').attr('data-edit') == "true") {			
+				$('#studentPhotoUploader').modal({
+					show: true
+				});
+			}
 		}
 		
 	});

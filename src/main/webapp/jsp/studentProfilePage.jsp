@@ -10,8 +10,8 @@
     StudentProfilePageData data = (StudentProfilePageData) request.getAttribute("data");
     
     String pictureUrl = Const.ActionURIs.STUDENT_PROFILE_PICTURE + 
-            "?blob-key=" + data.account.studentProfile.pictureKey + 
-            "&user="+data.account.googleId;
+            "?"+Const.ParamsNames.BLOB_KEY+"=" + data.account.studentProfile.pictureKey + 
+            "&"+Const.ParamsNames.USER_ID+"="+data.account.googleId;
     if (data.account.studentProfile.pictureKey == "") {
     	pictureUrl = Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH;
     }
@@ -61,7 +61,10 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">Upload/Edit Photo <small>(Click on the picture to start editing)</small></h4>
+                        <h4 class="modal-title">
+                            Upload/Edit Photo 
+                            <small>(Use the selection in the photo to specify a crop)</small>
+                        </h4>
                     </div>
                     <div class="modal-body center-block align-center">
                         <br>
@@ -77,21 +80,27 @@
                                     </form>
                                 </div>
                             </div>
-                            <div class="col-xs-8 profile-pic-edit-col border-left-gray ">
-                                <div class="profile-pic-edit">
-                                    <img id="editableProfilePicture" src="<%=pictureUrl %>" /><br><br>
-                                    <label for="editableProfilePicture">Your Photo</label><br>
-                                </div>
-                                <form id="profilePictureEditForm" method="post" action="<%=Const.ActionURIs.STUDENT_PROFILE_PICTURE_EDIT %>">
-                                    <input id="pictureHeight" type="hidden" name="pictureheight" value="">
-                                    <input id="pictureWidth" type="hidden" name="picturewidth" value="">
-                                    <input id="cropBoxLeftX" type="hidden" name="cropboxleftx" value="">
-                                    <input id="cropBoxTopY" type="hidden" name="cropboxtopy" value="">
-                                    <input id="cropBoxRightX" type="hidden" name="cropboxrightx" value="">
-                                    <input id="cropBoxBottomY" type="hidden" name="cropboxbottomy" value="">
-                                    <input id="blobKey" type="hidden" name="<%=Const.ParamsNames.BLOB_KEY %>" value="<%=data.account.studentProfile.pictureKey %>">
-                                    <button type="button" class="btn btn-primary" onclick="finaliseEditPictureForm()">Save Edited Photo</button>
-                                </form>
+                            <div class="col-xs-8 profile-pic-edit-col border-left-gray">
+                                <% if (!pictureUrl.equals(Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH)) { %>
+                                    <div class="profile-pic-edit">
+                                        <img id="editableProfilePicture" src="<%=pictureUrl %>" /><br><br>
+                                        <label for="editableProfilePicture">Your Photo</label><br>
+                                    </div>
+                                    <form id="profilePictureEditForm" method="post" action="<%=Const.ActionURIs.STUDENT_PROFILE_PICTURE_EDIT %>">
+                                        <input id="pictureHeight" type="hidden" name="<%=Const.ParamsNames.PROFILE_PICTURE_WIDTH %>" value="">
+                                        <input id="pictureWidth" type="hidden" name="<%=Const.ParamsNames.PROFILE_PICTURE_WIDTH %>" value="">
+                                        <input id="cropBoxLeftX" type="hidden" name="<%=Const.ParamsNames.PROFILE_PICTURE_LEFTX %>" value="">
+                                        <input id="cropBoxTopY" type="hidden" name="<%=Const.ParamsNames.PROFILE_PICTURE_TOPY %>" value="">
+                                        <input id="cropBoxRightX" type="hidden" name="<%=Const.ParamsNames.PROFILE_PICTURE_RIGHTX %>" value="">
+                                        <input id="cropBoxBottomY" type="hidden" name="<%=Const.ParamsNames.PROFILE_PICTURE_BOTTOMY %>" value="">
+                                        <input id="blobKey" type="hidden" name="<%=Const.ParamsNames.BLOB_KEY %>" value="<%=data.account.studentProfile.pictureKey %>">
+                                        <button type="button" class="btn btn-primary" onclick="finaliseEditPictureForm()">Save Edited Photo</button>
+                                    </form>
+                                <% } else { %>
+                                    <div class="alert alert-warning">
+                                        Please upload a photo to start editing.
+                                    </div>
+                                <% } %>
                             </div>
                         </div>
                     </div>

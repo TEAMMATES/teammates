@@ -34,8 +34,8 @@ public class StudentProfilePictureEditAction extends Action {
         String topYString = getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_TOPY);
         String rightXString = getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_RIGHTX);
         String bottomYString = getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_BOTTOMY);
-        String height = getRequestParamValue("pictureheight");
-        String width = getRequestParamValue("picturewidth");
+        String height = getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_HEIGHT);
+        String width = getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_WIDTH);
         BlobKey blobKey = new BlobKey(getRequestParamValue(Const.ParamsNames.BLOB_KEY));
         
         if (leftXString.isEmpty() || topYString.isEmpty()
@@ -54,19 +54,23 @@ public class StudentProfilePictureEditAction extends Action {
             byte[] transformedImage = this.transformImage(leftXString, topYString, rightXString, 
                     bottomYString, height, width, blobKey);
             
-            GcsOutputChannel outputChannel =
-                    gcsService.createOrReplace(fileName, GcsFileOptions.getDefaultInstance());
-            
-            outputChannel.write(ByteBuffer.wrap(transformedImage));
-            outputChannel.close();
-            
-            BlobKey newPictureKey = BlobstoreServiceFactory.getBlobstoreService()
-                    .createGsBlobKey("/gs/"+Config.GCS_BUCKETNAME + "/" + account.googleId);
-            logic.updateStudentProfilePicture(account.googleId, newPictureKey.getKeyString());
+            if (!isError) {
+                GcsOutputChannel outputChannel =
+                        gcsService.createOrReplace(fileName, GcsFileOptions.getDefaultInstance());
+                
+                outputChannel.write(ByteBuffer.wrap(transformedImage));
+                outputChannel.close();
+                
+                String newPictureKey = BlobstoreServiceFactory.getBlobstoreService()
+                        .createGsBlobKey("/gs/"+Config.GCS_BUCKETNAME + "/" + account.googleId).getKeyString();
+                logic.updateStudentProfilePicture(account.googleId, newPictureKey);
+            }
         } catch (IOException e) {
             isError=true;
             statusToUser.add(Const.StatusMessages.STUDENT_PROFILE_PIC_SERVICE_DOWN);            
-            statusToAdmin = Const.ACTION_RESULT_FAILURE + " : Writing transformed image to file failed.";
+            statusToAdmin = Const.ACTION_RESULT_FAILURE 
+                    + " : Writing transformed image to file failed. Error: "
+                    + e.getMessage();
         }
         
         return createRedirectResult(Const.ActionURIs.STUDENT_PROFILE_PAGE);
@@ -85,13 +89,22 @@ public class StudentProfilePictureEditAction extends Action {
         ImagesService imagesService = ImagesServiceFactory.getImagesService();
         Image oldImage;
         
-        oldImage = ImagesServiceFactory.makeImageFromBlob(blobKey);
-        
-        Transform resize = ImagesServiceFactory.makeCrop(leftX, topY, rightX, bottomY);
-        OutputSettings settings = new OutputSettings(ImagesService.OutputEncoding.PNG);        
-        Image newImage = imagesService.applyTransform(resize, oldImage, settings);
+        try {
+            oldImage = ImagesServiceFactory.makeImageFromBlob(blobKey);
+            Transform resize = ImagesServiceFactory.makeCrop(leftX, topY, rightX, bottomY);
+            OutputSettings settings = new OutputSettings(ImagesService.OutputEncoding.PNG);        
+            Image newImage = imagesService.applyTransform(resize, oldImage, settings);
 
-        return  newImage.getImageData();
+            return  newImage.getImageData();
+        } catch (RuntimeException re) {
+            isError=true;
+            statusToUser.add(Const.StatusMessages.STUDENT_PROFILE_PICTURE_EDIT_FAILED);            
+            statusToAdmin = Const.ACTION_RESULT_FAILURE
+                    + " : Writing transformed image to file failed."
+                    + re.getMessage();
+        }
+        
+        return null;
     }
 
     private void validatePostParameters() {
@@ -103,10 +116,12 @@ public class StudentProfilePictureEditAction extends Action {
                 getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_RIGHTX));
         Assumption.assertPostParamNotNull(Const.ParamsNames.PROFILE_PICTURE_BOTTOMY, 
                 getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_BOTTOMY));
-        Assumption.assertPostParamNotNull("picturewidth", 
-                getRequestParamValue("picturewidth"));
-        Assumption.assertPostParamNotNull("pictureheight", 
-                getRequestParamValue("pictureheight"));
+        Assumption.assertPostParamNotNull(Const.ParamsNames.PROFILE_PICTURE_WIDTH, 
+                getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_WIDTH));
+        Assumption.assertPostParamNotNull(Const.ParamsNames.PROFILE_PICTURE_HEIGHT, 
+                getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_HEIGHT));
+        Assumption.assertPostParamNotNull(Const.ParamsNames.BLOB_KEY,
+                getRequestParamValue(Const.ParamsNames.BLOB_KEY));
     }
 
 }

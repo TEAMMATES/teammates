@@ -443,6 +443,8 @@ public class Const {
         public static final String PROFILE_PICTURE_TOPY = "cropboxtopy";
         public static final String PROFILE_PICTURE_RIGHTX = "cropboxrightx";
         public static final String PROFILE_PICTURE_BOTTOMY = "cropboxbottomy";
+        public static final String PROFILE_PICTURE_HEIGHT = "pictureheight";
+        public static final String PROFILE_PICTURE_WIDTH = "picturewidth";
     }
 
     public class ActionURIs{
@@ -836,6 +838,8 @@ public class Const {
         public static final String STUDENT_PROFILE_NO_PICTURE_GIVEN = "Please specify a file to be uploaded.";
         public static final String STUDENT_NOT_FOUND_FOR_RECORDS = "The student you tried to view records for does not exist.";
         public static final String STUDENT_NOT_JOINED_YET_FOR_RECORDS = "This student has not joined the course yet and hence has no profile to view";
+        public static final String STUDENT_PROFILE_PICTURE_EDIT_FAILED = "The photo that was edited did not belong to the user. "
+                + "Please upload another picture to begin editing";
     }
 
     /* These indicate status of an operation, but they are not shown to the user */
