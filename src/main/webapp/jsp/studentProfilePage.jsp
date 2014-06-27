@@ -108,6 +108,9 @@
                      title="<%=Const.Tooltips.STUDENT_PROFILE_PICTURE %>" data-toggle="tooltip" data-placement="top">
                     <img id="profilePic" src="<%=pictureUrl %>" class="profile-pic" data-toggle="modal" data-target="#studentPhotoUploader" data-edit="<%=data.editPicture %>" />
                 </div>
+                <div class="col-xs-offset-3">
+                    <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#studentPhotoUploader">Upload/Edit Photo</button>
+                </div>
             </div>
             <form class="form center-block" role="form" method="post"
                   action="<%=Const.ActionURIs.STUDENT_PROFILE_EDIT_SAVE %>">

@@ -88,9 +88,7 @@ public class StudentProfilePictureEditAction extends Action {
         oldImage = ImagesServiceFactory.makeImageFromBlob(blobKey);
         
         Transform resize = ImagesServiceFactory.makeCrop(leftX, topY, rightX, bottomY);
-        OutputSettings settings = new OutputSettings(ImagesService.OutputEncoding.PNG);
-        //settings.setQuality(100);
-        
+        OutputSettings settings = new OutputSettings(ImagesService.OutputEncoding.PNG);        
         Image newImage = imagesService.applyTransform(resize, oldImage, settings);
 
         return  newImage.getImageData();
