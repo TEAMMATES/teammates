@@ -45,7 +45,7 @@ public class InstructorAttributes extends EntityAttributes {
             String displayedName, String instructorPrivilegesAsText) {        
         this.googleId = Sanitizer.sanitizeGoogleId(googleId);
         this.courseId = Sanitizer.sanitizeTitle(courseId);
-        this.isArchived = Boolean.valueOf(false);
+        this.isArchived = false;
         this.name = Sanitizer.sanitizeName(name);
         this.email = Sanitizer.sanitizeEmail(email);
         this.role = Sanitizer.sanitizeName(role);
@@ -59,7 +59,7 @@ public class InstructorAttributes extends EntityAttributes {
             String displayedName, InstructorPrivileges privileges) {        
         this.googleId = Sanitizer.sanitizeGoogleId(googleId);
         this.courseId = Sanitizer.sanitizeTitle(courseId);
-        this.isArchived = Boolean.valueOf(false);
+        this.isArchived = false;
         this.name = Sanitizer.sanitizeName(name);
         this.email = Sanitizer.sanitizeEmail(email);
         this.role = Sanitizer.sanitizeName(role);
@@ -73,7 +73,7 @@ public class InstructorAttributes extends EntityAttributes {
             boolean isDisplayedToStudents, String displayName, InstructorPrivileges privileges) {
         this(googleId, courseId, name, email, role, displayName, privileges);
         this.isDisplayedToStudents = isDisplayedToStudents;
-        this.isArchived = Boolean.valueOf(false);
+        this.isArchived = false;
     }
     
     public InstructorAttributes(Instructor instructor) {

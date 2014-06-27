@@ -95,7 +95,7 @@ public class InstructorCourseInstructorAddAction extends Action {
         
         instructorToAdd.instructorPrivilegesAsText = instructorToAdd.getTextFromInstructorPrivileges();
         
-        instructorToAdd.isArchived = Boolean.valueOf(false);
+        instructorToAdd.isArchived = false;
         return instructorToAdd;
     }
 
