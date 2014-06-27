@@ -111,9 +111,11 @@ public class InstructorFeedbackQuestionAddAction extends Action {
                                     newQuestion.giverType, FeedbackParticipantType.STUDENTS);
             Assumption.assertEquals("Contrib qn recipient type invalid: " + newQuestion.recipientType.toString(),
                                     newQuestion.recipientType, FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF);
-            Assumption.assertTrue((newQuestion.showResponsesTo.contains(FeedbackParticipantType.RECEIVER)
-                                == newQuestion.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
-                                == newQuestion.showResponsesTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS)));
+            Assumption.assertTrue(
+                    (newQuestion.showResponsesTo.contains(FeedbackParticipantType.RECEIVER)
+                    == newQuestion.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS) &&
+                    (newQuestion.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
+                    == newQuestion.showResponsesTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS))));
         }
 
         return newQuestion;
