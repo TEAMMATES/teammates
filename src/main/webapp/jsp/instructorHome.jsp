@@ -72,7 +72,7 @@
         <br>
         <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
         
-        <div class="row">
+        <div class="row<%=data.courses.size() < 2 ? " hidden" : "" %>">
             <div class="col-md-5 pull-right">
                 <div class="row">
                     <div class="col-md-3 btn-group">
