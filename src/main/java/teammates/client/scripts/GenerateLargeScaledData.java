@@ -35,31 +35,33 @@ public class GenerateLargeScaledData extends RemoteApiClient{
         DataBundle largeScaleBundle = loadDataBundle("/largeScaleTest.json");
         
         try{
+            /*
             // Create students
             for(StudentAttributes student : largeScaleBundle.students.values()){
                 logic.createStudent(student);
                 logger.info("Create student " + student.name);
             }
-            
+            */
+            /*
             // Create question
             for(FeedbackQuestionAttributes question : largeScaleBundle.feedbackQuestions.values()){
                 logic.createFeedbackQuestion(question);
                 logger.info("Create question " + question.questionNumber);
             }
-            
+            */
             // Create responses
             int index = 0;
             for(FeedbackResponseAttributes response : largeScaleBundle.feedbackResponses.values()){
                 logic.createFeedbackResponse(response);
-                logger.info("Create response " + index++);
             }
-            
+            /*
             // Create comments
             index = 0;
             for(FeedbackResponseCommentAttributes comment : largeScaleBundle.feedbackResponseComments.values()){
                 logic.createFeedbackResponseComment(comment);
                 logger.info("Create comment " + index++);
             }
+            */
         } catch (Exception e){
             e.printStackTrace();
         }

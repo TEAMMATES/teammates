@@ -1775,15 +1775,16 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorWithinRange(
-            String feedbackSessionName, String courseId, String userEmail, long range)
+    public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorWithinRangeFromView(
+            String feedbackSessionName, String courseId, String userEmail, long range, String viewType)
                     throws UnauthorizedAccessException, EntityDoesNotExistException{
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, viewType);
        
-        return feedbackSessionsLogic.getFeedbackSessionResultsForInstructorWithinRange(
-                                        feedbackSessionName, courseId, userEmail, range);
+        return feedbackSessionsLogic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
+                                        feedbackSessionName, courseId, userEmail, range, viewType);
     }
     
     /**
@@ -1792,16 +1793,17 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorInSectionWithinRange(
+    public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorInSectionWithinRangeFromView(
             String feedbackSessionName, String courseId, String userEmail,
-            String section, long range)
+            String section, long range, String viewType)
             throws UnauthorizedAccessException, EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
-
-        return feedbackSessionsLogic.getFeedbackSessionResultsForInstructorInSectionWithinRange(
-                        feedbackSessionName, courseId, userEmail, section, range);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, viewType);
+        
+        return feedbackSessionsLogic.getFeedbackSessionResultsForInstructorInSectionWithinRangeFromView(
+                        feedbackSessionName, courseId, userEmail, section, range, viewType);
     }
     
     /**

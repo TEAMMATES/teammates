@@ -50,13 +50,6 @@ public class InstructorFeedbackResultsByRQGSeeMorePageAction extends Action {
             FeedbackResponseAttributes response = iterResponse.next();
             FeedbackQuestionAttributes question = bundle.questions.get(response.feedbackQuestionId);
             data.answer.put(response.getId(), response.getResponseDetails().getAnswerHtml(question.getQuestionDetails()));
-            if ((!instructor.isAllowedForPrivilege(response.giverSection,
-                    response.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS))
-                    || !(instructor.isAllowedForPrivilege(response.recipientSection,
-                            response.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS))) {
-                bundle.responseComments.remove(response.getId());
-                iterResponse.remove();
-            }
         }
         data.responses = bundle.getResponsesSortedByRecipientQuestionGiver(groupByTeamEnabled);
         
@@ -117,6 +110,8 @@ public class InstructorFeedbackResultsByRQGSeeMorePageAction extends Action {
         }
 
         data.emailTeamNameTable = bundle.emailTeamNameTable;
+        
+        log.info("TEST 4");
         
         return createAjaxResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION, data);
     }

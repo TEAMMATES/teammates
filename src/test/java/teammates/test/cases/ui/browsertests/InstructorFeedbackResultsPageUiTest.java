@@ -17,6 +17,7 @@ import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
+import teammates.ui.controller.InstructorFeedbackResultsPageAction;
 
 /**
  * Tests 'Feedback Results' view of instructors.
@@ -32,7 +33,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
     @BeforeClass
     public static void classSetup() throws Exception {
         printTestClassHeader();
-        testData = loadDataBundle("/InstructorFeedbackResultsPageUiTest.json");
+        testData = loadDataBundle("/largeScaleTest.json");
         restoreTestDataOnServer(testData);
 
         browser = BrowserPool.getBrowser();        
@@ -126,7 +127,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortGiverQuestionRecipientTeam.html");
         
         resultsPage.displayByRecipientQuestionGiver();
-        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortRecipientQuestionGiverTeam.html");
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortRecipientQuestionGiverTeaminstructorFeedbackResultsSortRecipientQuestionGiverTeam.html");
         
         
         //By question
@@ -339,6 +340,52 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         editPage.verifyContains("Edit Feedback Session");
         editPage.verifyContains("CFResultsUiT.CS2104");
         editPage.verifyContains("First Session");
+    }
+    
+    public void testAjaxForLargeScaledSession() {
+        
+        InstructorFeedbackResultsPageAction.setQueryRangeForAjaxTesting();
+        
+        ______TS("Ajax for view by questions");
+        
+        resultsPage = loginToInstructorFeedbackSubmitPage("CFResultsUiT.instr", "Open Session", NO_STATUS_MESSAGE);
+        resultsPage.displayByQuestion();
+        
+        resultsPage.clickAjaxPanel(0);
+        resultsPage.verifyHtmlAjax("/instructorFeedbackResultsAjaxByQuestion.html");
+        
+        
+        ______TS("Ajax for view by giver > recipient > question");
+        
+        resultsPage.displayByGiverRecipientQuestion();
+        
+        resultsPage.clickAjaxPanel(0);
+        resultsPage.verifyHtmlAjax("/instructorFeedbackResultsAjaxByGRQ.html");
+        
+        ______TS("Ajax for view by giver > question > recipient");
+        
+        resultsPage.displayByGiverQuestionRecipient();
+        
+        resultsPage.clickAjaxPanel(0);
+        resultsPage.verifyHtmlAjax("/instructorFeedbackResultsAjaxByGQR.html");
+        
+        
+        
+        ______TS("Ajax for view by recipient > question > giver");
+        
+        resultsPage.displayByGiverQuestionRecipient();
+        
+        resultsPage.clickAjaxPanel(0);
+        resultsPage.verifyHtmlAjax("/instructorFeedbackResultsAjaxByGQR.html");
+        
+        ______TS("Ajax for view by recipient > giver > question");
+        
+        resultsPage.displayByGiverQuestionRecipient();
+        
+        resultsPage.clickAjaxPanel(0);
+        resultsPage.verifyHtmlAjax("/instructorFeedbackResultsAjaxByGQR.html");
+        
+        InstructorFeedbackResultsPageAction.restoreQueryRange();
     }
 
     @AfterClass

@@ -4,6 +4,8 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.fail;
 
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
@@ -220,5 +222,11 @@ public class InstructorFeedbackResultsPage extends AppPage {
         } catch (NoSuchElementException e) {
             // row expected to be missing
         }
+    }
+    
+    public void clickAjaxPanel(int index){
+        List<WebElement> ajaxPanels = browser.driver.findElements(By.cssSelector(".ajax_submit"));
+        ajaxPanels.get(index).click();
+        ThreadHelper.waitFor(3000);
     }
 }

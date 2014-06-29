@@ -155,7 +155,7 @@
 
             <% 
                 if(currentSection != null && !firstResponse.giverSection.equals(currentSection)){
-                    currentSection = firstResponse.giverSection;
+                    currentSection = firstResponse.recipientSection;
                     newSection = true;
             %>
                     </div>
@@ -166,7 +166,7 @@
             %>
 
             <% if(currentSection == null || newSection == true){
-                    currentSection = firstResponse.giverSection;
+                    currentSection = firstResponse.recipientSection;
                     newSection = false;
                     sectionIndex++;
             %>
