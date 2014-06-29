@@ -34,6 +34,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         testData = loadDataBundle("/StudentProfilePageUiTest.json");
         restoreTestDataOnServer(testData);
         browser = BrowserPool.getBrowser();
+        System.setProperty("godmode", "true");
     }
     
     @Test
