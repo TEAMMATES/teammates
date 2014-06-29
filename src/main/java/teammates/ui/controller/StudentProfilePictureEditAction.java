@@ -5,6 +5,7 @@ import java.nio.ByteBuffer;
 
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
+import com.google.appengine.api.images.CompositeTransform;
 import com.google.appengine.api.images.Image;
 import com.google.appengine.api.images.ImagesService;
 import com.google.appengine.api.images.ImagesServiceFactory;
@@ -91,9 +92,17 @@ public class StudentProfilePictureEditAction extends Action {
         
         try {
             oldImage = ImagesServiceFactory.makeImageFromBlob(blobKey);
-            Transform resize = ImagesServiceFactory.makeCrop(leftX, topY, rightX, bottomY);
+            
+            Transform crop = ImagesServiceFactory.makeCrop(leftX, topY, rightX, bottomY);
+            Transform resize = ImagesServiceFactory.makeResize(150, 150);
+            
+            CompositeTransform finalTransform = ImagesServiceFactory
+                    .makeCompositeTransform()
+                    .concatenate(crop)
+                    .concatenate(resize);
+            
             OutputSettings settings = new OutputSettings(ImagesService.OutputEncoding.PNG);        
-            Image newImage = imagesService.applyTransform(resize, oldImage, settings);
+            Image newImage = imagesService.applyTransform(finalTransform, oldImage, settings);
 
             return  newImage.getImageData();
         } catch (RuntimeException re) {

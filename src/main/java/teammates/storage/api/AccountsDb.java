@@ -140,8 +140,9 @@ public class AccountsDb extends EntitiesDb {
         // if the student profile has changed then update the store
         // this is to maintain integrity of the modified date.
         if (updateStudentProfile) {
-            String existingProfile = new StudentProfileAttributes(accountToUpdate.getStudentProfile()).toString();
-            if(!(existingProfile.equals(a.studentProfile.toString()))) {
+            StudentProfileAttributes existingProfile = new StudentProfileAttributes(accountToUpdate.getStudentProfile());
+            a.studentProfile.modifiedDate = existingProfile.modifiedDate;
+            if(!(existingProfile.toString().equals(a.studentProfile.toString()))) {
                 accountToUpdate.setStudentProfile((StudentProfile) a.studentProfile.toEntity());
             }
         }
@@ -230,7 +231,8 @@ public class AccountsDb extends EntitiesDb {
     public StudentProfileAttributes getStudentProfile(String accountGoogleId) {        
         StudentProfile sp = getStudentProfileEntity(accountGoogleId);
         
-        if (sp == null || JDOHelper.isDeleted(sp)) {
+        if (sp == null 
+                || JDOHelper.isDeleted(sp)) {
             return null;
         }
 
@@ -256,10 +258,16 @@ public class AccountsDb extends EntitiesDb {
         
         StudentProfile profileToUpdate = getStudentProfileEntity(newSpa.googleId);
         
-        if (profileToUpdate == null || JDOHelper.isDeleted(profileToUpdate)) {
+        if (profileToUpdate == null 
+                || JDOHelper.isDeleted(profileToUpdate)) {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_STUDENT_PROFILE + newSpa.googleId
                     + ThreadHelper.getCurrentThreadStack());
         }
+        
+        // return if no changes have been made
+        StudentProfileAttributes existingProfile = new StudentProfileAttributes(profileToUpdate);
+        newSpa.modifiedDate = existingProfile.modifiedDate;
+        if(existingProfile.toString().equals(newSpa.toString())) return;
 
         newSpa.sanitizeForSaving();
         profileToUpdate.setShortName(newSpa.shortName);
@@ -268,8 +276,11 @@ public class AccountsDb extends EntitiesDb {
         profileToUpdate.setNationality(newSpa.nationality);
         profileToUpdate.setGender(newSpa.gender);
         profileToUpdate.setMoreInfo(new Text(newSpa.moreInfo));
-        if (newSpa.pictureKey != "" && !newSpa.pictureKey.equals(profileToUpdate.getPictureKey().getKeyString())) {
-            deletePicture(profileToUpdate.getPictureKey());
+        if (!newSpa.pictureKey.isEmpty() 
+                && !newSpa.pictureKey.equals(profileToUpdate.getPictureKey().getKeyString())) {
+            if (! profileToUpdate.getPictureKey().equals(new BlobKey(""))) {
+                deletePicture(profileToUpdate.getPictureKey());
+            }
             profileToUpdate.setPictureKey(new BlobKey(newSpa.pictureKey));
         }
         
@@ -286,16 +297,18 @@ public class AccountsDb extends EntitiesDb {
         
         StudentProfile profileToUpdate = getStudentProfileEntity(googleId);
         
-        if (profileToUpdate == null || JDOHelper.isDeleted(profileToUpdate)) {
+        if (profileToUpdate == null 
+                || JDOHelper.isDeleted(profileToUpdate)) {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_STUDENT_PROFILE + googleId
                     + ThreadHelper.getCurrentThreadStack());
         }
         
-        boolean keyNotEmpty = !newPictureKey.isEmpty();
         boolean newKeyGiven = !newPictureKey.equals(profileToUpdate.getPictureKey().getKeyString());
         
-        if (keyNotEmpty && newKeyGiven) {
-            deletePicture(profileToUpdate.getPictureKey());
+        if (newKeyGiven) {
+            if (!profileToUpdate.getPictureKey().equals(new BlobKey(""))) {
+                deletePicture(profileToUpdate.getPictureKey());
+            }
             profileToUpdate.setPictureKey(new BlobKey(newPictureKey));
         }
         
