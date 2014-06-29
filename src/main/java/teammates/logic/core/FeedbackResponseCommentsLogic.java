@@ -1,9 +1,11 @@
 package teammates.logic.core;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
+import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -55,6 +57,10 @@ public class FeedbackResponseCommentsLogic {
         }
     }
     
+    public FeedbackResponseCommentAttributes getFeedbackResponseComment(Long feedbackResponseCommentId) {
+        return frcDb.getFeedbackResponseComment(feedbackResponseCommentId);
+    }
+    
     public FeedbackResponseCommentAttributes getFeedbackResponseComment(
             String responseId, String giverEmail, Date creationDate) {
         return frcDb.getFeedbackResponseComment(responseId, giverEmail, creationDate);
@@ -68,6 +74,32 @@ public class FeedbackResponseCommentsLogic {
     public void updateFeedbackResponseComment(
             FeedbackResponseCommentAttributes feedbackResponseComment) throws InvalidParametersException, EntityDoesNotExistException {
         frcDb.updateFeedbackResponseComment(feedbackResponseComment);    
+    }
+    
+    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForSendingState(String courseId, CommentSendingState state) 
+            throws EntityDoesNotExistException{
+        verifyIsCoursePresent(courseId);
+        
+        List<FeedbackResponseCommentAttributes> frcList = new ArrayList<FeedbackResponseCommentAttributes>();
+        List<FeedbackSessionAttributes> feedbackSessions = fsLogic.getFeedbackSessionsForCourse(courseId);
+        for(FeedbackSessionAttributes fs:feedbackSessions){
+            if(fs.isPublished()){
+                frcList = frcDb.getFeedbackResponseCommentsForSendingState(courseId, fs.feedbackSessionName, state);
+            }
+        }
+        return frcList;
+    }
+    
+    public void updateFeedbackResponseComments(
+            String courseId, CommentSendingState oldState, CommentSendingState newState) throws EntityDoesNotExistException {
+        verifyIsCoursePresent(courseId);
+        
+        List<FeedbackSessionAttributes> feedbackSessions = fsLogic.getFeedbackSessionsForCourse(courseId);
+        for(FeedbackSessionAttributes fs:feedbackSessions){
+            if(fs.isPublished()){
+                frcDb.updateFeedbackResponseComments(courseId, fs.feedbackSessionName, oldState, newState);    
+            }
+        }
     }
     
     public void deleteFeedbackResponseComment(

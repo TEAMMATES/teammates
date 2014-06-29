@@ -2,11 +2,13 @@ package teammates.ui.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 import teammates.common.datatransfer.CommentAttributes;
+import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
@@ -34,6 +36,7 @@ public class InstructorCommentsPageAction extends Action {
     private String previousPageLink = "javascript:;";
     private String nextPageLink = "javascript:;";
     private InstructorAttributes instructor;
+    private int numberOfPendingComments = 0;
     
     @Override
     public ActionResult execute() throws EntityDoesNotExistException {
@@ -55,6 +58,13 @@ public class InstructorCommentsPageAction extends Action {
         List<String> coursePaginationList = new ArrayList<String>(); 
         String courseName = getCoursePaginationList(coursePaginationList);
         
+        data = new InstructorCommentsPageData(account);
+        data.isViewingDraft = isViewingDraft;
+        data.currentInstructor = instructor;
+        data.isDisplayArchive = isDisplayArchivedCourse;
+        data.courseId = courseId;
+        data.courseName = courseName;
+        
         CourseRoster roster = null;
         Map<String, List<CommentAttributes>> giverEmailToCommentsMap = new HashMap<String, List<CommentAttributes>>();
         Map<String, FeedbackSessionResultsBundle> feedbackResultBundles = new HashMap<String, FeedbackSessionResultsBundle>();
@@ -69,11 +79,6 @@ public class InstructorCommentsPageAction extends Action {
             feedbackResultBundles = getFeedbackResultBundles(roster);
         }
         
-        data = new InstructorCommentsPageData(account);
-        data.isViewingDraft = isViewingDraft;
-        data.isDisplayArchive = isDisplayArchivedCourse;
-        data.courseId = courseId;
-        data.courseName = courseName;
         data.coursePaginationList = coursePaginationList;
         data.comments = giverEmailToCommentsMap;
         data.roster = roster;
@@ -81,6 +86,7 @@ public class InstructorCommentsPageAction extends Action {
         data.instructorEmail = instructor != null? instructor.email : "no-email";
         data.previousPageLink = previousPageLink;
         data.nextPageLink = nextPageLink;
+        data.numberOfPendingComments = numberOfPendingComments;
         
         statusToAdmin = "instructorComments Page Load<br>" + 
                 "Viewing <span class=\"bold\">" + account.googleId + "'s</span> comment records " +
@@ -165,20 +171,36 @@ public class InstructorCommentsPageAction extends Action {
         //group data by recipients
         Map<String, List<CommentAttributes>> giverEmailToCommentsMap = new TreeMap<String, List<CommentAttributes>>();
         for(CommentAttributes comment : comments){
-            String key = comment.giverEmail.equals(instructor.email)? InstructorCommentsPageData.COMMENT_GIVER_NAME_THAT_COMES_FIRST: comment.giverEmail;
+            boolean isCurrentInstructorGiver = comment.giverEmail.equals(instructor.email);
+            String key = isCurrentInstructorGiver? 
+                    InstructorCommentsPageData.COMMENT_GIVER_NAME_THAT_COMES_FIRST: comment.giverEmail;
+            if(comment.sendingState == CommentSendingState.PENDING){
+                numberOfPendingComments++;
+            }
+
             List<CommentAttributes> commentList = giverEmailToCommentsMap.get(key);
-            if(commentList == null){
+            if (commentList == null) {
                 commentList = new ArrayList<CommentAttributes>();
                 giverEmailToCommentsMap.put(key, commentList);
             }
-            commentList.add(comment);
+            updateCommentList(comment, isCurrentInstructorGiver, commentList);
         }
-        //TODO: sort the recipient by their newest comment
+        
         //sort comments by created date
         for(List<CommentAttributes> commentList : giverEmailToCommentsMap.values()){
             java.util.Collections.sort(commentList);
         }
         return giverEmailToCommentsMap;
+    }
+
+    private void updateCommentList(CommentAttributes comment, boolean isCurrentInstructorGiver, List<CommentAttributes> commentList) {
+        if (!isViewingDraft && !isCurrentInstructorGiver) { 
+            if (data.isInstructorAllowedForPrivilegeOnComment(comment, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS)) {
+                commentList.add(comment);
+            }
+        } else {
+            commentList.add(comment);
+        }
     }
 
     private Map<String, FeedbackSessionResultsBundle> getFeedbackResultBundles(CourseRoster roster)
@@ -189,9 +211,10 @@ public class InstructorCommentsPageAction extends Action {
             for(FeedbackSessionAttributes fs : fsList){
                 FeedbackSessionResultsBundle bundle = 
                         logic.getFeedbackSessionResultsForInstructor(
-                                fs.feedbackSessionName, courseId, account.email, roster, !IS_INCLUDE_RESPONSE_STATUS);
+                                fs.feedbackSessionName, courseId, instructor.email, roster, !IS_INCLUDE_RESPONSE_STATUS);
                 if(bundle != null){
                     removeQuestionsAndResponsesWithoutFeedbackResponseComment(bundle);
+                    removeQuestionsAndResponsesIfNotAllowed(bundle);
                     if(bundle.questions.size() != 0){
                         feedbackResultBundles.put(fs.feedbackSessionName, bundle);
                     }
@@ -201,12 +224,31 @@ public class InstructorCommentsPageAction extends Action {
         return feedbackResultBundles;
     }
 
+    private void removeQuestionsAndResponsesIfNotAllowed(FeedbackSessionResultsBundle bundle) {
+        Iterator<FeedbackResponseAttributes> iter = bundle.responses.iterator();
+        while (iter.hasNext()) {
+            FeedbackResponseAttributes fdr = iter.next();
+            if (!(data.currentInstructor != null &&
+                    data.currentInstructor.isAllowedForPrivilege(fdr.giverSection, 
+                            fdr.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)
+                    && data.currentInstructor.isAllowedForPrivilege(fdr.recipientSection, 
+                            fdr.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS))) {
+                iter.remove();
+            }
+        }
+    }
+
     private void removeQuestionsAndResponsesWithoutFeedbackResponseComment(FeedbackSessionResultsBundle bundle) {
         List<FeedbackResponseAttributes> responsesWithFeedbackResponseComment = new ArrayList<FeedbackResponseAttributes>();
         for(FeedbackResponseAttributes fr: bundle.responses){
             List<FeedbackResponseCommentAttributes> frComment = bundle.responseComments.get(fr.getId());
             if(frComment != null && frComment.size() != 0){
                 responsesWithFeedbackResponseComment.add(fr);
+                for(FeedbackResponseCommentAttributes frc: frComment){
+                    if(frc.sendingState == CommentSendingState.PENDING && bundle.feedbackSession.isPublished()){
+                        numberOfPendingComments++;
+                    }
+                }
             }
         }
         Map<String, FeedbackQuestionAttributes> questionsWithFeedbackResponseComment = new HashMap<String, FeedbackQuestionAttributes>();

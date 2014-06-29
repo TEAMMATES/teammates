@@ -223,7 +223,25 @@
             "courseId":"SFResultsUiT.CS2104",
             "creatorEmail":"SFResultsUiT.instr@gmail.com",
             "instructions":{
-                "value":"Instructions for numscale session"
+                "value":"Instructions for constsum session"
+            },
+            "createdTime":"2012-04-01 11:59 PM UTC",
+            "startTime":"2012-04-01 11:59 PM UTC",
+            "endTime":"2016-04-30 11:59 PM UTC",
+            "sessionVisibleFromTime":"2012-04-01 11:59 PM UTC",
+            "resultsVisibleFromTime":"2012-05-01 11:59 PM UTC",
+            "timeZone":8.0,
+            "gracePeriod":10,
+            "feedbackSessionType":"STANDARD",
+            "sentOpenEmail":true,
+            "sentPublishedEmail":true
+        },
+        "CONTRIB Session":{
+            "feedbackSessionName":"CONTRIB Session",
+            "courseId":"SFResultsUiT.CS2104",
+            "creatorEmail":"SFResultsUiT.instr@gmail.com",
+            "instructions":{
+                "value":"Instructions for contrib session"
             },
             "createdTime":"2012-04-01 11:59 PM UTC",
             "startTime":"2012-04-01 11:59 PM UTC",
@@ -823,8 +841,34 @@
                 "OWN_TEAM_MEMBERS"
             ]
             
+        },
+        "qn1InContribSession":{
+            "feedbackSessionName":"CONTRIB Session",
+            "courseId":"SFResultsUiT.CS2104",
+            "creatorEmail":"SFResultsUiT.instr@gmail.com",
+            "questionMetaData":{
+                "value":"{\"questionText\":\"Rate the contribution by yourself and your team members.\"}"
+            },
+            "questionNumber":"1",
+            "questionType":"CONTRIB",
+            "giverType":"STUDENTS",
+            "recipientType":"OWN_TEAM_MEMBERS_INCLUDING_SELF",
+            "numberOfEntitiesToGiveFeedbackTo":-100,
+            "showResponsesTo":[
+                "RECEIVER",
+                "OWN_TEAM_MEMBERS",
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo":[
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "INSTRUCTORS"
+            ]
         }
     },
+    
+
     "feedbackResponses":{
         "response1":{
             "feedbackSessionName":"First Session",
@@ -1199,6 +1243,30 @@
             "recipientEmail":"SFResultsUiT.benny.c@gmail.com",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"CONSTSUM\", \"answers\" : [101]}"
+            }
+            
+        },
+        "contribResponse1":{
+            "feedbackSessionName":"CONTRIB Session",
+            "courseId":"SFResultsUiT.CS2104",
+            "feedbackQuestionId":"1",
+            "feedbackQuestionType":"CONTRIB",
+            "giverEmail":"SFResultsUiT.alice.b@gmail.com",
+            "recipientEmail":"SFResultsUiT.alice.b@gmail.com",
+            "responseMetaData":{
+                "value":"{\"questionType\" : \"CONTRIB\", \"answer\" : 110}"
+            }
+            
+        },
+        "contribsumResponse2":{
+            "feedbackSessionName":"CONTRIB Session",
+            "courseId":"SFResultsUiT.CS2104",
+            "feedbackQuestionId":"1",
+            "feedbackQuestionType":"CONTRIB",
+            "giverEmail":"SFResultsUiT.alice.b@gmail.com",
+            "recipientEmail":"SFResultsUiT.benny.c@gmail.com",
+            "responseMetaData":{
+                "value":"{\"questionType\" : \"CONTRIB\", \"answer\" : 100}"
             }
             
         }

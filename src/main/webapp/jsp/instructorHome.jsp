@@ -148,6 +148,18 @@
                                         title="<%=Const.Tooltips.COURSE_ARCHIVE%>" data-toggle="tooltip" data-placement="top"
                                         onclick="return toggleArchiveCourseConfirmation('<%=courseDetails.course.id%>')">Archive</a>
                                         
+                                    <% int numberOfPendingCommentsForThisCourse =  data.numberOfPendingComments.get(courseDetails.course.id);%>
+                                    <a class="btn btn-primary btn-xs btn-tm-actions course-notify-pending-comments-for-test
+                                        <%=numberOfPendingCommentsForThisCourse==0?"hidden":""%>"
+                                        href="<%=data.getInstructorClearPendingCommentsLink(courseDetails.course.id)%>"
+                                        title="Send email notification to recipients of <%=numberOfPendingCommentsForThisCourse%> pending <%=numberOfPendingCommentsForThisCourse>1?"comments":"comment"%>" 
+                                        data-toggle="tooltip" data-placement="top">
+                                        <span class="badge"><%=numberOfPendingCommentsForThisCourse%></span>
+                                        <span class="glyphicon glyphicon-comment"></span>
+                                        <span class="glyphicon glyphicon-arrow-right"></span>
+                                        <span class="glyphicon glyphicon-envelope"></span>
+                                    </a>
+                                        
                                      <a class="btn btn-primary btn-xs btn-tm-actions course-delete-for-test"
                                         href="<%=data.getInstructorCourseDeleteLink(courseDetails.course.id,true)%>"
                                         title="<%=Const.Tooltips.COURSE_DELETE%>" data-toggle="tooltip" data-placement="top"

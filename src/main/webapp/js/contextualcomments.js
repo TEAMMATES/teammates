@@ -96,6 +96,9 @@ $(document).ready(function(){
 		if(commentRecipient == "team"){
 			$('#comment_recipient_select').val('TEAM');
 			commentRecipientSelect_changeHandler();
+		} else if(commentRecipient == "section"){
+			$('#comment_recipient_select').val('SECTION');
+			commentRecipientSelect_changeHandler();
 		}
 	}
 });
