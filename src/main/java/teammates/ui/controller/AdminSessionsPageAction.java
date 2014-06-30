@@ -49,15 +49,10 @@ public class AdminSessionsPageAction extends Action {
         calStart.add(Calendar.DAY_OF_YEAR, -3);
         calEnd.add(Calendar.DAY_OF_YEAR, 4);
 
-        if (startDate == null && endDate == null && startHour == null
-            && endHour == null && startMin == null && endMin == null && timeZone == null) {
-               
+        if (checkAllParameters("null")) {              
             start = calStart.getTime();
             end = calEnd.getTime();
-        } else if (startDate != null && endDate != null && startHour != null
-                   && endHour != null && startMin != null && endMin != null && timeZone != null
-                   && !startDate.trim().isEmpty() && !endDate.trim().isEmpty() && !startHour.trim().isEmpty()
-                   && !endHour.trim().isEmpty() && !startMin.trim().isEmpty() && !endMin.trim().isEmpty() && !timeZone.trim().isEmpty()) {
+        } else if (checkAllParameters("notNull")) {
             
             Sanitizer.sanitizeForHtml(startDate);
             Sanitizer.sanitizeForHtml(endDate);
@@ -76,7 +71,7 @@ public class AdminSessionsPageAction extends Action {
             if(start.after(end)){
                 isError = true;
                 statusToUser.add("The filter range is not valid."
-                                 + "End time should be after start time.");
+                                 + " End time should be after start time.");
                 statusToAdmin = "Admin Sessions Page Load<br>" +
                                 "<span class=\"bold\"> Error: invalid filter range</span>";
     
@@ -210,5 +205,36 @@ public class AdminSessionsPageAction extends Action {
         data.rangeStart = calStart.getTime();
         data.rangeEnd = calEnd.getTime();
     }
+    
+    private boolean checkAllParameters(String condition){
+        
+        String startDate = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE);
+        String endDate = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE);
+        String startHour = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTHOUR);
+        String endHour = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDHOUR);
+        String startMin = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTMINUTE);
+        String endMin = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDMINUTE);       
+        String timeZone = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE);
+        
+        if (condition.contentEquals("null")) {
+
+            return (startDate == null && endDate == null && startHour == null &&
+                    endHour == null && startMin == null && endMin == null && timeZone == null);
+
+        } else if (condition.contentEquals("notNull")) {
+
+            return (startDate != null && endDate != null && startHour != null
+                    && endHour != null && startMin != null && endMin != null && timeZone != null
+                    && !startDate.trim().isEmpty() && !endDate.trim().isEmpty() && !startHour.trim().isEmpty()
+                    && !endHour.trim().isEmpty() && !startMin.trim().isEmpty()
+                    && !endMin.trim().isEmpty() && !timeZone.trim().isEmpty());
+
+        }else{
+            return false;
+        }
+        
+    }
+    
+    
 
 }

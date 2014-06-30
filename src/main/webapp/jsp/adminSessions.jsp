@@ -24,10 +24,7 @@
     <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
     <link href="/stylesheets/teammatesCommon.css" rel="stylesheet">
-    <link href="/stylesheets/bootstrap-datetimepicker.min.css"
-        rel="stylesheet">
-    <link rel="stylesheet" href="/stylesheets/datepicker.css"
-        type="text/css" media="screen">
+    <link rel="stylesheet" href="/stylesheets/datepicker.css" type="text/css" media="screen">
     
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -45,7 +42,6 @@
     <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
     <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/js/adminSessions.js"></script>
-    <script type="text/javascript" src="/js/bootstrap-datetimepicker.min.js"></script>
 
     <jsp:include page="../enableJS.jsp"></jsp:include>
 
