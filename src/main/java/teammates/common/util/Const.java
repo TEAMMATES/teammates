@@ -368,7 +368,8 @@ public class Const {
         public static final String FEEDBACK_RESULTS_GROUPBYTEAM = "frgroupbyteam";
         public static final String FEEDBACK_RESULTS_GROUPBYSECTION = "frgroupbysection";
         public static final String FEEDBACK_RESULTS_SHOWSTATS = "frshowstats";
-        
+        public static final String FEEDBACK_RESULTS_NEED_AJAX = "frneedajax";
+
         public static final String PREVIEWAS = "previewas";
         
         public static final String STUDENT_ID = "googleid";
@@ -515,6 +516,13 @@ public class Const {
         public static final String INSTRUCTOR_FEEDBACK_PREVIEW_ASSTUDENT = "/page/instructorFeedbackPreviewAsStudent";
         public static final String INSTRUCTOR_FEEDBACK_PREVIEW_ASINSTRUCTOR = "/page/instructorFeedbackPreviewAsInstructor";
         
+        public static final String INSTRUCTOR_FEEDBACK_RESULTS_AJAX_BY_QUESTIONS = "/page/instructorFeedbackResultsAjaxByQuestions";
+        public static final String INSTRUCTOR_FEEDBACK_RESULTS_AJAX_BY_GQR = "/page/instructorFeedbackResultsAjaxByGQR";
+        public static final String INSTRUCTOR_FEEDBACK_RESULTS_AJAX_BY_GRQ = "/page/instructorFeedbackResultsAjaxByGRQ";
+        public static final String INSTRUCTOR_FEEDBACK_RESULTS_AJAX_BY_RQG = "/page/instructorFeedbackResultsAjaxByRQG";
+        public static final String INSTRUCTOR_FEEDBACK_RESULTS_AJAX_BY_RGQ = "/page/instructorFeedbackResultsAjaxByRGQ";
+        public static final String INSTRUCTOR_FEEDBACK_RESULTS_AJAX_RESPONSE_RATE = "/page/instructorFeedbackResultsAjaxResponseRate";
+
         public static final String INSTRUCTOR_FEEDBACK_QUESTION_ADD = "/page/instructorFeedbackQuestionAdd";
         public static final String INSTRUCTOR_FEEDBACK_QUESTION_EDIT = "/page/instructorFeedbackQuestionEdit";
 

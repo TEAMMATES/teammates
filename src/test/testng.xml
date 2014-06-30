@@ -117,6 +117,11 @@
             <class name="teammates.test.cases.ui.InstructorFeedbackResponseCommentAddActionTest" />
             <class name="teammates.test.cases.ui.InstructorFeedbackResponseCommentEditActionTest" />
             <class name="teammates.test.cases.ui.InstructorFeedbackResponseCommentDeleteActionTest" />
+            <class name="teammates.test.cases.ui.InstructorFeedbackResultsByGQRSeeMorePageActionTest" />
+            <class name="teammates.test.cases.ui.InstructorFeedbackResultsByGRQSeeMorePageActionTest" />
+            <class name="teammates.test.cases.ui.InstructorFeedbackResultsByQuestionSeeMorePageActionTest" />
+            <class name="teammates.test.cases.ui.InstructorFeedbackResultsByRQGSeeMorePageActionTest" />
+            <class name="teammates.test.cases.ui.InstructorFeedbackResultsByRGQSeeMorePageActionTest" />
             <class name="teammates.test.cases.ui.InstructorFeedbackSubmissionEditPageActionTest" />
             <class name="teammates.test.cases.ui.InstructorFeedbackSubmissionEditSaveActionTest" />
             <class name="teammates.test.cases.ui.InstructorFeedbackQuestionSubmissionEditPageActionTest" />
