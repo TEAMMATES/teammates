@@ -348,8 +348,17 @@ public class AccountsLogic {
         accountsDb.updateStudentProfile(newStudentProfileAttributes);
     }
 
+    public void deleteStudentProfilePicture(String googleId) throws BlobstoreFailureException {
+        accountsDb.deleteStudentProfilePicture(googleId);
+    }
+    
+    public void deletePicture(BlobKey key) throws BlobstoreFailureException {
+        accountsDb.deletePicture(key);
+    }
 
-    public void deleteProfilePicture(BlobKey key) throws BlobstoreFailureException {
-        accountsDb.deleteProfilePicFromGcs(key);
+    public void updateStudentProfilePicture (String googleId, String newPictureKey)
+        throws EntityDoesNotExistException, BlobstoreFailureException {
+        accountsDb.updateStudentProfilePicture(googleId, newPictureKey);
+        
     }
 }

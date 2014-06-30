@@ -197,6 +197,16 @@ public abstract class AppPage {
     protected void waitForPageToLoad() {
         browser.selenium.waitForPageToLoad("15000");
     }
+    
+    protected void waitForElementToBecomeVisible(String elementId) throws Exception {
+        int timeOut = 3000;
+        while (!browser.driver.findElement(By.id(elementId)).isDisplayed()
+                && timeOut > 0) {
+            Thread.sleep(100);
+            timeOut -= 100;
+        }
+        return;
+    }
 
     /**
      * Switches to the new browser window just opened.
@@ -332,6 +342,7 @@ public abstract class AppPage {
     }
     
     protected void fillFileBox(RemoteWebElement fileBoxElement, String fileName) throws Exception {
+        if (fileName.isEmpty()) return;
         fileBoxElement.setFileDetector(new UselessFileDetector());
         String newFilePath = new File(fileName).getAbsolutePath();
         fileBoxElement.sendKeys(newFilePath);

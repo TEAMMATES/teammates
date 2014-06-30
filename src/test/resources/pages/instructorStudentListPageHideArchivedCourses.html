@@ -7,7 +7,7 @@
                         <div class="row">
                             <div class="col-md-10">
                                 <div class="form-group">
-                                    <input data-original-title="Search for student's name" id="searchbox" title="" class="form-control" data-toggle="tooltip" data-placement="top" placeholder="e.g. Charles Shultz" value="" type="text"><div style="top: -33px; left: 393px; display: block;" class="tooltip fade top in"><div class="tooltip-arrow"></div><div class="tooltip-inner">Search for student's name</div></div>
+                                    <input data-original-title="Search for student's name" id="searchbox" title="" class="form-control" data-toggle="tooltip" data-placement="top" placeholder="e.g. Charles Shultz" value="" type="text">
                                 </div>
                             </div>
                             <div class="col-md-2 nav">
@@ -121,7 +121,7 @@
                             <br>
                             <div id="emails">
                                 
-                                        <div id="student_email-c0.0">CCSDetailsUiT.alice.tmms@gmail.com</div>
+                                        <div id="student_email-c0.0">CCSDetailsUiT.{$test.student1}ms@gmail.com</div>
                                 
                                         <div id="student_email-c0.1">benny.c.tmms@gmail.com</div>
                                 
@@ -163,9 +163,12 @@
                         <table class="table table-responsive table-striped table-bordered">
                             <thead class="fill-primary">
                                 <tr>
+                                    <th>
+                                        Photo
+                                    </th>
                                     
-                                    <th id="button_sortteam-course3" class="button-sort-ascending" onclick="toggleSort(this,1)">
-                                        Team <span class="icon-sort sorted-ascending"></span>
+                                    <th id="button_sortteam-course3" class="button-sort-none" onclick="toggleSort(this,1)">
+                                        Team <span class="icon-sort unsorted"></span>
                                     </th>
                                     <th id="button_sortstudentname-course3" class="button-sort-none" onclick="toggleSort(this,2)">
                                         Student Name <span class="icon-sort unsorted"></span>
@@ -178,40 +181,44 @@
                                 </tr>
                             </thead>
                             
-                            <tbody>
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                        <tr id="student-c0.0" style="display: table-row;">
+                            <tbody><tr id="student-c0.0" style="display: table-row;">
+                                <td id="studentphoto-c0.0" class="profile-pic-icon">
+                                    <a class="student-photo-link-for-test btn-link" data-link="/page/studentProfilePic?studentemail={*}8FA514DB9CB61E20E52D115E3EA6129738&amp;courseid=C179779D673504E85F7ADD572ED9CD4D">
+                                       View Photo</a>
+                                    <img src="" alt="No Image Given" class="hidden">
+                                </td>
                                 
                                 <td id="studentteam-c0.0.0">Team 1</td>
                                 <td id="studentname-c0.0">Alice Betsy</td>
-                                <td id="studentemail-c0.0">CCSDetailsUiT.alice.tmms@gmail.com</td>
+                                <td id="studentemail-c0.0">CCSDetailsUiT.{$test.student1}ms@gmail.com</td>
                                 <td class="no-print align-center">
-                                    <a data-original-title="View the details of the student" class="btn btn-default btn-xs student-view-for-test" href="/page/instructorCourseStudentDetailsPage?courseid=course3&amp;studentemail=CCSDetailsUiT.alice.tmms%40gmail.com&amp;user=instructorOfCourse4" title="" data-toggle="tooltip" data-placement="top"> View</a> 
+                                    <a data-original-title="View the details of the student" class="btn btn-default btn-xs student-view-for-test" href="/page/instructorCourseStudentDetailsPage?courseid=course3&amp;studentemail=CCSDetailsUiT.{$test.student1}ms%40gmail.com&amp;user=instructorOfCourse4" title="" data-toggle="tooltip" data-placement="top"> View</a> 
                                     
-                                    <a data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" class="btn btn-default btn-xs student-edit-for-test" href="/page/instructorCourseStudentDetailsEdit?courseid=course3&amp;studentemail=CCSDetailsUiT.alice.tmms%40gmail.com&amp;user=instructorOfCourse4" title="" data-toggle="tooltip" data-placement="top"> Edit</a> 
+                                    <a data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" class="btn btn-default btn-xs student-edit-for-test" href="/page/instructorCourseStudentDetailsEdit?courseid=course3&amp;studentemail=CCSDetailsUiT.{$test.student1}ms%40gmail.com&amp;user=instructorOfCourse4" title="" data-toggle="tooltip" data-placement="top"> Edit</a> 
                                     
-                                    <a data-original-title="Delete the student and the corresponding evaluations from the course" class="btn btn-default btn-xs student-delete-for-test" href="/page/instructorCourseStudentDelete?courseid=course3&amp;studentemail=CCSDetailsUiT.alice.tmms%40gmail.com&amp;user=instructorOfCourse4" onclick="return toggleDeleteStudentConfirmation('course3','Alice Betsy')" title="" data-toggle="tooltip" data-placement="top"> Delete</a>
+                                    <a data-original-title="Delete the student and the corresponding evaluations from the course" class="btn btn-default btn-xs student-delete-for-test" href="/page/instructorCourseStudentDelete?courseid=course3&amp;studentemail=CCSDetailsUiT.{$test.student1}ms%40gmail.com&amp;user=instructorOfCourse4" onclick="return toggleDeleteStudentConfirmation('course3','Alice Betsy')" title="" data-toggle="tooltip" data-placement="top"> Delete</a>
                                     
-                                    <a data-original-title="View all student's evaluations and feedbacks" class="btn btn-default btn-xs student-records-for-test" href="/page/instructorStudentRecordsPage?courseid=course3&amp;studentemail=CCSDetailsUiT.alice.tmms%40gmail.com&amp;user=instructorOfCourse4" title="" data-toggle="tooltip" data-placement="top"> All Records</a>
+                                    <a data-original-title="View all student's evaluations and feedbacks" class="btn btn-default btn-xs student-records-for-test" href="/page/instructorStudentRecordsPage?courseid=course3&amp;studentemail=CCSDetailsUiT.{$test.student1}ms%40gmail.com&amp;user=instructorOfCourse4" title="" data-toggle="tooltip" data-placement="top"> All Records</a>
                                     
                                     <div class="dropdown" style="display:inline;">
                                       <a class="btn btn-default btn-xs dropdown-toggle" href="javascript:;" data-toggle="dropdown"> Add Comment</a>
                                       <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" style="text-align:left;">
-                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="/page/instructorCourseStudentDetailsPage?courseid=course3&amp;studentemail=CCSDetailsUiT.alice.tmms%40gmail.com&amp;user=instructorOfCourse4&amp;addComment=student">
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="/page/instructorCourseStudentDetailsPage?courseid=course3&amp;studentemail=CCSDetailsUiT.{$test.student1}ms%40gmail.com&amp;user=instructorOfCourse4&amp;addComment=student">
                                             Comment on Alice Betsy</a></li>
-                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="/page/instructorCourseStudentDetailsPage?courseid=course3&amp;studentemail=CCSDetailsUiT.alice.tmms%40gmail.com&amp;user=instructorOfCourse4&amp;addComment=team">
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="/page/instructorCourseStudentDetailsPage?courseid=course3&amp;studentemail=CCSDetailsUiT.{$test.student1}ms%40gmail.com&amp;user=instructorOfCourse4&amp;addComment=team">
                                             Comment on Team 1</a></li>
                                         
                                       </ul>
                                     </div>
                                 </td>
-                            </tr><tr id="student-c0.1" style="display: table-row;">
+                            </tr>
+                            
+                            <tr id="student-c0.1" style="display: table-row;">
+                                <td id="studentphoto-c0.1" class="profile-pic-icon">
+                                    <a class="student-photo-link-for-test btn-link" data-link="/page/studentProfilePic?studentemail={*}82&amp;courseid=C179779D673504E85F7ADD572ED9CD4D">
+                                       View Photo</a>
+                                    <img src="" alt="No Image Given" class="hidden">
+                                </td>
                                 
                                 <td id="studentteam-c0.0.0">Team 1</td>
                                 <td id="studentname-c0.1">Benny Charles</td>
@@ -236,7 +243,14 @@
                                       </ul>
                                     </div>
                                 </td>
-                            </tr><tr id="student-c0.2" style="display: table-row;">
+                            </tr>
+                            
+                            <tr id="student-c0.2" style="display: table-row;">
+                                <td id="studentphoto-c0.2" class="profile-pic-icon">
+                                    <a class="student-photo-link-for-test btn-link" data-link="/page/studentProfilePic?studentemail={*}0D5C8E51DD1B4E0C5A912A6CF5CFD797E1&amp;courseid=C179779D673504E85F7ADD572ED9CD4D">
+                                       View Photo</a>
+                                    <img src="" alt="No Image Given" class="hidden">
+                                </td>
                                 
                                 <td id="studentteam-c0.0.1">Team 2</td>
                                 <td id="studentname-c0.2">Charlie D</td>
@@ -261,7 +275,14 @@
                                       </ul>
                                     </div>
                                 </td>
-                            </tr><tr id="student-c0.3" style="display: table-row;">
+                            </tr>
+                            
+                            <tr id="student-c0.3" style="display: table-row;">
+                                <td id="studentphoto-c0.3" class="profile-pic-icon">
+                                    <a class="student-photo-link-for-test btn-link" data-link="/page/studentProfilePic?studentemail={*}82&amp;courseid=C179779D673504E85F7ADD572ED9CD4D">
+                                       View Photo</a>
+                                    <img src="" alt="No Image Given" class="hidden">
+                                </td>
                                 
                                 <td id="studentteam-c0.0.1">Team 2</td>
                                 <td id="studentname-c0.3">Denny Charlés</td>
@@ -286,7 +307,9 @@
                                       </ul>
                                     </div>
                                 </td>
-                            </tr></tbody></table>
+                            </tr>
+                            
+                        </tbody></table>
                         
                     </div>
             
