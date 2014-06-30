@@ -613,8 +613,8 @@ public abstract class AppPage {
                 .replaceAll("<#comment[ ]*</#comment>", "<!---->")
                 .replaceAll("V[0-9]\\.[0-9]+", "V{\\$version}")
                 // photo from instructor
-                .replaceAll("studentemail=([a-zA-Z0-9]){1,}\\&courseid=([a-zA-Z0-9]){1,}", 
-                            "studentemail={*}\\&courseid={*}")
+                .replaceAll("studentemail=([a-zA-Z0-9]){1,}\\&amp;courseid=([a-zA-Z0-9]){1,}", 
+                            "studentemail={*}\\&amp;courseid={*}")
                 //questionid
                 .replaceAll("([a-zA-Z0-9-_]){62}","{*}")
                 //responseid
