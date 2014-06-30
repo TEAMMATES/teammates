@@ -10,13 +10,20 @@ import teammates.logic.api.GateKeeper;
 public class InstructorFeedbackResultsPageAction extends Action {
 
     private static final String ALL_SECTION_OPTION = "All";
-    private static final int DEFAULT_QUERY_RANGE = 500;
+    private static final int DEFAULT_QUERY_RANGE = 1000;
     private static final int QUERY_RANGE_FOR_AJAX_TESTING = 5;
-    private static int queryRange = DEFAULT_QUERY_RANGE;
-
+    
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
-
+        
+        String needAjax = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_NEED_AJAX);
+        int queryRange;
+        if(needAjax != null){
+            queryRange = QUERY_RANGE_FOR_AJAX_TESTING;
+        } else {
+            queryRange = DEFAULT_QUERY_RANGE;
+        }
+        
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         Assumption.assertNotNull(courseId);
@@ -72,7 +79,6 @@ public class InstructorFeedbackResultsPageAction extends Action {
                             feedbackSessionName, courseId,
                             data.instructor.email, data.selectedSection);
         }
-        log.info("Test 4");
 
         if (data.bundle == null) {
             throw new EntityDoesNotExistException(
@@ -106,13 +112,5 @@ public class InstructorFeedbackResultsPageAction extends Action {
                     Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION,
                     data);
         }
-    }
-    
-    public static void setQueryRangeForAjaxTesting(){
-        queryRange = QUERY_RANGE_FOR_AJAX_TESTING;
-    }
-    
-    public static void restoreQueryRange() {
-        queryRange = DEFAULT_QUERY_RANGE;
     }
 }

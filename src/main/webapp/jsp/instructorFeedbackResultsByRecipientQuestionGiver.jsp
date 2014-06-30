@@ -13,6 +13,7 @@
 <%
     InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData) request.getAttribute("data");
     boolean showAll = data.bundle.isComplete;
+    boolean shouldCollapsed = data.bundle.responses.size() > 500;
 %>
 <!DOCTYPE html>
 <html>
@@ -175,7 +176,8 @@
                     <div class="panel-collapse collapse in">
                     <div class="panel-body">
                     <a class="btn btn-success btn-xs pull-right" id="collapse-panels-button-section-<%=sectionIndex%>" style="display:block;" data-toggle="tooltip" title='Collapse or expand all <%= groupByTeamEnabled == true ? "team" : "student" %> panels. You can also click on the panel heading to toggle each one individually.'>
-                        <%= groupByTeamEnabled == true ? "Expand Teams" : "Expand Students" %>
+                        <%= shouldCollapsed ? "Expand " : "Collapse " %>
+                        <%= groupByTeamEnabled == true ? "Teams" : "Students" %>
                     </a>
                     <br>
                     <br>
@@ -197,10 +199,10 @@
                         <strong><%=currentTeam%></strong>
                         <span class="glyphicon glyphicon-chevron-down pull-right"></span>
                     </div>
-                    <div class="panel-collapse collapse">
+                    <div class='panel-collapse collapse <%= shouldCollapsed ? "" : "in" %>'>
                     <div class="panel-body background-color-warning">
                         <a class="btn btn-warning btn-xs pull-right" id="collapse-panels-button-team-<%=teamIndex%>" data-toggle="tooltip" title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually.">
-                            Expand Students
+                            <%= shouldCollapsed ? "Expand " : "Collapse " %> Students
                         </a>
                         <br>
                         <br>
@@ -261,7 +263,7 @@
                         <a class="link-in-dark-bg" href="mailTo:<%= targetEmail%> " <%=mailtoStyleAttr%>>[<%=targetEmail%>]</a>
                     <span class="glyphicon glyphicon-chevron-down pull-right"></span>
                 </div>
-                <div class="panel-collapse collapse">
+                <div class='panel-collapse collapse <%= shouldCollapsed ? "" : "in" %>'>
                 <div class="panel-body">
                 <%
                     int questionIndex = 0;
@@ -343,7 +345,7 @@
             }
         %>
 
-        <% if(data.selectedSection.equals("All")){ %>
+        <% if(data.selectedSection.equals("All") && data.bundle.responses.size() > 0){ %>
             <div class="panel panel-warning">
                 <div class="panel-heading<%= showAll ? "" : " ajax_response_rate_submit"%>">
                     <form style="display:none;" id="responseRate" class="responseRateForm" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_AJAX_RESPONSE_RATE%>">

@@ -9,12 +9,12 @@ import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 
 public class InstructorFeedbackResultsByGRQSeeMorePageData extends PageData {
-    Map<String, Map<String, List<FeedbackResponseAttributes>>> responses;
-    Map<String, List<FeedbackResponseCommentAttributes>> comments;
-    Map<String, String> answer;
-    Map<String , Map<String, String>> questionsInfo;
-    Map<String, Map<String, String>> privilegesInfo;
-    Map<String, String> emailTeamNameTable;
+    public Map<String, Map<String, List<FeedbackResponseAttributes>>> responses;
+    public Map<String, List<FeedbackResponseCommentAttributes>> comments;
+    public Map<String, String> answer;
+    public Map<String , Map<String, String>> questionsInfo;
+    public Map<String, Map<String, String>> privilegesInfo;
+    public Map<String, String> emailTeamNameTable;
     
     public InstructorFeedbackResultsByGRQSeeMorePageData(AccountAttributes account) {
         super(account);

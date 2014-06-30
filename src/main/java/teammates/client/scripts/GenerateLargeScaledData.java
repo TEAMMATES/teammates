@@ -39,9 +39,9 @@ public class GenerateLargeScaledData extends RemoteApiClient{
         
         try{
             
-            logic.deleteCourse("LargeScaleT.CS2103");
-            
-            logger.info("Delete course Successfully");
+            for(AccountAttributes account: largeScaleBundle.accounts.values()){
+                logic.createAccount(account.googleId, account.name, account.isInstructor, account.email, account.institute);
+            }
             
             /* Create course and instructor */
             for(InstructorAttributes instructor : largeScaleBundle.instructors.values()){

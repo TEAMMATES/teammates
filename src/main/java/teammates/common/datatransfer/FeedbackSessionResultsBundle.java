@@ -230,6 +230,10 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
             List<FeedbackResponseAttributes> responsesForQuestion = sortedMap.get(questions.get(response.feedbackQuestionId));
             responsesForQuestion.add(response);
         }
+
+        for(List<FeedbackResponseAttributes> responsesForQuestion : sortedMap.values()){
+            Collections.sort(responsesForQuestion, compareByGiverRecipient);
+        }
           
         return sortedMap;
               
@@ -639,6 +643,28 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
     @SuppressWarnings("unused")
     private void ________________COMPARATORS_____________(){}
     
+    // Sorts by giverName > recipientName
+    public Comparator<FeedbackResponseAttributes> compareByGiverRecipient
+        = new Comparator<FeedbackResponseAttributes>() {
+        @Override
+        public int compare(FeedbackResponseAttributes o1,
+                FeedbackResponseAttributes o2) {
+
+            String giverName1 = emailNameTable.get(o1.giverEmail);
+            String giverName2 = emailNameTable.get(o2.giverEmail);
+            int order = compareByNames(giverName1, giverName2);
+            if(order != 0){
+                return order;
+            }
+
+            String recipientName1 = emailNameTable.get(o1.recipientEmail);
+            String recipientName2 = emailNameTable.get(o2.recipientEmail);            
+            order = compareByNames(recipientName1, recipientName2);
+            return order; 
+        }
+    };
+
+
     // Sorts by giverName > recipientName > qnNumber
     // General questions and team questions at the bottom.
     public Comparator<FeedbackResponseAttributes> compareByGiverRecipientQuestion

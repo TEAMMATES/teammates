@@ -12,6 +12,7 @@
 <%
     InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData)request.getAttribute("data");
     boolean showAll = data.bundle.isComplete;
+    boolean shouldCollapsed = data.bundle.responses.size() > 500;
 %>
 <!DOCTYPE html>
 <html>
@@ -77,7 +78,7 @@
                         out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, ""));
                     %>
                 </div>
-                <div class="panel-collapse collapse <%= showAll ? "in" : "" %>">
+                <div class="panel-collapse collapse <%= showAll && !shouldCollapsed ? "in" : "" %>">
                 <div class="panel-body padding-0">
                     <% if(showAll) { %>                
                     <div class="resultStatistics">
@@ -136,7 +137,7 @@
                 }
             %>
             
-            <% if(data.selectedSection.equals("All")){ %>
+            <% if(data.selectedSection.equals("All") && data.bundle.responses.size() > 0){ %>
             <div class="panel panel-warning">
                 <div class="panel-heading<%= showAll ? "" : " ajax_response_rate_submit"%>">
                     <form style="display:none;" id="responseRate" class="responseRateForm" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_AJAX_RESPONSE_RATE%>">

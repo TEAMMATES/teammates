@@ -6,6 +6,7 @@
 <%
     InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData)request.getAttribute("data");
     boolean showAll = data.bundle.isComplete;
+    boolean shouldCollapsed = data.bundle.responses.size() > 500;
 %>
 
 <div class="well well-plain padding-0">
@@ -151,7 +152,7 @@
                 </div>
                 <% } %>
                 <div class="col-sm-7 pull-right" style="padding-top:8px;">
-                    <% if(!showAll){ %>
+                    <% if(!showAll || shouldCollapsed){ %>
                     <a class="btn btn-default btn-xs pull-right" id="collapse-panels-button" onclick="toggleCollapse(this)" data-toggle="tooltip" title="Collapse or expand all loaded panels. Since the data is too large, you have to click on each individual panel to load it.">
                         Expand <%= data.sortType.equals("question") ? "Questions" : "Sections" %>
                     </a>
