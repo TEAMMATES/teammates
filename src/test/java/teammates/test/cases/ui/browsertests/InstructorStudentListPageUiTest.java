@@ -2,7 +2,6 @@ package teammates.test.cases.ui.browsertests;
 
 import static org.testng.AssertJUnit.assertNotNull;
 
-import org.openqa.selenium.By;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
