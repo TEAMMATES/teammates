@@ -170,10 +170,11 @@
                                             <form class="responseCommentDeleteForm pull-right">
                                                 <a href="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE%>" type="button" id="commentdelete-<%=responseCommentIndex %>" class="btn btn-default btn-xs icon-button" 
                                                     data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COMMENT_DELETE%>"
-                                                    <% if (!data.instructor.isAllowedForPrivilege(singleResponse.giverSection,
+                                                    <% if (!data.instructor.email.equals(comment.giverEmail)
+                                                            && (!data.instructor.isAllowedForPrivilege(singleResponse.giverSection,
                                                             singleResponse.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS)
                                                             || !data.instructor.isAllowedForPrivilege(singleResponse.recipientSection,
-                                                                    singleResponse.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS)) { %>
+                                                                    singleResponse.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS))) { %>
                                                             disabled="disabled"
                                                     <% } %>
                                                     > 
@@ -188,10 +189,11 @@
                                             <a type="button" id="commentedit-<%=responseCommentIndex %>" class="btn btn-default btn-xs icon-button pull-right" 
                                                 onclick="showResponseCommentEditForm(<%=recipientIndex%>,<%=giverIndex%>,<%=qnIndx%>,<%=responseCommentIndex%>)"
                                                 data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COMMENT_EDIT%>"
-                                                <% if (!data.instructor.isAllowedForPrivilege(singleResponse.giverSection,
+                                                <% if (!data.instructor.email.equals(comment.giverEmail)
+                                                        && (!data.instructor.isAllowedForPrivilege(singleResponse.giverSection,
                                                             singleResponse.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS)
                                                             || !data.instructor.isAllowedForPrivilege(singleResponse.recipientSection,
-                                                                    singleResponse.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS)) { %>
+                                                                    singleResponse.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS))) { %>
                                                             disabled="disabled"
                                                 <% } %>
                                                 >

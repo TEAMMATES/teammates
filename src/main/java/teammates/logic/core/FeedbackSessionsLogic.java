@@ -328,6 +328,17 @@ public class FeedbackSessionsLogic {
                 feedbackSessionName, courseId, userEmail,
                 UserType.Role.STUDENT, null);
     }
+    
+    /**
+     * Gets results of a feedback session to show to a student.
+     */
+    public FeedbackSessionResultsBundle getFeedbackSessionResultsForStudent(
+            String feedbackSessionName, String courseId, String userEmail, CourseRoster roster)
+            throws EntityDoesNotExistException {
+        return getFeedbackSessionResultsForUserInSectionByQuestions(
+                feedbackSessionName, courseId, userEmail,
+                UserType.Role.STUDENT, null, roster);
+    }
 
     public String getFeedbackSessionResultsSummaryAsCsv(
             String feedbackSessionName, String courseId, String userEmail)
@@ -340,20 +351,29 @@ public class FeedbackSessionsLogic {
         Collections.sort(results.responses,
                 results.compareByGiverRecipientQuestion);
 
+        // TODO: use StringBuffer instead for better performance
         String export = "";
 
         export += "Course" + "," + Sanitizer.sanitizeForCsv(results.feedbackSession.courseId) + Const.EOL
-                + "Session Name" + "," + Sanitizer .sanitizeForCsv(results.feedbackSession.feedbackSessionName)
+                + "Session Name" + "," + Sanitizer.sanitizeForCsv(results.feedbackSession.feedbackSessionName)
                 + Const.EOL + Const.EOL + Const.EOL;
 
         for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry : results
                 .getQuestionResponseMap().entrySet()) {
-            FeedbackAbstractQuestionDetails questionDetails = entry.getKey()
-                    .getQuestionDetails();
+            FeedbackQuestionAttributes question = entry.getKey();
+            FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
 
             export += "Question " + Integer.toString(entry.getKey().questionNumber) + "," 
                     + Sanitizer.sanitizeForCsv(questionDetails.questionText)
                     + Const.EOL + Const.EOL;
+            
+            String statistics = questionDetails.getQuestionResultStatisticsCsv(entry.getValue(),
+                                        question, results);
+            if(statistics != ""){
+                export += "Summary Statistics," + Const.EOL;
+                export += statistics + Const.EOL;
+            }
+            
             export += "Team" + "," + "Giver" + "," + "Recipient's Team" + ","
                     + "Recipient" + "," + questionDetails.getCsvHeader() + Const.EOL;
 
@@ -796,19 +816,28 @@ public class FeedbackSessionsLogic {
 
         return details;
     }
-
+    
     /* Get the feedback results for user in a section iterated by questions */
     private FeedbackSessionResultsBundle getFeedbackSessionResultsForUserInSectionByQuestions(
             String feedbackSessionName, String courseId, String userEmail,
             UserType.Role role, String section)
             throws EntityDoesNotExistException {
-
         // Load details of students and instructors once and pass it to callee
         // methods
         // (rather than loading them many times).
         CourseRoster roster = new CourseRoster(
                 new StudentsDb().getStudentsForCourse(courseId),
                 new InstructorsDb().getInstructorsForCourse(courseId));
+        
+        return getFeedbackSessionResultsForUserInSectionByQuestions(
+                feedbackSessionName, courseId, userEmail, role, section, roster);
+    }
+
+    /* Get the feedback results for user in a section iterated by questions */
+    private FeedbackSessionResultsBundle getFeedbackSessionResultsForUserInSectionByQuestions(
+            String feedbackSessionName, String courseId, String userEmail,
+            UserType.Role role, String section, CourseRoster roster)
+            throws EntityDoesNotExistException {
 
         FeedbackSessionAttributes session = fsDb.getFeedbackSession(
                 courseId, feedbackSessionName);
@@ -993,23 +1022,9 @@ public class FeedbackSessionsLogic {
             if (relatedQuestion != null) {
                 // TODO: refactor these. you may refer to
                 // FeedbackResponseLogic.getViewableFeedbackResponsesForQuestionInSection
-                Boolean isVisibleResponse = false;
-                if ((response.giverEmail.equals(userEmail) && (section == null || response.recipientSection.equals(section)))
-                        || (response.recipientEmail.equals(userEmail) && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER) && (section == null || response.giverSection.equals(section)))
-                        || (role == Role.INSTRUCTOR && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS) && (section == null || (response.giverSection.equals(section) && response.recipientSection.equals(section))))
-                        || (role == Role.STUDENT && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.STUDENTS))) {
-                    isVisibleResponse = true;
-                } else if (role == Role.STUDENT 
-                        && ((relatedQuestion.recipientType == FeedbackParticipantType.TEAMS
-                                && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
-                                && response.recipientEmail.equals(student.team))
-                            || ((relatedQuestion.giverType == FeedbackParticipantType.TEAMS
-                                || relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS))
-                                    && studentsEmailInTeam.contains(response.giverEmail))
-                            || (relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
-                        && studentsEmailInTeam.contains(response.recipientEmail)))) {
-                    isVisibleResponse = true;
-                }
+                boolean isVisibleResponse = isResponseVisibleForUser(userEmail, courseId,
+                        role, section, student, studentsEmailInTeam, response,
+                        relatedQuestion);
                 if (isVisibleResponse) {
                     responses.add(response);
                     relevantQuestions.put(relatedQuestion.getId(),
@@ -1053,6 +1068,43 @@ public class FeedbackSessionsLogic {
                         visibilityTable, responseStatus, responseComments);
 
         return results;
+    }
+
+    private boolean isResponseVisibleForUser(String userEmail, String courseId,
+            UserType.Role role, String section, StudentAttributes student,
+            Set<String> studentsEmailInTeam,
+            FeedbackResponseAttributes response,
+            FeedbackQuestionAttributes relatedQuestion) {
+        InstructorAttributes instructor = null;
+        if (role == Role.INSTRUCTOR) {
+            instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
+        }
+        boolean isVisibleResponse = false;
+        if ((response.giverEmail.equals(userEmail) && (section == null || response.recipientSection.equals(section)))
+                || (response.recipientEmail.equals(userEmail) && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER) && (section == null || response.giverSection.equals(section)))
+                || (role == Role.INSTRUCTOR && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS) && (section == null || (response.giverSection.equals(section) && response.recipientSection.equals(section))))
+                || (role == Role.STUDENT && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.STUDENTS))) {
+            isVisibleResponse = true;
+        } else if (role == Role.STUDENT 
+                && ((relatedQuestion.recipientType == FeedbackParticipantType.TEAMS
+                        && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
+                        && response.recipientEmail.equals(student.team))
+                    || ((relatedQuestion.giverType == FeedbackParticipantType.TEAMS
+                        || relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS))
+                            && studentsEmailInTeam.contains(response.giverEmail))
+                    || (relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
+                && studentsEmailInTeam.contains(response.recipientEmail)))) {
+            isVisibleResponse = true;
+        }
+        if (isVisibleResponse && instructor != null) {
+            if (!(instructor.isAllowedForPrivilege(response.giverSection,
+                    response.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS))
+                    || !(instructor.isAllowedForPrivilege(response.giverSection,
+                            response.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS))) {
+                isVisibleResponse = false;
+            }
+        }
+        return isVisibleResponse;
     }
 
     private class ResponseCommentCreationDateComparator implements

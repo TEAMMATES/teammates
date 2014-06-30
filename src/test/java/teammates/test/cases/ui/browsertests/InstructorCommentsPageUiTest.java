@@ -55,6 +55,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.clickResponseCommentAdd(1, 1, 1);
         commentsPage.fillTextareaToEditResponseComment(1, 1, 1, "");
         commentsPage.addResponseComment(1, 1, 1);
+        commentsPage.verifyCommentFormErrorMessage("1-1-1", "Comment cannot be empty");
         commentsPage.fillTextareaToEditResponseComment(1, 1, 1, "added response comment");
         commentsPage.addResponseComment(1, 1, 1);
         commentsPage.reloadPage();
@@ -65,6 +66,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.clickResponseCommentEdit(1, 1, 1, 1);
         commentsPage.fillTextareaToEditResponseComment(1, 1, 1, 1, "");
         commentsPage.saveResponseComment(1, 1, 1, 1);
+        commentsPage.verifyCommentFormErrorMessage("1-1-1-1", "Comment cannot be empty");
         commentsPage.fillTextareaToEditResponseComment(1, 1, 1, 1, "edited response comment");
         commentsPage.saveResponseComment(1, 1, 1, 1);
         commentsPage.reloadPage();
