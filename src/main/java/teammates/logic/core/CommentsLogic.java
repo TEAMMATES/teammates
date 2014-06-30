@@ -114,7 +114,9 @@ public class CommentsLogic {
     
     public void deleteComment(CommentAttributes comment){
         commentsDb.deleteEntity(comment);
-        commentsDb.deleteSearchableDocument(comment.getCommentId().toString());
+        if(comment.getCommentId() != null){
+            commentsDb.deleteSearchableDocument(comment.getCommentId().toString());
+        }
     }
     
     public List<CommentAttributes> getCommentDrafts(String giverEmail)
@@ -122,8 +124,8 @@ public class CommentsLogic {
         return commentsDb.getCommentDrafts(giverEmail);
     }
     
-    public List<CommentAttributes> search(String queryString){
-        return commentsDb.search(queryString);
+    public List<CommentAttributes> search(String queryString, List<String> courseIdsList, Set<String> giverEmails){
+        return commentsDb.search(queryString, courseIdsList, giverEmails);
     }
     
     private void synchronizeSearchableDocument(CommentAttributes comment) {

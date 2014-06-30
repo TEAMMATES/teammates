@@ -307,8 +307,14 @@ public class CommentAttributes extends EntityAttributes
                 + recipientSectionsBuilder.toString() + ","
                 + this.commentText.getValue();
         Document doc = Document.newBuilder()
+            //courseId and isVisibleToInstructor are used to filter documents visible to certain instructor
+            .addField(Field.newBuilder().setName("courseId").setText(this.courseId))
+            .addField(Field.newBuilder().setName("giverEmail").setText(this.giverEmail))
+            .addField(Field.newBuilder().setName("isVisibleToInstructor").setText(this.isVisibleTo(CommentRecipientType.INSTRUCTOR).toString()))
+            //searchableText and createdDate are used to filter the query string
             .addField(Field.newBuilder().setName("searchableText").setText(searchableText))
             .addField(Field.newBuilder().setName("createdDate").setDate(this.createdAt))
+            //attribute field is used to convert a doc back to attribute
             .addField(Field.newBuilder().setName("attribute").setText(new Gson().toJson(this)))
             .setId(this.commentId.toString())
             .build();

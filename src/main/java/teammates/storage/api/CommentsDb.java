@@ -217,16 +217,30 @@ public class CommentsDb extends EntitiesDb{
         getPM().close();
     }
     
-    public List<CommentAttributes> search(String queryString){
+    public List<CommentAttributes> search(String queryString, List<String> courseIdsList, Set<String> giverEmails){
         List<CommentAttributes> comments = new ArrayList<CommentAttributes>();
         queryString = Sanitizer.sanitizeForHtml(queryString).toLowerCase().trim();
         if(queryString.isEmpty()) return comments;
+        
+        StringBuilder courseIdsLimitBuilder = new StringBuilder("(dummy-course-id");
+        for(String courseId:courseIdsList){
+            courseIdsLimitBuilder.append(" OR ").append(courseId);
+        }
+        String courseIdsLimit = courseIdsLimitBuilder.append(")").toString();
+        
+        StringBuilder giverEmailsLimitBuilder = new StringBuilder("(dummy-email");
+        for(String email:giverEmails){
+            giverEmailsLimitBuilder.append(" OR ").append(email);
+        }
+        String giverEmailsLimit = giverEmailsLimitBuilder.append(")").toString();
         
         QueryOptions options = QueryOptions.newBuilder().setFieldsToReturn("attribute").build();
         Results<ScoredDocument> results = searchDocuments("comment", com.google.appengine.api.search.
                 Query.newBuilder()
                     .setOptions(options)
-                    .build("searchableText:" + queryString));
+                    .build("courseId:" + courseIdsLimit
+                            + " AND (giverEmail:" + giverEmailsLimit + " OR isVisibleToInstructor:true)"
+                            + " AND searchableText:" + queryString));
         for(ScoredDocument result : results){
             comments.add(CommentAttributes.fromDocument(result));
         }

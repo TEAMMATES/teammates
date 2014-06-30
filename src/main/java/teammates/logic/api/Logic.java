@@ -1969,9 +1969,11 @@ public class Logic {
         return commentsLogic.getComment(commentId);
     }
     
-    public List<CommentAttributes> searchComment(String queryString) {
+    public List<CommentAttributes> searchComment(String queryString, List<String> courseIdsList, Set<String> giverEmails) {
         Assumption.assertNotNull(queryString);
-        return commentsLogic.search(queryString);
+        Assumption.assertNotNull(courseIdsList);
+        Assumption.assertNotNull(giverEmails);
+        return commentsLogic.search(queryString, courseIdsList, giverEmails);
     }
     
     /**

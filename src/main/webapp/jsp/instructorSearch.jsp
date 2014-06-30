@@ -73,8 +73,6 @@
         <div id="frameBodyWrapper" class="container">
         <br>
         <form action="/page/instructorSearchPage" method="post" class="form form-horizontal">
-            <input type="hidden" name="courseid" value="kkTestEval.gma-demo">
-
             <div class="form-group">
                 <label class="col-sm-1 control-label">Key:</label>
                 <div class="col-sm-11">
@@ -87,7 +85,7 @@
             </div>
             <br>
             <br>
-            <input type="hidden" name="user" value="kai">
+            <input type="hidden" name="user" value="<%=data.account.googleId%>">
         </form>
         <br>
         <%
