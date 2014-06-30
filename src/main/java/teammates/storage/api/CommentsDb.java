@@ -24,6 +24,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Sanitizer;
 import teammates.common.util.Utils;
 import teammates.storage.entity.Comment;
 
@@ -216,8 +217,21 @@ public class CommentsDb extends EntitiesDb{
     }
     
     public List<CommentAttributes> search(String queryString){
+        queryString = Sanitizer.sanitizeForHtml(queryString);
+        queryString = "\"" + queryString + "\"";
         Results<ScoredDocument> results = searchDocuments("comment", com.google.appengine.api.search.
-                Query.newBuilder().build(queryString));
+                Query.newBuilder()
+                    .build("courseId:" + queryString
+                            + " OR courseName:" + queryString
+                            + " OR giverEmail:" + queryString
+                            + " OR giverName:" + queryString
+                            + " OR giverTitle:" + queryString
+                            + " OR recipientEmails:" + queryString
+                            + " OR recipientNames:" + queryString
+                            + " OR recipientTeams:" + queryString
+                            + " OR recipientSections:" + queryString
+                            + " OR createdAt:" + queryString
+                            + " OR commentText:" + queryString));
         List<CommentAttributes> comments = new ArrayList<CommentAttributes>();
         for(ScoredDocument result : results){
             comments.add(CommentAttributes.fromDocument(result));

@@ -151,7 +151,7 @@ public class CommentAttributes extends EntityAttributes
                 ", showCommentTo = " + showCommentTo +
                 ", showGiverNameTo = " + showGiverNameTo +
                 ", showRecipientNameTo = " + showRecipientNameTo +
-                ", commentText = " + commentText +
+                ", commentText = " + commentText.getValue() +
                 ", createdAt = " + createdAt + "]";
     }
 
@@ -274,12 +274,14 @@ public class CommentAttributes extends EntityAttributes
             
             break;
         case TEAM:
+            //TODO: students in this team?
             for(String team:this.recipients){
                 recipientTeamsBuilder.append(delim).append(team); 
                 delim = ",";
             }
             break;
         case SECTION:
+            //TODO: students in this section?
             for(String section:this.recipients){
                 recipientSectionsBuilder.append(delim).append(section); 
                 delim = ",";
