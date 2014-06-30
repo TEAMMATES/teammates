@@ -352,7 +352,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.clickAjaxPanel(0);
         ThreadHelper.waitFor(500);
        
-        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsAjaxByQuestion.html");
+        resultsPage.verifyHtmlAjax("/instructorFeedbackResultsAjaxByQuestion.html");
         
         
         ______TS("Ajax for view by giver > recipient > question");
