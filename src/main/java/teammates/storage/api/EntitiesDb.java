@@ -4,6 +4,11 @@ import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
 
+import com.google.appengine.api.search.Document;
+import com.google.appengine.api.search.Query;
+import com.google.appengine.api.search.Results;
+import com.google.appengine.api.search.ScoredDocument;
+
 import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
@@ -13,6 +18,7 @@ import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Utils;
 import teammates.storage.datastore.Datastore;
+import teammates.storage.searchmanager.SearchManager;
 
 public abstract class EntitiesDb {
 
@@ -33,7 +39,7 @@ public abstract class EntitiesDb {
      * Preconditions: 
      * <br> * {@code entityToAdd} is not null and has valid data.
      */
-    public void createEntity(EntityAttributes entityToAdd) 
+    public Object createEntity(EntityAttributes entityToAdd) 
             throws InvalidParametersException, EntityAlreadyExistsException {
         
         Assumption.assertNotNull(
@@ -60,13 +66,13 @@ public abstract class EntitiesDb {
 
         // Wait for the operation to persist
         int elapsedTime = 0;
-        Object entityCheck = getEntity(entityToAdd);
-        while ((entityCheck == null)
+        Object createdEntity = getEntity(entityToAdd);
+        while ((createdEntity == null)
                 && (elapsedTime < Config.PERSISTENCE_CHECK_DURATION)) {
             ThreadHelper.waitBriefly();
-            entityCheck = getEntity(entityToAdd);
+            createdEntity = getEntity(entityToAdd);
             //check before incrementing to avoid boundary case problem
-            if (entityCheck == null) {
+            if (createdEntity == null) {
                 elapsedTime += ThreadHelper.WAIT_DURATION;
             }
         }
@@ -75,6 +81,7 @@ public abstract class EntitiesDb {
                     + entityToAdd.getEntityTypeAsString() + "->"
                     + entityToAdd.getIdentificationString());
         }
+        return createdEntity;
     }
     
     /**
@@ -167,5 +174,26 @@ public abstract class EntitiesDb {
     
     protected PersistenceManager getPM() {
         return Datastore.getPersistenceManager();
+    }
+    
+    //the followings APIs are used by Teammates' search engine
+    protected void putDocument(String indexName, Document document) {
+        SearchManager.putDocument(indexName, document);
+    }
+    
+    protected void getDocument(String indexName, String documentId) {
+        SearchManager.getDocument(indexName, documentId);
+    }
+    
+    protected Results<ScoredDocument> searchDocuments(String indexName, Query query) {
+        return SearchManager.searchDocuments(indexName, query);
+    }
+    
+    protected void deleteDocument(String indexName, String documentId){
+        SearchManager.deleteDocument(indexName, documentId);
+    }
+    
+    protected void deleteDocuments(String indexName, String[] documentId){
+        SearchManager.deleteDocuments(indexName, documentId);
     }
 }

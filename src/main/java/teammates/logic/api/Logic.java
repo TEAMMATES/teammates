@@ -1969,6 +1969,11 @@ public class Logic {
         return commentsLogic.getComment(commentId);
     }
     
+    public List<CommentAttributes> searchComment(String queryString) {
+        Assumption.assertNotNull(queryString);
+        return commentsLogic.search(queryString);
+    }
+    
     /**
      * Preconditions: <br>
      * * All parameters are non-null.

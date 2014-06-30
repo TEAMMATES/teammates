@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import teammates.common.util.FieldValidator;
@@ -15,6 +16,9 @@ import teammates.common.util.FieldValidator.FieldType;
 import teammates.storage.entity.Comment;
 
 import com.google.appengine.api.datastore.Text;
+import com.google.appengine.api.search.Document;
+import com.google.appengine.api.search.Field;
+import com.google.appengine.api.search.ScoredDocument;
 
 public class CommentAttributes extends EntityAttributes 
     implements Comparable<CommentAttributes>{
@@ -248,4 +252,90 @@ public class CommentAttributes extends EntityAttributes
         }
         return o.createdAt.compareTo(createdAt);
     }
+    
+    public Document toDocument(CourseAttributes course, InstructorAttributes instructor, Map<String, StudentAttributes> emailStudentTable){
+        StringBuilder recipientEmailsBuilder = new StringBuilder("");
+        StringBuilder recipientNamesBuilder = new StringBuilder("");
+        StringBuilder recipientTeamsBuilder = new StringBuilder("");
+        StringBuilder recipientSectionsBuilder = new StringBuilder("");
+        String delim = "";
+        switch (this.recipientType) {
+        case PERSON:
+            for(String email:this.recipients){
+                StudentAttributes student = emailStudentTable.get(email);
+                recipientEmailsBuilder.append(delim).append(email); 
+                if(student != null){
+                    recipientNamesBuilder.append(delim).append(student.name);
+                    recipientTeamsBuilder.append(delim).append(student.team);
+                    recipientSectionsBuilder.append(delim).append(student.section);
+                }
+                delim = ",";
+            }
+            
+            break;
+        case TEAM:
+            for(String team:this.recipients){
+                recipientTeamsBuilder.append(delim).append(team); 
+                delim = ",";
+            }
+            break;
+        case SECTION:
+            for(String section:this.recipients){
+                recipientSectionsBuilder.append(delim).append(section); 
+                delim = ",";
+            }
+            break;
+        default:
+            break;
+        }
+        Document doc = Document.newBuilder().addField(Field.newBuilder().setName("type").setText("comment"))
+            .addField(Field.newBuilder().setName("courseId").setText(this.courseId))
+            .addField(Field.newBuilder().setName("courseName").setText(course != null? course.name: ""))
+            .addField(Field.newBuilder().setName("giverEmail").setText(this.giverEmail))
+            .addField(Field.newBuilder().setName("giverName").setText(instructor != null? instructor.name: this.giverEmail))
+            .addField(Field.newBuilder().setName("giverTitle").setText(instructor != null? instructor.displayedName: ""))
+            .addField(Field.newBuilder().setName("recipientType").setText(this.recipientType.toString()))
+            .addField(Field.newBuilder().setName("recipientEmails").setText(recipientEmailsBuilder.toString()))
+            .addField(Field.newBuilder().setName("recipientNames").setText(recipientNamesBuilder.toString()))
+            .addField(Field.newBuilder().setName("recipientTeams").setText(recipientTeamsBuilder.toString()))
+            .addField(Field.newBuilder().setName("recipientSections").setText(recipientSectionsBuilder.toString()))
+            .addField(Field.newBuilder().setName("status").setText(this.status.toString()))
+            .addField(Field.newBuilder().setName("sendingState").setText(this.sendingState.toString()))
+            .addField(Field.newBuilder().setName("showCommentTo").setText(this.showCommentTo.toString()))
+            .addField(Field.newBuilder().setName("showGiverNameTo").setText(this.showGiverNameTo.toString()))
+            .addField(Field.newBuilder().setName("showRecipientNameTo").setText(this.showRecipientNameTo.toString()))
+            .addField(Field.newBuilder().setName("createdAt").setDate(this.createdAt))
+            .addField(Field.newBuilder().setName("commentText").setText(this.commentText.getValue()))
+            .setId(this.commentId.toString())
+            .build();
+        return doc;
+    }
+    
+    public static CommentAttributes fromDocument(ScoredDocument doc){
+        CommentAttributes comment = new CommentAttributes();
+        comment.commentId = Long.valueOf(doc.getId());
+        comment.courseId = doc.getOnlyField("courseId").getText();
+        comment.giverEmail = doc.getOnlyField("giverEmail").getText();
+        
+        comment.recipientType = CommentRecipientType.valueOf(doc.getOnlyField("recipientType").getText());
+        String[] recipients = null;
+        if(comment.recipientType == CommentRecipientType.PERSON){
+            recipients = doc.getOnlyField("recipientEmails").getText().split(",");
+        } else if(comment.recipientType == CommentRecipientType.TEAM){
+            recipients = doc.getOnlyField("recipientTeams").getText().split(",");
+        } else if(comment.recipientType == CommentRecipientType.SECTION){
+            recipients = doc.getOnlyField("recipientSections").getText().split(",");
+        } else if(comment.recipientType == CommentRecipientType.COURSE){
+            recipients = new String[]{""};
+        }
+        comment.recipients = new HashSet<String>();
+        for(String recipient:recipients){
+            comment.recipients.add(recipient);
+        }
+        //TODO: get status/visibility options etc
+        comment.createdAt = doc.getOnlyField("createdAt").getDate();
+        comment.commentText = new Text(doc.getOnlyField("commentText").getText());
+        return comment;
+    }
+    
 }

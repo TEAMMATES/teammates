@@ -10,12 +10,16 @@ import javax.jdo.JDOHelper;
 import javax.jdo.Query;
 
 import com.google.appengine.api.datastore.Text;
+import com.google.appengine.api.search.Document;
+import com.google.appengine.api.search.Results;
+import com.google.appengine.api.search.ScoredDocument;
 
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentRecipientType;
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CommentStatus;
 import teammates.common.datatransfer.EntityAttributes;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
@@ -27,6 +31,26 @@ public class CommentsDb extends EntitiesDb{
     
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Comment: ";
     private static final Logger log = Utils.getLogger();
+    
+    @Override
+    public CommentAttributes createEntity(EntityAttributes entityToAdd) 
+            throws InvalidParametersException, EntityAlreadyExistsException{
+        Comment createdEntity = (Comment) super.createEntity(entityToAdd);
+        if(createdEntity == null){
+            log.info("Trying to get non-existent Comment, possibly entity not persistent yet.");
+            return null;
+        } else{
+            return new CommentAttributes(createdEntity);
+        }
+    }
+    
+    public void putSearchableDocument(Document doc){
+        putDocument("comment", doc);
+    }
+    
+    public void deleteSearchableDocument(String documentId){
+        deleteDocument("comment", documentId);
+    }
     
     public CommentAttributes getComment(Long commentId){
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, commentId);
@@ -186,8 +210,19 @@ public class CommentsDb extends EntitiesDb{
             comment.setRecipients(newAttributes.recipients);
         }
         comment.setSendingState(newAttributes.sendingState);
+        comment.setCreatedAt(newAttributes.createdAt);
         
         getPM().close();
+    }
+    
+    public List<CommentAttributes> search(String queryString){
+        Results<ScoredDocument> results = searchDocuments("comment", com.google.appengine.api.search.
+                Query.newBuilder().build(queryString));
+        List<CommentAttributes> comments = new ArrayList<CommentAttributes>();
+        for(ScoredDocument result : results){
+            comments.add(CommentAttributes.fromDocument(result));
+        }
+        return comments;
     }
     
     private List<Comment> getCommentEntitiesForSendingState(String courseId, CommentSendingState sendingState){

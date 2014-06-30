@@ -13,6 +13,7 @@ import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentRecipientType;
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CommentStatus;
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
@@ -57,7 +58,8 @@ public class CommentsLogic {
         verifyIsCoursePresent(comment.courseId, "create");
         verifyIsInstructorOfCourse(comment.courseId, comment.giverEmail);
 
-        commentsDb.createEntity(comment);
+        CommentAttributes createdComment = commentsDb.createEntity(comment);
+        synchronizeSearchableDocument(createdComment);
     }
     
     public CommentAttributes getComment(Long commentId) {
@@ -105,16 +107,40 @@ public class CommentsLogic {
     public void updateComment(CommentAttributes comment)
             throws InvalidParametersException, EntityDoesNotExistException{
         verifyIsCoursePresent(comment.courseId, "update");
+        
         commentsDb.updateComment(comment);
+        synchronizeSearchableDocument(comment);
     }
     
     public void deleteComment(CommentAttributes comment){
         commentsDb.deleteEntity(comment);
+        commentsDb.deleteSearchableDocument(comment.getCommentId().toString());
     }
     
     public List<CommentAttributes> getCommentDrafts(String giverEmail)
             throws EntityDoesNotExistException {
         return commentsDb.getCommentDrafts(giverEmail);
+    }
+    
+    public List<CommentAttributes> search(String queryString){
+        return commentsDb.search(queryString);
+    }
+    
+    private void synchronizeSearchableDocument(CommentAttributes comment) {
+        if(comment == null) return;
+        CourseAttributes course = coursesLogic.getCourse(comment.courseId);
+        InstructorAttributes instructorAsGiver = instructorsLogic.
+                getInstructorForEmail(comment.courseId, comment.giverEmail);
+        Map<String, StudentAttributes> emailStudentTable = new HashMap<String, StudentAttributes>();
+        if(comment.recipientType == CommentRecipientType.PERSON){
+            for(String email:comment.recipients){
+                StudentAttributes student = studentsLogic.getStudentForEmail(comment.courseId, email);
+                if(student != null){
+                    emailStudentTable.put(email, student);
+                }
+            }
+        }
+        commentsDb.putSearchableDocument(comment.toDocument(course, instructorAsGiver, emailStudentTable));
     }
     
     private void verifyIsCoursePresent(String courseId, String action)
@@ -626,7 +652,7 @@ public class CommentsLogic {
                             commentId, section);
                 }
             }
-        } else {//not visible to TEAM
+        } else {//not visible to SECTION
             if (pendingComment.recipientType == CommentRecipientType.PERSON) {
                 for(String recipientEmail : pendingComment.recipients){
                     StudentAttributes student = roster.getStudentForEmail(recipientEmail);

@@ -2,6 +2,7 @@ package teammates.ui.controller;
 
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
@@ -172,6 +173,7 @@ public class InstructorStudentCommentEditAction extends Action {
             comment.sendingState = CommentSendingState.PENDING;
         }
         comment.commentText = commentText;
+        comment.createdAt = new Date();
         
         return comment;
     }
