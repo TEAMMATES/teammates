@@ -300,7 +300,7 @@
                                     title="<%=Const.Tooltips.COURSE_STUDENT_DETAILS%>"
                                     data-toggle="tooltip" data-placement="top"
                                     <% InstructorAttributes instructor = data.instructors.get(courseDetails.course.id);
-                                       if (!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)) {%>
+                                       if (!instructor.isAllowedForPrivilege(student.section, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)) {%>
                                        disabled="diabled"
                                     <% } %>
                                     > View</a> 
@@ -309,7 +309,7 @@
                                     href="<%=data.getCourseStudentEditLink(courseDetails.course.id, student)%>"
                                     title="<%=Const.Tooltips.COURSE_STUDENT_EDIT%>"
                                     data-toggle="tooltip" data-placement="top"
-                                    <% if (!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT)) {%>
+                                    <% if (!instructor.isAllowedForPrivilege(student.section, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT)) {%>
                                        disabled="diabled"
                                     <% } %>
                                     > Edit</a> 
@@ -319,7 +319,7 @@
                                     onclick="return toggleDeleteStudentConfirmation('<%=sanitizeForJs(courseDetails.course.id)%>','<%=sanitizeForJs(student.name)%>')"
                                     title="<%=Const.Tooltips.COURSE_STUDENT_DELETE%>"
                                     data-toggle="tooltip" data-placement="top"
-                                    <% if (!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT)) {%>
+                                    <% if (!instructor.isAllowedForPrivilege(student.section, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT)) {%>
                                        disabled="diabled"
                                     <% } %>> Delete</a>
                                     
