@@ -6,6 +6,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.blobstore.BlobstoreFailureException;
+import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
+
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CourseAttributes;
@@ -18,7 +22,9 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
+import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -59,7 +65,7 @@ public class BackDoorLogic extends Logic {
         for (AccountAttributes account : accounts.values()) {
             log.fine("API Servlet adding account :" + account.googleId);
             super.createAccount(account.googleId, account.name, account.isInstructor,
-                                    account.email, account.institute);
+                                    account.email, account.institute, account.studentProfile);
         }
 
         HashMap<String, CourseAttributes> courses = dataBundle.courses;
@@ -74,14 +80,16 @@ public class BackDoorLogic extends Logic {
             if (instructor.googleId != null) {
                 log.fine("API Servlet adding instructor :" + instructor.googleId);
                 AccountAttributes existingAccount = getAccount(instructor.googleId);
-                //Hardcoding institute value because this is used for testing only
-                super.createInstructorAccount(instructor.googleId, instructor.courseId, 
-                        instructor.name, instructor.email, existingAccount==null? "National University of Singapore" : existingAccount.institute);
+                if (existingAccount != null) {
+                    super.createInstructor(instructor);
+                } else {
+                    super.createInstructorAccount(instructor.googleId, instructor.courseId, 
+                            instructor.name, instructor.email, existingAccount==null? "National University of Singapore" : existingAccount.institute);
+                    super.updateInstructorByGoogleId(instructor.googleId, instructor);
+                }
             } else {
                 log.fine("API Servlet adding instructor :" + instructor.email);
-                //Hardcoding institute value because this is used for testing only
-                super.instructorsLogic.createInstructor(instructor);
-                //TODO:may not need to access instructorsLogic here
+                super.createInstructor(instructor);
             }
         }
 
@@ -89,6 +97,7 @@ public class BackDoorLogic extends Logic {
         for (StudentAttributes student : students.values()) {
             log.fine("API Servlet adding student :" + student.email
                     + " to course " + student.course);
+            student.section = (student.section == null) ? "None" : student.section;
             super.createStudent(student);
         }
 
@@ -146,16 +155,30 @@ public class BackDoorLogic extends Logic {
         HashMap<String, CommentAttributes> comments = dataBundle.comments;
         for(CommentAttributes comment : comments.values()){
             log.fine("API Servlet adding comment :" + comment.getCommentId() + " from "
-                    + comment.giverEmail + " to " + comment.receiverEmail + " in course " + comment.courseId);
+                    + comment.giverEmail + " to " + comment.recipientType + ":" + comment.recipients + " in course " + comment.courseId);
             this.createComment(comment);
         }
         
         return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
     }
 
+    /**
+     * Removes any and all occurrences of the entities in the given databundle
+     * from the database
+     * @param dataBundle
+     */
+    public void removeDataBundle(DataBundle dataBundle) {
+        deleteExistingData(dataBundle);
+    }
+
     public String getAccountAsJson(String googleId) {
-        AccountAttributes accountData = getAccount(googleId);
+        AccountAttributes accountData = getAccount(googleId, true);
         return Utils.getTeammatesGson().toJson(accountData);
+    }
+
+    public String getStudentProfileAsJson(String googleId) {
+        StudentProfileAttributes profileData = getStudentProfile(googleId);
+        return Utils.getTeammatesGson().toJson(profileData);
     }
     
     public String getInstructorAsJsonById(String instructorId, String courseId) {
@@ -245,7 +268,7 @@ public class BackDoorLogic extends Logic {
     }
     
     public void editStudentAsJson(String originalEmail, String newValues)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws InvalidParametersException, EntityDoesNotExistException, EnrollException {
         StudentAttributes student = Utils.getTeammatesGson().fromJson(newValues,
                 StudentAttributes.class);
         updateStudent(originalEmail, student);
@@ -547,5 +570,14 @@ public class BackDoorLogic extends Logic {
                 
         return submissionsLogic.getSubmission(
                 courseId, evaluationName, revieweeEmail, reviewerEmail);
+    }
+
+    public String isPicturePresentInGcs(String pictureKey) {
+        try {
+            BlobstoreServiceFactory.getBlobstoreService().fetchData(new BlobKey(pictureKey), 0, 10);
+            return BackDoorServlet.RETURN_VALUE_TRUE;
+        } catch(IllegalArgumentException | BlobstoreFailureException e) {
+            return BackDoorServlet.RETURN_VALUE_FALSE;
+        }
     }
 }

@@ -48,8 +48,8 @@
             <div class="well well-plain">
                 <form method="post" action="<%=Const.ActionURIs.ADMIN_INSTRUCTORACCOUNT_ADD%>" name="form_addinstructoraccount">
                     <div>
-                        <label class="label-control">Google ID:</label>
-                       <input class="form-control" type="text" name="<%=Const.ParamsNames.INSTRUCTOR_ID%>" value="<%=sanitizeForHtml(data.instructorId)%>">
+                        <label class="label-control">Short Name:</label>
+                       <input class="form-control" type="text" name="<%=Const.ParamsNames.INSTRUCTOR_SHORT_NAME%>" value="<%=sanitizeForHtml(data.instructorShortName)%>">
                     </div><br />
                     <div>
                         <label class="label-control">Name:</label>
@@ -63,9 +63,7 @@
                         <label class="label-control">Institution: </label>
                         <input class="form-control" type="text" name="<%=Const.ParamsNames.INSTRUCTOR_INSTITUTION%>" value="<%=sanitizeForHtml(data.instructorInstitution)%>">
                     </div><br />
-                    <div>
-                        <input class="form-inline" type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_IMPORT_SAMPLE%>" value="importsample" checked="checked"> Import sample data
-                    </div><br />
+                    
                     <div>
                         <input id="btnAddInstructor" class="btn btn-primary" type="submit" value="Add Instructor">
                     </div>

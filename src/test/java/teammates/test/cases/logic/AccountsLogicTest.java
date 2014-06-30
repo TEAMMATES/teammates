@@ -16,6 +16,7 @@ import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -32,6 +33,7 @@ import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.AccountsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
+import teammates.test.driver.BackDoor;
 import teammates.test.util.TestHelper;
 
 public class AccountsLogicTest extends BaseComponentTestCase {
@@ -73,25 +75,71 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         testGetInstructorAccounts();
         testAccountFunctions();
         testCreateAccount();
+        testGetStudentAndUpdateStudentProfile();
         testCreateInstructorAccount();
         testJoinCourseForStudent();
         testJoinCourseForInstructor();
         testDeleteAccountCascade();
     }
  
+    private void testGetStudentAndUpdateStudentProfile() throws Exception {
+        ______TS("get SP");
+        StudentProfileAttributes expectedSpa = new StudentProfileAttributes("id", "shortName", "personal@email.com", 
+                "institute", "countryName", "female", "moreInfo", "");
+        AccountAttributes accountWithStudentProfile = new AccountAttributes("id", "name",
+                true, "test@email.com", "dev", expectedSpa);
+        
+        accountsLogic.createAccount(accountWithStudentProfile);
+        
+        StudentProfileAttributes actualSpa = accountsLogic.getStudentProfile(accountWithStudentProfile.googleId);
+        expectedSpa.modifiedDate = actualSpa.modifiedDate;        
+        assertEquals(expectedSpa.toString(), actualSpa.toString());
+        
+        ______TS("update SP");
+        
+        expectedSpa.pictureKey = "non-empty";
+        accountWithStudentProfile.studentProfile.pictureKey = expectedSpa.pictureKey;
+        accountsLogic.updateStudentProfile(accountWithStudentProfile.studentProfile);
+        
+        actualSpa = accountsLogic.getStudentProfile(accountWithStudentProfile.googleId);
+        expectedSpa.modifiedDate = actualSpa.modifiedDate;        
+        assertEquals(expectedSpa.toString(), actualSpa.toString());
+        
+        ______TS("delete picture");
+        
+        
+        
+        accountsLogic.deleteAccountCascade("id");
+    }
+    
+    private void testDeleteProfilePicture() {
+        // not tested here (will be tested in UiTests
+    }
+
     private void testCreateAccount() throws Exception {
 
         ______TS("typical success case");
-
+        StudentProfileAttributes spa = new StudentProfileAttributes();
+        spa.googleId = "id";
+        spa.shortName = "test acc na";
+        spa.email = "test@personal.com";
+        spa.gender = Const.GenderTypes.MALE;
+        spa.nationality = "test.nationality";
+        spa.institute = "institute";
+        spa.moreInfo = "this is more info";
+        
         AccountAttributes accountToCreate = new AccountAttributes("id", "name",
-                true, "test@email", "dev");
+                true, "test@email", "dev", spa);
+        
         accountsLogic.createAccount(accountToCreate);
         TestHelper.verifyPresentInDatastore(accountToCreate);
+        
+        accountsLogic.deleteAccountCascade("id");
         
         ______TS("invalid parameters exception case");
 
         accountToCreate = new AccountAttributes("", "name",
-                true, "test@email", "dev");
+                true, "test@email", "dev", spa);
         try{
             accountsLogic.createAccount(accountToCreate);
             signalFailureToDetectException();
@@ -132,11 +180,14 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         // Here we create another INSTRUCTOR for testing our createInstructor() method
         String googleIdWithGmailDomain = instructor2.googleId+"@GMAIL.COM"; //to check if "@GMAIL.COM" is stripped out correctly
         accountsLogic.createInstructorAccount(googleIdWithGmailDomain, instructor2.courseId, instructor2.name, instructor2.email, "National University of Singapore");
+        InstructorsLogic.inst().updateInstructorByGoogleId(instructor2.googleId, instructor2);
+        
         
         // `instructor` here is created with NAME and EMAIL field obtain from his AccountData
         AccountAttributes creator = dataBundle.accounts.get("instructor1OfCourse1");
         instructor.name = creator.name;
         instructor.email = creator.email; 
+        instructor.isArchived = false;
         TestHelper.verifyPresentInDatastore(cd);
         TestHelper.verifyPresentInDatastore(instructor);
         TestHelper.verifyPresentInDatastore(instructor2);
@@ -215,19 +266,37 @@ public class AccountsLogicTest extends BaseComponentTestCase {
             ______TS(aa.toString());
         }
         
-        assertEquals(10, accountsLogic.getInstructorAccounts().size());
+        assertEquals(11, accountsLogic.getInstructorAccounts().size());
         
         ______TS("test updateAccount");
         
-        AccountAttributes account = new AccountAttributes("idOfInstructor1OfCourse1", "name",
-                true, "test2@email", "dev");
-        accountsLogic.updateAccount(account);
-        TestHelper.verifyPresentInDatastore(account);
+        StudentProfileAttributes spa = new StudentProfileAttributes();
+        spa.googleId = "idOfInstructor1OfCourse1";
+        spa.institute = "dev";
+        spa.shortName = "nam";
         
-        account = new AccountAttributes("id-does-not-exist", "name",
-                true, "test2@email", "dev");
+        AccountAttributes expectedAccount = new AccountAttributes("idOfInstructor1OfCourse1", "name",
+                true, "test2@email", "dev", spa);
+        
+        // updates the profile
+        accountsLogic.updateAccount(expectedAccount, true);
+        AccountAttributes actualAccount = accountsLogic.getAccount(expectedAccount.googleId, true);
+        expectedAccount.studentProfile.modifiedDate = actualAccount.studentProfile.modifiedDate;
+        expectedAccount.createdAt = actualAccount.createdAt;
+        assertEquals(expectedAccount.toString(), actualAccount.toString());
+        
+        // does not update the profile
+        expectedAccount.studentProfile.shortName = "newNam";
+        accountsLogic.updateAccount(expectedAccount);
+        actualAccount = accountsLogic.getAccount(expectedAccount.googleId, true);
+        
+        // no change in the name
+        assertEquals("nam", actualAccount.studentProfile.shortName);
+        
+        expectedAccount = new AccountAttributes("id-does-not-exist", "name",
+                true, "test2@email", "dev", spa);
         try {
-            accountsLogic.updateAccount(account);
+            accountsLogic.updateAccount(expectedAccount);
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException edne) {
             AssertHelper.assertContains(AccountsDb.ERROR_UPDATE_NON_EXISTENT_ACCOUNT, edne.getMessage());
@@ -248,6 +317,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         
         accountsLogic.makeAccountInstructor("student2InCourse1");
         assertTrue(accountsLogic.isAccountAnInstructor("student2InCourse1"));
+        accountsLogic.downgradeInstructorToStudentCascade("student2InCourse1");
         
         accountsLogic.makeAccountInstructor("id-does-not-exist");
         assertFalse(accountsLogic.isAccountPresent("id-does-not-exist"));
@@ -263,7 +333,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
 
         // Create correct student with original@email.com
         StudentAttributes studentData = new StudentAttributes(null,
-                originalEmail, "name", "", courseId, "teamName");
+                originalEmail, "name", "", courseId, "teamName", "sectionName");
         logic.createStudent(studentData);
         studentData = StudentsLogic.inst().getStudentForEmail(courseId,
                 originalEmail);
@@ -296,7 +366,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         
         String existingId = "AccLogicT.existing.studentId";
         StudentAttributes existingStudent = new StudentAttributes(existingId,
-                "differentEmail@email.com", "name", "", courseId, "teamName");
+                "differentEmail@email.com", "name", "", courseId, "teamName", "sectionName");
         logic.createStudent(existingStudent);
         
         try {
@@ -309,8 +379,12 @@ public class AccountsLogicTest extends BaseComponentTestCase {
 
         ______TS("success: without encryption and account already exists");
 
+        StudentProfileAttributes spa = new StudentProfileAttributes(correctStudentId,
+                "ABC", "personal@gmail.com", "nus", "Singapore", "male", "", "");
+        
         AccountAttributes accountData = new AccountAttributes(correctStudentId,
-                "nameABC", false, "real@gmail.com", "nus");
+                "nameABC", false, "real@gmail.com", "nus", spa);
+        
         accountsLogic.createAccount(accountData);
         accountsLogic.joinCourseForStudent(studentData.key, correctStudentId);
 
@@ -353,7 +427,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         
         originalEmail = "email2@gmail.com";
         studentData = new StudentAttributes(null, originalEmail, "name", "",
-                courseId, "teamName");
+                courseId, "teamName", "sectionName");
         logic.createStudent(studentData);
         studentData = StudentsLogic.inst().getStudentForEmail(courseId,
                 originalEmail);
@@ -391,6 +465,8 @@ public class AccountsLogicTest extends BaseComponentTestCase {
 
         // check if still instructor
         assertTrue(logic.isInstructor(correctStudentId));
+        
+        accountsLogic.deleteAccountCascade(correctStudentId);
     }
     
     private void testJoinCourseForInstructor() throws Exception {
@@ -437,12 +513,13 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         accountCreated = accountsLogic.getAccount(loggedInGoogleId);
         Assumption.assertNotNull(accountCreated);
         
+        accountsLogic.deleteAccountCascade(loggedInGoogleId);
         
         ______TS("success: instructor joined but account already exists");
         
         AccountAttributes nonInstrAccount = dataBundle.accounts.get("student1InCourse1");
         
-        instructorsLogic.addInstructor(instructor.courseId, nonInstrAccount.name, nonInstrAccount.email);
+        instructorsLogic.createInstructor(null, instructor.courseId, nonInstrAccount.name, nonInstrAccount.email);
         key = instructorsLogic.getKeyForInstructor(instructor.courseId, nonInstrAccount.email);
         encryptedKey = StringHelper.encrypt(key);
         
@@ -457,14 +534,14 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         
         instructor = dataBundle.instructors.get("instructor4");
         
-        instructorsLogic.addInstructor(instructor.courseId, "anInstructorWithoutGoogleId", "anInstructorWithoutGoogleId@gmail.com");  
+        instructorsLogic.createInstructor(null, instructor.courseId, "anInstructorWithoutGoogleId", "anInstructorWithoutGoogleId@gmail.com");  
         
         nonInstrAccount = dataBundle.accounts.get("student2InCourse1");
         nonInstrAccount.email = "newInstructor@gmail.com";
         nonInstrAccount.name = " newInstructor";
         nonInstrAccount.googleId = "newInstructorGoogleId";
        
-        instructorsLogic.addInstructor(instructor.courseId, nonInstrAccount.name, nonInstrAccount.email);
+        instructorsLogic.createInstructor(null, instructor.courseId, nonInstrAccount.name, nonInstrAccount.email);
         key = instructorsLogic.getKeyForInstructor(instructor.courseId, nonInstrAccount.email);
         encryptedKey = StringHelper.encrypt(key);
         
@@ -476,6 +553,8 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         
         AccountAttributes instructorAccount = accountsLogic.getAccount(nonInstrAccount.googleId);
         assertEquals("National University of Singapore", instructorAccount.institute);
+        
+        accountsLogic.deleteAccountCascade(nonInstrAccount.googleId);
         
         
         ______TS("failure: instructor already joined");
@@ -525,6 +604,30 @@ public class AccountsLogicTest extends BaseComponentTestCase {
                     e.getMessage());
         }
         
+        ______TS("success: a registered student joins as a new instructor");
+        
+        restoreTypicalDataInDatastore();
+        
+        AccountAttributes student1InCourse1 = dataBundle.accounts.get("student1InCourse1");
+        InstructorAttributes instructorNotYetJoinCourse = dataBundle.instructors.get("instructorNotYetJoinCourse");
+        loggedInGoogleId = student1InCourse1.googleId;
+        key = instructorsLogic.getKeyForInstructor(instructorNotYetJoinCourse.courseId, instructorNotYetJoinCourse.email);
+        encryptedKey = StringHelper.encrypt(key);
+      
+        accountsLogic.joinCourseForInstructor(encryptedKey, loggedInGoogleId, student1InCourse1.institute);
+        
+        AccountAttributes accountData = new AccountAttributes();        
+        accountData.googleId = loggedInGoogleId;
+        accountData.email = student1InCourse1.email;
+        accountData.name = student1InCourse1.name;
+        accountData.isInstructor = true;
+        accountData.institute = student1InCourse1.institute;
+        TestHelper.verifyPresentInDatastore(accountData);
+        
+        BackDoor.deleteAccount(loggedInGoogleId);
+        instructor = instructorsLogic.getInstructorsForGoogleId(loggedInGoogleId).get(0);
+        BackDoor.deleteCourse(instructor.courseId);
+        
     }
 
     private void testDeleteAccountCascade() throws Exception {
@@ -538,7 +641,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
 
         // Make instructor account id a student too.
         StudentAttributes student = new StudentAttributes("googleId",
-                "email@com", "name", "", course1Id, "team");
+                "email@com", "name", "", course1Id, "team", "section");
         logic.createStudent(student);
         TestHelper.verifyPresentInDatastore(account);
         TestHelper.verifyPresentInDatastore(instructor);

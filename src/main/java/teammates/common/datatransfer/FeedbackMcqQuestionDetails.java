@@ -1,8 +1,12 @@
 package teammates.common.datatransfer;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
@@ -257,6 +261,45 @@ public class FeedbackMcqQuestionDetails extends FeedbackAbstractQuestionDetails 
     }
     
     @Override
+    public String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses,
+            FeedbackSessionResultsBundle bundle) {
+        if(responses.size() == 0){
+            return "";
+        }
+        
+        String html = "";
+        String fragments = "";
+        Map<String,Integer> answerFrequency = new LinkedHashMap<String,Integer>();
+        
+        for(String option : mcqChoices){
+            answerFrequency.put(option, 0);
+        }
+        
+        for(FeedbackResponseAttributes response : responses){
+            String answerString = response.getResponseDetails().getAnswerString();
+            if(!answerFrequency.containsKey(answerString)){
+                answerFrequency.put(answerString, 1);
+            } else {
+                answerFrequency.put(answerString, answerFrequency.get(answerString)+1);
+            }
+        }
+        
+        DecimalFormat df = new DecimalFormat("#.##");
+        
+        for(Entry<String, Integer> entry : answerFrequency.entrySet() ){
+            fragments += FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.MCQ_RESULT_STATS_OPTIONFRAGMENT,
+                                "${mcqChoiceValue}", entry.getKey(),
+                                "${count}", entry.getValue().toString(),
+                                "${percentage}", df.format(100*(double)entry.getValue()/responses.size()));
+        }
+        
+        html = FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.MCQ_RESULT_STATS,
+                "${fragments}", fragments);
+        
+        return html;
+    }
+    
+    @Override
     public String getCsvHeader() {
         return "Feedback";
     }
@@ -280,7 +323,8 @@ public class FeedbackMcqQuestionDetails extends FeedbackAbstractQuestionDetails 
     
     @Override
     public List<String> validateResponseAttributes(
-            List<FeedbackResponseAttributes> responses) {
+            List<FeedbackResponseAttributes> responses,
+            int numRecipients) {
         List<String> errors = new ArrayList<String>();
         for(FeedbackResponseAttributes response : responses){
             FeedbackMcqResponseDetails frd = (FeedbackMcqResponseDetails) response.getResponseDetails();
@@ -292,4 +336,5 @@ public class FeedbackMcqQuestionDetails extends FeedbackAbstractQuestionDetails 
         }
         return errors;
     }
+
 }

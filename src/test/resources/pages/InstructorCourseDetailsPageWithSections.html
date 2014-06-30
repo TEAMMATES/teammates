@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html>
+      <head>
+         <link href="/favicon.png"  rel="shortcut icon" />
+                  <meta content="width=device-width, initial-scale=1.0"  name="viewport" />
+                  <meta content="text/html; charset=UTF-8"  http-equiv="Content-Type" />
+                  <title>
+            TEAMMATES - Instructor
+         </title>
+         <link href="/bootstrap/css/bootstrap.min.css"  rel="stylesheet"  type="text/css" />
+                  <link href="/bootstrap/css/bootstrap-theme.min.css"  rel="stylesheet"  type="text/css" />
+                  <link href="/stylesheets/teammatesCommon.css"  rel="stylesheet"  type="text/css" />
+                  <script async=""  src="https://ssl.google-analytics.com/ga.js"  type="text/javascript" >
+         </script>
+         <script src="/js/googleAnalytics.js"  type="text/javascript" >
+         </script>
+         <script src="/js/jquery-minified.js"  type="text/javascript" >
+         </script>
+         <script src="/js/common.js"  type="text/javascript" >
+         </script>
+         <script src="/bootstrap/js/bootstrap.min.js"  type="text/javascript" >
+         </script>
+         <script src="/js/instructor.js"  type="text/javascript" >
+         </script>
+         <script src="/js/instructorCourseDetails.js"  type="text/javascript" >
+         </script>
+         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+      </head>
+      <body>
+         <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container">
+               <div class="navbar-header">
+                  <button class="navbar-toggle" data-target="#contentLinks" data-toggle="collapse" type="button">
+                     <span class="sr-only">
+                        Toggle navigation
+                     </span>
+                     <span class="icon-bar">
+                     </span>
+                     <span class="icon-bar">
+                     </span>
+                     <span class="icon-bar">
+                     </span>
+                  </button>
+                  <a class="navbar-brand" href="/index.html">
+                     TEAMMATES
+                  </a>
+               </div>
+               <div class="collapse navbar-collapse" id="contentLinks">
+                  <ul class="nav navbar-nav">
+                     <li class="">
+                        <a class="nav home" data-link="instructorHome" href="/page/instructorHomePage?user=CCDetailsUiT.instr2">
+                           Home
+                        </a>
+                     </li>
+                     <li class="active">
+                        <a class="nav courses" data-link="instructorCourse" href="/page/instructorCoursesPage?user=CCDetailsUiT.instr2">
+                           Courses
+                        </a>
+                     </li>
+                     <li class="">
+                        <a class="nav evaluations" data-link="instructorEval" href="/page/instructorEvalsPage?user=CCDetailsUiT.instr2">
+                           Sessions
+                        </a>
+                     </li>
+                     <li class="">
+                        <a class="nav students" data-link="instructorStudent" href="/page/instructorStudentListPage?user=CCDetailsUiT.instr2">
+                           Students
+                        </a>
+                     </li>
+                     <li>
+                        <a class="nav help" href="/instructorHelp.html" target="_blank">
+                           Help
+                        </a>
+                     </li>
+                  </ul>
+                  <ul class="nav navbar-nav pull-right">
+                     <li>
+                        <a class="nav logout" href="/logout.jsp">
+                           Logout
+                        
+                        (
+                           <span class="text-info" data-original-title="CCDetailsUiT.instr2" data-placement="bottom" data-toggle="tooltip" title="">
+                              CCDetailsUiT.instr2
+                           </span>
+                           )
+                        </a>
+                     </li>
+                  </ul>
+               </div>
+            </div>
+         </div>
+         <div class="container theme-showcase" id="frameBodyWrapper">
+      <div id="topOfPage">
+      </div>
+      <div id="headerOperation">
+         <h1>
+            Course Details
+         </h1>
+      </div>
+      <br/>
+            <div class="well well-plain" id="courseInformationHeader">
+         <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" title="" type="button">
+            <span class="glyphicon glyphicon-comment glyphicon-primary">
+            </span>
+         </button>
+         <div class="form form-horizontal">
+            <div class="form-group">
+               <label class="col-sm-3 control-label">
+                  Course ID:
+               </label>
+               <div class="col-sm-6" id="courseid">
+                  <p class="form-control-static">
+                     CCDetailsUiT.CS2103
+                  </p>
+               </div>
+            </div>
+            <div class="form-group">
+               <label class="col-sm-3 control-label">
+                  Course name:
+               </label>
+               <div class="col-sm-6" id="coursename">
+                  <p class="form-control-static">
+                     Software Engineering
+                  </p>
+               </div>
+            </div>
+            <div class="form-group">
+               <label class="col-sm-3 control-label">
+                  Sections:
+               </label>
+               <div class="col-sm-6" id="total_sections">
+                  <p class="form-control-static">
+                     2
+                  </p>
+               </div>
+            </div>
+            <div class="form-group">
+               <label class="col-sm-3 control-label">
+                  Teams:
+               </label>
+               <div class="col-sm-6" id="total_teams">
+                  <p class="form-control-static">
+                     2
+                  </p>
+               </div>
+            </div>
+            <div class="form-group">
+               <label class="col-sm-3 control-label">
+                  Total students:
+               </label>
+               <div class="col-sm-6" id="total_students">
+                  <p class="form-control-static">
+                     3
+                  </p>
+               </div>
+            </div>
+            <div class="form-group">
+               <label class="col-sm-3 control-label">
+                  Instructors:
+               </label>
+               <div class="col-sm-6" id="instructors">
+                  <div class="form-control-static">
+                     Co-owner: Teammates Test 2 (CCDetailsUiT.instr2@gmail.com)
+                     <br/>
+                                          <br/>
+                                       </div>
+               </div>
+            </div>
+            <div class="form-group">
+               <div class="align-center">
+                  <input class="btn btn-primary" data-original-title="Send invitation emails to all students yet to join the course" data-placement="top" data-toggle="tooltip" id="button_remind" onclick="if(toggleSendRegistrationKeysConfirmation('CCDetailsUiT.CS2103')) window.location.href='/page/instructorCourseRemind?courseid=CCDetailsUiT.CS2103&user=CCDetailsUiT.instr2';" tabindex="1" title="" type="button" value="Remind Students to Join"/>
+                                    <form action="/page/instructorCourseStudentListDownload" method="post" style="display:inline;">
+                     <input class="btn btn-primary" id="button_download" name="fruploaddownloadbtn" type="submit" value=" Download Student List "/>
+                                          <input name="user" type="hidden" value="CCDetailsUiT.instr2"/>
+                                          <input name="courseid" type="hidden" value="CCDetailsUiT.CS2103"/>
+                                       </form>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="well well-plain" id="commentArea" style="display: none;">
+         <form action="/page/instructorStudentCommentAdd" method="post" name="form_commentadd">
+            <div class="form-group form-inline">
+               <label style="margin-right: 24px;">
+                  Recipient:
+               </label>
+               <select class="form-control" disabled="disabled" id="comment_recipient_select">
+                  <option selected="" value="COURSE">
+                     The whole class
+                  </option>
+               </select>
+               <a class="btn btn-sm btn-info pull-right" id="visibility-options-trigger">
+                  <span class="glyphicon glyphicon-eye-close">
+                  </span>
+                  Show Visibility Options
+               </a>
+            </div>
+            <p class="form-group text-muted">
+               The default visibility for your comment is private. You may change it using the visibility options above.
+            </p>
+            <div class="panel panel-default" id="visibility-options" style="display: none;">
+               <div class="panel-heading">
+                  Visibility Options
+               </div>
+               <table class="table text-center" style="background: #fff;">
+                  <tbody>
+                     <tr>
+                        <th class="text-center">
+                           User/Group
+                        </th>
+                        <th class="text-center">
+                           Can see
+                                    your comment
+                        </th>
+                        <th class="text-center">
+                           Can see
+                                    giver's name
+                        </th>
+                        <th class="text-center">
+                           Can see
+                                    recipient's name
+                        </th>
+                     </tr>
+                     <tr id="recipient-course">
+                        <td class="text-left">
+                           <div data-original-title="Control what students in this course can view" data-placement="top" data-toggle="tooltip" title="">
+                              Students in this course
+                           </div>
+                        </td>
+                        <td>
+                           <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="COURSE"/>
+                                                   </td>
+                        <td>
+                           <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="COURSE"/>
+                                                   </td>
+                        <td>
+                           <input class="visibilityCheckbox recipientCheckbox" disabled="disabled" type="checkbox" value="COURSE"/>
+                                                   </td>
+                     </tr>
+                     <tr>
+                        <td class="text-left">
+                           <div data-original-title="Control what instructors can view" data-placement="top" data-toggle="tooltip" title="">
+                              Instructors
+                           </div>
+                        </td>
+                        <td>
+                           <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTOR"/>
+                                                   </td>
+                        <td>
+                           <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTOR"/>
+                                                   </td>
+                        <td>
+                           <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="INSTRUCTOR"/>
+                                                   </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+            <textarea class="form-control" id="commentText" name="commenttext" placeholder="Enter your comment here ..." rows="6" style="margin-bottom: 15px;">
+            </textarea>
+            <div style="text-align: center;">
+               <input class="btn btn-primary" id="button_save_comment" type="submit" value="Save"/>
+                              <input class="btn btn-default" id="button_cancel_comment" type="button" value="Cancel"/>
+                              <input name="courseid" type="hidden" value="CCDetailsUiT.CS2103"/>
+                              <input name="recipienttype" type="hidden" value="COURSE"/>
+                              <input name="recipients" type="hidden" value="CCDetailsUiT.CS2103"/>
+                              <input name="showcommentsto" type="hidden" value=""/>
+                              <input name="showgiverto" type="hidden" value=""/>
+                              <input name="showrecipientto" type="hidden" value=""/>
+                              <input name="user" type="hidden" value="CCDetailsUiT.instr2"/>
+                              <input name="coursedetailspage" type="hidden" value="true"/>
+                           </div>
+         </form>
+      </div>
+      <br/>
+            <div id="statusMessage" style="display: none;">
+      </div>
+      <br/>
+            <table class="table table-bordered table-striped">
+         <thead class="fill-primary">
+            <tr>
+               <th class="button-sort-ascending" id="button_sortstudentsection" onclick="toggleSort(this, 1);">
+                  Section
+                  <span class="icon-sort sorted-ascending">
+                  </span>
+               </th>
+               <th class="button-sort-none" id="button_sortstudentteam" onclick="toggleSort(this, 2);">
+                  Team
+                  <span class="icon-sort unsorted">
+                  </span>
+               </th>
+               <th class="button-sort-none" id="button_sortstudentname" onclick="toggleSort(this, 3);">
+                  Student Name
+                  <span class="icon-sort unsorted">
+                  </span>
+               </th>
+               <th class="button-sort-none" id="button_sortstudentstatus" onclick="toggleSort(this, 4);">
+                  Status
+                  <span class="icon-sort unsorted">
+                  </span>
+               </th>
+               <th class="align-center no-print">
+                  Action(s)
+               </th>
+            </tr>
+         </thead>
+         <tbody>
+            <tr class="student_row" id="student0">
+               <td id="sectionname">
+                  Tut Group 1
+               </td>
+               <td id="teamname">
+                  Team 1
+               </td>
+               <td id="studentname">
+                  Alice Betsy
+               </td>
+               <td class="align-center">
+                  Joined
+               </td>
+               <td class="align-center no-print">
+                  <a class="btn btn-default btn-xs t_student_details0" data-original-title="View the details of the student" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2103&studentemail={$test.student1}%40gmail.com&user=CCDetailsUiT.instr2" title="">
+                     View
+                  </a>
+                  <a class="btn btn-default btn-xs t_student_edit0" data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=CCDetailsUiT.CS2103&studentemail={$test.student1}%40gmail.com&user=CCDetailsUiT.instr2" title="">
+                     Edit
+                  </a>
+                  <a class="btn btn-default btn-xs t_student_delete0" data-original-title="Delete the student and the corresponding evaluations from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=CCDetailsUiT.CS2103&studentemail={$test.student1}%40gmail.com&user=CCDetailsUiT.instr2" onclick="return toggleDeleteStudentConfirmation('Alice Betsy')" title="">
+                     Delete
+                  </a>
+                  <div class="dropdown" style="display:inline;">
+                     <a class="btn btn-default btn-xs t_student_records-cCCDetailsUiT.CS2103.0 dropdown-toggle" data-toggle="dropdown" href="javascript:;">
+                        Add Comment
+                     </a>
+                     <ul aria-labelledby="dLabel" class="dropdown-menu" role="menu" style="text-align:left;">
+                        <li role="presentation">
+                           <a class="t_student_details_tostudent-cCCDetailsUiT.CS2103.0" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2103&studentemail={$test.student1}%40gmail.com&user=CCDetailsUiT.instr2&addComment=student" role="menuitem" tabindex="-1">
+                              Comment on Alice Betsy
+                           </a>
+                        </li>
+                        <li role="presentation">
+                           <a class="t_student_details_toteam-cCCDetailsUiT.CS2103.0" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2103&studentemail={$test.student1}%40gmail.com&user=CCDetailsUiT.instr2&addComment=team" role="menuitem" tabindex="-1">
+                              Comment on Team 1
+                           </a>
+                        </li>
+                     </ul>
+                  </div>
+               </td>
+            </tr>
+            <tr class="student_row" id="student2">
+               <td id="sectionname">
+                  Tut Group 1
+               </td>
+               <td id="teamname">
+                  Team 1
+               </td>
+               <td id="studentname">
+                  Charlie Davis
+               </td>
+               <td class="align-center">
+                  Yet to join
+               </td>
+               <td class="align-center no-print">
+                  <a class="btn btn-default btn-xs t_student_details2" data-original-title="View the details of the student" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2103&studentemail={$test.student2}%40gmail.com&user=CCDetailsUiT.instr2" title="">
+                     View
+                  </a>
+                  <a class="btn btn-default btn-xs t_student_edit2" data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=CCDetailsUiT.CS2103&studentemail={$test.student2}%40gmail.com&user=CCDetailsUiT.instr2" title="">
+                     Edit
+                  </a>
+                  <a class="btn btn-default btn-xs t_student_resend2" data-original-title="Send invitation email to the student" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseRemind?courseid=CCDetailsUiT.CS2103&studentemail={$test.student2}%40gmail.com&user=CCDetailsUiT.instr2" onclick="return toggleSendRegistrationKey()" title="">
+                     Send Invite
+                  </a>
+                  <a class="btn btn-default btn-xs t_student_delete2" data-original-title="Delete the student and the corresponding evaluations from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=CCDetailsUiT.CS2103&studentemail={$test.student2}%40gmail.com&user=CCDetailsUiT.instr2" onclick="return toggleDeleteStudentConfirmation('Charlie Davis')" title="">
+                     Delete
+                  </a>
+                  <div class="dropdown" style="display:inline;">
+                     <a class="btn btn-default btn-xs t_student_records-cCCDetailsUiT.CS2103.2 dropdown-toggle" data-toggle="dropdown" href="javascript:;">
+                        Add Comment
+                     </a>
+                     <ul aria-labelledby="dLabel" class="dropdown-menu" role="menu" style="text-align:left;">
+                        <li role="presentation">
+                           <a class="t_student_details_tostudent-cCCDetailsUiT.CS2103.2" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2103&studentemail={$test.student2}%40gmail.com&user=CCDetailsUiT.instr2&addComment=student" role="menuitem" tabindex="-1">
+                              Comment on Charlie Davis
+                           </a>
+                        </li>
+                        <li role="presentation">
+                           <a class="t_student_details_toteam-cCCDetailsUiT.CS2103.2" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2103&studentemail={$test.student2}%40gmail.com&user=CCDetailsUiT.instr2&addComment=team" role="menuitem" tabindex="-1">
+                              Comment on Team 1
+                           </a>
+                        </li>
+                     </ul>
+                  </div>
+               </td>
+            </tr>
+            <tr class="student_row" id="student1">
+               <td id="sectionname">
+                  Tut Group 2
+               </td>
+               <td id="teamname">
+                  Team 2
+               </td>
+               <td id="studentname">
+                  Benny Charles
+               </td>
+               <td class="align-center">
+                  Yet to join
+               </td>
+               <td class="align-center no-print">
+                  <a class="btn btn-default btn-xs t_student_details1" data-original-title="View the details of the student" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2103&studentemail=benny.tmms%40gmail.com&user=CCDetailsUiT.instr2" title="">
+                     View
+                  </a>
+                  <a class="btn btn-default btn-xs t_student_edit1" data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=CCDetailsUiT.CS2103&studentemail=benny.tmms%40gmail.com&user=CCDetailsUiT.instr2" title="">
+                     Edit
+                  </a>
+                  <a class="btn btn-default btn-xs t_student_resend1" data-original-title="Send invitation email to the student" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseRemind?courseid=CCDetailsUiT.CS2103&studentemail=benny.tmms%40gmail.com&user=CCDetailsUiT.instr2" onclick="return toggleSendRegistrationKey()" title="">
+                     Send Invite
+                  </a>
+                  <a class="btn btn-default btn-xs t_student_delete1" data-original-title="Delete the student and the corresponding evaluations from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=CCDetailsUiT.CS2103&studentemail=benny.tmms%40gmail.com&user=CCDetailsUiT.instr2" onclick="return toggleDeleteStudentConfirmation('Benny Charles')" title="">
+                     Delete
+                  </a>
+                  <div class="dropdown" style="display:inline;">
+                     <a class="btn btn-default btn-xs t_student_records-cCCDetailsUiT.CS2103.1 dropdown-toggle" data-toggle="dropdown" href="javascript:;">
+                        Add Comment
+                     </a>
+                     <ul aria-labelledby="dLabel" class="dropdown-menu" role="menu" style="text-align:left;">
+                        <li role="presentation">
+                           <a class="t_student_details_tostudent-cCCDetailsUiT.CS2103.1" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2103&studentemail=benny.tmms%40gmail.com&user=CCDetailsUiT.instr2&addComment=student" role="menuitem" tabindex="-1">
+                              Comment on Benny Charles
+                           </a>
+                        </li>
+                        <li role="presentation">
+                           <a class="t_student_details_toteam-cCCDetailsUiT.CS2103.1" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2103&studentemail=benny.tmms%40gmail.com&user=CCDetailsUiT.instr2&addComment=team" role="menuitem" tabindex="-1">
+                              Comment on Team 2
+                           </a>
+                        </li>
+                     </ul>
+                  </div>
+               </td>
+            </tr>
+         </tbody>
+      </table>
+      <br/>
+            <br/>
+            <br/>
+         </div>
+         <div class="container-fluid" id="footerComponent">
+            <div class="container">
+               <div class="row">
+                  <div class="col-md-4">
+                     <span>
+                        [
+                        <a href="/index.html">
+                           TEAMMATES
+                        </a>
+                        V{$version}]
+                     </span>
+                  </div>
+                  <div class="col-md-4">
+                     [for
+                     <span class="highlight-white">
+                        <span class="color_white">
+                           National University of Singapore
+                        </span>
+                     </span>
+                     ]
+                  </div>
+                  <div class="col-md-4">
+                     <span>
+                        [Send
+                        <a class="link" href="../contact.html" target="_blank">
+                           Feedback
+                        </a>
+                        ]
+                     </span>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </body>
+   </html>

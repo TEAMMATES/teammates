@@ -11,13 +11,13 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.FeedbackConstantSumResponseDetails;
 import teammates.common.datatransfer.FeedbackMsqResponseDetails;
 import teammates.common.datatransfer.FeedbackNumericalScaleResponseDetails;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EnrollException;
 import teammates.common.util.Const;
-import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
@@ -59,32 +59,32 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         ______TS("Awaiting session");
         
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Awaiting Session");
-        submitPage.verifyHtml("/instructorFeedbackSubmitPageAwaiting.html");
+        submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPageAwaiting.html");
         
         ______TS("Open session");
         
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
-        submitPage.verifyHtml("/instructorFeedbackSubmitPageOpen.html");
+        submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPageOpen.html");
         
         ______TS("Grace period session");
         
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Grace Period Session");
-        submitPage.verifyHtml("/instructorFeedbackSubmitPageGracePeriod.html");
+        submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPageGracePeriod.html");
         
         ______TS("Closed session");
         
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Closed Session");
-        submitPage.verifyHtml("/instructorFeedbackSubmitPageClosed.html");
+        submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPageClosed.html");
         
         ______TS("Empty session");
         
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Empty Session");                
-        submitPage.verifyHtml("/instructorFeedbackSubmitPageEmpty.html");
+        submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPageEmpty.html");
     
         ______TS("Private session");
         
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Private Session");
-        submitPage.verifyHtml("/instructorFeedbackSubmitPagePrivate.html");
+        submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPagePrivate.html");
     
     }
     
@@ -118,6 +118,9 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.toggleMsqOption(8, 0, "UI");
         submitPage.toggleMsqOption(8, 0, "Design");
         
+        submitPage.fillResponseTextBox(17, 0, 0, "90");
+        submitPage.fillResponseTextBox(17, 0, 1, "10");
+        
         // Just check that some of the responses persisted.
         FeedbackQuestionAttributes fq =
                 BackDoor.getFeedbackQuestion("IFSubmitUiT.CS2104",
@@ -134,6 +137,12 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         FeedbackQuestionAttributes fqNumscale =
                 BackDoor.getFeedbackQuestion("IFSubmitUiT.CS2104",
                         "First Session", 15);
+        FeedbackQuestionAttributes fqConstSum =
+                BackDoor.getFeedbackQuestion("IFSubmitUiT.CS2104",
+                        "First Session", 19);
+        FeedbackQuestionAttributes fqConstSum2 =
+                BackDoor.getFeedbackQuestion("IFSubmitUiT.CS2104",
+                        "First Session", 20);
         
         assertNull(BackDoor.getFeedbackResponse(fq.getId(),
                 "IFSubmitUiT.instr@gmail.com",
@@ -150,7 +159,10 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertNull(BackDoor.getFeedbackResponse(fqNumscale.getId(),
                 "IFSubmitUiT.instr@gmail.com",
                 "IFSubmitUiT.instr@gmail.com"));
-
+        assertNull(BackDoor.getFeedbackResponse(fqConstSum.getId(),
+                "IFSubmitUiT.instr@gmail.com",
+                "IFSubmitUiT.instr@gmail.com"));
+        
         submitPage.clickSubmitButton();
 
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
@@ -171,9 +183,12 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertNotNull(BackDoor.getFeedbackResponse(fqNumscale.getId(),
                 "IFSubmitUiT.instr@gmail.com",
                 "IFSubmitUiT.instr@gmail.com"));
+        assertNotNull(BackDoor.getFeedbackResponse(fqConstSum.getId(),
+                "IFSubmitUiT.instr@gmail.com",
+                "IFSubmitUiT.instr@gmail.com"));
         
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
-        submitPage.verifyHtml("/instructorFeedbackSubmitPagePartiallyFilled.html");
+        submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPagePartiallyFilled.html");
                 
         ______TS("edit existing response");        
         
@@ -219,10 +234,27 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.toggleMsqOption(16, 0, "Teammates Test");
         submitPage.toggleMsqOption(16, 0, "Teammates Test3");
         
-        // Just check the edited responses, and one new response.
+        submitPage.fillResponseTextBox(17, 0, 0, "70");
+        submitPage.fillResponseTextBox(17, 0, 1, "30");
+        
+        submitPage.fillResponseTextBox(18, 0, 0, "90");
+        submitPage.fillResponseTextBox(18, 1, 0, "110");
+        submitPage.fillResponseTextBox(18, 2, 0, "100");
+        
+        // Just check the edited responses, and two new response.
         assertNull(BackDoor.getFeedbackResponse(fq.getId(),
                 "IFSubmitUiT.instr@gmail.com",
                 "Team 2"));
+        assertNull(BackDoor.getFeedbackResponse(fqConstSum2.getId(),
+                "IFSubmitUiT.instr@gmail.com",
+                "Team 1"));
+        assertNull(BackDoor.getFeedbackResponse(fqConstSum2.getId(),
+                "IFSubmitUiT.instr@gmail.com",
+                "Team 2"));
+        assertNull(BackDoor.getFeedbackResponse(fqConstSum2.getId(),
+                "IFSubmitUiT.instr@gmail.com",
+                "Team 3"));
+        
         
         submitPage.clickSubmitButton();
 
@@ -258,8 +290,32 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
                         "IFSubmitUiT.instr@gmail.com").getResponseDetails();
         assertEquals("5", frNumscale.getAnswerString());
         
+        FeedbackConstantSumResponseDetails frConstSum = 
+                (FeedbackConstantSumResponseDetails) BackDoor.getFeedbackResponse(fqConstSum.getId(),
+                        "IFSubmitUiT.instr@gmail.com",
+                        "IFSubmitUiT.instr@gmail.com").getResponseDetails();
+        assertEquals("70, 30", frConstSum.getAnswerString());
+        
+        FeedbackConstantSumResponseDetails frConstSum2_0 = 
+                (FeedbackConstantSumResponseDetails) BackDoor.getFeedbackResponse(fqConstSum2.getId(),
+                        "IFSubmitUiT.instr@gmail.com",
+                        "Team 1").getResponseDetails();
+        assertEquals("90", frConstSum2_0.getAnswerString());
+        
+        FeedbackConstantSumResponseDetails frConstSum2_1 = 
+                (FeedbackConstantSumResponseDetails) BackDoor.getFeedbackResponse(fqConstSum2.getId(),
+                        "IFSubmitUiT.instr@gmail.com",
+                        "Team 2").getResponseDetails();
+        assertEquals("110", frConstSum2_1.getAnswerString());
+        
+        FeedbackConstantSumResponseDetails frConstSum2_2 = 
+                (FeedbackConstantSumResponseDetails) BackDoor.getFeedbackResponse(fqConstSum2.getId(),
+                        "IFSubmitUiT.instr@gmail.com",
+                        "Team 3").getResponseDetails();
+        assertEquals("100", frConstSum2_2.getAnswerString());
+        
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
-        submitPage.verifyHtml("/instructorFeedbackSubmitPageFullyFilled.html");
+        submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPageFullyFilled.html");
     }
     
     /**
@@ -273,7 +329,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         testMcqSubmitAction();
         testMsqSubmitAction();
         testNumScaleSubmitAction();
-        
+        testConstSumSubmitAction();
     }
     
     private void testEssaySubmitAction(){
@@ -289,7 +345,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertTrue(submitPage.isNamedElementVisible(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
         assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
 
-        //TODO: test that the recipient selection is also disabled after it is implemented.
+        //TODO: test that the recipient selection is also disabled
     }
     
     private void testMcqSubmitAction(){
@@ -301,7 +357,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertTrue(submitPage.isNamedElementVisible(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
         assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
 
-        //TODO: test that the recipient selection is also disabled after it is implemented.
+        //TODO: test that the recipient selection is also disabled
     }
     
     private void testMsqSubmitAction(){
@@ -313,7 +369,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertTrue(submitPage.isNamedElementVisible(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
         assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
         
-        //TODO: test that the recipient selection is also disabled after it is implemented.
+        //TODO: test that the recipient selection is also disabled
     }
     
     private void testNumScaleSubmitAction(){
@@ -325,7 +381,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertTrue(submitPage.isNamedElementVisible(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
         assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
 
-        //TODO: test that the recipient selection is also disabled after it is implemented.
+        //TODO: test that the recipient selection is also disabled
         
         //Test input entered are valid numbers for the question.
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
@@ -345,7 +401,43 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         
         fillResponseTextBoxWithRecheck(14, 0, "6", "5");
         
-        //TODO: test for stronger validation. (step is not properly validated now)
+        //TODO: test for stronger step validation.
+        
+    }
+    
+    private void testConstSumSubmitAction(){
+        ______TS("test submit actions for constsum questions.");
+        
+        //Test input disabled
+        submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Closed Session");
+        int qnNumber = 5;
+        int responseNumber = 0;
+        assertTrue(submitPage.isNamedElementVisible(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
+        assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
+        
+        //Test messages for different values entered
+        submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
+        qnNumber = 17;
+        assertEquals("All points distributed!",submitPage.getConstSumMessage(qnNumber, 0));
+        submitPage.fillResponseTextBox(qnNumber, 0, 0, "80");
+        assertEquals("Over allocated 10 points",submitPage.getConstSumMessage(qnNumber, 0));
+        submitPage.fillResponseTextBox(qnNumber, 0, 0, "");
+        assertEquals("70 points left to distribute.",submitPage.getConstSumMessage(qnNumber, 0));
+        submitPage.fillResponseTextBox(qnNumber, 0, 1, "");
+        assertEquals("Please distribute 100 points among the above options.",submitPage.getConstSumMessage(qnNumber, 0));
+        
+        //Test error message when submitting
+        submitPage.fillResponseTextBox(qnNumber, 0, 1, "10");
+        assertEquals("90 points left to distribute.",submitPage.getConstSumMessage(qnNumber, 0));
+        
+        submitPage.clickSubmitButton();
+        assertEquals("Please distribute all the points for distribution questions."
+                + " To skip a distribution question, leave the boxes blank.",
+                submitPage.getStatus());
+        
+        //For other const sum question, just test one message.
+        qnNumber = 18;
+        assertEquals("100 points left to distribute.",submitPage.getConstSumMessage(qnNumber, 3));
         
     }
     
@@ -382,7 +474,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
 
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
-        submitPage.verifyHtml("/instructorFeedbackSubmitPageModified.html");
+        submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPageModified.html");
     }
 
     private FeedbackSubmitPage loginToInstructorFeedbackSubmitPage(

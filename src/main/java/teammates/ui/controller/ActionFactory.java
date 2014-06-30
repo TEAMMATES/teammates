@@ -90,7 +90,9 @@ public class ActionFactory {
         
         map(INSTRUCTOR_STUDENT_COMMENT_ADD, InstructorStudentCommentAddAction.class);
         map(INSTRUCTOR_STUDENT_COMMENT_EDIT, InstructorStudentCommentEditAction.class);
+        map(INSTRUCTOR_COMMENTS_PAGE, InstructorCommentsPageAction.class);
 
+        map(STUDENT_COMMENTS_PAGE, StudentCommentsPageAction.class);
         map(STUDENT_COURSE_DETAILS_PAGE, StudentCourseDetailsPageAction.class);
         map(STUDENT_COURSE_JOIN, StudentCourseJoinAction.class);
         map(STUDENT_COURSE_JOIN_AUTHENTICATED, StudentCourseJoinAuthenticatedAction.class);
@@ -102,6 +104,10 @@ public class ActionFactory {
         map(STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE, StudentFeedbackSubmissionEditSaveAction.class);
         map(STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE, StudentFeedbackQuestionSubmissionEditPageAction.class);
         map(STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_SAVE, StudentFeedbackQuestionSubmissionEditSaveAction.class);
+        map(STUDENT_PROFILE_PAGE, StudentProfilePageAction.class);
+        map(STUDENT_PROFILE_PICTURE, StudentProfilePictureAction.class);
+        map(STUDENT_PROFILE_CREATEUPLOADFORMURL, StudentProfileCreateFormUrlAction.class);
+        map(STUDENT_PROFILE_EDIT_SAVE, StudentProfileEditSaveAction.class);
         map(STUDENT_HOME_PAGE, StudentHomePageAction.class);
     }
 

@@ -662,6 +662,11 @@
 
                         </div>
 
+                        <input type="hidden" name="offset"
+                            value="<%=data.offset%>"> <input
+                            type="hidden" name="pageChange"
+                            value="false">
+
                     </form>
 
 
@@ -682,9 +687,7 @@
 
 
 
-                <input type="hidden" name="offset"
-                    value="<%=data.offset%>"> <input
-                    type="hidden" name="pageChange" value="false">
+               
 
 
             </div>

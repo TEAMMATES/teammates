@@ -1,10 +1,12 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
 import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
@@ -44,6 +46,12 @@ public class InstructorCoursesPageAction extends Action {
         data.archivedCourses = extractArchivedCourses(data.allCourses);
         
         CourseDetailsBundle.sortDetailedCoursesByCourseId(data.allCourses);
+        data.instructors = new HashMap<String, InstructorAttributes>();
+        
+        for (CourseDetailsBundle courseDetails : data.allCourses) {
+            InstructorAttributes instructor = logic.getInstructorForGoogleId(courseDetails.course.id, account.googleId);
+            data.instructors.put(courseDetails.course.id, instructor);
+        }
         
         /* Explanation: Set any status messages that should be shown to the user.*/
         if (data.allCourses.size() == 0 ){
@@ -66,6 +74,16 @@ public class InstructorCoursesPageAction extends Action {
         
         for (CourseDetailsBundle courseBundle : courseBundles) {
             CourseAttributes course = courseBundle.course;
+            
+            
+            
+            InstructorAttributes curInstructor = logic.getInstructorForGoogleId(course.id, account.googleId);
+            
+            //if the archive status is null,
+            //accept the value from the course
+            if(curInstructor.isArchived != null){
+                course.isArchived = curInstructor.isArchived;
+            }
             
             if (course.isArchived) {
                 archivedCourses.add(course);

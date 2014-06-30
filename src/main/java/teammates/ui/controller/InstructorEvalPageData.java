@@ -1,12 +1,14 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 
 public class InstructorEvalPageData extends PageData {
@@ -15,6 +17,7 @@ public class InstructorEvalPageData extends PageData {
     public List<EvaluationAttributes> existingEvalSessions;
     public List<FeedbackSessionAttributes> existingFeedbackSessions;
     public List<CourseDetailsBundle> courses; //TODO: can we use a lighter data structure here?
+    public HashMap<String, InstructorAttributes> instructors;
 
     public InstructorEvalPageData(AccountAttributes account) {
         super(account);

@@ -37,6 +37,7 @@
                                 <li><a href="#instructorStudentListPage">Instructor Student List Page</a></li>
                                 <li><a href="#instructorCourseStudentDetailsPage">Instructor Student Details Page</a></li>
                                 <li><a href="#instructorCourseStudentEditPage">Instructor Student Edit Page</a></li>
+                                <li><a href="#instructorStudentRecordsPage">Instructor Student Records Page</a></li>
                                 <li><a href="#instructorCourseEvalPage">Instructor Eval Page</a></li>
                                 <li><a href="#instructorCourseEvalEditPage">Instructor Eval Edit Page</a></li>
                                 <li><a href="#instructorCourseEvalPreviewPage">Instructor Eval Preview Page</a></li>
@@ -51,15 +52,19 @@
                                 <li><a href="#instructorFeedbackPreviewAsInstructorPage">Instructor Feedback Preview as Instructor Page</a></li>
                                 <li><a href="#instructorFeedbackSubmitPage">Instructor Feedback Submit Page</a></li>
                                 <li><a href="#instructorFeedbackQuestionSubmitPage">Instructor Feedback Question Submit Page</a></li>
-                                <li><a href="#instructorFeedbackResultsPageByGiver">Instructor Feedback Results Page (By giver)</a></li>
-                                <li><a href="#instructorFeedbackResultsPageByRecipient">Instructor Feedback Results Page (By recipient)</a></li>
-                                <li><a href="#instructorFeedbackResultsPageByTable">Instructor Feedback Results Page (By table)</a></li>                        
+                                <li><a href="#instructorFeedbackResultsPageByGiverRecipientQuestion">Instructor Feedback Results Page (By giver-recipient-question)</a></li>
+                                <li><a href="#instructorFeedbackResultsPageByRecipientGiverQuestion">Instructor Feedback Results Page (By recipient-giver-question)</a></li>
+                                <li><a href="#instructorFeedbackResultsPageByGiverQuestionRecipient">Instructor Feedback Results Page (By giver-question-recipient)</a></li>
+                                <li><a href="#instructorFeedbackResultsPageByRecipientQuestionGiver">Instructor Feedback Results Page (By recipient-question-giver)</a></li>
+                                <li><a href="#instructorFeedbackResultsPageByQuestion">Instructor Feedback Results Page (By question)</a></li>
+                                <li><a href="#instructorCommentsPage">Instructor Comments Page</a></li>
                             </ul>
                         </td>
                         <td>
                             <h2>Student Pages</h2>
                             <ul class="nav">
                                 <li><a href="#studentHomePage">Student Home Page</a></li>
+                                <li><a href="#studentProfilePage">Student Profile Page</a></li>
                                 <li><a href="#studentCourseJoinConfirmationPage">Student Course Join Confirmation Page</a></li>
                                 <li><a href="#studentCourseDetailsPage">Student Course Details Page</a></li>
                                 <li><a href="#studentEvalEditPage">Student Eval Edit Page</a></li>
@@ -136,6 +141,10 @@
                 <div id="instructorCourseStudentEditPage"></div>
                 <br><hr class="hr-bold"><br>
                 
+                <div class="pageinfo">Instructor Student Records Page</div>
+                <div id="instructorStudentRecordsPage"></div>
+                <br><hr class="hr-bold"><br>
+                
                 <div class="pageinfo">Instructor Eval Page</div>
                 <div id="instructorCourseEvalPage"></div>
                 <br><hr class="hr-bold"><br>
@@ -190,16 +199,28 @@
                 <div id="instructorFeedbackQuestionSubmitPage"></div>
                 <br><hr class="hr-bold"><br>
                 
-                <div class="pageinfo">Instructor Feedback Results Page (By giver)</div>
-                <div id="instructorFeedbackResultsPageByGiver"></div>
+                <div class="pageinfo">Instructor Feedback Results Page (By giver-recipient-question)</div>
+                <div id="instructorFeedbackResultsPageByGiverRecipientQuestion"></div>
                 <br><hr class="hr-bold"><br>        
                 
-                <div class="pageinfo">Instructor Feedback Results Page (By recipient)</div>
-                <div id="instructorFeedbackResultsPageByRecipient"></div>
+                <div class="pageinfo">Instructor Feedback Results Page (By recipient-giver-question)</div>
+                <div id="instructorFeedbackResultsPageByRecipientGiverQuestion"></div>
+                <br><hr class="hr-bold"><br>
+
+                <div class="pageinfo">Instructor Feedback Results Page (By giver-question-recipient)</div>
+                <div id="instructorFeedbackResultsPageByGiverQuestionRecipient"></div>
+                <br><hr class="hr-bold"><br>        
+                
+                <div class="pageinfo">Instructor Feedback Results Page (By recipient-question-giver)</div>
+                <div id="instructorFeedbackResultsPageByRecipientQuestionGiver"></div>
                 <br><hr class="hr-bold"><br>
                 
-                <div class="pageinfo">Instructor Feedback Results Page (By table)</div>
-                <div id="instructorFeedbackResultsPageByTable"></div>
+                <div class="pageinfo">Instructor Feedback Results Page (By question)</div>
+                <div id="instructorFeedbackResultsPageByQuestion"></div>
+                <br><hr class="hr-bold"><br>
+                
+                <div class="pageinfo">Instructor Comments Page</div>
+                <div id="instructorCommentsPage"></div>
                 <br></br>
                 <br></br>
                 <br></br>
@@ -208,6 +229,10 @@
 
                 <div class="pageinfo">Student Home Page</div>
                 <div id="studentHomePage"></div>
+                <br><hr class="hr-bold"><br>
+                
+                <div class="pageinfo">Student Profile Page</div>
+                <div id="studentProfilePage"></div>
                 <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Student Course Join Confirmation Page</div>
@@ -344,6 +369,12 @@
                 function (response, status, xml) {
                     $("[data-toggle='tooltip']").tooltip({html: true}); 
                 });
+
+            $('#instructorStudentRecordsPage').load("<%=Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE%>?user=teammates.test&courseid=CS2104&studentemail=benny.c.tmms%40gmail.com #frameBodyWrapper",
+                function (response, status, xml) {
+                    $("[data-toggle='tooltip']").tooltip({html: true}); 
+                });
+            
             $('#instructorCourseEvalPage').load("<%=Const.ActionURIs.INSTRUCTOR_EVALS_PAGE%>?user=teammates.test #frameBodyWrapper",
                 function (response, status, xml) {
                     $("[data-toggle='tooltip']").tooltip({html: true}); 
@@ -401,36 +432,64 @@
                     $("[data-toggle='tooltip']").tooltip({html: true}); 
                 });
             <%
-                String instrQuestionId = FeedbackQuestionsLogic.inst().getFeedbackQuestion("First feedback session", "CS2104", 3).getId();
+                String instrQuestionId = null;
+                if(FeedbackQuestionsLogic.inst().getFeedbackQuestion("First feedback session", "CS2104", 3)!=null){
+                    instrQuestionId = FeedbackQuestionsLogic.inst().getFeedbackQuestion("First feedback session", "CS2104", 3).getId();
             %>
             $('#instructorFeedbackQuestionSubmitPage').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&questionid=<%=instrQuestionId%> #frameBodyWrapper",
                 function (response, status, xml) {
                     $("[data-toggle='tooltip']").tooltip({html: true}); 
                 });
-            $('#instructorFeedbackResultsPageByGiver').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&frsorttype=giver #frameBodyWrapper",
+            <%
+                }
+            %>
+            $('#instructorFeedbackResultsPageByGiverRecipientQuestion').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&frsorttype=giver-recipient-question #frameBodyWrapper",
                 function (response, status, xml) {
                     $("[data-toggle='tooltip']").tooltip({html: true}); 
                 });
-            $('#instructorFeedbackResultsPageByRecipient').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&frsorttype=recipient #frameBodyWrapper",
+            $('#instructorFeedbackResultsPageByRecipientGiverQuestion').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&frsorttype=recipient-giver-question #frameBodyWrapper",
                 function (response, status, xml) {
                     $("[data-toggle='tooltip']").tooltip({html: true}); 
                 });
-            $('#instructorFeedbackResultsPageByTable').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&frsorttype=table #frameBodyWrapper",
+            $('#instructorFeedbackResultsPageByGiverQuestionRecipient').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&frsorttype=giver-question-recipient #frameBodyWrapper",
                 function (response, status, xml) {
                     $("[data-toggle='tooltip']").tooltip({html: true}); 
                 });
+            $('#instructorFeedbackResultsPageByRecipientQuestionGiver').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&frsorttype=recipient-question-giver #frameBodyWrapper",
+                function (response, status, xml) {
+                    $("[data-toggle='tooltip']").tooltip({html: true}); 
+                });
+            $('#instructorFeedbackResultsPageByQuestion').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&frsorttype=question #frameBodyWrapper",
+                function (response, status, xml) {
+                    $("[data-toggle='tooltip']").tooltip({html: true}); 
+                });
+            $('#instructorCommentsPage').load("<%=Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE%>?user=teammates.test&courseid=CS2104 #frameBodyWrapper",
+                    function (response, status, xml) {
+                        $("[data-toggle='tooltip']").tooltip({html: true}); 
+                    });
             
             $('#studentHomePage').load("<%=Const.ActionURIs.STUDENT_HOME_PAGE%>?user=teammates.test #frameBodyWrapper",
                 function (response, status, xml) {
                     $("[data-toggle='tooltip']").tooltip({html: true}); 
                 });
+            
+            $('#studentProfilePage').load("<%=Const.ActionURIs.STUDENT_PROFILE_PAGE%>?user=alice.b.tmms #frameBodyWrapper",
+                    function (response, status, xml) {
+                        $("[data-toggle='tooltip']").tooltip({html: true}); 
+                    });
+            
             <%
-                String regkey = StringHelper.encrypt(new Logic().getStudentForEmail("CS4215", "teammates.test@gmail.com").key);
+                String regkey = null;
+                if(new Logic().getStudentForEmail("CS4215", "teammates.test@gmail.com")!=null){
+                    regkey = StringHelper.encrypt(new Logic().getStudentForEmail("CS4215", "teammates.test@gmail.com").key);
             %>
             $('#studentCourseJoinConfirmationPage').load("<%=Const.ActionURIs.STUDENT_COURSE_JOIN%>?regkey=<%=regkey%> #frameBodyWrapper",
                 function (response, status, xml) {
                     $("[data-toggle='tooltip']").tooltip({html: true}); 
                 });
+            <%
+                }
+            %>
             $('#studentCourseDetailsPage').load("<%=Const.ActionURIs.STUDENT_COURSE_DETAILS_PAGE%>?user=teammates.test&courseid=CS2104 #frameBodyWrapper",
                 function (response, status, xml) {
                     $("[data-toggle='tooltip']").tooltip({html: true}); 
@@ -448,12 +507,17 @@
                     $("[data-toggle='tooltip']").tooltip({html: true}); 
                 });
             <%
-                String studentQuestionId = FeedbackQuestionsLogic.inst().getFeedbackQuestion("First feedback session", "CS2104", 1).getId();
+                String studentQuestionId = null;
+                if(FeedbackQuestionsLogic.inst().getFeedbackQuestion("First feedback session", "CS2104", 1)!=null){
+                    studentQuestionId = FeedbackQuestionsLogic.inst().getFeedbackQuestion("First feedback session", "CS2104", 1).getId();
             %>
             $('#studentFeedbackQuestionSubmitPage').load("<%=Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&questionid=<%=studentQuestionId%> #frameBodyWrapper",
                 function (response, status, xml) {
                     $("[data-toggle='tooltip']").tooltip({html: true}); 
                 });
+            <%
+                }
+            %>
             $('#studentFeedbackResultsPage').load("<%=Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session #frameBodyWrapper",
                 function (response, status, xml) {
                     $("[data-toggle='tooltip']").tooltip({html: true}); 

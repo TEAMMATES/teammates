@@ -53,13 +53,15 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
         ______TS("typical case: enroll new student to existing course");
         String evaluationName = "evaluation1 In Course1";
         StudentAttributes newStudent = new StudentAttributes();
+        newStudent.section = "None";
         newStudent.team = "Team 1.1";
         newStudent.course = "idOfTypicalCourse1";
         newStudent.email = "random@g";
         newStudent.name = "someName";
         newStudent.comments = "comments";
         
-        enrollString = newStudent.toEnrollmentString();
+        enrollString =  "Section | Team | Name | Email | Comment" + Const.EOL;
+        enrollString += newStudent.toEnrollmentString();
         
         /*
          * Old number of submissions = 2 * (4 * 4 + 1 * 1) = 34
@@ -97,8 +99,9 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
         
         String newTeam = "Team 1.2";
         student.team = newTeam;
-
-        enrollString = student.toEnrollmentString();
+        
+        enrollString =  "Section | Team | Name | Email | Comment" + Const.EOL;
+        enrollString += student.toEnrollmentString();
         enrollPage.enroll(enrollString);
         
         TestHelper.verifySubmissionsExistForCurrentTeamStructureInEvaluation(evaluationName, 

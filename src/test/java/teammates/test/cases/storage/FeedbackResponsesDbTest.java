@@ -187,6 +187,54 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         assertTrue(frDb.getFeedbackResponsesForQuestion(fqa.getId()).isEmpty());    
         
     }
+
+    @Test
+    public void testGetFeedbackResponsesForQuestionInSection() throws Exception {
+        
+        restoreTypicalDataInDatastore();
+        
+        ______TS("standard success case");  
+        
+        FeedbackQuestionAttributes fqa = 
+                fqDb.getFeedbackQuestion("First feedback session", "idOfTypicalCourse1", 1);
+        
+        List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForQuestionInSection(fqa.getId(), "Section 1");
+        
+        assertEquals(responses.size(), 2);
+
+        ______TS("No responses as they are filtered out");
+
+        responses = frDb.getFeedbackResponsesForQuestionInSection(fqa.getId(), "Section 2");
+        
+        assertEquals(responses.size(), 0);
+        
+        ______TS("null params");
+        
+        try {
+            frDb.getFeedbackResponsesForQuestionInSection(null, "Section 1");
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
+        }
+
+        try {
+            frDb.getFeedbackResponsesForQuestionInSection(fqa.getId(), null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
+        }
+        
+        ______TS("non-existent feedback question");
+        
+        assertTrue(frDb.getFeedbackResponsesForQuestionInSection("non-existent fq id", "Section 1").isEmpty());
+            
+        ______TS("no responses for question");
+        
+        fqa = fqDb.getFeedbackQuestion("First feedback session", "idOfTypicalCourse1", 4);
+        
+        assertTrue(frDb.getFeedbackResponsesForQuestionInSection(fqa.getId(), "Section 1").isEmpty());    
+        
+    }
     
     @Test
     public void testGetFeedbackResponsesForSession() throws Exception {
@@ -277,6 +325,74 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         fqa = fqDb.getFeedbackQuestion("First feedback session", "idOfTypicalCourse1", 4);
         
         assertTrue(frDb.getFeedbackResponsesForReceiverForQuestion(fqa.getId(), "student1InCourse1@gmail.com").isEmpty());    
+        
+    }
+
+    @Test
+    public void testGetFeedbackResponsesForReceiverForQuestionInSection() throws Exception {
+        
+        restoreTypicalDataInDatastore();
+        
+        ______TS("standard success case");  
+        
+        FeedbackQuestionAttributes fqa = 
+                fqDb.getFeedbackQuestion("First feedback session", "idOfTypicalCourse1", 1);
+        
+        List<FeedbackResponseAttributes> responses = 
+                frDb.getFeedbackResponsesForReceiverForQuestionInSection(fqa.getId(),
+                        "student1InCourse1@gmail.com", "Section 1");
+        
+        assertEquals(responses.size(), 1);
+
+        ______TS("No responses as they are filtered out");  
+        
+        responses = 
+                frDb.getFeedbackResponsesForReceiverForQuestionInSection(fqa.getId(),
+                        "student1InCourse1@gmail.com", "Section 2");
+        
+        assertEquals(responses.size(), 0);
+        
+        ______TS("null params");
+        
+        try {
+            frDb.getFeedbackResponsesForReceiverForQuestionInSection(
+                                                null, "student1InCourse1@gmail.com", "Section 1");
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
+        }
+        
+        try {
+            frDb.getFeedbackResponsesForReceiverForQuestionInSection(fqa.getId(), null, "Section 1");
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
+        }
+
+        try {
+            frDb.getFeedbackResponsesForReceiverForQuestionInSection(
+                                                fqa.getId(), "student1InCourse1@gmail.com", null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
+        }
+        
+        ______TS("non-existent feedback question");
+        
+        assertTrue(frDb.getFeedbackResponsesForReceiverForQuestionInSection(
+                                "non-existent fq id", "student1InCourse1@gmail.com", "Section 1").isEmpty());
+        
+        ______TS("non-existent receiver");
+        
+        assertTrue(frDb.getFeedbackResponsesForReceiverForQuestionInSection(
+                                fqa.getId(), "non-existentStudentInCourse1@gmail.com", "Section 1").isEmpty());
+        
+        ______TS("no responses for question for receiver");
+        
+        fqa = fqDb.getFeedbackQuestion("First feedback session", "idOfTypicalCourse1", 4);
+        
+        assertTrue(frDb.getFeedbackResponsesForReceiverForQuestionInSection(
+                                fqa.getId(), "student1InCourse1@gmail.com", "Section 1").isEmpty());    
         
     }
     
@@ -371,6 +487,74 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         fqa = fqDb.getFeedbackQuestion("First feedback session", "idOfTypicalCourse1", 4);
         
         assertTrue(frDb.getFeedbackResponsesFromGiverForQuestion(fqa.getId(), "student1InCourse1@gmail.com").isEmpty());    
+        
+    }
+
+    @Test
+    public void testGetFeedbackResponsesFromGiverForQuestionInSection() throws Exception {
+        
+        restoreTypicalDataInDatastore();
+        
+        ______TS("standard success case");  
+        
+        FeedbackQuestionAttributes fqa = 
+                fqDb.getFeedbackQuestion("First feedback session", "idOfTypicalCourse1", 1);
+        
+        List<FeedbackResponseAttributes> responses = 
+                frDb.getFeedbackResponsesFromGiverForQuestionInSection(fqa.getId(),
+                        "student1InCourse1@gmail.com", "Section 1");
+        
+        assertEquals(responses.size(), 1);
+        
+        ______TS("No reponses as they are filtered out");
+
+        responses = 
+                frDb.getFeedbackResponsesFromGiverForQuestionInSection(fqa.getId(),
+                        "student1InCourse1@gmail.com", "Section 2");
+        
+        assertEquals(responses.size(), 0);
+
+        ______TS("null params");
+        
+        try {
+            frDb.getFeedbackResponsesFromGiverForQuestionInSection(
+                                            null, "student1InCourse1@gmail.com", "Section 1");
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
+        }
+        
+        try {
+            frDb.getFeedbackResponsesFromGiverForQuestionInSection(fqa.getId(), null, "Section 1");
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
+        }
+
+        try {
+            frDb.getFeedbackResponsesFromGiverForQuestionInSection(
+                                            fqa.getId(), "student1InCourse1@gmail.com", null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
+        }
+        
+        ______TS("non-existent feedback question");
+        
+        assertTrue(frDb.getFeedbackResponsesFromGiverForQuestionInSection(
+                            "non-existent fq id", "student1InCourse1@gmail.com", "Section 1").isEmpty());
+        
+        ______TS("non-existent receiver");
+        
+        assertTrue(frDb.getFeedbackResponsesFromGiverForQuestionInSection(
+                            fqa.getId(), "non-existentStudentInCourse1@gmail.com", "Section 1").isEmpty());
+        
+        ______TS("no responses from giver for question");
+        
+        fqa = fqDb.getFeedbackQuestion("First feedback session", "idOfTypicalCourse1", 4);
+        
+        assertTrue(frDb.getFeedbackResponsesFromGiverForQuestionInSection(
+                            fqa.getId(), "student1InCourse1@gmail.com", "Section 1").isEmpty());    
         
     }
 
@@ -487,7 +671,9 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         fra.courseId = "testCourse";
         fra.feedbackQuestionType = FeedbackQuestionType.TEXT;
         fra.giverEmail = "giver@email.com";
+        fra.giverSection = "None";
         fra.recipientEmail = "recipient@email.com";
+        fra.recipientSection = "None";
         fra.feedbackQuestionId = "testFeedbackQuestionId";
         
         FeedbackAbstractResponseDetails responseDetails = new FeedbackTextResponseDetails("Text response");
