@@ -42,17 +42,16 @@ public class AdminSessionsPageAction extends Action {
         
         Date start;
         Date end;
-        double zone;
+        double zone = 0.0;
+        
+        Calendar calStart = TimeHelper.now(zone);
+        Calendar calEnd = TimeHelper.now(zone);
+        calStart.add(Calendar.DAY_OF_YEAR, -3);
+        calEnd.add(Calendar.DAY_OF_YEAR, 4);
 
         if (startDate == null && endDate == null && startHour == null
             && endHour == null && startMin == null && endMin == null && timeZone == null) {
-            
-            zone = 0.0;
-            Calendar calStart = TimeHelper.now(zone);
-            Calendar calEnd = TimeHelper.now(zone);
-            calStart.add(Calendar.DAY_OF_YEAR, -3);
-            calEnd.add(Calendar.DAY_OF_YEAR, 4);
-            
+               
             start = calStart.getTime();
             end = calEnd.getTime();
         } else if (startDate != null && endDate != null && startHour != null
@@ -72,6 +71,19 @@ public class AdminSessionsPageAction extends Action {
             
             start = TimeHelper.convertToDate(converTorequiredFormat(startDate, startHour, startMin));
             end = TimeHelper.convertToDate(converTorequiredFormat(endDate, endHour, endMin));  
+            
+            
+            if(start.after(end)){
+                isError = true;
+                statusToUser.add("The filter range is not valid."
+                                 + "End time should be after start time.");
+                statusToAdmin = "Admin Sessions Page Load<br>" +
+                                "<span class=\"bold\"> Error: invalid filter range</span>";
+    
+                prepareDefaultPageData(data, calStart, calEnd);
+    
+                return createShowPageResult(Const.ViewURIs.ADMIN_SESSIONS, data);
+            }
           
         } else {
             
@@ -80,9 +92,7 @@ public class AdminSessionsPageAction extends Action {
             statusToAdmin = "Admin Sessions Page Load<br>" +
                             "<span class=\"bold\"> Error: Missing Parameters</span>";
 
-            data.map = map;
-            data.totalOngoingSessions = 0;
-            data.hasUnknown = false;
+            prepareDefaultPageData(data, calStart, calEnd);
 
             return createShowPageResult(Const.ViewURIs.ADMIN_SESSIONS, data);
             
@@ -193,6 +203,14 @@ public class AdminSessionsPageAction extends Action {
 
         return formated;
 
+    }
+    
+    private void prepareDefaultPageData(AdminSessionsPageData data, Calendar calStart, Calendar calEnd){        
+        data.map = new HashMap<String, List<FeedbackSessionAttributes>>();
+        data.totalOngoingSessions = 0;
+        data.hasUnknown = false;
+        data.rangeStart = calStart.getTime();
+        data.rangeEnd = calEnd.getTime();
     }
 
 }
