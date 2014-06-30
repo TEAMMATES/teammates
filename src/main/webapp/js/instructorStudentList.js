@@ -208,6 +208,19 @@ $(document).ready(function(){
             toggleSort($(this), 1);
         }
     });
+    
+    // Binding for photo retrieval
+    $(".student-photo-link-for-test").on('click', function() {
+    	var link = $(this).attr('data-link');
+    	$(this).siblings('img')
+    		.attr("src", link)
+    		.removeClass('hidden');
+        $(this).remove();
+    });
+    
+    $("img").on('error', function() {
+    	$(this).attr("src","../images/profile_picture_default.png");
+    });
 });
 
 /**

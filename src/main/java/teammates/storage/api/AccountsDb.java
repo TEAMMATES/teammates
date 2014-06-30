@@ -140,8 +140,9 @@ public class AccountsDb extends EntitiesDb {
         // if the student profile has changed then update the store
         // this is to maintain integrity of the modified date.
         if (updateStudentProfile) {
-            String existingProfile = new StudentProfileAttributes(accountToUpdate.getStudentProfile()).toString();
-            if(!(existingProfile.equals(a.studentProfile.toString()))) {
+            StudentProfileAttributes existingProfile = new StudentProfileAttributes(accountToUpdate.getStudentProfile());
+            a.studentProfile.modifiedDate = existingProfile.modifiedDate;
+            if(!(existingProfile.toString().equals(a.studentProfile.toString()))) {
                 accountToUpdate.setStudentProfile((StudentProfile) a.studentProfile.toEntity());
             }
         }
@@ -174,7 +175,7 @@ public class AccountsDb extends EntitiesDb {
         }
         
         if (!accountToDelete.studentProfile.pictureKey.equals("")) {
-            deleteProfilePicFromGcs(new BlobKey(accountToDelete.studentProfile.pictureKey));
+            deletePicture(new BlobKey(accountToDelete.studentProfile.pictureKey));
         }
         deleteEntity(accountToDelete);
         closePM();
@@ -230,7 +231,8 @@ public class AccountsDb extends EntitiesDb {
     public StudentProfileAttributes getStudentProfile(String accountGoogleId) {        
         StudentProfile sp = getStudentProfileEntity(accountGoogleId);
         
-        if (sp == null || JDOHelper.isDeleted(sp)) {
+        if (sp == null 
+                || JDOHelper.isDeleted(sp)) {
             return null;
         }
 
@@ -256,10 +258,16 @@ public class AccountsDb extends EntitiesDb {
         
         StudentProfile profileToUpdate = getStudentProfileEntity(newSpa.googleId);
         
-        if (profileToUpdate == null || JDOHelper.isDeleted(profileToUpdate)) {
+        if (profileToUpdate == null 
+                || JDOHelper.isDeleted(profileToUpdate)) {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_STUDENT_PROFILE + newSpa.googleId
                     + ThreadHelper.getCurrentThreadStack());
         }
+        
+        // return if no changes have been made
+        StudentProfileAttributes existingProfile = new StudentProfileAttributes(profileToUpdate);
+        newSpa.modifiedDate = existingProfile.modifiedDate;
+        if(existingProfile.toString().equals(newSpa.toString())) return;
 
         newSpa.sanitizeForSaving();
         profileToUpdate.setShortName(newSpa.shortName);
@@ -268,26 +276,66 @@ public class AccountsDb extends EntitiesDb {
         profileToUpdate.setNationality(newSpa.nationality);
         profileToUpdate.setGender(newSpa.gender);
         profileToUpdate.setMoreInfo(new Text(newSpa.moreInfo));
-        if (newSpa.pictureKey != "") {
-            if (!profileToUpdate.getPictureKey().equals(new BlobKey(""))) {
-                try {
-                    deleteProfilePicFromGcs(profileToUpdate.getPictureKey());
-                } catch (BlobstoreFailureException bfe) {
-                    // this branch is not tested as it is 
-                    //      => difficult to reproduce during testing
-                    //      => properly handled higher up
-                    closePM();
-                    throw bfe;
-                }
+        if (!newSpa.pictureKey.isEmpty() 
+                && !newSpa.pictureKey.equals(profileToUpdate.getPictureKey().getKeyString())) {
+            if (! profileToUpdate.getPictureKey().equals(new BlobKey(""))) {
+                deletePicture(profileToUpdate.getPictureKey());
             }
             profileToUpdate.setPictureKey(new BlobKey(newSpa.pictureKey));
         }
+        
         closePM();
     }
     
-    public void deleteProfilePicFromGcs(BlobKey key) throws BlobstoreFailureException {
+    public void updateStudentProfilePicture(String googleId,
+            String newPictureKey) throws EntityDoesNotExistException {
+        
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, newPictureKey);
+        Assumption.assertNotEmpty("GoogleId is empty", googleId);
+        Assumption.assertNotEmpty("PictureKey is empty", newPictureKey);
+        
+        StudentProfile profileToUpdate = getStudentProfileEntity(googleId);
+        
+        if (profileToUpdate == null 
+                || JDOHelper.isDeleted(profileToUpdate)) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_STUDENT_PROFILE + googleId
+                    + ThreadHelper.getCurrentThreadStack());
+        }
+        
+        boolean newKeyGiven = !newPictureKey.equals(profileToUpdate.getPictureKey().getKeyString());
+        
+        if (newKeyGiven) {
+            if (!profileToUpdate.getPictureKey().equals(new BlobKey(""))) {
+                deletePicture(profileToUpdate.getPictureKey());
+            }
+            profileToUpdate.setPictureKey(new BlobKey(newPictureKey));
+        }
+        
+        closePM();
+    }
+    
+    public void deleteStudentProfilePicture(String googleId) throws BlobstoreFailureException {
+        StudentProfile sp = getStudentProfileEntity(googleId);
+        if (!sp.getPictureKey().equals(new BlobKey(""))) {
+            try {
+                deletePicture(sp.getPictureKey());
+                sp.setPictureKey(new BlobKey(""));
+            } catch (BlobstoreFailureException bfe) {
+                // this branch is not tested as it is 
+                //      => difficult to reproduce during testing
+                //      => properly handled higher up
+                throw bfe;
+            }
+        }
+        
+        closePM();
+    }
+    
+    public void deletePicture(BlobKey key) throws BlobstoreFailureException {
         BlobstoreServiceFactory.getBlobstoreService().delete(key);
     }
+    
     
     private void closePM() {
         if (!getPM().isClosed()) {
