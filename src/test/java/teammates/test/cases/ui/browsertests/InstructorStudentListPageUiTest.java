@@ -35,6 +35,7 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         testData = loadDataBundle("/InstructorStudentListPageUiTest.json");
         restoreTestDataOnServer(testData);
         browser = BrowserPool.getBrowser();
+        System.setProperty("godmode", "true");
     }
     
     
@@ -42,12 +43,12 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
     public void testAll() throws Exception{
         
         testContent();
+        testShowPhoto();
         testLinks();
         testDeleteAction();
         testSearchScript();
         testDisplayArchive();
     }
-
 
     private void testContent() {
         String instructorId;
@@ -110,14 +111,28 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
         viewPage.verifyHtmlMainContent("/instructorStudentListPageNoCourse.html");
     }
-    
-    public void testLinks() throws Exception{
-        
+
+    private void testShowPhoto() {
         String instructorId = testData.instructors.get("instructorOfCourse2").googleId;
         Url viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE)
                     .withUserId(instructorId);
             
         viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
+        
+        ______TS("default image");
+        
+        StudentAttributes student = testData.students.get("Student1Course2");
+        viewPage.clickShowPhoto(student.course, student.name);
+        viewPage.verifyProfilePhotoIsDefault(student.course, student.name);
+        
+        ______TS("student has uploaded an image");
+        
+        //TODO: implement this method after a backend way to upload to cloud storage
+        // has been implemented
+        
+    }
+    
+    public void testLinks() throws Exception{
         
         ______TS("link: enroll");
         String courseId = testData.courses.get("course2").id;

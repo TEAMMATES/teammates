@@ -117,6 +117,11 @@
             <class name="teammates.test.cases.ui.InstructorFeedbackResponseCommentAddActionTest" />
             <class name="teammates.test.cases.ui.InstructorFeedbackResponseCommentEditActionTest" />
             <class name="teammates.test.cases.ui.InstructorFeedbackResponseCommentDeleteActionTest" />
+            <class name="teammates.test.cases.ui.InstructorFeedbackResultsByGQRSeeMorePageActionTest" />
+            <class name="teammates.test.cases.ui.InstructorFeedbackResultsByGRQSeeMorePageActionTest" />
+            <class name="teammates.test.cases.ui.InstructorFeedbackResultsByQuestionSeeMorePageActionTest" />
+            <class name="teammates.test.cases.ui.InstructorFeedbackResultsByRQGSeeMorePageActionTest" />
+            <class name="teammates.test.cases.ui.InstructorFeedbackResultsByRGQSeeMorePageActionTest" />
             <class name="teammates.test.cases.ui.InstructorFeedbackSubmissionEditPageActionTest" />
             <class name="teammates.test.cases.ui.InstructorFeedbackSubmissionEditSaveActionTest" />
             <class name="teammates.test.cases.ui.InstructorFeedbackQuestionSubmissionEditPageActionTest" />
@@ -157,6 +162,7 @@
             <class name="teammates.test.cases.testdriver.BackDoorTest" />
             <class name="teammates.test.cases.ui.browsertests.SystemErrorEmailReportTest" />
             <class name="teammates.test.cases.ui.browsertests.TableSortTest" />
+            <class name="teammates.test.cases.ui.browsertests.GodModeTest" />
             <class name="teammates.test.cases.ui.browsertests.AllJsTests" />
             <class name="teammates.test.cases.ui.browsertests.MashupPageUiTest" />
         </classes>
@@ -192,7 +198,6 @@
       <!--Theses cases need to be run sequentially to avoid state leaks between tests --> 
         <classes>
             <class name="teammates.test.cases.ui.browsertests.InstructorCourseJoinConfirmationPageUiTest" />
-            <class name="teammates.test.cases.ui.browsertests.InstructorHomePageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorCourseEnrollPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorCourseStudentDetailsPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorCourseStudentDetailsEditPageUiTest" />
@@ -200,7 +205,8 @@
             <class name="teammates.test.cases.ui.browsertests.InstructorCourseEditPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorCourseDetailsPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorEvalsPageUiTest" />
-            <class name="teammates.test.cases.ui.browsertests.InstructorFeedbackEditPageUiTest" /> 
+            <class name="teammates.test.cases.ui.browsertests.InstructorFeedbackEditPageUiTest" />
+            <class name="teammates.test.cases.ui.browsertests.InstructorHomePageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.StudentCourseJoinConfirmationPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.AdminHomePageUiTest" />            
             <class name="teammates.test.cases.ui.browsertests.StudentHomePageUiTest" />

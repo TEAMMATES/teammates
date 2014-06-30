@@ -7,7 +7,7 @@ import teammates.logic.api.GateKeeper;
 
 public class StudentProfilePageAction extends Action {
 
-    private PageData data;
+    private StudentProfilePageData data;
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
@@ -18,7 +18,12 @@ public class StudentProfilePageAction extends Action {
         }
         
         account.studentProfile = logic.getStudentProfile(account.googleId); 
-        data = new PageData(account);
+        String editPhoto = getRequestParamValue(Const.ParamsNames.STUDENT_PROFILE_PHOTOEDIT);
+        if (editPhoto == null) {
+            editPhoto = "false";
+        }
+        
+        data = new StudentProfilePageData(account, editPhoto);
         statusToAdmin = "studentProfile Page Load <br> Profile: " + account.studentProfile.toString();
         
         ShowPageResult response = createShowPageResult(Const.ViewURIs.STUDENT_PROFILE_PAGE, data);

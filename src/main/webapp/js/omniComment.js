@@ -60,9 +60,11 @@ $(document).ready(function(){
     		$('#no-comment-panel').show();
     		//if nothing to display, also hide giverCheckboxes column
     		$('#giver_all').parent().parent().hide();
+    		$('#status_all').parent().parent().hide();
     	} else {
     		$('#no-comment-panel').hide();
     		$('#giver_all').parent().parent().show();
+    		$('#status_all').parent().parent().show();
     	}
 		
 		//hide the panel accordingly based on panel_check checkbox
@@ -81,8 +83,12 @@ $(document).ready(function(){
 		//use giver_all checkbox to control its children checkboxes.
 		if($('#giver_all').is(':checked')){
 			$("input[id^=giver_check]").prop("checked", true);
+			$("#status_all").prop("disabled", false);
+        	$("input[id^=status_check]").prop("disabled", false);
 		} else {
 			$("input[id^=giver_check]").prop("checked", false);
+			$("#status_all").prop("disabled", true);
+        	$("input[id^=status_check]").prop("disabled", true);
 		}
 		
 		filterGiver();
@@ -93,8 +99,12 @@ $(document).ready(function(){
     	//based on the selected checkboxes, check/uncheck giver_all checkbox
     	if($("input[id^='giver_check']:checked").length == $("input[id^='giver_check']").length){
         	$("#giver_all").prop("checked", true);
+        	$("#status_all").prop("disabled", false);
+        	$("input[id^=status_check]").prop("disabled", false);
     	} else{
         	$("#giver_all").prop("checked", false);
+        	$("#status_all").prop("disabled", true);
+        	$("input[id^=status_check]").prop("disabled", true);
     	}
     	
     	filterGiver();
@@ -114,6 +124,54 @@ $(document).ready(function(){
 	        }
 	    });
     }
+    //
+    //Binding for "Display All" status option
+	$('#status_all').click(function(){
+		//use status_all checkbox to control its children checkboxes.
+		if($('#status_all').is(':checked')){
+			$("input[id^=status_check]").prop("checked", true);
+			$("#giver_all").prop("disabled", false);
+        	$("input[id^=giver_check]").prop("disabled", false);
+		} else {
+			$("input[id^=status_check]").prop("checked", false);
+			$("#giver_all").prop("disabled", true);
+        	$("input[id^=giver_check]").prop("disabled", true);
+		}
+		
+		filterStatus();
+	});
+	
+	//Binding for changes in the status checkboxes.
+    $("input[id^=status_check]").change(function(){
+    	//based on the selected checkboxes, check/uncheck status_all checkbox
+    	if($("input[id^='status_check']:checked").length == $("input[id^='status_check']").length){
+        	$("#status_all").prop("checked", true);
+        	$("#giver_all").prop("disabled", false);
+        	$("input[id^=giver_check]").prop("disabled", false);
+    	} else{
+        	$("#status_all").prop("checked", false);
+        	$("#giver_all").prop("disabled", true);
+        	$("input[id^=giver_check]").prop("disabled", true);
+    	}
+    	
+    	filterStatus();
+    });
+    
+    function filterStatus(){
+    	filterStatusCheckbox("public");
+    	filterStatusCheckbox("private");
+	}
+    
+    function filterStatusCheckbox(checkboxBy){
+    	$("input[id=status_check-" + checkboxBy + "]").each(function(){
+	        if(this.checked){
+	        	showCommentOfPanelIndex(".status_display-" + checkboxBy);
+	        } else{
+	        	hideCommentOfPanelIndex(".status_display-" + checkboxBy);
+	        }
+	    });
+    }
+    //
     
     function showCommentOfPanelIndex(className){
     	$(className).each(function(){
@@ -155,7 +213,7 @@ $(document).ready(function(){
             	}
             }
     	}
-        //to show student comments
+        //to show student comments (only works for Giver filter)
         if ($(comment).prop("class").toString().contains(classNameForCommentsInStudentRecords)){
         	var studentCommentPanel = $(comment).parent().parent().parent();
         	var studentCommentPanelBody = $(comment).parent();
