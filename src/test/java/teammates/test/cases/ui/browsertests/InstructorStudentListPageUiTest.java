@@ -35,7 +35,6 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         testData = loadDataBundle("/InstructorStudentListPageUiTest.json");
         restoreTestDataOnServer(testData);
         browser = BrowserPool.getBrowser();
-        System.setProperty("godmode", "true");
     }
     
     
