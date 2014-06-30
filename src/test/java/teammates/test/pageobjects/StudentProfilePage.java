@@ -41,8 +41,20 @@ public class StudentProfilePage extends AppPage {
     @FindBy(id="studentMoreInfo")
     protected WebElement moreInfoBox;
     
+    @FindBy(id="studentPhotoUploader")
+    protected WebElement uploadEditModal;
+    
+    @FindBy(id="uploadEditPhoto")
+    protected WebElement uploadPopupButton;
+    
     @FindBy(id="profileEditSubmit")
     protected WebElement submitButton;
+    
+    @FindBy(id="profileUploadPictureSubmit")
+    protected WebElement uploadPictureSubmit;
+    
+    @FindBy(id="profileEditPictureSubmit")
+    protected WebElement editPictureSubmit;
     
     
     
@@ -62,6 +74,8 @@ public class StudentProfilePage extends AppPage {
     }
     
     public void fillProfilePic(String fileName) throws Exception {
+        uploadPopupButton.click();
+        Thread.sleep(400);
         RemoteWebElement ele = (RemoteWebElement) browser.driver.findElement(By.id("studentPhoto"));
         fillFileBox(ele, fileName);
     }
@@ -141,8 +155,20 @@ public class StudentProfilePage extends AppPage {
         default:
             Assumption.fail("unexpected gender value given");
         }
+    }
+
+    public void uploadPicture() {
+        uploadPictureSubmit.click();
+        browser.selenium.waitForPageToLoad("3000");
+    }
+
+    public void editProfilePhoto() {
+        editPictureSubmit.click();        
+    }
+
+    public void verifyPhotoSize(int height, int width) throws Exception {
+        assertEquals(String.valueOf(height), browser.driver.findElement(By.id("pictureHeight")).getAttribute("value"));
+        assertEquals(String.valueOf(width), browser.driver.findElement(By.id("pictureWidth")).getAttribute("value"));
         
     }
-    
-
 }

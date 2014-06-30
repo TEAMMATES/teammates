@@ -94,7 +94,7 @@
                                         <input id="cropBoxRightX" type="hidden" name="<%=Const.ParamsNames.PROFILE_PICTURE_RIGHTX %>" value="">
                                         <input id="cropBoxBottomY" type="hidden" name="<%=Const.ParamsNames.PROFILE_PICTURE_BOTTOMY %>" value="">
                                         <input id="blobKey" type="hidden" name="<%=Const.ParamsNames.BLOB_KEY %>" value="<%=data.account.studentProfile.pictureKey %>">
-                                        <button type="button" class="btn btn-primary" onclick="finaliseEditPictureForm()">Save Edited Photo</button>
+                                        <button type="button"id="profileEditPictureSubmit" class="btn btn-primary" onclick="finaliseEditPictureForm()">Save Edited Photo</button>
                                     </form>
                                 <% } else { %>
                                     <div class="alert alert-warning">
@@ -118,7 +118,7 @@
                     <img id="profilePic" src="<%=pictureUrl %>" class="profile-pic" data-toggle="modal" data-target="#studentPhotoUploader" data-edit="<%=data.editPicture %>" />
                 </div>
                 <div class="col-xs-offset-3">
-                    <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#studentPhotoUploader">Upload/Edit Photo</button>
+                    <button id="uploadEditPhoto" class="btn btn-primary" type="button" data-toggle="modal" data-target="#studentPhotoUploader">Upload/Edit Photo</button>
                 </div>
             </div>
             <form class="form center-block" role="form" method="post"
