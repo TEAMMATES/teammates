@@ -10,10 +10,13 @@ import com.sun.xml.internal.ws.api.ha.StickyFeature;
 
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Utils;
 import teammates.logic.api.Logic;
@@ -35,33 +38,53 @@ public class GenerateLargeScaledData extends RemoteApiClient{
         DataBundle largeScaleBundle = loadDataBundle("/largeScaleTest.json");
         
         try{
-            /*
+            
+            logic.deleteCourse("LargeScaleT.CS2103");
+            
+            logger.info("Delete course Successfully");
+            
+            /* Create course and instructor */
+            for(InstructorAttributes instructor : largeScaleBundle.instructors.values()){
+                logic.createCourseAndInstructor(instructor.googleId, instructor.courseId, "Software Engineering");
+            }
+            
+            logger.info("Finish creating course and instructor");
+            
             // Create students
             for(StudentAttributes student : largeScaleBundle.students.values()){
                 logic.createStudent(student);
-                logger.info("Create student " + student.name);
             }
-            */
-            /*
+            
+            logger.info("Finish creating students");
+            
+            // Create sessions
+            for(FeedbackSessionAttributes session : largeScaleBundle.feedbackSessions.values()){
+                logic.createFeedbackSession(session);
+            }
+            
+            logger.info("Finish creating session");
+            
             // Create question
             for(FeedbackQuestionAttributes question : largeScaleBundle.feedbackQuestions.values()){
                 logic.createFeedbackQuestion(question);
-                logger.info("Create question " + question.questionNumber);
             }
-            */
+            
+            logger.info("Finish creating questions");
+
             // Create responses
-            int index = 0;
             for(FeedbackResponseAttributes response : largeScaleBundle.feedbackResponses.values()){
                 logic.createFeedbackResponse(response);
             }
-            /*
+            
+            logger.info("Finish creating responses");
+           
             // Create comments
-            index = 0;
             for(FeedbackResponseCommentAttributes comment : largeScaleBundle.feedbackResponseComments.values()){
                 logic.createFeedbackResponseComment(comment);
-                logger.info("Create comment " + index++);
             }
-            */
+            
+            logger.info("Finish creating comments");
+            
         } catch (Exception e){
             e.printStackTrace();
         }

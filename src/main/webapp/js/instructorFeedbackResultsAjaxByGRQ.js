@@ -9,7 +9,7 @@ function getAppendedData(data){
     var hasUsers = false;
 
     var groupByTeamEnabled = $('#frgroupbyteam').attr('checked') == 'checked';
-    appendedHtml += '<a class="btn btn-success btn-xs pull-right" id="collapse-panels-button-section-' + sectionIndex + '" style="display:block;">'
+    appendedHtml += '<a class="btn btn-success btn-xs pull-right" id="collapse-panels-button-section-' + sectionIndex + '" style="display:block;" data-toggle="tooltip" title="Collapse or expand all ' + (groupByTeamEnabled == true ? "team" : "student" ) + ' panels. You can also click on the panel heading to toggle each one individually.">'
                         + 'Expand ';
     if(groupByTeamEnabled){
         appendedHtml += 'Teams</a><br><br>';
@@ -58,7 +58,7 @@ function getResponsesFromGiver(giver, data){
         appendedResponses += '<strong>'+ currentTeam + '</strong>';
         appendedResponses += '<span class="glyphicon glyphicon-chevron-down pull-right"></span></div>';
         appendedResponses += '<div class="panel-collapse collapse"><div class="panel-body background-color-warning">';
-        appendedResponses += '<a class="btn btn-warning btn-xs pull-right" id="collapse-panels-button-team-' + teamIndex + '%>">'
+        appendedResponses += '<a class="btn btn-warning btn-xs pull-right" id="collapse-panels-button-team-' + teamIndex + '" data-toggle="tooltip" title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually.">'
                                 + 'Expand Students</a><br><br>';
     }
 
