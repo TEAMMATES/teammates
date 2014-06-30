@@ -11,6 +11,7 @@ import javax.jdo.Query;
 
 import com.google.appengine.api.datastore.Text;
 import com.google.appengine.api.search.Document;
+import com.google.appengine.api.search.QueryOptions;
 import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
 
@@ -217,22 +218,15 @@ public class CommentsDb extends EntitiesDb{
     }
     
     public List<CommentAttributes> search(String queryString){
-        queryString = Sanitizer.sanitizeForHtml(queryString);
-        queryString = "\"" + queryString + "\"";
+        List<CommentAttributes> comments = new ArrayList<CommentAttributes>();
+        queryString = Sanitizer.sanitizeForHtml(queryString).toLowerCase().trim();
+        if(queryString.isEmpty()) return comments;
+        
+        QueryOptions options = QueryOptions.newBuilder().setFieldsToReturn("attribute").build();
         Results<ScoredDocument> results = searchDocuments("comment", com.google.appengine.api.search.
                 Query.newBuilder()
-                    .build("courseId:" + queryString
-                            + " OR courseName:" + queryString
-                            + " OR giverEmail:" + queryString
-                            + " OR giverName:" + queryString
-                            + " OR giverTitle:" + queryString
-                            + " OR recipientEmails:" + queryString
-                            + " OR recipientNames:" + queryString
-                            + " OR recipientTeams:" + queryString
-                            + " OR recipientSections:" + queryString
-                            + " OR createdAt:" + queryString
-                            + " OR commentText:" + queryString));
-        List<CommentAttributes> comments = new ArrayList<CommentAttributes>();
+                    .setOptions(options)
+                    .build("searchableText:" + queryString));
         for(ScoredDocument result : results){
             comments.add(CommentAttributes.fromDocument(result));
         }
