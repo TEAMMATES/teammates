@@ -290,6 +290,22 @@ public final class InstructorPrivileges {
         return isAllowedInSessionLevel(sectionName, sessionName, privilegeName);
     }
     
+    public boolean isSectionSpecial(String sectionName) {
+        return this.sectionLevel.containsKey(sectionName);
+    }
+    
+    public int numberOfSectionsSpecial() {
+        return this.sectionLevel.keySet().size();
+    }
+    
+    public boolean isSessionsInSectionSpecial(String sectionName) {
+        return this.sessionLevel.containsKey(sectionName);
+    }
+    
+    public boolean isSessionInSectionSpecial(String sectionName, String sessionName) {
+        return (this.sessionLevel.containsKey(sectionName)) && this.sessionLevel.get(sectionName).containsKey(sessionName);
+    }
+    
     private boolean isAllowedInCourseLevel(String privilegeName) {
         if (!this.courseLevel.containsKey(privilegeName)) {
             return false;

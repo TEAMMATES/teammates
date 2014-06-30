@@ -79,9 +79,7 @@ function showTuneSectionPermissionsDiv(instrNum, sectionNum) {
 	if (sectionNum == numberOfSections - 1) {
 		$("#addSectionLevelForInstructor" + instrNum).hide();
 	}
-	
-	$("#removeSectionLevelForInstructor" + instrNum).attr("onclick", "hideTuneSectionPermissionsDiv(" + instrNum + ", " + sectionNum + ")");
-    $("#removeSectionLevelForInstructor" + instrNum).show();
+	$("#tuneSectionPermissionsDiv" + sectionNum + "ForInstructor" + instrNum + " input[name='issection" + sectionNum + "set']").attr("value", "false");
 	
 	sectionNum = sectionNum + 1;
 	$("#addSectionLevelForInstructor" + instrNum).attr("onclick", "showTuneSectionPermissionsDiv(" + instrNum + ", " + sectionNum + ")");
@@ -89,24 +87,17 @@ function showTuneSectionPermissionsDiv(instrNum, sectionNum) {
 
 function hideTuneSectionPermissionsDiv(instrNum, sectionNum) {
 	$("#tuneSectionPermissionsDiv" + sectionNum + "ForInstructor" + instrNum).hide();
-	
-	if (sectionNum == 0) {
-		$("#removeSectionLevelForInstructor" + instrNum).hide();
-	}
-	
-	$("#addSectionLevelForInstructor" + instrNum).attr("onclick", "showTuneSectionPermissionsDiv(" + instrNum + ", " + sectionNum + ")");
-	$("#addSectionLevelForInstructor" + instrNum).show();
-	
-	sectionNum = sectionNum - 1;
-	$("#removeSectionLevelForInstructor" + instrNum).attr("onclick", "hideTuneSectionPermissionsDiv(" + instrNum + ", " + sectionNum + ")");
+	$("#tuneSectionPermissionsDiv" + sectionNum + "ForInstructor" + instrNum + " input[name='issection" + sectionNum + "set']").attr("value", "false");
 }
 
 function toggleTuneSessionnPermissionsDiv(instrNum, sectionNum) {
 	$("#tuneSessionPermissionsDiv" + sectionNum + "ForInstructor" + instrNum).toggle();
 	if ($("#toggleSessionLevelInSection" + sectionNum + "ForInstructor" + instrNum).html() === "Configure session-level privileges") {
 		$("#toggleSessionLevelInSection" + sectionNum + "ForInstructor" + instrNum).html("Hide session-level privileges");
+		$("#tuneSectionPermissionsDiv" + sectionNum + "ForInstructor" + instrNum + " input[name='issection" + sectionNum + "sessionsset']").attr("value", "true");
 	} else {
 		$("#toggleSessionLevelInSection" + sectionNum + "ForInstructor" + instrNum).html("Configure session-level privileges");
+		$("#tuneSectionPermissionsDiv" + sectionNum + "ForInstructor" + instrNum + " input[name='issection" + sectionNum + "sessionsset']").attr("value", "false");
 	}
 }
 
