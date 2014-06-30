@@ -1,5 +1,7 @@
 package teammates.storage.searchmanager;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import teammates.common.util.Config;
@@ -17,14 +19,15 @@ import com.google.appengine.api.search.SearchServiceFactory;
 import com.google.appengine.api.search.StatusCode;
 
 /**
- * Represents the manager for index.
+ * Represents the search manager for index.
  * Codes reference:
  * https://developers.google.com/appengine/docs/java/search/
  */
 public class SearchManager {
-    private static final String ERROR_BACKEND_FAILED_TO_PUT_DOCUMENT = "Failed to put document into search index due to non-transient backend issue.";
-    private static final String ERROR_EXCEED_DURATION_FAILED_TO_PUT_DOCUMENT = "Operation did not succeed in time to put document %s into search index %s";
+    private static final String ERROR_NON_TRANSIENT_BACKEND_ISSUE = "Failed to put document %s into search index %s due to non-transient backend issue.";
+    private static final String ERROR_EXCEED_DURATION = "Operation did not succeed in time to put document %s into search index %s";
     private static final Logger log = Utils.getLogger();
+    private static Map<String, Index> indicesTable = new HashMap<String, Index>();
     
     public static void putDocument(String indexName, Document document){
         int elapsedTime = 0;
@@ -40,20 +43,21 @@ public class SearchManager {
             }
         }
         if (elapsedTime == Config.PERSISTENCE_CHECK_DURATION) {
-            log.severe(String.format(ERROR_EXCEED_DURATION_FAILED_TO_PUT_DOCUMENT, document, indexName));
+            log.severe(String.format(ERROR_EXCEED_DURATION, document, indexName));
         }
     }
     
     private static boolean tryPutDocument(String indexName, Document document){
         Index index = getIndex(indexName);
         try {
-            index.put(document);
+            index.putAsync(document);
         } catch (PutException e) {
             //if it's a transient error, it can be re-tried
             if(StatusCode.TRANSIENT_ERROR.equals(e.getOperationResult().getCode())){
                 return false;
             } else {
-                log.severe(ERROR_BACKEND_FAILED_TO_PUT_DOCUMENT+ " e:\n" + e.getStackTrace());
+                log.severe(String.format(ERROR_NON_TRANSIENT_BACKEND_ISSUE, document, indexName) 
+                        + " e:\n" + e.getStackTrace());
             }
         }
         return true;
@@ -68,16 +72,20 @@ public class SearchManager {
     }
     
     public static void deleteDocument(String indexName, String documentId){
-        getIndex(indexName).delete(documentId);
+        getIndex(indexName).deleteAsync(documentId);
     }
     
     public static void deleteDocuments(String indexName, String[] documentIds){
-        getIndex(indexName).delete(documentIds);
+        getIndex(indexName).deleteAsync(documentIds);
     }
     
-    public static Index getIndex(String indexName) {
-        IndexSpec indexSpec = IndexSpec.newBuilder().setName(indexName).build(); 
-        Index index = SearchServiceFactory.getSearchService().getIndex(indexSpec);
+    private static Index getIndex(String indexName) {
+        Index index = indicesTable.get(indexName);
+        if(index == null){
+            IndexSpec indexSpec = IndexSpec.newBuilder().setName(indexName).build(); 
+            index = SearchServiceFactory.getSearchService().getIndex(indexSpec);
+            indicesTable.put(indexName, index);
+        }
         return index;
     }
 }
