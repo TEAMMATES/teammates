@@ -328,6 +328,17 @@ public class FeedbackSessionsLogic {
                 feedbackSessionName, courseId, userEmail,
                 UserType.Role.STUDENT, null);
     }
+    
+    /**
+     * Gets results of a feedback session to show to a student.
+     */
+    public FeedbackSessionResultsBundle getFeedbackSessionResultsForStudent(
+            String feedbackSessionName, String courseId, String userEmail, CourseRoster roster)
+            throws EntityDoesNotExistException {
+        return getFeedbackSessionResultsForUserInSectionByQuestions(
+                feedbackSessionName, courseId, userEmail,
+                UserType.Role.STUDENT, null, roster);
+    }
 
     public String getFeedbackSessionResultsSummaryAsCsv(
             String feedbackSessionName, String courseId, String userEmail)
@@ -344,17 +355,25 @@ public class FeedbackSessionsLogic {
         String export = "";
 
         export += "Course" + "," + Sanitizer.sanitizeForCsv(results.feedbackSession.courseId) + Const.EOL
-                + "Session Name" + "," + Sanitizer .sanitizeForCsv(results.feedbackSession.feedbackSessionName)
+                + "Session Name" + "," + Sanitizer.sanitizeForCsv(results.feedbackSession.feedbackSessionName)
                 + Const.EOL + Const.EOL + Const.EOL;
 
         for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry : results
                 .getQuestionResponseMap().entrySet()) {
-            FeedbackAbstractQuestionDetails questionDetails = entry.getKey()
-                    .getQuestionDetails();
+            FeedbackQuestionAttributes question = entry.getKey();
+            FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
 
             export += "Question " + Integer.toString(entry.getKey().questionNumber) + "," 
                     + Sanitizer.sanitizeForCsv(questionDetails.questionText)
                     + Const.EOL + Const.EOL;
+            
+            String statistics = questionDetails.getQuestionResultStatisticsCsv(entry.getValue(),
+                                        question, results);
+            if(statistics != ""){
+                export += "Summary Statistics," + Const.EOL;
+                export += statistics + Const.EOL;
+            }
+            
             export += "Team" + "," + "Giver" + "," + "Recipient's Team" + ","
                     + "Recipient" + "," + questionDetails.getCsvHeader() + Const.EOL;
 
@@ -797,19 +816,28 @@ public class FeedbackSessionsLogic {
 
         return details;
     }
-
+    
     /* Get the feedback results for user in a section iterated by questions */
     private FeedbackSessionResultsBundle getFeedbackSessionResultsForUserInSectionByQuestions(
             String feedbackSessionName, String courseId, String userEmail,
             UserType.Role role, String section)
             throws EntityDoesNotExistException {
-
         // Load details of students and instructors once and pass it to callee
         // methods
         // (rather than loading them many times).
         CourseRoster roster = new CourseRoster(
                 new StudentsDb().getStudentsForCourse(courseId),
                 new InstructorsDb().getInstructorsForCourse(courseId));
+        
+        return getFeedbackSessionResultsForUserInSectionByQuestions(
+                feedbackSessionName, courseId, userEmail, role, section, roster);
+    }
+
+    /* Get the feedback results for user in a section iterated by questions */
+    private FeedbackSessionResultsBundle getFeedbackSessionResultsForUserInSectionByQuestions(
+            String feedbackSessionName, String courseId, String userEmail,
+            UserType.Role role, String section, CourseRoster roster)
+            throws EntityDoesNotExistException {
 
         FeedbackSessionAttributes session = fsDb.getFeedbackSession(
                 courseId, feedbackSessionName);
