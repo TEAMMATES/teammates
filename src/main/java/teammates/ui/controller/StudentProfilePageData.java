@@ -4,8 +4,11 @@ import teammates.common.datatransfer.AccountAttributes;
 
 public class StudentProfilePageData extends PageData {
 
-    public StudentProfilePageData(AccountAttributes account) {
+    public String editPicture;
+    
+    public StudentProfilePageData(AccountAttributes account, String editPicture) {
         super(account);
+        this.editPicture = editPicture;
     }
 
 }

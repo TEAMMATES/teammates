@@ -9,8 +9,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentProfileAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Url;
@@ -26,7 +24,8 @@ import teammates.test.pageobjects.StudentProfilePicturePage;
 public class StudentProfilePageUiTest extends BaseUiTestCase {
     private static Browser browser;
     private static DataBundle testData;
-    private StudentProfilePage profilePage;
+    private StudentProfilePage 
+    profilePage;
     
     @BeforeClass
     public static void classSetup() throws Exception {
@@ -85,41 +84,6 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
                 "female", "this is enough!$%&*</>");
         profilePage.verifyStatus(Const.StatusMessages.STUDENT_PROFILE_EDITED);
         
-        ______TS("success case, with picture");
-        
-        profilePage.fillProfilePic("src\\test\\resources\\images\\profile_pic.png");
-        profilePage.submitEditedProfile();
-        
-        profilePage.ensureProfileContains("short.name", "e@email.com", "inst", "Usual Nationality", 
-                "female", "this is enough!$%&*</>");
-        profilePage.verifyStatus(Const.StatusMessages.STUDENT_PROFILE_EDITED);
-        
-        ______TS("image too big");
-        String prevPictureKey = BackDoor.getStudentProfile(studentGoogleId).pictureKey;
-        verifyPictureIsPresent(prevPictureKey);
-        
-        profilePage.fillProfilePic("src\\test\\resources\\images\\profile_pic_too_large.jpg");
-        profilePage.submitEditedProfile();
-        
-        profilePage.verifyStatus(Const.StatusMessages.STUDENT_PROFILE_PIC_TOO_LARGE);
-        verifyPictureIsPresent(prevPictureKey);
-        
-        ______TS("not a picture");
-        
-        profilePage.fillProfilePic("src\\test\\resources\\images\\not_a_picture.txt");
-        profilePage.submitEditedProfile();
-        
-        profilePage.verifyStatus(Const.StatusMessages.STUDENT_PROFILE_NOT_A_PICTURE);
-        verifyPictureIsPresent(prevPictureKey);
-        
-        ______TS("success case, update picture");
-        
-        profilePage.fillProfilePic("src\\test\\resources\\images\\profile_pic_update.png");
-        profilePage.submitEditedProfile();
-        
-        verifyPictureIsDeleted(prevPictureKey);
-        String currentPictureKey = BackDoor.getStudentProfile(studentGoogleId).pictureKey;
-        verifyPictureIsPresent(currentPictureKey);
         
         ______TS("invalid data");
         
@@ -134,6 +98,39 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         
         profilePage.verifyStatus(StringHelper.toString(spa.getInvalidityInfo(), " "));
         
+        ______TS("success case picture upload and edit");
+        
+        profilePage.fillProfilePic("src/test/resources/images/profile_pic.png");
+        profilePage.uploadPicture();
+        
+        profilePage.verifyStatus(Const.StatusMessages.STUDENT_PROFILE_PICTURE_SAVED);
+        profilePage.isElementVisible("studentPhotoUploader");
+        
+        profilePage.editProfilePhoto();
+        profilePage.ensureProfileContains("short.name", "e@email.com", "inst", "Usual Nationality", 
+                "female", "this is enough!$%&*</>");
+        profilePage.verifyPhotoSize(150, 150);
+        
+        String prevPictureKey = BackDoor.getStudentProfile(studentGoogleId).pictureKey;
+        verifyPictureIsPresent(prevPictureKey);
+        
+        ______TS("not a picture");
+        
+        profilePage.fillProfilePic("src/test/resources/images/not_a_picture.txt");
+        profilePage.uploadPicture();
+        
+        profilePage.verifyStatus(Const.StatusMessages.STUDENT_PROFILE_NOT_A_PICTURE);
+        verifyPictureIsPresent(prevPictureKey);
+        
+        ______TS("success case, update picture");
+        
+        profilePage.fillProfilePic("src/test/resources/images/profile_pic_updated.png");
+        profilePage.uploadPicture();
+        profilePage.isElementVisible("studentPhotoUploader");
+        
+        String currentPictureKey = BackDoor.getStudentProfile(studentGoogleId).pictureKey;
+        verifyPictureIsDeleted(prevPictureKey);
+        verifyPictureIsPresent(currentPictureKey);        
         
         AppPage.logout(browser);
     }

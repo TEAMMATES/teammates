@@ -102,8 +102,13 @@ Apply to thead to make headers not bold.
     color: white;
 }
 
-.inline {
+.inline,
+input.inline {
     display: inline;
+}
+
+.inline-block {
+    display: inline-block;
 }
 
 .margin-0 {
@@ -405,9 +410,25 @@ Apply to thead to make headers not bold.
     height: 130px;
 }
 
+.profile-pic-edit {
+    max-height: 400px;
+    width: 100%;
+}
+    .profile-pic-edit > img {
+        max-width:100%;
+        max-height: 100%;
+    }
+
+ .profile-pic-edit-col {
+    display: table-cell;
+    float:none;
+    vertical-align: middle;
+ }
+
 /* used on the div/td that contains the img */
 .profile-pic-icon {
         text-align: center;
+        overflow: hidden;
     }
         .profile-pic-icon > img {
             width: 40px;

@@ -106,6 +106,8 @@ public class ActionFactory {
         map(STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_SAVE, StudentFeedbackQuestionSubmissionEditSaveAction.class);
         map(STUDENT_PROFILE_PAGE, StudentProfilePageAction.class);
         map(STUDENT_PROFILE_PICTURE, StudentProfilePictureAction.class);
+        map(STUDENT_PROFILE_PICTURE_UPLOAD, StudentProfilePictureUploadAction.class);
+        map(STUDENT_PROFILE_PICTURE_EDIT, StudentProfilePictureEditAction.class);
         map(STUDENT_PROFILE_CREATEUPLOADFORMURL, StudentProfileCreateFormUrlAction.class);
         map(STUDENT_PROFILE_EDIT_SAVE, StudentProfileEditSaveAction.class);
         map(STUDENT_HOME_PAGE, StudentHomePageAction.class);

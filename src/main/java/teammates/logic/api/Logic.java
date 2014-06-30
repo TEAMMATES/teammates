@@ -225,6 +225,20 @@ public class Logic {
     }
     
     /**
+     * Preconditions: <br>
+     * * All parameters are non-null.<br>
+     * * {@code newAccountAttributes} represents an existing account.
+     */
+    public void updateStudentProfilePicture(String googleId, String newPictureKey) 
+            throws EntityDoesNotExistException {
+        
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, newPictureKey);
+        
+        accountsLogic.updateStudentProfilePicture(googleId, newPictureKey);
+    }
+    
+    /**
      * Deletes both instructor and student privileges.
      * Does not delete courses. Can result in orphan courses 
      * (to be rectified in future).
@@ -239,10 +253,16 @@ public class Logic {
         accountsLogic.deleteAccountCascade(googleId);
     }
     
-    public void deleteProfilePicture(BlobKey key) throws BlobstoreFailureException {
+    public void deleteStudentProfilePicture(String googleId) throws BlobstoreFailureException {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
+        
+        accountsLogic.deleteStudentProfilePicture(googleId);
+    }
+    
+    public void deletePicture(BlobKey key) throws BlobstoreFailureException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, key);
         
-        accountsLogic.deleteProfilePicture(key);
+        accountsLogic.deletePicture(key);
     }
 
     @SuppressWarnings("unused")
