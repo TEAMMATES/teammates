@@ -31,23 +31,26 @@ public class ProfilesDb extends EntitiesDb {
         return null;
     }
 
-    private Account getAccountEntity(String googleId, boolean retrieveStudentProfile) {
+    /**
+     * Checks if an account entity exists for the given googleId and creates
+     * a profile entity for this account. This is only used for porting
+     * legacy account entities on the fly.
+     * 
+     * TODO: remove this function once legacy data have been ported over
+     * @param googleId
+     * @return
+     */
+    private StudentProfile getStudentProfileEntityForLegacyData (String googleId) {
         
         Key key = KeyFactory.createKey(Account.class.getSimpleName(), googleId);
         try {
             Account account = getPM().getObjectById(Account.class, key);
             
-            if (JDOHelper.isDeleted(account)) {
-                return null;
-            } else if (retrieveStudentProfile) {
-                if (account.getStudentProfile() == null) {
-                    // This situation cannot be reproduced and hence not tested
-                    // This only happens when existing data in the store do not have a profile 
-                    account.setStudentProfile(new StudentProfile(account.getGoogleId()));
-                }
-            }
+            if (JDOHelper.isDeleted(account)) return null;
             
-            return account;
+            account.setStudentProfile(new StudentProfile(account.getGoogleId()));
+            return account.getStudentProfile();
+            
         } catch(JDOObjectNotFoundException je) {
             return null;
         }
@@ -60,17 +63,8 @@ public class ProfilesDb extends EntitiesDb {
         try {
             return getPM().getObjectById(StudentProfile.class, childKey);
         } catch (JDOObjectNotFoundException je) {
-            
-            Account a = getAccountEntity(googleId, true);
-            if (a == null) {
-                return null;
-            } else {
-                // This situation cannot be reproduced and hence not tested
-                // This only happens when existing data in the store do not have a profile
-                return a.getStudentProfile();
-            }
+            return getStudentProfileEntityForLegacyData(googleId);
         }
-                
     }
     
     public StudentProfileAttributes getStudentProfile(String accountGoogleId) {        
