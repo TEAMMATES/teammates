@@ -295,3 +295,39 @@ body {
     text-align: center;
     width: 100%;
 }
+
+
+/*////////////////////////////////////////////////////////////
+////////////////////////// Back To Top ///////////////////////////
+//////////////////////////////////////////////////////////*/
+.back-to-top-left {
+    position: fixed;
+    bottom: 8em;
+    left: 0px;
+    text-decoration: none;
+    color: #000000;
+    background-color: rgba(235, 235, 235, 0.80);
+    font-size: 12px;
+    padding: 0.8em;
+    display: none;
+}
+
+.back-to-top-right {
+    position: fixed;
+    bottom: 8em;
+    right: 0px;
+    text-decoration: none;
+    color: #000000;
+    background-color: rgba(235, 235, 235, 0.80);
+    font-size: 12px;
+    padding: 0.8em;
+    display: none;
+}
+
+.back-to-top-left:hover {
+    background-color: rgba(135, 135, 135, 0.50);
+}
+
+.back-to-top-right:hover {
+    background-color: rgba(135, 135, 135, 0.50);
+}

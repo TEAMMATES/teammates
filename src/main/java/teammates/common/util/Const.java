@@ -259,8 +259,12 @@ public class Const {
         public static final String FEEDBACK_SESSION_CREATETIME = "createtime";
         public static final String FEEDBACK_SESSION_STARTDATE = "startdate";
         public static final String FEEDBACK_SESSION_STARTTIME = "starttime";
+        public static final String FEEDBACK_SESSION_STARTHOUR = "startHour";
+        public static final String FEEDBACK_SESSION_STARTMINUTE = "startMinute";
         public static final String FEEDBACK_SESSION_ENDDATE = "enddate";
         public static final String FEEDBACK_SESSION_ENDTIME = "endtime";
+        public static final String FEEDBACK_SESSION_ENDHOUR = "endhour";
+        public static final String FEEDBACK_SESSION_ENDMINUTE = "endminute";
         public static final String FEEDBACK_SESSION_VISIBLEDATE = "visibledate";
         public static final String FEEDBACK_SESSION_VISIBLETIME = "visibletime";
         public static final String FEEDBACK_SESSION_PUBLISHDATE = "publishdate";

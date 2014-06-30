@@ -106,94 +106,6 @@ jQuery(document).ready(function() {
 		}
 	});
 
-	jQuery('.hoverMenu1').hover(
-
-	function(event) {
-
-		if (!jQuery('.hoverMenu1').is(':animated')) {
-
-			event.preventDefault();
-			jQuery('.hoverMenu1').animate({
-				"left" : "0em",
-				backgroundColor : "rgba(235, 235, 235, 0.80)"
-			}, duration);
-
-		}
-		return false;
-	},
-
-	function(event) {
-
-		event.preventDefault();
-		jQuery('.hoverMenu1').animate({
-			left : "-5.5em",
-			backgroundColor : "rgba(206, 63, 63, 0.80)"
-
-		}, duration);
-
-		return false;
-	}
-
-	);
-
-	jQuery('.hoverMenu2').hover(
-
-	function(event) {
-
-		if (!jQuery('.hoverMenu2').is(':animated')) {
-
-			event.preventDefault();
-			jQuery('.hoverMenu2').animate({
-				"left" : "0em",
-				backgroundColor : "rgba(235, 235, 235, 0.80)"
-			}, duration);
-		}
-		return false;
-	},
-
-	function(event) {
-
-		event.preventDefault();
-		jQuery('.hoverMenu2').animate({
-			left : "-7em",
-			backgroundColor : "rgba(3, 12, 14, 0.8)"
-
-		}, duration);
-
-		return false;
-	}
-
-	);
-
-	jQuery('.hoverMenu3').hover(
-
-	function(event) {
-
-		if (!jQuery('.hoverMenu3').is(':animated')) {
-
-			event.preventDefault();
-			jQuery('.hoverMenu3').animate({
-				"left" : "0em",
-				backgroundColor : "rgba(235, 235, 235, 0.80)"
-			}, duration);
-		}
-		return false;
-	},
-
-	function(event) {
-
-		event.preventDefault();
-		jQuery('.hoverMenu3').animate({
-			left : "-8.6em",
-			backgroundColor : "rgba(3, 12, 14, 0.8)"
-
-		}, duration);
-
-		return false;
-	}
-
-	);
-
 	jQuery('.back-to-top-left').click(function(event) {
 		event.preventDefault();
 		jQuery('html, body').animate({
@@ -209,16 +121,23 @@ jQuery(document).ready(function() {
 		}, duration);
 		return false;
 	});
-	
-	
-	$(function() {
-		$('#datetimepicker').datetimepicker();
-	});
 
-	$(function() {
-		$('#datetimepicker1').datetimepicker();
-	});
-	
 });
 
+function toggleFilter() {
+	$("#timeFramePanel").slideToggle("slow");
+	
+	var button = $("#detailButton").attr("class");
+	
+	if(button == "glyphicon glyphicon-chevron-down"){
+	$("#detailButton").attr("class","glyphicon glyphicon-chevron-up");
+	$("#referenceText").text("Hide Filter");
+	}else{
+		$("#detailButton").attr("class","glyphicon glyphicon-chevron-down");
+		$("#referenceText").text("Show Filter");
+	}
+}
 
+$(function() {
+	$("#timeFramePanel").toggle();
+});

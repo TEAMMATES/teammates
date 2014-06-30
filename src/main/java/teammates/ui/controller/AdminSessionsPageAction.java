@@ -1,6 +1,5 @@
 package teammates.ui.controller;
 
-import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -8,7 +7,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.TimeZone;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
@@ -33,15 +31,22 @@ public class AdminSessionsPageAction extends Action {
         HashMap<String, List<FeedbackSessionAttributes>> map = new HashMap<String, List<FeedbackSessionAttributes>>();
 
         
-        String rawStart = getRequestParamValue("start");
-        String rawEnd = getRequestParamValue("end");
-        String rawZone = getRequestParamValue("timezone");
-
+        String startDate = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE);
+        String endDate = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE);
+        String startHour = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTHOUR);
+        String endHour = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDHOUR);
+        String startMin = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTMINUTE);
+        String endMin = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDMINUTE);
+        
+        String timeZone = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE);
+        
         Date start;
         Date end;
         double zone;
 
-        if (rawStart == null && rawEnd == null && rawZone == null) {
+        if (startDate == null && endDate == null && startHour == null
+            && endHour == null && startMin == null && endMin == null && timeZone == null) {
+            
             zone = 0.0;
             Calendar calStart = TimeHelper.now(zone);
             Calendar calEnd = TimeHelper.now(zone);
@@ -50,16 +55,23 @@ public class AdminSessionsPageAction extends Action {
             
             start = calStart.getTime();
             end = calEnd.getTime();
-        } else if (rawStart != null && rawEnd != null && rawZone != null 
-                   && !rawStart.trim().isEmpty() && !rawEnd.trim().isEmpty() && !rawZone.trim().isEmpty()) {
+        } else if (startDate != null && endDate != null && startHour != null
+                   && endHour != null && startMin != null && endMin != null && timeZone != null
+                   && !startDate.trim().isEmpty() && !endDate.trim().isEmpty() && !startHour.trim().isEmpty()
+                   && !endHour.trim().isEmpty() && !startMin.trim().isEmpty() && !endMin.trim().isEmpty() && !timeZone.trim().isEmpty()) {
             
-            Sanitizer.sanitizeForHtml(rawStart);
-            Sanitizer.sanitizeForHtml(rawEnd);
-            Sanitizer.sanitizeForHtml(rawZone);
+            Sanitizer.sanitizeForHtml(startDate);
+            Sanitizer.sanitizeForHtml(endDate);
+            Sanitizer.sanitizeForHtml(startHour);
+            Sanitizer.sanitizeForHtml(endHour);
+            Sanitizer.sanitizeForHtml(startMin);
+            Sanitizer.sanitizeForHtml(endMin); 
+            Sanitizer.sanitizeForHtml(timeZone); 
             
-            zone = Double.parseDouble(rawZone);
-            start = TimeHelper.convertToDate(converTorequiredFormat(rawStart));
-            end = TimeHelper.convertToDate(converTorequiredFormat(rawEnd));  
+            zone = Double.parseDouble(timeZone);
+            
+            start = TimeHelper.convertToDate(converTorequiredFormat(startDate, startHour, startMin));
+            end = TimeHelper.convertToDate(converTorequiredFormat(endDate, endHour, endMin));  
           
         } else {
             
@@ -132,6 +144,7 @@ public class AdminSessionsPageAction extends Action {
             }
         }
 
+        data.tableCount = map.keySet().size();
         data.map = map;
         statusToAdmin = "Admin Sessions Page Load<br>" +
                 "<span class=\"bold\">Total Ongoing Sessions:</span> " +
@@ -152,10 +165,9 @@ public class AdminSessionsPageAction extends Action {
         }
     }
 
-    private String converTorequiredFormat(String rawDate) {
+    private String converTorequiredFormat(String date, String hour, String min) {
 
-        String date = rawDate.substring(0, 10);
-        String time = rawDate.substring(10);
+        //String time = rawDate.substring(10);
 
         final String OLD_FORMAT = "dd/MM/yyyy";
         final String NEW_FORMAT = "yyyy-MM-dd";
@@ -171,8 +183,13 @@ public class AdminSessionsPageAction extends Action {
             Assumption.fail("Date in String is in wrong format.");
             return null;
         }
-
-        String formated = date + time + " UTC";
+        
+        int intHour = Integer.parseInt(hour);
+        
+        String amOrPm = intHour >= 12 ? "PM" : "AM";
+        intHour = intHour >= 13 ? intHour - 12 : intHour;
+        
+        String formated = date + " "+ intHour + ":" + min + " " + amOrPm + " UTC";
 
         return formated;
 
