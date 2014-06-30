@@ -150,6 +150,42 @@ public class FeedbackNumericalScaleQuestionDetails extends
         
         return html;
     }
+
+    @Override
+    public String getQuestionResultStatisticsCsv(
+            List<FeedbackResponseAttributes> responses,
+            FeedbackQuestionAttributes question,
+            FeedbackSessionResultsBundle bundle) {
+        String csv = "";
+        double average = 0;
+        double min = Integer.MAX_VALUE;
+        double max = Integer.MIN_VALUE;
+        int numResponses = 0;
+        double total = 0;
+        
+        for(FeedbackResponseAttributes response : responses){
+            numResponses++;
+            double answer = ((FeedbackNumericalScaleResponseDetails)response.getResponseDetails()).getAnswer();
+            min = (answer < min) ? answer : min;
+            max = (answer > max) ? answer : max;
+            total += answer;
+        }
+        
+        average = total/numResponses;
+        
+        DecimalFormat df = new DecimalFormat();
+        df.setMinimumFractionDigits(0);
+        df.setMaximumFractionDigits(5);
+        df.setRoundingMode(RoundingMode.DOWN);
+        
+        csv += "Average, Minimum, Maximum" + Const.EOL;
+        
+        csv += df.format(average) + ","
+            + ((min == Integer.MAX_VALUE)? "-" : df.format(min)) + ","
+            + ((max == Integer.MIN_VALUE)? "-" : df.format(max)) + Const.EOL;
+        
+        return csv;
+    }
     
     @Override
     public boolean isChangesRequiresResponseDeletion(

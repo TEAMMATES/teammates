@@ -59,7 +59,7 @@ public class InstructorStudentRecordsPageAction extends Action {
             }
             
             data.showCommentBox = showCommentBox;
-            data.comments = logic.getCommentsForReceiver(courseId, CommentRecipientType.PERSON, studentEmail);
+            data.comments = logic.getCommentsForReceiver(courseId, instructor.email, CommentRecipientType.PERSON, studentEmail);
             Iterator<CommentAttributes> iterator = data.comments.iterator();
             while(iterator.hasNext()){
                 CommentAttributes c = iterator.next();
