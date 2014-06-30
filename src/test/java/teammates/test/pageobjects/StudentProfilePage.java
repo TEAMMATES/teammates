@@ -75,7 +75,7 @@ public class StudentProfilePage extends AppPage {
     
     public void fillProfilePic(String fileName) throws Exception {
         uploadPopupButton.click();
-        Thread.sleep(400);
+        waitForElementToBecomeVisible("studentPhotoUploader");
         RemoteWebElement ele = (RemoteWebElement) browser.driver.findElement(By.id("studentPhoto"));
         fillFileBox(ele, fileName);
     }

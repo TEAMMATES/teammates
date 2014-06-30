@@ -19,9 +19,11 @@ import com.google.appengine.tools.cloudstorage.GcsServiceFactory;
 import com.google.appengine.tools.cloudstorage.RetryParams;
 
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.logic.api.GateKeeper;
 
 public class StudentProfilePictureEditAction extends Action {
 
@@ -29,6 +31,12 @@ public class StudentProfilePictureEditAction extends Action {
     
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
+        new GateKeeper().verifyLoggedInUserPrivileges();
+        if(isUnregistered) { 
+            // unregistered users cannot view the page
+            throw new UnauthorizedAccessException("User is not registered");
+        }        
+        
         validatePostParameters();
         
         String leftXString = getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_LEFTX);
@@ -41,13 +49,14 @@ public class StudentProfilePictureEditAction extends Action {
         
         if (leftXString.isEmpty() || topYString.isEmpty()
                 || rightXString.isEmpty() || bottomYString.isEmpty()
-                || height.isEmpty() || width.isEmpty()) {
+                || height.isEmpty() || width.isEmpty() 
+                || Double.parseDouble(width) == 0 || Double.parseDouble(height) == 0) {
             isError=true;
             statusToUser.add("Given crop locations were not valid. Please try again");            
             statusToAdmin = Const.ACTION_RESULT_FAILURE + 
                     " : One or more of the given coords were empty.";
+            return createRedirectResult(Const.ActionURIs.STUDENT_PROFILE_PAGE);
         }
-        
         
         GcsFilename fileName = new GcsFilename(Config.GCS_BUCKETNAME, account.googleId);
         gcsService = GcsServiceFactory.createGcsService(RetryParams.getDefaultInstance());
@@ -57,7 +66,7 @@ public class StudentProfilePictureEditAction extends Action {
             
             if (!isError) {
                 GcsOutputChannel outputChannel =
-                        gcsService.createOrReplace(fileName, GcsFileOptions.getDefaultInstance());
+                        gcsService.createOrReplace(fileName, new GcsFileOptions.Builder().mimeType("image/png").build());
                 
                 outputChannel.write(ByteBuffer.wrap(transformedImage));
                 outputChannel.close();
@@ -67,6 +76,9 @@ public class StudentProfilePictureEditAction extends Action {
                 logic.updateStudentProfilePicture(account.googleId, newPictureKey);
             }
         } catch (IOException e) {
+            // this branch is difficult to reproduce during testing 
+            // and hence is not covered
+            // TODO: find a way to cover this branch
             isError=true;
             statusToUser.add(Const.StatusMessages.STUDENT_PROFILE_PIC_SERVICE_DOWN);            
             statusToAdmin = Const.ACTION_RESULT_FAILURE 
@@ -109,7 +121,7 @@ public class StudentProfilePictureEditAction extends Action {
             isError=true;
             statusToUser.add(Const.StatusMessages.STUDENT_PROFILE_PICTURE_EDIT_FAILED);            
             statusToAdmin = Const.ACTION_RESULT_FAILURE
-                    + " : Writing transformed image to file failed."
+                    + " : Reading and transforming image failed."
                     + re.getMessage();
         }
         

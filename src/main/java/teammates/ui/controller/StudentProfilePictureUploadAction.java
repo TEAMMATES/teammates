@@ -9,12 +9,19 @@ import com.google.appengine.api.blobstore.BlobstoreFailureException;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.logic.api.GateKeeper;
 
 public class StudentProfilePictureUploadAction extends Action {
     
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
+        new GateKeeper().verifyLoggedInUserPrivileges();
+        if(isUnregistered) { 
+            // unregistered users cannot view the page
+            throw new UnauthorizedAccessException("User is not registered");
+        }
         
         String pictureKey = "";
         RedirectResult r = createRedirectResult(Const.ActionURIs.STUDENT_PROFILE_PAGE);
@@ -28,7 +35,7 @@ public class StudentProfilePictureUploadAction extends Action {
         } catch (BlobstoreFailureException bfe) {
             // This branch is not tested as recreating such a scenario is difficult in the 
             // dev server for testing purposes.
-            
+            // TODO: find a way to cover this branch
             // delete the newly uploaded picture
             deletePicture(new BlobKey(pictureKey));
             statusToAdmin += Const.ACTION_RESULT_FAILURE 
@@ -39,6 +46,8 @@ public class StudentProfilePictureUploadAction extends Action {
             statusToUser.add(Const.StatusMessages.STUDENT_PROFILE_PIC_SERVICE_DOWN);
             isError = true;
         } catch (Exception e) {
+            // this is for other exceptions like EntityNotFound, IllegalState, etc that might occur rarely
+            // and are handled higher up.
             deletePicture(new BlobKey(pictureKey));
             statusToUser.clear();
             throw e;
@@ -98,6 +107,7 @@ public class StudentProfilePictureUploadAction extends Action {
         } catch (BlobstoreFailureException bfe) {
             // This branch is not tested as recreating such a scenario is difficult in the 
             // dev server for testing purposes.
+            // TODO: find a way to cover this branch
             
             statusToAdmin = Const.ACTION_RESULT_FAILURE 
                     + " : Unable to delete profile picture (possible unused picture with key: "

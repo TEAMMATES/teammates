@@ -24,7 +24,8 @@ import teammates.test.pageobjects.StudentProfilePicturePage;
 public class StudentProfilePageUiTest extends BaseUiTestCase {
     private static Browser browser;
     private static DataBundle testData;
-    private StudentProfilePage profilePage;
+    private StudentProfilePage 
+    profilePage;
     
     @BeforeClass
     public static void classSetup() throws Exception {

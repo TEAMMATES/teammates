@@ -77,6 +77,7 @@
                                         <button type="button" id="profileUploadPictureSubmit" class="btn btn-primary center-block" onclick="finaliseUploadPictureForm()">
                                             Upload Picture
                                         </button>
+                                        <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
                                     </form>
                                 </div>
                             </div>
@@ -94,6 +95,7 @@
                                         <input id="cropBoxRightX" type="hidden" name="<%=Const.ParamsNames.PROFILE_PICTURE_RIGHTX %>" value="">
                                         <input id="cropBoxBottomY" type="hidden" name="<%=Const.ParamsNames.PROFILE_PICTURE_BOTTOMY %>" value="">
                                         <input id="blobKey" type="hidden" name="<%=Const.ParamsNames.BLOB_KEY %>" value="<%=data.account.studentProfile.pictureKey %>">
+                                        <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
                                         <button type="button"id="profileEditPictureSubmit" class="btn btn-primary" onclick="finaliseEditPictureForm()">Save Edited Photo</button>
                                     </form>
                                 <% } else { %>
