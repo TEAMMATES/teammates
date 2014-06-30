@@ -896,8 +896,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
                 session.courseId, instructor.email, "Section A");
         
         // Instructor can see responses: q2r1-3, q3r1-2, q4r1-3, q5r1, q6r1
-        assertEquals(4, results.responses.size());
-        assertEquals(3, results.questions.size());
+        assertEquals(7, results.responses.size());
+        assertEquals(4, results.questions.size());
         
         // Test the user email-name maps used for display purposes
         mapString = results.emailNameTable.toString();
@@ -911,7 +911,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
                 "Team 1.4=Team 1.4",
                 "FSRTest.instr1@course1.com=Instructor1 Course1");
         AssertHelper.assertContains(expectedStrings, mapString);
-        assertEquals(7, results.emailNameTable.size());
+        assertEquals(13, results.emailNameTable.size());
         
         // Test the user email-teamName maps used for display purposes
         mapString = results.emailTeamNameTable.toString();
@@ -925,7 +925,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
                 "Team 1.4=",
                 "FSRTest.instr1@course1.com=Instructors");
         AssertHelper.assertContains(expectedStrings, mapString);
-        assertEquals(7, results.emailTeamNameTable.size());
+        assertEquals(13, results.emailTeamNameTable.size());
 
         // Test the generated response visibilityTable for userNames.        
         mapString = tableToString(results.visibilityTable);
@@ -936,7 +936,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
                 getResponseId("qn2.resp3",responseBundle)+"={false,false}",
                 getResponseId("qn2.resp1",responseBundle)+"={false,false}");
         AssertHelper.assertContains(expectedStrings, mapString);
-        assertEquals(4, results.visibilityTable.size());
+        assertEquals(7, results.visibilityTable.size());
         // TODO: test student2 too.
         
         ______TS("private session");
