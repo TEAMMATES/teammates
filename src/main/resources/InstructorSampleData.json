@@ -67,7 +67,6 @@
 
   "courses": {
     "Demo Course": {
-      "instructor": "teammates.demo.instructor",
       "id": "demo.course",
       "name": "Sample Course 101"
     }

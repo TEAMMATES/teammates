@@ -118,10 +118,12 @@ public class GateKeeper {
     /** Verifies that the nominal user has instructor privileges.
      */
     public void verifyInstructorPrivileges(AccountAttributes account){
+        
         if(account.isInstructor) {
             return;
         }
-        throw new UnauthorizedAccessException("User "+account.googleId+" does not have admin privilleges");
+        throw new UnauthorizedAccessException("User "+account.googleId+" does not have instructor privilleges");
+
     }
     
     /** Verifies that the nominal user has student privileges. Currently, all

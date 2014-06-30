@@ -31,7 +31,9 @@ public class InstructorHomePageAction extends Action {
         
         HashMap<String, CourseSummaryBundle> courses = logic.getCourseSummariesWithoutStatsForInstructor(account.googleId);
         
-        data.courses = new ArrayList<CourseSummaryBundle>(courses.values());
+        
+        ArrayList<CourseSummaryBundle> courseList = new ArrayList<CourseSummaryBundle>(courses.values());
+        data.courses = updateWithInstructorArchiveStatus(courseList);
         
         switch (data.sortCriteria) {
             case Const.SORT_BY_COURSE_ID:
@@ -70,6 +72,21 @@ public class InstructorHomePageAction extends Action {
         ShowPageResult response = createShowPageResult(Const.ViewURIs.INSTRUCTOR_HOME, data);
         return response;
 
+    }
+    
+    private ArrayList<CourseSummaryBundle> updateWithInstructorArchiveStatus(ArrayList<CourseSummaryBundle> courseList){
+        
+        for(CourseSummaryBundle course : courseList){
+            
+            InstructorAttributes curInstructor = logic.getInstructorForGoogleId(course.course.id, account.googleId);
+            
+            if(curInstructor.isArchived != null){          
+                course.course.isArchived = curInstructor.isArchived;       
+            }
+        }
+        
+        return courseList;
+        
     }
 
 }

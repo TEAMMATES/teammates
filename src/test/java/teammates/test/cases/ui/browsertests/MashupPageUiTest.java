@@ -37,8 +37,8 @@ public class MashupPageUiTest extends BaseUiTestCase {
 
     private void uploadNewPhotoForStudent() throws Exception {
         StudentProfilePage profilePage = getProfilePageForStudent("benny.c.tmms");
-        profilePage.fillProfilePic("src\\test\\resources\\images\\profile_pic_update.png");
-        profilePage.submitEditedProfile();
+        profilePage.fillProfilePic("src/test/resources/images/profile_pic_updated.png");
+        profilePage.uploadPicture();
     }
     
     private StudentProfilePage getProfilePageForStudent(String studentId) {

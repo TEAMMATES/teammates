@@ -226,6 +226,20 @@ public class Logic {
     }
     
     /**
+     * Preconditions: <br>
+     * * All parameters are non-null.<br>
+     * * {@code newAccountAttributes} represents an existing account.
+     */
+    public void updateStudentProfilePicture(String googleId, String newPictureKey) 
+            throws EntityDoesNotExistException {
+        
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, newPictureKey);
+        
+        accountsLogic.updateStudentProfilePicture(googleId, newPictureKey);
+    }
+    
+    /**
      * Deletes both instructor and student privileges.
      * Does not delete courses. Can result in orphan courses 
      * (to be rectified in future).
@@ -240,10 +254,16 @@ public class Logic {
         accountsLogic.deleteAccountCascade(googleId);
     }
     
-    public void deleteProfilePicture(BlobKey key) throws BlobstoreFailureException {
+    public void deleteStudentProfilePicture(String googleId) throws BlobstoreFailureException {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
+        
+        accountsLogic.deleteStudentProfilePicture(googleId);
+    }
+    
+    public void deletePicture(BlobKey key) throws BlobstoreFailureException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, key);
         
-        accountsLogic.deleteProfilePicture(key);
+        accountsLogic.deletePicture(key);
     }
 
     @SuppressWarnings("unused")
@@ -477,15 +497,26 @@ public class Logic {
      * Create an account for the instructor if there is no account exist for him.
      * Preconditions: <br>
      * * All parameters are non-null.
+     * @throws InvalidParametersException 
      */
-    public void joinCourseForInstructor(String encryptedKey, String googleId)
-            throws JoinCourseException {
+    public void joinCourseForInstructor(String encryptedKey, String googleId, String institute)
+            throws JoinCourseException, InvalidParametersException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, encryptedKey);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, institute);
+        
+        accountsLogic.joinCourseForInstructor(encryptedKey, googleId, institute);
+    }
     
+    public void joinCourseForInstructor(String encryptedKey, String googleId)
+            throws JoinCourseException, InvalidParametersException {
+        
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, encryptedKey);   
         accountsLogic.joinCourseForInstructor(encryptedKey, googleId);
     }
+
 
     /**
      * Preconditions: <br>
@@ -499,6 +530,31 @@ public class Logic {
     
         return instructorsLogic.sendRegistrationInviteToInstructor(courseId, instructorEmail);
     }
+    
+    
+    public void sendJoinLinkToNewInstructor(InstructorAttributes instructor, String shortName, String institute)
+            throws EntityDoesNotExistException{
+         
+         
+         Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructor);
+         Assumption.assertNotNull(ERROR_NULL_PARAMETER, shortName);
+         Assumption.assertNotNull(ERROR_NULL_PARAMETER, institute);
+         
+         instructorsLogic.sendJoinLinkToNewInstructor(instructor, shortName, institute);
+         
+     }
+     
+     public void verifyInputForAdminHomePage(String shortName, String name, String institute, String email) throws InvalidParametersException{
+         
+         List<String> invalidityInfo = instructorsLogic.getInvalidityInfoForNewInstructorData(shortName, name, institute, email);
+         
+         if (!invalidityInfo.isEmpty()) {
+             throw new InvalidParametersException(invalidityInfo);
+         } 
+     }
+     
+     
+    
     
     /**
      * Removes instructor access but does not delete the account. 
@@ -690,6 +746,25 @@ public class Logic {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         coursesLogic.setArchiveStatusOfCourse(courseId, archiveStatus);
+    }
+    
+    
+    /**
+     * Change the archive status of a course for a instructor.<br>
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     * @param courseId The course of which the archive status is to be changed
+     * @param archiveStatus The archive status to be set
+     */
+    
+    public void setArchiveStatusOfInstructor(String googleId, String courseId, boolean archiveStatus)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, archiveStatus);
+        
+        instructorsLogic.setArchiveStatusOfInstructor(googleId, courseId, archiveStatus);
     }
     
     /**
