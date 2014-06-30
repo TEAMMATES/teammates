@@ -177,8 +177,6 @@ public class AdminSessionsPageAction extends Action {
 
     private String converTorequiredFormat(String date, String hour, String min) {
 
-        //String time = rawDate.substring(10);
-
         final String OLD_FORMAT = "dd/MM/yyyy";
         final String NEW_FORMAT = "yyyy-MM-dd";
 
