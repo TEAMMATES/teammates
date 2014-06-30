@@ -76,7 +76,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.clickResponseCommentRow(1, 1, 1, 1);
         commentsPage.clickResponseCommentDelete(1, 1, 1, 1);
         commentsPage.reloadPage();
-        //commentsPage.verifyHtmlMainContent("/instructorCommentsPageAfterTestScript.html");
+        commentsPage.verifyHtmlMainContent("/instructorCommentsPageAfterTestScript.html");
     }
 
     private void testScripts() {
@@ -100,24 +100,24 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.clickShowMoreOptions();
         
         commentsPage.showCommentsForAll();
-        //commentsPage.verifyHtmlMainContent("/instructorCommentsPageShowCommentsForAll.html");
+        commentsPage.verifyHtmlMainContent("/instructorCommentsPageShowCommentsForAll.html");
         
         int studentCommentPanelIdx = 1;
         commentsPage.showCommentsForPanel(studentCommentPanelIdx);
-        //commentsPage.verifyHtmlMainContent("/instructorCommentsPageShowCommentsForStudentCommentPanel.html");
+        commentsPage.verifyHtmlMainContent("/instructorCommentsPageShowCommentsForStudentCommentPanel.html");
         
         int sessionCommentPanelIdx = 2;
         commentsPage.showCommentsForPanel(sessionCommentPanelIdx);
-        //commentsPage.verifyHtmlMainContent("/instructorCommentsPageShowCommentsForSessionCommentPanel.html");
+        commentsPage.verifyHtmlMainContent("/instructorCommentsPageShowCommentsForSessionCommentPanel.html");
         
         commentsPage.showCommentsFromAll();
-        //commentsPage.verifyHtmlMainContent("/instructorCommentsPageShowCommentsFromAll.html");
+        commentsPage.verifyHtmlMainContent("/instructorCommentsPageShowCommentsFromAll.html");
         
         commentsPage.showCommentsFromGiver("you");
-        //commentsPage.verifyHtmlMainContent("/instructorCommentsPageShowCommentsFromYou.html");
+        commentsPage.verifyHtmlMainContent("/instructorCommentsPageShowCommentsFromYou.html");
         
         commentsPage.showCommentsFromGiver("others");
-        //commentsPage.verifyHtmlMainContent("/instructorCommentsPageShowCommentsFromOthers.html");
+        commentsPage.verifyHtmlMainContent("/instructorCommentsPageShowCommentsFromOthers.html");
     }
 
     private void testConent() {
@@ -137,7 +137,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
 
         commentsPage = loginAdminToPage(browser, commentsPageUrl, InstructorCommentsPage.class);
 
-        //commentsPage.verifyHtmlMainContent("/instructorCommentsPageForCourseWithoutComment.html");
+        commentsPage.verifyHtmlMainContent("/instructorCommentsPageForCourseWithoutComment.html");
         
         ______TS("content: typical course with comments");
         
@@ -146,7 +146,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
 
         commentsPage = loginAdminToPage(browser, commentsPageUrl, InstructorCommentsPage.class);
 
-        //commentsPage.verifyHtmlMainContent("/instructorCommentsPageForTypicalCourseWithComments.html");
+        commentsPage.verifyHtmlMainContent("/instructorCommentsPageForTypicalCourseWithComments.html");
     }
     
     @AfterClass

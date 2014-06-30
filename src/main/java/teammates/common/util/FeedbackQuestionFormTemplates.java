@@ -36,6 +36,8 @@ public class FeedbackQuestionFormTemplates {
     public static String CONTRIB_SUBMISSION_FORM = FileHelper.readResourseFile("feedbackQuestionContribSubmissionFormTemplate.html");
     public static String CONTRIB_RESULT_STATS = FileHelper.readResourseFile("feedbackQuestionContribResultStatsTemplate.html");
     public static String CONTRIB_RESULT_STATS_FRAGMENT = FileHelper.readResourseFile("feedbackQuestionContribResultStatsFragment.html");
+    public static String CONTRIB_RESULT_STATS_STUDENT = FileHelper.readResourseFile("feedbackQuestionContribResultStatsStudentViewTemplate.html");
+    public static String CONTRIB_RESULT_STATS_STUDENT_INFO = FileHelper.readResourseFile("feedbackQuestionContribResultStatsStudentViewAdditionalInfo.html");
     
     
     /** Populates the feedback question form html templates by replacing 

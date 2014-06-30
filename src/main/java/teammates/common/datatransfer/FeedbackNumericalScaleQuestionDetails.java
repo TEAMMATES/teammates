@@ -102,6 +102,8 @@ public class FeedbackNumericalScaleQuestionDetails extends
         
         return FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
+                "${more}", "[more]",
+                "${less}", "[less]",
                 "${questionNumber}", Integer.toString(questionNumber),
                 "${additionalInfoId}", additionalInfoId,
                 "${questionAdditionalInfo}", additionalInfo);
@@ -110,8 +112,14 @@ public class FeedbackNumericalScaleQuestionDetails extends
     @Override
     public String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
+            AccountAttributes currentUser,
             FeedbackSessionResultsBundle bundle,
             String view) {
+        
+        if(view.equals("student")){
+            return "";
+        }
+        
         String html = "";
         double average = 0;
         double min = Integer.MAX_VALUE;
@@ -141,6 +149,42 @@ public class FeedbackNumericalScaleQuestionDetails extends
                         "${max}", (max == Integer.MIN_VALUE)? "-" : df.format(max));
         
         return html;
+    }
+
+    @Override
+    public String getQuestionResultStatisticsCsv(
+            List<FeedbackResponseAttributes> responses,
+            FeedbackQuestionAttributes question,
+            FeedbackSessionResultsBundle bundle) {
+        String csv = "";
+        double average = 0;
+        double min = Integer.MAX_VALUE;
+        double max = Integer.MIN_VALUE;
+        int numResponses = 0;
+        double total = 0;
+        
+        for(FeedbackResponseAttributes response : responses){
+            numResponses++;
+            double answer = ((FeedbackNumericalScaleResponseDetails)response.getResponseDetails()).getAnswer();
+            min = (answer < min) ? answer : min;
+            max = (answer > max) ? answer : max;
+            total += answer;
+        }
+        
+        average = total/numResponses;
+        
+        DecimalFormat df = new DecimalFormat();
+        df.setMinimumFractionDigits(0);
+        df.setMaximumFractionDigits(5);
+        df.setRoundingMode(RoundingMode.DOWN);
+        
+        csv += "Average, Minimum, Maximum" + Const.EOL;
+        
+        csv += df.format(average) + ","
+            + ((min == Integer.MAX_VALUE)? "-" : df.format(min)) + ","
+            + ((max == Integer.MIN_VALUE)? "-" : df.format(max)) + Const.EOL;
+        
+        return csv;
     }
     
     @Override
