@@ -616,7 +616,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         
         List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForSessionWithinRange(fqa.feedbackSessionName, fqa.courseId, 4);
         
-        assertEquals(responses.size(), 4);
+        assertEquals(responses.size(), 5);
         
         ______TS("null params");
         

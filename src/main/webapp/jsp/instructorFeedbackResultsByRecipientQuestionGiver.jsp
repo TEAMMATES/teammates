@@ -152,7 +152,7 @@
         %>
 
         <% 
-            if(currentSection != null && !firstResponse.giverSection.equals(currentSection)){
+            if(currentSection != null && !firstResponse.recipientSection.equals(currentSection)){
                 currentSection = firstResponse.recipientSection;
                 newSection = true;
         %>
