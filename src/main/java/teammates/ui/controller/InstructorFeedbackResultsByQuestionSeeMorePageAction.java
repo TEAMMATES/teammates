@@ -38,7 +38,7 @@ public class InstructorFeedbackResultsByQuestionSeeMorePageAction extends Action
         FeedbackSessionResultsBundle bundle = logic.getFeedbackSessionResultsForInstructorFromQuestion(feedbackSessionName, courseId, instructor.email, questionNum);
         data.responses = bundle.responses;
         for(FeedbackQuestionAttributes question : bundle.questions.values()){
-            data.questionStats = question.getQuestionDetails().getQuestionResultStatisticsHtml(bundle.responses, question, bundle, "question");
+            data.questionStats = question.getQuestionDetails().getQuestionResultStatisticsHtml(bundle.responses, question, account, bundle, "question");
             for(FeedbackResponseAttributes response : data.responses){
                 data.answerTable.put(response.getId(), response.getResponseDetails().getAnswerHtml(question.getQuestionDetails()));
             }
