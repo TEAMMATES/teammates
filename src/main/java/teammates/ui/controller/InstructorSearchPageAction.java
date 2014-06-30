@@ -16,16 +16,10 @@ public class InstructorSearchPageAction extends Action {
     protected ActionResult execute() throws EntityDoesNotExistException {
         String key = getRequestParamValue(Const.ParamsNames.SEARCH_KEY);
         if(key == null) key = "";
-        //populate courseIds list for this account
+
         List<InstructorAttributes> instructorRoles = logic.getInstructorsForGoogleId(account.googleId);
-        List<String> courseIdsList = new ArrayList<String>();
-        Set<String> emailList = new HashSet<String>();
-        for(InstructorAttributes instructor:instructorRoles){
-            courseIdsList.add(instructor.courseId);
-            emailList.add(instructor.email);
-        }
+        List<CommentAttributes> comments = logic.searchComment(key, instructorRoles);
         
-        List<CommentAttributes> comments = logic.searchComment(key, courseIdsList, emailList);
         for(CommentAttributes comment:comments){
             System.out.print(comment.toString());
         }

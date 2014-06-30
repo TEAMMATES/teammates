@@ -124,7 +124,13 @@ public class CommentsLogic {
         return commentsDb.getCommentDrafts(giverEmail);
     }
     
-    public List<CommentAttributes> search(String queryString, List<String> courseIdsList, Set<String> giverEmails){
+    public List<CommentAttributes> search(String queryString, List<InstructorAttributes> instructorRoles){
+        List<String> courseIdsList = new ArrayList<String>();
+        Set<String> giverEmails = new HashSet<String>();
+        for(InstructorAttributes instructor:instructorRoles){
+            courseIdsList.add(instructor.courseId);
+            giverEmails.add(instructor.email);
+        }
         return commentsDb.search(queryString, courseIdsList, giverEmails);
     }
     
