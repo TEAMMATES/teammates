@@ -61,5 +61,44 @@ public class StringHelperTest extends BaseTestCase {
         decrptedMsg = StringHelper.decrypt(StringHelper.encrypt(msg));
         assertEquals(msg, decrptedMsg);
     }
+    
+    @Test
+    public void testSplitSplitName(){
+        
+        String fullName = "singleWord";
+        String[] splitedName = StringHelper.splitName(fullName);
+        
+        assertEquals(splitedName[0],"");
+        assertEquals(splitedName[1],"singleWord");
+        
+        fullName = "     singleWord    ";
+        splitedName = StringHelper.splitName(fullName);
+        
+        assertEquals(splitedName[0],"");
+        assertEquals(splitedName[1],"singleWord");
+        
+        
+        fullName = "     two     words    ";
+        splitedName = StringHelper.splitName(fullName);
+        
+        assertEquals(splitedName[0],"two");
+        assertEquals(splitedName[1],"words");
+        
+        fullName = "     now      three       words    ";
+        splitedName = StringHelper.splitName(fullName);
+        
+        assertEquals(splitedName[0],"now three");
+        assertEquals(splitedName[1],"words");
+        
+        
+        fullName = "  what   if      four       words    ";
+        splitedName = StringHelper.splitName(fullName);
+        
+        assertEquals(splitedName[0],"what if four");
+        assertEquals(splitedName[1],"words");
+        
+        
+        
+    }
 
 }

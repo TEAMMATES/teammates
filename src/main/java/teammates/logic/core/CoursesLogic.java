@@ -614,7 +614,7 @@ public class CoursesLogic {
         if(hasSection){
             export += "Section" + ",";
         }
-        export  += "Team" + "," + "First Name" + "," + "Last Name" + "," + "Status" + "," + "Email" + Const.EOL;
+        export  += "Team,First Name,Last Name,Status,Email" + Const.EOL;
         
         for (SectionDetailsBundle section : course.sections) {
             for (TeamDetailsBundle team  :   section.teams) {

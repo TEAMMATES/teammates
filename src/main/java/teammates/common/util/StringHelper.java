@@ -162,13 +162,31 @@ public class StringHelper {
     }
     
     
+    
+    /**
+     * split a full name string into first and last names,
+     * automatically remove extra white space 
+     * 1.If single word, this will be last name and no first name
+     * 
+     * 2.If more than two words, the last word will be last name and 
+     * the rest will be first name.
+     * 
+     * Example: 
+     * 
+     * full name "Danny Tim Lin"
+     * first name: "Danny Tim"
+     * last name: "Lin"
+     * 
+     * @return splited name array{0--> first name, 1--> last name}
+     */
+    
     public static String[] splitName(String fullName){        
         fullName = fullName.trim().replaceAll("\\s+", " ");      
         String lastName = fullName.substring(fullName.lastIndexOf(" ")+1).trim();
         String firstName = fullName.replace(lastName, "").trim();
         
-        String[] splited ={firstName, lastName};       
-        return splited;
+        String[] splitedNames = {firstName, lastName};       
+        return splitedNames;
     }
     
     
