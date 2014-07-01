@@ -40,57 +40,6 @@ function closeAllSections(count) {
 
 }
 
-function sessionToggleSort(divElement, colIdx, comparator) {
-
-	if ($(divElement).attr("class") == "non-sorted-alpha") {
-		sortTable(divElement, colIdx, comparator, true);
-		$(divElement).attr("class", "ascending-alpha");
-		$(divElement).parent().find('span').attr("class",
-				"glyphicon glyphicon-sort");
-		$(divElement).find('span').attr("class",
-				"glyphicon glyphicon-sort-by-alphabet");
-
-	} else if ($(divElement).attr("class") == "ascending-alpha") {
-		sortTable(divElement, colIdx, comparator, false);
-		$(divElement).attr("class", "descending-alpha");
-		$(divElement).parent().find('span').attr("class",
-				"glyphicon glyphicon-sort");
-		$(divElement).find('span').attr("class",
-				"glyphicon glyphicon-sort-by-alphabet-alt");
-
-	} else if ($(divElement).attr("class") == "descending-alpha") {
-		sortTable(divElement, colIdx, comparator, true);
-		$(divElement).attr("class", "ascending-alpha");
-		$(divElement).parent().find('span').attr("class",
-				"glyphicon glyphicon-sort");
-		$(divElement).find('span').attr("class",
-				"glyphicon glyphicon-sort-by-alphabet");
-
-	} else if ($(divElement).attr("class") == "non-sorted") {
-		sortTable(divElement, colIdx, comparator, true);
-		$(divElement).attr("class", "ascending");
-		$(divElement).parent().find('span').attr("class",
-				"glyphicon glyphicon-sort");
-		$(divElement).find('span').attr("class",
-				"glyphicon glyphicon-sort-by-attributes");
-
-	} else if ($(divElement).attr("class") == "ascending") {
-		sortTable(divElement, colIdx, comparator, false);
-		$(divElement).attr("class", "descending");
-		$(divElement).parent().find('span').attr("class",
-				"glyphicon glyphicon-sort");
-		$(divElement).find('span').attr("class",
-				"glyphicon glyphicon-sort-by-attributes-alt");
-
-	} else {
-		sortTable(divElement, colIdx, comparator, true);
-		$(divElement).attr("class", "ascending");
-		$(divElement).parent().find('span').attr("class",
-				"glyphicon glyphicon-sort");
-		$(divElement).find('span').attr("class",
-				"glyphicon glyphicon-sort-by-attributes");
-	}
-}
 
 jQuery(document).ready(function() {
 

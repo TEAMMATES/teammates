@@ -247,20 +247,19 @@
                 <table class="table table-striped dataTable">
                     <thead>
                         <tr>
-                            <th onclick="sessionToggleSort(this,1)"
-                                class="non-sorted-alpha">Session
-                                Name &nbsp; <span
-                                class="glyphicon glyphicon-sort"></span>
+                            <th onclick="toggleSort(this,1)"
+                            	class="button-sort-non">Session Name &nbsp; <span
+                                class="icon-sort unsorted"></span>
                             </th>
-                            <th onclick="sessionToggleSort(this,2)"
-                                class="non-sorted">Start Time&nbsp;
-                                <span class="glyphicon glyphicon-sort"></span>
+                            <th onclick="toggleSort(this,2,sortDate)"
+                                class="button-sort-non">Start Time&nbsp;
+                                <span class="icon-sort unsorted"></span>
                             </th>
-                            <th onclick="sessionToggleSort(this,3)"
-                                class="non-sorted">End Time&nbsp; <span
-                                class="glyphicon glyphicon-sort"></span></th>
-                            <th onclick="sessionToggleSort(this,4)"
-                                class="non-sorted">Creator</th>
+                            <th onclick="toggleSort(this,3,sortDate)"
+                                class="button-sort-non">End Time&nbsp; <span
+                                class="icon-sort unsorted"></span></th>
+                            <th onclick="toggleSort(this,4)"
+                                class="button-sort-non">Creator</th>
                         </tr>
                     </thead>
 
@@ -310,7 +309,7 @@
 
 
             <ul class="nav nav-pills nav-stacked">
-                <li id="pill_<%=tableIndex%>" class="pill active"><a
+                <li id="pill_<%=tableIndex%>" class="active"><a
                     href="#"
                     onclick="toggleContent(<%=tableIndex%>); return false;"><span
                         class="badge pull-right"
@@ -322,20 +321,19 @@
                 <table class="table table-striped dataTable">
                     <thead>
                         <tr>
-                            <th onclick="sessionToggleSort(this,1)"
-                                class="non-sorted-alpha">Session
-                                Name &nbsp; <span
-                                class="glyphicon glyphicon-sort"></span>
+                           <th onclick="toggleSort(this,1)"
+                                class="button-sort-non">Session Name &nbsp; <span
+                                class="icon-sort unsorted"></span>
                             </th>
-                            <th onclick="sessionToggleSort(this,2)"
-                                class="non-sorted">Start Time&nbsp;
-                                <span class="glyphicon glyphicon-sort"></span>
+                            <th onclick="toggleSort(this,2,sortDate)"
+                                class="button-sort-non">Start Time&nbsp;
+                                <span class="icon-sort unsorted"></span>
                             </th>
-                            <th onclick="sessionToggleSort(this,3)"
-                                class="non-sorted">End Time&nbsp; <span
-                                class="glyphicon glyphicon-sort"></span></th>
-                            <th onclick="sessionToggleSort(this,4)"
-                                class="non-sorted">Creator</th>
+                            <th onclick="toggleSort(this,3,sortDate)"
+                                class="button-sort-non">End Time&nbsp; <span
+                                class="icon-sort unsorted"></span></th>
+                            <th onclick="toggleSort(this,4)"
+                                class="button-sort-non">Creator</th>
                         </tr>
                     </thead>
 
