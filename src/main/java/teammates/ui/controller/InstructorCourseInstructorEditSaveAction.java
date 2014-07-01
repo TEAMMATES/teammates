@@ -137,12 +137,15 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
     }
     
     private void updateInstructorWithSectionLevelPrivileges(String courseId, InstructorAttributes instructorToEdit){
-        // TODO: use set here is better
         List<String> sectionNames = null;
         try {
             sectionNames = logic.getSectionNamesForCourse(courseId);
         } catch(EntityDoesNotExistException e) {
             return ;
+        }
+        HashMap<String, Boolean> sectionNamesTable = new HashMap<String, Boolean>();
+        for (String sectionName : sectionNames) {
+            sectionNamesTable.put(sectionName, false);
         }
         List<String> evalNames = new ArrayList<String>();
         List<String> feedbackNames = new ArrayList<String>();
@@ -159,8 +162,9 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
             String setSectionStr = getRequestParamValue("is" + Const.ParamsNames.INSTRUCTOR_SECTION + i + "set");
             boolean isSectionSpecial = setSectionStr != null && setSectionStr.equals("true");
             String valueForSectionName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_SECTION + i);
-            if (isSectionSpecial && valueForSectionName != null && sectionNames.contains(valueForSectionName)) {
+            if (isSectionSpecial && valueForSectionName != null && sectionNamesTable.containsKey(valueForSectionName)) {
                 sectionNamesMap.put(Const.ParamsNames.INSTRUCTOR_SECTION + i, valueForSectionName);
+                sectionNamesTable.put(valueForSectionName, true);
             }
         }
         for (Entry<String, String> entry : sectionNamesMap.entrySet()) {
@@ -169,6 +173,13 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
             boolean isSessionsSpecial = setSessionsStr != null && setSessionsStr.equals("true");
             if (isSessionsSpecial) {
                 updateInstructorPrivilegesForSectionInSessionLevel(entry.getKey(), entry.getValue(), evalNames, feedbackNames, instructorToEdit);
+            } else {
+                instructorToEdit.privileges.removeSessionsPrivilegesForSection(entry.getValue());
+            }
+        }
+        for (Entry<String, Boolean> entry : sectionNamesTable.entrySet()) {
+            if (!entry.getValue().booleanValue()) {
+                instructorToEdit.privileges.removeSectionLevelPrivileges(entry.getKey());
             }
         }
     }
