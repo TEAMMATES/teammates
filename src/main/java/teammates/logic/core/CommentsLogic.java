@@ -102,7 +102,6 @@ public class CommentsLogic {
     public void updateComments(String courseId, CommentSendingState oldState, CommentSendingState newState) throws EntityDoesNotExistException{
         verifyIsCoursePresent(courseId, "clear pending");
         commentsDb.updateComments(courseId, oldState, newState);
-        //TODO: synchronizeSearchableDocument for this case
     }
     
     public void updateComment(CommentAttributes comment)

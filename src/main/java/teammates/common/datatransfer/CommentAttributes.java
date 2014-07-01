@@ -110,7 +110,12 @@ public class CommentAttributes extends EntityAttributes
                 }
                 break;
             case SECTION:
-                // TODO: implement this
+                for (String recipientId : recipients) {
+                    error = validator.getInvalidityInfo(FieldType.SECTION_NAME, recipientId);
+                    if (!error.isEmpty()) {
+                        errors.add(error);
+                    }
+                }
                 break;
             case COURSE:
                 for (String recipientId : recipients) {
@@ -329,7 +334,7 @@ public class CommentAttributes extends EntityAttributes
         this.recipientType = comment.recipientType;
         this.recipients = comment.recipients;
         this.status = comment.status;
-        this.sendingState = comment.sendingState;
+        this.sendingState = CommentSendingState.SENT;
         this.showCommentTo = comment.showCommentTo;
         this.showGiverNameTo = comment.showGiverNameTo;
         this.showRecipientNameTo = comment.showRecipientNameTo;
