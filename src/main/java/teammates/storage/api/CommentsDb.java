@@ -47,6 +47,7 @@ public class CommentsDb extends EntitiesDb{
     }
     
     public void putSearchableDocument(Document doc){
+        //TODO: use config or const to replace this index name
         putDocument("comment", doc);
     }
     
@@ -244,7 +245,7 @@ public class CommentsDb extends EntitiesDb{
                             + " AND (giverEmail:" + giverEmailsLimit + " OR isVisibleToInstructor:true)"
                             + " AND searchableText:" + queryString));
         for(ScoredDocument result : results){
-            comments.add(CommentAttributes.fromDocument(result));
+            comments.add(new CommentAttributes().fromDocument(result));
         }
         return comments;
     }

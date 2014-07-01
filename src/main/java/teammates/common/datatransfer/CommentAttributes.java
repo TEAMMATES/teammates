@@ -321,9 +321,21 @@ public class CommentAttributes extends EntityAttributes
         return doc;
     }
     
-    public static CommentAttributes fromDocument(ScoredDocument doc){
+    public CommentAttributes fromDocument(ScoredDocument doc){
         CommentAttributes comment = new Gson().fromJson(doc.getOnlyField("attribute").getText(), CommentAttributes.class);
-        return comment;
+        this.commentId = comment.commentId;
+        this.courseId = comment.courseId;
+        this.giverEmail = comment.giverEmail;
+        this.recipientType = comment.recipientType;
+        this.recipients = comment.recipients;
+        this.status = comment.status;
+        this.sendingState = comment.sendingState;
+        this.showCommentTo = comment.showCommentTo;
+        this.showGiverNameTo = comment.showGiverNameTo;
+        this.showRecipientNameTo = comment.showRecipientNameTo;
+        this.commentText = comment.commentText;
+        this.createdAt = comment.createdAt;
+        return this;
     }
     
 }
