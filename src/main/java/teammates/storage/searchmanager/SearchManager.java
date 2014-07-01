@@ -27,7 +27,7 @@ public class SearchManager {
     private static final String ERROR_NON_TRANSIENT_BACKEND_ISSUE = "Failed to put document %s into search index %s due to non-transient backend issue.";
     private static final String ERROR_EXCEED_DURATION = "Operation did not succeed in time to put document %s into search index %s";
     private static final Logger log = Utils.getLogger();
-    private static Map<String, Index> indicesTable = new HashMap<String, Index>();
+    private static final ThreadLocal<Map<String, Index>> PER_THREAD_INDICES_TABLE = new ThreadLocal<Map<String,Index>>();
     
     public static void putDocument(String indexName, Document document){
         int elapsedTime = 0;
@@ -80,6 +80,7 @@ public class SearchManager {
     }
     
     private static Index getIndex(String indexName) {
+        Map<String, Index> indicesTable = getIndicesTable();
         Index index = indicesTable.get(indexName);
         if(index == null){
             IndexSpec indexSpec = IndexSpec.newBuilder().setName(indexName).build(); 
@@ -87,5 +88,14 @@ public class SearchManager {
             indicesTable.put(indexName, index);
         }
         return index;
+    }
+
+    private static Map<String, Index> getIndicesTable() {
+        Map<String, Index> indicesTable = PER_THREAD_INDICES_TABLE.get();
+        if (indicesTable == null) {
+            indicesTable = new HashMap<String, Index>();
+            PER_THREAD_INDICES_TABLE.set(indicesTable);
+        }
+        return indicesTable;
     }
 }
