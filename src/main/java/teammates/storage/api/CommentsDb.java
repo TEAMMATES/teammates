@@ -188,8 +188,6 @@ public class CommentsDb extends EntitiesDb{
         if (comment == null) {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + newAttributes.toString());
         }
-        
-
 
         if(newAttributes.commentText != null){
             comment.setCommentText(newAttributes.commentText);

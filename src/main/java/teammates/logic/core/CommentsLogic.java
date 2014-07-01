@@ -59,7 +59,7 @@ public class CommentsLogic {
         verifyIsInstructorOfCourse(comment.courseId, comment.giverEmail);
 
         CommentAttributes createdComment = commentsDb.createEntity(comment);
-        synchronizeSearchableDocument(createdComment);
+        putSearchableDocument(createdComment);
     }
     
     public CommentAttributes getComment(Long commentId) {
@@ -109,7 +109,7 @@ public class CommentsLogic {
         verifyIsCoursePresent(comment.courseId, "update");
         
         CommentAttributes updatedComment = commentsDb.updateComment(comment);
-        synchronizeSearchableDocument(updatedComment);
+        putSearchableDocument(updatedComment);
     }
     
     public void deleteComment(CommentAttributes comment){
@@ -134,21 +134,47 @@ public class CommentsLogic {
         return commentsDb.search(queryString, courseIdsList, giverEmails);
     }
     
-    private void synchronizeSearchableDocument(CommentAttributes comment) {
+    private void putSearchableDocument(CommentAttributes comment) {
         if(comment == null) return;
         CourseAttributes course = coursesLogic.getCourse(comment.courseId);
+        
         InstructorAttributes instructorAsGiver = instructorsLogic.
                 getInstructorForEmail(comment.courseId, comment.giverEmail);
-        Map<String, StudentAttributes> emailStudentTable = new HashMap<String, StudentAttributes>();
-        if(comment.recipientType == CommentRecipientType.PERSON){
+        
+        List<StudentAttributes> relatedStudents = new ArrayList<StudentAttributes>();
+        switch (comment.recipientType) {
+        case PERSON:
             for(String email:comment.recipients){
                 StudentAttributes student = studentsLogic.getStudentForEmail(comment.courseId, email);
-                if(student != null){
-                    emailStudentTable.put(email, student);
+                if(student == null){
+                    relatedStudents.add(student);
                 }
             }
+            break;
+        case TEAM:
+            for(String team:comment.recipients){
+                List<StudentAttributes> students = studentsLogic.getStudentsForTeam(team, comment.courseId);
+                if(students != null){
+                    relatedStudents.addAll(students);
+                }
+            }
+            break;
+        case SECTION:
+            for(String section:comment.recipients){
+                List<StudentAttributes> students = studentsLogic.getStudentsForSection(section, comment.courseId);
+                if(students != null){
+                    relatedStudents.addAll(students);
+                }
+            }
+        case COURSE:
+            List<StudentAttributes> students = studentsLogic.getStudentsForCourse(comment.courseId);
+            if(students != null){
+                relatedStudents.addAll(students);
+            }
+        default:
+            break;
         }
-        commentsDb.putSearchableDocument(comment.toDocument(course, instructorAsGiver, emailStudentTable));
+        commentsDb.putSearchableDocument(comment.toDocument(course, instructorAsGiver, relatedStudents));
     }
     
     private void verifyIsCoursePresent(String courseId, String action)

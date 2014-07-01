@@ -140,18 +140,14 @@ public class FeedbackMcqQuestionDetails extends FeedbackAbstractQuestionDetails 
             optionList = mcqChoices;
             break;
         case STUDENTS:
-            try {
-                List<StudentAttributes> studentList = 
-                        StudentsLogic.inst().getStudentsForCourse(courseId);
+            List<StudentAttributes> studentList = 
+                    StudentsLogic.inst().getStudentsForCourse(courseId);
 
-                for (StudentAttributes student : studentList) {
-                    optionList.add(student.name + " (" + student.team + ")");
-                }
-                
-                Collections.sort(optionList);
-            } catch (EntityDoesNotExistException e) {
-                // No students for course, return empty list
+            for (StudentAttributes student : studentList) {
+                optionList.add(student.name + " (" + student.team + ")");
             }
+            
+            Collections.sort(optionList);
             break;
         case TEAMS:
             try {

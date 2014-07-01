@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import teammates.common.util.FieldValidator;
@@ -261,43 +260,22 @@ public class CommentAttributes extends EntityAttributes
     
     public Document toDocument(CourseAttributes course, 
             InstructorAttributes instructor, 
-            Map<String, StudentAttributes> emailStudentTable){
+            List<StudentAttributes> relatedStudents){
+        
         //populate recipients information
         StringBuilder recipientEmailsBuilder = new StringBuilder("");
         StringBuilder recipientNamesBuilder = new StringBuilder("");
         StringBuilder recipientTeamsBuilder = new StringBuilder("");
         StringBuilder recipientSectionsBuilder = new StringBuilder("");
         String delim = "";
-        switch (this.recipientType) {
-        case PERSON:
-            for(String email:this.recipients){
-                StudentAttributes student = emailStudentTable.get(email);
-                recipientEmailsBuilder.append(delim).append(email); 
-                if(student != null){
-                    recipientNamesBuilder.append(delim).append(student.name);
-                    recipientTeamsBuilder.append(delim).append(student.team);
-                    recipientSectionsBuilder.append(delim).append(student.section);
-                }
-                delim = ",";
-            }
-            break;
-        case TEAM:
-            //TODO: students in this team?
-            for(String team:this.recipients){
-                recipientTeamsBuilder.append(delim).append(team); 
-                delim = ",";
-            }
-            break;
-        case SECTION:
-            //TODO: students in this section?
-            for(String section:this.recipients){
-                recipientSectionsBuilder.append(delim).append(section); 
-                delim = ",";
-            }
-            break;
-        default:
-            break;
+        for(StudentAttributes student:relatedStudents){
+            recipientEmailsBuilder.append(delim).append(student.email); 
+            recipientNamesBuilder.append(delim).append(student.name);
+            recipientTeamsBuilder.append(delim).append(student.team);
+            recipientSectionsBuilder.append(delim).append(student.section);
+            delim = ",";
         }
+        
         //produce searchableText for this document:
         //it contains
         //courseId, courseName, giverEmail, giverName, 
@@ -311,6 +289,7 @@ public class CommentAttributes extends EntityAttributes
                 + recipientTeamsBuilder.toString() + ","
                 + recipientSectionsBuilder.toString() + ","
                 + this.commentText.getValue();
+        
         Document doc = Document.newBuilder()
             //courseId and isVisibleToInstructor are used to filter documents visible to certain instructor
             .addField(Field.newBuilder().setName("courseId").setText(this.courseId))
