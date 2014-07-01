@@ -162,8 +162,7 @@ public class StringHelper {
     }
     
     
-    public static String[] splitName(String fullName){
-        
+    public static String[] splitName(String fullName){        
         fullName = fullName.trim().replaceAll("\\s+", " ");      
         String lastName = fullName.substring(fullName.lastIndexOf(" ")+1).trim();
         String firstName = fullName.replace(lastName, "").trim();
