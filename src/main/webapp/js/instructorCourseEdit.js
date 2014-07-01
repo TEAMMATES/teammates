@@ -101,15 +101,18 @@ function hideTuneSectionPermissionsDiv(instrNum, sectionNum) {
 	setAddSectionLevelLink(instrNum);
 }
 
-function toggleTuneSessionnPermissionsDiv(instrNum, sectionNum) {
-	$("#tuneSessionPermissionsDiv" + sectionNum + "ForInstructor" + instrNum).toggle();
-	if ($("#toggleSessionLevelInSection" + sectionNum + "ForInstructor" + instrNum).html() === "Configure session-level privileges") {
-		$("#toggleSessionLevelInSection" + sectionNum + "ForInstructor" + instrNum).html("Hide session-level privileges");
-		$("#tuneSectionPermissionsDiv" + sectionNum + "ForInstructor" + instrNum + " input[name='issection" + sectionNum + "sessionsset']").attr("value", "true");
-	} else {
-		$("#toggleSessionLevelInSection" + sectionNum + "ForInstructor" + instrNum).html("Configure session-level privileges");
-		$("#tuneSectionPermissionsDiv" + sectionNum + "ForInstructor" + instrNum + " input[name='issection" + sectionNum + "sessionsset']").attr("value", "false");
-	}
+function showTuneSessionnPermissionsDiv(instrNum, sectionNum) {
+	$("#tuneSessionPermissionsDiv" + sectionNum + "ForInstructor" + instrNum).show();
+	$("#toggleSessionLevelInSection" + sectionNum + "ForInstructor" + instrNum).html("Hide session-level privileges");
+	$("#toggleSessionLevelInSection" + sectionNum + "ForInstructor" + instrNum).attr("onclick", "hideTuneSessionnPermissionsDiv(" + instrNum + ", " + sectionNum + ")");
+    $("#tuneSectionPermissionsDiv" + sectionNum + "ForInstructor" + instrNum + " input[name='issection" + sectionNum + "sessionsset']").attr("value", "true");
+}
+
+function hideTuneSessionnPermissionsDiv(instrNum, sectionNum) {
+	$("#tuneSessionPermissionsDiv" + sectionNum + "ForInstructor" + instrNum).hide();
+	$("#toggleSessionLevelInSection" + sectionNum + "ForInstructor" + instrNum).html("Configure session-level privileges");
+	$("#toggleSessionLevelInSection" + sectionNum + "ForInstructor" + instrNum).attr("onclick", "showTuneSessionnPermissionsDiv(" + instrNum + ", " + sectionNum + ")");
+	$("#tuneSectionPermissionsDiv" + sectionNum + "ForInstructor" + instrNum + " input[name='issection" + sectionNum + "sessionsset']").attr("value", "false");
 }
 
 function checkTheRoleThatApplies(instrNum) {
