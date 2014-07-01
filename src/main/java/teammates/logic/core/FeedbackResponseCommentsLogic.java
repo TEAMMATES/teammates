@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
+import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
@@ -27,6 +28,7 @@ public class FeedbackResponseCommentsLogic {
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
     private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+    private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
 
     public static FeedbackResponseCommentsLogic inst() {
         if (instance == null)
@@ -65,10 +67,32 @@ public class FeedbackResponseCommentsLogic {
             String responseId, String giverEmail, Date creationDate) {
         return frcDb.getFeedbackResponseComment(responseId, giverEmail, creationDate);
     }
+
+    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentForResponse(String feedbackResponseId){
+        return frcDb.getFeedbackResponseCommentsForResponse(feedbackResponseId);
+    }
     
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentForSession(String courseId,
             String feedbackSessionName) {
         return frcDb.getFeedbackResponseCommentsForSession(courseId, feedbackSessionName);
+    }
+
+    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentForSessionInSection(String courseId, String feedbackSessionName, String section){
+        if(section == null){
+            return getFeedbackResponseCommentForSession(courseId, feedbackSessionName);
+        } else {
+            return frcDb.getFeedbackResponseCommentsForSessionInSection(courseId, feedbackSessionName, section);
+        }
+    }
+
+    public void updateFeedbackResponseCommentForResponse(String feedbackResponseId) throws InvalidParametersException, EntityDoesNotExistException{
+        List<FeedbackResponseCommentAttributes> comments = getFeedbackResponseCommentForResponse(feedbackResponseId);
+        FeedbackResponseAttributes response = frLogic.getFeedbackResponse(feedbackResponseId);
+        for(FeedbackResponseCommentAttributes comment : comments){
+            comment.giverSection = response.giverSection;
+            comment.receiverSection = response.recipientSection;
+            frcDb.updateFeedbackResponseComment(comment);
+        }
     }
 
     public void updateFeedbackResponseComment(

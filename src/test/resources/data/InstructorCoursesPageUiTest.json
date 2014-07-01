@@ -54,6 +54,7 @@
  	"instructor2CS1101": { 
       "googleId": "CCAddUiTest.instr3", 
       "courseId":"CCAddUiTest.CS1101",
+      "isArchived":"false",
       "name": "Teammates Demo Instr 3",
       "email": "CCAddUiTest.instr3@gmail.com",
       "role":"Co-owner",

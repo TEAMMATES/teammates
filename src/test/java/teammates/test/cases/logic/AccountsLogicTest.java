@@ -33,6 +33,7 @@ import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.AccountsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
+import teammates.test.driver.BackDoor;
 import teammates.test.util.TestHelper;
 
 public class AccountsLogicTest extends BaseComponentTestCase {
@@ -186,6 +187,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         AccountAttributes creator = dataBundle.accounts.get("instructor1OfCourse1");
         instructor.name = creator.name;
         instructor.email = creator.email; 
+        instructor.isArchived = false;
         TestHelper.verifyPresentInDatastore(cd);
         TestHelper.verifyPresentInDatastore(instructor);
         TestHelper.verifyPresentInDatastore(instructor2);
@@ -601,6 +603,30 @@ public class AccountsLogicTest extends BaseComponentTestCase {
                     + "/page/instructorCourseJoin?regkey=" + invalidKey,
                     e.getMessage());
         }
+        
+        ______TS("success: a registered student joins as a new instructor");
+        
+        restoreTypicalDataInDatastore();
+        
+        AccountAttributes student1InCourse1 = dataBundle.accounts.get("student1InCourse1");
+        InstructorAttributes instructorNotYetJoinCourse = dataBundle.instructors.get("instructorNotYetJoinCourse");
+        loggedInGoogleId = student1InCourse1.googleId;
+        key = instructorsLogic.getKeyForInstructor(instructorNotYetJoinCourse.courseId, instructorNotYetJoinCourse.email);
+        encryptedKey = StringHelper.encrypt(key);
+      
+        accountsLogic.joinCourseForInstructor(encryptedKey, loggedInGoogleId, student1InCourse1.institute);
+        
+        AccountAttributes accountData = new AccountAttributes();        
+        accountData.googleId = loggedInGoogleId;
+        accountData.email = student1InCourse1.email;
+        accountData.name = student1InCourse1.name;
+        accountData.isInstructor = true;
+        accountData.institute = student1InCourse1.institute;
+        TestHelper.verifyPresentInDatastore(accountData);
+        
+        BackDoor.deleteAccount(loggedInGoogleId);
+        instructor = instructorsLogic.getInstructorsForGoogleId(loggedInGoogleId).get(0);
+        BackDoor.deleteCourse(instructor.courseId);
         
     }
 
