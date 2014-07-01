@@ -493,10 +493,12 @@
                                                 </div>
                                             </div>
                                             <% } %>
-                                            <% if (instructor.privileges.numberOfSectionsSpecial() < data.sectionNames.size()) { %>
                                             <a href="javascript:;" onclick="showTuneSectionPermissionsDiv(<%=index%>, <%=instructor.privileges.numberOfSectionsSpecial()%>)" class="small" 
-                                                id="addSectionLevelForInstructor<%=index%>">Add section-level permissions</a>
-                                            <% } %>
+                                                id="addSectionLevelForInstructor<%=index%>"
+                                                <% if (instructor.privileges.numberOfSectionsSpecial() >= data.sectionNames.size()) { %>
+                                                style="display: none;"
+                                                <% } %>
+                                                >Add section-level permissions</a>
                                         <% } %>
                                     </div>
                                 </div>
@@ -655,7 +657,7 @@
                                         </div>
                                         <% if (!data.sectionNames.isEmpty()) { %>
                                             <% for (int j=0;j<data.sectionNames.size();j++) { %>
-                                            <div id="tuneSectionPermissionsDiv<%=j%>ForInstructor<%=data.instructorList.size()+1%>">
+                                            <div id="tuneSectionPermissionsDiv<%=j%>ForInstructor<%=data.instructorList.size()+1%>" style="display: none;">
                                                 <div class="panel panel-info">
                                                     <div class="panel-heading col-sm-12">
                                                         <div class="col-sm-3">

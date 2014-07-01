@@ -68,19 +68,37 @@ function toggleTunePermissionsDiv(instrNum) {
 function showTuneSectionPermissionsDiv(instrNum, sectionNum) {
 	$("#tuneSectionPermissionsDiv" + sectionNum + "ForInstructor" + instrNum).show();
 	var numberOfSections = $("select#section" + sectionNum + "forinstructor" + instrNum + " option").length;
+	var numOfVisibleSections = $("#tunePermissionsDivForInstructor" + 1 + " div[id^='tuneSectionPermissionsDiv']").filter(":visible").length;
 	
-	if (sectionNum == numberOfSections - 1) {
+	if (numOfVisibleSections == numberOfSections) {
 		$("#addSectionLevelForInstructor" + instrNum).hide();
 	}
-	$("#tuneSectionPermissionsDiv" + sectionNum + "ForInstructor" + instrNum + " input[name='issection" + sectionNum + "set']").attr("value", "false");
-	
-	sectionNum = sectionNum + 1;
-	$("#addSectionLevelForInstructor" + instrNum).attr("onclick", "showTuneSectionPermissionsDiv(" + instrNum + ", " + sectionNum + ")");
+	$("#tuneSectionPermissionsDiv" + sectionNum + "ForInstructor" + instrNum + " input[name='issection" + sectionNum + "set']").attr("value", "true");
+	setAddSectionLevelLink(instrNum);
+}
+
+function setAddSectionLevelLink(instrNum) {
+	var foundNewLink = false;
+	var allSectionSelects = $("#tunePermissionsDivForInstructor" + instrNum + " div[id^='tuneSectionPermissionsDiv']").find("input[type=hidden]").not("[name*='sessions']");
+	for (var idx=0;idx < allSectionSelects.length;idx++) {
+		var item = $(allSectionSelects[idx]);
+		if (item.attr("value") === "false") {
+			var sectionNumStr = item.attr("name").substring(9).slice(0, -3);
+			$("#addSectionLevelForInstructor" + instrNum).attr("onclick", "showTuneSectionPermissionsDiv(" + instrNum + ", " + sectionNumStr + ")");
+			foundNewLink = true;
+			break;
+		}
+	}
+	if (!foundNewLink) {
+		$("#addSectionLevelForInstructor" + instrNum).hide();
+	}
 }
 
 function hideTuneSectionPermissionsDiv(instrNum, sectionNum) {
 	$("#tuneSectionPermissionsDiv" + sectionNum + "ForInstructor" + instrNum).hide();
 	$("#tuneSectionPermissionsDiv" + sectionNum + "ForInstructor" + instrNum + " input[name='issection" + sectionNum + "set']").attr("value", "false");
+	$("#addSectionLevelForInstructor" + instrNum).show();
+	setAddSectionLevelLink(instrNum);
 }
 
 function toggleTuneSessionnPermissionsDiv(instrNum, sectionNum) {
