@@ -53,16 +53,31 @@ public class AdminActivityLogPageAction extends Action {
     
     private LogQuery buildQuery(String offset, boolean includeAppLogs) {
         LogQuery query = LogQuery.Builder.withDefaults();
-        
-        String currentVersion = Config.inst().getAppVersion().replace(".", "-");
-        String[] tokens = currentVersion.split("-");
+
+        String currentVersion = Config.inst().getAppVersion();
         List<String> appVersions = new ArrayList<String>();
-        appVersions.add(currentVersion);
-        appVersions.add(tokens[0] + "-" + (Integer.parseInt(tokens[1]) - 1));
-        appVersions.add(tokens[0] + "-" + (Integer.parseInt(tokens[1]) - 2));
-        appVersions.add(tokens[0] + "-" + (Integer.parseInt(tokens[1]) - 3));
-        query.majorVersionIds(appVersions);
-        
+
+        if (currentVersion.matches(".*[A-z.*]")) {
+            appVersions.add(currentVersion.replace(".", "-"));
+        } else {
+
+            double versionDouble = Double.parseDouble(currentVersion);
+
+            String curVer = ("" + versionDouble).replace(".", "-");
+            String[] preVer = { null, null, null };
+
+            preVer[0] = (versionDouble - 0.01) >= 0 ? (String.format("%.2f", (versionDouble - 0.01)).replace(".", "-")) : null;
+            preVer[1] = (versionDouble - 0.02) >= 0 ? (String.format("%.2f", (versionDouble - 0.02)).replace(".", "-")) : null;
+            preVer[2] = (versionDouble - 0.03) >= 0 ? (String.format("%.2f", (versionDouble - 0.03)).replace(".", "-")) : null;
+
+            appVersions.add(curVer);
+            for (int i = 0; i < 3; i++) {
+                if (preVer[i] != null) {
+                    appVersions.add(preVer[i]);
+                }
+            }
+        }
+        query.majorVersionIds(appVersions);        
         query.includeAppLogs(includeAppLogs);
         query.batchSize(1000);
         
