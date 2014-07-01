@@ -27,8 +27,9 @@ public class StudentFeedbackSubmissionEditPageAction extends FeedbackSubmissionE
     @Override
     protected FeedbackSessionQuestionsBundle getDataBundle(
             String userEmailForCourse) throws EntityDoesNotExistException {
-        return logic.getFeedbackSessionQuestionsBundleForStudent(
+        FeedbackSessionQuestionsBundle questionsBundle = logic.getFeedbackSessionQuestionsBundleForStudent(
                 feedbackSessionName, courseId, userEmailForCourse);
+        return questionsBundle;
     }
     
     @Override
