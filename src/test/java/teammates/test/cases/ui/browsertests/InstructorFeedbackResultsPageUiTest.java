@@ -34,7 +34,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorFeedbackResultsPageUiTest.json");
         restoreTestDataOnServer(testData);
-        browser = BrowserPool.getBrowser();        
+        browser = BrowserPool.getBrowser();      
     }
     
     @Test
