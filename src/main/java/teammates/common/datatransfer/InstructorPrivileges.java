@@ -172,15 +172,15 @@ public final class InstructorPrivileges {
         return privileges;
     }
     
-    public HashMap<String, Boolean> getOverallPrivilegesForSessionsInSection(String sectionId) {
+    public HashMap<String, Boolean> getOverallPrivilegesForSessionsInSection(String sectionName) {
         HashMap<String, Boolean> privileges = new HashMap<String, Boolean>();
         
         privileges.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS, 
-                isAllowedInSectionLevel(sectionId, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
+                isAllowedInSectionLevel(sectionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
         privileges.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS, 
-                isAllowedInSectionLevel(sectionId, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS));
+                isAllowedInSectionLevel(sectionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS));
         privileges.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS, 
-                isAllowedInSectionLevel(sectionId, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
+                isAllowedInSectionLevel(sectionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
         
         return privileges;
     }
@@ -189,12 +189,12 @@ public final class InstructorPrivileges {
         updatePrivilegeInCourseLevel(privilegeName, isAllowed);
     }
     
-    public void updatePrivilege(String sectionId, String privilegeName, boolean isAllowed) {
-        updatePrivilegeInSectionLevel(sectionId, privilegeName, isAllowed);
+    public void updatePrivilege(String sectionName, String privilegeName, boolean isAllowed) {
+        updatePrivilegeInSectionLevel(sectionName, privilegeName, isAllowed);
     }
     
-    public void updatePrivilege(String sectionId, String sessionId, String privilegeName, boolean isAllowed) {
-        updatePrivilegeInSessionLevel(sectionId, sessionId, privilegeName, isAllowed);
+    public void updatePrivilege(String sectionName, String sessionName, String privilegeName, boolean isAllowed) {
+        updatePrivilegeInSessionLevel(sectionName, sessionName, privilegeName, isAllowed);
     }
     
     private void updatePrivilegeInCourseLevel(String privilegeName, boolean isAllowed) {
@@ -204,14 +204,14 @@ public final class InstructorPrivileges {
         this.courseLevel.put(privilegeName, isAllowed);
     }
     
-    private void updatePrivilegeInSectionLevel(String sectionId, String privilegeName, boolean isAllowed) {
+    private void updatePrivilegeInSectionLevel(String sectionName, String privilegeName, boolean isAllowed) {
         if (!isPrivilegeNameValidForSectionLevel(privilegeName)) {
             return ;
         }
-        if (!this.sectionLevel.containsKey(sectionId)) {
-            sectionLevel.put(sectionId, new HashMap<String, Boolean>());
+        if (!this.sectionLevel.containsKey(sectionName)) {
+            sectionLevel.put(sectionName, new HashMap<String, Boolean>());
         }
-        sectionLevel.get(sectionId).put(privilegeName, isAllowed);
+        sectionLevel.get(sectionName).put(privilegeName, isAllowed);
     }
     
     private void updatePrivilegeInSessionLevel(String sectionId, String sessionId, String privilegeName, boolean isAllowed) {
@@ -225,12 +225,12 @@ public final class InstructorPrivileges {
         this.sessionLevel.get(sectionId).get(sessionId).put(privilegeName, isAllowed);
     }
     
-    public void updatePrivileges(String sectionId, HashMap<String, Boolean> privileges) {
-        updatePrivilegesInSectionLevel(sectionId, privileges);
+    public void updatePrivileges(String sectionName, HashMap<String, Boolean> privileges) {
+        updatePrivilegesInSectionLevel(sectionName, privileges);
     }
     
-    public void updatePrivileges(String sectionId, String sessionId, HashMap<String, Boolean> privileges) {
-        updatePrivilegesInSessionLevel(sectionId, sessionId, privileges);
+    public void updatePrivileges(String sectionName, String sessionName, HashMap<String, Boolean> privileges) {
+        updatePrivilegesInSessionLevel(sectionName, sessionName, privileges);
     }
     
     @SuppressWarnings("unchecked")
@@ -288,6 +288,41 @@ public final class InstructorPrivileges {
     
     public boolean isAllowedForPrivilege(String sectionName, String sessionName, String privilegeName) {
         return isAllowedInSessionLevel(sectionName, sessionName, privilegeName);
+    }
+    
+    public boolean isSectionSpecial(String sectionName) {
+        return this.sectionLevel.containsKey(sectionName);
+    }
+    
+    public int numberOfSectionsSpecial() {
+        return this.sectionLevel.keySet().size();
+    }
+    
+    public boolean isSessionsInSectionSpecial(String sectionName) {
+        return this.sessionLevel.containsKey(sectionName);
+    }
+    
+    public boolean isSessionInSectionSpecial(String sectionName, String sessionName) {
+        return (this.sessionLevel.containsKey(sectionName)) && this.sessionLevel.get(sectionName).containsKey(sessionName);
+    }
+    
+    public void removeSectionLevelPrivileges(String sectionName) {
+        if (this.sectionLevel.containsKey(sectionName)) {
+            this.sectionLevel.remove(sectionName);
+        }
+        this.removeSessionsPrivilegesForSection(sectionName);
+    }
+    
+    public void removeSessionsPrivilegesForSection(String sectionName) {
+        if (this.sessionLevel.containsKey(sectionName)) {
+            this.sessionLevel.remove(sectionName);
+        }
+    }
+    
+    public void removeSessionPrivileges(String sectionName, String sessionName) {
+        if (this.sessionLevel.containsKey(sectionName) && this.sessionLevel.get(sectionName).containsKey(sessionName)) {
+            this.sessionLevel.get(sectionName).remove(sessionName);
+        }
     }
     
     private boolean isAllowedInCourseLevel(String privilegeName) {
