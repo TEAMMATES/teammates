@@ -278,8 +278,7 @@ public class AccountsDb extends EntitiesDb {
         profileToUpdate.setNationality(newSpa.nationality);
         profileToUpdate.setGender(newSpa.gender);
         profileToUpdate.setMoreInfo(new Text(newSpa.moreInfo));
-        if (!newSpa.pictureKey.isEmpty() 
-                && !newSpa.pictureKey.equals(profileToUpdate.getPictureKey().getKeyString())) {
+        if (!newSpa.pictureKey.isEmpty()) {
             if (! profileToUpdate.getPictureKey().equals(new BlobKey(""))) {
                 deletePicture(profileToUpdate.getPictureKey());
             }
@@ -305,14 +304,10 @@ public class AccountsDb extends EntitiesDb {
                     + ThreadHelper.getCurrentThreadStack());
         }
         
-        boolean newKeyGiven = !newPictureKey.equals(profileToUpdate.getPictureKey().getKeyString());
-        
-        if (newKeyGiven) {
-            if (!profileToUpdate.getPictureKey().equals(new BlobKey(""))) {
-                deletePicture(profileToUpdate.getPictureKey());
-            }
-            profileToUpdate.setPictureKey(new BlobKey(newPictureKey));
+        if (!profileToUpdate.getPictureKey().equals(new BlobKey(""))) {
+            deletePicture(profileToUpdate.getPictureKey());
         }
+        profileToUpdate.setPictureKey(new BlobKey(newPictureKey));
         
         closePM();
     }
