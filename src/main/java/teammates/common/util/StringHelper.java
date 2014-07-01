@@ -180,7 +180,12 @@ public class StringHelper {
      * @return splited name array{0--> first name, 1--> last name}
      */
     
-    public static String[] splitName(String fullName){        
+    public static String[] splitName(String fullName){  
+        
+        if(fullName == null){
+            return null;
+        }
+        
         fullName = fullName.trim().replaceAll("\\s+", " ");      
         String lastName = fullName.substring(fullName.lastIndexOf(" ")+1).trim();
         String firstName = fullName.replace(lastName, "").trim();

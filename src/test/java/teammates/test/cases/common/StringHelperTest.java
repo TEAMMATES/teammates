@@ -63,13 +63,32 @@ public class StringHelperTest extends BaseTestCase {
     }
     
     @Test
-    public void testSplitSplitName(){
+    public void testSplitName(){
+        
+        
         
         String fullName = "singleWord";
         String[] splitedName = StringHelper.splitName(fullName);
         
         assertEquals(splitedName[0],"");
         assertEquals(splitedName[1],"singleWord");
+        
+        fullName = "   ";
+        splitedName = StringHelper.splitName(fullName);
+        
+        assertEquals(splitedName[0],"");
+        assertEquals(splitedName[1],"");
+        
+        fullName = "";
+        splitedName = StringHelper.splitName(fullName);
+        
+        assertEquals(splitedName[0],"");
+        assertEquals(splitedName[1],"");
+        
+        fullName = null;
+        splitedName = StringHelper.splitName(fullName);
+        
+        assertEquals(splitedName,null);
         
         fullName = "     singleWord    ";
         splitedName = StringHelper.splitName(fullName);
