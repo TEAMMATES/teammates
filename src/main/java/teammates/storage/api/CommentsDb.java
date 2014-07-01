@@ -174,7 +174,7 @@ public class CommentsDb extends EntitiesDb{
         getPM().close();
     }
 
-    public void updateComment(CommentAttributes newAttributes) throws InvalidParametersException, EntityDoesNotExistException{
+    public CommentAttributes updateComment(CommentAttributes newAttributes) throws InvalidParametersException, EntityDoesNotExistException{
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT,  newAttributes);
         
         newAttributes.sanitizeForSaving();
@@ -215,6 +215,8 @@ public class CommentsDb extends EntitiesDb{
         comment.setCreatedAt(newAttributes.createdAt);
         
         getPM().close();
+        
+        return new CommentAttributes(comment);
     }
     
     public List<CommentAttributes> search(String queryString, List<String> courseIdsList, Set<String> giverEmails){
