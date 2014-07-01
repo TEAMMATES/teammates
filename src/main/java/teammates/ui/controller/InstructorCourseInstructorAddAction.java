@@ -124,7 +124,7 @@ public class InstructorCourseInstructorAddAction extends Action {
         // TODO: use set here is better
         List<String> sectionNames = null;
         try {
-            sectionNames = logic.getSectionsNameForCourse(courseId);
+            sectionNames = logic.getSectionNamesForCourse(courseId);
         } catch(EntityDoesNotExistException e) {
             return ;
         }

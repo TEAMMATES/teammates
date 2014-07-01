@@ -34,7 +34,7 @@ public class InstructorCourseEditPageAction extends Action {
         data.course = courseToEdit;
         data.instructorList = logic.getInstructorsForCourse(courseId);
         data.currentInstructor = instructor;
-        data.sectionNames = logic.getSectionsNameForCourse(courseId);
+        data.sectionNames = logic.getSectionNamesForCourse(courseId);
         data.evalNames = new ArrayList<String>();
         data.feedbackNames = new ArrayList<String>();
         List<EvaluationAttributes> evaluations = logic.getEvaluationsForCourse(courseId);
