@@ -5,8 +5,8 @@
       <!--These can be run without starting the server. Should be run often. -->
         <classes>
             <class name="teammates.test.cases.BaseTestCaseTest" />
-            <class name="teammates.test.cases.common.AccountAttributesTest" />
             <class name="teammates.test.cases.common.StudentProfileAttributesTest" />
+            <class name="teammates.test.cases.common.AccountAttributesTest" />
             <class name="teammates.test.cases.common.BuildPropertiesTest" />
             <class name="teammates.test.cases.common.CourseAttributesTest" />
             <class name="teammates.test.cases.common.CourseRosterTest" />
@@ -26,6 +26,7 @@
             <class name="teammates.test.cases.testdriver.DataBundleTest" />
             <class name="teammates.test.cases.testdriver.HtmlHelperTest" />
             <class name="teammates.test.cases.testdriver.TestPropertiesTest" />
+            <class name="teammates.test.cases.storage.ProfilesDbTest" />
             <class name="teammates.test.cases.storage.AccountsDbTest" />
             <class name="teammates.test.cases.storage.CommentsDbTest" />
             <class name="teammates.test.cases.storage.CoursesDbTest" />
