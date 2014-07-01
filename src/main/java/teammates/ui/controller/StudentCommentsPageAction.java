@@ -1,11 +1,18 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseRoster;
+import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.FeedbackResponseAttributes;
+import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.UnauthorizedAccessException;
@@ -20,7 +27,7 @@ public class StudentCommentsPageAction extends Action {
     private String courseId;
     private String previousPageLink = "javascript:;";
     private String nextPageLink = "javascript:;";
-    private List<CommentAttributes> comments = new ArrayList<CommentAttributes>();
+    private String studentEmail;
     
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
@@ -43,14 +50,18 @@ public class StudentCommentsPageAction extends Action {
         }
         verifyAccessible();
         
+        studentEmail = logic.getStudentForGoogleId(courseId, account.googleId).email;
         CourseRoster roster = null;
+        Map<String, FeedbackSessionResultsBundle> feedbackResultBundles = new HashMap<String, FeedbackSessionResultsBundle>();
+        List<CommentAttributes> comments = new ArrayList<CommentAttributes>();
         if(coursePaginationList.size() > 0){
             roster = new CourseRoster(
                     new StudentsDb().getStudentsForCourse(courseId),
                     new InstructorsDb().getInstructorsForCourse(courseId));
 
-            StudentAttributes student = roster.getStudentForEmail(account.email);
+            StudentAttributes student = roster.getStudentForEmail(studentEmail);
             comments = logic.getCommentsForStudent(student);
+            feedbackResultBundles = getFeedbackResultBundles(roster);
         }
         
         data = new StudentCommentsPageData(account);
@@ -61,7 +72,8 @@ public class StudentCommentsPageAction extends Action {
         data.roster = roster;
         data.previousPageLink = previousPageLink;
         data.nextPageLink = nextPageLink;
-        data.studentEmail = account.email;
+        data.studentEmail = studentEmail;
+        data.feedbackResultBundles = feedbackResultBundles;
         
         statusToAdmin = "studentComments Page Load<br>" + 
                 "Viewing <span class=\"bold\">" + account.googleId + "'s</span> comment records " +
@@ -121,5 +133,43 @@ public class StudentCommentsPageAction extends Action {
             CourseAttributes course = courses.get(currentIndex + 1);
             nextPageLink = new PageData(account).getStudentCommentsLink() + "&courseid=" + course.id;
         }
+    }
+    
+    private Map<String, FeedbackSessionResultsBundle> getFeedbackResultBundles(CourseRoster roster)
+            throws EntityDoesNotExistException {
+        Map<String, FeedbackSessionResultsBundle> feedbackResultBundles = new HashMap<String, FeedbackSessionResultsBundle>();
+        List<FeedbackSessionAttributes> fsList = logic.getFeedbackSessionsForCourse(courseId);
+        for(FeedbackSessionAttributes fs : fsList){
+            if(!fs.isPublished()) continue;
+            
+            FeedbackSessionResultsBundle bundle = 
+                    logic.getFeedbackSessionResultsForStudent(fs.feedbackSessionName, courseId, studentEmail, roster);
+            if(bundle != null){
+                removeQuestionsAndResponsesWithoutFeedbackResponseComment(bundle);
+                if(bundle.questions.size() != 0){
+                    feedbackResultBundles.put(fs.feedbackSessionName, bundle);
+                }
+            }
+        }
+        return feedbackResultBundles;
+    }
+
+    private void removeQuestionsAndResponsesWithoutFeedbackResponseComment(FeedbackSessionResultsBundle bundle) {
+        List<FeedbackResponseAttributes> responsesWithFeedbackResponseComment = new ArrayList<FeedbackResponseAttributes>();
+        for(FeedbackResponseAttributes fr: bundle.responses){
+            List<FeedbackResponseCommentAttributes> frComment = bundle.responseComments.get(fr.getId());
+            if(frComment != null && frComment.size() != 0){
+                responsesWithFeedbackResponseComment.add(fr);
+            }
+        }
+        Map<String, FeedbackQuestionAttributes> questionsWithFeedbackResponseComment = new HashMap<String, FeedbackQuestionAttributes>();
+        for(FeedbackResponseAttributes fr: responsesWithFeedbackResponseComment){
+            FeedbackQuestionAttributes qn = bundle.questions.get(fr.feedbackQuestionId);
+            if(questionsWithFeedbackResponseComment.get(qn.getId()) == null){
+                questionsWithFeedbackResponseComment.put(qn.getId(), qn);
+            }
+        }
+        bundle.questions = questionsWithFeedbackResponseComment;
+        bundle.responses = responsesWithFeedbackResponseComment;
     }
 }

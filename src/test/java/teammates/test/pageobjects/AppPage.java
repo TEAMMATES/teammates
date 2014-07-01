@@ -1,6 +1,6 @@
 package teammates.test.pageobjects;
 
-import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
+    import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
 import static org.testng.AssertJUnit.assertEquals;
 
 import java.io.File;
@@ -9,9 +9,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.StringReader;
 import java.lang.reflect.Constructor;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
@@ -35,13 +36,11 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.w3c.dom.NamedNodeMap;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import com.gargoylesoftware.htmlunit.javascript.host.Document;
-import com.gargoylesoftware.htmlunit.javascript.host.Element;
-
+import teammates.common.util.Assumption;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FileHelper;
 import teammates.common.util.ThreadHelper;
@@ -198,6 +197,16 @@ public abstract class AppPage {
     protected void waitForPageToLoad() {
         browser.selenium.waitForPageToLoad("15000");
     }
+    
+    protected void waitForElementToBecomeVisible(String elementId) throws Exception {
+        int timeOut = 3000;
+        while (!browser.driver.findElement(By.id(elementId)).isDisplayed()
+                && timeOut > 0) {
+            Thread.sleep(100);
+            timeOut -= 100;
+        }
+        return;
+    }
 
     /**
      * Switches to the new browser window just opened.
@@ -306,17 +315,14 @@ public abstract class AppPage {
      *  {@code Common.TEST_PAGES_FOLDER} folder. In that case, the parameter
      *  value should start with "/". e.g., "/instructorHomePage.html".
      */
-    public void saveCurrentPage(String filePath) {
-        if(filePath.startsWith("/")){
-            filePath = TestProperties.TEST_PAGES_FOLDER + filePath;
-        }
+    public void saveCurrentPage(String filePath, String content) throws Exception {
+        
         try {
-        String pageSource = getPageSource();
-        FileWriter output = new FileWriter(new File(filePath));
-        output.write(pageSource);
+            FileWriter output = new FileWriter(new File(filePath));
+            output.write(content);
             output.close();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw e;
         }
     }
 
@@ -332,10 +338,11 @@ public abstract class AppPage {
     protected void fillTextBox(WebElement textBoxElement, String value) {
         textBoxElement.click();
         textBoxElement.clear();
-        textBoxElement.sendKeys(value + Keys.TAB);
+        textBoxElement.sendKeys(value + Keys.TAB + Keys.TAB + Keys.TAB);
     }
     
     protected void fillFileBox(RemoteWebElement fileBoxElement, String fileName) throws Exception {
+        if (fileName.isEmpty()) return;
         fileBoxElement.setFileDetector(new UselessFileDetector());
         String newFilePath = new File(fileName).getAbsolutePath();
         fileBoxElement.sendKeys(newFilePath);
@@ -564,15 +571,75 @@ public abstract class AppPage {
         if(filePath.startsWith("/")){
             filePath = TestProperties.TEST_PAGES_FOLDER + filePath;
         }
-        try {
-            String actual = getPageSource();
-            String expected = FileHelper.readFile(filePath);
-            HtmlHelper.assertSameHtml(actual, expected);
-            
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        String actual = getPageSource();
+        
+        boolean runTest = testAndRunGodMode(filePath, actual);
+        
+        if (runTest) {
+            try {
+                String expected = FileHelper.readFile(filePath);
+                HtmlHelper.assertSameHtml(actual, expected);
+                
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
+        
         return this;
+    }
+
+    private boolean testAndRunGodMode(String filePath, String content) {        
+        
+        if (System.getProperty("godmode") != null) {
+            assert(TestProperties.inst().isDevServer());
+            if (areTestAccountsDefaultValues()) {
+                Assumption.fail("Please change ALL the default accounts in test.properties in order to use GodMode."
+                        + "eg: change test.student1.account from alice.tmms to alice.tmms.example");
+            }
+            try {
+                String processedPageSource = processPageSourceForGodMode(content);                
+                saveCurrentPage(filePath, processedPageSource);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    private String processPageSourceForGodMode(String content) {
+        return content
+                .replaceAll("<#comment[ ]*</#comment>", "<!---->")
+                .replaceAll("V[0-9]\\.[0-9]+", "V{\\$version}")
+                // photo from instructor
+                .replaceAll("studentemail=([a-zA-Z0-9]){1,}\\&amp;courseid=([a-zA-Z0-9]){1,}", 
+                            "studentemail={*}\\&amp;courseid={*}")
+                //questionid
+                .replaceAll("([a-zA-Z0-9-_]){62}","{*}")
+                //responseid
+                .replaceAll("([a-zA-Z0-9-_]){62}%"
+                        + "[\\w+-][\\w+!#$%&'*/=?^_`{}~-]*+(\\.[\\w+!#$%&'*/=?^_`{}~-]+)*+@([A-Za-z0-9-]+\\.)*[A-Za-z]+%"
+                        + "[\\w+-][\\w+!#$%&'*/=?^_`{}~-]*+(\\.[\\w+!#$%&'*/=?^_`{}~-]+)*+@([A-Za-z0-9-]+\\.)*[A-Za-z]+", "{*}")
+                //commentid
+                .replaceAll("\\\"([0-9]){16}\\\"", "\\\"{*}\\\"")
+                // the test accounts/ email
+                .replace(TestProperties.inst().TEST_STUDENT1_ACCOUNT, "{$test.student1}")
+                .replace(TestProperties.inst().TEST_STUDENT2_ACCOUNT, "{$test.student2}")
+                .replace(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, "{$test.instructor}")
+                .replace(TestProperties.inst().TEST_ADMIN_ACCOUNT, "{$test.admin}")
+                .replace(TestProperties.inst().TEST_UNREG_ACCOUNT, "{$test.unreg}")
+                .replace(Config.SUPPORT_EMAIL, "{$support.email}")
+                // today's date
+                .replace("\""+ new SimpleDateFormat("DD/MM/YYYY").format(new Date()) + "\"", "\"{*}\"");
+    }
+
+    private boolean areTestAccountsDefaultValues() {
+        return TestProperties.inst().TEST_STUDENT1_ACCOUNT == "alice.tmms"
+                || TestProperties.inst().TEST_STUDENT2_ACCOUNT == "charlie.tmms" 
+                || TestProperties.inst().TEST_UNREG_ACCOUNT == "teammates.unreg"
+                || TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT == "teammates.coord"
+                || TestProperties.inst().TEST_ADMIN_ACCOUNT == "yourGoogleId";
     }
     
     /**
@@ -588,13 +655,18 @@ public abstract class AppPage {
         if(filePath.startsWith("/")){
             filePath = TestProperties.TEST_PAGES_FOLDER + filePath;
         }
-        try {
-            String actual = element.getAttribute("outerHTML");
-            String expected = extractHtmlPartFromFile(by, filePath);
-            
-            HtmlHelper.assertSameHtmlPart(actual, expected);            
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        String actual = element.getAttribute("outerHTML");
+        
+        boolean runTest = testAndRunGodMode(filePath, actual);
+        
+        if (runTest) {
+            try {
+                String expected = extractHtmlPartFromFile(by, filePath);
+                
+                HtmlHelper.assertSameHtmlPart(actual, expected);            
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
         return this;
     }
@@ -664,7 +736,7 @@ public abstract class AppPage {
         for(int i =0; i < maxRetryCount; i++) {
             ThreadHelper.waitFor(waitDuration);    
             try {
-                String actual = getPageSource();
+                String actual = browser.driver.findElement(By.id("frameBodyWrapper")).getAttribute("outerHTML");
                 if(HtmlHelper.areSameHtml(actual, expectedString)) {
                     break;
                 }

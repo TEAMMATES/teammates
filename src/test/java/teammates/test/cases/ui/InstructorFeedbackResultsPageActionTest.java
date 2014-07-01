@@ -95,7 +95,7 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
         InstructorFeedbackResultsPageAction action = getAction(paramsWithoutSortType);
         ActionResult result = action.executeAndPostProcess();
         
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION +
+        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION +
                 "?error=false&user=idOfInstructor1OfCourse1",
                 result.getDestinationWithParams());
         assertEquals("", result.getStatusMessage());

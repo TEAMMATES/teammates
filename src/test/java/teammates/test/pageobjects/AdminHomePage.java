@@ -4,11 +4,12 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.InstructorAttributes;
 
 public class AdminHomePage extends AppPage {
     
-    @FindBy (name="instructorid")
-    WebElement googleIdTextBox;
+    @FindBy (name="instructorshortname")
+    WebElement shortNameTextBox;
 
     @FindBy (name="instructorname")
     WebElement nameTextBox;
@@ -18,9 +19,6 @@ public class AdminHomePage extends AppPage {
     
     @FindBy (name="instructorinstitution")
     WebElement institutionTextBox;
-    
-    @FindBy (name="importsample")
-    WebElement createCourseCheckBox;
     
     @FindBy (id="btnAddInstructor")
     WebElement submitButton;
@@ -40,9 +38,9 @@ public class AdminHomePage extends AppPage {
      * @param attributesForNewAccount
      * @param isCreateCourse True if a sample course should be created for this account.
      */
-    public AdminHomePage createInstructor(AccountAttributes attributesForNewAccount, boolean isCreateCourse) {
-        if(attributesForNewAccount.googleId != null){
-            fillTextBox(googleIdTextBox, attributesForNewAccount.googleId);
+    public AdminHomePage createInstructor(String shortName, InstructorAttributes attributesForNewAccount, String institute) {
+        if(shortName != null){
+            fillTextBox(shortNameTextBox, shortName);
         }
         if(attributesForNewAccount.name != null){
             fillTextBox(nameTextBox, attributesForNewAccount.name);
@@ -50,14 +48,10 @@ public class AdminHomePage extends AppPage {
         if(attributesForNewAccount.email != null){
             fillTextBox(emailTextBox, attributesForNewAccount.email);
         }
-        if(attributesForNewAccount.institute != null){
-            fillTextBox(institutionTextBox, attributesForNewAccount.institute);
+        if(institute != null){
+            fillTextBox(institutionTextBox, institute);
         }
-        if(isCreateCourse){
-            markCheckBoxAsChecked(createCourseCheckBox);
-        }else {
-            markCheckBoxAsUnchecked(createCourseCheckBox);
-        }
+
         submitButton.click();
         return this;
     }

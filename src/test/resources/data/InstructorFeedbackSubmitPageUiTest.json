@@ -741,6 +741,28 @@
                 "INSTRUCTORS"
             ]
         },
+        "qn21InSession1":{
+            "feedbackSessionName":"First Session",
+            "courseId":"IFSubmitUiT.CS2104",
+            "creatorEmail":"IFSubmitUiT.instr@gmail.com",
+            "questionMetaData":{
+                "value":"{\"questionText\":\"Rate the contribution of your team members and yourself.\"}"
+            },
+            "questionNumber":"21",
+            "questionType":"CONTRIB",
+            "giverType":"STUDENTS",
+            "recipientType":"OWN_TEAM_MEMBERS_INCLUDING_SELF",
+            "numberOfEntitiesToGiveFeedbackTo":-100,
+            "showResponsesTo":[
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo":[
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "INSTRUCTORS"
+            ]
+        },
 
         
         "qn1InSession2":{
@@ -874,6 +896,28 @@
             "numberOfEntitiesToGiveFeedbackTo":-100,
             "showResponsesTo":[
                 "RECEIVER",
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo":[
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "INSTRUCTORS"
+            ]
+        },
+        "qn7InSession2":{
+            "feedbackSessionName":"Second Session",
+            "courseId":"IFSubmitUiT.CS2104",
+            "creatorEmail":"IFSubmitUiT.instr@gmail.com",
+            "questionMetaData":{
+                "value":"{\"questionText\":\"Rate the contribution of your team members and yourself.(Closed session)\"}"
+            },
+            "questionNumber":"7",
+            "questionType":"CONTRIB",
+            "giverType":"STUDENTS",
+            "recipientType":"OWN_TEAM_MEMBERS_INCLUDING_SELF",
+            "numberOfEntitiesToGiveFeedbackTo":-100,
+            "showResponsesTo":[
                 "INSTRUCTORS"
             ],
             "showGiverNameTo":[

@@ -3,6 +3,7 @@ package teammates.ui.controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CourseSummaryBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
@@ -30,7 +31,9 @@ public class InstructorHomePageAction extends Action {
         
         HashMap<String, CourseSummaryBundle> courses = logic.getCourseSummariesWithoutStatsForInstructor(account.googleId);
         
-        data.courses = new ArrayList<CourseSummaryBundle>(courses.values());
+        
+        ArrayList<CourseSummaryBundle> courseList = new ArrayList<CourseSummaryBundle>(courses.values());
+        data.courses = updateWithInstructorArchiveStatus(courseList);
         
         switch (data.sortCriteria) {
             case Const.SORT_BY_COURSE_ID:
@@ -47,10 +50,15 @@ public class InstructorHomePageAction extends Action {
         }
         
         data.instructors = new HashMap<String, InstructorAttributes>();
+        data.numberOfPendingComments = new HashMap<String, Integer>();
         
         for(CourseSummaryBundle course: data.courses) {
-            InstructorAttributes instructor = logic.getInstructorForGoogleId(course.course.id, account.googleId);
-            data.instructors.put(course.course.id, instructor);
+            String courseId = course.course.id;
+            InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
+            data.instructors.put(courseId, instructor);
+            int numberOfPendingCommentsForThisCourse = logic.getCommentsForSendingState(courseId, CommentSendingState.PENDING).size() 
+                    + logic.getFeedbackResponseCommentsForSendingState(courseId, CommentSendingState.PENDING).size();
+            data.numberOfPendingComments.put(courseId, numberOfPendingCommentsForThisCourse);
             
             EvaluationAttributes.sortEvaluationsByDeadlineDescending(course.evaluations);
             FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(course.feedbackSessions);
@@ -64,6 +72,21 @@ public class InstructorHomePageAction extends Action {
         ShowPageResult response = createShowPageResult(Const.ViewURIs.INSTRUCTOR_HOME, data);
         return response;
 
+    }
+    
+    private ArrayList<CourseSummaryBundle> updateWithInstructorArchiveStatus(ArrayList<CourseSummaryBundle> courseList){
+        
+        for(CourseSummaryBundle course : courseList){
+            
+            InstructorAttributes curInstructor = logic.getInstructorForGoogleId(course.course.id, account.googleId);
+            
+            if(curInstructor.isArchived != null){          
+                course.course.isArchived = curInstructor.isArchived;       
+            }
+        }
+        
+        return courseList;
+        
     }
 
 }

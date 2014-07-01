@@ -1,220 +1,65 @@
-   <html>
-      <head>
-         <link href="/favicon.png"  rel="shortcut icon" />
-                  <meta content="text/html; charset=UTF-8"  http-equiv="Content-Type" />
-                  <meta content="width=device-width, initial-scale=1.0"  name="viewport" />
-                  <title>
-            TEAMMATES - Instructor
-         </title>
-         <link href="/bootstrap/css/bootstrap.min.css"  rel="stylesheet"  type="text/css" />
-                  <link href="/bootstrap/css/bootstrap-theme.min.css"  rel="stylesheet"  type="text/css" />
-                  <link href="/stylesheets/teammatesCommon.css"  rel="stylesheet"  type="text/css" />
-                  <script async=""  src="https://ssl.google-analytics.com/ga.js"  type="text/javascript" >
-         </script>
-         <script src="/js/googleAnalytics.js"  type="text/javascript" >
-         </script>
-         <script src="/js/jquery-minified.js"  type="text/javascript" >
-         </script>
-         <script src="/js/date.js"  type="text/javascript" >
-         </script>
-                  <script src="/js/common.js"  type="text/javascript" >
-         </script>
-         <script src="/bootstrap/js/bootstrap.min.js"  type="text/javascript" >
-         </script>
-         <script src="/js/instructor.js"  type="text/javascript" >
-         </script>
-         <script src="/js/instructorHome.js"  type="text/javascript" >
-         </script>
-         <script src="/js/ajaxResponseRate.js"  type="text/javascript" >
-         </script>
-         <noscript>{*}</noscript>
-         <!-- 
-            [if lt IE 9]>
-            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-            <![endif]
-        -->
-      </head>
-      <body>
-         <div class="navbar navbar-inverse navbar-fixed-top"  role="navigation" >
-            <div class="container" >
-               <div class="navbar-header" >
-                  <button class="navbar-toggle"  data-target="#contentLinks"  data-toggle="collapse"  type="button" >
-                     <span class="sr-only" >
-                        Toggle navigation
-                     </span>
-                     <span class="icon-bar" >
-                     </span>
-                     <span class="icon-bar" >
-                     </span>
-                     <span class="icon-bar" >
-                     </span>
-                  </button>
-                  <a class="navbar-brand"  href="/index.html" >
-                     TEAMMATES
-                  </a>
-               </div>
-               <div class="collapse navbar-collapse"  id="contentLinks" >
-                  <ul class="nav navbar-nav" >
-                     <li class="active" >
-                        <a class="nav home"  data-link="instructorHome"  href="/page/instructorHomePage?user={$test.instructor}" >
-                           Home
-                        </a>
-                     </li>
-                     <li class="" >
-                        <a class="nav courses"  data-link="instructorCourse"  href="/page/instructorCoursesPage?user={$test.instructor}" >
-                           Courses
-                        </a>
-                     </li>
-                     <li class="" >
-                        <a class="nav evaluations"  data-link="instructorEval"  href="/page/instructorEvalsPage?user={$test.instructor}" >
-                           Sessions
-                        </a>
-                     </li>
-                     <li class="" >
-                        <a class="nav students"  data-link="instructorStudent"  href="/page/instructorStudentListPage?user={$test.instructor}" >
-                           Students
-                        </a>
-                     </li>
-                     <li>
-                        <a class="nav help"  href="/instructorHelp.html"  target="_blank" >
-                           Help
-                        </a>
-                     </li>
-                  </ul>
-                  <ul class="nav navbar-nav pull-right" >
-                     <li>
-                        <a class="nav logout"  href="/logout.jsp" >
-                           Logout
-                        
-                        (
-                           <span class="text-info"  data-original-title="{$test.instructor}"  data-placement="bottom"  data-toggle="tooltip"  title="" >
-                              {$test.instructor}
-                           </span>
-                           )
-                        </a>
-                     </li>
-                  </ul>
-               </div>
-            </div>
-         </div>
-         <div class="container theme-showcase"  id="frameBodyWrapper" >
-            <div id="topOfPage" >
-            </div>
-            <div class="inner-container" >
-               <div class="row" >
-                  <div class="col-md-5" >
-                     <h1>
-                        Instructor Home
-                     </h1>
-                  </div>
-                  <div class="col-md-5 instructor-header-bar" >
-                     <form action="/page/instructorStudentListPage?user={$test.instructor}"  method="post"  name="search_form" >
-                        <div class="input-group" >
-                           <input class="form-control"  id="searchBox"  name="searchkey"  placeholder="Student Name"  title="Search for student's name"  type="text" />
-                                                      <span class="input-group-btn" >
-                              <button class="btn btn-default"  id="buttonSearch"  type="submit"  value="Search" >
-                                 Search
-                              </button>
-                           </span>
+<div id="frameBodyWrapper" class="container theme-showcase">
+        <div id="topOfPage"></div>
+        <div class="inner-container">
+            <div class="row">
+                <div class="col-md-5">
+                    <h1>Instructor Home</h1>
+                </div>
+                <div class="col-md-5 instructor-header-bar">
+                    <form method="post" action="/page/instructorStudentListPage?user={$test.instructor}" name="search_form">
+                        <div class="input-group">
+                            <input name="searchkey" title="Search for student's name" class="form-control" placeholder="Student Name" id="searchBox" type="text">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="submit" value="Search" id="buttonSearch">Search</button>
+                            </span>
                         </div>
-                        <input name="user"  type="hidden"  value="{$test.instructor}" />
-                                             </form>
-                  </div>
-                  <div class="col-md-2 instructor-header-bar" >
-                     <a class="btn btn-primary btn-md"  href="/page/instructorCoursesPage?user={$test.instructor}"  id="addNewCourse" >
-                        Add New Course
-                     </a>
-                  </div>
-               </div>
+                        <input name="user" value="{$test.instructor}" type="hidden">
+                    </form>
+                </div>
+                <div class="col-md-2 instructor-header-bar">
+                    <a class="btn btn-primary btn-md" href="/page/instructorCoursesPage?user={$test.instructor}" id="addNewCourse">Add New Course </a>
+                </div>
             </div>
-            <br/>
-                        <div class="alert alert-warning"  id="statusMessage" >
-               New to TEAMMATES? You may wish to have a look at our
-               <a href="/instructorHelp.html#gs"  target="_blank" >
-                  Getting Started Guide
-               </a>
-               .
-               <br/>
-                              A
-               <a href="https://youtube.googleapis.com/v/wCxBOUEiD6Q&hd=1&autoplay=1&rel=0"  target="_blank" >
-                  video tour
-               </a>
-               is also available in our
-               <a href="/index.html"  target="_blank" >
-                  home page
-               </a>
-               .
-            </div>
-            <script type="text/javascript" >
-               document.getElementById( 'statusMessage' ).scrollIntoView();
-            </script>
-            <div class="row" >
-               <div class="col-md-5 pull-right" >
-                  <div class="row" >
-                     <div class="col-md-3 btn-group" >
-                        <h5 class="pull-right" >
-                           <strong>
-                              Sort By:
-                           </strong>
-                        </h5>
-                     </div>
-                     <div class="col-md-9" >
-                        <div class="btn-group pull-right"  data-toggle="buttons" >
-                           <label class="btn btn-default "  data="id"  id="sortById"  name="sortby" >
-                              <input type="radio" />
-                                                            Course ID
-                           </label>
-                           <label class="btn btn-default "  data="name"  id="sortByName"  name="sortby" >
-                              <input name="sortby"  type="radio"  value="name" />
-                                                            Course Name
-                           </label>
-                           <label class="btn btn-default active"  data="createdAt"  id="sortByDate"  name="sortby" >
-                              <input type="radio" />
-                                                            Creation Date
-                           </label>
+        </div>
+        <br>
+        
+
+
+
+
+    <div id="statusMessage" class="alert alert-warning">
+        New to TEAMMATES? You may wish to have a look at our <a href="/instructorHelp.html#gs" target="_blank">Getting Started Guide</a>.<br>A <a href="https://youtube.googleapis.com/v/wCxBOUEiD6Q&amp;hd=1&amp;autoplay=1&amp;rel=0" target="_blank">video tour</a> is also available in our <a href="/index.html" target="_blank">home page</a>.
+    </div>
+    <script type="text/javascript">
+        document.getElementById( 'statusMessage' ).scrollIntoView();
+    </script>
+
+        
+        <div class="row hidden">
+            <div class="col-md-5 pull-right">
+                <div class="row">
+                    <div class="col-md-3 btn-group">
+                        <h5 class="pull-right"><strong> Sort By: </strong></h5>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="btn-group pull-right" data-toggle="buttons">
+                            <label class="btn btn-default " name="sortby" data="id" id="sortById">
+                                <input type="radio">
+                                Course ID
+                            </label>
+                            <label class="btn btn-default " name="sortby" data="name" id="sortByName">
+                                <input name="sortby" value="name" type="radio">
+                                Course Name
+                            </label>
+                            <label class="btn btn-default active" name="sortby" data="createdAt" id="sortByDate">
+                                <input type="radio">
+                                Creation Date
+                            </label>
                         </div>
-                     </div>
-                  </div>
-               </div>
+                    </div>
+                </div>
             </div>
-            <br/>
-                     </div>
-         <br/>
-                  <br/>
-                  <br/>
-                  <div class="container-fluid"  id="footerComponent" >
-            <div class="container" >
-               <div class="row" >
-                  <div class="col-md-4" >
-                     <span>
-                        [
-                        <a href="/index.html" >
-                           TEAMMATES
-                        </a>
-                        V{$version}]
-                     </span>
-                  </div>
-                  <div class="col-md-4" >
-                     [for
-                     <span class="highlight-white" >
-                        <span class="color_white" >
-                           National University of Singapore
-                        </span>
-                     </span>
-                     ]
-                  </div>
-                  <div class="col-md-4" >
-                     <span>
-                        [Send
-                        <a class="link"  href="../contact.html"  target="_blank" >
-                           Feedback
-                        </a>
-                        ]
-                     </span>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </body>
-   </html>
+        </div>
+        <br>
+    
+    </div>

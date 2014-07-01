@@ -1,6 +1,8 @@
 package teammates.common.util;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -17,9 +19,9 @@ public class Const {
         public static final int NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT = 24;
         
         /** This is the limit after which TEAMMATES will send error message */
-        public static final int MAX_PROFILE_PIC_SIZE = 1000000;
+        public static final int MAX_PROFILE_PIC_SIZE = 30000000;
         /** This is the limit given to Blobstore API, beyond which an ugly error page is shown */
-        public static final long MAX_PROFILE_PIC_LIMIT_FOR_BLOBSTOREAPI = 5000000;
+        public static final long MAX_PROFILE_PIC_LIMIT_FOR_BLOBSTOREAPI = 32000000;
         
         /** e.g. "2014-04-01 11:59 PM UTC" */
         public static final String DEFAULT_DATE_TIME_FORMAT = "yyyy-MM-dd h:mm a Z";
@@ -231,6 +233,7 @@ public class Const {
         public static final String NUMSCALE = "Numerical-scale question";
         public static final String CONSTSUM_OPTION = "Distribute points (among options) question";
         public static final String CONSTSUM_RECIPIENT = "Distribute points (among recipients) question";
+        public static final String CONTRIB = "Team contribution question";
     }
     
     public class InstructorPermissionRoleNames {
@@ -252,6 +255,7 @@ public class Const {
         
         public static final String COURSE_ID = "courseid";
         public static final String COURSE_NAME = "coursename";
+        public static final String INSTRUCTOR_SHORT_NAME = "instructorshortname";
         public static final String INSTRUCTOR_ID = "instructorid";
         public static final String INSTRUCTOR_EMAIL = "instructoremail";
         public static final String INSTRUCTOR_INSTITUTION = "instructorinstitution";
@@ -364,7 +368,8 @@ public class Const {
         public static final String FEEDBACK_RESULTS_GROUPBYTEAM = "frgroupbyteam";
         public static final String FEEDBACK_RESULTS_GROUPBYSECTION = "frgroupbysection";
         public static final String FEEDBACK_RESULTS_SHOWSTATS = "frshowstats";
-        
+        public static final String FEEDBACK_RESULTS_NEED_AJAX = "frneedajax";
+
         public static final String PREVIEWAS = "previewas";
         
         public static final String STUDENT_ID = "googleid";
@@ -382,7 +387,8 @@ public class Const {
         public static final String STUDENT_NATIONALITY = "studentnationality";
         public static final String STUDENT_GENDER = "studentgender";
         public static final String STUDENT_PROFILE_MOREINFO = "studentprofilemoreinfo"; 
-        public static final String STUDENT_PROFILE_PIC = "studentprofilephoto";
+        public static final String STUDENT_PROFILE_PHOTO = "studentprofilephoto";
+        public static final String STUDENT_PROFILE_PHOTOEDIT = "editphoto";
     
         public static final String STUDENT_NAME = "studentname";
         public static final String RECIPIENT_TYPE = "recipienttype";
@@ -437,6 +443,13 @@ public class Const {
         //Parameters for checking persistence of data during Eventual Consistency
         public static final String CHECK_PERSISTENCE_COURSE = "persistencecourse";
         public static final String CHECK_PERSISTENCE_EVALUATION = "persistenceevalaution";
+
+        public static final String PROFILE_PICTURE_LEFTX = "cropboxleftx";
+        public static final String PROFILE_PICTURE_TOPY = "cropboxtopy";
+        public static final String PROFILE_PICTURE_RIGHTX = "cropboxrightx";
+        public static final String PROFILE_PICTURE_BOTTOMY = "cropboxbottomy";
+        public static final String PROFILE_PICTURE_HEIGHT = "pictureheight";
+        public static final String PROFILE_PICTURE_WIDTH = "picturewidth";
     }
 
     public class ActionURIs{
@@ -486,6 +499,7 @@ public class Const {
         public static final String INSTRUCTOR_STUDENT_RECORDS_PAGE = "/page/instructorStudentRecordsPage";
         public static final String INSTRUCTOR_STUDENT_COMMENT_ADD = "/page/instructorStudentCommentAdd";
         public static final String INSTRUCTOR_STUDENT_COMMENT_EDIT = "/page/instructorStudentCommentEdit";
+        public static final String INSTRUCTOR_STUDENT_COMMENT_CLEAR_PENDING = "/page/instructorStudentCommentClearPending";
         
         public static final String INSTRUCTOR_COMMENTS_PAGE = "/page/instructorCommentsPage";
         
@@ -502,6 +516,13 @@ public class Const {
         public static final String INSTRUCTOR_FEEDBACK_PREVIEW_ASSTUDENT = "/page/instructorFeedbackPreviewAsStudent";
         public static final String INSTRUCTOR_FEEDBACK_PREVIEW_ASINSTRUCTOR = "/page/instructorFeedbackPreviewAsInstructor";
         
+        public static final String INSTRUCTOR_FEEDBACK_RESULTS_AJAX_BY_QUESTIONS = "/page/instructorFeedbackResultsAjaxByQuestions";
+        public static final String INSTRUCTOR_FEEDBACK_RESULTS_AJAX_BY_GQR = "/page/instructorFeedbackResultsAjaxByGQR";
+        public static final String INSTRUCTOR_FEEDBACK_RESULTS_AJAX_BY_GRQ = "/page/instructorFeedbackResultsAjaxByGRQ";
+        public static final String INSTRUCTOR_FEEDBACK_RESULTS_AJAX_BY_RQG = "/page/instructorFeedbackResultsAjaxByRQG";
+        public static final String INSTRUCTOR_FEEDBACK_RESULTS_AJAX_BY_RGQ = "/page/instructorFeedbackResultsAjaxByRGQ";
+        public static final String INSTRUCTOR_FEEDBACK_RESULTS_AJAX_RESPONSE_RATE = "/page/instructorFeedbackResultsAjaxResponseRate";
+
         public static final String INSTRUCTOR_FEEDBACK_QUESTION_ADD = "/page/instructorFeedbackQuestionAdd";
         public static final String INSTRUCTOR_FEEDBACK_QUESTION_EDIT = "/page/instructorFeedbackQuestionEdit";
 
@@ -533,6 +554,8 @@ public class Const {
         public static final String STUDENT_PROFILE_PAGE = "/page/studentProfilePage";
         public static final String STUDENT_PROFILE_EDIT_SAVE = "/page/studentProfileEditSave";
         public static final String STUDENT_PROFILE_PICTURE = "/page/studentProfilePic";
+        public static final String STUDENT_PROFILE_PICTURE_UPLOAD = "/page/studentProfilePictureUpload";
+        public static final String STUDENT_PROFILE_PICTURE_EDIT = "/page/studentProfilePictureEdit";
         public static final String STUDENT_PROFILE_CREATEUPLOADFORMURL = "/page/studentProfileCreateFormUrl";
         
         public static final String ADMIN_HOME_PAGE = "/admin/adminHomePage";
@@ -707,6 +730,7 @@ public class Const {
         public static final String STUDENT_DELETED = "The student has been removed from the course";
         public static final String STUDENT_EMAIL_CONFLIT = "Trying to update to an email that is already used by: ";
         public static final String STUDENT_PROFILE_EDITED = "Your profile has been edited successfully";
+        public static final String STUDENT_PROFILE_PICTURE_SAVED = "Your profile picture has been saved successfully";
         public static final String STUDENT_PROFILE_PIC_TOO_LARGE = "The uploaded profile picture was too large. "
                 + "Please try again with a smaller picture.";
         public static final String STUDENT_PROFILE_PIC_SERVICE_DOWN = "We were unable to upload your picture at this time. "
@@ -810,6 +834,8 @@ public class Const {
         public static final String COMMENT_ADDED = "New comment has been added";
         public static final String COMMENT_EDITED = "Comment edited";
         public static final String COMMENT_DELETED = "Comment deleted";
+        public static final String COMMENT_CLEARED = "Notification for all pending comments have been sent to recipients";
+        public static final String COMMENT_CLEARED_UNSUCCESSFULLY = "Notification for some pending comments fails to send";
         public static final String COMMENT_DUPLICATE = "An existing comment with the same content is found, comment not added";
         
         public static final String HINT_FOR_NEW_INSTRUCTOR = "New to TEAMMATES? You may wish to have a look at our "
@@ -824,8 +850,11 @@ public class Const {
         public static final String STUDENT_EVALUATION_SUBMISSION_RECEIVED = "Your submission for %s in course %s has been saved successfully";
         public static final String STUDENT_PROFILE_NOT_A_PICTURE = "The file that you have uploaded is not a picture. "
                 + "Please upload a picture (usually it ends with .jpg or .png)";
+        public static final String STUDENT_PROFILE_NO_PICTURE_GIVEN = "Please specify a file to be uploaded.";
         public static final String STUDENT_NOT_FOUND_FOR_RECORDS = "The student you tried to view records for does not exist.";
-        public static final String STUDENT_NOT_JOINED_YET_FOR_RECORDS = "This student has not joined the course yet and hence has no profile to view";
+        public static final String STUDENT_PROFILE_PICTURE_EDIT_FAILED = "The photo that was edited did not belong to the user. "
+                + "Please upload another picture to begin editing";
+        public static final String STUDENT_NOT_JOINED_YET_FOR_RECORDS = "This student has not joined the course yet or you are not supposed to view his/her profile";
     }
 
     /* These indicate status of an operation, but they are not shown to the user */
@@ -944,5 +973,38 @@ public class Const {
         TIME_REPRESENTS_LATER = TimeHelper.convertToDate("1970-01-01 00:00 AM UTC");
         TIME_REPRESENTS_NOW = TimeHelper.convertToDate("1970-02-14 00:00 AM UTC");
     }
-     
+    
+    /* Other Constants
+     */
+    @SuppressWarnings("unused")
+    private void _______other_constants________________________(){}
+    
+    //Used for Feedback CONTRIBUTION question
+    public static final String EQUAL_SHARE = "Equal Share";
+    public static final String NOT_SURE = "Not Sure";
+    public static final List<String> FEEDBACK_CONTRIBUTION_OPTIONS = Arrays.asList(
+            "0%",
+            EQUAL_SHARE+ " - 90%",
+            EQUAL_SHARE+ " - 80%",
+            EQUAL_SHARE+ " - 70%",
+            EQUAL_SHARE+ " - 60%",
+            EQUAL_SHARE+ " - 50%",
+            EQUAL_SHARE+ " - 40%",
+            EQUAL_SHARE+ " - 30%",
+            EQUAL_SHARE+ " - 20%",
+            EQUAL_SHARE+ " - 10%",
+            EQUAL_SHARE,
+            EQUAL_SHARE+ " + 10%",
+            EQUAL_SHARE+ " + 20%",
+            EQUAL_SHARE+ " + 30%",
+            EQUAL_SHARE+ " + 40%",
+            EQUAL_SHARE+ " + 50%",
+            EQUAL_SHARE+ " + 60%",
+            EQUAL_SHARE+ " + 70%",
+            EQUAL_SHARE+ " + 80%",
+            EQUAL_SHARE+ " + 90%",
+            EQUAL_SHARE+ " + 100%",
+            NOT_SURE);
+    
+    
 }
