@@ -1,11 +1,4 @@
 /**
- * This function will be called when the instructorCourseEdit page is loaded.
- */
-function readyCourseEditPage() {
-    $("#panelAddInstructor").hide();
-}
-
-/**
  * Enable the user to edit one instructor and disable editting for other instructors
  * @param instructorNum
  * @param totalInstructors

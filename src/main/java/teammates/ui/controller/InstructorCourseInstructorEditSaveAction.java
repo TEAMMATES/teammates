@@ -156,14 +156,20 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
         }
         HashMap<String, String> sectionNamesMap = new HashMap<String, String>();
         for (int i=0;i<sectionNames.size();i++) {
+            String setSectionStr = getRequestParamValue("is" + Const.ParamsNames.INSTRUCTOR_SECTION + i + "set");
+            boolean isSectionSpecial = setSectionStr != null && setSectionStr.equals("true");
             String valueForSectionName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_SECTION + i);
-            if (valueForSectionName != null && sectionNames.contains(valueForSectionName)) {
+            if (isSectionSpecial && valueForSectionName != null && sectionNames.contains(valueForSectionName)) {
                 sectionNamesMap.put(Const.ParamsNames.INSTRUCTOR_SECTION + i, valueForSectionName);
             }
         }
         for (Entry<String, String> entry : sectionNamesMap.entrySet()) {
             updateInstructorPrivilegesForSectionInSectionLevel(entry.getKey(), entry.getValue(), instructorToEdit);
-            updateInstructorPrivilegesForSectionInSessionLevel(entry.getKey(), entry.getValue(), evalNames, feedbackNames, instructorToEdit);
+            String setSessionsStr = getRequestParamValue("is" + entry.getKey() + "sessionsset");
+            boolean isSessionsSpecial = setSessionsStr != null && setSessionsStr.equals("true");
+            if (isSessionsSpecial) {
+                updateInstructorPrivilegesForSectionInSessionLevel(entry.getKey(), entry.getValue(), evalNames, feedbackNames, instructorToEdit);
+            }
         }
     }
 

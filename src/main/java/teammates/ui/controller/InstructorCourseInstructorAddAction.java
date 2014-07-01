@@ -120,7 +120,7 @@ public class InstructorCourseInstructorAddAction extends Action {
         return instructorToAdd;
     }
     
-    private void updateInstructorWithSectionLevelPrivileges(String courseId, InstructorAttributes instructorToaAdd){
+    private void updateInstructorWithSectionLevelPrivileges(String courseId, InstructorAttributes instructorToAdd){
         // TODO: use set here is better
         List<String> sectionNames = null;
         try {
@@ -140,14 +140,20 @@ public class InstructorCourseInstructorAddAction extends Action {
         }
         HashMap<String, String> sectionNamesMap = new HashMap<String, String>();
         for (int i=0;i<sectionNames.size();i++) {
+            String setSectionStr = getRequestParamValue("is" + Const.ParamsNames.INSTRUCTOR_SECTION + i + "set");
+            boolean isSectionSpecial = setSectionStr != null && setSectionStr.equals("true");
             String valueForSectionName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_SECTION + i);
-            if (valueForSectionName != null && sectionNames.contains(valueForSectionName)) {
+            if (isSectionSpecial && valueForSectionName != null && sectionNames.contains(valueForSectionName)) {
                 sectionNamesMap.put(Const.ParamsNames.INSTRUCTOR_SECTION + i, valueForSectionName);
             }
         }
         for (Entry<String, String> entry : sectionNamesMap.entrySet()) {
-            updateInstructorPrivilegesForSectionInSectionLevel(entry.getKey(), entry.getValue(), instructorToaAdd);
-            updateInstructorPrivilegesForSectionInSessionLevel(entry.getKey(), entry.getValue(), evalNames, feedbackNames, instructorToaAdd);
+            updateInstructorPrivilegesForSectionInSectionLevel(entry.getKey(), entry.getValue(), instructorToAdd);
+            String setSessionsStr = getRequestParamValue("is" + entry.getKey() + "sessionsset");
+            boolean isSessionsSpecial = setSessionsStr != null && setSessionsStr.equals("true");
+            if (isSessionsSpecial) {
+                updateInstructorPrivilegesForSectionInSessionLevel(entry.getKey(), entry.getValue(), evalNames, feedbackNames, instructorToAdd);
+            }
         }
     }
     
