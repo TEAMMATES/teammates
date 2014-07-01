@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
+
 /** Holds String-related helper functions
  */
 public class StringHelper {
@@ -160,6 +161,18 @@ public class StringHelper {
         return wordCount;
     }
     
+    
+    public static String[] splitName(String fullName){
+        
+        fullName = fullName.trim().replaceAll("\\s+", " ");      
+        String lastName = fullName.substring(fullName.lastIndexOf(" ")+1).trim();
+        String firstName = fullName.replace(lastName, "").trim();
+        
+        String[] splited ={firstName, lastName};       
+        return splited;
+    }
+    
+    
     private static String byteArrayToHexString(byte[] b) {
         StringBuffer sb = new StringBuffer(b.length * 2);
         for (int i = 0; i < b.length; i++) {
@@ -181,5 +194,5 @@ public class StringHelper {
         }
         return b;
     }
-
+    
 }

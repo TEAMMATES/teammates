@@ -629,23 +629,12 @@ public class CoursesLogic {
                     if(hasSection){
                         export += Sanitizer.sanitizeForCsv(section.name) + ",";
                     }
-                    
-                    String[] splitName = student.name.split(" ");                   
-                    
-                    String firstName = "";
-                    String lastName = "";
-                    
-                    int lastNameIndex = splitName.length - 1;
-                    
-                    for (int i = 0; i < lastNameIndex; i++) {
-                        firstName += splitName[i] + " ";
-                    }
-                    
-                    lastName = splitName[lastNameIndex];
-                    
+                                        
+                    String[] splitName = StringHelper.splitName(student.name);;
+                                   
                     export += Sanitizer.sanitizeForCsv(team.name) + "," + 
-                        Sanitizer.sanitizeForCsv(firstName) + "," +
-                        Sanitizer.sanitizeForCsv(lastName) + "," +
+                        Sanitizer.sanitizeForCsv(splitName[0]) + "," +
+                        Sanitizer.sanitizeForCsv(splitName[1]) + "," +
                         Sanitizer.sanitizeForCsv(studentStatus) + "," +
                         Sanitizer.sanitizeForCsv(student.email) + Const.EOL;
                 }
