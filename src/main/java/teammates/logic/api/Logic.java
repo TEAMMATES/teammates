@@ -1930,13 +1930,13 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public void updateFeedbackResponseComments(String courseId, CommentSendingState oldState, CommentSendingState newState)
+    public void updateFeedbackResponseCommentsSendingState(String courseId, CommentSendingState oldState, CommentSendingState newState)
             throws EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, oldState);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, newState);
 
-        feedbackResponseCommentsLogic.updateFeedbackResponseComments(courseId, oldState, newState);
+        feedbackResponseCommentsLogic.updateFeedbackResponseCommentsSendingState(courseId, oldState, newState);
     }
 
     /**

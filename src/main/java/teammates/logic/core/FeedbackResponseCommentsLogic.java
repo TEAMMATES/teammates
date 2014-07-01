@@ -90,7 +90,7 @@ public class FeedbackResponseCommentsLogic {
         return frcList;
     }
     
-    public void updateFeedbackResponseComments(
+    public void updateFeedbackResponseCommentsSendingState(
             String courseId, CommentSendingState oldState, CommentSendingState newState) throws EntityDoesNotExistException {
         verifyIsCoursePresent(courseId);
         
