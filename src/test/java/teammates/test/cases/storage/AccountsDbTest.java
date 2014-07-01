@@ -90,6 +90,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
     @Test
     public void testCreateAccount() throws Exception {
 
+        // TODO: dont use this function
         testGetInstructorAccounts();
         
         ______TS("typical success case (legacy data)");
