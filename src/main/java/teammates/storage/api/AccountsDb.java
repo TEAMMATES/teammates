@@ -183,8 +183,8 @@ public class AccountsDb extends EntitiesDb {
 
     private Account getAccountEntity(String googleId, boolean retrieveStudentProfile) {
         
-        Key key = KeyFactory.createKey(Account.class.getSimpleName(), googleId);
         try {
+            Key key = KeyFactory.createKey(Account.class.getSimpleName(), googleId);
             Account account = getPM().getObjectById(Account.class, key);
             
             if (JDOHelper.isDeleted(account)) {
@@ -198,6 +198,8 @@ public class AccountsDb extends EntitiesDb {
             }
             
             return account;
+        } catch (IllegalArgumentException iae){
+            return null;            
         } catch(JDOObjectNotFoundException je) {
             return null;
         }
