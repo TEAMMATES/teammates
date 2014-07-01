@@ -494,7 +494,7 @@ public class FeedbackSessionsLogic {
         
         Map<String, String> params = new HashMap<String, String>();
         params.put("isIncludeResponseStatus", String.valueOf(isIncludeResponseStatus));
-        params.put("inSection", "false");
+        params.put("inSection", "true");
         params.put("fromSection", "false");
         params.put("toSection", "false");
         return getFeedbackSessionResultsForUserWithParams(feedbackSessionName,

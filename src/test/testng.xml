@@ -69,6 +69,7 @@
             <class name="teammates.test.cases.ui.AdminSearchPageActionTest" />
             <class name="teammates.test.cases.ui.EvaluationStatsPageActionTest" />
             <class name="teammates.test.cases.ui.FeedbackSessionStatsPageActionTest" />
+            <class name="teammates.test.cases.ui.InstructorCommentsPageActionTest" />
             <class name="teammates.test.cases.ui.InstructorCoursesPageActionTest" />
             <class name="teammates.test.cases.ui.InstructorCourseAddActionTest" />
             <class name="teammates.test.cases.ui.InstructorCourseArchiveActionTest" />
@@ -134,6 +135,7 @@
             <class name="teammates.test.cases.ui.InstructorStudentRecordsPageActionTest" />
             <class name="teammates.test.cases.ui.InstructorStudentCommentAddActionTest" />
             <class name="teammates.test.cases.ui.InstructorStudentCommentEditActionTest" />
+            <class name="teammates.test.cases.ui.StudentCommentsPageActionTest" />
             <class name="teammates.test.cases.ui.StudentCourseDetailsPageActionTest" />
             <class name="teammates.test.cases.ui.StudentCourseJoinActionTest" />
             <class name="teammates.test.cases.ui.StudentCourseJoinAuthenticatedActionTest" />
@@ -198,6 +200,7 @@
     <test name="sequential-ui-tests">
       <!--Theses cases need to be run sequentially to avoid state leaks between tests --> 
         <classes>
+            <class name="teammates.test.cases.ui.browsertests.InstructorCommentsPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorCourseJoinConfirmationPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorCourseEnrollPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorCourseStudentDetailsPageUiTest" />
@@ -208,6 +211,7 @@
             <class name="teammates.test.cases.ui.browsertests.InstructorEvalsPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorFeedbackEditPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorHomePageUiTest" />
+            <class name="teammates.test.cases.ui.browsertests.StudentCommentsPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.StudentCourseJoinConfirmationPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.AdminHomePageUiTest" />            
             <class name="teammates.test.cases.ui.browsertests.StudentHomePageUiTest" />
