@@ -225,345 +225,437 @@ ul #nav {
 </head>
 
 <body>
-    
-
-
-
-
-        <div role="navigation" class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <div class="container">
-                <div class="navbar-header">
-                    <button data-target="#contentLinks" data-toggle="collapse" class="navbar-toggle" type="button">
-                         <span class="sr-only">Toggle navigation</span>
-                         <span class="icon-bar"></span>
-                         <span class="icon-bar"></span>
-                         <span class="icon-bar"></span>
-                    </button>
-                    <a href="/index.html" class="navbar-brand">TEAMMATES</a>
-                </div>
-                <div id="contentLinks" class="collapse navbar-collapse">
-                    <ul class="nav navbar-nav">
-                        <li class="">
-                            <a href="/page/studentHomePage?user=SFResultsUiT.benny.c" data-link="studentHome" id="studentHomeLink">Home</a>
-                        </li>
-                        <li class="">
-                            <a href="/page/studentProfilePage?user=SFResultsUiT.benny.c" data-link="studentProfilePage" id="studentProfileLink">
-                                Profile
-                            </a>
-                        </li>
-                        <li class="">
-                            <a href="/page/studentCommentsPage?user=SFResultsUiT.benny.c" data-link="studentCommentsPage" id="studentCommentsLink">
-                                Comments
-                            </a>
-                        </li>
-                        <li class="">
-                            <a target="_blank" href="/studentHelp.html" class="nav" id="studentHelpLink">Help</a>
-                        </li>
-                    </ul>
-                    <ul class="nav navbar-nav pull-right">
-                        <li><a href="/logout.jsp" class="nav logout">Logout
+               <div class="navbar-header">
+                  <button class="navbar-toggle" data-target="#contentLinks" data-toggle="collapse" type="button">
+                     <span class="sr-only">
+                        Toggle navigation
+                     </span>
+                     <span class="icon-bar">
+                     </span>
+                     <span class="icon-bar">
+                     </span>
+                     <span class="icon-bar">
+                     </span>
+                  </button>
+                  <a class="navbar-brand" href="/index.html">
+                     TEAMMATES
+                  </a>
+               </div>
+               <div class="collapse navbar-collapse" id="contentLinks">
+                  <ul class="nav navbar-nav">
+                     <li class="">
+                        <a data-link="studentHome" href="/page/studentHomePage?user=SFResultsUiT.benny.c" id="studentHomeLink">
+                           Home
+                        </a>
+                     </li>
+                     <li class="">
+                        <a data-link="studentProfilePage" href="/page/studentProfilePage?user=SFResultsUiT.benny.c" id="studentProfileLink">
+                           Profile
+                        </a>
+                     </li>
+                     <li class="">
+                        <a data-link="studentCommentsPage" href="/page/studentCommentsPage?user=SFResultsUiT.benny.c" id="studentCommentsLink">
+                           Comments
+                        </a>
+                     </li>
+                     <li class="">
+                        <a class="nav" href="/studentHelp.html" id="studentHelpLink" target="_blank">
+                           Help
+                        </a>
+                     </li>
+                  </ul>
+                  <ul class="nav navbar-nav pull-right">
+                     <li>
+                        <a class="nav logout" href="/logout.jsp">
+                           Logout
                                 
-                                (<span title="" data-placement="bottom" data-toggle="tooltip" class="text-info" data-original-title="SFResultsUiT.benny.c">
-                                        SFResultsUiT.benny.c
-                                 </span>)
-                                
-                            </a>
-                        </li>
-                    </ul>
-                    
-                    
-                </div>
+                                (
+                           <span class="text-info" data-original-title="SFResultsUiT.benny.c" data-placement="bottom" data-toggle="tooltip" title="">
+                              SFResultsUiT.benny.c
+                           </span>
+                           )
+                        </a>
+                     </li>
+                  </ul>
+               </div>
             </div>
-        </div>
-
-    <div id="frameBody">
-        <div class="container" id="frameBodyWrapper">
-            <div id="topOfPage"></div>
-            <h1>Feedback Results - Student</h1>
-            <br />
-            <div class="well well-plain">
-                <div class="panel-body">
-                    <div class="form-horizontal">
+         </div>
+         <div id="frameBody">
+            <div class="container" id="frameBodyWrapper">
+               <div id="topOfPage">
+               </div>
+               <h1>
+                  Feedback Results - Student
+               </h1>
+               <br/>
+                              <div class="well well-plain">
+                  <div class="panel-body">
+                     <div class="form-horizontal">
                         <div class="panel-heading">
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Course:</label>
-                                <div class="col-sm-10">
-                                    <p class="form-control-static">SFResultsUiT.CS2104</p>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Session:</label>
-                                <div class="col-sm-10">
-                                    <p class="form-control-static">First Session</p>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Opening time:</label>
-                                <div class="col-sm-10">
-                                    <p class="form-control-static">01 Apr 2012, 23:59</p>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Closing time:</label>
-                                <div class="col-sm-10">
-                                    <p class="form-control-static">30 Apr 2016, 23:59</p>
-                                </div>
-                            </div>
+                           <div class="form-group">
+                              <label class="col-sm-2 control-label">
+                                 Course:
+                              </label>
+                              <div class="col-sm-10">
+                                 <p class="form-control-static">
+                                    SFResultsUiT.CS2104
+                                 </p>
+                              </div>
+                           </div>
+                           <div class="form-group">
+                              <label class="col-sm-2 control-label">
+                                 Session:
+                              </label>
+                              <div class="col-sm-10">
+                                 <p class="form-control-static">
+                                    First Session
+                                 </p>
+                              </div>
+                           </div>
+                           <div class="form-group">
+                              <label class="col-sm-2 control-label">
+                                 Opening time:
+                              </label>
+                              <div class="col-sm-10">
+                                 <p class="form-control-static">
+                                    01 Apr 2012, 23:59
+                                 </p>
+                              </div>
+                           </div>
+                           <div class="form-group">
+                              <label class="col-sm-2 control-label">
+                                 Closing time:
+                              </label>
+                              <div class="col-sm-10">
+                                 <p class="form-control-static">
+                                    30 Apr 2016, 23:59
+                                 </p>
+                              </div>
+                           </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <br />
-            
-
-
-
-
-    <div class="alert alert-warning" id="statusMessage">
-        You have received feedback from others. Please see below.
-    </div>
-    <script type="text/javascript">
-        document.getElementById( 'statusMessage' ).scrollIntoView();
-    </script>
-
-            <br />
-            
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4>Question 1: What is the best selling point of your product?
-                        </h4>
-                        
-                    
-                    <div class="panel panel-primary">
-                        <div class="panel-heading"><b>To:</b> Alice Betsy</div>
+                     </div>
+                  </div>
+               </div>
+               <br/>
+                              <div class="alert alert-warning" id="statusMessage">
+                  You have received feedback from others. Please see below.
+               </div>
+               <script type="text/javascript">
+                  document.getElementById( 'statusMessage' ).scrollIntoView();
+               </script>
+               <br/>
+                              <div class="panel panel-default">
+                  <div class="panel-heading">
+                     <h4>
+                        Question 1: What is the best selling point of your product?
+                     </h4>
+                     <div class="panel panel-primary">
+                        <div class="panel-heading">
+                           <b>
+                              To:
+                           </b>
+                           Alice Betsy
+                        </div>
                         <table class="table">
-                            <tbody>    
-                        
-                            <tr class="resultSubheader">
-                                <td>
-                                    <span class="bold"><b>From:</b></span> Anonymous student 227201833
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="multiline">Alice self feedback.</td>
-                            </tr>
-                        
-                            <tr>
-                                <td>
+                           <tbody>
+                              <tr class="resultSubheader">
+                                 <td>
+                                    <span class="bold">
+                                       <b>
+                                          From:
+                                       </b>
+                                    </span>
+                                    Anonymous student 227201833
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td class="multiline">
+                                    Alice self feedback.
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
                                     <ul class="list-group comment-list">
-                                            
-                                                    <li class="list-group-item list-group-item-warning">
-                                                        <span class="text-muted">From: SFResultsUiT.instr@gmail.com [Tue Mar 01 23:59:00 UTC 2016]</span>
-                                                        <div>Instructor first comment to Alice</div>
-                                                    </li>
-                                            
-                                                    <li class="list-group-item list-group-item-warning">
-                                                        <span class="text-muted">From: SFResultsUiT.instr@gmail.com [Wed Mar 02 23:59:00 UTC 2016]</span>
-                                                        <div>Instructor second comment to Alice</div>
-                                                    </li>
-                                            
+                                       <li class="list-group-item list-group-item-warning">
+                                          <span class="text-muted">
+                                             From: SFResultsUiT.instr@gmail.com [Tue Mar 01 23:59:00 UTC 2016]
+                                          </span>
+                                          <div>
+                                             Instructor first comment to Alice
+                                          </div>
+                                       </li>
+                                       <li class="list-group-item list-group-item-warning">
+                                          <span class="text-muted">
+                                             From: SFResultsUiT.instr@gmail.com [Wed Mar 02 23:59:00 UTC 2016]
+                                          </span>
+                                          <div>
+                                             Instructor second comment to Alice
+                                          </div>
+                                       </li>
                                     </ul>
-                                 </td>    
-                            </tr>
-                        
-                                </tbody>
-                            </table>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </div>
+                  </div>
+               </div>
+               <br/>
+                              <div class="panel panel-default">
+                  <div class="panel-heading">
+                     <h4>
+                        Question 2: Rate 3 other students' products
+                     </h4>
+                     <div class="panel panel-primary">
+                        <div class="panel-heading">
+                           <b>
+                              To:
+                           </b>
+                           Anonymous student 1426103091
                         </div>
-                    
-                    </div>
-                </div>
-                <br />
-            
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4>Question 2: Rate 3 other students' products
-                        </h4>
-                        
-                    
-                    <div class="panel panel-primary">
-                        <div class="panel-heading"><b>To:</b> You</div>
                         <table class="table">
-                            <tbody>    
-                        
-                            <tr class="resultSubheader">
-                                <td>
-                                    <span class="bold"><b>From:</b></span> Alice Betsy
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="multiline">Response to Benny.</td>
-                            </tr>
-                        
-                                </tbody>
-                            </table>
+                           <tbody>
+                              <tr class="resultSubheader">
+                                 <td>
+                                    <span class="bold">
+                                       <b>
+                                          From:
+                                       </b>
+                                    </span>
+                                    Alice Betsy
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td class="multiline">
+                                    Response to Danny.
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </div>
+                     <div class="panel panel-primary">
+                        <div class="panel-heading">
+                           <b>
+                              To:
+                           </b>
+                           You
                         </div>
-                    
-                    <div class="panel panel-primary">
-                        <div class="panel-heading"><b>To:</b> Anonymous student 1426103091</div>
                         <table class="table">
-                            <tbody>    
-                        
-                            <tr class="resultSubheader">
-                                <td>
-                                    <span class="bold"><b>From:</b></span> Alice Betsy
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="multiline">Response to Danny.</td>
-                            </tr>
-                        
-                                </tbody>
-                            </table>
+                           <tbody>
+                              <tr class="resultSubheader">
+                                 <td>
+                                    <span class="bold">
+                                       <b>
+                                          From:
+                                       </b>
+                                    </span>
+                                    Alice Betsy
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td class="multiline">
+                                    Response to Benny.
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </div>
+                  </div>
+               </div>
+               <br/>
+                              <div class="panel panel-default">
+                  <div class="panel-heading">
+                     <h4>
+                        Question 3: Feedback to class
+                     </h4>
+                     <div class="panel panel-primary">
+                        <div class="panel-heading">
+                           <b>
+                              To:
+                           </b>
+                           -
                         </div>
-                    
-                    </div>
-                </div>
-                <br />
-            
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4>Question 3: Feedback to class
-                        </h4>
-                        
-                    
-                    <div class="panel panel-primary">
-                        <div class="panel-heading"><b>To:</b> -</div>
                         <table class="table">
-                            <tbody>    
-                        
-                            <tr class="resultSubheader">
-                                <td>
-                                    <span class="bold"><b>From:</b></span> You
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="multiline">Secret feedback about class. (to nobody test)</td>
-                            </tr>
-                        
-                                </tbody>
-                            </table>
+                           <tbody>
+                              <tr class="resultSubheader">
+                                 <td>
+                                    <span class="bold">
+                                       <b>
+                                          From:
+                                       </b>
+                                    </span>
+                                    You
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td class="multiline">
+                                    Secret feedback about class. (to nobody test)
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </div>
+                  </div>
+               </div>
+               <br/>
+                              <div class="panel panel-default">
+                  <div class="panel-heading">
+                     <h4>
+                        Question 4: Give feedback to 3 other teams.
+                     </h4>
+                     <div class="panel panel-primary">
+                        <div class="panel-heading">
+                           <b>
+                              To:
+                           </b>
+                           Team 2
                         </div>
-                    
-                    </div>
-                </div>
-                <br />
-            
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4>Question 4: Give feedback to 3 other teams.
-                        </h4>
-                        
-                    
-                    <div class="panel panel-primary">
-                        <div class="panel-heading"><b>To:</b> Your Team (Team 1)</div>
                         <table class="table">
-                            <tbody>    
-                        
-                            <tr class="resultSubheader">
-                                <td>
-                                    <span class="bold"><b>From:</b></span> Team 2
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="multiline">Team 2 (charlie) to team 1</td>
-                            </tr>
-                        
-                            <tr class="resultSubheader">
-                                <td>
-                                    <span class="bold"><b>From:</b></span> Team 2
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="multiline">Team 2 (danny) to team 1</td>
-                            </tr>
-                        
-                            <tr class="resultSubheader">
-                                <td>
-                                    <span class="bold"><b>From:</b></span> Team 3
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="multiline">Team 3 to Team 1 
- multiline special char test</td>
-                            </tr>
-                        
-                                </tbody>
-                            </table>
+                           <tbody>
+                              <tr class="resultSubheader">
+                                 <td>
+                                    <span class="bold">
+                                       <b>
+                                          From:
+                                       </b>
+                                    </span>
+                                    Your Team (Team 1)
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td class="multiline">
+                                    alice to team 2
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </div>
+                     <div class="panel panel-primary">
+                        <div class="panel-heading">
+                           <b>
+                              To:
+                           </b>
+                           Your Team (Team 1)
                         </div>
-                    
-                    <div class="panel panel-primary">
-                        <div class="panel-heading"><b>To:</b> Team 2</div>
                         <table class="table">
-                            <tbody>    
-                        
-                            <tr class="resultSubheader">
-                                <td>
-                                    <span class="bold"><b>From:</b></span> Your Team (Team 1)
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="multiline">alice to team 2</td>
-                            </tr>
-                        
-                                </tbody>
-                            </table>
+                           <tbody>
+                              <tr class="resultSubheader">
+                                 <td>
+                                    <span class="bold">
+                                       <b>
+                                          From:
+                                       </b>
+                                    </span>
+                                    Team 2
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td class="multiline">
+                                    Team 2 (charlie) to team 1
+                                 </td>
+                              </tr>
+                              <tr class="resultSubheader">
+                                 <td>
+                                    <span class="bold">
+                                       <b>
+                                          From:
+                                       </b>
+                                    </span>
+                                    Team 2
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td class="multiline">
+                                    Team 2 (danny) to team 1
+                                 </td>
+                              </tr>
+                              <tr class="resultSubheader">
+                                 <td>
+                                    <span class="bold">
+                                       <b>
+                                          From:
+                                       </b>
+                                    </span>
+                                    Team 3
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td class="multiline">
+                                    Team 3 to Team 1 
+ multiline special char test
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </div>
+                  </div>
+               </div>
+               <br/>
+                              <div class="panel panel-default">
+                  <div class="panel-heading">
+                     <h4>
+                        Question 5: Give feedback to your team mates
+                     </h4>
+                     <div class="panel panel-primary">
+                        <div class="panel-heading">
+                           <b>
+                              To:
+                           </b>
+                           Alice Betsy
                         </div>
-                    
-                    </div>
-                </div>
-                <br />
-            
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4>Question 5: Give feedback to your team mates
-                        </h4>
-                        
-                    
-                    <div class="panel panel-primary">
-                        <div class="panel-heading"><b>To:</b> Alice Betsy</div>
                         <table class="table">
-                            <tbody>    
-                        
-                            <tr class="resultSubheader">
-                                <td>
-                                    <span class="bold"><b>From:</b></span> You
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="multiline">Teammate feedback from benny</td>
-                            </tr>
-                        
-                                </tbody>
-                            </table>
-                        </div>
-                    
-                    </div>
-                </div>
-                <br />
-            
-        </div>
-    </div>
-
-    <div id="frameBottom">
-        
-
-
-
-<div class="container-fluid" id="footerComponent">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4">
-                <span>[<a href="/index.html">TEAMMATES</a> V{$version}]</span>
+                           <tbody>
+                              <tr class="resultSubheader">
+                                 <td>
+                                    <span class="bold">
+                                       <b>
+                                          From:
+                                       </b>
+                                    </span>
+                                    You
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td class="multiline">
+                                    Teammate feedback from benny
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </div>
+                  </div>
+               </div>
+               <br/>
+                           </div>
+         </div>
+         <div id="frameBottom">
+            <div class="container-fluid" id="footerComponent">
+               <div class="container">
+                  <div class="row">
+                     <div class="col-md-4">
+                        <span>
+                           [
+                           <a href="/index.html">
+                              TEAMMATES
+                           </a>
+                           V{$version}]
+                        </span>
+                     </div>
+                     <div class="col-md-4">
+                     </div>
+                     <div class="col-md-4">
+                        <span>
+                           [Send
+                           <a class="link" href="../contact.html" target="_blank">
+                              Feedback
+                           </a>
+                           ]
+                        </span>
+                     </div>
+                  </div>
+               </div>
             </div>
-            <div class="col-md-4">
-                
-            </div>
-            <div class="col-md-4">
-                <span>[Send <a target="_blank" href="../contact.html" class="link">Feedback</a>]</span>
-            </div>
-        </div>
-    </div>
-</div>
-    </div>
-
+         </div>
 </body></html>

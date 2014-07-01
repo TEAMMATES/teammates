@@ -1,8 +1,11 @@
 package teammates.storage.api;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.jdo.JDOHelper;
@@ -65,6 +68,21 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         return new FeedbackResponseCommentAttributes(frc);    
     }
     
+    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForResponse(String feedbackResponseId){
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackResponseId);
+        
+        List<FeedbackResponseComment> frcList = 
+                getFeedbackResponseCommentEntitiesForResponse(feedbackResponseId);
+        
+        List<FeedbackResponseCommentAttributes> resultList = new ArrayList<FeedbackResponseCommentAttributes>();
+        for (FeedbackResponseComment frc : frcList) {
+            resultList.add(new FeedbackResponseCommentAttributes(frc));
+        }
+        
+        return resultList; 
+    }
+    
+    
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
@@ -75,6 +93,26 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         
         List<FeedbackResponseComment> frcList = 
                 getFeedbackResponseCommentEntitiesForSession(courseId, feedbackSessionName);
+        
+        List<FeedbackResponseCommentAttributes> resultList = new ArrayList<FeedbackResponseCommentAttributes>();
+        for (FeedbackResponseComment frc : frcList) {
+            resultList.add(new FeedbackResponseCommentAttributes(frc));
+        }
+        
+        return resultList;    
+    }
+
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     */
+    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForSessionInSection(String courseId, String feedbackSessionName, String section) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSessionName);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, section);
+        
+        Collection<FeedbackResponseComment> frcList = 
+                getFeedbackResponseCommentEntitiesForSessionInSection(courseId, feedbackSessionName, section);
         
         List<FeedbackResponseCommentAttributes> resultList = new ArrayList<FeedbackResponseCommentAttributes>();
         for (FeedbackResponseComment frc : frcList) {
@@ -108,6 +146,8 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         
         frc.setCommentText(newAttributes.commentText);
         frc.setSendingState(newAttributes.sendingState);
+        frc.setGiverSection(newAttributes.giverSection);
+        frc.setReceiverSection(newAttributes.receiverSection);
         
         getPM().close();
     }
@@ -205,6 +245,25 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         return feedbackResponseCommentList.get(0);
     }
     
+    private List<FeedbackResponseComment> getFeedbackResponseCommentEntitiesForResponse(String feedbackResponseId){
+        Query q = getPM().newQuery(FeedbackResponseComment.class);
+        q.declareParameters("String feedbackResponseIdParam");
+        q.setFilter("feedbackResponseId == feedbackResponseIdParam");
+        
+        @SuppressWarnings("unchecked")
+        List<FeedbackResponseComment> feedbackResponseCommentList =
+            (List<FeedbackResponseComment>) q.execute(feedbackResponseId);
+        
+        List<FeedbackResponseComment> resultList = new ArrayList<FeedbackResponseComment>();
+        for (FeedbackResponseComment frc : feedbackResponseCommentList) {
+            if (!JDOHelper.isDeleted(frc)) {
+                resultList.add(frc);
+            }
+        }
+        
+        return resultList;
+    }
+    
     private List<FeedbackResponseComment> getFeedbackResponseCommentEntitiesForSession(
             String courseId, String feedbackSessionName) {
         
@@ -225,5 +284,35 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         }
         
         return resultList;
+    }
+
+    private Collection<FeedbackResponseComment> getFeedbackResponseCommentEntitiesForSessionInSection(
+            String courseId, String feedbackSessionName, String section) {
+
+        Map<String, FeedbackResponseComment> FeedbackResponseCommentList = new HashMap<String, FeedbackResponseComment>();
+
+        Query q = getPM().newQuery(FeedbackResponseComment.class);
+        q.declareParameters("String courseIdParam, String feedbackSessionNameParam, String sectionParam");
+        q.setFilter("courseId == courseIdParam && " +
+                "feedbackSessionName == feedbackSessionNameParam && giverSection == sectionParam");
+        
+        @SuppressWarnings("unchecked")
+        List<FeedbackResponseComment> firstQueryResponseComments =
+            (List<FeedbackResponseComment>) q.execute(courseId, feedbackSessionName, section);
+        for(FeedbackResponseComment responseComment : firstQueryResponseComments){
+            FeedbackResponseCommentList.put(String.valueOf(responseComment.getFeedbackResponseCommentId()), responseComment);
+        }
+        
+        q.setFilter("courseId == courseIdParam && " +
+                "feedbackSessionName == feedbackSessionNameParam && receiverSection == sectionParam");
+        
+        @SuppressWarnings("unchecked")
+        List<FeedbackResponseComment> secondQueryResponseComments =
+            (List<FeedbackResponseComment>) q.execute(courseId, feedbackSessionName, section);
+        for(FeedbackResponseComment responseComment : secondQueryResponseComments){
+            FeedbackResponseCommentList.put(String.valueOf(responseComment.getFeedbackResponseCommentId()), responseComment);
+        }
+        
+        return FeedbackResponseCommentList.values();
     }
 }

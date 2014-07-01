@@ -229,7 +229,7 @@
                 for (CourseDetailsBundle courseDetails : data.courses) {
                     if((courseDetails.course.isArchived && data.displayArchive) || !courseDetails.course.isArchived){
                         courseIdx++;
-                        int sortIdx = 1;
+                        int sortIdx = 2;
                         int numSections = courseDetails.stats.sectionsTotal;
                         int totalCourseStudents = courseDetails.stats.studentsTotal;
             %>
