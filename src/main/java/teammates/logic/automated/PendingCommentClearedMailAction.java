@@ -43,13 +43,13 @@ public class PendingCommentClearedMailAction extends EmailAction {
     @Override
     protected void doPostProcessingForSuccesfulSend() throws EntityDoesNotExistException {
         frcLogic.updateFeedbackResponseComments(courseId, CommentSendingState.SENDING, CommentSendingState.SENT);
-        commentsLogic.updateComments(courseId, CommentSendingState.SENDING, CommentSendingState.SENT);
+        commentsLogic.updateCommentsSendingState(courseId, CommentSendingState.SENDING, CommentSendingState.SENT);
     }
 
     protected void doPostProcessingForUnsuccesfulSend() throws EntityDoesNotExistException {
         //recover the pending state when it fails
         frcLogic.updateFeedbackResponseComments(courseId, CommentSendingState.SENDING, CommentSendingState.PENDING);
-        commentsLogic.updateComments(courseId, CommentSendingState.SENDING, CommentSendingState.PENDING);
+        commentsLogic.updateCommentsSendingState(courseId, CommentSendingState.SENDING, CommentSendingState.PENDING);
     }
 
     @Override

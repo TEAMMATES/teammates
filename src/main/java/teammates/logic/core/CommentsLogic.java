@@ -99,7 +99,7 @@ public class CommentsLogic {
         return commentsDb.getCommentsForSendingState(courseId, sendingState);
     }
     
-    public void updateComments(String courseId, CommentSendingState oldState, CommentSendingState newState) throws EntityDoesNotExistException{
+    public void updateCommentsSendingState(String courseId, CommentSendingState oldState, CommentSendingState newState) throws EntityDoesNotExistException{
         verifyIsCoursePresent(courseId, "clear pending");
         commentsDb.updateComments(courseId, oldState, newState);
     }

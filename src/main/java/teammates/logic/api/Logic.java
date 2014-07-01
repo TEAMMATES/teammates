@@ -1990,12 +1990,12 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public void updateComments(String courseId, CommentSendingState oldState, CommentSendingState newState)
+    public void updateCommentsSendingState(String courseId, CommentSendingState oldState, CommentSendingState newState)
             throws EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, oldState);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, newState);
-        commentsLogic.updateComments(courseId, oldState, newState);
+        commentsLogic.updateCommentsSendingState(courseId, oldState, newState);
     }
     
     /**
