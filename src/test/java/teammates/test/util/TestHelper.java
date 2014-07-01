@@ -325,7 +325,7 @@ public class TestHelper extends BaseComponentTestCase{
         FeedbackQuestionAttributes actual = fqDb.getFeedbackQuestion(
                 expected.feedbackSessionName, expected.courseId, expected.questionNumber);
         if(wildcardId){
-            actual.setId("*");
+            expected.setId(actual.getId());
         }
         assertEquals(gson.toJson(expected), gson.toJson(actual));
     }

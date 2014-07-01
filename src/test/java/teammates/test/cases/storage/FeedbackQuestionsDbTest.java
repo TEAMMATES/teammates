@@ -321,7 +321,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         fqa.showRecipientNameTo = new ArrayList<FeedbackParticipantType>();
         fqa.showResponsesTo = new ArrayList<FeedbackParticipantType>();
         
-        fqa.setId("*");//Use a wildcard for Id. Auto generated when persisting in Db.
+        //fqa.setId("");//Use a wildcard for Id. Auto generated when persisting in Db.
         
         return fqa;
     }
