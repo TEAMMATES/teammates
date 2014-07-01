@@ -242,4 +242,48 @@ public class TimeHelper {
         }
     
     }
+    
+    
+   
+    /**
+     * All parameters not null
+     * Combine separated date, hour and minute string into standard format
+     * required parameter format:
+     * date: dd/MM/yyyy  hour: hh   min:mm
+     * @return Date String in the format {@link Const.DEFAULT_DATE_TIME_FORMAT}
+     * Example: If date is 01/04/2014, hour is 23, min is 59
+     *          result will be  2014-04-01 11:59 PM UTC
+     */
+    
+    public static String convertToRequiredFormat(String date, String hour, String min) {
+        
+        if (date == null || hour == null || min == null) {
+            return null;
+        }
+
+        final String OLD_FORMAT = "dd/MM/yyyy";
+        final String NEW_FORMAT = "yyyy-MM-dd";
+
+        String oldDateString = date;
+        SimpleDateFormat sdf = new SimpleDateFormat(OLD_FORMAT);
+        Date d;
+        try {
+            d = sdf.parse(oldDateString);
+            sdf.applyPattern(NEW_FORMAT);
+            date = sdf.format(d);
+        } catch (ParseException e) {
+            Assumption.fail("Date in String is in wrong format.");
+            return null;
+        }
+        
+        int intHour = Integer.parseInt(hour);
+        
+        String amOrPm = intHour >= 12 ? "PM" : "AM";
+        intHour = intHour >= 13 ? intHour - 12 : intHour;
+        
+        String formatedStr = date + " "+ intHour + ":" + min + " " + amOrPm + " UTC";
+
+        return formatedStr;
+
+    }
 }

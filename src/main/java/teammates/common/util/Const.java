@@ -310,8 +310,8 @@ public class Const {
         public static final String FEEDBACK_SESSION_CREATETIME = "createtime";
         public static final String FEEDBACK_SESSION_STARTDATE = "startdate";
         public static final String FEEDBACK_SESSION_STARTTIME = "starttime";
-        public static final String FEEDBACK_SESSION_STARTHOUR = "startHour";
-        public static final String FEEDBACK_SESSION_STARTMINUTE = "startMinute";
+        public static final String FEEDBACK_SESSION_STARTHOUR = "starthour";
+        public static final String FEEDBACK_SESSION_STARTMINUTE = "startminute";
         public static final String FEEDBACK_SESSION_ENDDATE = "enddate";
         public static final String FEEDBACK_SESSION_ENDTIME = "endtime";
         public static final String FEEDBACK_SESSION_ENDHOUR = "endhour";
