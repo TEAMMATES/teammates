@@ -26,7 +26,9 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
     public Map<String, boolean[]> visibilityTable = null;
     public FeedbackSessionResponseStatus responseStatus = null;
     public Map<String, List<FeedbackResponseCommentAttributes>> responseComments = null;
-    
+    public boolean isComplete;    
+
+	 
     /**
      * Responses with identities of giver/recipients NOT hidden.
      * To be used for anonymous result calculation only, and identities hidden before showing to users.
@@ -40,7 +42,19 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
             Map<String, String> emailTeamNameTable,
             Map<String, boolean[]> visibilityTable,
             FeedbackSessionResponseStatus responseStatus,
-            Map<String, List<FeedbackResponseCommentAttributes>> responseComments) {
+            Map<String, List<FeedbackResponseCommentAttributes>> responseComments){
+        this(feedbackSession, responses, questions, emailNameTable, emailTeamNameTable, visibilityTable, responseStatus, responseComments, true);
+    }
+
+    public FeedbackSessionResultsBundle (FeedbackSessionAttributes feedbackSession,
+            List<FeedbackResponseAttributes> responses,
+            Map<String, FeedbackQuestionAttributes> questions,
+            Map<String, String> emailNameTable,
+            Map<String, String> emailTeamNameTable,
+            Map<String, boolean[]> visibilityTable,
+            FeedbackSessionResponseStatus responseStatus,
+            Map<String, List<FeedbackResponseCommentAttributes>> responseComments,
+            boolean isComplete) {
         this.feedbackSession = feedbackSession;
         this.questions = questions;
         this.responses = responses;
@@ -60,6 +74,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
             FeedbackResponseAttributes fraCopy = new FeedbackResponseAttributes(response);
             actualResponses.add(fraCopy);
         }
+        this.isComplete = isComplete;
         
         hideResponsesGiverRecipient(responses, questions, emailNameTable,
                 emailTeamNameTable, visibilityTable);
@@ -214,6 +229,10 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         for(FeedbackResponseAttributes response : responses){
             List<FeedbackResponseAttributes> responsesForQuestion = sortedMap.get(questions.get(response.feedbackQuestionId));
             responsesForQuestion.add(response);
+        }
+
+        for(List<FeedbackResponseAttributes> responsesForQuestion : sortedMap.values()){
+            Collections.sort(responsesForQuestion, compareByGiverRecipient);
         }
           
         return sortedMap;
@@ -624,6 +643,28 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
     @SuppressWarnings("unused")
     private void ________________COMPARATORS_____________(){}
     
+    // Sorts by giverName > recipientName
+    public Comparator<FeedbackResponseAttributes> compareByGiverRecipient
+        = new Comparator<FeedbackResponseAttributes>() {
+        @Override
+        public int compare(FeedbackResponseAttributes o1,
+                FeedbackResponseAttributes o2) {
+
+            String giverName1 = emailNameTable.get(o1.giverEmail);
+            String giverName2 = emailNameTable.get(o2.giverEmail);
+            int order = compareByNames(giverName1, giverName2);
+            if(order != 0){
+                return order;
+            }
+
+            String recipientName1 = emailNameTable.get(o1.recipientEmail);
+            String recipientName2 = emailNameTable.get(o2.recipientEmail);            
+            order = compareByNames(recipientName1, recipientName2);
+            return order; 
+        }
+    };
+
+
     // Sorts by giverName > recipientName > qnNumber
     // General questions and team questions at the bottom.
     public Comparator<FeedbackResponseAttributes> compareByGiverRecipientQuestion
@@ -631,9 +672,18 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         @Override
         public int compare(FeedbackResponseAttributes o1,
                 FeedbackResponseAttributes o2) {
+
+            String giverSection1 = o1.giverSection;
+            String giverSection2 = o2.giverSection;
+            int order = giverSection1.compareTo(giverSection2);
+            if(order != 0){
+                return order;
+            }
+
+
             String giverName1 = emailNameTable.get(o1.giverEmail);
             String giverName2 = emailNameTable.get(o2.giverEmail);
-            int order = compareByNames(giverName1, giverName2);
+            order = compareByNames(giverName1, giverName2);
             if(order != 0){
                 return order;
             }
@@ -655,9 +705,17 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         = new Comparator<FeedbackResponseAttributes>() {
         @Override
         public int compare(FeedbackResponseAttributes o1, FeedbackResponseAttributes o2){
+            
+            String giverSection1 = o1.giverSection;
+            String giverSection2 = o2.giverSection;
+            int order = giverSection1.compareTo(giverSection2);
+            if(order != 0){
+                return order;
+            }
+
             String t1 = getTeamNameForEmail(o1.giverEmail).equals("")?getNameForEmail(o1.giverEmail):getTeamNameForEmail(o1.giverEmail);
             String t2 = getTeamNameForEmail(o2.giverEmail).equals("")?getNameForEmail(o2.giverEmail):getTeamNameForEmail(o2.giverEmail);
-            int order = t1.compareTo(t2);
+            order = t1.compareTo(t2);
             if(order != 0){
                 return order;
             }
@@ -688,9 +746,17 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         @Override
         public int compare(FeedbackResponseAttributes o1,
                 FeedbackResponseAttributes o2) {
+
+            String recipientSection1 = o1.recipientSection;
+            String recipientSection2 = o2.recipientSection;
+            int order = recipientSection1.compareTo(recipientSection2);
+            if(order != 0){
+                return order;
+            }
+
             String recipientName1 = emailNameTable.get(o1.recipientEmail);
             String recipientName2 = emailNameTable.get(o2.recipientEmail);
-            int order = compareByNames(recipientName1, recipientName2);
+            order = compareByNames(recipientName1, recipientName2);
             if(order != 0){
                 return order;
             }
@@ -713,9 +779,17 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         @Override
         public int compare(FeedbackResponseAttributes o1,
                 FeedbackResponseAttributes o2) {
+            
+            String recipientSection1 = o1.recipientSection;
+            String recipientSection2 = o2.recipientSection;
+            int order = recipientSection1.compareTo(recipientSection2);
+            if(order != 0){
+                return order;
+            }
+
             String t1 = getTeamNameForEmail(o1.recipientEmail).equals("")?getNameForEmail(o1.recipientEmail):getTeamNameForEmail(o1.recipientEmail);
             String t2 = getTeamNameForEmail(o2.recipientEmail).equals("")?getNameForEmail(o2.recipientEmail):getTeamNameForEmail(o2.recipientEmail);
-            int order = t1.compareTo(t2);
+            order = t1.compareTo(t2);
             if(order != 0){
                 return order;
             }
@@ -745,9 +819,17 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         @Override
         public int compare(FeedbackResponseAttributes o1,
                 FeedbackResponseAttributes o2) {
+            
+            String giverSection1 = o1.giverSection;
+            String giverSection2 = o2.giverSection;
+            int order = giverSection1.compareTo(giverSection2);
+            if(order != 0){
+                return order;
+            }
+
             String giverName1 = emailNameTable.get(o1.giverEmail);
             String giverName2 = emailNameTable.get(o2.giverEmail);
-            int order = compareByNames(giverName1, giverName2);
+            order = compareByNames(giverName1, giverName2);
             if(order != 0){
                 return order;
             }
@@ -777,9 +859,17 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         @Override
         public int compare(FeedbackResponseAttributes o1,
                 FeedbackResponseAttributes o2) {
+
+            String giverSection1 = o1.giverSection;
+            String giverSection2 = o2.giverSection;
+            int order = giverSection1.compareTo(giverSection2);
+            if(order != 0){
+                return order;
+            }
+
             String giverTeam1 = getTeamNameForEmail(o1.giverEmail).equals("")?getNameForEmail(o1.giverEmail):getTeamNameForEmail(o1.giverEmail);
             String giverTeam2 = getTeamNameForEmail(o2.giverEmail).equals("")?getNameForEmail(o2.giverEmail):getTeamNameForEmail(o2.giverEmail);
-            int order = giverTeam1.compareTo(giverTeam2);
+            order = giverTeam1.compareTo(giverTeam2);
             if(order != 0){
                 return order;
             }
@@ -816,9 +906,17 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         @Override
         public int compare(FeedbackResponseAttributes o1,
                 FeedbackResponseAttributes o2) {
+
+            String recipientSection1 = o1.recipientSection;
+            String recipientSection2 = o2.recipientSection;
+            int order = recipientSection1.compareTo(recipientSection2);
+            if(order != 0){
+                return order;
+            }
+
             String recipientName1 = emailNameTable.get(o1.recipientEmail);
             String recipientName2 = emailNameTable.get(o2.recipientEmail);
-            int order = compareByNames(recipientName1, recipientName2);
+            order = compareByNames(recipientName1, recipientName2);
             if(order != 0){
                 return order;
             }
@@ -848,9 +946,17 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         @Override
         public int compare(FeedbackResponseAttributes o1,
                 FeedbackResponseAttributes o2) {
+
+            String recipientSection1 = o1.recipientSection;
+            String recipientSection2 = o2.recipientSection;
+            int order = recipientSection1.compareTo(recipientSection2);
+            if(order != 0){
+                return order;
+            }
+            
             String recipientTeam1 = getTeamNameForEmail(o1.recipientEmail).equals("")?getNameForEmail(o1.recipientEmail):getTeamNameForEmail(o1.recipientEmail);
             String recipientTeam2 = getTeamNameForEmail(o2.recipientEmail).equals("")?getNameForEmail(o2.recipientEmail):getTeamNameForEmail(o2.recipientEmail);
-            int order = recipientTeam1.compareTo(recipientTeam2);
+            order = recipientTeam1.compareTo(recipientTeam2);
             if(order != 0){
                 return order;
             }

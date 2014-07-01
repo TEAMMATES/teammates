@@ -27,7 +27,7 @@ public class InstructorFeedbackSubmissionEditPageAction extends FeedbackSubmissi
         boolean shouldEnableSubmit = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
         List<String> sectionsInCourse;
         try {
-            sectionsInCourse = logic.getSectionsNameForCourse(instructor.courseId);
+            sectionsInCourse = logic.getSectionNamesForCourse(instructor.courseId);
         } catch(EntityDoesNotExistException e) {
             sectionsInCourse = new ArrayList<String>();
         }

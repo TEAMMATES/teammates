@@ -473,6 +473,9 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
             for(FeedbackResponseAttributes response : teamResponseList){
                 int giverIndx = memberEmailList.indexOf(response.giverEmail);
                 int recipientIndx = memberEmailList.indexOf(response.recipientEmail);
+                if(giverIndx == -1 || recipientIndx == -1){
+                    continue;
+                }
                 int points = ((FeedbackContributionResponseDetails) response.getResponseDetails()).getAnswer();
                 teamSubmissionArray.get(team)[giverIndx][recipientIndx] = points;
             }

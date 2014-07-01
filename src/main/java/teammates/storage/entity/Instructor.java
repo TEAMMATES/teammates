@@ -33,6 +33,11 @@ public class Instructor {
     /** The foreign key to locate the Course object. */
     @Persistent
     private String courseId;
+    
+    /** new attribute. Default value: Old Entity--null  New Entity--false*/
+    @Persistent
+    @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
+    private Boolean isArchived;
 
     /** The instructor's name used for this course. */
     @Persistent
@@ -57,14 +62,16 @@ public class Instructor {
     @Persistent
     @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
     private String displayedName;
+   
     
     @Persistent
     private Text instructorPrivilegesAsText;
     
-    public Instructor(String instructorGoogleId, String courseId, String instructorName, String instructorEmail,
+    public Instructor(String instructorGoogleId, String courseId, Boolean isArchived, String instructorName, String instructorEmail,
             String role, boolean isDisplayedToStudents, String displayedName, String instructorPrivilegesAsText) {
         this.setGoogleId(instructorGoogleId);
         this.setCourseId(courseId);
+        this.setIsArchived(isArchived);
         this.setName(instructorName);
         this.setEmail(instructorEmail);
         this.setRole(role);
@@ -123,6 +130,15 @@ public class Instructor {
 
     public void setCourseId(String courseId) {
         this.courseId = courseId;
+    }
+    
+    
+    public Boolean getIsArchived(){
+        return isArchived;
+    }
+    
+    public void setIsArchived(Boolean isArchived){
+        this.isArchived = isArchived;
     }
 
     public String getName() {
