@@ -3,6 +3,7 @@ package teammates.ui.controller;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.ExceedingRangeException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
@@ -13,6 +14,9 @@ public class InstructorFeedbackResultsDownloadAction extends Action {
     protected ActionResult execute()  throws EntityDoesNotExistException {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        String section = getRequestParamValue(Const.ParamsNames.SECTION_NAME);
+
+        Assumption.assertNotNull(section);
         Assumption.assertNotNull(courseId);
         Assumption.assertNotNull(feedbackSessionName);
         
@@ -25,10 +29,26 @@ public class InstructorFeedbackResultsDownloadAction extends Action {
                 session,
                 !isCreatorOnly);
         
-        String fileContent = logic.getFeedbackSessionResultSummaryAsCsv(courseId, feedbackSessionName, instructor.email);
-        String fileName = courseId + "_" + feedbackSessionName;
-        
-        statusToAdmin = "Summary data for Feedback Session " + feedbackSessionName + " in Course " + courseId + " was downloaded";
+        String fileContent = "";
+        String fileName = "";
+        try {
+            if(section.equals("All")){
+                fileContent = logic.getFeedbackSessionResultSummaryAsCsv(courseId, feedbackSessionName, instructor.email);
+                fileName = courseId + "_" + feedbackSessionName;
+                statusToAdmin = "Summary data for Feedback Session " + feedbackSessionName + " in Course " + courseId + " was downloaded";
+            } else {
+                fileContent = logic.getFeedbackSessionResultSummaryInSectionAsCsv(courseId, feedbackSessionName, instructor.email, section);
+                fileName = courseId + "_" + feedbackSessionName + "_" + section;
+                statusToAdmin = "Summary data for Feedback Session " + feedbackSessionName + " in Course " + courseId + " within " + section + " was downloaded";
+            } 
+        } catch (ExceedingRangeException e){
+            statusToUser.add("There are too many responses. Please download the feedback results by section");
+            isError = true;
+            RedirectResult result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE);
+            result.addResponseParam(Const.ParamsNames.COURSE_ID, courseId);
+            result.addResponseParam(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
+            return result;
+        }
         
         return createFileDownloadResult(fileName, fileContent);
     }

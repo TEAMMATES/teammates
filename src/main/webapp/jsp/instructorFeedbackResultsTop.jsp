@@ -58,6 +58,7 @@
               <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
               <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.bundle.feedbackSession.feedbackSessionName%>">
               <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.bundle.feedbackSession.courseId%>">
+              <input type="hidden" name="<%=Const.ParamsNames.SECTION_NAME %>" value="<%=data.selectedSection%>">
           </div>
         </div>
         </div>
@@ -175,9 +176,9 @@
 <%
     }
 %>
-
+<br>
 <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
-
+<br>
 <% if (noResponses && showAll) { %>
     <div class="bold color_red align-center">There are no responses for this feedback session yet or you do not have access to the responses collected so far.</div>
 <% } %>
