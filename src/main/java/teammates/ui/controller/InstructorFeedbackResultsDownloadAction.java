@@ -16,7 +16,6 @@ public class InstructorFeedbackResultsDownloadAction extends Action {
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         String section = getRequestParamValue(Const.ParamsNames.SECTION_NAME);
 
-        Assumption.assertNotNull(section);
         Assumption.assertNotNull(courseId);
         Assumption.assertNotNull(feedbackSessionName);
         
@@ -32,7 +31,7 @@ public class InstructorFeedbackResultsDownloadAction extends Action {
         String fileContent = "";
         String fileName = "";
         try {
-            if(section.equals("All")){
+            if(section == null || section.equals("All")){
                 fileContent = logic.getFeedbackSessionResultSummaryAsCsv(courseId, feedbackSessionName, instructor.email);
                 fileName = courseId + "_" + feedbackSessionName;
                 statusToAdmin = "Summary data for Feedback Session " + feedbackSessionName + " in Course " + courseId + " was downloaded";

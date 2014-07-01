@@ -20,7 +20,7 @@ public class FeedbackQuestion {
     
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-    //@Extension(vendorName="datanucleus", key="gae.encoded-pk", value="true")
+    @Extension(vendorName="datanucleus", key="gae.encoded-pk", value="true")
     private transient String feedbackQuestionId;
         
     @Persistent
@@ -73,7 +73,7 @@ public class FeedbackQuestion {
             List<FeedbackParticipantType> showGiverNameTo,
             List<FeedbackParticipantType> showRecipientNameTo) {
         
-        this.feedbackQuestionId = String.valueOf(questionNumber); // Allow GAE to generate key.
+        this.feedbackQuestionId = null; // Allow GAE to generate key.
         this.feedbackSessionName = feedbackSessionName;
         this.courseId = courseId;
         this.creatorEmail = creatorEmail;

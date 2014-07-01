@@ -13,8 +13,6 @@ import java.util.logging.Logger;
 
 import javax.mail.internet.MimeMessage;
 
-import org.datanucleus.plugin.Bundle;
-
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackAbstractQuestionDetails;
