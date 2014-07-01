@@ -281,7 +281,7 @@ public class EvaluationsLogic {
         while (iter.hasNext()) {
             boolean shouldDisplayTeam = true;
             for (StudentResultBundle studentBundle : iter.next().getValue().studentResults) {
-                if (!instructor.isAllowedForPrivilege(studentBundle.student.section, evalName,
+                if (!instructor.isAllowedForPrivilege(studentBundle.student.section, Const.EVAL_PREFIX_FOR_INSTRUCTOR_PRIVILEGES+evalName,
                         Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)) {
                     shouldDisplayTeam = false;
                     break;

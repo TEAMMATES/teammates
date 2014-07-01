@@ -388,7 +388,12 @@
                                                             /> Sessions: Edit/Delete Responses/Comments by Others<br><br>
                                                         </div>
                                                         <% if (!data.evalNames.isEmpty() && !data.feedbackNames.isEmpty()) { %>
-                                                        <a href="javascript:;" onclick="toggleTuneSessionnPermissionsDiv(<%=index%>, <%=j%>)"
+                                                        <a href="javascript:;" 
+                                                            <% if (!instructor.privileges.isSessionsInSectionSpecial(data.sectionNames.get(j))) { %> 
+                                                            onclick="showTuneSessionnPermissionsDiv(<%=index%>, <%=j%>)"
+                                                            <% } else { %>
+                                                            onclick="hideTuneSessionnPermissionsDiv(<%=index%>, <%=j%>)"
+                                                            <% } %>
                                                             id="toggleSessionLevelInSection<%=j%>ForInstructor<%=index%>"
                                                             class="small col-sm-5">
                                                             <% if (!instructor.privileges.isSessionsInSectionSpecial(data.sectionNames.get(j))) { %> 
