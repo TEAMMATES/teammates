@@ -603,6 +603,180 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         assertTrue(frDb.getFeedbackResponsesFromGiverForCourse(fqa.courseId, "student5InCourse1@gmail.com").isEmpty());    
         
     }
+
+    @Test
+    public void testGetFeedbackResponsesForSessionWithinRange() throws Exception {
+
+        restoreTypicalDataInDatastore();
+        
+        ______TS("standard success case");  
+        
+        FeedbackQuestionAttributes fqa = 
+                fqDb.getFeedbackQuestion("First feedback session", "idOfTypicalCourse1", 1);
+        
+        List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForSessionWithinRange(fqa.feedbackSessionName, fqa.courseId, 4);
+        
+        assertEquals(responses.size(), 5);
+        
+        ______TS("null params");
+        
+        try {
+            frDb.getFeedbackResponsesForSessionWithinRange(null, fqa.courseId, 5);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
+        }
+        
+        try {
+            frDb.getFeedbackResponsesForSessionWithinRange(fqa.feedbackSessionName, null, 4);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
+        }
+        
+        ______TS("non-existent feedback session");
+        
+        assertTrue(frDb.getFeedbackResponsesForSessionWithinRange("non-existent feedback session", fqa.courseId, 1).isEmpty());
+        
+        ______TS("non-existent course");
+        
+        assertTrue(frDb.getFeedbackResponsesForSessionWithinRange(fqa.feedbackSessionName, "non-existent courseId", 1).isEmpty());
+        
+        ______TS("no responses for session");
+        
+        assertTrue(frDb.getFeedbackResponsesForSessionWithinRange("Empty feedback session", "idOfTypicalCourse1", 1).isEmpty()); 
+    }
+
+    @Test
+    public void testGetFeedbackResponsesForSessionInSection() throws Exception {
+
+        restoreTypicalDataInDatastore();
+        
+        ______TS("standard success case");  
+        
+        FeedbackQuestionAttributes fqa = 
+                fqDb.getFeedbackQuestion("Second feedback session", "idOfTypicalCourse1", 1);
+        
+        List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForSessionInSection(fqa.feedbackSessionName, fqa.courseId, "Section 1");
+        
+        assertEquals(responses.size(), 3);
+        
+        ______TS("null params");
+        
+        try {
+            frDb.getFeedbackResponsesForSessionInSection(null, fqa.courseId, "Section 1");
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
+        }
+        
+        try {
+            frDb.getFeedbackResponsesForSessionInSection(fqa.feedbackSessionName, null, "Section 1");
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
+        }
+        
+        ______TS("non-existent feedback session");
+        
+        assertTrue(frDb.getFeedbackResponsesForSessionInSection("non-existent feedback session", fqa.courseId, "Section 1").isEmpty());
+        
+        ______TS("non-existent course");
+        
+        assertTrue(frDb.getFeedbackResponsesForSessionInSection(fqa.feedbackSessionName, "non-existent courseId", "Section 1").isEmpty());
+        
+        ______TS("no responses for session");
+        
+        assertTrue(frDb.getFeedbackResponsesForSessionInSection("Empty feedback session", "idOfTypicalCourse1", "Section 1").isEmpty()); 
+    }
+
+    @Test 
+    public void testGetFeedbackResponsesForSessionFromSection() throws Exception {
+
+        restoreTypicalDataInDatastore();
+        
+        ______TS("standard success case");  
+        
+        FeedbackQuestionAttributes fqa = 
+                fqDb.getFeedbackQuestion("Second feedback session", "idOfTypicalCourse1", 1);
+        
+        List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForSessionFromSection(fqa.feedbackSessionName, fqa.courseId, "Section 1");
+        
+        assertEquals(responses.size(), 3);
+        
+        ______TS("null params");
+        
+        try {
+            frDb.getFeedbackResponsesForSessionFromSection(null, fqa.courseId, "Section 1");
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
+        }
+        
+        try {
+            frDb.getFeedbackResponsesForSessionFromSection(fqa.feedbackSessionName, null, "Section 1");
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
+        }
+        
+        ______TS("non-existent feedback session");
+        
+        assertTrue(frDb.getFeedbackResponsesForSessionFromSection("non-existent feedback session", fqa.courseId, "Section 1").isEmpty());
+        
+        ______TS("non-existent course");
+        
+        assertTrue(frDb.getFeedbackResponsesForSessionFromSection(fqa.feedbackSessionName, "non-existent courseId", "Section 1").isEmpty());
+        
+        ______TS("no responses for session");
+        
+        assertTrue(frDb.getFeedbackResponsesForSessionFromSection("Empty feedback session", "idOfTypicalCourse1", "Section 1").isEmpty()); 
+    }
+
+    @Test 
+    public void testGetFeedbackResponsesForSessionToSection() throws Exception {
+
+        restoreTypicalDataInDatastore();
+        
+        ______TS("standard success case");  
+        
+        FeedbackQuestionAttributes fqa = 
+                fqDb.getFeedbackQuestion("Second feedback session", "idOfTypicalCourse1", 1);
+        
+        List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForSessionToSection(fqa.feedbackSessionName, fqa.courseId, "Section 2");
+        
+        assertEquals(responses.size(), 1);
+        
+        ______TS("null params");
+        
+        try {
+            frDb.getFeedbackResponsesForSessionToSection(null, fqa.courseId, "Section 1");
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
+        }
+        
+        try {
+            frDb.getFeedbackResponsesForSessionToSection(fqa.feedbackSessionName, null, "Section 1");
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
+        }
+        
+        ______TS("non-existent feedback session");
+        
+        assertTrue(frDb.getFeedbackResponsesForSessionToSection("non-existent feedback session", fqa.courseId, "Section 1").isEmpty());
+        
+        ______TS("non-existent course");
+        
+        assertTrue(frDb.getFeedbackResponsesForSessionToSection(fqa.feedbackSessionName, "non-existent courseId", "Section 1").isEmpty());
+        
+        ______TS("no responses for session");
+        
+        assertTrue(frDb.getFeedbackResponsesForSessionToSection("Empty feedback session", "idOfTypicalCourse1", "Section 1").isEmpty()); 
+    }
+
+
     
     @SuppressWarnings("static-access")
     @Test

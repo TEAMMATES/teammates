@@ -100,7 +100,7 @@
             "name":"Danny Engrid",
             "comments":"This student's name is Danny Engrid",
             "team":"Team 2",
-            "section":"Section B"
+            "section":"Section A"
         },
         "Emily":{
             "googleId":"CFResultsUiT.emily.f",
@@ -546,7 +546,7 @@
                 "value":"1 Response to Danny."
             },
             "giverSection":"Section A",
-            "recipientSection":"Section B"
+            "recipientSection":"Section A"
         },
         "response4":{
             "feedbackSessionName":"First Session",

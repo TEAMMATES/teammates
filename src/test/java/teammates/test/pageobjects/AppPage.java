@@ -197,6 +197,16 @@ public abstract class AppPage {
     protected void waitForPageToLoad() {
         browser.selenium.waitForPageToLoad("15000");
     }
+    
+    protected void waitForElementToBecomeVisible(String elementId) throws Exception {
+        int timeOut = 3000;
+        while (!browser.driver.findElement(By.id(elementId)).isDisplayed()
+                && timeOut > 0) {
+            Thread.sleep(100);
+            timeOut -= 100;
+        }
+        return;
+    }
 
     /**
      * Switches to the new browser window just opened.
@@ -328,10 +338,11 @@ public abstract class AppPage {
     protected void fillTextBox(WebElement textBoxElement, String value) {
         textBoxElement.click();
         textBoxElement.clear();
-        textBoxElement.sendKeys(value + Keys.TAB);
+        textBoxElement.sendKeys(value + Keys.TAB + Keys.TAB + Keys.TAB);
     }
     
     protected void fillFileBox(RemoteWebElement fileBoxElement, String fileName) throws Exception {
+        if (fileName.isEmpty()) return;
         fileBoxElement.setFileDetector(new UselessFileDetector());
         String newFilePath = new File(fileName).getAbsolutePath();
         fileBoxElement.sendKeys(newFilePath);
@@ -602,10 +613,14 @@ public abstract class AppPage {
                 .replaceAll("<#comment[ ]*</#comment>", "<!---->")
                 .replaceAll("V[0-9]\\.[0-9]+", "V{\\$version}")
                 // photo from instructor
-                .replaceAll("studentemail=([a-zA-Z0-9]){1,}\\&courseid=([a-zA-Z0-9]){1,}", 
-                            "studentemail={*}\\&courseid={*}")
+                .replaceAll("studentemail=([a-zA-Z0-9]){1,}\\&amp;courseid=([a-zA-Z0-9]){1,}", 
+                            "studentemail={*}\\&amp;courseid={*}")
                 //questionid
-                .replaceAll("([a-zA-Z0-9-_]){63}","{*}")
+                .replaceAll("([a-zA-Z0-9-_]){62}","{*}")
+                //responseid
+                .replaceAll("([a-zA-Z0-9-_]){62}%"
+                        + "[\\w+-][\\w+!#$%&'*/=?^_`{}~-]*+(\\.[\\w+!#$%&'*/=?^_`{}~-]+)*+@([A-Za-z0-9-]+\\.)*[A-Za-z]+%"
+                        + "[\\w+-][\\w+!#$%&'*/=?^_`{}~-]*+(\\.[\\w+!#$%&'*/=?^_`{}~-]+)*+@([A-Za-z0-9-]+\\.)*[A-Za-z]+", "{*}")
                 //commentid
                 .replaceAll("\\\"([0-9]){16}\\\"", "\\\"{*}\\\"")
                 // the test accounts/ email

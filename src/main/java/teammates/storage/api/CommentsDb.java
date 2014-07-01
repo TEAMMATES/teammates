@@ -13,6 +13,7 @@ import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentRecipientType;
+import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CommentStatus;
 import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -122,6 +123,30 @@ public class CommentsDb extends EntitiesDb{
         }
         return commentAttributesList;
     }
+    
+    public List<CommentAttributes> getCommentsForSendingState(String courseId, CommentSendingState state){
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        
+        List<Comment> comments = getCommentEntitiesForSendingState(courseId, state);
+        List<CommentAttributes> commentAttributesList = new ArrayList<CommentAttributes>();
+        
+        for(Comment comment: comments){
+            commentAttributesList.add(new CommentAttributes(comment));
+        }
+        return commentAttributesList;
+    }
+    
+    public void updateComments(String courseId, CommentSendingState oldState, CommentSendingState newState){
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        
+        List<Comment> comments = getCommentEntitiesForSendingState(courseId, oldState);
+        
+        for(Comment comment: comments){
+            comment.setSendingState(newState);
+        }
+        
+        getPM().close();
+    }
 
     public void updateComment(CommentAttributes newAttributes) throws InvalidParametersException, EntityDoesNotExistException{
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT,  newAttributes);
@@ -137,12 +162,20 @@ public class CommentsDb extends EntitiesDb{
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + newAttributes.toString());
         }
         
-        Assumption.assertEquals(comment.getGiverEmail(), newAttributes.giverEmail);
-        
-        comment.setCommentText(newAttributes.commentText);
-        comment.setShowCommentTo(newAttributes.showCommentTo);
-        comment.setShowGiverNameTo(newAttributes.showGiverNameTo);
-        comment.setShowRecipientNameTo(newAttributes.showRecipientNameTo);
+
+
+        if(newAttributes.commentText != null){
+            comment.setCommentText(newAttributes.commentText);
+        }
+        if(newAttributes.showCommentTo != null){
+            comment.setShowCommentTo(newAttributes.showCommentTo);
+        }
+        if(newAttributes.showGiverNameTo != null){
+            comment.setShowGiverNameTo(newAttributes.showGiverNameTo);
+        }
+        if(newAttributes.showRecipientNameTo != null){
+            comment.setShowRecipientNameTo(newAttributes.showRecipientNameTo);
+        }
         if(newAttributes.status != null){
             comment.setStatus(newAttributes.status);
         }
@@ -152,8 +185,20 @@ public class CommentsDb extends EntitiesDb{
         if(newAttributes.recipients != null){
             comment.setRecipients(newAttributes.recipients);
         }
+        comment.setSendingState(newAttributes.sendingState);
         
         getPM().close();
+    }
+    
+    private List<Comment> getCommentEntitiesForSendingState(String courseId, CommentSendingState sendingState){
+        Query q = getPM().newQuery(Comment.class);
+        q.declareParameters("String courseIdParam, String sendingStateParam");
+        q.setFilter("courseId == courseIdParam && sendingState == sendingStateParam");
+        
+        @SuppressWarnings("unchecked")
+        List<Comment> commentList = (List<Comment>) q.execute(courseId, sendingState.toString());
+        
+        return commentList;
     }
     
     private List<Comment> getCommentEntitiesForGiver(String courseId, String giverEmail){

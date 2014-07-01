@@ -2,6 +2,7 @@
 
 <%@ page import="teammates.common.util.TimeHelper"%>
 <%@ page import="teammates.common.util.Const"%>
+<%@ page import="teammates.common.util.StringHelper"%>
 <%@ page import="teammates.common.datatransfer.CourseDetailsBundle"%>
 <%@ page import="teammates.common.datatransfer.SectionDetailsBundle" %>
 <%@ page import="teammates.common.datatransfer.TeamDetailsBundle"%>
@@ -228,7 +229,7 @@
                 for (CourseDetailsBundle courseDetails : data.courses) {
                     if((courseDetails.course.isArchived && data.displayArchive) || !courseDetails.course.isArchived){
                         courseIdx++;
-                        int sortIdx = 1;
+                        int sortIdx = 2;
                         int numSections = courseDetails.stats.sectionsTotal;
                         int totalCourseStudents = courseDetails.stats.studentsTotal;
             %>
@@ -258,6 +259,9 @@
                         <table class="table table-responsive table-striped table-bordered">
                             <thead class="fill-<%=courseDetails.course.isArchived ? "default":"primary" %>">
                                 <tr>
+                                    <th>
+                                        Photo
+                                    </th>
                                     <% if(numSections != 0) { %>
                                         <th id="button_sortsection-<%=courseDetails.course.id%>" class="button-sort-none" onclick="toggleSort(this,<%=sortIdx++%>)">
                                             Section <span class="icon-sort unsorted"></span>
@@ -280,6 +284,9 @@
                                     int sectionIdx = -1;
                                     int teamIdx = -1;
                                     int studentIdx = -1;
+                                    String photoUrl = Const.ActionURIs.STUDENT_PROFILE_PICTURE + "?" + 
+                                    	    Const.ParamsNames.STUDENT_EMAIL+"=%s&" + 
+                                    	    Const.ParamsNames.COURSE_ID + "=%s";
                                     for(SectionDetailsBundle sectionDetails : courseDetails.sections){
                                         sectionIdx++;
                                         for(TeamDetailsBundle teamDetails: sectionDetails.teams){
@@ -288,6 +295,12 @@
                                                 studentIdx++;
                             %>
                             <tr id="student-c<%=courseIdx %>.<%=studentIdx%>" style="display: table-row;">
+                                <td id="studentphoto-c<%=courseIdx %>.<%=studentIdx%>" class="profile-pic-icon">
+                                    <a class="student-photo-link-for-test btn-link" 
+                                       data-link=<%=String.format(photoUrl, StringHelper.encrypt(student.email),  StringHelper.encrypt(student.course)) %>>
+                                       View Photo</a>
+                                    <img src="" alt="No Image Given" class="hidden">
+                                </td>
                                 <% if(numSections != 0) { %>
                                     <td id="studentsection-c<%=courseIdx %>.<%=sectionIdx%>"><%=PageData.sanitizeForHtml(sectionDetails.name)%></td>
                                 <% } %>
@@ -300,7 +313,7 @@
                                     title="<%=Const.Tooltips.COURSE_STUDENT_DETAILS%>"
                                     data-toggle="tooltip" data-placement="top"
                                     <% InstructorAttributes instructor = data.instructors.get(courseDetails.course.id);
-                                       if (!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)) {%>
+                                       if (!instructor.isAllowedForPrivilege(student.section, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)) {%>
                                        disabled="diabled"
                                     <% } %>
                                     > View</a> 
@@ -309,7 +322,7 @@
                                     href="<%=data.getCourseStudentEditLink(courseDetails.course.id, student)%>"
                                     title="<%=Const.Tooltips.COURSE_STUDENT_EDIT%>"
                                     data-toggle="tooltip" data-placement="top"
-                                    <% if (!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT)) {%>
+                                    <% if (!instructor.isAllowedForPrivilege(student.section, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT)) {%>
                                        disabled="diabled"
                                     <% } %>
                                     > Edit</a> 
@@ -319,7 +332,7 @@
                                     onclick="return toggleDeleteStudentConfirmation('<%=sanitizeForJs(courseDetails.course.id)%>','<%=sanitizeForJs(student.name)%>')"
                                     title="<%=Const.Tooltips.COURSE_STUDENT_DELETE%>"
                                     data-toggle="tooltip" data-placement="top"
-                                    <% if (!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT)) {%>
+                                    <% if (!instructor.isAllowedForPrivilege(student.section, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT)) {%>
                                        disabled="diabled"
                                     <% } %>> Delete</a>
                                     
@@ -331,8 +344,11 @@
                                     
                                     <div class="dropdown" style="display:inline;">
                                       <a class="btn btn-default btn-xs dropdown-toggle" 
-                                        href="javascript:;"
-                                        data-toggle="dropdown"> Add Comment</a>
+                                        href="javascript:;" data-toggle="dropdown"
+                                        <% if (!instructor.isAllowedForPrivilege(student.section, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS)) { %>
+                                            disabled="disabled"
+                                        <% } %>
+                                        > Add Comment</a>
                                       <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" style="text-align:left;">
                                         <li role="presentation"><a role="menuitem" tabindex="-1" href="<%=data.getCourseStudentDetailsLink(courseDetails.course.id, student)
                                             +"&"+Const.ParamsNames.SHOW_COMMENT_BOX+"=student"%>">
@@ -340,6 +356,11 @@
                                         <li role="presentation"><a role="menuitem" tabindex="-1" href="<%=data.getCourseStudentDetailsLink(courseDetails.course.id, student)
                                             +"&"+Const.ParamsNames.SHOW_COMMENT_BOX+"=team"%>">
                                             Comment on <%=PageData.sanitizeForHtml(teamDetails.name)%></a></li>
+                                        <% if(numSections != 0) { %>
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="<%=data.getCourseStudentDetailsLink(courseDetails.course.id, student)
+                                            +"&"+Const.ParamsNames.SHOW_COMMENT_BOX+"=section"%>">
+                                            Comment on <%=PageData.sanitizeForHtml(sectionDetails.name)%></a></li>
+                                        <% } %>
                                       </ul>
                                     </div>
                                 </td>

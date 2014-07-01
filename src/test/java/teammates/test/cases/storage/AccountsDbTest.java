@@ -13,6 +13,8 @@ import java.util.List;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.google.appengine.api.blobstore.BlobKey;
+
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentProfileAttributes;
@@ -20,9 +22,11 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.common.util.StringHelper;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.api.EntitiesDb;
+import teammates.storage.api.ProfilesDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 import teammates.test.util.TestHelper;
@@ -30,6 +34,7 @@ import teammates.test.util.TestHelper;
 public class AccountsDbTest extends BaseComponentTestCase {
 
     private AccountsDb accountsDb = new AccountsDb();
+    private ProfilesDb profilesDb = new ProfilesDb();
     
     @BeforeClass
     public static void setupClass() throws Exception {
@@ -243,88 +248,12 @@ public class AccountsDbTest extends BaseComponentTestCase {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
         }
     }
-
-    @Test 
-    public void testGetStudentProfile() throws Exception{
-        
-        ______TS("success case");
-        AccountAttributes a = createNewAccount();
-        a.studentProfile.shortName = "THiSIs123UnIQue";
-        a.studentProfile.email = "personal@email.com";
-        accountsDb.updateAccount(a);
-        a = accountsDb.getAccount(a.googleId, true);
-        StudentProfileAttributes spa = accountsDb.getStudentProfile(a.googleId);
-        
-        assertEquals(a.studentProfile.toString(), spa.toString());
-        
-        ______TS("non-existent account");
-        
-        assertNull(accountsDb.getStudentProfile("non-eXisTent"));
-    }
-    
-    @Test
-    public void testUpdateStudentProfile() throws Exception {
-        ______TS("null parameter");
-        try {
-            accountsDb.updateStudentProfile(null);
-            signalFailureToDetectException(" - Assertion Error");
-        } catch (AssertionError ae) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
-        }
-        
-        ______TS("invalid paramters case");
-        try {
-            accountsDb.updateStudentProfile(new StudentProfileAttributes());
-            signalFailureToDetectException(" - InvalidParametersException");
-        } catch (InvalidParametersException ipe) {
-            assertEquals(String.format(FieldValidator.GOOGLE_ID_ERROR_MESSAGE, "", FieldValidator.REASON_EMPTY),
-                    ipe.getMessage());
-        }
-        
-        ______TS("non-existent account");
-        AccountAttributes a = createNewAccount();
-        
-        try {
-            a.studentProfile.googleId = "non-ExIsTenT";
-            accountsDb.updateStudentProfile(a.studentProfile);
-            signalFailureToDetectException(" - EntityDoesNotExistException");
-        } catch (EntityDoesNotExistException edne) {
-            AssertHelper.assertContains(
-                EntitiesDb.ERROR_UPDATE_NON_EXISTENT_STUDENT_PROFILE + a.studentProfile.googleId, 
-                edne.getMessage());
-            a.studentProfile.googleId = a.googleId;
-        }
-        
-        ______TS("typical success case, no picture");
-        a.studentProfile.moreInfo = "This is more than enough info...";
-        a.studentProfile.email = "e@email.com";
-        
-        accountsDb.updateStudentProfile(a.studentProfile);
-        StudentProfileAttributes updatedProfile = accountsDb.getStudentProfile(a.studentProfile.googleId);
-        
-        assertEquals(a.studentProfile.moreInfo, updatedProfile.moreInfo);
-        assertEquals(a.studentProfile.email, updatedProfile.email);
-        
-        ______TS("success case: add picture (initially empty)");
-        a.studentProfile.pictureKey = "not-empty";
-        accountsDb.updateStudentProfile(a.studentProfile);
-        
-        updatedProfile = accountsDb.getStudentProfile(a.studentProfile.googleId);
-        
-        assertEquals(a.studentProfile.pictureKey, updatedProfile.pictureKey);
-        
-        ______TS("success case: change picture");
-        a.studentProfile.pictureKey = "new-not-empty";
-        accountsDb.updateStudentProfile(a.studentProfile);
-        
-        updatedProfile = accountsDb.getStudentProfile(a.studentProfile.googleId);
-        
-        assertEquals(a.studentProfile.pictureKey, updatedProfile.pictureKey);
-    }
     
     @Test
     public void testDeleteAccount() throws Exception {
         AccountAttributes a = createNewAccount();
+        a.studentProfile.pictureKey = GoogleCloudStorageHelper.writeFileToGcs(a.googleId, "src/test/resources/images/profile_pic_default.png", "");
+        profilesDb.updateStudentProfilePicture(a.googleId, a.studentProfile.pictureKey);
         
         ______TS("typical success case");
         AccountAttributes newAccount = accountsDb.getAccount(a.googleId);
@@ -335,8 +264,10 @@ public class AccountsDbTest extends BaseComponentTestCase {
         AccountAttributes newAccountdeleted = accountsDb.getAccount(a.googleId);
         assertNull(newAccountdeleted);
         
-        StudentProfileAttributes deletedProfile = accountsDb.getStudentProfile(a.googleId);
+        StudentProfileAttributes deletedProfile = profilesDb.getStudentProfile(a.googleId);
         assertNull(deletedProfile);
+        
+        assertFalse(GoogleCloudStorageHelper.doesFileExistInGcs(a.googleId, true));
         
         ______TS("silent deletion of same account");
         accountsDb.deleteAccount(a.googleId);

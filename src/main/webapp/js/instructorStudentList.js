@@ -199,14 +199,27 @@ $(document).ready(function(){
     // Pre-sort each table
 
     $("th[id^=button_sortsection-]").each(function(){
-        toggleSort($(this), 1);
+        toggleSort($(this), 2);
     });
 
     $("th[id^=button_sortteam-]").each(function(){
         var col = $(this).parent().children().index($(this));
         if(col == 0){
-            toggleSort($(this), 1);
+            toggleSort($(this), 2);
         }
+    });
+    
+    // Binding for photo retrieval
+    $(".student-photo-link-for-test").on('click', function() {
+    	var link = $(this).attr('data-link');
+    	$(this).siblings('img')
+    		.attr("src", link)
+    		.removeClass('hidden');
+        $(this).remove();
+    });
+    
+    $("img").on('error', function() {
+    	$(this).attr("src","../images/profile_picture_default.png");
     });
 });
 
