@@ -569,9 +569,13 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="col-md-12">
-                        <button id="button_submit" type="submit" class="btn btn-primary center-block">Create
+                    <div class="col-md-offset-3 col-md-3">
+                        <button id="button_submit" type="submit" class="btn btn-primary">Create
                             Feedback Session</button>
+                    </div>
+                    <div class="col-md-3">
+                        <a id="button_copy" class="btn btn-primary">Copy
+                            Feedback Session</a>
                     </div>
                 </div>
                 <input type="hidden"
@@ -580,6 +584,38 @@
             </form>
             <br> <br>
         </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="copyModal" tabindex="-1" role="dialog" aria-labelledby="copyModalTitle" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="copyModalTitle">Previous Sessions</h4>
+              </div>
+              <div class="modal-body padding-0">
+                    <table class="table-responsive table table-hover">
+                        <thead>
+                            <th> Course ID </th>
+                            <th> Feedback Session Name </th>
+                        </thead>
+
+                        <% for (FeedbackSessionAttributes fdb : data.existingFeedbackSessions) {%>
+                            <tr>
+                                <td><%=fdb.courseId%></td>
+                                <td><%=InstructorFeedbacksPageData.sanitizeForHtml(fdb.feedbackSessionName)%></td>
+                            </tr>
+                        <% } %>
+                    </table>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
 
         <br>
         <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />

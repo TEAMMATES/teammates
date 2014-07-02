@@ -194,11 +194,41 @@ function convertDateToHHMM(date) {
     return formatDigit(date.getHours()) + formatDigit(date.getMinutes());
 }
 
+function bindCopyButton() {
+    $('#button_copy').on('click', function(e){
+        e.preventDefault();
+        var selectedCourseId = $("#" + COURSE_ID + " option:selected").text();
+        var newFeedbackSessionName = $("#" + FEEDBACK_SESSION_NAME).val();
+        
+        var isExistingSession = false;
+
+        $("tr[id^='session']").each(function(){
+            var cells = $(this).find("td");
+            var courseId = $(cells[0]).text();
+            var feedbackSessionName = $(cells[1]).text();
+            if(selectedCourseId == courseId && newFeedbackSessionName == feedbackSessionName){
+                isExistingSession = true;
+            }
+        });
+
+        if(isExistingSession){
+            setStatusMessage(DISPLAY_FEEDBACK_SESSION_NAME_DUPLICATE, true);
+        } else {
+            setStatusMessage("", false);
+            $('#copyModal').modal('show');
+        }
+
+
+        return false;
+    });
+}
+
 function readyFeedbackPage (){
     formatSessionVisibilityGroup();
     formatResponsesVisibilityGroup();
     collapseIfPrivateSession();
-    
+    bindCopyButton();
+
     window.doPageSpecificOnload = selectDefaultTimeOptions();
 }
 
