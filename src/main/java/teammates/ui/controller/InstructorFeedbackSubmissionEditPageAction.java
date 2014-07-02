@@ -32,7 +32,7 @@ public class InstructorFeedbackSubmissionEditPageAction extends FeedbackSubmissi
             sectionsInCourse = new ArrayList<String>();
         }
         for (String section : sectionsInCourse) {
-            if (!instructor.isAllowedForPrivilege(section, session.feedbackSessionName, 
+            if (instructor.isAllowedForPrivilege(section, session.feedbackSessionName, 
                     Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)) {
                 shouldEnableSubmit = true;
                 break;
