@@ -26,7 +26,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Sanitizer;
 import teammates.common.util.Utils;
 import teammates.storage.entity.Comment;
 import teammates.storage.search.SearchQuery;
@@ -230,7 +229,7 @@ public class CommentsDb extends EntitiesDb{
                 .setFieldsToReturn("attribute")
                 .build();
         SearchQuery query = new SearchQuery(options, googleId)
-                .setTextFilter(queryString);
+                .setTextFilter("searchableText", queryString);
         Results<ScoredDocument> results = searchDocuments("comment", query);
         
         for(ScoredDocument result : results){

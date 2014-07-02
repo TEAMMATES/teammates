@@ -18,8 +18,8 @@ public class SearchQuery {
         this.googleId = googleId;
     }
     
-    public SearchQuery setTextFilter(String queryString){
-        this.textQueryString = "searchableText:" + Sanitizer.sanitizeForHtml(queryString).toLowerCase().trim();
+    public SearchQuery setTextFilter(String textField, String queryString){
+        this.textQueryString = textField + ":" + Sanitizer.sanitizeForHtml(queryString).toLowerCase().trim();
         return this;
     }
     

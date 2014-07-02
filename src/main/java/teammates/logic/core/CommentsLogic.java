@@ -114,9 +114,10 @@ public class CommentsLogic {
     }
     
     public void deleteComment(CommentAttributes comment){
-        commentsDb.deleteEntity(comment);
-        if(comment.getCommentId() != null){
-            commentsDb.deleteSearchableDocument(comment.getCommentId().toString());
+        CommentAttributes commentToDelete = commentsDb.getComment(comment);
+        if(commentToDelete != null){
+            commentsDb.deleteSearchableDocument(commentToDelete.getCommentId().toString());
+            commentsDb.deleteEntity(commentToDelete);
         }
     }
     

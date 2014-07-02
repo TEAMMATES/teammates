@@ -15,10 +15,6 @@ import teammates.common.util.FieldValidator.FieldType;
 import teammates.storage.entity.Comment;
 
 import com.google.appengine.api.datastore.Text;
-import com.google.appengine.api.search.Document;
-import com.google.appengine.api.search.Field;
-import com.google.appengine.api.search.ScoredDocument;
-import com.google.gson.Gson;
 
 public class CommentAttributes extends EntityAttributes 
     implements Comparable<CommentAttributes>{
