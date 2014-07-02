@@ -585,23 +585,23 @@
                                     <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" 
                                     id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=data.instructorList.size()+1%>"
                                      value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER%>" 
-                                     checked="checked">&nbsp;Co-owner: can do everything<br>
+                                     checked="checked">&nbsp;Co-owner: Can do everything<br>
                                     <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" 
                                     id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=data.instructorList.size()+1%>"
                                      value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER%>"
-                                     >&nbsp;Manager: can do everything except for deleting the course<br>
+                                     >&nbsp;Manager: Can do everything except for deleting the course<br>
                                     <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" 
                                     id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=data.instructorList.size()+1%>"
                                      value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER%>"
-                                     >&nbsp;Observer: can only view courses<br>
+                                     >&nbsp;Observer: Can only view information<br>
                                     <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" 
                                     id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=data.instructorList.size()+1%>"
                                      value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR%>"
-                                     >&nbsp;Tutor: manage section(s)<br>
+                                     >&nbsp;Tutor: Can submit/view sessions and comments(s)<br>
                                     <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" 
                                     id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=data.instructorList.size()+1%>"
                                      value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_HELPER%>"
-                                     >&nbsp;Helper: helping out<br>
+                                     >&nbsp;Helper: No access by default. Any access needs to be granted explicitly.<br>
                                 </div>
                             </div>
                             <div id="tunePermissionsDivForInstructor<%=data.instructorList.size()+1%>" style="display: none;">
