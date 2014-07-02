@@ -14,7 +14,6 @@ import org.testng.annotations.Test;
 
 import com.google.appengine.api.datastore.Text;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackAbstractResponseDetails;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
@@ -312,7 +311,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
                 frDb.getFeedbackResponsesForReceiverForQuestionInSection(questionId,
                         "student1InCourse1@gmail.com", "Section 1");
         
-        assertEquals(1, responses.size());
+        assertEquals(2, responses.size());
 
         ______TS("No responses as they are filtered out");  
         
@@ -488,7 +487,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         ______TS("non-existent receiver");
         
         assertTrue(frDb.getFeedbackResponsesFromGiverForQuestionInSection(
-                            questionId, "non-existentStudentInCourse1@gmail.com", "Section 1").isEmpty());
+                            questionId, "non-existentstudentInCourse1@gmail.com", "Section 1").isEmpty());
     }
 
     @Test
@@ -775,6 +774,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         for(int j = 1; j <= numQuestions; j++) {
             fqa = createFeedbackQuestion();
             fqa.questionNumber = j;
+            fqDb.deleteEntity(fqa);
             fqDb.createEntity(fqa);
             String questionId = fqDb.getFeedbackQuestion(fqa.feedbackSessionName, fqa.courseId, fqa.questionNumber).getId();
             

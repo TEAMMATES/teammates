@@ -198,7 +198,7 @@
                 <div class="panel panel-warning">
                     <div class="panel-heading">
                         <strong><%=currentTeam%></strong>
-                        <span class="glyphicon glyphicon-chevron-down pull-right"></span>
+                        <span class='glyphicon <%= !shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down" %> pull-right'></span>
                     </div>
                     <div class='panel-collapse collapse <%= shouldCollapsed ? "" : "in" %>'>
                     <div class="panel-body background-color-warning">
@@ -262,8 +262,7 @@
                 <div class="panel-heading">
                     From: <strong><%=responsesFromGiver.getKey()%></strong>
                         <a class="link-in-dark-bg" href="mailTo:<%= giverEmail%> " <%=mailtoStyleAttr%>>[<%=giverEmail%>]</a>
-                    <span class="glyphicon glyphicon-chevron-down pull-right"></span>
-                </div>
+                    <span class='glyphicon <%= !shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down" %> pull-right'></span>                </div>
                 <div class='panel-collapse collapse <%= shouldCollapsed ? "" : "in"%>'>
                 <div class="panel-body">
                 <%
@@ -345,7 +344,7 @@
             }
         %>
 
-        <% if(data.selectedSection.equals("All") && data.bundle.responses.size() > 0){ %>
+       <% if(data.selectedSection.equals("All") && (!data.bundle.isComplete || data.bundle.responses.size() > 0)){ %>
             <div class="panel panel-warning">
                 <div class="panel-heading<%= showAll ? "" : " ajax_response_rate_submit"%>">
                     <form style="display:none;" id="responseRate" class="responseRateForm" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_AJAX_RESPONSE_RATE%>">

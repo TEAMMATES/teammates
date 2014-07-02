@@ -57,6 +57,7 @@
               <input name="user" value="CFResultsUiT.instr" type="hidden">
               <input name="fsname" value="First Session" type="hidden">
               <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
+              <input name="sectionname" value="All" type="hidden">
           </div>
         </div>
         </div>
@@ -167,7 +168,7 @@
     <input name="user" value="CFResultsUiT.instr" type="hidden">
 </form>
 
-
+<br>
 
 
 
@@ -175,7 +176,7 @@
 
     <div id="statusMessage" style="display: none;"></div>
 
-
+<br>
 
 
             <br>
@@ -613,5 +614,21 @@
                     </div>
             
 
-        
+       
+            <div class="panel panel-warning">
+                <div style="cursor: pointer;" data-target="#panelBodyCollapse-4" class="panel-heading ajax_response_rate_submit">
+                    <form style="display:none;" id="responseRate" class="responseRateForm" action="/page/instructorFeedbackResultsAjaxResponseRate">
+                        <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
+                        <input name="fsname" value="First Session" type="hidden">
+                        <input name="user" value="CFResultsUiT.instr" type="hidden">
+                    </form>
+                    <div class="display-icon pull-right">
+                    <span class="glyphicon glyphicon-chevron-down pull-right"></span>
+                    </div>
+                    Participants who have not responded to any question</div>
+                <div id="panelBodyCollapse-4" class="panel-collapse collapse ">
+            
+                </div>
+                </div>
+            
         </div>
