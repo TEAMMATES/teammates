@@ -345,7 +345,7 @@
             }
         %>
 
-        <% if(data.selectedSection.equals("All") && data.bundle.responses.size() > 0){ %>
+        <% if(data.selectedSection.equals("All") && (!data.bundle.isComplete || data.bundle.responses.size() > 0)){ %>
             <div class="panel panel-warning">
                 <div class="panel-heading<%= showAll ? "" : " ajax_response_rate_submit"%>">
                     <form style="display:none;" id="responseRate" class="responseRateForm" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_AJAX_RESPONSE_RATE%>">
