@@ -42,6 +42,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         
         instructorId = testData.instructors.get("InsCrsEdit.test").googleId;
         courseId = testData.courses.get("InsCrsEdit.CS2104").id;
+        // System.setProperty("godmode", "true");
     }
     
     @Test
@@ -62,10 +63,17 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
     
     public void testContent() throws Exception{
 
-        ______TS("page load");
+        ______TS("page load: Helper privileges");
         
+        instructorId = testData.instructors.get("InsCrsEdit.Helper").googleId;
         courseEditPage = getCourseEditPage();
-        courseEditPage.verifyHtmlMainContent("/instructorCourseEdit.html" );
+        courseEditPage.verifyHtml("/instructorCourseEditHelper.html");
+        
+        ______TS("page load: Co-owner privileges");
+        
+        instructorId = testData.instructors.get("InsCrsEdit.test").googleId;
+        courseEditPage = getCourseEditPage();
+        courseEditPage.verifyHtml("/instructorCourseEditCoowner.html" );
     }
     
     private void testEditInstructorLink() {
@@ -180,6 +188,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         courseEditPage.verifyStatus(expectedMsg);
         
         ______TS("failed to delete the last instructor");
+        courseEditPage.clickDeleteInstructorLinkAndConfirm();
         courseEditPage.clickDeleteInstructorLinkAndConfirm();
         courseEditPage.clickDeleteInstructorLinkAndConfirm();
         courseEditPage.clickDeleteInstructorLinkAndConfirm();
