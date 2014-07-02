@@ -1,4 +1,4 @@
-package teammates.storage.searchmanager;
+package teammates.storage.search;
 
 import java.util.HashMap;
 import java.util.Map;

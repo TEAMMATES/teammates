@@ -5,7 +5,6 @@ import java.util.logging.Logger;
 import javax.jdo.PersistenceManager;
 
 import com.google.appengine.api.search.Document;
-import com.google.appengine.api.search.Query;
 import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
 
@@ -18,7 +17,8 @@ import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Utils;
 import teammates.storage.datastore.Datastore;
-import teammates.storage.searchmanager.SearchManager;
+import teammates.storage.search.SearchManager;
+import teammates.storage.search.SearchQuery;
 
 public abstract class EntitiesDb {
 
@@ -185,8 +185,8 @@ public abstract class EntitiesDb {
         SearchManager.getDocument(indexName, documentId);
     }
     
-    protected Results<ScoredDocument> searchDocuments(String indexName, Query query) {
-        return SearchManager.searchDocuments(indexName, query);
+    protected Results<ScoredDocument> searchDocuments(String indexName, SearchQuery query) {
+        return SearchManager.searchDocuments(indexName, query.toQuery());
     }
     
     protected void deleteDocument(String indexName, String documentId){

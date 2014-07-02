@@ -29,6 +29,7 @@ import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.Utils;
 import teammates.storage.entity.Comment;
+import teammates.storage.search.SearchQuery;
 
 public class CommentsDb extends EntitiesDb{
     
@@ -220,16 +221,18 @@ public class CommentsDb extends EntitiesDb{
     }
     
     public List<CommentSearchBundle> search(String queryString, String googleId){
-        List<CommentSearchBundle> commentSearchResults = new ArrayList<CommentSearchBundle>();
-        queryString = Sanitizer.sanitizeForHtml(queryString).toLowerCase().trim();
-        if(queryString.isEmpty()) return commentSearchResults;
+        if(queryString.trim().isEmpty()) 
+            return new ArrayList<CommentSearchBundle>();
 
-        QueryOptions options = QueryOptions.newBuilder().setFieldsToReturn("attribute").build();
-        Results<ScoredDocument> results = searchDocuments("comment", com.google.appengine.api.search.
-                Query.newBuilder()
-                    .setOptions(options)
-                    .build("whoCanSee:" + googleId
-                            + " AND searchableText:" + queryString));
+        List<CommentSearchBundle> commentSearchResults = new ArrayList<CommentSearchBundle>();
+        
+        QueryOptions options = QueryOptions.newBuilder()
+                .setFieldsToReturn("attribute")
+                .build();
+        SearchQuery query = new SearchQuery(options, googleId)
+                .setTextFilter(queryString);
+        Results<ScoredDocument> results = searchDocuments("comment", query);
+        
         for(ScoredDocument result : results){
             commentSearchResults.add(new CommentSearchBundle().fromDocument(result));
         }
