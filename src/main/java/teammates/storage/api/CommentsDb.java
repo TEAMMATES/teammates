@@ -10,14 +10,14 @@ import javax.jdo.JDOHelper;
 import javax.jdo.Query;
 
 import com.google.appengine.api.datastore.Text;
-import com.google.appengine.api.search.Document;
+import com.google.appengine.api.search.Cursor;
 import com.google.appengine.api.search.QueryOptions;
 import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
 
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentRecipientType;
-import teammates.common.datatransfer.CommentSearchBundle;
+import teammates.common.datatransfer.CommentSearchResultBundle;
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CommentStatus;
 import teammates.common.datatransfer.EntityAttributes;
@@ -28,6 +28,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Utils;
 import teammates.storage.entity.Comment;
+import teammates.storage.search.CommentSearchDocument;
 import teammates.storage.search.SearchQuery;
 
 public class CommentsDb extends EntitiesDb{
@@ -43,17 +44,21 @@ public class CommentsDb extends EntitiesDb{
             log.info("Trying to get non-existent Comment, possibly entity not persistent yet.");
             return null;
         } else{
-            return new CommentAttributes(createdEntity);
+            CommentAttributes createdComment = new CommentAttributes(createdEntity);
+            CommentSearchDocument document = new CommentSearchDocument(createdComment);
+            putDocument("comment", document);
+            
+            return createdComment;
         }
     }
     
-    public void putSearchableDocument(Document doc){
-        //TODO: use config or const to replace this index name
-        putDocument("comment", doc);
-    }
-    
-    public void deleteSearchableDocument(String documentId){
-        deleteDocument("comment", documentId);
+    @Override
+    public void deleteEntity(EntityAttributes entityToDelete){
+        CommentAttributes commentToDelete = getComment((CommentAttributes) entityToDelete);
+        if(commentToDelete != null){
+            super.deleteEntity(commentToDelete);
+            deleteDocument("comment", commentToDelete.getCommentId().toString());
+        }
     }
     
     public CommentAttributes getComment(Long commentId){
@@ -176,7 +181,7 @@ public class CommentsDb extends EntitiesDb{
         getPM().close();
     }
 
-    public CommentAttributes updateComment(CommentAttributes newAttributes) throws InvalidParametersException, EntityDoesNotExistException{
+    public void updateComment(CommentAttributes newAttributes) throws InvalidParametersException, EntityDoesNotExistException{
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT,  newAttributes);
         
         newAttributes.sanitizeForSaving();
@@ -216,24 +221,31 @@ public class CommentsDb extends EntitiesDb{
         
         getPM().close();
         
-        return new CommentAttributes(comment);
+        CommentAttributes updatedComment = new CommentAttributes(comment);
+        CommentSearchDocument document = new CommentSearchDocument(updatedComment);
+        putDocument("comment", document);
     }
     
-    public List<CommentSearchBundle> search(String queryString, String googleId){
+    public CommentSearchResultBundle search(String queryString, String googleId, String cursorString){
         if(queryString.trim().isEmpty()) 
-            return new ArrayList<CommentSearchBundle>();
+            return new CommentSearchResultBundle();
 
-        List<CommentSearchBundle> commentSearchResults = new ArrayList<CommentSearchBundle>();
+        CommentSearchResultBundle commentSearchResults = new CommentSearchResultBundle();
+        
+        Cursor cursor = cursorString.isEmpty()? Cursor.newBuilder().build(): Cursor.newBuilder().build(cursorString);
         
         QueryOptions options = QueryOptions.newBuilder()
                 .setFieldsToReturn("attribute")
+                .setLimit(10)
+                .setCursor(cursor)
                 .build();
         SearchQuery query = new SearchQuery(options, googleId)
                 .setTextFilter("searchableText", queryString);
         Results<ScoredDocument> results = searchDocuments("comment", query);
         
+        commentSearchResults.cursor = results.getCursor();
         for(ScoredDocument result : results){
-            commentSearchResults.add(new CommentSearchBundle().fromDocument(result));
+            commentSearchResults.fromDocument(result);
         }
         return commentSearchResults;
     }

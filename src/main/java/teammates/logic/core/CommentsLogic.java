@@ -11,10 +11,9 @@ import java.util.logging.Logger;
 
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentRecipientType;
-import teammates.common.datatransfer.CommentSearchBundle;
+import teammates.common.datatransfer.CommentSearchResultBundle;
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CommentStatus;
-import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
@@ -59,8 +58,7 @@ public class CommentsLogic {
         verifyIsCoursePresent(comment.courseId, "create");
         verifyIsInstructorOfCourse(comment.courseId, comment.giverEmail);
 
-        CommentAttributes createdComment = commentsDb.createEntity(comment);
-        putSearchableDocument(createdComment);
+        commentsDb.createEntity(comment);
     }
     
     public CommentAttributes getComment(Long commentId) {
@@ -109,16 +107,11 @@ public class CommentsLogic {
             throws InvalidParametersException, EntityDoesNotExistException{
         verifyIsCoursePresent(comment.courseId, "update");
         
-        CommentAttributes updatedComment = commentsDb.updateComment(comment);
-        putSearchableDocument(updatedComment);
+        commentsDb.updateComment(comment);
     }
     
     public void deleteComment(CommentAttributes comment){
-        CommentAttributes commentToDelete = commentsDb.getComment(comment);
-        if(commentToDelete != null){
-            commentsDb.deleteSearchableDocument(commentToDelete.getCommentId().toString());
-            commentsDb.deleteEntity(commentToDelete);
-        }
+        commentsDb.deleteEntity(comment);
     }
     
     public List<CommentAttributes> getCommentDrafts(String giverEmail)
@@ -126,64 +119,8 @@ public class CommentsLogic {
         return commentsDb.getCommentDrafts(giverEmail);
     }
     
-    public List<CommentSearchBundle> search(String queryString, String googleId){
-        return commentsDb.search(queryString, googleId);
-    }
-    
-    private void putSearchableDocument(CommentAttributes comment) {
-        if(comment == null) return;
-        CourseAttributes course = coursesLogic.getCourse(comment.courseId);
-        
-        Set<String> whoCanSee = new HashSet<String>();
-        
-        InstructorAttributes giverAsInstructor = instructorsLogic.
-                getInstructorForEmail(comment.courseId, comment.giverEmail);
-        if(giverAsInstructor != null){
-            whoCanSee.add(giverAsInstructor.googleId);
-        }
-        if(comment.isVisibleTo(CommentRecipientType.INSTRUCTOR)){
-            List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(comment.courseId);
-            for(InstructorAttributes instructor:instructors){
-                if(instructor == null) continue;
-                whoCanSee.add(instructor.googleId);
-            }
-        }
-        
-        List<StudentAttributes> relatedStudents = new ArrayList<StudentAttributes>();
-        switch (comment.recipientType) {
-        case PERSON:
-            for(String email:comment.recipients){
-                StudentAttributes student = studentsLogic.getStudentForEmail(comment.courseId, email);
-                if(student != null){
-                    relatedStudents.add(student);
-                }
-            }
-            break;
-        case TEAM:
-            for(String team:comment.recipients){
-                List<StudentAttributes> students = studentsLogic.getStudentsForTeam(team, comment.courseId);
-                if(students != null){
-                    relatedStudents.addAll(students);
-                }
-            }
-            break;
-        case SECTION:
-            for(String section:comment.recipients){
-                List<StudentAttributes> students = studentsLogic.getStudentsForSection(section, comment.courseId);
-                if(students != null){
-                    relatedStudents.addAll(students);
-                }
-            }
-        case COURSE:
-            List<StudentAttributes> students = studentsLogic.getStudentsForCourse(comment.courseId);
-            if(students != null){
-                relatedStudents.addAll(students);
-            }
-        default:
-            break;
-        }
-        commentsDb.putSearchableDocument(
-                new CommentSearchBundle(course, giverAsInstructor, relatedStudents, comment, whoCanSee).toDocument());
+    public CommentSearchResultBundle searchComment(String queryString, String googleId){
+        return commentsDb.search(queryString, googleId, "");
     }
     
     private void verifyIsCoursePresent(String courseId, String action)

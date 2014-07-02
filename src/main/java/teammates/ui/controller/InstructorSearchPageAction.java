@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import teammates.common.datatransfer.CommentAttributes;
-import teammates.common.datatransfer.CommentSearchBundle;
+import teammates.common.datatransfer.CommentSearchResultBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
@@ -18,15 +18,10 @@ public class InstructorSearchPageAction extends Action {
         String key = getRequestParamValue(Const.ParamsNames.SEARCH_KEY);
         if(key == null) key = "";
 
-        List<CommentSearchBundle> commentSearchResults = logic.searchComment(key, account.googleId);
-        
-        List<CommentAttributes> comments = new ArrayList<CommentAttributes>();
-        for(CommentSearchBundle bundle:commentSearchResults){
-            comments.add(bundle.comment);
-        }
+        CommentSearchResultBundle commentSearchResults = logic.searchComment(key, account.googleId);
         
         InstructorSearchPageData data = new InstructorSearchPageData(account);
-        data.comments = comments;
+        data.comments = commentSearchResults.comments;
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_SEARCH, data);
     }
 

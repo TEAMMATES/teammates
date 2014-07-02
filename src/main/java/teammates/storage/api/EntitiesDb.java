@@ -17,6 +17,7 @@ import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Utils;
 import teammates.storage.datastore.Datastore;
+import teammates.storage.search.SearchDocument;
 import teammates.storage.search.SearchManager;
 import teammates.storage.search.SearchQuery;
 
@@ -177,8 +178,8 @@ public abstract class EntitiesDb {
     }
     
     //the followings APIs are used by Teammates' search engine
-    protected void putDocument(String indexName, Document document) {
-        SearchManager.putDocument(indexName, document);
+    protected void putDocument(String indexName, SearchDocument document) {
+        SearchManager.putDocument(indexName, document.toDocument());
     }
     
     protected void getDocument(String indexName, String documentId) {
