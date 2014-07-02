@@ -42,7 +42,6 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         
         instructorId = testData.instructors.get("InsCrsEdit.test").googleId;
         courseId = testData.courses.get("InsCrsEdit.CS2104").id;
-        //System.setProperty("godmode", "true");
     }
     
     @Test
@@ -168,12 +167,18 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         
         assertEquals(true, courseEditPage.clickEditInstructorLink());
         assertEquals(true, courseEditPage.displayedToStudentCheckBox(1).isSelected());
+        // not displayed to students
+        courseEditPage.clickDisplayedToStudentCheckBox(1);
+        // open up the privileges panel
         courseEditPage.clickFineTunePermissionLink(1);
+        // select the role as Observer for instr1
         courseEditPage.selectRoleForInstructor(1, "Observer");
         courseEditPage.clickAddSessionLevelPrivilegesLink(1);
         courseEditPage.clickAddSessionLevelPrivilegesLink(1);
         courseEditPage.clickAddSessionLevelPrivilegesLink(1);
+        // after 3 sections added, no more things to add
         assertEquals(false, courseEditPage.addSessionLevelPrivilegesLink(1).isDisplayed());
+        // TODO: configure more privileges to test the privilege hierarchy. e.g. set can edit/delete comments but unset view comments
         courseEditPage.clickSaveInstructorButton(1);
         courseEditPage.verifyHtmlMainContent("/instructorCourseEditEditInstructorPrivilegesSuccessful.html");
         
