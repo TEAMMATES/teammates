@@ -637,7 +637,7 @@ public class FeedbackResponsesLogic {
 
             // Case where student might be null due to invalid course or email
             if (student == null) {
-                log.severe("Null student in " + response.courseId
+                log.warning("Null student in " + response.courseId
                         + " with email " + response.recipientEmail
                         + " while getting feedback responses.");
                 continue;

@@ -1276,6 +1276,13 @@ public class Logic {
         return coursesLogic.getCourseStudentListAsCsv(courseId, googleId);
     }
     
+    public List<EvaluationAttributes> getEvaluationsForCourse(String courseId) {
+        
+        Assumption.assertNotNull(courseId);
+        
+        return evaluationsLogic.getEvaluationsForCourse(courseId);
+    }
+    
     /**
      * Preconditions: <br>
      * * All parameters are non-null. <br>

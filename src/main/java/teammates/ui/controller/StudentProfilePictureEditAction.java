@@ -64,16 +64,16 @@ public class StudentProfilePictureEditAction extends Action {
             byte[] transformedImage = this.transformImage(leftXString, topYString, rightXString, 
                     bottomYString, height, width, blobKey);
             
+            String newPictureKey = BlobstoreServiceFactory.getBlobstoreService()
+                    .createGsBlobKey("/gs/"+Config.GCS_BUCKETNAME + "/" + account.googleId).getKeyString();
+            logic.updateStudentProfilePicture(account.googleId, newPictureKey);
+            
             if (!isError) {
                 GcsOutputChannel outputChannel =
                         gcsService.createOrReplace(fileName, new GcsFileOptions.Builder().mimeType("image/png").build());
                 
                 outputChannel.write(ByteBuffer.wrap(transformedImage));
                 outputChannel.close();
-                
-                String newPictureKey = BlobstoreServiceFactory.getBlobstoreService()
-                        .createGsBlobKey("/gs/"+Config.GCS_BUCKETNAME + "/" + account.googleId).getKeyString();
-                logic.updateStudentProfilePicture(account.googleId, newPictureKey);
             }
         } catch (IOException e) {
             // this branch is difficult to reproduce during testing 
