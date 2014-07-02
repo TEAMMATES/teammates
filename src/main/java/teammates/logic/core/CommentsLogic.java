@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentRecipientType;
+import teammates.common.datatransfer.CommentSearchBundle;
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CommentStatus;
 import teammates.common.datatransfer.CourseAttributes;
@@ -124,29 +125,35 @@ public class CommentsLogic {
         return commentsDb.getCommentDrafts(giverEmail);
     }
     
-    public List<CommentAttributes> search(String queryString, List<InstructorAttributes> instructorRoles){
-        List<String> courseIdsList = new ArrayList<String>();
-        Set<String> giverEmails = new HashSet<String>();
-        for(InstructorAttributes instructor:instructorRoles){
-            courseIdsList.add(instructor.courseId);
-            giverEmails.add(instructor.email);
-        }
-        return commentsDb.search(queryString, courseIdsList, giverEmails);
+    public List<CommentSearchBundle> search(String queryString, String googleId){
+        return commentsDb.search(queryString, googleId);
     }
     
     private void putSearchableDocument(CommentAttributes comment) {
         if(comment == null) return;
         CourseAttributes course = coursesLogic.getCourse(comment.courseId);
         
-        InstructorAttributes instructorAsGiver = instructorsLogic.
+        Set<String> whoCanSee = new HashSet<String>();
+        
+        InstructorAttributes giverAsInstructor = instructorsLogic.
                 getInstructorForEmail(comment.courseId, comment.giverEmail);
+        if(giverAsInstructor != null){
+            whoCanSee.add(giverAsInstructor.googleId);
+        }
+        if(comment.isVisibleTo(CommentRecipientType.INSTRUCTOR)){
+            List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(comment.courseId);
+            for(InstructorAttributes instructor:instructors){
+                if(instructor == null) continue;
+                whoCanSee.add(instructor.googleId);
+            }
+        }
         
         List<StudentAttributes> relatedStudents = new ArrayList<StudentAttributes>();
         switch (comment.recipientType) {
         case PERSON:
             for(String email:comment.recipients){
                 StudentAttributes student = studentsLogic.getStudentForEmail(comment.courseId, email);
-                if(student == null){
+                if(student != null){
                     relatedStudents.add(student);
                 }
             }
@@ -174,7 +181,8 @@ public class CommentsLogic {
         default:
             break;
         }
-        commentsDb.putSearchableDocument(comment.toDocument(course, instructorAsGiver, relatedStudents));
+        commentsDb.putSearchableDocument(
+                new CommentSearchBundle(course, giverAsInstructor, relatedStudents, comment, whoCanSee).toDocument());
     }
     
     private void verifyIsCoursePresent(String courseId, String action)

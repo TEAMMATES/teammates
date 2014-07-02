@@ -17,6 +17,7 @@ import com.google.appengine.api.search.ScoredDocument;
 
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentRecipientType;
+import teammates.common.datatransfer.CommentSearchBundle;
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CommentStatus;
 import teammates.common.datatransfer.EntityAttributes;
@@ -218,34 +219,21 @@ public class CommentsDb extends EntitiesDb{
         return new CommentAttributes(comment);
     }
     
-    public List<CommentAttributes> search(String queryString, List<String> courseIdsList, Set<String> giverEmails){
-        List<CommentAttributes> comments = new ArrayList<CommentAttributes>();
+    public List<CommentSearchBundle> search(String queryString, String googleId){
+        List<CommentSearchBundle> commentSearchResults = new ArrayList<CommentSearchBundle>();
         queryString = Sanitizer.sanitizeForHtml(queryString).toLowerCase().trim();
-        if(queryString.isEmpty()) return comments;
-        
-        StringBuilder courseIdsLimitBuilder = new StringBuilder("(dummy-course-id");
-        for(String courseId:courseIdsList){
-            courseIdsLimitBuilder.append(" OR ").append(courseId);
-        }
-        String courseIdsLimit = courseIdsLimitBuilder.append(")").toString();
-        
-        StringBuilder giverEmailsLimitBuilder = new StringBuilder("(dummy-email");
-        for(String email:giverEmails){
-            giverEmailsLimitBuilder.append(" OR ").append(email);
-        }
-        String giverEmailsLimit = giverEmailsLimitBuilder.append(")").toString();
-        
+        if(queryString.isEmpty()) return commentSearchResults;
+
         QueryOptions options = QueryOptions.newBuilder().setFieldsToReturn("attribute").build();
         Results<ScoredDocument> results = searchDocuments("comment", com.google.appengine.api.search.
                 Query.newBuilder()
                     .setOptions(options)
-                    .build("courseId:" + courseIdsLimit
-                            + " AND (giverEmail:" + giverEmailsLimit + " OR isVisibleToInstructor:true)"
+                    .build("whoCanSee:" + googleId
                             + " AND searchableText:" + queryString));
         for(ScoredDocument result : results){
-            comments.add(new CommentAttributes().fromDocument(result));
+            commentSearchResults.add(new CommentSearchBundle().fromDocument(result));
         }
-        return comments;
+        return commentSearchResults;
     }
     
     private List<Comment> getCommentEntitiesForSendingState(String courseId, CommentSendingState sendingState){

@@ -12,6 +12,7 @@ import javax.mail.internet.MimeMessage;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentRecipientType;
+import teammates.common.datatransfer.CommentSearchBundle;
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
@@ -1969,10 +1970,10 @@ public class Logic {
         return commentsLogic.getComment(commentId);
     }
     
-    public List<CommentAttributes> searchComment(String queryString, List<InstructorAttributes> instructorRoles) {
+    public List<CommentSearchBundle> searchComment(String queryString, String googleId) {
         Assumption.assertNotNull(queryString);
-        Assumption.assertNotNull(instructorRoles);
-        return commentsLogic.search(queryString, instructorRoles);
+        Assumption.assertNotNull(googleId);
+        return commentsLogic.search(queryString, googleId);
     }
     
     /**
