@@ -223,7 +223,7 @@
                         data-toggle="tooltip" data-placement="top" data-container="body"  
                         title="<%=Const.Tooltips.EVALUATION_SUBMISSION_VIEW_REVIEWER%>"
                         <% if (!data.instructor.isAllowedForPrivilege(student.section, data.evaluationResults.evaluation.name,
-                        		Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)) { %>
+                                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)) { %>
                                 disabled="disabled"
                         <% } %>
                         > View</a>
