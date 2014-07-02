@@ -4,6 +4,10 @@ import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
 
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.blobstore.BlobstoreFailureException;
+import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
+
 import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
@@ -154,6 +158,16 @@ public abstract class EntitiesDb {
                     + entityToDelete.getEntityTypeAsString() + "->"
                     + entityToDelete.getIdentificationString());
         }
+    }
+    
+    protected void closePM() {
+        if (!getPM().isClosed()) {
+            getPM().close();
+        }
+    }
+    
+    public void deletePicture(BlobKey key) throws BlobstoreFailureException {
+        BlobstoreServiceFactory.getBlobstoreService().delete(key);
     }
     
     /**
