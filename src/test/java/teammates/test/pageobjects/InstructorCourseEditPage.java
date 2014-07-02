@@ -88,6 +88,12 @@ public class InstructorCourseEditPage extends AppPage {
         waitForPageToLoad();
     }
     
+    public void clickSaveInstructorButton(int instrNum) {
+        WebElement button = browser.driver.findElement(By.id("btnSaveInstructor" + instrNum));
+        button.click();
+        waitForPageToLoad();
+    }
+    
     public String editInstructorName(String value) {
         fillTextBox(editInstructorNameTextBox, value);
         return getTextBoxValue(editInstructorNameTextBox);
@@ -118,9 +124,39 @@ public class InstructorCourseEditPage extends AppPage {
         return isEditable;
     }
     
-    public void clickSaveInstructorButton() {
-        saveInstructorButton.click();
-        waitForPageToLoad();
+    public WebElement displayedToStudentCheckBox(int instrNum) {
+        return browser.driver.findElement(By.id(
+                "accessControlEditDivForInstr"+ instrNum)).findElement(By.name("instructorisdisplayed"));
+    }
+    
+    public void clickDisplayedToStudentCheckBox(int instrNum) {
+        this.displayedToStudentCheckBox(instrNum).click();
+    }
+    
+    public WebElement fineTunePermissionLink(int instrNum) {
+        String cssSelectorStr = "#accessControlEditDivForInstr" + instrNum
+                + " > div:nth-child(2) > div:nth-child(1) > div:nth-child(6) > a:nth-child(1)";
+        return browser.driver.findElement(By.cssSelector(cssSelectorStr));
+    }
+    
+    public void clickFineTunePermissionLink(int instrNum) {
+        this.fineTunePermissionLink(instrNum).click();
+    }
+    
+    public void selectRoleForInstructor(int instrNum, String role) {
+        WebElement roleRadioButton = browser.driver.findElement(By.cssSelector(
+                "input[id='instructorroleforinstructor" + instrNum + "'][value='" + role + "']"));
+        roleRadioButton.click();
+    }
+    
+    public WebElement addSessionLevelPrivilegesLink(int instrNum) {
+        String idStr = "addSectionLevelForInstructor" + instrNum;
+        
+        return browser.driver.findElement(By.id(idStr));
+    }
+    
+    public void clickAddSessionLevelPrivilegesLink(int instrNum) {
+        this.addSessionLevelPrivilegesLink(instrNum).click();
     }
     
     public boolean clickShowNewInstructorFormButton() {

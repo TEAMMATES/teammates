@@ -42,7 +42,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         
         instructorId = testData.instructors.get("InsCrsEdit.test").googleId;
         courseId = testData.courses.get("InsCrsEdit.CS2104").id;
-        // System.setProperty("godmode", "true");
+        //System.setProperty("godmode", "true");
     }
     
     @Test
@@ -73,7 +73,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         
         instructorId = testData.instructors.get("InsCrsEdit.test").googleId;
         courseEditPage = getCourseEditPage();
-        courseEditPage.verifyHtml("/instructorCourseEditCoowner.html" );
+        courseEditPage.verifyHtmlMainContent("/instructorCourseEditCoowner.html" );
     }
     
     private void testEditInstructorLink() {
@@ -163,6 +163,19 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         
         courseEditPage.editInstructor(instructorId, "New name", "new_email@email.com");
         courseEditPage.verifyStatus(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED);
+        
+        ______TS("success: edit an instructor with privileges");
+        
+        assertEquals(true, courseEditPage.clickEditInstructorLink());
+        assertEquals(true, courseEditPage.displayedToStudentCheckBox(1).isSelected());
+        courseEditPage.clickFineTunePermissionLink(1);
+        courseEditPage.selectRoleForInstructor(1, "Observer");
+        courseEditPage.clickAddSessionLevelPrivilegesLink(1);
+        courseEditPage.clickAddSessionLevelPrivilegesLink(1);
+        courseEditPage.clickAddSessionLevelPrivilegesLink(1);
+        assertEquals(false, courseEditPage.addSessionLevelPrivilegesLink(1).isDisplayed());
+        courseEditPage.clickSaveInstructorButton(1);
+        courseEditPage.verifyHtmlMainContent("/instructorCourseEditEditInstructorPrivilegesSuccessful.html");
         
         ______TS("failure: edit failed due to invalid parameters");
         String invalidEmail = "InsCrsEdit.email.com";
