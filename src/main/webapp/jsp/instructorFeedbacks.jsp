@@ -594,23 +594,35 @@
                 <h4 class="modal-title" id="copyModalTitle">Previous Sessions</h4>
               </div>
               <div class="modal-body padding-0">
-                    <table class="table-responsive table table-hover">
+                    <table class="table-responsive table table-hover" id="copyTableModal">
                         <thead>
                             <th> Course ID </th>
                             <th> Feedback Session Name </th>
                         </thead>
 
                         <% for (FeedbackSessionAttributes fdb : data.existingFeedbackSessions) {%>
-                            <tr>
+                            <tr style="cursor:pointer;">
                                 <td><%=fdb.courseId%></td>
-                                <td><%=InstructorFeedbacksPageData.sanitizeForHtml(fdb.feedbackSessionName)%></td>
+                                <td>
+                                    <%=InstructorFeedbacksPageData.sanitizeForHtml(fdb.feedbackSessionName)%>
+                                </td>
+
                             </tr>
                         <% } %>
                     </table>
+                    <form class="form-group" id="copyModalForm" role="form" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_COPY%>">
+                            <input type="hidden" name="<%=Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME%>"
+                                    value="" id="modalCopiedSessionName">
+                            <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>"
+                                    value="" id="modalSessionName">
+                            <input type="hidden" name="<%=Const.ParamsNames.COPIED_COURSE_ID%>"
+                                    value="" id="modalCopiedCourseId">
+                            <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>"
+                                    value="" id="modalCourseId">
+                    </form>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
               </div>
             </div>
           </div>

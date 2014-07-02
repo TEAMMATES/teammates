@@ -63,6 +63,7 @@ public class ActionFactory {
         map(INSTRUCTOR_EVAL_UNPUBLISH, InstructorEvalUnpublishAction.class);
         map(INSTRUCTOR_FEEDBACKS_PAGE, InstructorFeedbacksPageAction.class);
         map(INSTRUCTOR_FEEDBACK_ADD, InstructorFeedbackAddAction.class);
+        map(INSTRUCTOR_FEEDBACK_COPY, InstructorFeedbackCopyAction.class);
         map(INSTRUCTOR_FEEDBACK_DELETE, InstructorFeedbackDeleteAction.class);
         map(INSTRUCTOR_FEEDBACK_REMIND, InstructorFeedbackRemindAction.class);
         map(INSTRUCTOR_FEEDBACK_PUBLISH, InstructorFeedbackPublishAction.class);

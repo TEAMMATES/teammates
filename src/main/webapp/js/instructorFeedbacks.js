@@ -110,7 +110,7 @@ function checkAddFeedbackSession(form){
     var gracePeriod = form.graceperiod.value;
     var publishtime = form.publishtime.value;
     var instructions = form.instructions.value;
-    
+
     if (fsname == "" || courseID == "" || timezone == "" || startdate ==""
         || starttime == "" ||instructions == null || gracePeriod == "" || publishtime == "") {
         setStatusMessage(DISPLAY_FIELDS_EMPTY, true);
@@ -202,6 +202,17 @@ function bindCopyButton() {
         
         var isExistingSession = false;
 
+        if(newFeedbackSessionName.trim() == ""){
+            setStatusMessage(DISPLAY_FEEDBACK_SESSION_NAME_EMPTY, true);
+            return false;
+        } else if (!isFeedbackSessionNameValid(newFeedbackSessionName)) {
+            setStatusMessage(DISPLAY_FEEDBACK_SESSION_NAMEINVALID, true);
+            return false;
+        } else if (!isFeedbackSessionNameLengthValid(newFeedbackSessionName)) {
+            setStatusMessage(DISPLAY_FEEDBACK_SESSION_NAME_LENGTHINVALID, true);
+            return false;
+        }
+
         $("tr[id^='session']").each(function(){
             var cells = $(this).find("td");
             var courseId = $(cells[0]).text();
@@ -216,18 +227,35 @@ function bindCopyButton() {
         } else {
             setStatusMessage("", false);
             $('#copyModal').modal('show');
+            $('#modalCopiedSessionName').val(newFeedbackSessionName.trim());
+            $('#modalCopiedCourseId').val(selectedCourseId.trim());
         }
-
 
         return false;
     });
 }
 
-function readyFeedbackPage (){
+function bindCopyEvents() {
+    $('#copyTableModal tr').on('click', function(e){
+        e.preventDefault();
+        var cells = $(this).find("td");
+        var courseId = $(cells[0]).text();
+        var feedbackSessionName = $(cells[1]).text();
+        $('#modalSessionName').val(feedbackSessionName.trim());
+        $('#modalCourseId').val(courseId.trim());
+
+        $('#copyModalForm').submit();
+
+        return false;
+    });
+}
+
+function readyFeedbackPage() {
     formatSessionVisibilityGroup();
     formatResponsesVisibilityGroup();
     collapseIfPrivateSession();
     bindCopyButton();
+    bindCopyEvents();
 
     window.doPageSpecificOnload = selectDefaultTimeOptions();
 }
