@@ -24,7 +24,7 @@ public class InstructorStudentListPageAction extends Action {
         
         data = new InstructorStudentListPageData(account);
         data.instructors = new HashMap<String, InstructorAttributes>();
-        HashMap<String, CourseDetailsBundle> courses = logic.getCourseDetailsListForInstructor(account.googleId);
+        HashMap<String, CourseDetailsBundle> courses = logic.getCourseSummariesForInstructor(account.googleId);
         for (CourseDetailsBundle courseDetails : courses.values()) {     
             InstructorAttributes instructor = logic.getInstructorForGoogleId(courseDetails.course.id, account.googleId);
             data.instructors.put(courseDetails.course.id, instructor);

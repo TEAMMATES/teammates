@@ -330,7 +330,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, receiver);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, section);
 
-        List<FeedbackResponse> frList =
+        Collection<FeedbackResponse> frList =
                 getFeedbackResponseEntitiesForReceiverForQuestionInSection(feedbackQuestionId, receiver, section);
         List<FeedbackResponseAttributes> fraList =
                 new ArrayList<FeedbackResponseAttributes>();
@@ -378,7 +378,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, giverEmail);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, section);
 
-        List<FeedbackResponse> frList =
+        Collection<FeedbackResponse> frList =
                 getFeedbackResponseEntitiesFromGiverForQuestionInSection(feedbackQuestionId, giverEmail, section);
         List<FeedbackResponseAttributes> fraList =
                 new ArrayList<FeedbackResponseAttributes>();
@@ -710,19 +710,33 @@ public class FeedbackResponsesDb extends EntitiesDb {
         return FeedbackResponseList;
     }
 
-    private List<FeedbackResponse> getFeedbackResponseEntitiesForReceiverForQuestionInSection(
+    private Collection<FeedbackResponse> getFeedbackResponseEntitiesForReceiverForQuestionInSection(
             String feedbackQuestionId, String receiver, String section) {
         
+        Map<String, FeedbackResponse> FeedbackResponseList = new HashMap<String,FeedbackResponse>();
+        
         Query q = getPM().newQuery(FeedbackResponse.class);
-        q.declareParameters("String feedbackQuestionIdParam, String receiverParam, String giverSectionParam");
+        q.declareParameters("String feedbackQuestionIdParam, String receiverParam, String sectionParam");
         q.setFilter("feedbackQuestionId == feedbackQuestionIdParam && receiver == receiverParam "
-                    + "&& giverSection == giverSectionParam");
+                    + "&& giverSection == sectionParam");
     
         @SuppressWarnings("unchecked")
-        List<FeedbackResponse> FeedbackResponseList =
+        List<FeedbackResponse> firstQueryResponses =
             (List<FeedbackResponse>) q.execute(feedbackQuestionId, receiver, section);
-
-        return FeedbackResponseList;
+        for(FeedbackResponse response : firstQueryResponses){
+            FeedbackResponseList.put(response.getId(), response);
+        }
+        
+        q.setFilter("feedbackQuestionId == feedbackQuestionIdParam && receiver == receiverParam "
+                + "&& receiverSection == sectionParam");
+        @SuppressWarnings("unchecked")
+        List<FeedbackResponse> secondQueryResponses =
+            (List<FeedbackResponse>) q.execute(feedbackQuestionId, receiver, section);
+        for(FeedbackResponse response : secondQueryResponses){
+            FeedbackResponseList.put(response.getId(), response);
+        }
+        
+        return FeedbackResponseList.values();   
     }
     
     private List<FeedbackResponse> getFeedbackResponseEntitiesFromGiverForQuestion(
@@ -739,19 +753,33 @@ public class FeedbackResponsesDb extends EntitiesDb {
         return FeedbackResponseList;
     }
 
-    private List<FeedbackResponse> getFeedbackResponseEntitiesFromGiverForQuestionInSection(
+    private Collection<FeedbackResponse> getFeedbackResponseEntitiesFromGiverForQuestionInSection(
             String feedbackQuestionId, String giverEmail, String section) {
         
-        Query q = getPM().newQuery(FeedbackResponse.class);
-        q.declareParameters("String feedbackQuestionIdParam, String giverEmailParam, String receiverSectionParam");
-        q.setFilter("feedbackQuestionId == feedbackQuestionIdParam && giverEmail == giverEmailParam "
-                    + "&& receiverSection == receiverSectionParam");
+        Map<String, FeedbackResponse> FeedbackResponseList = new HashMap<String,FeedbackResponse>();
         
-        @SuppressWarnings("unchecked")
-        List<FeedbackResponse> FeedbackResponseList =
-            (List<FeedbackResponse>) q.execute(feedbackQuestionId, giverEmail, section);
+        Query q = getPM().newQuery(FeedbackResponse.class);
+        q.declareParameters("String feedbackQuestionIdParam, String giverEmailParam, String sectionParam");
+        q.setFilter("feedbackQuestionId == feedbackQuestionIdParam && giverEmail == giverEmailParam "
+                    + "&& giverSection == sectionParam");
     
-        return FeedbackResponseList;  
+        @SuppressWarnings("unchecked")
+        List<FeedbackResponse> firstQueryResponses =
+            (List<FeedbackResponse>) q.execute(feedbackQuestionId, giverEmail, section);
+        for(FeedbackResponse response : firstQueryResponses){
+            FeedbackResponseList.put(response.getId(), response);
+        }
+        
+        q.setFilter("feedbackQuestionId == feedbackQuestionIdParam && giverEmail == giverEmailParam "
+                + "&& receiverSection == sectionParam");
+        @SuppressWarnings("unchecked")
+        List<FeedbackResponse> secondQueryResponses =
+            (List<FeedbackResponse>) q.execute(feedbackQuestionId, giverEmail, section);
+        for(FeedbackResponse response : secondQueryResponses){
+            FeedbackResponseList.put(response.getId(), response);
+        }
+        
+        return FeedbackResponseList.values(); 
     }
     
     private List<FeedbackResponse> getFeedbackResponseEntitiesForReceiverForCourse(
