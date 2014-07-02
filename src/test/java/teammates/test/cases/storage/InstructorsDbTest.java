@@ -4,19 +4,21 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
 import static org.testng.Assert.fail;
-
 import static teammates.common.util.FieldValidator.EMAIL_ERROR_MESSAGE;
 import static teammates.common.util.FieldValidator.GOOGLE_ID_ERROR_MESSAGE;
 import static teammates.common.util.FieldValidator.PERSON_NAME_ERROR_MESSAGE;
 import static teammates.common.util.FieldValidator.REASON_EMPTY;
 import static teammates.common.util.FieldValidator.REASON_INCORRECT_FORMAT;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -32,14 +34,23 @@ import teammates.test.util.TestHelper;
 
 public class InstructorsDbTest extends BaseComponentTestCase {
     
-    private InstructorsDb instructorsDb = new InstructorsDb();
+    private static final InstructorsDb instructorsDb = new InstructorsDb();
+    private static DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
     public static void setupClass() throws Exception {
         printTestClassHeader();
         turnLoggingUp(InstructorsDb.class);
+        addInstructorsToDb();
     }
     
+    private static void addInstructorsToDb() throws Exception {
+        Set<String> keys = dataBundle.instructors.keySet();
+        for (String i : keys) {
+            instructorsDb.createEntity(dataBundle.instructors.get(i));
+        }
+    }
+
     @Test
     public void testCreateInstructor() 
             throws EntityAlreadyExistsException, InvalidParametersException {
@@ -106,7 +117,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
     @Test
     public void testGetInstructorForEmail() throws InvalidParametersException {
         
-        InstructorAttributes i = createNewInstructor();
+        InstructorAttributes i = dataBundle.instructors.get("instructor1OfCourse1");
         
         ______TS("Success: get an instructor");
         
@@ -131,7 +142,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
     @Test
     public void testGetInstructorForGoogleId() throws InvalidParametersException {
         
-        InstructorAttributes i = createNewInstructor();
+        InstructorAttributes i = dataBundle.instructors.get("instructor1OfCourse1");
         
         ______TS("Success: get an instructor");
         
@@ -156,7 +167,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
     @Test
     public void testGetInstructorForRegistrationKey() throws InvalidParametersException {
         
-        InstructorAttributes i = createNewInstructor();
+        InstructorAttributes i = dataBundle.instructors.get("instructorNotYetJoinCourse");
         
         ______TS("Success: get an instructor");
         
@@ -185,8 +196,6 @@ public class InstructorsDbTest extends BaseComponentTestCase {
 
     @Test
     public void testGetInstructorsForEmail() throws Exception {
-
-        restoreTypicalDataInDatastore();
         
         ______TS("Success: get instructors with specific email");
         
@@ -216,8 +225,6 @@ public class InstructorsDbTest extends BaseComponentTestCase {
 
     @Test
     public void testGetInstructorsForGoogleId() throws Exception {
-       
-        restoreTypicalDataInDatastore();
         
         ______TS("Success: get instructors with specific googleId");
         
@@ -249,7 +256,6 @@ public class InstructorsDbTest extends BaseComponentTestCase {
     
     @Test
     public void testGetInstructorsForCourse() throws Exception {
-        restoreTypicalDataInDatastore();
         
         ______TS("Success: get instructors of a specific course");
         
@@ -258,15 +264,14 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         List<InstructorAttributes> retrieved = instructorsDb.getInstructorsForCourse(courseId);
         assertEquals(4, retrieved.size());
         
-        HashMap<String, Boolean> idMap = new HashMap<String, Boolean>();
-        idMap.put("idOfInstructor1OfCourse1", false);
-        idMap.put("idOfInstructor2OfCourse1", false);
-        idMap.put("idOfInstructor3", false);
-        idMap.put("idOfHelperOfCourse1", false);
+        List<String> idList = new ArrayList<String>();
+        idList.add("idOfInstructor1OfCourse1");
+        idList.add("idOfInstructor2OfCourse1");
+        idList.add("idOfInstructor3");
+        idList.add("idOfHelperOfCourse1");
         
         for (InstructorAttributes instructor : retrieved) {
-            if (idMap.containsKey(instructor.googleId)) {
-                idMap.put(instructor.googleId, true);
+            if (idList.contains(instructor.googleId)) {
             } else {
                 fail();
             }
@@ -289,9 +294,8 @@ public class InstructorsDbTest extends BaseComponentTestCase {
     
     @Test
     public void testUpdateInstructorByGoogleId() throws Exception {
-        restoreTypicalDataInDatastore();
         
-        InstructorAttributes instructorToEdit = instructorsDb.getInstructorForGoogleId("idOfTypicalCourse1", "idOfInstructor1OfCourse1");
+        InstructorAttributes instructorToEdit = dataBundle.instructors.get("instructor2OfCourse1");
         
         ______TS("Success: update an instructor");
 
@@ -343,7 +347,6 @@ public class InstructorsDbTest extends BaseComponentTestCase {
 
     @Test
     public void testUpdateInstructorByEmail() throws Exception {
-        restoreTypicalDataInDatastore();
         
         InstructorAttributes instructorToEdit = instructorsDb.getInstructorForEmail("idOfTypicalCourse1", "instructor1@course1.com");
         
@@ -398,7 +401,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
     
     @Test
     public void testDeleteInstructor() throws InvalidParametersException {
-        InstructorAttributes i = createNewInstructor();
+        InstructorAttributes i = dataBundle.instructors.get("instructorWithOnlyOneSampleCourse");
         
         ______TS("Success: delete an instructor");
         
@@ -423,11 +426,10 @@ public class InstructorsDbTest extends BaseComponentTestCase {
     
     @Test
     public void testDeleteInstructorsForGoogleId() throws Exception {
-        restoreTypicalDataInDatastore();
         
         ______TS("Success: delete instructors with specific googleId");
         
-        String googleId = "idOfInstructor3";
+        String googleId = "instructorWithOnlyOneSampleCourse";
         instructorsDb.deleteInstructorsForGoogleId(googleId);
         
         List<InstructorAttributes> retrieved = instructorsDb.getInstructorsForGoogleId(googleId);
@@ -449,11 +451,10 @@ public class InstructorsDbTest extends BaseComponentTestCase {
     
     @Test
     public void testDeleteInstructorsForCourse() throws Exception {
-        restoreTypicalDataInDatastore();
         
         ______TS("Success: delete instructors of a specific course");
         
-        String courseId = "idOfTypicalCourse1";
+        String courseId = "idOfArchivedCourse";
         instructorsDb.deleteInstructorsForCourse(courseId);
         
         List<InstructorAttributes> retrieved = instructorsDb.getInstructorsForCourse(courseId);
@@ -473,24 +474,16 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         }
     }
     
-    private InstructorAttributes createNewInstructor() throws InvalidParametersException {
-        
-        String googleId = "valid.fresh.id";
-        String courseId = "valid.course.Id";
-        String name = "valid.name";
-        String email = "valid@email.com";
-        String role = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
-        String displayedName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
-        InstructorPrivileges privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
-        InstructorAttributes i = new InstructorAttributes(googleId, courseId, name, email, role, displayedName, privileges);
-        i.key = "InstrDbT.validKey";
-        
-        try {
-            instructorsDb.createEntity(i);
-        } catch (EntityAlreadyExistsException e) {
-            ignoreExpectedException();
+    @AfterClass
+    public void classTearDown() throws Exception {
+        deleteInstructorsFromDb();
+        printTestClassFooter();
+    }
+    
+    private static void deleteInstructorsFromDb() throws Exception {
+        Set<String> keys = dataBundle.instructors.keySet();
+        for (String i : keys) {
+            instructorsDb.deleteEntity(dataBundle.instructors.get(i));
         }
-        
-        return i;
     }
 }

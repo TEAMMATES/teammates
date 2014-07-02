@@ -686,8 +686,6 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         
         assertTrue(frDb.getFeedbackResponsesForSessionToSection("Empty feedback session", "idOfTypicalCourse1", "Section 1").isEmpty()); 
     }
-
-
     
     @SuppressWarnings("static-access")
     @Test
