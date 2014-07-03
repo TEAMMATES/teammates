@@ -23,10 +23,12 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.Utils;
 import teammates.logic.backdoor.BackDoorLogic;
+import teammates.storage.api.SubmissionsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.cases.common.CourseAttributesTest;
 import teammates.test.util.TestHelper;
 
+import com.google.appengine.api.datastore.Text;
 import com.google.gson.Gson;
 
 public class BackDoorLogicTest extends BaseComponentTestCase {
@@ -39,23 +41,11 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
         turnLoggingUp(BackDoorLogic.class);
     }
 
-    @BeforeMethod
-    public void caseSetUp() throws ServletException {
-        dataBundle = getTypicalDataBundle();
-        gaeSimulation.resetDatastore();
-    }
-
     @Test
     public void testPersistDataBundle() throws Exception {
 
         BackDoorLogic logic = new BackDoorLogic();
         
-        DataBundle dataBundle = getTypicalDataBundle();
-        // clean up the datastore first, to avoid clashes with existing data
-        HashMap<String, InstructorAttributes> instructors = dataBundle.instructors;
-        for (InstructorAttributes instructor : instructors.values()) {
-            logic.deleteInstructor(instructor.courseId, instructor.email);
-        }
         ______TS("empty data bundle");
         String status = logic.persistDataBundle(new DataBundle());
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
@@ -95,11 +85,13 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
     @Test
     public void testGetSubmission() throws Exception {
 
-        restoreTypicalDataInDatastore();
-
         ______TS("typical case");
         SubmissionAttributes expected = dataBundle.submissions
                 .get("submissionFromS1C1ToS1C1");
+        
+        new SubmissionsDb().createEntity(expected);
+        new SubmissionsDb().updateSubmission(expected);
+        
         TestHelper.verifyPresentInDatastore(expected);
 
         ______TS("null parameters");

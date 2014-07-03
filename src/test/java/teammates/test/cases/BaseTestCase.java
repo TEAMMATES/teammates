@@ -121,7 +121,7 @@ public class BaseTestCase {
     /**
      * Creates in the datastore a fresh copy of data in typicalDataBundle.json
      */
-    protected void restoreTypicalDataInDatastore() throws Exception {
+    protected static void restoreTypicalDataInDatastore() throws Exception {
         BackDoorLogic backDoorLogic = new BackDoorLogic();
         DataBundle dataBundle = getTypicalDataBundle();
         backDoorLogic.persistDataBundle(dataBundle);

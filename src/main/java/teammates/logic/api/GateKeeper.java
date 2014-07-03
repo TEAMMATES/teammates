@@ -11,6 +11,7 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.datatransfer.UserType;
 import teammates.common.exception.UnauthorizedAccessException;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.logic.core.AccountsLogic;
 import teammates.storage.api.EvaluationsDb;
@@ -393,17 +394,20 @@ public class GateKeeper {
     }
     
     private boolean isAdministrator() {
-        return isUserLoggedOn() && userService.isUserAdmin();
+        Assumption.assertTrue(isUserLoggedOn());
+        return userService.isUserAdmin();
     }
 
     private boolean isInstructor() {
         User user = userService.getCurrentUser();
-        return isUserLoggedOn() &&  AccountsLogic.inst().isAccountAnInstructor(user.getNickname());
+        Assumption.assertNotNull(user);
+        return AccountsLogic.inst().isAccountAnInstructor(user.getNickname());
     }
 
     private boolean isStudent() {
         User user = userService.getCurrentUser();
-        return isUserLoggedOn() && studentsDb.getStudentsForGoogleId(user.getNickname()).size()!=0;
+        Assumption.assertNotNull(user);
+        return studentsDb.getStudentsForGoogleId(user.getNickname()).size()!=0;
     }
     
 
