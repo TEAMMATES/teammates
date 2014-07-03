@@ -31,11 +31,15 @@ public abstract class BaseTaskQueueCallback implements LocalTaskQueueCallback {
     }
 
     public static void waitForTaskQueueExecution(int expectedNumberOfTasks) {
+        waitForTaskQueueExecution(expectedNumberOfTasks, 5);
+    }
+    
+    public static void waitForTaskQueueExecution(int tasks, int buffer) {
         /*
          *  Current rate of task execution is 1/s
          *  Wait for 1 more second to see if erroneous or unwanted tasks
          *  are added too
          */
-        ThreadHelper.waitFor((expectedNumberOfTasks + 5) * 1000);
+        ThreadHelper.waitFor((tasks + buffer) * 1000);
     }
 }
