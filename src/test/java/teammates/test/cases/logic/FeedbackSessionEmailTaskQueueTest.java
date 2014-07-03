@@ -34,6 +34,7 @@ public class FeedbackSessionEmailTaskQueueTest extends
     
     private static final Logic logic = new Logic();
     private static final FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
+    private static final DataBundle dataBundle = getTypicalDataBundle();
 
     @SuppressWarnings("serial")
     public static class FeedbackSessionsEmailTaskQueueCallback extends BaseTaskQueueCallback {
@@ -55,6 +56,7 @@ public class FeedbackSessionEmailTaskQueueTest extends
         gaeSimulation.tearDown();
         gaeSimulation.setupWithTaskQueueCallbackClass(FeedbackSessionsEmailTaskQueueCallback.class);
         gaeSimulation.resetDatastore();
+        restoreTypicalDataInDatastore();
         turnLoggingUp(FeedbackSessionsLogic.class);
     }
     
@@ -74,8 +76,6 @@ public class FeedbackSessionEmailTaskQueueTest extends
     private void testFeedbackSessionsPublishEmail() throws Exception{
         
         FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
-
-        restoreTypicalDataInDatastore();
         
         ______TS("Publish feedback session and send email");
         
@@ -96,9 +96,8 @@ public class FeedbackSessionEmailTaskQueueTest extends
             }
             counter++;
         }
-        if(counter == 10){
-            assertEquals(FeedbackSessionsEmailTaskQueueCallback.taskCount, 1);
-        }
+     
+        assertEquals(FeedbackSessionsEmailTaskQueueCallback.taskCount, 1);
         
         ______TS("Try to publish non-existent feedback session");
         
@@ -120,13 +119,10 @@ public class FeedbackSessionEmailTaskQueueTest extends
     private void testFeedbackSessionsRemindEmail() throws Exception {
         
         FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
-        DataBundle dataBundle = getTypicalDataBundle();
-
-        restoreTypicalDataInDatastore(); 
 
         ______TS("Send feedback session reminder email");
         
-        FeedbackSessionAttributes fsa = dataBundle.feedbackSessions.get("session1InCourse1");
+        FeedbackSessionAttributes fsa = dataBundle.feedbackSessions.get("session2InCourse1");
         int counter = 0;
 
         while(counter != 10){
@@ -137,39 +133,35 @@ public class FeedbackSessionEmailTaskQueueTest extends
             }
             counter++;
         }
-        if(counter == 10){
-            assertEquals(FeedbackSessionsEmailTaskQueueCallback.taskCount, 9);
-        }
+
+        assertEquals(7, FeedbackSessionsEmailTaskQueueCallback.taskCount);
       
         
         ______TS("Try to send reminder for null feedback session");
         
         FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
-        fsa = dataBundle.feedbackSessions.get("session1InCourse1");
+        fsa = dataBundle.feedbackSessions.get("session2InCourse1");
         try {
             logic.sendReminderForFeedbackSession(fsa.courseId, null);
+            signalFailureToDetectException();
         } catch (AssertionError a) {
             assertEquals("The supplied parameter was null\n", a.getMessage());
         }
-        if(!FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(0)){
-            assertEquals(FeedbackSessionsEmailTaskQueueCallback.taskCount, 0);
-        }
+        
+        assertEquals(0, FeedbackSessionsEmailTaskQueueCallback.taskCount);
     }
     
     @Test
     public void testScheduleFeedbackSessionOpeningEmails() throws Exception {
         // this method tests a function from FeedbackSessionLogic.java
 
-        restoreTypicalDataInDatastore();
         FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
         FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
         
         ______TS("no opening email tasks to be sent");
                 
         fsLogic.scheduleFeedbackSessionOpeningEmails();
-        if(!FeedbackSessionsEmailTaskQueueCallback.verifyTaskCount(0)){
-            assertEquals(FeedbackSessionsEmailTaskQueueCallback.taskCount, 0);
-        }
+        assertEquals(0, FeedbackSessionsEmailTaskQueueCallback.taskCount);
         
         ______TS("1 opening email task to be sent");
         
@@ -194,18 +186,14 @@ public class FeedbackSessionEmailTaskQueueTest extends
             }
             counter++;
         }
-        if(counter == 10){
-            assertEquals(FeedbackSessionsEmailTaskQueueCallback.taskCount, 1);
-        }
-     
-        
+
+        assertEquals(FeedbackSessionsEmailTaskQueueCallback.taskCount, 1);
     }
     
     @Test
     public void testScheduleFeedbackSessionClosingEmails() throws Exception {
         // this method tests a function from FeedbackSessionLogic.java
         
-        restoreTypicalDataInDatastore();
         FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
         FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
         
@@ -236,16 +224,14 @@ public class FeedbackSessionEmailTaskQueueTest extends
             }
             counter++;
         }
-        if(counter == 10){
-            assertEquals(FeedbackSessionsEmailTaskQueueCallback.taskCount, 1);
-        }
+
+        assertEquals(FeedbackSessionsEmailTaskQueueCallback.taskCount, 1);
     }
     
     @Test
     public void testScheduleFeedbackSessionPublishedEmails() throws Exception {
         // this method tests a function from FeedbackSessionLogic.java
         
-        restoreTypicalDataInDatastore();
         FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
         
         ______TS("1 closing email tasks to be sent");
@@ -259,9 +245,8 @@ public class FeedbackSessionEmailTaskQueueTest extends
             }
             counter++;
         }
-        if(counter == 10){
-            assertEquals(FeedbackSessionsEmailTaskQueueCallback.taskCount, 1);
-        }
+        assertEquals(FeedbackSessionsEmailTaskQueueCallback.taskCount, 1);
+        
         ______TS("0 closing email task to be sent");
 
         FeedbackSessionsEmailTaskQueueCallback.resetTaskCount();
