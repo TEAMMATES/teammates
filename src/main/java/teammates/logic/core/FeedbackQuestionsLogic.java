@@ -63,7 +63,9 @@ public class FeedbackQuestionsLogic {
         } catch (EntityDoesNotExistException e) {
             Assumption.fail("Session disappeared.");
         }
-        
+        if(fqa.questionNumber < 0){
+            fqa.questionNumber = questions.size() + 1;
+        }
         adjustQuestionNumbers(questions.size()+1, fqa.questionNumber, questions);
         fqa.removeIrrelevantVisibilityOptions();
         fqDb.createEntityWithoutExistenceCheck(fqa);
@@ -77,6 +79,7 @@ public class FeedbackQuestionsLogic {
         question.feedbackSessionName = feedbackSessionName;
         question.courseId = courseId;
         question.creatorEmail = instructorEmail;
+        question.questionNumber = -1;
         question.setId(null);
 
         createFeedbackQuestion(question);
