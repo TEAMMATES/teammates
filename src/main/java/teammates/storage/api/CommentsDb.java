@@ -44,6 +44,7 @@ public class CommentsDb extends EntitiesDb{
             log.info("Trying to get non-existent Comment, possibly entity not persistent yet.");
             return null;
         } else{
+            //TODO: move this to taskQueue
             CommentAttributes createdComment = new CommentAttributes(createdEntity);
             putDocument(Const.SearchIndex.COMMENT, new CommentSearchDocument(createdComment));
             
@@ -220,6 +221,7 @@ public class CommentsDb extends EntitiesDb{
         
         getPM().close();
         
+        //TODO: move this to taskQueue
         CommentAttributes updatedComment = new CommentAttributes(comment);
         putDocument(Const.SearchIndex.COMMENT, new CommentSearchDocument(updatedComment));
     }
@@ -233,7 +235,7 @@ public class CommentsDb extends EntitiesDb{
                 : Cursor.newBuilder().build(cursorString);
         
         QueryOptions options = QueryOptions.newBuilder()
-                .setFieldsToReturn(Const.SearchDocumentField.ATTRIBUTE)
+                .setFieldsToReturn(Const.SearchDocumentField.COMMENT_ATTRIBUTE)
                 .setLimit(10)
                 .setCursor(cursor)
                 .build();

@@ -1,10 +1,7 @@
 package teammates.ui.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentSearchResultBundle;
+import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
@@ -19,9 +16,11 @@ public class InstructorSearchPageAction extends Action {
         if(key == null) key = "";
 
         CommentSearchResultBundle commentSearchResults = logic.searchComment(key, account.googleId, "");
+        FeedbackResponseCommentSearchResultBundle frCommentSearchResults = logic.searchFeedbackResponseComments(key, account.googleId, "");
         
         InstructorSearchPageData data = new InstructorSearchPageData(account);
         data.commentSearchResultBundle = commentSearchResults;
+        data.feedbackResponseCommentSearchResultBundle = frCommentSearchResults;
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_SEARCH, data);
     }
 

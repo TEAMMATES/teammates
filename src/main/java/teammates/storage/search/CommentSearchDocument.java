@@ -1,9 +1,7 @@
 package teammates.storage.search;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentRecipientType;
@@ -26,7 +24,6 @@ public class CommentSearchDocument implements SearchDocument {
     
     private CommentAttributes comment;
     private CourseAttributes course;
-    private Set<String> whoCanSee;
     private InstructorAttributes giverAsInstructor;
     private List<StudentAttributes> relatedStudents;
     
@@ -39,20 +36,8 @@ public class CommentSearchDocument implements SearchDocument {
         this.comment = comment;
         course = coursesLogic.getCourse(comment.courseId);
         
-        whoCanSee = new HashSet<String>();
-        
         giverAsInstructor = instructorsLogic.
                 getInstructorForEmail(comment.courseId, comment.giverEmail);
-        if(giverAsInstructor != null){
-            whoCanSee.add(giverAsInstructor.googleId);
-        }
-        if(comment.isVisibleTo(CommentRecipientType.INSTRUCTOR)){
-            List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(comment.courseId);
-            for(InstructorAttributes instructor:instructors){
-                if(instructor == null) continue;
-                whoCanSee.add(instructor.googleId);
-            }
-        }
         
         relatedStudents = new ArrayList<StudentAttributes>();
         switch (comment.recipientType) {
@@ -80,10 +65,7 @@ public class CommentSearchDocument implements SearchDocument {
                 }
             }
         case COURSE:
-            List<StudentAttributes> students = studentsLogic.getStudentsForCourse(comment.courseId);
-            if(students != null){
-                relatedStudents.addAll(students);
-            }
+            break;
         default:
             break;
         }
@@ -95,11 +77,14 @@ public class CommentSearchDocument implements SearchDocument {
         //populate recipients information
         StringBuilder recipientsBuilder = new StringBuilder("");
         String delim = ",";
+        int counter = 0;
         for(StudentAttributes student:relatedStudents){
+            if(counter == 50) break;//in case of exceeding size limit for document
             recipientsBuilder.append(student.email).append(delim)
                 .append(student.name).append(delim)
                 .append(student.team).append(delim)
                 .append(student.section).append(delim);
+            counter++;
         }
         
         //produce searchableText for this comment document:
@@ -115,7 +100,7 @@ public class CommentSearchDocument implements SearchDocument {
         searchableTextBuilder.append(comment.commentText.getValue());
         
         Document doc = Document.newBuilder()
-            //whoCanSee is used to filter documents visible to certain instructor
+            //this is used to filter documents visible to certain instructor
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.COURSE_ID).setText(comment.courseId))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.GIVER_EMAIL).setText(comment.giverEmail))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.IS_VISIBLE_TO_INSTRUCTOR).setText(
@@ -124,7 +109,7 @@ public class CommentSearchDocument implements SearchDocument {
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.SEARCHABLE_TEXT).setText(searchableTextBuilder.toString()))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.CREATED_DATE).setDate(comment.createdAt))
             //attribute field is used to convert a doc back to attribute
-            .addField(Field.newBuilder().setName(Const.SearchDocumentField.ATTRIBUTE).setText(new Gson().toJson(comment)))
+            .addField(Field.newBuilder().setName(Const.SearchDocumentField.COMMENT_ATTRIBUTE).setText(new Gson().toJson(comment)))
             .setId(comment.getCommentId().toString())
             .build();
         return doc;

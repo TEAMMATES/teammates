@@ -94,6 +94,13 @@
         }
         %>
         <%=data.commentSearchResultBundle.cursor != null?data.commentSearchResultBundle.cursor.toWebSafeString():""%>
+        <br><br>
+        <%
+        for(FeedbackResponseCommentAttributes comment:data.feedbackResponseCommentSearchResultBundle.comments){
+            out.write(comment.toString() + "<br><br><br>");
+        }
+        %>
+        <%=data.feedbackResponseCommentSearchResultBundle.cursor != null?data.feedbackResponseCommentSearchResultBundle.cursor.toWebSafeString():""%>
         </div>
     </div>
 

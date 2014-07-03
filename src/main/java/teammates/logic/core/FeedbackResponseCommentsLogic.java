@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -100,6 +101,11 @@ public class FeedbackResponseCommentsLogic {
                 frcDb.updateFeedbackResponseComments(courseId, fs.feedbackSessionName, oldState, newState);    
             }
         }
+    }
+    
+    public FeedbackResponseCommentSearchResultBundle searchFeedbackResponseComments(
+            String queryString, String googleId, String cursorString) {
+        return frcDb.search(queryString, googleId, cursorString);
     }
     
     public void deleteFeedbackResponseComment(

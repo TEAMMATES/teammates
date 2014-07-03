@@ -449,11 +449,20 @@ public class Const {
     
     public class SearchDocumentField {
         public static final String ATTRIBUTE = "attribute";
+        public static final String COMMENT_ATTRIBUTE = "commentAttibute";
+        public static final String FEEDBACK_RESPONSE_COMMENT_ATTRIBUTE = "frCommentAttibute";
+        public static final String FEEDBACK_RESPONSE_ATTRIBUTE = "feedbackResponseAttibute";
+        public static final String FEEDBACK_QUESTION_ATTRIBUTE = "feedbackQuestionAttibute";
+        public static final String FEEDBACK_SESSION_ATTRIBUTE = "feedbackSessionAttibute";
         public static final String SEARCHABLE_TEXT = "searchableText";
         public static final String CREATED_DATE = "createdDate";
         public static final String COURSE_ID = "courseId";
         public static final String GIVER_EMAIL = "giverEmail";
+        public static final String GIVER_SECTION = "giverSection";
+        public static final String RECIPIENT_EMAIL = "recipientEmail";
+        public static final String RECIPIENT_SECTION = "recipientSection";
         public static final String IS_VISIBLE_TO_INSTRUCTOR = "isVisibleToInstructor";
+        public static final String IS_VISIBLE_TO_RECEIVER = "isVisibleToReceiver";
     }
 
     public class ActionURIs{

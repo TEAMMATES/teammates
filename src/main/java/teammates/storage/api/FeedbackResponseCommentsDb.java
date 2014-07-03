@@ -8,19 +8,53 @@ import java.util.logging.Logger;
 import javax.jdo.JDOHelper;
 import javax.jdo.Query;
 
+import com.google.appengine.api.search.Cursor;
+import com.google.appengine.api.search.QueryOptions;
+import com.google.appengine.api.search.Results;
+import com.google.appengine.api.search.ScoredDocument;
+
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Utils;
 import teammates.storage.entity.FeedbackResponseComment;
+import teammates.storage.search.FeedbackResponseCommentSearchDocument;
+import teammates.storage.search.FeedbackResponseCommentSearchQuery;
 
 public class FeedbackResponseCommentsDb extends EntitiesDb {
 
     private static final Logger log = Utils.getLogger();
+    
+    @Override
+    public Object createEntity(EntityAttributes entityToAdd) 
+            throws InvalidParametersException, EntityAlreadyExistsException{
+        FeedbackResponseComment createdEntity = (FeedbackResponseComment) super.createEntity(entityToAdd);
+        if(createdEntity == null){
+            log.info("Trying to get non-existent FeedbackResponseComment, possibly entity not persistent yet.");
+            return null;
+        } else{
+            FeedbackResponseCommentAttributes createdComment = new FeedbackResponseCommentAttributes(createdEntity);
+            putDocument(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, new FeedbackResponseCommentSearchDocument(createdComment));
+            
+            return createdComment;
+        }
+    }
+    
+    @Override
+    public void deleteEntity(EntityAttributes entityToDelete){
+        FeedbackResponseComment comment = (FeedbackResponseComment) getEntity(entityToDelete);
+        if(comment != null){
+            FeedbackResponseCommentAttributes commentToDelete = new FeedbackResponseCommentAttributes(comment);
+            super.deleteEntity(entityToDelete);
+            deleteDocument(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, commentToDelete.getId().toString());
+        }
+    }
 
     /**
      * Preconditions: <br>
@@ -110,6 +144,9 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         frc.setSendingState(newAttributes.sendingState);
         
         getPM().close();
+        
+        FeedbackResponseCommentAttributes updatedComment = new FeedbackResponseCommentAttributes(frc);
+        putDocument(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, new FeedbackResponseCommentSearchDocument(updatedComment));
     }
     
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForSendingState(String courseId, String sessionName,
@@ -138,6 +175,29 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         }
         
         getPM().close();
+    }
+    
+    public FeedbackResponseCommentSearchResultBundle search(String queryString, String googleId, String cursorString){
+        if(queryString.trim().isEmpty())
+            return new FeedbackResponseCommentSearchResultBundle();
+        
+        Cursor cursor = cursorString.isEmpty()
+                ? Cursor.newBuilder().build()
+                : Cursor.newBuilder().build(cursorString);
+        
+        QueryOptions options = QueryOptions.newBuilder()
+                .setFieldsToReturn(new String[]
+                        {Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_ATTRIBUTE,
+                        Const.SearchDocumentField.FEEDBACK_RESPONSE_ATTRIBUTE,
+                        Const.SearchDocumentField.FEEDBACK_QUESTION_ATTRIBUTE,
+                        Const.SearchDocumentField.FEEDBACK_SESSION_ATTRIBUTE})
+                .setLimit(10)
+                .setCursor(cursor)
+                .build();
+        Results<ScoredDocument> results = searchDocuments(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, 
+                new FeedbackResponseCommentSearchQuery(options, googleId, queryString));
+        
+        return new FeedbackResponseCommentSearchResultBundle().fromResults(results);
     }
     
     @Override
