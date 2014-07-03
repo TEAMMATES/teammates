@@ -42,13 +42,13 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
     public static void classSetUp() throws Exception {
         printTestClassHeader();
         turnLoggingUp(FeedbackResponsesLogic.class);
+        restoreTypicalDataInDatastore();
     }
 
-    @Test
+    @Test(priority = 3)
     public void testUpdateFeedbackResponse() throws Exception {
         
         ______TS("success: standard update with carried params ");
-        restoreTypicalDataInDatastore();
         
         FeedbackResponseAttributes responseToUpdate = getResponseFromDatastore("response1ForQ2S1C1");
         
@@ -65,8 +65,36 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
                 responseToUpdate.feedbackQuestionId, responseToUpdate.giverEmail, responseToUpdate.recipientEmail).toString(),
                 responseToUpdate.toString());
         
+        ______TS("failure: recipient one that is already exists");
+        
+        responseToUpdate = getResponseFromDatastore("response1ForQ2S1C1");
+  
+        FeedbackResponseAttributes existingResponse = 
+                new FeedbackResponseAttributes(
+                        responseToUpdate.feedbackSessionName, 
+                        responseToUpdate.courseId, 
+                        responseToUpdate.feedbackQuestionId, 
+                        responseToUpdate.feedbackQuestionType, 
+                        responseToUpdate.giverEmail,
+                        responseToUpdate.giverSection,
+                        "student3InCourse1@gmail.com",
+                        responseToUpdate.recipientSection,
+                        responseToUpdate.responseMetaData);
+        
+        frLogic.createFeedbackResponse(existingResponse);
+        
+        responseToUpdate.recipientEmail = "student3InCourse1@gmail.com";
+        
+        try {
+            frLogic.updateFeedbackResponse(responseToUpdate);
+            signalFailureToDetectException("Should have detected that same giver->recipient response alr exists");
+        } catch (EntityAlreadyExistsException e){
+            AssertHelper.assertContains(
+                        "Trying to update recipient for response to one that already exists for this giver.", 
+                        e.getMessage());
+        }
+        
         ______TS("success: standard update with carried params - using createFeedbackResponse");
-        restoreTypicalDataInDatastore();
         
         responseToUpdate = getResponseFromDatastore("response1ForQ2S1C1");
         
@@ -96,7 +124,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         
         ______TS("success: both giver and recipient changed (teammate changed response)");
         
-        responseToUpdate = getResponseFromDatastore("response1ForQ1S2C1");
+        responseToUpdate = getResponseFromDatastore("response1GracePeriodFeedback");
         responseToUpdate.giverEmail = "student5InCourse1@gmail.com";
         responseToUpdate.recipientEmail = "Team 1.1";
         
@@ -111,35 +139,6 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         assertNull(frLogic.getFeedbackResponse(
                 responseToUpdate.feedbackQuestionId, "student4InCourse1@gmail.com","Team 1.2"));
         
-        ______TS("failure: recipient one that is already exists");
-
-        restoreTypicalDataInDatastore();        
-        responseToUpdate = getResponseFromDatastore("response1ForQ2S1C1");
-  
-        FeedbackResponseAttributes existingResponse = 
-                new FeedbackResponseAttributes(
-                        responseToUpdate.feedbackSessionName, 
-                        responseToUpdate.courseId, 
-                        responseToUpdate.feedbackQuestionId, 
-                        responseToUpdate.feedbackQuestionType, 
-                        responseToUpdate.giverEmail,
-                        responseToUpdate.giverSection,
-                        "student3InCourse1@gmail.com",
-                        responseToUpdate.recipientSection,
-                        responseToUpdate.responseMetaData);
-        
-        frLogic.createFeedbackResponse(existingResponse);
-        
-        responseToUpdate.recipientEmail = "student3InCourse1@gmail.com";
-        
-        try {
-            frLogic.updateFeedbackResponse(responseToUpdate);
-            signalFailureToDetectException("Should have detected that same giver->recipient response alr exists");
-        } catch (EntityAlreadyExistsException e){
-            AssertHelper.assertContains(
-                        "Trying to update recipient for response to one that already exists for this giver.", 
-                        e.getMessage());
-        }
         
         ______TS("failure: invalid params");
         
@@ -160,12 +159,10 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         }
     }
     
-    @Test
+    @Test(priority = 3)
     public void testUpdateFeedbackResponsesForChangingTeam() throws Exception {
         
         ______TS("standard update team case");
-
-        restoreTypicalDataInDatastore();
         
         StudentAttributes studentToUpdate = typicalBundle.students.get("student4InCourse1");
         
@@ -213,35 +210,35 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         
     }
     
-    @Test
+    @Test(priority = 3)
     public void testUpdateFeedbackResponsesForChangingEmail() throws Exception {
         ______TS("standard update email case");
         
-        restoreTypicalDataInDatastore();
-        
         // Student 1 currently has 3 responses to him and 3 from himself.
-        StudentAttributes studentToUpdate = typicalBundle.students.get("student1InCourse1");
+        InstructorAttributes studentToUpdate = typicalBundle.instructors.get("instructor1OfCourse1");
         assertEquals(frLogic.getFeedbackResponsesForReceiverForCourse(
-                studentToUpdate.course, studentToUpdate.email).size(), 2);
+                studentToUpdate.courseId, studentToUpdate.email).size(), 2);
         assertEquals(frLogic.getFeedbackResponsesFromGiverForCourse(
-                studentToUpdate.course, studentToUpdate.email).size(), 3);
+                studentToUpdate.courseId, studentToUpdate.email).size(), 3);
         
         frLogic.updateFeedbackResponsesForChangingEmail(
-                studentToUpdate.course, studentToUpdate.email, "new@email.com");
+                studentToUpdate.courseId, studentToUpdate.email, "new@email.com");
         
         assertEquals(frLogic.getFeedbackResponsesForReceiverForCourse(
-                studentToUpdate.course, studentToUpdate.email).size(), 0);
+                studentToUpdate.courseId, studentToUpdate.email).size(), 0);
         assertEquals(frLogic.getFeedbackResponsesFromGiverForCourse(
-                studentToUpdate.course, studentToUpdate.email).size(), 0);
+                studentToUpdate.courseId, studentToUpdate.email).size(), 0);
         assertEquals(frLogic.getFeedbackResponsesForReceiverForCourse(
-                studentToUpdate.course, "new@email.com").size(), 2);
+                studentToUpdate.courseId, "new@email.com").size(), 2);
         assertEquals(frLogic.getFeedbackResponsesFromGiverForCourse(
-                studentToUpdate.course, "new@email.com").size(), 3);
+                studentToUpdate.courseId, "new@email.com").size(), 3);
+        
+        frLogic.updateFeedbackResponsesForChangingEmail(
+                studentToUpdate.courseId, "new@email.com", studentToUpdate.email);
     }
     
-    @Test
+    @Test(priority = 2)
     public void testGetViewableResponsesForQuestionInSection() throws Exception {
-        restoreTypicalDataInDatastore();
         
         ______TS("success: GetViewableResponsesForQuestion - instructor");
         
@@ -323,9 +320,9 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         }   
     }
     
-    @Test
+    @Test(priority = 1)
     public void testIsNameVisibleTo() throws Exception {
-        restoreTypicalDataInDatastore();
+        
         
         ______TS("testIsNameVisibleTo");
         
@@ -383,12 +380,10 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         
     }
     
-    @Test
+    @Test(priority = 4)
     public void testDeleteFeedbackResponsesForStudent() throws Exception {    
         
         ______TS("standard delete");
-        
-        restoreTypicalDataInDatastore();
         
         StudentAttributes studentToDelete = typicalBundle.students.get("student1InCourse1");;
         
@@ -401,7 +396,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         
         ______TS("shift team then delete");
         
-        restoreTypicalDataInDatastore();
+        
         remainingResponses.clear();
         
         studentToDelete = typicalBundle.students.get("student2InCourse1");;
@@ -417,7 +412,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         
         ______TS("delete last person in team");
 
-        restoreTypicalDataInDatastore();
+        
         remainingResponses.clear();
                 
         studentToDelete = typicalBundle.students.get("student5InCourse1");
