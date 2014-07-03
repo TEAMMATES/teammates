@@ -63,7 +63,6 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
     @Test
     public void testExecuteAndPostProcess() throws Exception{
         //TODO Test error states (catch-blocks and isError == true states)
-        //TODO: find a way to test status message from session
         ______TS("Unsuccessful case: test empty feedback session name parameter");
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, dataBundle.feedbackResponses.get("response1ForQ1S1C1").courseId

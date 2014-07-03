@@ -59,7 +59,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         
         assertFalse(r.isError);
         AssertHelper.assertContains(Const.ActionURIs.STUDENT_PROFILE_PAGE + "?error=false&user=" + student.googleId, r.getDestinationWithParams());
-        
+        assertEquals(Const.StatusMessages.STUDENT_PROFILE_EDITED, r.getStatusMessage());
         String expectedLogMessage = "TEAMMATESLOG|||studentProfileEditSave|||studentProfileEditSave" +
                 "|||true|||Student|||"+ student.name +"|||" + student.googleId + "|||" + student.email +
                 "|||Student Profile for <span class=\"bold\">(" + student.googleId + ")</span> edited.<br>" +
@@ -103,6 +103,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         r = (RedirectResult) a.executeAndPostProcess();
         
         assertFalse(r.isError);
+        assertEquals(Const.StatusMessages.STUDENT_PROFILE_EDITED, r.getStatusMessage());
         AssertHelper.assertContains(Const.ActionURIs.STUDENT_PROFILE_PAGE + "?error=false&user=" + student.googleId, r.getDestinationWithParams());
         
         expectedLogMessage = "TEAMMATESLOG|||studentProfileEditSave|||studentProfileEditSave" +
