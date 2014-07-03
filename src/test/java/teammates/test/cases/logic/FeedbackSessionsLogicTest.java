@@ -87,7 +87,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         }
     }
     
-    @Test(groups = { "non-modifier" })
+    @Test(priority = 1)
     public void testGetFeedbackSessionsListForInstructor () throws Exception{        
         List<FeedbackSessionAttributes> finalFsa = new ArrayList<FeedbackSessionAttributes>();
         Collection<FeedbackSessionAttributes> allFsa = dataBundle.feedbackSessions.values();
@@ -105,7 +105,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         
     }
     
-    @Test(groups = { "non-modifier" })
+    @Test(priority = 1)
     public void testIsFeedbackSessionHasQuestionForStudents () throws Exception{
         // no need to restoreTypicalDataInDatastore() as the previous test does not change the db
         
@@ -131,7 +131,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         assertFalse (fsLogic.isFeedbackSessionHasQuestionForStudents(sessionWithoutStudents.feedbackSessionName, sessionWithoutStudents.courseId));
     }
     
-    @Test(groups = { "non-modifier" })
+    @Test(priority = 1)
     public void testGetFeedbackSessionsClosingWithinTimeLimit() throws Exception {
         
         
@@ -171,7 +171,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
                 session.courseId);
     }
     
-    @Test(groups = { "non-modifier" })
+    @Test(priority = 1)
     public void testGetFeedbackSessionsWhichNeedOpenMailsToBeSent() throws Exception {
         
         ______TS("init : 0 open sessions");
@@ -219,7 +219,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
                 session.courseId);
     }
     
-    @Test(groups = { "non-modifier" })
+    @Test(priority = 1)
     public void testGetFeedbackSessionWhichNeedPublishedEmailsToBeSent() throws Exception {
         
         
@@ -255,7 +255,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         assertEquals(0, sessionList.size());
     }
     
-    @Test(dependsOnGroups = { "non-modifier.*" }, alwaysRun = true)
+    @Test(priority = 2)
     public void testCreateAndDeleteFeedbackSession() throws InvalidParametersException, EntityAlreadyExistsException {        
         ______TS("test create");
         
@@ -286,7 +286,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         TestHelper.verifyAbsentInDatastore(fq);
     }
     
-    @Test(dependsOnGroups = { "non-modifier.*" }, alwaysRun=true)
+    @Test(priority = 2)
     public void testGetFeedbackSessionDetailsForInstructor() throws Exception {
         
         // This file contains a session with a private session + a standard
@@ -419,7 +419,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
                     
     }
     
-    @Test(groups = { "non-modifier" }, priority=-1)
+    @Test(priority = 0)
     public void testGetFeedbackSessionsForCourse() throws Exception {
         
         List<FeedbackSessionAttributes> actualSessions = null;
@@ -492,7 +492,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 
     }
     
-    @Test(groups = { "non-modifier" })
+    @Test(priority = 1)
     public void testGetFeedbackSessionQuestionsForStudent() throws Exception {
         
         ______TS("standard test");
@@ -587,7 +587,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         
     }
     
-    @Test(groups = { "non-modifier" })
+    @Test(priority = 1)
     public void testGetFeedbackSessionQuestionsForInstructor() throws Exception {
         ______TS("standard test");
 
@@ -644,7 +644,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         }
     }
     
-    @Test(groups = { "non-modifier" })
+    @Test(priority = 1)
     public void testGetFeedbackSessionResultsForUser() throws Exception {
         
         // This file contains a session with a private session + a standard
@@ -984,7 +984,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
     }
     
     
-    @Test(dependsOnGroups = { "non-modifier.*" }, alwaysRun = true)
+    @Test(priority = 2)
     public void testGetFeedbackSessionResultsSummaryAsCsv() throws Exception {
 
         ______TS("typical case");
@@ -1407,7 +1407,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         }
     }
 
-    @Test(dependsOnGroups = { "non-modifier.*" }, alwaysRun = true)
+    @Test(priority = 2)
     public void testUpdateFeedbackSession() throws Exception {
         
         
@@ -1447,7 +1447,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         assertEquals(fsa.toString(), fsLogic.getFeedbackSession(fsa.feedbackSessionName, fsa.courseId).toString());
     }
     
-    @Test(dependsOnGroups = { "non-modifier.*" }, alwaysRun = true)
+    @Test(priority = 2)
     public void testPublishUnpublishFeedbackSession() throws Exception {
         
         PublishUnpublishSessionCallback.resetTaskCount();
@@ -1555,7 +1555,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         }
     }
     
-    @Test(groups = { "non-modifier" })
+    @Test(priority = 1)
     public void testIsFeedbackSessionCompletedByInstructor() throws Exception {
         
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
@@ -1579,7 +1579,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         
     }
     
-    @Test(groups = { "non-modifier" })
+    @Test(priority = 1)
     public void testIsFeedbackSessionCompletedByStudent() throws Exception {
         
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
@@ -1602,7 +1602,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         assertTrue(fsLogic.isFeedbackSessionCompletedByStudent(fs.feedbackSessionName, fs.courseId, student.email));
     }
     
-    @Test(groups = { "non-modifier" })
+    @Test(priority = 1)
     public void testIsFeedbackSessionFullyCompletedByStudent() throws Exception {
         
         
@@ -1640,7 +1640,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         // this method is tested in FeedbackSessionEmailTaskQueueTest.java
     }
     
-    @Test(groups = { "non-modifier" })
+    @Test(priority = 1)
     public void testSendReminderForFeedbackSession() throws Exception {
         // private method. no need to check for authentication.
         Logic logic = new Logic();
@@ -1790,7 +1790,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         return tableString;
     }
     
-    @Test(dependsOnMethods = { "testUpdateFeedbackSession", "testUpdateFeedbackSession" }, alwaysRun = true)
+    @Test(priority = 3)
     public void testDeleteFeedbackSessionsForCourse() throws Exception {
         
         assertFalse(fsLogic.getFeedbackSessionsForCourse("idOfTypicalCourse1").isEmpty());
