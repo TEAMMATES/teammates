@@ -1,7 +1,9 @@
 package teammates.common.datatransfer;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import teammates.common.util.Const;
 
@@ -10,9 +12,11 @@ import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
 import com.google.gson.Gson;
 
-public class CommentSearchResultBundle {
+public class CommentSearchResultBundle extends SearchResultBundle {
     
     public List<CommentAttributes> comments = new ArrayList<CommentAttributes>();
+    public Map<String, String> giverTable = new HashMap<String, String>();
+    public Map<String, String> recipientTable = new HashMap<String, String>();
     public Cursor cursor = null;
     
     public CommentSearchResultBundle(){}
@@ -27,6 +31,10 @@ public class CommentSearchResultBundle {
                     CommentAttributes.class);
             comment.sendingState = CommentSendingState.SENT;
             this.comments.add(comment);
+            String giverName = doc.getOnlyField(Const.SearchDocumentField.COMMENT_GIVER_NAME).getText();
+            String recipientName = doc.getOnlyField(Const.SearchDocumentField.COMMENT_RECIPIENT_NAME).getText();
+            giverTable.put(comment.getCommentId().toString(), extractContentFromQuotedString(giverName));
+            recipientTable.put(comment.getCommentId().toString(), extractContentFromQuotedString(recipientName));
         }
         return this;
     }

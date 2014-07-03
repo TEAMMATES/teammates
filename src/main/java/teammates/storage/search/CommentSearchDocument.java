@@ -17,7 +17,7 @@ import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Field;
 import com.google.gson.Gson;
 
-public class CommentSearchDocument implements SearchDocument {
+public class CommentSearchDocument extends SearchDocument {
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
     private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     private static final StudentsLogic studentsLogic = StudentsLogic.inst();
@@ -26,6 +26,7 @@ public class CommentSearchDocument implements SearchDocument {
     private CourseAttributes course;
     private InstructorAttributes giverAsInstructor;
     private List<StudentAttributes> relatedStudents;
+    private StringBuilder commentRecipientNameBuilder = new StringBuilder("");
     
     public CommentSearchDocument(CommentAttributes comment){
         prepareDate(comment);
@@ -39,6 +40,7 @@ public class CommentSearchDocument implements SearchDocument {
         giverAsInstructor = instructorsLogic.
                 getInstructorForEmail(comment.courseId, comment.giverEmail);
         
+        String delim = "";
         relatedStudents = new ArrayList<StudentAttributes>();
         switch (comment.recipientType) {
         case PERSON:
@@ -46,6 +48,11 @@ public class CommentSearchDocument implements SearchDocument {
                 StudentAttributes student = studentsLogic.getStudentForEmail(comment.courseId, email);
                 if(student != null){
                     relatedStudents.add(student);
+                    commentRecipientNameBuilder.append(delim).append(student.name).append(" (" + student.team + ")");
+                    delim = ", ";
+                } else {
+                    commentRecipientNameBuilder.append(delim).append(email);
+                    delim = ", ";
                 }
             }
             break;
@@ -55,6 +62,8 @@ public class CommentSearchDocument implements SearchDocument {
                 if(students != null){
                     relatedStudents.addAll(students);
                 }
+                commentRecipientNameBuilder.append(delim).append(team);
+                delim = ", ";
             }
             break;
         case SECTION:
@@ -63,8 +72,14 @@ public class CommentSearchDocument implements SearchDocument {
                 if(students != null){
                     relatedStudents.addAll(students);
                 }
+                commentRecipientNameBuilder.append(delim).append(section);
+                delim = ", ";
             }
         case COURSE:
+            for(String course:comment.recipients){
+                commentRecipientNameBuilder.append(delim).append("All students in Course " + course);
+                delim = ", ";
+            }
             break;
         default:
             break;
@@ -110,6 +125,10 @@ public class CommentSearchDocument implements SearchDocument {
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.CREATED_DATE).setDate(comment.createdAt))
             //attribute field is used to convert a doc back to attribute
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.COMMENT_ATTRIBUTE).setText(new Gson().toJson(comment)))
+            .addField(Field.newBuilder().setName(Const.SearchDocumentField.COMMENT_GIVER_NAME).setText(
+                    new Gson().toJson(giverAsInstructor != null? giverAsInstructor.displayedName + " " + giverAsInstructor.name: comment.giverEmail)))
+            .addField(Field.newBuilder().setName(Const.SearchDocumentField.COMMENT_RECIPIENT_NAME).setText(
+                    new Gson().toJson(commentRecipientNameBuilder.toString())))
             .setId(comment.getCommentId().toString())
             .build();
         return doc;

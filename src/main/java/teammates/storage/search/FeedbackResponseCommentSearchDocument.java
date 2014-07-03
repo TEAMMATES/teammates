@@ -25,7 +25,7 @@ import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Field;
 import com.google.gson.Gson;
 
-public class FeedbackResponseCommentSearchDocument implements SearchDocument {
+public class FeedbackResponseCommentSearchDocument extends SearchDocument {
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
     private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     private static final StudentsLogic studentsLogic = StudentsLogic.inst();
@@ -161,6 +161,8 @@ public class FeedbackResponseCommentSearchDocument implements SearchDocument {
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_RESPONSE_ATTRIBUTE).setText(new Gson().toJson(relatedResponse)))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_QUESTION_ATTRIBUTE).setText(new Gson().toJson(relatedQuestion)))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_SESSION_ATTRIBUTE).setText(new Gson().toJson(relatedSession)))
+            .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_GIVER_NAME).setText(
+                    new Gson().toJson(giverAsInstructor != null? giverAsInstructor.displayedName +" "+ giverAsInstructor.name: comment.giverEmail)))
             .setId(comment.getId().toString())
             .build();
         return doc;

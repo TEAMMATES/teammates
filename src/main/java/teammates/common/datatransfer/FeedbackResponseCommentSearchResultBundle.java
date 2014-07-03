@@ -12,11 +12,12 @@ import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
 import com.google.gson.Gson;
 
-public class FeedbackResponseCommentSearchResultBundle {
+public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundle {
     public List<FeedbackResponseCommentAttributes> comments = new ArrayList<FeedbackResponseCommentAttributes>();
     public Map<String, FeedbackResponseAttributes> responses = new HashMap<String, FeedbackResponseAttributes>();
     public Map<String, FeedbackQuestionAttributes> questions = new HashMap<String, FeedbackQuestionAttributes>();
     public Map<String, FeedbackSessionAttributes> sessions = new HashMap<String, FeedbackSessionAttributes>();
+    public Map<String, String> giverTable = new HashMap<String, String>();
     public Cursor cursor = null;
     
     public FeedbackResponseCommentSearchResultBundle(){}
@@ -46,6 +47,9 @@ public class FeedbackResponseCommentSearchResultBundle {
                     doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_SESSION_ATTRIBUTE).getText(), 
                     FeedbackSessionAttributes.class);
             this.sessions.put(session.getSessionName(), session);
+            
+            String giverName = doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_GIVER_NAME).getText();
+            giverTable.put(comment.getId().toString(), extractContentFromQuotedString(giverName));
         }
         return this;
     }

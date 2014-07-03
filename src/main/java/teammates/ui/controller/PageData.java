@@ -563,6 +563,12 @@ public class PageData {
         return link;
     }
     
+    public String getInstructorSearchLink(){
+        String link = Const.ActionURIs.INSTRUCTOR_SEARCH_PAGE;
+        link = addUserIdToUrl(link);
+        return link;
+    }
+    
     public String getInstructorStudentRecordsLink(String courseId, String studentEmail){
         String link = Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);

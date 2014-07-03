@@ -11,17 +11,18 @@ public class InstructorSearchPageAction extends Action {
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
         new GateKeeper().verifyInstructorPrivileges(account);
+        String searchKey = getRequestParamValue(Const.ParamsNames.SEARCH_KEY);
+        if(searchKey == null){
+            searchKey = "";
+        }
         
-        String key = getRequestParamValue(Const.ParamsNames.SEARCH_KEY);
-        if(key == null) key = "";
-
-        CommentSearchResultBundle commentSearchResults = logic.searchComment(key, account.googleId, "");
-        FeedbackResponseCommentSearchResultBundle frCommentSearchResults = logic.searchFeedbackResponseComments(key, account.googleId, "");
+        CommentSearchResultBundle commentSearchResults = logic.searchComment(searchKey, account.googleId, "");
+        FeedbackResponseCommentSearchResultBundle frCommentSearchResults = logic.searchFeedbackResponseComments(searchKey, account.googleId, "");
         
         InstructorSearchPageData data = new InstructorSearchPageData(account);
+        data.searchKey = searchKey;
         data.commentSearchResultBundle = commentSearchResults;
         data.feedbackResponseCommentSearchResultBundle = frCommentSearchResults;
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_SEARCH, data);
     }
-
 }

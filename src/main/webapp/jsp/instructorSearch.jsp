@@ -1,9 +1,3 @@
-<%@page import="teammates.common.datatransfer.CommentSendingState"%>
-<%@page import="teammates.common.datatransfer.InstructorAttributes"%>
-<%@page import="teammates.common.datatransfer.CommentRecipientType"%>
-<%@page import="teammates.common.datatransfer.FeedbackSessionAttributes"%>
-<%@page import="teammates.common.datatransfer.StudentAttributes"%>
-<%@page import="teammates.common.datatransfer.CommentStatus"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
@@ -12,25 +6,8 @@
 <%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.common.util.TimeHelper"%>
 <%@ page import="teammates.common.datatransfer.CommentAttributes"%>
-<%@ page
-    import="teammates.common.datatransfer.FeedbackResponseAttributes"%>
-<%@ page
-    import="teammates.common.datatransfer.FeedbackResponseCommentAttributes"%>
-<%@ page
-    import="teammates.common.datatransfer.FeedbackSessionResultsBundle"%>
-<%@ page
-    import="teammates.common.datatransfer.FeedbackAbstractQuestionDetails"%>
-<%@ page
-    import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
-<%@ page import="teammates.common.datatransfer.SessionResultsBundle"%>
-<%@ page import="teammates.common.datatransfer.StudentResultBundle"%>
-<%@ page import="teammates.common.datatransfer.EvaluationDetailsBundle"%>
-<%@ page import="teammates.common.datatransfer.EvaluationAttributes"%>
-<%@ page import="teammates.common.datatransfer.SubmissionAttributes"%>
-<%@ page
-    import="teammates.ui.controller.InstructorEvalSubmissionPageData"%>
+<%@ page import="teammates.common.datatransfer.FeedbackResponseCommentAttributes"%>
 <%@ page import="teammates.ui.controller.InstructorSearchPageData"%>
-<%@ page import="static teammates.ui.controller.PageData.sanitizeForJs"%>
 <%
     InstructorSearchPageData data = (InstructorSearchPageData) request.getAttribute("data");
 %>
@@ -71,36 +48,102 @@
 
     <div id="frameBody">
         <div id="frameBodyWrapper" class="container">
+        <div>
+            <h1>Search</h1>
+        </div>
         <br>
-        <form action="/page/instructorSearchPage" method="post" class="form form-horizontal">
-            <div class="form-group">
-                <label class="col-sm-1 control-label">Key:</label>
-                <div class="col-sm-11">
-                    <input class="form-control" name="searchkey" id="searchkey" value="">
+        <div>
+            <form method="post" action="<%=data.getInstructorSearchLink()%>" name="search_form">
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit" value="Search" id="buttonSearch">Search</button>
+                    </span>
+                    <input type="text" name="searchkey" value="<%=data.sanitizeForHtml(data.searchKey)%>" title="Search for comment" placeholder="Your search keyword" class="form-control" id="searchBox">
                 </div>
-            </div>
-            <br>
-            <div>
-                <input type="submit" class="btn btn-primary" id="button_submit" name="submit" value="Submit" >
-            </div>
-            <br>
-            <br>
-            <input type="hidden" name="user" value="<%=data.account.googleId%>">
-        </form>
-        <br>
-        <%
-        for(CommentAttributes comment:data.commentSearchResultBundle.comments){
-            out.write(comment.toString() + "<br><br><br>");
-        }
-        %>
-        <%=data.commentSearchResultBundle.cursor != null?data.commentSearchResultBundle.cursor.toWebSafeString():""%>
+                <input type="hidden" name="user" value="<%=data.account.googleId%>">
+            </form>
+        </div>
         <br><br>
-        <%
-        for(FeedbackResponseCommentAttributes comment:data.feedbackResponseCommentSearchResultBundle.comments){
-            out.write(comment.toString() + "<br><br><br>");
-        }
-        %>
-        <%=data.feedbackResponseCommentSearchResultBundle.cursor != null?data.feedbackResponseCommentSearchResultBundle.cursor.toWebSafeString():""%>
+        <% if(data.commentSearchResultBundle.comments.size() != 0) { %>
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <strong>Comments for students</strong>
+            </div>
+            <div class="panel-body">
+                <%
+                    int commentIdx = 0;
+                    int studentIdx = 0;
+                    for (CommentAttributes comment : data.commentSearchResultBundle.comments) {//comment loop starts
+                        studentIdx++;
+                %>
+                <%
+                    String recipientDisplay = data.commentSearchResultBundle.recipientTable.get(comment.getCommentId().toString());
+                %>
+                <div class="panel panel-info student-record-comments">
+                    <div class="panel-heading">
+                        To <b><%=recipientDisplay%></b>
+                    </div>
+                    <ul class="list-group comments">
+                        <%
+                            commentIdx++;
+                        %>
+                        <li class="list-group-item list-group-item-warning"
+                            name="form_commentedit"
+                            class="form_comment"
+                            id="form_commentedit-<%=commentIdx%>">
+                            <div id="commentBar-<%=commentIdx%>">
+                                <span class="text-muted">From <b><%=data.commentSearchResultBundle.giverTable.get(comment.getCommentId().toString())%></b> on
+                                    <%=TimeHelper.formatTime(comment.createdAt)%></span>
+                            </div>
+                            <div id="plainCommentText<%=commentIdx%>"><%=comment.commentText.getValue()%></div>
+                        </li>
+                    </ul>
+                </div>
+                <%
+                    }//comment loop ends
+                %>
+            </div>
+        </div>
+        <% } %>
+        <br>
+        <% if(data.feedbackResponseCommentSearchResultBundle.comments.size() != 0) { %>
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <strong>Comments for responses</strong>
+            </div>
+            <div class="panel-body">
+                <%
+                    int commentIdx = 0;
+                    int studentIdx = 0;
+                    for (FeedbackResponseCommentAttributes comment : data.feedbackResponseCommentSearchResultBundle.comments) {//response comment loop starts
+                        studentIdx++;
+                %>
+                <div class="panel panel-info student-record-comments">
+                    <div class="panel-heading">
+                        From <b><%=data.feedbackResponseCommentSearchResultBundle.giverTable.get(comment.getId().toString())%></b>
+                    </div>
+                    <ul class="list-group comments">
+                        <%
+                            commentIdx++;
+                        %>
+                        <li class="list-group-item list-group-item-warning"
+                            name="form_commentedit"
+                            class="form_comment"
+                            id="form_commentedit-<%=commentIdx%>">
+                            <div id="commentBar-<%=commentIdx%>">
+                                <span class="text-muted">on
+                                    <%=TimeHelper.formatTime(comment.createdAt)%></span>
+                            </div>
+                            <div id="plainCommentText<%=commentIdx%>"><%=comment.commentText.getValue()%></div>
+                        </li>
+                    </ul>
+                </div>
+                <%
+                    }//response comment loop ends
+                %>
+            </div>
+        </div>
+        <% } %>
         </div>
     </div>
 

@@ -6,11 +6,11 @@ import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
 
 public class InstructorSearchPageData extends PageData {
 
-    public CommentSearchResultBundle commentSearchResultBundle;
-    public FeedbackResponseCommentSearchResultBundle feedbackResponseCommentSearchResultBundle;
+    public CommentSearchResultBundle commentSearchResultBundle = new CommentSearchResultBundle();
+    public FeedbackResponseCommentSearchResultBundle feedbackResponseCommentSearchResultBundle = new FeedbackResponseCommentSearchResultBundle();
+    public String searchKey = "";
     
     public InstructorSearchPageData(AccountAttributes account) {
         super(account);
     }
-
 }

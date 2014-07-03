@@ -235,8 +235,11 @@ public class CommentsDb extends EntitiesDb{
                 : Cursor.newBuilder().build(cursorString);
         
         QueryOptions options = QueryOptions.newBuilder()
-                .setFieldsToReturn(Const.SearchDocumentField.COMMENT_ATTRIBUTE)
-                .setLimit(10)
+                .setFieldsToReturn(new String[]{
+                        Const.SearchDocumentField.COMMENT_ATTRIBUTE,
+                        Const.SearchDocumentField.COMMENT_GIVER_NAME,
+                        Const.SearchDocumentField.COMMENT_RECIPIENT_NAME})
+                //.setLimit(10) TODO: impl pagination
                 .setCursor(cursor)
                 .build();
         Results<ScoredDocument> results = searchDocuments(Const.SearchIndex.COMMENT, 

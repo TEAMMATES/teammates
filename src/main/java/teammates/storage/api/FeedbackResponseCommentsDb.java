@@ -190,8 +190,10 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
                         {Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_ATTRIBUTE,
                         Const.SearchDocumentField.FEEDBACK_RESPONSE_ATTRIBUTE,
                         Const.SearchDocumentField.FEEDBACK_QUESTION_ATTRIBUTE,
-                        Const.SearchDocumentField.FEEDBACK_SESSION_ATTRIBUTE})
-                .setLimit(10)
+                        Const.SearchDocumentField.FEEDBACK_SESSION_ATTRIBUTE,
+                        Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_GIVER_NAME
+                        })
+                //.setLimit(10) TODO: impl pagination
                 .setCursor(cursor)
                 .build();
         Results<ScoredDocument> results = searchDocuments(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, 

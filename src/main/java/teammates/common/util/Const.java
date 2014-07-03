@@ -450,7 +450,10 @@ public class Const {
     public class SearchDocumentField {
         public static final String ATTRIBUTE = "attribute";
         public static final String COMMENT_ATTRIBUTE = "commentAttibute";
+        public static final String COMMENT_GIVER_NAME = "commentGiverName";
+        public static final String COMMENT_RECIPIENT_NAME = "commentRecipientName";
         public static final String FEEDBACK_RESPONSE_COMMENT_ATTRIBUTE = "frCommentAttibute";
+        public static final String FEEDBACK_RESPONSE_COMMENT_GIVER_NAME = "frCommentGiverName";
         public static final String FEEDBACK_RESPONSE_ATTRIBUTE = "feedbackResponseAttibute";
         public static final String FEEDBACK_QUESTION_ATTRIBUTE = "feedbackQuestionAttibute";
         public static final String FEEDBACK_SESSION_ATTRIBUTE = "feedbackSessionAttibute";
