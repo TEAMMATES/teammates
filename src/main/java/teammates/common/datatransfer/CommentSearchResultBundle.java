@@ -3,6 +3,8 @@ package teammates.common.datatransfer;
 import java.util.ArrayList;
 import java.util.List;
 
+import teammates.common.util.Const;
+
 import com.google.appengine.api.search.Cursor;
 import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
@@ -18,7 +20,9 @@ public class CommentSearchResultBundle {
     public CommentSearchResultBundle fromResults(Results<ScoredDocument> results){
         cursor = results.getCursor();
         for(ScoredDocument doc:results){
-            CommentAttributes comment = new Gson().fromJson(doc.getOnlyField("attribute").getText(), CommentAttributes.class);
+            CommentAttributes comment = new Gson().fromJson(
+                    doc.getOnlyField(Const.SearchDocumentField.ATTRIBUTE).getText(), 
+                    CommentAttributes.class);
             comment.sendingState = CommentSendingState.SENT;
             this.comments.add(comment);
         }

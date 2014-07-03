@@ -30,7 +30,6 @@ import teammates.common.util.Utils;
 import teammates.storage.entity.Comment;
 import teammates.storage.search.CommentSearchDocument;
 import teammates.storage.search.CommentSearchQuery;
-import teammates.storage.search.SearchQuery;
 
 public class CommentsDb extends EntitiesDb{
     
@@ -46,8 +45,7 @@ public class CommentsDb extends EntitiesDb{
             return null;
         } else{
             CommentAttributes createdComment = new CommentAttributes(createdEntity);
-            CommentSearchDocument document = new CommentSearchDocument(createdComment);
-            putDocument("comment", document);
+            putDocument(Const.SearchIndex.COMMENT, new CommentSearchDocument(createdComment));
             
             return createdComment;
         }
@@ -58,7 +56,7 @@ public class CommentsDb extends EntitiesDb{
         CommentAttributes commentToDelete = getComment((CommentAttributes) entityToDelete);
         if(commentToDelete != null){
             super.deleteEntity(commentToDelete);
-            deleteDocument("comment", commentToDelete.getCommentId().toString());
+            deleteDocument(Const.SearchIndex.COMMENT, commentToDelete.getCommentId().toString());
         }
     }
     
@@ -223,22 +221,21 @@ public class CommentsDb extends EntitiesDb{
         getPM().close();
         
         CommentAttributes updatedComment = new CommentAttributes(comment);
-        CommentSearchDocument document = new CommentSearchDocument(updatedComment);
-        putDocument("comment", document);
+        putDocument(Const.SearchIndex.COMMENT, new CommentSearchDocument(updatedComment));
     }
     
     public CommentSearchResultBundle search(String queryString, String googleId, String cursorString){
-        if(queryString.trim().isEmpty()) 
+        if(queryString.trim().isEmpty())
             return new CommentSearchResultBundle();
         
         Cursor cursor = cursorString.isEmpty()? Cursor.newBuilder().build(): Cursor.newBuilder().build(cursorString);
         
         QueryOptions options = QueryOptions.newBuilder()
-                .setFieldsToReturn("attribute")
+                .setFieldsToReturn(Const.SearchDocumentField.ATTRIBUTE)
                 .setLimit(10)
                 .setCursor(cursor)
                 .build();
-        Results<ScoredDocument> results = searchDocuments("comment", 
+        Results<ScoredDocument> results = searchDocuments(Const.SearchIndex.COMMENT, 
                 new CommentSearchQuery(options, googleId, queryString));
         
         CommentSearchResultBundle commentSearchResults = new CommentSearchResultBundle().fromResults(results);

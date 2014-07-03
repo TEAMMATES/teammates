@@ -9,7 +9,9 @@ import com.google.appengine.api.search.Query;
 import com.google.appengine.api.search.QueryOptions;
 
 public abstract class SearchQuery {
-    private static final String AND = " AND ";
+    protected static final String AND = " AND ";
+    protected static final String OR = " OR ";
+    protected static final String NOT = " NOT ";
     
     //to be defined by the inherited class
     protected String visibilityQueryString;
@@ -17,17 +19,17 @@ public abstract class SearchQuery {
     private QueryOptions options;
     private List<String> textQueryStrings = new ArrayList<String>();
     private List<String> dateQueryStrings = new ArrayList<String>();
-
-    public SearchQuery(QueryOptions options){
+    
+    protected void setOptions(QueryOptions options){
         this.options = options;
     }
     
-    public SearchQuery setTextFilter(String textField, String queryString){
+    protected SearchQuery setTextFilter(String textField, String queryString){
         this.textQueryStrings.add(textField + ":" + Sanitizer.sanitizeForHtml(queryString).toLowerCase().trim());
         return this;
     }
     
-    public SearchQuery setDateFilter(String dateField, String startTime, String endTime){
+    protected SearchQuery setDateFilter(String dateField, String startTime, String endTime){
         this.dateQueryStrings.add(startTime + " <= " + dateField + AND + dateField + " <= " + endTime);
         return this;
     }

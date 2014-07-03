@@ -10,6 +10,7 @@ import teammates.common.datatransfer.CommentRecipientType;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
@@ -117,10 +118,10 @@ public class CommentSearchDocument implements SearchDocument {
             //whoCanSee is used to filter documents visible to certain instructor
             .addField(Field.newBuilder().setName("whoCanSee").setText(whoCanSee.toString()))
             //searchableText and createdDate are used to match the query string
-            .addField(Field.newBuilder().setName("searchableText").setText(searchableTextBuilder.toString()))
-            .addField(Field.newBuilder().setName("createdDate").setDate(comment.createdAt))
+            .addField(Field.newBuilder().setName(Const.SearchDocumentField.SEARCHABLE_TEXT).setText(searchableTextBuilder.toString()))
+            .addField(Field.newBuilder().setName(Const.SearchDocumentField.CREATED_DATE).setDate(comment.createdAt))
             //attribute field is used to convert a doc back to attribute
-            .addField(Field.newBuilder().setName("attribute").setText(new Gson().toJson(comment)))
+            .addField(Field.newBuilder().setName(Const.SearchDocumentField.ATTRIBUTE).setText(new Gson().toJson(comment)))
             .setId(comment.getCommentId().toString())
             .build();
         return doc;

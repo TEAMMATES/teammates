@@ -441,6 +441,17 @@ public class Const {
         public static final String CHECK_PERSISTENCE_COURSE = "persistencecourse";
         public static final String CHECK_PERSISTENCE_EVALUATION = "persistenceevalaution";
     }
+    
+    public class SearchIndex {
+        public static final String COMMENT = "comment";
+        public static final String FEEDBACK_RESPONSE_COMMENT = "feedbackresponsecomment";
+    }
+    
+    public class SearchDocumentField {
+        public static final String ATTRIBUTE = "attribute";
+        public static final String SEARCHABLE_TEXT = "searchableText";
+        public static final String CREATED_DATE = "createdDate";
+    }
 
     public class ActionURIs{
         
