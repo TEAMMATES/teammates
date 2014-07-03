@@ -29,6 +29,7 @@ import teammates.common.util.Const;
 import teammates.common.util.Utils;
 import teammates.storage.entity.Comment;
 import teammates.storage.search.CommentSearchDocument;
+import teammates.storage.search.CommentSearchQuery;
 import teammates.storage.search.SearchQuery;
 
 public class CommentsDb extends EntitiesDb{
@@ -237,9 +238,8 @@ public class CommentsDb extends EntitiesDb{
                 .setLimit(10)
                 .setCursor(cursor)
                 .build();
-        SearchQuery query = new SearchQuery(options, googleId)
-                .setTextFilter("searchableText", queryString);
-        Results<ScoredDocument> results = searchDocuments("comment", query);
+        Results<ScoredDocument> results = searchDocuments("comment", 
+                new CommentSearchQuery(options, googleId, queryString));
         
         CommentSearchResultBundle commentSearchResults = new CommentSearchResultBundle().fromResults(results);
         return commentSearchResults;

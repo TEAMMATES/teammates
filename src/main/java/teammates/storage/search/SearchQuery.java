@@ -1,30 +1,34 @@
 package teammates.storage.search;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import teammates.common.util.Sanitizer;
 
 import com.google.appengine.api.search.Query;
 import com.google.appengine.api.search.QueryOptions;
 
-public class SearchQuery {
+public abstract class SearchQuery {
     private static final String AND = " AND ";
     
+    //to be defined by the inherited class
+    protected String visibilityQueryString;
+    
     private QueryOptions options;
-    private String textQueryString = "";
-    private String dateQueryString = "";
-    private String googleId;
+    private List<String> textQueryStrings = new ArrayList<String>();
+    private List<String> dateQueryStrings = new ArrayList<String>();
 
-    public SearchQuery(QueryOptions options, String googleId){
+    public SearchQuery(QueryOptions options){
         this.options = options;
-        this.googleId = googleId;
     }
     
     public SearchQuery setTextFilter(String textField, String queryString){
-        this.textQueryString = textField + ":" + Sanitizer.sanitizeForHtml(queryString).toLowerCase().trim();
+        this.textQueryStrings.add(textField + ":" + Sanitizer.sanitizeForHtml(queryString).toLowerCase().trim());
         return this;
     }
     
     public SearchQuery setDateFilter(String dateField, String startTime, String endTime){
-        this.dateQueryString = startTime + " <= " + dateField + " AND " + dateField + " <= " + endTime;
+        this.dateQueryStrings.add(startTime + " <= " + dateField + AND + dateField + " <= " + endTime);
         return this;
     }
     
@@ -36,12 +40,12 @@ public class SearchQuery {
     }
     
     private String buildQueryString(){
-        StringBuilder queryStringBuilder = new StringBuilder("whoCanSee:" + googleId);
-        if(!textQueryString.isEmpty()){
-            queryStringBuilder.append(AND).append(textQueryString);
+        StringBuilder queryStringBuilder = new StringBuilder(visibilityQueryString);
+        for(String textQuery : textQueryStrings){
+            queryStringBuilder.append(AND).append(textQuery);
         }
-        if(!dateQueryString.isEmpty()){
-            queryStringBuilder.append(AND).append(dateQueryString);
+        for(String dateQuery : dateQueryStrings){
+            queryStringBuilder.append(AND).append(dateQuery);
         }
         return queryStringBuilder.toString();
     }
