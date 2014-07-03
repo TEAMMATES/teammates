@@ -14,6 +14,13 @@
       "email": "CCDetailsUiT.instr2@gmail.com",
       "institute": "National University of Singapore"
     },
+    "CCDetailsUiT.instr2Helper": {
+      "googleId": "CCDetailsUiT.instr2Helper",
+      "name": "Teammates Test 2",
+      "isInstructor": true,
+      "email": "CCDetailsUiT.instr2Helper@gmail.com",
+      "institute": "National University of Singapore"
+    },
     "CCDetailsUiT.coord": {
       "googleId": "CCDetailsUiT.coord",
       "name": "Teammates Coord",
@@ -62,7 +69,8 @@
       "name": "Teammates Test",
       "email": "CCDetailsUiT.instr@gmail.com",
       "role":"Co-owner",
-      "displayedName":"Co-owner",
+      "isDisplayedToStudents":true,
+      "displayedName":"Instructor",
       "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
     },
     "CCDetailsUiT.coord": {
@@ -71,7 +79,8 @@
       "name": "Teammates Coord",
       "email": "CCDetailsUiT.coord@gmail.com",
       "role":"Co-owner",
-      "displayedName":"Co-owner",
+      "isDisplayedToStudents":true,
+      "displayedName":"Instructor",
       "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
     },
     "CCDetailsUiT.instr2": {
@@ -80,8 +89,19 @@
       "name": "Teammates Test 2",
       "email": "CCDetailsUiT.instr2@gmail.com",
       "role":"Co-owner",
-      "displayedName":"Co-owner",
+      "isDisplayedToStudents":true,
+      "displayedName":"Instructor",
       "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+    },
+    "CCDetailsUiT.instr2Helper": {
+      "googleId": "CCDetailsUiT.instr2Helper",
+      "courseId": "CCDetailsUiT.CS2103",
+      "name": "Teammates Test 2",
+      "email": "CCDetailsUiT.instr2Helper@gmail.com",
+      "role":"Helper",
+      "isDisplayedToStudents":true,
+      "displayedName":"Instructor",
+      "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": false,\n    \"cangivecommentinsection\": false,\n    \"cansubmitsessioninsection\": false,\n    \"canmodifysessioncommentinsection\": false,\n    \"canmodifycommentinsection\": false,\n    \"canmodifycourse\": false,\n    \"canviewsessioninsection\": false,\n    \"canmodifysession\": false,\n    \"canviewcommentinsection\": false,\n    \"canmodifystudent\": false,\n    \"canmodifyinstructor\": false\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
     },
     "CCDetailsUiT.instrForEmptyCourse": {
       "googleId": "CCDetailsUiT.instr",
@@ -89,7 +109,8 @@
       "name": "Teammates Test",
       "email": "CCDetailsUiT.instr@gmail.com",
       "role":"Co-owner",
-      "displayedName":"Co-owner",
+      "isDisplayedToStudents":true,
+      "displayedName":"Instructor",
       "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
     }
   },

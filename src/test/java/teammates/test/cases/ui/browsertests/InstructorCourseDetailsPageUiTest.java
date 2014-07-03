@@ -23,7 +23,6 @@ import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorCourseDetailsPage;
 import teammates.test.pageobjects.InstructorCourseStudentDetailsEditPage;
 import teammates.test.pageobjects.InstructorCourseStudentDetailsViewPage;
-import teammates.test.pageobjects.InstructorStudentRecordsPage;
 
 /**
  * Tests 'Course Details' view for Instructors.
@@ -65,7 +64,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         courseId = testData.courses.get("CCDetailsUiT.CourseWithoutStudents").id;
         detailsPage = getCourseDetailsPage();
 
-        detailsPage.verifyHtmlMainContent("/InstructorCourseDetailsEmptyCourse.html");
+        detailsPage.verifyHtml("/InstructorCourseDetailsEmptyCourse.html");
 
         ______TS("content: multiple students with sections");
         
@@ -74,6 +73,13 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
 
         detailsPage = getCourseDetailsPage();
         detailsPage.verifyHtmlMainContent("/InstructorCourseDetailsWithSections.html");
+        
+        ______TS("content: multiple students with sections with helper view");
+        
+        instructorId = testData.instructors.get("CCDetailsUiT.instr2Helper").googleId;
+
+        detailsPage = getCourseDetailsPage();
+        detailsPage.verifyHtmlMainContent("/InstructorCourseDetailsWithSectionsWithHelperView.html");
         
         ______TS("content: multiple students without sections");
         
