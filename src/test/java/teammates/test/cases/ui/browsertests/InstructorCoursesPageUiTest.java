@@ -65,8 +65,6 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         
         /* Explanation: Gets a browser instance to be used for this class. */
         browser = BrowserPool.getBrowser();
-        
-        //System.setProperty("godmode", "true");
     }
 
 
@@ -120,7 +118,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         
         instructorId = testData.accounts.get("instructorWithoutCourses").googleId;
         coursesPage = getCoursesPage();
-        coursesPage.verifyHtmlMainContent("/instructorCoursesNoCourse.html");
+        coursesPage.verifyHtml("/instructorCoursesNoCourse.html");
         
         ______TS("multiple course");
         
