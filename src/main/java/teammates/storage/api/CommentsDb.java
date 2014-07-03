@@ -229,8 +229,6 @@ public class CommentsDb extends EntitiesDb{
     public CommentSearchResultBundle search(String queryString, String googleId, String cursorString){
         if(queryString.trim().isEmpty()) 
             return new CommentSearchResultBundle();
-
-        CommentSearchResultBundle commentSearchResults = new CommentSearchResultBundle();
         
         Cursor cursor = cursorString.isEmpty()? Cursor.newBuilder().build(): Cursor.newBuilder().build(cursorString);
         
@@ -243,10 +241,7 @@ public class CommentsDb extends EntitiesDb{
                 .setTextFilter("searchableText", queryString);
         Results<ScoredDocument> results = searchDocuments("comment", query);
         
-        commentSearchResults.cursor = results.getCursor();
-        for(ScoredDocument result : results){
-            commentSearchResults.fromDocument(result);
-        }
+        CommentSearchResultBundle commentSearchResults = new CommentSearchResultBundle().fromResults(results);
         return commentSearchResults;
     }
     
