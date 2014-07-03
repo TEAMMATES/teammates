@@ -22,7 +22,7 @@ public abstract class BaseTaskQueueCallback implements LocalTaskQueueCallback {
     }
     
     public static boolean verifyTaskCount(int expectedCount) {
-        waitForTaskQueueExecution(expectedCount);
+        waitForTaskQueueExecution(expectedCount, 0);
         if(expectedCount == BaseTaskQueueCallback.taskCount){
             return true;
         } else {
