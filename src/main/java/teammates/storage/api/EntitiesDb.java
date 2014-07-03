@@ -4,9 +4,9 @@ import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
 
-import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
+import com.google.appengine.api.search.SearchQueryException;
 
 import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -187,7 +187,12 @@ public abstract class EntitiesDb {
     }
     
     protected Results<ScoredDocument> searchDocuments(String indexName, SearchQuery query) {
-        return SearchManager.searchDocuments(indexName, query.toQuery());
+        try{
+            return SearchManager.searchDocuments(indexName, query.toQuery());
+        } catch (SearchQueryException e){
+            log.info("Unsupported query for this query string: " + query.toString());
+            return null;
+        }
     }
     
     protected void deleteDocument(String indexName, String documentId){

@@ -25,7 +25,7 @@ public abstract class SearchQuery {
     }
     
     protected SearchQuery setTextFilter(String textField, String queryString){
-        this.textQueryStrings.add(textField + ":" + Sanitizer.sanitizeForHtml(queryString).toLowerCase().trim());
+        this.textQueryStrings.add(textField + ":" + Sanitizer.sanitizeForSearch(queryString).toLowerCase().trim());
         return this;
     }
     
@@ -39,6 +39,11 @@ public abstract class SearchQuery {
         return Query.newBuilder()
                 .setOptions(options)
                 .build(queryString);
+    }
+    
+    @Override
+    public String toString(){
+        return buildQueryString();
     }
     
     private String buildQueryString(){

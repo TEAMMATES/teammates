@@ -18,6 +18,8 @@ public class CommentSearchResultBundle {
     public CommentSearchResultBundle(){}
     
     public CommentSearchResultBundle fromResults(Results<ScoredDocument> results){
+        if(results == null) return this;
+        
         cursor = results.getCursor();
         for(ScoredDocument doc:results){
             CommentAttributes comment = new Gson().fromJson(
