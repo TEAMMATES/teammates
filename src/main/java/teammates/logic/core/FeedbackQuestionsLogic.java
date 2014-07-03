@@ -7,11 +7,14 @@ import static teammates.common.datatransfer.FeedbackParticipantType.TEAMS;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.FeedbackAbstractQuestionDetails;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionBundle;
@@ -64,7 +67,22 @@ public class FeedbackQuestionsLogic {
         adjustQuestionNumbers(questions.size()+1, fqa.questionNumber, questions);
         fqa.removeIrrelevantVisibilityOptions();
         fqDb.createEntityWithoutExistenceCheck(fqa);
-    }    
+    }
+    
+    public FeedbackQuestionAttributes copyFeedbackQuestion(String feedbackQuestionId,
+            String feedbackSessionName, String courseId, String instructorEmail)
+            throws InvalidParametersException {
+
+        FeedbackQuestionAttributes question = getFeedbackQuestion(feedbackQuestionId);
+        question.feedbackSessionName = feedbackSessionName;
+        question.courseId = courseId;
+        question.creatorEmail = instructorEmail;
+        question.setId(null);
+
+        createFeedbackQuestion(question);
+        
+        return question;
+    }
 
     
     /**
@@ -103,6 +121,50 @@ public class FeedbackQuestionsLogic {
         Collections.sort(questions);
         
         return questions;
+    }
+
+    /**
+     *  Gets a {@link List} of every FeedbackQuestion that the instructor can copy
+     */
+    public List<FeedbackQuestionAttributes> getCopiableFeedbackQuestionsForInstructor(
+            String googleId)
+            throws EntityDoesNotExistException {
+        
+        List<FeedbackQuestionAttributes> copiableQuestions = new ArrayList<FeedbackQuestionAttributes>();
+        List<CourseAttributes> courses = coursesLogic.getCoursesForInstructor(googleId);
+        for(CourseAttributes course : courses) {
+            List<FeedbackSessionAttributes> sessions = fsLogic.getFeedbackSessionsForCourse(course.id);
+            for(FeedbackSessionAttributes session : sessions) {
+                List<FeedbackQuestionAttributes> questions = getFeedbackQuestionsForSession(session.feedbackSessionName, course.id);
+                copiableQuestions.addAll(questions);
+            }
+        }
+        Collections.sort(copiableQuestions, new Comparator<FeedbackQuestionAttributes>(){
+            @Override
+            public int compare(FeedbackQuestionAttributes q1, FeedbackQuestionAttributes q2) {
+                int order = q1.courseId.compareTo(q2.courseId);
+                if(order != 0){
+                    return order;
+                }
+                
+                order = q1.feedbackSessionName.compareTo(q2.feedbackSessionName);
+                if(order != 0){
+                    return order;
+                }
+                
+                FeedbackAbstractQuestionDetails q1Details = q1.getQuestionDetails();
+                FeedbackAbstractQuestionDetails q2Details = q2.getQuestionDetails();
+                
+                order = q1Details.getQuestionTypeDisplayName().compareTo(q2Details.getQuestionTypeDisplayName());
+                if(order != 0){
+                    return order;
+                }
+                
+                return q1Details.questionText.compareTo(q2Details.questionText);
+            }
+        });
+        
+        return copiableQuestions;
     }
     
     /**

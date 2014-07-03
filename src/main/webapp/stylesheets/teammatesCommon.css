@@ -54,6 +54,10 @@ body {
     cursor: hand;
 }
 
+.row-selected {
+    background-color: #f5f5f5;
+}
+
 /*
 Apply to thead to make headers not bold.
 */

@@ -387,7 +387,7 @@
                                                             <%}%>
                                                             /> Sessions: Edit/Delete Responses/Comments by Others<br><br>
                                                         </div>
-                                                        <% if (!data.evalNames.isEmpty() && !data.feedbackNames.isEmpty()) { %>
+                                                        <% if (!data.evalNames.isEmpty() || !data.feedbackNames.isEmpty()) { %>
                                                         <a href="javascript:;" 
                                                             <% if (!instructor.privileges.isSessionsInSectionSpecial(data.sectionNames.get(j))) { %> 
                                                             onclick="showTuneSessionnPermissionsDiv(<%=index%>, <%=j%>)"

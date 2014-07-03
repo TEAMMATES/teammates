@@ -204,7 +204,7 @@ function bindCopyButton() {
         
         var isExistingSession = false;
 
-        var sessionsList = $("tr[id^='session'");
+        var sessionsList = $("tr[id^='session']");
         if(sessionsList.length == 0){
             setStatusMessage(FEEDBACK_SESSION_COPY_INVALID, true);
             return false;
@@ -272,7 +272,7 @@ function bindCopyEvents() {
 
     modalSelectedRow = $('#copyTableModal >tbody>tr:first');
     if(typeof modalSelectedRow != 'undefined'){
-        $(modalSelectedRow).css('background-color', '#f5f5f5');
+        $(modalSelectedRow).addClass('row-selected');
     }
     
     $('#copyTableModal >tbody>tr').on('click', function(e){
@@ -284,11 +284,11 @@ function bindCopyEvents() {
         $('#modalCourseId').val(courseId.trim());
 
         if(typeof modalSelectedRow != 'undefined'){
-            $(modalSelectedRow).css('background-color', 'white');
+            $(modalSelectedRow).removeClass('row-selected');
         }
 
         modalSelectedRow = this;
-        $(modalSelectedRow).css('background-color','#f5f5f5');
+        $(modalSelectedRow).addClass('row-selected');
 
         return false;
     });
