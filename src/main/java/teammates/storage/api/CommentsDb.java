@@ -228,7 +228,9 @@ public class CommentsDb extends EntitiesDb{
         if(queryString.trim().isEmpty())
             return new CommentSearchResultBundle();
         
-        Cursor cursor = cursorString.isEmpty()? Cursor.newBuilder().build(): Cursor.newBuilder().build(cursorString);
+        Cursor cursor = cursorString.isEmpty()
+                ? Cursor.newBuilder().build()
+                : Cursor.newBuilder().build(cursorString);
         
         QueryOptions options = QueryOptions.newBuilder()
                 .setFieldsToReturn(Const.SearchDocumentField.ATTRIBUTE)
@@ -238,8 +240,7 @@ public class CommentsDb extends EntitiesDb{
         Results<ScoredDocument> results = searchDocuments(Const.SearchIndex.COMMENT, 
                 new CommentSearchQuery(options, googleId, queryString));
         
-        CommentSearchResultBundle commentSearchResults = new CommentSearchResultBundle().fromResults(results);
-        return commentSearchResults;
+        return new CommentSearchResultBundle().fromResults(results);
     }
     
     private List<Comment> getCommentEntitiesForSendingState(String courseId, CommentSendingState sendingState){

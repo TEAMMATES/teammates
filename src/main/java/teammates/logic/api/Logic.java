@@ -1970,10 +1970,10 @@ public class Logic {
         return commentsLogic.getComment(commentId);
     }
     
-    public CommentSearchResultBundle searchComment(String queryString, String googleId) {
+    public CommentSearchResultBundle searchComment(String queryString, String googleId, String cursorString) {
         Assumption.assertNotNull(queryString);
         Assumption.assertNotNull(googleId);
-        return commentsLogic.searchComment(queryString, googleId);
+        return commentsLogic.searchComment(queryString, googleId, cursorString);
     }
     
     /**

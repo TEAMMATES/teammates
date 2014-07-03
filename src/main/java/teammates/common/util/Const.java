@@ -451,6 +451,9 @@ public class Const {
         public static final String ATTRIBUTE = "attribute";
         public static final String SEARCHABLE_TEXT = "searchableText";
         public static final String CREATED_DATE = "createdDate";
+        public static final String COURSE_ID = "courseId";
+        public static final String GIVER_EMAIL = "giverEmail";
+        public static final String IS_VISIBLE_TO_INSTRUCTOR = "isVisibleToInstructor";
     }
 
     public class ActionURIs{

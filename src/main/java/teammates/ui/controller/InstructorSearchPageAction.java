@@ -18,10 +18,10 @@ public class InstructorSearchPageAction extends Action {
         String key = getRequestParamValue(Const.ParamsNames.SEARCH_KEY);
         if(key == null) key = "";
 
-        CommentSearchResultBundle commentSearchResults = logic.searchComment(key, account.googleId);
+        CommentSearchResultBundle commentSearchResults = logic.searchComment(key, account.googleId, "");
         
         InstructorSearchPageData data = new InstructorSearchPageData(account);
-        data.comments = commentSearchResults.comments;
+        data.commentSearchResultBundle = commentSearchResults;
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_SEARCH, data);
     }
 

@@ -89,10 +89,11 @@
         </form>
         <br>
         <%
-        for(CommentAttributes comment:data.comments){
+        for(CommentAttributes comment:data.commentSearchResultBundle.comments){
             out.write(comment.toString() + "<br><br><br>");
         }
         %>
+        <%=data.commentSearchResultBundle.cursor != null?data.commentSearchResultBundle.cursor.toWebSafeString():""%>
         </div>
     </div>
 
