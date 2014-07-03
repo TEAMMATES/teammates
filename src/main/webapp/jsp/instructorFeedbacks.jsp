@@ -593,10 +593,10 @@
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                 <h4 class="modal-title" id="copyModalTitle">Copy Sessions</h4>
               </div>
-              <div class="modal-body padding-0">
+              <div class="modal-body">
                     <form class="form" id="copyModalForm" role="form" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_COPY%>">
                     <!-- Course -->
-                    <div class="form-group" style="padding:10px;">
+                    <div class="form-group">
                         <label for="modalCopiedCourseId"
                                 class="control-label">Course ID</label>
                         <select class="form-control"
@@ -609,7 +609,7 @@
                         </select>
                     </div>
                     <!-- Session Name -->
-                    <div class="form-group" style="padding:10px;">
+                    <div class="form-group">
                         <label for="modalCopiedSessionName"
                             class="control-label">Session
                             name</label>
@@ -622,8 +622,8 @@
                             placeholder="e.g. Feedback for Project Presentation 1">
                     </div>
                     <!-- Previous Session -->
-                    <label style="padding:10px;"> Copied Session </label>
-                    <table class="table-responsive table table-hover margin-0" id="copyTableModal">
+                    <label> Copied Session </label>
+                    <table class="table-responsive table table-bordered table-hover margin-0" id="copyTableModal">
                         <thead class="fill-primary">
                             <th> Course ID </th>
                             <th> Feedback Session Name </th>
