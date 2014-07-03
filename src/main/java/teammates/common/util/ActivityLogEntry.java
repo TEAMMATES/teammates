@@ -24,7 +24,7 @@ public class ActivityLogEntry {
     private boolean toShow;
     private String message;
     private String url;
-    
+    private Long processTime;
     
     /**
      * Constructor that creates a empty ActivityLog
@@ -52,7 +52,7 @@ public class ActivityLogEntry {
         time = appLog.getTimeUsec() / 1000;
         String[] tokens = appLog.getLogMessage().split("\\|\\|\\|", -1);
         
-        //TEAMMATESLOG|||SERVLET_NAME|||ACTION|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL|||MESSAGE(IN HTML)|||URL
+        //TEAMMATESLOG|||SERVLET_NAME|||ACTION|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL|||MESSAGE(IN HTML)|||URL|||PROCESS_TIME
         try{
             servletName = tokens[1];
             action = tokens[2];
@@ -63,6 +63,7 @@ public class ActivityLogEntry {
             email = tokens[7];
             message = tokens[8];
             url = tokens[9];
+            processTime = tokens.length == 11? Long.parseLong(tokens[10]) : null;
         } catch (ArrayIndexOutOfBoundsException e){
             
             servletName = "Unknown";
@@ -75,6 +76,7 @@ public class ActivityLogEntry {
             message = "<span class=\"text-danger\">Error. Problem parsing log message from the server.</span><br>"
                     + "System Error: " + e.getMessage() + "<br>" + appLog.getLogMessage();
             url = "Unknown";
+            processTime = null;
         }
     }
     
@@ -234,6 +236,12 @@ public class ActivityLogEntry {
         }
                 
         return message;
+    }
+    
+    public Long getTimingInfo(){
+        
+        return processTime;
+        
     }
     
     
