@@ -23,7 +23,7 @@ public class CommentSearchResultBundle {
         cursor = results.getCursor();
         for(ScoredDocument doc:results){
             CommentAttributes comment = new Gson().fromJson(
-                    doc.getOnlyField(Const.SearchDocumentField.ATTRIBUTE).getText(), 
+                    doc.getOnlyField(Const.SearchDocumentField.COMMENT_ATTRIBUTE).getText(), 
                     CommentAttributes.class);
             comment.sendingState = CommentSendingState.SENT;
             this.comments.add(comment);

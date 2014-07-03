@@ -133,7 +133,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
                 + ", feedbackQuestionId = " + feedbackQuestionId
                 + ", giverEmail = " + giverEmail 
                 + ", feedbackResponseId = " + feedbackResponseId
-                + ", commentText = " + commentText 
+                + ", commentText = " + commentText.getValue() 
                 + ", createdAt = " + createdAt + "]";
     }
 }
