@@ -1,5 +1,7 @@
 //TODO: Move constants from Common.js into appropriate files if not shared.
 
+var modalSelectedRow;
+
 function isFeedbackSessionNameValid(name) {
     if (name.indexOf("\\") >= 0 || name.indexOf("'") >= 0
             || name.indexOf("\"") >= 0) {
@@ -202,23 +204,19 @@ function bindCopyButton() {
         
         var isExistingSession = false;
 
-        if(newFeedbackSessionName.trim() == ""){
-            setStatusMessage(DISPLAY_FEEDBACK_SESSION_NAME_EMPTY, true);
+        var sessionsList = $("tr[id^='session'");
+        if(sessionsList.length == 0){
+            setStatusMessage(FEEDBACK_SESSION_COPY_INVALID, true);
             return false;
-        } else if (!isFeedbackSessionNameValid(newFeedbackSessionName)) {
-            setStatusMessage(DISPLAY_FEEDBACK_SESSION_NAMEINVALID, true);
-            return false;
-        } else if (!isFeedbackSessionNameLengthValid(newFeedbackSessionName)) {
-            setStatusMessage(DISPLAY_FEEDBACK_SESSION_NAME_LENGTHINVALID, true);
-            return false;
-        }
+        } 
 
-        $("tr[id^='session']").each(function(){
+        $(sessionsList).each(function(){
             var cells = $(this).find("td");
             var courseId = $(cells[0]).text();
             var feedbackSessionName = $(cells[1]).text();
             if(selectedCourseId == courseId && newFeedbackSessionName == feedbackSessionName){
                 isExistingSession = true;
+                return false;
             }
         });
 
@@ -226,17 +224,58 @@ function bindCopyButton() {
             setStatusMessage(DISPLAY_FEEDBACK_SESSION_NAME_DUPLICATE, true);
         } else {
             setStatusMessage("", false);
+
+            var firstSession = $(sessionsList[0]).find("td");
+            var firstSessionCourseId = $(firstSession[0]).text();
+            var firstSessionName = $(firstSession[1]).text();
+
             $('#copyModal').modal('show');
             $('#modalCopiedSessionName').val(newFeedbackSessionName.trim());
             $('#modalCopiedCourseId').val(selectedCourseId.trim());
+            if($('#modalCourseId').val().trim() == ""){
+                $('#modalCourseId').val(firstSessionCourseId);
+            }
+            if($('#modalSessionName').val().trim() == ""){
+                $('#modalSessionName').val(firstSessionName);
+            }
         }
+
+        return false;
+    });
+
+    $('#button_copy_submit').on('click', function(e){
+        e.preventDefault();
+
+        var newFeedbackSessionName = $('#modalCopiedSessionName').val();
+
+        if(newFeedbackSessionName.trim() == ""){
+            setStatusMessage(DISPLAY_FEEDBACK_SESSION_NAME_EMPTY, true);
+            $('#copyModal').modal('hide');
+            return false;
+        } else if (!isFeedbackSessionNameValid(newFeedbackSessionName)) {
+            setStatusMessage(DISPLAY_FEEDBACK_SESSION_NAMEINVALID, true);
+            $('#copyModal').modal('hide');
+            return false;
+        } else if (!isFeedbackSessionNameLengthValid(newFeedbackSessionName)) {
+            setStatusMessage(DISPLAY_FEEDBACK_SESSION_NAME_LENGTHINVALID, true);
+            $('#copyModal').modal('hide');
+            return false;
+        }
+
+        $('#copyModalForm').submit();
 
         return false;
     });
 }
 
 function bindCopyEvents() {
-    $('#copyTableModal tr').on('click', function(e){
+
+    modalSelectedRow = $('#copyTableModal >tbody>tr:first');
+    if(typeof modalSelectedRow != 'undefined'){
+        $(modalSelectedRow).css('background-color', '#f5f5f5');
+    }
+    
+    $('#copyTableModal >tbody>tr').on('click', function(e){
         e.preventDefault();
         var cells = $(this).find("td");
         var courseId = $(cells[0]).text();
@@ -244,7 +283,12 @@ function bindCopyEvents() {
         $('#modalSessionName').val(feedbackSessionName.trim());
         $('#modalCourseId').val(courseId.trim());
 
-        $('#copyModalForm').submit();
+        if(typeof modalSelectedRow != 'undefined'){
+            $(modalSelectedRow).css('background-color', 'white');
+        }
+
+        modalSelectedRow = this;
+        $(modalSelectedRow).css('background-color','#f5f5f5');
 
         return false;
     });
