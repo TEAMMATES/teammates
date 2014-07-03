@@ -62,30 +62,33 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
     
     public void testContent() throws Exception{
 
-        ______TS("page load");
+        ______TS("page load: Helper privileges");
         
+        instructorId = testData.instructors.get("InsCrsEdit.Helper").googleId;
         courseEditPage = getCourseEditPage();
-        courseEditPage.verifyHtmlMainContent("/instructorCourseEdit.html" );
+        courseEditPage.verifyHtml("/instructorCourseEditHelper.html");
+        
+        ______TS("page load: Co-owner privileges");
+        
+        instructorId = testData.instructors.get("InsCrsEdit.test").googleId;
+        courseEditPage = getCourseEditPage();
+        courseEditPage.verifyHtmlMainContent("/instructorCourseEditCoowner.html" );
     }
     
     private void testEditInstructorLink() {
-        courseEditPage = getCourseEditPage();
         
         ______TS("edit instructor link");
         assertEquals(true, courseEditPage.clickEditInstructorLink());
     }
 
     private void testNewInstructorLink() {
-        courseEditPage = getCourseEditPage();
         
         ______TS("add new instructor link");
         assertEquals(true, courseEditPage.clickShowNewInstructorFormButton());
     }
 
     private void testInputValidation() {
-        courseEditPage = getCourseEditPage();
         
-        courseEditPage.clickEditInstructorLink();
         courseEditPage.clickShowNewInstructorFormButton();
         
         ______TS("Checking max-length enforcement by the text boxes");
@@ -114,8 +117,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
     private void testInviteInstructorAction() {
 
         ______TS("success: invite an uregistered instructor");
-
-        courseEditPage = getCourseEditPage();
+        
         courseEditPage.clickInviteInstructorLink();
         courseEditPage.verifyStatus(Const.StatusMessages.COURSE_REMINDER_SENT_TO + "InsCrsEdit.newInstr@gmail.com");
     }
@@ -124,7 +126,6 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 
         ______TS("success: add an instructor");
         
-        courseEditPage = getCourseEditPage();
         courseEditPage.addNewInstructor("Teammates Instructor", "InsCrsEdit.instructor@gmail.com");
         courseEditPage.verifyStatus(
                 String.format(Const.StatusMessages.COURSE_INSTRUCTOR_ADDED,
@@ -136,23 +137,21 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
             
         InstructorCourseDetailsPage courseDetailsPage = courseEditPage.navigateTo(courseDetailsLink, InstructorCourseDetailsPage.class);
         courseDetailsPage.verifyHtmlPart(By.id("instructors"), "/instructorCourseDetailsAddInstructor.html");
+        courseEditPage = getCourseEditPage();
     
         ______TS("failure: add an existing instructor");
         
-        courseEditPage = getCourseEditPage();
         courseEditPage.addNewInstructor("Teammates Instructor", "InsCrsEdit.instructor@gmail.com");
         courseEditPage.verifyStatus(Const.StatusMessages.COURSE_INSTRUCTOR_EXISTS);
         
         ______TS("failure: add an instructor with an invalid parameter");
         String invalidEmail = "InsCrsEdit.email.com";
         
-        courseEditPage = getCourseEditPage();
         courseEditPage.addNewInstructor("Teammates Instructor", invalidEmail);
         courseEditPage.verifyStatus((new FieldValidator()).getInvalidityInfo(FieldType.EMAIL, invalidEmail));
 
         String invalidName = "";
-
-        courseEditPage = getCourseEditPage();
+        
         courseEditPage.addNewInstructor(invalidName, "teammates@email.com");
         courseEditPage.verifyStatus((new FieldValidator()).getInvalidityInfo(FieldType.PERSON_NAME, invalidName));
     }
@@ -161,26 +160,41 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 
         ______TS("success: edit an instructor");
         
-        courseEditPage = getCourseEditPage();
         courseEditPage.editInstructor(instructorId, "New name", "new_email@email.com");
         courseEditPage.verifyStatus(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED);
+        
+        ______TS("success: edit an instructor with privileges");
+        
+        assertEquals(true, courseEditPage.clickEditInstructorLink());
+        assertEquals(true, courseEditPage.displayedToStudentCheckBox(1).isSelected());
+        // not displayed to students
+        courseEditPage.clickDisplayedToStudentCheckBox(1);
+        // open up the privileges panel
+        courseEditPage.clickFineTunePermissionLink(1);
+        // select the role as Observer for instr1
+        courseEditPage.selectRoleForInstructor(1, "Observer");
+        courseEditPage.clickAddSessionLevelPrivilegesLink(1);
+        courseEditPage.clickAddSessionLevelPrivilegesLink(1);
+        courseEditPage.clickAddSessionLevelPrivilegesLink(1);
+        // after 3 sections added, no more things to add
+        assertEquals(false, courseEditPage.addSessionLevelPrivilegesLink(1).isDisplayed());
+        // TODO: configure more privileges to test the privilege hierarchy. e.g. set can edit/delete comments but unset view comments
+        courseEditPage.clickSaveInstructorButton(1);
+        courseEditPage.verifyHtmlMainContent("/instructorCourseEditEditInstructorPrivilegesSuccessful.html");
         
         ______TS("failure: edit failed due to invalid parameters");
         String invalidEmail = "InsCrsEdit.email.com";
         
-        courseEditPage = getCourseEditPage();
         courseEditPage.editInstructor(instructorId, "New name", invalidEmail);
         courseEditPage.verifyStatus((new FieldValidator()).getInvalidityInfo(FieldType.EMAIL, invalidEmail));
         
         String invalidName = "";
         
-        courseEditPage = getCourseEditPage();
         courseEditPage.editInstructor(instructorId, invalidName, "teammates@email.com");
         courseEditPage.verifyStatus((new FieldValidator()).getInvalidityInfo(FieldType.PERSON_NAME, invalidName));
     }
     
     private void testDeleteInstructorAction() {
-        courseEditPage = getCourseEditPage();
         
         ______TS("delete instructor then cancel");
         courseEditPage.clickDeleteInstructorLinkAndCancel();
@@ -195,14 +209,13 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         courseEditPage.clickDeleteInstructorLinkAndConfirm();
         courseEditPage.clickDeleteInstructorLinkAndConfirm();
         courseEditPage.clickDeleteInstructorLinkAndConfirm();
+        courseEditPage.clickDeleteInstructorLinkAndConfirm();
         courseEditPage.verifyStatus(Const.StatusMessages.COURSE_INSTRUCTOR_DELETE_NOT_ALLOWED);
         
         ______TS("deleted own instructor role and redirect to courses page");
         // Change login id to another instructor
         BackDoor.createInstructor(testData.instructors.get("InsCrsEdit.coord"));
         instructorId = testData.instructors.get("InsCrsEdit.coord").googleId;
-        
-        courseEditPage = getCourseEditPage();
         courseEditPage.clickDeleteInstructorLinkAndConfirm();
 
         InstructorCoursesPage coursesPage = courseEditPage.changePageType(InstructorCoursesPage.class);
@@ -211,11 +224,12 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         
         // Change back login id to original instructor to ensure remaining test cases work properly
         instructorId = testData.instructors.get("InsCrsEdit.test").googleId;
+        BackDoor.createInstructor(testData.instructors.get("InsCrsEdit.test"));
     }
     
     private void testDeleteCourseAction() {
+        // TODO: use navigateTo instead
         courseEditPage = getCourseEditPage();
-        
         ______TS("delete course then cancel");
         courseEditPage.clickDeleteCourseLinkAndCancel();
         assertNotNull(BackDoor.getCourseAsJson(courseId));
@@ -224,7 +238,6 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         InstructorCoursesPage coursePage = 
                 courseEditPage.clickDeleteCourseLinkAndConfirm();
         coursePage.verifyContains("Add New Course");
-
     }
     
     private InstructorCourseEditPage getCourseEditPage() {        
