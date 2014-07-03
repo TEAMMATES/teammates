@@ -1065,19 +1065,19 @@
                 <div class="modal-body padding-0">
                     <form class="form" id="copyModalForm" role="form" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_COPY%>">
                         <!-- Previous Questions -->
-                        <table class="table-responsive table table-hover margin-0" id="copyTableModal">
+                        <table class="table-responsive table table-hover table-bordered margin-0" id="copyTableModal">
                             <thead class="fill-primary">
                                 <th style="width:30px;">&nbsp;</th>
-                                <th onclick="toggleSort(this,1);" id="button_sortid" class="button-sort-ascending"> 
+                                <th onclick="toggleSort(this,2);" id="button_sortid" class="button-sort-ascending"> 
                                     Course ID <span class="icon-sort sorted-ascending"></span>
                                 </th>
-                                <th onclick="toggleSort(this,2);" id="button_sortfsname" class="button-sort-none" style="width:17%;">
+                                <th onclick="toggleSort(this,3);" id="button_sortfsname" class="button-sort-none" style="width:17%;">
                                     Session Name <span class="icon-sort unsorted"></span>
                                 </th>
-                                <th onclick="toggleSort(this,3);" id="button_sortfqtype" class="button-sort-none"> 
+                                <th onclick="toggleSort(this,4);" id="button_sortfqtype" class="button-sort-none"> 
                                     Question Type <span class="icon-sort unsorted"></span>
                                 </th>
-                                <th onclick="toggleSort(this,4);" id="button_sortfqtext" class="button-sort-none"> 
+                                <th onclick="toggleSort(this,5);" id="button_sortfqtext" class="button-sort-none"> 
                                     Question Text <span class="icon-sort unsorted"></span>
                                 </th>
                             </thead>
