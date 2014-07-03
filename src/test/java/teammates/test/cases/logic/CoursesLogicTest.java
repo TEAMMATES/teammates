@@ -49,21 +49,16 @@ public class CoursesLogicTest extends BaseComponentTestCase {
     private AccountsDb accountsDb = new AccountsDb();
     private InstructorsDb instructorsDb = new InstructorsDb();
     
-    private static DataBundle dataBundle;
+    private static DataBundle dataBundle = getTypicalDataBundle();
 
     @BeforeClass
     public static void setupClass() throws Exception {
         printTestClassHeader();
         turnLoggingUp(CoursesLogic.class);
-    }
-
-    @BeforeMethod
-    public void caseSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
         restoreTypicalDataInDatastore();
     }
 
-    @Test
+    @Test(dependsOnGroups = { "non-modifier.*" }, alwaysRun = true)
     public void testCreateCourse() throws Exception {
         
         /*Explanation:
@@ -88,7 +83,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         }
     }
     
-    @Test
+    @Test(dependsOnGroups = { "non-modifier.*" }, alwaysRun = true)
     public void testCreateCourseAndInstructor() throws Exception {
         
         /* Explanation: SUT has 5 paths. They are,
@@ -199,7 +194,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         }
     }
     
-    @Test
+    @Test(groups = { "non-modifier" })
     public void testGetCourse() throws Exception {
 
         ______TS("failure: course doesn't exist");
@@ -226,11 +221,11 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         }
     }
     
-    @Test
+    @Test(groups = { "non-modifier" })
     public void testGetArchivedCoursesForInstructor() throws Exception {
         
         ______TS("success: instructor with archive course");
-        String instructorId = getTypicalDataBundle().instructors.get("instructorOfArchivedCourse").googleId;
+        String instructorId = dataBundle.instructors.get("instructorOfArchivedCourse").googleId;
         
         List<CourseAttributes> archivedCourses = coursesLogic.getArchivedCoursesForInstructor(instructorId);
         
@@ -238,7 +233,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         assertEquals(true, archivedCourses.get(0).isArchived);
     
         ______TS("boundary: instructor without archive courses");
-        instructorId = getTypicalDataBundle().instructors.get("instructor1OfCourse1").googleId;
+        instructorId = dataBundle.instructors.get("instructor1OfCourse1").googleId;
         
         archivedCourses = coursesLogic.getArchivedCoursesForInstructor(instructorId);
         
@@ -254,12 +249,12 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         }
     }
     
-    @Test
+    @Test(groups = { "non-modifier" })
     public void testGetCoursesForInstructor() throws Exception {
 
         ______TS("success: instructor with present courses");
         
-        String instructorId = getTypicalDataBundle().accounts.get("instructor3").googleId;
+        String instructorId = dataBundle.accounts.get("instructor3").googleId;
 
         List<CourseAttributes> courses = coursesLogic.getCoursesForInstructor(instructorId);
 
@@ -267,7 +262,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
         ______TS("boundary: instructor without any courses");
         
-        instructorId = getTypicalDataBundle().accounts.get("instructorWithoutCourses").googleId;
+        instructorId = dataBundle.accounts.get("instructorWithoutCourses").googleId;
 
         courses = coursesLogic.getCoursesForInstructor(instructorId);
 
@@ -283,7 +278,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         }
     }
 
-    @Test
+    @Test(groups = { "non-modifier" })
     public void testIsSampleCourse() {
         
         ______TS("typical case: not a sample course");
@@ -313,7 +308,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         }
     }
 
-    @Test
+    @Test(groups = { "non-modifier" })
     public void testIsCoursePresent() {
 
         ______TS("typical case: not an existent course");
@@ -339,7 +334,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         }
     }
 
-    @Test
+    @Test(groups = { "non-modifier" })
     public void testVerifyCourseIsPresent() throws Exception {
 
         ______TS("typical case: verify an inexistent course");
@@ -369,7 +364,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         }
     }
     
-    @Test
+    @Test(dependsOnGroups = { "non-modifier.*" }, alwaysRun = true)
     public void testSetArchiveStatusOfCourse() throws Exception {
         
         CourseAttributes course = new CourseAttributes("CLogicT.new-course", "New course");
@@ -410,7 +405,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         }
     }
 
-     @Test
+    @Test(groups = { "non-modifier" })
     public void testGetCourseSummary() throws Exception {
 
         ______TS("typical case");
@@ -469,7 +464,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         }
     }
 
-    @Test
+    @Test(groups = { "non-modifier" })
     public void testGetCourseSummaryWithoutStats() throws Exception {
 
         ______TS("typical case");
@@ -519,7 +514,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         }
     }
 
-    @Test
+    @Test(groups = { "non-modifier" })
     public void testGetCourseDetails() throws Exception {
 
         ______TS("typical case");
@@ -581,7 +576,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         }
     }
 
-    @Test
+    @Test(groups = { "non-modifier" })
     public void testGetTeamsForCourse() throws Exception {
        
         ______TS("typical case");
@@ -627,7 +622,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         }
     }
 
-    @Test 
+    @Test(groups = { "non-modifier" }) 
     public void testGetNumberOfSections() throws Exception {
 
         ______TS("Typical case");
@@ -663,7 +658,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         }
     }
 
-    @Test 
+    @Test(groups = { "non-modifier" }) 
     public void testGetNumberOfTeams() throws Exception {
         
         ______TS("typical case");
@@ -706,7 +701,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         }
     }
 
-    @Test
+    @Test(groups = { "non-modifier" })
     public void testGetTotalEnrolledInCourse() throws Exception {
         
         ______TS("typical case");
@@ -749,7 +744,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         }
     }
 
-    @Test
+    @Test(groups = { "non-modifier" })
     public void testGetTotalUnregisteredInCourse() throws Exception {
 
         ______TS("typical case");
@@ -792,7 +787,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         }
     }
 
-    @Test
+    @Test(groups = { "non-modifier" })
     public void testGetCoursesForStudentAccount() throws Exception {
 
         ______TS("student having two courses");
@@ -845,7 +840,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         }
     }
 
-     @Test
+    @Test(groups = { "non-modifier" })
     public void testGetCourseDetailsListForStudent() throws Exception {
 
         ______TS("student having multiple evaluations in multiple courses");
@@ -944,7 +939,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         }
     }
 
-    @Test
+    @Test(groups = { "non-modifier" })
     public void testGetCourseSummariesForInstructor() throws Exception {
 
         ______TS("Instructor with 2 courses");
@@ -982,7 +977,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
        
     }
 
-    @Test
+    @Test(groups = { "non-modifier" })
     public void testGetCourseDetailsListForInstructor() throws Exception {
 
         ______TS("Typical case");
@@ -1053,7 +1048,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         }
     }
 
-    @Test
+    @Test(groups = { "non-modifier" })
     public void testGetCoursesSummaryWithoutStatsForInstructor() throws Exception {
 
         ______TS("Typical case");
@@ -1124,12 +1119,12 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         }
     }
 
-    @Test
+    @Test(groups = { "non-modifier" })
     public void testGetCourseStudentListAsCsv() throws Exception {
 
         ______TS("Typical case: course with section");
         
-        InstructorAttributes instructor1OfCourse1 = getTypicalDataBundle().instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         
         String instructorId = instructor1OfCourse1.googleId;
         String courseId = instructor1OfCourse1.courseId;
@@ -1148,7 +1143,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
         ______TS("Typical case: course without sections");
 
-        InstructorAttributes instructor1OfCourse2 = getTypicalDataBundle().instructors.get("instructor1OfCourse2");
+        InstructorAttributes instructor1OfCourse2 = dataBundle.instructors.get("instructor1OfCourse2");
 
         instructorId = instructor1OfCourse2.googleId;
         courseId = instructor1OfCourse2.courseId;
@@ -1163,7 +1158,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
         ______TS("Typical case: course with unregistered student");
 
-        InstructorAttributes instructor5 = getTypicalDataBundle().instructors.get("instructor5");
+        InstructorAttributes instructor5 = dataBundle.instructors.get("instructor5");
         
         instructorId = instructor5.googleId;
         courseId = instructor5.courseId;
@@ -1207,17 +1202,17 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         }
     }
 
-    @Test
+    @Test(groups = { "non-modifier" })
     public void testHasIndicatedSections() throws Exception {
 
         ______TS("Typical case: course with sections");
 
-        CourseAttributes typicalCourse1 = getTypicalDataBundle().courses.get("typicalCourse1");
+        CourseAttributes typicalCourse1 = dataBundle.courses.get("typicalCourse1");
         assertTrue(coursesLogic.hasIndicatedSections(typicalCourse1.id));
 
         ______TS("Typical case: course without sections");
 
-        CourseAttributes typicalCourse2 = getTypicalDataBundle().courses.get("typicalCourse2");
+        CourseAttributes typicalCourse2 = dataBundle.courses.get("typicalCourse2");
         assertEquals(false, coursesLogic.hasIndicatedSections(typicalCourse2.id));
 
         ______TS("Failure case: course does not exists");
@@ -1241,7 +1236,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
     }
 
-    @Test
+    @Test(dependsOnGroups = { "non-modifier.*" }, alwaysRun = true)
     public void testDeleteCourse() throws Exception {
     
         ______TS("typical case");
