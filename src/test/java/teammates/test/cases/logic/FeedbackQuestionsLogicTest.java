@@ -9,7 +9,6 @@ import java.util.Map;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.google.appengine.api.datastore.Text;
@@ -40,14 +39,10 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
     public static void classSetUp() throws Exception {
         printTestClassHeader();
         turnLoggingUp(FeedbackSessionsLogic.class);
-    }
-    
-    @BeforeMethod
-    public void caseSetUp() throws Exception {
         restoreTypicalDataInDatastore();
     }
     
-    @Test
+    @Test(priority = 2)
     public void testGetRecipientsForQuestion() throws Exception {
         FeedbackQuestionAttributes question;
         String email;
@@ -107,7 +102,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
 
     }
     
-    @Test
+    @Test(priority = 2)
     public void testUpdateQuestionNumber() throws Exception{
         ______TS("shift question up");
         List<FeedbackQuestionAttributes> expectedList = new ArrayList<FeedbackQuestionAttributes>();
@@ -139,21 +134,21 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         ______TS("shift question down");
         expectedList = new ArrayList<FeedbackQuestionAttributes>();
         q1 = getQuestionFromDatastore("qn1InSession1InCourse1");
-        q1.questionNumber = 2;
+        q1.questionNumber = 1;
         q2 = getQuestionFromDatastore("qn2InSession1InCourse1");
-        q2.questionNumber = 1;
+        q2.questionNumber = 2;
         q3 = getQuestionFromDatastore("qn3InSession1InCourse1");
         q3.questionNumber = 3;
         q4 = getQuestionFromDatastore("qn4InSession1InCourse1");
         q4.questionNumber = 4;
         
-        expectedList.add(q2);
         expectedList.add(q1);
+        expectedList.add(q2);
         expectedList.add(q3);
         expectedList.add(q4);
         
-        questionToUpdate = getQuestionFromDatastore("qn1InSession1InCourse1");
-        questionToUpdate.questionNumber = 2;
+        questionToUpdate = getQuestionFromDatastore("qn3InSession1InCourse1");
+        questionToUpdate.questionNumber = 3;
         fqLogic.updateFeedbackQuestionNumber(questionToUpdate);
         
         actualList = fqLogic.getFeedbackQuestionsForSession(questionToUpdate.feedbackSessionName, questionToUpdate.courseId);
@@ -164,7 +159,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         }
     }
     
-    @Test
+    @Test(priority = 3)
     public void testAddQuestion() throws Exception{
         
         ______TS("Add question for feedback session that does not exist");
@@ -223,25 +218,17 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
                 
         
         ______TS("add new question to the front of the list");
-        restoreTypicalDataInDatastore();
         
-        expectedList = new ArrayList<FeedbackQuestionAttributes>();
-        q1 = getQuestionFromDatastore("qn4InSession1InCourse1");
-        q1.questionNumber = 1;
-        q2 = getQuestionFromDatastore("qn1InSession1InCourse1");
-        q2.questionNumber = 2;
-        q3 = getQuestionFromDatastore("qn2InSession1InCourse1");
-        q3.questionNumber = 3;
-        q4 = getQuestionFromDatastore("qn3InSession1InCourse1");
-        q4.questionNumber = 4;
-        q5 = getQuestionFromDatastore("qn4InSession1InCourse1");
-        q5.questionNumber = 5;
+        FeedbackQuestionAttributes q6 = getQuestionFromDatastore("qn4InSession1InCourse1");
         
-        expectedList.add(q1);
-        expectedList.add(q2);
-        expectedList.add(q3);
-        expectedList.add(q4);
-        expectedList.add(q5);
+        q6.questionNumber = 1;
+        q1.questionNumber = 2;
+        q2.questionNumber = 3;
+        q3.questionNumber = 4;
+        q4.questionNumber = 5;
+        q5.questionNumber = 6;
+        
+        expectedList.add(0, q6);
         
         //Add a question to session1course1 and sets its number to 1
         newQuestion = getQuestionFromDatastore("qn4InSession1InCourse1");
@@ -256,27 +243,16 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
             assertEquals(actualList.get(i), expectedList.get(i));
         }
         
-        
         ______TS("add new question inbetween 2 existing questions");
-        restoreTypicalDataInDatastore();
         
-        expectedList = new ArrayList<FeedbackQuestionAttributes>();
-        q1 = getQuestionFromDatastore("qn1InSession1InCourse1");
-        q1.questionNumber = 1;
-        q2 = getQuestionFromDatastore("qn2InSession1InCourse1");
-        q2.questionNumber = 2;
-        q3 = getQuestionFromDatastore("qn4InSession1InCourse1");
-        q3.questionNumber = 3;
-        q4 = getQuestionFromDatastore("qn3InSession1InCourse1");
-        q4.questionNumber = 4;
-        q5 = getQuestionFromDatastore("qn4InSession1InCourse1");
-        q5.questionNumber = 5;
+        FeedbackQuestionAttributes q7 = getQuestionFromDatastore("qn4InSession1InCourse1");
+        q7.questionNumber = 3;
+        q2.questionNumber = 4;
+        q3.questionNumber = 5;
+        q4.questionNumber = 6;
+        q5.questionNumber = 7;
         
-        expectedList.add(q1);
-        expectedList.add(q2);
-        expectedList.add(q3);
-        expectedList.add(q4);
-        expectedList.add(q5);
+        expectedList.add(2, q7);
         
         //Add a question to session1course1 and place it between existing question 2 and 3
         newQuestion = getQuestionFromDatastore("qn4InSession1InCourse1");
@@ -292,7 +268,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         }
     }
     
-    @Test
+    @Test(priority = 3)
     public void testUpdateQuestion() throws Exception {
         ______TS("standard update, no existing responses, with 'keep existing' policy");
         FeedbackQuestionAttributes questionToUpdate = getQuestionFromDatastore("qn2InSession2InCourse2");
@@ -373,7 +349,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         }
     }
     
-    @Test
+    @Test(priority = 4)
     public void testDeleteQuestion() throws Exception {
         //Success case already tested in update
         ______TS("question already does not exist, silently fail");
@@ -383,7 +359,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         
     }
 
-    @Test
+    @Test(priority = 2)
     public void testGetFeedbackQuestionsForInstructor() throws Exception{
         List<FeedbackQuestionAttributes> expectedQuestions, actualQuestions, allQuestions;
         
@@ -457,7 +433,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         assertEquals(actualQuestions, expectedQuestions);
     }
     
-    @Test
+    @Test(priority = 2)
     public void testGetFeedbackQuestionsForStudents() throws Exception{
         List<FeedbackQuestionAttributes> expectedQuestions, actualQuestions, allQuestions;
         
@@ -511,7 +487,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         assertEquals(actualQuestions, expectedQuestions);
     }
     
-    @Test
+    @Test(priority = 2)
     public void testGetFeedbackQuestionsForTeam() throws Exception{
         List<FeedbackQuestionAttributes> expectedQuestions, actualQuestions;
         
@@ -524,7 +500,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         
     }
     
-    @Test
+    @Test(priority = 1)
     public void testIsQuestionHasResponses() {
         FeedbackQuestionAttributes questionWithResponse, questionWithoutResponse;
         
@@ -539,7 +515,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         assertFalse(fqLogic.isQuestionHasResponses(questionWithoutResponse.getId()));
     }
     
-    @Test
+    @Test(priority = 1)
     public void testIsQuestionAnswered() throws Exception {
         FeedbackQuestionAttributes question;
         ______TS("test question is answered by user");
@@ -567,7 +543,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         
     }  
     
-    @Test
+    @Test(priority = 2)
     public void testGetFeedbackQuestionBundle() throws Exception {
         testGetFeedbackQuestionBundleForInstructor();
         testGetFeedbackQuestionBundleForStudent();
