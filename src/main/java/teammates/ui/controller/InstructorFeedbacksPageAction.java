@@ -39,7 +39,6 @@ public class InstructorFeedbacksPageAction extends Action {
             statusToUser.add(Const.StatusMessages.COURSE_EMPTY_IN_EVALUATION.replace("${user}", "?user="+account.googleId));
             data.existingEvalSessions = new ArrayList<EvaluationAttributes>();
             data.existingFeedbackSessions = new ArrayList<FeedbackSessionAttributes>();
-        
         } else {
             data.existingEvalSessions = loadEvaluationsList(account.googleId);            
             data.existingFeedbackSessions = loadFeedbackSessionsList(account.googleId);
@@ -57,6 +56,7 @@ public class InstructorFeedbacksPageAction extends Action {
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACKS, data);
     }
     
+    // TODO: make use of the courseDetailsBundle. do not make new DB calls!!!
     protected List<FeedbackSessionAttributes> loadFeedbackSessionsList(
             String googleId) throws EntityDoesNotExistException {
         List<FeedbackSessionAttributes> sessions =
@@ -65,6 +65,9 @@ public class InstructorFeedbacksPageAction extends Action {
         return sessions;
     }
 
+    // TODO: same here as above!!!
+    // these two methods are used in add action. maybe we should reconsider this implementation--why add action has to inherit from this?
+    // it is highly possible that this is because of historical reasons--for evaluations previously the structure is add inherit pageAction 
     protected List<EvaluationAttributes> loadEvaluationsList(String userId)
             throws EntityDoesNotExistException {
         List<EvaluationAttributes> evaluations =
@@ -76,18 +79,14 @@ public class InstructorFeedbacksPageAction extends Action {
     protected List<CourseDetailsBundle> loadCoursesList(String userId, HashMap<String, InstructorAttributes> instructors)
             throws EntityDoesNotExistException {
         HashMap<String, CourseDetailsBundle> summary = logic.getCourseSummariesForInstructor(userId);
-        List<CourseDetailsBundle>courses = new ArrayList<CourseDetailsBundle>(summary.values());
-        List<CourseDetailsBundle> allowedCourses = new ArrayList<CourseDetailsBundle>();
+        List<CourseDetailsBundle> courses = new ArrayList<CourseDetailsBundle>(summary.values());
         for (CourseDetailsBundle courseDetails : courses) {
             InstructorAttributes instructor = logic.getInstructorForGoogleId(courseDetails.course.id, account.googleId);
             instructors.put(courseDetails.course.id, instructor);
-            if (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION)) {
-                allowedCourses.add(courseDetails);
-            }
         }
-        CourseDetailsBundle.sortDetailedCoursesByCourseId(allowedCourses);
+        CourseDetailsBundle.sortDetailedCoursesByCourseId(courses);
         
-        return allowedCourses;
+        return courses;
     }
 
 }
