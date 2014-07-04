@@ -19,6 +19,7 @@ import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.Utils;
@@ -41,7 +42,7 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
         turnLoggingUp(BackDoorLogic.class);
     }
 
-    @Test
+    @Test(priority = 2)
     public void testPersistDataBundle() throws Exception {
 
         BackDoorLogic logic = new BackDoorLogic();
@@ -82,15 +83,20 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
         // should be checked at lower level methods
     }
 
-    @Test
+    @Test(priority = 1)
     public void testGetSubmission() throws Exception {
 
         ______TS("typical case");
         SubmissionAttributes expected = dataBundle.submissions
                 .get("submissionFromS1C1ToS1C1");
         
-        new SubmissionsDb().createEntity(expected);
-        new SubmissionsDb().updateSubmission(expected);
+        SubmissionsDb sDb = new SubmissionsDb();
+        try {
+            sDb.createEntity(expected);
+        } catch (EntityAlreadyExistsException e) {
+            // it is alright if the submission already exists
+        }
+        sDb.updateSubmission(expected);
         
         TestHelper.verifyPresentInDatastore(expected);
 
