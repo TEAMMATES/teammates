@@ -4,7 +4,11 @@
 <%@ page import="java.util.List"%>
 <%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.common.util.ActivityLogEntry"%>
+<%@ page import="teammates.ui.controller.ActionFactory"%>
+<%@ page import="java.lang.reflect.Field"%>
 <%@ page import="teammates.ui.controller.AdminActivityLogPageData"%>
+<%@ page import="java.util.List"%>
+<%@ page import="java.util.ArrayList"%>
 
 <%
     AdminActivityLogPageData data = (AdminActivityLogPageData) request
@@ -506,6 +510,77 @@
                                                         </td>
                                                     </tr>
 
+                                                    <%
+                                                     List<String> instructorActions = new ArrayList<String>();
+                                                     List<String> studentActions = new ArrayList<String>();
+                                                     List<String> adminActions = new ArrayList<String>();
+                                                     List<String> systemActions = new ArrayList<String>();
+                                                     
+                                                    
+                                                     for(Field field : Const.ActionURIs.class.getFields()){
+                                                         
+                                                         String rawActionString = field.get(Const.ActionURIs.class).toString();
+                                                         
+                                                         String[] splitedString = rawActionString.split("/");
+                                                         String actionString = splitedString[splitedString.length - 1];
+                                                         
+                                                         if(actionString.startsWith("instructor")){
+                                                             instructorActions.add(actionString);
+                                                         }else if(actionString.startsWith("student")){
+                                                             studentActions.add(actionString);    
+                                                         }else if(actionString.startsWith("admin")){
+                                                             adminActions.add(actionString);
+                                                         }else{
+                                                             systemActions.add(actionString);    
+                                                         }
+                                                         
+                                                     }
+
+                                                     int limitPerBlock = instructorActions.size() / 6;
+                                                     int extraEntry = instructorActions.size() % 6;
+                                                                                                   
+                                                     
+                                                     int entryCount = 0;
+                                                     int colCount = 0;   
+                                                     
+                                                     out.print("<tr>");
+                                                     out.print("<td>");
+                                                     out.print("<ul class=\"list-group\">");
+                                                     for(String action : instructorActions){
+                                                     
+                                                         out.print("<li class=\"list-group-item list-group-item\">"
+                                                                   + action
+                                                                   + "</li>"
+                                                                   );
+                                                         
+                                                         entryCount ++;                                                         
+                                                         if(entryCount == limitPerBlock){
+                                                             
+                                                             out.print("</ul>");
+                                                             out.print("</td>");
+                                                             entryCount = 0;
+                                                             colCount ++;
+                                                             
+                                                             if(colCount == 3){
+                                                              out.print("</tr>");
+                                                              colCount = 0;
+                                                              out.print("<tr>");
+                                                             }
+                                                             
+                                                             out.print("<td>");
+                                                             out.print("<ul class=\"list-group\">");
+                                                             
+                                                         }
+                                                     }
+                                                     
+                                                     out.print("</ul>");
+                                                     out.print("</td>");
+                                                     out.print("</tr>");
+                                                    %>
+                                                    
+
+
+
                                                 </table>
                                             </div>
                                             </p>
@@ -518,8 +593,7 @@
                                                 class="form-control-static">
                                                 <strong>
                                                     Possible Responses:
-                                                </strong> <br> <br>
-                                            <div
+                                                </strong> <br> <br> <div
                                                 class="table-responsive">
 
 
@@ -648,6 +722,7 @@
 
                                                             </ul>
                                                         </td>
+                                                
                                                 </table>
                                             </div>
 
@@ -663,13 +738,13 @@
 
                         <input type="hidden" name="offset"
                             value="<%=data.offset%>"> <input
-                            type="hidden" name="pageChange"
-                            value="false">
+                                                    type="hidden"
+                                                    name="pageChange"
+                                                    value="false"></form>
 
-                    </form>
 
-
-                </div>
+            
+                                                </div>
 
                 <%
                     if (data.queryMessage != null) {
