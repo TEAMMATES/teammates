@@ -50,7 +50,11 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
     private static void addSessionsToDb() throws Exception {
         Set<String> keys = dataBundle.feedbackSessions.keySet();
         for (String i : keys) {
-            fsDb.createEntity(dataBundle.feedbackSessions.get(i));
+            try {
+                fsDb.createEntity(dataBundle.feedbackSessions.get(i));
+            } catch (EntityAlreadyExistsException e) {
+                fsDb.updateFeedbackSession(dataBundle.feedbackSessions.get(i));
+            }
         }
     }
 

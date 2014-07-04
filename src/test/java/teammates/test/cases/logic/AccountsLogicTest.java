@@ -69,18 +69,6 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         instructorAccounts = logic.getInstructorAccounts();
         assertEquals(instructorAccounts.size(), size);
     }
-    
-    @Test
-    public void testAll() throws Exception{
-        /*testGetInstructorAccounts();
-        testAccountFunctions();
-        testCreateAccount();
-        testGetStudentAndUpdateStudentProfile();
-        testCreateInstructorAccount();
-        testJoinCourseForStudent();
-        testJoinCourseForInstructor();
-        testDeleteAccountCascade();*/
-    }
  
     @Test
     public void testGetStudentAndUpdateStudentProfile() throws Exception {

@@ -47,7 +47,12 @@ public class InstructorsDbTest extends BaseComponentTestCase {
     private static void addInstructorsToDb() throws Exception {
         Set<String> keys = dataBundle.instructors.keySet();
         for (String i : keys) {
-            instructorsDb.createEntity(dataBundle.instructors.get(i));
+            try {
+                instructorsDb.createEntity(dataBundle.instructors.get(i));
+            } catch (EntityAlreadyExistsException e) {
+                instructorsDb.updateInstructorByGoogleId(
+                        dataBundle.instructors.get(i));
+            }
         }
     }
 

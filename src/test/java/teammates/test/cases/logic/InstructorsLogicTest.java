@@ -70,6 +70,8 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
             AssertHelper.assertContains("Trying to create a Instructor that exists", e.getMessage());
         }
         
+        instructorsLogic.deleteInstructor(instr.courseId, instr.email);
+        
         ______TS("failure: invalid parameter");
         
         instr.email = "invalidEmail.com";

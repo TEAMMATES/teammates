@@ -89,6 +89,9 @@ public class SubmissionsLogicTest extends BaseComponentTestCase{
         submissions = invokeGetSubmissionsForEvaluation(evaluation.courseId,
                 evaluation.name);
         assertEquals(0, submissions.keySet().size());
+        
+        logic.deleteInstructor(idOfEmptyCourse, "instructor@email.com");
+        logic.deleteAccount("instructor 1");
 
         ______TS("non-existent course/evaluation");
 
