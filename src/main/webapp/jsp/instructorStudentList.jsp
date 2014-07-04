@@ -247,8 +247,10 @@
                         <a class="btn btn-default btn-xs pull-right pull-down course-enroll-for-test"
                             href="<%=data.getInstructorCourseEnrollLink(courseDetails.course.id)%>"
                             title="<%=Const.Tooltips.COURSE_ENROLL%>"
-                            data-toggle="tooltip"
-                            data-placement="top">
+                            data-toggle="tooltip" data-placement="top"
+                            <% if (!data.instructors.get(courseDetails.course.id).isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT)) { %>
+                            disabled="disabled"
+                            <% } %>>
                                 <span class="glyphicon glyphicon-list"></span> Enroll
                         </a>
                     </div>
