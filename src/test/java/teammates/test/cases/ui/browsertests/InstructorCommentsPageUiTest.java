@@ -32,6 +32,88 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         testScripts();
         testActions();
     }
+    
+    private void testConent() {
+        
+        ______TS("content: no course");
+        
+        Url commentsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE)
+            .withUserId(testData.accounts.get("instructorWithoutCourses").googleId);
+
+        commentsPage = loginAdminToPage(browser, commentsPageUrl, InstructorCommentsPage.class);
+
+        commentsPage.verifyHtml("/instructorCommentsPageForEmptyCourse.html");
+        
+        ______TS("content: course with no comment");
+        
+        commentsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE)
+            .withUserId(testData.accounts.get("instructorWithOnlyOneSampleCourse").googleId);
+
+        commentsPage = loginAdminToPage(browser, commentsPageUrl, InstructorCommentsPage.class);
+
+        commentsPage.verifyHtmlMainContent("/instructorCommentsPageForCourseWithoutComment.html");
+        
+        ______TS("content: typical course with comments with helper view");
+        
+        commentsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE)
+            .withUserId(testData.accounts.get("instructor2OfCourse1").googleId);
+
+        commentsPage = loginAdminToPage(browser, commentsPageUrl, InstructorCommentsPage.class);
+
+        System.setProperty("godmode", "true");
+        commentsPage.verifyHtmlMainContent("/instructorCommentsForTypicalCourseWithCommentsWithHelperView.html");
+        System.clearProperty("godmode");
+        
+        ______TS("content: typical course with comments");
+        
+        commentsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE)
+            .withUserId(testData.accounts.get("instructor1OfCourse1").googleId);
+
+        commentsPage = loginAdminToPage(browser, commentsPageUrl, InstructorCommentsPage.class);
+
+        commentsPage.verifyHtmlMainContent("/instructorCommentsPageForTypicalCourseWithComments.html");
+    }
+    
+    private void testScripts() {
+        ______TS("script: include archived course");
+        
+        commentsPage.clickIsIncludeArchivedCoursesCheckbox();
+        commentsPage.verifyContains("comments.idOfArchivedCourse");
+        
+        commentsPage.clickNextCourseLink();
+        assertTrue(browser.driver.getCurrentUrl().contains(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE + 
+                "?user=comments.idOfInstructor1OfCourse1&courseid=comments.idOfArchivedCourse"));
+        
+        commentsPage.clickPreviousCourseLink();
+        assertTrue(browser.driver.getCurrentUrl().contains(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE + 
+                "?user=comments.idOfInstructor1OfCourse1&courseid=comments.idOfTypicalCourse1"));
+        
+        commentsPage.clickIsIncludeArchivedCoursesCheckbox();
+        
+        ______TS("script: filter comments");
+        
+        commentsPage.clickShowMoreOptions();
+        
+        commentsPage.showCommentsForAll();
+        commentsPage.verifyHtmlMainContent("/instructorCommentsPageShowCommentsForAll.html");
+        
+        int studentCommentPanelIdx = 1;
+        commentsPage.showCommentsForPanel(studentCommentPanelIdx);
+        commentsPage.verifyHtmlMainContent("/instructorCommentsPageShowCommentsForStudentCommentPanel.html");
+        
+        int sessionCommentPanelIdx = 2;
+        commentsPage.showCommentsForPanel(sessionCommentPanelIdx);
+        commentsPage.verifyHtmlMainContent("/instructorCommentsPageShowCommentsForSessionCommentPanel.html");
+        
+        commentsPage.showCommentsFromAll();
+        commentsPage.verifyHtmlMainContent("/instructorCommentsPageShowCommentsFromAll.html");
+        
+        commentsPage.showCommentsFromGiver("you");
+        commentsPage.verifyHtmlMainContent("/instructorCommentsPageShowCommentsFromYou.html");
+        
+        commentsPage.showCommentsFromGiver("others");
+        commentsPage.verifyHtmlMainContent("/instructorCommentsPageShowCommentsFromOthers.html");
+    }
 
     private void testActions() {
         ______TS("action: edit student comment");
@@ -77,76 +159,6 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.clickResponseCommentDelete(1, 1, 1, 1);
         commentsPage.reloadPage();
         commentsPage.verifyHtmlMainContent("/instructorCommentsPageAfterTestScript.html");
-    }
-
-    private void testScripts() {
-        ______TS("script: include archived course");
-        
-        commentsPage.clickIsIncludeArchivedCoursesCheckbox();
-        commentsPage.verifyContains("comments.idOfArchivedCourse");
-        
-        commentsPage.clickNextCourseLink();
-        assertTrue(browser.driver.getCurrentUrl().contains(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE + 
-                "?user=comments.idOfInstructor1OfCourse1&courseid=comments.idOfArchivedCourse"));
-        
-        commentsPage.clickPreviousCourseLink();
-        assertTrue(browser.driver.getCurrentUrl().contains(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE + 
-                "?user=comments.idOfInstructor1OfCourse1&courseid=comments.idOfTypicalCourse1"));
-        
-        commentsPage.clickIsIncludeArchivedCoursesCheckbox();
-        
-        ______TS("script: filter comments");
-        
-        commentsPage.clickShowMoreOptions();
-        
-        commentsPage.showCommentsForAll();
-        commentsPage.verifyHtmlMainContent("/instructorCommentsPageShowCommentsForAll.html");
-        
-        int studentCommentPanelIdx = 1;
-        commentsPage.showCommentsForPanel(studentCommentPanelIdx);
-        commentsPage.verifyHtmlMainContent("/instructorCommentsPageShowCommentsForStudentCommentPanel.html");
-        
-        int sessionCommentPanelIdx = 2;
-        commentsPage.showCommentsForPanel(sessionCommentPanelIdx);
-        commentsPage.verifyHtmlMainContent("/instructorCommentsPageShowCommentsForSessionCommentPanel.html");
-        
-        commentsPage.showCommentsFromAll();
-        commentsPage.verifyHtmlMainContent("/instructorCommentsPageShowCommentsFromAll.html");
-        
-        commentsPage.showCommentsFromGiver("you");
-        commentsPage.verifyHtmlMainContent("/instructorCommentsPageShowCommentsFromYou.html");
-        
-        commentsPage.showCommentsFromGiver("others");
-        commentsPage.verifyHtmlMainContent("/instructorCommentsPageShowCommentsFromOthers.html");
-    }
-
-    private void testConent() {
-        ______TS("content: no course");
-        
-        Url commentsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE)
-            .withUserId(testData.accounts.get("instructorWithoutCourses").googleId);
-
-        commentsPage = loginAdminToPage(browser, commentsPageUrl, InstructorCommentsPage.class);
-
-        commentsPage.verifyHtmlMainContent("/instructorCommentsPageForEmptyCourse.html");
-        
-        ______TS("content: course with no comment");
-        
-        commentsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE)
-            .withUserId(testData.accounts.get("instructorWithOnlyOneSampleCourse").googleId);
-
-        commentsPage = loginAdminToPage(browser, commentsPageUrl, InstructorCommentsPage.class);
-
-        commentsPage.verifyHtmlMainContent("/instructorCommentsPageForCourseWithoutComment.html");
-        
-        ______TS("content: typical course with comments");
-        
-        commentsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE)
-            .withUserId(testData.accounts.get("instructor1OfCourse1").googleId);
-
-        commentsPage = loginAdminToPage(browser, commentsPageUrl, InstructorCommentsPage.class);
-
-        commentsPage.verifyHtmlMainContent("/instructorCommentsPageForTypicalCourseWithComments.html");
     }
     
     @AfterClass
