@@ -92,7 +92,7 @@
                     String pictureUrl = Const.ActionURIs.STUDENT_PROFILE_PICTURE + 
                         "?blob-key=" + data.studentProfile.pictureKey +
                         "&user="+data.account.googleId;
-                    if (data.studentProfile.pictureKey == "") {
+                    if (data.studentProfile.pictureKey.isEmpty()) {
                         pictureUrl = Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH;
                     }
             %>
