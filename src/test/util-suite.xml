@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="util-suite">
+    <test name="util-tests" preserve-order="false">
+        <classes>
+            <class name="teammates.test.cases.BaseTestCaseTest" />
+            <class name="teammates.test.cases.common.StudentProfileAttributesTest" />
+            <class name="teammates.test.cases.common.AccountAttributesTest" />
+            <class name="teammates.test.cases.common.BuildPropertiesTest" />
+            <class name="teammates.test.cases.common.CourseAttributesTest" />
+            <class name="teammates.test.cases.common.CourseRosterTest" />
+            <class name="teammates.test.cases.common.EvaluationAttributesTest" />
+            <class name="teammates.test.cases.common.FeedbackSessionAttributesTest" />
+            <class name="teammates.test.cases.common.FieldValidatorTest" />
+            <class name="teammates.test.cases.common.InstructorAttributesTest" />
+            <class name="teammates.test.cases.common.SanitizerTest" />
+            <class name="teammates.test.cases.common.StringHelperTest" />
+            <class name="teammates.test.cases.common.StudentAttributesTest" />
+            <class name="teammates.test.cases.common.StudentResultBundleTest" />
+            <class name="teammates.test.cases.common.SubmissionAttributesTest" />
+            <class name="teammates.test.cases.common.TeamResultBundleTest" />
+            <class name="teammates.test.cases.common.TimeHelperTest" />
+            <class name="teammates.test.cases.common.FeedbackResponseDetailsTest" />
+            <class name="teammates.test.cases.common.UrlTest" />
+            <class name="teammates.test.cases.testdriver.DataBundleTest" />
+            <class name="teammates.test.cases.testdriver.HtmlHelperTest" />
+            <class name="teammates.test.cases.testdriver.TestPropertiesTest" />
+            <class name="teammates.test.pageobjects.PageDataTest" />
+        </classes>
+    </test>
+</suite>

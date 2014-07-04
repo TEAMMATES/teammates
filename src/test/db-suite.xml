@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="db-suite">
+      <test name="db-tests" preserve-order="false">
+        <classes>
+            <class name="teammates.test.cases.storage.AccountsDbTest" />
+            <class name="teammates.test.cases.storage.CommentsDbTest" />
+            <class name="teammates.test.cases.storage.CoursesDbTest" />
+            <class name="teammates.test.cases.storage.EntitiesDbTest" />
+            <class name="teammates.test.cases.storage.EvaluationsDbTest" />
+            <class name="teammates.test.cases.storage.FeedbackSessionsDbTest" />
+            <class name="teammates.test.cases.storage.FeedbackQuestionsDbTest" />
+            <class name="teammates.test.cases.storage.FeedbackResponsesDbTest" />
+            <class name="teammates.test.cases.storage.InstructorsDbTest" />
+            <class name="teammates.test.cases.storage.ProfilesDbTest" />
+            <class name="teammates.test.cases.storage.StudentsDbTest" />
+            <class name="teammates.test.cases.storage.SubmissionsDbTest" />
+        </classes>
+    </test>
+</suite> 
