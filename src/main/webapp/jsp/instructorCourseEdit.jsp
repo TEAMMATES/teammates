@@ -376,7 +376,7 @@
                                                             <%}%>
                                                             /> Sessions: Edit/Delete Responses/Comments by Others<br><br>
                                                         </div>
-                                                        <% if (!data.evalNames.isEmpty() && !data.feedbackNames.isEmpty()) { %>
+                                                        <% if (!data.evalNames.isEmpty() || !data.feedbackNames.isEmpty()) { %>
                                                         <a href="javascript:;" 
                                                             <% if (!instructor.privileges.isSessionsInSectionSpecial(data.sectionNames.get(j))) { %> 
                                                             onclick="showTuneSessionnPermissionsDiv(<%=index%>, <%=j%>)"
@@ -681,7 +681,7 @@
                                                             <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS + 
                                                             Const.ParamsNames.INSTRUCTOR_SECTION + j%>" value="true" checked="checked"/> Sessions: Edit/Delete Responses/Comments by Others<br><br>
                                                         </div>
-                                                        <% if (!data.evalNames.isEmpty() && !data.feedbackNames.isEmpty()) { %>
+                                                        <% if (!data.evalNames.isEmpty() || !data.feedbackNames.isEmpty()) { %>
                                                         <a href="javascript:;" onclick="toggleTuneSessionnPermissionsDiv(<%=data.instructorList.size()+1%>, <%=j%>)"
                                                             id="toggleSessionLevelInSection<%=j%>ForInstructor<%=data.instructorList.size()+1%>"
                                                             class="small col-sm-5">Configure session-level privileges</a>      
