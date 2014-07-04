@@ -585,75 +585,6 @@
             <br> <br>
         </div>
 
-        <!-- Modal -->
-        <div class="modal fade" id="copyModal" tabindex="-1" role="dialog" aria-labelledby="copyModalTitle" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="copyModalTitle">Copy Sessions</h4>
-              </div>
-              <div class="modal-body">
-                    <form class="form" id="copyModalForm" role="form" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_COPY%>">
-                    <!-- Course -->
-                    <div class="form-group">
-                        <label for="modalCopiedCourseId"
-                                class="control-label">Course ID</label>
-                        <select class="form-control"
-                            name="<%=Const.ParamsNames.COPIED_COURSE_ID%>"
-                            id="modalCopiedCourseId">
-                            <%
-                                for (String opt : data.getCourseIdOptions())
-                                    out.println(opt);
-                            %>
-                        </select>
-                    </div>
-                    <!-- Session Name -->
-                    <div class="form-group">
-                        <label for="modalCopiedSessionName"
-                            class="control-label">Session
-                            name</label>
-                        <input class="form-control"
-                            type="text"
-                            name="<%=Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME%>"
-                            id="modalCopiedSessionName"
-                            value="<%if (data.newFeedbackSession != null)
-                                       out.print(InstructorFeedbacksPageData.sanitizeForHtml(data.newFeedbackSession.feedbackSessionName));%>"
-                            placeholder="e.g. Feedback for Project Presentation 1">
-                    </div>
-                    <!-- Previous Session -->
-                    <label> Copied Session </label>
-                    <table class="table-responsive table table-bordered table-hover margin-0" id="copyTableModal">
-                        <thead class="fill-primary">
-                            <th> Course ID </th>
-                            <th> Feedback Session Name </th>
-                        </thead>
-
-                        <% for (FeedbackSessionAttributes fdb : data.existingFeedbackSessions) {%>
-                            <tr style="cursor:pointer;">
-                                <td><%=fdb.courseId%></td>
-                                <td>
-                                    <%=InstructorFeedbacksPageData.sanitizeForHtml(fdb.feedbackSessionName)%>
-                                </td>
-
-                            </tr>
-                        <% } %>
-                    </table>
-                            <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>"
-                                    value="" id="modalSessionName">
-                            <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>"
-                                    value="" id="modalCourseId">
-                    </form>
-              </div>
-              <div class="modal-footer margin-0">
-                <button type="button" class="btn btn-primary" id="button_copy_submit">Copy</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-
         <br>
         <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
         <br>
@@ -742,6 +673,73 @@
             	}
             %>
         </table>
+        <!-- Modal -->
+        <div class="modal fade" id="copyModal" tabindex="-1" role="dialog" aria-labelledby="copyModalTitle" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="copyModalTitle">Copy Sessions</h4>
+              </div>
+              <div class="modal-body">
+                    <form class="form" id="copyModalForm" role="form" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_COPY%>">
+                    <!-- Course -->
+                    <div class="form-group">
+                        <label for="modalCopiedCourseId"
+                                class="control-label">Course ID</label>
+                        <select class="form-control"
+                            name="<%=Const.ParamsNames.COPIED_COURSE_ID%>"
+                            id="modalCopiedCourseId">
+                            <%
+                                for (String opt : data.getCourseIdOptions())
+                                    out.println(opt);
+                            %>
+                        </select>
+                    </div>
+                    <!-- Session Name -->
+                    <div class="form-group">
+                        <label for="modalCopiedSessionName"
+                            class="control-label">Session
+                            name</label>
+                        <input class="form-control"
+                            type="text"
+                            name="<%=Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME%>"
+                            id="modalCopiedSessionName"
+                            value="<%if (data.newFeedbackSession != null)
+                                       out.print(InstructorFeedbacksPageData.sanitizeForHtml(data.newFeedbackSession.feedbackSessionName));%>"
+                            placeholder="e.g. Feedback for Project Presentation 1">
+                    </div>
+                    <!-- Previous Session -->
+                    <label> Copied Session </label>
+                    <table class="table-responsive table table-bordered table-hover margin-0" id="copyTableModal">
+                        <thead class="fill-primary">
+                            <th> Course ID </th>
+                            <th> Feedback Session Name </th>
+                        </thead>
+
+                        <% for (FeedbackSessionAttributes fdb : data.existingFeedbackSessions) {%>
+                            <tr style="cursor:pointer;">
+                                <td><%=fdb.courseId%></td>
+                                <td>
+                                    <%=InstructorFeedbacksPageData.sanitizeForHtml(fdb.feedbackSessionName)%>
+                                </td>
+
+                            </tr>
+                        <% } %>
+                    </table>
+                            <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>"
+                                    value="" id="modalSessionName">
+                            <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>"
+                                    value="" id="modalCourseId">
+                    </form>
+              </div>
+              <div class="modal-footer margin-0">
+                <button type="button" class="btn btn-primary" id="button_copy_submit">Copy</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
         <br> <br> <br>
         <%
         	if (sessionIdx == -1) {

@@ -15,13 +15,14 @@ public class InstructorFeedbackQuestionCopyAction extends Action {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         InstructorAttributes instructorDetailForCourse = logic.getInstructorForGoogleId(courseId, account.googleId);
-        String instructorEmail = instructorDetailForCourse.email;
-        log.info("TEST");
+        
         new GateKeeper().verifyAccessible(
                 instructorDetailForCourse, 
                 logic.getFeedbackSession(feedbackSessionName, courseId),
                 false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
-             
+        
+        String instructorEmail = instructorDetailForCourse.email;
+        
         try {
             int index = 0;
             String feedbackQuestionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID + "-" + index);
@@ -40,6 +41,9 @@ public class InstructorFeedbackQuestionCopyAction extends Action {
             
             if(index > 0){
                 statusToUser.add(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
+            } else {
+                statusToUser.add("No questions are indicated to be copied");
+                isError = true;
             }
         } catch (InvalidParametersException e) {
             statusToUser.add(e.getMessage());

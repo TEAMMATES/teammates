@@ -76,13 +76,12 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         newSession.isPublishedEmailEnabled = true;
             
         browser = BrowserPool.getBrowser();
-        
     }
     
     @Test
     public void allTests() throws Exception{
+        testCopyAction();
         testContent();
-        
         testAddAction();
         testDeleteAction();
         testPublishAction();
@@ -220,18 +219,18 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.verifyHtmlAjax("/instructorFeedbackAllSessionTypes.html");
 
         feedbackPage.sortByName()
-            .verifyTablePattern(1,"Awaiting Session{*}First Eval{*}First Session{*}Manual Session{*}Open Session{*}Private Session");
+            .verifyTablePattern(1,"Awaiting Session{*}Copied Session{*}First Eval{*}First Session{*}Manual Session{*}Open Session{*}Private Session");
         feedbackPage.sortByName()
-            .verifyTablePattern(1,"Private Session{*}Open Session{*}Manual Session{*}First Session{*}First Eval{*}Awaiting Session");
+            .verifyTablePattern(1,"Private Session{*}Open Session{*}Manual Session{*}First Session{*}First Eval{*}Copied Session{*}Awaiting Session");
         
         ______TS("sort by course id");
         
         feedbackPage.sortById()
-            .verifyTablePattern(0,"CFeedbackUiT.CS1101{*}CFeedbackUiT.CS1101{*}CFeedbackUiT.CS1101"
+            .verifyTablePattern(0,"CFeedbackUiT.CS1101{*}CFeedbackUiT.CS1101{*}CFeedbackUiT.CS1101{*}CFeedbackUiT.CS1101"
                     + "{*}CFeedbackUiT.CS2104{*}CFeedbackUiT.CS2104{*}CFeedbackUiT.CS2104");
         feedbackPage.sortById()
             .verifyTablePattern(0,"CFeedbackUiT.CS2104{*}CFeedbackUiT.CS2104{*}CFeedbackUiT.CS2104"
-                    + "{*}CFeedbackUiT.CS1101{*}CFeedbackUiT.CS1101{*}CFeedbackUiT.CS1101");
+                    + "{*}CFeedbackUiT.CS1101{*}CFeedbackUiT.CS1101{*}CFeedbackUiT.CS1101{*}CFeedbackUiT.CS1101");
     
     }
     
@@ -558,6 +557,30 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
                         FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME),
                     feedbackPage.getStatus());
 
+    }
+    
+    public void testCopyAction() throws Exception{
+        
+        ______TS("Success case: copy successfully a previous session");
+        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
+        
+        feedbackPage.copyFeedbackSession("Copied Session", newSession.courseId);
+        feedbackPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_ADDED);
+        // Check that we are redirected to the edit page.
+        feedbackPage.verifyHtmlMainContent("/instructorFeedbackCopySuccess.html");
+        
+        ______TS("Failure case: copy fail since the feedback session name is the same with existing one");
+        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
+        
+        feedbackPage.copyFeedbackSession("Copied Session", newSession.courseId);
+        feedbackPage.verifyStatus("A feedback session by this name already exists under this course");
+       
+        ______TS("Failure case: copy fail since the feedback session name is invalid");
+        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
+        
+        feedbackPage.copyFeedbackSession("", newSession.courseId);
+        feedbackPage.verifyStatus("Feedback session name must not be empty.");
+        
     }
 
     public void testDeleteAction() throws Exception{
