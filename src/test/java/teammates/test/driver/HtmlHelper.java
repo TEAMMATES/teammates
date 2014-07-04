@@ -115,6 +115,7 @@ public class HtmlHelper {
         htmlString = htmlString.replace("{$test.unreg}", TestProperties.inst().TEST_UNREG_ACCOUNT);
         htmlString = htmlString.replace("{$test.admin}", TestProperties.inst().TEST_ADMIN_ACCOUNT);
         htmlString = htmlString.replace("{$support.email}", Config.SUPPORT_EMAIL);
+        htmlString = htmlString.replace("{$app.url}", Config.APP_URL);
         htmlString = htmlString.replaceFirst("<html xmlns=\"http://www.w3.org/1999/xhtml\">", "<html>");    
         htmlString = htmlString.replaceAll("(?s)<noscript>.*</noscript>", "");
         htmlString = htmlString.replaceAll("src=\"https://ssl.google-analytics.com/ga.js\"", "async=\"\" src=\"https://ssl.google-analytics.com/ga.js\"");

@@ -111,7 +111,7 @@
                                             </i>)</td>
                                         </tr>
                                         <tr>
-                                            <td class="text-bold">Email</td>
+                                            <td class="text-bold">Personal Email</td>
                                             <td><%=data.studentProfile.email.isEmpty() ? "<i  class='text-muted'>" + Const.STUDENT_PROFILE_FIELD_NOT_FILLED + "</i>" : data.studentProfile.email %></td>
                                         </tr>
                                         <tr>
@@ -174,7 +174,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-1 control-label">E-mail
+                    <label class="col-sm-1 control-label">Official Email
                         Address:</label>
                     <div class="col-sm-11"
                         id="<%=Const.ParamsNames.STUDENT_EMAIL%>">
