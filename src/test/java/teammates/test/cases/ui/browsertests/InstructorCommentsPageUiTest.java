@@ -28,6 +28,10 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
     
     @Test 
     public void allTests() throws Exception{
+        
+        // this test fails irregularly. reason could be that delete/create comment is not working as expected.
+        // TODO: find a way to make this test case more stable and pass every time it runs or find any potential bug with it
+        
         testConent();
         testScripts();
         testActions();
@@ -56,14 +60,12 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         ______TS("content: typical course with comments with helper view");
         
         commentsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE)
-            .withUserId(testData.accounts.get("instructor2OfCourse1").googleId);
+            .withUserId(testData.accounts.get("helperOfCourse1").googleId);
 
         commentsPage = loginAdminToPage(browser, commentsPageUrl, InstructorCommentsPage.class);
 
-        System.setProperty("godmode", "true");
         commentsPage.verifyHtmlMainContent("/instructorCommentsForTypicalCourseWithCommentsWithHelperView.html");
-        System.clearProperty("godmode");
-        
+         
         ______TS("content: typical course with comments");
         
         commentsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE)
