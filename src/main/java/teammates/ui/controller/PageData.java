@@ -769,9 +769,9 @@ public class PageData {
         boolean shouldEnableSubmitLink = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
         List<String> sectionsInCourse = new Logic().getSectionNamesForCourse(instructor.courseId);
         for (String section : sectionsInCourse) {
-            if (!instructor.isAllowedForPrivilege(section, session.feedbackSessionName, 
+            if (instructor.isAllowedForPrivilege(section, session.feedbackSessionName, 
                     Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)) {
-                shouldEnableSubmitLink = false;
+                shouldEnableSubmitLink = true;
                 break;
             }
         }

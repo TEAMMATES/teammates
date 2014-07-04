@@ -18,7 +18,7 @@ import teammates.storage.api.EntitiesDb;
 import teammates.storage.api.ProfilesDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
-import teammates.test.util.GoogleCloudStorageHelper;
+import teammates.common.util.GoogleCloudStorageHelper;
 
 public class ProfilesDbTest extends BaseComponentTestCase {
     

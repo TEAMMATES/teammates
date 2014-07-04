@@ -13,7 +13,7 @@
 
 
         <div class="well well-plain">
-            <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" data-toggle="tooltip" data-placement="top" title="" data-original-title="Add comment">
+            <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" data-toggle="tooltip" data-placement="top" title="" data-original-title="Add comment" disabled="disabled">
                 <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
             </button>
             <div class="form form-horizontal" id="studentInfomationTable">
@@ -21,7 +21,7 @@
                     <label class="col-sm-1 control-label">Student
                         Name:</label>
                     <div class="col-sm-11" id="studentname">
-                        <p class="form-control-static">Benny Charles</p>
+                        <p class="form-control-static">José Gómez</p>
                     </div>
                 </div>
                 
@@ -36,20 +36,20 @@
                     <label class="col-sm-1 control-label">E-mail
                         Address:</label>
                     <div class="col-sm-11" id="studentemail">
-                        <p class="form-control-static">benny.c.tmms@gmail.com</p>
+                        <p class="form-control-static">CCSDetailsUiT.jose.tmms@gmail.com</p>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-1 control-label">Join
                         Link:</label>
                     <div class="col-sm-11">
-                        <input id="regkey" value="http://{*}/page/studentCourseJoin?regkey={*}{*}" class="form-control" readonly="readonly">
+                        <input id="regkey" value="http://teammates-{$test.admin}.appspot.com/page/studentCourseJoin?regkey={*}" class="form-control" readonly="readonly">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-1 control-label">Comments:</label>
                     <div class="col-sm-11" id="comments">
-                        <p class="form-control-static">This student's name is Benny Charles</p>
+                        <p class="form-control-static">This student's name is José Gómez</p>
                     </div>
                 </div>
             </div>
@@ -60,7 +60,7 @@
                     <label style="margin-right: 24px;">Recipient:
                     </label> 
                     <select id="comment_recipient_select" class="form-control">
-                        <option value="PERSON" selected="">Benny Charles</option>
+                        <option value="PERSON" selected="">José Gómez</option>
                         <option value="TEAM">Team 1</option>
                         
                     </select>
@@ -139,13 +139,13 @@
                     <input class="btn btn-primary" id="button_save_comment" value="Save" type="submit"> 
                     <input class="btn btn-default" id="button_cancel_comment" value="Cancel" type="button">
                     <input name="courseid" value="CCSDetailsUiT.CS2104" type="hidden">
-                    <input name="studentemail" value="benny.c.tmms@gmail.com" type="hidden">
+                    <input name="studentemail" value="CCSDetailsUiT.jose.tmms@gmail.com" type="hidden">
                     <input name="recipienttype" value="PERSON" type="hidden">
-                    <input name="recipients" value="benny.c.tmms@gmail.com" type="hidden">
+                    <input name="recipients" value="CCSDetailsUiT.jose.tmms@gmail.com" type="hidden">
                     <input name="showcommentsto" value="" type="hidden">
                     <input name="showgiverto" value="" type="hidden">
                     <input name="showrecipientto" value="" type="hidden">
-                    <input name="user" value="CCSDetailsUiT.instr" type="hidden">
+                    <input name="user" value="CCSDetailsUiT.Helper" type="hidden">
                     <input name="studentdetailspage" value="true" type="hidden">
                 </div>
             </form>

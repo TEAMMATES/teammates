@@ -90,6 +90,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
     @Test
     public void testCreateAccount() throws Exception {
 
+        // TODO: dont use this function
         testGetInstructorAccounts();
         
         ______TS("typical success case (legacy data)");
@@ -166,7 +167,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
     public void testEditAccount() throws Exception {
         AccountAttributes a = createNewAccount();
         
-        ______TS("typical success case (legacy data)");
+        ______TS("typical edit success case (legacy data)");
         a.name = "Edited name";
         a.studentProfile = null;
         accountsDb.updateAccount(a);
