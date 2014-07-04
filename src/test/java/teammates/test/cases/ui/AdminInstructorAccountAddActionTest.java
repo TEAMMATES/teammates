@@ -19,25 +19,14 @@ import teammates.ui.controller.ShowPageResult;
 
 public class AdminInstructorAccountAddActionTest extends BaseActionTest {
 
-    DataBundle dataBundle;
+    // private final DataBundle dataBundle = getTypicalDataBundle();
     //TODO: move all the input validation/sanitization js code to server side
     
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
         uri = Const.ActionURIs.ADMIN_INSTRUCTORACCOUNT_ADD;
-    }
-
-    @BeforeMethod
-    public void caseSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-    
-    @Test
-    public void testAccessControl() throws Exception{
-        String[] submissionParams = new String[]{};
-        verifyOnlyAdminsCanAccess(submissionParams);
+        // restoreTypicalDataInDatastore();
     }
 
     @Test

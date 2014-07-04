@@ -9,25 +9,14 @@ import teammates.common.util.Const;
 
 public class AdminAccountDeletePageActionTest extends BaseActionTest {
 
-    DataBundle dataBundle;
+    // private static final DataBundle dataBundle = getTypicalDataBundle();
     
     
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
         uri = Const.ActionURIs.ADMIN_ACCOUNT_DELETE;
-    }
-
-    @BeforeMethod
-    public void caseSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-    
-    @Test
-    public void testAccessControl() throws Exception{
-        String[] submissionParams = new String[]{};
-        verifyOnlyAdminsCanAccess(submissionParams);
+        // restoreTypicalDataInDatastore();
     }
 
     
