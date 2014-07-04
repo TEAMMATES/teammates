@@ -87,12 +87,7 @@ public class InstructorStudentCommentAddAction extends Action {
         } else if (commentRecipientType == CommentRecipientType.SECTION) {
             new GateKeeper().verifyAccessible(instructor, course, recipients, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS);
         } else if (commentRecipientType == CommentRecipientType.TEAM) {
-            List<StudentAttributes> students;
-            try {
-                students = logic.getStudentsForTeam(recipients, courseId);
-            } catch(EntityDoesNotExistException e) {
-                students = new ArrayList<StudentAttributes>();
-            }
+            List<StudentAttributes> students = logic.getStudentsForTeam(recipients, courseId);
             if (students.isEmpty()) { // considered as a serious bug in coding or user submitted corrupted data
                 Assumption.fail();
             } else {

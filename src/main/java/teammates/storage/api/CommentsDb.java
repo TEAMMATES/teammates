@@ -10,8 +10,6 @@ import javax.jdo.JDOHelper;
 import javax.jdo.Query;
 
 import com.google.appengine.api.datastore.Text;
-import com.google.appengine.api.search.Cursor;
-import com.google.appengine.api.search.QueryOptions;
 import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
 
@@ -230,20 +228,8 @@ public class CommentsDb extends EntitiesDb{
         if(queryString.trim().isEmpty())
             return new CommentSearchResultBundle();
         
-        Cursor cursor = cursorString.isEmpty()
-                ? Cursor.newBuilder().build()
-                : Cursor.newBuilder().build(cursorString);
-        
-        QueryOptions options = QueryOptions.newBuilder()
-                .setFieldsToReturn(new String[]{
-                        Const.SearchDocumentField.COMMENT_ATTRIBUTE,
-                        Const.SearchDocumentField.COMMENT_GIVER_NAME,
-                        Const.SearchDocumentField.COMMENT_RECIPIENT_NAME})
-                //.setLimit(10) TODO: impl pagination
-                .setCursor(cursor)
-                .build();
         Results<ScoredDocument> results = searchDocuments(Const.SearchIndex.COMMENT, 
-                new CommentSearchQuery(options, googleId, queryString));
+                new CommentSearchQuery(googleId, queryString, cursorString));
         
         return new CommentSearchResultBundle().fromResults(results);
     }

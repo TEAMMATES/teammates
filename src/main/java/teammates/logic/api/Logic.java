@@ -811,8 +811,7 @@ public class Logic {
      * * All parameters are non-null.
      * @return Empty list if none found.
      */
-    public List<StudentAttributes> getStudentsForSection(String section, String courseId)
-            throws EntityDoesNotExistException {
+    public List<StudentAttributes> getStudentsForSection(String section, String courseId) {
 
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, section);
@@ -825,8 +824,7 @@ public class Logic {
      * * All parameters are non-null.
      * @return Empty list if none found.
      */
-    public List<StudentAttributes> getStudentsForTeam(String team, String courseId)
-            throws EntityDoesNotExistException {
+    public List<StudentAttributes> getStudentsForTeam(String team, String courseId) {
 
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, team);
@@ -1498,8 +1496,7 @@ public class Logic {
      * 
      */
     public FeedbackQuestionAttributes
-            getFeedbackQuestion(String feedbackQuestionId)
-                    throws EntityDoesNotExistException {
+            getFeedbackQuestion(String feedbackQuestionId) {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackQuestionId);
         
         return feedbackQuestionsLogic.getFeedbackQuestion(feedbackQuestionId);

@@ -72,6 +72,7 @@ public class InstructorCommentsPageAction extends Action {
         //Load details of students and instructors once and pass it to callee methods
         //  (rather than loading them many times).
             roster = new CourseRoster(
+                    //TODO: use logic instead
                     new StudentsDb().getStudentsForCourse(courseId),
                     new InstructorsDb().getInstructorsForCourse(courseId));
 

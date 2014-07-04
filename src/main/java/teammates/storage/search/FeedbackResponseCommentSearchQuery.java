@@ -6,10 +6,28 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.logic.core.InstructorsLogic;
 
+import com.google.appengine.api.search.Cursor;
 import com.google.appengine.api.search.QueryOptions;
 
 public class FeedbackResponseCommentSearchQuery extends SearchQuery {
-    public FeedbackResponseCommentSearchQuery(QueryOptions options, String googleId, String queryString){
+    public FeedbackResponseCommentSearchQuery(String googleId, String queryString, String cursorString){
+        Cursor cursor = cursorString.isEmpty()
+                ? Cursor.newBuilder().build()
+                : Cursor.newBuilder().build(cursorString);
+        
+        QueryOptions options = QueryOptions.newBuilder()
+                .setFieldsToReturn(new String[]
+                        {Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_ATTRIBUTE,
+                        Const.SearchDocumentField.FEEDBACK_RESPONSE_ATTRIBUTE,
+                        Const.SearchDocumentField.FEEDBACK_QUESTION_ATTRIBUTE,
+                        Const.SearchDocumentField.FEEDBACK_SESSION_ATTRIBUTE,
+                        Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_GIVER_NAME,
+                        Const.SearchDocumentField.FEEDBACK_RESPONSE_GIVER_NAME,
+                        Const.SearchDocumentField.FEEDBACK_RESPONSE_RECEIVER_NAME
+                        })
+                //.setLimit(10) TODO: impl pagination
+                .setCursor(cursor)
+                .build();
         setOptions(options);
         prepareVisibilityQueryString(googleId);
         setTextFilter(Const.SearchDocumentField.SEARCHABLE_TEXT, queryString);

@@ -14,7 +14,7 @@ import com.google.gson.Gson;
 
 public class CommentSearchResultBundle extends SearchResultBundle {
     
-    public List<CommentAttributes> comments = new ArrayList<CommentAttributes>();
+    public Map<String, List<CommentAttributes>> giverCommentTable = new HashMap<String, List<CommentAttributes>>();
     public Map<String, String> giverTable = new HashMap<String, String>();
     public Map<String, String> recipientTable = new HashMap<String, String>();
     public Cursor cursor = null;
@@ -30,10 +30,15 @@ public class CommentSearchResultBundle extends SearchResultBundle {
                     doc.getOnlyField(Const.SearchDocumentField.COMMENT_ATTRIBUTE).getText(), 
                     CommentAttributes.class);
             comment.sendingState = CommentSendingState.SENT;
-            this.comments.add(comment);
+            List<CommentAttributes> commentList = giverCommentTable.get(comment.giverEmail+comment.courseId);
+            if(commentList == null){
+                commentList = new ArrayList<CommentAttributes>();
+                giverCommentTable.put(comment.giverEmail+comment.courseId, commentList);
+            }
+            commentList.add(comment);
             String giverName = doc.getOnlyField(Const.SearchDocumentField.COMMENT_GIVER_NAME).getText();
             String recipientName = doc.getOnlyField(Const.SearchDocumentField.COMMENT_RECIPIENT_NAME).getText();
-            giverTable.put(comment.getCommentId().toString(), extractContentFromQuotedString(giverName));
+            giverTable.put(comment.giverEmail+comment.courseId, extractContentFromQuotedString(giverName) + " (" + comment.courseId + ")");
             recipientTable.put(comment.getCommentId().toString(), extractContentFromQuotedString(recipientName));
         }
         return this;

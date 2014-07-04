@@ -8,6 +8,7 @@ import teammates.common.datatransfer.CommentRecipientType;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.InstructorsLogic;
@@ -18,9 +19,6 @@ import com.google.appengine.api.search.Field;
 import com.google.gson.Gson;
 
 public class CommentSearchDocument extends SearchDocument {
-    private static final CoursesLogic coursesLogic = CoursesLogic.inst();
-    private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
-    private static final StudentsLogic studentsLogic = StudentsLogic.inst();
     
     private CommentAttributes comment;
     private CourseAttributes course;
@@ -29,15 +27,16 @@ public class CommentSearchDocument extends SearchDocument {
     private StringBuilder commentRecipientNameBuilder = new StringBuilder("");
     
     public CommentSearchDocument(CommentAttributes comment){
-        prepareDate(comment);
+        this.comment = comment;
     }
     
-    private void prepareDate(CommentAttributes comment) {
+    @Override
+    protected void prepareData() {
         if(comment == null) return;
-        this.comment = comment;
-        course = coursesLogic.getCourse(comment.courseId);
         
-        giverAsInstructor = instructorsLogic.
+        course = logic.getCourse(comment.courseId);
+        
+        giverAsInstructor = logic.
                 getInstructorForEmail(comment.courseId, comment.giverEmail);
         
         String delim = "";
@@ -45,10 +44,10 @@ public class CommentSearchDocument extends SearchDocument {
         switch (comment.recipientType) {
         case PERSON:
             for(String email:comment.recipients){
-                StudentAttributes student = studentsLogic.getStudentForEmail(comment.courseId, email);
+                StudentAttributes student = logic.getStudentForEmail(comment.courseId, email);
                 if(student != null){
                     relatedStudents.add(student);
-                    commentRecipientNameBuilder.append(delim).append(student.name).append(" (" + student.team + ")");
+                    commentRecipientNameBuilder.append(delim).append(student.name).append(" (" + student.team + ", " + student.email + ")");
                     delim = ", ";
                 } else {
                     commentRecipientNameBuilder.append(delim).append(email);
@@ -58,7 +57,7 @@ public class CommentSearchDocument extends SearchDocument {
             break;
         case TEAM:
             for(String team:comment.recipients){
-                List<StudentAttributes> students = studentsLogic.getStudentsForTeam(team, comment.courseId);
+                List<StudentAttributes> students = logic.getStudentsForTeam(team, comment.courseId);
                 if(students != null){
                     relatedStudents.addAll(students);
                 }
@@ -68,13 +67,14 @@ public class CommentSearchDocument extends SearchDocument {
             break;
         case SECTION:
             for(String section:comment.recipients){
-                List<StudentAttributes> students = studentsLogic.getStudentsForSection(section, comment.courseId);
+                List<StudentAttributes> students = logic.getStudentsForSection(section, comment.courseId);
                 if(students != null){
                     relatedStudents.addAll(students);
                 }
                 commentRecipientNameBuilder.append(delim).append(section);
                 delim = ", ";
             }
+            break;
         case COURSE:
             for(String course:comment.recipients){
                 commentRecipientNameBuilder.append(delim).append("All students in Course " + course);
@@ -88,7 +88,7 @@ public class CommentSearchDocument extends SearchDocument {
 
     @Override
     public Document toDocument() {
-
+        
         //populate recipients information
         StringBuilder recipientsBuilder = new StringBuilder("");
         String delim = ",";

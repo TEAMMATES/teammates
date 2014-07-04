@@ -455,6 +455,8 @@ public class Const {
         public static final String FEEDBACK_RESPONSE_COMMENT_ATTRIBUTE = "frCommentAttibute";
         public static final String FEEDBACK_RESPONSE_COMMENT_GIVER_NAME = "frCommentGiverName";
         public static final String FEEDBACK_RESPONSE_ATTRIBUTE = "feedbackResponseAttibute";
+        public static final String FEEDBACK_RESPONSE_GIVER_NAME = "feedbackResponseGiverName";
+        public static final String FEEDBACK_RESPONSE_RECEIVER_NAME = "feedbackResponseReceiverName";
         public static final String FEEDBACK_QUESTION_ATTRIBUTE = "feedbackQuestionAttibute";
         public static final String FEEDBACK_SESSION_ATTRIBUTE = "feedbackSessionAttibute";
         public static final String SEARCHABLE_TEXT = "searchableText";

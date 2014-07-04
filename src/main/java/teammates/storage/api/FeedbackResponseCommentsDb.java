@@ -8,8 +8,6 @@ import java.util.logging.Logger;
 import javax.jdo.JDOHelper;
 import javax.jdo.Query;
 
-import com.google.appengine.api.search.Cursor;
-import com.google.appengine.api.search.QueryOptions;
 import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
 
@@ -181,23 +179,8 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         if(queryString.trim().isEmpty())
             return new FeedbackResponseCommentSearchResultBundle();
         
-        Cursor cursor = cursorString.isEmpty()
-                ? Cursor.newBuilder().build()
-                : Cursor.newBuilder().build(cursorString);
-        
-        QueryOptions options = QueryOptions.newBuilder()
-                .setFieldsToReturn(new String[]
-                        {Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_ATTRIBUTE,
-                        Const.SearchDocumentField.FEEDBACK_RESPONSE_ATTRIBUTE,
-                        Const.SearchDocumentField.FEEDBACK_QUESTION_ATTRIBUTE,
-                        Const.SearchDocumentField.FEEDBACK_SESSION_ATTRIBUTE,
-                        Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_GIVER_NAME
-                        })
-                //.setLimit(10) TODO: impl pagination
-                .setCursor(cursor)
-                .build();
         Results<ScoredDocument> results = searchDocuments(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, 
-                new FeedbackResponseCommentSearchQuery(options, googleId, queryString));
+                new FeedbackResponseCommentSearchQuery(googleId, queryString, cursorString));
         
         return new FeedbackResponseCommentSearchResultBundle().fromResults(results);
     }

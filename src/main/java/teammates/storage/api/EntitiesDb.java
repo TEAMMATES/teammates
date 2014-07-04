@@ -10,6 +10,7 @@ import com.google.appengine.api.search.SearchQueryException;
 
 import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
@@ -178,8 +179,8 @@ public abstract class EntitiesDb {
     }
     
     //the followings APIs are used by Teammates' search engine
-    protected void putDocument(String indexName, SearchDocument document) {
-        SearchManager.putDocument(indexName, document.toDocument());
+    protected void putDocument(String indexName, SearchDocument document){
+        SearchManager.putDocument(indexName, document.build());
     }
     
     protected void getDocument(String indexName, String documentId) {
