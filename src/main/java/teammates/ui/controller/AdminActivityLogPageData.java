@@ -1,6 +1,7 @@
 package teammates.ui.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -14,8 +15,9 @@ public class AdminActivityLogPageData extends PageData {
     public String filterQuery;
     public String queryMessage;
     public List<ActivityLogEntry> logs;
-    
+    public List<String> versions;
     private QueryParameters q;
+    
 
     public AdminActivityLogPageData(AccountAttributes account) {
         super(account);
@@ -108,6 +110,7 @@ public class AdminActivityLogPageData extends PageData {
      */
     private QueryParameters parseQuery(String query) throws Exception{
         QueryParameters q = new QueryParameters();
+        versions = new ArrayList<String>();
         
         if(query == null || query.equals("")){
             return q;
@@ -124,9 +127,16 @@ public class AdminActivityLogPageData extends PageData {
                 throw new Exception("Invalid format");
             }
             String label = pair[0];
+            
             String[] values = pair[1].split(",", -1);
-
-            q.add(label, values);
+            
+            if (label.equals("version")) {
+                for (int j = 0; j < values.length; j++) {
+                    versions.add(values[j].replace(".", "-"));
+                }
+            } else {
+                q.add(label, values);
+            }
         }
         
         return q;

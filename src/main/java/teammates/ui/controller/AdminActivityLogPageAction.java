@@ -44,42 +44,53 @@ public class AdminActivityLogPageAction extends Action {
         data.generateQueryParameters(data.filterQuery);
         
         
-        LogQuery query = buildQuery(data.offset, includeAppLogs);
+        LogQuery query = buildQuery(data.offset, includeAppLogs, data.versions);
         data.logs = getAppLogs(query, data);
         
         return createShowPageResult(Const.ViewURIs.ADMIN_ACTIVITY_LOG, data);
         
     }
     
-    private LogQuery buildQuery(String offset, boolean includeAppLogs) {
+    private LogQuery buildQuery(String offset, boolean includeAppLogs, List<String> versions) {
         LogQuery query = LogQuery.Builder.withDefaults();
-
-        String currentVersion = Config.inst().getAppVersion();
-        List<String> appVersions = new ArrayList<String>();
-
-        if (currentVersion.matches(".*[A-z.*]")) {
-            appVersions.add(currentVersion.replace(".", "-"));
-        } else {
-
-            double versionDouble = Double.parseDouble(currentVersion);
-
-            String curVer = ("" + versionDouble).replace(".", "-");
-            String[] preVer = { null, null, null };
-
-            preVer[0] = (versionDouble - 0.01) >= 0 ? (String.format("%.2f", (versionDouble - 0.01)).replace(".", "-")) : null;
-            preVer[1] = (versionDouble - 0.02) >= 0 ? (String.format("%.2f", (versionDouble - 0.02)).replace(".", "-")) : null;
-            preVer[2] = (versionDouble - 0.03) >= 0 ? (String.format("%.2f", (versionDouble - 0.03)).replace(".", "-")) : null;
-
-            appVersions.add(curVer);
-            for (int i = 0; i < 3; i++) {
-                if (preVer[i] != null) {
-                    appVersions.add(preVer[i]);
-                }
-            }
-        }
-        query.majorVersionIds(appVersions);        
+        
         query.includeAppLogs(includeAppLogs);
         query.batchSize(1000);
+        
+        if(versions != null && !versions.isEmpty()){   
+            try{
+            query.majorVersionIds(versions);
+            } catch (Exception e){
+                isError = true;
+                statusToUser.add(e.getMessage());
+            }
+        }else{
+        
+            String currentVersion = Config.inst().getAppVersion();
+            List<String> appVersions = new ArrayList<String>();
+    
+            if (currentVersion.matches(".*[A-z.*]")) {
+                appVersions.add(currentVersion.replace(".", "-"));
+            } else {
+    
+                double versionDouble = Double.parseDouble(currentVersion);
+    
+                String curVer = ("" + versionDouble).replace(".", "-");
+                String[] preVer = { null, null, null };
+    
+                preVer[0] = (versionDouble - 0.01) >= 0 ? (String.format("%.2f", (versionDouble - 0.01)).replace(".", "-")) : null;
+                preVer[1] = (versionDouble - 0.02) >= 0 ? (String.format("%.2f", (versionDouble - 0.02)).replace(".", "-")) : null;
+                preVer[2] = (versionDouble - 0.03) >= 0 ? (String.format("%.2f", (versionDouble - 0.03)).replace(".", "-")) : null;
+    
+                appVersions.add(curVer);
+                for (int i = 0; i < 3; i++) {
+                    if (preVer[i] != null) {
+                        appVersions.add(preVer[i]);
+                    }
+                }
+            }
+            query.majorVersionIds(appVersions);              
+        }
         
         if (offset != null && !offset.equals("null")) {
             query.offset(offset);
