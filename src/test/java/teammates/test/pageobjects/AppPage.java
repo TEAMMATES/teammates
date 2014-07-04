@@ -615,12 +615,12 @@ public abstract class AppPage {
                 // photo from instructor
                 .replaceAll("studentemail=([a-zA-Z0-9]){1,}\\&amp;courseid=([a-zA-Z0-9]){1,}", 
                             "studentemail={*}\\&amp;courseid={*}")
-                //questionid
-                .replaceAll("([a-zA-Z0-9-_]){62}","{*}")
                 //responseid
-                .replaceAll("([a-zA-Z0-9-_]){62}%"
+                .replaceAll("([a-zA-Z0-9-_]){30,}%"
                         + "[\\w+-][\\w+!#$%&'*/=?^_`{}~-]*+(\\.[\\w+!#$%&'*/=?^_`{}~-]+)*+@([A-Za-z0-9-]+\\.)*[A-Za-z]+%"
                         + "[\\w+-][\\w+!#$%&'*/=?^_`{}~-]*+(\\.[\\w+!#$%&'*/=?^_`{}~-]+)*+@([A-Za-z0-9-]+\\.)*[A-Za-z]+", "{*}")
+                //questionid
+                .replaceAll("([a-zA-Z0-9-_]){62,}","{*}")
                 //commentid
                 .replaceAll("\\\"([0-9]){16}\\\"", "\\\"{*}\\\"")
                 // the test accounts/ email

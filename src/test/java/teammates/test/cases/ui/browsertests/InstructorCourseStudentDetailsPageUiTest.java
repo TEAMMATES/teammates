@@ -57,7 +57,7 @@ public class InstructorCourseStudentDetailsPageUiTest extends BaseUiTestCase {
         viewPage = getCourseStudentDetailsPage("unregisteredStudent");
         viewPage.verifyHtmlMainContent("/InstructorCourseStudentDetailsUnregistered.html");
         
-        ______TS("content: registered student");
+        ______TS("content: registered student with helper view");
         
         // the helper here is configured to be able to view studentDetailsPage
         instructorId = testData.instructors.get("CCSDetailsUiT.Helper").googleId;
