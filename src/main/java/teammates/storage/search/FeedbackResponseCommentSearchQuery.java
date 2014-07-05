@@ -16,15 +16,6 @@ public class FeedbackResponseCommentSearchQuery extends SearchQuery {
                 : Cursor.newBuilder().build(cursorString);
         
         QueryOptions options = QueryOptions.newBuilder()
-                .setFieldsToReturn(new String[]
-                        {Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_ATTRIBUTE,
-                        Const.SearchDocumentField.FEEDBACK_RESPONSE_ATTRIBUTE,
-                        Const.SearchDocumentField.FEEDBACK_QUESTION_ATTRIBUTE,
-                        Const.SearchDocumentField.FEEDBACK_SESSION_ATTRIBUTE,
-                        Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_GIVER_NAME,
-                        Const.SearchDocumentField.FEEDBACK_RESPONSE_GIVER_NAME,
-                        Const.SearchDocumentField.FEEDBACK_RESPONSE_RECEIVER_NAME
-                        })
                 //.setLimit(10) TODO: impl pagination
                 .setCursor(cursor)
                 .build();

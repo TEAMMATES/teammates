@@ -136,7 +136,8 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         
         //produce searchableText for this feedback comment document:
         //it contains
-        //courseId, courseName, feedback session name, question number,
+        //courseId, courseName, feedback session name, question number, question title
+        //response answer
         //commentGiverEmail, commentGiverName, 
         //related people's information, and commentText
         StringBuilder searchableTextBuilder = new StringBuilder("");
@@ -144,6 +145,8 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         searchableTextBuilder.append(course != null? course.name: "").append(delim);
         searchableTextBuilder.append(relatedSession.feedbackSessionName).append(delim);
         searchableTextBuilder.append("question " + relatedQuestion.questionNumber).append(delim);
+        searchableTextBuilder.append(relatedQuestion.getQuestionDetails().questionText).append(delim);
+        searchableTextBuilder.append(relatedResponse.getResponseDetails().getAnswerString()).append(delim);
         searchableTextBuilder.append(comment.giverEmail).append(delim);
         searchableTextBuilder.append(giverAsInstructor != null? giverAsInstructor.name: "").append(delim);
         searchableTextBuilder.append(relatedPeopleBuilder.toString()).append(delim);

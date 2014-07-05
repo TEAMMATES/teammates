@@ -56,8 +56,8 @@ public class StudentCommentsPageAction extends Action {
         List<CommentAttributes> comments = new ArrayList<CommentAttributes>();
         if(coursePaginationList.size() > 0){
             roster = new CourseRoster(
-                    new StudentsDb().getStudentsForCourse(courseId),
-                    new InstructorsDb().getInstructorsForCourse(courseId));
+                    logic.getStudentsForCourse(courseId),
+                    logic.getInstructorsForCourse(courseId));
 
             StudentAttributes student = roster.getStudentForEmail(studentEmail);
             comments = logic.getCommentsForStudent(student);

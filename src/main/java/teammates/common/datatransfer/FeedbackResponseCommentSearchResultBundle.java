@@ -15,11 +15,13 @@ import com.google.appengine.api.search.ScoredDocument;
 import com.google.gson.Gson;
 
 public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundle {
+    public int numberOfCommentFound = 0;
     public Map<String, List<FeedbackResponseCommentAttributes>> comments = new HashMap<String, List<FeedbackResponseCommentAttributes>>();
     public Map<String, List<FeedbackResponseAttributes>> responses = new HashMap<String, List<FeedbackResponseAttributes>>();
     public Map<String, List<FeedbackQuestionAttributes>> questions = new HashMap<String, List<FeedbackQuestionAttributes>>();
     public Map<String, FeedbackSessionAttributes> sessions = new HashMap<String, FeedbackSessionAttributes>();
     public Map<String, String> commentGiverTable = new HashMap<String, String>();
+    public Map<String, String> responseGiverEmailTable = new HashMap<String, String>();
     public Map<String, String> responseGiverTable = new HashMap<String, String>();
     public Map<String, String> responseRecipientTable = new HashMap<String, String>();
     public Set<String> isAdded = new HashSet<String>();
@@ -42,6 +44,7 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
                 comments.put(comment.feedbackResponseId, commentList);
             }
             commentList.add(comment);
+            numberOfCommentFound++;
             
             FeedbackResponseAttributes response = new Gson().fromJson(
                     doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_ATTRIBUTE).getText(), 
@@ -76,6 +79,8 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
                 isAdded.add(session.feedbackSessionName);
                 this.sessions.put(session.getSessionName(), session);
             }
+            
+            responseGiverEmailTable.put(response.getId(), response.giverEmail);
             
             String responseGiverName = doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_GIVER_NAME).getText();
             responseGiverTable.put(response.getId(), extractContentFromQuotedString(responseGiverName));

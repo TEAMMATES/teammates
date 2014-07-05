@@ -105,7 +105,7 @@
                 </div>
             </div>
             <% } %>
-            <br>
+            <% if(data.feedbackResponseCommentSearchResultBundle.numberOfCommentFound != 0) { %>
             <br>
                 <div class="panel panel-primary">
                     <div class="panel-heading">
@@ -145,8 +145,8 @@
                                             String recipientName = data.feedbackResponseCommentSearchResultBundle.responseRecipientTable.get(responseEntry.getId());
                                     %>
                                     <tr>
-                                        <td><b>From:</b> <%=giverName%>
-                                            <b>To:</b> <%=recipientName%>
+                                        <td><b>From:</b> <%=data.getGiverName(responseEntry)%>
+                                            <b>To:</b> <%=data.getRecipientName(responseEntry)%>
                                         </td>
                                     </tr>
                                     <tr>
@@ -208,6 +208,7 @@
                     }//FeedbackSession loop ends
                 %>
                 </div>
+                <% } %>
         </div>
     </div>
 
