@@ -121,18 +121,12 @@ public class Sanitizer {
                 //general case for punctuation
                 .replace("`", " ").replace("!", " ").replace("#", " ").replace("$", " ").replace("%", " ").replace("^", " ")
                 .replace("&", " ").replace("[", " ").replace("]", " ").replace("{", " ").replace("}", " ").replace("|", " ")
-                .replace(";", " ").replace("*", " ").replace(".", " ").replace("?", " ")
+                .replace(";", " ").replace("*", " ").replace(".", " ").replace("?", " ").replace("'", " ").replace("/", " ")
                 //to prevent injection
                 .replace("=", " ")
                 .replace(":", " ")
                 .replace("<", "&lt;")
-                .replace(">", "&gt;")
-                //for html
-                .replace("/", "&#x2f;")
-                .replace("'", "&#39;")
-                //To ensure when apply sanitizeForSearch for multiple times, the string's still fine
-                //Regex meaning: replace '&' with safe encoding, but not the one that is safe already
-                .replaceAll("&(?!(amp;)|(lt;)|(gt;)|(quot;)|(#x2f;)|(#39;))", "&amp;");
+                .replace(">", "&gt;");
     }
     
     /**
