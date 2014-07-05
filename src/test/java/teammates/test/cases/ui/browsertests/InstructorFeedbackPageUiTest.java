@@ -76,7 +76,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         newSession.isPublishedEmailEnabled = true;
             
         browser = BrowserPool.getBrowser();
-        
+        System.setProperty("godmode", "true");
     }
     
     @Test
