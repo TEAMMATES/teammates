@@ -24,8 +24,15 @@ public abstract class SearchQuery {
         this.options = options;
     }
     
+    public int getFilterSize(){
+        return textQueryStrings.size() + dateQueryStrings.size();
+    }
+    
     protected SearchQuery setTextFilter(String textField, String queryString){
-        this.textQueryStrings.add(textField + ":" + Sanitizer.sanitizeForSearch(queryString).toLowerCase().trim());
+        String sanitizedQueryString = Sanitizer.sanitizeForSearch(queryString).toLowerCase().trim();
+        if(!sanitizedQueryString.isEmpty()){
+            this.textQueryStrings.add(textField + ":" + sanitizedQueryString);
+        }
         return this;
     }
     

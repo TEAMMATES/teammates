@@ -18,8 +18,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
-import teammates.storage.api.InstructorsDb;
-import teammates.storage.api.StudentsDb;
 
 public class StudentCommentsPageAction extends Action {
     

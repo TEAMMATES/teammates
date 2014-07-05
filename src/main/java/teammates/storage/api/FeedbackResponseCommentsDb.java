@@ -224,7 +224,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         Results<ScoredDocument> results = searchDocuments(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, 
                 new FeedbackResponseCommentSearchQuery(googleId, queryString, cursorString));
         
-        return new FeedbackResponseCommentSearchResultBundle().fromResults(results);
+        return new FeedbackResponseCommentSearchResultBundle().fromResults(results, googleId);
     }
     
     @Override

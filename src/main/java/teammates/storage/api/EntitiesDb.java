@@ -201,7 +201,11 @@ public abstract class EntitiesDb {
     
     protected Results<ScoredDocument> searchDocuments(String indexName, SearchQuery query) {
         try{
-            return SearchManager.searchDocuments(indexName, query.toQuery());
+            if(query.getFilterSize() > 0){
+                return SearchManager.searchDocuments(indexName, query.toQuery());
+            } else {
+                return null;
+            }
         } catch (SearchQueryException e){
             log.info("Unsupported query for this query string: " + query.toString());
             return null;

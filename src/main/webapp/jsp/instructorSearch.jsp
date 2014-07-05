@@ -162,8 +162,8 @@
                                             String recipientName = data.feedbackResponseCommentSearchResultBundle.responseRecipientTable.get(responseEntry.getId());
                                     %>
                                     <tr>
-                                        <td><b>From:</b> <%=data.getGiverName(responseEntry)%>
-                                            <b>To:</b> <%=data.getRecipientName(responseEntry)%>
+                                        <td><b>From:</b> <%=giverName%>
+                                            <b>To:</b> <%=recipientName%>
                                         </td>
                                     </tr>
                                     <tr>
