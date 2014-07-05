@@ -7,6 +7,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.Url;
@@ -42,25 +43,36 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
     public void testAll() throws Exception{
         
         testContent();
+        testShowPhoto();
         testLinks();
         testDeleteAction();
         testSearchScript();
         testDisplayArchive();
     }
 
-
     private void testContent() {
         String instructorId;
         
         ______TS("content: 2 course with students");
         
-        instructorId = testData.instructors.get("instructorOfCourse2").googleId;
+        InstructorAttributes instructorWith2Courses = testData.instructors.get("instructorOfCourse2");
+        instructorId = instructorWith2Courses.googleId;
         
         Url viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE)
             .withUserId(instructorId);
         
         viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
-        viewPage.verifyHtmlMainContent("/instructorStudentListPage.html");
+        viewPage.verifyHtml("/instructorStudentListWithHelperView.html");
+        
+        // update current instructor privileges
+        BackDoor.deleteInstructor(instructorWith2Courses.courseId, instructorWith2Courses.email);
+        instructorWith2Courses.privileges = instructorWith2Courses.getInstructorPrivilegesFromText();
+        instructorWith2Courses.privileges.setDefaultPrivilegesForCoowner();
+        instructorWith2Courses.instructorPrivilegesAsText = instructorWith2Courses.getTextFromInstructorPrivileges();
+        BackDoor.createInstructor(instructorWith2Courses);
+        
+        viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
+        viewPage.verifyHtmlMainContent("/instructorStudentList.html");
         
         ______TS("content: search student");
 
@@ -110,14 +122,28 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
         viewPage.verifyHtmlMainContent("/instructorStudentListPageNoCourse.html");
     }
-    
-    public void testLinks() throws Exception{
-        
+
+    private void testShowPhoto() {
         String instructorId = testData.instructors.get("instructorOfCourse2").googleId;
         Url viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE)
                     .withUserId(instructorId);
             
         viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
+        
+        ______TS("default image");
+        
+        StudentAttributes student = testData.students.get("Student1Course2");
+        viewPage.clickShowPhoto(student.course, student.name);
+        viewPage.verifyProfilePhotoIsDefault(student.course, student.name);
+        
+        ______TS("student has uploaded an image");
+        
+        //TODO: implement this method after a backend way to upload to cloud storage
+        // has been implemented
+        
+    }
+    
+    public void testLinks() throws Exception{
         
         ______TS("link: enroll");
         String courseId = testData.courses.get("course2").id;

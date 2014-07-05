@@ -1,8 +1,11 @@
 package teammates.common.util;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.InputStream;
+import java.nio.ByteBuffer;
 import java.util.Scanner;
 
 /** Holds file-related functions
@@ -17,6 +20,15 @@ public class FileHelper {
         String ans = scanner.useDelimiter("\\Z").next();
         scanner.close();
         return ans;
+    }
+    
+    public static byte[] readFileAsBytes(String fileName) throws FileNotFoundException, IOException {
+        FileInputStream stream = new FileInputStream(fileName);
+        byte[] buffer = new byte[1024 * 300];
+        stream.read(buffer);
+        stream.close();
+        
+        return buffer;        
     }
 
     /**

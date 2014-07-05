@@ -38,40 +38,60 @@ function updateResultsFilter(){
     filterResults($("#results-search-box").val());
 }
 
-//This section is used to enable all panels to be collapsible.
-var panelsCollapsed = false;
-var isCollapsingAll = false;
-var isExpandingAll = false;
-
-function toggleCollapse(){
-    if(panelsCollapsed){
-        var panels = $("div.panel-collapse");
+function toggleCollapse(e, panels){
+    if($(e).html().indexOf("Expand") != -1){
+        panels = panels || $("div.panel-collapse");
         isExpandingAll = true;
-        $(panels[0]).collapse("show");
-        $("#collapse-panels-button").html("Collapse All");
+        var i = 0;
+        for(var idx = 0; idx < panels.length; idx++){
+            if($(panels[idx]).attr('class').indexOf('in') == -1){
+                setTimeout(showSingleCollapse, 100 * i, panels[idx]);
+                i++;
+            }
+        }
+        var htmlString = $(e).html();
+        htmlString = htmlString.replace("Expand", "Collapse");
+        $(e).html(htmlString);
     } else {
-        var panels = $("div.panel-collapse");
+        panels = panels || $("div.panel-collapse");
         isCollapsingAll = true;
-        $(panels[0]).collapse("hide");
-        $("#collapse-panels-button").html("Expand All");
+        var i = 0;
+        for(var idx = 0; idx < panels.length; idx++){
+            if($(panels[idx]).attr('class').indexOf('in') != -1){
+                setTimeout(hideSingleCollapse, 100 * i, panels[idx]);
+                i++;
+            }
+        }
+        var htmlString = $(e).html();
+        htmlString = htmlString.replace("Collapse", "Expand");
+        $(e).html(htmlString);
     }
-    panelsCollapsed = !panelsCollapsed;
+}
+
+function showSingleCollapse(e){
+    var heading = $(e).parent().children('.panel-heading');
+    var glyphIcon = $(heading[0]).find('.glyphicon');
+    $(glyphIcon[0]).removeClass('glyphicon-chevron-down');
+    $(glyphIcon[0]).addClass('glyphicon-chevron-up');
+    $(e).collapse("show");
+}
+
+function hideSingleCollapse(e){
+    var heading = $(e).parent().children('.panel-heading');
+    var glyphIcon = $(heading[0]).find('.glyphicon');
+    $(glyphIcon[0]).removeClass('glyphicon-chevron-up');
+    $(glyphIcon[0]).addClass('glyphicon-chevron-down');
+    $(e).collapse("hide");
 }
 
 function toggleSingleCollapse(e){
     if(e.target == e.currentTarget){
-        $($(e.target).attr('data-target')).collapse('toggle');
-        isCollapsingAll = false;
-        isExpandingAll = false;
-
-        var glyphIcon = $(this).children('.glyphicon');
+        var glyphIcon = $(this).find('.glyphicon');
         var className = $(glyphIcon[0]).attr('class');
         if(className.indexOf('glyphicon-chevron-up') != -1){
-            $(glyphIcon[0]).removeClass('glyphicon-chevron-up');
-            $(glyphIcon[0]).addClass('glyphicon-chevron-down');
+            hideSingleCollapse($(e.target).attr('data-target'));
         } else {
-            $(glyphIcon[0]).removeClass('glyphicon-chevron-down');
-            $(glyphIcon[0]).addClass('glyphicon-chevron-up');
+            showSingleCollapse($(e.target).attr('data-target'));
         }
     }
 }
@@ -82,9 +102,7 @@ function getNextId(e){
     return nextId;
 }
 
-window.onload = function(){
-    var panels = $("div.panel");
-    var numPanels = 0;
+function bindCollapseEvents(panels, numPanels){
     for(var i=0 ; i<panels.length ; i++){
         var heading = $(panels[i]).children(".panel-heading");
         var bodyCollapse = $(panels[i]).children(".panel-collapse");
@@ -92,41 +110,12 @@ window.onload = function(){
             numPanels++;
             //$(heading[0]).attr("data-toggle","collapse");
             //Use this instead of the data-toggle attribute to let [more/less] be clicked without collapsing panel
-            $(heading[0]).click(toggleSingleCollapse);
+            if($(heading[0]).attr('class') == 'panel-heading'){
+                $(heading[0]).click(toggleSingleCollapse);
+            }
             $(heading[0]).attr("data-target","#panelBodyCollapse-"+numPanels);
             $(heading[0]).css("cursor", "pointer");
             $(bodyCollapse[0]).attr('id', "panelBodyCollapse-"+numPanels);
-
-            $(bodyCollapse[0]).on('hidden.bs.collapse', function(){
-                if(isCollapsingAll){
-                    var id = $(this).attr('id');
-                    var nextId = this;
-                    do{
-                        nextId = getNextId(nextId);
-                    } while($(nextId).length && $('#' + id + ' ' + nextId).length);
-                    
-                    if($(nextId).length){
-                        $(nextId).collapse('hide');
-                    } else {
-                        isCollapsingAll = false;
-                    }
-                }
-            });
-            $(bodyCollapse[0]).on('shown.bs.collapse', function(){
-                if(isExpandingAll){
-                    var id = $(this).attr('id');
-                    var nextId = this;
-                    do{
-                        nextId = getNextId(nextId);
-                    } while($(nextId).length && $('#' + id + ' ' + nextId).length);
-                    
-                    if($(nextId).length){
-                        $(nextId).collapse('show');
-                    } else {
-                        isExpandingAll = false;
-                    }
-                }
-            });
         }
     }
 
@@ -137,11 +126,18 @@ window.onload = function(){
         }
     });
 
-    if($("#collapse-panels-button").html().indexOf("Expand All") != -1){
-        panelsCollapsed = true;
-    } else {
-        panelsCollapsed = false;
-    }
+    return numPanels;
+}
+
+window.onload = function(){
+    var panels = $("div.panel");
+    var numPanels = 0;
+
+    bindCollapseEvents(panels, numPanels);
+    $("a[id^='collapse-panels-button-section-'],a[id^='collapse-panels-button-team-']").on('click', function(){
+        var panels = $(this).parent().children('div.panel').children('.panel-collapse');
+        toggleCollapse(this, panels);
+    });
 };
 
 //Set on ready events

@@ -58,7 +58,7 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         
         FeedbackResponseCommentAttributes feedbackResponseComment = new FeedbackResponseCommentAttributes(courseId,
             feedbackSessionName, feedbackQuestionId, instructor.email, feedbackResponseId, new Date(),
-            new Text(commentText));
+            new Text(commentText), response.giverSection, response.recipientSection);
         
         FeedbackQuestionAttributes question = logic.getFeedbackQuestion(feedbackQuestionId);
         if(isResponseCommentPublicToRecipient(question)){
@@ -66,7 +66,9 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         }
         
         try {
-            logic.createFeedbackResponseComment(feedbackResponseComment);
+            FeedbackResponseCommentAttributes updatedComment = logic.createFeedbackResponseComment(feedbackResponseComment);
+            //TODO: move putDocument to taskQueue
+            logic.putDocument(updatedComment);
         } catch (InvalidParametersException e) {
             setStatusForException(e);
             data.errorMessage = e.getMessage();

@@ -563,6 +563,12 @@ public class PageData {
         return link;
     }
     
+    public String getInstructorSearchLink(){
+        String link = Const.ActionURIs.INSTRUCTOR_SEARCH_PAGE;
+        link = addUserIdToUrl(link);
+        return link;
+    }
+    
     public String getInstructorStudentRecordsLink(String courseId, String studentEmail){
         String link = Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
@@ -767,11 +773,11 @@ public class PageData {
         String disableUnpublishSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
         String disablePublishSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
         boolean shouldEnableSubmitLink = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
-        List<String> sectionsInCourse = new Logic().getSectionsNameForCourse(instructor.courseId);
+        List<String> sectionsInCourse = new Logic().getSectionNamesForCourse(instructor.courseId);
         for (String section : sectionsInCourse) {
-            if (!instructor.isAllowedForPrivilege(section, session.feedbackSessionName, 
+            if (instructor.isAllowedForPrivilege(section, session.feedbackSessionName, 
                     Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)) {
-                shouldEnableSubmitLink = false;
+                shouldEnableSubmitLink = true;
                 break;
             }
         }

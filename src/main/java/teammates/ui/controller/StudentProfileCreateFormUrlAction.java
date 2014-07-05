@@ -20,7 +20,7 @@ public class StudentProfileCreateFormUrlAction extends Action {
                 .googleStorageBucketName(Config.GCS_BUCKETNAME)
                 .maxUploadSizeBytes(Const.SystemParams.MAX_PROFILE_PIC_LIMIT_FOR_BLOBSTOREAPI);
         String formPostUrl = BlobstoreServiceFactory.getBlobstoreService()
-                .createUploadUrl(Const.ActionURIs.STUDENT_PROFILE_EDIT_SAVE, uploadOptions);
+                .createUploadUrl(Const.ActionURIs.STUDENT_PROFILE_PICTURE_UPLOAD, uploadOptions);
         
         StudentProfileCreateFormUrlAjaxPageData data = new StudentProfileCreateFormUrlAjaxPageData(account, formPostUrl); 
         return createAjaxResult("", data);

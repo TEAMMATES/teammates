@@ -113,6 +113,22 @@ public class Sanitizer {
     }
     
     /**
+     * Sanitize the string for searching. 
+     */
+    public static String sanitizeForSearch(String str){ 
+        if(str == null) return null;
+        return str.replace("<", "&lt;")
+                .replace(">", "&gt;")
+                .replace("=", "")
+                .replace(":", "")
+                .replace("/", "&#x2f;")
+                .replace("'", "&#39;")
+                //To ensure when apply sanitizeForHtml for multiple times, the string's still fine
+                //Regex meaning: replace '&' with safe encoding, but not the one that is safe already
+                .replaceAll("&(?!(amp;)|(lt;)|(gt;)|(quot;)|(#x2f;)|(#39;))", "&amp;");
+    }
+    
+    /**
      * Sanitizes the string for comma-separated values (CSV) file output.<br>
      * We follow the definition described by RFC 4180:<br>
      * {@link http://tools.ietf.org/html/rfc4180}
