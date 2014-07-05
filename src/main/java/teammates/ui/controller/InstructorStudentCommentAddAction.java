@@ -48,7 +48,10 @@ public class InstructorStudentCommentAddAction extends Action {
         CommentAttributes comment = extractCommentData();
         
         try {
-            logic.createComment(comment);
+            CommentAttributes createdComment = logic.createComment(comment);
+            //TODO: move putDocument to Task Queue
+            logic.putDocument(createdComment);
+            
             statusToUser.add(Const.StatusMessages.COMMENT_ADDED);
             statusToAdmin = "Created Comment for Student:<span class=\"bold\">(" +
                     comment.recipients + ")</span> for Course <span class=\"bold\">[" +

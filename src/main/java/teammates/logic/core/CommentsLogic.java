@@ -53,12 +53,12 @@ public class CommentsLogic {
     
     /************ CRUD ************/
 
-    public void createComment(CommentAttributes comment)
+    public CommentAttributes createComment(CommentAttributes comment)
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         verifyIsCoursePresent(comment.courseId, "create");
         verifyIsInstructorOfCourse(comment.courseId, comment.giverEmail);
 
-        commentsDb.createEntity(comment);
+        return commentsDb.createEntity(comment);
     }
     
     public CommentAttributes getComment(Long commentId) {
@@ -103,11 +103,11 @@ public class CommentsLogic {
         commentsDb.updateComments(courseId, oldState, newState);
     }
     
-    public void updateComment(CommentAttributes comment)
+    public CommentAttributes updateComment(CommentAttributes comment)
             throws InvalidParametersException, EntityDoesNotExistException{
         verifyIsCoursePresent(comment.courseId, "update");
         
-        commentsDb.updateComment(comment);
+        return commentsDb.updateComment(comment);
     }
     
     public void deleteComment(CommentAttributes comment){
@@ -117,6 +117,10 @@ public class CommentsLogic {
     public List<CommentAttributes> getCommentDrafts(String giverEmail)
             throws EntityDoesNotExistException {
         return commentsDb.getCommentDrafts(giverEmail);
+    }
+    
+    public void putDocument(CommentAttributes comment){
+        commentsDb.putDocument(comment);
     }
     
     public CommentSearchResultBundle searchComment(String queryString, String googleId, String cursorString){

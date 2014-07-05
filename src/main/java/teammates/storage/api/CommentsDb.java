@@ -42,10 +42,7 @@ public class CommentsDb extends EntitiesDb{
             log.info("Trying to get non-existent Comment, possibly entity not persistent yet.");
             return null;
         } else{
-            //TODO: move this to taskQueue
             CommentAttributes createdComment = new CommentAttributes(createdEntity);
-            putDocument(Const.SearchIndex.COMMENT, new CommentSearchDocument(createdComment));
-            
             return createdComment;
         }
     }
@@ -179,7 +176,7 @@ public class CommentsDb extends EntitiesDb{
         getPM().close();
     }
 
-    public void updateComment(CommentAttributes newAttributes) throws InvalidParametersException, EntityDoesNotExistException{
+    public CommentAttributes updateComment(CommentAttributes newAttributes) throws InvalidParametersException, EntityDoesNotExistException{
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT,  newAttributes);
         
         newAttributes.sanitizeForSaving();
@@ -218,9 +215,12 @@ public class CommentsDb extends EntitiesDb{
         
         getPM().close();
         
-        //TODO: move this to taskQueue
         CommentAttributes updatedComment = new CommentAttributes(comment);
-        putDocument(Const.SearchIndex.COMMENT, new CommentSearchDocument(updatedComment));
+        return updatedComment;
+    }
+    
+    public void putDocument(CommentAttributes comment){
+        putDocument(Const.SearchIndex.COMMENT, new CommentSearchDocument(comment));
     }
     
     public CommentSearchResultBundle search(String queryString, String googleId, String cursorString){

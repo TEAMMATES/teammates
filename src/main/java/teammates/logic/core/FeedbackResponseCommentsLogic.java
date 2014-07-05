@@ -37,7 +37,7 @@ public class FeedbackResponseCommentsLogic {
         return instance;
     }
 
-    public void createFeedbackResponseComment(
+    public FeedbackResponseCommentAttributes createFeedbackResponseComment(
             FeedbackResponseCommentAttributes frComment)
             throws InvalidParametersException, EntityDoesNotExistException {
         verifyIsCoursePresent(frComment.courseId);
@@ -45,7 +45,7 @@ public class FeedbackResponseCommentsLogic {
         verifyIsFeedbackSessionOfCourse(frComment.courseId, frComment.feedbackSessionName);
         
         try{
-            frcDb.createEntity(frComment);
+            return frcDb.createEntity(frComment);
         } catch (EntityAlreadyExistsException e) {
             try{
                 FeedbackResponseCommentAttributes existingComment = new FeedbackResponseCommentAttributes();
@@ -53,9 +53,10 @@ public class FeedbackResponseCommentsLogic {
                 existingComment = frcDb.getFeedbackResponseComment(frComment.feedbackResponseId, frComment.giverEmail, frComment.createdAt);
                 frComment.setId(existingComment.getId());
                 
-                frcDb.updateFeedbackResponseComment(frComment);            
+                return frcDb.updateFeedbackResponseComment(frComment);            
             } catch(Exception EntityDoesNotExistException){
                 Assumption.fail();
+                return null;
             }
         }
     }
@@ -96,9 +97,9 @@ public class FeedbackResponseCommentsLogic {
         }
     }
 
-    public void updateFeedbackResponseComment(
+    public FeedbackResponseCommentAttributes updateFeedbackResponseComment(
             FeedbackResponseCommentAttributes feedbackResponseComment) throws InvalidParametersException, EntityDoesNotExistException {
-        frcDb.updateFeedbackResponseComment(feedbackResponseComment);    
+        return frcDb.updateFeedbackResponseComment(feedbackResponseComment);    
     }
     
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForSendingState(String courseId, CommentSendingState state) 
@@ -125,6 +126,10 @@ public class FeedbackResponseCommentsLogic {
                 frcDb.updateFeedbackResponseComments(courseId, fs.feedbackSessionName, oldState, newState);    
             }
         }
+    }
+    
+    public void putDocument(FeedbackResponseCommentAttributes comment){
+        frcDb.putDocument(comment);
     }
     
     public FeedbackResponseCommentSearchResultBundle searchFeedbackResponseComments(

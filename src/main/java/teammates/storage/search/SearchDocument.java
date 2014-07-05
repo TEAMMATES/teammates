@@ -2,7 +2,6 @@ package teammates.storage.search;
 
 import java.util.logging.Logger;
 
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Utils;
 import teammates.logic.api.Logic;
 

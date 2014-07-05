@@ -33,7 +33,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
     private static final Logger log = Utils.getLogger();
     
     @Override
-    public Object createEntity(EntityAttributes entityToAdd) 
+    public FeedbackResponseCommentAttributes createEntity(EntityAttributes entityToAdd) 
             throws InvalidParametersException, EntityAlreadyExistsException{
         FeedbackResponseComment createdEntity = (FeedbackResponseComment) super.createEntity(entityToAdd);
         if(createdEntity == null){
@@ -41,8 +41,6 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
             return null;
         } else{
             FeedbackResponseCommentAttributes createdComment = new FeedbackResponseCommentAttributes(createdEntity);
-            putDocument(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, new FeedbackResponseCommentSearchDocument(createdComment));
-            
             return createdComment;
         }
     }
@@ -160,7 +158,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
      * @throws InvalidParametersException 
      * @throws EntityDoesNotExistException 
      */
-    public void updateFeedbackResponseComment(FeedbackResponseCommentAttributes newAttributes) 
+    public FeedbackResponseCommentAttributes updateFeedbackResponseComment(FeedbackResponseCommentAttributes newAttributes) 
             throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, newAttributes);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, newAttributes.getId());
@@ -184,7 +182,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         getPM().close();
         
         FeedbackResponseCommentAttributes updatedComment = new FeedbackResponseCommentAttributes(frc);
-        putDocument(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, new FeedbackResponseCommentSearchDocument(updatedComment));
+        return updatedComment;
     }
     
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForSendingState(String courseId, String sessionName,
@@ -213,6 +211,10 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         }
         
         getPM().close();
+    }
+    
+    public void putDocument(FeedbackResponseCommentAttributes comment){
+        putDocument(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, new FeedbackResponseCommentSearchDocument(comment));
     }
     
     public FeedbackResponseCommentSearchResultBundle search(String queryString, String googleId, String cursorString){
