@@ -345,7 +345,7 @@ public class FeedbackQuestionsLogic {
                 instructorsLogic.getInstructorsForCourse(question.courseId);
             for(InstructorAttributes instr : instructorsInCourse) {
                 // Ensure instructor does not evaluate himself
-                if (giver.equals(instr.email) == false) {
+                if (!giver.equals(instr.email)) {
                     recipients.put(instr.email, instr.name);
                 }
             }

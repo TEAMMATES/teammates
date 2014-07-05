@@ -20,6 +20,9 @@ public class InstructorCourseStudentDetailsPageUiTest extends BaseUiTestCase {
     private static InstructorCourseStudentDetailsViewPage viewPage;
     private static DataBundle testData;
     
+    private static String instructorId;
+    private static String courseId;
+    
 
     @BeforeClass
     public static void classSetup() throws Exception {
@@ -27,38 +30,52 @@ public class InstructorCourseStudentDetailsPageUiTest extends BaseUiTestCase {
         testData = loadDataBundle("/InstructorCourseStudentDetailsPageUiTest.json");
         restoreTestDataOnServer(testData);
         browser = BrowserPool.getBrowser();
+        
+        instructorId = testData.instructors.get("CCSDetailsUiT.instr").googleId;
+        courseId = testData.courses.get("CCSDetailsUiT.CS2104").id;
+
     }
     
     
     @Test
     public void testAll() throws Exception{
+
+        testContent();
         
-        String instructorId = testData.instructors.get("CCSDetailsUiT.instr").googleId;
-        String courseId = testData.courses.get("CCSDetailsUiT.CS2104").id;
+    }
+
+
+    private void testContent() {
         
         ______TS("content: registered student");
         
+        viewPage = getCourseStudentDetailsPage("registeredStudent");
+        viewPage.verifyHtml("/InstructorCourseStudentDetailsRegistered.html");
+
+        ______TS("content: unregistered student");
+            
+        viewPage = getCourseStudentDetailsPage("unregisteredStudent");
+        viewPage.verifyHtmlMainContent("/InstructorCourseStudentDetailsUnregistered.html");
+        
+        ______TS("content: registered student with helper view");
+        
+        // the helper here is configured to be able to view studentDetailsPage
+        instructorId = testData.instructors.get("CCSDetailsUiT.Helper").googleId;
+        
+        viewPage = getCourseStudentDetailsPage("registeredStudent");
+        viewPage.verifyHtmlMainContent("/InstructorCourseStudentDetailsRegisteredWithHelperView.html");
+        
+        // TODO: add test for the comment box in this page
+    }
+
+
+    private InstructorCourseStudentDetailsViewPage getCourseStudentDetailsPage(String studentStr) {
         Url viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE)
             .withUserId(instructorId)
             .withCourseId(courseId)
-            .withStudentEmail(testData.students.get("registeredStudent").email);
+            .withStudentEmail(testData.students.get(studentStr).email);
         
-        viewPage = loginAdminToPage(browser, viewPageUrl, InstructorCourseStudentDetailsViewPage.class);
-        viewPage.verifyHtmlMainContent("/InstructorCourseStudentDetailsPage.html");
-
-        ______TS("content: unregistered student");
-        
-        
-        viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE)
-            .withUserId(instructorId)
-            .withCourseId(courseId)
-            .withStudentEmail(testData.students.get("unregisteredStudent").email);
-        
-        viewPage = loginAdminToPage(browser, viewPageUrl, InstructorCourseStudentDetailsViewPage.class);
-        viewPage.verifyHtmlMainContent("/InstructorCourseStudentDetailsUnregisteredPage.html");
-        
-        //No links, input validation, or actions to test.
-        
+        return loginAdminToPage(browser, viewPageUrl, InstructorCourseStudentDetailsViewPage.class);
     }
     
 

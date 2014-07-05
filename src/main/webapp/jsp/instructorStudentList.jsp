@@ -2,6 +2,7 @@
 
 <%@ page import="teammates.common.util.TimeHelper"%>
 <%@ page import="teammates.common.util.Const"%>
+<%@ page import="teammates.common.util.StringHelper"%>
 <%@ page import="teammates.common.datatransfer.CourseDetailsBundle"%>
 <%@ page import="teammates.common.datatransfer.SectionDetailsBundle" %>
 <%@ page import="teammates.common.datatransfer.TeamDetailsBundle"%>
@@ -228,7 +229,7 @@
                 for (CourseDetailsBundle courseDetails : data.courses) {
                     if((courseDetails.course.isArchived && data.displayArchive) || !courseDetails.course.isArchived){
                         courseIdx++;
-                        int sortIdx = 1;
+                        int sortIdx = 2;
                         int numSections = courseDetails.stats.sectionsTotal;
                         int totalCourseStudents = courseDetails.stats.studentsTotal;
             %>
@@ -246,8 +247,10 @@
                         <a class="btn btn-default btn-xs pull-right pull-down course-enroll-for-test"
                             href="<%=data.getInstructorCourseEnrollLink(courseDetails.course.id)%>"
                             title="<%=Const.Tooltips.COURSE_ENROLL%>"
-                            data-toggle="tooltip"
-                            data-placement="top">
+                            data-toggle="tooltip" data-placement="top"
+                            <% if (!data.instructors.get(courseDetails.course.id).isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT)) { %>
+                            disabled="disabled"
+                            <% } %>>
                                 <span class="glyphicon glyphicon-list"></span> Enroll
                         </a>
                     </div>
@@ -258,6 +261,9 @@
                         <table class="table table-responsive table-striped table-bordered">
                             <thead class="fill-<%=courseDetails.course.isArchived ? "default":"primary" %>">
                                 <tr>
+                                    <th>
+                                        Photo
+                                    </th>
                                     <% if(numSections != 0) { %>
                                         <th id="button_sortsection-<%=courseDetails.course.id%>" class="button-sort-none" onclick="toggleSort(this,<%=sortIdx++%>)">
                                             Section <span class="icon-sort unsorted"></span>
@@ -280,6 +286,9 @@
                                     int sectionIdx = -1;
                                     int teamIdx = -1;
                                     int studentIdx = -1;
+                                    String photoUrl = Const.ActionURIs.STUDENT_PROFILE_PICTURE + "?" + 
+                                    	    Const.ParamsNames.STUDENT_EMAIL+"=%s&" + 
+                                    	    Const.ParamsNames.COURSE_ID + "=%s";
                                     for(SectionDetailsBundle sectionDetails : courseDetails.sections){
                                         sectionIdx++;
                                         for(TeamDetailsBundle teamDetails: sectionDetails.teams){
@@ -288,6 +297,12 @@
                                                 studentIdx++;
                             %>
                             <tr id="student-c<%=courseIdx %>.<%=studentIdx%>" style="display: table-row;">
+                                <td id="studentphoto-c<%=courseIdx %>.<%=studentIdx%>" class="profile-pic-icon">
+                                    <a class="student-photo-link-for-test btn-link" 
+                                       data-link=<%=String.format(photoUrl, StringHelper.encrypt(student.email),  StringHelper.encrypt(student.course)) %>>
+                                       View Photo</a>
+                                    <img src="" alt="No Image Given" class="hidden">
+                                </td>
                                 <% if(numSections != 0) { %>
                                     <td id="studentsection-c<%=courseIdx %>.<%=sectionIdx%>"><%=PageData.sanitizeForHtml(sectionDetails.name)%></td>
                                 <% } %>
@@ -300,7 +315,7 @@
                                     title="<%=Const.Tooltips.COURSE_STUDENT_DETAILS%>"
                                     data-toggle="tooltip" data-placement="top"
                                     <% InstructorAttributes instructor = data.instructors.get(courseDetails.course.id);
-                                       if (!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)) {%>
+                                       if (!instructor.isAllowedForPrivilege(student.section, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)) {%>
                                        disabled="diabled"
                                     <% } %>
                                     > View</a> 
@@ -309,7 +324,7 @@
                                     href="<%=data.getCourseStudentEditLink(courseDetails.course.id, student)%>"
                                     title="<%=Const.Tooltips.COURSE_STUDENT_EDIT%>"
                                     data-toggle="tooltip" data-placement="top"
-                                    <% if (!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT)) {%>
+                                    <% if (!instructor.isAllowedForPrivilege(student.section, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT)) {%>
                                        disabled="diabled"
                                     <% } %>
                                     > Edit</a> 
@@ -319,7 +334,7 @@
                                     onclick="return toggleDeleteStudentConfirmation('<%=sanitizeForJs(courseDetails.course.id)%>','<%=sanitizeForJs(student.name)%>')"
                                     title="<%=Const.Tooltips.COURSE_STUDENT_DELETE%>"
                                     data-toggle="tooltip" data-placement="top"
-                                    <% if (!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT)) {%>
+                                    <% if (!instructor.isAllowedForPrivilege(student.section, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT)) {%>
                                        disabled="diabled"
                                     <% } %>> Delete</a>
                                     

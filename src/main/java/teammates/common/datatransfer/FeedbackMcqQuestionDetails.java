@@ -249,6 +249,8 @@ public class FeedbackMcqQuestionDetails extends FeedbackAbstractQuestionDetails 
         
         String html = FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
+                "${more}", "[more]",
+                "${less}", "[less]",
                 "${questionNumber}", Integer.toString(questionNumber),
                 "${additionalInfoId}", additionalInfoId,
                 "${questionAdditionalInfo}", additionalInfo);
@@ -259,8 +261,14 @@ public class FeedbackMcqQuestionDetails extends FeedbackAbstractQuestionDetails 
     @Override
     public String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
+            AccountAttributes currentUser,
             FeedbackSessionResultsBundle bundle,
             String view) {
+        
+        if(view.equals("student")){
+            return "";
+        }
+        
         if(responses.size() == 0){
             return "";
         }
@@ -295,6 +303,48 @@ public class FeedbackMcqQuestionDetails extends FeedbackAbstractQuestionDetails 
                 "${fragments}", fragments);
         
         return html;
+    }
+    
+
+    @Override
+    public String getQuestionResultStatisticsCsv(
+            List<FeedbackResponseAttributes> responses,
+            FeedbackQuestionAttributes question,
+            FeedbackSessionResultsBundle bundle) {
+        if(responses.size() == 0){
+            return "";
+        }
+        
+        String csv = "";
+        String fragments = "";
+        Map<String,Integer> answerFrequency = new LinkedHashMap<String,Integer>();
+        
+        for(String option : mcqChoices){
+            answerFrequency.put(option, 0);
+        }
+        
+        for(FeedbackResponseAttributes response : responses){
+            String answerString = response.getResponseDetails().getAnswerString();
+            if(!answerFrequency.containsKey(answerString)){
+                answerFrequency.put(answerString, 1);
+            } else {
+                answerFrequency.put(answerString, answerFrequency.get(answerString)+1);
+            }
+        }
+        
+        DecimalFormat df = new DecimalFormat("#.##");
+        
+        for(Entry<String, Integer> entry : answerFrequency.entrySet() ){
+            fragments += entry.getKey() + ","
+                      + entry.getValue().toString() + ","
+                      + df.format(100*(double)entry.getValue()/responses.size()) + Const.EOL;
+        }
+        
+        csv += "Choice, Response Count, Percentage" + Const.EOL;
+        
+        csv += fragments;
+        
+        return csv;
     }
     
     @Override
@@ -334,5 +384,6 @@ public class FeedbackMcqQuestionDetails extends FeedbackAbstractQuestionDetails 
         }
         return errors;
     }
+
 
 }

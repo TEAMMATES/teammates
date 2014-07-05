@@ -7,6 +7,9 @@ import javax.jdo.PersistenceManager;
 import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
 import com.google.appengine.api.search.SearchQueryException;
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.blobstore.BlobstoreFailureException;
+import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 
 import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -163,6 +166,16 @@ public abstract class EntitiesDb {
                     + entityToDelete.getEntityTypeAsString() + "->"
                     + entityToDelete.getIdentificationString());
         }
+    }
+    
+    protected void closePM() {
+        if (!getPM().isClosed()) {
+            getPM().close();
+        }
+    }
+    
+    public void deletePicture(BlobKey key) throws BlobstoreFailureException {
+        BlobstoreServiceFactory.getBlobstoreService().delete(key);
     }
     
     /**

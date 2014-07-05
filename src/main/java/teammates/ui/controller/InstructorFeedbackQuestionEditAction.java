@@ -60,6 +60,9 @@ public class InstructorFeedbackQuestionEditAction extends Action {
 
     private void editQuestion(FeedbackQuestionAttributes updatedQuestion)
             throws InvalidParametersException, EntityDoesNotExistException {
+        
+        validateContribQnGiverRecipient(updatedQuestion);
+        
         if(updatedQuestion.questionNumber != 0){ //Question number was updated
             List<String> questionDetailsErrors = updatedQuestion.getQuestionDetails().validateQuestionDetails();
             if(!questionDetailsErrors.isEmpty()){
@@ -83,6 +86,21 @@ public class InstructorFeedbackQuestionEditAction extends Action {
                         "<span class=\"bold\">" + updatedQuestion.getQuestionDetails().getQuestionTypeDisplayName() + ":</span> " +
                         updatedQuestion.getQuestionDetails().questionText;
             }
+        }
+    }
+
+    private void validateContribQnGiverRecipient(
+            FeedbackQuestionAttributes updatedQuestion) {
+        if(updatedQuestion.questionType == FeedbackQuestionType.CONTRIB){
+            Assumption.assertEquals("Contrib qn giver type invalid: " + updatedQuestion.giverType.toString(),
+                    updatedQuestion.giverType, FeedbackParticipantType.STUDENTS);
+            Assumption.assertEquals("Contrib qn recipient type invalid: " + updatedQuestion.recipientType.toString(),
+                    updatedQuestion.recipientType, FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF);
+            Assumption.assertTrue("Contrib Qn Invalid visibility options",
+                    (updatedQuestion.showResponsesTo.contains(FeedbackParticipantType.RECEIVER)
+                    == updatedQuestion.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS) &&
+                    (updatedQuestion.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
+                    == updatedQuestion.showResponsesTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS))));
         }
     }
 
@@ -157,7 +175,8 @@ public class InstructorFeedbackQuestionEditAction extends Action {
             FeedbackAbstractQuestionDetails questionDetails = 
                     FeedbackAbstractQuestionDetails.createQuestionDetails(requestParameters, newQuestion.questionType);
             newQuestion.setQuestionDetails(questionDetails);
-        }      
+        }
+        
         return newQuestion;
     }
     

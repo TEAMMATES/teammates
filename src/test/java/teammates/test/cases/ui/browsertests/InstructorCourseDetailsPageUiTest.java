@@ -23,7 +23,6 @@ import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorCourseDetailsPage;
 import teammates.test.pageobjects.InstructorCourseStudentDetailsEditPage;
 import teammates.test.pageobjects.InstructorCourseStudentDetailsViewPage;
-import teammates.test.pageobjects.InstructorStudentRecordsPage;
 
 /**
  * Tests 'Course Details' view for Instructors.
@@ -34,6 +33,9 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
     private static Browser browser;
     private static InstructorCourseDetailsPage detailsPage;
     private static DataBundle testData;
+    
+    private static String instructorId;
+    private static String courseId;
     
     @BeforeClass
     public static void classSetup() throws Exception {
@@ -46,6 +48,8 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
     @Test 
     public void allTests() throws Exception{
         testConent();
+        
+        testTableSort();
         //No input validation required
         testLinks();
         testRemindAction();
@@ -56,34 +60,37 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         
         ______TS("content: no students");
         
-        Url detailsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
-        .withUserId(testData.instructors.get("CCDetailsUiT.instrForEmptyCourse").googleId)
-        .withCourseId(testData.courses.get("CCDetailsUiT.CourseWithoutStudents").id);
+        instructorId = testData.instructors.get("CCDetailsUiT.instrForEmptyCourse").googleId;
+        courseId = testData.courses.get("CCDetailsUiT.CourseWithoutStudents").id;
+        detailsPage = getCourseDetailsPage();
 
-        detailsPage = loginAdminToPage(browser, detailsPageUrl, InstructorCourseDetailsPage.class);
-
-        detailsPage.verifyHtmlMainContent("/InstructorCourseDetailsPageForEmptyCourse.html");
+        detailsPage.verifyHtml("/InstructorCourseDetailsEmptyCourse.html");
 
         ______TS("content: multiple students with sections");
+        
+        instructorId = testData.instructors.get("CCDetailsUiT.instr2").googleId;
+        courseId = testData.courses.get("CCDetailsUiT.CS2103").id;
 
-        detailsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
-        .withUserId(testData.instructors.get("CCDetailsUiT.instr2").googleId)
-        .withCourseId(testData.courses.get("CCDetailsUiT.CS2103").id);
+        detailsPage = getCourseDetailsPage();
+        detailsPage.verifyHtmlMainContent("/InstructorCourseDetailsWithSections.html");
+        
+        ______TS("content: multiple students with sections with helper view");
+        
+        instructorId = testData.instructors.get("CCDetailsUiT.instr2Helper").googleId;
 
-        detailsPage = loginAdminToPage(browser, detailsPageUrl, InstructorCourseDetailsPage.class);
-        //Use {$test.student1} etc.
-        detailsPage.verifyHtmlMainContent("/InstructorCourseDetailsPageWithSections.html");
+        detailsPage = getCourseDetailsPage();
+        detailsPage.verifyHtmlMainContent("/InstructorCourseDetailsWithSectionsWithHelperView.html");
         
         ______TS("content: multiple students without sections");
         
-        detailsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
-        .withUserId(testData.instructors.get("CCDetailsUiT.instr").googleId)
-        .withCourseId(testData.courses.get("CCDetailsUiT.CS2104").id);
+        instructorId = testData.instructors.get("CCDetailsUiT.instr").googleId;
+        courseId = testData.courses.get("CCDetailsUiT.CS2104").id;
         
-        detailsPage = loginAdminToPage(browser, detailsPageUrl, InstructorCourseDetailsPage.class);
-        //Use {$test.student1} etc.
-        detailsPage.verifyHtmlMainContent("/InstructorCourseDetailsPage.html");
-        
+        detailsPage = getCourseDetailsPage();
+        detailsPage.verifyHtmlMainContent("/InstructorCourseDetailsWithoutSections.html");
+    }
+
+    private void testTableSort() {
         ______TS("content: sorting");
         
         //the first table is the hidden table used for comments' visibility options
@@ -194,6 +201,14 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         //Use {$test.student1} etc. 
         detailsPage.clickDeleteAndConfirm(studentName)
             .verifyHtmlMainContent("/instructorCourseDetailsStudentDeleteSuccessful.html");
+    }
+    
+    private InstructorCourseDetailsPage getCourseDetailsPage() {
+        Url detailsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
+                .withUserId(instructorId)
+                .withCourseId(courseId);
+
+        return loginAdminToPage(browser, detailsPageUrl, InstructorCourseDetailsPage.class);
     }
     
     private boolean didStudentReceiveReminder(String courseId, String studentEmail, String studentPassword) {

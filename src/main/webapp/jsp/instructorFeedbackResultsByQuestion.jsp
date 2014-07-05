@@ -11,7 +11,8 @@
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%
     InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData)request.getAttribute("data");
-    boolean shouldCollapsed = data.bundle.responses.size() > 1000;
+    boolean showAll = data.bundle.isComplete;
+    boolean shouldCollapsed = data.bundle.responses.size() > 500;
 %>
 <!DOCTYPE html>
 <html>
@@ -31,6 +32,8 @@
         <script type="text/javascript" src="/js/common.js"></script>
     <script type="text/javascript" src="/js/instructor.js"></script>
     <script type="text/javascript" src="/js/instructorFeedbackResults.js"></script>
+    <script type="text/javascript" src="/js/instructorFeedbackResultsAjaxByQuestion.js"></script>
+    <script type="text/javascript" src="/js/instructorFeedbackResultsAjaxResponseRate.js"></script>
     <script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
     <jsp:include page="../enableJS.jsp"></jsp:include>
     <!-- Bootstrap core JavaScript ================================================== -->
@@ -59,17 +62,27 @@
                     FeedbackQuestionAttributes question = responseEntries.getKey();
             %>
             <div class="panel panel-info">
-                <div class="panel-heading">
-                    <span class="glyphicon <%= !shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down" %> pull-right"></span>
+                <div class="panel-heading<%= showAll ? "" : " ajax_submit"%>">
+                    <form style="display:none;" id="seeMore-<%=question.questionNumber%>" class="seeMoreForm-<%=question.questionNumber%>" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_AJAX_BY_QUESTIONS%>">
+                        <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBER %>" value="<%=question.questionNumber %>">
+                        <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID %>" value="<%=data.bundle.feedbackSession.courseId %>">
+                        <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="<%=data.bundle.feedbackSession.feedbackSessionName %>">
+                        <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId %>">
+                        <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE%>" value="<%=data.sortType%>">
+                    </form>
+                    <div class='display-icon pull-right'>
+                    <span class="glyphicon <%= showAll && !shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down" %> pull-right"></span>
+                    </div>
                     <strong>Question <%=question.questionNumber%>: </strong><%=data.bundle.getQuestionText(question.getId())%><%
                         FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
                         out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, ""));
                     %>
                 </div>
-                <div class="panel-collapse collapse <%= !shouldCollapsed ? "in" : "" %>">
-                <div class="panel-body padding-0">                
+                <div class="panel-collapse collapse <%= showAll && !shouldCollapsed ? "in" : "" %>">
+                <div class="panel-body padding-0">
+                    <% if(showAll) { %>                
                     <div class="resultStatistics">
-                        <%=questionDetails.getQuestionResultStatisticsHtml(responseEntries.getValue(), question, data.bundle, "question")%>
+                        <%=questionDetails.getQuestionResultStatisticsHtml(responseEntries.getValue(), question, data.account, data.bundle, "question")%>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered dataTable margin-0">
@@ -116,6 +129,7 @@
                             </tbody>
                         </table>
                     </div>
+                    <% } %>
                 </div>
                 </div>
             </div>
@@ -123,15 +137,26 @@
                 }
             %>
             
-            <%
-            // Only output the list of students who haven't responded when there are responses.
-            FeedbackSessionResponseStatus responseStatus = data.bundle.responseStatus;
-            if (data.selectedSection.equals("All") && !responseStatus.noResponse.isEmpty()) {
-            %>
-                    <div class="panel panel-info">
-                        <div class="panel-heading">Participants who did not respond to any question</div>
-                        
-                        <table class="table table-striped">
+            <% if(data.selectedSection.equals("All") && (!data.bundle.isComplete || data.bundle.responses.size() > 0)){ %>
+            <div class="panel panel-warning">
+                <div class="panel-heading<%= showAll ? "" : " ajax_response_rate_submit"%>">
+                    <form style="display:none;" id="responseRate" class="responseRateForm" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_AJAX_RESPONSE_RATE%>">
+                        <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID %>" value="<%=data.bundle.feedbackSession.courseId %>">
+                        <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="<%=data.bundle.feedbackSession.feedbackSessionName %>">
+                        <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId %>">
+                    </form>
+                    <div class='display-icon pull-right'>
+                    <span class="glyphicon <%= showAll ? "glyphicon-chevron-up" : "glyphicon-chevron-down" %> pull-right"></span>
+                    </div>
+                    Participants who have not responded to any question</div>
+                <div class="panel-collapse collapse <%= showAll ? "in" : "" %>">
+            <% if(showAll) {
+                // Only output the list of students who haven't responded when there are responses.
+                FeedbackSessionResponseStatus responseStatus = data.bundle.responseStatus;
+                if (data.selectedSection.equals("All") && !responseStatus.noResponse.isEmpty()) {
+            %>          
+                    <div class="panel-body padding-0">
+                        <table class="table table-striped table-bordered margin-0">
                             <tbody>
                             <%  
                                 List<String> students = responseStatus.getStudentsWhoDidNotRespondToAnyQuestion();
@@ -146,10 +171,20 @@
                             </tbody>
                         </table>
                     </div>
-                    <br> <br>
             <%
-                }
+                    } else {
             %>
+                    <div class="panel-body">
+                        All students have responsed to some questions in this session.
+                    </div>
+            <%
+                    }
+                } 
+            %>
+                </div>
+                </div>
+            <% } %>
+            </div>    
         </div>
     </div>
 

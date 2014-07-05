@@ -250,6 +250,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackAbstractQuestionDetails 
         
         String html = FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
+                "${more}", "[more]",
+                "${less}", "[less]",
                 "${questionNumber}", Integer.toString(questionNumber),
                 "${additionalInfoId}", additionalInfoId,
                 "${questionAdditionalInfo}", additionalInfo);
@@ -260,8 +262,14 @@ public class FeedbackMsqQuestionDetails extends FeedbackAbstractQuestionDetails 
     @Override
     public String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
+            AccountAttributes currentUser,
             FeedbackSessionResultsBundle bundle,
             String view) {
+        
+        if(view.equals("student")){
+            return "";
+        }
+        
         if(responses.size() == 0){
             return "";
         }
@@ -300,6 +308,53 @@ public class FeedbackMsqQuestionDetails extends FeedbackAbstractQuestionDetails 
                 "${fragments}", fragments);
         
         return html;
+    }
+    
+
+    @Override
+    public String getQuestionResultStatisticsCsv(
+            List<FeedbackResponseAttributes> responses,
+            FeedbackQuestionAttributes question,
+            FeedbackSessionResultsBundle bundle) {
+        if(responses.size() == 0){
+            return "";
+        }
+        
+        String csv = "";
+        String fragments = "";
+        Map<String,Integer> answerFrequency = new LinkedHashMap<String,Integer>();
+        
+        for(String option : msqChoices){
+            answerFrequency.put(option, 0);
+        }
+        
+        int numChoicesSelected = 0;
+        for(FeedbackResponseAttributes response : responses){
+            List<String> answerStrings = ((FeedbackMsqResponseDetails)response.getResponseDetails()).getAnswerStrings();
+            for(String answerString : answerStrings){
+                numChoicesSelected++;
+                if(!answerFrequency.containsKey(answerString)){
+                    answerFrequency.put(answerString, 1);
+                } else {
+                    answerFrequency.put(answerString, answerFrequency.get(answerString)+1);
+                }
+            }
+        }
+        
+        DecimalFormat df = new DecimalFormat("#.##");
+        
+        for(Entry<String, Integer> entry : answerFrequency.entrySet() ){
+            fragments += entry.getKey() + ","
+                      + entry.getValue().toString() + ","
+                      + df.format(100*(double)entry.getValue()/numChoicesSelected) + Const.EOL;
+                    
+        }
+
+        csv += "Choice, Response Count, Percentage" + Const.EOL;
+        
+        csv += fragments + Const.EOL;
+        
+        return csv;
     }
 
     @Override
@@ -340,5 +395,6 @@ public class FeedbackMsqQuestionDetails extends FeedbackAbstractQuestionDetails 
         }
         return errors;
     }
+
 
 }
