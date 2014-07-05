@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import teammates.common.util.Const;
+import teammates.logic.core.InstructorsLogic;
 
 import com.google.appengine.api.search.Cursor;
 import com.google.appengine.api.search.Results;
@@ -22,10 +23,16 @@ public class CommentSearchResultBundle extends SearchResultBundle {
     
     public CommentSearchResultBundle(){}
     
-    public CommentSearchResultBundle fromResults(Results<ScoredDocument> results){
+    public CommentSearchResultBundle fromResults(Results<ScoredDocument> results, String googleId){
         if(results == null) return this;
         
         cursor = results.getCursor();
+        List<InstructorAttributes> instructorRoles = InstructorsLogic.inst().getInstructorsForGoogleId(googleId);
+        List<String> giverEmailList = new ArrayList<String>();
+        for(InstructorAttributes ins:instructorRoles){
+            giverEmailList.add(ins.email);
+        }
+        
         for(ScoredDocument doc:results){
             numberOfResults++;
             
@@ -33,17 +40,33 @@ public class CommentSearchResultBundle extends SearchResultBundle {
                     doc.getOnlyField(Const.SearchDocumentField.COMMENT_ATTRIBUTE).getText(), 
                     CommentAttributes.class);
             comment.sendingState = CommentSendingState.SENT;
-            List<CommentAttributes> commentList = giverCommentTable.get(comment.giverEmail+comment.courseId);
-            if(commentList == null){
-                commentList = new ArrayList<CommentAttributes>();
-                giverCommentTable.put(comment.giverEmail+comment.courseId, commentList);
-            }
-            commentList.add(comment);
-            
             String giverName = doc.getOnlyField(Const.SearchDocumentField.COMMENT_GIVER_NAME).getText();
             String recipientName = doc.getOnlyField(Const.SearchDocumentField.COMMENT_RECIPIENT_NAME).getText();
-            giverTable.put(comment.giverEmail+comment.courseId, extractContentFromQuotedString(giverName) + " (" + comment.courseId + ")");
-            recipientTable.put(comment.getCommentId().toString(), extractContentFromQuotedString(recipientName));
+            
+            boolean isGiver = giverEmailList.contains(comment.giverEmail);
+            String giverAsKey = comment.giverEmail + comment.courseId;
+            
+            if(!isGiver && !comment.showGiverNameTo.contains(CommentRecipientType.INSTRUCTOR)){
+                giverAsKey = "Anonymous" + comment.courseId;
+                giverName = "Anonymous" + " (" + comment.courseId + ")";
+            } else {
+                giverName = extractContentFromQuotedString(giverName) + " (" + comment.courseId + ")";
+            }
+            
+            if(!isGiver && !comment.showRecipientNameTo.contains(CommentRecipientType.INSTRUCTOR)){
+                recipientName = "Anonymous";
+            } else {
+                recipientName = extractContentFromQuotedString(recipientName);
+            }
+            
+            List<CommentAttributes> commentList = giverCommentTable.get(giverAsKey);
+            if(commentList == null){
+                commentList = new ArrayList<CommentAttributes>();
+                giverCommentTable.put(giverAsKey, commentList);
+            }
+            commentList.add(comment);
+            giverTable.put(giverAsKey, giverName);
+            recipientTable.put(comment.getCommentId().toString(), recipientName);
         }
         return this;
     }

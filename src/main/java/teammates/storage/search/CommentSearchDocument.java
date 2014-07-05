@@ -8,11 +8,7 @@ import teammates.common.datatransfer.CommentRecipientType;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
-import teammates.logic.core.CoursesLogic;
-import teammates.logic.core.InstructorsLogic;
-import teammates.logic.core.StudentsLogic;
 
 import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Field;

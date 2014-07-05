@@ -231,7 +231,7 @@ public class CommentsDb extends EntitiesDb{
         Results<ScoredDocument> results = searchDocuments(Const.SearchIndex.COMMENT, 
                 new CommentSearchQuery(googleId, queryString, cursorString));
         
-        return new CommentSearchResultBundle().fromResults(results);
+        return new CommentSearchResultBundle().fromResults(results, googleId);
     }
     
     private List<Comment> getCommentEntitiesForSendingState(String courseId, CommentSendingState sendingState){
