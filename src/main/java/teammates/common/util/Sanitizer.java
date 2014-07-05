@@ -119,6 +119,8 @@ public class Sanitizer {
         if(str == null) return null;
         return str.replace("<", "&lt;")
                 .replace(">", "&gt;")
+                .replace("=", "")
+                .replace(":", "")
                 .replace("/", "&#x2f;")
                 .replace("'", "&#39;")
                 //To ensure when apply sanitizeForHtml for multiple times, the string's still fine
