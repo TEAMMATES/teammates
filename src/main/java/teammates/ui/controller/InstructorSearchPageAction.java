@@ -1,12 +1,7 @@
 package teammates.ui.controller;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import teammates.common.datatransfer.CommentSearchResultBundle;
 import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
-import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
@@ -32,23 +27,11 @@ public class InstructorSearchPageAction extends Action {
             numberOfSearchOptions++;
         }
         
-        Set<String> instructorEmails = new HashSet<String>();
-        Set<String> instructorCourseIdList = new HashSet<String>();
         CommentSearchResultBundle commentSearchResults = new CommentSearchResultBundle();
         FeedbackResponseCommentSearchResultBundle frCommentSearchResults = new FeedbackResponseCommentSearchResultBundle();
         int totalResultsSize = 0;
         
         if(!searchKey.isEmpty() && numberOfSearchOptions != 0){
-            //get instructor's information
-            List<InstructorAttributes> instructorRoles = logic.getInstructorsForGoogleId(account.googleId);
-            instructorEmails = new HashSet<String>();
-            instructorCourseIdList = new HashSet<String>();
-            for(InstructorAttributes ins:instructorRoles){
-                instructorEmails.add(ins.email);
-                instructorCourseIdList.add(ins.courseId);
-            }
-            instructorEmails.add(account.email);
-            
             if(isSearchCommentForStudents){
                 commentSearchResults = logic.searchComment(searchKey, account.googleId, "");
             }
@@ -75,8 +58,6 @@ public class InstructorSearchPageAction extends Action {
         data.commentSearchResultBundle = commentSearchResults;
         data.feedbackResponseCommentSearchResultBundle = frCommentSearchResults;
         data.totalResultsSize = totalResultsSize;
-        data.instructorEmails = instructorEmails;
-        data.instructorCourseIdList = instructorCourseIdList;
         //TODO: put the followings into a map
         data.isSearchCommentForStudents = isSearchCommentForStudents;
         data.isSearchCommentForResponses = isSearchCommentForResponses;

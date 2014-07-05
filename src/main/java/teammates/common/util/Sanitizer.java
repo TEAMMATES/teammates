@@ -117,15 +117,16 @@ public class Sanitizer {
      */
     public static String sanitizeForSearch(String str){ 
         if(str == null) return null;
-        return str.replace("<", "&lt;")
-                .replace(">", "&gt;")
-                .replace("=", "")
-                .replace(":", "")
-                .replace("/", "&#x2f;")
-                .replace("'", "&#39;")
-                //To ensure when apply sanitizeForHtml for multiple times, the string's still fine
-                //Regex meaning: replace '&' with safe encoding, but not the one that is safe already
-                .replaceAll("&(?!(amp;)|(lt;)|(gt;)|(quot;)|(#x2f;)|(#39;))", "&amp;");
+        return str
+                //general case for punctuation
+                .replace("`", " ").replace("!", " ").replace("#", " ").replace("$", " ").replace("%", " ").replace("^", " ")
+                .replace("&", " ").replace("[", " ").replace("]", " ").replace("{", " ").replace("}", " ").replace("|", " ")
+                .replace(";", " ").replace("*", " ").replace(".", " ").replace("?", " ").replace("'", " ").replace("/", " ")
+                //to prevent injection
+                .replace("=", " ")
+                .replace(":", " ")
+                .replace("<", "&lt;")
+                .replace(">", "&gt;");
     }
     
     /**
