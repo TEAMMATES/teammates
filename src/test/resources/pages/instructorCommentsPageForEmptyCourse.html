@@ -287,28 +287,19 @@ ul #nav {
                     <div class="col-sm-6">
                         <h1>Comments from Instructors</h1>
                     </div>
-                    <!-- <div class="col-sm-5 instructor-header-bar">
-                        <form method="post" action="#"
-                            name="search_form">
+                    <div class="col-sm-6 instructor-header-bar">
+                        <form name="search_form" action="/page/instructorSearchPage?user=comments.instructorWithoutCourses" method="get">
                             <div class="input-group">
-                                <input type="text" name="searchkey"
-                                    title="Search for comment"
-                                    class="form-control"
-                                    placeholder="Any info related to comments"
-                                    id="searchBox"> <span
-                                    class="input-group-btn">
-                                    <button class="btn btn-default"
-                                        type="submit" value="Search"
-                                        id="buttonSearch">Search</button>
+                                <input type="text" id="searchBox" placeholder="Any info related to comments" class="form-control" title="Search for comment" name="searchkey" /> 
+                                <span class="input-group-btn">
+                                    <button id="buttonSearch" value="Search" type="submit" class="btn btn-default">Search</button>
                                 </span>
                             </div>
+                            <input type="hidden" value="true" name="searchcommentforstudents" />
+                            <input type="hidden" value="true" name="searchcommentforresponses" />
+                            <input type="hidden" value="comments.instructorWithoutCourses" name="user" />
                         </form>
                     </div>
-                    <div class="col-md-1 instructor-header-bar">
-                        <a class="btn btn-primary btn-md"
-                            href="./omniComment_bulkEdit.html">
-                            Comment in Bulk </a>
-                    </div> -->
                 </div>
             </div>
             <br />

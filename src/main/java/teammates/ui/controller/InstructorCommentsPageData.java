@@ -112,13 +112,9 @@ public class InstructorCommentsPageData extends PageData {
                 Iterator<String> iterator = comment.recipients.iterator();
                 team = iterator.next();
             }
-            try {
-                List<StudentAttributes> students = logic.getStudentsForTeam(team, courseId);
-                if (!students.isEmpty()) {
-                    section = students.get(0).section;
-                }
-            } catch(EntityDoesNotExistException e) {
-                return false;
+            List<StudentAttributes> students = logic.getStudentsForTeam(team, courseId);
+            if (!students.isEmpty()) {
+                section = students.get(0).section;
             }
             return this.currentInstructor.isAllowedForPrivilege(section, privilegeName);
         } else if (comment.recipientType == CommentRecipientType.PERSON) {
