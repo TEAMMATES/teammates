@@ -75,6 +75,7 @@ public class CommentsDb extends EntitiesDb{
             comment = getCommentEntity(commentToGet.getCommentId());
         }
         if(comment == null){
+            commentToGet.sanitizeForSaving();
             comment = getCommentEntity(commentToGet.courseId, commentToGet.giverEmail, commentToGet.recipientType,
                 commentToGet.recipients, commentToGet.commentText, commentToGet.createdAt);
         }
