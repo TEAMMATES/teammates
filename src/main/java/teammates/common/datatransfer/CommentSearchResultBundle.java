@@ -18,6 +18,7 @@ public class CommentSearchResultBundle extends SearchResultBundle {
     public Map<String, String> giverTable = new HashMap<String, String>();
     public Map<String, String> recipientTable = new HashMap<String, String>();
     public Cursor cursor = null;
+    private int numberOfResults = 0;
     
     public CommentSearchResultBundle(){}
     
@@ -26,6 +27,8 @@ public class CommentSearchResultBundle extends SearchResultBundle {
         
         cursor = results.getCursor();
         for(ScoredDocument doc:results){
+            numberOfResults++;
+            
             CommentAttributes comment = new Gson().fromJson(
                     doc.getOnlyField(Const.SearchDocumentField.COMMENT_ATTRIBUTE).getText(), 
                     CommentAttributes.class);
@@ -36,11 +39,17 @@ public class CommentSearchResultBundle extends SearchResultBundle {
                 giverCommentTable.put(comment.giverEmail+comment.courseId, commentList);
             }
             commentList.add(comment);
+            
             String giverName = doc.getOnlyField(Const.SearchDocumentField.COMMENT_GIVER_NAME).getText();
             String recipientName = doc.getOnlyField(Const.SearchDocumentField.COMMENT_RECIPIENT_NAME).getText();
             giverTable.put(comment.giverEmail+comment.courseId, extractContentFromQuotedString(giverName) + " (" + comment.courseId + ")");
             recipientTable.put(comment.getCommentId().toString(), extractContentFromQuotedString(recipientName));
         }
         return this;
+    }
+
+    @Override
+    public int getResultSize() {
+        return numberOfResults;
     }
 }

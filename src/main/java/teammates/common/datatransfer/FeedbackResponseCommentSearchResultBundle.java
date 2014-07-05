@@ -15,7 +15,7 @@ import com.google.appengine.api.search.ScoredDocument;
 import com.google.gson.Gson;
 
 public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundle {
-    public int numberOfCommentFound = 0;
+    private int numberOfCommentFound = 0;
     public Map<String, List<FeedbackResponseCommentAttributes>> comments = new HashMap<String, List<FeedbackResponseCommentAttributes>>();
     public Map<String, List<FeedbackResponseAttributes>> responses = new HashMap<String, List<FeedbackResponseAttributes>>();
     public Map<String, List<FeedbackQuestionAttributes>> questions = new HashMap<String, List<FeedbackQuestionAttributes>>();
@@ -34,6 +34,8 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
         
         cursor = results.getCursor();
         for(ScoredDocument doc:results){
+            numberOfCommentFound++;
+            
             FeedbackResponseCommentAttributes comment = new Gson().fromJson(
                     doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_ATTRIBUTE).getText(), 
                     FeedbackResponseCommentAttributes.class);
@@ -44,7 +46,6 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
                 comments.put(comment.feedbackResponseId, commentList);
             }
             commentList.add(comment);
-            numberOfCommentFound++;
             
             FeedbackResponseAttributes response = new Gson().fromJson(
                     doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_ATTRIBUTE).getText(), 
@@ -92,5 +93,10 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
             commentGiverTable.put(comment.getId().toString(), extractContentFromQuotedString(commentGiverName));
         }
         return this;
+    }
+
+    @Override
+    public int getResultSize() {
+        return numberOfCommentFound;
     }
 }

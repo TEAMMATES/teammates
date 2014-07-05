@@ -33,7 +33,6 @@
 <script type="text/javascript" src="/js/common.js"></script>
 <script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
 <script type="text/javascript" src="/js/instructor.js"></script>
-<script src="/js/omniComment.js"></script>
 <script type="text/javascript" src="/js/feedbackResponseComments.js"></script>
 <jsp:include page="../enableJS.jsp"></jsp:include>
 <!-- Bootstrap core JavaScript ================================================== -->
@@ -44,7 +43,6 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
-
 <body>
     <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
 
@@ -56,17 +54,37 @@
             <br>
             <div>
                 <form method="get" action="<%=data.getInstructorSearchLink()%>" name="search_form">
-                    <div class="input-group">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" type="submit" value="Search" id="buttonSearch">Search</button>
-                        </span>
-                        <input type="text" name="searchkey" value="<%=data.sanitizeForHtml(data.searchKey)%>" title="Search for comment" placeholder="Your search keyword" class="form-control" id="searchBox">
+                    <div class="well well-plain">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="submit" value="Search" id="buttonSearch">Search</button>
+                            </span>
+                            <input type="text" name="searchkey" value="<%=InstructorSearchPageData.sanitizeForHtml(data.searchKey)%>" title="Search for comment" placeholder="Your search keyword" class="form-control" id="searchBox">
+                        </div>
+                        <input type="hidden" name="user" value="<%=data.account.googleId%>">
                     </div>
-                    <input type="hidden" name="user" value="<%=data.account.googleId%>">
+                    <div class="form-group">
+                        <ul class="list-inline">
+                            <li>
+                                <span data-toggle="tooltip" title="Tick the checkboxes to search for their categories" class="glyphicon glyphicon-search"></span>
+                            </li>
+                            <li>
+                                <input id="comments-for-student-check" type="checkbox" name="<%=Const.ParamsNames.SEARCH_COMMENTS_FOR_STUDENTS%>" value="true" <%=data.isSearchCommentForStudents?"checked":""%>>
+                                <label for="comments-for-student-check">Comments for students</label>
+                            </li>
+                            <li>
+                                <input id="comments-for-responses-check" type="checkbox" name="<%=Const.ParamsNames.SEARCH_COMMENTS_FOR_RESPONSES%>" value="true" <%=data.isSearchCommentForResponses?"checked":""%>>
+                                <label for="comments-for-responses-check">Comments for responses</label>
+                            </li>
+                        </ul>
+                    </div>
+                    </div>
                 </form>
             </div>
-            <br><br>
-            <% if(data.commentSearchResultBundle.giverCommentTable.keySet().size() != 0) { %>
+            <br>
+            <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
+            <% if(data.commentSearchResultBundle.getResultSize() != 0) { %>
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <strong>Comments for students</strong>
@@ -87,7 +105,6 @@
                                     commentIdx++;
                             %>
                             <li class="list-group-item list-group-item-warning"
-                                name="form_commentedit"
                                 class="form_comment"
                                 id="form_commentedit-<%=commentIdx%>">
                                 <div id="commentBar-<%=commentIdx%>">
@@ -105,7 +122,7 @@
                 </div>
             </div>
             <% } %>
-            <% if(data.feedbackResponseCommentSearchResultBundle.numberOfCommentFound != 0) { %>
+            <% if(data.feedbackResponseCommentSearchResultBundle.getResultSize() != 0) { %>
             <br>
                 <div class="panel panel-primary">
                     <div class="panel-heading">

@@ -17,6 +17,9 @@ public class InstructorSearchPageData extends PageData {
     public String searchKey = "";
     public Set<String> instructorEmails;
     public Set<String> instructorCourseIdList;
+    public int totalResultsSize;
+    public boolean isSearchCommentForStudents;
+    public boolean isSearchCommentForResponses;
     
     public InstructorSearchPageData(AccountAttributes account) {
         super(account);

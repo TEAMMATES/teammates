@@ -440,6 +440,9 @@ public class Const {
         //Parameters for checking persistence of data during Eventual Consistency
         public static final String CHECK_PERSISTENCE_COURSE = "persistencecourse";
         public static final String CHECK_PERSISTENCE_EVALUATION = "persistenceevalaution";
+        
+        public static final String SEARCH_COMMENTS_FOR_STUDENTS = "searchcommentforstudents";
+        public static final String SEARCH_COMMENTS_FOR_RESPONSES = "searchcommentforresponses";
     }
     
     public class SearchIndex {
