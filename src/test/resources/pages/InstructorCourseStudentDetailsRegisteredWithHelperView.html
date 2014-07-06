@@ -11,7 +11,65 @@
 
     <div id="statusMessage" style="display: none;"></div>
 
-
+        
+        
+                <div class="modal fade" id="studentProfileMoreInfo" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title">Emma's Profile - More Info</h4>
+                            </div>
+                            <div class="modal-body">
+                                <br>
+                                <pre class="pre-plain height-fixed-md">This is a lot of info...</pre>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="row" id="studentProfile">
+                            <div class="col-md-2 col-xs-3 block-center">
+                                <img src="/images/profile_picture_default.png" class="profile-pic pull-right">
+                            </div>
+                            <div class="col-md-10 col-sm-9 col-xs-8">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="2"> Profile 
+                                        </th></tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="text-bold">Short Name (Gender)</td>
+                                            <td>Jose 
+                                            (<i>
+                                                <span class="text-muted">Undisclosed</span>
+                                            </i>)</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-bold">Personal Email</td>
+                                            <td>jose@e.com</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-bold">Institution</td>
+                                            <td>NTU</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-bold">Nationality</td>
+                                            <td>Laosian</td>
+                                        </tr>                                
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        
         <div class="well well-plain">
             <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" data-toggle="tooltip" data-placement="top" title="" data-original-title="Add comment" disabled="disabled">
                 <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
@@ -33,7 +91,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-1 control-label">E-mail
+                    <label class="col-sm-1 control-label">Official Email
                         Address:</label>
                     <div class="col-sm-11" id="studentemail">
                         <p class="form-control-static">CCSDetailsUiT.jose.tmms@gmail.com</p>
@@ -43,7 +101,7 @@
                     <label class="col-sm-1 control-label">Join
                         Link:</label>
                     <div class="col-sm-11">
-                        <input id="regkey" value="http://teammates-{$test.admin}.appspot.com/page/studentCourseJoin?regkey={*}" class="form-control" readonly="readonly">
+                        <input id="regkey" value="{$app.url}/page/studentCourseJoin?regkey={*}" class="form-control" readonly="readonly">
                     </div>
                 </div>
                 <div class="form-group">
@@ -150,4 +208,17 @@
                 </div>
             </form>
         </div>
+        
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <span data-toggle="modal" data-target="#studentProfileMoreInfo" class="text-muted pull-right glyphicon glyphicon-resize-full cursor-pointer"></span>
+                                <h5>More Info </h5>                                    
+                                <pre class="pre-plain height-fixed-md">This is a lot of info...</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        
     </div>
