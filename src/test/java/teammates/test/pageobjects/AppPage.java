@@ -633,6 +633,7 @@ public abstract class AppPage {
     private String processPageSourceForGodMode(String content) {
         return content
                 .replaceAll("<#comment[ ]*</#comment>", "<!---->")
+                .replace(Config.APP_URL, "{$app.url}")
                 .replaceAll("V[0-9]\\.[0-9]+", "V{\\$version}")
                 // photo from instructor
                 .replaceAll("studentemail=([a-zA-Z0-9]){1,}\\&amp;courseid=([a-zA-Z0-9]){1,}", 

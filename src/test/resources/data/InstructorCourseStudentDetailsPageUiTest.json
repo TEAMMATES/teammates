@@ -13,6 +13,23 @@
       "isInstructor": true,
       "email": "CCSDetailsUiT.Helper@gmail.com",
       "institute": "National University of Singapore"
+    },
+    "registeredStudent": {
+      "googleId": "CCSDetailsUiT.jose.tmms",
+      "email": "CCSDetailsUiT.jose.tmms@gmail.com",
+      "name": "José Gómez",
+      "isInstructor":"false",
+      "institute":"NUS",
+      "studentProfile": {
+            "googleId":"CCSDetailsUiT.jose.tmms",
+            "shortName":"Jose",
+            "institute":"NTU",
+            "email":"jose@e.com",
+            "nationality":"Laosian",
+            "gender":"other",
+            "moreInfo":"This is a lot of info...",
+            "pictureKey":""
+      }
     }
   },
 
