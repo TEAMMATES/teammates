@@ -113,6 +113,23 @@ public class Sanitizer {
     }
     
     /**
+     * Sanitize the string for searching. 
+     */
+    public static String sanitizeForSearch(String str){ 
+        if(str == null) return null;
+        return str
+                //general case for punctuation
+                .replace("`", " ").replace("!", " ").replace("#", " ").replace("$", " ").replace("%", " ").replace("^", " ")
+                .replace("&", " ").replace("[", " ").replace("]", " ").replace("{", " ").replace("}", " ").replace("|", " ")
+                .replace(";", " ").replace("*", " ").replace(".", " ").replace("?", " ").replace("'", " ").replace("/", " ")
+                //to prevent injection
+                .replace("=", " ")
+                .replace(":", " ")
+                .replace("<", "&lt;")
+                .replace(">", "&gt;");
+    }
+    
+    /**
      * Sanitizes the string for comma-separated values (CSV) file output.<br>
      * We follow the definition described by RFC 4180:<br>
      * {@link http://tools.ietf.org/html/rfc4180}

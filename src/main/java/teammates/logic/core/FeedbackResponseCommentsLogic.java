@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -36,7 +37,7 @@ public class FeedbackResponseCommentsLogic {
         return instance;
     }
 
-    public void createFeedbackResponseComment(
+    public FeedbackResponseCommentAttributes createFeedbackResponseComment(
             FeedbackResponseCommentAttributes frComment)
             throws InvalidParametersException, EntityDoesNotExistException {
         verifyIsCoursePresent(frComment.courseId);
@@ -44,7 +45,7 @@ public class FeedbackResponseCommentsLogic {
         verifyIsFeedbackSessionOfCourse(frComment.courseId, frComment.feedbackSessionName);
         
         try{
-            frcDb.createEntity(frComment);
+            return frcDb.createEntity(frComment);
         } catch (EntityAlreadyExistsException e) {
             try{
                 FeedbackResponseCommentAttributes existingComment = new FeedbackResponseCommentAttributes();
@@ -52,9 +53,10 @@ public class FeedbackResponseCommentsLogic {
                 existingComment = frcDb.getFeedbackResponseComment(frComment.feedbackResponseId, frComment.giverEmail, frComment.createdAt);
                 frComment.setId(existingComment.getId());
                 
-                frcDb.updateFeedbackResponseComment(frComment);            
+                return frcDb.updateFeedbackResponseComment(frComment);            
             } catch(Exception EntityDoesNotExistException){
                 Assumption.fail();
+                return null;
             }
         }
     }
@@ -95,9 +97,9 @@ public class FeedbackResponseCommentsLogic {
         }
     }
 
-    public void updateFeedbackResponseComment(
+    public FeedbackResponseCommentAttributes updateFeedbackResponseComment(
             FeedbackResponseCommentAttributes feedbackResponseComment) throws InvalidParametersException, EntityDoesNotExistException {
-        frcDb.updateFeedbackResponseComment(feedbackResponseComment);    
+        return frcDb.updateFeedbackResponseComment(feedbackResponseComment);    
     }
     
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForSendingState(String courseId, CommentSendingState state) 
@@ -114,7 +116,7 @@ public class FeedbackResponseCommentsLogic {
         return frcList;
     }
     
-    public void updateFeedbackResponseComments(
+    public void updateFeedbackResponseCommentsSendingState(
             String courseId, CommentSendingState oldState, CommentSendingState newState) throws EntityDoesNotExistException {
         verifyIsCoursePresent(courseId);
         
@@ -124,6 +126,15 @@ public class FeedbackResponseCommentsLogic {
                 frcDb.updateFeedbackResponseComments(courseId, fs.feedbackSessionName, oldState, newState);    
             }
         }
+    }
+    
+    public void putDocument(FeedbackResponseCommentAttributes comment){
+        frcDb.putDocument(comment);
+    }
+    
+    public FeedbackResponseCommentSearchResultBundle searchFeedbackResponseComments(
+            String queryString, String googleId, String cursorString) {
+        return frcDb.search(queryString, googleId, cursorString);
     }
     
     public void deleteFeedbackResponseComment(
@@ -153,5 +164,10 @@ public class FeedbackResponseCommentsLogic {
                     "Feedback session " + feedbackSessionName 
                     + " is not a session for course "+ courseId + ".");
         }
+    }
+
+    @SuppressWarnings("deprecation")
+    public List<FeedbackResponseCommentAttributes> getAllFeedbackResponseComments() {
+        return frcDb.getAllFeedbackResponseComments();
     }
 }

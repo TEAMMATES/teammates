@@ -447,13 +447,44 @@ public class Const {
         //Parameters for checking persistence of data during Eventual Consistency
         public static final String CHECK_PERSISTENCE_COURSE = "persistencecourse";
         public static final String CHECK_PERSISTENCE_EVALUATION = "persistenceevalaution";
-
+        
         public static final String PROFILE_PICTURE_LEFTX = "cropboxleftx";
         public static final String PROFILE_PICTURE_TOPY = "cropboxtopy";
         public static final String PROFILE_PICTURE_RIGHTX = "cropboxrightx";
         public static final String PROFILE_PICTURE_BOTTOMY = "cropboxbottomy";
         public static final String PROFILE_PICTURE_HEIGHT = "pictureheight";
         public static final String PROFILE_PICTURE_WIDTH = "picturewidth";
+        
+        public static final String SEARCH_COMMENTS_FOR_STUDENTS = "searchcommentforstudents";
+        public static final String SEARCH_COMMENTS_FOR_RESPONSES = "searchcommentforresponses";
+    }
+    
+    public class SearchIndex {
+        public static final String COMMENT = "comment";
+        public static final String FEEDBACK_RESPONSE_COMMENT = "feedbackresponsecomment";
+    }
+    
+    public class SearchDocumentField {
+        public static final String ATTRIBUTE = "attribute";
+        public static final String COMMENT_ATTRIBUTE = "commentAttibute";
+        public static final String COMMENT_GIVER_NAME = "commentGiverName";
+        public static final String COMMENT_RECIPIENT_NAME = "commentRecipientName";
+        public static final String FEEDBACK_RESPONSE_COMMENT_ATTRIBUTE = "frCommentAttibute";
+        public static final String FEEDBACK_RESPONSE_COMMENT_GIVER_NAME = "frCommentGiverName";
+        public static final String FEEDBACK_RESPONSE_ATTRIBUTE = "feedbackResponseAttibute";
+        public static final String FEEDBACK_RESPONSE_GIVER_NAME = "feedbackResponseGiverName";
+        public static final String FEEDBACK_RESPONSE_RECEIVER_NAME = "feedbackResponseReceiverName";
+        public static final String FEEDBACK_QUESTION_ATTRIBUTE = "feedbackQuestionAttibute";
+        public static final String FEEDBACK_SESSION_ATTRIBUTE = "feedbackSessionAttibute";
+        public static final String SEARCHABLE_TEXT = "searchableText";
+        public static final String CREATED_DATE = "createdDate";
+        public static final String COURSE_ID = "courseId";
+        public static final String GIVER_EMAIL = "giverEmail";
+        public static final String GIVER_SECTION = "giverSection";
+        public static final String RECIPIENT_EMAIL = "recipientEmail";
+        public static final String RECIPIENT_SECTION = "recipientSection";
+        public static final String IS_VISIBLE_TO_INSTRUCTOR = "isVisibleToInstructor";
+        public static final String IS_VISIBLE_TO_RECEIVER = "isVisibleToReceiver";
     }
 
     public class ActionURIs{
@@ -498,6 +529,7 @@ public class Const {
         public static final String INSTRUCTOR_EVAL_PUBLISH = "/page/instructorEvalPublish";
         public static final String INSTRUCTOR_EVAL_UNPUBLISH = "/page/instructorEvalUnpublish";
         public static final String INSTRUCTOR_EVAL_RESULTS_DOWNLOAD = "/page/instructorEvalResultsDownload";
+        public static final String INSTRUCTOR_SEARCH_PAGE = "/page/instructorSearchPage";
         public static final String INSTRUCTOR_STUDENT_LIST_PAGE = "/page/instructorStudentListPage";
         
         public static final String INSTRUCTOR_STUDENT_RECORDS_PAGE = "/page/instructorStudentRecordsPage";
@@ -625,6 +657,7 @@ public class Const {
         public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT = "/jsp/instructorFeedbackSubmissionEdit.jsp"; 
         public static final String INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT = "/jsp/instructorFeedbackQuestionSubmissionEdit.jsp"; 
         public static final String INSTRUCTOR_FEEDBACK_STATS = "/jsp/instructorFeedbackStats.jsp";
+        public static final String INSTRUCTOR_SEARCH = "/jsp/instructorSearch.jsp";
         public static final String INSTRUCTOR_STUDENT_LIST = "/jsp/instructorStudentList.jsp";
         public static final String INSTRUCTOR_STUDENT_RECORDS = "/jsp/instructorStudentRecords.jsp";
         
@@ -858,6 +891,7 @@ public class Const {
                 + "Please upload a picture (usually it ends with .jpg or .png)";
         public static final String STUDENT_PROFILE_NO_PICTURE_GIVEN = "Please specify a file to be uploaded.";
         public static final String STUDENT_NOT_FOUND_FOR_RECORDS = "The student you tried to view records for does not exist.";
+        public static final String STUDENT_NOT_FOUND_FOR_COURSE_DETAILS = "The student you tried to view details for does not exist.";
         public static final String STUDENT_PROFILE_PICTURE_EDIT_FAILED = "The photo that was edited did not belong to the user. "
                 + "Please upload another picture to begin editing";
         public static final String STUDENT_NOT_JOINED_YET_FOR_RECORDS = "This student has not joined the course yet or you are not supposed to view his/her profile";

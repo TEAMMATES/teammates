@@ -40,9 +40,7 @@ public class InstructorCourseStudentDetailsPageUiTest extends BaseUiTestCase {
     public void testAll() throws Exception{
 
         testContent();
-        
     }
-
 
     private void testContent() {
         
