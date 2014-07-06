@@ -296,7 +296,7 @@
                                             commentIdx++;
                                             recipientTypeForThisRecipient = comment.recipientType;
                                 %>
-                                <li
+                                <li id="<%=comment.getCommentId()%>"
                                     class="list-group-item list-group-item-warning <%=comment.showCommentTo.size()>0?"status_display-public":"status_display-private"%>">
                                     <form method="post"
                                         action="<%=Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_EDIT%>"
@@ -691,7 +691,7 @@
                                                                         frCommentGiver = data.roster.getInstructorForEmail(frc.giverEmail).name;
                                                                     }
                                                 %>
-                                                <li
+                                                <li id="<%=frc.getId()%>"
                                                     class="list-group-item list-group-item-warning <%=frCommentGiver.equals("you")?"giver_display-by-you":"giver_display-by-others"%> <%=isPublicResponseComment && bundle.feedbackSession.isPublished()?"status_display-public":"status_display-private"%>"
                                                     id="responseCommentRow-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>">
                                                     <div

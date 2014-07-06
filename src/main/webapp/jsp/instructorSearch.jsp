@@ -33,7 +33,7 @@
 <script type="text/javascript" src="/js/common.js"></script>
 <script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
 <script type="text/javascript" src="/js/instructor.js"></script>
-<script type="text/javascript" src="/js/feedbackResponseComments.js"></script>
+<script type="text/javascript" src="/js/instructorSearch.js"></script>
 <jsp:include page="../enableJS.jsp"></jsp:include>
 <!-- Bootstrap core JavaScript ================================================== -->
 <script src="/bootstrap/js/bootstrap.min.js"></script>
@@ -110,6 +110,11 @@
                                 <div id="commentBar-<%=commentIdx%>">
                                     <span class="text-muted">To <b><%=recipientDisplay%></b> on
                                         <%=TimeHelper.formatTime(comment.createdAt)%></span>
+                                    <a type="button" href="<%=data.getInstructorCommentsLink() + "&" + Const.ParamsNames.COURSE_ID 
+                                    + "=" + comment.courseId + "#" + comment.getCommentId()%>" target="_blank" class="btn btn-default btn-xs icon-button pull-right"
+                                    data-toggle="tooltip" data-placement="top" data-original-title="Edit comment in the Comments page" style="display:none;">
+                                        <span class="glyphicon glyphicon-new-window glyphicon-primary"></span>
+                                    </a>
                                 </div>
                                 <div id="plainCommentText<%=commentIdx%>"><%=comment.commentText.getValue()%></div>
                             </li>
@@ -199,6 +204,11 @@
                                                             <b><%=frCommentGiver%></b>
                                                             on <%=TimeHelper.formatTime(frc.createdAt)%>
                                                         </span>
+                                                        <a type="button" href="<%=data.getInstructorCommentsLink() + "&" + Const.ParamsNames.COURSE_ID 
+                                                        + "=" + frc.courseId + "#" + frc.getId()%>" target="_blank" class="btn btn-default btn-xs icon-button pull-right"
+                                                        data-toggle="tooltip" data-placement="top" data-original-title="Edit comment in the Comments page" style="display:none;">
+                                                            <span class="glyphicon glyphicon-new-window glyphicon-primary"></span>
+                                                        </a>
                                                     </div> <!-- frComment Content -->
                                                     <div
                                                         id="plainCommentText-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>"><%=InstructorSearchPageData.sanitizeForHtml(frc.commentText.getValue())%></div>

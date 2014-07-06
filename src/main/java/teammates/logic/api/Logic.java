@@ -2141,6 +2141,14 @@ public class Logic {
         return feedbackResponseCommentsLogic.createFeedbackResponseComment(feedbackResponseComment);
     }
     
+    /**
+     * @deprecated Not scalable. Don't use unless in admin features.
+     */
+    @Deprecated
+    public List<FeedbackResponseCommentAttributes> getAllFeedbackResponseComments() {
+        return feedbackResponseCommentsLogic.getAllFeedbackResponseComments();
+    }
+    
     public FeedbackResponseCommentAttributes getFeedbackResponseComment(Long feedbackResponseCommentId) {
         Assumption.assertNotNull(feedbackResponseCommentId);
         
@@ -2231,6 +2239,14 @@ public class Logic {
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, comment);
         return commentsLogic.createComment(comment);
+    }
+    
+    /**
+     * @deprecated Not scalable. Don't use unless in admin features.
+     */
+    @Deprecated
+    public List<CommentAttributes> getAllComments() {
+        return commentsLogic.getAllComments();
     }
     
     public CommentAttributes getComment(Long commentId) {

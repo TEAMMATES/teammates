@@ -234,6 +234,28 @@ public class CommentsDb extends EntitiesDb{
         return new CommentSearchResultBundle().fromResults(results, googleId);
     }
     
+    @Deprecated
+    public List<CommentAttributes> getAllComments() {
+        
+        List<CommentAttributes> list = new ArrayList<CommentAttributes>();
+        List<Comment> entities = getAllCommentEntities();
+        for(Comment comment: entities){
+            list.add(new CommentAttributes(comment));
+        }
+        return list;
+    }
+    
+    private List<Comment> getAllCommentEntities() {
+        
+        String query = "select from " + Comment.class.getName();
+            
+        @SuppressWarnings("unchecked")
+        List<Comment> commentList = (List<Comment>) getPM()
+                .newQuery(query).execute();
+    
+        return commentList;
+    }
+    
     private List<Comment> getCommentEntitiesForSendingState(String courseId, CommentSendingState sendingState){
         Query q = getPM().newQuery(Comment.class);
         q.declareParameters("String courseIdParam, String sendingStateParam");

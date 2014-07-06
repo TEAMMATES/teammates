@@ -3,9 +3,12 @@ package teammates.ui.controller;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.TimeZone;
 
+import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -108,6 +111,18 @@ public class AdminInstructorAccountAddAction extends Action {
         
         BackDoorLogic backdoor = new BackDoorLogic();
         backdoor.persistDataBundle(data);        
+        
+        //produce searchable documents
+        @SuppressWarnings("deprecation")
+        List<CommentAttributes> comments = backdoor.getAllComments();
+        @SuppressWarnings("deprecation")
+        List<FeedbackResponseCommentAttributes> frComments = backdoor.getAllFeedbackResponseComments();
+        for(CommentAttributes comment:comments){
+            backdoor.putDocument(comment);
+        }
+        for(FeedbackResponseCommentAttributes comment:frComments){
+            backdoor.putDocument(comment);
+        }
         
         return courseId;
 
