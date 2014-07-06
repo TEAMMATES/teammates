@@ -165,4 +165,9 @@ public class FeedbackResponseCommentsLogic {
                     + " is not a session for course "+ courseId + ".");
         }
     }
+
+    @SuppressWarnings("deprecation")
+    public List<FeedbackResponseCommentAttributes> getAllFeedbackResponseComments() {
+        return frcDb.getAllFeedbackResponseComments();
+    }
 }
