@@ -227,6 +227,28 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         return new FeedbackResponseCommentSearchResultBundle().fromResults(results, googleId);
     }
     
+    @Deprecated
+    public List<FeedbackResponseCommentAttributes> getAllFeedbackResponseComments() {
+        
+        List<FeedbackResponseCommentAttributes> list = new ArrayList<FeedbackResponseCommentAttributes>();
+        List<FeedbackResponseComment> entities = getAllFeedbackResponseCommentEntities();
+        for(FeedbackResponseComment comment: entities){
+            list.add(new FeedbackResponseCommentAttributes(comment));
+        }
+        return list;
+    }
+    
+    private List<FeedbackResponseComment> getAllFeedbackResponseCommentEntities() {
+        
+        String query = "select from " + FeedbackResponseComment.class.getName();
+            
+        @SuppressWarnings("unchecked")
+        List<FeedbackResponseComment> commentList = (List<FeedbackResponseComment>) getPM()
+                .newQuery(query).execute();
+    
+        return commentList;
+    }
+    
     @Override
     protected Object getEntity(EntityAttributes attributes) {
         FeedbackResponseCommentAttributes feedbackResponseCommentToGet =

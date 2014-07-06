@@ -801,4 +801,9 @@ public class CommentsLogic {
                     commentId, teamMember.email);
         }
     }
+
+    @SuppressWarnings("deprecation")
+    public List<CommentAttributes> getAllComments() {
+        return commentsDb.getAllComments();
+    }
 }
