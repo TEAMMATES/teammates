@@ -25,6 +25,7 @@ import org.apache.http.params.HttpParams;
 import org.cyberneko.html.parsers.DOMParser;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
@@ -435,12 +436,33 @@ public abstract class AppPage {
     }
     
     /**
+     * Clicks the hidden element and clicks 'Yes' in the follow up dialog box. 
+     * Fails if there is no dialog box.
+     * @return the resulting page.
+     */
+    public AppPage clickHiddenElementAndConfirm(String elementId) {
+        respondToAlertWithRetryForHiddenElement(elementId, true);
+        waitForPageToLoad();
+        return this;
+    }
+    
+    /**
      * Clicks the element and clicks 'No' in the follow up dialog box. 
      * Fails if there is no dialog box.
      * @return the resulting page.
      */
     public void clickAndCancel(WebElement elementToClick){
         respondToAlertWithRetry(elementToClick, false);
+        waitForPageToLoad();
+    }
+    
+    /**
+     * Clicks the hidden element and clicks 'No' in the follow up dialog box. 
+     * Fails if there is no dialog box.
+     * @return the resulting page.
+     */
+    public void clickHiddenElementAndCancel(String elementId){
+        respondToAlertWithRetryForHiddenElement(elementId, false);
         waitForPageToLoad();
     }
     
@@ -853,6 +875,21 @@ public abstract class AppPage {
 
     private void respondToAlertWithRetry(WebElement elementToClick, boolean isConfirm) {
         elementToClick.click();    
+        //This method might fail at times due to a Selenium bug
+        //  See https://code.google.com/p/selenium/issues/detail?id=3544
+        //  The delay below is a temporary workaround to minimize the failure rate.
+        ThreadHelper.waitFor(250);
+        Alert alert = browser.driver.switchTo().alert();
+        if(isConfirm){
+            alert.accept();
+        }else {
+            alert.dismiss();
+        }
+    }
+    
+    private void respondToAlertWithRetryForHiddenElement(String hiddenElementIdToClick, boolean isConfirm) {
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
+        jsExecutor.executeScript("document.getElementById('"+hiddenElementIdToClick+"').click();");
         //This method might fail at times due to a Selenium bug
         //  See https://code.google.com/p/selenium/issues/detail?id=3544
         //  The delay below is a temporary workaround to minimize the failure rate.

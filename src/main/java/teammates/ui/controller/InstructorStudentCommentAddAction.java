@@ -48,7 +48,10 @@ public class InstructorStudentCommentAddAction extends Action {
         CommentAttributes comment = extractCommentData();
         
         try {
-            logic.createComment(comment);
+            CommentAttributes createdComment = logic.createComment(comment);
+            //TODO: move putDocument to Task Queue
+            logic.putDocument(createdComment);
+            
             statusToUser.add(Const.StatusMessages.COMMENT_ADDED);
             statusToAdmin = "Created Comment for Student:<span class=\"bold\">(" +
                     comment.recipients + ")</span> for Course <span class=\"bold\">[" +
@@ -87,12 +90,7 @@ public class InstructorStudentCommentAddAction extends Action {
         } else if (commentRecipientType == CommentRecipientType.SECTION) {
             new GateKeeper().verifyAccessible(instructor, course, recipients, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS);
         } else if (commentRecipientType == CommentRecipientType.TEAM) {
-            List<StudentAttributes> students;
-            try {
-                students = logic.getStudentsForTeam(recipients, courseId);
-            } catch(EntityDoesNotExistException e) {
-                students = new ArrayList<StudentAttributes>();
-            }
+            List<StudentAttributes> students = logic.getStudentsForTeam(recipients, courseId);
             if (students.isEmpty()) { // considered as a serious bug in coding or user submitted corrupted data
                 Assumption.fail();
             } else {
