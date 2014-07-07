@@ -150,6 +150,10 @@ public class FeedbackResponseCommentsLogic {
         frcDb.deleteEntity(feedbackResponseComment);    
     }
     
+    public void deleteDocument(FeedbackResponseCommentAttributes commentToDelete){
+        frcDb.deleteDocument(commentToDelete);
+    }
+    
     private void verifyIsCoursePresent(String courseId) throws EntityDoesNotExistException{
         if (!coursesLogic.isCoursePresent(courseId)) {
             throw new EntityDoesNotExistException(

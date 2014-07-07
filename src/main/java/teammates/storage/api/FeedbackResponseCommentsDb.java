@@ -45,14 +45,10 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         }
     }
     
-    @Override
-    public void deleteEntity(EntityAttributes entityToDelete){
-        FeedbackResponseComment comment = (FeedbackResponseComment) getEntity(entityToDelete);
-        if(comment != null){
-            FeedbackResponseCommentAttributes commentToDelete = new FeedbackResponseCommentAttributes(comment);
-            super.deleteEntity(commentToDelete);
-            deleteDocument(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, commentToDelete.getId().toString());
-        }
+    public void deleteDocument(FeedbackResponseCommentAttributes commentToDelete){
+        FeedbackResponseComment commentEntity = (FeedbackResponseComment) getEntity(commentToDelete);
+        FeedbackResponseCommentAttributes comment = new FeedbackResponseCommentAttributes(commentEntity);
+        deleteDocument(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, comment.getId().toString());
     }
 
     /**

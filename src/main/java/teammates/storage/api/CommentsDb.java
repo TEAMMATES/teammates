@@ -46,13 +46,9 @@ public class CommentsDb extends EntitiesDb{
         }
     }
     
-    @Override
-    public void deleteEntity(EntityAttributes entityToDelete){
-        CommentAttributes commentToDelete = getComment((CommentAttributes) entityToDelete);
-        if(commentToDelete != null){
-            super.deleteEntity(commentToDelete);
-            deleteDocument(Const.SearchIndex.COMMENT, commentToDelete.getCommentId().toString());
-        }
+    public void deleteDocument(CommentAttributes commentToDelete){
+        CommentAttributes comment = getComment(commentToDelete);
+        deleteDocument(Const.SearchIndex.COMMENT, comment.getCommentId().toString());
     }
     
     public CommentAttributes getComment(Long commentId){
