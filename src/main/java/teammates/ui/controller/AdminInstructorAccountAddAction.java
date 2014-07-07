@@ -113,10 +113,8 @@ public class AdminInstructorAccountAddAction extends Action {
         backdoor.persistDataBundle(data);        
         
         //produce searchable documents
-        @SuppressWarnings("deprecation")
-        List<CommentAttributes> comments = backdoor.getAllComments();
-        @SuppressWarnings("deprecation")
-        List<FeedbackResponseCommentAttributes> frComments = backdoor.getAllFeedbackResponseComments();
+        List<CommentAttributes> comments = backdoor.getCommentsForGiver(courseId, helper.instructorEmail);
+        List<FeedbackResponseCommentAttributes> frComments = backdoor.getFeedbackResponseCommentForGiver(courseId, helper.instructorEmail);
         for(CommentAttributes comment:comments){
             backdoor.putDocument(comment);
         }
