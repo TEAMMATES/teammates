@@ -74,6 +74,8 @@ public class InstructorFeedbackEditPageActionTest extends BaseActionTest {
                 + instructor1OfCourse1.googleId,
                 showPageResult.getDestinationWithParams());
         
+        assertEquals("", showPageResult.getStatusMessage());
+        
         expectedLogMessage = 
                 "TEAMMATESLOG|||instructorFeedbackEditPage|||instructorFeedbackEditPage|||true|||" +
                 "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||" +

@@ -47,7 +47,6 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
     
     @Test
     public void testExecute() throws Exception{
-        //TODO: find a way to test status message from session
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor1OfCourse1.googleId;
         
@@ -97,6 +96,12 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
                 + "|||idOfInstructor1OfCourse1|||instr1@course1.com" 
                 + "|||Course added : ticac.tpa1.id<br>Total courses: 2|||/page/instructorCourseAdd";
         assertEquals(expectedLogMessage, addAction.getLogMessage());
+        
+        
+        String expected = Const.StatusMessages.COURSE_ADDED
+                          .replace("${courseEnrollLink}", "/page/instructorCourseEnrollPage?courseid=ticac.tpa1.id&user=idOfInstructor1OfCourse1")
+                          .replace("${courseEditLink}", "/page/instructorCourseEditPage?courseid=ticac.tpa1.id&user=idOfInstructor1OfCourse1");
+        assertEquals(expected,pageResult.getStatusMessage());
         
         ______TS("Error: Try to add the same course again");
         
