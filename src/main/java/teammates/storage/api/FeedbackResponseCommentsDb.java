@@ -11,19 +11,49 @@ import java.util.logging.Logger;
 import javax.jdo.JDOHelper;
 import javax.jdo.Query;
 
+import com.google.appengine.api.search.Results;
+import com.google.appengine.api.search.ScoredDocument;
+
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Utils;
 import teammates.storage.entity.FeedbackResponseComment;
+import teammates.storage.search.FeedbackResponseCommentSearchDocument;
+import teammates.storage.search.FeedbackResponseCommentSearchQuery;
 
 public class FeedbackResponseCommentsDb extends EntitiesDb {
 
     private static final Logger log = Utils.getLogger();
+    
+    @Override
+    public FeedbackResponseCommentAttributes createEntity(EntityAttributes entityToAdd) 
+            throws InvalidParametersException, EntityAlreadyExistsException{
+        FeedbackResponseComment createdEntity = (FeedbackResponseComment) super.createEntity(entityToAdd);
+        if(createdEntity == null){
+            log.info("Trying to get non-existent FeedbackResponseComment, possibly entity not persistent yet.");
+            return null;
+        } else{
+            FeedbackResponseCommentAttributes createdComment = new FeedbackResponseCommentAttributes(createdEntity);
+            return createdComment;
+        }
+    }
+    
+    @Override
+    public void deleteEntity(EntityAttributes entityToDelete){
+        FeedbackResponseComment comment = (FeedbackResponseComment) getEntity(entityToDelete);
+        if(comment != null){
+            FeedbackResponseCommentAttributes commentToDelete = new FeedbackResponseCommentAttributes(comment);
+            super.deleteEntity(entityToDelete);
+            deleteDocument(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, commentToDelete.getId().toString());
+        }
+    }
 
     /**
      * Preconditions: <br>
@@ -66,6 +96,32 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         }
         
         return new FeedbackResponseCommentAttributes(frc);    
+    }
+    
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null. 
+     * @return Null if not found.
+     */
+    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentForGiver(String courseId, String giverEmail) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, giverEmail);
+        
+        List<FeedbackResponseComment> frcList = 
+                getFeedbackResponseCommentEntityForGiver(courseId, giverEmail);
+        
+        if (frcList == null) {
+            log.info("Trying to get non-existent response comment: from: " + giverEmail
+                    + " in the course: " + courseId);
+            return null;
+        }
+        
+        List<FeedbackResponseCommentAttributes> resultList = new ArrayList<FeedbackResponseCommentAttributes>();
+        for (FeedbackResponseComment frc : frcList) {
+            resultList.add(new FeedbackResponseCommentAttributes(frc));
+        }
+        
+        return resultList;    
     }
     
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForResponse(String feedbackResponseId){
@@ -128,7 +184,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
      * @throws InvalidParametersException 
      * @throws EntityDoesNotExistException 
      */
-    public void updateFeedbackResponseComment(FeedbackResponseCommentAttributes newAttributes) 
+    public FeedbackResponseCommentAttributes updateFeedbackResponseComment(FeedbackResponseCommentAttributes newAttributes) 
             throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, newAttributes);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, newAttributes.getId());
@@ -150,6 +206,9 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         frc.setReceiverSection(newAttributes.receiverSection);
         
         getPM().close();
+        
+        FeedbackResponseCommentAttributes updatedComment = new FeedbackResponseCommentAttributes(frc);
+        return updatedComment;
     }
     
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForSendingState(String courseId, String sessionName,
@@ -180,6 +239,42 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         getPM().close();
     }
     
+    public void putDocument(FeedbackResponseCommentAttributes comment){
+        putDocument(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, new FeedbackResponseCommentSearchDocument(comment));
+    }
+    
+    public FeedbackResponseCommentSearchResultBundle search(String queryString, String googleId, String cursorString){
+        if(queryString.trim().isEmpty())
+            return new FeedbackResponseCommentSearchResultBundle();
+        
+        Results<ScoredDocument> results = searchDocuments(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, 
+                new FeedbackResponseCommentSearchQuery(googleId, queryString, cursorString));
+        
+        return new FeedbackResponseCommentSearchResultBundle().fromResults(results, googleId);
+    }
+    
+    @Deprecated
+    public List<FeedbackResponseCommentAttributes> getAllFeedbackResponseComments() {
+        
+        List<FeedbackResponseCommentAttributes> list = new ArrayList<FeedbackResponseCommentAttributes>();
+        List<FeedbackResponseComment> entities = getAllFeedbackResponseCommentEntities();
+        for(FeedbackResponseComment comment: entities){
+            list.add(new FeedbackResponseCommentAttributes(comment));
+        }
+        return list;
+    }
+    
+    private List<FeedbackResponseComment> getAllFeedbackResponseCommentEntities() {
+        
+        String query = "select from " + FeedbackResponseComment.class.getName();
+            
+        @SuppressWarnings("unchecked")
+        List<FeedbackResponseComment> commentList = (List<FeedbackResponseComment>) getPM()
+                .newQuery(query).execute();
+    
+        return commentList;
+    }
+    
     @Override
     protected Object getEntity(EntityAttributes attributes) {
         FeedbackResponseCommentAttributes feedbackResponseCommentToGet =
@@ -193,6 +288,18 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
                 feedbackResponseCommentToGet.giverEmail,
                 feedbackResponseCommentToGet.createdAt);
         }
+    }
+    
+    private List<FeedbackResponseComment> getFeedbackResponseCommentEntityForGiver(String courseId, String giverEmail) {
+        Query q = getPM().newQuery(FeedbackResponseComment.class);
+        q.declareParameters("String courseIdParam, String giverEmailParam");
+        q.setFilter("courseId == courseIdParam && giverEmail == giverEmailParam");
+        
+        @SuppressWarnings("unchecked")
+        List<FeedbackResponseComment> feedbackResponseCommentList =
+            (List<FeedbackResponseComment>) q.execute(courseId, giverEmail);
+    
+        return feedbackResponseCommentList;
     }
     
     private List<FeedbackResponseComment> getFeedbackResponseCommentEntityForSendingState(String courseId, String feedbackSessionName,

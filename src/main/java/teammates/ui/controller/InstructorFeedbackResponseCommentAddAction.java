@@ -66,7 +66,9 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         }
         
         try {
-            logic.createFeedbackResponseComment(feedbackResponseComment);
+            FeedbackResponseCommentAttributes updatedComment = logic.createFeedbackResponseComment(feedbackResponseComment);
+            //TODO: move putDocument to taskQueue
+            logic.putDocument(updatedComment);
         } catch (InvalidParametersException e) {
             setStatusForException(e);
             data.errorMessage = e.getMessage();

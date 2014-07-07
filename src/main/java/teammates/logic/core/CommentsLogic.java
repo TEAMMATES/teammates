@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentRecipientType;
+import teammates.common.datatransfer.CommentSearchResultBundle;
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CommentStatus;
 import teammates.common.datatransfer.CourseRoster;
@@ -52,12 +53,12 @@ public class CommentsLogic {
     
     /************ CRUD ************/
 
-    public void createComment(CommentAttributes comment)
+    public CommentAttributes createComment(CommentAttributes comment)
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         verifyIsCoursePresent(comment.courseId, "create");
         verifyIsInstructorOfCourse(comment.courseId, comment.giverEmail);
 
-        commentsDb.createEntity(comment);
+        return commentsDb.createEntity(comment);
     }
     
     public CommentAttributes getComment(Long commentId) {
@@ -97,15 +98,16 @@ public class CommentsLogic {
         return commentsDb.getCommentsForSendingState(courseId, sendingState);
     }
     
-    public void updateComments(String courseId, CommentSendingState oldState, CommentSendingState newState) throws EntityDoesNotExistException{
+    public void updateCommentsSendingState(String courseId, CommentSendingState oldState, CommentSendingState newState) throws EntityDoesNotExistException{
         verifyIsCoursePresent(courseId, "clear pending");
         commentsDb.updateComments(courseId, oldState, newState);
     }
     
-    public void updateComment(CommentAttributes comment)
+    public CommentAttributes updateComment(CommentAttributes comment)
             throws InvalidParametersException, EntityDoesNotExistException{
         verifyIsCoursePresent(comment.courseId, "update");
-        commentsDb.updateComment(comment);
+        
+        return commentsDb.updateComment(comment);
     }
     
     public void deleteComment(CommentAttributes comment){
@@ -115,6 +117,14 @@ public class CommentsLogic {
     public List<CommentAttributes> getCommentDrafts(String giverEmail)
             throws EntityDoesNotExistException {
         return commentsDb.getCommentDrafts(giverEmail);
+    }
+    
+    public void putDocument(CommentAttributes comment){
+        commentsDb.putDocument(comment);
+    }
+    
+    public CommentSearchResultBundle searchComment(String queryString, String googleId, String cursorString){
+        return commentsDb.search(queryString, googleId, cursorString);
     }
     
     private void verifyIsCoursePresent(String courseId, String action)
@@ -626,7 +636,7 @@ public class CommentsLogic {
                             commentId, section);
                 }
             }
-        } else {//not visible to TEAM
+        } else {//not visible to SECTION
             if (pendingComment.recipientType == CommentRecipientType.PERSON) {
                 for(String recipientEmail : pendingComment.recipients){
                     StudentAttributes student = roster.getStudentForEmail(recipientEmail);
@@ -790,5 +800,10 @@ public class CommentsLogic {
             preventAddRecipientEmailsToList(isAddedTable, 
                     commentId, teamMember.email);
         }
+    }
+
+    @SuppressWarnings("deprecation")
+    public List<CommentAttributes> getAllComments() {
+        return commentsDb.getAllComments();
     }
 }

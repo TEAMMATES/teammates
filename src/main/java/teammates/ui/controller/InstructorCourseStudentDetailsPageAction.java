@@ -21,6 +21,13 @@ public class InstructorCourseStudentDetailsPageAction extends InstructorCoursesP
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
+        
+        if (student == null) {
+            statusToUser.add(Const.StatusMessages.STUDENT_NOT_FOUND_FOR_COURSE_DETAILS);
+            isError = true;
+            return createRedirectResult(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
+        }
+        
         String commentRecipient = getRequestParamValue(Const.ParamsNames.SHOW_COMMENT_BOX);
         
         new GateKeeper().verifyAccessible(
@@ -30,6 +37,15 @@ public class InstructorCourseStudentDetailsPageAction extends InstructorCoursesP
         
         data.currentInstructor = instructor;
         data.student = student;
+        
+        if (data.student.googleId.isEmpty() || !data.currentInstructor.isAllowedForPrivilege(data.student.section, 
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)) {
+            statusToUser.add(Const.StatusMessages.STUDENT_NOT_JOINED_YET_FOR_RECORDS);
+        } else {
+            data.studentProfile = logic.getStudentProfile(data.student.googleId);
+            Assumption.assertNotNull(data.studentProfile);
+        }
+        
         data.regKey = logic.getEncryptedKeyForStudent(courseId, studentEmail);
         data.hasSection = logic.hasIndicatedSections(courseId);
         data.commentRecipient = commentRecipient;

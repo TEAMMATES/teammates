@@ -120,6 +120,12 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(xpath = "//input[@name='numofrecipientstype' and @value='custom']")
     private WebElement customNumOfRecipients;
     
+    @FindBy(id = "button_copy")
+    private WebElement copyButton;
+    
+    @FindBy(id = "button_copy_submit")
+    private WebElement copySubmitButton;
+    
     @FindBy(id = "button_preview_student")
     private WebElement previewAsStudentButton;
     
@@ -290,6 +296,14 @@ public class InstructorFeedbackEditPage extends AppPage {
     
     public void clickManualPublishTimeButton(){
         manualResultsVisibleTimeButton.click();
+    }
+    
+    public void clickCopyButton(){
+        copyButton.click();
+    }
+    
+    public void clickCopySubmitButton(){
+        copySubmitButton.click();
     }
     
     public WebElement getDeleteSessionLink(){
@@ -509,7 +523,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
     
     public InstructorFeedbacksPage clickDoneEditingLink() {
-        WebElement doneEditingLink = browser.driver.findElement(By.id("addNewQuestionTable")).findElement(By.tagName("a"));
+        WebElement doneEditingLink = browser.driver.findElement(By.id("addNewQuestionTable")).findElements(By.tagName("a")).get(2);
         doneEditingLink.click();
         waitForPageToLoad();
         return changePageType(InstructorFeedbacksPage.class);
@@ -605,5 +619,10 @@ public class InstructorFeedbackEditPage extends AppPage {
     
     public void clickGetLinkButton() {
         getLinkButton.click();
+    }
+    
+    public void clickCopyTableAtRow(int rowIndex) {
+        WebElement row = browser.driver.findElement(By.id("copyTableModal")).findElements(By.tagName("tr")).get(rowIndex + 1);
+        row.click();
     }
 }
