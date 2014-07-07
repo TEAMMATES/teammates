@@ -253,6 +253,9 @@ public class Const {
     public class ParamsNames{
         public static final String BLOB_KEY = "blob-key";
         
+        public static final String COPIED_FEEDBACK_SESSION_NAME = "copiedfsname";
+        public static final String COPIED_COURSE_ID = "copiedcourseid";
+
         public static final String COURSE_ID = "courseid";
         public static final String COURSE_NAME = "coursename";
         public static final String INSTRUCTOR_SHORT_NAME = "instructorshortname";
@@ -327,7 +330,7 @@ public class Const {
         public static final String FEEDBACK_SESSION_RESULTSVISIBLEBUTTON = "resultsVisibleFromButton";
         public static final String FEEDBACK_SESSION_SENDREMINDEREMAIL = "sendreminderemail";
         public static final String FEEDBACK_SESSION_INSTRUCTIONS = "instructions";
-        
+
         public static final String FEEDBACK_QUESTION_ID = "questionid";
         public static final String FEEDBACK_QUESTION_NUMBER = "questionnum";
         public static final String FEEDBACK_QUESTION_TEXT = "questiontext";
@@ -538,6 +541,7 @@ public class Const {
         
         public static final String INSTRUCTOR_FEEDBACKS_PAGE = "/page/instructorFeedbacksPage";
         public static final String INSTRUCTOR_FEEDBACK_ADD = "/page/instructorFeedbackAdd";
+        public static final String INSTRUCTOR_FEEDBACK_COPY = "/page/instructorFeedbackCopy";
         public static final String INSTRUCTOR_FEEDBACK_DELETE = "/page/instructorFeedbackDelete";
         public static final String INSTRUCTOR_FEEDBACK_REMIND = "/page/instructorFeedbackRemind";
         public static final String INSTRUCTOR_FEEDBACK_PUBLISH = "/page/instructorFeedbackPublish";
@@ -557,6 +561,7 @@ public class Const {
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_AJAX_RESPONSE_RATE = "/page/instructorFeedbackResultsAjaxResponseRate";
 
         public static final String INSTRUCTOR_FEEDBACK_QUESTION_ADD = "/page/instructorFeedbackQuestionAdd";
+        public static final String INSTRUCTOR_FEEDBACK_QUESTION_COPY = "/page/instructorFeedbackQuestionCopy";
         public static final String INSTRUCTOR_FEEDBACK_QUESTION_EDIT = "/page/instructorFeedbackQuestionEdit";
 
         public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD = "/page/instructorFeedbackResponseCommentAdd";
