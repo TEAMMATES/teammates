@@ -132,6 +132,10 @@ public class FeedbackResponseCommentsLogic {
         frcDb.putDocument(comment);
     }
     
+    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForGiver(String courseId, String giverEmail){
+        return frcDb.getFeedbackResponseCommentForGiver(courseId, giverEmail);
+    }
+    
     public FeedbackResponseCommentSearchResultBundle searchFeedbackResponseComments(
             String queryString, String googleId, String cursorString) {
         return frcDb.search(queryString, googleId, cursorString);

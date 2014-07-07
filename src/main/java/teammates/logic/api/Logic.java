@@ -1470,6 +1470,23 @@ public class Logic {
 
         feedbackSessionsLogic.createFeedbackSession(feedbackSession);
     }
+    
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     */
+    public FeedbackSessionAttributes copyFeedbackSession(String copiedFeedbackSessionName, String copiedCourseId, String feedbackSessionName, String courseId, String instructorEmail)
+            throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
+        
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, copiedFeedbackSessionName);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, copiedCourseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorEmail);
+
+        return feedbackSessionsLogic.copyFeedbackSession(copiedFeedbackSessionName, copiedCourseId, feedbackSessionName, courseId, instructorEmail);
+    }
+    
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
@@ -1754,6 +1771,21 @@ public class Logic {
     }
     
     /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     */
+    public FeedbackQuestionAttributes copyFeedbackQuestion(String feedbackQuestionId, String feedbackSessionName, String courseId, String instructorEmail)
+            throws InvalidParametersException {
+        
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackQuestionId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorEmail);
+
+        return feedbackQuestionsLogic.copyFeedbackQuestion(feedbackQuestionId, feedbackSessionName, courseId, instructorEmail);
+    }
+    
+    /**
      * Updates the question number of a Feedback Question.<br>
      * Preconditions: <br>
      * * All parameters are non-null.
@@ -1804,6 +1836,19 @@ public class Logic {
     
     public boolean isQuestionHasResponses(String feedbackQuestionId){
             return feedbackQuestionsLogic.isQuestionHasResponses(feedbackQuestionId);
+    }
+    
+    /**
+     * Gets all copiable questions for an instructor<br>
+     * Returns an empty list if they are no questions
+     * for the session.
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     */
+    public List<FeedbackQuestionAttributes> getCopiableFeedbackQuestionsForInstructor(String googleId) throws EntityDoesNotExistException {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
+        
+        return feedbackQuestionsLogic.getCopiableFeedbackQuestionsForInstructor(googleId);
     }
     
     /**
@@ -2153,6 +2198,13 @@ public class Logic {
         Assumption.assertNotNull(feedbackResponseCommentId);
         
         return feedbackResponseCommentsLogic.getFeedbackResponseComment(feedbackResponseCommentId);
+    }
+    
+    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentForGiver(String courseId, String giverEmail) {
+        Assumption.assertNotNull(courseId);
+        Assumption.assertNotNull(giverEmail);
+        
+        return feedbackResponseCommentsLogic.getFeedbackResponseCommentsForGiver(courseId, giverEmail);
     }
     
     /**
