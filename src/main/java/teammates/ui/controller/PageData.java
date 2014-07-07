@@ -53,6 +53,10 @@ public class PageData {
         return Sanitizer.sanitizeForHtml(unsanitizedStringLiteral);
     }
     
+    public static String sanitizeInstructionsForHtml(String unsanitizedStringLiteral){
+        return Sanitizer.sanitizeInstructionsForHtml(unsanitizedStringLiteral);
+    }
+    
     public static String sanitizeForJs(String unsanitizedStringLiteral){
         return Sanitizer.sanitizeForJs(unsanitizedStringLiteral);
     }
