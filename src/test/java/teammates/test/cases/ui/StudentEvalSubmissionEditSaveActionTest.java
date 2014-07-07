@@ -112,6 +112,8 @@ public class StudentEvalSubmissionEditSaveActionTest extends BaseActionTest {
                 "&error=false&user="+student1InCourse1.googleId,r.getDestinationWithParams());
         
         assertFalse(r.isError);
+        assertEquals("Your submission for evaluation1 In Course1 in course idOfTypicalCourse1 has been saved successfully", 
+                     r.getStatusMessage());
         
         ______TS("empty point field");
         
@@ -136,6 +138,7 @@ public class StudentEvalSubmissionEditSaveActionTest extends BaseActionTest {
                         + "&error=true",
                 r.getDestinationWithParams());
         
+        assertEquals("Please give contribution scale to everyone", r.getStatusMessage());    
         assertTrue(r.isError);
         
         ______TS("multiple empty point field");
@@ -166,13 +169,12 @@ public class StudentEvalSubmissionEditSaveActionTest extends BaseActionTest {
                         + "&user=" + student1InCourse1.googleId
                         + "&error=true",
                 r.getDestinationWithParams());
-        
+        assertEquals("Please give contribution scale to everyone", r.getStatusMessage());
         assertTrue(r.isError);
     }
     
     @Test
     public void testExecuteAndPostProcess() throws Exception{
-        //TODO: find a way to test status message from session
         //TODO: implement this
         //TODO: ensure uneditable if not OPEN
         gaeSimulation.loginAsStudent(studentId);
@@ -206,7 +208,7 @@ public class StudentEvalSubmissionEditSaveActionTest extends BaseActionTest {
         assertEquals(
                 Const.ActionURIs.STUDENT_HOME_PAGE+"?"+Const.ParamsNames.CHECK_PERSISTENCE_EVALUATION+"=idOfTypicalCourse1evaluation1+In+Course1"+
                 "&error=false&user="+student1InCourse1.googleId,r.getDestinationWithParams());
-        
+        assertEquals("Your submission for evaluation1 In Course1 in course idOfTypicalCourse1 has been saved successfully", r.getStatusMessage());
         assertFalse(r.isError);
         
         ______TS("closed");

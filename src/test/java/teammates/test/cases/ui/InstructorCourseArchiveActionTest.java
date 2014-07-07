@@ -42,7 +42,6 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
     
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        //TODO: find a way to test status message from session
         String[] submissionParams = new String[]{};
         
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
@@ -67,9 +66,8 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
         InstructorCourseArchiveAction archiveAction = getAction(submissionParams);
         RedirectResult redirectResult = getRedirectResult(archiveAction);
         
-        assertEquals(
-                Const.ActionURIs.INSTRUCTOR_HOME_PAGE+"?error=false&user=idOfInstructor1OfCourse1", 
-                redirectResult.getDestinationWithParams());
+        assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE+"?error=false&user=idOfInstructor1OfCourse1", 
+                     redirectResult.getDestinationWithParams());
         assertEquals(false, redirectResult.isError);
         assertEquals(String.format(Const.StatusMessages.COURSE_ARCHIVED_FROM_HOMEPAGE, courseId), redirectResult.getStatusMessage());
         
@@ -87,9 +85,8 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
         archiveAction = getAction(submissionParams);
         redirectResult = getRedirectResult(archiveAction);
         
-        assertEquals(
-                Const.ActionURIs.INSTRUCTOR_HOME_PAGE+"?error=false&user=idOfInstructor1OfCourse1", 
-                redirectResult.getDestinationWithParams());
+        assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE+"?error=false&user=idOfInstructor1OfCourse1", 
+                     redirectResult.getDestinationWithParams());
         assertEquals(false, redirectResult.isError);
         assertEquals(String.format(Const.StatusMessages.COURSE_ARCHIVED_FROM_HOMEPAGE, courseId), redirectResult.getStatusMessage());
         
@@ -107,9 +104,8 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
         InstructorCourseArchiveAction unarchiveAction = getAction(submissionParams);
         redirectResult = getRedirectResult(unarchiveAction);
         
-        assertEquals(
-                Const.ActionURIs.INSTRUCTOR_COURSES_PAGE+"?error=false&user=idOfInstructor1OfCourse1", 
-                redirectResult.getDestinationWithParams());
+        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE+"?error=false&user=idOfInstructor1OfCourse1", 
+                     redirectResult.getDestinationWithParams());
         assertEquals(false, redirectResult.isError);
         assertEquals(String.format(Const.StatusMessages.COURSE_UNARCHIVED, courseId), redirectResult.getStatusMessage());
         
@@ -127,9 +123,8 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
         unarchiveAction = getAction(submissionParams);
         redirectResult = getRedirectResult(unarchiveAction);
         
-        assertEquals(
-                Const.ActionURIs.INSTRUCTOR_COURSES_PAGE+"?error=false&user=idOfInstructor1OfCourse1", 
-                redirectResult.getDestinationWithParams());
+        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE+"?error=false&user=idOfInstructor1OfCourse1", 
+                     redirectResult.getDestinationWithParams());
         assertEquals(false, redirectResult.isError);
         assertEquals(String.format(Const.StatusMessages.COURSE_UNARCHIVED, courseId), redirectResult.getStatusMessage());
         

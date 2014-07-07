@@ -52,6 +52,7 @@ public class StudentProfilePageActionTest extends BaseActionTest {
         
         AssertHelper.assertContains("/jsp/studentProfilePage.jsp?error=false&user="+student.googleId, r.getDestinationWithParams());
         assertFalse(r.isError);
+        assertEquals("", r.getStatusMessage());
         
         PageData data = r.data;
         student.studentProfile.modifiedDate = data.account.studentProfile.modifiedDate;
@@ -72,6 +73,7 @@ public class StudentProfilePageActionTest extends BaseActionTest {
         
         AssertHelper.assertContains("/jsp/studentProfilePage.jsp?error=false&user="+student.googleId, r.getDestinationWithParams());
         assertFalse(r.isError);
+        assertEquals("", r.getStatusMessage());
         
         data = r.data;
         student.studentProfile.modifiedDate = data.account.studentProfile.modifiedDate;
