@@ -354,7 +354,8 @@ public class TestHelper extends BaseComponentTestCase{
     }
     
     public static void verifyPresentInDatastore(FeedbackResponseCommentAttributes expected){
-        FeedbackResponseCommentAttributes actual = frcDb.getFeedbackResponseComment(expected.feedbackResponseId, expected.giverEmail, expected.createdAt);
+        FeedbackResponseCommentAttributes actual = frcDb.getFeedbackResponseComment(expected.courseId, expected.createdAt,
+                expected.giverEmail);
         assertEquals(expected.courseId, actual.courseId);
         assertEquals(expected.giverEmail, actual.giverEmail);
         assertEquals(expected.feedbackSessionName, actual.feedbackSessionName);

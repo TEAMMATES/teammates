@@ -53,6 +53,7 @@ public class InstructorStudentCommentEditAction extends Action {
                         comment.courseId + "]</span><br>" +
                         "<span class=\"bold\">Comment:</span> " + comment.commentText;
             } else if(editType.equals("delete")){
+                logic.deleteDocument(comment);
                 logic.deleteComment(comment);
                 statusToUser.add(Const.StatusMessages.COMMENT_DELETED);
                 statusToAdmin = "Deleted Comment for Student:<span class=\"bold\">(" +

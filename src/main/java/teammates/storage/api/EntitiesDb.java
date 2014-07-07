@@ -217,7 +217,11 @@ public abstract class EntitiesDb {
     }
     
     protected void deleteDocument(String indexName, String documentId){
-        SearchManager.deleteDocument(indexName, documentId);
+        try{
+            SearchManager.deleteDocument(indexName, documentId);
+        } catch (Exception e){
+            log.info("Unable to delete document in the index: " + indexName + " with document id " + documentId);
+        }
     }
     
     protected void deleteDocuments(String indexName, String[] documentId){

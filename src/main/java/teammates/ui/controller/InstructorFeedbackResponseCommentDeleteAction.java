@@ -34,6 +34,7 @@ public class InstructorFeedbackResponseCommentDeleteAction extends Action {
         FeedbackResponseCommentAttributes feedbackResponseComment = new FeedbackResponseCommentAttributes();
         feedbackResponseComment.setId(Long.parseLong(feedbackResponseCommentId));
         
+        logic.deleteDocument(feedbackResponseComment);
         logic.deleteFeedbackResponseComment(feedbackResponseComment);
         
         statusToAdmin += "InstructorFeedbackResponseCommentDeleteAction:<br>"
