@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<!-- These need not to run often unless the modification relates to them
+    directly. But they should be run before pushing new code to the repo. --> 
+<suite name="occassional-suite">
+      <test name="occasional-tests" parallel="classes">
+        <classes>
+            <class name="teammates.test.cases.testdriver.BackDoorTest" />
+            <class name="teammates.test.cases.ui.browsertests.SystemErrorEmailReportTest" />
+            <class name="teammates.test.cases.ui.browsertests.TableSortTest" />
+            <class name="teammates.test.cases.ui.browsertests.GodModeTest" />
+            <class name="teammates.test.cases.ui.browsertests.AllJsTests" />
+            <class name="teammates.test.cases.ui.browsertests.MashupPageUiTest" />
+        </classes>
+    </test>
+</suite> 
