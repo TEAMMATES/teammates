@@ -18,26 +18,13 @@ import teammates.ui.controller.ShowPageResult;
 
 public class InstructorEvalsPageActionTest extends BaseActionTest {
 
-    DataBundle dataBundle;
+    private final DataBundle dataBundle = getTypicalDataBundle();
 
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		restoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_EVALS_PAGE;
-    }
-
-    @BeforeMethod
-    public void caseSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-
-    @Test
-    public void testAccessControl() throws Exception {
-
-        String[] submissionParams = new String[] {};
-        verifyOnlyInstructorsCanAccess(submissionParams);
-
     }
 
     @Test

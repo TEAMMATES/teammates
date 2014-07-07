@@ -20,30 +20,13 @@ import teammates.ui.controller.RedirectResult;
 
 public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
 
-    DataBundle dataBundle;
+    private final DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		restoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_ADD;
-    }
-
-    @BeforeMethod
-    public void caseSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-    
-    @Test
-    public void testAccessControl() throws Exception{
-        FeedbackSessionAttributes fs = 
-                dataBundle.feedbackSessions.get("session1InCourse1");
-        
-        String[] submissionParams = 
-                createParamsForTypicalFeedbackQuestion(fs.courseId, fs.feedbackSessionName);
-        
-        verifyUnaccessibleWithoutModifySessionPrivilege(submissionParams);
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
     }
     
     @Test

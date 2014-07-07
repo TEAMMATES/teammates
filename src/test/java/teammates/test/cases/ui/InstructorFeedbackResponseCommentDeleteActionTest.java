@@ -25,52 +25,13 @@ import teammates.ui.controller.InstructorFeedbackResponseCommentDeleteAction;
 public class InstructorFeedbackResponseCommentDeleteActionTest extends
         BaseActionTest {
 
-    DataBundle dataBundle;
+    private final DataBundle dataBundle = getTypicalDataBundle();
 
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		restoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE;
-    }
-
-    @BeforeMethod
-    public void caseSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-
-    @Test
-    public void testAccessControl() throws Exception {
-        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
-        FeedbackQuestionsDb feedbackQuestionsDb = new FeedbackQuestionsDb();
-        FeedbackResponsesDb feedbackResponsesDb = new FeedbackResponsesDb();
-        FeedbackResponseCommentsDb feedbackResponseCommentsDb = new FeedbackResponseCommentsDb();
-
-        int questionNumber = 1;
-        FeedbackQuestionAttributes feedbackQuestion = feedbackQuestionsDb.getFeedbackQuestion(
-                "First feedback session", "idOfTypicalCourse1", questionNumber);
-        
-        String giverEmail = "student1InCourse1@gmail.com";
-        String receiverEmail = "student1InCourse1@gmail.com";
-        FeedbackResponseAttributes feedbackResponse = feedbackResponsesDb.getFeedbackResponse(feedbackQuestion.getId(),
-                giverEmail, receiverEmail);
-        
-        FeedbackResponseCommentAttributes feedbackResponseComment = dataBundle.feedbackResponseComments
-                .get("comment1FromT1C1ToR1Q1S1C1");
-        
-        feedbackResponseComment = feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponse.getId(),
-                feedbackResponseComment.giverEmail, feedbackResponseComment.createdAt);
-        
-        String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponse.getId(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseComment.getId().toString(),
-                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient"
-        };
-        // this person is not the giver. so not accessible
-        verifyUnaccessibleWithoutModifySessionCommentInSectionsPrivilege(submissionParams);
-        verifyOnlyInstructorsCanAccess(submissionParams);
     }
     
     @Test

@@ -4,7 +4,6 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountAttributes;
@@ -19,27 +18,13 @@ import teammates.ui.controller.ShowPageResult;
 import teammates.ui.controller.StudentCourseJoinAction;
 
 public class StudentCourseJoinActionTest extends BaseActionTest {
-    DataBundle dataBundle;
+    private final DataBundle dataBundle = getTypicalDataBundle();
 
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		restoreTypicalDataInDatastore();
         uri = Const.ActionURIs.STUDENT_COURSE_JOIN;
-    }
-
-    @BeforeMethod
-    public void methodSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-
-    @Test
-    public void testAccessControl() throws Exception {
-        String[] submissionParams = new String[] {
-                Const.ParamsNames.REGKEY, "sample-key"
-        };
-
-        verifyOnlyLoggedInUsersCanAccess(submissionParams);
     }
 
     @Test

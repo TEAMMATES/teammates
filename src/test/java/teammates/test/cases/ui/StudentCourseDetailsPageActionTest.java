@@ -9,7 +9,6 @@ import java.util.List;
 import teammates.test.util.TestHelper;
 
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.google.appengine.labs.repackaged.com.google.common.base.Joiner;
@@ -29,18 +28,13 @@ import teammates.ui.controller.ShowPageResult;
 
 public class StudentCourseDetailsPageActionTest extends BaseActionTest {
 
-    DataBundle dataBundle;
+    private final DataBundle dataBundle = getTypicalDataBundle();
 
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		restoreTypicalDataInDatastore();
         uri = Const.ActionURIs.STUDENT_COURSE_DETAILS_PAGE;
-    }
-
-    @BeforeMethod
-    public void methodSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
     }
 
     @Test

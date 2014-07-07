@@ -20,58 +20,14 @@ import teammates.ui.controller.StudentEvalResultsPageAction;
 
 public class StudentEvalResultsPageActionTest extends BaseActionTest {
 
-    DataBundle dataBundle;
+    private final DataBundle dataBundle = getTypicalDataBundle();
     EvaluationsDb evaluationsDb = new EvaluationsDb();
     
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		restoreTypicalDataInDatastore();
         uri = Const.ActionURIs.STUDENT_EVAL_RESULTS_PAGE;
-    }
-
-    @BeforeMethod
-    public void methodSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-    
-    @Test
-    public void testAccessControl() throws Exception{
-        
-        EvaluationAttributes eval = dataBundle.evaluations.get("evaluation1InCourse1");
-        eval.endTime = TimeHelper.getDateOffsetToCurrentTime(-1);
-        eval.published = true;
-        assertEquals(EvalStatus.PUBLISHED, eval.getStatus());
-        evaluationsDb.updateEvaluation(eval);
-        
-        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
-        String instructorId = instructor1OfCourse1.googleId;
-        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        String studentId = student1InCourse1.googleId;
-        
-        String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, eval.courseId,
-                Const.ParamsNames.EVALUATION_NAME, eval.name
-                };
-        
-        verifyUnaccessibleWithoutLogin(submissionParams);
-        
-        ______TS("Student not part of course, redirect to home page.");
-        gaeSimulation.loginUser("unreg.user");
-        verifyRedirectTo(Const.ActionURIs.STUDENT_HOME_PAGE, submissionParams);
-        verifyCannotMasquerade(addUserIdToParams(studentId,submissionParams));
-        
-        verifyAccessibleForStudentsOfTheSameCourse(submissionParams);
-
-        gaeSimulation.loginAsInstructor(instructorId);
-        verifyRedirectTo(Const.ActionURIs.STUDENT_HOME_PAGE, submissionParams);
-        verifyCannotMasquerade(addUserIdToParams(studentId,submissionParams));
-        
-        verifyAccessibleForAdminToMasqueradeAsStudent(submissionParams);
-        
-        
-        
-        
     }
 
     @Test

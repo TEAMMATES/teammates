@@ -8,7 +8,7 @@ import teammates.common.util.Const;
 
 public class AdminAccountDetailsPageActionTest extends BaseActionTest {
 
-    // private static final DataBundle dataBundle = getTypicalDataBundle();
+    // private static final DataBundle = getTypicalDataBundle();
     
     @BeforeClass
     public static void classSetUp() throws Exception {

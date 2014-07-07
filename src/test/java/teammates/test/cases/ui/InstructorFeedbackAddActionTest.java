@@ -15,32 +15,13 @@ import teammates.ui.controller.ShowPageResult;
 
 public class InstructorFeedbackAddActionTest extends BaseActionTest {
     
-    DataBundle dataBundle;    
+    private final DataBundle dataBundle = getTypicalDataBundle();    
     
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		restoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_ADD;
-    }
-
-    @BeforeMethod
-    public void caseSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-    
-    @Test
-    public void testAccessControl() throws Exception{
-        
-        InstructorAttributes instructor1ofCourse1 = 
-                dataBundle.instructors.get("instructor1OfCourse1");
-        
-        String[] params = 
-                createParamsForTypicalFeedbackSession(
-                        instructor1ofCourse1.courseId, "ifaat tca fs");
-        
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(params);
-        verifyUnaccessibleWithoutModifyCoursePrivilege(params);
     }
     
     @Test

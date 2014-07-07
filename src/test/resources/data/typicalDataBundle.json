@@ -1170,7 +1170,7 @@
             "feedbackSessionName":"First feedback session",
             "feedbackQuestionId":"2",
             "giverEmail":"instructor1@course1.com",
-            "feedbackResponseId":"2%student1InCourse1@gmail.com%student1InCourse1@gmail.com",
+            "feedbackResponseId":"2%student2InCourse1@gmail.com%student1InCourse1@gmail.com",
             "createdAt":"2016-02-01 11:59 PM UTC",
             "commentText":{
                 "value":"Instructor 1 comment to student 1 self feedback Question 2"   

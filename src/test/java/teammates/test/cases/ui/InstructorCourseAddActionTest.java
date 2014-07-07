@@ -21,28 +21,13 @@ import teammates.ui.controller.ShowPageResult;
  */
 public class InstructorCourseAddActionTest extends BaseActionTest {
 
-    DataBundle dataBundle;
+    private final DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		restoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_ADD;
-    }
-
-    @BeforeMethod
-    public void caseSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-    
-    @Test
-    public void testAccessControl() throws Exception{
-        
-        String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, "ticac.tac.id",
-                Const.ParamsNames.COURSE_NAME, "ticac tac name"};
-        
-        verifyOnlyInstructorsCanAccess(submissionParams);
     }
     
     @Test

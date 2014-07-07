@@ -9,7 +9,7 @@ import teammates.common.util.Const;
 
 public class AdminAccountDeletePageActionTest extends BaseActionTest {
 
-    // private static final DataBundle dataBundle = getTypicalDataBundle();
+    // private static final DataBundle = getTypicalDataBundle();
     
     
     @BeforeClass

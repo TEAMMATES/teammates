@@ -25,26 +25,13 @@ import teammates.ui.controller.StudentHomePageData;
 
 public class StudentHomePageActionTest extends BaseActionTest {
 
-    DataBundle dataBundle;
+    private final DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		restoreTypicalDataInDatastore();
         uri = Const.ActionURIs.STUDENT_HOME_PAGE;
-    }
-
-    @BeforeMethod
-    public void methodSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-    
-    @Test
-    public void testAccessControl() throws Exception{
-        
-        String[] submissionParams = new String[]{};
-        verifyOnlyLoggedInUsersCanAccess(submissionParams);
-        
     }
     
     @Test
