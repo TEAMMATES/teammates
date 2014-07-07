@@ -71,7 +71,8 @@
             "name":"Teammates Test",
             "email":"IFSubmitUiT.instr@gmail.com",
             "role":"Co-owner",
-            "displayedName":"Co-owner",
+            "isDisplayedToStudents":true,
+            "displayedName":"Instructor",
             "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
         },
         "IFSubmitUiT.instr2":{
@@ -80,7 +81,8 @@
             "name":"Teammates Test2",
             "email":"IFSubmitUiT.instr2@gmail.com",
             "role":"Co-owner",
-            "displayedName":"Co-owner",
+            "isDisplayedToStudents":true,
+            "displayedName":"Instructor",
             "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
         },
         "IFSubmitUiT.instr3":{
@@ -89,7 +91,8 @@
             "name":"Teammates Test3",
             "email":"IFSubmitUiT.instr3@gmail.com",
             "role":"Co-owner",
-            "displayedName":"Co-owner",
+            "isDisplayedToStudents":true,
+            "displayedName":"Instructor",
             "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
         },
         "IFSubmitUiT.instr4":{
@@ -98,7 +101,8 @@
             "name":"Teammates Test4",
             "email":"IFSubmitUiT.instr4@gmail.com",
             "role":"Co-owner",
-            "displayedName":"Co-owner",
+            "isDisplayedToStudents":true,
+            "displayedName":"Instructor",
             "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
         },
         "IFSubmitUiT.instr5":{
@@ -107,7 +111,8 @@
             "name":"Teammates Test5",
             "email":"IFSubmitUiT.instr5@gmail.com",
             "role":"Co-owner",
-            "displayedName":"Co-owner",
+            "isDisplayedToStudents":true,
+            "displayedName":"Instructor",
             "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
         }
     },
