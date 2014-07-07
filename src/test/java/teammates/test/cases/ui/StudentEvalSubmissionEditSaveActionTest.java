@@ -143,27 +143,14 @@ public class StudentEvalSubmissionEditSaveActionTest extends BaseActionTest {
                 
                 };
         StudentEvalSubmissionEditSaveAction a = getAction(submissionParams);
-        ______TS("opened");
-        
-        eval.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
-        evaluationsDb.updateEvaluation(eval);
-        
-        assertEquals(EvalStatus.OPEN, eval.getStatus());
-
-        ActionResult r = a.executeAndPostProcess();
-        
-        assertEquals(
-                Const.ActionURIs.STUDENT_HOME_PAGE+"?"+Const.ParamsNames.CHECK_PERSISTENCE_EVALUATION+"=idOfTypicalCourse1evaluation1+In+Course1"+
-                "&error=false&user="+student1InCourse1.googleId,r.getDestinationWithParams());
-        
-        assertFalse(r.isError);
+        ActionResult r;
         
         ______TS("closed");
         eval.endTime = TimeHelper.getDateOffsetToCurrentTime(-10);
         
         evaluationsDb.updateEvaluation(eval);
         assertEquals(EvalStatus.CLOSED, eval.getStatus());
-            
+         
         try{
             r = a.executeAndPostProcess();
         }
@@ -201,6 +188,19 @@ public class StudentEvalSubmissionEditSaveActionTest extends BaseActionTest {
         }
         assertEquals(Const.Tooltips.EVALUATION_STATUS_AWAITING, submissionFailMessage);
         
+        ______TS("opened");
+        eval.startTime = TimeHelper.getDateOffsetToCurrentTime(-1);
+        evaluationsDb.updateEvaluation(eval);
+        
+        assertEquals(EvalStatus.OPEN, eval.getStatus());
+
+        r = a.executeAndPostProcess();
+        
+        assertEquals(
+                Const.ActionURIs.STUDENT_HOME_PAGE+"?"+Const.ParamsNames.CHECK_PERSISTENCE_EVALUATION+"=idOfTypicalCourse1evaluation1+In+Course1"+
+                "&error=false&user="+student1InCourse1.googleId,r.getDestinationWithParams());
+        
+        assertFalse(r.isError);
         
         ______TS("Null parameters");
         submissionParams = new String[]{};

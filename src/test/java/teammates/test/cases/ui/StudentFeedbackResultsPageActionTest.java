@@ -100,8 +100,6 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
 
         verifyAccessibleForAdminToMasqueradeAsStudent(submissionParams);
 
-        		restoreTypicalDataInDatastore();
-
         // TODO: test no questions -> redirect after moving detection logic to
         // proper access control level.
     }

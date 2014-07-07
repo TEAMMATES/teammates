@@ -6,6 +6,7 @@ import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
 
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -30,20 +31,25 @@ import teammates.ui.controller.RedirectResult;
 
 public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTest {
 
-    private final DataBundle dataBundle = getTypicalDataBundle();
+    private static final DataBundle dataBundle = loadDataBundle("/InstructorFeedbackSubmissionEditSaveActionTest.json");
     
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-        restoreTypicalDataInDatastore();
+        restoreDatastoreFromJson("/InstructorFeedbackSubmissionEditSaveActionTest.json");
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE;
+    }
+    
+    @AfterClass
+    public static void classTearDown() throws Exception {
+        new BackDoorLogic().removeDataBundle(dataBundle);
     }
     
     @Test
     public void testExecuteAndPostProcess() throws Exception{
         //TODO Test error states (catch-blocks and isError == true states)
         //TODO: find a way to test status message from session
-        InstructorAttributes instructor1InCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor1InCourse1 = dataBundle.instructors.get("instructor1InCourse1");
         gaeSimulation.loginAsInstructor(instructor1InCourse1.googleId);
         ______TS("Unsuccessful case: test empty feedback session name parameter");
         String[] submissionParams = new String[]{

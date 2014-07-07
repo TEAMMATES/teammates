@@ -766,7 +766,6 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
                 result.courseId, result.feedbackQuestionId,
                 result.feedbackQuestionType, result.giverEmail, result.giverSection,
                 result.recipientEmail, result.recipientSection, result.responseMetaData);
-        fqDb.deleteEntity(fqa);
     }
     
     @AfterMethod

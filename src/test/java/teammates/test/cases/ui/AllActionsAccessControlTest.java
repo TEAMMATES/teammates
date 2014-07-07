@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -50,6 +49,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     
     private final CommentsDb commentsDb = new CommentsDb();
     private final EvaluationsDb evaluationsDb = new EvaluationsDb();
+    private final FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
     private final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
     private final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
     private final FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
@@ -818,7 +818,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
 
     @Test
     public void InstructorFeedbackResponseCommentAdd() throws Exception {
-        uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD;
+         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD;
         
         int questionNumber = 1;
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
@@ -848,9 +848,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         verifyUnaccessibleForUnregisteredUsers(submissionParams);
         verifyUnaccessibleForStudents(submissionParams);
         verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
-        frcDb.deleteEntity(comment);
         verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
-        frcDb.deleteEntity(comment);
     }
 
     @Test
@@ -882,16 +880,13 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         verifyUnaccessibleForUnregisteredUsers(submissionParams);
         verifyUnaccessibleForStudents(submissionParams);
         verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
-        comment.setId(null);
-        frcDb.createEntity(comment);
         verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
     }
-
+    
     @Test
     public void InstructorFeedbackResponseCommentEdit() throws Exception {
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT;
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
-        FeedbackResponseCommentsDb feedbackResponseCommentsDb = new FeedbackResponseCommentsDb();
 
         int questionNumber = 1;
         FeedbackQuestionAttributes feedbackQuestion = fqDb.getFeedbackQuestion(
@@ -905,7 +900,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         FeedbackResponseCommentAttributes feedbackResponseComment = dataBundle.feedbackResponseComments
                 .get("comment1FromT1C1ToR1Q1S1C1");
         
-        feedbackResponseComment = feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponse.getId(),
+        feedbackResponseComment = frcDb.getFeedbackResponseComment(feedbackResponse.getId(),
                 feedbackResponseComment.giverEmail, feedbackResponseComment.createdAt);
         
         String[] submissionParams = new String[]{
@@ -1105,7 +1100,9 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         uri = Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_ADD;
         CommentAttributes comment = dataBundle.comments.get("comment1FromI1C1toS1C1");
         comment.commentText = new Text("New Comment");
-        String recipient = comment.recipients.toArray(new String[comment.recipients.size()])[0];
+        String recipient = dataBundle.students.get("student4InCourse1").email;
+        comment.recipients.clear();
+        comment.recipients.add(recipient);
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COMMENT_TEXT, comment.commentText.getValue(),
                 Const.ParamsNames.COURSE_ID, comment.courseId,
@@ -1116,10 +1113,13 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         verifyUnaccessibleWithoutGiveCommentInSectionsPrivilege(submissionParams);
         verifyOnlyInstructorsCanAccess(submissionParams);
         
-        // comment = commentsDb.getComment(commentToGet)
-        commentsDb.deleteEntity(comment);
+        List<CommentAttributes> list = 
+                commentsDb.getCommentsForReceiver(comment.courseId, comment.recipientType, recipient);
+        for (CommentAttributes c : list) {
+            commentsDb.deleteEntity(c);
+        }
     }
-
+    
     @Test
     public void InstructorStudentCommentEdit() throws Exception {
         uri = Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_EDIT;
@@ -1134,9 +1134,10 @@ public class AllActionsAccessControlTest extends BaseActionTest {
             }
         }
         assertEquals(2, comments.size());
+        CommentAttributes comment = comments.get(0);
         
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COMMENT_ID, comments.get(0).getCommentId().toString(),
+                Const.ParamsNames.COMMENT_ID,comment.getCommentId().toString(),
                 Const.ParamsNames.COMMENT_EDITTYPE, "edit",
                 Const.ParamsNames.COMMENT_TEXT, "Comment from Instructor 1 to Student 1 in course 1",
                 Const.ParamsNames.COURSE_ID, instructor.courseId,
@@ -1144,6 +1145,9 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         };
         verifyUnaccessibleWithoutModifyCommentInSectionsPrivilege(submissionParams);
         verifyOnlyInstructorsCanAccess(submissionParams);
+        
+        // restore the comment Txt
+        commentsDb.updateComment(comment);
     }
 
     @Test
@@ -1389,7 +1393,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
             assertFalse(session.isPublished());
         }
         session.sentPublishedEmail = true;
-        new FeedbackSessionsDb().updateFeedbackSession(session);
+        fsDb.updateFeedbackSession(session);
     }
     
     private void makeFeedbackSessionUnpublished(FeedbackSessionAttributes session) throws Exception {
@@ -1402,7 +1406,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
 
     private void closeSession(FeedbackSessionAttributes fs) throws Exception {
         fs.endTime = TimeHelper.getDateOffsetToCurrentTime(0);
-        new FeedbackSessionsDb().updateFeedbackSession(fs);
+        fsDb.updateFeedbackSession(fs);
     }
 
     private void makeEvaluationPublished(EvaluationAttributes eval) throws Exception {
@@ -1411,7 +1415,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         eval.activated = true;
         eval.published = true;
         assertEquals(EvalStatus.PUBLISHED, eval.getStatus());
-        new EvaluationsDb().updateEvaluation(eval);
+        evaluationsDb.updateEvaluation(eval);
         
     }
 
@@ -1421,7 +1425,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         eval.activated = true;
         eval.published = false;
         assertEquals(EvalStatus.CLOSED, eval.getStatus());
-        new EvaluationsDb().updateEvaluation(eval);
+        evaluationsDb.updateEvaluation(eval);
         
     }
     
@@ -1431,7 +1435,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         eval.activated = true;
         eval.published = false;
         assertEquals(EvalStatus.OPEN, eval.getStatus());
-        new EvaluationsDb().updateEvaluation(eval);
+        evaluationsDb.updateEvaluation(eval);
     }
     
     private String[] addQuestionIdToParams(String questionId, String[] params) {

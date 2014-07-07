@@ -293,7 +293,6 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         
         ______TS("Test copy");
         
-        restoreTypicalDataInDatastore();
         FeedbackSessionAttributes session1InCourse1 = dataBundle.feedbackSessions.get("session1InCourse1");
         InstructorAttributes instructor2OfCourse1 = dataBundle.instructors.get("instructor2OfCourse1");
         CourseAttributes typicalCourse2 = dataBundle.courses.get("typicalCourse2");
@@ -333,6 +332,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         } catch (EntityAlreadyExistsException e){
             ignoreExpectedException();
         }
+        
+        fsLogic.deleteFeedbackSessionCascade(copiedSession.feedbackSessionName, copiedSession.courseId);
     }
     
     

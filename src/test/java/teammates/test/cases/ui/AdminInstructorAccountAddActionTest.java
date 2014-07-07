@@ -8,9 +8,13 @@ import java.lang.reflect.Method;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.CommentAttributes;
+import teammates.common.datatransfer.CommentRecipientType;
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.Logic;
+import teammates.logic.core.CommentsLogic;
 import teammates.ui.controller.AdminInstructorAccountAddAction;
 import teammates.ui.controller.Action;
 import teammates.ui.controller.AdminHomePageData;
@@ -125,6 +129,9 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
         assertEquals(Const.ActionURIs.ADMIN_HOME_PAGE, r.destination);
         assertEquals(Const.ActionURIs.ADMIN_HOME_PAGE + "?error=false&user=" + adminUserId, r.getDestinationWithParams());
         
+        // delete the comment that was created
+        CommentAttributes comment = CommentsLogic.inst().getCommentsForReceiver(getDemoCourseIdRoot(email), CommentRecipientType.PERSON,  "alice.b.tmms@gmail.com").get(0);
+        CommentsLogic.inst().deleteComment(comment);
         new Logic().deleteCourse(getDemoCourseIdRoot(email));
     }
     
