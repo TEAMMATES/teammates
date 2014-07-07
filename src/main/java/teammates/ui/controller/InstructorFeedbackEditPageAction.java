@@ -30,6 +30,7 @@ public class InstructorFeedbackEditPageAction extends Action {
         InstructorFeedbackEditPageData data = new InstructorFeedbackEditPageData(account);       
         data.session = feedback;
         data.questions = logic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
+        data.copiableQuestions = logic.getCopiableFeedbackQuestionsForInstructor(account.googleId);
         for(FeedbackQuestionAttributes question : data.questions) {            
             data.questionHasResponses.put(question.getId(),
                     logic.isQuestionHasResponses(question.getId()));
