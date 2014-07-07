@@ -21,7 +21,9 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.FeedbackAbstractQuestionDetails;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionType;
@@ -307,6 +309,54 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         TestHelper.verifyAbsentInDatastore(fs);
         TestHelper.verifyAbsentInDatastore(fq);
     }
+    
+    @Test
+    public void testCopyFeedbackSession() throws Exception {
+        
+        ______TS("Test copy");
+        
+        restoreTypicalDataInDatastore();
+        FeedbackSessionAttributes session1InCourse1 = dataBundle.feedbackSessions.get("session1InCourse1");
+        InstructorAttributes instructor2OfCourse1 = dataBundle.instructors.get("instructor2OfCourse1");
+        CourseAttributes typicalCourse2 = dataBundle.courses.get("typicalCourse2");
+        FeedbackSessionAttributes copiedSession = fsLogic.copyFeedbackSession(
+                "Copied Session", typicalCourse2.id,
+                session1InCourse1.feedbackSessionName,
+                session1InCourse1.courseId, instructor2OfCourse1.email);
+        TestHelper.verifyPresentInDatastore(copiedSession);
+        
+        assertEquals("Copied Session", copiedSession.feedbackSessionName);
+        assertEquals(typicalCourse2.id, copiedSession.courseId);
+        List<FeedbackQuestionAttributes> questions1 = fqLogic.getFeedbackQuestionsForSession(session1InCourse1.feedbackSessionName, session1InCourse1.courseId);
+        List<FeedbackQuestionAttributes> questions2 = fqLogic.getFeedbackQuestionsForSession(copiedSession.feedbackSessionName, copiedSession.courseId);
+        
+        assertEquals(questions1.size(), questions2.size());
+        for(int i = 0; i < questions1.size(); i++){
+            FeedbackQuestionAttributes question1 = questions1.get(i);
+            FeedbackAbstractQuestionDetails questionDetails1 = question1.getQuestionDetails();
+            FeedbackQuestionAttributes question2 = questions2.get(i);
+            FeedbackAbstractQuestionDetails questionDetails2 = question2.getQuestionDetails();
+            
+            assertEquals(questionDetails1.questionText, questionDetails2.questionText);
+            assertEquals(question1.giverType, question2.giverType);
+            assertEquals(question1.recipientType, question2.recipientType);
+            assertEquals(question1.questionType, question2.questionType);
+            assertEquals(question1.numberOfEntitiesToGiveFeedbackTo, question2.numberOfEntitiesToGiveFeedbackTo);
+        }
+        
+        ______TS("Failure case: duplicate session");
+        
+        try {
+            fsLogic.copyFeedbackSession(
+                    session1InCourse1.feedbackSessionName, session1InCourse1.courseId,
+                    session1InCourse1.feedbackSessionName,
+                    session1InCourse1.courseId, instructor2OfCourse1.email);
+            signalFailureToDetectException();
+        } catch (EntityAlreadyExistsException e){
+            ignoreExpectedException();
+        }
+    }
+    
     
     @Test
     public void testGetFeedbackSessionDetailsForInstructor() throws Exception {
