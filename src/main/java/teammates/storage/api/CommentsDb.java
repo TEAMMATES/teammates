@@ -9,7 +9,6 @@ import java.util.logging.Logger;
 import javax.jdo.JDOHelper;
 import javax.jdo.Query;
 
-import com.google.appengine.api.datastore.Text;
 import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
 
@@ -77,7 +76,7 @@ public class CommentsDb extends EntitiesDb{
         if(comment == null){
             commentToGet.sanitizeForSaving();
             comment = getCommentEntity(commentToGet.courseId, commentToGet.giverEmail, commentToGet.recipientType,
-                commentToGet.recipients, commentToGet.commentText, commentToGet.createdAt);
+                commentToGet.recipients, commentToGet.createdAt);
         }
         if(comment == null){
             log.info("Trying to get non-existent Comment: " + commentToGet);
@@ -330,7 +329,7 @@ public class CommentsDb extends EntitiesDb{
         } else{
             commentToGet.sanitizeForSaving();
             return getCommentEntity(commentToGet.courseId, commentToGet.giverEmail, commentToGet.recipientType,
-                    commentToGet.recipients, commentToGet.commentText, commentToGet.createdAt);
+                    commentToGet.recipients, commentToGet.createdAt);
         }
     }
     
@@ -350,7 +349,7 @@ public class CommentsDb extends EntitiesDb{
     }
     
     private Comment getCommentEntity(String courseId, String giverEmail, CommentRecipientType recipientType,
-            Set<String> recipients, Text commentText, Date date) {
+            Set<String> recipients, Date date) {
         String firstRecipient = recipients.iterator().next();
         List<Comment> commentList = getCommentEntitiesForReceiver(courseId, recipientType, firstRecipient);
         
@@ -362,7 +361,6 @@ public class CommentsDb extends EntitiesDb{
         //we have to compare the texts separately.
         for(Comment comment : commentList){
             if(comment.getGiverEmail().equals(giverEmail)
-                    && comment.getCommentText().equals(commentText)
                     && comment.getCreatedAt().equals(date)
                     && comment.getRecipients().equals(recipients)) {
                 return comment;

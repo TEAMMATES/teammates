@@ -51,6 +51,10 @@ public class FeedbackResponseCommentsLogic {
                 FeedbackResponseCommentAttributes existingComment = new FeedbackResponseCommentAttributes();
                 
                 existingComment = frcDb.getFeedbackResponseComment(frComment.feedbackResponseId, frComment.giverEmail, frComment.createdAt);
+                if(existingComment == null){
+                    existingComment = frcDb.getFeedbackResponseComment(frComment.courseId, frComment.createdAt,
+                            frComment.giverEmail);
+                }
                 frComment.setId(existingComment.getId());
                 
                 return frcDb.updateFeedbackResponseComment(frComment);            
