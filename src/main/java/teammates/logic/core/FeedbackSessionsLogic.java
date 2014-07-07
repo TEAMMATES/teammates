@@ -3,6 +3,7 @@ package teammates.logic.core;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -90,6 +91,29 @@ public class FeedbackSessionsLogic {
     public List<FeedbackSessionAttributes> getFeedbackSessionsForCourse(
             String courseId) {
         return fsDb.getFeedbackSessionsForCourse(courseId);
+    }
+
+    public FeedbackSessionAttributes copyFeedbackSession(
+            String newFeedbackSessionName, String newCourseId, String feedbackSessionName,
+            String courseId, String instructorEmail)
+            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+        FeedbackSessionAttributes copiedFeedbackSession = getFeedbackSession(
+                feedbackSessionName, courseId);
+        copiedFeedbackSession.creatorEmail = instructorEmail;
+        copiedFeedbackSession.feedbackSessionName = newFeedbackSessionName;
+        copiedFeedbackSession.courseId = newCourseId;
+        copiedFeedbackSession.createdTime = new Date();
+        fsDb.createEntity(copiedFeedbackSession);
+        
+        List<FeedbackQuestionAttributes> feedbackQuestions = fqLogic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
+        for(FeedbackQuestionAttributes question : feedbackQuestions){
+            question.courseId = newCourseId;
+            question.feedbackSessionName = newFeedbackSessionName;
+            question.creatorEmail =instructorEmail;
+            fqLogic.createFeedbackQuestion(question);
+        }
+        
+        return copiedFeedbackSession;
     }
 
     /**

@@ -393,7 +393,7 @@
                                         </label> 
                                         <input disabled="" checked="checked" name="sendreminderemail" id="sendreminderemail_published" value="FEEDBACK_PUBLISHED" type="checkbox">
                                     </div>
-                                </div><div style="top: 757px; left: 941px; display: block;" class="tooltip fade top in"><div class="tooltip-arrow"></div><div class="tooltip-inner">Select this option to automatically send an email to students to notify them when the session results is published.</div></div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -614,7 +614,7 @@
             </div>
             <input name="fsname" value="First Session" type="hidden">
             <input name="courseid" value="CFeedbackEditUiT.CS2104" type="hidden">
-            <input name="questionid" value="{*}" type="hidden">
+            <input name="questionid" value="{*}w" type="hidden">
             <input name="questionnum" value="1" type="hidden">
             <input name="questiontype" value="TEXT" type="hidden">
             <input name="questionedittype" id="questionedittype-1" value="edit" type="hidden">
@@ -884,7 +884,7 @@
             </div>
             <input name="fsname" value="First Session" type="hidden">
             <input name="courseid" value="CFeedbackEditUiT.CS2104" type="hidden">
-            <input name="questionid" value="{*}" type="hidden">
+            <input name="questionid" value="{*}w" type="hidden">
             <input name="questionnum" value="2" type="hidden">
             <input name="questiontype" value="CONSTSUM" type="hidden">
             <input name="questionedittype" id="questionedittype-2" value="edit" type="hidden">
@@ -916,11 +916,14 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-sm-3">
-                        <input id="button_openframe" class="btn btn-primary" value="Add New Question" onclick="showNewQuestionFrame(document.getElementById('questionTypeChoice').value)">
+                    <div class="col-sm-2">
+                        <a id="button_openframe" class="btn btn-primary" value="Add New Question" onclick="showNewQuestionFrame(document.getElementById('questionTypeChoice').value)">&nbsp;&nbsp;&nbsp;Add New Question&nbsp;&nbsp;&nbsp;</a>
                     </div>
-                    <div class="col-sm-3">
-                        <a class="btn btn-primary" href="/page/instructorFeedbacksPage?user=CFeedbackEditUiT.instructor&amp;courseid=CFeedbackEditUiT.CS2104">Done Editing</a>
+                    <div class="col-sm-2">
+                        <a id="button_copy" class="btn btn-primary" value="Copy Question">&nbsp;&nbsp;&nbsp;Copy Question&nbsp;&nbsp;&nbsp;</a>
+                    </div>
+                    <div class="col-sm-2">
+                        <a class="btn btn-primary" href="/page/instructorFeedbacksPage?user=CFeedbackEditUiT.instructor&amp;courseid=CFeedbackEditUiT.CS2104">&nbsp;&nbsp;&nbsp;Done Editing&nbsp;&nbsp;&nbsp;</a>
                     </div>
                 </div>
             </div>

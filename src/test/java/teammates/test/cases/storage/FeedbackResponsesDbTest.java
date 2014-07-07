@@ -38,9 +38,9 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
     private static String questionIdWithoutResponses;
     
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public void classSetUp() throws Exception {
         printTestClassHeader();
-        turnLoggingUp(FeedbackResponsesDb.class);
+        turnLoggingUp(FeedbackResponsesDb.class); 
         fras =  createResponses(2, 2);
         questionIdWithoutResponses = createFeedbackQuestionWithoutResponses();
     }
@@ -49,7 +49,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
     @Test
     public void testCreateDeleteFeedbackResponse() 
             throws InvalidParametersException, EntityAlreadyExistsException {    
-                
+        
         ______TS("standard success case");
         
         FeedbackResponseAttributes fra = getNewFeedbackResponseAttributes();
@@ -833,6 +833,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
     private static String createFeedbackQuestionWithoutResponses() throws Exception {
         FeedbackQuestionAttributes fqa = createFeedbackQuestion();
         fqa.questionNumber = 3;
+        fqDb.deleteEntity(fqa);
         fqDb.createEntity(fqa);
         return fqDb.getFeedbackQuestion(fqa.feedbackSessionName, fqa.courseId, fqa.questionNumber).getId();
     }
