@@ -192,7 +192,11 @@ public abstract class EntitiesDb {
     
     //the followings APIs are used by Teammates' search engine
     protected void putDocument(String indexName, SearchDocument document){
-        SearchManager.putDocument(indexName, document.build());
+        try{
+            SearchManager.putDocument(indexName, document.build());
+        } catch (Exception e){
+            log.info("Failed to put searchable document in " + indexName + " for " + document.toString());
+        }
     }
     
     protected void getDocument(String indexName, String documentId) {
