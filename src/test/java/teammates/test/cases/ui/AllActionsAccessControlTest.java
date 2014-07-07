@@ -8,9 +8,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentRecipientType;
@@ -32,18 +35,20 @@ import teammates.logic.core.CommentsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
+import teammates.storage.api.CommentsDb;
 import teammates.storage.api.EvaluationsDb;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.api.FeedbackSessionsDb;
 
-public class AllActionAccessControl extends BaseActionTest {
+public class AllActionsAccessControlTest extends BaseActionTest {
     
     private String[] submissionParams = new String[]{};
     private static final DataBundle dataBundle = getTypicalDataBundle();
     String invalidEncryptedKey = StringHelper.encrypt("invalidKey");
     
+    private final CommentsDb commentsDb = new CommentsDb();
     private final EvaluationsDb evaluationsDb = new EvaluationsDb();
     private final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
     private final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
@@ -823,17 +828,29 @@ public class AllActionAccessControl extends BaseActionTest {
         String receiverEmail = "student1InCourse1@gmail.com";
         FeedbackResponseAttributes response = frDb.getFeedbackResponse(question.getId(),
                 giverEmail, receiverEmail);
+        FeedbackResponseCommentAttributes comment = new FeedbackResponseCommentAttributes();
+        comment.courseId = fs.courseId;
+        comment.feedbackSessionName = fs.feedbackSessionName;
+        comment.feedbackQuestionId = question.getId();
+        comment.feedbackResponseId = response.getId();
         
-        String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, comment.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, comment.feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "",
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId()
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, comment.feedbackQuestionId,
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, comment.feedbackResponseId
         };
-        verifyOnlyInstructorsCanAccess(submissionParams);
+        
         verifyUnaccessibleWithoutSubmitSessionInSectionsPrivilege(submissionParams);
+        verifyUnaccessibleWithoutLogin(submissionParams);
+        verifyUnaccessibleForUnregisteredUsers(submissionParams);
+        verifyUnaccessibleForStudents(submissionParams);
+        verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
+        frcDb.deleteEntity(comment);
+        verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
+        frcDb.deleteEntity(comment);
     }
 
     @Test
@@ -1086,18 +1103,21 @@ public class AllActionAccessControl extends BaseActionTest {
     @Test
     public void InstructorStudentCommentAdd() throws Exception {
         uri = Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_ADD;
-        InstructorAttributes instructor = dataBundle.instructors.get("instructor3OfCourse1");
-        StudentAttributes student = dataBundle.students.get("student3InCourse1");
-        
+        CommentAttributes comment = dataBundle.comments.get("comment1FromI1C1toS1C1");
+        comment.commentText = new Text("New Comment");
+        String recipient = comment.recipients.toArray(new String[comment.recipients.size()])[0];
         String[] submissionParams = new String[]{
-                Const.ParamsNames.COMMENT_TEXT, "Dummy comment content",
-                Const.ParamsNames.COURSE_ID, instructor.courseId,
-                Const.ParamsNames.STUDENT_EMAIL, student.email,
-                Const.ParamsNames.RECIPIENT_TYPE, "PERSON",
-                Const.ParamsNames.RECIPIENTS, student.email
+                Const.ParamsNames.COMMENT_TEXT, comment.commentText.getValue(),
+                Const.ParamsNames.COURSE_ID, comment.courseId,
+                Const.ParamsNames.STUDENT_EMAIL, recipient,
+                Const.ParamsNames.RECIPIENT_TYPE, comment.recipientType.toString(),
+                Const.ParamsNames.RECIPIENTS, recipient
         };
         verifyUnaccessibleWithoutGiveCommentInSectionsPrivilege(submissionParams);
         verifyOnlyInstructorsCanAccess(submissionParams);
+        
+        // comment = commentsDb.getComment(commentToGet)
+        commentsDb.deleteEntity(comment);
     }
 
     @Test

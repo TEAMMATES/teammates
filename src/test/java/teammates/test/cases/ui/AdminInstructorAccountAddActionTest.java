@@ -2,14 +2,15 @@ package teammates.test.cases.ui;
 
 
 import static org.testng.AssertJUnit.assertEquals;
+
 import java.lang.reflect.Method;
+
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
+import teammates.logic.api.Logic;
 import teammates.ui.controller.AdminInstructorAccountAddAction;
 import teammates.ui.controller.Action;
 import teammates.ui.controller.AdminHomePageData;
@@ -116,14 +117,15 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
                 Const.ParamsNames.INSTRUCTOR_SHORT_NAME, anotherNewInstructorShortName,
                 Const.ParamsNames.INSTRUCTOR_NAME, name,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, email,
-                Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute,
-                Const.ParamsNames.INSTRUCTOR_IMPORT_SAMPLE, "SELECTED");
+                Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
         
         r = (RedirectResult) a.executeAndPostProcess();
         assertEquals(false, r.isError);
         assertEquals("Instructor " + name + " has been successfully created", r.getStatusMessage());
         assertEquals(Const.ActionURIs.ADMIN_HOME_PAGE, r.destination);
         assertEquals(Const.ActionURIs.ADMIN_HOME_PAGE + "?error=false&user=" + adminUserId, r.getDestinationWithParams());
+        
+        new Logic().deleteCourse(getDemoCourseIdRoot(email));
     }
     
 
@@ -155,5 +157,12 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
         return (Action)gaeSimulation.getActionObject(uri, parameters);
     }
 
+    private String getDemoCourseIdRoot(String instructorEmail){
+        final String[] splitedEmail = instructorEmail.split("@");
+        final String head = splitedEmail[0];
+        final String emailAbbreviation = splitedEmail[1].substring(0, 3);
+        return head + "." + emailAbbreviation
+                + "-demo";
+    }
 
 }

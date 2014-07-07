@@ -4,6 +4,7 @@
 <suite name="actions-suite">
     <test name="actions-tests" preserve-order="false">
         <classes>
+            <class name="teammates.test.cases.ui.AllActionsAccessControlTest" />
             <class name="teammates.test.cases.ui.ActivityLogTest" />
             <class name="teammates.test.cases.ui.ActionResultTest" />
             <class name="teammates.test.cases.ui.AdminAccountDeletePageActionTest" />
