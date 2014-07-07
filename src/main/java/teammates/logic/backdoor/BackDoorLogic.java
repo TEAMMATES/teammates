@@ -358,7 +358,7 @@ public class BackDoorLogic extends Logic {
      * @throws EntityDoesNotExistException 
     **/
     @Override
-    public void createFeedbackResponseComment(FeedbackResponseCommentAttributes responseComment) 
+    public FeedbackResponseCommentAttributes createFeedbackResponseComment(FeedbackResponseCommentAttributes responseComment) 
             throws InvalidParametersException, EntityDoesNotExistException {
         
         try {
@@ -379,7 +379,7 @@ public class BackDoorLogic extends Logic {
                 responseComment.feedbackQuestionId
                 + "%" + responseIdParam[1] + "%" + responseIdParam[2];
 
-        super.createFeedbackResponseComment(responseComment);
+        return super.createFeedbackResponseComment(responseComment);
     }
     
 

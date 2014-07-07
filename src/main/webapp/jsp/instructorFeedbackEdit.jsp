@@ -813,12 +813,15 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-sm-3">
-                        <input id="button_openframe" class="btn btn-primary" value="Add New Question"
-                            onclick="showNewQuestionFrame(document.getElementById('questionTypeChoice').value)">
+                    <div class="col-sm-2">
+                        <a id="button_openframe" class="btn btn-primary" value="Add New Question"
+                            onclick="showNewQuestionFrame(document.getElementById('questionTypeChoice').value)">&nbsp;&nbsp;&nbsp;Add New Question&nbsp;&nbsp;&nbsp;</a>
                     </div>
-                    <div class="col-sm-3">
-                        <a class="btn btn-primary" href="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE + "?" + Const.ParamsNames.USER_ID + "=" + data.account.googleId + "&" + Const.ParamsNames.COURSE_ID + "=" + data.session.courseId%>" class="button">Done Editing</a>
+                    <div class="col-sm-2">
+                        <a id="button_copy" class="btn btn-primary" value="Copy Question">&nbsp;&nbsp;&nbsp;Copy Question&nbsp;&nbsp;&nbsp;</a>
+                    </div>
+                    <div class="col-sm-2">
+                        <a class="btn btn-primary" href="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE + "?" + Const.ParamsNames.USER_ID + "=" + data.account.googleId + "&" + Const.ParamsNames.COURSE_ID + "=" + data.session.courseId%>" class="button">&nbsp;&nbsp;&nbsp;Done Editing&nbsp;&nbsp;&nbsp;</a>
                     </div>
                 </div>
             </div>
@@ -1050,6 +1053,60 @@
                 name="<%=Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS%>"
                 value="<%=FeedbackParticipantType.NONE.toString()%>">
         </form>
+
+        <!-- Modal -->
+        <div class="modal fade" id="copyModal" tabindex="-1" role="dialog" aria-labelledby="copyModalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title" id="copyModalTitle">Copy Questions</h4>
+                    </div>
+                <div class="modal-body padding-0">
+                    <form class="form" id="copyModalForm" role="form" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_COPY%>">
+                        <!-- Previous Questions -->
+                        <table class="table-responsive table table-hover table-bordered margin-0" id="copyTableModal">
+                            <thead class="fill-primary">
+                                <th style="width:30px;">&nbsp;</th>
+                                <th onclick="toggleSort(this,2);" id="button_sortid" class="button-sort-ascending"> 
+                                    Course ID <span class="icon-sort sorted-ascending"></span>
+                                </th>
+                                <th onclick="toggleSort(this,3);" id="button_sortfsname" class="button-sort-none" style="width:17%;">
+                                    Session Name <span class="icon-sort unsorted"></span>
+                                </th>
+                                <th onclick="toggleSort(this,4);" id="button_sortfqtype" class="button-sort-none"> 
+                                    Question Type <span class="icon-sort unsorted"></span>
+                                </th>
+                                <th onclick="toggleSort(this,5);" id="button_sortfqtext" class="button-sort-none"> 
+                                    Question Text <span class="icon-sort unsorted"></span>
+                                </th>
+                            </thead>
+
+                            <% for (FeedbackQuestionAttributes question : data.copiableQuestions) {
+                                    FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
+                            %>
+                                <tr style="cursor:pointer;">
+                                    <td></td>
+                                    <td><%=question.courseId%></td>
+                                    <td><%=InstructorFeedbacksPageData.sanitizeForHtml(question.feedbackSessionName)%></td>
+                                    <td><%= questionDetails.getQuestionTypeDisplayName() %></td>
+                                    <td><%= questionDetails.questionText %></td>
+                                    <input type="hidden" value="<%= question.getId() %>">
+                                </tr>
+                            <% } %>
+                        </table>
+                        <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.session.feedbackSessionName%>">
+                        <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.session.courseId%>">
+                    </form>
+                </div>
+                <div class="modal-footer margin-0">
+                    <button type="button" class="btn btn-primary" id="button_copy_submit">Copy</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+          </div>
+        </div>
+
         <br><br>
         <div class="container">
             <div class="well well-plain inputTable" id="questionPreviewTable">

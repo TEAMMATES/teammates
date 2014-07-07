@@ -73,8 +73,9 @@ public class InstructorCommentsPageAction extends Action {
         //  (rather than loading them many times).
             // TODO: DO NOT USE DB HERE!!!
             roster = new CourseRoster(
-                    new StudentsDb().getStudentsForCourse(courseId),
-                    new InstructorsDb().getInstructorsForCourse(courseId));
+                    //TODO: use logic instead
+                    logic.getStudentsForCourse(courseId),
+                    logic.getInstructorsForCourse(courseId));
 
             giverEmailToCommentsMap = getGiverEmailToCommentsMap();
             feedbackResultBundles = getFeedbackResultBundles(roster);

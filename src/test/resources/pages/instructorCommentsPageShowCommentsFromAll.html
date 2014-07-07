@@ -5,28 +5,19 @@
                     <div class="col-sm-6">
                         <h1>Comments from Instructors</h1>
                     </div>
-                    <!-- <div class="col-sm-5 instructor-header-bar">
-                        <form method="post" action="#"
-                            name="search_form">
+                    <div class="col-sm-6 instructor-header-bar">
+                        <form method="get" action="/page/instructorSearchPage?user=comments.idOfInstructor1OfCourse1" name="search_form">
                             <div class="input-group">
-                                <input type="text" name="searchkey"
-                                    title="Search for comment"
-                                    class="form-control"
-                                    placeholder="Any info related to comments"
-                                    id="searchBox"> <span
-                                    class="input-group-btn">
-                                    <button class="btn btn-default"
-                                        type="submit" value="Search"
-                                        id="buttonSearch">Search</button>
+                                <input name="searchkey" title="Search for comment" class="form-control" placeholder="Any info related to comments" id="searchBox" type="text"> 
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="submit" value="Search" id="buttonSearch">Search</button>
                                 </span>
                             </div>
+                            <input name="searchcommentforstudents" value="true" type="hidden">
+                            <input name="searchcommentforresponses" value="true" type="hidden">
+                            <input name="user" value="comments.idOfInstructor1OfCourse1" type="hidden">
                         </form>
                     </div>
-                    <div class="col-md-1 instructor-header-bar">
-                        <a class="btn btn-primary btn-md"
-                            href="./omniComment_bulkEdit.html">
-                            Comment in Bulk </a>
-                    </div> -->
                 </div>
             </div>
             <br>
@@ -176,7 +167,7 @@
                             </div>
                             <ul class="list-group comments">
                                 
-                                <li class="list-group-item list-group-item-warning status_display-public">
+                                <li id="{*}" class="list-group-item list-group-item-warning status_display-public">
                                     <form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-1">
                                         <div id="commentBar-1">
                                             
@@ -271,7 +262,7 @@
                                     </form>
                                 </li>
                                 
-                                <li class="list-group-item list-group-item-warning status_display-public">
+                                <li id="{*}" class="list-group-item list-group-item-warning status_display-public">
                                     <form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-2">
                                         <div id="commentBar-2">
                                             
@@ -392,7 +383,7 @@
                                     </form>
                                 </li>
                                 
-                                <li class="list-group-item list-group-item-warning status_display-public">
+                                <li id="{*}" class="list-group-item list-group-item-warning status_display-public">
                                     <form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-3">
                                         <div id="commentBar-3">
                                             
@@ -525,7 +516,7 @@
                                     </form>
                                 </li>
                                 
-                                <li class="list-group-item list-group-item-warning status_display-public">
+                                <li id="{*}" class="list-group-item list-group-item-warning status_display-public">
                                     <form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-4">
                                         <div id="commentBar-4">
                                             
@@ -646,7 +637,7 @@
                                     </form>
                                 </li>
                                 
-                                <li class="list-group-item list-group-item-warning status_display-public">
+                                <li id="{*}" class="list-group-item list-group-item-warning status_display-public">
                                     <form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-5">
                                         <div id="commentBar-5">
                                             
@@ -779,7 +770,7 @@
                                     </form>
                                 </li>
                                 
-                                <li class="list-group-item list-group-item-warning status_display-public">
+                                <li id="{*}" class="list-group-item list-group-item-warning status_display-public">
                                     <form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-6">
                                         <div id="commentBar-6">
                                             
@@ -912,7 +903,7 @@
                                     </form>
                                 </li>
                                 
-                                <li class="list-group-item list-group-item-warning status_display-public">
+                                <li id="{*}" class="list-group-item list-group-item-warning status_display-public">
                                     <form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-7">
                                         <div id="commentBar-7">
                                             
@@ -1045,7 +1036,7 @@
                                     </form>
                                 </li>
                                 
-                                <li class="list-group-item list-group-item-warning status_display-public">
+                                <li id="{*}" class="list-group-item list-group-item-warning status_display-public">
                                     <form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-8">
                                         <div id="commentBar-8">
                                             
@@ -1178,7 +1169,7 @@
                                     </form>
                                 </li>
                                 
-                                <li class="list-group-item list-group-item-warning status_display-private">
+                                <li id="{*}" class="list-group-item list-group-item-warning status_display-private">
                                     <form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-9">
                                         <div id="commentBar-9">
                                             
@@ -1318,7 +1309,7 @@
                             </div>
                             <ul class="list-group comments">
                                 
-                                <li class="list-group-item list-group-item-warning status_display-public">
+                                <li id="{*}" class="list-group-item list-group-item-warning status_display-public">
                                     <form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-10">
                                         <div id="commentBar-10">
                                             
@@ -1422,7 +1413,7 @@
                             </div>
                             <ul class="list-group comments">
                                 
-                                <li class="list-group-item list-group-item-warning status_display-public">
+                                <li id="{*}" class="list-group-item list-group-item-warning status_display-public">
                                     <form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-11">
                                         <div id="commentBar-11">
                                             
@@ -1564,7 +1555,7 @@
                                             
                                             <ul class="list-group comments" id="responseCommentTable-1-1-1" style="">
                                                 
-                                                <li style="display: none;" class="list-group-item list-group-item-warning giver_display-by-you status_display-private" id="responseCommentRow-1-1-1-1">
+                                                <li style="display: none;" id="{*}" class="list-group-item list-group-item-warning giver_display-by-you status_display-private">
                                                     <div id="commentBar-1-1-1-1">
                                                         <span class="text-muted">From:
                                                             <b>you</b>
@@ -1663,7 +1654,7 @@ Multiline test.
                                             
                                             <ul class="list-group comments" id="responseCommentTable-1-2-1" style="">
                                                 
-                                                <li style="display: none;" class="list-group-item list-group-item-warning giver_display-by-you status_display-private" id="responseCommentRow-1-2-1-1">
+                                                <li style="display: none;" id="{*}" class="list-group-item list-group-item-warning giver_display-by-you status_display-private">
                                                     <div id="commentBar-1-2-1-1">
                                                         <span class="text-muted">From:
                                                             <b>you</b>

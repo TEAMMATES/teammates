@@ -58,6 +58,7 @@
                                 <li><a href="#instructorFeedbackResultsPageByRecipientQuestionGiver">Instructor Feedback Results Page (By recipient-question-giver)</a></li>
                                 <li><a href="#instructorFeedbackResultsPageByQuestion">Instructor Feedback Results Page (By question)</a></li>
                                 <li><a href="#instructorCommentsPage">Instructor Comments Page</a></li>
+                                <li><a href="#instructorSearchPage">Instructor Search Page</a></li>
                             </ul>
                         </td>
                         <td>
@@ -222,6 +223,10 @@
                 
                 <div class="pageinfo">Instructor Comments Page</div>
                 <div id="instructorCommentsPage"></div>
+                <br><hr class="hr-bold"><br>
+                
+                <div class="pageinfo">Instructor Search Page</div>
+                <div id="instructorSearchPage"></div>
                 <br></br>
                 <br></br>
                 <br></br>
@@ -469,6 +474,10 @@
                     $("[data-toggle='tooltip']").tooltip({html: true}); 
                 });
             $('#instructorCommentsPage').load("<%=Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE%>?user=teammates.test&courseid=CS2104 #frameBodyWrapper",
+                    function (response, status, xml) {
+                        $("[data-toggle='tooltip']").tooltip({html: true}); 
+                    });
+            $('#instructorSearchPage').load("<%=Const.ActionURIs.INSTRUCTOR_SEARCH_PAGE%>?user=teammates.test&searchkey=teammates #frameBodyWrapper",
                     function (response, status, xml) {
                         $("[data-toggle='tooltip']").tooltip({html: true}); 
                     });

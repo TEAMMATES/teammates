@@ -33,7 +33,6 @@ public class InstructorCourseStudentDetailsPageUiTest extends BaseUiTestCase {
         
         instructorId = testData.instructors.get("CCSDetailsUiT.instr").googleId;
         courseId = testData.courses.get("CCSDetailsUiT.CS2104").id;
-
     }
     
     
@@ -41,9 +40,7 @@ public class InstructorCourseStudentDetailsPageUiTest extends BaseUiTestCase {
     public void testAll() throws Exception{
 
         testContent();
-        
     }
-
 
     private void testContent() {
         

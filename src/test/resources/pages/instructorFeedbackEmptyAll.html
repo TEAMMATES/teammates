@@ -399,7 +399,7 @@ ul #nav {
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <input type="text" placeholder="Date" value="04/07/2014" id="startdate" name="startdate" class="form-control col-sm-2 hasDatepicker" />
+                                        <input type="text" placeholder="Date" value="07/07/2014" id="startdate" name="startdate" class="form-control col-sm-2 hasDatepicker" />
                                     </div>
                                     <div class="col-md-6">
                                         <select id="starttime" name="starttime" class="form-control">
@@ -670,9 +670,13 @@ ul #nav {
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="col-md-12">
-                        <button class="btn btn-primary center-block" type="submit" id="button_submit">Create
+                    <div class="col-md-offset-3 col-md-3">
+                        <button class="btn btn-primary" type="submit" id="button_submit">Create
                             Feedback Session</button>
+                    </div>
+                    <div class="col-md-3">
+                        <a class="btn btn-primary" id="button_copy">Copy
+                            Feedback Session</a>
                     </div>
                 </div>
                 <input type="hidden" value="CFeedbackUiT.nocourses" name="user" />
@@ -718,6 +722,50 @@ ul #nav {
                 <td></td>
                 <td></td>
             </tr></tbody></table>
+        <!-- Modal -->
+        <div aria-hidden="true" aria-labelledby="copyModalTitle" role="dialog" tabindex="-1" id="copyModal" class="modal fade">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h4 id="copyModalTitle" class="modal-title">Copy Sessions</h4>
+              </div>
+              <div class="modal-body">
+                    <form action="/page/instructorFeedbackCopy" method="post" role="form" id="copyModalForm" class="form">
+                    <!-- Course -->
+                    <div class="form-group">
+                        <label class="control-label" for="modalCopiedCourseId">Course ID</label>
+                        <select id="modalCopiedCourseId" name="copiedcourseid" class="form-control">
+                            
+                        </select>
+                    </div>
+                    <!-- Session Name -->
+                    <div class="form-group">
+                        <label class="control-label" for="modalCopiedSessionName">Session
+                            name</label>
+                        <input type="text" placeholder="e.g. Feedback for Project Presentation 1" value="" id="modalCopiedSessionName" name="copiedfsname" class="form-control" />
+                    </div>
+                    <!-- Previous Session -->
+                    <label> Copied Session </label>
+                    <table id="copyTableModal" class="table-responsive table table-bordered table-hover margin-0">
+                        <thead class="fill-primary">
+                            <tr><th> Course ID </th>
+                            <th> Feedback Session Name </th>
+                        </tr></thead>
+
+                        
+                    </table>
+                            <input type="hidden" id="modalSessionName" value="" name="fsname" />
+                            <input type="hidden" id="modalCourseId" value="" name="courseid" />
+                    </form>
+              </div>
+              <div class="modal-footer margin-0">
+                <button id="button_copy_submit" class="btn btn-primary" type="button">Copy</button>
+                <button data-dismiss="modal" class="btn btn-default" type="button">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
         <br /> <br /> <br />
         
         <div class="align-center">No records found.</div>
