@@ -951,8 +951,6 @@ function bindCopyButton() {
             if($(this).hasClass('row-selected')){
                 $(input).attr('name', 'questionid-' + index++);
                 hasRowSelected = true;
-            } else {
-                $(input).remove();
             }
         });
 
