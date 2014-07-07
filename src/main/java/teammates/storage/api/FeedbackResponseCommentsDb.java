@@ -47,8 +47,10 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
     
     public void deleteDocument(FeedbackResponseCommentAttributes commentToDelete){
         FeedbackResponseComment commentEntity = (FeedbackResponseComment) getEntity(commentToDelete);
-        FeedbackResponseCommentAttributes comment = new FeedbackResponseCommentAttributes(commentEntity);
-        deleteDocument(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, comment.getId().toString());
+        if(commentEntity != null){
+            FeedbackResponseCommentAttributes comment = new FeedbackResponseCommentAttributes(commentEntity);
+            deleteDocument(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, comment.getId().toString());
+        }
     }
 
     /**
