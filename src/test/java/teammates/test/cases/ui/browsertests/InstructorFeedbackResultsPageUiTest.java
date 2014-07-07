@@ -24,7 +24,6 @@ import teammates.test.pageobjects.InstructorFeedbackResultsPage;
  */
 public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
-    private final static String NO_STATUS_MESSAGE = "";
     private static DataBundle testData;
     private static Browser browser;
     private InstructorFeedbackResultsPage resultsPage;
@@ -55,12 +54,12 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         ______TS("standard session results");
         
-        resultsPage = loginToInstructorFeedbackSubmitPage("CFResultsUiT.instr", "Open Session", NO_STATUS_MESSAGE, false);
+        resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageOpen.html");
         
         ______TS("empty session");
         
-        resultsPage = loginToInstructorFeedbackSubmitPage("CFResultsUiT.instr", "Empty Session", NO_STATUS_MESSAGE, false);
+        resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Empty Session");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageEmpty.html");
     }
     
@@ -68,7 +67,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         ______TS("test sort types");
         
-        resultsPage = loginToInstructorFeedbackSubmitPage("CFResultsUiT.instr", "Open Session", NO_STATUS_MESSAGE, false);
+        resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByGiverRecipientQuestion();
         
         assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(9,"giver-2-recipient-1"));
@@ -248,7 +247,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
     
     public void testFeedbackResponseCommentActions() {
         
-        resultsPage = loginToInstructorFeedbackSubmitPage("CFResultsUiT.instr", "Open Session", NO_STATUS_MESSAGE, false);
+        resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByRecipientGiverQuestion();
         
         ______TS("failure: add empty feedback response comment");
@@ -266,7 +265,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.verifyCommentRowContent("-1",
                 "test comment 2", "CFResultsUiT.instr@gmail.com");
         
-        resultsPage = loginToInstructorFeedbackSubmitPage("CFResultsUiT.instr", "Open Session", NO_STATUS_MESSAGE, false);
+        resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByRecipientGiverQuestion();
         resultsPage.verifyCommentRowContent("-1-1-1-1",
                 "test comment 1", "CFResultsUiT.instr@gmail.com");
@@ -285,7 +284,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.deleteFeedbackResponseComment("-1-1-1-1");
         resultsPage.verifyRowMissing("-1-1-1-1");
         
-        resultsPage = loginToInstructorFeedbackSubmitPage("CFResultsUiT.instr", "Open Session", NO_STATUS_MESSAGE, false);
+        resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByRecipientGiverQuestion();
         resultsPage.verifyCommentRowContent("-1-1-1-1",
                 "test comment 2", "CFResultsUiT.instr@gmail.com");
@@ -305,7 +304,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.deleteFeedbackResponseComment("-0");
         resultsPage.verifyRowMissing("-0");
         
-        resultsPage = loginToInstructorFeedbackSubmitPage("CFResultsUiT.instr", "Open Session", NO_STATUS_MESSAGE, false);
+        resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByRecipientGiverQuestion();
         resultsPage.verifyCommentRowContent("-1-1-1-1",
                 "test comment 2", "CFResultsUiT.instr@gmail.com");
@@ -332,7 +331,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         assertFalse(reportUrl.equals(afterReportDownloadUrl));
         
         //return to the previous page
-        loginToInstructorFeedbackSubmitPage("CFResultsUiT.instr", "Open Session", NO_STATUS_MESSAGE, false);
+        loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
     }
     
     public void testLink() {
@@ -347,7 +346,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         ______TS("Ajax for view by questions");
         
-        resultsPage = loginToInstructorFeedbackSubmitPageWithViewType("CFResultsUiT.instr", "Open Session", NO_STATUS_MESSAGE, true, "question");
+        resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "Open Session", true, "question");
         
         resultsPage.clickAjaxPanel(0);
         ThreadHelper.waitFor(500);
@@ -357,7 +356,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         ______TS("Ajax for view by giver > recipient > question");
         
-        resultsPage = loginToInstructorFeedbackSubmitPageWithViewType("CFResultsUiT.instr", "Open Session", NO_STATUS_MESSAGE, true, "giver-recipient-question");
+        resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "Open Session", true, "giver-recipient-question");
         
         resultsPage.clickAjaxPanel(0);
         ThreadHelper.waitFor(500);
@@ -366,7 +365,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         ______TS("Ajax for view by giver > question > recipient");
         
-        resultsPage = loginToInstructorFeedbackSubmitPageWithViewType("CFResultsUiT.instr", "Open Session", NO_STATUS_MESSAGE, true, "giver-question-recipient");
+        resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "Open Session", true, "giver-question-recipient");
         
         resultsPage.clickAjaxPanel(0);
         ThreadHelper.waitFor(500);
@@ -375,7 +374,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         ______TS("Ajax for view by recipient > question > giver");
         
-        resultsPage = loginToInstructorFeedbackSubmitPageWithViewType("CFResultsUiT.instr", "Open Session", NO_STATUS_MESSAGE, true, "recipient-question-giver");
+        resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "Open Session", true, "recipient-question-giver");
         
         resultsPage.clickAjaxPanel(0);
         ThreadHelper.waitFor(500);
@@ -384,7 +383,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         ______TS("Ajax for view by recipient > giver > question");
         
-        resultsPage = loginToInstructorFeedbackSubmitPageWithViewType("CFResultsUiT.instr", "Open Session", NO_STATUS_MESSAGE, true, "recipient-giver-question");
+        resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "Open Session", true, "recipient-giver-question");
         
         resultsPage.clickAjaxPanel(0);
         ThreadHelper.waitFor(500);
@@ -399,45 +398,21 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         BrowserPool.release(browser);
     }
     
-    private InstructorFeedbackResultsPage loginToInstructorFeedbackSubmitPage(
-            String instructorName, String fsName, String statusMessage, boolean needAjax) {
-        Url editUrl;
-        if(statusMessage != null && statusMessage.isEmpty()){
-            editUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE)
+    private InstructorFeedbackResultsPage loginToInstructorFeedbackResultsPage(String instructorName, String fsName) {
+        Url editUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE)
                     .withUserId(testData.instructors.get(instructorName).googleId)
                     .withCourseId(testData.feedbackSessions.get(fsName).courseId)
                     .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
-        } else {
-            editUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE)
-                    .withUserId(testData.instructors.get(instructorName).googleId)
-                    .withCourseId(testData.feedbackSessions.get(fsName).courseId)
-                    .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName)
-                    .withParam("message", statusMessage);
-        }
         
-        if(needAjax){
-            editUrl = editUrl.withParam(Const.ParamsNames.FEEDBACK_RESULTS_NEED_AJAX, String.valueOf(needAjax));
-        }
-        
-        return loginAdminToPage(browser, editUrl,
-                InstructorFeedbackResultsPage.class);
+        return loginAdminToPage(browser, editUrl, InstructorFeedbackResultsPage.class);
     }
     
-    private InstructorFeedbackResultsPage loginToInstructorFeedbackSubmitPageWithViewType(
-            String instructorName, String fsName, String statusMessage, boolean needAjax, String viewType) {
-        Url editUrl;
-        if(statusMessage != null && statusMessage.isEmpty()){
-            editUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE)
+    private InstructorFeedbackResultsPage loginToInstructorFeedbackResultsPageWithViewType(
+            String instructorName, String fsName, boolean needAjax, String viewType) {
+        Url editUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE)
                     .withUserId(testData.instructors.get(instructorName).googleId)
                     .withCourseId(testData.feedbackSessions.get(fsName).courseId)
                     .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
-        } else {
-            editUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE)
-                    .withUserId(testData.instructors.get(instructorName).googleId)
-                    .withCourseId(testData.feedbackSessions.get(fsName).courseId)
-                    .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName)
-                    .withParam("message", statusMessage);
-        }
         
         if(needAjax){
             editUrl = editUrl.withParam(Const.ParamsNames.FEEDBACK_RESULTS_NEED_AJAX, String.valueOf(needAjax));
