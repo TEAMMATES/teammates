@@ -55,7 +55,12 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("standard session results");
         
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
-        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageOpen.html");
+        resultsPage.verifyHtml("/instructorFeedbackResultsPageOpen.html");
+        
+        ______TS("standard session results with helper view");
+        
+        resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.helper", "Open Session");
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageOpenWithHelperView.html");
         
         ______TS("empty session");
         
