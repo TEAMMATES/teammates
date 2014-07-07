@@ -59,12 +59,17 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         ______TS("Awaiting session");
         
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Awaiting Session");
-        submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPageAwaiting.html");
+        submitPage.verifyHtml("/instructorFeedbackSubmitPageAwaiting.html");
         
         ______TS("Open session");
         
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
         submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPageOpen.html");
+        
+        ______TS("Open session with helper view");
+        
+        submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr2", "Open Session");
+        submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPageOpenWithHelperView.html");
         
         ______TS("Grace period session");
         
