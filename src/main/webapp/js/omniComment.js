@@ -2,6 +2,39 @@ $(document).ready(function(){
 	var classNameForCommentsInFeedbackResponse = "list-group-item list-group-item-warning giver_display-by";
 	var classNameForCommentsInStudentRecords = "panel panel-info student-record-comments giver_display-by";
 	
+	function isRedirectToSpecificComment(){
+		return $(location).attr('href').indexOf('#') != -1;
+	}
+	
+	function getRedirectSpecificCommentRow(){
+		var start = $(location).attr('href').indexOf('#');
+		var end = $(location).attr('href').length;
+		var rowId = $(location).attr('href').substring(start, end);
+		var row = $(rowId);
+		return row;
+	}
+	
+	function highlightRedirectSpecificCommentRow(row){
+		row.toggleClass('list-group-item-warning list-group-item-success');
+	}
+	
+	//for redirecting from search page, hide the header and highlight the specific comment row
+	if(isRedirectToSpecificComment() && getRedirectSpecificCommentRow().length > 0){
+		  $('.navbar').css('display','none');
+		  highlightRedirectSpecificCommentRow(getRedirectSpecificCommentRow());
+	} else if(isRedirectToSpecificComment() && getRedirectSpecificCommentRow().length == 0){
+		//TODO: impl this, e.g. display a status msg that cannot find the comment etc
+	}
+	
+	//re-display the hidden header
+	var scrollEventCounter = 0;
+	$( window ).scroll(function() {
+		if(isRedirectToSpecificComment() && scrollEventCounter > 0){
+			  $('.navbar').fadeIn("fast");
+		}
+		scrollEventCounter++;
+	});
+	
 	//make textarea supports displaying breakline
     $('div[id^="plainCommentText"]').each(function(){
 	    var commentTextWithBreakLine = $(this).text().replace(/\n/g, '\n<br />');

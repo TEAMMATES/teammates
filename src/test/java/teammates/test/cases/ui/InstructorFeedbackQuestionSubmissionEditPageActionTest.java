@@ -53,7 +53,6 @@ public class InstructorFeedbackQuestionSubmissionEditPageActionTest extends
 
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        //TODO: find a way to test status message from session
         AccountAttributes instructorAccount = dataBundle.accounts.get("instructor1OfCourse1");
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");

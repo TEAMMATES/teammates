@@ -3,6 +3,7 @@ package teammates.logic.core;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -32,6 +33,7 @@ import teammates.common.datatransfer.UserType;
 import teammates.common.datatransfer.UserType.Role;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.ExceedingRangeException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.NotImplementedException;
 import teammates.common.exception.UnauthorizedAccessException;
@@ -89,6 +91,29 @@ public class FeedbackSessionsLogic {
     public List<FeedbackSessionAttributes> getFeedbackSessionsForCourse(
             String courseId) {
         return fsDb.getFeedbackSessionsForCourse(courseId);
+    }
+
+    public FeedbackSessionAttributes copyFeedbackSession(
+            String newFeedbackSessionName, String newCourseId, String feedbackSessionName,
+            String courseId, String instructorEmail)
+            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+        FeedbackSessionAttributes copiedFeedbackSession = getFeedbackSession(
+                feedbackSessionName, courseId);
+        copiedFeedbackSession.creatorEmail = instructorEmail;
+        copiedFeedbackSession.feedbackSessionName = newFeedbackSessionName;
+        copiedFeedbackSession.courseId = newCourseId;
+        copiedFeedbackSession.createdTime = new Date();
+        fsDb.createEntity(copiedFeedbackSession);
+        
+        List<FeedbackQuestionAttributes> feedbackQuestions = fqLogic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
+        for(FeedbackQuestionAttributes question : feedbackQuestions){
+            question.courseId = newCourseId;
+            question.feedbackSessionName = newFeedbackSessionName;
+            question.creatorEmail =instructorEmail;
+            fqLogic.createFeedbackQuestion(question);
+        }
+        
+        return copiedFeedbackSession;
     }
 
     /**
@@ -358,7 +383,9 @@ public class FeedbackSessionsLogic {
         params.put("fromSection", "false");
         params.put("toSection", "false");
         params.put("section", section);
-        params.put("range", String.valueOf(range));
+        if(range > 0){
+            params.put("range", String.valueOf(range));
+        }
         params.put("viewType", viewType);
 
         return getFeedbackSessionResultsForUserWithParams(feedbackSessionName, courseId, userEmail, UserType.Role.INSTRUCTOR, roster, params);
@@ -381,8 +408,9 @@ public class FeedbackSessionsLogic {
         params.put("fromSection", "true");
         params.put("toSection", "false");
         params.put("section", section);
-        params.put("range", String.valueOf(range));
-
+        if(range > 0){
+            params.put("range", String.valueOf(range));
+        }
         return getFeedbackSessionResultsForUserWithParams(feedbackSessionName, courseId, userEmail, UserType.Role.INSTRUCTOR, roster, params);
     }
 
@@ -403,8 +431,9 @@ public class FeedbackSessionsLogic {
         params.put("fromSection", "false");
         params.put("toSection", "true");
         params.put("section", section);
-        params.put("range", String.valueOf(range));
-
+        if(range > 0){
+            params.put("range", String.valueOf(range));
+        }
         return getFeedbackSessionResultsForUserWithParams(feedbackSessionName, courseId, userEmail, UserType.Role.INSTRUCTOR, roster, params);
     }
     
@@ -526,51 +555,67 @@ public class FeedbackSessionsLogic {
 
     public String getFeedbackSessionResultsSummaryAsCsv(
             String feedbackSessionName, String courseId, String userEmail)
-            throws UnauthorizedAccessException, EntityDoesNotExistException {
-        FeedbackSessionResultsBundle results =
-                getFeedbackSessionResultsForInstructor(feedbackSessionName,
-                        courseId, userEmail);
+            throws UnauthorizedAccessException, EntityDoesNotExistException, ExceedingRangeException {
+        
+        return getFeedbackSessionResultsSummaryInSectionAsCsv(feedbackSessionName, courseId, userEmail, null);
+    }
 
+    public String getFeedbackSessionResultsSummaryInSectionAsCsv(
+            String feedbackSessionName, String courseId, String userEmail, String section)
+            throws UnauthorizedAccessException, EntityDoesNotExistException, ExceedingRangeException {
+        
+        long indicatedRange = (section == null) ? 10000 : -1;
+        FeedbackSessionResultsBundle results = getFeedbackSessionResultsForInstructorInSectionWithinRangeFromView(
+                feedbackSessionName, courseId, userEmail, section,
+                indicatedRange, "question");
+        
+        if(!results.isComplete){
+            throw new ExceedingRangeException("Number of responses exceeds the limited range");
+        }
         // sort responses by giver > recipient > qnNumber
         Collections.sort(results.responses,
                 results.compareByGiverRecipientQuestion);
+        
+        StringBuilder exportBuilder = new StringBuilder();
 
-        // TODO: use StringBuffer instead for better performance
-        String export = "";
+        exportBuilder.append("Course" + "," + Sanitizer.sanitizeForCsv(results.feedbackSession.courseId) + Const.EOL
+                + "Session Name" + "," + Sanitizer.sanitizeForCsv(results.feedbackSession.feedbackSessionName) + Const.EOL);
+        
+        if(section != null){
+            exportBuilder.append("Section Name" + "," + Sanitizer.sanitizeForCsv(section) + Const.EOL);
+        }
 
-        export += "Course" + "," + Sanitizer.sanitizeForCsv(results.feedbackSession.courseId) + Const.EOL
-                + "Session Name" + "," + Sanitizer.sanitizeForCsv(results.feedbackSession.feedbackSessionName)
-                + Const.EOL + Const.EOL + Const.EOL;
+        exportBuilder.append(Const.EOL + Const.EOL);
 
         for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry : results
                 .getQuestionResponseMap().entrySet()) {
             FeedbackQuestionAttributes question = entry.getKey();
             FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
 
-            export += "Question " + Integer.toString(entry.getKey().questionNumber) + "," 
+            exportBuilder.append("Question " + Integer.toString(entry.getKey().questionNumber) + "," 
                     + Sanitizer.sanitizeForCsv(questionDetails.questionText)
-                    + Const.EOL + Const.EOL;
+                    + Const.EOL + Const.EOL);
             
             String statistics = questionDetails.getQuestionResultStatisticsCsv(entry.getValue(),
                                         question, results);
             if(statistics != ""){
-                export += "Summary Statistics," + Const.EOL;
-                export += statistics + Const.EOL;
+                exportBuilder.append("Summary Statistics," + Const.EOL);
+                exportBuilder.append(statistics + Const.EOL);
             }
             
-            export += "Team" + "," + "Giver" + "," + "Recipient's Team" + ","
-                    + "Recipient" + "," + questionDetails.getCsvHeader() + Const.EOL;
+            exportBuilder.append("Team" + "," + "Giver" + "," + "Recipient's Team" + ","
+                    + "Recipient" + "," + questionDetails.getCsvHeader() + Const.EOL);
 
             for (FeedbackResponseAttributes response : entry.getValue()) {
-                export += Sanitizer.sanitizeForCsv(results.getTeamNameForEmail(response.giverEmail))
+                exportBuilder.append(Sanitizer.sanitizeForCsv(results.getTeamNameForEmail(response.giverEmail))
                         + "," + Sanitizer.sanitizeForCsv(results.getNameForEmail(response.giverEmail))
                         + "," + Sanitizer.sanitizeForCsv(results.getTeamNameForEmail(response.recipientEmail))
                         + "," + Sanitizer.sanitizeForCsv(results.getNameForEmail(response.recipientEmail))
-                        + "," + response.getResponseDetails().getAnswerCsv(questionDetails) + Const.EOL;
+                        + "," + response.getResponseDetails().getAnswerCsv(questionDetails) + Const.EOL);
             }
-            export += Const.EOL + Const.EOL;
+            exportBuilder.append(Const.EOL + Const.EOL);
         }
-        return export;
+        return exportBuilder.toString();
     }
 
     /**
@@ -1501,8 +1546,10 @@ public class FeedbackSessionsLogic {
                     .getFeedbackQuestionsForInstructor(questions,
                             fsa.isCreator(instructor.email));
             if (!instructorQns.isEmpty()) {
-                responseStatus.noResponse.add(instructor.name);
-                responseStatus.emailNameTable.put(instructor.email, instructor.name);
+                if(responseStatus.emailNameTable.get(instructor.email) == null){
+                    responseStatus.noResponse.add(instructor.name);
+                    responseStatus.emailNameTable.put(instructor.email, instructor.name);
+                }
             }
         }
 

@@ -1,12 +1,18 @@
 package teammates.test.cases.ui.browsertests;
 
+import java.io.File;
+
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
+import teammates.common.util.FileHelper;
+import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.common.util.Url;
+import teammates.common.util.Utils;
+import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
@@ -36,15 +42,11 @@ public class MashupPageUiTest extends BaseUiTestCase {
     }
 
     private void uploadNewPhotoForStudent() throws Exception {
-        StudentProfilePage profilePage = getProfilePageForStudent("benny.c.tmms");
-        profilePage.fillProfilePic("src/test/resources/images/profile_pic_updated.png");
-        profilePage.uploadPicture();
-    }
-    
-    private StudentProfilePage getProfilePageForStudent(String studentId) {
-        Url profileUrl = createUrl(Const.ActionURIs.STUDENT_PROFILE_PAGE)
-            .withUserId(testData.accounts.get(studentId).googleId);
-        return loginAdminToPage(browser, profileUrl, StudentProfilePage.class);
+        String googleId = testData.accounts.get("benny.c.tmms").googleId;
+        File picture = new File("src/test/resources/images/profile_pic_updated.png");
+        String pictureData = Utils.getTeammatesGson().toJson(FileHelper.readFileAsBytes(picture.getAbsolutePath()));
+         
+        BackDoor.uploadAndUpdateStudentProfilePicture(googleId, pictureData);
     }
 
     @AfterClass

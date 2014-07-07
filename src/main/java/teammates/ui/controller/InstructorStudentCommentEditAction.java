@@ -2,6 +2,7 @@ package teammates.ui.controller;
 
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
@@ -42,13 +43,17 @@ public class InstructorStudentCommentEditAction extends Action {
         
         try {
             if(editType.equals("edit")){
-                logic.updateComment(comment);
+                CommentAttributes updatedComment = logic.updateComment(comment);
+                //TODO: move putDocument to task queue
+                logic.putDocument(updatedComment);
+                
                 statusToUser.add(Const.StatusMessages.COMMENT_EDITED);
                 statusToAdmin = "Edited Comment for Student:<span class=\"bold\">(" +
                         comment.recipients + ")</span> for Course <span class=\"bold\">[" +
                         comment.courseId + "]</span><br>" +
                         "<span class=\"bold\">Comment:</span> " + comment.commentText;
             } else if(editType.equals("delete")){
+                logic.deleteDocument(comment);
                 logic.deleteComment(comment);
                 statusToUser.add(Const.StatusMessages.COMMENT_DELETED);
                 statusToAdmin = "Deleted Comment for Student:<span class=\"bold\">(" +
@@ -87,12 +92,8 @@ public class InstructorStudentCommentEditAction extends Action {
         } else if (commentRecipientType == CommentRecipientType.SECTION) {
             new GateKeeper().verifyAccessible(instructor, course, recipients, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS);
         } else if (commentRecipientType == CommentRecipientType.TEAM) {
-            List<StudentAttributes> students;
-            try {
-                students = logic.getStudentsForTeam(recipients, courseId);
-            } catch(EntityDoesNotExistException e) {
-                students = new ArrayList<StudentAttributes>();
-            }
+            List<StudentAttributes> students = logic.getStudentsForTeam(recipients, courseId);
+
             if (students.isEmpty()) { // considered as a serious bug in coding or user submitted corrupted data
                 Assumption.fail();
             } else {
@@ -172,6 +173,7 @@ public class InstructorStudentCommentEditAction extends Action {
             comment.sendingState = CommentSendingState.PENDING;
         }
         comment.commentText = commentText;
+        comment.createdAt = new Date();
         
         return comment;
     }

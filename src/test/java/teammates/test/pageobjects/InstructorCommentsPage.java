@@ -3,6 +3,7 @@ package teammates.test.pageobjects;
 import static org.testng.AssertJUnit.assertEquals;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -43,10 +44,6 @@ public class InstructorCommentsPage extends AppPage {
         waitForPageToLoad();
     }
     
-    public void clickStudentCommentRow(int rowIdx){
-        getStudentCommentRow(rowIdx).click();
-    }
-    
     public void showCommentsForAll(){
         browser.driver.findElement(By.id("panel_all")).click();;
     }
@@ -76,17 +73,10 @@ public class InstructorCommentsPage extends AppPage {
     public WebElement getStudentCommentRow(int rowIdx) {
         return browser.driver.findElement(By.id("form_commentedit-" + rowIdx));
     }
-    
-    public WebElement getStudentCommentEditForRow(int rowIdx) {
-        return browser.driver.findElement(By.id("commentedit-" + rowIdx));
-    }
 
     public void clickStudentCommentEditForRow(int i) {
-        getStudentCommentEditForRow(i).click();
-    }
-    
-    public WebElement getStudentCommentDeleteForRow(int i) {
-        return browser.driver.findElement(By.id("commentdelete-" + i));
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
+        jsExecutor.executeScript("document.getElementById('"+"commentedit-"+i+"').click();");
     }
 
     public void fillTextareaToEditStudentCommentForRow(int i, String text){
@@ -126,13 +116,10 @@ public class InstructorCommentsPage extends AppPage {
         waitForPageToLoad();
     }
 
-    public void clickResponseCommentRow(int sessionIdx, int questionIdx, int responseIdx, int commentIdx) {
-        browser.driver.findElement(By.id("responseCommentRow-" + sessionIdx + "-" + questionIdx + "-" + responseIdx + "-" + commentIdx)).click();
-        waitForPageToLoad();
-    }
-
     public void clickResponseCommentEdit(int sessionIdx, int questionIdx, int responseIdx, int commentIdx) {
-        browser.driver.findElement(By.id("commentedit-" + sessionIdx + "-" + questionIdx + "-" + responseIdx + "-" + commentIdx)).click();
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
+        jsExecutor.executeScript("document.getElementById('"
+                + "commentedit-" + sessionIdx + "-" + questionIdx + "-" + responseIdx + "-" + commentIdx + "').click();");
         waitForPageToLoad();
     }
 
@@ -142,7 +129,9 @@ public class InstructorCommentsPage extends AppPage {
     }
 
     public void clickResponseCommentDelete(int sessionIdx, int questionIdx, int responseIdx, int commentIdx) {
-        browser.driver.findElement(By.id("commentdelete-" + sessionIdx + "-" + questionIdx + "-" + responseIdx + "-" + commentIdx)).click();
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
+        jsExecutor.executeScript("document.getElementById('"
+                + "commentdelete-" + sessionIdx + "-" + questionIdx + "-" + responseIdx + "-" + commentIdx + "').click();");
         waitForPageToLoad();
     }
     

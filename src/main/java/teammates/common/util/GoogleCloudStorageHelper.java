@@ -1,11 +1,9 @@
-package teammates.test.util;
+package teammates.common.util;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
-import teammates.common.util.FileHelper;
-import teammates.common.util.Config;
 import teammates.logic.api.Logic;
 
 import com.google.appengine.api.blobstore.BlobKey;
@@ -25,16 +23,7 @@ public class GoogleCloudStorageHelper {
     public static String writeFileToGcs(String googleId, String filename, String suffix) throws IOException {
         byte[] image = FileHelper.readFile(filename).getBytes();
         
-        GcsFilename gcsFilename = new GcsFilename(Config.GCS_BUCKETNAME, googleId + suffix);
-        gcsService = GcsServiceFactory.createGcsService(RetryParams.getDefaultInstance());
-        GcsOutputChannel outputChannel =
-                gcsService.createOrReplace(gcsFilename, new GcsFileOptions.Builder().mimeType("image/png").build());
-
-        outputChannel.write(ByteBuffer.wrap(image));
-        outputChannel.close();
-        
-        return BlobstoreServiceFactory.getBlobstoreService()
-                .createGsBlobKey("/gs/"+Config.GCS_BUCKETNAME + "/" + googleId + suffix).getKeyString();
+        return writeDataToGcs(googleId, image, suffix);
     }
     
     public static boolean doesFileExistInGcs(String googleId, boolean isGcsFilename) throws IOException {
@@ -58,5 +47,19 @@ public class GoogleCloudStorageHelper {
         } catch (IllegalArgumentException e) {
             return false;
         }
+    }
+
+    public static String writeDataToGcs(String googleId, byte[] pictureData,
+            String suffix) throws IOException {
+        GcsFilename gcsFilename = new GcsFilename(Config.GCS_BUCKETNAME, googleId + suffix);
+        gcsService = GcsServiceFactory.createGcsService(RetryParams.getDefaultInstance());
+        GcsOutputChannel outputChannel =
+                gcsService.createOrReplace(gcsFilename, new GcsFileOptions.Builder().mimeType("image/png").build());
+
+        outputChannel.write(ByteBuffer.wrap(pictureData));
+        outputChannel.close();
+        
+        return BlobstoreServiceFactory.getBlobstoreService()
+                .createGsBlobKey("/gs/"+Config.GCS_BUCKETNAME + "/" + googleId + suffix).getKeyString();
     }
 }

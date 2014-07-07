@@ -12,6 +12,7 @@ import javax.mail.internet.MimeMessage;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentRecipientType;
+import teammates.common.datatransfer.CommentSearchResultBundle;
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
@@ -24,6 +25,7 @@ import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionBundle;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
@@ -41,6 +43,7 @@ import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.ExceedingRangeException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.JoinCourseException;
 import teammates.common.exception.NotImplementedException;
@@ -885,8 +888,7 @@ public class Logic {
      * * All parameters are non-null.
      * @return Empty list if none found.
      */
-    public List<StudentAttributes> getStudentsForSection(String section, String courseId)
-            throws EntityDoesNotExistException {
+    public List<StudentAttributes> getStudentsForSection(String section, String courseId) {
 
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, section);
@@ -899,8 +901,7 @@ public class Logic {
      * * All parameters are non-null.
      * @return Empty list if none found.
      */
-    public List<StudentAttributes> getStudentsForTeam(String team, String courseId)
-            throws EntityDoesNotExistException {
+    public List<StudentAttributes> getStudentsForTeam(String team, String courseId) {
 
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, team);
@@ -1469,6 +1470,23 @@ public class Logic {
 
         feedbackSessionsLogic.createFeedbackSession(feedbackSession);
     }
+    
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     */
+    public FeedbackSessionAttributes copyFeedbackSession(String copiedFeedbackSessionName, String copiedCourseId, String feedbackSessionName, String courseId, String instructorEmail)
+            throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
+        
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, copiedFeedbackSessionName);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, copiedCourseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorEmail);
+
+        return feedbackSessionsLogic.copyFeedbackSession(copiedFeedbackSessionName, copiedCourseId, feedbackSessionName, courseId, instructorEmail);
+    }
+    
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
@@ -1589,8 +1607,7 @@ public class Logic {
      * 
      */
     public FeedbackQuestionAttributes
-            getFeedbackQuestion(String feedbackQuestionId)
-                    throws EntityDoesNotExistException {
+            getFeedbackQuestion(String feedbackQuestionId) {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackQuestionId);
         
         return feedbackQuestionsLogic.getFeedbackQuestion(feedbackQuestionId);
@@ -1636,12 +1653,27 @@ public class Logic {
      * * All parameters are non-null. <br>
      */
     public String getFeedbackSessionResultSummaryAsCsv(String courseId, String feedbackSessionName, String instructorEmail) 
-            throws EntityDoesNotExistException {
+            throws EntityDoesNotExistException, ExceedingRangeException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
         
         return feedbackSessionsLogic.getFeedbackSessionResultsSummaryAsCsv(feedbackSessionName, courseId, instructorEmail);
+    }
+
+    /**
+     * Generates summary results (without comments) within a section in CSV format. <br>
+     * Preconditions: <br>
+     * * All parameters are non-null. <br>
+     */
+    public String getFeedbackSessionResultSummaryInSectionAsCsv(String courseId, String feedbackSessionName, String instructorEmail, String section) 
+            throws EntityDoesNotExistException, ExceedingRangeException {
+        
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, section);
+
+        return feedbackSessionsLogic.getFeedbackSessionResultsSummaryInSectionAsCsv(feedbackSessionName, courseId, instructorEmail, section);
     }
     
     /**
@@ -1739,6 +1771,21 @@ public class Logic {
     }
     
     /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     */
+    public FeedbackQuestionAttributes copyFeedbackQuestion(String feedbackQuestionId, String feedbackSessionName, String courseId, String instructorEmail)
+            throws InvalidParametersException {
+        
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackQuestionId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorEmail);
+
+        return feedbackQuestionsLogic.copyFeedbackQuestion(feedbackQuestionId, feedbackSessionName, courseId, instructorEmail);
+    }
+    
+    /**
      * Updates the question number of a Feedback Question.<br>
      * Preconditions: <br>
      * * All parameters are non-null.
@@ -1789,6 +1836,19 @@ public class Logic {
     
     public boolean isQuestionHasResponses(String feedbackQuestionId){
             return feedbackQuestionsLogic.isQuestionHasResponses(feedbackQuestionId);
+    }
+    
+    /**
+     * Gets all copiable questions for an instructor<br>
+     * Returns an empty list if they are no questions
+     * for the session.
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     */
+    public List<FeedbackQuestionAttributes> getCopiableFeedbackQuestionsForInstructor(String googleId) throws EntityDoesNotExistException {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
+        
+        return feedbackQuestionsLogic.getCopiableFeedbackQuestionsForInstructor(googleId);
     }
     
     /**
@@ -2114,21 +2174,37 @@ public class Logic {
     }
     
     /**
+     * Create a feedback response comment, and return the created comment
      * Preconditions: <br>
      * * All parameters are non-null.
      * @throws EntityDoesNotExistException 
      */
-    public void createFeedbackResponseComment(FeedbackResponseCommentAttributes feedbackResponseComment)
+    public FeedbackResponseCommentAttributes createFeedbackResponseComment(FeedbackResponseCommentAttributes feedbackResponseComment)
             throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackResponseComment);
 
-        feedbackResponseCommentsLogic.createFeedbackResponseComment(feedbackResponseComment);
+        return feedbackResponseCommentsLogic.createFeedbackResponseComment(feedbackResponseComment);
+    }
+    
+    /**
+     * @deprecated Not scalable. Don't use unless in admin features.
+     */
+    @Deprecated
+    public List<FeedbackResponseCommentAttributes> getAllFeedbackResponseComments() {
+        return feedbackResponseCommentsLogic.getAllFeedbackResponseComments();
     }
     
     public FeedbackResponseCommentAttributes getFeedbackResponseComment(Long feedbackResponseCommentId) {
         Assumption.assertNotNull(feedbackResponseCommentId);
         
         return feedbackResponseCommentsLogic.getFeedbackResponseComment(feedbackResponseCommentId);
+    }
+    
+    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentForGiver(String courseId, String giverEmail) {
+        Assumption.assertNotNull(courseId);
+        Assumption.assertNotNull(giverEmail);
+        
+        return feedbackResponseCommentsLogic.getFeedbackResponseCommentsForGiver(courseId, giverEmail);
     }
     
     /**
@@ -2155,28 +2231,44 @@ public class Logic {
         return feedbackResponseCommentsLogic.getFeedbackResponseCommentsForSendingState(courseId, state);
     }
     
+    public void putDocument(FeedbackResponseCommentAttributes comment){
+        feedbackResponseCommentsLogic.putDocument(comment);
+    }
+    
+    public void deleteDocument(FeedbackResponseCommentAttributes comment){
+        feedbackResponseCommentsLogic.deleteDocument(comment);
+    }
+    
+    public FeedbackResponseCommentSearchResultBundle searchFeedbackResponseComments(String queryString, String googleId, String cursorString){
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, queryString);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, cursorString);
+        return feedbackResponseCommentsLogic.searchFeedbackResponseComments(queryString, googleId, cursorString);
+    }
+    
     /**
+     * Update a feedback response comment and return the updated feedback response comment
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public void updateFeedbackResponseComment(FeedbackResponseCommentAttributes feedbackResponseComment)
+    public FeedbackResponseCommentAttributes updateFeedbackResponseComment(FeedbackResponseCommentAttributes feedbackResponseComment)
             throws EntityDoesNotExistException, InvalidParametersException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackResponseComment);
 
-        feedbackResponseCommentsLogic.updateFeedbackResponseComment(feedbackResponseComment);
+        return feedbackResponseCommentsLogic.updateFeedbackResponseComment(feedbackResponseComment);
     }
     
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public void updateFeedbackResponseComments(String courseId, CommentSendingState oldState, CommentSendingState newState)
+    public void updateFeedbackResponseCommentsSendingState(String courseId, CommentSendingState oldState, CommentSendingState newState)
             throws EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, oldState);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, newState);
 
-        feedbackResponseCommentsLogic.updateFeedbackResponseComments(courseId, oldState, newState);
+        feedbackResponseCommentsLogic.updateFeedbackResponseCommentsSendingState(courseId, oldState, newState);
     }
 
     /**
@@ -2194,19 +2286,42 @@ public class Logic {
     }
     
     /**
+     * Create a comment, and return the created comment
      * Preconditions: <br>
      * * All parameters are non-null.
      * @throws EntityDoesNotExistException 
      */
-    public void createComment(CommentAttributes comment)
+    public CommentAttributes createComment(CommentAttributes comment)
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, comment);
-        commentsLogic.createComment(comment);
+        return commentsLogic.createComment(comment);
+    }
+    
+    /**
+     * @deprecated Not scalable. Don't use unless in admin features.
+     */
+    @Deprecated
+    public List<CommentAttributes> getAllComments() {
+        return commentsLogic.getAllComments();
     }
     
     public CommentAttributes getComment(Long commentId) {
         Assumption.assertNotNull(commentId);
         return commentsLogic.getComment(commentId);
+    }
+    
+    public void putDocument(CommentAttributes comment){
+        commentsLogic.putDocument(comment);
+    }
+    
+    public void deleteDocument(CommentAttributes comment){
+        commentsLogic.deleteDocument(comment);
+    }
+    
+    public CommentSearchResultBundle searchComment(String queryString, String googleId, String cursorString) {
+        Assumption.assertNotNull(queryString);
+        Assumption.assertNotNull(googleId);
+        return commentsLogic.searchComment(queryString, googleId, cursorString);
     }
     
     /**
@@ -2224,22 +2339,23 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public void updateComments(String courseId, CommentSendingState oldState, CommentSendingState newState)
+    public void updateCommentsSendingState(String courseId, CommentSendingState oldState, CommentSendingState newState)
             throws EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, oldState);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, newState);
-        commentsLogic.updateComments(courseId, oldState, newState);
+        commentsLogic.updateCommentsSendingState(courseId, oldState, newState);
     }
     
     /**
+     * Update a comment, and return the updated comment
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public void updateComment(CommentAttributes comment)
+    public CommentAttributes updateComment(CommentAttributes comment)
             throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, comment);
-        commentsLogic.updateComment(comment);
+        return commentsLogic.updateComment(comment);
     }
     
     /**

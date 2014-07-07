@@ -228,32 +228,28 @@
                                             </div>
                                             <div class="panel-body">
                                                 <div class="col-sm-3">
-                                                    <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE%>"
-                                                    id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE%>forinstructor<%=index%>" value="true" 
+                                                    <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE%>" value="true" 
                                                     <% if (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE)) { %>
                                                         checked="checked"
                                                     <% } %>
                                                     /> Edit/Delete Course
                                                 </div>
                                                 <div class="col-sm-3">
-                                                    <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR%>"
-                                                    id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR%>forinstructor<%=index%>" value="true"
+                                                    <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR%>" value="true"
                                                     <% if (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR)) { %>
                                                         checked="checked"
                                                     <% } %>
                                                     /> Add/Edit/Delete Instructors
                                                 </div>
                                                 <div class="col-sm-3">
-                                                    <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION%>"
-                                                    id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION%>forinstructor<%=index%>" value="true"
+                                                    <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION%>" value="true"
                                                     <% if (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION)) { %>
                                                         checked="checked"
                                                     <% } %>
                                                     /> Create/Edit/Delete Sessions
                                                 </div>
                                                 <div class="col-sm-3">
-                                                    <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT%>"
-                                                    id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT%>forinstructor<%=index%>" value="true"
+                                                    <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT%>" value="true"
                                                     <% if (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT)) { %>
                                                         checked="checked"
                                                     <% } %>
@@ -261,46 +257,39 @@
                                                 </div>
                                                 <br><br>
                                                 <div class="col-sm-6 border-right-gray">
-                                                    <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS%>"
-                                                    id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS%>forinstructor<%=index%>" value="true"
+                                                    <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS%>" value="true"
                                                     <%if (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)) {%>
                                                         checked="checked"
                                                     <%}%>
                                                     /> View Students' Details<br>
-                                                    <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS%>"
-                                                    id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS%>forinstructor<%=index%>" value="true"
+                                                    <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS%>" value="true"
                                                     <%if (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS)) {%>
                                                         checked="checked"
                                                     <%}%>
                                                     /> Give Comments for Students<br>
-                                                    <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS%>"
-                                                    id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS%>forinstructor<%=index%>" value="true"
+                                                    <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS%>" value="true"
                                                     <%if (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS)) {%>
                                                         checked="checked"
                                                     <%}%>
                                                     /> View Others' Comments on Students<br>
-                                                    <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS%>"
-                                                    id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS%>forinstructor<%=index%>" value="true"
+                                                    <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS%>" value="true"
                                                     <%if (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS)) {%>
                                                         checked="checked"
                                                     <%}%>
                                                     /> Edit/Delete Others' Comments on Students<br>
                                                 </div>
                                                 <div class="col-sm-5 col-sm-offset-1">
-                                                    <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS%>"
-                                                    id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS%>forinstructor<%=index%>" value="true"
+                                                    <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS%>" value="true"
                                                     <%if (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)) {%>
                                                         checked="checked"
                                                     <%}%>
                                                     /> Sessions: Submit Responses and Add Comments<br>
-                                                    <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS%>"
-                                                    id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS%>forinstructor<%=index%>" value="true"
+                                                    <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS%>" value="true"
                                                     <%if (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)) {%>
                                                         checked="checked"
                                                     <%}%>
                                                     /> Sessions: View Responses and Comments<br>
-                                                    <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS%>"
-                                                    id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS%>forinstructor<%=index%>" value="true"
+                                                    <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS%>" value="true"
                                                     <%if (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS)) {%>
                                                         checked="checked"
                                                     <%}%>
@@ -387,7 +376,7 @@
                                                             <%}%>
                                                             /> Sessions: Edit/Delete Responses/Comments by Others<br><br>
                                                         </div>
-                                                        <% if (!data.evalNames.isEmpty() && !data.feedbackNames.isEmpty()) { %>
+                                                        <% if (!data.evalNames.isEmpty() || !data.feedbackNames.isEmpty()) { %>
                                                         <a href="javascript:;" 
                                                             <% if (!instructor.privileges.isSessionsInSectionSpecial(data.sectionNames.get(j))) { %> 
                                                             onclick="showTuneSessionnPermissionsDiv(<%=index%>, <%=j%>)"
@@ -585,23 +574,23 @@
                                     <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" 
                                     id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=data.instructorList.size()+1%>"
                                      value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER%>" 
-                                     checked="checked">&nbsp;Co-owner: can do everything<br>
+                                     checked="checked">&nbsp;Co-owner: Can do everything<br>
                                     <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" 
                                     id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=data.instructorList.size()+1%>"
                                      value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER%>"
-                                     >&nbsp;Manager: can do everything except for deleting the course<br>
+                                     >&nbsp;Manager: Can do everything except for deleting the course<br>
                                     <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" 
                                     id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=data.instructorList.size()+1%>"
                                      value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER%>"
-                                     >&nbsp;Observer: can only view courses<br>
+                                     >&nbsp;Observer: Can only view information<br>
                                     <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" 
                                     id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=data.instructorList.size()+1%>"
                                      value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR%>"
-                                     >&nbsp;Tutor: manage section(s)<br>
+                                     >&nbsp;Tutor: Can submit/view sessions and comments(s)<br>
                                     <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" 
                                     id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=data.instructorList.size()+1%>"
                                      value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_HELPER%>"
-                                     >&nbsp;Helper: helping out<br>
+                                     >&nbsp;Helper: No access by default. Any access needs to be granted explicitly.<br>
                                 </div>
                             </div>
                             <div id="tunePermissionsDivForInstructor<%=data.instructorList.size()+1%>" style="display: none;">
@@ -614,48 +603,37 @@
                                             <div class="panel-body">
                                                 <div class="col-sm-3">
                                                     <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE%>"
-                                                    id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE%>forinstructor<%=data.instructorList.size()+1%>"
                                                     value="true" checked="checked" /> Edit/Delete Course
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR%>"
-                                                    id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR%>forinstructor<%=data.instructorList.size()+1%>"
                                                     value="true" checked="checked" /> Add/Edit/Delete Instructors
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION%>"
-                                                    id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION%>forinstructor<%=data.instructorList.size()+1%>"
                                                     value="true" checked="checked" /> Create/Edit/Eelete Sessions
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT%>"
-                                                    id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT%>forinstructor<%=data.instructorList.size()+1%>"
                                                     value="true" checked="checked" /> Enroll/Edit/Delete Students
                                                 </div>
                                                 <br><br>
                                                 <div class="col-sm-6 border-right-gray">
                                                     <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS%>"
-                                                    id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS%>forinstructor<%=data.instructorList.size()+1%>"
                                                     value="true" checked="checked" /> View Students' Details<br>
                                                     <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS%>"
-                                                    id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS%>forinstructor<%=data.instructorList.size()+1%>"
                                                     value="true" checked="checked" /> Give Comments for Students<br>
                                                     <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS%>"
-                                                    id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS%>forinstructor<%=data.instructorList.size()+1%>"
                                                     value="true" checked="checked" /> View Others' Comments on Students<br>
                                                     <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS%>"
-                                                    id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS%>forinstructor<%=data.instructorList.size()+1%>"
                                                     value="true" checked="checked" /> Edit/Delete Others' Comments on Students<br>
                                                 </div>
                                                 <div class="col-sm-5 col-sm-offset-1">
                                                     <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS%>"
-                                                    id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS%>forinstructor<%=data.instructorList.size()+1%>"
                                                     value="true" checked="checked" /> Sessions: Submit Responses and Add Comments<br>
                                                     <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS%>"
-                                                    id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS%>forinstructor<%=data.instructorList.size()+1%>"
                                                     value="true" checked="checked" /> Sessions: View Responses and Comments<br>
                                                     <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS%>"
-                                                    id="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS%>forinstructor<%=data.instructorList.size()+1%>"
                                                     value="true" checked="checked" /> Sessions: Edit/Delete Responses/Comments by others<br>
                                                 </div>
                                             </div>
@@ -703,7 +681,7 @@
                                                             <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS + 
                                                             Const.ParamsNames.INSTRUCTOR_SECTION + j%>" value="true" checked="checked"/> Sessions: Edit/Delete Responses/Comments by Others<br><br>
                                                         </div>
-                                                        <% if (!data.evalNames.isEmpty() && !data.feedbackNames.isEmpty()) { %>
+                                                        <% if (!data.evalNames.isEmpty() || !data.feedbackNames.isEmpty()) { %>
                                                         <a href="javascript:;" onclick="toggleTuneSessionnPermissionsDiv(<%=data.instructorList.size()+1%>, <%=j%>)"
                                                             id="toggleSessionLevelInSection<%=j%>ForInstructor<%=data.instructorList.size()+1%>"
                                                             class="small col-sm-5">Configure session-level privileges</a>      

@@ -9,24 +9,47 @@ import java.util.logging.Logger;
 import javax.jdo.JDOHelper;
 import javax.jdo.Query;
 
-import com.google.appengine.api.datastore.Text;
+import com.google.appengine.api.search.Results;
+import com.google.appengine.api.search.ScoredDocument;
 
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentRecipientType;
+import teammates.common.datatransfer.CommentSearchResultBundle;
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CommentStatus;
 import teammates.common.datatransfer.EntityAttributes;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Utils;
 import teammates.storage.entity.Comment;
+import teammates.storage.search.CommentSearchDocument;
+import teammates.storage.search.CommentSearchQuery;
 
 public class CommentsDb extends EntitiesDb{
     
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Comment: ";
     private static final Logger log = Utils.getLogger();
+    
+    @Override
+    public CommentAttributes createEntity(EntityAttributes entityToAdd) 
+            throws InvalidParametersException, EntityAlreadyExistsException{
+        Comment createdEntity = (Comment) super.createEntity(entityToAdd);
+        if(createdEntity == null){
+            log.info("Trying to get non-existent Comment, possibly entity not persistent yet.");
+            return null;
+        } else{
+            CommentAttributes createdComment = new CommentAttributes(createdEntity);
+            return createdComment;
+        }
+    }
+    
+    public void deleteDocument(CommentAttributes commentToDelete){
+        CommentAttributes comment = getComment(commentToDelete);
+        deleteDocument(Const.SearchIndex.COMMENT, comment.getCommentId().toString());
+    }
     
     public CommentAttributes getComment(Long commentId){
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, commentId);
@@ -47,8 +70,9 @@ public class CommentsDb extends EntitiesDb{
             comment = getCommentEntity(commentToGet.getCommentId());
         }
         if(comment == null){
+            commentToGet.sanitizeForSaving();
             comment = getCommentEntity(commentToGet.courseId, commentToGet.giverEmail, commentToGet.recipientType,
-                commentToGet.recipients, commentToGet.commentText, commentToGet.createdAt);
+                commentToGet.recipients, commentToGet.createdAt);
         }
         if(comment == null){
             log.info("Trying to get non-existent Comment: " + commentToGet);
@@ -148,7 +172,7 @@ public class CommentsDb extends EntitiesDb{
         getPM().close();
     }
 
-    public void updateComment(CommentAttributes newAttributes) throws InvalidParametersException, EntityDoesNotExistException{
+    public CommentAttributes updateComment(CommentAttributes newAttributes) throws InvalidParametersException, EntityDoesNotExistException{
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT,  newAttributes);
         
         newAttributes.sanitizeForSaving();
@@ -161,8 +185,6 @@ public class CommentsDb extends EntitiesDb{
         if (comment == null) {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + newAttributes.toString());
         }
-        
-
 
         if(newAttributes.commentText != null){
             comment.setCommentText(newAttributes.commentText);
@@ -188,6 +210,45 @@ public class CommentsDb extends EntitiesDb{
         comment.setSendingState(newAttributes.sendingState);
         
         getPM().close();
+        
+        CommentAttributes updatedComment = new CommentAttributes(comment);
+        return updatedComment;
+    }
+    
+    public void putDocument(CommentAttributes comment){
+        putDocument(Const.SearchIndex.COMMENT, new CommentSearchDocument(comment));
+    }
+    
+    public CommentSearchResultBundle search(String queryString, String googleId, String cursorString){
+        if(queryString.trim().isEmpty())
+            return new CommentSearchResultBundle();
+        
+        Results<ScoredDocument> results = searchDocuments(Const.SearchIndex.COMMENT, 
+                new CommentSearchQuery(googleId, queryString, cursorString));
+        
+        return new CommentSearchResultBundle().fromResults(results, googleId);
+    }
+    
+    @Deprecated
+    public List<CommentAttributes> getAllComments() {
+        
+        List<CommentAttributes> list = new ArrayList<CommentAttributes>();
+        List<Comment> entities = getAllCommentEntities();
+        for(Comment comment: entities){
+            list.add(new CommentAttributes(comment));
+        }
+        return list;
+    }
+    
+    private List<Comment> getAllCommentEntities() {
+        
+        String query = "select from " + Comment.class.getName();
+            
+        @SuppressWarnings("unchecked")
+        List<Comment> commentList = (List<Comment>) getPM()
+                .newQuery(query).execute();
+    
+        return commentList;
     }
     
     private List<Comment> getCommentEntitiesForSendingState(String courseId, CommentSendingState sendingState){
@@ -264,7 +325,7 @@ public class CommentsDb extends EntitiesDb{
         } else{
             commentToGet.sanitizeForSaving();
             return getCommentEntity(commentToGet.courseId, commentToGet.giverEmail, commentToGet.recipientType,
-                    commentToGet.recipients, commentToGet.commentText, commentToGet.createdAt);
+                    commentToGet.recipients, commentToGet.createdAt);
         }
     }
     
@@ -284,7 +345,7 @@ public class CommentsDb extends EntitiesDb{
     }
     
     private Comment getCommentEntity(String courseId, String giverEmail, CommentRecipientType recipientType,
-            Set<String> recipients, Text commentText, Date date) {
+            Set<String> recipients, Date date) {
         String firstRecipient = recipients.iterator().next();
         List<Comment> commentList = getCommentEntitiesForReceiver(courseId, recipientType, firstRecipient);
         
@@ -296,7 +357,6 @@ public class CommentsDb extends EntitiesDb{
         //we have to compare the texts separately.
         for(Comment comment : commentList){
             if(comment.getGiverEmail().equals(giverEmail)
-                    && comment.getCommentText().equals(commentText)
                     && comment.getCreatedAt().equals(date)
                     && comment.getRecipients().equals(recipients)) {
                 return comment;

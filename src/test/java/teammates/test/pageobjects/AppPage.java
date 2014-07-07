@@ -25,6 +25,7 @@ import org.apache.http.params.HttpParams;
 import org.cyberneko.html.parsers.DOMParser;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
@@ -435,12 +436,33 @@ public abstract class AppPage {
     }
     
     /**
+     * Clicks the hidden element and clicks 'Yes' in the follow up dialog box. 
+     * Fails if there is no dialog box.
+     * @return the resulting page.
+     */
+    public AppPage clickHiddenElementAndConfirm(String elementId) {
+        respondToAlertWithRetryForHiddenElement(elementId, true);
+        waitForPageToLoad();
+        return this;
+    }
+    
+    /**
      * Clicks the element and clicks 'No' in the follow up dialog box. 
      * Fails if there is no dialog box.
      * @return the resulting page.
      */
     public void clickAndCancel(WebElement elementToClick){
         respondToAlertWithRetry(elementToClick, false);
+        waitForPageToLoad();
+    }
+    
+    /**
+     * Clicks the hidden element and clicks 'No' in the follow up dialog box. 
+     * Fails if there is no dialog box.
+     * @return the resulting page.
+     */
+    public void clickHiddenElementAndCancel(String elementId){
+        respondToAlertWithRetryForHiddenElement(elementId, false);
         waitForPageToLoad();
     }
     
@@ -590,7 +612,7 @@ public abstract class AppPage {
 
     private boolean testAndRunGodMode(String filePath, String content) {        
         
-        if (System.getProperty("godmode") != null) {
+        if (System.getProperty("godmode") != null && System.getProperty("godmode").equals("true")) {
             assert(TestProperties.inst().isDevServer());
             if (areTestAccountsDefaultValues()) {
                 Assumption.fail("Please change ALL the default accounts in test.properties in order to use GodMode."
@@ -611,16 +633,17 @@ public abstract class AppPage {
     private String processPageSourceForGodMode(String content) {
         return content
                 .replaceAll("<#comment[ ]*</#comment>", "<!---->")
+                .replace(Config.APP_URL, "{$app.url}")
                 .replaceAll("V[0-9]\\.[0-9]+", "V{\\$version}")
                 // photo from instructor
                 .replaceAll("studentemail=([a-zA-Z0-9]){1,}\\&amp;courseid=([a-zA-Z0-9]){1,}", 
                             "studentemail={*}\\&amp;courseid={*}")
-                //questionid
-                .replaceAll("([a-zA-Z0-9-_]){62}","{*}")
                 //responseid
-                .replaceAll("([a-zA-Z0-9-_]){62}%"
+                .replaceAll("([a-zA-Z0-9-_]){30,}%"
                         + "[\\w+-][\\w+!#$%&'*/=?^_`{}~-]*+(\\.[\\w+!#$%&'*/=?^_`{}~-]+)*+@([A-Za-z0-9-]+\\.)*[A-Za-z]+%"
                         + "[\\w+-][\\w+!#$%&'*/=?^_`{}~-]*+(\\.[\\w+!#$%&'*/=?^_`{}~-]+)*+@([A-Za-z0-9-]+\\.)*[A-Za-z]+", "{*}")
+                //questionid
+                .replaceAll("([a-zA-Z0-9-_]){62,}","{*}")
                 //commentid
                 .replaceAll("\\\"([0-9]){16}\\\"", "\\\"{*}\\\"")
                 // the test accounts/ email
@@ -853,6 +876,21 @@ public abstract class AppPage {
 
     private void respondToAlertWithRetry(WebElement elementToClick, boolean isConfirm) {
         elementToClick.click();    
+        //This method might fail at times due to a Selenium bug
+        //  See https://code.google.com/p/selenium/issues/detail?id=3544
+        //  The delay below is a temporary workaround to minimize the failure rate.
+        ThreadHelper.waitFor(250);
+        Alert alert = browser.driver.switchTo().alert();
+        if(isConfirm){
+            alert.accept();
+        }else {
+            alert.dismiss();
+        }
+    }
+    
+    private void respondToAlertWithRetryForHiddenElement(String hiddenElementIdToClick, boolean isConfirm) {
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
+        jsExecutor.executeScript("document.getElementById('"+hiddenElementIdToClick+"').click();");
         //This method might fail at times due to a Selenium bug
         //  See https://code.google.com/p/selenium/issues/detail?id=3544
         //  The delay below is a temporary workaround to minimize the failure rate.

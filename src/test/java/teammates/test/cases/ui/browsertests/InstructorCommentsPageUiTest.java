@@ -8,6 +8,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
+import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
@@ -32,53 +33,46 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         testScripts();
         testActions();
     }
+    
+    private void testConent() {
+        
+        ______TS("content: no course");
+        
+        Url commentsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE)
+            .withUserId(testData.accounts.get("instructorWithoutCourses").googleId);
 
-    private void testActions() {
-        ______TS("action: edit student comment");
-        commentsPage.clickStudentCommentRow(1);
-        commentsPage.clickStudentCommentEditForRow(1);
-        commentsPage.fillTextareaToEditStudentCommentForRow(1, "");
-        commentsPage.saveEditStudentCommentForRow(1);
-        commentsPage.verifyStatus("Please enter a valid comment. The comment can't be empty.");
-        commentsPage.fillTextareaToEditStudentCommentForRow(1, "edited student comment");
-        commentsPage.saveEditStudentCommentForRow(1);
-        commentsPage.verifyContains("edited student comment");
-        commentsPage.verifyStatus(Const.StatusMessages.COMMENT_EDITED);
+        commentsPage = loginAdminToPage(browser, commentsPageUrl, InstructorCommentsPage.class);
+
+        commentsPage.verifyHtml("/instructorCommentsPageForEmptyCourse.html");
         
-        ______TS("action: delete student comment");
-        commentsPage.clickStudentCommentRow(1);
-        commentsPage.clickAndCancel(commentsPage.getStudentCommentDeleteForRow(1));
-        commentsPage.clickAndConfirm(commentsPage.getStudentCommentDeleteForRow(1));
-        commentsPage.verifyStatus(Const.StatusMessages.COMMENT_DELETED);
+        ______TS("content: course with no comment");
         
-        ______TS("action: add feedback response comment");
-        commentsPage.clickResponseCommentAdd(1, 1, 1);
-        commentsPage.fillTextareaToEditResponseComment(1, 1, 1, "");
-        commentsPage.addResponseComment(1, 1, 1);
-        commentsPage.verifyCommentFormErrorMessage("1-1-1", "Comment cannot be empty");
-        commentsPage.fillTextareaToEditResponseComment(1, 1, 1, "added response comment");
-        commentsPage.addResponseComment(1, 1, 1);
-        commentsPage.reloadPage();
-        commentsPage.verifyContains("added response comment");
+        commentsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE)
+            .withUserId(testData.accounts.get("instructorWithOnlyOneSampleCourse").googleId);
+
+        commentsPage = loginAdminToPage(browser, commentsPageUrl, InstructorCommentsPage.class);
+
+        commentsPage.verifyHtmlMainContent("/instructorCommentsPageForCourseWithoutComment.html");
         
-        ______TS("action: edit feedback response comment");
-        commentsPage.clickResponseCommentRow(1, 1, 1, 1);
-        commentsPage.clickResponseCommentEdit(1, 1, 1, 1);
-        commentsPage.fillTextareaToEditResponseComment(1, 1, 1, 1, "");
-        commentsPage.saveResponseComment(1, 1, 1, 1);
-        commentsPage.verifyCommentFormErrorMessage("1-1-1-1", "Comment cannot be empty");
-        commentsPage.fillTextareaToEditResponseComment(1, 1, 1, 1, "edited response comment");
-        commentsPage.saveResponseComment(1, 1, 1, 1);
-        commentsPage.reloadPage();
-        commentsPage.verifyContains("edited response comment");
+        ______TS("content: typical course with comments with helper view");
         
-        ______TS("action: delete feedback response comment");
-        commentsPage.clickResponseCommentRow(1, 1, 1, 1);
-        commentsPage.clickResponseCommentDelete(1, 1, 1, 1);
-        commentsPage.reloadPage();
-        commentsPage.verifyHtmlMainContent("/instructorCommentsPageAfterTestScript.html");
+        commentsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE)
+            .withUserId(testData.accounts.get("helperOfCourse1").googleId);
+
+        commentsPage = loginAdminToPage(browser, commentsPageUrl, InstructorCommentsPage.class);
+
+        commentsPage.verifyHtmlMainContent("/instructorCommentsForTypicalCourseWithCommentsWithHelperView.html");
+         
+        ______TS("content: typical course with comments");
+        
+        commentsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE)
+            .withUserId(testData.accounts.get("instructor1OfCourse1").googleId);
+
+        commentsPage = loginAdminToPage(browser, commentsPageUrl, InstructorCommentsPage.class);
+
+        commentsPage.verifyHtmlMainContent("/instructorCommentsPageForTypicalCourseWithComments.html");
     }
-
+    
     private void testScripts() {
         ______TS("script: include archived course");
         
@@ -120,33 +114,45 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.verifyHtmlMainContent("/instructorCommentsPageShowCommentsFromOthers.html");
     }
 
-    private void testConent() {
-        ______TS("content: no course");
+    private void testActions() {
+        ______TS("action: edit student comment");
+        commentsPage.clickStudentCommentEditForRow(1);
+        commentsPage.fillTextareaToEditStudentCommentForRow(1, "");
+        commentsPage.saveEditStudentCommentForRow(1);
+        commentsPage.verifyStatus("Please enter a valid comment. The comment can't be empty.");
+        commentsPage.fillTextareaToEditStudentCommentForRow(1, "edited student comment");
+        commentsPage.saveEditStudentCommentForRow(1);
+        commentsPage.verifyContains("edited student comment");
+        commentsPage.verifyStatus(Const.StatusMessages.COMMENT_EDITED);
         
-        Url commentsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE)
-            .withUserId(testData.accounts.get("instructorWithoutCourses").googleId);
-
-        commentsPage = loginAdminToPage(browser, commentsPageUrl, InstructorCommentsPage.class);
-
-        commentsPage.verifyHtmlMainContent("/instructorCommentsPageForEmptyCourse.html");
+        ______TS("action: delete student comment");
+        commentsPage.clickHiddenElementAndCancel("commentdelete-" + 1);
+        commentsPage.clickHiddenElementAndConfirm("commentdelete-" + 1);
+        commentsPage.verifyStatus(Const.StatusMessages.COMMENT_DELETED);
         
-        ______TS("content: course with no comment");
+        ______TS("action: add feedback response comment");
+        commentsPage.clickResponseCommentAdd(1, 1, 1);
+        commentsPage.fillTextareaToEditResponseComment(1, 1, 1, "");
+        commentsPage.addResponseComment(1, 1, 1);
+        commentsPage.verifyCommentFormErrorMessage("1-1-1", "Comment cannot be empty");
+        commentsPage.fillTextareaToEditResponseComment(1, 1, 1, "added response comment");
+        commentsPage.addResponseComment(1, 1, 1);
+        commentsPage.reloadPage();
         
-        commentsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE)
-            .withUserId(testData.accounts.get("instructorWithOnlyOneSampleCourse").googleId);
-
-        commentsPage = loginAdminToPage(browser, commentsPageUrl, InstructorCommentsPage.class);
-
-        commentsPage.verifyHtmlMainContent("/instructorCommentsPageForCourseWithoutComment.html");
+        ______TS("action: edit feedback response comment");
+        commentsPage.clickResponseCommentEdit(1, 1, 1, 1);
+        commentsPage.fillTextareaToEditResponseComment(1, 1, 1, 1, "");
+        commentsPage.saveResponseComment(1, 1, 1, 1);
+        commentsPage.verifyCommentFormErrorMessage("1-1-1-1", "Comment cannot be empty");
+        commentsPage.fillTextareaToEditResponseComment(1, 1, 1, 1, "edited response comment");
+        commentsPage.saveResponseComment(1, 1, 1, 1);
+        commentsPage.reloadPage();
         
-        ______TS("content: typical course with comments");
-        
-        commentsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE)
-            .withUserId(testData.accounts.get("instructor1OfCourse1").googleId);
-
-        commentsPage = loginAdminToPage(browser, commentsPageUrl, InstructorCommentsPage.class);
-
-        commentsPage.verifyHtmlMainContent("/instructorCommentsPageForTypicalCourseWithComments.html");
+        ______TS("action: delete feedback response comment");
+        commentsPage.clickResponseCommentDelete(1, 1, 1, 1);
+        commentsPage.reloadPage();
+        ThreadHelper.waitFor(1500);
+        commentsPage.verifyHtmlMainContent("/instructorCommentsPageAfterTestScript.html");
     }
     
     @AfterClass
