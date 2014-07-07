@@ -14,6 +14,13 @@
             "email":"comments.instr2@course1.com",
             "institute":"National University of Singapore"
         },
+        "helperOfCourse1":{
+            "googleId":"comments.idOfHelperOfCourse1",
+            "name":"Instructor 2 of Course 1",
+            "isInstructor":true,
+            "email":"comments.Helper@course1.com",
+            "institute":"National University of Singapore"
+        },
         "instructorWithoutCourses":{
             "googleId":"comments.instructorWithoutCourses",
             "name":"Instructor Without Courses",
@@ -83,7 +90,8 @@
             "name":"Instructor1 Course1",
             "email":"comments.instructor1@course1.com",
             "role":"Co-owner",
-            "displayedName":"Co-owner",
+            "isDisplayedToStudents":true,
+            "displayedName":"Instructor",
             "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
         },
         "instructor2OfCourse1":{
@@ -92,8 +100,19 @@
             "name":"Instructor2 Course1",
             "email":"comments.instructor2@course1.com",
             "role":"Manager",
-            "displayedName":"Manager",
-            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": false,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+            "isDisplayedToStudents":true,
+            "displayedName":"Instructor",
+            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+        },
+        "helperOfCourse1":{
+            "googleId":"comments.idOfHelperOfCourse1",
+            "courseId":"comments.idOfTypicalCourse1",
+            "name":"Instructor2 Course1",
+            "email":"comments.Helper@course1.com",
+            "role":"Helper",
+            "isDisplayedToStudents":true,
+            "displayedName":Instructor",
+            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": false,\n    \"cangivecommentinsection\": false,\n    \"cansubmitsessioninsection\": false,\n    \"canmodifysessioncommentinsection\": false,\n    \"canmodifycommentinsection\": false,\n    \"canmodifycourse\": false,\n    \"canviewsessioninsection\": false,\n    \"canmodifysession\": false,\n    \"canviewcommentinsection\": false,\n    \"canmodifystudent\": false,\n    \"canmodifyinstructor\": false\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
         },
         "instructorWithOnlyOneSampleCourse":{
             "googleId":"comments.idOfInstructorWithSampleCourse",
@@ -101,7 +120,8 @@
             "name":"Instructor With Only One Sample Course",
             "email":"comments.iwosc@yahoo.com",
             "role":"Co-owner",
-            "displayedName":"Co-owner",
+            "isDisplayedToStudents":true,
+            "displayedName":"Instructor",
             "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
         },
         "instructorOfArchivedCourse":{
@@ -110,7 +130,8 @@
             "name":"InstructorOfArchiveCourse name",
             "email":"comments.instructor1@course1.com",
             "role":"Co-owner",
-            "displayedName":"Co-owner",
+            "isDisplayedToStudents":true,
+            "displayedName":"Instructor",
             "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
         }
     },
@@ -414,7 +435,7 @@
             "showGiverNameTo": [PERSON],
             "showRecipientNameTo": [PERSON],
             "receiverEmail":"comments.student1InCourse1@gmail.com",
-            "createdAt":"2012-05-01 08:51 AM UTC",
+            "createdAt":"2012-05-01 08:49 AM UTC",
             "commentText":{
                 "value":"recipient can see this comment with giver and recipient's name"
             }
@@ -429,7 +450,7 @@
             "showGiverNameTo": [],
             "showRecipientNameTo": [],
             "receiverEmail":"comments.student1InCourse1@gmail.com",
-            "createdAt":"2012-05-02 08:51 AM UTC",
+            "createdAt":"2012-05-02 08:50 AM UTC",
             "commentText":{
                 "value":"recipient can see this comment without giver's name"
             }
@@ -459,7 +480,7 @@
             "showGiverNameTo": [],
             "showRecipientNameTo": [],
             "receiverEmail":"comments.student1InCourse1@gmail.com",
-            "createdAt":"2012-05-04 08:51 AM UTC",
+            "createdAt":"2012-05-04 08:52 AM UTC",
             "commentText":{
                 "value":"teammates can see this comment without giver and recipient's name"
             }
@@ -474,7 +495,7 @@
             "showGiverNameTo": [TEAM],
             "showRecipientNameTo": [TEAM],
             "receiverEmail":"Team 1.1",
-            "createdAt":"2012-05-05 08:51 AM UTC",
+            "createdAt":"2012-05-05 08:53 AM UTC",
             "commentText":{
                 "value":"team can see this comment with giver and recipient's name"
             }
@@ -489,7 +510,7 @@
             "showGiverNameTo": [],
             "showRecipientNameTo": [],
             "receiverEmail":"Team 1.1",
-            "createdAt":"2012-05-07 08:51 AM UTC",
+            "createdAt":"2012-05-07 08:54 AM UTC",
             "commentText":{
                 "value":"team can see this comment without giver's name"
             }
@@ -504,7 +525,7 @@
             "showGiverNameTo": [],
             "showRecipientNameTo": [],
             "receiverEmail":"comments.student1InCourse1@gmail.com",
-            "createdAt":"2012-05-06 08:51 AM UTC",
+            "createdAt":"2012-05-06 08:55 AM UTC",
             "commentText":{
                 "value":"Other students in this course can see this comment without giver and recipient's name"
             }
@@ -549,9 +570,24 @@
             "showGiverNameTo": [],
             "showRecipientNameTo": [],
             "receiverEmail":"comments.idOfTypicalCourse1",
-            "createdAt":"2012-06-02 07:20 PM UTC",
+            "createdAt":"2012-06-02 07:21 PM UTC",
             "commentText":{
                 "value":"Other instructors in this course can see this comment without names"
+            }
+        },
+        "privateCommentFromHelper":{
+            "courseId":"comments.idOfTypicalCourse1",
+            "giverEmail":"comments.Helper@course1.com",
+            "recipientType":"COURSE",
+            "recipients":["comments.idOfTypicalCourse1"],
+            "status": "FINAL",
+            "showCommentTo": [],
+            "showGiverNameTo": [],
+            "showRecipientNameTo": [],
+            "receiverEmail":"comments.idOfTypicalCourse1",
+            "createdAt":"2012-06-02 07:22 PM UTC",
+            "commentText":{
+                "value":"This is a private comment--cannot seen by other instructors"
             }
         }
         

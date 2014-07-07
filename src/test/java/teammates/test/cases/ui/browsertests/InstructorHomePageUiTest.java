@@ -13,6 +13,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
@@ -52,6 +53,8 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
     private static FeedbackSessionAttributes feedbackSession_CLOSED;
     private static FeedbackSessionAttributes feedbackSession_PUBLISHED;
 
+    // TODO: refactor this test. try to use admin login or create instructors and courses not using json 
+    
     @BeforeClass
     public static void classSetup() throws Exception {
         printTestClassHeader();
@@ -143,12 +146,24 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.clickHomeTab();
         homePage.verifyHtmlMainContent("/InstructorHomeNewInstructorWithSampleCourse.html");
         
-        
         ______TS("content: multiple courses");
         
         loadFinalHomePageTestData();
         homePage.clickHomeTab();
+        homePage.verifyHtmlAjax("/InstructorHomeHTMLWithHelperView.html");
+        updateInstructorToCoownerPrivileges();
+        homePage.clickHomeTab();
         homePage.verifyHtmlAjax("/InstructorHomeHTML.html");
+    }
+
+    private void updateInstructorToCoownerPrivileges() {
+        // update current instructor for CS1101 to have Co-owner privileges
+        InstructorAttributes instructor = testData.instructors.get("CHomeUiT.instr.CS1101");
+        BackDoor.deleteInstructor(instructor.courseId, instructor.email);
+        instructor.privileges = instructor.getInstructorPrivilegesFromText();
+        instructor.privileges.setDefaultPrivilegesForCoowner();
+        instructor.instructorPrivilegesAsText = instructor.getTextFromInstructorPrivileges();
+        BackDoor.createInstructor(instructor);
     }
     
     public void testHelpLink() throws Exception{
