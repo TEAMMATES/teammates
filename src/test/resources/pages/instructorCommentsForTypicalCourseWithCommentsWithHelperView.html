@@ -5,28 +5,19 @@
                     <div class="col-sm-6">
                         <h1>Comments from Instructors</h1>
                     </div>
-                    <!-- <div class="col-sm-5 instructor-header-bar">
-                        <form method="post" action="#"
-                            name="search_form">
+                    <div class="col-sm-6 instructor-header-bar">
+                        <form method="get" action="/page/instructorSearchPage?user=comments.idOfHelperOfCourse1" name="search_form">
                             <div class="input-group">
-                                <input type="text" name="searchkey"
-                                    title="Search for comment"
-                                    class="form-control"
-                                    placeholder="Any info related to comments"
-                                    id="searchBox"> <span
-                                    class="input-group-btn">
-                                    <button class="btn btn-default"
-                                        type="submit" value="Search"
-                                        id="buttonSearch">Search</button>
+                                <input name="searchkey" title="Search for comment" class="form-control" placeholder="Any info related to comments" id="searchBox" type="text"> 
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="submit" value="Search" id="buttonSearch">Search</button>
                                 </span>
                             </div>
+                            <input name="searchcommentforstudents" value="true" type="hidden">
+                            <input name="searchcommentforresponses" value="true" type="hidden">
+                            <input name="user" value="comments.idOfHelperOfCourse1" type="hidden">
                         </form>
                     </div>
-                    <div class="col-md-1 instructor-header-bar">
-                        <a class="btn btn-primary btn-md"
-                            href="./omniComment_bulkEdit.html">
-                            Comment in Bulk </a>
-                    </div> -->
                 </div>
             </div>
             <br>

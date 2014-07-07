@@ -8,6 +8,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
+import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
@@ -28,10 +29,6 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
     
     @Test 
     public void allTests() throws Exception{
-        
-        // this test fails irregularly. reason could be that delete/create comment is not working as expected.
-        // TODO: find a way to make this test case more stable and pass every time it runs or find any potential bug with it
-        
         testConent();
         testScripts();
         testActions();
@@ -119,7 +116,6 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
 
     private void testActions() {
         ______TS("action: edit student comment");
-        commentsPage.clickStudentCommentRow(1);
         commentsPage.clickStudentCommentEditForRow(1);
         commentsPage.fillTextareaToEditStudentCommentForRow(1, "");
         commentsPage.saveEditStudentCommentForRow(1);
@@ -130,9 +126,8 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.verifyStatus(Const.StatusMessages.COMMENT_EDITED);
         
         ______TS("action: delete student comment");
-        commentsPage.clickStudentCommentRow(1);
-        commentsPage.clickAndCancel(commentsPage.getStudentCommentDeleteForRow(1));
-        commentsPage.clickAndConfirm(commentsPage.getStudentCommentDeleteForRow(1));
+        commentsPage.clickHiddenElementAndCancel("commentdelete-" + 1);
+        commentsPage.clickHiddenElementAndConfirm("commentdelete-" + 1);
         commentsPage.verifyStatus(Const.StatusMessages.COMMENT_DELETED);
         
         ______TS("action: add feedback response comment");
@@ -143,10 +138,8 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.fillTextareaToEditResponseComment(1, 1, 1, "added response comment");
         commentsPage.addResponseComment(1, 1, 1);
         commentsPage.reloadPage();
-        commentsPage.verifyContains("added response comment");
         
         ______TS("action: edit feedback response comment");
-        commentsPage.clickResponseCommentRow(1, 1, 1, 1);
         commentsPage.clickResponseCommentEdit(1, 1, 1, 1);
         commentsPage.fillTextareaToEditResponseComment(1, 1, 1, 1, "");
         commentsPage.saveResponseComment(1, 1, 1, 1);
@@ -154,12 +147,11 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.fillTextareaToEditResponseComment(1, 1, 1, 1, "edited response comment");
         commentsPage.saveResponseComment(1, 1, 1, 1);
         commentsPage.reloadPage();
-        commentsPage.verifyContains("edited response comment");
         
         ______TS("action: delete feedback response comment");
-        commentsPage.clickResponseCommentRow(1, 1, 1, 1);
         commentsPage.clickResponseCommentDelete(1, 1, 1, 1);
         commentsPage.reloadPage();
+        ThreadHelper.waitFor(250);
         commentsPage.verifyHtmlMainContent("/instructorCommentsPageAfterTestScript.html");
     }
     

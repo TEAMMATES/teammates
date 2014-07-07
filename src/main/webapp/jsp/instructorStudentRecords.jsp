@@ -92,7 +92,7 @@
                     String pictureUrl = Const.ActionURIs.STUDENT_PROFILE_PICTURE + 
                         "?blob-key=" + data.studentProfile.pictureKey +
                         "&user="+data.account.googleId;
-                    if (data.studentProfile.pictureKey == "") {
+                    if (data.studentProfile.pictureKey.isEmpty()) {
                         pictureUrl = Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH;
                     }
             %>
@@ -111,7 +111,7 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td class="text-bold">Shortname (Gender)</td>
+                                                <td class="text-bold">Short Name (Gender)</td>
                                                 <td><%=data.studentProfile.shortName.isEmpty() ? "<i class='text-muted'>" + Const.STUDENT_PROFILE_FIELD_NOT_FILLED + "</i>" : data.studentProfile.shortName %> 
                                                 (<i>
                                                     <%=data.studentProfile.gender.equals(Const.GenderTypes.OTHER) ?

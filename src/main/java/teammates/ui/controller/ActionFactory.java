@@ -90,6 +90,7 @@ public class ActionFactory {
         map(INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE, InstructorFeedbackQuestionSubmissionEditPageAction.class);
         map(INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_SAVE, InstructorFeedbackQuestionSubmissionEditSaveAction.class);
         map(INSTRUCTOR_HOME_PAGE, InstructorHomePageAction.class);
+        map(INSTRUCTOR_SEARCH_PAGE, InstructorSearchPageAction.class);
         map(INSTRUCTOR_STUDENT_LIST_PAGE, InstructorStudentListPageAction.class);
         map(INSTRUCTOR_STUDENT_RECORDS_PAGE, InstructorStudentRecordsPageAction.class);
         
