@@ -20,5 +20,9 @@
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/appengine-gcs-client-0.3.13.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/guava-15.0.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/google-api-services-storage-v1beta2-rev47-1.18.0-rc.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/jackson-core-2.1.3.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/gcs dependencies"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/google-api-client-appengine-1.18.0-rc.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/google-api-client-1.18.0-rc.jar"/>
 	<classpathentry kind="output" path="src/main/webapp/WEB-INF/classes"/>
 </classpath>

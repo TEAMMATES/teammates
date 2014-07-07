@@ -2,7 +2,7 @@
             <div id="topOfPage"></div>
             <div id="headerOperation">
                 <h1>Session Results</h1>
-            </div>
+            </div>            
             
 
 
@@ -57,6 +57,7 @@
               <input name="user" value="CFResultsUiT.instr" type="hidden">
               <input name="fsname" value="First Session" type="hidden">
               <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
+              <input name="sectionname" value="All" type="hidden">
           </div>
         </div>
         </div>
@@ -77,13 +78,13 @@
                         </label>
                         <div class="col-sm-10">
                             <select id="viewSelect" class="form-control" name="frsorttype" onchange="this.form.submit()">
-                                <option value="question">
+                                <option value="question" selected="selected">
                                     Group by - Question
                                 </option>
                                 <option value="giver-recipient-question">
                                     Group by - Giver &gt; Recipient &gt; Question
                                 </option>
-                                <option value="recipient-giver-question" selected="selected">
+                                <option value="recipient-giver-question">
                                     Group by - Recipient &gt; Giver &gt; Question
                                 </option>
                                 <option value="giver-question-recipient">
@@ -103,7 +104,7 @@
                         </label>
                         <div class="col-sm-10">
                             <div class="input-group">
-                                <input id="results-search-box" class="form-control" placeholder="Type a student/team name to filter results" onchange="updateResultsFilter()" type="text">
+                                <input id="results-search-box" class="form-control" placeholder="Type question info to filter results" onchange="updateResultsFilter()" type="text">
                                 <a class="input-group-addon btn btn-default"><span class="glyphicon glyphicon-search"></span></a>
                             </div>
                         </div>
@@ -112,14 +113,14 @@
                 <div class="col-sm-2 pull-right">
                   <div data-original-title="Group results in the current view by team" class="col-sm-12" data-toggle="tooltip" title="">
                       <div class="checkbox padding-top-0 min-height-0">
-                          <label>
-                              <input name="frgroupbyteam" onchange="this.form.submit()" type="checkbox"> Group by Teams
+                          <label class="text-strike">
+                              <input name="frgroupbyteam" id="frgroupbyteam" type="checkbox"> Group by Teams
                           </label>
                       </div>
                   </div>
                   <div data-original-title="Show statistics" class="col-sm-12" data-toggle="tooltip" title="">
                       <div class="checkbox padding-top-0 min-height-0">
-                          <label class="text-strike">
+                          <label>
                               <input id="show-stats-checkbox" name="frshowstats" checked="checked" type="checkbox"> Show Statistics
                           </label>
                       </div>
@@ -154,8 +155,8 @@
                 
                 <div class="col-sm-7 pull-right" style="padding-top:8px;">
                     
-                    <a data-original-title="Collapse or expand all panels. You can also click on the panel heading to toggle each one individually." class="btn btn-default btn-xs pull-right" id="collapse-panels-button" onclick="toggleCollapse()" data-toggle="tooltip" title="">
-                        Collapse All
+                    <a data-original-title="Collapse or expand all panels. You can also click on the panel heading to toggle each one individually." class="btn btn-default btn-xs pull-right" id="collapse-panels-button" onclick="toggleCollapse(this)" data-toggle="tooltip" title="">
+                        Collapse Questions
                     </a>
                     
                 </div>
@@ -167,7 +168,7 @@
     <input name="user" value="CFResultsUiT.instr" type="hidden">
 </form>
 
-
+<br>
 
 
 
@@ -175,663 +176,1112 @@
 
     <div id="statusMessage" style="display: none;"></div>
 
+<br>
 
 
             <br>
             
-
-            
-            
-
-
-            <div class="panel panel-primary">
+            <div class="panel panel-info">
                 <div style="cursor: pointer;" data-target="#panelBodyCollapse-1" class="panel-heading">
-                    To: <strong>-</strong>
-                        <a class="link-in-dark-bg" href="mailTo:%GENERAL% " style="display:none;">[%GENERAL%]</a>
+                    <form style="display:none;" id="seeMore-1" class="seeMoreForm-1" action="/page/instructorFeedbackResultsAjaxByQuestions">
+                        <input name="questionnum" value="1" type="hidden">
+                        <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
+                        <input name="fsname" value="First Session" type="hidden">
+                        <input name="user" value="CFResultsUiT.instr" type="hidden">
+                        <input name="frsorttype" value="question" type="hidden">
+                    </form>
+                    <div class="display-icon pull-right">
                     <span class="glyphicon glyphicon-chevron-up pull-right"></span>
+                    </div>
+                    <strong>Question 1: </strong>Rate 3 other students' products
                 </div>
                 <div id="panelBodyCollapse-1" class="panel-collapse collapse in">
-                <div class="panel-body">
-                
-                        <div class="row ">
-                            <div class="col-md-2"><strong>From: Teammates Test (Instructors)</strong></div>
-                            <div class="col-md-10">
-                            
-                                    <div class="panel panel-info">
-                                        <div class="panel-heading">Question 3: My comments on the class</div>
-                                        <div class="panel-body">
-                                            <div style="clear:both; overflow: hidden">
-                                                <div class="pull-left">This is for nobody specific.</div>
-                                                <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(1,1,1)" data-toggle="tooltip" data-placement="top" title="">
-                                                    <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
-                                                </button>
-                                            </div>
-                                            
-                                            <ul class="list-group" id="responseCommentTable-1-1-1" style="display:none">
-                                            
-                                        <!-- frComment Add form -->    
-                                        <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-1-1-1" style="display:none;">
-                                            <form class="responseCommentAddForm">
-                                                <div class="form-group">
-                                                    <textarea class="form-control" rows="3" placeholder="Your comment about this response" name="responsecommenttext" id="responseCommentAddForm-1-1-1"></textarea>
-                                                </div>
-                                                <div class="col-sm-offset-5">
-                                                    <a href="/page/instructorFeedbackResponseCommentAdd" type="button" class="btn btn-primary" id="button_save_comment_for_add-1-1-1">Add</a>
-                                                    <input class="btn btn-default" value="Cancel" onclick="hideResponseCommentAddForm(1,1,1)" type="button">
-                                                    <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
-                                                    <input name="fsname" value="First Session" type="hidden">
-                                                    <input name="questionid" value="{*}" type="hidden">                                            
-                                                    <input name="responseid" value="{*}%CFResultsUiT.instr@gmail.com%%GENERAL%" type="hidden">
-                                                    <input name="user" value="CFResultsUiT.instr" type="hidden">
-                                                </div>
-                                            </form>
-                                        </li>
-                                    </ul></div></div>
-                            
-                        </div></div>
-                
+                <div class="panel-body padding-0">
+                                    
+                    <div class="resultStatistics">
+                        
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered dataTable margin-0">
+                            <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                                <tr>
+                                    <th id="button_sortFromName" onclick="toggleSort(this,1)" style="width: 15%;">
+                                        Giver
+                                    </th>
+                                    <th id="button_sortFromTeam" onclick="toggleSort(this,2)" style="width: 15%;">
+                                        Team
+                                    </th>
+                                    <th id="button_sortToName" onclick="toggleSort(this,3)" style="width: 15%;">
+                                        Recipient
+                                    </th>
+                                    <th id="button_sortToTeam" class="button-sort-ascending" onclick="toggleSort(this,4)" style="width: 15%;">
+                                        Team
+                                    </th>
+                                    <th id="button_sortFeedback" onclick="toggleSort(this,5)">
+                                        Feedback
+                                    </th>
+                                </tr>
+                            </thead><thead>
+                            </thead><tbody>
+                                
+                                <tr>
+                                
+                                    <td class="middlealign">Alice Betsy</td>
+                                    <td class="middlealign">Team 1</td>
+                                    <td class="middlealign">Benny Charles</td>
+                                    <td class="middlealign">Team 1</td>
+                                    <td class="multiline">2 Response to Benny.</td>
+                                </tr>        
+                                
+                                <tr>
+                                
+                                    <td class="middlealign">Benny Charles</td>
+                                    <td class="middlealign">Team 1</td>
+                                    <td class="middlealign">Charlie Dávis</td>
+                                    <td class="middlealign">Team 2</td>
+                                    <td class="multiline">4 Response to Charlie.</td>
+                                </tr>        
+                                
+                                <tr>
+                                
+                                    <td class="middlealign">Benny Charles</td>
+                                    <td class="middlealign">Team 1</td>
+                                    <td class="middlealign">Danny Engrid</td>
+                                    <td class="middlealign">Team 2</td>
+                                    <td class="multiline">1 Response to Danny.</td>
+                                </tr>        
+                                
+                                <tr>
+                                
+                                    <td class="middlealign">Charlie Dávis</td>
+                                    <td class="middlealign">Team 2</td>
+                                    <td class="middlealign">Emily</td>
+                                    <td class="middlealign">Team 3</td>
+                                    <td class="multiline">3 Response to Emily.</td>
+                                </tr>        
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                    
                 </div>
                 </div>
             </div>
-        
             
-
-
-            <div class="panel panel-primary">
+            <div class="panel panel-info">
                 <div style="cursor: pointer;" data-target="#panelBodyCollapse-2" class="panel-heading">
-                    To: <strong>Alice Betsy (Team 1)</strong>
-                        <a class="link-in-dark-bg" href="mailTo:CFResultsUiT.alice.b@gmail.com ">[CFResultsUiT.alice.b@gmail.com]</a>
+                    <form style="display:none;" id="seeMore-2" class="seeMoreForm-2" action="/page/instructorFeedbackResultsAjaxByQuestions">
+                        <input name="questionnum" value="2" type="hidden">
+                        <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
+                        <input name="fsname" value="First Session" type="hidden">
+                        <input name="user" value="CFResultsUiT.instr" type="hidden">
+                        <input name="frsorttype" value="question" type="hidden">
+                    </form>
+                    <div class="display-icon pull-right">
                     <span class="glyphicon glyphicon-chevron-up pull-right"></span>
+                    </div>
+                    <strong>Question 2: </strong>What is the best selling point of your product?
                 </div>
                 <div id="panelBodyCollapse-2" class="panel-collapse collapse in">
-                <div class="panel-body">
-                
-                        <div class="row ">
-                            <div class="col-md-2"><strong>From: Alice Betsy (Team 1)</strong></div>
-                            <div class="col-md-10">
-                            
-                                    <div class="panel panel-info">
-                                        <div class="panel-heading">Question 2: What is the best selling point of your product?</div>
-                                        <div class="panel-body">
-                                            <div style="clear:both; overflow: hidden">
-                                                <div class="pull-left">Alice self feedback.</div>
-                                                <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(2,1,1)" data-toggle="tooltip" data-placement="top" title="">
-                                                    <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
-                                                </button>
-                                            </div>
-                                            
-                                            <ul class="list-group" id="responseCommentTable-2-1-1" style="display:none">
-                                            
-                                        <!-- frComment Add form -->    
-                                        <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-2-1-1" style="display:none;">
-                                            <form class="responseCommentAddForm">
-                                                <div class="form-group">
-                                                    <textarea class="form-control" rows="3" placeholder="Your comment about this response" name="responsecommenttext" id="responseCommentAddForm-2-1-1"></textarea>
-                                                </div>
-                                                <div class="col-sm-offset-5">
-                                                    <a href="/page/instructorFeedbackResponseCommentAdd" type="button" class="btn btn-primary" id="button_save_comment_for_add-2-1-1">Add</a>
-                                                    <input class="btn btn-default" value="Cancel" onclick="hideResponseCommentAddForm(2,1,1)" type="button">
-                                                    <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
-                                                    <input name="fsname" value="First Session" type="hidden">
-                                                    <input name="questionid" value="{*}" type="hidden">                                            
-                                                    <input name="responseid" value="{*}%CFResultsUiT.alice.b@gmail.com%CFResultsUiT.alice.b@gmail.com" type="hidden">
-                                                    <input name="user" value="CFResultsUiT.instr" type="hidden">
-                                                </div>
-                                            </form>
-                                        </li>
-                                    </ul></div></div>
-                            
-                                    <div class="panel panel-info">
-                                        <div class="panel-heading">Question 7: What is your extra feature?&nbsp;<span style=" white-space: normal;">
-    <a href="javascript:;" id="questionAdditionalInfoButton-7-giver-1-recipient-2" class="color_gray" onclick="toggleAdditionalQuestionInfo('7-giver-1-recipient-2')" data-more="[more]" data-less="[less]">[more]</a>
-    <br>
-    <span id="questionAdditionalInfo-7-giver-1-recipient-2" style="display:none;">Multiple-choice (single answer) options:
-<ul style="list-style-type: disc;margin-left: 20px;"><li>FlexiCommand</li><li>PowerSearch</li><li>GoodUI</li><li>Google Integration</li></ul></span>
-</span></div>
-                                        <div class="panel-body">
-                                            <div style="clear:both; overflow: hidden">
-                                                <div class="pull-left">PowerSearch</div>
-                                                <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(2,1,2)" data-toggle="tooltip" data-placement="top" title="">
-                                                    <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
-                                                </button>
-                                            </div>
-                                            
-                                            <ul class="list-group" id="responseCommentTable-2-1-2" style="display:none">
-                                            
-                                        <!-- frComment Add form -->    
-                                        <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-2-1-2" style="display:none;">
-                                            <form class="responseCommentAddForm">
-                                                <div class="form-group">
-                                                    <textarea class="form-control" rows="3" placeholder="Your comment about this response" name="responsecommenttext" id="responseCommentAddForm-2-1-2"></textarea>
-                                                </div>
-                                                <div class="col-sm-offset-5">
-                                                    <a href="/page/instructorFeedbackResponseCommentAdd" type="button" class="btn btn-primary" id="button_save_comment_for_add-2-1-2">Add</a>
-                                                    <input class="btn btn-default" value="Cancel" onclick="hideResponseCommentAddForm(2,1,2)" type="button">
-                                                    <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
-                                                    <input name="fsname" value="First Session" type="hidden">
-                                                    <input name="questionid" value="{*}" type="hidden">                                            
-                                                    <input name="responseid" value="{*}%CFResultsUiT.alice.b@gmail.com%CFResultsUiT.alice.b@gmail.com" type="hidden">
-                                                    <input name="user" value="CFResultsUiT.instr" type="hidden">
-                                                </div>
-                                            </form>
-                                        </li>
-                                    </ul></div></div>
-                            
-                                    <div class="panel panel-info">
-                                        <div class="panel-heading">Question 8: What is your extra feature?&nbsp;<span style=" white-space: normal;">
-    <a href="javascript:;" id="questionAdditionalInfoButton-8-giver-1-recipient-2" class="color_gray" onclick="toggleAdditionalQuestionInfo('8-giver-1-recipient-2')" data-more="[more]" data-less="[less]">[more]</a>
-    <br>
-    <span id="questionAdditionalInfo-8-giver-1-recipient-2" style="display:none;">Multiple-choice (multiple answers) options:
-<ul style="list-style-type: disc;margin-left: 20px;"><li>FlexiCommand</li><li>PowerSearch</li><li>GoodUI</li><li>Google Integration</li></ul></span>
-</span></div>
-                                        <div class="panel-body">
-                                            <div style="clear:both; overflow: hidden">
-                                                <div class="pull-left"><ul class="selectedOptionsList"><li>PowerSearch</li><li>GoodUI</li></ul></div>
-                                                <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(2,1,3)" data-toggle="tooltip" data-placement="top" title="">
-                                                    <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
-                                                </button>
-                                            </div>
-                                            
-                                            <ul class="list-group" id="responseCommentTable-2-1-3" style="display:none">
-                                            
-                                        <!-- frComment Add form -->    
-                                        <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-2-1-3" style="display:none;">
-                                            <form class="responseCommentAddForm">
-                                                <div class="form-group">
-                                                    <textarea class="form-control" rows="3" placeholder="Your comment about this response" name="responsecommenttext" id="responseCommentAddForm-2-1-3"></textarea>
-                                                </div>
-                                                <div class="col-sm-offset-5">
-                                                    <a href="/page/instructorFeedbackResponseCommentAdd" type="button" class="btn btn-primary" id="button_save_comment_for_add-2-1-3">Add</a>
-                                                    <input class="btn btn-default" value="Cancel" onclick="hideResponseCommentAddForm(2,1,3)" type="button">
-                                                    <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
-                                                    <input name="fsname" value="First Session" type="hidden">
-                                                    <input name="questionid" value="{*}" type="hidden">                                            
-                                                    <input name="responseid" value="{*}%CFResultsUiT.alice.b@gmail.com%CFResultsUiT.alice.b@gmail.com" type="hidden">
-                                                    <input name="user" value="CFResultsUiT.instr" type="hidden">
-                                                </div>
-                                            </form>
-                                        </li>
-                                    </ul></div></div>
-                            
-                                    <div class="panel panel-info">
-                                        <div class="panel-heading">Question 9: Who do you think is the most hardworking student?&nbsp;<span style=" white-space: normal;">
-    <a href="javascript:;" id="questionAdditionalInfoButton-9-giver-1-recipient-2" class="color_gray" onclick="toggleAdditionalQuestionInfo('9-giver-1-recipient-2')" data-more="[more]" data-less="[less]">[more]</a>
-    <br>
-    <span id="questionAdditionalInfo-9-giver-1-recipient-2" style="display:none;">Multiple-choice (single answer) options:
-<br>The options for this question is automatically generated from the list of all students in this course.</span>
-</span></div>
-                                        <div class="panel-body">
-                                            <div style="clear:both; overflow: hidden">
-                                                <div class="pull-left">Danny</div>
-                                                <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(2,1,4)" data-toggle="tooltip" data-placement="top" title="">
-                                                    <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
-                                                </button>
-                                            </div>
-                                            
-                                            <ul class="list-group" id="responseCommentTable-2-1-4" style="display:none">
-                                            
-                                        <!-- frComment Add form -->    
-                                        <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-2-1-4" style="display:none;">
-                                            <form class="responseCommentAddForm">
-                                                <div class="form-group">
-                                                    <textarea class="form-control" rows="3" placeholder="Your comment about this response" name="responsecommenttext" id="responseCommentAddForm-2-1-4"></textarea>
-                                                </div>
-                                                <div class="col-sm-offset-5">
-                                                    <a href="/page/instructorFeedbackResponseCommentAdd" type="button" class="btn btn-primary" id="button_save_comment_for_add-2-1-4">Add</a>
-                                                    <input class="btn btn-default" value="Cancel" onclick="hideResponseCommentAddForm(2,1,4)" type="button">
-                                                    <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
-                                                    <input name="fsname" value="First Session" type="hidden">
-                                                    <input name="questionid" value="{*}" type="hidden">                                            
-                                                    <input name="responseid" value="{*}%CFResultsUiT.alice.b@gmail.com%CFResultsUiT.alice.b@gmail.com" type="hidden">
-                                                    <input name="user" value="CFResultsUiT.instr" type="hidden">
-                                                </div>
-                                            </form>
-                                        </li>
-                                    </ul></div></div>
-                            
-                                    <div class="panel panel-info">
-                                        <div class="panel-heading">Question 10: Which team do you think has the best feature?&nbsp;<span style=" white-space: normal;">
-    <a href="javascript:;" id="questionAdditionalInfoButton-10-giver-1-recipient-2" class="color_gray" onclick="toggleAdditionalQuestionInfo('10-giver-1-recipient-2')" data-more="[more]" data-less="[less]">[more]</a>
-    <br>
-    <span id="questionAdditionalInfo-10-giver-1-recipient-2" style="display:none;">Multiple-choice (single answer) options:
-<br>The options for this question is automatically generated from the list of all teams in this course.</span>
-</span></div>
-                                        <div class="panel-body">
-                                            <div style="clear:both; overflow: hidden">
-                                                <div class="pull-left">Team 1</div>
-                                                <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(2,1,5)" data-toggle="tooltip" data-placement="top" title="">
-                                                    <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
-                                                </button>
-                                            </div>
-                                            
-                                            <ul class="list-group" id="responseCommentTable-2-1-5" style="display:none">
-                                            
-                                        <!-- frComment Add form -->    
-                                        <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-2-1-5" style="display:none;">
-                                            <form class="responseCommentAddForm">
-                                                <div class="form-group">
-                                                    <textarea class="form-control" rows="3" placeholder="Your comment about this response" name="responsecommenttext" id="responseCommentAddForm-2-1-5"></textarea>
-                                                </div>
-                                                <div class="col-sm-offset-5">
-                                                    <a href="/page/instructorFeedbackResponseCommentAdd" type="button" class="btn btn-primary" id="button_save_comment_for_add-2-1-5">Add</a>
-                                                    <input class="btn btn-default" value="Cancel" onclick="hideResponseCommentAddForm(2,1,5)" type="button">
-                                                    <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
-                                                    <input name="fsname" value="First Session" type="hidden">
-                                                    <input name="questionid" value="{*}" type="hidden">                                            
-                                                    <input name="responseid" value="{*}%CFResultsUiT.alice.b@gmail.com%CFResultsUiT.alice.b@gmail.com" type="hidden">
-                                                    <input name="user" value="CFResultsUiT.instr" type="hidden">
-                                                </div>
-                                            </form>
-                                        </li>
-                                    </ul></div></div>
-                            
-                                    <div class="panel panel-info">
-                                        <div class="panel-heading">Question 11: Who are your teammates?&nbsp;<span style=" white-space: normal;">
-    <a href="javascript:;" id="questionAdditionalInfoButton-11-giver-1-recipient-2" class="color_gray" onclick="toggleAdditionalQuestionInfo('11-giver-1-recipient-2')" data-more="[more]" data-less="[less]">[more]</a>
-    <br>
-    <span id="questionAdditionalInfo-11-giver-1-recipient-2" style="display:none;">Multiple-choice (multiple answers) options:
-<br>The options for this question is automatically generated from the list of all students in this course.</span>
-</span></div>
-                                        <div class="panel-body">
-                                            <div style="clear:both; overflow: hidden">
-                                                <div class="pull-left"><ul class="selectedOptionsList"><li>Danny</li></ul></div>
-                                                <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(2,1,6)" data-toggle="tooltip" data-placement="top" title="">
-                                                    <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
-                                                </button>
-                                            </div>
-                                            
-                                            <ul class="list-group" id="responseCommentTable-2-1-6" style="display:none">
-                                            
-                                        <!-- frComment Add form -->    
-                                        <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-2-1-6" style="display:none;">
-                                            <form class="responseCommentAddForm">
-                                                <div class="form-group">
-                                                    <textarea class="form-control" rows="3" placeholder="Your comment about this response" name="responsecommenttext" id="responseCommentAddForm-2-1-6"></textarea>
-                                                </div>
-                                                <div class="col-sm-offset-5">
-                                                    <a href="/page/instructorFeedbackResponseCommentAdd" type="button" class="btn btn-primary" id="button_save_comment_for_add-2-1-6">Add</a>
-                                                    <input class="btn btn-default" value="Cancel" onclick="hideResponseCommentAddForm(2,1,6)" type="button">
-                                                    <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
-                                                    <input name="fsname" value="First Session" type="hidden">
-                                                    <input name="questionid" value="{*}" type="hidden">                                            
-                                                    <input name="responseid" value="{*}%CFResultsUiT.alice.b@gmail.com%CFResultsUiT.alice.b@gmail.com" type="hidden">
-                                                    <input name="user" value="CFResultsUiT.instr" type="hidden">
-                                                </div>
-                                            </form>
-                                        </li>
-                                    </ul></div></div>
-                            
-                                    <div class="panel panel-info">
-                                        <div class="panel-heading">Question 12: Which teams do you like?&nbsp;<span style=" white-space: normal;">
-    <a href="javascript:;" id="questionAdditionalInfoButton-12-giver-1-recipient-2" class="color_gray" onclick="toggleAdditionalQuestionInfo('12-giver-1-recipient-2')" data-more="[more]" data-less="[less]">[more]</a>
-    <br>
-    <span id="questionAdditionalInfo-12-giver-1-recipient-2" style="display:none;">Multiple-choice (multiple answers) options:
-<br>The options for this question is automatically generated from the list of all teams in this course.</span>
-</span></div>
-                                        <div class="panel-body">
-                                            <div style="clear:both; overflow: hidden">
-                                                <div class="pull-left"><ul class="selectedOptionsList"><li>Team 1</li><li>Team 2</li></ul></div>
-                                                <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(2,1,7)" data-toggle="tooltip" data-placement="top" title="">
-                                                    <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
-                                                </button>
-                                            </div>
-                                            
-                                            <ul class="list-group" id="responseCommentTable-2-1-7" style="display:none">
-                                            
-                                        <!-- frComment Add form -->    
-                                        <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-2-1-7" style="display:none;">
-                                            <form class="responseCommentAddForm">
-                                                <div class="form-group">
-                                                    <textarea class="form-control" rows="3" placeholder="Your comment about this response" name="responsecommenttext" id="responseCommentAddForm-2-1-7"></textarea>
-                                                </div>
-                                                <div class="col-sm-offset-5">
-                                                    <a href="/page/instructorFeedbackResponseCommentAdd" type="button" class="btn btn-primary" id="button_save_comment_for_add-2-1-7">Add</a>
-                                                    <input class="btn btn-default" value="Cancel" onclick="hideResponseCommentAddForm(2,1,7)" type="button">
-                                                    <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
-                                                    <input name="fsname" value="First Session" type="hidden">
-                                                    <input name="questionid" value="{*}" type="hidden">                                            
-                                                    <input name="responseid" value="{*}%CFResultsUiT.alice.b@gmail.com%CFResultsUiT.alice.b@gmail.com" type="hidden">
-                                                    <input name="user" value="CFResultsUiT.instr" type="hidden">
-                                                </div>
-                                            </form>
-                                        </li>
-                                    </ul></div></div>
-                            
-                                    <div class="panel panel-info">
-                                        <div class="panel-heading">Question 13: Rate our product.&nbsp;<span style=" white-space: normal;">
-    <a href="javascript:;" id="questionAdditionalInfoButton-13-giver-1-recipient-2" class="color_gray" onclick="toggleAdditionalQuestionInfo('13-giver-1-recipient-2')" data-more="[more]" data-less="[less]">[more]</a>
-    <br>
-    <span id="questionAdditionalInfo-13-giver-1-recipient-2" style="display:none;">Numerical-scale question:<br>Minimum value: 1. Increment: 0.5. Maximum value: 5.</span>
-</span></div>
-                                        <div class="panel-body">
-                                            <div style="clear:both; overflow: hidden">
-                                                <div class="pull-left">3.5</div>
-                                                <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(2,1,8)" data-toggle="tooltip" data-placement="top" title="">
-                                                    <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
-                                                </button>
-                                            </div>
-                                            
-                                            <ul class="list-group" id="responseCommentTable-2-1-8" style="display:none">
-                                            
-                                        <!-- frComment Add form -->    
-                                        <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-2-1-8" style="display:none;">
-                                            <form class="responseCommentAddForm">
-                                                <div class="form-group">
-                                                    <textarea class="form-control" rows="3" placeholder="Your comment about this response" name="responsecommenttext" id="responseCommentAddForm-2-1-8"></textarea>
-                                                </div>
-                                                <div class="col-sm-offset-5">
-                                                    <a href="/page/instructorFeedbackResponseCommentAdd" type="button" class="btn btn-primary" id="button_save_comment_for_add-2-1-8">Add</a>
-                                                    <input class="btn btn-default" value="Cancel" onclick="hideResponseCommentAddForm(2,1,8)" type="button">
-                                                    <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
-                                                    <input name="fsname" value="First Session" type="hidden">
-                                                    <input name="questionid" value="{*}" type="hidden">                                            
-                                                    <input name="responseid" value="{*}%CFResultsUiT.alice.b@gmail.com%CFResultsUiT.alice.b@gmail.com" type="hidden">
-                                                    <input name="user" value="CFResultsUiT.instr" type="hidden">
-                                                </div>
-                                            </form>
-                                        </li>
-                                    </ul></div></div>
-                            
-                        </div></div>
-                
+                <div class="panel-body padding-0">
+                                    
+                    <div class="resultStatistics">
+                        
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered dataTable margin-0">
+                            <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                                <tr>
+                                    <th id="button_sortFromName" onclick="toggleSort(this,1)" style="width: 15%;">
+                                        Giver
+                                    </th>
+                                    <th id="button_sortFromTeam" onclick="toggleSort(this,2)" style="width: 15%;">
+                                        Team
+                                    </th>
+                                    <th id="button_sortToName" onclick="toggleSort(this,3)" style="width: 15%;">
+                                        Recipient
+                                    </th>
+                                    <th id="button_sortToTeam" class="button-sort-ascending" onclick="toggleSort(this,4)" style="width: 15%;">
+                                        Team
+                                    </th>
+                                    <th id="button_sortFeedback" onclick="toggleSort(this,5)">
+                                        Feedback
+                                    </th>
+                                </tr>
+                            </thead><thead>
+                            </thead><tbody>
+                                
+                                <tr>
+                                
+                                    <td class="middlealign">Alice Betsy</td>
+                                    <td class="middlealign">Team 1</td>
+                                    <td class="middlealign">Alice Betsy</td>
+                                    <td class="middlealign">Team 1</td>
+                                    <td class="multiline">Alice self feedback.</td>
+                                </tr>        
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                    
                 </div>
                 </div>
             </div>
-        
             
-
-
-            <div class="panel panel-primary">
+            <div class="panel panel-info">
                 <div style="cursor: pointer;" data-target="#panelBodyCollapse-3" class="panel-heading">
-                    To: <strong>Benny Charles (Team 1)</strong>
-                        <a class="link-in-dark-bg" href="mailTo:CFResultsUiT.benny.c@gmail.com ">[CFResultsUiT.benny.c@gmail.com]</a>
+                    <form style="display:none;" id="seeMore-3" class="seeMoreForm-3" action="/page/instructorFeedbackResultsAjaxByQuestions">
+                        <input name="questionnum" value="3" type="hidden">
+                        <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
+                        <input name="fsname" value="First Session" type="hidden">
+                        <input name="user" value="CFResultsUiT.instr" type="hidden">
+                        <input name="frsorttype" value="question" type="hidden">
+                    </form>
+                    <div class="display-icon pull-right">
                     <span class="glyphicon glyphicon-chevron-up pull-right"></span>
+                    </div>
+                    <strong>Question 3: </strong>My comments on the class
                 </div>
                 <div id="panelBodyCollapse-3" class="panel-collapse collapse in">
-                <div class="panel-body">
-                
-                        <div class="row ">
-                            <div class="col-md-2"><strong>From: Alice Betsy (Team 1)</strong></div>
-                            <div class="col-md-10">
-                            
-                                    <div class="panel panel-info">
-                                        <div class="panel-heading">Question 1: Rate 3 other students' products</div>
-                                        <div class="panel-body">
-                                            <div style="clear:both; overflow: hidden">
-                                                <div class="pull-left">2 Response to Benny.</div>
-                                                <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(3,1,1)" data-toggle="tooltip" data-placement="top" title="">
-                                                    <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
-                                                </button>
-                                            </div>
-                                            
-                                            <ul class="list-group" id="responseCommentTable-3-1-1" style="display:none">
-                                            
-                                        <!-- frComment Add form -->    
-                                        <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-3-1-1" style="display:none;">
-                                            <form class="responseCommentAddForm">
-                                                <div class="form-group">
-                                                    <textarea class="form-control" rows="3" placeholder="Your comment about this response" name="responsecommenttext" id="responseCommentAddForm-3-1-1"></textarea>
-                                                </div>
-                                                <div class="col-sm-offset-5">
-                                                    <a href="/page/instructorFeedbackResponseCommentAdd" type="button" class="btn btn-primary" id="button_save_comment_for_add-3-1-1">Add</a>
-                                                    <input class="btn btn-default" value="Cancel" onclick="hideResponseCommentAddForm(3,1,1)" type="button">
-                                                    <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
-                                                    <input name="fsname" value="First Session" type="hidden">
-                                                    <input name="questionid" value="{*}" type="hidden">                                            
-                                                    <input name="responseid" value="{*}%CFResultsUiT.alice.b@gmail.com%CFResultsUiT.benny.c@gmail.com" type="hidden">
-                                                    <input name="user" value="CFResultsUiT.instr" type="hidden">
-                                                </div>
-                                            </form>
-                                        </li>
-                                    </ul></div></div>
-                            
-                        </div></div>
-                
+                <div class="panel-body padding-0">
+                                    
+                    <div class="resultStatistics">
+                        
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered dataTable margin-0">
+                            <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                                <tr>
+                                    <th id="button_sortFromName" onclick="toggleSort(this,1)" style="width: 15%;">
+                                        Giver
+                                    </th>
+                                    <th id="button_sortFromTeam" onclick="toggleSort(this,2)" style="width: 15%;">
+                                        Team
+                                    </th>
+                                    <th id="button_sortToName" onclick="toggleSort(this,3)" style="width: 15%;">
+                                        Recipient
+                                    </th>
+                                    <th id="button_sortToTeam" class="button-sort-ascending" onclick="toggleSort(this,4)" style="width: 15%;">
+                                        Team
+                                    </th>
+                                    <th id="button_sortFeedback" onclick="toggleSort(this,5)">
+                                        Feedback
+                                    </th>
+                                </tr>
+                            </thead><thead>
+                            </thead><tbody>
+                                
+                                <tr>
+                                
+                                    <td class="middlealign">Teammates Test</td>
+                                    <td class="middlealign">Instructors</td>
+                                    <td class="middlealign">-</td>
+                                    <td class="middlealign">-</td>
+                                    <td class="multiline">This is for nobody specific.</td>
+                                </tr>        
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                    
                 </div>
                 </div>
             </div>
-        
             
-
-
-            <div class="panel panel-primary">
+            <div class="panel panel-info">
                 <div style="cursor: pointer;" data-target="#panelBodyCollapse-4" class="panel-heading">
-                    To: <strong>Charlie Dávis (Team 2)</strong>
-                        <a class="link-in-dark-bg" href="mailTo:CFResultsUiT.charlie.d@gmail.com ">[CFResultsUiT.charlie.d@gmail.com]</a>
+                    <form style="display:none;" id="seeMore-4" class="seeMoreForm-4" action="/page/instructorFeedbackResultsAjaxByQuestions">
+                        <input name="questionnum" value="4" type="hidden">
+                        <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
+                        <input name="fsname" value="First Session" type="hidden">
+                        <input name="user" value="CFResultsUiT.instr" type="hidden">
+                        <input name="frsorttype" value="question" type="hidden">
+                    </form>
+                    <div class="display-icon pull-right">
                     <span class="glyphicon glyphicon-chevron-up pull-right"></span>
+                    </div>
+                    <strong>Question 4: </strong>Give feedback to 3 other teams.
                 </div>
                 <div id="panelBodyCollapse-4" class="panel-collapse collapse in">
-                <div class="panel-body">
-                
-                        <div class="row ">
-                            <div class="col-md-2"><strong>From: Benny Charles (Team 1)</strong></div>
-                            <div class="col-md-10">
-                            
-                                    <div class="panel panel-info">
-                                        <div class="panel-heading">Question 1: Rate 3 other students' products</div>
-                                        <div class="panel-body">
-                                            <div style="clear:both; overflow: hidden">
-                                                <div class="pull-left">4 Response to Charlie.</div>
-                                                <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(4,1,1)" data-toggle="tooltip" data-placement="top" title="">
-                                                    <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
-                                                </button>
-                                            </div>
-                                            
-                                            <ul class="list-group" id="responseCommentTable-4-1-1" style="display:none">
-                                            
-                                        <!-- frComment Add form -->    
-                                        <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-4-1-1" style="display:none;">
-                                            <form class="responseCommentAddForm">
-                                                <div class="form-group">
-                                                    <textarea class="form-control" rows="3" placeholder="Your comment about this response" name="responsecommenttext" id="responseCommentAddForm-4-1-1"></textarea>
-                                                </div>
-                                                <div class="col-sm-offset-5">
-                                                    <a href="/page/instructorFeedbackResponseCommentAdd" type="button" class="btn btn-primary" id="button_save_comment_for_add-4-1-1">Add</a>
-                                                    <input class="btn btn-default" value="Cancel" onclick="hideResponseCommentAddForm(4,1,1)" type="button">
-                                                    <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
-                                                    <input name="fsname" value="First Session" type="hidden">
-                                                    <input name="questionid" value="{*}" type="hidden">                                            
-                                                    <input name="responseid" value="{*}%CFResultsUiT.benny.c@gmail.com%CFResultsUiT.charlie.d@gmail.com" type="hidden">
-                                                    <input name="user" value="CFResultsUiT.instr" type="hidden">
-                                                </div>
-                                            </form>
-                                        </li>
-                                    </ul></div></div>
-                            
-                        </div></div>
-                
+                <div class="panel-body padding-0">
+                                    
+                    <div class="resultStatistics">
+                        
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered dataTable margin-0">
+                            <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                                <tr>
+                                    <th id="button_sortFromName" onclick="toggleSort(this,1)" style="width: 15%;">
+                                        Giver
+                                    </th>
+                                    <th id="button_sortFromTeam" onclick="toggleSort(this,2)" style="width: 15%;">
+                                        Team
+                                    </th>
+                                    <th id="button_sortToName" onclick="toggleSort(this,3)" style="width: 15%;">
+                                        Recipient
+                                    </th>
+                                    <th id="button_sortToTeam" class="button-sort-ascending" onclick="toggleSort(this,4)" style="width: 15%;">
+                                        Team
+                                    </th>
+                                    <th id="button_sortFeedback" onclick="toggleSort(this,5)">
+                                        Feedback
+                                    </th>
+                                </tr>
+                            </thead><thead>
+                            </thead><tbody>
+                                
+                                <tr>
+                                
+                                    <td class="middlealign">Team 1</td>
+                                    <td class="middlealign"></td>
+                                    <td class="middlealign">Team 2</td>
+                                    <td class="middlealign"></td>
+                                    <td class="multiline">Response from team 1 (by alice) to team 2.</td>
+                                </tr>        
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                    
                 </div>
                 </div>
             </div>
-        
             
-
-
-            <div class="panel panel-primary">
+            <div class="panel panel-info">
                 <div style="cursor: pointer;" data-target="#panelBodyCollapse-5" class="panel-heading">
-                    To: <strong>Danny Engrid (Team 2)</strong>
-                        <a class="link-in-dark-bg" href="mailTo:CFResultsUiT.danny.e@gmail.com ">[CFResultsUiT.danny.e@gmail.com]</a>
+                    <form style="display:none;" id="seeMore-7" class="seeMoreForm-7" action="/page/instructorFeedbackResultsAjaxByQuestions">
+                        <input name="questionnum" value="7" type="hidden">
+                        <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
+                        <input name="fsname" value="First Session" type="hidden">
+                        <input name="user" value="CFResultsUiT.instr" type="hidden">
+                        <input name="frsorttype" value="question" type="hidden">
+                    </form>
+                    <div class="display-icon pull-right">
                     <span class="glyphicon glyphicon-chevron-up pull-right"></span>
+                    </div>
+                    <strong>Question 7: </strong>What is your extra feature?&nbsp;<span style=" white-space: normal;">
+    <a href="javascript:;" id="questionAdditionalInfoButton-7-" class="color_gray" onclick="toggleAdditionalQuestionInfo('7-')" data-more="[more]" data-less="[less]">[more]</a>
+    <br>
+    <span id="questionAdditionalInfo-7-" style="display:none;">Multiple-choice (single answer) options:
+<ul style="list-style-type: disc;margin-left: 20px;"><li>FlexiCommand</li><li>PowerSearch</li><li>GoodUI</li><li>Google Integration</li></ul></span>
+</span>
                 </div>
                 <div id="panelBodyCollapse-5" class="panel-collapse collapse in">
-                <div class="panel-body">
-                
-                        <div class="row ">
-                            <div class="col-md-2"><strong>From: Benny Charles (Team 1)</strong></div>
-                            <div class="col-md-10">
-                            
-                                    <div class="panel panel-info">
-                                        <div class="panel-heading">Question 1: Rate 3 other students' products</div>
-                                        <div class="panel-body">
-                                            <div style="clear:both; overflow: hidden">
-                                                <div class="pull-left">1 Response to Danny.</div>
-                                                <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(5,1,1)" data-toggle="tooltip" data-placement="top" title="">
-                                                    <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
-                                                </button>
-                                            </div>
-                                            
-                                            <ul class="list-group" id="responseCommentTable-5-1-1" style="display:none">
-                                            
-                                        <!-- frComment Add form -->    
-                                        <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-5-1-1" style="display:none;">
-                                            <form class="responseCommentAddForm">
-                                                <div class="form-group">
-                                                    <textarea class="form-control" rows="3" placeholder="Your comment about this response" name="responsecommenttext" id="responseCommentAddForm-5-1-1"></textarea>
-                                                </div>
-                                                <div class="col-sm-offset-5">
-                                                    <a href="/page/instructorFeedbackResponseCommentAdd" type="button" class="btn btn-primary" id="button_save_comment_for_add-5-1-1">Add</a>
-                                                    <input class="btn btn-default" value="Cancel" onclick="hideResponseCommentAddForm(5,1,1)" type="button">
-                                                    <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
-                                                    <input name="fsname" value="First Session" type="hidden">
-                                                    <input name="questionid" value="{*}" type="hidden">                                            
-                                                    <input name="responseid" value="{*}%CFResultsUiT.benny.c@gmail.com%CFResultsUiT.danny.e@gmail.com" type="hidden">
-                                                    <input name="user" value="CFResultsUiT.instr" type="hidden">
-                                                </div>
-                                            </form>
-                                        </li>
-                                    </ul></div></div>
-                            
-                        </div></div>
-                
+                <div class="panel-body padding-0">
+                                    
+                    <div class="resultStatistics">
+                        <div class="panel-body">
+    <div class="row">
+        <div class="col-sm-4 text-color-gray">
+            <strong>
+                Response Summary
+            </strong>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <table class="table margin-0">
+                <thead>
+                    <tr>
+                        <td>
+                            Choice
+                        </td>
+                        <td>
+                            Response Count
+                        </td>
+                        <td>
+                            Percentage
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+    <td>
+        FlexiCommand
+    </td>
+    <td>
+        0
+    </td>
+    <td>
+        0%
+    </td>
+</tr><tr>
+    <td>
+        PowerSearch
+    </td>
+    <td>
+        1
+    </td>
+    <td>
+        100%
+    </td>
+</tr><tr>
+    <td>
+        GoodUI
+    </td>
+    <td>
+        0
+    </td>
+    <td>
+        0%
+    </td>
+</tr><tr>
+    <td>
+        Google Integration
+    </td>
+    <td>
+        0
+    </td>
+    <td>
+        0%
+    </td>
+</tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered dataTable margin-0">
+                            <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                                <tr>
+                                    <th id="button_sortFromName" onclick="toggleSort(this,1)" style="width: 15%;">
+                                        Giver
+                                    </th>
+                                    <th id="button_sortFromTeam" onclick="toggleSort(this,2)" style="width: 15%;">
+                                        Team
+                                    </th>
+                                    <th id="button_sortToName" onclick="toggleSort(this,3)" style="width: 15%;">
+                                        Recipient
+                                    </th>
+                                    <th id="button_sortToTeam" class="button-sort-ascending" onclick="toggleSort(this,4)" style="width: 15%;">
+                                        Team
+                                    </th>
+                                    <th id="button_sortFeedback" onclick="toggleSort(this,5)">
+                                        Feedback
+                                    </th>
+                                </tr>
+                            </thead><thead>
+                            </thead><tbody>
+                                
+                                <tr>
+                                
+                                    <td class="middlealign">Alice Betsy</td>
+                                    <td class="middlealign">Team 1</td>
+                                    <td class="middlealign">Alice Betsy</td>
+                                    <td class="middlealign">Team 1</td>
+                                    <td class="multiline">PowerSearch</td>
+                                </tr>        
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                    
                 </div>
                 </div>
             </div>
-        
             
-
-
-            <div class="panel panel-primary">
+            <div class="panel panel-info">
                 <div style="cursor: pointer;" data-target="#panelBodyCollapse-6" class="panel-heading">
-                    To: <strong>Emily (Team 3)</strong>
-                        <a class="link-in-dark-bg" href="mailTo:CFResultsUiT.emily.f@gmail.com ">[CFResultsUiT.emily.f@gmail.com]</a>
+                    <form style="display:none;" id="seeMore-8" class="seeMoreForm-8" action="/page/instructorFeedbackResultsAjaxByQuestions">
+                        <input name="questionnum" value="8" type="hidden">
+                        <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
+                        <input name="fsname" value="First Session" type="hidden">
+                        <input name="user" value="CFResultsUiT.instr" type="hidden">
+                        <input name="frsorttype" value="question" type="hidden">
+                    </form>
+                    <div class="display-icon pull-right">
                     <span class="glyphicon glyphicon-chevron-up pull-right"></span>
+                    </div>
+                    <strong>Question 8: </strong>What is your extra feature?&nbsp;<span style=" white-space: normal;">
+    <a href="javascript:;" id="questionAdditionalInfoButton-8-" class="color_gray" onclick="toggleAdditionalQuestionInfo('8-')" data-more="[more]" data-less="[less]">[more]</a>
+    <br>
+    <span id="questionAdditionalInfo-8-" style="display:none;">Multiple-choice (multiple answers) options:
+<ul style="list-style-type: disc;margin-left: 20px;"><li>FlexiCommand</li><li>PowerSearch</li><li>GoodUI</li><li>Google Integration</li></ul></span>
+</span>
                 </div>
                 <div id="panelBodyCollapse-6" class="panel-collapse collapse in">
-                <div class="panel-body">
-                
-                        <div class="row ">
-                            <div class="col-md-2"><strong>From: Charlie Dávis (Team 2)</strong></div>
-                            <div class="col-md-10">
-                            
-                                    <div class="panel panel-info">
-                                        <div class="panel-heading">Question 1: Rate 3 other students' products</div>
-                                        <div class="panel-body">
-                                            <div style="clear:both; overflow: hidden">
-                                                <div class="pull-left">3 Response to Emily.</div>
-                                                <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(6,1,1)" data-toggle="tooltip" data-placement="top" title="">
-                                                    <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
-                                                </button>
-                                            </div>
-                                            
-                                            <ul class="list-group" id="responseCommentTable-6-1-1" style="display:none">
-                                            
-                                        <!-- frComment Add form -->    
-                                        <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-6-1-1" style="display:none;">
-                                            <form class="responseCommentAddForm">
-                                                <div class="form-group">
-                                                    <textarea class="form-control" rows="3" placeholder="Your comment about this response" name="responsecommenttext" id="responseCommentAddForm-6-1-1"></textarea>
-                                                </div>
-                                                <div class="col-sm-offset-5">
-                                                    <a href="/page/instructorFeedbackResponseCommentAdd" type="button" class="btn btn-primary" id="button_save_comment_for_add-6-1-1">Add</a>
-                                                    <input class="btn btn-default" value="Cancel" onclick="hideResponseCommentAddForm(6,1,1)" type="button">
-                                                    <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
-                                                    <input name="fsname" value="First Session" type="hidden">
-                                                    <input name="questionid" value="{*}" type="hidden">                                            
-                                                    <input name="responseid" value="{*}%CFResultsUiT.charlie.d@gmail.com%CFResultsUiT.emily.f@gmail.com" type="hidden">
-                                                    <input name="user" value="CFResultsUiT.instr" type="hidden">
-                                                </div>
-                                            </form>
-                                        </li>
-                                    </ul></div></div>
-                            
-                        </div></div>
-                
+                <div class="panel-body padding-0">
+                                    
+                    <div class="resultStatistics">
+                        <div class="panel-body">
+    <div class="row">
+        <div class="col-sm-4 text-color-gray">
+            <strong>
+                Response Summary
+            </strong>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <table class="table margin-0">
+                <thead>
+                    <tr>
+                        <td>
+                            Choice
+                        </td>
+                        <td>
+                            Response Count
+                        </td>
+                        <td>
+                            Percentage
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+    <td>
+        FlexiCommand
+    </td>
+    <td>
+        0
+    </td>
+    <td>
+        0%
+    </td>
+</tr><tr>
+    <td>
+        PowerSearch
+    </td>
+    <td>
+        1
+    </td>
+    <td>
+        50%
+    </td>
+</tr><tr>
+    <td>
+        GoodUI
+    </td>
+    <td>
+        1
+    </td>
+    <td>
+        50%
+    </td>
+</tr><tr>
+    <td>
+        Google Integration
+    </td>
+    <td>
+        0
+    </td>
+    <td>
+        0%
+    </td>
+</tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered dataTable margin-0">
+                            <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                                <tr>
+                                    <th id="button_sortFromName" onclick="toggleSort(this,1)" style="width: 15%;">
+                                        Giver
+                                    </th>
+                                    <th id="button_sortFromTeam" onclick="toggleSort(this,2)" style="width: 15%;">
+                                        Team
+                                    </th>
+                                    <th id="button_sortToName" onclick="toggleSort(this,3)" style="width: 15%;">
+                                        Recipient
+                                    </th>
+                                    <th id="button_sortToTeam" class="button-sort-ascending" onclick="toggleSort(this,4)" style="width: 15%;">
+                                        Team
+                                    </th>
+                                    <th id="button_sortFeedback" onclick="toggleSort(this,5)">
+                                        Feedback
+                                    </th>
+                                </tr>
+                            </thead><thead>
+                            </thead><tbody>
+                                
+                                <tr>
+                                
+                                    <td class="middlealign">Alice Betsy</td>
+                                    <td class="middlealign">Team 1</td>
+                                    <td class="middlealign">Alice Betsy</td>
+                                    <td class="middlealign">Team 1</td>
+                                    <td class="multiline"><ul class="selectedOptionsList"><li>PowerSearch</li><li>GoodUI</li></ul></td>
+                                </tr>        
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                    
                 </div>
                 </div>
             </div>
-        
             
-
-
-            <div class="panel panel-primary">
+            <div class="panel panel-info">
                 <div style="cursor: pointer;" data-target="#panelBodyCollapse-7" class="panel-heading">
-                    To: <strong>Team 2</strong>
-                        <a class="link-in-dark-bg" href="mailTo:Team 2 " style="display:none;">[Team 2]</a>
+                    <form style="display:none;" id="seeMore-9" class="seeMoreForm-9" action="/page/instructorFeedbackResultsAjaxByQuestions">
+                        <input name="questionnum" value="9" type="hidden">
+                        <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
+                        <input name="fsname" value="First Session" type="hidden">
+                        <input name="user" value="CFResultsUiT.instr" type="hidden">
+                        <input name="frsorttype" value="question" type="hidden">
+                    </form>
+                    <div class="display-icon pull-right">
                     <span class="glyphicon glyphicon-chevron-up pull-right"></span>
+                    </div>
+                    <strong>Question 9: </strong>Who do you think is the most hardworking student?&nbsp;<span style=" white-space: normal;">
+    <a href="javascript:;" id="questionAdditionalInfoButton-9-" class="color_gray" onclick="toggleAdditionalQuestionInfo('9-')" data-more="[more]" data-less="[less]">[more]</a>
+    <br>
+    <span id="questionAdditionalInfo-9-" style="display:none;">Multiple-choice (single answer) options:
+<br>The options for this question is automatically generated from the list of all students in this course.</span>
+</span>
                 </div>
                 <div id="panelBodyCollapse-7" class="panel-collapse collapse in">
-                <div class="panel-body">
-                
-                        <div class="row ">
-                            <div class="col-md-2"><strong>From: Team 1</strong></div>
-                            <div class="col-md-10">
-                            
-                                    <div class="panel panel-info">
-                                        <div class="panel-heading">Question 4: Give feedback to 3 other teams.</div>
-                                        <div class="panel-body">
-                                            <div style="clear:both; overflow: hidden">
-                                                <div class="pull-left">Response from team 1 (by alice) to team 2.</div>
-                                                <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(7,1,1)" data-toggle="tooltip" data-placement="top" title="">
-                                                    <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
-                                                </button>
-                                            </div>
-                                            
-                                            <ul class="list-group" id="responseCommentTable-7-1-1" style="display:none">
-                                            
-                                        <!-- frComment Add form -->    
-                                        <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-7-1-1" style="display:none;">
-                                            <form class="responseCommentAddForm">
-                                                <div class="form-group">
-                                                    <textarea class="form-control" rows="3" placeholder="Your comment about this response" name="responsecommenttext" id="responseCommentAddForm-7-1-1"></textarea>
-                                                </div>
-                                                <div class="col-sm-offset-5">
-                                                    <a href="/page/instructorFeedbackResponseCommentAdd" type="button" class="btn btn-primary" id="button_save_comment_for_add-7-1-1">Add</a>
-                                                    <input class="btn btn-default" value="Cancel" onclick="hideResponseCommentAddForm(7,1,1)" type="button">
-                                                    <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
-                                                    <input name="fsname" value="First Session" type="hidden">
-                                                    <input name="questionid" value="{*}" type="hidden">                                            
-                                                    <input name="responseid" value="{*}%CFResultsUiT.alice.b@gmail.com%Team 2" type="hidden">
-                                                    <input name="user" value="CFResultsUiT.instr" type="hidden">
-                                                </div>
-                                            </form>
-                                        </li>
-                                    </ul></div></div>
-                            
-                        </div></div>
-                
+                <div class="panel-body padding-0">
+                                    
+                    <div class="resultStatistics">
+                        <div class="panel-body">
+    <div class="row">
+        <div class="col-sm-4 text-color-gray">
+            <strong>
+                Response Summary
+            </strong>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <table class="table margin-0">
+                <thead>
+                    <tr>
+                        <td>
+                            Choice
+                        </td>
+                        <td>
+                            Response Count
+                        </td>
+                        <td>
+                            Percentage
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+    <td>
+        Danny
+    </td>
+    <td>
+        1
+    </td>
+    <td>
+        100%
+    </td>
+</tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered dataTable margin-0">
+                            <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                                <tr>
+                                    <th id="button_sortFromName" onclick="toggleSort(this,1)" style="width: 15%;">
+                                        Giver
+                                    </th>
+                                    <th id="button_sortFromTeam" onclick="toggleSort(this,2)" style="width: 15%;">
+                                        Team
+                                    </th>
+                                    <th id="button_sortToName" onclick="toggleSort(this,3)" style="width: 15%;">
+                                        Recipient
+                                    </th>
+                                    <th id="button_sortToTeam" class="button-sort-ascending" onclick="toggleSort(this,4)" style="width: 15%;">
+                                        Team
+                                    </th>
+                                    <th id="button_sortFeedback" onclick="toggleSort(this,5)">
+                                        Feedback
+                                    </th>
+                                </tr>
+                            </thead><thead>
+                            </thead><tbody>
+                                
+                                <tr>
+                                
+                                    <td class="middlealign">Alice Betsy</td>
+                                    <td class="middlealign">Team 1</td>
+                                    <td class="middlealign">Alice Betsy</td>
+                                    <td class="middlealign">Team 1</td>
+                                    <td class="multiline">Danny</td>
+                                </tr>        
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                    
                 </div>
                 </div>
             </div>
-        
-
-        
-
-        
-                <div class="panel panel-info">
-                    <div class="panel-heading">Participants who did not respond to any question</div>
-                    
-                    <table class="table table-striped">
-                        <tbody>
-                        
-                                <tr>
-                                    <td>Danny Engrid</td>
-                                </tr>
-                        
-                                <tr>
-                                    <td>Drop out</td>
-                                </tr>
-                        
-                                <tr>
-                                    <td>Emily</td>
-                                </tr>
-                        
-                                <tr>
-                                    <td>Extra guy</td>
-                                </tr>
-                        
-                        </tbody>
-                    </table>
+            
+            <div class="panel panel-info">
+                <div style="cursor: pointer;" data-target="#panelBodyCollapse-8" class="panel-heading">
+                    <form style="display:none;" id="seeMore-10" class="seeMoreForm-10" action="/page/instructorFeedbackResultsAjaxByQuestions">
+                        <input name="questionnum" value="10" type="hidden">
+                        <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
+                        <input name="fsname" value="First Session" type="hidden">
+                        <input name="user" value="CFResultsUiT.instr" type="hidden">
+                        <input name="frsorttype" value="question" type="hidden">
+                    </form>
+                    <div class="display-icon pull-right">
+                    <span class="glyphicon glyphicon-chevron-up pull-right"></span>
+                    </div>
+                    <strong>Question 10: </strong>Which team do you think has the best feature?&nbsp;<span style=" white-space: normal;">
+    <a href="javascript:;" id="questionAdditionalInfoButton-10-" class="color_gray" onclick="toggleAdditionalQuestionInfo('10-')" data-more="[more]" data-less="[less]">[more]</a>
+    <br>
+    <span id="questionAdditionalInfo-10-" style="display:none;">Multiple-choice (single answer) options:
+<br>The options for this question is automatically generated from the list of all teams in this course.</span>
+</span>
                 </div>
-                <br> <br>
-        
+                <div id="panelBodyCollapse-8" class="panel-collapse collapse in">
+                <div class="panel-body padding-0">
+                                    
+                    <div class="resultStatistics">
+                        <div class="panel-body">
+    <div class="row">
+        <div class="col-sm-4 text-color-gray">
+            <strong>
+                Response Summary
+            </strong>
         </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <table class="table margin-0">
+                <thead>
+                    <tr>
+                        <td>
+                            Choice
+                        </td>
+                        <td>
+                            Response Count
+                        </td>
+                        <td>
+                            Percentage
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+    <td>
+        Team 1
+    </td>
+    <td>
+        1
+    </td>
+    <td>
+        100%
+    </td>
+</tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered dataTable margin-0">
+                            <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                                <tr>
+                                    <th id="button_sortFromName" onclick="toggleSort(this,1)" style="width: 15%;">
+                                        Giver
+                                    </th>
+                                    <th id="button_sortFromTeam" onclick="toggleSort(this,2)" style="width: 15%;">
+                                        Team
+                                    </th>
+                                    <th id="button_sortToName" onclick="toggleSort(this,3)" style="width: 15%;">
+                                        Recipient
+                                    </th>
+                                    <th id="button_sortToTeam" class="button-sort-ascending" onclick="toggleSort(this,4)" style="width: 15%;">
+                                        Team
+                                    </th>
+                                    <th id="button_sortFeedback" onclick="toggleSort(this,5)">
+                                        Feedback
+                                    </th>
+                                </tr>
+                            </thead><thead>
+                            </thead><tbody>
+                                
+                                <tr>
+                                
+                                    <td class="middlealign">Alice Betsy</td>
+                                    <td class="middlealign">Team 1</td>
+                                    <td class="middlealign">Alice Betsy</td>
+                                    <td class="middlealign">Team 1</td>
+                                    <td class="multiline">Team 1</td>
+                                </tr>        
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                </div>
+                </div>
+            </div>
+            
+            <div class="panel panel-info">
+                <div style="cursor: pointer;" data-target="#panelBodyCollapse-9" class="panel-heading">
+                    <form style="display:none;" id="seeMore-11" class="seeMoreForm-11" action="/page/instructorFeedbackResultsAjaxByQuestions">
+                        <input name="questionnum" value="11" type="hidden">
+                        <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
+                        <input name="fsname" value="First Session" type="hidden">
+                        <input name="user" value="CFResultsUiT.instr" type="hidden">
+                        <input name="frsorttype" value="question" type="hidden">
+                    </form>
+                    <div class="display-icon pull-right">
+                    <span class="glyphicon glyphicon-chevron-up pull-right"></span>
+                    </div>
+                    <strong>Question 11: </strong>Who are your teammates?&nbsp;<span style=" white-space: normal;">
+    <a href="javascript:;" id="questionAdditionalInfoButton-11-" class="color_gray" onclick="toggleAdditionalQuestionInfo('11-')" data-more="[more]" data-less="[less]">[more]</a>
+    <br>
+    <span id="questionAdditionalInfo-11-" style="display:none;">Multiple-choice (multiple answers) options:
+<br>The options for this question is automatically generated from the list of all students in this course.</span>
+</span>
+                </div>
+                <div id="panelBodyCollapse-9" class="panel-collapse collapse in">
+                <div class="panel-body padding-0">
+                                    
+                    <div class="resultStatistics">
+                        <div class="panel-body">
+    <div class="row">
+        <div class="col-sm-4 text-color-gray">
+            <strong>
+                Response Summary
+            </strong>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <table class="table margin-0">
+                <thead>
+                    <tr>
+                        <td>
+                            Choice
+                        </td>
+                        <td>
+                            Response Count
+                        </td>
+                        <td>
+                            Percentage
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+    <td>
+        Danny
+    </td>
+    <td>
+        1
+    </td>
+    <td>
+        100%
+    </td>
+</tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered dataTable margin-0">
+                            <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                                <tr>
+                                    <th id="button_sortFromName" onclick="toggleSort(this,1)" style="width: 15%;">
+                                        Giver
+                                    </th>
+                                    <th id="button_sortFromTeam" onclick="toggleSort(this,2)" style="width: 15%;">
+                                        Team
+                                    </th>
+                                    <th id="button_sortToName" onclick="toggleSort(this,3)" style="width: 15%;">
+                                        Recipient
+                                    </th>
+                                    <th id="button_sortToTeam" class="button-sort-ascending" onclick="toggleSort(this,4)" style="width: 15%;">
+                                        Team
+                                    </th>
+                                    <th id="button_sortFeedback" onclick="toggleSort(this,5)">
+                                        Feedback
+                                    </th>
+                                </tr>
+                            </thead><thead>
+                            </thead><tbody>
+                                
+                                <tr>
+                                
+                                    <td class="middlealign">Alice Betsy</td>
+                                    <td class="middlealign">Team 1</td>
+                                    <td class="middlealign">Alice Betsy</td>
+                                    <td class="middlealign">Team 1</td>
+                                    <td class="multiline"><ul class="selectedOptionsList"><li>Danny</li></ul></td>
+                                </tr>        
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                </div>
+                </div>
+            </div>
+            
+            <div class="panel panel-info">
+                <div style="cursor: pointer;" data-target="#panelBodyCollapse-10" class="panel-heading">
+                    <form style="display:none;" id="seeMore-12" class="seeMoreForm-12" action="/page/instructorFeedbackResultsAjaxByQuestions">
+                        <input name="questionnum" value="12" type="hidden">
+                        <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
+                        <input name="fsname" value="First Session" type="hidden">
+                        <input name="user" value="CFResultsUiT.instr" type="hidden">
+                        <input name="frsorttype" value="question" type="hidden">
+                    </form>
+                    <div class="display-icon pull-right">
+                    <span class="glyphicon glyphicon-chevron-up pull-right"></span>
+                    </div>
+                    <strong>Question 12: </strong>Which teams do you like?&nbsp;<span style=" white-space: normal;">
+    <a href="javascript:;" id="questionAdditionalInfoButton-12-" class="color_gray" onclick="toggleAdditionalQuestionInfo('12-')" data-more="[more]" data-less="[less]">[more]</a>
+    <br>
+    <span id="questionAdditionalInfo-12-" style="display:none;">Multiple-choice (multiple answers) options:
+<br>The options for this question is automatically generated from the list of all teams in this course.</span>
+</span>
+                </div>
+                <div id="panelBodyCollapse-10" class="panel-collapse collapse in">
+                <div class="panel-body padding-0">
+                                    
+                    <div class="resultStatistics">
+                        <div class="panel-body">
+    <div class="row">
+        <div class="col-sm-4 text-color-gray">
+            <strong>
+                Response Summary
+            </strong>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <table class="table margin-0">
+                <thead>
+                    <tr>
+                        <td>
+                            Choice
+                        </td>
+                        <td>
+                            Response Count
+                        </td>
+                        <td>
+                            Percentage
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+    <td>
+        Team 1
+    </td>
+    <td>
+        1
+    </td>
+    <td>
+        50%
+    </td>
+</tr><tr>
+    <td>
+        Team 2
+    </td>
+    <td>
+        1
+    </td>
+    <td>
+        50%
+    </td>
+</tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered dataTable margin-0">
+                            <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                                <tr>
+                                    <th id="button_sortFromName" onclick="toggleSort(this,1)" style="width: 15%;">
+                                        Giver
+                                    </th>
+                                    <th id="button_sortFromTeam" onclick="toggleSort(this,2)" style="width: 15%;">
+                                        Team
+                                    </th>
+                                    <th id="button_sortToName" onclick="toggleSort(this,3)" style="width: 15%;">
+                                        Recipient
+                                    </th>
+                                    <th id="button_sortToTeam" class="button-sort-ascending" onclick="toggleSort(this,4)" style="width: 15%;">
+                                        Team
+                                    </th>
+                                    <th id="button_sortFeedback" onclick="toggleSort(this,5)">
+                                        Feedback
+                                    </th>
+                                </tr>
+                            </thead><thead>
+                            </thead><tbody>
+                                
+                                <tr>
+                                
+                                    <td class="middlealign">Alice Betsy</td>
+                                    <td class="middlealign">Team 1</td>
+                                    <td class="middlealign">Alice Betsy</td>
+                                    <td class="middlealign">Team 1</td>
+                                    <td class="multiline"><ul class="selectedOptionsList"><li>Team 1</li><li>Team 2</li></ul></td>
+                                </tr>        
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                </div>
+                </div>
+            </div>
+            
+            <div class="panel panel-info">
+                <div style="cursor: pointer;" data-target="#panelBodyCollapse-11" class="panel-heading">
+                    <form style="display:none;" id="seeMore-13" class="seeMoreForm-13" action="/page/instructorFeedbackResultsAjaxByQuestions">
+                        <input name="questionnum" value="13" type="hidden">
+                        <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
+                        <input name="fsname" value="First Session" type="hidden">
+                        <input name="user" value="CFResultsUiT.instr" type="hidden">
+                        <input name="frsorttype" value="question" type="hidden">
+                    </form>
+                    <div class="display-icon pull-right">
+                    <span class="glyphicon glyphicon-chevron-up pull-right"></span>
+                    </div>
+                    <strong>Question 13: </strong>Rate our product.&nbsp;<span style=" white-space: normal;">
+    <a href="javascript:;" id="questionAdditionalInfoButton-13-" class="color_gray" onclick="toggleAdditionalQuestionInfo('13-')" data-more="[more]" data-less="[less]">[more]</a>
+    <br>
+    <span id="questionAdditionalInfo-13-" style="display:none;">Numerical-scale question:<br>Minimum value: 1. Increment: 0.5. Maximum value: 5.</span>
+</span>
+                </div>
+                <div id="panelBodyCollapse-11" class="panel-collapse collapse in">
+                <div class="panel-body padding-0">
+                                    
+                    <div class="resultStatistics">
+                        <div class="panel-body">
+    <div class="row">
+        <div class="col-sm-4 text-color-gray">
+            <strong>
+                Response Summary
+            </strong>
+        </div>
+    </div>
+    <div class="row">
+        <form class="form-horizontal col-sm-12" role="form">
+            <div class="form-group margin-0">
+                <label class="col-sm-2 control-label font-weight-normal">Average:</label>
+                <div class="col-sm-3">
+                    <p class="form-control-static">3.5</p>
+                </div>
+            </div>
+            <div class="form-group margin-0">
+                <label class="col-sm-2 control-label font-weight-normal">Minimum:</label>
+                <div class="col-sm-3">
+                    <p class="form-control-static">3.5</p>
+                </div>
+            </div>
+            <div class="form-group margin-0">
+                <label class="col-sm-2 control-label font-weight-normal">Maximum:</label>
+                <div class="col-sm-3">
+                    <p class="form-control-static">3.5</p>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered dataTable margin-0">
+                            <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                                <tr>
+                                    <th id="button_sortFromName" onclick="toggleSort(this,1)" style="width: 15%;">
+                                        Giver
+                                    </th>
+                                    <th id="button_sortFromTeam" onclick="toggleSort(this,2)" style="width: 15%;">
+                                        Team
+                                    </th>
+                                    <th id="button_sortToName" onclick="toggleSort(this,3)" style="width: 15%;">
+                                        Recipient
+                                    </th>
+                                    <th id="button_sortToTeam" class="button-sort-ascending" onclick="toggleSort(this,4)" style="width: 15%;">
+                                        Team
+                                    </th>
+                                    <th id="button_sortFeedback" onclick="toggleSort(this,5)">
+                                        Feedback
+                                    </th>
+                                </tr>
+                            </thead><thead>
+                            </thead><tbody>
+                                
+                                <tr>
+                                
+                                    <td class="middlealign">Alice Betsy</td>
+                                    <td class="middlealign">Team 1</td>
+                                    <td class="middlealign">Alice Betsy</td>
+                                    <td class="middlealign">Team 1</td>
+                                    <td class="multiline">3.5</td>
+                                </tr>        
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                </div>
+                </div>
+            </div>
+            
+            
+            
+            <div class="panel panel-warning">
+                <div style="cursor: pointer;" data-target="#panelBodyCollapse-12" class="panel-heading">
+                    <form style="display:none;" id="responseRate" class="responseRateForm" action="/page/instructorFeedbackResultsAjaxResponseRate">
+                        <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
+                        <input name="fsname" value="First Session" type="hidden">
+                        <input name="user" value="CFResultsUiT.instr" type="hidden">
+                    </form>
+                    <div class="display-icon pull-right">
+                    <span class="glyphicon glyphicon-chevron-up pull-right"></span>
+                    </div>
+                    Participants who have not responded to any question</div>
+                <div id="panelBodyCollapse-12" class="panel-collapse collapse in">
+                      
+                    <div class="panel-body padding-0">
+                        <table class="table table-striped table-bordered margin-0">
+                            <tbody>
+                            
+                                    <tr>
+                                        <td>Danny Engrid</td>
+                                    </tr>
+                            
+                                    <tr>
+                                        <td>Drop out</td>
+                                    </tr>
+                            
+                                    <tr>
+                                        <td>Emily</td>
+                                    </tr>
+                            
+                                    <tr>
+                                        <td>Extra guy</td>
+                                    </tr>
+                            
+                            </tbody>
+                        </table>
+                    </div>
+            
+                </div>
+                </div>
+            
+            </div>

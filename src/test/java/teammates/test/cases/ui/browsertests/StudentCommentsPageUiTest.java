@@ -38,7 +38,7 @@ public class StudentCommentsPageUiTest extends BaseUiTestCase {
 
         commentsPage = loginAdminToPage(browser, commentsPageUrl, StudentCommentsPage.class);
 
-        commentsPage.verifyHtmlMainContent("/studentCommentsPageForStudent1.html");
+        commentsPage.verifyHtml("/studentCommentsPageForStudent1.html");
         
         commentsPageUrl = createUrl(Const.ActionURIs.STUDENT_COMMENTS_PAGE)
             .withUserId(testData.accounts.get("student2InCourse1").googleId);

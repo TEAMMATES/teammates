@@ -24,6 +24,7 @@ public class InstructorAttributes extends EntityAttributes {
     public String name;
     public String email;
     public String courseId;
+    public Boolean isArchived;
     public String key;
     public String role;
     public boolean isDisplayedToStudents;
@@ -44,6 +45,7 @@ public class InstructorAttributes extends EntityAttributes {
             String displayedName, String instructorPrivilegesAsText) {        
         this.googleId = Sanitizer.sanitizeGoogleId(googleId);
         this.courseId = Sanitizer.sanitizeTitle(courseId);
+        this.isArchived = false;
         this.name = Sanitizer.sanitizeName(name);
         this.email = Sanitizer.sanitizeEmail(email);
         this.role = Sanitizer.sanitizeName(role);
@@ -57,6 +59,7 @@ public class InstructorAttributes extends EntityAttributes {
             String displayedName, InstructorPrivileges privileges) {        
         this.googleId = Sanitizer.sanitizeGoogleId(googleId);
         this.courseId = Sanitizer.sanitizeTitle(courseId);
+        this.isArchived = false;
         this.name = Sanitizer.sanitizeName(name);
         this.email = Sanitizer.sanitizeEmail(email);
         this.role = Sanitizer.sanitizeName(role);
@@ -70,11 +73,13 @@ public class InstructorAttributes extends EntityAttributes {
             boolean isDisplayedToStudents, String displayName, InstructorPrivileges privileges) {
         this(googleId, courseId, name, email, role, displayName, privileges);
         this.isDisplayedToStudents = isDisplayedToStudents;
+        this.isArchived = false;
     }
     
     public InstructorAttributes(Instructor instructor) {
         this.googleId = instructor.getGoogleId();
         this.courseId = instructor.getCourseId();
+        this.isArchived = instructor.getIsArchived();
         this.name = instructor.getName();
         this.email = instructor.getEmail();
         this.key = instructor.getRegistrationKey();
@@ -119,7 +124,7 @@ public class InstructorAttributes extends EntityAttributes {
         if (key != null) {
             return new Instructor(googleId, courseId, name, email, key, role, isDisplayedToStudents, displayedName, instructorPrivilegesAsText);
         } else {
-            return new Instructor(googleId, courseId, name, email, role,isDisplayedToStudents, displayedName, instructorPrivilegesAsText);
+            return new Instructor(googleId, courseId, isArchived, name, email, role,isDisplayedToStudents, displayedName, instructorPrivilegesAsText);
         }
     }
 

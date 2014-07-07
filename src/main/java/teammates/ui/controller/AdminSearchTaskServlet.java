@@ -67,11 +67,7 @@ public class AdminSearchTaskServlet extends HttpServlet {
         while (it.hasNext()) {
             InstructorAttributes instructor = it.next();
             docs.add(makeDocument(instructor.name, instructor.email, instructor.googleId, Const.ActionURIs.INSTRUCTOR_HOME_PAGE));
-            try {
-                students.addAll(StudentsLogic.inst().getStudentsForCourse(instructor.courseId));
-            } catch (EntityDoesNotExistException e) {
-                e.printStackTrace();
-            }
+            students.addAll(StudentsLogic.inst().getStudentsForCourse(instructor.courseId));
         }
         
         /**

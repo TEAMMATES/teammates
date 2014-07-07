@@ -57,6 +57,7 @@
               <input name="user" value="CFResultsUiT.instr" type="hidden">
               <input name="fsname" value="First Session" type="hidden">
               <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
+              <input name="sectionname" value="Section B" type="hidden">
           </div>
         </div>
         </div>
@@ -113,7 +114,7 @@
                   <div data-original-title="Group results in the current view by team" class="col-sm-12" data-toggle="tooltip" title="">
                       <div class="checkbox padding-top-0 min-height-0">
                           <label class="text-strike">
-                              <input name="frgroupbyteam" checked="checked" type="checkbox"> Group by Teams
+                              <input name="frgroupbyteam" id="frgroupbyteam" checked="checked" type="checkbox"> Group by Teams
                           </label>
                       </div>
                   </div>
@@ -154,8 +155,8 @@
                 
                 <div class="col-sm-7 pull-right" style="padding-top:8px;">
                     
-                    <a data-original-title="Collapse or expand all panels. You can also click on the panel heading to toggle each one individually." class="btn btn-default btn-xs pull-right" id="collapse-panels-button" onclick="toggleCollapse()" data-toggle="tooltip" title="">
-                        Collapse All
+                    <a data-original-title="Collapse or expand all panels. You can also click on the panel heading to toggle each one individually." class="btn btn-default btn-xs pull-right" id="collapse-panels-button" onclick="toggleCollapse(this)" data-toggle="tooltip" title="">
+                        Collapse Questions
                     </a>
                     
                 </div>
@@ -167,7 +168,7 @@
     <input name="user" value="CFResultsUiT.instr" type="hidden">
 </form>
 
-
+<br>
 
 
 
@@ -175,12 +176,71 @@
 
     <div id="statusMessage" style="display: none;"></div>
 
+<br>
 
-
-    <div class="bold color_red align-center">There are no responses for this feedback session yet or you do not have access to the responses collected so far.</div>
 
             <br>
             
+            <div class="panel panel-info">
+                <div style="cursor: pointer;" data-target="#panelBodyCollapse-1" class="panel-heading">
+                    <form style="display:none;" id="seeMore-1" class="seeMoreForm-1" action="/page/instructorFeedbackResultsAjaxByQuestions">
+                        <input name="questionnum" value="1" type="hidden">
+                        <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
+                        <input name="fsname" value="First Session" type="hidden">
+                        <input name="user" value="CFResultsUiT.instr" type="hidden">
+                        <input name="frsorttype" value="question" type="hidden">
+                    </form>
+                    <div class="display-icon pull-right">
+                    <span class="glyphicon glyphicon-chevron-up pull-right"></span>
+                    </div>
+                    <strong>Question 1: </strong>Rate 3 other students' products
+                </div>
+                <div id="panelBodyCollapse-1" class="panel-collapse collapse in">
+                <div class="panel-body padding-0">
+                                    
+                    <div class="resultStatistics">
+                        
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered dataTable margin-0">
+                            <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                                <tr>
+                                    <th id="button_sortFromName" onclick="toggleSort(this,1)" style="width: 15%;">
+                                        Giver
+                                    </th>
+                                    <th id="button_sortFromTeam" onclick="toggleSort(this,2)" style="width: 15%;">
+                                        Team
+                                    </th>
+                                    <th id="button_sortToName" onclick="toggleSort(this,3)" style="width: 15%;">
+                                        Recipient
+                                    </th>
+                                    <th id="button_sortToTeam" class="button-sort-ascending" onclick="toggleSort(this,4)" style="width: 15%;">
+                                        Team
+                                    </th>
+                                    <th id="button_sortFeedback" onclick="toggleSort(this,5)">
+                                        Feedback
+                                    </th>
+                                </tr>
+                            </thead><thead>
+                            </thead><tbody>
+                                
+                                <tr>
+                                
+                                    <td class="middlealign">Charlie Dávis</td>
+                                    <td class="middlealign">Team 2</td>
+                                    <td class="middlealign">Emily</td>
+                                    <td class="middlealign">Team 3</td>
+                                    <td class="multiline">3 Response to Emily.</td>
+                                </tr>        
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                </div>
+                </div>
+            </div>
             
             
-        </div>
+            
+            </div>

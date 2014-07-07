@@ -76,7 +76,6 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         newSession.isPublishedEmailEnabled = true;
             
         browser = BrowserPool.getBrowser();
-        
     }
     
     @Test
@@ -96,123 +95,25 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         testJScripts();
     }
     
-    public void testJScripts() throws ParseException{
-        feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithoutCourses").googleId);
-        testSessionViewableTable();
-        testDatePickerScripts();
-    }
-    
-    public void testSessionViewableTable() {
-        
-        ______TS("all 4 datetime elements enabled when custom is selected");
-        
-        feedbackPage.clickCustomPublishTimeButton();
-        feedbackPage.clickCustomVisibleTimeButton();
-        
-        feedbackPage.verifyEnabled(By.id("visibledate"));
-        feedbackPage.verifyEnabled(By.id("visibletime"));
-        feedbackPage.verifyEnabled(By.id("publishdate"));
-        feedbackPage.verifyEnabled(By.id("publishtime"));
-        
-        ______TS("all 4 datetime elements disabled when custom is deselected");
-        
-        feedbackPage.clickDefaultPublishTimeButton();
-        feedbackPage.clickDefaultVisibleTimeButton();
-        
-        feedbackPage.verifyDisabled(By.id("visibledate"));
-        feedbackPage.verifyDisabled(By.id("visibletime"));
-        feedbackPage.verifyDisabled(By.id("publishdate"));
-        feedbackPage.verifyDisabled(By.id("publishtime"));
-    }
-    
-    public void testDatePickerScripts() throws ParseException {
-        
-        feedbackPage.clickCustomVisibleTimeButton();
-        feedbackPage.clickCustomPublishTimeButton();
-        
-        // setup various dates 
-        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd yyyy");
-        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-        cal.set(2014, 4, 16, 0, 0, 0);
-        
-        // fill in defaut values
-        feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE, cal);
-        feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, cal);
-        feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE, cal);
-        feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, cal);
-        
-
-        ______TS("increasing start date affects end date value");
-        cal.add(Calendar.DATE, 30);
-        feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, cal);
-        
-        assertEquals(sdf.format(cal.getTime()), feedbackPage.getValueOfDate(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE));
-        
-        ______TS("decreasing start date affects  visible time, end date range and publish date range");
-        
-        cal.add(Calendar.DATE, -35);
-        feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, cal);
-        
-        assertEquals(sdf.format(cal.getTime()), feedbackPage.getValueOfDate(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE));
-        assertEquals(sdf.format(cal.getTime()), feedbackPage.getMaxDateOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE));
-        assertEquals(sdf.format(cal.getTime()), feedbackPage.getMinDateOf(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE));
-        
-        
-        
-        ______TS("decreasing end date affects start time, visible time");
-        cal.add(Calendar.DATE, -50);
-        feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE, cal);
-        
-        assertEquals(sdf.format(cal.getTime()), feedbackPage.getValueOfDate(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE));
-        
-        assertEquals(sdf.format(cal.getTime()), feedbackPage.getValueOfDate(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE));
-        assertEquals(sdf.format(cal.getTime()), feedbackPage.getMaxDateOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE));
-        
-        assertEquals(sdf.format(cal.getTime()), feedbackPage.getMinDateOf(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE));
-        
-        
-        
-        ______TS("changing visible date affects publish date range");
-        cal.add(Calendar.DATE, -10);
-        feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE, cal);
-        
-        assertEquals(sdf.format(cal.getTime()), feedbackPage.getMinDateOf(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE));
-        
-        
-        
-        ______TS("changing publish date affects visible date range publishTime < startTime");
-        
-        cal.add(Calendar.DATE, 9);
-        feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, cal);
-        
-        assertEquals(sdf.format(cal.getTime()), feedbackPage.getMaxDateOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE));
-        
-        ______TS("changing publish date does not affect visible date range publishTime > startTime");
-        
-        cal.add(Calendar.DATE, 30);
-        feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, cal);
-        
-        //set the value back to start time
-        cal.add(Calendar.DATE, -29);
-        //check if maxDate is start time and not publish time
-        assertEquals(sdf.format(cal.getTime()), feedbackPage.getMaxDateOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE));
-        
-        
-    }
-
     public void testContent() throws Exception{
         
         ______TS("no courses");
         
         feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithoutCourses").googleId);
-        feedbackPage.verifyHtmlMainContent("/instructorFeedbackEmptyAll.html");
+        feedbackPage.verifyHtml("/instructorFeedbackEmptyAll.html");
         
         ______TS("no sessions");
         
         feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithoutSessions").googleId);
         feedbackPage.verifyHtmlMainContent("/instructorFeedbackEmptySession.html");
 
+        ______TS("typical case with helper view");
+        
+        String helperId = testData.accounts.get("helperWithSessions").googleId;
+        
+        feedbackPage = getFeedbackPageForInstructor(helperId);
+        feedbackPage.verifyHtmlAjax("/instructorFeedbacksAllSessionTypesWithHelperView.html");
+        
         ______TS("typical case, sort by name");
         
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
@@ -235,81 +136,6 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     
     }
     
-    public void testResponseRateLink(){
-        ______TS("test response rate link clickable");
-        
-        feedbackPage.clickViewResponseLink("CFeedbackUiT.CS2104", "Private Session");
-        assertEquals("0 / 0", feedbackPage.getResponseValue("CFeedbackUiT.CS2104","Private Session"));
-        
-        ______TS("test response rate");
-        //Already displayed
-        assertEquals("0 / 2", feedbackPage.getResponseValue("CFeedbackUiT.CS1101","First Eval"));
-        
-        // Failure case tested in HomePageUiTest
-        
-    }
-
-    public void testViewResultsLink() {
-        InstructorFeedbackResultsPage feedbackResultsPage;
-        FeedbackSessionAttributes fsa;
-        
-        ______TS("view results clickable not creator, open session");
-        
-        fsa = testData.feedbackSessions.get("openSession");
-        assertNull(feedbackPage.getViewResultsLink(fsa.courseId, fsa.feedbackSessionName).getAttribute("onclick"));
-        
-        feedbackResultsPage = feedbackPage.loadViewResultsLink(fsa.courseId, fsa.feedbackSessionName);
-        assertTrue(feedbackResultsPage.isCorrectPage(fsa.courseId, fsa.feedbackSessionName));
-        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
-        
-        ______TS("view results clickable creator, closed session");
-        
-        fsa = testData.feedbackSessions.get("manualSession");
-        assertNull(feedbackPage.getViewResultsLink(fsa.courseId, fsa.feedbackSessionName).getAttribute("onclick"));
-        
-        feedbackResultsPage = feedbackPage.loadViewResultsLink(fsa.courseId, fsa.feedbackSessionName);
-        assertTrue(feedbackResultsPage.isCorrectPage(fsa.courseId, fsa.feedbackSessionName));
-        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
-    }
-    
-    public void testEditLink() {
-        InstructorFeedbackEditPage feedbackResultsPage;
-        FeedbackSessionAttributes fsa;
-        
-        ______TS("edit link clickable when creator");
-        
-        fsa = testData.feedbackSessions.get("privateSession");
-        assertNull(feedbackPage.getEditLink(fsa.courseId, fsa.feedbackSessionName).getAttribute("onclick"));
-        
-        feedbackResultsPage = feedbackPage.loadEditLink(fsa.courseId, fsa.feedbackSessionName);
-        assertTrue(feedbackResultsPage.isCorrectPage(fsa.courseId, fsa.feedbackSessionName));
-        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
-    }
-    
-    public void testSubmitLink () {
-        
-        FeedbackSubmitPage feedbackResultsPage;
-        FeedbackSessionAttributes fsa;
-        
-        ______TS("submit link clickable when visible");
-        
-        fsa = testData.feedbackSessions.get("awaitingSession");
-        assertNull(feedbackPage.getSubmitLink(fsa.courseId, fsa.feedbackSessionName).getAttribute("onclick"));
-        
-        feedbackResultsPage = feedbackPage.loadSubmitLink(fsa.courseId, fsa.feedbackSessionName);
-        assertTrue(feedbackResultsPage.isCorrectPage(fsa.courseId, fsa.feedbackSessionName));
-        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
-        
-        ______TS("submit link clickable when private (never visible)");
-        
-        fsa = testData.feedbackSessions.get("privateSession");
-        assertNull(feedbackPage.getSubmitLink(fsa.courseId, fsa.feedbackSessionName).getAttribute("onclick"));
-        
-        feedbackResultsPage = feedbackPage.loadSubmitLink(fsa.courseId, fsa.feedbackSessionName);
-        assertTrue(feedbackResultsPage.isCorrectPage(fsa.courseId, fsa.feedbackSessionName));
-        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
-    }
-
     public void testAddAction() throws Exception{
         
         // TODO: possibly remove some of the test cases below in the future
@@ -643,6 +469,188 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         feedbackPage.verifyUnpublishLinkHidden(courseId, sessionName);
         
+    }
+    
+    public void testJScripts() throws ParseException{
+        feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithoutCourses").googleId);
+        testSessionViewableTable();
+        
+        // TODO: check this method. it gives random failure!!!
+        testDatePickerScripts();
+    }
+    
+    public void testSessionViewableTable() {
+        
+        ______TS("all 4 datetime elements enabled when custom is selected");
+        
+        feedbackPage.clickCustomPublishTimeButton();
+        feedbackPage.clickCustomVisibleTimeButton();
+        
+        feedbackPage.verifyEnabled(By.id("visibledate"));
+        feedbackPage.verifyEnabled(By.id("visibletime"));
+        feedbackPage.verifyEnabled(By.id("publishdate"));
+        feedbackPage.verifyEnabled(By.id("publishtime"));
+        
+        ______TS("all 4 datetime elements disabled when custom is deselected");
+        
+        feedbackPage.clickDefaultPublishTimeButton();
+        feedbackPage.clickDefaultVisibleTimeButton();
+        
+        feedbackPage.verifyDisabled(By.id("visibledate"));
+        feedbackPage.verifyDisabled(By.id("visibletime"));
+        feedbackPage.verifyDisabled(By.id("publishdate"));
+        feedbackPage.verifyDisabled(By.id("publishtime"));
+    }
+    
+    public void testDatePickerScripts() throws ParseException {
+        
+        feedbackPage.clickCustomVisibleTimeButton();
+        feedbackPage.clickCustomPublishTimeButton();
+        
+        // setup various dates 
+        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd yyyy");
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        cal.set(2014, 3, 16, 0, 0, 0);
+        
+        // fill in defaut values
+        feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE, cal);
+        feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, cal);
+        feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE, cal);
+        feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, cal);
+        
+
+        ______TS("increasing start date affects end date value");
+        cal.add(Calendar.DATE, 30);
+        feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, cal);
+        
+        assertEquals(sdf.format(cal.getTime()), feedbackPage.getValueOfDate(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE));
+        
+        ______TS("decreasing start date affects  visible time, end date range and publish date range");
+        
+        cal.add(Calendar.DATE, -35);
+        feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, cal);
+        
+        assertEquals(sdf.format(cal.getTime()), feedbackPage.getValueOfDate(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE));
+        assertEquals(sdf.format(cal.getTime()), feedbackPage.getMaxDateOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE));
+        assertEquals(sdf.format(cal.getTime()), feedbackPage.getMinDateOf(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE));
+        
+        
+        
+        ______TS("decreasing end date affects start time, visible time");
+        cal.add(Calendar.DATE, -50);
+        feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE, cal);
+        
+        assertEquals(sdf.format(cal.getTime()), feedbackPage.getValueOfDate(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE));
+        
+        assertEquals(sdf.format(cal.getTime()), feedbackPage.getValueOfDate(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE));
+        assertEquals(sdf.format(cal.getTime()), feedbackPage.getMaxDateOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE));
+        
+        assertEquals(sdf.format(cal.getTime()), feedbackPage.getMinDateOf(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE));
+        
+        
+        
+        ______TS("changing visible date affects publish date range");
+        cal.add(Calendar.DATE, -10);
+        feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE, cal);
+        
+        assertEquals(sdf.format(cal.getTime()), feedbackPage.getMinDateOf(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE));
+        
+        
+        
+        ______TS("changing publish date affects visible date range publishTime < startTime");
+        
+        cal.add(Calendar.DATE, 9);
+        feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, cal);
+        
+        assertEquals(sdf.format(cal.getTime()), feedbackPage.getMaxDateOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE));
+        
+        ______TS("changing publish date does not affect visible date range publishTime > startTime");
+        
+        cal.add(Calendar.DATE, 30);
+        feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, cal);
+        
+        //set the value back to start time
+        cal.add(Calendar.DATE, -29);
+        //check if maxDate is start time and not publish time
+        assertEquals(sdf.format(cal.getTime()), feedbackPage.getMaxDateOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE));
+        
+        
+    }
+    
+    public void testResponseRateLink(){
+        ______TS("test response rate link clickable");
+        
+        feedbackPage.clickViewResponseLink("CFeedbackUiT.CS2104", "Private Session");
+        assertEquals("0 / 0", feedbackPage.getResponseValue("CFeedbackUiT.CS2104","Private Session"));
+        
+        ______TS("test response rate");
+        //Already displayed
+        assertEquals("0 / 2", feedbackPage.getResponseValue("CFeedbackUiT.CS1101","First Eval"));
+        
+        // Failure case tested in HomePageUiTest
+        
+    }
+
+    public void testViewResultsLink() {
+        InstructorFeedbackResultsPage feedbackResultsPage;
+        FeedbackSessionAttributes fsa;
+        
+        ______TS("view results clickable not creator, open session");
+        
+        fsa = testData.feedbackSessions.get("openSession");
+        assertNull(feedbackPage.getViewResultsLink(fsa.courseId, fsa.feedbackSessionName).getAttribute("onclick"));
+        
+        feedbackResultsPage = feedbackPage.loadViewResultsLink(fsa.courseId, fsa.feedbackSessionName);
+        assertTrue(feedbackResultsPage.isCorrectPage(fsa.courseId, fsa.feedbackSessionName));
+        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
+        
+        ______TS("view results clickable creator, closed session");
+        
+        fsa = testData.feedbackSessions.get("manualSession");
+        assertNull(feedbackPage.getViewResultsLink(fsa.courseId, fsa.feedbackSessionName).getAttribute("onclick"));
+        
+        feedbackResultsPage = feedbackPage.loadViewResultsLink(fsa.courseId, fsa.feedbackSessionName);
+        assertTrue(feedbackResultsPage.isCorrectPage(fsa.courseId, fsa.feedbackSessionName));
+        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
+    }
+    
+    public void testEditLink() {
+        InstructorFeedbackEditPage feedbackResultsPage;
+        FeedbackSessionAttributes fsa;
+        
+        ______TS("edit link clickable when creator");
+        
+        fsa = testData.feedbackSessions.get("privateSession");
+        assertNull(feedbackPage.getEditLink(fsa.courseId, fsa.feedbackSessionName).getAttribute("onclick"));
+        
+        feedbackResultsPage = feedbackPage.loadEditLink(fsa.courseId, fsa.feedbackSessionName);
+        assertTrue(feedbackResultsPage.isCorrectPage(fsa.courseId, fsa.feedbackSessionName));
+        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
+    }
+    
+    public void testSubmitLink () {
+        
+        FeedbackSubmitPage feedbackResultsPage;
+        FeedbackSessionAttributes fsa;
+        
+        ______TS("submit link clickable when visible");
+        
+        fsa = testData.feedbackSessions.get("awaitingSession");
+        assertNull(feedbackPage.getSubmitLink(fsa.courseId, fsa.feedbackSessionName).getAttribute("onclick"));
+        
+        feedbackResultsPage = feedbackPage.loadSubmitLink(fsa.courseId, fsa.feedbackSessionName);
+        assertTrue(feedbackResultsPage.isCorrectPage(fsa.courseId, fsa.feedbackSessionName));
+        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
+        
+        ______TS("submit link clickable when private (never visible)");
+        
+        fsa = testData.feedbackSessions.get("privateSession");
+        assertNull(feedbackPage.getSubmitLink(fsa.courseId, fsa.feedbackSessionName).getAttribute("onclick"));
+        
+        feedbackResultsPage = feedbackPage.loadSubmitLink(fsa.courseId, fsa.feedbackSessionName);
+        assertTrue(feedbackResultsPage.isCorrectPage(fsa.courseId, fsa.feedbackSessionName));
+        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
     }
 
     @AfterClass

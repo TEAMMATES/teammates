@@ -77,28 +77,26 @@
                     <div class="col-sm-6">
                         <h1>Comments from Instructors</h1>
                     </div>
-                    <!-- <div class="col-sm-5 instructor-header-bar">
-                        <form method="post" action="#"
+                    <div class="col-sm-6 instructor-header-bar">
+                        <form method="get" action="<%=data.getInstructorSearchLink()%>"
                             name="search_form">
                             <div class="input-group">
-                                <input type="text" name="searchkey"
+                                <input type="text" name="<%=Const.ParamsNames.SEARCH_KEY%>"
                                     title="Search for comment"
                                     class="form-control"
                                     placeholder="Any info related to comments"
-                                    id="searchBox"> <span
-                                    class="input-group-btn">
+                                    id="searchBox"> 
+                                <span class="input-group-btn">
                                     <button class="btn btn-default"
                                         type="submit" value="Search"
                                         id="buttonSearch">Search</button>
                                 </span>
                             </div>
+                            <input type="hidden" name="<%=Const.ParamsNames.SEARCH_COMMENTS_FOR_STUDENTS%>" value="true">
+                            <input type="hidden" name="<%=Const.ParamsNames.SEARCH_COMMENTS_FOR_RESPONSES%>" value="true">
+                            <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
                         </form>
                     </div>
-                    <div class="col-md-1 instructor-header-bar">
-                        <a class="btn btn-primary btn-md"
-                            href="./omniComment_bulkEdit.html">
-                            Comment in Bulk </a>
-                    </div> -->
                 </div>
             </div>
             <br>
@@ -192,6 +190,33 @@
                                             Others </label>
                                     </div>
                                 </div>
+                                <div class="col-sm-4">
+                                    <div class="text-color-primary">
+                                        <strong>Show comments with status: </strong>
+                                    </div>
+                                    <br>
+                                    <div class="checkbox">
+                                        <input type="checkbox" value=""
+                                            id="status_all"
+                                            checked="checked"> <label
+                                            for="status_all"><strong>All</strong></label>
+                                    </div>
+                                    <br>
+                                    <div class="checkbox">
+                                        <input id="status_check-public"
+                                            type="checkbox"
+                                            checked="checked"> <label
+                                            for="status_check-public">
+                                            Public </label>
+                                    </div>
+                                    <div class="checkbox">
+                                        <input id="status_check-private"
+                                            type="checkbox"
+                                            checked="checked"> <label
+                                            for="status_check-private">
+                                            Private </label>
+                                    </div>
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -271,8 +296,8 @@
                                             commentIdx++;
                                             recipientTypeForThisRecipient = comment.recipientType;
                                 %>
-                                <li
-                                    class="list-group-item list-group-item-warning">
+                                <li id="<%=comment.getCommentId()%>"
+                                    class="list-group-item list-group-item-warning <%=comment.showCommentTo.size()>0?"status_display-public":"status_display-private"%>">
                                     <form method="post"
                                         action="<%=Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_EDIT%>"
                                         name="form_commentedit"
@@ -419,14 +444,13 @@
                                                             </td>
                                                         </tr>
                                                         <% } %>
-                                                        <% if(comment.recipientType != CommentRecipientType.COURSE
-                                                                && comment.showCommentTo.contains(CommentRecipientType.SECTION)){ %>
+                                                        <% if(comment.recipientType != CommentRecipientType.COURSE){ %>
                                                         <tr id="recipient-section<%=commentIdx%>">
                                                             <td class="text-left">
                                                                 <div data-toggle="tooltip"
                                                                     data-placement="top" title=""
-                                                                    data-original-title="Control what other students in the same section can view">
-                                                                    Recipient's Section</div>
+                                                                    data-original-title="Control what students in the same section can view">
+                                                                    <%=comment.recipientType == CommentRecipientType.SECTION? "Recipient Section" : "Recipient's Section" %></div>
                                                             </td>
                                                             <td><input
                                                                 class="visibilityCheckbox answerCheckbox"
@@ -667,8 +691,8 @@
                                                                         frCommentGiver = data.roster.getInstructorForEmail(frc.giverEmail).name;
                                                                     }
                                                 %>
-                                                <li
-                                                    class="list-group-item list-group-item-warning <%=frCommentGiver.equals("you")?"giver_display-by-you":"giver_display-by-others"%>"
+                                                <li id="<%=frc.getId()%>"
+                                                    class="list-group-item list-group-item-warning <%=frCommentGiver.equals("you")?"giver_display-by-you":"giver_display-by-others"%> <%=isPublicResponseComment && bundle.feedbackSession.isPublished()?"status_display-public":"status_display-private"%>"
                                                     id="responseCommentRow-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>">
                                                     <div
                                                         id="commentBar-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>">

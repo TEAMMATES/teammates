@@ -4,6 +4,13 @@ import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
 
+import com.google.appengine.api.search.Results;
+import com.google.appengine.api.search.ScoredDocument;
+import com.google.appengine.api.search.SearchQueryException;
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.blobstore.BlobstoreFailureException;
+import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
+
 import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
@@ -13,6 +20,9 @@ import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Utils;
 import teammates.storage.datastore.Datastore;
+import teammates.storage.search.SearchDocument;
+import teammates.storage.search.SearchManager;
+import teammates.storage.search.SearchQuery;
 
 public abstract class EntitiesDb {
 
@@ -33,7 +43,7 @@ public abstract class EntitiesDb {
      * Preconditions: 
      * <br> * {@code entityToAdd} is not null and has valid data.
      */
-    public void createEntity(EntityAttributes entityToAdd) 
+    public Object createEntity(EntityAttributes entityToAdd) 
             throws InvalidParametersException, EntityAlreadyExistsException {
         
         Assumption.assertNotNull(
@@ -60,13 +70,13 @@ public abstract class EntitiesDb {
 
         // Wait for the operation to persist
         int elapsedTime = 0;
-        Object entityCheck = getEntity(entityToAdd);
-        while ((entityCheck == null)
+        Object createdEntity = getEntity(entityToAdd);
+        while ((createdEntity == null)
                 && (elapsedTime < Config.PERSISTENCE_CHECK_DURATION)) {
             ThreadHelper.waitBriefly();
-            entityCheck = getEntity(entityToAdd);
+            createdEntity = getEntity(entityToAdd);
             //check before incrementing to avoid boundary case problem
-            if (entityCheck == null) {
+            if (createdEntity == null) {
                 elapsedTime += ThreadHelper.WAIT_DURATION;
             }
         }
@@ -75,6 +85,7 @@ public abstract class EntitiesDb {
                     + entityToAdd.getEntityTypeAsString() + "->"
                     + entityToAdd.getIdentificationString());
         }
+        return createdEntity;
     }
     
     /**
@@ -156,6 +167,16 @@ public abstract class EntitiesDb {
         }
     }
     
+    protected void closePM() {
+        if (!getPM().isClosed()) {
+            getPM().close();
+        }
+    }
+    
+    public void deletePicture(BlobKey key) throws BlobstoreFailureException {
+        BlobstoreServiceFactory.getBlobstoreService().delete(key);
+    }
+    
     /**
      * NOTE: This method must be overriden for all subclasses such that it will return the Entity
      * matching the EntityAttributes in the parameter.
@@ -167,5 +188,35 @@ public abstract class EntitiesDb {
     
     protected PersistenceManager getPM() {
         return Datastore.getPersistenceManager();
+    }
+    
+    //the followings APIs are used by Teammates' search engine
+    protected void putDocument(String indexName, SearchDocument document){
+        SearchManager.putDocument(indexName, document.build());
+    }
+    
+    protected void getDocument(String indexName, String documentId) {
+        SearchManager.getDocument(indexName, documentId);
+    }
+    
+    protected Results<ScoredDocument> searchDocuments(String indexName, SearchQuery query) {
+        try{
+            if(query.getFilterSize() > 0){
+                return SearchManager.searchDocuments(indexName, query.toQuery());
+            } else {
+                return null;
+            }
+        } catch (SearchQueryException e){
+            log.info("Unsupported query for this query string: " + query.toString());
+            return null;
+        }
+    }
+    
+    protected void deleteDocument(String indexName, String documentId){
+        SearchManager.deleteDocument(indexName, documentId);
+    }
+    
+    protected void deleteDocuments(String indexName, String[] documentId){
+        SearchManager.deleteDocuments(indexName, documentId);
     }
 }

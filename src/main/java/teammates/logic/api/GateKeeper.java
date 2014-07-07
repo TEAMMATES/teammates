@@ -11,6 +11,7 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.datatransfer.UserType;
 import teammates.common.exception.UnauthorizedAccessException;
+import teammates.common.util.Const;
 import teammates.logic.core.AccountsLogic;
 import teammates.storage.api.EvaluationsDb;
 import teammates.storage.api.StudentsDb;
@@ -118,10 +119,12 @@ public class GateKeeper {
     /** Verifies that the nominal user has instructor privileges.
      */
     public void verifyInstructorPrivileges(AccountAttributes account){
+        
         if(account.isInstructor) {
             return;
         }
-        throw new UnauthorizedAccessException("User "+account.googleId+" does not have admin privilleges");
+        throw new UnauthorizedAccessException("User "+account.googleId+" does not have instructor privilleges");
+
     }
     
     /** Verifies that the nominal user has student privileges. Currently, all
@@ -280,7 +283,7 @@ public class GateKeeper {
                     "Evaluation [" + evaluation.name + 
                     "] is not accessible to instructor ["+ instructor.email+ "]");
         }
-        if (!instructor.isAllowedForPrivilege(sectionName, sessionName, privilegeName)) {
+        if (!instructor.isAllowedForPrivilege(sectionName, Const.EVAL_PREFIX_FOR_INSTRUCTOR_PRIVILEGES + sessionName, privilegeName)) {
             throw new UnauthorizedAccessException(
                     "Evaluation [" + evaluation.name + 
                     "] is not accessible to instructor ["+ instructor.email+ "]");

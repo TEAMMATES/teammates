@@ -49,7 +49,7 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
         
         FeedbackResponseCommentAttributes feedbackResponseComment = new FeedbackResponseCommentAttributes(
                 courseId, feedbackSessionName, null, instructor.email, null, null,
-                new Text(commentText));
+                new Text(commentText), response.giverSection, response.recipientSection);
         feedbackResponseComment.setId(Long.parseLong(feedbackResponseCommentId));
         
         FeedbackQuestionAttributes question = logic.getFeedbackQuestion(response.feedbackQuestionId);
@@ -58,7 +58,9 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
         }
         
         try {
-            logic.updateFeedbackResponseComment(feedbackResponseComment);
+            FeedbackResponseCommentAttributes updatedComment = logic.updateFeedbackResponseComment(feedbackResponseComment);
+            //TODO: move putDocument to task queue
+            logic.putDocument(updatedComment);
         } catch (InvalidParametersException e) {
             setStatusForException(e);
             data.errorMessage = e.getMessage();

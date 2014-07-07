@@ -21,8 +21,8 @@ public class InstructorStudentCommentClearPendingAction extends Action {
                 logic.getInstructorForGoogleId(courseId, account.googleId),
                 logic.getCourse(courseId));
         
-        logic.updateComments(courseId, CommentSendingState.PENDING, CommentSendingState.SENDING);
-        logic.updateFeedbackResponseComments(courseId, CommentSendingState.PENDING, CommentSendingState.SENDING);
+        logic.updateCommentsSendingState(courseId, CommentSendingState.PENDING, CommentSendingState.SENDING);
+        logic.updateFeedbackResponseCommentsSendingState(courseId, CommentSendingState.PENDING, CommentSendingState.SENDING);
         
         // Wait for the operation to persist
         int elapsedTime = 0;
