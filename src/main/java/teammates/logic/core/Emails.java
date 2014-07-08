@@ -806,7 +806,7 @@ public class Emails {
                 joinUrl = Url.addParamToUrl(joinUrl, Const.ParamsNames.REGKEY, key);
                 joinUrl = Url.addParamToUrl(joinUrl, Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
             }
-            log.warning(joinUrl);
+            
             emailBody = emailBody.replace("${joinUrl}",joinUrl);
             message.setContent(emailBody, "text/html");
             
