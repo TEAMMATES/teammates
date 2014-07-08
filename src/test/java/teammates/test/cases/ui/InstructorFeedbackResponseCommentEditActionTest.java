@@ -69,8 +69,9 @@ public class InstructorFeedbackResponseCommentEditActionTest extends
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "comment",
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient"
         };
-        verifyOnlyInstructorsCanAccess(submissionParams);
+        // this person is not the giver. so not accessible
         verifyUnaccessibleWithoutModifySessionCommentInSectionsPrivilege(submissionParams);
+        verifyOnlyInstructorsCanAccess(submissionParams);
     }
     
     @Test
@@ -128,6 +129,7 @@ public class InstructorFeedbackResponseCommentEditActionTest extends
                 (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         
         assertFalse(data.isError);
+        assertEquals("", result.getStatusMessage());
         
         ______TS("Unsuccessful case: empty comment text");
         
@@ -142,6 +144,7 @@ public class InstructorFeedbackResponseCommentEditActionTest extends
 
         action = getAction(submissionParams);
         result = (AjaxResult) action.executeAndPostProcess();
+        assertEquals("", result.getStatusMessage());
         data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
 
         assertTrue(data.isError);

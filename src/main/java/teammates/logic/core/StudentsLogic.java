@@ -95,8 +95,7 @@ public class StudentsLogic {
         return studentsDb.getStudentsForGoogleId(googleId);
     }
 
-    public List<StudentAttributes> getStudentsForCourse(String courseId) 
-            throws EntityDoesNotExistException {
+    public List<StudentAttributes> getStudentsForCourse(String courseId) {
         return studentsDb.getStudentsForCourse(courseId);
     }
     

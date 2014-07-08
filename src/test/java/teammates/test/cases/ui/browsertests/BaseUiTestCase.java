@@ -1,12 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;

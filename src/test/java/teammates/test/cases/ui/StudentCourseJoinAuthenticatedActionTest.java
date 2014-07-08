@@ -46,7 +46,6 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
 
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        //TODO: find a way to test status message from session
         StudentsDb studentsDb = new StudentsDb();
         AccountsDb accountsDb = new AccountsDb();
         StudentAttributes student1InCourse1 = dataBundle.students

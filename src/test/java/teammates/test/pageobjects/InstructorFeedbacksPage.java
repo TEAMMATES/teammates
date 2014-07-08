@@ -19,6 +19,7 @@ import com.google.appengine.api.datastore.Text;
 
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
+import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
 
 public class InstructorFeedbacksPage extends AppPage {
@@ -82,7 +83,19 @@ public class InstructorFeedbacksPage extends AppPage {
     
     @FindBy(id = "button_submit")
     private WebElement submitButton;
-        
+    
+    @FindBy(id = "button_copy")
+    private WebElement copyButton;
+    
+    @FindBy(id = "button_copy_submit")
+    private WebElement copySubmitButton;
+    
+    @FindBy(id = "modalCopiedCourseId")
+    private WebElement copiedCourseIdDropdown;
+    
+    @FindBy(id = "modalCopiedSessionName")
+    private WebElement copiedFsNameTextBox;
+    
     @FindBy(id = "button_sortname")
     private WebElement sortByNameIcon;
     
@@ -154,6 +167,15 @@ public class InstructorFeedbacksPage extends AppPage {
         defaultResultsVisibleTimeButton.click();
     }
     
+    public void clickCopyButton(){
+        copyButton.click();
+    }
+    
+    public void clickCopySubmitButton(){
+        copySubmitButton.click();
+    }
+    
+    
     public void clickViewResponseLink(String courseId, String sessionName) {
         getViewResponseLink(courseId,sessionName).click();
         browser.selenium.waitForPageToLoad("15000");
@@ -205,7 +227,19 @@ public class InstructorFeedbacksPage extends AppPage {
         }
     
         clickSubmitButton();
+    }
+    
+    public void copyFeedbackSession(String feedbackSessionName, String courseId) {
         
+        clickCopyButton();
+        
+        ThreadHelper.waitFor(1000);
+        
+        fillTextBox(copiedFsNameTextBox, feedbackSessionName);
+        
+        selectDropdownByVisibleValue(copiedCourseIdDropdown, courseId);
+        
+        clickCopySubmitButton();
     }
     
     public void fillStartTime (Date startTime) {

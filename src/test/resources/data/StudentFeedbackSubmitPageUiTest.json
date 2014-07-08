@@ -57,7 +57,8 @@
             "name":"Teammates Test",
             "email":"SFSubmitUiT.instr@gmail.com",
             "role":"Co-owner",
-            "displayedName":"Co-owner",
+            "isDisplayedToStudents":true,
+            "displayedName":"Instructor",
             "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
         },
         "SFSubmitUiT.instr2":{
@@ -66,7 +67,8 @@
             "name":"Teammates Test2",
             "email":"SFSubmitUiT.instr2@gmail.com",
             "role":"Co-owner",
-            "displayedName":"Co-owner",
+            "isDisplayedToStudents":true,
+            "displayedName":"Instructor",
             "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
         },
         "SFSubmitUiT.instr3":{
@@ -75,7 +77,8 @@
             "name":"Teammates Test3",
             "email":"SFSubmitUiT.instr3@gmail.com",
             "role":"Co-owner",
-            "displayedName":"Co-owner",
+            "isDisplayedToStudents":false,
+            "displayedName":"Instructor",
             "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
         }
     },
@@ -705,6 +708,28 @@
             "numberOfEntitiesToGiveFeedbackTo":3,
             "showResponsesTo":[
                 "RECEIVER",
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo":[
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "INSTRUCTORS"
+            ]
+        },
+        "qn21InSession1":{
+            "feedbackSessionName":"First Session",
+            "courseId":"SFSubmitUiT.CS2104",
+            "creatorEmail":"SFSubmitUiT.instr@gmail.com",
+            "questionMetaData":{
+                "value":"{\"questionText\":\"Rate the contribution of your team members and yourself.\"}"
+            },
+            "questionNumber":"21",
+            "questionType":"CONTRIB",
+            "giverType":"STUDENTS",
+            "recipientType":"OWN_TEAM_MEMBERS_INCLUDING_SELF",
+            "numberOfEntitiesToGiveFeedbackTo":-100,
+            "showResponsesTo":[
                 "INSTRUCTORS"
             ],
             "showGiverNameTo":[

@@ -2,6 +2,9 @@ package teammates.ui.controller;
 
 import java.util.Date;
 
+import teammates.common.datatransfer.CommentSendingState;
+import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
@@ -55,10 +58,17 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         
         FeedbackResponseCommentAttributes feedbackResponseComment = new FeedbackResponseCommentAttributes(courseId,
             feedbackSessionName, feedbackQuestionId, instructor.email, feedbackResponseId, new Date(),
-            new Text(commentText));
+            new Text(commentText), response.giverSection, response.recipientSection);
+        
+        FeedbackQuestionAttributes question = logic.getFeedbackQuestion(feedbackQuestionId);
+        if(isResponseCommentPublicToRecipient(question)){
+            feedbackResponseComment.sendingState = CommentSendingState.PENDING;
+        }
         
         try {
-            logic.createFeedbackResponseComment(feedbackResponseComment);
+            FeedbackResponseCommentAttributes updatedComment = logic.createFeedbackResponseComment(feedbackResponseComment);
+            //TODO: move putDocument to taskQueue
+            logic.putDocument(updatedComment);
         } catch (InvalidParametersException e) {
             setStatusForException(e);
             data.errorMessage = e.getMessage();
@@ -100,5 +110,14 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         }
         
         return createAjaxResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION, data);
+    }
+
+    private boolean isResponseCommentPublicToRecipient(FeedbackQuestionAttributes question) {
+        return (question.giverType == FeedbackParticipantType.STUDENTS
+                || question.giverType == FeedbackParticipantType.TEAMS) 
+                    || (question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
+                            || question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)
+                            || question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
+                            || question.isResponseVisibleTo(FeedbackParticipantType.STUDENTS));
     }
 }

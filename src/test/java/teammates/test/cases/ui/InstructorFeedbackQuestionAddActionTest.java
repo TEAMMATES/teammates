@@ -91,6 +91,8 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                         + instructor1ofCourse1.googleId
                         + "&error=false",
                 result.getDestinationWithParams());
+        
+        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, result.getStatusMessage());
 
         String expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||instructorFeedbackQuestionAdd|||true|||"
@@ -133,6 +135,8 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                         + instructor1ofCourse1.googleId
                         + "&error=false",
                 result.getDestinationWithParams());
+        
+        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, result.getStatusMessage());
 
         expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||instructorFeedbackQuestionAdd|||true|||"
@@ -189,6 +193,8 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                         + instructor1ofCourse1.googleId
                         + "&error=false",
                 result.getDestinationWithParams());
+        
+        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, result.getStatusMessage());
 
         String expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||instructorFeedbackQuestionAdd|||true|||"
@@ -231,6 +237,8 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                         + instructor1ofCourse1.googleId
                         + "&error=false",
                 result.getDestinationWithParams());
+        
+        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, result.getStatusMessage());
 
         expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||instructorFeedbackQuestionAdd|||true|||"
@@ -283,7 +291,9 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                         + instructor1ofCourse1.googleId
                         + "&error=false",
                 result.getDestinationWithParams());
-
+        
+        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, result.getStatusMessage());
+        
         String expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||instructorFeedbackQuestionAdd|||true|||"
                         + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com|||"
@@ -339,7 +349,9 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                         + instructor1ofCourse1.googleId
                         + "&error=false",
                 result.getDestinationWithParams());
-
+        
+        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, result.getStatusMessage());
+        
         String expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||instructorFeedbackQuestionAdd|||true|||"
                         + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com|||"
@@ -392,6 +404,8 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                         + instructor1ofCourse1.googleId
                         + "&error=false",
                 result.getDestinationWithParams());
+        
+        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, result.getStatusMessage());
 
         String expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||instructorFeedbackQuestionAdd|||true|||"
@@ -404,8 +418,56 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
     }
     
     @Test
+    public void testExecuteAndPostProcessContributionQuestion() throws Exception{
+        InstructorAttributes instructor1ofCourse1 =
+                dataBundle.instructors.get("instructor1OfCourse1");
+
+        gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
+                
+        ______TS("Typical case");
+
+        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
+        String[] params = new String[]{
+                Const.ParamsNames.COURSE_ID, fs.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.STUDENTS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "CONTRIB",
+                Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "How much has each team member including yourself, contributed to the project?",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "max",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
+        };
+        
+        InstructorFeedbackQuestionAddAction action = getAction(params);
+        RedirectResult result = (RedirectResult) action.executeAndPostProcess();
+        
+        assertEquals(
+                Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE
+                        + "?courseid="
+                        + instructor1ofCourse1.courseId
+                        + "&fsname=First+feedback+session"
+                        + "&user="
+                        + instructor1ofCourse1.googleId
+                        + "&error=false",
+                result.getDestinationWithParams());
+
+        String expectedLogMessage =
+                "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||instructorFeedbackQuestionAdd|||true|||"
+                        + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com|||"
+                        + "Created Feedback Question for Feedback Session:<span class=\"bold\">"
+                        + "(First feedback session)</span> for Course <span class=\"bold\">[idOfTypicalCourse1]</span>"
+                        + " created.<br><span class=\"bold\">Team contribution question:</span> How much has each team member including yourself, contributed to the project?"
+                        + "|||/page/instructorFeedbackQuestionAdd";
+        assertEquals(expectedLogMessage, action.getLogMessage());
+    }
+    
+    @Test
     public void testExecuteAndPostProcess() throws Exception{
-        //TODO: find a way to test status message from session
         InstructorAttributes instructor1ofCourse1 =
                 dataBundle.instructors.get("instructor1OfCourse1");
 
@@ -495,6 +557,8 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                         + instructor1ofCourse1.googleId
                         + "&error=false",
                 result.getDestinationWithParams());
+        
+        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, result.getStatusMessage());
 
         String expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||instructorFeedbackQuestionAdd|||true|||"
@@ -519,6 +583,8 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                         + instructor1ofCourse1.googleId
                         + "&error=false",
                 result.getDestinationWithParams());
+        
+        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, result.getStatusMessage());
 
         expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||instructorFeedbackQuestionAdd|||true|||"
@@ -545,7 +611,9 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                         + instructor1ofCourse1.googleId
                         + "&error=false",
                 result.getDestinationWithParams());
-
+        
+        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, result.getStatusMessage());
+        
         expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||instructorFeedbackQuestionAdd|||true|||"
                         + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com|||"
@@ -570,7 +638,9 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                         + instructor1ofCourse1.googleId
                         + "&error=false",
                 result.getDestinationWithParams());
-
+        
+        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, result.getStatusMessage());
+        
         expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||instructorFeedbackQuestionAdd|||true|||"
                         + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com|||"
@@ -602,6 +672,8 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                         + "&error=false",
                 result.getDestinationWithParams());
 
+        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, result.getStatusMessage());
+        
         expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||instructorFeedbackQuestionAdd|||true|||"
                         + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com|||"
@@ -625,6 +697,8 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                         + instructor1ofCourse1.googleId
                         + "&error=true",
                 result.getDestinationWithParams());
+        
+        assertEquals("NONE is not a valid feedback giver..", result.getStatusMessage());
 
         expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||instructorFeedbackQuestionAdd|||true|||"
@@ -652,6 +726,8 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                         + instructor1ofCourse1.googleId
                         + "&error=false",
                 result.getDestinationWithParams());
+        
+        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, result.getStatusMessage());
         
         expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||instructorFeedbackQuestionAdd|||true|||"
