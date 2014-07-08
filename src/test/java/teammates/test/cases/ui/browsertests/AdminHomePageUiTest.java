@@ -78,7 +78,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         BackDoor.deleteCourse(demoCourseId);
         BackDoor.deleteInstructor(demoCourseId, instructor.email);
         
-        homePage.createInstructor(shortName,instructor,institute).verifyStatus("Instructor AHPUiT Instrúctör has been successfully created");  
+        homePage.createInstructor(shortName,instructor,institute).verifyPartialStatus("Instructor AHPUiT Instrúctör has been successfully created");  
         homePage.logout();
         //verify the instructor and the demo course have been created
         assertNotNull(BackDoor.getCourse(demoCourseId));

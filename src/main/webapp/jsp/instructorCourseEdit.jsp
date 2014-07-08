@@ -136,6 +136,10 @@
                 </div>
             </div>
 
+            <div id="joinLink" class="form-group" hidden="hidden">
+                <%=data.getJoinLink(instructor)%>
+            </div>
+
             <div class="panel-body">
                 <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_EDIT_SAVE%>"
                     id="formEditInstructor<%=index%>>" name="formEditInstructors" class="form form-horizontal" >
@@ -183,6 +187,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <div id="accessControlEditDivForInstr<%=index%>" style="display:none;">
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">

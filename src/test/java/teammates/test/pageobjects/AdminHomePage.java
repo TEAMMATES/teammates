@@ -1,10 +1,13 @@
 package teammates.test.pageobjects;
 
+import static org.testng.AssertJUnit.assertTrue;
+
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.util.ThreadHelper;
 
 public class AdminHomePage extends AppPage {
     
@@ -53,6 +56,18 @@ public class AdminHomePage extends AppPage {
         }
 
         submitButton.click();
+        return this;
+    }
+    
+    public AdminHomePage verifyPartialStatus(String expectedStatus) {
+
+        boolean isSameStatus = this.getStatus().contains(expectedStatus);
+        if (!isSameStatus) {
+            // try one more time (to account for delays in displaying the status
+            // message).
+            ThreadHelper.waitFor(2000);
+            assertTrue(this.getStatus().contains(expectedStatus));
+        }
         return this;
     }
 

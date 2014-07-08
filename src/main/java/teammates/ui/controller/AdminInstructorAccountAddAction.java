@@ -44,6 +44,8 @@ public class AdminInstructorAccountAddAction extends Action {
         data.instructorEmail = data.instructorEmail.trim();
         data.instructorInstitution = data.instructorInstitution.trim();        
         
+        String joinLink = "";
+        
         try {
                        
             logic.verifyInputForAdminHomePage(data.instructorShortName, data.instructorName, data.instructorInstitution, data.instructorEmail);
@@ -52,7 +54,7 @@ public class AdminInstructorAccountAddAction extends Action {
             String CourseId = importDemoData(data);              
             InstructorAttributes instructor = backDoor.getInstructorsForCourse(CourseId).get(0);   
             
-            logic.sendJoinLinkToNewInstructor(instructor, data.instructorShortName, data.instructorInstitution);
+            joinLink = logic.sendJoinLinkToNewInstructor(instructor, data.instructorShortName, data.instructorInstitution);
             
         } catch (Exception e) {
             setStatusForException(e);
@@ -60,7 +62,7 @@ public class AdminInstructorAccountAddAction extends Action {
         }
 
         statusToUser.add("Instructor " + data.instructorName
-                + " has been successfully created");
+                + " has been successfully created with join link:<br>" + joinLink);
         statusToAdmin = "A New Instructor <span class=\"bold\">"
                 + data.instructorName + "</span> has been created.<br>"
                 + "<span class=\"bold\">Id: </span>" + "ID will be assigned when the verification link was clicked and confirmed"
