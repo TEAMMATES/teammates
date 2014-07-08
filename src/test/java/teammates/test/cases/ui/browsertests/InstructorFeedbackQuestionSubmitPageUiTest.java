@@ -4,6 +4,7 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
 
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -125,5 +126,10 @@ public class InstructorFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
                 .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName)
                 .withParam(Const.ParamsNames.FEEDBACK_QUESTION_ID, questionId);
         return loginAdminToPage(browser, editUrl, FeedbackQuestionSubmitPage.class);
+    }
+    
+    @AfterClass
+    public static void classTearDown() throws Exception {
+        BrowserPool.release(browser);
     }
 }

@@ -612,7 +612,7 @@ public abstract class AppPage {
 
     private boolean testAndRunGodMode(String filePath, String content) {        
         
-        if (System.getProperty("godmode") != null) {
+        if (System.getProperty("godmode") != null && System.getProperty("godmode").equals("true")) {
             assert(TestProperties.inst().isDevServer());
             if (areTestAccountsDefaultValues()) {
                 Assumption.fail("Please change ALL the default accounts in test.properties in order to use GodMode."

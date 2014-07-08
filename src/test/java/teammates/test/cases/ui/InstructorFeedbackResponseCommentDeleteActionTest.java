@@ -1,6 +1,7 @@
 package teammates.test.cases.ui;
 
 import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
 
@@ -131,6 +132,7 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends
         assertFalse(data.isError);
         assertNull(feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponseComment.feedbackResponseId,
                 feedbackResponseComment.giverEmail, feedbackResponseComment.createdAt));
+        assertEquals("", result.getStatusMessage());
     }
     
     private InstructorFeedbackResponseCommentDeleteAction getAction(String... params) throws Exception {
