@@ -320,6 +320,8 @@
                                                             <% } %>
                                                         </select>
                                                         <strong> the instructor can only</strong>
+                                                        <a href="javascript:;" onclick="hideTuneSectionPermissionsDiv(<%=index%>, <%=j%>)" class="pull-right">
+                                                            <span class="glyphicon glyphicon-trash"></span></a>
                                                         <% if (!instructor.privileges.isSectionSpecial(data.sectionNames.get(j))) { %> 
                                                         <input type="hidden" name="is<%=Const.ParamsNames.INSTRUCTOR_SECTION + j%>set"
                                                             id="is<%=Const.ParamsNames.INSTRUCTOR_SECTION + j%>setforinstructor<%=index%>" value="false"/>
@@ -481,8 +483,6 @@
                                                             </table>
                                                         </div>
                                                         <% } %>
-                                                        <a href="javascript:;" onclick="hideTuneSectionPermissionsDiv(<%=index%>, <%=j%>)" class="small pull-right">
-                                                            Remove current section-level permissions</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -658,6 +658,8 @@
                                                             <% } %>
                                                         </select>
                                                         <strong> the instructor can only</strong>
+                                                        <a href="javascript:;" onclick="hideTuneSectionPermissionsDiv(<%=data.instructorList.size()+1%>, <%=j%>)" class="pull-right">
+                                                            <span class="glyphicon glyphicon-trash"></span></a>
                                                         <input type="hidden" name="is<%=Const.ParamsNames.INSTRUCTOR_SECTION + j%>set"
                                                             id="is<%=Const.ParamsNames.INSTRUCTOR_SECTION + j%>setforinstructor<%=data.instructorList.size()+1%>" value="false"/>
                                                     </div>
@@ -741,8 +743,6 @@
                                                             </table>
                                                         </div>
                                                         <% } %>
-                                                        <a href="javascript:;" onclick="hideTuneSectionPermissionsDiv(<%=data.instructorList.size()+1%>, <%=j%>)" class="small pull-right">
-                                                            Remove current section-level permissions</a>
                                                     </div>
                                                 </div>
                                             </div>
