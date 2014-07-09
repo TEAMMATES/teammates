@@ -1,9 +1,10 @@
 package teammates.ui.controller;
 
-import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 
-import teammates.common.datatransfer.CourseDetailsBundle;
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
@@ -24,13 +25,18 @@ public class InstructorStudentListPageAction extends Action {
         
         data = new InstructorStudentListPageData(account);
         data.instructors = new HashMap<String, InstructorAttributes>();
-        HashMap<String, CourseDetailsBundle> courses = logic.getCourseSummariesForInstructor(account.googleId);
-        for (CourseDetailsBundle courseDetails : courses.values()) {     
-            InstructorAttributes instructor = logic.getInstructorForGoogleId(courseDetails.course.id, account.googleId);
-            data.instructors.put(courseDetails.course.id, instructor);
+        data.courses = logic.getCoursesForInstructor(account.googleId);
+        for (CourseAttributes course : data.courses) {     
+            InstructorAttributes instructor = logic.getInstructorForGoogleId(course.id, account.googleId);
+            data.instructors.put(course.id, instructor);
         }
-        data.courses = new ArrayList<CourseDetailsBundle>(courses.values());
-        CourseDetailsBundle.sortDetailedCoursesByCreationDate(data.courses);
+        
+        Collections.sort(data.courses, new Comparator<CourseAttributes>(){
+            @Override
+            public int compare(CourseAttributes c1, CourseAttributes c2) {
+                return c1.createdAt.compareTo(c2.createdAt);
+            }
+        });
         data.searchKey = searchKey;
         data.displayArchive = displayArchive;
         

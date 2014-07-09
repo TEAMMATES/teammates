@@ -315,6 +315,57 @@ public class CoursesLogic {
         
         return sections;
     }
+    
+    public List<SectionDetailsBundle> getSectionsForCourseWithoutStats(String courseId) 
+            throws EntityDoesNotExistException {
+        
+        verifyCourseIsPresent(courseId);
+        
+        List<StudentAttributes> students = studentsLogic.getStudentsForCourse(courseId);
+        StudentAttributes.sortBySectionName(students);
+        
+        List<SectionDetailsBundle> sections = new ArrayList<SectionDetailsBundle>();
+        
+        SectionDetailsBundle section = null;
+        int teamIndexWithinSection = 0;
+        
+        for(int i = 0; i < students.size(); i++) {
+            
+            StudentAttributes s = students.get(i);
+            
+            if(section == null) {   // First student of first section
+                section = new SectionDetailsBundle();
+                section.name = s.section;
+                section.teams.add(new TeamDetailsBundle());
+                section.teams.get(teamIndexWithinSection).name = s.team;
+                section.teams.get(teamIndexWithinSection).students.add(s);
+            } else if(s.section.equals(section.name)){
+                if(s.team.equals(section.teams.get(teamIndexWithinSection).name)){
+                    section.teams.get(teamIndexWithinSection).students.add(s);
+                } else {
+                    teamIndexWithinSection++;
+                    section.teams.add(new TeamDetailsBundle());
+                    section.teams.get(teamIndexWithinSection).name = s.team;
+                    section.teams.get(teamIndexWithinSection).students.add(s);
+                }
+            } else { // first student of subsequent section
+                sections.add(section);
+                teamIndexWithinSection = 0;
+                section = new SectionDetailsBundle();
+                section.name = s.section;
+                section.teams.add(new TeamDetailsBundle());
+                section.teams.get(teamIndexWithinSection).name = s.team;
+                section.teams.get(teamIndexWithinSection).students.add(s);
+            }
+            
+            boolean isLastStudent = i == (students.size() -1);
+            if(isLastStudent){
+                sections.add(section);
+            }
+        }
+        
+        return sections;
+    }
 
     /**
      * Returns Teams for a particular courseId.<br> 

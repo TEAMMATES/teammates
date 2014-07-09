@@ -1,5 +1,10 @@
 $(document).ready(function(){
     
+    var panels = $("div.panel");
+    var numPanels = 0;
+
+    bindCollapseEvents(panels, numPanels);
+
     //On page load, if the searchKey param exist, applyFilters.
     if($("#searchbox").val()){
         applyFilters();
@@ -407,4 +412,33 @@ $.extend($.expr[":"], {
 function toggleDeleteStudentConfirmation(courseId, studentName) {
     return confirm("Are you sure you want to remove " + studentName + " from " +
             "the course " + courseId + "?");
+}
+ 
+function toggleSingleCollapse(e){
+    if(e.target == e.currentTarget){
+        var panelCollapse = $(e.target).attr('data-target');
+        var className = $(panelCollapse).attr('class');
+        if(className.indexOf('in') != -1){
+            $(panelCollapse).collapse("hide");
+        } else {
+            $(panelCollapse).collapse("show");
+        }
+    }
+}
+
+function bindCollapseEvents(panels, numPanels){
+    for(var i=0 ; i<panels.length ; i++){
+        var heading = $(panels[i]).children(".panel-heading");
+        var bodyCollapse = $(panels[i]).children(".panel-collapse");
+        if(heading.length != 0 && bodyCollapse.length != 0){
+            numPanels++;
+            //$(heading[0]).attr("data-toggle","collapse");
+            //Use this instead of the data-toggle attribute to let [more/less] be clicked without collapsing panel
+            $(heading[0]).attr("data-target","#panelBodyCollapse-"+numPanels);
+            $(heading[0]).css("cursor", "pointer");
+            $(bodyCollapse[0]).attr('id', "panelBodyCollapse-"+numPanels);
+        }
+    }
+
+    return numPanels;
 }
