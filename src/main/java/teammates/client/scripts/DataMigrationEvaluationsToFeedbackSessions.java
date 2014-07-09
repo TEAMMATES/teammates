@@ -31,12 +31,11 @@ import teammates.storage.datastore.Datastore;
 
 import com.google.appengine.api.datastore.Text;
 
+/**
+ * Migrates Evaluations and Submissions to FeedbackSessions and Responses.
+ * Feedback session/question creator will be any instructor from the course.
+ */
 public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient {
-
-    /**
-     * Issues:
-     *  Who to put as fs creator email? Any random instructor in course?
-     */
     
     protected static Logic logic = new Logic();
     protected static EvaluationsDb evalsDb = new EvaluationsDb();
@@ -81,9 +80,13 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
         //Create FeedbackSession
         int num = 0;
         
+        
         String feedbackSessionName = "Migrated - " + eval.name + (num==0 ? "" : ("("+num+")"));//Use same name, or if exists, use "<name>(<num>)"
         String courseId = eval.courseId;
-        String creatorEmail = "damith@gmail.com"; //LOL
+        
+        String instEmail = logic.getInstructorsForCourse(courseId).get(0).email;//Use email of any instructor in the course.
+        
+        String creatorEmail = instEmail;
         Text instructions = eval.instructions;
         Date createdTime = (new Date()).compareTo(eval.startTime) > 0 ? new Date() : eval.startTime; //Now, or opening time if start time is earlier.
         Date startTime = eval.startTime;
