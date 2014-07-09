@@ -202,6 +202,9 @@ public class FeedbackResponseAttributes extends EntityAttributes {
         case CONSTSUM:
             responseDetailsClass = FeedbackConstantSumResponseDetails.class;
             break;
+        case CONTRIB:
+            responseDetailsClass = FeedbackContributionResponseDetails.class;
+            break;
         default:
             Assumption.fail("FeedbackQuestionType " + feedbackQuestionType + " unsupported by FeedbackResponseAttributes");
             break;

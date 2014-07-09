@@ -1,5 +1,12 @@
 package teammates.ui.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map.Entry;
+
+import teammates.common.datatransfer.EvaluationAttributes;
+import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -91,6 +98,8 @@ public class InstructorCourseInstructorAddAction extends Action {
         instructorToAdd.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS, isSubmitSessionInSectionsChecked);
         instructorToAdd.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS, isModifySessionInSectionsChecked);
         
+        updateInstructorWithSectionLevelPrivileges(courseId, instructorToAdd);
+        
         instructorToAdd.privileges.validatePrivileges();
         
         instructorToAdd.instructorPrivilegesAsText = instructorToAdd.getTextFromInstructorPrivileges();
@@ -109,6 +118,107 @@ public class InstructorCourseInstructorAddAction extends Action {
         InstructorAttributes instructorToAdd = new InstructorAttributes(null, courseId, instructorName, instructorEmail, instructorRole,
                 isDisplayedToStudents, displayedName, privileges);
         return instructorToAdd;
+    }
+    
+    private void updateInstructorWithSectionLevelPrivileges(String courseId, InstructorAttributes instructorToAdd){
+        List<String> sectionNames = null;
+        try {
+            sectionNames = logic.getSectionNamesForCourse(courseId);
+        } catch(EntityDoesNotExistException e) {
+            return ;
+        }
+        HashMap<String, Boolean> sectionNamesTable = new HashMap<String, Boolean>();
+        for (String sectionName : sectionNames) {
+            sectionNamesTable.put(sectionName, false);
+        }
+        List<String> evalNames = new ArrayList<String>();
+        List<String> feedbackNames = new ArrayList<String>();
+        List<EvaluationAttributes> evaluations = logic.getEvaluationsForCourse(courseId);
+        for (EvaluationAttributes eval : evaluations) {
+            evalNames.add(eval.name);
+        }
+        List<FeedbackSessionAttributes> feedbacks = logic.getFeedbackSessionsForCourse(courseId);
+        for (FeedbackSessionAttributes feedback : feedbacks) {
+            feedbackNames.add(feedback.feedbackSessionName);
+        }
+        HashMap<String, String> sectionNamesMap = new HashMap<String, String>();
+        for (int i=0;i<sectionNames.size();i++) {
+            String setSectionStr = getRequestParamValue("is" + Const.ParamsNames.INSTRUCTOR_SECTION + i + "set");
+            boolean isSectionSpecial = setSectionStr != null && setSectionStr.equals("true");
+            String valueForSectionName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_SECTION + i);
+            if (isSectionSpecial && valueForSectionName != null && sectionNamesTable.containsKey(valueForSectionName)) {
+                sectionNamesMap.put(Const.ParamsNames.INSTRUCTOR_SECTION + i, valueForSectionName);
+                sectionNamesTable.put(valueForSectionName, true);
+            }
+        }
+        for (Entry<String, String> entry : sectionNamesMap.entrySet()) {
+            updateInstructorPrivilegesForSectionInSectionLevel(entry.getKey(), entry.getValue(), instructorToAdd);
+            String setSessionsStr = getRequestParamValue("is" + entry.getKey() + "sessionsset");
+            boolean isSessionsSpecial = setSessionsStr != null && setSessionsStr.equals("true");
+            if (isSessionsSpecial) {
+                updateInstructorPrivilegesForSectionInSessionLevel(entry.getKey(), entry.getValue(), evalNames, feedbackNames, instructorToAdd);
+            } else {
+                instructorToAdd.privileges.removeSessionsPrivilegesForSection(entry.getValue());
+            }
+        }
+        for (Entry<String, Boolean> entry : sectionNamesTable.entrySet()) {
+            if (!entry.getValue().booleanValue()) {
+                instructorToAdd.privileges.removeSectionLevelPrivileges(entry.getKey());
+            }
+        }
+    }
+    
+    private void updateInstructorPrivilegesForSectionInSectionLevel(String sectionParam, String sectionName, InstructorAttributes instructorToAdd) {
+        boolean isViewStudentInSectionsChecked = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS + sectionParam) != null;
+        boolean isViewCommentInSectionsChecked = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS + sectionParam) != null;
+        boolean isGiveCommentInSectionsChecked = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS + sectionParam) != null;
+        boolean isModifyCommentInSectionsChecked = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS + sectionParam) != null;
+        
+        boolean isViewSessionInSectionsChecked = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS + sectionParam) != null;
+        boolean isSubmitSessionInSectionsChecked = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS + sectionParam) != null;
+        boolean isModifySessionInSectionsChecked = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS + sectionParam) != null;
+        
+        instructorToAdd.privileges.updatePrivilege(sectionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS, isViewStudentInSectionsChecked);
+        instructorToAdd.privileges.updatePrivilege(sectionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS, isViewCommentInSectionsChecked);
+        instructorToAdd.privileges.updatePrivilege(sectionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS, isGiveCommentInSectionsChecked);
+        instructorToAdd.privileges.updatePrivilege(sectionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS, isModifyCommentInSectionsChecked);
+        instructorToAdd.privileges.updatePrivilege(sectionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS, isViewSessionInSectionsChecked);
+        instructorToAdd.privileges.updatePrivilege(sectionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS, isSubmitSessionInSectionsChecked);
+        instructorToAdd.privileges.updatePrivilege(sectionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS, isModifySessionInSectionsChecked);
+    }
+
+    private void updateInstructorPrivilegesForSectionInSessionLevel(String sectionParam,
+            String sectionName, List<String> evalNames, List<String> feedbackNames, InstructorAttributes instructorToAdd) {
+        for (String evalName : evalNames) {
+            boolean isViewSessionInSectionsChecked = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS 
+                    + sectionParam + "feedback" + Const.EVAL_PREFIX_FOR_INSTRUCTOR_PRIVILEGES + evalName) != null;
+            boolean isSubmitSessionInSectionsChecked = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS
+                    + sectionParam + "feedback" + Const.EVAL_PREFIX_FOR_INSTRUCTOR_PRIVILEGES + evalName) != null;
+            boolean isModifySessionInSectionsChecked = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS
+                    + sectionParam + "feedback" + Const.EVAL_PREFIX_FOR_INSTRUCTOR_PRIVILEGES + evalName) != null;
+            
+            instructorToAdd.privileges.updatePrivilege(sectionName, Const.EVAL_PREFIX_FOR_INSTRUCTOR_PRIVILEGES + evalName,
+                    Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS, isViewSessionInSectionsChecked);
+            instructorToAdd.privileges.updatePrivilege(sectionName, Const.EVAL_PREFIX_FOR_INSTRUCTOR_PRIVILEGES + evalName,
+                    Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS, isSubmitSessionInSectionsChecked);
+            instructorToAdd.privileges.updatePrivilege(sectionName, Const.EVAL_PREFIX_FOR_INSTRUCTOR_PRIVILEGES + evalName,
+                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS, isModifySessionInSectionsChecked);
+        }
+        for (String feedbackName : feedbackNames) {
+            boolean isViewSessionInSectionsChecked = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS 
+                    + sectionParam + "feedback" + feedbackName) != null;
+            boolean isSubmitSessionInSectionsChecked = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS
+                    + sectionParam + "feedback" + feedbackName) != null;
+            boolean isModifySessionInSectionsChecked = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS
+                    + sectionParam + "feedback" + feedbackName) != null;
+            
+            instructorToAdd.privileges.updatePrivilege(sectionName, feedbackName,
+                    Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS, isViewSessionInSectionsChecked);
+            instructorToAdd.privileges.updatePrivilege(sectionName, feedbackName,
+                    Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS, isSubmitSessionInSectionsChecked);
+            instructorToAdd.privileges.updatePrivilege(sectionName, feedbackName,
+                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS, isModifySessionInSectionsChecked);
+        }
     }
 
 }

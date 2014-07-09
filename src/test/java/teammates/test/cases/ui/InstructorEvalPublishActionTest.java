@@ -46,6 +46,7 @@ public class InstructorEvalPublishActionTest extends BaseActionTest {
         verifyUnaccessibleForUnregisteredUsers(submissionParams);
         verifyUnaccessibleForStudents(submissionParams);
         verifyUnaccessibleForInstructorsOfOtherCourses(submissionParams);
+        verifyUnaccessibleWithoutModifySessionPrivilege(submissionParams);
         verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
         
         makeEvaluationClosed(evaluationInCourse1); //we have to revert to the closed state

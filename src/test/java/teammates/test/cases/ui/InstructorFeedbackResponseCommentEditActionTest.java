@@ -69,8 +69,9 @@ public class InstructorFeedbackResponseCommentEditActionTest extends
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "comment",
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient"
         };
-        verifyOnlyInstructorsCanAccess(submissionParams);
+        // this person is not the giver. so not accessible
         verifyUnaccessibleWithoutModifySessionCommentInSectionsPrivilege(submissionParams);
+        verifyOnlyInstructorsCanAccess(submissionParams);
     }
     
     @Test

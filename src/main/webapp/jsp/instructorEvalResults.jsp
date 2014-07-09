@@ -222,8 +222,9 @@
                         href="<%=data.getInstructorEvaluationSubmissionViewLink(data.evaluationResults.evaluation.courseId, data.evaluationResults.evaluation.name, student.email)%>"
                         data-toggle="tooltip" data-placement="top" data-container="body"  
                         title="<%=Const.Tooltips.EVALUATION_SUBMISSION_VIEW_REVIEWER%>"
-                        <% if (!data.instructor.isAllowedForPrivilege(student.section, data.evaluationResults.evaluation.name,
-                                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)) { %>
+                        <% if (!data.instructor.isAllowedForPrivilege(student.section, Const.EVAL_PREFIX_FOR_INSTRUCTOR_PRIVILEGES
+                                    +data.evaluationResults.evaluation.name,
+                        		Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)) { %>
                                 disabled="disabled"
                         <% } %>
                         > View</a>
@@ -232,9 +233,10 @@
                         data-toggle="tooltip" data-placement="top" data-container="body"  
                         title="<%=Const.Tooltips.EVALUATION_SUBMISSION_INSTRUCTOR_EDIT%>"
                         onclick="return openChildWindow(this.href)"
-                        <% if (!data.instructor.isAllowedForPrivilege(student.section, data.evaluationResults.evaluation.name,
+                        <% if (!data.instructor.isAllowedForPrivilege(student.section, Const.EVAL_PREFIX_FOR_INSTRUCTOR_PRIVILEGES
+                                    +data.evaluationResults.evaluation.name,
                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS)) { %>
-                                    disabled="disabled"
+                               disabled="disabled"
                         <% } %>
                         > Edit</a>
                     </td>

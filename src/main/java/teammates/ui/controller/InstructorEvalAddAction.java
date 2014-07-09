@@ -1,9 +1,6 @@
 package teammates.ui.controller;
 
-import java.util.HashMap;
-
 import teammates.common.datatransfer.EvaluationAttributes;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -24,15 +21,8 @@ public class InstructorEvalAddAction extends InstructorEvalsPageAction {
         
         EvaluationAttributes eval = extractEvaluationData();
         
-        InstructorEvalPageData data = new InstructorEvalPageData(account);
-        data.newEvaluationToBeCreated = eval;
-        
-        try {
-            
+        try {         
             logic.createEvaluation(eval);
-            
-            data.courseIdForNewEvaluation = null;
-            data.newEvaluationToBeCreated = null;
             
             statusToUser.add(Const.StatusMessages.EVALUATION_ADDED);
             statusToAdmin = "New Evaluation <span class=\"bold\">(" + eval.name + ")</span> for Course <span class=\"bold\">[" + eval.courseId + "]</span> created.<br>" +
@@ -46,21 +36,9 @@ public class InstructorEvalAddAction extends InstructorEvalsPageAction {
         } catch (InvalidParametersException e) {
             setStatusForException(e);
             
-        } 
-        
-        data.instructors = new HashMap<String, InstructorAttributes>();
-        data.courses = loadCoursesListAndInstructors(account.googleId, data.instructors);
-        data.existingEvalSessions = loadEvaluationsList(account.googleId); //apply sorting here
-        data.existingFeedbackSessions = loadFeedbackSessionsList(account.googleId); // apply sorting here
-
-        EvaluationAttributes.sortEvaluationsByDeadlineDescending(data.existingEvalSessions);
-        FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(data.existingFeedbackSessions);
-        
-        if (data.existingEvalSessions.size() == 0) {
-            statusToUser.add(Const.StatusMessages.EVALUATION_EMPTY);
         }
         
-        return createShowPageResult(Const.ViewURIs.INSTRUCTOR_EVALS, data);
+        return createRedirectResult(new PageData(account).getInstructorEvaluationLink());
     }
     
 

@@ -14,6 +14,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
 import teammates.test.driver.AssertHelper;
@@ -60,7 +61,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackSessionName = testData.feedbackSessions.get("openSession").feedbackSessionName;
 
         browser = BrowserPool.getBrowser();
-
     }
 
     @Test
@@ -111,7 +111,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         testAddConstSumOptionQuestionAction();
         testEditConstSumOptionQuestionAction();
         testDeleteConstSumOptionQuestionAction();
-        
+    
         testNewConstSumRecipientQuestionFrame();
         testInputValidationForConstSumRecipientQuestion();
         testCustomizeConstSumRecipientOptions();
@@ -119,6 +119,15 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         testEditConstSumRecipientQuestionAction();
         testDeleteConstSumRecipientQuestionAction();
         
+        testNewContributionQuestionFrame();
+        testInputValidationForContributionQuestion();
+        testCustomizeContributionOptions();
+        testAddContributionQuestionAction();
+        testEditContributionQuestionAction();
+        testDeleteContributionQuestionAction();
+        
+        testCopyQuestion();
+      
         testPreviewSessionAction();
 
         testDoneEditingLink();
@@ -875,6 +884,78 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED, feedbackEditPage.getStatus());
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));    
     }
+    
+
+    @SuppressWarnings("unused")
+    private void ____CONTRIB_methods___________________________________() {
+    }
+    
+    private void testNewContributionQuestionFrame() {
+        ______TS("CONTRIB: new question (frame) link");
+
+        feedbackEditPage.selectNewQuestionType("Team contribution question");
+        feedbackEditPage.clickNewQuestionButton();
+        assertTrue(feedbackEditPage.verifyNewContributionQuestionFormIsDisplayed());
+    }
+    
+    private void testInputValidationForContributionQuestion() {
+        
+        ______TS("empty question text");
+
+        feedbackEditPage.clickAddQuestionButton();
+        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_TEXTINVALID, feedbackEditPage.getStatus());
+        
+    }
+    
+
+    private void testCustomizeContributionOptions() {
+
+        //no question specific options to test
+        
+        ______TS("CONTRIB: set visibility options");
+        
+        feedbackEditPage.clickVisibilityOptionsForQuestion2();
+        //TODO: click and ensure can see answer for recipients,
+        //giver team members, recipient team members
+        //are always the same.
+        
+    }
+
+    private void testAddContributionQuestionAction() {
+        ______TS("CONTRIB: add question action success");
+        
+        feedbackEditPage.fillQuestionBox("contrib qn");
+        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));
+        feedbackEditPage.clickAddQuestionButton();
+        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());
+        assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackContribQuestionAddSuccess.html");
+    }
+
+    private void testEditContributionQuestionAction() {
+        ______TS("CONTRIB: edit question success");
+
+        assertEquals(true, feedbackEditPage.clickEditQuestionButton(2));
+        feedbackEditPage.fillEditQuestionBox("edited contrib qn text", 2);
+        
+        feedbackEditPage.clickSaveExistingQuestionButton(2);
+        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, feedbackEditPage.getStatus());
+
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackContribQuestionEditSuccess.html");
+    }
+    
+    private void testDeleteContributionQuestionAction(){
+        ______TS("CONTRIB: qn delete then cancel");
+
+        feedbackEditPage.clickAndCancel(feedbackEditPage.getDeleteQuestionLink(2));
+        assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));
+
+        ______TS("CONTRIB: qn delete then accept");
+
+        feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(2));
+        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED, feedbackEditPage.getStatus());
+        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));    
+    }
 
     @SuppressWarnings("unused")
     private void ____other_methods___________________________________() {
@@ -940,6 +1021,27 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         InstructorFeedbacksPage feedbackPage = feedbackEditPage.deleteSession();
         AssertHelper.assertContains(Const.StatusMessages.FEEDBACK_SESSION_DELETED, feedbackPage.getStatus());
         assertNull(BackDoor.getFeedbackSession(courseId, feedbackSessionName));
+    }
+    
+    private void testCopyQuestion() {
+        
+        ______TS("Failure case: no questions are indicated");
+        feedbackEditPage.clickCopyButton();
+        ThreadHelper.waitFor(1000);
+        feedbackEditPage.clickCopyTableAtRow(0);
+        feedbackEditPage.clickCopySubmitButton();
+        feedbackEditPage.verifyStatus("No questions are selected to be copied");
+        
+        ______TS("Success case: copy questions successfully");
+        
+        ThreadHelper.waitFor(1000);
+        feedbackEditPage.clickCopyButton();
+        ThreadHelper.waitFor(1000);
+        feedbackEditPage.clickCopyTableAtRow(0);
+        feedbackEditPage.clickCopySubmitButton();
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackCopyQuestionSuccess.html");
+        
+        
     }
     
     @AfterClass

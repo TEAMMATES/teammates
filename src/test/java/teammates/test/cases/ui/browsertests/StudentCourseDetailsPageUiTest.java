@@ -33,7 +33,6 @@ public class StudentCourseDetailsPageUiTest extends BaseUiTestCase {
         ______TS("content");
         
         //with teammates"
-        
         verifyContent("SCDetailsUiT.CS2104", "SCDetailsUiT.alice", "/studentCourseDetailsWithTeammatesHTML.html");
 
         //without teammates 

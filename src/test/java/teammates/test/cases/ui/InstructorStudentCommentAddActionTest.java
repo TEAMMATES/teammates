@@ -37,8 +37,11 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COMMENT_TEXT, "Dummy comment content",
                 Const.ParamsNames.COURSE_ID, instructor.courseId,
-                Const.ParamsNames.STUDENT_EMAIL, student.email 
+                Const.ParamsNames.STUDENT_EMAIL, student.email,
+                Const.ParamsNames.RECIPIENT_TYPE, "PERSON",
+                Const.ParamsNames.RECIPIENTS, student.email
         };
+        verifyUnaccessibleWithoutGiveCommentInSectionsPrivilege(submissionParams);
         verifyOnlyInstructorsCanAccess(submissionParams);
     }
 
@@ -83,7 +86,9 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COMMENT_TEXT, "A typical comment to be added",
                 Const.ParamsNames.COURSE_ID, instructor.courseId,
-                Const.ParamsNames.STUDENT_EMAIL, student.email
+                Const.ParamsNames.STUDENT_EMAIL, student.email,
+                Const.ParamsNames.RECIPIENT_TYPE, "PERSON",
+                Const.ParamsNames.RECIPIENTS, student.email
         };
 
         InstructorStudentCommentAddAction a = getAction(submissionParams);

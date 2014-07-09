@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.TimeZone;
 
 import teammates.common.datatransfer.AccountAttributes;
@@ -14,13 +15,16 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentResultBundle;
+import teammates.common.datatransfer.StudentResultSummary;
 import teammates.common.datatransfer.SubmissionAttributes;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
+import teammates.logic.api.Logic;
 
 /**
  * Data and utility methods needed to render a specific page.
@@ -81,7 +85,7 @@ public class PageData {
      *         In terms of full percentage, so equal share will be 100, 20% more
      *         from equal share will be 120, etc.
      */
-    protected static String getPointsAsColorizedHtml(int points){
+    public static String getPointsAsColorizedHtml(int points){
         if(points==Const.POINTS_NOT_SUBMITTED || points==Const.INT_UNINITIALIZED)
             return "<span class=\"color-negative\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"" + Const.Tooltips.EVALUATION_SUBMISSION_NOT_AVAILABLE+ "\">N/A</span>";
         else if(points==Const.POINTS_NOT_SURE)
@@ -146,8 +150,12 @@ public class PageData {
      * explain the meaning of the abbreviation.
      */
     protected static String getPointsDiffAsHtml(StudentResultBundle sub){
-        int claimed = sub.summary.claimedToInstructor;
-        int perceived = sub.summary.perceivedToInstructor;
+        return getPointsDiffAsHtml(sub.summary);
+    }
+    
+    public static String getPointsDiffAsHtml(StudentResultSummary summary){
+        int claimed = summary.claimedToInstructor;
+        int perceived = summary.perceivedToInstructor;
         int diff = perceived - claimed;
         if(perceived==Const.POINTS_NOT_SUBMITTED || perceived==Const.INT_UNINITIALIZED
                 || claimed==Const.POINTS_NOT_SUBMITTED || claimed==Const.INT_UNINITIALIZED){
@@ -396,6 +404,12 @@ public class PageData {
         return link;
     }
     
+    public String getInstructorClearPendingCommentsLink(String courseId){
+        String link = Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_CLEAR_PENDING;
+        link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID, courseId);
+        link = addUserIdToUrl(link);
+        return link;
+    }
 
     public String getInstructorEvaluationDeleteLink(String courseID, String evalName, String nextURL){
         String link = Const.ActionURIs.INSTRUCTOR_EVAL_DELETE;
@@ -545,6 +559,12 @@ public class PageData {
     
     public String getInstructorStudentListLink(){
         String link = Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE;
+        link = addUserIdToUrl(link);
+        return link;
+    }
+    
+    public String getInstructorSearchLink(){
+        String link = Const.ActionURIs.INSTRUCTOR_SEARCH_PAGE;
         link = addUserIdToUrl(link);
         return link;
     }
@@ -736,9 +756,10 @@ public class PageData {
      * @param isHome
      *         Flag whether the link is to be put at homepage (to determine the redirect link in delete / publish)
      * @return
+     * @throws EntityDoesNotExistException 
      */
     public String getInstructorFeedbackSessionActions(FeedbackSessionAttributes session,
-            boolean isHome, InstructorAttributes instructor){
+            boolean isHome, InstructorAttributes instructor) throws EntityDoesNotExistException{
         StringBuffer result = new StringBuffer();
         
         // Allowing ALL instructors to view results regardless of publish state.
@@ -751,6 +772,16 @@ public class PageData {
         String disableDeleteSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
         String disableUnpublishSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
         String disablePublishSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
+        boolean shouldEnableSubmitLink = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
+        List<String> sectionsInCourse = new Logic().getSectionNamesForCourse(instructor.courseId);
+        for (String section : sectionsInCourse) {
+            if (instructor.isAllowedForPrivilege(section, session.feedbackSessionName, 
+                    Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)) {
+                shouldEnableSubmitLink = true;
+                break;
+            }
+        }
+        String disableSubmitSessionStr = shouldEnableSubmitLink ? "" : disabledStr;
         result.append(
             "<a class=\"btn btn-default btn-xs btn-tm-actions session-view-for-test\"" +
             "href=\"" + getInstructorFeedbackSessionResultsLink(session.courseId,session.feedbackSessionName) + "\" " +
@@ -774,7 +805,7 @@ public class PageData {
             "<a class=\"btn btn-default btn-xs btn-tm-actions session-submit-for-test" + (hasSubmit ? "\"" : DISABLED) +
             "href=\"" + getInstructorFeedbackSessionSubmitLink(session.courseId,session.feedbackSessionName) + "\" " +
             "title=\"" + Const.Tooltips.FEEDBACK_SESSION_SUBMIT + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
-            ">Submit</a> "
+            disableSubmitSessionStr + ">Submit</a> "
         );
         
         // Don't need to show any other links if private
