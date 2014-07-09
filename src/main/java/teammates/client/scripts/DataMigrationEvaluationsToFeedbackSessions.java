@@ -24,7 +24,6 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.logic.api.Logic;
-import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.EvaluationsDb;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.api.SubmissionsDb;
@@ -51,8 +50,13 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
 
     @Override
     protected void doOperation() {
-        Datastore.initialize();
+        final long startTime = System.currentTimeMillis();
+        
+        Datastore.initialize();    
         convertEvaluationsToFeedbackSessions();
+        
+        final long endTime = System.currentTimeMillis();
+        System.out.println("Total execution time: " + (endTime - startTime) + "ms" );
     }
     
     @SuppressWarnings("deprecation")
@@ -61,12 +65,14 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
         
         System.out.println(allEvaluations.size() + " evaluations found.");
         
-        System.out.println("Original number of FS: " + fsDb.getAllFeedbackSessions().size());
+        int fsNum = fsDb.getAllFeedbackSessions().size();
         
         for(EvaluationAttributes evalAttribute : allEvaluations){
             convertOneEvaluationToFeedbackSession(evalAttribute);
         }
-        
+
+        System.out.println(allEvaluations.size() + " evaluations found and migrated.");
+        System.out.println("Original number of FS: " + fsNum);
         System.out.println("After migration number of FS: " + fsDb.getAllFeedbackSessions().size());
     }
     
@@ -139,23 +145,35 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
             
             //Create Feedback Responses for Submission
             
-            String giver = sub.reviewer;
-            String recipient = sub.reviewee;
-            String giverSection = "";
-            String recipientSection = "";
+            createFeedbackResponsesFromSubmission(feedbackSessionName,
+                    courseId, peerFeedback, fqIds, sub);
             
-            StudentAttributes studentGiver = logic.getStudentForEmail(courseId, giver);
-            recipientSection = (studentGiver == null) ? Const.DEFAULT_SECTION : studentGiver.section;
-            StudentAttributes studentRecipient = logic.getStudentForEmail(courseId, recipient);
-            recipientSection = (studentRecipient == null) ? Const.DEFAULT_SECTION : studentRecipient.section;
-            
-            FeedbackResponseAttributes q1Response = null;
-            FeedbackResponseAttributes q2Response = null;
-            FeedbackResponseAttributes q3Response = null;
-            FeedbackResponseAttributes q4Response = null;
-            FeedbackResponseAttributes q5Response = null;
-            
-            //Question 1 Response: Contribution points
+        }
+        
+        
+    }
+
+    private void createFeedbackResponsesFromSubmission(
+            String feedbackSessionName, String courseId, boolean peerFeedback,
+            List<String> fqIds, SubmissionAttributes sub) {
+        String giver = sub.reviewer;
+        String recipient = sub.reviewee;
+        String giverSection = "";
+        String recipientSection = "";
+        
+        StudentAttributes studentGiver = logic.getStudentForEmail(courseId, giver);
+        recipientSection = (studentGiver == null) ? Const.DEFAULT_SECTION : studentGiver.section;
+        StudentAttributes studentRecipient = logic.getStudentForEmail(courseId, recipient);
+        recipientSection = (studentRecipient == null) ? Const.DEFAULT_SECTION : studentRecipient.section;
+        
+        FeedbackResponseAttributes q1Response = null;
+        FeedbackResponseAttributes q2Response = null;
+        FeedbackResponseAttributes q3Response = null;
+        FeedbackResponseAttributes q4Response = null;
+        FeedbackResponseAttributes q5Response = null;
+        
+        //Question 1 Response: Contribution points
+        if(sub.points != Const.POINTS_NOT_SUBMITTED){
             q1Response = new FeedbackResponseAttributes();
             q1Response.setId(null);//null for new response.
             q1Response.feedbackSessionName = feedbackSessionName;
@@ -169,83 +187,86 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
             q1Response.feedbackQuestionId = fqIds.get(0);
             FeedbackAbstractResponseDetails responseDetails1 = new FeedbackContributionResponseDetails(sub.points);
             q1Response.setResponseDetails(responseDetails1);
+        }
+        
+        if(giver.equals(recipient)){
+            //Question 2 Response: Essay Question "Comments about my contribution(shown to other teammates)"
+            q2Response = new FeedbackResponseAttributes();
+            q2Response.setId(null);//null for new response.
+            q2Response.feedbackSessionName = feedbackSessionName;
+            q2Response.courseId = courseId;
+            q2Response.giverEmail = giver;
+            q2Response.giverSection = giverSection;
+            q2Response.recipientEmail = recipient;
+            q2Response.recipientSection = recipientSection;
             
+            q2Response.feedbackQuestionType = FeedbackQuestionType.TEXT;
+            q2Response.feedbackQuestionId = fqIds.get(1);
+            FeedbackAbstractResponseDetails responseDetails2 = new FeedbackTextResponseDetails(sub.justification.getValue());
+            q2Response.setResponseDetails(responseDetails2);
+        } else {
+            //Question 3 Response: Essay Question "My comments about this teammate(confidential and only shown to instructor)"
+            q3Response = new FeedbackResponseAttributes();
+            q3Response.setId(null);//null for new response.
+            q3Response.feedbackSessionName = feedbackSessionName;
+            q3Response.courseId = courseId;
+            q3Response.giverEmail = giver;
+            q3Response.giverSection = giverSection;
+            q3Response.recipientEmail = recipient;
+            q3Response.recipientSection = recipientSection;
+            
+            q3Response.feedbackQuestionType = FeedbackQuestionType.TEXT;
+            q3Response.feedbackQuestionId = fqIds.get(2);
+            FeedbackAbstractResponseDetails responseDetails3 = new FeedbackTextResponseDetails(sub.justification.getValue());
+            q3Response.setResponseDetails(responseDetails3);
+        }
+        
+        if(peerFeedback){
             if(giver.equals(recipient)){
-                //Question 2 Response: Essay Question "Comments about my contribution(shown to other teammates)"
-                q2Response = new FeedbackResponseAttributes();
-                q2Response.setId(null);//null for new response.
-                q2Response.feedbackSessionName = feedbackSessionName;
-                q2Response.courseId = courseId;
-                q2Response.giverEmail = giver;
-                q2Response.giverSection = giverSection;
-                q2Response.recipientEmail = recipient;
-                q2Response.recipientSection = recipientSection;
+                //Question 4 Response: Essay Question "Comments about team dynamics(confidential and only shown to instructor)"
+                q4Response = new FeedbackResponseAttributes();
+                q4Response.setId(null);//null for new response.
+                q4Response.feedbackSessionName = feedbackSessionName;
+                q4Response.courseId = courseId;
+                q4Response.giverEmail = giver;
+                q4Response.giverSection = giverSection;
+                q4Response.recipientEmail = recipient;
+                q4Response.recipientSection = recipientSection;
                 
-                q2Response.feedbackQuestionType = FeedbackQuestionType.TEXT;
-                q2Response.feedbackQuestionId = fqIds.get(1);
-                FeedbackAbstractResponseDetails responseDetails2 = new FeedbackTextResponseDetails(sub.justification.getValue());
-                q2Response.setResponseDetails(responseDetails2);
+                q4Response.feedbackQuestionType = FeedbackQuestionType.TEXT;
+                q4Response.feedbackQuestionId = fqIds.get(3);
+                FeedbackAbstractResponseDetails responseDetails4 = new FeedbackTextResponseDetails(sub.p2pFeedback.getValue());
+                q4Response.setResponseDetails(responseDetails4);
             } else {
-                //Question 3 Response: Essay Question "My comments about this teammate(confidential and only shown to instructor)"
-                q3Response = new FeedbackResponseAttributes();
-                q3Response.setId(null);//null for new response.
-                q3Response.feedbackSessionName = feedbackSessionName;
-                q3Response.courseId = courseId;
-                q3Response.giverEmail = giver;
-                q3Response.giverSection = giverSection;
-                q3Response.recipientEmail = recipient;
-                q3Response.recipientSection = recipientSection;
+                //Question 5 Response: Essay Question "My feedback to this teammate(shown anonymously to the teammate)"
+                q5Response = new FeedbackResponseAttributes();
+                q5Response.setId(null);//null for new response.
+                q5Response.feedbackSessionName = feedbackSessionName;
+                q5Response.courseId = courseId;
+                q5Response.giverEmail = giver;
+                q5Response.giverSection = giverSection;
+                q5Response.recipientEmail = recipient;
+                q5Response.recipientSection = recipientSection;
                 
-                q3Response.feedbackQuestionType = FeedbackQuestionType.TEXT;
-                q3Response.feedbackQuestionId = fqIds.get(2);
-                FeedbackAbstractResponseDetails responseDetails3 = new FeedbackTextResponseDetails(sub.justification.getValue());
-                q3Response.setResponseDetails(responseDetails3);
+                q5Response.feedbackQuestionType = FeedbackQuestionType.TEXT;
+                q5Response.feedbackQuestionId = fqIds.get(4);
+                FeedbackAbstractResponseDetails responseDetails5 = new FeedbackTextResponseDetails(sub.p2pFeedback.getValue());
+                q5Response.setResponseDetails(responseDetails5);
             }
-            
-            if(peerFeedback){
-                if(giver.equals(recipient)){
-                    //Question 4 Response: Essay Question "Comments about team dynamics(confidential and only shown to instructor)"
-                    q4Response = new FeedbackResponseAttributes();
-                    q4Response.setId(null);//null for new response.
-                    q4Response.feedbackSessionName = feedbackSessionName;
-                    q4Response.courseId = courseId;
-                    q4Response.giverEmail = giver;
-                    q4Response.giverSection = giverSection;
-                    q4Response.recipientEmail = recipient;
-                    q4Response.recipientSection = recipientSection;
-                    
-                    q4Response.feedbackQuestionType = FeedbackQuestionType.TEXT;
-                    q4Response.feedbackQuestionId = fqIds.get(3);
-                    FeedbackAbstractResponseDetails responseDetails4 = new FeedbackTextResponseDetails(sub.p2pFeedback.getValue());
-                    q4Response.setResponseDetails(responseDetails4);
-                } else {
-                    //Question 5 Response: Essay Question "My feedback to this teammate(shown anonymously to the teammate)"
-                    q5Response = new FeedbackResponseAttributes();
-                    q5Response.setId(null);//null for new response.
-                    q5Response.feedbackSessionName = feedbackSessionName;
-                    q5Response.courseId = courseId;
-                    q5Response.giverEmail = giver;
-                    q5Response.giverSection = giverSection;
-                    q5Response.recipientEmail = recipient;
-                    q5Response.recipientSection = recipientSection;
-                    
-                    q5Response.feedbackQuestionType = FeedbackQuestionType.TEXT;
-                    q5Response.feedbackQuestionId = fqIds.get(4);
-                    FeedbackAbstractResponseDetails responseDetails5 = new FeedbackTextResponseDetails(sub.p2pFeedback.getValue());
-                    q5Response.setResponseDetails(responseDetails5);
-                }
-            }
-            
-            //Save responses
-            List<FeedbackResponseAttributes> allResponses = new ArrayList<FeedbackResponseAttributes>();
-            allResponses.add(q1Response);
-            allResponses.add(q2Response);
-            allResponses.add(q3Response);
-            allResponses.add(q4Response);
-            allResponses.add(q5Response);
-            
-            for(FeedbackResponseAttributes response : allResponses){
-                if(response != null){
+        }
+        
+        //Save responses
+        List<FeedbackResponseAttributes> allResponses = new ArrayList<FeedbackResponseAttributes>();
+        allResponses.add(q1Response);
+        allResponses.add(q2Response);
+        allResponses.add(q3Response);
+        allResponses.add(q4Response);
+        allResponses.add(q5Response);
+        
+        for(FeedbackResponseAttributes response : allResponses){
+            if(response != null){
+                if(!(response.responseMetaData.getValue().isEmpty() || 
+                        response.recipientEmail.isEmpty())){
                     try {
                         logic.createFeedbackResponse(response);
                     } catch (EntityAlreadyExistsException e) {
@@ -257,10 +278,7 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
                     }
                 }
             }
-            
         }
-        
-        
     }
 
     private void createFeedbackQuestions(EvaluationAttributes eval,
