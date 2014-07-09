@@ -53,8 +53,8 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
     public void testEntityCreationAndDeletion() throws Exception {
         FeedbackResponseCommentAttributes frcaTemp = dataBundle.feedbackResponseComments
                 .get("comment1FromT1C1ToR1Q2S1C1");
-        
-        TestHelper.verifyAbsentInDatastore(frcaTemp);
+        frcaTemp.createdAt = new Date();
+        frcaTemp.commentText = new Text("test creation and deletion");
         frcDb.createEntity(frcaTemp);
         TestHelper.verifyPresentInDatastore(frcaTemp);
 
@@ -77,8 +77,8 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
         ______TS("typical success case");
 
         FeedbackResponseCommentAttributes frcaExpected = frcDb
-                .getFeedbackResponseComment(frId,
-                        frcaData.giverEmail, frcaData.createdAt);
+                .getFeedbackResponseComment(frcaData.courseId, frcaData.createdAt,
+                        frcaData.giverEmail);
 
         FeedbackResponseCommentAttributes frcaActual = frcDb
                 .getFeedbackResponseComment(frcaExpected.getId());
@@ -152,20 +152,20 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
         ______TS("typical success case");
         
         FeedbackResponseCommentAttributes frcaExpected = frcaData;
-        
-        frcaExpected.feedbackResponseId = frId;
+        frcaExpected.setId(frcDb.getFeedbackResponseComment(frcaExpected.courseId, frcaExpected.createdAt, 
+                frcaExpected.giverEmail).getId());
         frcaExpected.commentText = new Text("This is new Text");
         
         frcDb.updateFeedbackResponseComment(frcaExpected);
         
         FeedbackResponseCommentAttributes frcaActual = frcDb.getFeedbackResponseComment(
-                frcaExpected.feedbackResponseId,
-                frcaExpected.giverEmail,
-                frcaExpected.createdAt);
+                frcaExpected.courseId, frcaExpected.createdAt,
+                frcaExpected.giverEmail);
         
         frcaExpected.setId(frcaActual.getId());
         frcaExpected.feedbackQuestionId = frcaActual.feedbackQuestionId;
-        assertEquals(frcaExpected.toString(), frcaActual.toString());
+        assertEquals(frcaExpected.courseId, frcaActual.courseId);
+        assertEquals(frcaExpected.commentText, frcaActual.commentText);
         
         ______TS("non-existent comment");
         

@@ -33,7 +33,6 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
     
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        //TODO: find a way to test status message from session
         InstructorAttributes instructorToEdit = dataBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructorToEdit.googleId;
         String courseId = instructorToEdit.courseId;    
@@ -134,6 +133,7 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
         assertTrue(editedInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR));
         assertTrue(editedInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION));
         assertTrue(editedInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT));
+        assertEquals(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, redirectResult.getStatusMessage());
         
         ______TS("Masquerade mode: edit instructor successfully");
         

@@ -42,7 +42,6 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
     @Test
     public void testExecuteAndPostProcess() throws Exception{
         //TODO Test error states (catch-blocks and isError == true states)
-        //TODO: find a way to test status message from session
         ______TS("edit existing answer");
         
         FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();

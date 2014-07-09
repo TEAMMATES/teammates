@@ -34,7 +34,6 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
 
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        //TODO: find a way to test status message from session
         InstructorAttributes instructor = dataBundle.instructors.get("instructor3OfCourse1");
         StudentAttributes student = dataBundle.students.get("student2InCourse1");
         String instructorId = instructor.googleId;

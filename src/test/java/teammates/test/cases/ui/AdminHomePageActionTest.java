@@ -37,6 +37,7 @@ public class AdminHomePageActionTest extends BaseActionTest {
         assertEquals("", startingPageData.instructorShortName);
         assertEquals("", startingPageData.instructorInstitution);
         assertEquals("", startingPageData.instructorName);
+        assertEquals("", result.getStatusMessage());
         
     }
     

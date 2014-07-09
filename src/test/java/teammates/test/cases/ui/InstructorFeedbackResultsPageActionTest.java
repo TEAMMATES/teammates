@@ -12,6 +12,8 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.util.Const;
 import teammates.ui.controller.ActionResult;
 import teammates.ui.controller.InstructorFeedbackResultsPageAction;
+import teammates.ui.controller.InstructorFeedbackResultsPageData;
+import teammates.ui.controller.ShowPageResult;
 
 public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
 
@@ -141,6 +143,16 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
                 result.getDestinationWithParams());
         assertEquals("", result.getStatusMessage());
         assertFalse(result.isError);
+        
+        ______TS("Successful Case: filtering of feedbackResponses for access control");
+        // accessControl--filtering of the result is tested in FeedbackSessionsLogicTest, 
+        // so the test here about filtering is not rigorous
+        gaeSimulation.loginAsInstructor(dataBundle.accounts.get("helperOfCourse1").googleId);
+        action = getAction(paramsWithSortTypeQuestion);
+        result = action.executeAndPostProcess();
+        ShowPageResult pageResult = (ShowPageResult)result;
+        InstructorFeedbackResultsPageData pageData = (InstructorFeedbackResultsPageData)pageResult.data;
+        assertEquals(true, pageData.bundle.responses.isEmpty());
     }
     
     private InstructorFeedbackResultsPageAction getAction(String[] params){

@@ -55,6 +55,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 "&user=idOfInstructor1OfCourse1";
         assertEquals(expectedDestination, result.getDestinationWithParams());
         assertFalse(result.isError);
+        assertEquals("", result.getStatusMessage());
         
         String expectedFileName = session.courseId + "_" + session.feedbackSessionName;
         assertEquals(expectedFileName, result.getFileName());

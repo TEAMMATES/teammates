@@ -27,6 +27,7 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
         printTestClassHeader();
 		restoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_REMIND;
+        verifyUnaccessibleWithoutModifyStudentPrivilege(submissionParams);
     }
     
     @Test

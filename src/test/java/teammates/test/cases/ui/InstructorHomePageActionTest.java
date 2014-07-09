@@ -31,7 +31,6 @@ public class InstructorHomePageActionTest extends BaseActionTest {
     
     @Test
     public void testExecuteAndPostProcess() throws Exception{
-        //TODO: find a way to test status message from session
         String[] submissionParams = new String[]{};
         
         ______TS("instructor with no courses");

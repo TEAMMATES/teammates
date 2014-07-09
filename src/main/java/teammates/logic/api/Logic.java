@@ -2241,6 +2241,10 @@ public class Logic {
         feedbackResponseCommentsLogic.putDocument(comment);
     }
     
+    public void deleteDocument(FeedbackResponseCommentAttributes comment){
+        feedbackResponseCommentsLogic.deleteDocument(comment);
+    }
+    
     public FeedbackResponseCommentSearchResultBundle searchFeedbackResponseComments(String queryString, String googleId, String cursorString){
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, queryString);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
@@ -2314,6 +2318,10 @@ public class Logic {
     
     public void putDocument(CommentAttributes comment){
         commentsLogic.putDocument(comment);
+    }
+    
+    public void deleteDocument(CommentAttributes comment){
+        commentsLogic.deleteDocument(comment);
     }
     
     public CommentSearchResultBundle searchComment(String queryString, String googleId, String cursorString) {

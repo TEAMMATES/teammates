@@ -38,7 +38,6 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
     
     @Test
     public void testExecuteAndPostProcess() throws Exception{
-        //TODO: find a way to test status message from session
         gaeSimulation.loginAsInstructor(dataBundle.instructors.get("instructor1OfCourse1").googleId);
         
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");

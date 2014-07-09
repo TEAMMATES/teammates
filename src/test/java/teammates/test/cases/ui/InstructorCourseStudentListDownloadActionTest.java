@@ -56,6 +56,7 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
         assertEquals("\"Section 1\",\"Team 1.1\",\"student3 In Course1\",\"Joined\",\"student3InCourse1@gmail.com\"", fileContentLines[7]);
         assertEquals("\"Section 1\",\"Team 1.1\",\"student4 In Course1\",\"Joined\",\"student4InCourse1@gmail.com\"", fileContentLines[8]);
         assertEquals("\"Section 2\",\"Team 1.2\",\"student5 In Course1\",\"Joined\",\"student5InCourse1@gmail.com\"", fileContentLines[9]);
+        assertEquals("",r.getStatusMessage());
         
     }
     

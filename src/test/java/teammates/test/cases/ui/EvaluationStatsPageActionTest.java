@@ -47,6 +47,7 @@ public class EvaluationStatsPageActionTest extends BaseActionTest {
         assertEquals(Const.ViewURIs.INSTRUCTOR_EVAL_STATS+"?error=false&user=idOfInstructor1OfCourse1", r.getDestinationWithParams());
         assertEquals(data.evaluationDetails.stats.expectedTotal,5);
         assertEquals(data.evaluationDetails.stats.submittedTotal,3);
+        assertEquals("", r.getStatusMessage());
         
         ______TS("fail: instructor accesses stats of non-existent evaluation");
         String nonexistentEvaluation = "nonexistentEvaluation";

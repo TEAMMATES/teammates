@@ -48,7 +48,6 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
     @Test
     public void testExecuteAndPostProcess() throws Exception{
         //TODO Test error states (catch-blocks and isError == true states)
-        //TODO: find a way to test status message from session
         InstructorAttributes instructor1InCourse1 = dataBundle.instructors.get("instructor1InCourse1");
         gaeSimulation.loginAsInstructor(instructor1InCourse1.googleId);
         ______TS("Unsuccessful case: test empty feedback session name parameter");

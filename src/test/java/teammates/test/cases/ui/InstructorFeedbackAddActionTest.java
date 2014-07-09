@@ -27,7 +27,6 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
     
     @Test
     public void testExecuteAndPostProcess() throws Exception{
-        //TODO: find a way to test status message from session
         InstructorAttributes instructor1ofCourse1 =
                 dataBundle.instructors.get("instructor1OfCourse1");
         
@@ -68,6 +67,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                 "<span class=\"bold\">Results visible from:</span> Mon Jun 22 00:00:00 UTC 1970<br>" +
                 "<br><span class=\"bold\">Instructions:</span> <Text: instructions>|||/page/instructorFeedbackAdd";
         assertEquals(expectedLogMessage, a.getLogMessage());
+        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_ADDED, rr.getStatusMessage());
         
         ______TS("Error: try to add the same session again");
         
@@ -112,6 +112,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                 "<span class=\"bold\">Results visible from:</span> Thu May 08 02:00:00 UTC 2014<br>" +
                 "<br><span class=\"bold\">Instructions:</span> <Text: instructions>|||/page/instructorFeedbackAdd";
         assertEquals(expectedLogMessage, a.getLogMessage());
+        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_ADDED, rr.getStatusMessage());
         
         ______TS("timezone with minute offset");
         
@@ -143,6 +144,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                 "<span class=\"bold\">Results visible from:</span> Fri Nov 27 00:00:00 UTC 1970<br>" +
                 "<br><span class=\"bold\">Instructions:</span> <Text: &lt;script&lt;script&gt;&gt;test&lt;&#x2f;script&lt;&#x2f;script&gt;&g...>|||/page/instructorFeedbackAdd";
         assertEquals(expectedLogMessage, a.getLogMessage());
+        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_ADDED, rr.getStatusMessage());
         
         ______TS("Masquerade mode");
         
@@ -176,6 +178,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                 "<span class=\"bold\">Results visible from:</span> Thu Jan 01 00:00:00 UTC 1970<br>" +
                 "<br><span class=\"bold\">Instructions:</span> <Text: >|||/page/instructorFeedbackAdd";
         assertEquals(expectedLogMessage, a.getLogMessage());
+        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_ADDED, rr.getStatusMessage());
         
         // remove the sessions that were added
         FeedbackSessionsLogic.inst().deleteFeedbackSessionsForCourse(instructor1ofCourse1.courseId);

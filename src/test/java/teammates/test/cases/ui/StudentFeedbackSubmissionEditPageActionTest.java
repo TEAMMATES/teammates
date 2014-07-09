@@ -80,7 +80,6 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
 
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        //TODO: find a way to test status message from session
         StudentAttributes student1InCourse1 = dataBundle.students
                 .get("student1InCourse1");
         gaeSimulation.loginAsStudent(student1InCourse1.googleId);

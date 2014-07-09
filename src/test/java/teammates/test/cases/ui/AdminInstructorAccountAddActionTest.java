@@ -42,7 +42,6 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
     
     @Test
     public void testExecuteAndPostProcess() throws Exception{
-        //TODO: find a way to test status message from session
         final String newInstructorShortName = "James";
         final String name = "JamesBond";
         final String email = "jamesbond89@gmail.com";

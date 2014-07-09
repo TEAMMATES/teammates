@@ -47,6 +47,7 @@ public class FeedbackSessionStatsPageActionTest extends BaseActionTest {
         assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_STATS+"?error=false&user=idOfInstructor1OfCourse1", r.getDestinationWithParams());
         assertEquals(9,data.sessionDetails.stats.expectedTotal);
         assertEquals(4,data.sessionDetails.stats.submittedTotal);
+        assertEquals("", r.getStatusMessage());
         
         ______TS("fail: instructor accesses stats of non-existent feedback session");
         String nonexistentFeedbackSession = "nonexistentFeedbackSession";
@@ -65,6 +66,7 @@ public class FeedbackSessionStatsPageActionTest extends BaseActionTest {
         
         assertEquals(true, doesThrowUnauthorizedAccessException);
         assertEquals("Trying to access system using a non-existent feedback session entity", exceptionMessage);
+        assertEquals("", r.getStatusMessage());
         
     }
     

@@ -37,7 +37,6 @@ public class StudentHomePageActionTest extends BaseActionTest {
     
     @Test
     public void testExecuteAndPostProcess() throws Exception{
-        //TODO: find a way to test status message from session
         String unregUserId = "unreg.user";
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         String studentId = student1InCourse1.googleId;

@@ -27,7 +27,6 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
     
     @Test
     public void testExecuteAndPostProcess() throws Exception{
-        //TODO: find a way to test status message from session
         InstructorAttributes instructor1ofCourse1 =
                 dataBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes session = 
@@ -60,6 +59,8 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
                         + "&error=false",
                 rr.getDestinationWithParams());
         
+        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EDITED, rr.getStatusMessage());
+        
         String expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbackEditSave|||instructorFeedbackEditSave|||true|||"
                 + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||"
@@ -89,6 +90,9 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
                         + "&error=true",
                 rr.getDestinationWithParams());
         
+        assertEquals("The start time for this feedback session cannot be"
+                     + " earlier than the time when the session will be visible.", rr.getStatusMessage());
+        
         ______TS("success: Timzone with offset, 'never' show session, 'custom' show results");
         
         params = createParamsForTypicalFeedbackSession(
@@ -111,6 +115,8 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
                         + instructor1ofCourse1.googleId
                         + "&error=false",
                 rr.getDestinationWithParams());
+        
+        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EDITED, rr.getStatusMessage());
         
         expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbackEditSave|||instructorFeedbackEditSave|||true|||"
@@ -148,6 +154,8 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
                         + "&error=false",
                 rr.getDestinationWithParams());
         
+        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EDITED, rr.getStatusMessage());
+        
         expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbackEditSave|||instructorFeedbackEditSave|||true|||"
                 + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||"
@@ -184,6 +192,8 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
                         + instructor1ofCourse1.googleId
                         + "&error=false",
                 rr.getDestinationWithParams());
+        
+        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EDITED, rr.getStatusMessage());
         
         expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbackEditSave|||instructorFeedbackEditSave|||true|||"

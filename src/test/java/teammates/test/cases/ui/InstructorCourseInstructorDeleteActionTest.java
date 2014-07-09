@@ -28,7 +28,6 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
     
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        //TODO: find a way to test status message from session
         InstructorAttributes loginInstructor = dataBundle.instructors.get("instructor1OfCourse1");
         String loginInstructorId = loginInstructor.googleId;
         String courseId = loginInstructor.courseId;    

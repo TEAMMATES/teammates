@@ -73,7 +73,7 @@ public class CommentsDbTest extends BaseComponentTestCase {
         
         ______TS("success: another comment with different text");
         
-        c.commentText = new Text("Another comment");
+        c.createdAt = new Date();
         commentsDb.createEntity(c);
         TestHelper.verifyPresentInDatastore(c);
         commentsDb.deleteEntity(c);
