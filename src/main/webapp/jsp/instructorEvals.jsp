@@ -72,9 +72,6 @@
                         data-placement="top">
                         <option value="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE%>">
                             Feedback Session with customizable questions</option>
-                        <option value="<%=Const.ActionURIs.INSTRUCTOR_EVALS_PAGE%>"
-                            selected="selected">
-                            Standard Team Peer Evaluation with fixed questions</option>
                     </select>
                 </div>
                 <div class="col-md-5">
@@ -305,7 +302,8 @@
                                 <button type="submit" 
                                     id="button_submit" 
                                     class="btn btn-primary center-block"
-                                    onclick="return checkAddEvaluation(this.form);">
+                                    onclick="return checkAddEvaluation(this.form);"
+                                    disabled="disabled">
                                     Create Evaluation Session
                                 </button>
                             </div>

@@ -69,9 +69,6 @@
                             value="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE%>"
                             selected="selected">Feedback
                             Session with customizable questions</option>
-                        <option
-                            value="<%=Const.ActionURIs.INSTRUCTOR_EVALS_PAGE%>">Standard
-                            Team Peer Evaluation with fixed questions</option>
                     </select>
                 </div>
             </div>

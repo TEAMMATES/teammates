@@ -496,6 +496,11 @@ public class PageData {
         return link;
     }
     
+    public String getInstructorFeedbackSessionLink(){
+        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE;
+        link = addUserIdToUrl(link);
+        return link;
+    }
     
     public String getInstructorFeedbackSessionDeleteLink(String courseId, String feedbackSessionName, String nextURL){
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_DELETE;
