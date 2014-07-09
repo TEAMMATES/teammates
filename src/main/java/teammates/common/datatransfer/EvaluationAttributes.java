@@ -315,8 +315,8 @@ public class EvaluationAttributes extends EntityAttributes implements SessionAtt
 
     @Override
     public void sanitizeForSaving() {
-        this.courseId = this.courseId.trim();
-        this.name = this.name.trim();
+        this.courseId = Sanitizer.sanitizeTitle(courseId);
+        this.name = Sanitizer.sanitizeName(Sanitizer.sanitizeForHtml(name));
         this.instructions = Sanitizer.sanitizeTextField(this.instructions);
     }
     

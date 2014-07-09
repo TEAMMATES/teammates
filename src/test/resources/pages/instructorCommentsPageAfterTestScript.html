@@ -26,7 +26,7 @@
 
 
 
-    <div id="statusMessage" style="display: none;"></div>
+    <div id="statusMessage" style="{*}"></div>
 
             <div class="well well-plain">
                 <div class="row">
@@ -167,16 +167,16 @@
                             </div>
                             <ul class="list-group comments">
                                 
-                                <li class="list-group-item list-group-item-warning status_display-public">
+                                <li id="{*}" class="list-group-item list-group-item-warning status_display-public">
                                     <form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-1">
                                         <div id="commentBar-1">
                                             
                                             <span class="text-muted">To <b>Team 1.1</b> on
                                                 07 May 2012, 08:54</span>
                                             
-                                            <a type="button" id="commentdelete-1" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('1');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment" style="display: none;">
+                                            <a type="button" id="commentdelete-1" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('1');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment" style="{*}">
                                                 <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
-                                            </a> <a type="button" id="commentedit-1" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('1');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment" style="display: none;">
+                                            </a> <a type="button" id="commentedit-1" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('1');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment" style="{*}">
                                                 <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
                                             </a>
                                             
@@ -187,7 +187,7 @@
                                         </div>
                                         <div id="plainCommentText1">team can see this comment without giver's name</div>
                                         
-                                        <div id="commentTextEdit1" style="display: none;">
+                                        <div id="commentTextEdit1" style="{*}">
                                            <div class="form-group form-inline">
                                                 <div class="form-group text-muted">
                                                     You may change comment's visibility using the visibility options on the right hand side.
@@ -197,7 +197,7 @@
                                                     Show Visibility Options
                                                 </a>
                                             </div>
-                                            <div id="visibility-options1" class="panel panel-default" style="display: none;">
+                                            <div id="visibility-options1" class="panel panel-default" style="{*}">
                                                 <div class="panel-heading">Visibility Options</div>
                                                 <table class="table text-center" style="color:#000;">
                                                     <tbody>
@@ -288,16 +288,16 @@
                                     </form>
                                 </li>
                                 
-                                <li class="list-group-item list-group-item-warning status_display-public">
+                                <li id="{*}" class="list-group-item list-group-item-warning status_display-public">
                                     <form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-2">
                                         <div id="commentBar-2">
                                             
                                             <span class="text-muted">To <b>student1 In Course1 (Team 1.1, <a href="mailto:comments.student1InCourse1@gmail.com">comments.student1InCourse1@gmail.com</a>)</b> on
                                                 06 May 2012, 08:55</span>
                                             
-                                            <a type="button" id="commentdelete-2" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('2');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment" style="display: none;">
+                                            <a type="button" id="commentdelete-2" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('2');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment" style="{*}">
                                                 <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
-                                            </a> <a type="button" id="commentedit-2" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('2');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment" style="display: none;">
+                                            </a> <a type="button" id="commentedit-2" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('2');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment" style="{*}">
                                                 <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
                                             </a>
                                             
@@ -308,7 +308,7 @@
                                         </div>
                                         <div id="plainCommentText2">Other students in this course can see this comment without giver and recipient's name</div>
                                         
-                                        <div id="commentTextEdit2" style="display: none;">
+                                        <div id="commentTextEdit2" style="{*}">
                                            <div class="form-group form-inline">
                                                 <div class="form-group text-muted">
                                                     You may change comment's visibility using the visibility options on the right hand side.
@@ -318,7 +318,7 @@
                                                     Show Visibility Options
                                                 </a>
                                             </div>
-                                            <div id="visibility-options2" class="panel panel-default" style="display: none;">
+                                            <div id="visibility-options2" class="panel panel-default" style="{*}">
                                                 <div class="panel-heading">Visibility Options</div>
                                                 <table class="table text-center" style="color:#000;">
                                                     <tbody>
@@ -421,16 +421,16 @@
                                     </form>
                                 </li>
                                 
-                                <li class="list-group-item list-group-item-warning status_display-public">
+                                <li id="{*}" class="list-group-item list-group-item-warning status_display-public">
                                     <form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-3">
                                         <div id="commentBar-3">
                                             
                                             <span class="text-muted">To <b>Team 1.1</b> on
                                                 05 May 2012, 08:53</span>
                                             
-                                            <a type="button" id="commentdelete-3" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('3');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment" style="display: none;">
+                                            <a type="button" id="commentdelete-3" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('3');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment" style="{*}">
                                                 <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
-                                            </a> <a type="button" id="commentedit-3" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('3');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment" style="display: none;">
+                                            </a> <a type="button" id="commentedit-3" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('3');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment" style="{*}">
                                                 <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
                                             </a>
                                             
@@ -441,7 +441,7 @@
                                         </div>
                                         <div id="plainCommentText3">team can see this comment with giver and recipient's name</div>
                                         
-                                        <div id="commentTextEdit3" style="display: none;">
+                                        <div id="commentTextEdit3" style="{*}">
                                            <div class="form-group form-inline">
                                                 <div class="form-group text-muted">
                                                     You may change comment's visibility using the visibility options on the right hand side.
@@ -451,7 +451,7 @@
                                                     Show Visibility Options
                                                 </a>
                                             </div>
-                                            <div id="visibility-options3" class="panel panel-default" style="display: none;">
+                                            <div id="visibility-options3" class="panel panel-default" style="{*}">
                                                 <div class="panel-heading">Visibility Options</div>
                                                 <table class="table text-center" style="color:#000;">
                                                     <tbody>
@@ -542,16 +542,16 @@
                                     </form>
                                 </li>
                                 
-                                <li class="list-group-item list-group-item-warning status_display-public">
+                                <li id="{*}" class="list-group-item list-group-item-warning status_display-public">
                                     <form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-4">
                                         <div id="commentBar-4">
                                             
                                             <span class="text-muted">To <b>student1 In Course1 (Team 1.1, <a href="mailto:comments.student1InCourse1@gmail.com">comments.student1InCourse1@gmail.com</a>)</b> on
                                                 04 May 2012, 08:52</span>
                                             
-                                            <a type="button" id="commentdelete-4" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('4');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment" style="display: none;">
+                                            <a type="button" id="commentdelete-4" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('4');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment" style="{*}">
                                                 <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
-                                            </a> <a type="button" id="commentedit-4" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('4');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment" style="display: none;">
+                                            </a> <a type="button" id="commentedit-4" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('4');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment" style="{*}">
                                                 <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
                                             </a>
                                             
@@ -562,7 +562,7 @@
                                         </div>
                                         <div id="plainCommentText4">teammates can see this comment without giver and recipient's name</div>
                                         
-                                        <div id="commentTextEdit4" style="display: none;">
+                                        <div id="commentTextEdit4" style="{*}">
                                            <div class="form-group form-inline">
                                                 <div class="form-group text-muted">
                                                     You may change comment's visibility using the visibility options on the right hand side.
@@ -572,7 +572,7 @@
                                                     Show Visibility Options
                                                 </a>
                                             </div>
-                                            <div id="visibility-options4" class="panel panel-default" style="display: none;">
+                                            <div id="visibility-options4" class="panel panel-default" style="{*}">
                                                 <div class="panel-heading">Visibility Options</div>
                                                 <table class="table text-center" style="color:#000;">
                                                     <tbody>
@@ -675,16 +675,16 @@
                                     </form>
                                 </li>
                                 
-                                <li class="list-group-item list-group-item-warning status_display-public">
+                                <li id="{*}" class="list-group-item list-group-item-warning status_display-public">
                                     <form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-5">
                                         <div id="commentBar-5">
                                             
                                             <span class="text-muted">To <b>student1 In Course1 (Team 1.1, <a href="mailto:comments.student1InCourse1@gmail.com">comments.student1InCourse1@gmail.com</a>)</b> on
                                                 03 May 2012, 08:51</span>
                                             
-                                            <a type="button" id="commentdelete-5" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('5');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment" style="display: none;">
+                                            <a type="button" id="commentdelete-5" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('5');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment" style="{*}">
                                                 <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
-                                            </a> <a type="button" id="commentedit-5" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('5');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment" style="display: none;">
+                                            </a> <a type="button" id="commentedit-5" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('5');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment" style="{*}">
                                                 <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
                                             </a>
                                             
@@ -695,7 +695,7 @@
                                         </div>
                                         <div id="plainCommentText5">teammates can see this comment with giver and recipient's name</div>
                                         
-                                        <div id="commentTextEdit5" style="display: none;">
+                                        <div id="commentTextEdit5" style="{*}">
                                            <div class="form-group form-inline">
                                                 <div class="form-group text-muted">
                                                     You may change comment's visibility using the visibility options on the right hand side.
@@ -705,7 +705,7 @@
                                                     Show Visibility Options
                                                 </a>
                                             </div>
-                                            <div id="visibility-options5" class="panel panel-default" style="display: none;">
+                                            <div id="visibility-options5" class="panel panel-default" style="{*}">
                                                 <div class="panel-heading">Visibility Options</div>
                                                 <table class="table text-center" style="color:#000;">
                                                     <tbody>
@@ -808,16 +808,16 @@
                                     </form>
                                 </li>
                                 
-                                <li class="list-group-item list-group-item-warning status_display-public">
+                                <li id="{*}" class="list-group-item list-group-item-warning status_display-public">
                                     <form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-6">
                                         <div id="commentBar-6">
                                             
                                             <span class="text-muted">To <b>student1 In Course1 (Team 1.1, <a href="mailto:comments.student1InCourse1@gmail.com">comments.student1InCourse1@gmail.com</a>)</b> on
                                                 02 May 2012, 08:50</span>
                                             
-                                            <a type="button" id="commentdelete-6" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('6');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment" style="display: none;">
+                                            <a type="button" id="commentdelete-6" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('6');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment" style="{*}">
                                                 <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
-                                            </a> <a type="button" id="commentedit-6" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('6');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment" style="display: none;">
+                                            </a> <a type="button" id="commentedit-6" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('6');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment" style="{*}">
                                                 <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
                                             </a>
                                             
@@ -828,7 +828,7 @@
                                         </div>
                                         <div id="plainCommentText6">recipient can see this comment without giver's name</div>
                                         
-                                        <div id="commentTextEdit6" style="display: none;">
+                                        <div id="commentTextEdit6" style="{*}">
                                            <div class="form-group form-inline">
                                                 <div class="form-group text-muted">
                                                     You may change comment's visibility using the visibility options on the right hand side.
@@ -838,7 +838,7 @@
                                                     Show Visibility Options
                                                 </a>
                                             </div>
-                                            <div id="visibility-options6" class="panel panel-default" style="display: none;">
+                                            <div id="visibility-options6" class="panel panel-default" style="{*}">
                                                 <div class="panel-heading">Visibility Options</div>
                                                 <table class="table text-center" style="color:#000;">
                                                     <tbody>
@@ -941,16 +941,16 @@
                                     </form>
                                 </li>
                                 
-                                <li class="list-group-item list-group-item-warning status_display-public">
+                                <li id="{*}" class="list-group-item list-group-item-warning status_display-public">
                                     <form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-7">
                                         <div id="commentBar-7">
                                             
                                             <span class="text-muted">To <b>student1 In Course1 (Team 1.1, <a href="mailto:comments.student1InCourse1@gmail.com">comments.student1InCourse1@gmail.com</a>)</b> on
                                                 01 May 2012, 08:49</span>
                                             
-                                            <a type="button" id="commentdelete-7" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('7');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment" style="display: none;">
+                                            <a type="button" id="commentdelete-7" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('7');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment" style="{*}">
                                                 <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
-                                            </a> <a type="button" id="commentedit-7" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('7');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment" style="display: none;">
+                                            </a> <a type="button" id="commentedit-7" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('7');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment" style="{*}">
                                                 <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
                                             </a>
                                             
@@ -961,7 +961,7 @@
                                         </div>
                                         <div id="plainCommentText7">recipient can see this comment with giver and recipient's name</div>
                                         
-                                        <div id="commentTextEdit7" style="display: none;">
+                                        <div id="commentTextEdit7" style="{*}">
                                            <div class="form-group form-inline">
                                                 <div class="form-group text-muted">
                                                     You may change comment's visibility using the visibility options on the right hand side.
@@ -971,7 +971,7 @@
                                                     Show Visibility Options
                                                 </a>
                                             </div>
-                                            <div id="visibility-options7" class="panel panel-default" style="display: none;">
+                                            <div id="visibility-options7" class="panel panel-default" style="{*}">
                                                 <div class="panel-heading">Visibility Options</div>
                                                 <table class="table text-center" style="color:#000;">
                                                     <tbody>
@@ -1074,16 +1074,16 @@
                                     </form>
                                 </li>
                                 
-                                <li class="list-group-item list-group-item-warning status_display-private">
+                                <li id="{*}" class="list-group-item list-group-item-warning status_display-private">
                                     <form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-8">
                                         <div id="commentBar-8">
                                             
                                             <span class="text-muted">To <b>student1 In Course1 (Team 1.1, <a href="mailto:comments.student1InCourse1@gmail.com">comments.student1InCourse1@gmail.com</a>)</b> on
                                                 01 Apr 2012, 23:59</span>
                                             
-                                            <a type="button" id="commentdelete-8" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('8');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment" style="display: none;">
+                                            <a type="button" id="commentdelete-8" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('8');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment" style="{*}">
                                                 <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
-                                            </a> <a type="button" id="commentedit-8" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('8');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment" style="display: none;">
+                                            </a> <a type="button" id="commentedit-8" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('8');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment" style="{*}">
                                                 <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
                                             </a>
                                             
@@ -1092,7 +1092,7 @@
                                         </div>
                                         <div id="plainCommentText8">private comment</div>
                                         
-                                        <div id="commentTextEdit8" style="display: none;">
+                                        <div id="commentTextEdit8" style="{*}">
                                            <div class="form-group form-inline">
                                                 <div class="form-group text-muted">
                                                     You may change comment's visibility using the visibility options on the right hand side.
@@ -1102,7 +1102,7 @@
                                                     Show Visibility Options
                                                 </a>
                                             </div>
-                                            <div id="visibility-options8" class="panel panel-default" style="display: none;">
+                                            <div id="visibility-options8" class="panel panel-default" style="{*}">
                                                 <div class="panel-heading">Visibility Options</div>
                                                 <table class="table text-center" style="color:#000;">
                                                     <tbody>
@@ -1214,16 +1214,16 @@
                             </div>
                             <ul class="list-group comments">
                                 
-                                <li class="list-group-item list-group-item-warning status_display-public">
+                                <li id="{*}" class="list-group-item list-group-item-warning status_display-public">
                                     <form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-9">
                                         <div id="commentBar-9">
                                             
                                             <span class="text-muted">To <b>Anonymous</b> on
                                                 02 Jun 2012, 19:21</span>
                                             
-                                            <a type="button" id="commentdelete-9" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('9');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment" style="display: none;">
+                                            <a type="button" id="commentdelete-9" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('9');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment" style="{*}">
                                                 <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
-                                            </a> <a type="button" id="commentedit-9" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('9');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment" style="display: none;">
+                                            </a> <a type="button" id="commentedit-9" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('9');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment" style="{*}">
                                                 <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
                                             </a>
                                             
@@ -1234,7 +1234,7 @@
                                         </div>
                                         <div id="plainCommentText9">Other instructors in this course can see this comment without names</div>
                                         
-                                        <div id="commentTextEdit9" style="display: none;">
+                                        <div id="commentTextEdit9" style="{*}">
                                            <div class="form-group form-inline">
                                                 <div class="form-group text-muted">
                                                     You may change comment's visibility using the visibility options on the right hand side.
@@ -1244,7 +1244,7 @@
                                                     Show Visibility Options
                                                 </a>
                                             </div>
-                                            <div id="visibility-options9" class="panel panel-default" style="display: none;">
+                                            <div id="visibility-options9" class="panel panel-default" style="{*}">
                                                 <div class="panel-heading">Visibility Options</div>
                                                 <table class="table text-center" style="color:#000;">
                                                     <tbody>
@@ -1318,16 +1318,16 @@
                             </div>
                             <ul class="list-group comments">
                                 
-                                <li class="list-group-item list-group-item-warning status_display-public">
+                                <li id="{*}" class="list-group-item list-group-item-warning status_display-public">
                                     <form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-10">
                                         <div id="commentBar-10">
                                             
                                             <span class="text-muted">To <b>All students in this course</b> on
                                                 02 Jun 2012, 19:20</span>
                                             
-                                            <a type="button" id="commentdelete-10" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('10');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment" style="display: none;">
+                                            <a type="button" id="commentdelete-10" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('10');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment" style="{*}">
                                                 <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
-                                            </a> <a type="button" id="commentedit-10" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('10');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment" style="display: none;">
+                                            </a> <a type="button" id="commentedit-10" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('10');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment" style="{*}">
                                                 <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
                                             </a>
                                             
@@ -1338,7 +1338,7 @@
                                         </div>
                                         <div id="plainCommentText10">Other instructors in this course can see this comment</div>
                                         
-                                        <div id="commentTextEdit10" style="display: none;">
+                                        <div id="commentTextEdit10" style="{*}">
                                            <div class="form-group form-inline">
                                                 <div class="form-group text-muted">
                                                     You may change comment's visibility using the visibility options on the right hand side.
@@ -1348,7 +1348,7 @@
                                                     Show Visibility Options
                                                 </a>
                                             </div>
-                                            <div id="visibility-options10" class="panel panel-default" style="display: none;">
+                                            <div id="visibility-options10" class="panel panel-default" style="{*}">
                                                 <div class="panel-heading">Visibility Options</div>
                                                 <table class="table text-center" style="color:#000;">
                                                     <tbody>
@@ -1460,7 +1460,7 @@
                                             
                                             <ul class="list-group comments" id="responseCommentTable-1-1-1" style="">
                                                 
-                                                <li class="list-group-item list-group-item-warning giver_display-by-you status_display-private" id="responseCommentRow-1-1-1-1">
+                                                <li id="{*}" class="list-group-item list-group-item-warning giver_display-by-you status_display-private">
                                                     <div id="commentBar-1-1-1-1">
                                                         <span class="text-muted">From:
                                                             <b>you</b>
@@ -1470,7 +1470,7 @@
                                                         
                                                         
                                                         <form class="responseCommentDeleteForm pull-right">
-                                                            <a data-original-title="Delete this comment" href="/page/instructorFeedbackResponseCommentDelete" type="button" id="commentdelete-1-1-1-1" class="btn btn-default btn-xs icon-button" data-toggle="tooltip" data-placement="top" title="" style="">
+                                                            <a data-original-title="Delete this comment" href="/page/instructorFeedbackResponseCommentDelete" type="button" id="commentdelete-1-1-1-1" class="btn btn-default btn-xs icon-button" data-toggle="tooltip" data-placement="top" title="" style="{*}">
                                                                 <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
                                                             </a>
                                                             <input name="responseid" value="{*}" type="hidden">
@@ -1479,14 +1479,14 @@
                                                             <input name="fsname" value="comments.First feedback session" type="hidden">
                                                             <input name="user" value="comments.idOfInstructor1OfCourse1" type="hidden">
                                                         </form>
-                                                        <a data-original-title="Edit this comment" type="button" id="commentedit-1-1-1-1" class="btn btn-default btn-xs icon-button pull-right" onclick="showResponseCommentEditForm(1,1,1,1)" data-toggle="tooltip" data-placement="top" title="" style="">
+                                                        <a data-original-title="Edit this comment" type="button" id="commentedit-1-1-1-1" class="btn btn-default btn-xs icon-button pull-right" onclick="showResponseCommentEditForm(1,1,1,1)" data-toggle="tooltip" data-placement="top" title="" style="{*}">
                                                             <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
                                                         </a>
                                                         
                                                     </div> <!-- frComment Content -->
                                                     <div id="plainCommentText-1-1-1-1">Instructor 1 comment to student 1 self feedback</div>
                                                     <!-- frComment Edit Form -->
-                                                    <form style="display: none;" id="responseCommentEditForm-1-1-1-1" class="responseCommentEditForm">
+                                                    <form style="{*}" id="responseCommentEditForm-1-1-1-1" class="responseCommentEditForm">
                                                         <div class="form-group">
                                                             <textarea class="form-control" rows="3" placeholder="Your comment about this response" name="responsecommenttext" id="responsecommenttext-1-1-1-1">Instructor 1 comment to student 1 self feedback</textarea>
                                                         </div>
@@ -1503,7 +1503,7 @@
                                                 </li>
                                                 
                                                 <!-- frComment Add form -->
-                                                <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-1-1-1" style="display: none;">
+                                                <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-1-1-1" style="{*}">
                                                     <form class="responseCommentAddForm">
                                                         <div class="form-group">
                                                             <textarea class="form-control" rows="3" placeholder="Your comment about this response" name="responsecommenttext" id="responseCommentAddForm-1-1-1"></textarea>
@@ -1559,7 +1559,7 @@ Multiline test.
                                             
                                             <ul class="list-group comments" id="responseCommentTable-1-2-1" style="">
                                                 
-                                                <li class="list-group-item list-group-item-warning giver_display-by-you status_display-private" id="responseCommentRow-1-2-1-1">
+                                                <li id="{*}" class="list-group-item list-group-item-warning giver_display-by-you status_display-private">
                                                     <div id="commentBar-1-2-1-1">
                                                         <span class="text-muted">From:
                                                             <b>you</b>
@@ -1569,7 +1569,7 @@ Multiline test.
                                                         
                                                         
                                                         <form class="responseCommentDeleteForm pull-right">
-                                                            <a data-original-title="Delete this comment" href="/page/instructorFeedbackResponseCommentDelete" type="button" id="commentdelete-1-2-1-1" class="btn btn-default btn-xs icon-button" data-toggle="tooltip" data-placement="top" title="" style="display: none;">
+                                                            <a data-original-title="Delete this comment" href="/page/instructorFeedbackResponseCommentDelete" type="button" id="commentdelete-1-2-1-1" class="btn btn-default btn-xs icon-button" data-toggle="tooltip" data-placement="top" title="" style="{*}">
                                                                 <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
                                                             </a>
                                                             <input name="responseid" value="{*}" type="hidden">
@@ -1578,14 +1578,14 @@ Multiline test.
                                                             <input name="fsname" value="comments.First feedback session" type="hidden">
                                                             <input name="user" value="comments.idOfInstructor1OfCourse1" type="hidden">
                                                         </form>
-                                                        <a data-original-title="Edit this comment" type="button" id="commentedit-1-2-1-1" class="btn btn-default btn-xs icon-button pull-right" onclick="showResponseCommentEditForm(1,2,1,1)" data-toggle="tooltip" data-placement="top" title="" style="display: none;">
+                                                        <a data-original-title="Edit this comment" type="button" id="commentedit-1-2-1-1" class="btn btn-default btn-xs icon-button pull-right" onclick="showResponseCommentEditForm(1,2,1,1)" data-toggle="tooltip" data-placement="top" title="" style="{*}">
                                                             <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
                                                         </a>
                                                         
                                                     </div> <!-- frComment Content -->
                                                     <div id="plainCommentText-1-2-1-1">Instructor 1 comment to student 1 self feedback Question 2</div>
                                                     <!-- frComment Edit Form -->
-                                                    <form style="display: none;" id="responseCommentEditForm-1-2-1-1" class="responseCommentEditForm">
+                                                    <form style="{*}" id="responseCommentEditForm-1-2-1-1" class="responseCommentEditForm">
                                                         <div class="form-group">
                                                             <textarea class="form-control" rows="3" placeholder="Your comment about this response" name="responsecommenttext" id="responsecommenttext-1-2-1-1">Instructor 1 comment to student 1 self feedback Question 2</textarea>
                                                         </div>
@@ -1602,7 +1602,7 @@ Multiline test.
                                                 </li>
                                                 
                                                 <!-- frComment Add form -->
-                                                <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-1-2-1" style="display: none;">
+                                                <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-1-2-1" style="{*}">
                                                     <form class="responseCommentAddForm">
                                                         <div class="form-group">
                                                             <textarea class="form-control" rows="3" placeholder="Your comment about this response" name="responsecommenttext" id="responseCommentAddForm-1-2-1"></textarea>

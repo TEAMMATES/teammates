@@ -35,6 +35,10 @@ function readyFeedbackEditPage(){
         }
     });
     
+    // Copy Binding
+    bindCopyButton();
+    bindCopyEvents();
+
     // Additional formatting & bindings.
     disableEditFS();
     formatSessionVisibilityGroup();
@@ -916,4 +920,72 @@ function getQuestionLink(qnNumber) {
 
 function toParameterFormat(str) {
     return str.replace(/\s/g,"+");
+}
+
+function bindCopyButton() {
+    $('#button_copy').on('click', function(e){
+        e.preventDefault();
+        
+        var questionRows = $("#copyTableModal >tbody>tr");
+        if(questionRows.length == 0){
+            setStatusMessage(FEEDBACK_QUESTION_COPY_INVALID, true);
+        } else {
+            setStatusMessage("", false);
+            $('#copyModal').modal('show');
+        }
+       
+        return false;
+    });
+
+    $('#button_copy_submit').on('click', function(e){
+        e.preventDefault();
+
+        var index = 0;
+        var hasRowSelected = false;
+
+        $('#copyTableModal >tbody>tr').each(function(){
+            var input = $(this).children('input:first');
+            if(typeof input == 'undefined'){
+                return true;
+            }
+            if($(this).hasClass('row-selected')){
+                $(input).attr('name', 'questionid-' + index++);
+                hasRowSelected = true;
+            }
+        });
+
+        if(!hasRowSelected){
+            setStatusMessage('No questions are selected to be copied', true);
+            $('#copyModal').modal('hide');
+        } else {
+            console.log('test');
+            $('#copyModalForm').submit();
+        }
+
+
+        return false;
+    });
+}
+
+function bindCopyEvents() {
+
+    var firstRow = $('#copyTableModal >tbody>tr:first');
+    if(typeof firstRow != 'undefined'){
+        $(firstRow).addClass('row-selected');
+        $(firstRow).children('td:first').html('<span class="glyphicon glyphicon-ok"></span>');
+    }
+    
+    $('#copyTableModal >tbody>tr').on('click', function(e){
+        e.preventDefault();
+        
+        if($(this).hasClass('row-selected')){
+            $(this).removeClass('row-selected');
+            $(this).children('td:first').html('');
+        } else {
+            $(this).addClass('row-selected');
+            $(this).children('td:first').html('<span class="glyphicon glyphicon-ok"></span>');
+        }
+
+        return false;
+    });
 }

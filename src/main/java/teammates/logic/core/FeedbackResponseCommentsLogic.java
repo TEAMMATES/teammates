@@ -51,6 +51,10 @@ public class FeedbackResponseCommentsLogic {
                 FeedbackResponseCommentAttributes existingComment = new FeedbackResponseCommentAttributes();
                 
                 existingComment = frcDb.getFeedbackResponseComment(frComment.feedbackResponseId, frComment.giverEmail, frComment.createdAt);
+                if(existingComment == null){
+                    existingComment = frcDb.getFeedbackResponseComment(frComment.courseId, frComment.createdAt,
+                            frComment.giverEmail);
+                }
                 frComment.setId(existingComment.getId());
                 
                 return frcDb.updateFeedbackResponseComment(frComment);            
@@ -132,6 +136,10 @@ public class FeedbackResponseCommentsLogic {
         frcDb.putDocument(comment);
     }
     
+    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForGiver(String courseId, String giverEmail){
+        return frcDb.getFeedbackResponseCommentForGiver(courseId, giverEmail);
+    }
+    
     public FeedbackResponseCommentSearchResultBundle searchFeedbackResponseComments(
             String queryString, String googleId, String cursorString) {
         return frcDb.search(queryString, googleId, cursorString);
@@ -140,6 +148,10 @@ public class FeedbackResponseCommentsLogic {
     public void deleteFeedbackResponseComment(
             FeedbackResponseCommentAttributes feedbackResponseComment) {
         frcDb.deleteEntity(feedbackResponseComment);    
+    }
+    
+    public void deleteDocument(FeedbackResponseCommentAttributes commentToDelete){
+        frcDb.deleteDocument(commentToDelete);
     }
     
     private void verifyIsCoursePresent(String courseId) throws EntityDoesNotExistException{

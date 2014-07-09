@@ -14,6 +14,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
 import teammates.test.driver.AssertHelper;
@@ -60,7 +61,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackSessionName = testData.feedbackSessions.get("openSession").feedbackSessionName;
 
         browser = BrowserPool.getBrowser();
-
     }
 
     @Test
@@ -126,6 +126,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         testEditContributionQuestionAction();
         testDeleteContributionQuestionAction();
         
+        testCopyQuestion();
+      
         testPreviewSessionAction();
 
         testDoneEditingLink();
@@ -1019,6 +1021,27 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         InstructorFeedbacksPage feedbackPage = feedbackEditPage.deleteSession();
         AssertHelper.assertContains(Const.StatusMessages.FEEDBACK_SESSION_DELETED, feedbackPage.getStatus());
         assertNull(BackDoor.getFeedbackSession(courseId, feedbackSessionName));
+    }
+    
+    private void testCopyQuestion() {
+        
+        ______TS("Failure case: no questions are indicated");
+        feedbackEditPage.clickCopyButton();
+        ThreadHelper.waitFor(1000);
+        feedbackEditPage.clickCopyTableAtRow(0);
+        feedbackEditPage.clickCopySubmitButton();
+        feedbackEditPage.verifyStatus("No questions are selected to be copied");
+        
+        ______TS("Success case: copy questions successfully");
+        
+        ThreadHelper.waitFor(1000);
+        feedbackEditPage.clickCopyButton();
+        ThreadHelper.waitFor(1000);
+        feedbackEditPage.clickCopyTableAtRow(0);
+        feedbackEditPage.clickCopySubmitButton();
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackCopyQuestionSuccess.html");
+        
+        
     }
     
     @AfterClass
