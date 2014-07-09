@@ -151,7 +151,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         ______TS("action: delete feedback response comment");
         commentsPage.clickResponseCommentDelete(1, 1, 1, 1);
         commentsPage.reloadPage();
-        ThreadHelper.waitFor(250);
+        ThreadHelper.waitFor(1500);
         commentsPage.verifyHtmlMainContent("/instructorCommentsPageAfterTestScript.html");
     }
     

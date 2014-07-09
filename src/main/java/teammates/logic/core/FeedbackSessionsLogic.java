@@ -1546,8 +1546,10 @@ public class FeedbackSessionsLogic {
                     .getFeedbackQuestionsForInstructor(questions,
                             fsa.isCreator(instructor.email));
             if (!instructorQns.isEmpty()) {
-                responseStatus.noResponse.add(instructor.name);
-                responseStatus.emailNameTable.put(instructor.email, instructor.name);
+                if(responseStatus.emailNameTable.get(instructor.email) == null){
+                    responseStatus.noResponse.add(instructor.name);
+                    responseStatus.emailNameTable.put(instructor.email, instructor.name);
+                }
             }
         }
 

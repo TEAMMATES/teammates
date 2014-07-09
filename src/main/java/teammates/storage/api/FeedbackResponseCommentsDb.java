@@ -45,13 +45,11 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         }
     }
     
-    @Override
-    public void deleteEntity(EntityAttributes entityToDelete){
-        FeedbackResponseComment comment = (FeedbackResponseComment) getEntity(entityToDelete);
-        if(comment != null){
-            FeedbackResponseCommentAttributes commentToDelete = new FeedbackResponseCommentAttributes(comment);
-            super.deleteEntity(entityToDelete);
-            deleteDocument(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, commentToDelete.getId().toString());
+    public void deleteDocument(FeedbackResponseCommentAttributes commentToDelete){
+        FeedbackResponseComment commentEntity = (FeedbackResponseComment) getEntity(commentToDelete);
+        if(commentEntity != null){
+            FeedbackResponseCommentAttributes comment = new FeedbackResponseCommentAttributes(commentEntity);
+            deleteDocument(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, comment.getId().toString());
         }
     }
 
@@ -92,6 +90,23 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
             log.info("Trying to get non-existent response comment: " +
                     feedbackResponseId + "/from: " + giverEmail
                     + "created at: " + createdAt);
+            return null;
+        }
+        
+        return new FeedbackResponseCommentAttributes(frc);    
+    }
+    
+    public FeedbackResponseCommentAttributes getFeedbackResponseComment(String courseId, Date createdAt, String giverEmail) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, giverEmail);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, createdAt);
+        
+        FeedbackResponseComment frc = (FeedbackResponseComment)
+                getFeedbackResponseCommentEntity(courseId, createdAt, giverEmail);
+        
+        if (frc == null) {
+            log.info("Trying to get non-existent response comment: from: " + giverEmail
+                    + " in the course " + courseId + " created at: " + createdAt);
             return null;
         }
         
@@ -284,12 +299,30 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
             return getFeedbackResponseCommentEntity(feedbackResponseCommentToGet.getId());
         } else { 
             return getFeedbackResponseCommentEntity(
-                feedbackResponseCommentToGet.feedbackResponseId,
-                feedbackResponseCommentToGet.giverEmail,
-                feedbackResponseCommentToGet.createdAt);
+                feedbackResponseCommentToGet.courseId,
+                feedbackResponseCommentToGet.createdAt,
+                feedbackResponseCommentToGet.giverEmail
+                );
         }
     }
     
+    private Object getFeedbackResponseCommentEntity(String courseId, Date createdAt,
+            String giverEmail) {
+        List<FeedbackResponseComment> frcList = getFeedbackResponseCommentEntityForGiver(courseId, giverEmail);
+        if(frcList.isEmpty()){
+            return null;
+        }
+        
+        for(FeedbackResponseComment frc:frcList){
+            if(frc.getCourseId().equals(courseId)
+                    && frc.getGiverEmail().equals(giverEmail)
+                    && frc.getCreatedAt().equals(createdAt)){
+                return frc;
+            }
+        }
+        return null;
+    }
+
     private List<FeedbackResponseComment> getFeedbackResponseCommentEntityForGiver(String courseId, String giverEmail) {
         Query q = getPM().newQuery(FeedbackResponseComment.class);
         q.declareParameters("String courseIdParam, String giverEmailParam");
