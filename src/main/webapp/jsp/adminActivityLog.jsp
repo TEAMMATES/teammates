@@ -4,11 +4,7 @@
 <%@ page import="java.util.List"%>
 <%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.common.util.ActivityLogEntry"%>
-<%@ page import="teammates.ui.controller.ActionFactory"%>
-<%@ page import="java.lang.reflect.Field"%>
 <%@ page import="teammates.ui.controller.AdminActivityLogPageData"%>
-<%@ page import="java.util.List"%>
-<%@ page import="java.util.ArrayList"%>
 
 <%
     AdminActivityLogPageData data = (AdminActivityLogPageData) request.getAttribute("data");
@@ -218,131 +214,7 @@
                                                 class="table-responsive">
                                                 <table
                                                     class="table table-condensed">
-                                                    
-
-                                                    <%
-                                                     List<String> instructorActions = new ArrayList<String>();
-                                                     List<String> studentActions = new ArrayList<String>();
-                                                     List<String> adminActions = new ArrayList<String>();
-                                                     List<String> systemActions = new ArrayList<String>();
-                                                     
-                                                    
-                                                     for(Field field : Const.ActionURIs.class.getFields()){
-                                                         
-                                                         String rawActionString = field.get(Const.ActionURIs.class).toString();
-                                                         
-                                                         String[] splitedString = rawActionString.split("/");
-                                                         String actionString = splitedString[splitedString.length - 1];
-                                                         
-                                                         if(actionString.startsWith("instructor")){
-                                                             instructorActions.add(actionString);
-                                                         }else if(actionString.startsWith("student")){
-                                                             studentActions.add(actionString);    
-                                                         }else if(actionString.startsWith("admin")){
-                                                             adminActions.add(actionString);
-                                                         }else{
-                                                             systemActions.add(actionString);    
-                                                         }
-                                                         
-                                                     }
-
-                                                     int limitPerBlock = instructorActions.size() / 6;
-                                                     int extraEntry = instructorActions.size() % 6;
-                                                                                                   
-                                                     
-                                                     int entryCount = 0;
-                                                     int totalEntryCount = 0;
-                                                     int colCount = 0;
-                                                     boolean isExtraAppended = false;
-                                                     
-                                                     out.print("<tr>");
-                                                     out.print("<td>");
-                                                     out.print("<ul class=\"list-group\">");
-                                                     for(String action : instructorActions){
-                                                    	 totalEntryCount ++;
-                                                         out.print("<li class=\"list-group-item list-group-item\">"
-                                                                   + action
-                                                                   + "</li>");
-                                                         
-                                                         entryCount ++;                                                         
-                                                         if(entryCount == limitPerBlock){
-                                                             if(isExtraAppended || extraEntry <=0 ){
-                                                                 out.print("</ul>");
-                                                                 out.print("</td>");
-                                                                 entryCount = 0;
-                                                                 colCount ++;
-                                                                 
-                                                                 if(colCount == 3){
-                                                                  out.print("</tr>");
-                                                                  colCount = 0;
-                                                                  out.print("<tr>");
-                                                                 }
-                                                                 
-                                                                 if(totalEntryCount == instructorActions.size()){
-                                                                	 out.print("</ul>");
-                                                                     out.print("</td>");
-                                                                     out.print("</tr>");   
-                                                                 }else{
-                                                                     out.print("<td>");
-                                                                     out.print("<ul class=\"list-group\">");
-                                                                     isExtraAppended = false;
-                                                                 }
-                                                             }else{
-                                                            	 entryCount --;
-                                                            	 extraEntry --;                                                             
-                                                            	 isExtraAppended = true;
-                                                             }
-                                                             
-                                                         }
-                                                     }
-                                                     
-                                                    
-                                                     
-                                                     
-                                                     out.print("<tr>");
-                                                     
-                                                     out.print("<td>");
-                                                     out.print("<ul class=\"list-group\">");
-                                                     for(String action : studentActions){
-                                                     
-                                                         out.print("<li class=\"list-group-item list-group-item-success\">"
-                                                                   + action
-                                                                   + "</li>");
-                                                                                                           
-                                                     }
-                                                     out.print("</ul>");
-                                                     out.print("</td>");
-                                                     
-                                                     out.print("<td>");
-                                                     out.print("<ul class=\"list-group\">");
-                                                     for(String action : systemActions){
-                                                     
-                                                         out.print("<li class=\"list-group-item list-group-item-warning\">"
-                                                                   + action
-                                                                   + "</li>");
-                                                                                                           
-                                                     }
-                                                     out.print("</ul>");
-                                                     out.print("</td>");
-                                                     
-                                                     out.print("<td>");
-                                                     out.print("<ul class=\"list-group\">");
-                                                     for(String action : adminActions){
-                                                     
-                                                         out.print("<li class=\"list-group-item list-group-item-danger\">"
-                                                                   + action
-                                                                   + "</li>");
-                                                                                                           
-                                                     }
-                                                     out.print("</ul>");
-                                                     out.print("</td>");
-                                                     
-                                                     out.print("</tr>");
-                                                    %>
-                                                    
-
-
-
+                                                    <%=data.printReference()%>
                                                 </table>
                                             </div>
                                             </p>

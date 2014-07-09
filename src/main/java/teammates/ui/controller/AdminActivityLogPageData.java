@@ -1,11 +1,14 @@
 package teammates.ui.controller;
 
+import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.util.ActivityLogEntry;
+import teammates.common.util.Const;
 
 public class AdminActivityLogPageData extends PageData {
     
@@ -132,6 +135,88 @@ public class AdminActivityLogPageData extends PageData {
         return q;
     }
     
+    public String printReference(){
+        
+        List<String> instructorActions = new ArrayList<String>();
+        List<String> studentActions = new ArrayList<String>();
+        List<String> adminActions = new ArrayList<String>();
+        List<String> systemActions = new ArrayList<String>();
+        
+       
+        for(Field field : Const.ActionURIs.class.getFields()){
+            
+            String rawActionString = "";
+            try {
+                rawActionString = field.get(Const.ActionURIs.class).toString();
+            } catch (IllegalArgumentException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
+            
+            String[] splitedString = rawActionString.split("/");
+            String actionString = splitedString[splitedString.length - 1];
+            
+            if(actionString.startsWith("instructor")){
+                instructorActions.add(actionString);
+            }else if(actionString.startsWith("student")){
+                studentActions.add(actionString);    
+            }else if(actionString.startsWith("admin")){
+                adminActions.add(actionString);
+            }else{
+                systemActions.add(actionString);    
+            }
+            
+        }
+        
+        return assemblyReferenceString(instructorActions, 
+                                       studentActions,
+                                       adminActions, 
+                                       systemActions);
+             
+    }
+    
+    
+    String assemblyReferenceString(List<String> instructorActions, List<String> studentActions, 
+                                   List<String> adminActions, List<String> systemActions){
+        
+        String outPut="";
+        
+        int size = instructorActions.size();
+        outPut += "<tr>";
+        outPut += getReferenceGroupFromList(instructorActions.subList(0, size / 6), null);
+        outPut += getReferenceGroupFromList(instructorActions.subList(size / 6, size * 2 / 6), null);
+        outPut += getReferenceGroupFromList(instructorActions.subList(size * 2 / 6, size * 3 / 6), null);
+        outPut += "</tr>";
+        outPut += "<tr>";
+        outPut += getReferenceGroupFromList(instructorActions.subList(size * 3 / 6, size * 4 / 6), null);
+        outPut += getReferenceGroupFromList(instructorActions.subList(size * 4 / 6, size * 5 / 6), null);
+        outPut += getReferenceGroupFromList(instructorActions.subList(size * 5 / 6, size), null);
+        outPut += "</tr>";          
+        outPut += "<tr>";
+        outPut += getReferenceGroupFromList(studentActions, "success"); 
+        outPut += getReferenceGroupFromList(systemActions, "warning"); 
+        outPut += getReferenceGroupFromList(adminActions, "danger"); 
+        outPut += "</tr>";        
+        return outPut;    
+    
+    }
+    
+    
+    String getReferenceGroupFromList(List<String> actionList, String styleName){
+        
+        String outPut = "";
+        
+        String style = styleName != null ? "list-group-item-" + styleName : "";
+        
+        outPut += "<td>";
+        outPut += "<ul class=\"list-group\">";
+        for(String action : actionList){        
+            outPut += "<li class=\"list-group-item " + style + "\">" + action + "</li>";
+                                                              
+        } 
+        outPut += "</ul>";
+        outPut += "</td>";    
+        return outPut;
+    }
     
     /**
      * QueryParameters inner class. Used only within this servlet, to hold the query data once it is parsed
