@@ -227,7 +227,7 @@
                                     <div class="col-xs-12">
                                         <div class="panel panel-info">
                                             <div class="panel-heading">
-                                                <strong>Course Level</strong>
+                                                <strong>In general, this instructor can</strong>
                                             </div>
                                             <div class="panel-body">
                                                 <div class="col-sm-3">
@@ -308,21 +308,18 @@
                                                 <% } %>
                                                 >
                                                 <div class="panel panel-info">
-                                                    <div class="panel-heading col-sm-12">
-                                                        <div class="col-sm-3">
-                                                            <strong>Section Level</strong>
-                                                        </div>
-                                                        <div class="col-sm-3 col-sm-offset-6">
-                                                            <select name="<%=Const.ParamsNames.INSTRUCTOR_SECTION + j%>" id="section<%=j%>forinstructor<%=index%>" class="pull-right">
-                                                                <% for (String sectionOptionName : data.sectionNames) { %>
-                                                                <option value="<%=sectionOptionName%>"
-                                                                    <% if (sectionOptionName.equals(data.sectionNames.get(j))) { %>
-                                                                    selected
-                                                                    <% } %>
-                                                                ><%=sectionOptionName%></option>
+                                                    <div class="panel-heading">
+                                                        <strong>But in section </strong>
+                                                        <select name="<%=Const.ParamsNames.INSTRUCTOR_SECTION + j%>" id="section<%=j%>forinstructor<%=index%>">
+                                                            <% for (String sectionOptionName : data.sectionNames) { %>
+                                                            <option value="<%=sectionOptionName%>"
+                                                                <% if (sectionOptionName.equals(data.sectionNames.get(j))) { %>
+                                                                selected
                                                                 <% } %>
-                                                            </select>
-                                                        </div>
+                                                            ><%=sectionOptionName%></option>
+                                                            <% } %>
+                                                        </select>
+                                                        <strong> the instructor can only</strong>
                                                         <% if (!instructor.privileges.isSectionSpecial(data.sectionNames.get(j))) { %> 
                                                         <input type="hidden" name="is<%=Const.ParamsNames.INSTRUCTOR_SECTION + j%>set"
                                                             id="is<%=Const.ParamsNames.INSTRUCTOR_SECTION + j%>setforinstructor<%=index%>" value="false"/>
@@ -389,7 +386,7 @@
                                                             id="toggleSessionLevelInSection<%=j%>ForInstructor<%=index%>"
                                                             class="small col-sm-5">
                                                             <% if (!instructor.privileges.isSessionsInSectionSpecial(data.sectionNames.get(j))) { %> 
-                                                            Configure session-level privileges
+                                                            Give different permissions for sessions in this section
                                                             <% } else { %>
                                                             Hide session-level privileges
                                                             <% } %></a>      
@@ -495,7 +492,7 @@
                                                 <% if (instructor.privileges.numberOfSectionsSpecial() >= data.sectionNames.size()) { %>
                                                 style="display: none;"
                                                 <% } %>
-                                                >Add section-level permissions</a>
+                                                >Give different permissions for a specific section</a>
                                         <% } %>
                                     </div>
                                 </div>
@@ -604,7 +601,7 @@
                                     <div class="col-xs-12">
                                         <div class="panel panel-info">
                                             <div class="panel-heading">
-                                                <strong>Course Level</strong>
+                                                <strong>In general, this instructor can</strong>
                                             </div>
                                             <div class="panel-body">
                                                 <div class="col-sm-3">
@@ -648,22 +645,19 @@
                                             <% for (int j=0;j<data.sectionNames.size();j++) { %>
                                             <div id="tuneSectionPermissionsDiv<%=j%>ForInstructor<%=data.instructorList.size()+1%>" style="display: none;">
                                                 <div class="panel panel-info">
-                                                    <div class="panel-heading col-sm-12">
-                                                        <div class="col-sm-3">
-                                                            <strong>Section Level</strong>
-                                                        </div>
-                                                        <div class="col-sm-3 col-sm-offset-6">
-                                                            <select name="<%=Const.ParamsNames.INSTRUCTOR_SECTION + j%>" id="section<%=j%>forinstructor<%=data.instructorList.size()+1%>"
-                                                                class="pull-right">
-                                                                <% for (String sectionOptionName : data.sectionNames) { %>
-                                                                <option value="<%=sectionOptionName%>"
-                                                                    <% if (sectionOptionName.equals(data.sectionNames.get(j))) { %>
-                                                                    selected
-                                                                    <% } %>
-                                                                ><%=sectionOptionName%></option>
+                                                    <div class="panel-heading">
+                                                        <strong>But in section </strong>
+                                                        <select name="<%=Const.ParamsNames.INSTRUCTOR_SECTION + j%>" 
+                                                            id="section<%=j%>forinstructor<%=data.instructorList.size()+1%>">
+                                                            <% for (String sectionOptionName : data.sectionNames) { %>
+                                                            <option value="<%=sectionOptionName%>"
+                                                                <% if (sectionOptionName.equals(data.sectionNames.get(j))) { %>
+                                                                selected
                                                                 <% } %>
-                                                            </select>
-                                                        </div> 
+                                                            ><%=sectionOptionName%></option>
+                                                            <% } %>
+                                                        </select>
+                                                        <strong> the instructor can only</strong>
                                                         <input type="hidden" name="is<%=Const.ParamsNames.INSTRUCTOR_SECTION + j%>set"
                                                             id="is<%=Const.ParamsNames.INSTRUCTOR_SECTION + j%>setforinstructor<%=data.instructorList.size()+1%>" value="false"/>
                                                     </div>
@@ -690,7 +684,7 @@
                                                         <% if (!data.evalNames.isEmpty() || !data.feedbackNames.isEmpty()) { %>
                                                         <a href="javascript:;" onclick="showTuneSessionnPermissionsDiv(<%=data.instructorList.size()+1%>, <%=j%>)"
                                                             id="toggleSessionLevelInSection<%=j%>ForInstructor<%=data.instructorList.size()+1%>"
-                                                            class="small col-sm-5">Configure session-level privileges</a>      
+                                                            class="small col-sm-5">Give different permissions for sessions in this section</a>      
                                                         <div id="tuneSessionPermissionsDiv<%=j%>ForInstructor<%=data.instructorList.size()+1%>" style="display: none;">
                                                             <input type="hidden" name="is<%=Const.ParamsNames.INSTRUCTOR_SECTION + j%>sessionsset" value="false"/>
                                                             <table class="table table-striped">
@@ -754,7 +748,7 @@
                                             </div>
                                             <% } %>
                                         <a href="javascript:;" onclick="showTuneSectionPermissionsDiv(<%=data.instructorList.size()+1%>, 0)" class="small" 
-                                            id="addSectionLevelForInstructor<%=data.instructorList.size()+1%>">Add section-level permissions</a>
+                                            id="addSectionLevelForInstructor<%=data.instructorList.size()+1%>">Give different permissions for a specific section</a>
                                         <% } %>
                                     </div>
                                 </div>
