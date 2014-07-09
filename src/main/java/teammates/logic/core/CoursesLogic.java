@@ -256,7 +256,7 @@ public class CoursesLogic {
         return sectionDetails;
     }
 
-    public List<SectionDetailsBundle> getSectionsForCourse(String courseId) 
+    public List<SectionDetailsBundle> getSectionsForCourse(String courseId, CourseDetailsBundle cdd) 
             throws EntityDoesNotExistException {
         
         verifyCourseIsPresent(courseId);
@@ -272,11 +272,16 @@ public class CoursesLogic {
         for(int i = 0; i < students.size(); i++) {
             
             StudentAttributes s = students.get(i);
+            cdd.stats.studentsTotal++;
+            if(!s.isRegistered()){
+                cdd.stats.unregisteredTotal++;
+            }
             
             if(section == null) {   // First student of first section
                 section = new SectionDetailsBundle();
                 section.name = s.section;
                 section.teams.add(new TeamDetailsBundle());
+                cdd.stats.teamsTotal++;
                 section.teams.get(teamIndexWithinSection).name = s.team;
                 section.teams.get(teamIndexWithinSection).students.add(s);
             } else if(s.section.equals(section.name)){
@@ -285,15 +290,18 @@ public class CoursesLogic {
                 } else {
                     teamIndexWithinSection++;
                     section.teams.add(new TeamDetailsBundle());
+                    cdd.stats.teamsTotal++;
                     section.teams.get(teamIndexWithinSection).name = s.team;
                     section.teams.get(teamIndexWithinSection).students.add(s);
                 }
             } else { // first student of subsequent section
                 sections.add(section);
+                cdd.stats.sectionsTotal++;
                 teamIndexWithinSection = 0;
                 section = new SectionDetailsBundle();
                 section.name = s.section;
                 section.teams.add(new TeamDetailsBundle());
+                cdd.stats.teamsTotal++;
                 section.teams.get(teamIndexWithinSection).name = s.team;
                 section.teams.get(teamIndexWithinSection).students.add(s);
             }
@@ -301,6 +309,7 @@ public class CoursesLogic {
             boolean isLastStudent = i == (students.size() -1);
             if(isLastStudent){
                 sections.add(section);
+                cdd.stats.sectionsTotal++;
             }
         }
         
@@ -403,11 +412,8 @@ public class CoursesLogic {
         }
 
         CourseDetailsBundle cdd = new CourseDetailsBundle(cd);
-        cdd.sections= (ArrayList<SectionDetailsBundle>) getSectionsForCourse(courseId);
-        cdd.stats.sectionsTotal = getNumberOfSections(cd.id);
-        cdd.stats.teamsTotal = getNumberOfTeams(cd.id);
-        cdd.stats.studentsTotal = getTotalEnrolledInCourse(cd.id);
-        cdd.stats.unregisteredTotal = getTotalUnregisteredInCourse(cd.id);
+        cdd.sections= (ArrayList<SectionDetailsBundle>) getSectionsForCourse(courseId, cdd);
+        
         return cdd;
     }
 

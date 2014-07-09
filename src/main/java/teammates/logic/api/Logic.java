@@ -934,18 +934,6 @@ public class Logic {
         return coursesLogic.getSectionForCourse(section, courseId);
     }
 
-    /** 
-     * Preconditions: <br>
-     * * All parameters are non-null    
-     */
-    public List<SectionDetailsBundle> getSectionsForCourse(String courseId)
-            throws EntityDoesNotExistException {
-
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-
-        return coursesLogic.getSectionsForCourse(courseId);
-    }
-
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
