@@ -392,7 +392,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         
         feedbackPage.copyFeedbackSession("Copied Session", newSession.courseId);
-        feedbackPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_ADDED);
+        feedbackPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_COPIED);
         // Check that we are redirected to the edit page.
         feedbackPage.verifyHtmlMainContent("/instructorFeedbackCopySuccess.html");
         

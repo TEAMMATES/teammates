@@ -239,7 +239,14 @@ public class InstructorFeedbacksPage extends AppPage {
         
         selectDropdownByVisibleValue(copiedCourseIdDropdown, courseId);
         
+        clickCopyTableAtRow(0);
+        
         clickCopySubmitButton();
+    }
+    
+    public void clickCopyTableAtRow(int rowIndex) {
+        WebElement row = browser.driver.findElement(By.id("copyTableModal")).findElements(By.tagName("tr")).get(rowIndex + 1);
+        row.click();
     }
     
     public void fillStartTime (Date startTime) {
