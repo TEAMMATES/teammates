@@ -6,6 +6,7 @@ import static org.testng.AssertJUnit.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -42,6 +43,11 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
         restoreTestDataOnServer(testData);
         
         browser = BrowserPool.getBrowser();
+    }
+    
+    @AfterClass
+    public static void classTearDown() throws Exception {
+        BrowserPool.release(browser);
     }
     
     @Test
