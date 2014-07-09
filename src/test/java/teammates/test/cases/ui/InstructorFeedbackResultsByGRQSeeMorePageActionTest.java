@@ -56,7 +56,7 @@ public class InstructorFeedbackResultsByGRQSeeMorePageActionTest extends
         AjaxResult result = (AjaxResult) action.executeAndPostProcess();
         InstructorFeedbackResultsByGRQSeeMorePageData data = 
                 (InstructorFeedbackResultsByGRQSeeMorePageData) result.data;
-        assertEquals(data.answer.values().size(), 5);
+        assertEquals(5, data.answer.values().size());
     }
     
     private InstructorFeedbackResultsByGRQSeeMorePageAction getAction(String... params) throws Exception {

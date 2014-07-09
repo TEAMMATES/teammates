@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
+import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.ui.controller.InstructorFeedbackAddAction;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.ShowPageResult;
@@ -112,7 +113,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                 "<br><span class=\"bold\">Instructions:</span> <Text: instructions>|||/page/instructorFeedbackAdd";
         assertEquals(expectedLogMessage, a.getLogMessage());
         
-        ______TS("imezone with minute offset");
+        ______TS("timezone with minute offset");
         
         params = createParamsCombinationForFeedbackSession(
                         instructor1ofCourse1.courseId, "Course with minute offset timezone", 2);
@@ -175,6 +176,9 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                 "<span class=\"bold\">Results visible from:</span> Thu Jan 01 00:00:00 UTC 1970<br>" +
                 "<br><span class=\"bold\">Instructions:</span> <Text: >|||/page/instructorFeedbackAdd";
         assertEquals(expectedLogMessage, a.getLogMessage());
+        
+        // remove the sessions that were added
+        FeedbackSessionsLogic.inst().deleteFeedbackSessionsForCourse(instructor1ofCourse1.courseId);
     }
     
     private InstructorFeedbackAddAction getAction (String... params) throws Exception {

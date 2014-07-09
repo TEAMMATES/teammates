@@ -4,6 +4,7 @@ import static org.testng.AssertJUnit.assertEquals;
 
 import java.util.Arrays;
 
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -14,19 +15,27 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.ui.controller.Action;
 import teammates.ui.controller.InstructorFeedbackQuestionAddAction;
 import teammates.ui.controller.RedirectResult;
 
 public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
 
-    private final DataBundle dataBundle = getTypicalDataBundle();
+    private static final DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
 		restoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_ADD;
+    }
+    
+    @AfterClass
+    public static void classTearDown() {
+        // delete entire course to clean the database
+        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
+        FeedbackSessionsLogic.inst().deleteFeedbackSessionCascade(fs.feedbackSessionName, fs.courseId);
     }
     
     @Test

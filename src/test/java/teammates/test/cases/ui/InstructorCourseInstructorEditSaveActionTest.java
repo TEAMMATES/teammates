@@ -173,6 +173,9 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
                 + "New Name: " + newInstructorName + "<br>New Email: " + newInstructorEmail;
         AssertHelper.assertContains(expectedLogSegment, saveAction.getLogMessage());
         
+        //remove the new instructor entity that was created
+        CoursesLogic.inst().deleteCourseCascade("icieat.courseId");
+        
     }
     
     private Action getAction(String... parameters) throws Exception {

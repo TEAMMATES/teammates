@@ -10,9 +10,9 @@ import javax.servlet.ServletException;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
@@ -29,7 +29,6 @@ import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.cases.common.CourseAttributesTest;
 import teammates.test.util.TestHelper;
 
-import com.google.appengine.api.datastore.Text;
 import com.google.gson.Gson;
 
 public class BackDoorLogicTest extends BaseComponentTestCase {
@@ -57,7 +56,8 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
         ______TS("try to persist while entities exist");
         
         logic.persistDataBundle(dataBundle);
-
+        verifyPresentInDatastore(dataBundle);
+        
         ______TS("null parameter");
         DataBundle nullDataBundle = null;
         try {
@@ -124,6 +124,11 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
     }
     
     private void verifyPresentInDatastore(DataBundle data) throws Exception {
+        HashMap<String, AccountAttributes> accounts = data.accounts;
+        for(AccountAttributes expectedAccount : accounts.values()) {
+            TestHelper.verifyPresentInDatastore(expectedAccount);
+        }
+        
         HashMap<String, InstructorAttributes> instructors = data.instructors;
         for (InstructorAttributes expectedInstructor : instructors.values()) {
             TestHelper.verifyPresentInDatastore(expectedInstructor);

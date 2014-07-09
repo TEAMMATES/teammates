@@ -12,6 +12,7 @@ import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.logic.api.Logic;
+import teammates.logic.core.CoursesLogic;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorHomePageAction;
 import teammates.ui.controller.InstructorHomePageData;
@@ -135,6 +136,8 @@ public class InstructorHomePageActionTest extends BaseActionTest {
             assertNotNull(e);
         }
         
+        // delete the new course
+        CoursesLogic.inst().deleteCourseCascade(newCourseIdForSorting);
     }
     
     private InstructorHomePageAction getAction(String... params) throws Exception{

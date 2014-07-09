@@ -131,6 +131,9 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
                 + "|||idOfInstructor1OfCourse1|||instr1@course1.com|||Course added : ticac.tpa2.id<br>Total courses: 1" 
                 + "|||/page/instructorCourseAdd";
         assertEquals(expectedLogMessage, addAction.getLogMessage());
+        
+        // delete the new course
+        CoursesLogic.inst().deleteCourseCascade("ticac.tpa2.id");
     }
     
     private Action getAction(String... parameters) throws Exception {

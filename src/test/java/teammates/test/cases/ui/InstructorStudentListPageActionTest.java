@@ -42,7 +42,7 @@ public class InstructorStudentListPageActionTest extends BaseActionTest {
         ShowPageResult r = getShowPageResult(a);
 
         assertEquals(Const.ViewURIs.INSTRUCTOR_STUDENT_LIST
-                + "?error=false&user=idOfInstructor3",
+                + "?error=false&user=" + instructorId,
                 r.getDestinationWithParams());
         assertEquals(false, r.isError);
         assertEquals("", r.getStatusMessage());

@@ -80,7 +80,7 @@ public class StudentCommentsPageActionTest extends BaseActionTest {
         expectedLogMessage = "TEAMMATESLOG|||studentCommentsPage|||studentCommentsPage|||true|||Student(M)|||"
                 + "Student in two courses|||student2InCourse1|||student2InCourse1@gmail.com|||studentComments "
                 + "Page Load<br>Viewing <span class=\"bold\">student2InCourse1's</span> comment records for "
-                + "Course <span class=\"bold\">[idOfTypicalCourse2]</span>|||/page/studentCommentsPage";
+                + "Course <span class=\"bold\">[idOfTypicalCourse1]</span>|||/page/studentCommentsPage";
         assertEquals(expectedLogMessage, action.getLogMessage());
     }
     

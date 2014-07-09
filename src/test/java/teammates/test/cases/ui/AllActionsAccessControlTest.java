@@ -30,10 +30,12 @@ import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
+import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CommentsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
+import teammates.logic.core.InstructorsLogic;
 import teammates.storage.api.CommentsDb;
 import teammates.storage.api.EvaluationsDb;
 import teammates.storage.api.FeedbackQuestionsDb;
@@ -163,6 +165,9 @@ public class AllActionsAccessControlTest extends BaseActionTest {
                 Const.ParamsNames.COURSE_NAME, "ticac tac name"};
         
         verifyOnlyInstructorsCanAccess(submissionParams);
+        
+        // remove course that was created
+        CoursesLogic.inst().deleteCourseCascade("ticac.tac.id");
     }
     
     @Test
@@ -252,7 +257,6 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_ADD;
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, "idOfTypicalCourse1",
-                Const.ParamsNames.INSTRUCTOR_ID, "ICIAAT.instructorId",
                 Const.ParamsNames.INSTRUCTOR_NAME, "Instructor Name",
                 Const.ParamsNames.INSTRUCTOR_EMAIL, "instructor@email.com",
                 Const.ParamsNames.INSTRUCTOR_ROLE_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
@@ -265,6 +269,9 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
         verifyUnaccessibleWithoutModifyInstructorPrivilege(submissionParams);
+        
+        // remove the newly added instructor
+        InstructorsLogic.inst().deleteInstructor("idOfTypicalCourse1", "instructor@email.com");
     }
     
     @Test
@@ -413,6 +420,9 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
         verifyUnaccessibleWithoutModifySessionPrivilege(submissionParams);
+        
+        // delete the evaluation
+        evaluationsDb.deleteEvaluation(instructor1ofCourse1.courseId, "ieaat tca eval");
     }
     
     @Test
@@ -638,6 +648,9 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         
         verifyOnlyInstructorsOfTheSameCourseCanAccess(params);
         verifyUnaccessibleWithoutModifyCoursePrivilege(params);
+        
+        // delete the sessions
+        FeedbackSessionsLogic.inst().deleteFeedbackSessionCascade("ifaat tca fs", instructor1ofCourse1.courseId);
     }
     
     @Test
@@ -746,7 +759,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     public void InstructorFeedbackQuestionAdd() throws Exception{
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_ADD;
         FeedbackSessionAttributes fs = 
-                dataBundle.feedbackSessions.get("session1InCourse1");
+                dataBundle.feedbackSessions.get("empty.session");
         
         String[] submissionParams = 
                 createParamsForTypicalFeedbackQuestion(fs.courseId, fs.feedbackSessionName);
@@ -754,13 +767,17 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         submissionParams[9] = "5";
         verifyUnaccessibleWithoutModifySessionPrivilege(submissionParams);
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+        
+        // remove the session as removing questions is difficult
+        FeedbackSessionsLogic.inst().deleteFeedbackSessionCascade(fs.feedbackSessionName, fs.courseId);
    }
     
     @Test
     public void InstructorFeedbackQuestionEdit() throws Exception{
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_EDIT;
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
-        FeedbackQuestionAttributes fq = FeedbackQuestionsLogic.inst().getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 4);
+        FeedbackQuestionAttributes fq = 
+                FeedbackQuestionsLogic.inst().getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 4);
         
         String[] submissionParams = createParamsForTypicalFeedbackQuestion(fs.courseId, fs.feedbackSessionName);
         submissionParams[9] = "4";
@@ -849,6 +866,9 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         verifyUnaccessibleForStudents(submissionParams);
         verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
         verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
+        
+        // remove the comment
+        frcDb.deleteEntity(comment);
     }
 
     @Test

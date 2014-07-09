@@ -11,6 +11,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
+import teammates.logic.core.AccountsLogic;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.api.StudentsDb;
 import teammates.ui.controller.RedirectResult;
@@ -73,12 +74,6 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
         assertFalse(redirectResult.isError);
 
         ______TS("typical case");
-
-        AccountAttributes accountToAdd = new AccountAttributes(
-                "idOfNewStudnet", "nameOfNewStudent", false,
-                "newStudent@gmail.com", "NUS");
-        
-        accountsDb.createAccount(accountToAdd);
         
         StudentAttributes newStudentData = new StudentAttributes(
                 student1InCourse1.section,
@@ -109,6 +104,9 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
                 pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
+        
+        // delete the new student
+        studentsDb.deleteStudent(newStudentData.course, newStudentData.email);
 
     }
 

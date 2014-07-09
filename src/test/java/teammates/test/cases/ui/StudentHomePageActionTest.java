@@ -15,6 +15,7 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
+import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.EvaluationsLogic;
 import teammates.storage.api.AccountsDb;
 import teammates.test.cases.common.EvaluationAttributesTest;
@@ -209,6 +210,9 @@ public class StudentHomePageActionTest extends BaseActionTest {
                 "{idOfTypicalCourse1%evaluation2 In Course1=Submitted, " +
                 "idOfTypicalCourse1%evaluation1 In Course1=Submitted}",
                 data.evalSubmissionStatusMap.toString());
+        
+        // delete additional sessions that were created
+        CoursesLogic.inst().deleteCourseCascade("typicalCourse2");
         
     }
 

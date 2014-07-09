@@ -14,6 +14,7 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentAttributesFactory;
 import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
+import teammates.logic.core.StudentsLogic;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorCourseEnrollPageData;
 import teammates.ui.controller.InstructorCourseEnrollResultPageData;
@@ -187,6 +188,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         AssertHelper.assertContains(Const.StatusMessages.ENROLL_LINE_EMPTY, enrollAction.getLogMessage());
             
         CoursesLogic.inst().deleteCourseCascade("new-course");
+        StudentsLogic.inst().deleteStudentsForCourse(instructor1OfCourse1.courseId);
     }
     
     /**
