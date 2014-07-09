@@ -65,6 +65,11 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         ______TS("page load");
         
         courseEditPage = getCourseEditPage();
+        
+        /* Attention: Inside the instructorCourseEditPage, the join link for each instructor
+         * is printed as a hidden html element with id "joinLink". This is only for testing
+         * purpose. Please go to element inspector to get the link.
+         */
         courseEditPage.verifyHtmlMainContent("/instructorCourseEdit.html" );
     }
     

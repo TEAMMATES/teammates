@@ -15,10 +15,12 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Url;
+import teammates.logic.core.InstructorsLogic;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AdminHomePage;
@@ -78,7 +80,17 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         BackDoor.deleteCourse(demoCourseId);
         BackDoor.deleteInstructor(demoCourseId, instructor.email);
         
-        homePage.createInstructor(shortName,instructor,institute).verifyPartialStatus("Instructor AHPUiT Instrúctör has been successfully created");  
+        homePage.createInstructor(shortName,instructor,institute);
+        
+        String expectedjoinUrl = Config.APP_URL + Const.ActionURIs.INSTRUCTOR_COURSE_JOIN;
+        
+        expectedjoinUrl = Url.addParamToUrl(expectedjoinUrl, Const.ParamsNames.REGKEY,
+                                            StringHelper.encrypt(BackDoor.getKeyForInstructor(demoCourseId, instructor.email)));
+       
+        expectedjoinUrl = Url.addParamToUrl(expectedjoinUrl, Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
+        
+        homePage.verifyStatus("Instructor AHPUiT Instrúctör has been successfully created with join link:\n" 
+                              + expectedjoinUrl);
         homePage.logout();
         //verify the instructor and the demo course have been created
         assertNotNull(BackDoor.getCourse(demoCourseId));
