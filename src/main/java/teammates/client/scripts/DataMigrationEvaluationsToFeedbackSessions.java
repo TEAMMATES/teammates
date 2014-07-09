@@ -163,7 +163,7 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
         String recipientSection = "";
         
         StudentAttributes studentGiver = logic.getStudentForEmail(courseId, giver);
-        recipientSection = (studentGiver == null) ? Const.DEFAULT_SECTION : studentGiver.section;
+        giverSection = (studentGiver == null) ? Const.DEFAULT_SECTION : studentGiver.section;
         StudentAttributes studentRecipient = logic.getStudentForEmail(courseId, recipient);
         recipientSection = (studentRecipient == null) ? Const.DEFAULT_SECTION : studentRecipient.section;
         
