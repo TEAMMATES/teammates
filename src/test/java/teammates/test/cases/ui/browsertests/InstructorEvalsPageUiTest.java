@@ -57,7 +57,6 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
         newEval.activated = false;
         newEval.timeZone = 5.75;
         browser = BrowserPool.getBrowser();
-        
     }
     
     @Test
