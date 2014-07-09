@@ -216,7 +216,7 @@
                                     <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=index%>"
                                      value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR%>">&nbsp;Tutor: Can submit/view sessions and comments(s)<br>
                                     <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=index%>"
-                                     value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_HELPER%>">&nbsp;Helper: Helper: No access by default. Any access needs to be granted explicitly.<br>
+                                     value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_HELPER%>">&nbsp;Helper: No access by default. Any access needs to be granted explicitly.<br>
                                 </div>
                             </div>
                             <div id="tunePermissionsDivForInstructor<%=index%>" style="display: none;">
