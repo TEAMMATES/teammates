@@ -118,9 +118,13 @@ function showHideErrorMessage(s) {
 
 
 function toggleDeleteAccountConfirmation(googleId) {
-    return confirm("Are you sure you want to delete the account " + googleId + "?\n" +
-                    "This operation will delete ALL information about this account " + 
-                    "from the system.");
+	var rawList = document.getElementById('courses_' + googleId).innerHTML;
+	var list = rawList.replace(/<br>/g, "\n").trim() + "\n\n";
+
+	return confirm("Are you sure you want to delete the account " + googleId
+				   + "?\n\n" + list
+				   + "This operation will delete ALL information about this account "
+				   + "from the system.");
 }
 
 $(function () { $("[data-toggle='tooltip']").tooltip(); });
