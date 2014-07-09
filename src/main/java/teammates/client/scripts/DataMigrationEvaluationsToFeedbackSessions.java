@@ -52,8 +52,25 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
 
     @Override
     protected void doOperation() {
-        Datastore.initialize();    
-        convertEvaluationsToFeedbackSessions();
+        Datastore.initialize();
+        
+        /**
+         * Specify courseId, evaluationName, and new feedback session name here.
+         * If new feedbackSessionName already exists, a number in brackets will be appended.
+         */
+        String courseId = "example.gma-demo";
+        String evaluationName = "First Evaluation";
+        String newFeedbackSessionName = "Migrated FeedbackSession";
+        
+        EvaluationAttributes evalAttribute = logic.getEvaluation(courseId, evaluationName);
+        if(evalAttribute != null){
+            convertOneEvaluationToFeedbackSession(evalAttribute , newFeedbackSessionName);
+        } else {
+            System.out.println("Specified evaluation not found." + courseId + " : " + evaluationName);
+        }
+        
+        //Converts all evaluations to feedback sessions
+        //convertEvaluationsToFeedbackSessions();
     }
     
     @SuppressWarnings("deprecation")
@@ -65,7 +82,7 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
         int fsNum = fsDb.getAllFeedbackSessions().size();
         
         for(EvaluationAttributes evalAttribute : allEvaluations){
-            convertOneEvaluationToFeedbackSession(evalAttribute);
+            convertOneEvaluationToFeedbackSession(evalAttribute, "");
         }
 
         System.out.println(allEvaluations.size() + " evaluations found and migrated.");
@@ -73,13 +90,17 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
         System.out.println("After migration number of FS: " + fsDb.getAllFeedbackSessions().size());
     }
     
-    protected void convertOneEvaluationToFeedbackSession(EvaluationAttributes eval){
+    protected void convertOneEvaluationToFeedbackSession(EvaluationAttributes eval, String newFeedbackSessionName){
 
+        if(newFeedbackSessionName == null || newFeedbackSessionName.isEmpty()){
+            newFeedbackSessionName = "Migrated - " + eval.name;
+        }
+        
         //Create FeedbackSession
         int num = 0;
         
         
-        String feedbackSessionName = "Migrated - " + eval.name + (num==0 ? "" : ("("+num+")"));//Use same name, or if exists, use "<name>(<num>)"
+        String feedbackSessionName = newFeedbackSessionName + (num==0 ? "" : ("("+num+")"));//Use same name, or if exists, use "<name>(<num>)"
         String courseId = eval.courseId;
         
         String instEmail = logic.getInstructorsForCourse(courseId).get(0).email;//Use email of any instructor in the course.
@@ -102,7 +123,7 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
         
         while(true){ //Loop to retry with a different name if entity already exists.
             
-            feedbackSessionName = "Migrated - " + eval.name + (num==0 ? "" : ("("+num+")"));//Use same name, or if exists, use "<name>(<num>)"
+            feedbackSessionName = newFeedbackSessionName + (num==0 ? "" : ("("+num+")"));//Use same name, or if exists, use "<name>(<num>)"
             
             FeedbackSessionAttributes fsa = new FeedbackSessionAttributes(feedbackSessionName,
                     courseId, creatorEmail, instructions,
