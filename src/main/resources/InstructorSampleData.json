@@ -807,7 +807,6 @@
               "INSTRUCTORS"
           ],
           "showGiverNameTo": [
-              "RECEIVER",
               "INSTRUCTORS"
           ],
           "showRecipientNameTo":[
