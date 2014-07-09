@@ -244,6 +244,18 @@ public class ActivityLogEntry {
         
     }
     
+    public String getColorCode(){
+        
+        String colorCode = "";
+        if (processTime >= 10000 && processTime <= 20000){
+            colorCode = "text-warning";
+        }else if(processTime > 20000 && processTime <=60000){
+            colorCode = "text-danger";
+        }
+        
+        return colorCode;            
+    }
+    
     
     public String getLogEntryActionsButtonClass(){
         

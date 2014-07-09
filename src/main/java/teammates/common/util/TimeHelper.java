@@ -246,12 +246,12 @@ public class TimeHelper {
     /**
      * @param type: Long value: time in milliseconds
      * @return Duration in format m:s:ms
-     * Example: 1200 milliseconds ---> 0m:1s:200ms
+     * Example: 1200 milliseconds ---> 0:1:200
      */
     
     public static String ConvertToStandardDuration(Long timeInMilliseconds){
      
-        return timeInMilliseconds !=null? String.format("%dm:%ds:%dms",
+        return timeInMilliseconds !=null? String.format("%d:%d:%d",
                                                          timeInMilliseconds / 60000,
                                                          timeInMilliseconds / 1000,
                                                          timeInMilliseconds % 1000) : "";

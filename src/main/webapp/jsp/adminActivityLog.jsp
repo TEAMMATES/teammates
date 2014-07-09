@@ -733,8 +733,10 @@
                                 <td style="vertical-align: middle;"> <strong><%=log.getDateInfo()%></strong>
                                    
                                    <br>
+                                   
+                                   <p class="<%=log.getColorCode()%>">
                                    <%=TimeHelper.ConvertToStandardDuration(log.getTimingInfo())%>
-                                
+                                   </p>
                                 </td>
 
                                 <td>
