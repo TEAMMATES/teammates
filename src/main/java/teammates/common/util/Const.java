@@ -116,6 +116,11 @@ public class Const {
     
         public static final String EVALUATION_SUBMISSION_NOT_AVAILABLE = "Not Available: There is no data for this or the data is not enough";
         public static final String EVALUATION_SUBMISSION_NOT_SURE = "Not sure about the contribution";
+        
+        public static final String INSTRUCTOR_DISPLAYED_TO_STUDENT = "If this is unselected, the instructor will be completely invisible to students." 
+                + " E.g. to give access to a colleague for ‘auditing’ your course";
+        
+        public static final String INSTRUCTOR_DISPLAYED_AS = "Specify the role of this instructor in this course as shown to the students";
     
         public static final String STUDENT_COURSE_PROFILE = "Your profile in this course";
         public static final String STUDENT_COURSE_DETAILS = "View and edit information regarding your team";

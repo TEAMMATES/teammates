@@ -191,11 +191,13 @@
                                      <% if (instructor.isDisplayedToStudents) { %>
                                          checked="checked"
                                      <% } %>
+                                     data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.INSTRUCTOR_DISPLAYED_TO_STUDENT%>"
                                      >
                                      Display to students as:</label>
                                 <div class="col-sm-9">
                                     <input class="form-control" type="text" name="<%=Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME%>" 
-                                    placeholder="E.g.Co-lecturer, Teaching Asistant" value="<%=instructor.displayedName%>"/>
+                                    placeholder="E.g.Co-lecturer, Teaching Assistant" value="<%=instructor.displayedName%>"
+                                    data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.INSTRUCTOR_DISPLAYED_AS%>"/>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -212,9 +214,10 @@
                                     <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=index%>"
                                      value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER%>">&nbsp;Manager: Can do everything except for deleting the course<br>
                                     <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=index%>"
-                                     value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER%>">&nbsp;Observer: Can only view information<br>
+                                     value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER%>">&nbsp;Observer: Can only view information(students, submissions, comments etc.).
+                                                                                                                          &nbsp;Cannot edit/delete/submit anything.<br>
                                     <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=index%>"
-                                     value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR%>">&nbsp;Tutor: Can submit/view sessions and comments(s)<br>
+                                     value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR%>">&nbsp;Tutor: Can only submit/view sessions and comments<br>
                                     <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=index%>"
                                      value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_HELPER%>">&nbsp;Helper: No access by default. Any access needs to be granted explicitly.<br>
                                 </div>
@@ -554,11 +557,13 @@
                         <div id="accessControlEditDivForInstr<%=data.instructorList.size()+1%>">
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">
-                                    <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT%>" value="true" checked="checked">
+                                    <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT%>" value="true" checked="checked"
+                                       data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.INSTRUCTOR_DISPLAYED_TO_STUDENT%>">
                                     Display to students as:</label>
                                 <div class="col-sm-9">
                                     <input class="form-control" type="text" name="<%=Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME%>" 
-                                    placeholder="E.g.Co-lecturer, Teaching Asistant"/>
+                                    placeholder="E.g.Co-lecturer, Teaching Assistant"
+                                    data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.INSTRUCTOR_DISPLAYED_AS%>"/>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -582,11 +587,12 @@
                                     <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" 
                                     id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=data.instructorList.size()+1%>"
                                      value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER%>"
-                                     >&nbsp;Observer: Can only view information<br>
+                                     >&nbsp;Observer: Can only view information(students, submissions, comments etc.).
+                                      &nbsp;Cannot edit/delete/submit anything.<br>
                                     <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" 
                                     id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=data.instructorList.size()+1%>"
                                      value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR%>"
-                                     >&nbsp;Tutor: Can submit/view sessions and comments(s)<br>
+                                     >&nbsp;Can only submit/view sessions and comments<br>
                                     <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" 
                                     id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=data.instructorList.size()+1%>"
                                      value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_HELPER%>"
@@ -611,7 +617,7 @@
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION%>"
-                                                    value="true" checked="checked" /> Create/Edit/Eelete Sessions
+                                                    value="true" checked="checked" /> Create/Edit/Delete Sessions
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT%>"
@@ -682,7 +688,7 @@
                                                             Const.ParamsNames.INSTRUCTOR_SECTION + j%>" value="true" checked="checked"/> Sessions: Edit/Delete Responses/Comments by Others<br><br>
                                                         </div>
                                                         <% if (!data.evalNames.isEmpty() || !data.feedbackNames.isEmpty()) { %>
-                                                        <a href="javascript:;" onclick="toggleTuneSessionnPermissionsDiv(<%=data.instructorList.size()+1%>, <%=j%>)"
+                                                        <a href="javascript:;" onclick="showTuneSessionnPermissionsDiv(<%=data.instructorList.size()+1%>, <%=j%>)"
                                                             id="toggleSessionLevelInSection<%=j%>ForInstructor<%=data.instructorList.size()+1%>"
                                                             class="small col-sm-5">Configure session-level privileges</a>      
                                                         <div id="tuneSessionPermissionsDiv<%=j%>ForInstructor<%=data.instructorList.size()+1%>" style="display: none;">
