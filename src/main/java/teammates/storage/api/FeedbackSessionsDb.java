@@ -43,6 +43,21 @@ public class FeedbackSessionsDb extends EntitiesDb {
     }
     
     /**
+     * @return empty list if none found.
+     * @deprecated Not scalable. Created for data migration purposes.
+     */
+    @Deprecated
+    public List<FeedbackSessionAttributes> getAllFeedbackSessions() {
+        List<FeedbackSession> allFS = getAllFeedbackSessionEntities();
+        List<FeedbackSessionAttributes> fsaList = new ArrayList<FeedbackSessionAttributes>();
+        
+        for (FeedbackSession fs : allFS) {
+            fsaList.add(new FeedbackSessionAttributes(fs));
+        }
+        return fsaList;
+    }
+    
+    /**
      * Preconditions: <br>
      * * All parameters are non-null. 
      * @return An empty list if no non-private sessions are found.
@@ -152,6 +167,16 @@ public class FeedbackSessionsDb extends EntitiesDb {
         fs.setSendPublishedEmail(newAttributes.isPublishedEmailEnabled);
                 
         getPM().close();
+    }
+    
+    private List<FeedbackSession> getAllFeedbackSessionEntities() {
+        
+        Query q = getPM().newQuery(FeedbackSession.class);
+
+        @SuppressWarnings("unchecked")
+        List<FeedbackSession> fsList = (List<FeedbackSession>) q.execute();
+
+        return fsList;
     }
     
     private List<FeedbackSession> getNonPrivateFeedbackSessionEntities() {        
