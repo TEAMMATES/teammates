@@ -41,6 +41,7 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
                 Const.ParamsNames.COURSE_ID, dataBundle.instructors.get("instructor1OfCourse1").courseId
         };
         
+        verifyUnaccessibleWithoutModifyStudentPrivilege(submissionParams);
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
     }
     
