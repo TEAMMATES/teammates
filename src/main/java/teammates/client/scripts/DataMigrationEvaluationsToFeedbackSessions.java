@@ -43,19 +43,17 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
     protected static FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
     
     public static void main(String[] args) throws IOException {
+        final long startTime = System.currentTimeMillis();
         DataMigrationEvaluationsToFeedbackSessions migrator = new DataMigrationEvaluationsToFeedbackSessions();
         migrator.doOperationRemotely();
+        final long endTime = System.currentTimeMillis();
+        System.out.println("Total execution time: " + (endTime - startTime) + "ms" );
     }
 
     @Override
     protected void doOperation() {
-        final long startTime = System.currentTimeMillis();
-        
         Datastore.initialize();    
         convertEvaluationsToFeedbackSessions();
-        
-        final long endTime = System.currentTimeMillis();
-        System.out.println("Total execution time: " + (endTime - startTime) + "ms" );
     }
     
     @SuppressWarnings("deprecation")
