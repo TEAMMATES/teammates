@@ -339,6 +339,9 @@ public class StudentsLogicTest extends BaseComponentTestCase{
             AssertHelper.assertContains(FieldValidator.REASON_INCORRECT_FORMAT,
                     e.getMessage());
         }
+        
+        // delete student from db
+        
     }
     
     @Test(priority = 1)
@@ -1343,7 +1346,9 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         
     @AfterClass()
     public static void classTearDown() throws Exception {
+        AccountsLogic.inst().deleteAccountCascade(dataBundle.students.get("student4InCourse1").googleId);
         printTestClassFooter();
+        
         turnLoggingDown(StudentsLogic.class);
     }
 

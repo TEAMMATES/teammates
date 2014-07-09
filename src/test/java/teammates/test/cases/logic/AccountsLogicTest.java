@@ -355,6 +355,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         assertTrue(logic.isInstructor(correctStudentId));
         
         accountsLogic.deleteAccountCascade(correctStudentId);
+        accountsLogic.deleteAccountCascade(existingId);
     }
     
     @Test
@@ -406,8 +407,9 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         ______TS("success: instructor joined but account already exists");
         
         AccountAttributes nonInstrAccount = dataBundle.accounts.get("student1InCourse1");
+        InstructorAttributes newIns = new InstructorAttributes (null, instructor.courseId, nonInstrAccount.name, nonInstrAccount.email);
         
-        instructorsLogic.createInstructor(null, instructor.courseId, nonInstrAccount.name, nonInstrAccount.email);
+        instructorsLogic.createInstructor(newIns);
         key = instructorsLogic.getKeyForInstructor(instructor.courseId, nonInstrAccount.email);
         encryptedKey = StringHelper.encrypt(key);
         assertFalse(accountsLogic.getAccount(nonInstrAccount.googleId).isInstructor);
@@ -423,15 +425,17 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         ______TS("success: instructor join and assigned institute when some instructors have not joined course");
         
         instructor = dataBundle.instructors.get("instructor4");
+        newIns = new InstructorAttributes (null, instructor.courseId, "anInstructorWithoutGoogleId", "anInstructorWithoutGoogleId@gmail.com");
         
-        instructorsLogic.createInstructor(null, instructor.courseId, "anInstructorWithoutGoogleId", "anInstructorWithoutGoogleId@gmail.com");  
+        instructorsLogic.createInstructor(newIns);  
         
         nonInstrAccount = dataBundle.accounts.get("student2InCourse1");
         nonInstrAccount.email = "newInstructor@gmail.com";
         nonInstrAccount.name = " newInstructor";
         nonInstrAccount.googleId = "newInstructorGoogleId";
-       
-        instructorsLogic.createInstructor(null, instructor.courseId, nonInstrAccount.name, nonInstrAccount.email);
+        newIns = new InstructorAttributes (null, instructor.courseId, nonInstrAccount.name, nonInstrAccount.email);
+        
+        instructorsLogic.createInstructor(newIns);
         key = instructorsLogic.getKeyForInstructor(instructor.courseId, nonInstrAccount.email);
         encryptedKey = StringHelper.encrypt(key);
         

@@ -6,7 +6,6 @@ import java.util.Arrays;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
@@ -33,7 +32,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
     
     @AfterClass
     public static void classTearDown() {
-        // delete entire course to clean the database
+        // delete entire session to clean the database
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
         FeedbackSessionsLogic.inst().deleteFeedbackSessionCascade(fs.feedbackSessionName, fs.courseId);
     }

@@ -73,7 +73,8 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
         assertEquals(c.id, coursesLogic.getCourse(c.id).id);
         assertEquals(c.name, coursesLogic.getCourse(c.id).name);
-
+        
+        coursesDb.deleteEntity(c);
         ______TS("Null parameter");
     
         try {
@@ -307,6 +308,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         assertEquals(0, courseSummary.sections.size());
         
         coursesLogic.deleteCourseCascade("course1");
+        accountsDb.deleteAccount("instructor1");
 
         ______TS("non-existent");
 
@@ -357,6 +359,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         assertEquals(0, courseSummary.sections.size());
         
         coursesLogic.deleteCourseCascade("course1");
+        accountsDb.deleteAccount("instructor1");
 
         ______TS("non-existent");
 
@@ -419,7 +422,8 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         assertEquals(0, courseDetails.sections.size());
         
         coursesLogic.deleteCourseCascade("course1");
-
+        accountsDb.deleteAccount("instructor1");
+        
         ______TS("non-existent");
 
         try {
@@ -465,6 +469,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         assertEquals(0, teams.size());
         
         coursesLogic.deleteCourseCascade("course1");
+        accountsDb.deleteAccount("instructor1");
         
         ______TS("non-existent");
 
@@ -544,6 +549,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         assertEquals(0, teamNum);
         
         coursesLogic.deleteCourseCascade("course1");
+        accountsDb.deleteAccount("instructor1");
         
         ______TS("non-existent");
 
@@ -587,6 +593,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         assertEquals(0, enrolledNum);
         
         coursesLogic.deleteCourseCascade("course1");
+        accountsDb.deleteAccount("instructor1");
         
         ______TS("non-existent");
 
@@ -630,7 +637,8 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         assertEquals(0, unregisteredNum);
         
         coursesLogic.deleteCourseCascade("course1");
-        
+        accountsDb.deleteAccount("instructor1");
+         
         ______TS("non-existent");
 
         try {
@@ -1113,7 +1121,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         c.name = "Basic Computing";
         coursesLogic.createCourse(c.id, c.name);
         TestHelper.verifyPresentInDatastore(c);
-
+        coursesLogic.deleteCourseCascade(c.id);
         ______TS("Null parameter");
     
         try {

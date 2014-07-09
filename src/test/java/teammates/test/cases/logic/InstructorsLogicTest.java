@@ -57,14 +57,14 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         InstructorPrivileges privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);      
         InstructorAttributes instr = new InstructorAttributes(googleId, courseId, name, email, role, displayedName, privileges);
         
-        instructorsLogic.createInstructor(null, instr.courseId, instr.name, instr.email);
+        instructorsLogic.createInstructor(instr);
         
         TestHelper.verifyPresentInDatastore(instr);
         
         ______TS("failure: instructor already exists");
         
         try {
-            instructorsLogic.createInstructor(null, instr.courseId, instr.name, instr.email);
+            instructorsLogic.createInstructor(instr);
             signalFailureToDetectException();
         } catch (EntityAlreadyExistsException e) {
             AssertHelper.assertContains("Trying to create a Instructor that exists", e.getMessage());
@@ -77,7 +77,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         instr.email = "invalidEmail.com";
         
         try {
-            instructorsLogic.createInstructor(null, instr.courseId, instr.name, instr.email);
+            instructorsLogic.createInstructor(instr);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains("\""+instr.email+"\" is not acceptable to TEAMMATES as an email",
@@ -87,26 +87,11 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         ______TS("failure: null parameters");
         
         try {
-            instructorsLogic.createInstructor(null, null, instr.name, instr.email);
+            instructorsLogic.createInstructor(null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
-            AssertHelper.assertContains("Non-null value expected", e.getMessage());
-        }
-        
-        try {
-            instructorsLogic.createInstructor(null, instr.courseId, null, instr.email);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            AssertHelper.assertContains("Non-null value expected", e.getMessage());
-        }
-        
-        try {
-            instructorsLogic.createInstructor(null, instr.courseId, instr.name, null);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            AssertHelper.assertContains("Non-null value expected", e.getMessage());
-        }
-    
+            AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
+        }    
     }   
     
     @Test(priority = 1)

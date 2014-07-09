@@ -17,19 +17,18 @@ import teammates.ui.controller.RedirectResult;
 
 public class InstructorCourseStudentDeleteActionTest extends BaseActionTest {
 
-    // private final DataBundle dataBundle = getTypicalDataBundle();
+    private final DataBundle dataBundle = getTypicalDataBundle();
     
     
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-		// restoreTypicalDataInDatastore();
+		restoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DELETE;
     }
     
     @Test
     public void testExecuteAndPostProcess() throws Exception{
-        
         
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");

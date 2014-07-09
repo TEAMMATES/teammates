@@ -7,6 +7,7 @@
         <suite-file path="util-suite.xml"></suite-file>
         <suite-file path="db-suite.xml"></suite-file>
         <suite-file path="logic-suite.xml"></suite-file>
+        <suite-file path="automated-reminders-suite.xml"></suite-file>
         <suite-file path="actions-suite.xml"></suite-file>
     </suite-files>
 </suite>

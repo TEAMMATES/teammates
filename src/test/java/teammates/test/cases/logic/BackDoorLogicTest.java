@@ -55,8 +55,8 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
 
         ______TS("try to persist while entities exist");
         
-        logic.persistDataBundle(dataBundle);
-        verifyPresentInDatastore(dataBundle);
+        logic.persistDataBundle(loadDataBundle("/FeedbackSessionResultsTest.json"));
+        verifyPresentInDatastore(loadDataBundle("/FeedbackSessionResultsTest.json"));
         
         ______TS("null parameter");
         DataBundle nullDataBundle = null;

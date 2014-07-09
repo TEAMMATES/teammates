@@ -14,13 +14,13 @@ import teammates.ui.controller.ShowPageResult;
 
 public class AdminAccountDetailsPageActionTest extends BaseActionTest {
 
-    // private static final DataBundle = getTypicalDataBundle();
+    private static final DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
         uri = Const.ActionURIs.ADMIN_ACCOUNT_DETAILS_PAGE;
-        // restoreTypicalDataInDatastore();
+        restoreTypicalDataInDatastore();
     }
 
     

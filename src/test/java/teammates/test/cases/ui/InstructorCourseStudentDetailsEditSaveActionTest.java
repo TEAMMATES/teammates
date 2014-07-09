@@ -202,6 +202,8 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         
         // deleting edited student
         AccountsLogic.inst().deleteAccountCascade(student2InCourse1.googleId);
+        AccountsLogic.inst().deleteAccountCascade(student1InCourse1.googleId);
+        
         
     }
     

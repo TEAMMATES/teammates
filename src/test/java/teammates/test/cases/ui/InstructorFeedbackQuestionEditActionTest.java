@@ -21,6 +21,7 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.FeedbackQuestionsLogic;
+import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.ui.controller.InstructorFeedbackQuestionEditAction;
 import teammates.ui.controller.RedirectResult;
@@ -825,6 +826,9 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         
         // All existing responses should remain
         assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty()); 
+        
+        // delete session to clean database
+        FeedbackSessionsLogic.inst().deleteFeedbackSessionCascade(fs.feedbackSessionName, fs.courseId);
         
     }
     

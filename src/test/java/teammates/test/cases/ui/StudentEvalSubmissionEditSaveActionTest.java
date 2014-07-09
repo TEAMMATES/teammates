@@ -145,7 +145,7 @@ public class StudentEvalSubmissionEditSaveActionTest extends BaseActionTest {
                 
                 };
         StudentEvalSubmissionEditSaveAction a = getAction(submissionParams);
-        ActionResult r;
+        ActionResult r = a.executeAndPostProcess();
         
         assertEquals("Your submission for evaluation1 In Course1 in course idOfTypicalCourse1 has been saved successfully", r.getStatusMessage());
         ______TS("closed");

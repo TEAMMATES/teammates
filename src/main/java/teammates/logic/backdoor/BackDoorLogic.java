@@ -113,15 +113,8 @@ public class BackDoorLogic extends Logic {
             log.fine("API Servlet adding student :" + student.email
                     + " to course " + student.course);
             student.section = (student.section == null) ? "None" : student.section;
-            String emailToUse = student.email;
             try {
-                if (student.googleId != null) {
-                    StudentAttributes oldStudent = getStudentForGoogleId(student.course, student.googleId);
-                    if (oldStudent != null) {
-                        emailToUse = oldStudent.email;
-                    }
-                }
-                super.updateStudent(emailToUse, student);
+                super.updateStudent(student.email, student);
             } catch (EntityDoesNotExistException e) {
                 if (student.googleId != null && !student.googleId.isEmpty() 
                         && super.getAccount(student.googleId) == null) {
