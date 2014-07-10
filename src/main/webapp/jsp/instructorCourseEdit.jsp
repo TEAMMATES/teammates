@@ -217,9 +217,9 @@
                                      value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER%>">&nbsp;Observer: Can only view information(students, submissions, comments etc.).
                                                                                                                           &nbsp;Cannot edit/delete/submit anything.<br>
                                     <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=index%>"
-                                     value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR%>">&nbsp;Tutor: Can only submit/view sessions and comments<br>
+                                     value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR%>">&nbsp;Tutor: Can view student details, give comments and submit/view sessions and comments<br>
                                     <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=index%>"
-                                     value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_HELPER%>">&nbsp;Helper: No access by default. Any access needs to be granted explicitly.<br>
+                                     value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_HELPER%>">&nbsp;Custom: No access by default. Any access needs to be granted explicitly.<br>
                                 </div>
                             </div>
                             <div id="tunePermissionsDivForInstructor<%=index%>" style="display: none;">
@@ -390,7 +390,7 @@
                                                             <% if (!instructor.privileges.isSessionsInSectionSpecial(data.sectionNames.get(j))) { %> 
                                                             Give different permissions for sessions in this section
                                                             <% } else { %>
-                                                            Hide session-level privileges
+                                                            Hide session-level permissions
                                                             <% } %></a>      
                                                         <div id="tuneSessionPermissionsDiv<%=j%>ForInstructor<%=index%>" 
                                                             <% if (!instructor.privileges.isSessionsInSectionSpecial(data.sectionNames.get(j))) { %>

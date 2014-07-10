@@ -103,7 +103,7 @@ function hideTuneSectionPermissionsDiv(instrNum, sectionNum) {
 
 function showTuneSessionnPermissionsDiv(instrNum, sectionNum) {
 	$("#tuneSessionPermissionsDiv" + sectionNum + "ForInstructor" + instrNum).show();
-	$("#toggleSessionLevelInSection" + sectionNum + "ForInstructor" + instrNum).html("Hide session-level privileges");
+	$("#toggleSessionLevelInSection" + sectionNum + "ForInstructor" + instrNum).html("Hide session-level permissions");
 	$("#toggleSessionLevelInSection" + sectionNum + "ForInstructor" + instrNum).attr("onclick", "hideTuneSessionnPermissionsDiv(" + instrNum + ", " + sectionNum + ")");
     $("#tuneSectionPermissionsDiv" + sectionNum + "ForInstructor" + instrNum + " input[name='issection" + sectionNum + "sessionsset']").attr("value", "true");
 }
