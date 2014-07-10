@@ -21,6 +21,13 @@
             "email":"SFSubmitUiT.instr3@gmail.com",
             "institute":"National University of Singapore"
         },
+        "SFResultsUiT.alice.b":{
+            "googleId":"SFSubmitUiT.alice.b",
+            "name":"Alice B.",
+            "isInstructor":false,
+            "email":"SFSubmitUiT.alice.b@gmail.com",
+            "institute":"National University of Singapore"
+        },
         "SFSubmitUiT.charlie.d":{
             "googleId":"SFSubmitUiT.charlie.d",
             "name":"Charlie D.",

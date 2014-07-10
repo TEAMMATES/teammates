@@ -21,28 +21,13 @@ import teammates.ui.controller.ShowPageResult;
  */
 public class InstructorCourseAddActionTest extends BaseActionTest {
 
-    DataBundle dataBundle;
+    private final DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		restoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_ADD;
-    }
-
-    @BeforeMethod
-    public void caseSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-    
-    @Test
-    public void testAccessControl() throws Exception{
-        
-        String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, "ticac.tac.id",
-                Const.ParamsNames.COURSE_NAME, "ticac tac name"};
-        
-        verifyOnlyInstructorsCanAccess(submissionParams);
     }
     
     @Test
@@ -151,6 +136,9 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
                 + "|||idOfInstructor1OfCourse1|||instr1@course1.com|||Course added : ticac.tpa2.id<br>Total courses: 1" 
                 + "|||/page/instructorCourseAdd";
         assertEquals(expectedLogMessage, addAction.getLogMessage());
+        
+        // delete the new course
+        CoursesLogic.inst().deleteCourseCascade("ticac.tpa2.id");
     }
     
     private Action getAction(String... parameters) throws Exception {

@@ -347,8 +347,13 @@ public class FeedbackResponsesLogic {
         // Create a copy.
         FeedbackResponseAttributes newResponse = new FeedbackResponseAttributes(
                 responseToUpdate);
-        FeedbackResponseAttributes oldResponse = frDb
-                .getFeedbackResponse(newResponse.getId());
+        FeedbackResponseAttributes oldResponse = null;
+        if (newResponse.getId() == null) {
+            oldResponse = frDb.getFeedbackResponse(newResponse.feedbackQuestionId, 
+                    newResponse.giverEmail, newResponse.recipientEmail);
+        } else {
+            oldResponse = frDb.getFeedbackResponse(newResponse.getId());
+        }
 
         if (oldResponse == null) {
             throw new EntityDoesNotExistException(
