@@ -364,33 +364,43 @@ ul #nav {
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Access Level:</label>
                                 <div class="col-sm-9">
-                                    <p class="form-control-static">Helper</p>
+                                    <p class="form-control-static">Custom</p>
                                 </div>
                             </div>
                         </div>
                         <div style="display:none;" id="accessControlEditDivForInstr1">
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">
-                                     <input type="checkbox" checked="checked" value="true" name="instructorisdisplayed" />
+                                     <input type="checkbox" title="" data-placement="top" data-toggle="tooltip" checked="checked" value="true" name="instructorisdisplayed" data-original-title="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course" />
                                      Display to students as:</label>
                                 <div class="col-sm-9">
-                                    <input type="text" value="Instructor" placeholder="E.g.Co-lecturer, Teaching Asistant" name="instructordisplayname" class="form-control" />
+                                    <input type="text" title="" data-placement="top" data-toggle="tooltip" value="Instructor" placeholder="E.g.Co-lecturer, Teaching Assistant" name="instructordisplayname" class="form-control" data-original-title="Specify the role of this instructor in this course as shown to the students" />
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-3">
                                     <label class="control-label pull-right">Access-level</label>
-                                    <br /><br /><br /><br />
-                                    <div class="pull-right">
-                                        <a class="small" onclick="toggleTunePermissionsDiv(1)" href="javascript:;">Fine-tune permissions</a>
-                                    </div>
                                 </div>
                                 <div class="col-sm-9">
-                                    <input type="radio" value="Co-owner" id="instructorroleforinstructor1" name="instructorrole" /> Co-owner: Can do everything<br />
-                                    <input type="radio" value="Manager" id="instructorroleforinstructor1" name="instructorrole" /> Manager: Can do everything except for deleting the course<br />
-                                    <input type="radio" value="Observer" id="instructorroleforinstructor1" name="instructorrole" /> Observer: Can only view information<br />
-                                    <input type="radio" value="Tutor" id="instructorroleforinstructor1" name="instructorrole" /> Tutor: Can submit/view sessions and comments(s)<br />
-                                    <input type="radio" value="Helper" id="instructorroleforinstructor1" name="instructorrole" /> Helper: No access by default. Any access needs to be granted explicitly.<br />
+                                    <input type="radio" value="Co-owner" id="instructorroleforinstructor1" name="instructorrole" />
+                                         Co-owner: Can do everything
+                                         <a onclick="showInstructorRoleModal('Co-owner')" href="javascript:;">
+                                                  View Details</a><br />
+                                    <input type="radio" value="Manager" id="instructorroleforinstructor1" name="instructorrole" />
+                                         Manager: Can do everything except for deleting the course
+                                         <a onclick="showInstructorRoleModal('Manager')" href="javascript:;">
+                                                  View Details</a><br />
+                                    <input type="radio" value="Observer" id="instructorroleforinstructor1" name="instructorrole" />
+                                         Observer: Can only view information(students, submissions, comments etc.).
+                                         Cannot edit/delete/submit anything.
+                                         <a onclick="showInstructorRoleModal('Observer')" href="javascript:;">
+                                                  View Details</a><br />
+                                    <input type="radio" value="Tutor" id="instructorroleforinstructor1" name="instructorrole" />
+                                         Tutor: Can view student details, give comments and submit/view sessions and comments
+                                         <a onclick="showInstructorRoleModal('Tutor')" href="javascript:;">
+                                                  View Details</a><br />
+                                    <input type="radio" value="Custom" id="instructorroleforinstructor1" name="instructorrole" />
+                                         Custom: No access by default. Any access needs to be granted explicitly.<br />
                                 </div>
                             </div>
                             <div style="display: none;" id="tunePermissionsDivForInstructor1">
@@ -398,7 +408,7 @@ ul #nav {
                                     <div class="col-xs-12">
                                         <div class="panel panel-info">
                                             <div class="panel-heading">
-                                                <strong>Course Level</strong>
+                                                <strong>In general, this instructor can</strong>
                                             </div>
                                             <div class="panel-body">
                                                 <div class="col-sm-3">
@@ -431,21 +441,20 @@ ul #nav {
                                             
                                             <div style="display: none;" id="tuneSectionPermissionsDiv0ForInstructor1">
                                                 <div class="panel panel-info">
-                                                    <div class="panel-heading col-sm-12">
-                                                        <div class="col-sm-3">
-                                                            <strong>Section Level</strong>
-                                                        </div>
-                                                        <div class="col-sm-3 col-sm-offset-6">
-                                                            <select class="pull-right" id="section0forinstructor1" name="section0">
-                                                                
-                                                                <option selected="selected" value="Section 1">Section 1</option>
-                                                                
-                                                                <option value="Section 2">Section 2</option>
-                                                                
-                                                                <option value="Section 3">Section 3</option>
-                                                                
-                                                            </select>
-                                                        </div>
+                                                    <div class="panel-heading">
+                                                        <strong>But in section </strong>
+                                                        <select id="section0forinstructor1" name="section0">
+                                                            
+                                                            <option selected="selected" value="Section 1">Section 1</option>
+                                                            
+                                                            <option value="Section 2">Section 2</option>
+                                                            
+                                                            <option value="Section 3">Section 3</option>
+                                                            
+                                                        </select>
+                                                        <strong> the instructor can only</strong>
+                                                        <a class="pull-right" onclick="hideTuneSectionPermissionsDiv(1, 0)" href="javascript:;">
+                                                            <span class="glyphicon glyphicon-trash"></span></a>
                                                          
                                                         <input type="hidden" value="false" id="issection0setforinstructor1" name="issection0set" />
                                                         
@@ -464,29 +473,26 @@ ul #nav {
                                                             <input type="checkbox" value="true" name="canmodifysessioncommentinsectionsection0" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
                                                         </div>
                                                         
-                                                        <a class="small pull-right" onclick="hideTuneSectionPermissionsDiv(1, 0)" href="javascript:;">
-                                                            Remove current section-level permissions</a>
                                                     </div>
                                                 </div>
                                             </div>
                                             
                                             <div style="display: none;" id="tuneSectionPermissionsDiv1ForInstructor1">
                                                 <div class="panel panel-info">
-                                                    <div class="panel-heading col-sm-12">
-                                                        <div class="col-sm-3">
-                                                            <strong>Section Level</strong>
-                                                        </div>
-                                                        <div class="col-sm-3 col-sm-offset-6">
-                                                            <select class="pull-right" id="section1forinstructor1" name="section1">
-                                                                
-                                                                <option value="Section 1">Section 1</option>
-                                                                
-                                                                <option selected="selected" value="Section 2">Section 2</option>
-                                                                
-                                                                <option value="Section 3">Section 3</option>
-                                                                
-                                                            </select>
-                                                        </div>
+                                                    <div class="panel-heading">
+                                                        <strong>But in section </strong>
+                                                        <select id="section1forinstructor1" name="section1">
+                                                            
+                                                            <option value="Section 1">Section 1</option>
+                                                            
+                                                            <option selected="selected" value="Section 2">Section 2</option>
+                                                            
+                                                            <option value="Section 3">Section 3</option>
+                                                            
+                                                        </select>
+                                                        <strong> the instructor can only</strong>
+                                                        <a class="pull-right" onclick="hideTuneSectionPermissionsDiv(1, 1)" href="javascript:;">
+                                                            <span class="glyphicon glyphicon-trash"></span></a>
                                                          
                                                         <input type="hidden" value="false" id="issection1setforinstructor1" name="issection1set" />
                                                         
@@ -505,29 +511,26 @@ ul #nav {
                                                             <input type="checkbox" value="true" name="canmodifysessioncommentinsectionsection1" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
                                                         </div>
                                                         
-                                                        <a class="small pull-right" onclick="hideTuneSectionPermissionsDiv(1, 1)" href="javascript:;">
-                                                            Remove current section-level permissions</a>
                                                     </div>
                                                 </div>
                                             </div>
                                             
                                             <div style="display: none;" id="tuneSectionPermissionsDiv2ForInstructor1">
                                                 <div class="panel panel-info">
-                                                    <div class="panel-heading col-sm-12">
-                                                        <div class="col-sm-3">
-                                                            <strong>Section Level</strong>
-                                                        </div>
-                                                        <div class="col-sm-3 col-sm-offset-6">
-                                                            <select class="pull-right" id="section2forinstructor1" name="section2">
-                                                                
-                                                                <option value="Section 1">Section 1</option>
-                                                                
-                                                                <option value="Section 2">Section 2</option>
-                                                                
-                                                                <option selected="selected" value="Section 3">Section 3</option>
-                                                                
-                                                            </select>
-                                                        </div>
+                                                    <div class="panel-heading">
+                                                        <strong>But in section </strong>
+                                                        <select id="section2forinstructor1" name="section2">
+                                                            
+                                                            <option value="Section 1">Section 1</option>
+                                                            
+                                                            <option value="Section 2">Section 2</option>
+                                                            
+                                                            <option selected="selected" value="Section 3">Section 3</option>
+                                                            
+                                                        </select>
+                                                        <strong> the instructor can only</strong>
+                                                        <a class="pull-right" onclick="hideTuneSectionPermissionsDiv(1, 2)" href="javascript:;">
+                                                            <span class="glyphicon glyphicon-trash"></span></a>
                                                          
                                                         <input type="hidden" value="false" id="issection2setforinstructor1" name="issection2set" />
                                                         
@@ -546,13 +549,11 @@ ul #nav {
                                                             <input type="checkbox" value="true" name="canmodifysessioncommentinsectionsection2" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
                                                         </div>
                                                         
-                                                        <a class="small pull-right" onclick="hideTuneSectionPermissionsDiv(1, 2)" href="javascript:;">
-                                                            Remove current section-level permissions</a>
                                                     </div>
                                                 </div>
                                             </div>
                                             
-                                            <a id="addSectionLevelForInstructor1" class="small" onclick="showTuneSectionPermissionsDiv(1, 0)" href="javascript:;">Add section-level permissions</a>
+                                            <a id="addSectionLevelForInstructor1" class="small" onclick="showTuneSectionPermissionsDiv(1, 0)" href="javascript:;">Give different permissions for a specific section</a>
                                         
                                     </div>
                                 </div>
@@ -619,26 +620,36 @@ ul #nav {
                         <div style="display:none;" id="accessControlEditDivForInstr2">
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">
-                                     <input type="checkbox" checked="checked" value="true" name="instructorisdisplayed" />
+                                     <input type="checkbox" title="" data-placement="top" data-toggle="tooltip" checked="checked" value="true" name="instructorisdisplayed" data-original-title="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course" />
                                      Display to students as:</label>
                                 <div class="col-sm-9">
-                                    <input type="text" value="Instructor" placeholder="E.g.Co-lecturer, Teaching Asistant" name="instructordisplayname" class="form-control" />
+                                    <input type="text" title="" data-placement="top" data-toggle="tooltip" value="Instructor" placeholder="E.g.Co-lecturer, Teaching Assistant" name="instructordisplayname" class="form-control" data-original-title="Specify the role of this instructor in this course as shown to the students" />
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-3">
                                     <label class="control-label pull-right">Access-level</label>
-                                    <br /><br /><br /><br />
-                                    <div class="pull-right">
-                                        <a class="small" onclick="toggleTunePermissionsDiv(2)" href="javascript:;">Fine-tune permissions</a>
-                                    </div>
                                 </div>
                                 <div class="col-sm-9">
-                                    <input type="radio" value="Co-owner" id="instructorroleforinstructor2" name="instructorrole" /> Co-owner: Can do everything<br />
-                                    <input type="radio" value="Manager" id="instructorroleforinstructor2" name="instructorrole" /> Manager: Can do everything except for deleting the course<br />
-                                    <input type="radio" value="Observer" id="instructorroleforinstructor2" name="instructorrole" /> Observer: Can only view information<br />
-                                    <input type="radio" value="Tutor" id="instructorroleforinstructor2" name="instructorrole" /> Tutor: Can submit/view sessions and comments(s)<br />
-                                    <input type="radio" value="Helper" id="instructorroleforinstructor2" name="instructorrole" /> Helper: No access by default. Any access needs to be granted explicitly.<br />
+                                    <input type="radio" value="Co-owner" id="instructorroleforinstructor2" name="instructorrole" />
+                                         Co-owner: Can do everything
+                                         <a onclick="showInstructorRoleModal('Co-owner')" href="javascript:;">
+                                                  View Details</a><br />
+                                    <input type="radio" value="Manager" id="instructorroleforinstructor2" name="instructorrole" />
+                                         Manager: Can do everything except for deleting the course
+                                         <a onclick="showInstructorRoleModal('Manager')" href="javascript:;">
+                                                  View Details</a><br />
+                                    <input type="radio" value="Observer" id="instructorroleforinstructor2" name="instructorrole" />
+                                         Observer: Can only view information(students, submissions, comments etc.).
+                                         Cannot edit/delete/submit anything.
+                                         <a onclick="showInstructorRoleModal('Observer')" href="javascript:;">
+                                                  View Details</a><br />
+                                    <input type="radio" value="Tutor" id="instructorroleforinstructor2" name="instructorrole" />
+                                         Tutor: Can view student details, give comments and submit/view sessions and comments
+                                         <a onclick="showInstructorRoleModal('Tutor')" href="javascript:;">
+                                                  View Details</a><br />
+                                    <input type="radio" value="Custom" id="instructorroleforinstructor2" name="instructorrole" />
+                                         Custom: No access by default. Any access needs to be granted explicitly.<br />
                                 </div>
                             </div>
                             <div style="display: none;" id="tunePermissionsDivForInstructor2">
@@ -646,7 +657,7 @@ ul #nav {
                                     <div class="col-xs-12">
                                         <div class="panel panel-info">
                                             <div class="panel-heading">
-                                                <strong>Course Level</strong>
+                                                <strong>In general, this instructor can</strong>
                                             </div>
                                             <div class="panel-body">
                                                 <div class="col-sm-3">
@@ -679,21 +690,20 @@ ul #nav {
                                             
                                             <div style="display: none;" id="tuneSectionPermissionsDiv0ForInstructor2">
                                                 <div class="panel panel-info">
-                                                    <div class="panel-heading col-sm-12">
-                                                        <div class="col-sm-3">
-                                                            <strong>Section Level</strong>
-                                                        </div>
-                                                        <div class="col-sm-3 col-sm-offset-6">
-                                                            <select class="pull-right" id="section0forinstructor2" name="section0">
-                                                                
-                                                                <option selected="selected" value="Section 1">Section 1</option>
-                                                                
-                                                                <option value="Section 2">Section 2</option>
-                                                                
-                                                                <option value="Section 3">Section 3</option>
-                                                                
-                                                            </select>
-                                                        </div>
+                                                    <div class="panel-heading">
+                                                        <strong>But in section </strong>
+                                                        <select id="section0forinstructor2" name="section0">
+                                                            
+                                                            <option selected="selected" value="Section 1">Section 1</option>
+                                                            
+                                                            <option value="Section 2">Section 2</option>
+                                                            
+                                                            <option value="Section 3">Section 3</option>
+                                                            
+                                                        </select>
+                                                        <strong> the instructor can only</strong>
+                                                        <a class="pull-right" onclick="hideTuneSectionPermissionsDiv(2, 0)" href="javascript:;">
+                                                            <span class="glyphicon glyphicon-trash"></span></a>
                                                          
                                                         <input type="hidden" value="false" id="issection0setforinstructor2" name="issection0set" />
                                                         
@@ -712,29 +722,26 @@ ul #nav {
                                                             <input type="checkbox" checked="checked" value="true" name="canmodifysessioncommentinsectionsection0" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
                                                         </div>
                                                         
-                                                        <a class="small pull-right" onclick="hideTuneSectionPermissionsDiv(2, 0)" href="javascript:;">
-                                                            Remove current section-level permissions</a>
                                                     </div>
                                                 </div>
                                             </div>
                                             
                                             <div style="display: none;" id="tuneSectionPermissionsDiv1ForInstructor2">
                                                 <div class="panel panel-info">
-                                                    <div class="panel-heading col-sm-12">
-                                                        <div class="col-sm-3">
-                                                            <strong>Section Level</strong>
-                                                        </div>
-                                                        <div class="col-sm-3 col-sm-offset-6">
-                                                            <select class="pull-right" id="section1forinstructor2" name="section1">
-                                                                
-                                                                <option value="Section 1">Section 1</option>
-                                                                
-                                                                <option selected="selected" value="Section 2">Section 2</option>
-                                                                
-                                                                <option value="Section 3">Section 3</option>
-                                                                
-                                                            </select>
-                                                        </div>
+                                                    <div class="panel-heading">
+                                                        <strong>But in section </strong>
+                                                        <select id="section1forinstructor2" name="section1">
+                                                            
+                                                            <option value="Section 1">Section 1</option>
+                                                            
+                                                            <option selected="selected" value="Section 2">Section 2</option>
+                                                            
+                                                            <option value="Section 3">Section 3</option>
+                                                            
+                                                        </select>
+                                                        <strong> the instructor can only</strong>
+                                                        <a class="pull-right" onclick="hideTuneSectionPermissionsDiv(2, 1)" href="javascript:;">
+                                                            <span class="glyphicon glyphicon-trash"></span></a>
                                                          
                                                         <input type="hidden" value="false" id="issection1setforinstructor2" name="issection1set" />
                                                         
@@ -753,29 +760,26 @@ ul #nav {
                                                             <input type="checkbox" checked="checked" value="true" name="canmodifysessioncommentinsectionsection1" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
                                                         </div>
                                                         
-                                                        <a class="small pull-right" onclick="hideTuneSectionPermissionsDiv(2, 1)" href="javascript:;">
-                                                            Remove current section-level permissions</a>
                                                     </div>
                                                 </div>
                                             </div>
                                             
                                             <div style="display: none;" id="tuneSectionPermissionsDiv2ForInstructor2">
                                                 <div class="panel panel-info">
-                                                    <div class="panel-heading col-sm-12">
-                                                        <div class="col-sm-3">
-                                                            <strong>Section Level</strong>
-                                                        </div>
-                                                        <div class="col-sm-3 col-sm-offset-6">
-                                                            <select class="pull-right" id="section2forinstructor2" name="section2">
-                                                                
-                                                                <option value="Section 1">Section 1</option>
-                                                                
-                                                                <option value="Section 2">Section 2</option>
-                                                                
-                                                                <option selected="selected" value="Section 3">Section 3</option>
-                                                                
-                                                            </select>
-                                                        </div>
+                                                    <div class="panel-heading">
+                                                        <strong>But in section </strong>
+                                                        <select id="section2forinstructor2" name="section2">
+                                                            
+                                                            <option value="Section 1">Section 1</option>
+                                                            
+                                                            <option value="Section 2">Section 2</option>
+                                                            
+                                                            <option selected="selected" value="Section 3">Section 3</option>
+                                                            
+                                                        </select>
+                                                        <strong> the instructor can only</strong>
+                                                        <a class="pull-right" onclick="hideTuneSectionPermissionsDiv(2, 2)" href="javascript:;">
+                                                            <span class="glyphicon glyphicon-trash"></span></a>
                                                          
                                                         <input type="hidden" value="false" id="issection2setforinstructor2" name="issection2set" />
                                                         
@@ -794,13 +798,11 @@ ul #nav {
                                                             <input type="checkbox" checked="checked" value="true" name="canmodifysessioncommentinsectionsection2" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
                                                         </div>
                                                         
-                                                        <a class="small pull-right" onclick="hideTuneSectionPermissionsDiv(2, 2)" href="javascript:;">
-                                                            Remove current section-level permissions</a>
                                                     </div>
                                                 </div>
                                             </div>
                                             
-                                            <a id="addSectionLevelForInstructor2" class="small" onclick="showTuneSectionPermissionsDiv(2, 0)" href="javascript:;">Add section-level permissions</a>
+                                            <a id="addSectionLevelForInstructor2" class="small" onclick="showTuneSectionPermissionsDiv(2, 0)" href="javascript:;">Give different permissions for a specific section</a>
                                         
                                     </div>
                                 </div>
@@ -861,26 +863,36 @@ ul #nav {
                         <div style="display:none;" id="accessControlEditDivForInstr3">
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">
-                                     <input type="checkbox" checked="checked" value="true" name="instructorisdisplayed" />
+                                     <input type="checkbox" title="" data-placement="top" data-toggle="tooltip" checked="checked" value="true" name="instructorisdisplayed" data-original-title="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course" />
                                      Display to students as:</label>
                                 <div class="col-sm-9">
-                                    <input type="text" value="Instructor" placeholder="E.g.Co-lecturer, Teaching Asistant" name="instructordisplayname" class="form-control" />
+                                    <input type="text" title="" data-placement="top" data-toggle="tooltip" value="Instructor" placeholder="E.g.Co-lecturer, Teaching Assistant" name="instructordisplayname" class="form-control" data-original-title="Specify the role of this instructor in this course as shown to the students" />
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-3">
                                     <label class="control-label pull-right">Access-level</label>
-                                    <br /><br /><br /><br />
-                                    <div class="pull-right">
-                                        <a class="small" onclick="toggleTunePermissionsDiv(3)" href="javascript:;">Fine-tune permissions</a>
-                                    </div>
                                 </div>
                                 <div class="col-sm-9">
-                                    <input type="radio" value="Co-owner" id="instructorroleforinstructor3" name="instructorrole" /> Co-owner: Can do everything<br />
-                                    <input type="radio" value="Manager" id="instructorroleforinstructor3" name="instructorrole" /> Manager: Can do everything except for deleting the course<br />
-                                    <input type="radio" value="Observer" id="instructorroleforinstructor3" name="instructorrole" /> Observer: Can only view information<br />
-                                    <input type="radio" value="Tutor" id="instructorroleforinstructor3" name="instructorrole" /> Tutor: Can submit/view sessions and comments(s)<br />
-                                    <input type="radio" value="Helper" id="instructorroleforinstructor3" name="instructorrole" /> Helper: No access by default. Any access needs to be granted explicitly.<br />
+                                    <input type="radio" value="Co-owner" id="instructorroleforinstructor3" name="instructorrole" />
+                                         Co-owner: Can do everything
+                                         <a onclick="showInstructorRoleModal('Co-owner')" href="javascript:;">
+                                                  View Details</a><br />
+                                    <input type="radio" value="Manager" id="instructorroleforinstructor3" name="instructorrole" />
+                                         Manager: Can do everything except for deleting the course
+                                         <a onclick="showInstructorRoleModal('Manager')" href="javascript:;">
+                                                  View Details</a><br />
+                                    <input type="radio" value="Observer" id="instructorroleforinstructor3" name="instructorrole" />
+                                         Observer: Can only view information(students, submissions, comments etc.).
+                                         Cannot edit/delete/submit anything.
+                                         <a onclick="showInstructorRoleModal('Observer')" href="javascript:;">
+                                                  View Details</a><br />
+                                    <input type="radio" value="Tutor" id="instructorroleforinstructor3" name="instructorrole" />
+                                         Tutor: Can view student details, give comments and submit/view sessions and comments
+                                         <a onclick="showInstructorRoleModal('Tutor')" href="javascript:;">
+                                                  View Details</a><br />
+                                    <input type="radio" value="Custom" id="instructorroleforinstructor3" name="instructorrole" />
+                                         Custom: No access by default. Any access needs to be granted explicitly.<br />
                                 </div>
                             </div>
                             <div style="display: none;" id="tunePermissionsDivForInstructor3">
@@ -888,7 +900,7 @@ ul #nav {
                                     <div class="col-xs-12">
                                         <div class="panel panel-info">
                                             <div class="panel-heading">
-                                                <strong>Course Level</strong>
+                                                <strong>In general, this instructor can</strong>
                                             </div>
                                             <div class="panel-body">
                                                 <div class="col-sm-3">
@@ -921,21 +933,20 @@ ul #nav {
                                             
                                             <div style="display: none;" id="tuneSectionPermissionsDiv0ForInstructor3">
                                                 <div class="panel panel-info">
-                                                    <div class="panel-heading col-sm-12">
-                                                        <div class="col-sm-3">
-                                                            <strong>Section Level</strong>
-                                                        </div>
-                                                        <div class="col-sm-3 col-sm-offset-6">
-                                                            <select class="pull-right" id="section0forinstructor3" name="section0">
-                                                                
-                                                                <option selected="selected" value="Section 1">Section 1</option>
-                                                                
-                                                                <option value="Section 2">Section 2</option>
-                                                                
-                                                                <option value="Section 3">Section 3</option>
-                                                                
-                                                            </select>
-                                                        </div>
+                                                    <div class="panel-heading">
+                                                        <strong>But in section </strong>
+                                                        <select id="section0forinstructor3" name="section0">
+                                                            
+                                                            <option selected="selected" value="Section 1">Section 1</option>
+                                                            
+                                                            <option value="Section 2">Section 2</option>
+                                                            
+                                                            <option value="Section 3">Section 3</option>
+                                                            
+                                                        </select>
+                                                        <strong> the instructor can only</strong>
+                                                        <a class="pull-right" onclick="hideTuneSectionPermissionsDiv(3, 0)" href="javascript:;">
+                                                            <span class="glyphicon glyphicon-trash"></span></a>
                                                          
                                                         <input type="hidden" value="false" id="issection0setforinstructor3" name="issection0set" />
                                                         
@@ -954,29 +965,26 @@ ul #nav {
                                                             <input type="checkbox" value="true" name="canmodifysessioncommentinsectionsection0" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
                                                         </div>
                                                         
-                                                        <a class="small pull-right" onclick="hideTuneSectionPermissionsDiv(3, 0)" href="javascript:;">
-                                                            Remove current section-level permissions</a>
                                                     </div>
                                                 </div>
                                             </div>
                                             
                                             <div style="display: none;" id="tuneSectionPermissionsDiv1ForInstructor3">
                                                 <div class="panel panel-info">
-                                                    <div class="panel-heading col-sm-12">
-                                                        <div class="col-sm-3">
-                                                            <strong>Section Level</strong>
-                                                        </div>
-                                                        <div class="col-sm-3 col-sm-offset-6">
-                                                            <select class="pull-right" id="section1forinstructor3" name="section1">
-                                                                
-                                                                <option value="Section 1">Section 1</option>
-                                                                
-                                                                <option selected="selected" value="Section 2">Section 2</option>
-                                                                
-                                                                <option value="Section 3">Section 3</option>
-                                                                
-                                                            </select>
-                                                        </div>
+                                                    <div class="panel-heading">
+                                                        <strong>But in section </strong>
+                                                        <select id="section1forinstructor3" name="section1">
+                                                            
+                                                            <option value="Section 1">Section 1</option>
+                                                            
+                                                            <option selected="selected" value="Section 2">Section 2</option>
+                                                            
+                                                            <option value="Section 3">Section 3</option>
+                                                            
+                                                        </select>
+                                                        <strong> the instructor can only</strong>
+                                                        <a class="pull-right" onclick="hideTuneSectionPermissionsDiv(3, 1)" href="javascript:;">
+                                                            <span class="glyphicon glyphicon-trash"></span></a>
                                                          
                                                         <input type="hidden" value="false" id="issection1setforinstructor3" name="issection1set" />
                                                         
@@ -995,29 +1003,26 @@ ul #nav {
                                                             <input type="checkbox" value="true" name="canmodifysessioncommentinsectionsection1" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
                                                         </div>
                                                         
-                                                        <a class="small pull-right" onclick="hideTuneSectionPermissionsDiv(3, 1)" href="javascript:;">
-                                                            Remove current section-level permissions</a>
                                                     </div>
                                                 </div>
                                             </div>
                                             
                                             <div style="display: none;" id="tuneSectionPermissionsDiv2ForInstructor3">
                                                 <div class="panel panel-info">
-                                                    <div class="panel-heading col-sm-12">
-                                                        <div class="col-sm-3">
-                                                            <strong>Section Level</strong>
-                                                        </div>
-                                                        <div class="col-sm-3 col-sm-offset-6">
-                                                            <select class="pull-right" id="section2forinstructor3" name="section2">
-                                                                
-                                                                <option value="Section 1">Section 1</option>
-                                                                
-                                                                <option value="Section 2">Section 2</option>
-                                                                
-                                                                <option selected="selected" value="Section 3">Section 3</option>
-                                                                
-                                                            </select>
-                                                        </div>
+                                                    <div class="panel-heading">
+                                                        <strong>But in section </strong>
+                                                        <select id="section2forinstructor3" name="section2">
+                                                            
+                                                            <option value="Section 1">Section 1</option>
+                                                            
+                                                            <option value="Section 2">Section 2</option>
+                                                            
+                                                            <option selected="selected" value="Section 3">Section 3</option>
+                                                            
+                                                        </select>
+                                                        <strong> the instructor can only</strong>
+                                                        <a class="pull-right" onclick="hideTuneSectionPermissionsDiv(3, 2)" href="javascript:;">
+                                                            <span class="glyphicon glyphicon-trash"></span></a>
                                                          
                                                         <input type="hidden" value="false" id="issection2setforinstructor3" name="issection2set" />
                                                         
@@ -1036,13 +1041,11 @@ ul #nav {
                                                             <input type="checkbox" value="true" name="canmodifysessioncommentinsectionsection2" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
                                                         </div>
                                                         
-                                                        <a class="small pull-right" onclick="hideTuneSectionPermissionsDiv(3, 2)" href="javascript:;">
-                                                            Remove current section-level permissions</a>
                                                     </div>
                                                 </div>
                                             </div>
                                             
-                                            <a id="addSectionLevelForInstructor3" class="small" onclick="showTuneSectionPermissionsDiv(3, 0)" href="javascript:;">Add section-level permissions</a>
+                                            <a id="addSectionLevelForInstructor3" class="small" onclick="showTuneSectionPermissionsDiv(3, 0)" href="javascript:;">Give different permissions for a specific section</a>
                                         
                                     </div>
                                 </div>
@@ -1109,26 +1112,36 @@ ul #nav {
                         <div style="display:none;" id="accessControlEditDivForInstr4">
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">
-                                     <input type="checkbox" checked="checked" value="true" name="instructorisdisplayed" />
+                                     <input type="checkbox" title="" data-placement="top" data-toggle="tooltip" checked="checked" value="true" name="instructorisdisplayed" data-original-title="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course" />
                                      Display to students as:</label>
                                 <div class="col-sm-9">
-                                    <input type="text" value="Instructor" placeholder="E.g.Co-lecturer, Teaching Asistant" name="instructordisplayname" class="form-control" />
+                                    <input type="text" title="" data-placement="top" data-toggle="tooltip" value="Instructor" placeholder="E.g.Co-lecturer, Teaching Assistant" name="instructordisplayname" class="form-control" data-original-title="Specify the role of this instructor in this course as shown to the students" />
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-3">
                                     <label class="control-label pull-right">Access-level</label>
-                                    <br /><br /><br /><br />
-                                    <div class="pull-right">
-                                        <a class="small" onclick="toggleTunePermissionsDiv(4)" href="javascript:;">Fine-tune permissions</a>
-                                    </div>
                                 </div>
                                 <div class="col-sm-9">
-                                    <input type="radio" value="Co-owner" id="instructorroleforinstructor4" name="instructorrole" /> Co-owner: Can do everything<br />
-                                    <input type="radio" value="Manager" id="instructorroleforinstructor4" name="instructorrole" /> Manager: Can do everything except for deleting the course<br />
-                                    <input type="radio" value="Observer" id="instructorroleforinstructor4" name="instructorrole" /> Observer: Can only view information<br />
-                                    <input type="radio" value="Tutor" id="instructorroleforinstructor4" name="instructorrole" /> Tutor: Can submit/view sessions and comments(s)<br />
-                                    <input type="radio" value="Helper" id="instructorroleforinstructor4" name="instructorrole" /> Helper: No access by default. Any access needs to be granted explicitly.<br />
+                                    <input type="radio" value="Co-owner" id="instructorroleforinstructor4" name="instructorrole" />
+                                         Co-owner: Can do everything
+                                         <a onclick="showInstructorRoleModal('Co-owner')" href="javascript:;">
+                                                  View Details</a><br />
+                                    <input type="radio" value="Manager" id="instructorroleforinstructor4" name="instructorrole" />
+                                         Manager: Can do everything except for deleting the course
+                                         <a onclick="showInstructorRoleModal('Manager')" href="javascript:;">
+                                                  View Details</a><br />
+                                    <input type="radio" value="Observer" id="instructorroleforinstructor4" name="instructorrole" />
+                                         Observer: Can only view information(students, submissions, comments etc.).
+                                         Cannot edit/delete/submit anything.
+                                         <a onclick="showInstructorRoleModal('Observer')" href="javascript:;">
+                                                  View Details</a><br />
+                                    <input type="radio" value="Tutor" id="instructorroleforinstructor4" name="instructorrole" />
+                                         Tutor: Can view student details, give comments and submit/view sessions and comments
+                                         <a onclick="showInstructorRoleModal('Tutor')" href="javascript:;">
+                                                  View Details</a><br />
+                                    <input type="radio" value="Custom" id="instructorroleforinstructor4" name="instructorrole" />
+                                         Custom: No access by default. Any access needs to be granted explicitly.<br />
                                 </div>
                             </div>
                             <div style="display: none;" id="tunePermissionsDivForInstructor4">
@@ -1136,7 +1149,7 @@ ul #nav {
                                     <div class="col-xs-12">
                                         <div class="panel panel-info">
                                             <div class="panel-heading">
-                                                <strong>Course Level</strong>
+                                                <strong>In general, this instructor can</strong>
                                             </div>
                                             <div class="panel-body">
                                                 <div class="col-sm-3">
@@ -1169,21 +1182,20 @@ ul #nav {
                                             
                                             <div style="display: none;" id="tuneSectionPermissionsDiv0ForInstructor4">
                                                 <div class="panel panel-info">
-                                                    <div class="panel-heading col-sm-12">
-                                                        <div class="col-sm-3">
-                                                            <strong>Section Level</strong>
-                                                        </div>
-                                                        <div class="col-sm-3 col-sm-offset-6">
-                                                            <select class="pull-right" id="section0forinstructor4" name="section0">
-                                                                
-                                                                <option selected="selected" value="Section 1">Section 1</option>
-                                                                
-                                                                <option value="Section 2">Section 2</option>
-                                                                
-                                                                <option value="Section 3">Section 3</option>
-                                                                
-                                                            </select>
-                                                        </div>
+                                                    <div class="panel-heading">
+                                                        <strong>But in section </strong>
+                                                        <select id="section0forinstructor4" name="section0">
+                                                            
+                                                            <option selected="selected" value="Section 1">Section 1</option>
+                                                            
+                                                            <option value="Section 2">Section 2</option>
+                                                            
+                                                            <option value="Section 3">Section 3</option>
+                                                            
+                                                        </select>
+                                                        <strong> the instructor can only</strong>
+                                                        <a class="pull-right" onclick="hideTuneSectionPermissionsDiv(4, 0)" href="javascript:;">
+                                                            <span class="glyphicon glyphicon-trash"></span></a>
                                                          
                                                         <input type="hidden" value="false" id="issection0setforinstructor4" name="issection0set" />
                                                         
@@ -1202,29 +1214,26 @@ ul #nav {
                                                             <input type="checkbox" checked="checked" value="true" name="canmodifysessioncommentinsectionsection0" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
                                                         </div>
                                                         
-                                                        <a class="small pull-right" onclick="hideTuneSectionPermissionsDiv(4, 0)" href="javascript:;">
-                                                            Remove current section-level permissions</a>
                                                     </div>
                                                 </div>
                                             </div>
                                             
                                             <div style="display: none;" id="tuneSectionPermissionsDiv1ForInstructor4">
                                                 <div class="panel panel-info">
-                                                    <div class="panel-heading col-sm-12">
-                                                        <div class="col-sm-3">
-                                                            <strong>Section Level</strong>
-                                                        </div>
-                                                        <div class="col-sm-3 col-sm-offset-6">
-                                                            <select class="pull-right" id="section1forinstructor4" name="section1">
-                                                                
-                                                                <option value="Section 1">Section 1</option>
-                                                                
-                                                                <option selected="selected" value="Section 2">Section 2</option>
-                                                                
-                                                                <option value="Section 3">Section 3</option>
-                                                                
-                                                            </select>
-                                                        </div>
+                                                    <div class="panel-heading">
+                                                        <strong>But in section </strong>
+                                                        <select id="section1forinstructor4" name="section1">
+                                                            
+                                                            <option value="Section 1">Section 1</option>
+                                                            
+                                                            <option selected="selected" value="Section 2">Section 2</option>
+                                                            
+                                                            <option value="Section 3">Section 3</option>
+                                                            
+                                                        </select>
+                                                        <strong> the instructor can only</strong>
+                                                        <a class="pull-right" onclick="hideTuneSectionPermissionsDiv(4, 1)" href="javascript:;">
+                                                            <span class="glyphicon glyphicon-trash"></span></a>
                                                          
                                                         <input type="hidden" value="false" id="issection1setforinstructor4" name="issection1set" />
                                                         
@@ -1243,29 +1252,26 @@ ul #nav {
                                                             <input type="checkbox" checked="checked" value="true" name="canmodifysessioncommentinsectionsection1" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
                                                         </div>
                                                         
-                                                        <a class="small pull-right" onclick="hideTuneSectionPermissionsDiv(4, 1)" href="javascript:;">
-                                                            Remove current section-level permissions</a>
                                                     </div>
                                                 </div>
                                             </div>
                                             
                                             <div style="display: none;" id="tuneSectionPermissionsDiv2ForInstructor4">
                                                 <div class="panel panel-info">
-                                                    <div class="panel-heading col-sm-12">
-                                                        <div class="col-sm-3">
-                                                            <strong>Section Level</strong>
-                                                        </div>
-                                                        <div class="col-sm-3 col-sm-offset-6">
-                                                            <select class="pull-right" id="section2forinstructor4" name="section2">
-                                                                
-                                                                <option value="Section 1">Section 1</option>
-                                                                
-                                                                <option value="Section 2">Section 2</option>
-                                                                
-                                                                <option selected="selected" value="Section 3">Section 3</option>
-                                                                
-                                                            </select>
-                                                        </div>
+                                                    <div class="panel-heading">
+                                                        <strong>But in section </strong>
+                                                        <select id="section2forinstructor4" name="section2">
+                                                            
+                                                            <option value="Section 1">Section 1</option>
+                                                            
+                                                            <option value="Section 2">Section 2</option>
+                                                            
+                                                            <option selected="selected" value="Section 3">Section 3</option>
+                                                            
+                                                        </select>
+                                                        <strong> the instructor can only</strong>
+                                                        <a class="pull-right" onclick="hideTuneSectionPermissionsDiv(4, 2)" href="javascript:;">
+                                                            <span class="glyphicon glyphicon-trash"></span></a>
                                                          
                                                         <input type="hidden" value="false" id="issection2setforinstructor4" name="issection2set" />
                                                         
@@ -1284,13 +1290,11 @@ ul #nav {
                                                             <input type="checkbox" checked="checked" value="true" name="canmodifysessioncommentinsectionsection2" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
                                                         </div>
                                                         
-                                                        <a class="small pull-right" onclick="hideTuneSectionPermissionsDiv(4, 2)" href="javascript:;">
-                                                            Remove current section-level permissions</a>
                                                     </div>
                                                 </div>
                                             </div>
                                             
-                                            <a id="addSectionLevelForInstructor4" class="small" onclick="showTuneSectionPermissionsDiv(4, 0)" href="javascript:;">Add section-level permissions</a>
+                                            <a id="addSectionLevelForInstructor4" class="small" onclick="showTuneSectionPermissionsDiv(4, 0)" href="javascript:;">Give different permissions for a specific section</a>
                                         
                                     </div>
                                 </div>
@@ -1338,27 +1342,31 @@ ul #nav {
                         <div id="accessControlEditDivForInstr5">
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">
-                                    <input type="checkbox" checked="checked" value="true" name="instructorisdisplayed" />
+                                    <input type="checkbox" title="" data-placement="top" data-toggle="tooltip" checked="checked" value="true" name="instructorisdisplayed" data-original-title="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course" />
                                     Display to students as:</label>
                                 <div class="col-sm-9">
-                                    <input type="text" placeholder="E.g.Co-lecturer, Teaching Asistant" name="instructordisplayname" class="form-control" />
+                                    <input type="text" title="" data-placement="top" data-toggle="tooltip" placeholder="E.g.Co-lecturer, Teaching Assistant" name="instructordisplayname" class="form-control" data-original-title="Specify the role of this instructor in this course as shown to the students" />
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-3">
                                     <label class="control-label pull-right">Access-level</label>
-                                    <br /><br /><br /><br />
-                                    <div class="pull-right">
-                                        <a class="small" onclick="toggleTunePermissionsDiv(5)" href="javascript:;">
-                                        Fine-tune permissions</a>
-                                    </div>
                                 </div>
                                 <div class="col-sm-9">
-                                    <input type="radio" checked="checked" value="Co-owner" id="instructorroleforinstructor5" name="instructorrole" /> Co-owner: Can do everything<br />
-                                    <input type="radio" value="Manager" id="instructorroleforinstructor5" name="instructorrole" /> Manager: Can do everything except for deleting the course<br />
-                                    <input type="radio" value="Observer" id="instructorroleforinstructor5" name="instructorrole" /> Observer: Can only view information<br />
-                                    <input type="radio" value="Tutor" id="instructorroleforinstructor5" name="instructorrole" /> Tutor: Can submit/view sessions and comments(s)<br />
-                                    <input type="radio" value="Helper" id="instructorroleforinstructor5" name="instructorrole" /> Helper: No access by default. Any access needs to be granted explicitly.<br />
+                                    <input type="radio" checked="checked" value="Co-owner" id="instructorroleforinstructor5" name="instructorrole" /> Co-owner: Can do everything
+                                        <a onclick="showInstructorRoleModal('Co-owner')" href="javascript:;">
+                                            View Details</a><br />
+                                    <input type="radio" value="Manager" id="instructorroleforinstructor5" name="instructorrole" /> Manager: Can do everything except for deleting the course
+                                        <a onclick="showInstructorRoleModal('Manager')" href="javascript:;">
+                                            View Details</a><br />
+                                    <input type="radio" value="Observer" id="instructorroleforinstructor5" name="instructorrole" /> Observer: Can only view information(students, submissions, comments etc.).
+                                         Cannot edit/delete/submit anything.
+                                        <a onclick="showInstructorRoleModal(<'Observer')" href="javascript:;">
+                                            View Details</a><br />
+                                    <input type="radio" value="Tutor" id="instructorroleforinstructor5" name="instructorrole" /> Tutor: Can only submit/view sessions and comments
+                                        <a onclick="showInstructorRoleModal('Tutor')" href="javascript:;">
+                                            View Details</a><br />
+                                    <input type="radio" value="Custom" id="instructorroleforinstructor5" name="instructorrole" /> Custom: No access by default. Any access needs to be granted explicitly.
                                 </div>
                             </div>
                             <div style="display: none;" id="tunePermissionsDivForInstructor5">
@@ -1366,32 +1374,32 @@ ul #nav {
                                     <div class="col-xs-12">
                                         <div class="panel panel-info">
                                             <div class="panel-heading">
-                                                <strong>Course Level</strong>
+                                                <strong>In general, this instructor can</strong>
                                             </div>
                                             <div class="panel-body">
                                                 <div class="col-sm-3">
-                                                    <input type="checkbox" checked="checked" value="true" name="canmodifycourse" /> Edit/Delete Course
+                                                    <input type="checkbox" value="true" name="canmodifycourse" /> Edit/Delete Course
                                                 </div>
                                                 <div class="col-sm-3">
-                                                    <input type="checkbox" checked="checked" value="true" name="canmodifyinstructor" /> Add/Edit/Delete Instructors
+                                                    <input type="checkbox" value="true" name="canmodifyinstructor" /> Add/Edit/Delete Instructors
                                                 </div>
                                                 <div class="col-sm-3">
-                                                    <input type="checkbox" checked="checked" value="true" name="canmodifysession" /> Create/Edit/Eelete Sessions
+                                                    <input type="checkbox" value="true" name="canmodifysession" /> Create/Edit/Delete Sessions
                                                 </div>
                                                 <div class="col-sm-3">
-                                                    <input type="checkbox" checked="checked" value="true" name="canmodifystudent" /> Enroll/Edit/Delete Students
+                                                    <input type="checkbox" value="true" name="canmodifystudent" /> Enroll/Edit/Delete Students
                                                 </div>
                                                 <br /><br />
                                                 <div class="col-sm-6 border-right-gray">
-                                                    <input type="checkbox" checked="checked" value="true" name="canviewstudentinsection" /> View Students' Details<br />
-                                                    <input type="checkbox" checked="checked" value="true" name="cangivecommentinsection" /> Give Comments for Students<br />
-                                                    <input type="checkbox" checked="checked" value="true" name="canviewcommentinsection" /> View Others' Comments on Students<br />
-                                                    <input type="checkbox" checked="checked" value="true" name="canmodifycommentinsection" /> Edit/Delete Others' Comments on Students<br />
+                                                    <input type="checkbox" value="true" name="canviewstudentinsection" /> View Students' Details<br />
+                                                    <input type="checkbox" value="true" name="cangivecommentinsection" /> Give Comments for Students<br />
+                                                    <input type="checkbox" value="true" name="canviewcommentinsection" /> View Others' Comments on Students<br />
+                                                    <input type="checkbox" value="true" name="canmodifycommentinsection" /> Edit/Delete Others' Comments on Students<br />
                                                 </div>
                                                 <div class="col-sm-5 col-sm-offset-1">
-                                                    <input type="checkbox" checked="checked" value="true" name="cansubmitsessioninsection" /> Sessions: Submit Responses and Add Comments<br />
-                                                    <input type="checkbox" checked="checked" value="true" name="canviewsessioninsection" /> Sessions: View Responses and Comments<br />
-                                                    <input type="checkbox" checked="checked" value="true" name="canmodifysessioncommentinsection" /> Sessions: Edit/Delete Responses/Comments by others<br />
+                                                    <input type="checkbox" value="true" name="cansubmitsessioninsection" /> Sessions: Submit Responses and Add Comments<br />
+                                                    <input type="checkbox" value="true" name="canviewsessioninsection" /> Sessions: View Responses and Comments<br />
+                                                    <input type="checkbox" value="true" name="canmodifysessioncommentinsection" /> Sessions: Edit/Delete Responses/Comments by others<br />
                                                 </div>
                                             </div>
                                         </div>
@@ -1399,21 +1407,20 @@ ul #nav {
                                             
                                             <div style="display: none;" id="tuneSectionPermissionsDiv0ForInstructor5">
                                                 <div class="panel panel-info">
-                                                    <div class="panel-heading col-sm-12">
-                                                        <div class="col-sm-3">
-                                                            <strong>Section Level</strong>
-                                                        </div>
-                                                        <div class="col-sm-3 col-sm-offset-6">
-                                                            <select class="pull-right" id="section0forinstructor5" name="section0">
-                                                                
-                                                                <option selected="selected" value="Section 1">Section 1</option>
-                                                                
-                                                                <option value="Section 2">Section 2</option>
-                                                                
-                                                                <option value="Section 3">Section 3</option>
-                                                                
-                                                            </select>
-                                                        </div> 
+                                                    <div class="panel-heading">
+                                                        <strong>But in section </strong>
+                                                        <select id="section0forinstructor5" name="section0">
+                                                            
+                                                            <option selected="selected" value="Section 1">Section 1</option>
+                                                            
+                                                            <option value="Section 2">Section 2</option>
+                                                            
+                                                            <option value="Section 3">Section 3</option>
+                                                            
+                                                        </select>
+                                                        <strong> the instructor can only</strong>
+                                                        <a class="pull-right" onclick="hideTuneSectionPermissionsDiv(5, 0)" href="javascript:;">
+                                                            <span class="glyphicon glyphicon-trash"></span></a>
                                                         <input type="hidden" value="false" id="issection0setforinstructor5" name="issection0set" />
                                                     </div>
                                                     <div class="panel-body">
@@ -1430,29 +1437,26 @@ ul #nav {
                                                             <input type="checkbox" checked="checked" value="true" name="canmodifysessioncommentinsectionsection0" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
                                                         </div>
                                                         
-                                                        <a class="small pull-right" onclick="hideTuneSectionPermissionsDiv(5, 0)" href="javascript:;">
-                                                            Remove current section-level permissions</a>
                                                     </div>
                                                 </div>
                                             </div>
                                             
                                             <div style="display: none;" id="tuneSectionPermissionsDiv1ForInstructor5">
                                                 <div class="panel panel-info">
-                                                    <div class="panel-heading col-sm-12">
-                                                        <div class="col-sm-3">
-                                                            <strong>Section Level</strong>
-                                                        </div>
-                                                        <div class="col-sm-3 col-sm-offset-6">
-                                                            <select class="pull-right" id="section1forinstructor5" name="section1">
-                                                                
-                                                                <option value="Section 1">Section 1</option>
-                                                                
-                                                                <option selected="selected" value="Section 2">Section 2</option>
-                                                                
-                                                                <option value="Section 3">Section 3</option>
-                                                                
-                                                            </select>
-                                                        </div> 
+                                                    <div class="panel-heading">
+                                                        <strong>But in section </strong>
+                                                        <select id="section1forinstructor5" name="section1">
+                                                            
+                                                            <option value="Section 1">Section 1</option>
+                                                            
+                                                            <option selected="selected" value="Section 2">Section 2</option>
+                                                            
+                                                            <option value="Section 3">Section 3</option>
+                                                            
+                                                        </select>
+                                                        <strong> the instructor can only</strong>
+                                                        <a class="pull-right" onclick="hideTuneSectionPermissionsDiv(5, 1)" href="javascript:;">
+                                                            <span class="glyphicon glyphicon-trash"></span></a>
                                                         <input type="hidden" value="false" id="issection1setforinstructor5" name="issection1set" />
                                                     </div>
                                                     <div class="panel-body">
@@ -1469,29 +1473,26 @@ ul #nav {
                                                             <input type="checkbox" checked="checked" value="true" name="canmodifysessioncommentinsectionsection1" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
                                                         </div>
                                                         
-                                                        <a class="small pull-right" onclick="hideTuneSectionPermissionsDiv(5, 1)" href="javascript:;">
-                                                            Remove current section-level permissions</a>
                                                     </div>
                                                 </div>
                                             </div>
                                             
                                             <div style="display: none;" id="tuneSectionPermissionsDiv2ForInstructor5">
                                                 <div class="panel panel-info">
-                                                    <div class="panel-heading col-sm-12">
-                                                        <div class="col-sm-3">
-                                                            <strong>Section Level</strong>
-                                                        </div>
-                                                        <div class="col-sm-3 col-sm-offset-6">
-                                                            <select class="pull-right" id="section2forinstructor5" name="section2">
-                                                                
-                                                                <option value="Section 1">Section 1</option>
-                                                                
-                                                                <option value="Section 2">Section 2</option>
-                                                                
-                                                                <option selected="selected" value="Section 3">Section 3</option>
-                                                                
-                                                            </select>
-                                                        </div> 
+                                                    <div class="panel-heading">
+                                                        <strong>But in section </strong>
+                                                        <select id="section2forinstructor5" name="section2">
+                                                            
+                                                            <option value="Section 1">Section 1</option>
+                                                            
+                                                            <option value="Section 2">Section 2</option>
+                                                            
+                                                            <option selected="selected" value="Section 3">Section 3</option>
+                                                            
+                                                        </select>
+                                                        <strong> the instructor can only</strong>
+                                                        <a class="pull-right" onclick="hideTuneSectionPermissionsDiv(5, 2)" href="javascript:;">
+                                                            <span class="glyphicon glyphicon-trash"></span></a>
                                                         <input type="hidden" value="false" id="issection2setforinstructor5" name="issection2set" />
                                                     </div>
                                                     <div class="panel-body">
@@ -1508,13 +1509,11 @@ ul #nav {
                                                             <input type="checkbox" checked="checked" value="true" name="canmodifysessioncommentinsectionsection2" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
                                                         </div>
                                                         
-                                                        <a class="small pull-right" onclick="hideTuneSectionPermissionsDiv(5, 2)" href="javascript:;">
-                                                            Remove current section-level permissions</a>
                                                     </div>
                                                 </div>
                                             </div>
                                             
-                                        <a id="addSectionLevelForInstructor5" class="small" onclick="showTuneSectionPermissionsDiv(5, 0)" href="javascript:;">Add section-level permissions</a>
+                                        <a id="addSectionLevelForInstructor5" class="small" onclick="showTuneSectionPermissionsDiv(5, 0)" href="javascript:;">Give different permissions for a specific section</a>
                                         
                                     </div>
                                 </div>
@@ -1527,6 +1526,46 @@ ul #nav {
                         </div>
                     </div>
                 </form>
+            </div>
+        </div>
+
+        <div aria-hidden="true" aria-labelledby="instructorRoleModalLabel" role="dialog" id="tunePermissionsDivForInstructorAll" class="modal fade">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button data-dismiss="modal" class="close" type="button">
+                            <span aria-hidden="true">×</span><span class="sr-only">Close</span>
+                        </button>
+                        <h4 id="instructorRoleModalLabel" class="model-title">Permissions for Co-owner</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                        <div class="col-sm-6">
+                            <input type="checkbox" checked="checked" value="true" name="canmodifycourse" /> Edit/Delete Course
+                        </div>
+                        <div class="col-sm-6">
+                            <input type="checkbox" checked="checked" value="true" name="canmodifyinstructor" /> Add/Edit/Delete Instructors
+                        </div>
+                        <div class="col-sm-6">
+                            <input type="checkbox" checked="checked" value="true" name="canmodifysession" /> Create/Edit/Delete Sessions
+                        </div>
+                        <div class="col-sm-6">
+                            <input type="checkbox" checked="checked" value="true" name="canmodifystudent" /> Enroll/Edit/Delete Students
+                        </div>
+                        <div class="col-sm-6">
+                            <input type="checkbox" checked="checked" value="true" name="canviewstudentinsection" /> View Students' Details<br />
+                            <input type="checkbox" checked="checked" value="true" name="cangivecommentinsection" /> Give Comments for Students<br />
+                            <input type="checkbox" checked="checked" value="true" name="canviewcommentinsection" /> View Others' Comments on Students<br />
+                            <input type="checkbox" checked="checked" value="true" name="canmodifycommentinsection" /> Edit/Delete Others' Comments on Students<br />
+                        </div>
+                        <div class="col-sm-6">
+                            <input type="checkbox" checked="checked" value="true" name="cansubmitsessioninsection" /> Sessions: Submit Responses and Add Comments<br />
+                            <input type="checkbox" checked="checked" value="true" name="canviewsessioninsection" /> Sessions: View Responses and Comments<br />
+                            <input type="checkbox" checked="checked" value="true" name="canmodifysessioncommentinsection" /> Sessions: Edit/Delete Responses/Comments by others<br />
+                        </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 

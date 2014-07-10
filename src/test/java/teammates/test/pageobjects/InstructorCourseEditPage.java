@@ -83,6 +83,7 @@ public class InstructorCourseEditPage extends AppPage {
         
         editInstructorName(name);
         editInstructorEmail(email);
+        selectRoleForInstructor(1, "Co-owner");
         
         saveInstructorButton.click();
         waitForPageToLoad();
@@ -131,16 +132,6 @@ public class InstructorCourseEditPage extends AppPage {
     
     public void clickDisplayedToStudentCheckBox(int instrNum) {
         this.displayedToStudentCheckBox(instrNum).click();
-    }
-    
-    public WebElement fineTunePermissionLink(int instrNum) {
-        String cssSelectorStr = "#accessControlEditDivForInstr" + instrNum
-                + " > div:nth-child(2) > div:nth-child(1) > div:nth-child(6) > a:nth-child(1)";
-        return browser.driver.findElement(By.cssSelector(cssSelectorStr));
-    }
-    
-    public void clickFineTunePermissionLink(int instrNum) {
-        this.fineTunePermissionLink(instrNum).click();
     }
     
     public void selectRoleForInstructor(int instrNum, String role) {
