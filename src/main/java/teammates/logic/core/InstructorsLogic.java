@@ -253,7 +253,9 @@ public class InstructorsLogic {
                                                                                       institute);
             emailMgr.sendEmail(emails.get(0));
             emailMgr.sendEmail(emails.get(1));
-            joinLink = emails.get(2).getContent().toString();
+            
+            //this method is deprecated because it should only be used in adminHomePage for easy manual testing purpose
+            joinLink = emailMgr.generateNewInstructorAccountJoinLink(instructorData, institute);
 
         } catch (Exception e) {
             throw new RuntimeException("Unexpected error while sending email",e);

@@ -793,15 +793,8 @@ public class Emails {
         messageToUser.setSubject(String.format(SUBJECT_PREFIX_NEW_INSTRUCTOR_ACCOUNT + " " + shortName));
         messageToAdmin.setSubject(String.format(SUBJECT_PREFIX_NEW_INSTRUCTOR_ACCOUNT_COPY +
                                                 " " + shortName+" "+ "[" + instructor.email + "]"));
-        String joinUrl = "";
         
-        if (instructor != null) {
-            String key;
-            key = StringHelper.encrypt(instructor.key);
-            joinUrl = Config.APP_URL + Const.ActionURIs.INSTRUCTOR_COURSE_JOIN;
-            joinUrl = Url.addParamToUrl(joinUrl, Const.ParamsNames.REGKEY, key);
-            joinUrl = Url.addParamToUrl(joinUrl, Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
-        }
+        String joinUrl = generateNewInstructorAccountJoinLink(instructor, institute);
         
         for(MimeMessage message : messages){
          
@@ -818,6 +811,27 @@ public class Emails {
         return messages;
 
     }
+    
+    
+    @Deprecated
+    /**
+     * Generate the join link to be sent to the account requester's email
+     * This method should only be used in adminHomePage for easy manual testing purpose
+     */
+    public String generateNewInstructorAccountJoinLink(InstructorAttributes instructor, String institute){
+        
+        String joinUrl = "";
+        if (instructor != null) {
+            String key;
+            key = StringHelper.encrypt(instructor.key);
+            joinUrl = Config.APP_URL + Const.ActionURIs.INSTRUCTOR_COURSE_JOIN;
+            joinUrl = Url.addParamToUrl(joinUrl, Const.ParamsNames.REGKEY, key);
+            joinUrl = Url.addParamToUrl(joinUrl, Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
+        };
+        
+        return joinUrl;
+    }
+    
     
     public MimeMessage generateInstructorCourseJoinEmail(
             CourseAttributes course, InstructorAttributes instructor) 
