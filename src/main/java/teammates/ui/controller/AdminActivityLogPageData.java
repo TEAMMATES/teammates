@@ -131,6 +131,9 @@ public class AdminActivityLogPageData extends PageData {
             String[] values = pair[1].split(",", -1);
             
             if (label.equals("version")) {
+                //version is specified in com.google.appengine.api.log.LogQuery,
+                //it does not belong to the internal class "QueryParameters"
+                //so need to store here for future use
                 for (int j = 0; j < values.length; j++) {
                     versions.add(values[j].replace(".", "-"));
                 }
